@@ -16,6 +16,7 @@ Weblate 2026.9.1
 
 .. rubric:: Security fixes
 
+* Prevented repeated :ref:`authenticator app registration <2fa>` from creating duplicate devices and allowing reuse of one-time codes. Existing equivalent duplicate devices are merged while preserving consumed codes.
 * Borg backup passphrases are now recursively scrubbed from Sentry error reports, including when a custom event scrubber is configured.
 * Font overrides are now restricted to fonts uploaded to the same project.
 * Engage pages and status widgets no longer disclose Private or Custom projects unless :ref:`project-public_sharing` is enabled.
@@ -41,6 +42,7 @@ Weblate 2026.9.1
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+* Authenticator app registrations started before this upgrade must be restarted. Sessions referencing a removed duplicate device may require two-factor verification again.
 * Docker deployments now default to the combined Celery worker mode. If your deployment relies on separate workers for each queue or configures them using ``CELERY_MAIN_OPTIONS``, ``CELERY_NOTIFY_OPTIONS``, ``CELERY_MEMORY_OPTIONS``, ``CELERY_TRANSLATE_OPTIONS``, or ``CELERY_BACKUP_OPTIONS``, set ``CELERY_WORKER_MODE=split`` to preserve the previous behavior.
 * The Docker ``CELERY_SINGLE_PROCESS`` environment variable is deprecated. Use ``CELERY_WORKER_MODE=single`` instead; the compatibility alias logs a startup warning.
 

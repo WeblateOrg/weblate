@@ -676,7 +676,14 @@ Security properties Weblate provides
        :doc:`/admin/auth`, :doc:`/admin/memory`)
      - Permission assignments match the intended trust relationship.
        Team-level enforced 2FA is satisfied by human users before
-       team-derived permissions apply. Component administrators are trusted to
+       team-derived permissions apply. Pending authenticator app registrations
+       do not satisfy 2FA requirements. Registration requires a valid TOTP code
+       and can be completed only once, including under concurrent submissions;
+       the registration code is consumed for subsequent authentication.
+       Each account can have at most one pending registration, shared across
+       browser sessions and expiring after 24 hours.
+       *(documented)* (source: :ref:`2fa`)
+       Component administrators are trusted to
        configure operations that can affect repository contents, for example by
        selecting files through component settings, configuring add-ons, or
        enabling force pushes and pull-request behavior through :ref:`vcs_params`.

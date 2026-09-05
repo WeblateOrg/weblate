@@ -80,6 +80,29 @@ def cleanup_social_auth() -> None:
 
 
 @app.task(trail=False)
+def cleanup_totp_enrollments() -> None:
+    """Remove abandoned enrollments without racing device confirmation."""
+    # ruff: ignore[import-outside-top-level]
+    from django_otp.plugins.otp_totp.models import TOTPDevice
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.utils import TOTP_ENROLLMENT_SECONDS
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.models import User
+
+    expired = TOTPDevice.objects.filter(confirmed=False).filter(
+        models.Q(created_at__lte=now() - timedelta(seconds=TOTP_ENROLLMENT_SECONDS))
+        | models.Q(created_at__isnull=True)
+    )
+    user_ids = expired.order_by().values_list("user_id", flat=True).distinct()
+    for user_id in user_ids.iterator():
+        with transaction.atomic():
+            if User.objects.select_for_update().filter(pk=user_id).first() is not None:
+                expired.filter(user_id=user_id).delete()
+
+
+@app.task(trail=False)
 def cleanup_auditlog() -> None:
     """Cleanup old auditlog entries."""
     # ruff: ignore[import-outside-top-level]
@@ -450,6 +473,9 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
 def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, cleanup_social_auth.s(), name="social-auth-cleanup")
     sender.add_periodic_task(3600, cleanup_auditlog.s(), name="auditlog-cleanup")
+    sender.add_periodic_task(
+        3600, cleanup_totp_enrollments.s(), name="totp-enrollment-cleanup"
+    )
     sender.add_periodic_task(
         crontab(hour=1, minute=0), notify_daily.s(), name="notify-daily"
     )

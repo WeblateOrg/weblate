@@ -32,7 +32,13 @@ from django.core.mail.message import EmailMessage
 from django.core.signing import BadSignature, SignatureExpired
 from django.db import transaction
 from django.db.models import Count, Q
-from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -62,7 +68,6 @@ from django_otp import login as otp_login
 from django_otp.models import Device
 from django_otp.plugins.otp_static.models import StaticDevice, StaticToken
 from django_otp.plugins.otp_totp.models import TOTPDevice
-from django_otp.util import random_hex
 from django_otp_webauthn.exceptions import OTPWebAuthnApiError
 from django_otp_webauthn.models import WebAuthnCredential
 from django_otp_webauthn.views import (
@@ -141,6 +146,7 @@ from weblate.accounts.utils import (
     SESSION_SECOND_FACTOR_TOTP,
     SESSION_SECOND_FACTOR_USER,
     SESSION_WEBAUTHN_AUDIT,
+    TOTP_ENROLLMENT_SECONDS,
     adjust_session_expiry,
     clear_second_factor_session,
     get_key_name,
@@ -544,7 +550,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             "new_backends": new_backends,
             "has_email_auth": "email" in all_backends,
             "auditlog": user.auditlog_set.order()[:20],
-            "totp_keys": user.totpdevice_set.all(),
+            "totp_keys": user.totpdevice_set.filter(confirmed=True),
             "webauthn_keys": user.webauthncredential_set.all(),
             "recovery_keys_count": StaticToken.objects.filter(
                 device__user=user
@@ -2250,6 +2256,14 @@ class TOTPDetailView(WebAuthnCredentialView):
     message_remove = gettext_lazy("The authentication app was removed.")
     message_add = gettext_lazy("The authentication app %s was registered.")
 
+    def get_queryset(self):
+        return super().get_queryset().filter(confirmed=True)
+
+    def post(self, request, *args, **kwargs):
+        with transaction.atomic():
+            User.objects.select_for_update().get(pk=request.user.pk)
+            return super().post(request, *args, **kwargs)
+
 
 @method_decorator(login_required, name="dispatch")
 class TOTPView(FormView):
@@ -2258,14 +2272,77 @@ class TOTPView(FormView):
     session_key = SESSION_SECOND_FACTOR_TOTP
 
     request: AuthenticatedHttpRequest
+    device: TOTPDevice
+
+    def get(self, request, *args, **kwargs):
+        # Session-only enrollments from older versions must start with a new key.
+        request.session.pop("weblate:second_factor:totp_key", None)
+        with transaction.atomic():
+            # Share one pending enrollment across sessions. Use the same lock
+            # as confirmation and cleanup so concurrent GETs cannot exceed it.
+            User.objects.select_for_update().get(pk=request.user.pk)
+            pending = TOTPDevice.objects.filter(user=request.user, confirmed=False)
+            device = (
+                pending.filter(
+                    created_at__gt=timezone.now()
+                    - timedelta(seconds=TOTP_ENROLLMENT_SECONDS)
+                )
+                .order_by("pk")
+                .first()
+            )
+            if device is None:
+                device = TOTPDevice.objects.create(user=request.user, confirmed=False)
+            pending.exclude(pk=device.pk).delete()
+        request.session[self.session_key] = device.pk
+        self.device = device
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        device_id = request.session.get(self.session_key)
+        if not isinstance(device_id, int) or request.POST.get("enrollment") != str(
+            device_id
+        ):
+            return self.invalid_enrollment()
+
+        with transaction.atomic():
+            # Serialize enrollments and removals, including when no confirmed
+            # device exists yet. Session data alone cannot prevent replay.
+            User.objects.select_for_update().get(pk=request.user.pk)
+            device = (
+                TOTPDevice.objects.select_for_update()
+                .filter(pk=device_id, user=request.user, confirmed=False)
+                .first()
+            )
+            if (
+                device is None
+                or device.created_at is None
+                or device.created_at
+                <= timezone.now() - timedelta(seconds=TOTP_ENROLLMENT_SECONDS)
+            ):
+                return self.invalid_enrollment()
+            self.device = device
+            form = self.get_form()
+            if not form.is_valid():
+                return self.form_invalid(form)
+            if not device.verify_token(form.cleaned_data["token"]):
+                form.add_error("token", form.error_messages["invalid_token"])
+                # Commit failed verification so throttling is preserved.
+                return self.form_invalid(form)
+            return self.form_valid(form)
+
+    @staticmethod
+    def invalid_enrollment() -> HttpResponseBadRequest:
+        return HttpResponseBadRequest(
+            gettext(
+                "This authentication app registration is no longer valid. "
+                "Start a new registration."
+            ),
+            content_type="text/plain; charset=utf-8",
+        )
 
     @cached_property
     def totp_key(self) -> str:
-        key = self.request.session.get(self.session_key, None)
-        if key is None:
-            key = random_hex(20)
-            self.request.session[self.session_key] = key
-        return key
+        return self.device.key
 
     @cached_property
     def totp_key_b32(self) -> str:
@@ -2309,13 +2386,15 @@ class TOTPView(FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["key"] = self.totp_key
-        kwargs["user"] = self.request.user
+        kwargs["device"] = self.device
         return kwargs
 
     def form_valid(self, form: TOTPDeviceForm):
         user = self.request.user
-        device = form.save()
+        device = self.device
+        device.name = form.cleaned_data["name"]
+        device.confirmed = True
+        device.save(update_fields=["name", "confirmed"])
         AuditLog.objects.create(
             user,
             self.request,
@@ -2323,13 +2402,14 @@ class TOTPView(FormView):
             device=get_key_name(device),
         )
         if form.cleaned_data["remove_previous"]:
-            for old in user.totpdevice_set.exclude(pk=device.pk):
+            for old in user.totpdevice_set.filter(confirmed=True).exclude(pk=device.pk):
                 key_name = get_key_name(old)
                 old.delete()
                 AuditLog.objects.create(
                     user, self.request, "twofactor-remove", device=key_name
                 )
 
+        self.request.session.pop(self.session_key, None)
         return redirect_profile("#account")
 
 
