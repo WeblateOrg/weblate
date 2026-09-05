@@ -13,14 +13,16 @@ availability of Weblate-operated deployments.
     s.r.o. Other deployments need to adapt provider-specific and organizational
     steps to their own environment.
 
-Roles and responsibilities
---------------------------
+Handling an incident
+--------------------
 
-- **Incident Response Lead (IRL):** Coordinates all phases of the response process.
-- **System Administrator:** Executes containment and recovery measures.
-- **Security Officer:** Evaluates security impact and regulatory consequences.
-- **Data Protection Officer (DPO):** Evaluates if personal data (PII) was compromised and manages mandatory GDPR notifications.
-- **Communications Lead:** Manages notifications to internal stakeholders and external parties if required.
+One team member handles the incident and names an available teammate as a
+backup. They coordinate investigation, containment, recovery, reporting, and
+user communication, asking other teammates or outside specialists for help
+when needed. The backup takes over when the handler is unavailable.
+
+Use :doc:`incident-reporting` for reporting decisions, deadlines, and a private
+incident note. No separate management approval is needed to begin responding.
 
 Communication logistics
 -----------------------
@@ -45,10 +47,9 @@ Incident activation
 - Declare an incident when an event is confirmed or strongly suspected to
   affect the confidentiality, integrity, or availability of the service beyond
   routine operational noise.
-- The **Security Officer** declares the incident, assigns the initial severity,
-  and appoints the **Incident Response Lead (IRL)**.
-- If the Security Officer is unavailable, any available senior operator may
-  declare the incident and hand over ownership as soon as practical.
+- Whoever identifies the incident alerts teammates through Signal. An
+  available teammate takes responsibility, records the initial severity, and
+  names a backup.
 - Reclassify the incident if the scope or impact changes during investigation.
 
 Incident categories
@@ -61,6 +62,10 @@ Incident categories
 
 Severity levels and SLAs
 ^^^^^^^^^^^^^^^^^^^^^^^^
+
+These are operational response targets, not a statement of continuous
+staffing. Assess product-security reporting separately using
+:doc:`incident-reporting`; these targets do not extend reporting deadlines.
 
 +----------+------------------------------------------------------+---------------------+-----------------------+
 | Severity | Definition                                           | Target Acknowledge  | Target Initial Action |
@@ -86,6 +91,8 @@ Preparation
 - Enable 2FA for all admin-level accounts.
 - Keep the Weblate instance and its dependencies (Python, Django, Celery, database, etc.) up to date.
 - Integrate with SIEM systems using the GELF protocol for audit and application log forwarding.
+- Complete the preparation checklist in :doc:`incident-reporting` and keep
+  private contact and access details current.
 
 Identification
 ^^^^^^^^^^^^^^
@@ -93,12 +100,80 @@ Identification
 - Monitor system and application logs (``journalctl``, reverse proxy logs, Weblate application and audit logs).
 - Analyze login events, webhook executions, and push/pull failures.
 - Configure alerting (via Prometheus, Zabbix, or SIEM) for multiple login failures, unexpected restarts, or irregular VCS actions.
+- Record awareness times and assess authority and user notifications using
+  :doc:`incident-reporting`, without waiting for a complete investigation.
+- Assess whether a security incident caused accidental or unlawful
+  destruction, loss, or alteration of personal data, or unauthorized disclosure
+  or access, and follow :ref:`incident-gdpr-notification`. This includes
+  availability or integrity breaches without disclosure, such as accidental
+  deletion or ransomware destruction. Seek privacy advice where needed while
+  continuing investigation and reporting preparation.
+
+.. _incident-gdpr-notification:
+
+Personal-data breach notifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The incident handler determines whether Weblate acts as controller or processor
+for the affected processing and records the assessment in the private incident
+note. Under `GDPR Article 33
+<https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng#art_33>`_:
+
+* As controller, notify the competent supervisory authority without undue
+  delay and, where feasible, within 72 hours of becoming aware of the
+  personal-data breach, unless the breach is unlikely to result in a risk to
+  individuals' rights and freedoms. Record the reason for a decision not to
+  notify.
+* If notification takes longer than 72 hours, include the reasons for the
+  delay. Where information cannot be supplied together, provide it in stages
+  without undue further delay.
+* As processor, notify the controller without undue delay after becoming
+  aware of a personal-data breach; do not wait for the controller's 72-hour
+  deadline.
+
+The controller's supervisory-authority notification must include the following
+information under Article 33(3):
+
+* The nature of the breach, including, where possible, the categories and
+  approximate numbers of affected individuals and personal-data records.
+* The name and contact details of the person who can provide further
+  information, such as the incident handler or a data protection officer if
+  one is appointed.
+* The likely consequences of the breach.
+* Measures taken or proposed to address the breach, including measures to
+  reduce its adverse effects where appropriate.
+
+Identify information that is not yet available and provide it in follow-up
+notifications without undue further delay. Do not wait for exact counts
+before notifying the authority.
+
+As controller, separately assess communication to affected individuals under
+`GDPR Article 34 <https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng#art_34>`_.
+If the breach is likely to create a high risk to their rights and freedoms,
+inform them without undue delay unless an Article 34(3) exception applies.
+This applies even without active exploitation or a severe product-security
+incident. Notification to the supervisory authority does not replace this
+communication.
+
+Explain the breach in clear language, giving a contact for further information,
+likely consequences, measures taken or proposed, and actions individuals can
+take. Record the assessment and any exception relied on: effective protection
+of the affected data, such as encryption making it unreadable to unauthorized
+people, or subsequent measures ensuring the high risk is no longer likely.
+If individual communication would involve disproportionate effort, use public
+communication or a similar measure that informs individuals equally
+effectively. See the `EDPB data-breach guidance
+<https://www.edpb.europa.eu/system/files/2023-04/edpb_guidelines_202209_personal_data_breach_notification_v2.0_en.pdf>`_.
+
+Record breach-awareness timestamps, recipients, and deadlines separately from
+CRA reporting. A CRA submission does not replace a GDPR notification, and the
+two reporting clocks may start at different times.
 
 Containment
 ^^^^^^^^^^^
 
-- Create an incident record with a case ID and record timeline updates as
-  actions are taken.
+- Maintain the private incident note from :doc:`incident-reporting`, including
+  timeline updates, reporting deadlines, and submission receipts.
 - Coordinate human response in **Signal** and keep technical alerting in the
   existing monitoring systems.
 - For Category 1 or 2 incidents, create a manual **Hetzner Cloud Snapshot**
@@ -130,22 +205,24 @@ Recovery
 ^^^^^^^^
 
 - Restore affected services or data from the latest known-good Weblate backups.
-- **PII Assessment:** DPO determines if the breach requires a 72-hour GDPR notification.
 - Reintroduce services in a phased approach.
 - Confirm the root cause has been removed or a compensating control is in
   place before restoring normal traffic.
 - Rotate affected credentials and verify integrity of the restored system,
   repositories, and configuration.
-- The Security Officer and IRL approve returning to normal operations.
+- The handler records the decision to return to normal operations, checking
+  recovery with the backup or another teammate where practical.
 - Monitor logs and system behavior continuously for at least 72 hours post-recovery.
 
 Post-incident review
 ^^^^^^^^^^^^^^^^^^^^
 
-- **Timeline:** Hold a review meeting within **5 business days** of incident closure.
+- **Timeline:** Hold a short team review within **5 business days** of incident closure.
 - Compile a full incident timeline and actions taken.
 - Perform Root Cause Analysis (RCA) and document it within **10 business days**.
 - Update security policies and IRP documentation based on findings.
 - Review the effectiveness of detection and containment mechanisms.
 - Verify whether escalation, alerting, and external communication followed
   :doc:`/security/issues` as expected.
+- Check for outstanding reports, promised updates, and delayed disclosures
+  before closing the incident note.
