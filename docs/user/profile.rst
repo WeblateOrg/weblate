@@ -207,6 +207,20 @@ default value depends on :setting:`DEFAULT_AUTO_WATCH`.
     Sending out notifications is limited, you will not receive more than 1000
     e-mails per day. Any further notifications for you will be discarded.
 
+Administrators with permission to edit users can inspect a user's
+:guilabel:`Notifications` tab to see watched projects, notification languages,
+and subscriptions grouped by scope. Use :guilabel:`Notification debug` to enter
+an object path such as ``project/category/component/cs``. Project and category
+paths include their accessible components and translations. Results explain
+effective and overridden subscriptions for up to 50 targets per page, including
+project, component, and translation targets. Lists of more than five watched
+projects, notification languages, or matching targets show counts instead of
+individual links. Matching-target counts apply to the current results page.
+
+The debugger checks eligibility without sending e-mail. Notifications that
+depend on event details, such as mentions or alerts, are marked as conditional.
+Actual delivery also depends on the event author, digest content, and rate limits.
+
 .. image:: /screenshots/profile-subscriptions.webp
 
 .. _profile-account:

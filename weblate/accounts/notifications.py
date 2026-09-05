@@ -77,11 +77,11 @@ class NotificationFrequency(IntegerChoices):
 
 
 class NotificationScope(IntegerChoices):
-    SCOPE_ALL = 0, "All"
-    SCOPE_WATCHED = 10, "Watched"
-    SCOPE_ADMIN = 20, "Administered"
-    SCOPE_PROJECT = 30, "Project"
-    SCOPE_COMPONENT = 40, "Component"
+    SCOPE_ALL = 0, gettext_lazy("All")
+    SCOPE_WATCHED = 10, gettext_lazy("Watched")
+    SCOPE_ADMIN = 20, gettext_lazy("Administered")
+    SCOPE_PROJECT = 30, gettext_lazy("Project")
+    SCOPE_COMPONENT = 40, gettext_lazy("Component")
 
 
 NOTIFICATIONS: list[type[Notification]] = []
@@ -145,6 +145,7 @@ class Notification:
     any_watched: bool = False
     required_attr: str | None = None
     batch_recipients = True
+    debug_conditions: ClassVar[tuple[StrOrPromise, ...]] = ()
     skip_when_notify: ClassVar[set[type[Notification]]] = set()
 
     def __init__(
@@ -217,7 +218,7 @@ class Notification:
             .prefetch_related("user__profile__languages")
         )
 
-    def get_subscriptions(
+    def get_scope_subscriptions(
         self,
         change: Change | None,
         project: Project | None,
@@ -225,6 +226,7 @@ class Notification:
         translation: Translation | None,
         users: list[int] | None,
     ) -> Iterable[Subscription]:
+        """Match account, scope, and language in descending subscription priority."""
         lang_filter: Language | None = self.get_language_filter(change, translation)
         cache_key: int | None = project.pk if project else None
         try:
@@ -253,6 +255,18 @@ class Notification:
                 continue
 
             yield subscription
+
+    def get_subscriptions(
+        self,
+        change: Change | None,
+        project: Project | None,
+        component: Component | None,
+        translation: Translation | None,
+        users: list[int] | None,
+    ) -> Iterable[Subscription]:
+        return self.get_scope_subscriptions(
+            change, project, component, translation, users
+        )
 
     def missing_required_attrs(self, change: Change | None) -> bool:
         if not self.required_attr:
@@ -1153,6 +1167,11 @@ class ComponentTranslatedNotificaton(Notification):
 
 @register_notification
 class NewCommentNotificaton(Notification):
+    debug_conditions = (
+        gettext_lazy(
+            "Source-string comments ignore notification languages; other comments require a matching language."
+        ),
+    )
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "Comment was added")
     verbose_plural = pgettext_lazy("Notification name", "Comments were added")
@@ -1163,13 +1182,14 @@ class NewCommentNotificaton(Notification):
     def get_language_filter(
         self, change: Change | None, translation: Translation | None
     ) -> Language | None:
-        if (
-            translation is not None
-            and change is not None
-            and not cast("Unit", change.unit).is_source
-        ):
-            return translation.language
-        return None
+        if translation is None:
+            return None
+        is_source = (
+            cast("Unit", change.unit).is_source
+            if change is not None
+            else translation.is_source
+        )
+        return None if is_source else translation.language
 
     def notify_immediate(self, change: Change) -> None:
         super().notify_immediate(change)
@@ -1182,6 +1202,7 @@ class NewCommentNotificaton(Notification):
 
 @register_notification
 class MentionCommentNotificaton(Notification):
+    debug_conditions = (gettext_lazy("The comment must mention this user."),)
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "You were mentioned in a comment")
     verbose_plural = pgettext_lazy(
@@ -1219,6 +1240,11 @@ class MentionCommentNotificaton(Notification):
 
 @register_notification
 class LastAuthorCommentNotificaton(Notification):
+    debug_conditions = (
+        gettext_lazy(
+            "The user must have contributed to the string or previously participated in its discussion."
+        ),
+    )
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy(
         "Notification name",
@@ -1380,6 +1406,11 @@ class NewComponentNotificaton(Notification):
 
 @register_notification
 class NewAnnouncementNotificaton(Notification):
+    debug_conditions = (
+        gettext_lazy(
+            "The announcement must enable notifications. If it specifies a language, that language must match the user’s notification languages."
+        ),
+    )
     actions = (ActionEvents.ANNOUNCEMENT,)
     verbose = pgettext_lazy("Notification name", "Announcement was published")
     verbose_plural = pgettext_lazy("Notification name", "Announcements were published")
@@ -1400,6 +1431,11 @@ class NewAnnouncementNotificaton(Notification):
 
 @register_notification
 class NewAlertNotificaton(Notification):
+    debug_conditions = (
+        gettext_lazy(
+            "The alert must be at least a warning and the user must be able to act on it. Linked-component and project-wide alerts can be deduplicated."
+        ),
+    )
     actions = (ActionEvents.ALERT, ActionEvents.ALERT_REOPENED)
     verbose = pgettext_lazy("Notification name", "New alert emerged in a component")
     verbose_plural = pgettext_lazy(

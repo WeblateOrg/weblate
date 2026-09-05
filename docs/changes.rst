@@ -5,6 +5,8 @@ Weblate 2026.9.1
 
 .. rubric:: New features
 
+* Added administrator :ref:`notification diagnostics <notifications>` with watched projects, notification languages, and explanations of effective subscriptions for object paths.
+
 .. rubric:: Improvements
 
 * The :guilabel:`Manage reports` permission now consistently grants access to complete :doc:`translation reports </devel/reporting>` for the selected scope, including private projects and restricted components below it.

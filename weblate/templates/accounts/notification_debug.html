@@ -1,0 +1,190 @@
+{% load crispy_forms_tags i18n %}
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Watched projects" %}</h4>
+      </div>
+      <div class="card-body">
+        {% if notification_watched_count > notification_detail_limit %}
+          <p class="mb-0">{% blocktranslate count count=notification_watched_count %}{{ count }} watched project.{% plural %}{{ count }} watched projects.{% endblocktranslate %}</p>
+        {% else %}
+          <ul class="list-unstyled mb-0">
+            {% for project in notification_watched_projects %}
+              <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+            {% empty %}
+              <li>{% translate "No watched projects." %}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Notification languages" %}</h4>
+      </div>
+      <div class="card-body">
+        {% if notification_language_count > notification_detail_limit %}
+          <p class="mb-0">{% blocktranslate count count=notification_language_count %}{{ count }} notification language.{% plural %}{{ count }} notification languages.{% endblocktranslate %}</p>
+        {% else %}
+          <ul class="list-unstyled mb-0">
+            {% for language in notification_languages %}
+              <li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
+            {% empty %}
+              <li>{% translate "No notification languages selected. Language-filtered notifications will not be sent." %}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">{% translate "Subscriptions" %}</h4>
+  </div>
+  <div class="card-body">
+    {% for group in notification_subscription_groups %}
+      <div class="table-responsive">
+        <table class="table table-listing">
+          <caption class="caption-top">{{ group.label }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{% translate "Notification" %}</th>
+              <th scope="col">{% translate "Frequency" %}</th>
+              {% if group.show_project %}
+                <th scope="col">{% translate "Project" %}</th>
+              {% endif %}
+              {% if group.show_component %}
+                <th scope="col">{% translate "Component" %}</th>
+                <th scope="col">{% translate "One-time" %}</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for subscription in group.subscriptions %}
+              <tr id="notification-subscription-{{ subscription.pk }}">
+                <th scope="row">{{ subscription.get_notification_display }}</th>
+                <td>{{ subscription.get_frequency_display }}</td>
+                {% if group.show_project %}
+                  <td>
+                    {% if subscription.project %}
+                      <a href="{{ subscription.project.get_absolute_url }}">{{ subscription.project }}</a>
+                    {% elif subscription.component %}
+                      <a href="{{ subscription.component.project.get_absolute_url }}">{{ subscription.component.project }}</a>
+                    {% endif %}
+                  </td>
+                {% endif %}
+                {% if group.show_component %}
+                  <td><a href="{{ subscription.component.get_absolute_url }}">{{ subscription.component }}</a></td>
+                  <td>
+                    {% if subscription.onetime %}
+                      {% translate "Yes" %}
+                    {% else %}
+                      {% translate "No" %}
+                    {% endif %}
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% empty %}
+      <p>{% translate "No subscriptions." %}</p>
+    {% endfor %}
+
+  </div>
+</div>
+
+<form method="get" action="{{ page_user.get_absolute_url }}#notifications">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Notification debug" %}</h4>
+    </div>
+    <div class="card-body">
+      <p>{% translate "Check subscription eligibility for hypothetical events. This does not send notifications. The user’s own actions do not trigger notifications; event details, digest content, and delivery rate limits can also affect delivery." %}</p>
+      {{ notification_form|crispy }}
+    </div>
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary">{% translate "Check notifications" %}</button>
+    </div>
+  </div>
+</form>
+
+{% if notification_debug_target %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% blocktranslate with target=notification_debug_target %}Notification eligibility for {{ target }}{% endblocktranslate %}</h4>
+    </div>
+    <div class="card-body">
+      <p>{% blocktranslate count count=notification_page.paginator.count %}{{ count }} accessible target.{% plural %}{{ count }} accessible targets.{% endblocktranslate %}</p>
+      <div class="table-responsive">
+        <table class="table table-listing">
+          <thead>
+            <tr>
+              <th scope="col">{% translate "Notification" %}</th>
+              <th scope="col">{% translate "Eligibility" %}</th>
+              <th scope="col">{% translate "Effective subscription" %}</th>
+              <th scope="col">{% translate "Targets" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in notification_results %}
+              <tr>
+                <th scope="row">{{ result.name }}</th>
+                <td>
+                  <p>{{ result.reason }}</p>
+                  {% if result.conditions %}
+                    <ul>{% for condition in result.conditions %}<li>{{ condition }}</li>{% endfor %}</ul>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if result.subscription %}
+                    <a href="#notification-subscription-{{ result.subscription.pk }}">{{ result.subscription.get_scope_display }}: {{ result.subscription.get_frequency_display }}</a>
+                    {% if result.overridden %}
+                      <details>
+                        <summary>{% translate "Overridden subscriptions" %}</summary>
+                        <ul>
+                          {% for subscription in result.overridden %}
+                            <li><a href="#notification-subscription-{{ subscription.pk }}">{{ subscription.get_scope_display }}: {{ subscription.get_frequency_display }}</a></li>
+                          {% endfor %}
+                        </ul>
+                      </details>
+                    {% endif %}
+                  {% else %}
+                    {% translate "None" %}
+                  {% endif %}
+                </td>
+                <td>
+                  {% if result.targets|length > notification_detail_limit %}
+                    {% blocktranslate count count=result.targets|length %}{{ count }} target on this page{% plural %}{{ count }} targets on this page{% endblocktranslate %}
+                  {% else %}
+                    <ul class="list-unstyled mb-0">
+                      {% for target in result.targets %}
+                        <li><a href="{{ target.get_absolute_url }}">{{ target }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="4">{% translate "No accessible components or translations in this target." %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% if notification_page.has_other_pages %}
+      <div class="card-footer">
+        {% include "paginator.html" with page_obj=notification_page query_string=notification_query_string search_items=notification_search_items anchor="notifications" %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

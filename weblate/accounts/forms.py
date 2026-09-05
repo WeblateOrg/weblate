@@ -16,8 +16,10 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.forms import Script
+from django.http import Http404
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
@@ -55,7 +57,7 @@ from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Category, Component, Project, Translation
 from weblate.utils import messages
 from weblate.utils.forms import (
     ContextDiv,
@@ -67,6 +69,7 @@ from weblate.utils.forms import (
 )
 from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_rate_limit
 from weblate.utils.validators import validate_fullname
+from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
     from altcha import Challenge
@@ -1314,3 +1317,30 @@ class TOTPTokenForm(OTPTokenForm):
                 "autocomplete": "one-time-code",
             }
         )
+
+
+class NotificationDebugForm(forms.Form):
+    notification_target = forms.CharField(
+        label=gettext_lazy("Project, category, component, or translation path"),
+        max_length=1000,
+        help_text=gettext_lazy(
+            "Enter slash-separated slugs, for example project/category/component/cs. Parent paths include their components and translations."
+        ),
+    )
+
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.request = request
+
+    def clean_notification_target(self):
+        path = self.cleaned_data["notification_target"].strip("/").split("/")
+        if not all(path):
+            raise forms.ValidationError(gettext("Enter a valid object path."))
+        try:
+            return parse_path(
+                self.request, path, (Project, Category, Component, Translation)
+            )
+        except (Http404, PermissionDenied) as error:
+            raise forms.ValidationError(
+                gettext("The target does not exist or you cannot access it.")
+            ) from error
