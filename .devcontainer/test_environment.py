@@ -167,19 +167,17 @@ class CommandTests(unittest.TestCase):
                 self.assertEqual(main(), expected)
                 startup = call.call_args_list[0].args[0]
                 self.assertEqual(
-                    startup[-9:],
+                    startup[-6:],
                     [
                         "up",
                         "--detach",
                         "--build",
-                        "--wait",
-                        "--wait-timeout",
-                        "120",
                         "developer",
                         "database",
                         "cache",
                     ],
                 )
+                self.assertNotIn("--wait", startup)
                 if len(statuses) == 1:
                     self.assertEqual(call.call_count, 1)
                 else:

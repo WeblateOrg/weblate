@@ -231,12 +231,11 @@ class Environment:
         options = ["up", "--detach", "--build"]
         if restart:
             options.append("--force-recreate")
-        if self.profile == "tests":
-            status = self.call(
-                *options, "--wait", "--wait-timeout", "120", *self.services
-            )
-            return status or self.bootstrap()
+        # depends_on waits for PostgreSQL and Valkey health. Do not use --wait:
+        # the developer shell intentionally disables the image's HTTP healthcheck.
         status = self.call(*options, *self.services)
+        if self.profile == "tests":
+            return status or self.bootstrap()
         if status:
             return status
         status = self.activate() or self.wait()
