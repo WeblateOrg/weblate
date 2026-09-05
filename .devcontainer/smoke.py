@@ -132,7 +132,8 @@ if Path(weblate.__file__).resolve().parent != Path(source) / 'weblate':
     raise RuntimeError('Application does not use the worktree source')
 if get_site_url('/') != url:
     raise RuntimeError('Application domain differs from published port')
-paths = [Path(path) / 'qa-isolation-probe' for path in ('/app/data', '/app/venv', '/home/weblate', '/app/data/uv-cache')]
+# uv prunes its cache on startup; cache contents are not persistent state.
+paths = [Path(path) / 'qa-isolation-probe' for path in ('/app/data', '/app/venv', '/home/weblate')]
 with connection.cursor() as cursor:
     if action == 'create':
         cursor.execute('CREATE TABLE isolation_probe (value text)')
