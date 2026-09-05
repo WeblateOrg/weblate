@@ -45,6 +45,8 @@ jobs:
     - run: ./rundev.sh wait
     - run: ./rundev.sh check
     - run: ./rundev.sh compilemessages
+    - name: Test asynchronous application journeys
+      run: ./rundev.sh application-test
     - run: ./rundev.sh test --exitfirst
     - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
     - run: ./rundev.sh --all logs

@@ -198,6 +198,13 @@ def smoke_applications(worktrees: list[Path]) -> None:
                 msg = "QA email was not delivered"
                 raise RuntimeError(msg)
             time.sleep(1)
+    # Run real worker journeys concurrently against both isolated applications.
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        journeys = [
+            executor.submit(application, root, "application-test") for root in worktrees
+        ]
+        for journey in journeys:
+            journey.result()
     # Tests and QA must coexist within a checkout as well as across checkouts.
     with ThreadPoolExecutor(max_workers=2) as executor:
         list(executor.map(tests, worktrees))

@@ -230,6 +230,34 @@ and authentication origins. To display the current URLs again:
    ./rundev.sh urls
    ./rundev.sh urls --json
 
+To exercise real background workers through complete application journeys:
+
+.. code-block:: sh
+
+   ./rundev.sh application-test
+
+This is also available as ``./scripts/devcontainer application-test``. It starts
+the application profile and uses its administrator API token to import a small
+component archive, save a translation, request a background commit, and inspect
+the committed Git file. It then checks the exported ZIP, eventual translation
+statistics in the API and rendered application page, translation memory, and a
+translation notification delivered to
+Maildev. Export generation itself is synchronous; its contents must reflect the
+completed background work.
+
+A separate transaction check queues a real task before its fixture row is
+committed, waits for a retry, and verifies successful redelivery after commit.
+The suite requires non-eager Celery and the application's Valkey broker and
+Maildev. Polls have deadlines, worker task failures include their tracebacks,
+and failures print the application service logs. CI runs these journeys in both
+the Docker development job and concurrent isolated worktrees.
+
+Each invocation creates a uniquely named ``celery-qa-`` project and notification
+recipient with an unusable password. These fixtures remain available for
+inspection, including after failure; the suite does not reset existing data.
+Remove these projects and users through the application when finished, or
+:command:`destroy --yes` the disposable application environment.
+
 Ports can change after containers are recreated or restarted. Use
 ``./rundev.sh restart`` to restart and rediscover them; direct Docker restarts
 cannot initialize the application domain. Ordinary startup reuses unchanged

@@ -286,6 +286,33 @@ class Environment:
             status = result or status
         return status
 
+    def application_test(self) -> int:
+        self.profile = "app"
+        status = self.up()
+        if not status:
+            status = self.execute(["python", ".devcontainer/application_qa.py"])
+        if status:
+            self.call("logs", "--no-color", "--tail", "300", *self.services)
+        return status
+
+    def doctor(self, arguments: list[str]) -> int:
+        if arguments == ["--browser"]:
+            self.profile = "tests"
+        return (
+            self.execute(
+                [
+                    "uv",
+                    "run",
+                    "--no-sync",
+                    "python",
+                    ".devcontainer/doctor.py",
+                    *arguments,
+                ]
+            )
+            if self.profile == "tests"
+            else self.wait() or self.execute(["weblate", "check"])
+        )
+
 
 def dispatch(
     env: Environment, command: str, arguments: list[str], *, all_profiles: bool
@@ -302,6 +329,8 @@ def dispatch(
         return env.up() or env.execute(
             ["uv", "run", "--no-sync", "pytest", "-n", "auto", *arguments]
         )
+    if command == "application-test":
+        return env.application_test()
     if command == "browser-test":
         env.profile = "tests"
         return (
@@ -345,22 +374,7 @@ def dispatch(
     if command == "wait":
         return env.wait()
     if command == "doctor":
-        if arguments == ["--browser"]:
-            env.profile = "tests"
-        return (
-            env.execute(
-                [
-                    "uv",
-                    "run",
-                    "--no-sync",
-                    "python",
-                    ".devcontainer/doctor.py",
-                    *arguments,
-                ]
-            )
-            if env.profile == "tests"
-            else env.wait() or env.execute(["weblate", "check"])
-        )
+        return env.doctor(arguments)
     if command == "compilemessages":
         return env.execute(
             [
@@ -400,6 +414,7 @@ def main() -> int:
         "restart",
         "test",
         "browser-test",
+        "application-test",
         "bootstrap",
         "build",
         "stop",

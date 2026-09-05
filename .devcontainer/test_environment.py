@@ -131,6 +131,48 @@ class WorktreeTests(unittest.TestCase):
 
 
 class CommandTests(unittest.TestCase):
+    def test_application_journey_failure_captures_logs(self) -> None:
+        for launcher in ([], ["--rundev"]):
+            with (
+                self.subTest(launcher=launcher),
+                patch("sys.argv", ["devcontainer", *launcher, "application-test"]),
+                patch("environment.initialize"),
+                patch.object(Environment, "up", return_value=0),
+                patch.object(
+                    Environment, "execute", autospec=True, return_value=7
+                ) as execute,
+                patch.object(Environment, "call", return_value=0) as call,
+            ):
+                self.assertEqual(main(), 7)
+            self.assertEqual(execute.call_args.args[0].profile, "app")
+            self.assertEqual(
+                execute.call_args.args[1], ["python", ".devcontainer/application_qa.py"]
+            )
+            self.assertEqual(
+                call.call_args.args,
+                (
+                    "logs",
+                    "--no-color",
+                    "--tail",
+                    "300",
+                    "weblate",
+                    "app-database",
+                    "app-cache",
+                    "maildev",
+                ),
+            )
+
+    def test_application_startup_failure_does_not_run_journeys(self) -> None:
+        with (
+            patch("sys.argv", ["devcontainer", "application-test"]),
+            patch("environment.initialize"),
+            patch.object(Environment, "up", return_value=3),
+            patch.object(Environment, "execute") as execute,
+            patch.object(Environment, "call", return_value=0),
+        ):
+            self.assertEqual(main(), 3)
+        execute.assert_not_called()
+
     def test_browser_commands(self) -> None:
         for launcher in ([], ["--rundev"]):
             for options, targets in (
