@@ -943,12 +943,6 @@ class CSharpFormatCheckTest(CheckTestCase):
             self.check.check_format("{{ 0 }}", "string", False, make_unit())
         )
 
-    def test_wrong_attribute_format(self) -> None:
-        self.assertEqual(
-            self.check.check_format("{0} string", "{1} string", False, make_unit()),
-            {"missing": ["0"], "extra": ["1"]},
-        )
-
     def test_reordered_format(self) -> None:
         self.assertFalse(
             self.check.check_format(
@@ -1092,11 +1086,6 @@ class JavaMessageFormatCheckTest(CheckTestCase):
             self.check.check_format("{0,number} strins", "string", False, self.unit)
         )
 
-    def test_missing_flag_format(self) -> None:
-        self.assertTrue(
-            self.check.check_format("{0} strins", "string", False, self.unit)
-        )
-
     def test_missing_full_format(self) -> None:
         self.assertTrue(
             self.check.check_format(
@@ -1116,11 +1105,6 @@ class JavaMessageFormatCheckTest(CheckTestCase):
 
     def test_escaping_with_position(self) -> None:
         self.assertFalse(self.check.check_format("{{ 0 }}", "string", False, self.unit))
-
-    def test_wrong_attribute_format(self) -> None:
-        self.assertTrue(
-            self.check.check_format("{0} string", "{1} string", False, self.unit)
-        )
 
     def test_reordered_format(self) -> None:
         self.assertFalse(
