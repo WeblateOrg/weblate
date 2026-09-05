@@ -157,8 +157,41 @@ their logs can be read with :command:`docker compose`:
 
 The generated :file:`.devcontainer/compose.local.json` is ignored by Git and
 contains checkout-specific paths. Keep credentials and host configuration out
-of this file. Bootstrap does not install or configure a browser; Selenium
-tests may be skipped when WebDriver is unavailable.
+of this file.
+
+The shared development image includes native Chromium and its matching driver
+from the XtraDeb Ubuntu repository on ARM and amd64. These system packages are
+not version-pinned. To fetch browser updates, rebuild without the Docker build
+cache and recreate the test container:
+
+.. code-block:: sh
+
+   ./scripts/devcontainer --backend compose compose -- build --no-cache developer
+   ./scripts/devcontainer --backend compose restart
+
+To verify browser startup, page loading, and JavaScript execution, or run the
+existing Selenium suite with a required browser:
+
+.. code-block:: sh
+
+   ./scripts/devcontainer doctor --browser
+   ./scripts/devcontainer browser-test
+   ./rundev.sh browser-test -k test_login_form_accessibility
+   ./rundev.sh browser-test --target weblate/trans/tests/test_selenium.py::SeleniumTests::test_js_unit_tests
+
+``browser-test`` prepares the isolated test environment, runs browser diagnostics,
+and sets ``CI_SELENIUM=1`` so unavailable WebDriver fails instead of skipping.
+It prints pytest's test totals and skip reasons, preserving legitimate skips and
+pytest's exit status. Additional arguments are passed to pytest; repeat
+``--target`` to select specific test paths or node IDs instead of the default
+Selenium module. ``doctor --browser`` checks the test profile through either
+launcher and reports installed browser and driver versions.
+
+The image sets ``WEBLATE_TEST_CHROME_BINARY`` and ``WEBLATE_TEST_CHROMEDRIVER``
+to the installed executable paths. These developer-only variables are shared by
+the diagnostic and Selenium tests, avoiding automatic browser downloads. Outside
+the image, leaving them unset preserves Selenium's default browser discovery.
+Use your own browser with the application profile's URL for exploratory QA.
 
 Linux and WSL2 with a checkout in the Linux filesystem are the primary targets.
 macOS Docker Desktop and Codespaces use the same configuration, but are not

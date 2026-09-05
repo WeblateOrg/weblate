@@ -51,6 +51,29 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libjpeg62-dev
 
+# Ubuntu's Chromium packages use Snap. XtraDeb supplies native packages on
+# amd64 and arm64. Keep APT packages unpinned, matching the other system tools;
+# chromium-driver depends on the matching Chromium version.
+RUN curl --fail --location --output /etc/apt/keyrings/xtradeb.asc \
+        'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5301FA4FD93244FBC6F6149982BB6851C64F6880' \
+    && gpg --show-keys --with-colons /etc/apt/keyrings/xtradeb.asc \
+        | cut -d : -f 10 | grep -Fx '5301FA4FD93244FBC6F6149982BB6851C64F6880'
+RUN printf '%s\n' \
+        'deb [signed-by=/etc/apt/keyrings/xtradeb.asc] https://ppa.launchpadcontent.net/xtradeb/apps/ubuntu resolute main' \
+        > /etc/apt/sources.list.d/xtradeb.list \
+    && printf '%s\n' \
+        'Package: chromium chromium-common chromium-driver chromium-sandbox' \
+        'Pin: release o=LP-PPA-xtradeb-apps' \
+        'Pin-Priority: 700' '' \
+        'Package: *' \
+        'Pin: release o=LP-PPA-xtradeb-apps' \
+        'Pin-Priority: -1' \
+        > /etc/apt/preferences.d/xtradeb \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends chromium chromium-driver
+ENV WEBLATE_TEST_CHROME_BINARY=/usr/bin/chromium
+ENV WEBLATE_TEST_CHROMEDRIVER=/usr/bin/chromedriver
+
 # List should match weblate/weblate
 RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp /home
 

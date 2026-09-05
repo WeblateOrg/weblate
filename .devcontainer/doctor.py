@@ -13,8 +13,10 @@ import os
 import subprocess
 import sys
 import time
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from tempfile import TemporaryFile
+from threading import Thread
 
 import django
 from django.conf import settings
@@ -23,6 +25,7 @@ from redis import Redis
 from redis.exceptions import RedisError
 
 import weblate
+from weblate.trans.tests.browser import create_browser
 
 
 def wait_for_services(cache: Redis) -> None:
@@ -43,9 +46,57 @@ def wait_for_services(cache: Redis) -> None:
             time.sleep(1)
 
 
+class BrowserPage(BaseHTTPRequestHandler):
+    """Serve only a fixed diagnostic page, without exposing checkout files."""
+
+    def do_GET(self) -> None:
+        body = (
+            b"<!doctype html><title>Weblate browser check</title>"
+            b'<p id="result">Loading</p><script>'
+            b'document.getElementById("result").textContent = "Ready";</script>'
+        )
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def log_message(self, fmt: str, *args: object) -> None:
+        pass
+
+
+def check_browser() -> None:
+    with ThreadingHTTPServer(("127.0.0.1", 0), BrowserPage) as server:
+        thread = Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            with create_browser() as browser:
+                browser.set_page_load_timeout(30)
+                browser.set_script_timeout(30)
+                browser.get(f"http://127.0.0.1:{server.server_port}/")
+                if (
+                    browser.title != "Weblate browser check"
+                    or browser.execute_script(
+                        'return document.getElementById("result").textContent'
+                    )
+                    != "Ready"
+                ):
+                    msg = "Browser failed to load the page and execute JavaScript"
+                    raise RuntimeError(msg)
+                capabilities = browser.capabilities
+                print(
+                    f"Browser: {capabilities['browserVersion']}; "
+                    f"driver: {capabilities['chrome']['chromedriverVersion']}"
+                )
+        finally:
+            server.shutdown()
+            thread.join()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--services-only", action="store_true")
+    parser.add_argument("--browser", action="store_true")
     args = parser.parse_args()
     django.setup()
     cache = Redis(
@@ -86,6 +137,8 @@ def main() -> None:
     if not any((root / "weblate/locale").glob("*/LC_MESSAGES/django.mo")):
         sys.exit("Compiled translations are missing; rerun bootstrap")
     subprocess.run(["uv", "pip", "check"], check=True)
+    if args.browser:
+        check_browser()
     print("Ready for pytest and lint. Test database migrations are applied by pytest.")
 
 

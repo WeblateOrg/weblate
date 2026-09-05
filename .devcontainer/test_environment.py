@@ -131,6 +131,72 @@ class WorktreeTests(unittest.TestCase):
 
 
 class CommandTests(unittest.TestCase):
+    def test_browser_commands(self) -> None:
+        for launcher in ([], ["--rundev"]):
+            for options, targets in (
+                ([], ["weblate/trans/tests/test_selenium.py"]),
+                (["--target", "suite.py::test_one"], ["suite.py::test_one"]),
+            ):
+                with (
+                    self.subTest(launcher=launcher, options=options),
+                    patch(
+                        "sys.argv",
+                        [
+                            "devcontainer",
+                            *launcher,
+                            "browser-test",
+                            *options,
+                            "-k",
+                            "login",
+                        ],
+                    ),
+                    patch("environment.initialize"),
+                    patch.object(Environment, "up", return_value=0),
+                    patch.object(
+                        Environment, "execute", autospec=True, side_effect=[0, 7]
+                    ) as execute,
+                ):
+                    self.assertEqual(main(), 7)
+                self.assertEqual(execute.call_args.args[0].profile, "tests")
+                self.assertEqual(execute.call_args_list[0].args[1][-1], "--browser")
+                self.assertEqual(
+                    execute.call_args.args[1],
+                    [
+                        "env",
+                        "CI_SELENIUM=1",
+                        "uv",
+                        "run",
+                        "--no-sync",
+                        "pytest",
+                        "-ra",
+                        *targets,
+                        "-k",
+                        "login",
+                    ],
+                )
+
+    def test_browser_preflight_failure_stops_tests(self) -> None:
+        with (
+            patch("sys.argv", ["devcontainer", "browser-test"]),
+            patch("environment.initialize"),
+            patch.object(Environment, "up", return_value=0),
+            patch.object(Environment, "execute", return_value=5) as execute,
+        ):
+            self.assertEqual(main(), 5)
+        execute.assert_called_once()
+
+    def test_browser_doctor_selects_tests(self) -> None:
+        with (
+            patch("sys.argv", ["devcontainer", "--rundev", "doctor", "--browser"]),
+            patch("environment.initialize"),
+            patch.object(
+                Environment, "execute", autospec=True, return_value=3
+            ) as execute,
+        ):
+            self.assertEqual(main(), 3)
+        self.assertEqual(execute.call_args.args[0].profile, "tests")
+        self.assertEqual(execute.call_args.args[1][-1], "--browser")
+
     def test_destroy_requires_explicit_flag(self) -> None:
         with (
             patch("sys.argv", ["devcontainer", "destroy"]),

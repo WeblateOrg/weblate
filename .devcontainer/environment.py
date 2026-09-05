@@ -302,6 +302,33 @@ def dispatch(
         return env.up() or env.execute(
             ["uv", "run", "--no-sync", "pytest", "-n", "auto", *arguments]
         )
+    if command == "browser-test":
+        env.profile = "tests"
+        return (
+            env.up()
+            or env.execute(
+                [
+                    "uv",
+                    "run",
+                    "--no-sync",
+                    "python",
+                    ".devcontainer/doctor.py",
+                    "--browser",
+                ]
+            )
+            or env.execute(
+                [
+                    "env",
+                    "CI_SELENIUM=1",
+                    "uv",
+                    "run",
+                    "--no-sync",
+                    "pytest",
+                    "-ra",
+                    *arguments,
+                ]
+            )
+        )
     if command == "bootstrap":
         return env.up() if env.profile == "app" else env.bootstrap()
     if command == "build":
@@ -318,8 +345,19 @@ def dispatch(
     if command == "wait":
         return env.wait()
     if command == "doctor":
+        if arguments == ["--browser"]:
+            env.profile = "tests"
         return (
-            env.execute(["uv", "run", "--no-sync", "python", ".devcontainer/doctor.py"])
+            env.execute(
+                [
+                    "uv",
+                    "run",
+                    "--no-sync",
+                    "python",
+                    ".devcontainer/doctor.py",
+                    *arguments,
+                ]
+            )
             if env.profile == "tests"
             else env.wait() or env.execute(["weblate", "check"])
         )
@@ -361,6 +399,7 @@ def main() -> int:
         "start",
         "restart",
         "test",
+        "browser-test",
         "bootstrap",
         "build",
         "stop",
@@ -392,6 +431,17 @@ def main() -> int:
     elif args.command == "urls":
         if arguments not in ([], ["--json"]):
             parser.error("urls only accepts --json")
+    elif args.command == "doctor":
+        if arguments not in ([], ["--browser"]):
+            parser.error("doctor only accepts --browser")
+    elif args.command == "browser-test":
+        browser_parser = argparse.ArgumentParser(prog="browser-test")
+        browser_parser.add_argument("--target", action="append")
+        browser_args, pytest_args = browser_parser.parse_known_args(arguments)
+        arguments = [
+            *(browser_args.target or ["weblate/trans/tests/test_selenium.py"]),
+            *pytest_args,
+        ]
     elif args.command not in {"logs", "check", "compilemessages", "test"} and arguments:
         parser.error("unexpected arguments")
     root = Path(__file__).resolve().parent.parent

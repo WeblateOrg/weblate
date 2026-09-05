@@ -72,3 +72,28 @@ jobs:
         python3 -m unittest discover -s .devcontainer -p test_rundev.py
     - name: Test container bootstrap and isolation
       run: python3 .devcontainer/smoke.py
+
+  browser:
+    name: Browser tests (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - runner: ubuntu-24.04-arm
+          selection: ''
+        - runner: ubuntu-24.04
+          selection: test_login_form_accessibility or test_js_unit_tests
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Run Selenium in the development container
+      env:
+        SELECTION: ${{ matrix.selection }}
+      run: ./scripts/devcontainer --backend compose browser-test -k "$SELECTION"
+    - run: ./scripts/devcontainer --backend compose logs
+      if: always()
+    - run: ./scripts/devcontainer --backend compose stop
+      if: always()
