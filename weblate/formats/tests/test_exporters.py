@@ -9,12 +9,15 @@ import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from io import BytesIO, StringIO
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
-from django.test import RequestFactory
+from django.test import RequestFactory, SimpleTestCase
+from lxml import etree
 
+from weblate.checks.flags import Flags
 from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
     AndroidResourceExporter,
@@ -36,6 +39,7 @@ from weblate.formats.helpers import (
     format_csv_id_hash,
 )
 from weblate.formats.multi import MultiCSVFormat
+from weblate.formats.ttkit import TBXFormat
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     Comment,
@@ -307,6 +311,64 @@ class XliffExporterTest(PoXliffExporterTest):
         return
 
 
+class TBXExporterFlagsTest(SimpleTestCase):
+    def test_flags_are_exported_as_tbx_metadata(self) -> None:
+        exporter = TBXExporter(
+            project=SimpleNamespace(slug="test"),
+            source_language=SimpleNamespace(code="en"),
+            language=SimpleNamespace(code="cs", plural=None),
+        )
+        output = exporter.create_unit("hello")
+        exporter.add(output, "ahoj")
+        exporter.store_flags(
+            output, Flags("forbidden, max-length:50, read-only, terminology")
+        )
+        exporter.storage.addunit(output)
+
+        result = exporter.serialize()
+        root = etree.fromstring(result)
+        term_entry = root.find(".//termEntry")
+        descrip = term_entry.find('./descrip[@type="Translation needed"]')
+        langsets = term_entry.findall("./langSet")
+        term_note = term_entry.find(
+            './langSet[@xml:lang="cs"]/tig/termNote[@type="administrativeStatus"]',
+            namespaces={"xml": "http://www.w3.org/XML/1998/namespace"},
+        )
+
+        self.assertEqual(
+            term_entry.get("weblate-flags"),
+            "forbidden, max-length:50, read-only, terminology",
+        )
+        self.assertEqual(descrip.text, "No")
+        self.assertLess(term_entry.index(descrip), term_entry.index(langsets[0]))
+        self.assertEqual(term_note.text, "forbidden")
+
+        imported = TBXFormat(NamedBytesIO("test.tbx", result)).content_units[0]
+        self.assertEqual(
+            imported.flags,
+            Flags("forbidden, max-length:50, read-only, terminology"),
+        )
+        self.assertTrue(imported.is_readonly())
+
+    def test_forbidden_flag_falls_back_to_source_term(self) -> None:
+        exporter = TBXExporter(
+            project=SimpleNamespace(slug="test"),
+            source_language=SimpleNamespace(code="en"),
+            language=SimpleNamespace(code="cs", plural=None),
+        )
+        output = exporter.create_unit("hello")
+        exporter.store_flags(output, Flags("forbidden"))
+        exporter.storage.addunit(output)
+
+        root = etree.fromstring(exporter.serialize())
+        term_note = root.find(
+            './/langSet[@xml:lang="en"]/tig/termNote[@type="administrativeStatus"]',
+            namespaces={"xml": "http://www.w3.org/XML/1998/namespace"},
+        )
+
+        self.assertEqual(term_note.text, "forbidden")
+
+
 class TBXExporterTest(PoExporterTest):
     _class = TBXExporter
     _has_context = False
@@ -314,6 +376,32 @@ class TBXExporterTest(PoExporterTest):
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
         return
+
+    def test_flags_are_exported_as_tbx_metadata(self) -> None:
+        result = self.check_unit(
+            source="hello",
+            target="ahoj",
+            state=STATE_TRANSLATED,
+            source_info={
+                "extra_flags": ("forbidden, max-length:50, read-only, terminology"),
+            },
+        )
+        root = etree.fromstring(result)
+        term_entry = root.find(".//termEntry")
+        descrip = term_entry.find('./descrip[@type="Translation needed"]')
+        langsets = term_entry.findall("./langSet")
+        term_note = term_entry.find(
+            './langSet[@xml:lang="cs"]/tig/termNote[@type="administrativeStatus"]',
+            namespaces={"xml": "http://www.w3.org/XML/1998/namespace"},
+        )
+
+        self.assertEqual(
+            term_entry.get("weblate-flags"),
+            "forbidden, max-length:50, read-only, terminology",
+        )
+        self.assertEqual(descrip.text, "No")
+        self.assertLess(term_entry.index(descrip), term_entry.index(langsets[0]))
+        self.assertEqual(term_note.text, "forbidden")
 
     def test_source_language_export_uses_single_langset(self) -> None:
         language = Language.objects.get(code="en")
