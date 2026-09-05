@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-name: Rundev
+name: Development containers
 
 on:
   push:
@@ -24,6 +24,7 @@ permissions:
 jobs:
   rundev:
     runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
     name: Test development Docker
     env:
       PYTHONUNBUFFERED: 1
@@ -39,13 +40,62 @@ jobs:
       with:
         enable-cache: false
         version: 0.12.9
-    - run: ./rundev.sh build
+    - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
     - run: ./rundev.sh start
     - run: ./rundev.sh wait
     - run: ./rundev.sh check
     - run: ./rundev.sh compilemessages
+    - name: Test asynchronous application journeys
+      run: ./rundev.sh application-test
     - run: ./rundev.sh test --exitfirst
     - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
-    - run: ./rundev.sh logs
+    - run: ./rundev.sh --all logs
       if: always()
-    - run: ./rundev.sh stop
+    - run: ./rundev.sh --all stop
+      if: always()
+
+  smoke:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 90
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        node-version: 24
+        package-manager-cache: false
+    - name: Install Dev Container CLI
+      # Standalone CLI, pinned independently of the application's client dependencies.
+      run: npm install --global @devcontainers/cli@0.89.0 # zizmor: ignore[adhoc-packages]
+    - name: Test host launchers
+      run: |
+        python3 -m unittest discover -s .devcontainer -p test_environment.py
+        python3 -m unittest discover -s .devcontainer -p test_rundev.py
+    - name: Test container bootstrap and isolation
+      run: python3 .devcontainer/smoke.py
+
+  browser:
+    name: Browser tests (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - runner: ubuntu-24.04-arm
+          selection: ''
+        - runner: ubuntu-24.04
+          selection: test_login_form_accessibility or test_js_unit_tests
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Run Selenium in the development container
+      env:
+        SELECTION: ${{ matrix.selection }}
+      run: ./scripts/devcontainer --backend compose browser-test -k "$SELECTION"
+    - run: ./scripts/devcontainer --backend compose logs
+      if: always()
+    - run: ./scripts/devcontainer --backend compose stop
+      if: always()

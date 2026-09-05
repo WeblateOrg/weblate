@@ -38,7 +38,6 @@ from selenium.common.exceptions import (
     NoSuchElementException,
     WebDriverException,
 )
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.expected_conditions import (
@@ -71,6 +70,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.tests.browser import create_browser
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
@@ -232,28 +232,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Screenshots storage
         if not os.path.exists(cls.image_path):
             os.makedirs(cls.image_path)
-        # Build Chrome driver
-        options = Options()
-        # Run headless
-        options.add_argument("--headless=new")
-        # Seems to help in some corner cases, see
-        # https://stackoverflow.com/a/50642913/225718
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
-
-        # Force Chrome in English
-        options.add_argument("--lang=en")
-        # Accept English as primary language, this does not seem to work
-        options.add_experimental_option("prefs", {"intl.accept_languages": "en,en_US"})
-
-        # Force English locales, the --lang and accept_language settings does not
-        # work in some cases
-        backup_lang = os.environ.get("LANG")
-        os.environ["LANG"] = "en_US.UTF-8"
-
         try:
-            cls._driver = webdriver.Chrome(options=options)
+            cls._driver = create_browser()
         except WebDriverException as error:
             cls._driver_error = str(error)
             if "CI_SELENIUM" in os.environ:
@@ -288,12 +268,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     """
                 },
             )
-
-        # Restore locales
-        if backup_lang is None:
-            del os.environ["LANG"]
-        else:
-            os.environ["LANG"] = backup_lang
 
         if cls._driver is not None:
             cls._driver.implicitly_wait(5)
