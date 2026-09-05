@@ -299,6 +299,24 @@ def check_permission(
     """Check whether user has an object-specific permission."""
     if user.is_superuser:
         return True
+    if isinstance(obj, CategoryLanguage) and permission in {
+        "announcement.add",
+        "announcement.delete",
+    }:
+        # Announcements belong to the category's project, including when its
+        # translations are displayed through links to another project's components.
+        return (
+            check_enforced_2fa(user, obj.project)
+            and _has_project_language_permission(
+                user, permission, obj.project, obj.language.pk
+            )
+            and (
+                permission == "announcement.delete"
+                or obj.language.translation_set.filter(
+                    component_id__in=obj.category.get_component_ids_with_links()
+                ).exists()
+            )
+        )
     if isinstance(obj, (ProjectLanguage, CategoryLanguage)):
         return _check_language_scope_permission(
             user,
@@ -1453,7 +1471,13 @@ def check_billing_component_permissions(
 def check_announcement_delete(
     user: User,
     permission: str,
-    obj: Announcement | Project | ProjectLanguage | Category | Component | None,
+    obj: Announcement
+    | Project
+    | ProjectLanguage
+    | CategoryLanguage
+    | Category
+    | Component
+    | None,
 ) -> bool | PermissionResult:
     if isinstance(obj, Announcement):
         if obj.component_id is not None:
@@ -1466,8 +1490,12 @@ def check_announcement_delete(
                     return False
                 return check_permission(user, permission, translation)
             obj = obj.component
-        elif obj.category_id is not None:
-            obj = obj.category
+        elif obj.category is not None:
+            obj = (
+                CategoryLanguage(obj.category, obj.language)
+                if obj.language is not None
+                else obj.category
+            )
         elif obj.language_id is not None:
             if obj.project_id is not None:
                 obj = ProjectLanguage(obj.project, obj.language)
