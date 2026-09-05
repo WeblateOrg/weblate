@@ -501,7 +501,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         limit: int = MEMORY_LOOKUP_LIMIT,
     ) -> list[tuple[int, Memory]]:
         candidates: list[Memory] = list(self.get_fuzzy_candidates(text, limit=limit))
-        accepted: list[tuple[int, int, Memory]] = []
+        accepted: list[tuple[int, Memory]] = []
         best_quality = threshold - 1
 
         for candidate in candidates:
@@ -509,7 +509,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
             if quality < threshold:
                 continue
             best_quality = max(best_quality, quality)
-            accepted.append((quality, len(accepted), candidate))
+            accepted.append((quality, candidate))
 
         if (
             best_quality < 100
@@ -527,14 +527,9 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
                 if quality < threshold:
                     continue
                 best_quality = max(best_quality, quality)
-                accepted.append((quality, len(accepted), candidate))
+                accepted.append((quality, candidate))
 
-        return [
-            (quality, candidate)
-            for quality, _sequence, candidate in sorted(
-                accepted, key=lambda item: (-item[0], item[1])
-            )[:limit]
-        ]
+        return sorted(accepted, key=lambda item: -item[0])[:limit]
 
     def get_best_fuzzy_match(
         self,
