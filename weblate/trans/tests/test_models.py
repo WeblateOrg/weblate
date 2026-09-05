@@ -1780,6 +1780,55 @@ class AnnouncementTest(ModelTestCase):
             ["test project"],
         )
 
+    def test_contextfilter_category_language(self) -> None:
+        parent = Category.objects.create(
+            project=self.component.project, name="Parent", slug="parent"
+        )
+        category = self.create_category(self.component.project, category=parent)
+        sibling = Category.objects.create(
+            project=self.component.project, name="Sibling", slug="sibling"
+        )
+        child = self.create_category(self.component.project, category=category)
+        foreign = self.create_category(self.second_project)
+        for scope in (parent, category, sibling, child, foreign):
+            for language in (None, self.czech, self.german):
+                Announcement.objects.create(
+                    category=scope,
+                    language=language,
+                    message=f"category {scope.pk} {language}",
+                )
+        Announcement.objects.create(
+            category=category,
+            language=self.czech,
+            expiry=timezone.now().date() - timedelta(days=1),
+            message="expired category announcement",
+        )
+        Announcement.objects.create(
+            project=self.component.project,
+            component=self.component,
+            language=self.czech,
+            message="component language announcement",
+        )
+
+        for language in (None, self.czech, self.german):
+            with self.subTest(language=language):
+                expected = ["test project"]
+                if language:
+                    expected.append(f"test project {language.code}")
+                expected.extend(
+                    f"category {scope.pk} {scope_language}"
+                    for scope in (parent, category)
+                    for scope_language in ((None, language) if language else (None,))
+                )
+                announcements = Announcement.objects.context_filter(
+                    category=category, language=language
+                )
+                self.assertCountEqual(
+                    [announcement.message for announcement in announcements], expected
+                )
+                ids = [announcement.pk for announcement in announcements]
+                self.assertEqual(ids, sorted(ids))
+
     def test_contextfilter_component(self) -> None:
         self.assertCountEqual(
             [

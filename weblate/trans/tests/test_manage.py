@@ -14,19 +14,20 @@ from unittest.mock import patch
 from django.core import mail
 from django.db import connection, transaction
 from django.urls import reverse
+from lxml.html import fromstring
 
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
-from weblate.auth.models import Group, Role
+from weblate.auth.models import Group, Role, TeamMembership
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import ComponentRenameForm
 from weblate.trans.models import Announcement, Category, Component, Project, Translation
-from weblate.trans.models.component import ComponentQuerySet
+from weblate.trans.models.component import ComponentLink, ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.stats import ProjectLanguage
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.vcs.base import RepositoryLock
 
 
@@ -770,6 +771,94 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         self.assertEqual(announcement.category, category)
         self.assertIsNone(announcement.project)
 
+    def test_category_language(self) -> None:
+        parent = self.create_category(self.project)
+        category = self.create_category(self.project, category=parent)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        obj = CategoryLanguage(category, Language.objects.get(code="cs"))
+        url = reverse("announcement", kwargs={"path": obj.get_url_path()})
+
+        response = self.client.get(obj.get_absolute_url())
+        self.assertNotContains(response, 'data-bs-target="#announcement"')
+        self.assertIsNone(response.context["announcement_form"])
+        self.perform_test(url)
+
+        announcement = Announcement.objects.get(message=self.data["message"])
+        self.assertEqual(announcement.category, category)
+        self.assertEqual(announcement.language, obj.language)
+        self.assertIsNone(announcement.project)
+        self.assertIsNone(announcement.component)
+        Announcement.objects.create(
+            category=parent, language=obj.language, message="Inherited announcement"
+        )
+        Announcement.objects.create(
+            project=self.project, message="Project announcement"
+        )
+        Announcement.objects.create(
+            category=category,
+            language=Language.objects.get(code="de"),
+            message="Other language announcement",
+        )
+        response = self.client.get(obj.get_absolute_url())
+        self.assertContains(response, 'data-bs-target="#announcement"')
+        self.assertIsNotNone(response.context["announcement_form"])
+        banners = fromstring(response.content).find_class("announcement")
+        self.assertEqual(len(banners), 3)
+        for banner, message in zip(
+            banners,
+            (self.data["message"], "Inherited announcement", "Project announcement"),
+            strict=True,
+        ):
+            self.assertIn(message, banner.text_content())
+
+    def test_category_language_invalid(self) -> None:
+        self.set_user_permissions()
+        parent = self.create_category(self.project)
+        category = self.create_category(self.project, category=parent)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        obj = CategoryLanguage(category, Language.objects.get(code="cs"))
+        url = reverse("announcement", kwargs={"path": obj.get_url_path()})
+
+        response = self.client.post(url, {"severity": "warning"})
+
+        self.assertRedirects(response, f"{obj.get_absolute_url()}#announcement")
+        self.assertFalse(Announcement.objects.exists())
+
+    def test_category_language_limited_permissions(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        czech = Language.objects.get(code="cs")
+        group = Group.objects.create(
+            name="Czech announcement coordinators",
+            defining_project=self.project,
+            language_selection=SELECTION_MANUAL,
+        )
+        group.roles.add(Role.objects.get(name="Translation coordinator"))
+        group.projects.add(self.project)
+        group.languages.add(czech)
+        group.user_set.add(self.user)
+
+        for language in (Language.objects.get(code="de"), czech):
+            with self.subTest(language=language):
+                obj = CategoryLanguage(category, language)
+                response = self.client.get(obj.get_absolute_url())
+                self.assertEqual(
+                    response.context["announcement_form"] is not None,
+                    language == czech,
+                )
+                response = self.client.post(
+                    reverse("announcement", kwargs={"path": obj.get_url_path()}),
+                    {"message": "Scoped permission test", "severity": "info"},
+                )
+                if language == czech:
+                    self.assertRedirects(response, obj.get_absolute_url())
+                else:
+                    self.assertEqual(response.status_code, 403)
+                    self.assertFalse(Announcement.objects.exists())
+
     def test_delete_announcement(self) -> None:
         second_component = self.create_link_existing()
 
@@ -914,6 +1003,198 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Announcement.objects.count(), 0)
+
+
+class CategoryLanguageAnnouncementTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.target_project = self.create_project("Shared", "shared")
+        self.parent = self.create_category(self.target_project)
+        self.category = self.create_category(self.target_project, category=self.parent)
+        ComponentLink.objects.create(
+            component=self.component,
+            project=self.target_project,
+            category=self.category,
+        )
+        self.czech = Language.objects.get(code="cs")
+        self.german = Language.objects.get(code="de")
+        self.group = Group.objects.create(
+            name="Category announcement coordinators",
+            defining_project=self.target_project,
+            language_selection=SELECTION_MANUAL,
+        )
+        self.group.roles.add(Role.objects.get(name="Translation coordinator"))
+        self.group.projects.add(self.target_project)
+        self.group.languages.add(self.czech)
+        self.group.user_set.add(self.user)
+
+    def test_shared_category_permissions(self) -> None:
+        obj = CategoryLanguage(self.category, self.czech)
+        self.assertFalse(obj.has_action_translations)
+        self.assertTrue(obj.translation_set)
+        response = self.client.get(obj.get_absolute_url())
+        self.assertContains(response, 'data-bs-target="#announcement"')
+        self.assertIsNotNone(response.context["announcement_form"])
+
+        response = self.client.post(
+            reverse("announcement", kwargs={"path": obj.get_url_path()}),
+            {"message": "Shared category announcement", "severity": "info"},
+            follow=True,
+        )
+        self.assertRedirects(response, obj.get_absolute_url())
+        self.assertContains(response, "Shared category announcement")
+        announcement = Announcement.objects.get(message="Shared category announcement")
+        self.assertEqual(announcement.category, self.category)
+        self.assertEqual(announcement.language, self.czech)
+
+        # Source-project rights do not grant authority over a linking category.
+        self.group.projects.set([self.project])
+        self.user.clear_permissions_cache()
+        response = self.client.get(obj.get_absolute_url())
+        self.assertIsNone(response.context["announcement_form"])
+        response = self.client.post(
+            reverse("announcement", kwargs={"path": obj.get_url_path()}),
+            {"message": "Unauthorized announcement", "severity": "info"},
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(
+            Announcement.objects.filter(message="Unauthorized announcement").exists()
+        )
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": announcement.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue(Announcement.objects.filter(pk=announcement.pk).exists())
+
+    def test_delete_language_limits(self) -> None:
+        owned_category = self.create_category(self.project)
+        self.component.category = owned_category
+        self.component.save(update_fields=["category"])
+        self.group.projects.add(self.project)
+        membership = TeamMembership.objects.get(user=self.user, group=self.group)
+
+        for limit in ("team", "membership"):
+            if limit == "membership":
+                self.group.language_selection = SELECTION_ALL
+                self.group.save(update_fields=["language_selection"])
+                membership.limit_languages.add(self.czech)
+            for category in (owned_category, self.category):
+                for language in (self.german, self.czech):
+                    with self.subTest(
+                        limit=limit, category=category, language=language
+                    ):
+                        self.user.clear_permissions_cache()
+                        obj = CategoryLanguage(category, language)
+                        announcement = Announcement.objects.create(
+                            category=category,
+                            language=language,
+                            message="Scoped deletion",
+                        )
+                        url = reverse(
+                            "announcement-delete", kwargs={"pk": announcement.pk}
+                        )
+                        response = self.client.get(obj.get_absolute_url())
+                        self.assertEqual(
+                            response.context["announcement_form"] is not None,
+                            language == self.czech,
+                        )
+                        if language == self.czech:
+                            self.assertContains(response, f'data-action="{url}"')
+                        else:
+                            self.assertNotContains(response, f'data-action="{url}"')
+                        response = self.client.post(url)
+                        self.assertEqual(
+                            response.status_code, 200 if language == self.czech else 403
+                        )
+                        self.assertEqual(
+                            Announcement.objects.filter(pk=announcement.pk).exists(),
+                            language != self.czech,
+                        )
+
+    def test_delete_after_last_translation_unlinked(self) -> None:
+        announcements = [
+            Announcement.objects.create(
+                category=self.category,
+                language=language,
+                message="Orphaned announcement",
+            )
+            for language in (self.czech, self.german)
+        ]
+        ComponentLink.objects.filter(category=self.category).delete()
+        obj = CategoryLanguage(self.category, self.czech)
+        self.assertFalse(obj.translation_set)
+
+        response = self.client.get(obj.get_absolute_url())
+        self.assertIsNone(response.context["announcement_form"])
+        response = self.client.post(
+            reverse("announcement", kwargs={"path": obj.get_url_path()}),
+            {"message": "Empty category announcement", "severity": "info"},
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(
+            Announcement.objects.filter(message="Empty category announcement").exists()
+        )
+
+        for language, announcement in zip(
+            (self.czech, self.german), announcements, strict=True
+        ):
+            with self.subTest(language=language):
+                url = reverse("announcement-delete", kwargs={"pk": announcement.pk})
+                obj = CategoryLanguage(self.category, language)
+                response = self.client.get(obj.get_absolute_url())
+                if language == self.czech:
+                    self.assertContains(response, f'data-action="{url}"')
+                else:
+                    self.assertNotContains(response, f'data-action="{url}"')
+                response = self.client.post(url)
+                allowed = language == self.czech
+                self.assertEqual(response.status_code, 200 if allowed else 403)
+                self.assertEqual(
+                    Announcement.objects.filter(pk=announcement.pk).exists(),
+                    not allowed,
+                )
+
+    def test_linked_translation_announcements(self) -> None:
+        for category in (self.parent, self.category):
+            for language in (None, self.czech, self.german):
+                Announcement.objects.create(
+                    category=category,
+                    language=language,
+                    message=f"Linked category {category.pk} {language}",
+                )
+        expected = [
+            f"Linked category {category.pk} {language}"
+            for category in (self.parent, self.category)
+            for language in (None, self.czech)
+        ]
+        self.assertCountEqual(
+            Announcement.objects.context_filter(
+                component=self.component, language=self.czech
+            ).values_list("message", flat=True),
+            expected,
+        )
+        translation = self.component.translation_set.get(language=self.czech)
+        response = self.client.get(translation.get_absolute_url())
+        banners = fromstring(response.content).find_class("announcement")
+        self.assertEqual(len(banners), len(expected))
+        for banner, message in zip(banners, expected, strict=True):
+            self.assertIn(message, banner.text_content())
+
+        # A link from a private project must not expose its announcements to
+        # users who can only access the original component.
+        self.target_project.access_control = Project.ACCESS_PRIVATE
+        self.target_project.save(update_fields=["access_control"])
+        self.group.user_set.remove(self.user)
+        self.user.clear_permissions_cache()
+        response = self.client.get(translation.get_absolute_url())
+        self.assertFalse(fromstring(response.content).find_class("announcement"))
+
+        self.group.user_set.add(self.user)
+        self.user.clear_permissions_cache()
+        response = self.client.get(translation.get_absolute_url())
+        self.assertEqual(
+            len(fromstring(response.content).find_class("announcement")), len(expected)
+        )
 
 
 class AnnouncementTest(AnnouncementPermissionTestCase):

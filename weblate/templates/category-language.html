@@ -70,8 +70,16 @@
                href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
+        {% if announcement_form %}
+          <li>
+            <a class="dropdown-item"
+               data-bs-target="#announcement"
+               data-bs-toggle="tab"
+               href="#">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
         {% if delete_form %}
-          {% if replace_form or bulk_state_form %}
+          {% if replace_form or bulk_state_form or announcement_form %}
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -94,6 +102,8 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+
+  {% announcements category=category language=language %}
 
   {% get_translate_url object as translate_url %}
   {% perm 'upload.perform' object as user_can_upload_translation %}
@@ -174,6 +184,31 @@
     {% if user_can_upload_translation %}
       <div class="tab-pane" id="upload">
         {% include "snippets/upload-placeholder.html" with upload_translation_tab="#components" upload_translation_label=_("Browse components") %}
+      </div>
+    {% endif %}
+
+    {% if announcement_form %}
+      <div class="tab-pane" id="announcement">
+        <form action="{% url 'announcement' path=object.get_url_path %}" method="post">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'admin/announcements' right=True %}
+                {% translate "Post announcement" %}
+              </h4>
+            </div>
+            <div class="card-body">
+              {% csrf_token %}
+              {{ announcement_form|crispy }}
+              <p class="help-block">
+                {% translate "The message is shown for all translations in this language within the category and its subcategories, until its given expiry, or permanently until it is deleted." %}
+              </p>
+            </div>
+            <div class="card-footer">
+              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+            </div>
+          </div>
+        </form>
       </div>
     {% endif %}
 
