@@ -2970,8 +2970,12 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         ):
             with self.subTest(url):
                 machine = self.MACHINE_CLS({"key": "KEY", "url": url})
-                with self.assertRaises(MachineTranslationError):
-                    _ = machine.api_base_url
+                self.assertTrue(machine.is_legacy_api)
+                self.assertEqual(machine.api_base_url, url.removesuffix("/v1/"))
+                self.assertEqual(
+                    machine.get_api_url(machine.translation_api_version, "translate"),
+                    f"{url}translate",
+                )
 
     @http_mock.activate
     def test_languages_map(self) -> None:
@@ -2985,6 +2989,120 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(machine.get_languages(lang_pt, lang_pt_br), ("PT", "PT-BR"))
         self.assertEqual(machine.get_languages(lang_en, lang_pt), ("EN", "PT-PT"))
         self.assertEqual(machine.get_languages(lang_en, lang_pt_pt), ("EN", "PT-PT"))
+
+
+class DeepLLegacyTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = DeepLTranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "EN"
+    SUPPORTED = "DE"
+    NOTSUPPORTED = "CS"
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "KEY",
+        "url": "https://api.deepl.com/v1/",
+    }
+
+    @staticmethod
+    def mock_languages(url: str = "https://api.deepl.com/v1") -> None:
+        http_mock.register(
+            "GET", f"{url}/languages?type=source", json=[{"language": "EN"}]
+        )
+        http_mock.register(
+            "GET",
+            f"{url}/languages?type=target",
+            json=[{"language": "DE", "supports_formality": True}, {"language": "FR"}],
+        )
+
+    def mock_response(self) -> None:
+        self.mock_languages()
+        http_mock.register(
+            "POST", "https://api.deepl.com/v1/translate", json=DEEPL_RESPONSE
+        )
+
+    def mock_error(self) -> None:
+        http_mock.register("GET", "https://api.deepl.com/v1/languages", status_code=500)
+        http_mock.register(
+            "POST", "https://api.deepl.com/v1/translate", status_code=500
+        )
+
+    def mock_empty(self) -> NoReturn:
+        self.skipTest("Not tested")
+
+    @http_mock.activate
+    def test_languages(self) -> None:
+        self.mock_languages()
+        self.assertEqual(
+            set(self.get_machine().download_languages()),
+            {
+                ("EN", target)
+                for target in ("EN", "DE", "DE@FORMAL", "DE@INFORMAL", "FR")
+            },
+        )
+
+    @http_mock.activate
+    def test_async_translate(self) -> None:
+        self.mock_response()
+        self.assert_async_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+        )
+
+    @http_mock.activate
+    @patch("weblate.glossary.models.get_glossary_tsv", return_value="foo\tbar")
+    def test_translation_without_glossary(self, glossary_tsv: Mock) -> None:
+        machine = self.get_machine()
+        machine.settings.update({"context": "Test context", "next_gen": True})
+        cache.set(machine.get_glossary_languages_cache_key(), ({"EN"}, {"DE"}))
+        for translate in (
+            machine.download_multiple_translations,
+            async_to_sync(machine.adownload_multiple_translations),
+        ):
+            for target, formality in (("DE@FORMAL", "more"), ("DE@INFORMAL", "less")):
+                with self.subTest(translate=translate, target=target):
+                    http_mock.register(
+                        "POST",
+                        "https://api.deepl.com/v1/translate",
+                        json={"translations": [{"text": "Hallo"}, {"text": "Welt"}]},
+                    )
+                    unit = make_unit(code="DE", source="Hello")
+                    result = translate("EN", target, [("Hello", unit), ("World", unit)])
+                    self.assertEqual(result["Hello"][0]["text"], "Hallo")
+                    self.assertEqual(result["World"][0]["text"], "Welt")
+                    request = http_mock.calls[-1].request
+                    self.assertEqual(
+                        request.headers["Authorization"], "DeepL-Auth-Key KEY"
+                    )
+                    self.assertEqual(
+                        load_request_json(request),
+                        {
+                            "text": ["Hello", "World"],
+                            "source_lang": "EN",
+                            "target_lang": "DE",
+                            "formality": formality,
+                            "tag_handling": "xml",
+                            "ignore_tags": ["x"],
+                            "context": "Test context",
+                            "model_type": "prefer_quality_optimized",
+                        },
+                    )
+        glossary_tsv.assert_not_called()
+        self.assertEqual(len(http_mock.calls), 4)
+
+    def test_legacy_url(self) -> None:
+        for url in (
+            "https://api.deepl.com/v1",
+            "https://api-free.deepl.com/v1",
+            "https://example.com/deepl/v1",
+        ):
+            for suffix in ("", "/", "///"):
+                with self.subTest(url=url, suffix=suffix):
+                    machine = self.MACHINE_CLS({"url": url + suffix, "key": "KEY:fx"})
+                    self.assertEqual(
+                        machine.get_api_url(
+                            machine.translation_api_version, "translate"
+                        ),
+                        f"{url}/translate",
+                    )
+                    self.assertFalse(machine.is_glossary_supported("EN", "DE"))
 
 
 class LibreTranslateTranslationTest(BaseMachineTranslationTest):
@@ -9092,7 +9210,8 @@ class MachineryValidationTest(TestCase):
         self.assertIn("site administrator", str(form.errors["__all__"]))
         self.assertIn("site-wide or allowlisted", str(form.errors["__all__"]))
 
-    def test_deepl_rejects_v1_url(self) -> None:
+    @http_mock.activate
+    def test_deepl_accepts_v1_url(self) -> None:
         for url in (
             "https://api.deepl.com/v1/",
             "https://api-free.deepl.com/v1/",
@@ -9105,10 +9224,9 @@ class MachineryValidationTest(TestCase):
                     data={"key": "x", "url": url},
                 )
 
-                self.assertFalse(form.is_valid())
-                self.assertIn(
-                    "DeepL API v1 is no longer supported.", form.errors["url"]
-                )
+                DeepLLegacyTranslationTest.mock_languages(url.rstrip("/"))
+                http_mock.register("POST", f"{url}translate", json=DEEPL_RESPONSE)
+                self.assertTrue(form.is_valid(), form.errors)
 
     @override_settings(OFFER_HOSTING=True)
     def test_project_machinery_rejects_private_url_on_hosted_site(self) -> None:
