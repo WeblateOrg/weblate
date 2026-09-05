@@ -106,27 +106,32 @@
         {% endif %}
         {% if page_profile.public_email %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_profile.public_email }}" rel="ugc">{{ page_profile.public_email }}</a>
+            <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_profile.public_email }}"
+    rel="ugc">{{ page_profile.public_email }}</a>
           </span>
         {% endif %}
         {% if can_edit_user and page_user.email != page_profile.public_email %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_user.email }}" rel="ugc">{{ page_user.email }}</a>
+            <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_user.email }}"
+    rel="ugc">{{ page_user.email }}</a>
           </span>
         {% endif %}
         {% if page_profile.liberapay %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "liberapay.svg" %}</span> <a href="https://liberapay.com/{{ page_profile.liberapay }}" rel="ugc">{{ page_profile.liberapay }}</a>
+            <span class="profile-icon">{% icon "liberapay.svg" %}</span> <a href="https://liberapay.com/{{ page_profile.liberapay }}"
+    rel="ugc">{{ page_profile.liberapay }}</a>
           </span>
         {% endif %}
         {% if page_profile.fediverse %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}" rel="ugc me">{{ page_profile.fediverse|urlformat }}</a>
+            <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}"
+    rel="ugc me">{{ page_profile.fediverse|urlformat }}</a>
           </span>
         {% endif %}
         {% if page_profile.github %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "github.svg" %}</span> <a href="https://github.com/{{ page_profile.github }}" rel="ugc">{{ page_profile.github }}</a>
+            <span class="profile-icon">{% icon "github.svg" %}</span> <a href="https://github.com/{{ page_profile.github }}"
+    rel="ugc">{{ page_profile.github }}</a>
           </span>
         {% endif %}
         {% if page_profile.codesite %}
@@ -138,12 +143,14 @@
         {% endif %}
         {% if page_profile.twitter %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "twitter.svg" %}</span> <a href="https://x.com/{{ page_profile.twitter }}" rel="ugc">{{ page_profile.twitter }}</a>
+            <span class="profile-icon">{% icon "twitter.svg" %}</span> <a href="https://x.com/{{ page_profile.twitter }}"
+    rel="ugc">{{ page_profile.twitter }}</a>
           </span>
         {% endif %}
         {% if page_profile.linkedin %}
           <span class="middle-dot-divider">
-            <span class="profile-icon">{% icon "linkedin.svg" %}</span> <a href="https://www.linkedin.com/in/{{ page_profile.linkedin }}/" rel="ugc">{{ page_profile.linkedin }}</a>
+            <span class="profile-icon">{% icon "linkedin.svg" %}</span> <a href="https://www.linkedin.com/in/{{ page_profile.linkedin }}/"
+    rel="ugc">{{ page_profile.linkedin }}</a>
           </span>
         {% endif %}
       </p>
@@ -181,10 +188,16 @@
     </li>
     {% if can_edit_user %}
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#identities" href="#">{% translate "User identities" %}</a>
+        <a class="nav-link"
+           data-bs-toggle="tab"
+           data-bs-target="#identities"
+           href="#">{% translate "User identities" %}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications" href="#">{% translate "Notifications" %}</a>
+        <a class="nav-link"
+           data-bs-toggle="tab"
+           data-bs-target="#notifications"
+           href="#">{% translate "Notifications" %}</a>
       </li>
       {% if page_user_billings %}
         <li class="nav-item">
@@ -239,7 +252,8 @@
 
     <div class="tab-pane" id="changes">
       {% format_last_changes_content last_changes=last_changes user=user %}
-      <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% translate "Browse all changes made by this user" %}</a>
+      <a class="btn btn-primary"
+         href="{% url 'changes' %}?{{ last_changes_url }}">{% translate "Browse all changes made by this user" %}</a>
     </div>
 
 
@@ -454,8 +468,10 @@
                          id="regenerate_api_key_{{ page_user.id }}"
                          aria-describedby="regenerate_api_key_help_{{ page_user.id }}"
                          checked />
-                  <label class="form-check-label" for="regenerate_api_key_{{ page_user.id }}">{% translate "Regenerate API key" %}</label>
-                  <div class="form-text" id="regenerate_api_key_help_{{ page_user.id }}">{% translate "Leave enabled to revoke the current API key and generate a new one." %}</div>
+                  <label class="form-check-label"
+                         for="regenerate_api_key_{{ page_user.id }}">{% translate "Regenerate API key" %}</label>
+                  <div class="form-text"
+                       id="regenerate_api_key_help_{{ page_user.id }}">{% translate "Leave enabled to revoke the current API key and generate a new one." %}</div>
                 </div>
               </div>
               <div class="card-footer">

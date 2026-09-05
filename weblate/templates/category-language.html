@@ -28,7 +28,8 @@
           <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
       </ul>
     </li>
@@ -42,7 +43,10 @@
         </li>
         {% if user_can_upload_translation %}
           <li>
-            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#upload"
+               data-bs-toggle="tab"
+               href="#">{% translate "Upload translation" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -52,12 +56,18 @@
       <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#replace"
+               data-bs-toggle="tab"
+               href="#">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#bulk-edit"
+               data-bs-toggle="tab"
+               href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         {% if delete_form %}
@@ -67,7 +77,10 @@
             </li>
           {% endif %}
           <li>
-            <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#organize"
+               data-bs-toggle="tab"
+               href="#">{% translate "Organize or remove" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -100,7 +113,8 @@
 
     <div class="tab-pane" id="history">
       {% format_last_changes_content last_changes=last_changes user=user %}
-      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
+      <a class="btn btn-primary"
+         href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
     <div class="tab-pane" id="search">

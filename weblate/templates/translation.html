@@ -41,7 +41,8 @@
              href="{% url 'api:translation-statistics' component__project__slug=object.component.project.slug component__slug=object.component.api_slug language__code=object.language.code %}?format=json-flat">{% translate "Download statistics (JSON)" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         <li>
           <a class="dropdown-item"
@@ -54,15 +55,22 @@
       <ul class="dropdown-menu shadow">
         {% if object.filename %}
           <li>
-            <a class="dropdown-item" href="{% url 'download' path=object.get_url_path %}">{% translate "Download translation" %}</a>
+            <a class="dropdown-item"
+               href="{% url 'download' path=object.get_url_path %}">{% translate "Download translation" %}</a>
           </li>
         {% endif %}
         <li>
-          <a class="dropdown-item" data-bs-target="#download" data-bs-toggle="tab" href="#">{% translate "Customize download" %}</a>
+          <a class="dropdown-item"
+             data-bs-target="#download"
+             data-bs-toggle="tab"
+             href="#">{% translate "Customize download" %}</a>
         </li>
         {% if user_can_upload_translation %}
           <li>
-            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#upload"
+               data-bs-toggle="tab"
+               href="#">{% translate "Upload translation" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -72,17 +80,26 @@
       <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#replace"
+               data-bs-toggle="tab"
+               href="#">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#bulk-edit"
+               data-bs-toggle="tab"
+               href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         {% if autoform %}
           <li>
-            <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#auto"
+               data-bs-toggle="tab"
+               href="#">{% translate "Batch automatic translation" %}</a>
           </li>
         {% endif %}
         {% if replace_form or bulk_state_form or autoform %}
@@ -94,7 +111,10 @@
         {% endif %}
         {% if user_can_add_unit %}
           <li>
-            <a class="dropdown-item" data-bs-target="#new" data-bs-toggle="tab" href="#">{{ object.component.get_add_label }}</a>
+            <a class="dropdown-item"
+               data-bs-target="#new"
+               data-bs-toggle="tab"
+               href="#">{{ object.component.get_add_label }}</a>
           </li>
         {% endif %}
         {% if user_can_see_repository_status %}
@@ -126,7 +146,10 @@
             </li>
           {% endif %}
           <li>
-            <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#organize"
+               data-bs-toggle="tab"
+               href="#">{% translate "Organize or remove" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -173,7 +196,8 @@
           {% include "snippets/list-objects.html" with objects=other_translations name_source="component_name" label=_("Component") %}
           <div class="card-footer">
             {% get_projectlanguage object.component.project object.language as project_language %}
-            <a href="{{ project_language.get_absolute_url }}" class="btn btn-primary">{% translate "Browse all components" %}</a>
+            <a href="{{ project_language.get_absolute_url }}"
+               class="btn btn-primary">{% translate "Browse all components" %}</a>
           </div>
         </div>
       {% endif %}
@@ -186,7 +210,8 @@
 
     <div class="tab-pane" id="history">
       {% format_last_changes_content last_changes=last_changes user=user %}
-      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all translation changes" %}</a>
+      <a class="btn btn-primary"
+         href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all translation changes" %}</a>
     </div>
 
     {% if autoform %}
@@ -317,7 +342,8 @@
               <th class="number">{{ object.stats.all|intcomma }}</th>
               <td>{% translate "File in original format as translated in the repository" %}</td>
               <td class="number" colspan="{{ exporters|length }}">
-                <a class="btn-inline" href="{% url 'download' path=object.get_url_path %}">{{ object.component.file_format_name }}</a>
+                <a class="btn-inline"
+                   href="{% url 'download' path=object.get_url_path %}">{{ object.component.file_format_name }}</a>
               </td>
             </tr>
           {% endif %}

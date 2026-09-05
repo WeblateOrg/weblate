@@ -112,7 +112,9 @@
                     <form method="post" class="inlineform">
                       {% csrf_token %}
                       <input type="hidden" name="name" value="{{ addon.name }}" />
-                      <button type="submit" class="btn btn-primary" data-addon="{{ addon.name }}">{% translate "Install" %}</button>
+                      <button type="submit"
+                              class="btn btn-primary"
+                              data-addon="{{ addon.name }}">{% translate "Install" %}</button>
                     </form>
                   {% endif %}
                 </td>

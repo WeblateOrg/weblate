@@ -32,9 +32,12 @@
       </tr>
     </table>
     <div class="card-footer" id="report-downloads">
-      <a class="btn btn-primary" href="{% url 'api:report-json' pk=report.pk %}">{% icon "download.svg" %} {% translate "Download JSON" %}</a>
-      <a class="btn btn-primary" href="{% url 'api:report-html' pk=report.pk %}">{% icon "download.svg" %} {% translate "Download HTML" %}</a>
-      <a class="btn btn-primary" href="{% url 'api:report-rst' pk=report.pk %}">{% icon "download.svg" %} {% translate "Download reStructuredText" %}</a>
+      <a class="btn btn-primary"
+         href="{% url 'api:report-json' pk=report.pk %}">{% icon "download.svg" %} {% translate "Download JSON" %}</a>
+      <a class="btn btn-primary"
+         href="{% url 'api:report-html' pk=report.pk %}">{% icon "download.svg" %} {% translate "Download HTML" %}</a>
+      <a class="btn btn-primary"
+         href="{% url 'api:report-rst' pk=report.pk %}">{% icon "download.svg" %} {% translate "Download reStructuredText" %}</a>
     </div>
   </div>
 

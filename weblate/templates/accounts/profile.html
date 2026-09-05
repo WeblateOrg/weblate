@@ -18,7 +18,10 @@
       <a class="nav-link" data-bs-toggle="tab" data-bs-target="#preferences" href="#">{% translate "Preferences" %}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications" href="#">{% translate "Notifications" %}</a>
+      <a class="nav-link"
+         data-bs-toggle="tab"
+         data-bs-target="#notifications"
+         href="#">{% translate "Notifications" %}</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="tab" data-bs-target="#account" href="#">{% translate "Account" %}</a>
@@ -260,7 +263,8 @@
             <p>{% translate "Manage code-hosting accounts connected to workspaces you administer." %}</p>
           </div>
           <div class="card-footer">
-            <a href="{% url 'account-vcs' %}" class="btn btn-primary">{% translate "Manage code-hosting connections" %}</a>
+            <a href="{% url 'account-vcs' %}"
+               class="btn btn-primary">{% translate "Manage code-hosting connections" %}</a>
           </div>
         </div>
 
@@ -380,7 +384,9 @@
                 <p>{% translate "You can download all your private data." %}</p>
               </div>
               <div class="card-footer">
-                <a href="" class="btn btn-primary link-post" data-href="{% url 'userdata' %}">{% translate "Download user data" %}</a>
+                <a href=""
+                   class="btn btn-primary link-post"
+                   data-href="{% url 'userdata' %}">{% translate "Download user data" %}</a>
               </div>
             </div>
           </div>
@@ -532,7 +538,8 @@
           </table>
           {% if contact_form != "disabled" %}
             <div class="card-footer">
-              <a href="{% url 'contact' %}?t=account" class="btn btn-warning">{% translate "Report suspicious activity" %}</a>
+              <a href="{% url 'contact' %}?t=account"
+                 class="btn btn-warning">{% translate "Report suspicious activity" %}</a>
             </div>
           {% endif %}
         </div>
@@ -672,7 +679,8 @@ wlc \
                 {% for dummy, items in license_list %}
                   <h4>
                     {{ items.0.get_license_display }}
-                    <span title="{{ items.0.get_license_display }}" class="license badge">{{ items.0.effective_license }}</span>
+                    <span title="{{ items.0.get_license_display }}"
+                          class="license badge">{{ items.0.effective_license }}</span>
                     <a class="doc-link" href="{{ items.0.license_url }}">{% icon "info.svg" %}</a>
                   </h4>
                   <p>

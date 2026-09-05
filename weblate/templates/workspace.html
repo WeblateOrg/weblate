@@ -32,11 +32,15 @@
           <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'checks' path=workspace.get_url_path %}">{% translate "Failing checks" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'checks' path=workspace.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if user.is_authenticated %}
           <li>
-            <a class="dropdown-item" data-bs-target="#reports" data-bs-toggle="tab" href="#">{% translate "Translation reports" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#reports"
+               data-bs-toggle="tab"
+               href="#">{% translate "Translation reports" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -67,7 +71,10 @@
           </li>
         {% endif %}
         <li>
-          <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
+          <a class="dropdown-item"
+             data-bs-target="#upload"
+             data-bs-toggle="tab"
+             href="#">{% translate "Upload translation" %}</a>
         </li>
       </ul>
     </li>
@@ -77,17 +84,26 @@
         <ul class="dropdown-menu shadow">
           {% if replace_form %}
             <li>
-              <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
+              <a class="dropdown-item"
+                 data-bs-target="#replace"
+                 data-bs-toggle="tab"
+                 href="#">{% translate "Search and replace" %}</a>
             </li>
           {% endif %}
           {% if bulk_state_form %}
             <li>
-              <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
+              <a class="dropdown-item"
+                 data-bs-target="#bulk-edit"
+                 data-bs-toggle="tab"
+                 href="#">{% translate "Bulk edit" %}</a>
             </li>
           {% endif %}
           {% if autoform %}
             <li>
-              <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
+              <a class="dropdown-item"
+                 data-bs-target="#auto"
+                 data-bs-toggle="tab"
+                 href="#">{% translate "Batch automatic translation" %}</a>
             </li>
           {% endif %}
           {% if create_project_url %}
@@ -108,10 +124,12 @@
             {% endif %}
             {% if can_edit_workspace %}
               <li>
-                <a class="dropdown-item" href="{% url 'settings' path=workspace.get_url_path %}">{% translate "Settings" %}</a>
+                <a class="dropdown-item"
+                   href="{% url 'settings' path=workspace.get_url_path %}">{% translate "Settings" %}</a>
               </li>
               <li>
-                <a class="dropdown-item" href="{% url 'memory' workspace=workspace.pk %}">{% translate "Translation memory" %}</a>
+                <a class="dropdown-item"
+                   href="{% url 'memory' workspace=workspace.pk %}">{% translate "Translation memory" %}</a>
               </li>
               <li>
                 <a class="dropdown-item"
@@ -120,7 +138,8 @@
             {% endif %}
             {% if can_manage_access %}
               <li>
-                <a class="dropdown-item" href="{% url 'workspace-access' pk=workspace.pk %}">{% translate "Access control" %}</a>
+                <a class="dropdown-item"
+                   href="{% url 'workspace-access' pk=workspace.pk %}">{% translate "Access control" %}</a>
               </li>
             {% endif %}
             {% if can_edit_workspace %}
@@ -128,7 +147,10 @@
                 <hr class="dropdown-divider">
               </li>
               <li>
-                <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
+                <a class="dropdown-item"
+                   data-bs-target="#organize"
+                   data-bs-toggle="tab"
+                   href="#">{% translate "Organize or remove" %}</a>
               </li>
             {% endif %}
           {% endif %}
@@ -171,7 +193,8 @@
 
     <div class="tab-pane" id="history">
       {% format_last_changes_content last_changes=last_changes user=user %}
-      <a class="btn btn-primary" href="{% url 'changes' path=workspace.get_url_path %}">{% translate "Browse all workspace changes" %}</a>
+      <a class="btn btn-primary"
+         href="{% url 'changes' path=workspace.get_url_path %}">{% translate "Browse all workspace changes" %}</a>
     </div>
 
     <div class="tab-pane" id="search">

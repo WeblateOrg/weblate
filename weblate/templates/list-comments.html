@@ -25,7 +25,9 @@
                   class="auto-save-translation inlineform">
               {% csrf_token %}
               <input type="hidden" name="next" value="{{ next_url }}#comments__{{ comment.pk }}" />
-              <button class="btn btn-link green" title="{% translate "Resolve" %}" type="submit">{% icon "check.svg" %}</button>
+              <button class="btn btn-link green"
+                      title="{% translate "Resolve" %}"
+                      type="submit">{% icon "check.svg" %}</button>
             </form>
           {% endif %}
           {% if user_can_delete_comment %}
@@ -41,7 +43,9 @@
                         value="{{ suggestion.id }}"
                         title="{% translate "Mark as spam" %}">{% icon "spam.svg" %}</button>
               {% endif %}
-              <button class="btn btn-link red" type="submit" title="{% translate "Delete" %}">{% icon "delete.svg" %}</button>
+              <button class="btn btn-link red"
+                      type="submit"
+                      title="{% translate "Delete" %}">{% icon "delete.svg" %}</button>
             </form>
           {% endif %}
         </div>

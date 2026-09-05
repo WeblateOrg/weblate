@@ -14,7 +14,9 @@
     <ul class="dropdown-menu shadow">
       {% for _, name, query in custom_filter_list %}
         <li>
-          <a class="dropdown-item" href="#" data-field="{{ query }}"><span class="title">{{ name }}</span> • <code>{{ query }}</code></a>
+          <a class="dropdown-item"
+             href="#"
+             data-field="{{ query }}"><span class="title">{{ name }}</span> • <code>{{ query }}</code></a>
         </li>
       {% endfor %}
     </ul>
