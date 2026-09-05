@@ -11433,36 +11433,42 @@ class MemoryAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data["errors"][0]["attr"], "exact")
 
-    def test_get_exact_matches_uses_distinct_on_source(self) -> None:
-        first = self.create_memory(
+    def test_get_exact_matches_prefers_active_then_lowest_id(self) -> None:
+        pending = self.create_memory(
             source="Shared exact source",
-            target="Prvni shoda",
+            target="Pending match",
             project=self.component.project,
             origin=self.component.full_slug,
         )
-        second = self.create_memory(
+        pending.status = Memory.STATUS_PENDING
+        pending.save(update_fields=["status"])
+        first_active = self.create_memory(
+            source="Shared exact source",
+            target="First active match",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        self.create_memory(
+            source="Shared exact source",
+            target="Second active match",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        other = self.create_memory(
             source="Another exact source",
-            target="Druha shoda",
+            target="Another match",
             project=self.component.project,
             origin=self.component.full_slug,
         )
-        queryset = self.mock_queryset()
-        filtered_queryset = self.mock_queryset()
-        ordered_queryset = self.mock_queryset()
-        distinct_queryset = self.mock_queryset()
-        distinct_queryset.__iter__.return_value = iter([first, second])
-        queryset.filter.return_value = filtered_queryset
-        filtered_queryset.order_by.return_value = ordered_queryset
-        ordered_queryset.distinct.return_value = distinct_queryset
 
         view = MemoryViewSet()
         matches = view.get_exact_matches(
-            queryset, ["Shared exact source", "Another exact source"]
+            Memory.objects.all(), ["Shared exact source", "Another exact source"]
         )
 
-        filtered_queryset.order_by.assert_called_once_with("source", "-status", "id")
-        ordered_queryset.distinct.assert_called_once_with("source")
-        self.assertEqual(matches, {first.source: first, second.source: second})
+        self.assertEqual(
+            matches, {first_active.source: first_active, other.source: other}
+        )
 
     def test_lookup_delegates_fuzzy_matching_to_queryset(self) -> None:
         source_language = Language.objects.get(code="en")
