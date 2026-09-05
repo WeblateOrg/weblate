@@ -9,6 +9,7 @@ Weblate 2026.9.1
 
 .. rubric:: Improvements
 
+* The Markdown link quality check now detects untranslated link titles.
 * Added posting and displaying scoped :doc:`announcements </admin/announcements>` on category-language pages.
 * Clarified :doc:`incident reporting </security/incident-reporting>`, reporting deadlines, and security notifications for hosted and self-hosted users.
 * The :guilabel:`Manage reports` permission now consistently grants access to complete :doc:`translation reports </devel/reporting>` for the selected scope, including private projects and restricted components below it.
