@@ -46,14 +46,10 @@ services:
       POSTGRES_PASSWORD: weblate
       POSTGRES_DB: weblate
   cache:
-    image: valkey/valkey:9.1.2-alpine@sha256:ccfa19b0d743e48927e1c8c14e39e0acb97b5cea347fef0bfe340247fea920cd
-    volumes:
-    - valkey-data:/data
-    healthcheck:
-      test: [CMD, valkey-cli, ping]
-      interval: 2s
-      timeout: 5s
-      retries: 30
+    extends:
+      file: ../dev-docker/valkey.yml
+      service: cache
+
 volumes:
   developer-data: {}
   developer-venv: {}

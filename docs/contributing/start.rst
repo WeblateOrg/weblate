@@ -82,7 +82,18 @@ Dev Container CLI:
 Alternatively, open the checkout in Visual Studio Code with its Dev Containers
 extension and select :guilabel:`Dev Containers: Reopen in Container`. Both
 workflows use :file:`.devcontainer/devcontainer.json` and wait for bootstrap
-to finish. The CLI must be installed separately to use :file:`scripts/devcontainer`.
+to finish. The CLI must be installed separately for the default backend of
+:file:`scripts/devcontainer`. To use Docker Compose directly without Node.js or
+the Dev Container CLI, pass ``--backend compose`` before the command:
+
+.. code-block:: sh
+
+   ./scripts/devcontainer --backend compose up
+   ./scripts/devcontainer --backend compose exec -- uv run pytest weblate/lang/tests.py
+
+Both backends share the same test environment for a checkout. The Compose
+backend runs bootstrap on each ``up`` invocation. CI checks both backends on
+ARM Linux runners.
 
 Bootstrap uses the frozen dependency lock and builds ``lxml`` and ``xmlsec``
 from source, matching CI. Initial setup requires network access to download
@@ -126,7 +137,8 @@ containers and volumes:
 
 These commands only manage the current checkout's test environment. They do
 not remove its source files or the application environment started by
-:file:`rundev.sh`.
+:file:`rundev.sh`. Tests run through ``./rundev.sh test`` share this test
+environment, so stopping it affects both test launchers.
 
 If setup fails, use ``./scripts/devcontainer doctor`` to inspect the source
 paths, service connections, dependency consistency, and test assets. Service
@@ -152,9 +164,8 @@ daemons are not supported by the host-path mounts.
 Running Weblate locally in Docker
 ---------------------------------
 
-If you have Docker and the docker-compose-plugin installed, you need an additional tool
-called ``jq`` which you can install through your favorite package manager. Then, you can
-spin up the development environment by simply running:
+Install Docker with the Compose plugin. Running tests also requires Git and
+Python 3.12 or newer on the host. Start the development application with:
 
 .. code-block:: sh
 
@@ -177,26 +188,27 @@ environment, it starts with fresh storage; the previous ``redis-data`` volume
 is retained separately. Existing cache contents and queued tasks are not
 transferred.
 
-The script also accepts some parameters, to execute tests, run it with the
-``test`` parameter and then specify any :djadmin:`django:test` parameters,
+To execute tests, run the script with the ``test`` parameter and pytest arguments,
 for example running only tests in the ``weblate.machine`` module:
 
 .. code-block:: sh
 
    ./rundev.sh test --exitfirst weblate/machine
 
-.. note::
+The command automatically starts and bootstraps the :ref:`development container
+<devcontainer>` using Docker Compose, without requiring the Dev Container CLI.
+It runs independently of the application and workers, with separate databases,
+virtual environments, and caches. Each invocation refreshes dependencies and
+test assets before running pytest.
 
-   Be careful that your Docker containers are up and running before running the
-   tests. You can check that by running the ``docker ps`` command.
-
-To display the logs:
+To display application logs and logs from an initialized test environment:
 
 .. code-block:: sh
 
    ./rundev.sh logs
 
-To stop the background containers, run:
+To stop the application and any initialized test environment, retaining their
+data, run:
 
 .. code-block:: sh
 

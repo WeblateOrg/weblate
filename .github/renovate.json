@@ -3,6 +3,11 @@
   "extends": [
     "github>WeblateOrg/meta:renovate"
   ],
+  "docker-compose": {
+    "managerFilePatterns": [
+      "/^dev-docker/.*\\.ya?ml$/"
+    ]
+  },
   "baseBranchPatterns": [
     "main",
     "stable"

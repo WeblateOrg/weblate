@@ -89,8 +89,20 @@ def initialize(root: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--backend", choices=["devcontainer", "compose"], default="devcontainer"
+    )
+    parser.add_argument(
         "command",
-        choices=["initialize", "up", "bootstrap", "exec", "doctor", "stop", "destroy"],
+        choices=[
+            "initialize",
+            "up",
+            "bootstrap",
+            "exec",
+            "doctor",
+            "stop",
+            "destroy",
+            "logs",
+        ],
     )
     parser.add_argument("arguments", nargs=argparse.REMAINDER)
     args = parser.parse_args()
@@ -112,20 +124,54 @@ def main() -> int:
     initialize(root)
     if args.command == "initialize":
         return 0
-    if args.command in {"stop", "destroy"}:
+    compose = [
+        "docker",
+        "compose",
+        "--project-name",
+        project_name(root),
+        "-f",
+        str(root / ".devcontainer/compose.yaml"),
+        "-f",
+        str(root / ".devcontainer/compose.local.json"),
+    ]
+    # Keep the CLI and Compose on the same checkout-specific project.
+    environment = {**os.environ, "COMPOSE_PROJECT_NAME": project_name(root)}
+    payload = {
+        "bootstrap": ["bash", ".devcontainer/bootstrap.sh"],
+        "doctor": ["uv", "run", "--no-sync", "python", ".devcontainer/doctor.py"],
+        "exec": arguments,
+    }
+    if args.command in {"stop", "destroy", "logs"}:
         command = [
-            "docker",
-            "compose",
-            "--project-name",
-            project_name(root),
-            "-f",
-            str(root / ".devcontainer/compose.yaml"),
-            "-f",
-            str(root / ".devcontainer/compose.local.json"),
-            "stop" if args.command == "stop" else "down",
+            *compose,
+            {"stop": "stop", "destroy": "down", "logs": "logs"}[args.command],
         ]
         if args.command == "destroy":
             command.append("--volumes")
+    elif args.backend == "compose":
+        if args.command == "up":
+            status = subprocess.call(
+                [
+                    *compose,
+                    "up",
+                    "--detach",
+                    "--build",
+                    "--wait",
+                    "--wait-timeout",
+                    "120",
+                ],
+                cwd=root,
+                env=environment,
+            )
+            if status:
+                return status
+        command = [
+            *compose,
+            "exec",
+            "-T",
+            "developer",
+            *payload["bootstrap" if args.command == "up" else args.command],
+        ]
     else:
         command = [
             "devcontainer",
@@ -133,15 +179,7 @@ def main() -> int:
             "--workspace-folder",
             str(root),
         ]
-        if args.command == "bootstrap":
-            command += ["bash", ".devcontainer/bootstrap.sh"]
-        elif args.command == "doctor":
-            command += ["uv", "run", "--no-sync", "python", ".devcontainer/doctor.py"]
-        elif args.command == "exec":
-            command += arguments
-    # Exporting the name takes precedence over dotenv settings in both Compose
-    # and the Dev Container CLI, matching the explicit cleanup project name.
-    environment = {**os.environ, "COMPOSE_PROJECT_NAME": project_name(root)}
+        command += payload.get(args.command, [])
     return subprocess.call(command, cwd=root, env=environment)
 
 

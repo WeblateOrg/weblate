@@ -156,6 +156,49 @@ class CommandTests(unittest.TestCase):
             call.call_args.kwargs["env"]["COMPOSE_PROJECT_NAME"], project_name(root)
         )
 
+    def test_compose_startup_and_bootstrap_failures(self) -> None:
+        for statuses, expected in (([3], 3), ([0, 7], 7), ([0, 0], 0)):
+            with (
+                self.subTest(statuses=statuses),
+                patch("sys.argv", ["devcontainer", "--backend", "compose", "up"]),
+                patch("environment.initialize"),
+                patch("environment.subprocess.call", side_effect=statuses) as call,
+            ):
+                self.assertEqual(main(), expected)
+                startup = call.call_args_list[0].args[0]
+                self.assertEqual(
+                    startup[-6:],
+                    ["up", "--detach", "--build", "--wait", "--wait-timeout", "120"],
+                )
+                if len(statuses) == 1:
+                    self.assertEqual(call.call_count, 1)
+                else:
+                    self.assertEqual(
+                        call.call_args.args[0][-5:],
+                        [
+                            "exec",
+                            "-T",
+                            "developer",
+                            "bash",
+                            ".devcontainer/bootstrap.sh",
+                        ],
+                    )
+
+    def test_compose_exec_preserves_arguments(self) -> None:
+        arguments = ["python", "-c", "print('spaces; $HOME')"]
+        with (
+            patch(
+                "sys.argv",
+                ["devcontainer", "--backend", "compose", "exec", "--", *arguments],
+            ),
+            patch("environment.initialize"),
+            patch("environment.subprocess.call", return_value=7) as call,
+        ):
+            self.assertEqual(main(), 7)
+        command = call.call_args.args[0]
+        self.assertEqual(command[-6:], ["exec", "-T", "developer", *arguments])
+        self.assertEqual(command[3], project_name(call.call_args.kwargs["cwd"]))
+
     def test_stop_retains_volumes(self) -> None:
         with (
             patch("sys.argv", ["devcontainer", "stop"]),

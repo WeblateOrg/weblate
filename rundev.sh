@@ -20,7 +20,21 @@ export USER_ID
 GROUP_ID=$(id -g)
 export GROUP_ID
 
-cd dev-docker/
+ROOT=$(cd "$(dirname "$0")" && pwd)
+
+test_environment() {
+    "$ROOT/scripts/devcontainer" --backend compose "$@"
+}
+
+# Tests do not need the application environment or its host-port configuration.
+if [ "${1:-}" = test ]; then
+    shift
+    test_environment up
+    test_environment exec -- uv run --no-sync pytest -n auto "$@"
+    exit $?
+fi
+
+cd "$ROOT/dev-docker/"
 
 build() {
     mkdir -p data
@@ -34,29 +48,27 @@ WEBLATE_HOST="$WEBLATE_HOST"
 EOT
 }
 
-case $1 in
+case ${1:-} in
 stop)
-    docker compose down
+    status=0
+    docker compose down || status=$?
+    if [ -f "$ROOT/.devcontainer/compose.local.json" ]; then
+        test_environment stop || status=$?
+    fi
+    exit "$status"
     ;;
 logs)
     shift
-    docker compose logs "$@"
+    status=0
+    docker compose logs "$@" || status=$?
+    if [ "$#" -eq 0 ] && [ -f "$ROOT/.devcontainer/compose.local.json" ]; then
+        test_environment logs || status=$?
+    fi
+    exit "$status"
     ;;
 compilemessages)
     shift
     docker compose exec -T -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal weblate weblate compilemessages
-    ;;
-test)
-    shift
-    docker compose exec -T \
-        --env CI_BASE_DIR=/tmp \
-        --env CI_DB_HOST=database \
-        --env CI_DB_NAME=weblate \
-        --env CI_DB_USER=weblate \
-        --env CI_DB_PASSWORD=weblate \
-        --env DJANGO_SETTINGS_MODULE=weblate.settings_test \
-        --workdir /app/src \
-        weblate pytest -n auto "$@"
     ;;
 check)
     shift
