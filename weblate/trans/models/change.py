@@ -16,6 +16,7 @@ from django.db.models import Count, F, OuterRef, Q, Subquery
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from rapidfuzz.distance import DamerauLevenshtein
 
@@ -37,6 +38,7 @@ from weblate.trans.util import split_plural
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.state import StringState
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
@@ -780,16 +782,8 @@ class Change(models.Model, UserDisplayMixin):
             return self.unit.get_absolute_url()
         if self.screenshot is not None:
             return self.screenshot.get_absolute_url()
-        if self.translation is not None:
-            return self.translation.get_absolute_url()
-        if self.component is not None:
-            return self.component.get_absolute_url()
-        if self.category is not None:
-            return self.category.get_absolute_url()
-        if self.project is not None:
-            return self.project.get_absolute_url()
-        if self.workspace is not None:
-            return self.workspace.get_absolute_url()
+        if self.path_object is not None:
+            return self.path_object.get_absolute_url()
         return "/"
 
     def log_event(self) -> None:
@@ -810,19 +804,43 @@ class Change(models.Model, UserDisplayMixin):
             else:
                 LOGGER.info("%s", message)
 
-    @property
+    @cached_property
     def path_object(
         self,
-    ) -> Translation | Component | Category | Project | Workspace | None:
+    ) -> (
+        Translation
+        | Component
+        | Category
+        | Project
+        | Workspace
+        | ProjectLanguage
+        | CategoryLanguage
+        | Language
+        | None
+    ):
         """Object linked from the change path."""
         if self.translation is not None:
             return self.translation
         if self.component is not None:
+            if self.language is not None:
+                translation = self.component.translation_set.filter(
+                    language_id=self.language_id
+                ).first()
+                if translation is not None:
+                    translation.component = self.component
+                    translation.language = self.language
+                    return translation
             return self.component
         if self.category is not None:
+            if self.language is not None:
+                return CategoryLanguage(self.category, self.language)
             return self.category
         if self.project is not None:
+            if self.language is not None:
+                return ProjectLanguage(self.project, self.language)
             return self.project
+        if self.language is not None:
+            return self.language
         if self.workspace is not None:
             return self.workspace
         return None
