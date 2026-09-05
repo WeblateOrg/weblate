@@ -848,6 +848,15 @@ class GitNoChangeComponentTest(GitNoChangeProjectTest):
 
     TEST_TYPE = "component"
 
+    def test_status_shows_pull_request_url(self) -> None:
+        pull_request_url = "https://example.com/WeblateOrg/test/pull/1"
+        self.component.pull_request_url = pull_request_url
+        self.component.save(update_fields=["pull_request_url"])
+
+        response = self.client.get(self.get_test_url("git_status"))
+
+        self.assertContains(response, f'href="{pull_request_url}"')
+
 
 class GitNoChangeTranslationTest(GitNoChangeProjectTest):
     """Testing of translation git manipulations."""

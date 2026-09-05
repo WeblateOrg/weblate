@@ -17,6 +17,7 @@ Weblate 2026.9.1
 * Further reduced :ref:`Celery <celery>` worker memory usage by sharing preloaded URL configuration between worker processes and loading bitmap widget rendering dependencies only when needed.
 * Docker startup configuration warnings are now available as :ref:`deployment checks <docker-startup-warnings>`, including in horizontally scaled deployments.
 * Reduced peak memory use and task duration for :ref:`notification digests <notifications>` by processing recipients in bounded batches and limiting each summary to 100 entries.
+* Repository maintenance now links to the latest pull or merge request opened by Weblate.
 
 .. rubric:: Security fixes
 
