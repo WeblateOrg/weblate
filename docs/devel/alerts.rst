@@ -26,6 +26,7 @@ Currently the following is covered:
 * Conflicting merge request repository setup
 * Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)
 * Unused glossary languages
+* Disabled string management in local glossaries or glossaries containing terminology
 
 The alerts are updated daily, or on related change (for example when
 :ref:`component` is changed or when repository is updated).
