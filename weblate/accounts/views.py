@@ -114,6 +114,7 @@ from weblate.accounts.forms import (
     GroupRemoveForm,
     LanguagesForm,
     LoginForm,
+    NotificationDebugForm,
     NotificationForm,
     OTPTokenForm,
     PasswordConfirmForm,
@@ -130,6 +131,10 @@ from weblate.accounts.forms import (
     WebAuthnTokenForm,
 )
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
+from weblate.accounts.notification_debug import (
+    NOTIFICATION_DETAIL_LIMIT,
+    NotificationDebugger,
+)
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
     NotificationFrequency,
@@ -879,6 +884,70 @@ class UserPage(UpdateView):
         self.object.log_audit_state(self.request)
         return response
 
+    def get_notification_context(self) -> dict[str, Any]:
+        request = self.request
+        user = self.object
+        submitted = "notification_target" in request.GET
+        form = NotificationDebugForm(request, request.GET if submitted else None)
+        groups = []
+        subscriptions = list(
+            user.subscription_set.select_related(
+                "project", "component__project", "component__category"
+            ).order()
+        )
+        for scope in NotificationScope:
+            rows = [row for row in subscriptions if row.scope == scope]
+            if rows:
+                groups.append(
+                    {
+                        "label": scope.label,
+                        "subscriptions": rows,
+                        "show_project": scope >= NotificationScope.SCOPE_PROJECT,
+                        "show_component": scope == NotificationScope.SCOPE_COMPONENT,
+                    }
+                )
+        watched_projects = (
+            user.profile.watched.all() & request.user.allowed_projects
+        ).order()
+        languages = user.profile.languages.all().order()
+        watched_count = watched_projects.count()
+        language_count = languages.count()
+        context = {
+            "notification_form": form,
+            "notification_submitted": submitted,
+            "notification_subscription_groups": groups,
+            "notification_detail_limit": NOTIFICATION_DETAIL_LIMIT,
+            "notification_watched_count": watched_count,
+            "notification_language_count": language_count,
+            "notification_watched_projects": list(
+                watched_projects[:NOTIFICATION_DETAIL_LIMIT]
+            )
+            if watched_count <= NOTIFICATION_DETAIL_LIMIT
+            else [],
+            "notification_languages": list(languages[:NOTIFICATION_DETAIL_LIMIT])
+            if language_count <= NOTIFICATION_DETAIL_LIMIT
+            else [],
+        }
+        if submitted and form.is_valid():
+            target = form.cleaned_data["notification_target"]
+            results, page = NotificationDebugger(user).inspect(
+                target, request.user, request.GET.get("page")
+            )
+            context.update(
+                {
+                    "notification_debug_target": target,
+                    "notification_results": results,
+                    "notification_page": page,
+                    "notification_query_string": urlencode(
+                        {"notification_target": request.GET["notification_target"]}
+                    ),
+                    "notification_search_items": [
+                        ("notification_target", request.GET["notification_target"])
+                    ],
+                }
+            )
+        return context
+
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
@@ -904,6 +973,11 @@ class UserPage(UpdateView):
             )
             .order()
         )
+
+        if "notification_target" in request.GET:
+            check_management_access(request, "user.edit")
+        if request.user.has_perm("user.edit"):
+            context.update(self.get_notification_context())
 
         context["page_profile"] = user.profile
         context["can_edit_page_user"] = not user.is_internal
