@@ -824,7 +824,7 @@ class Change(models.Model, UserDisplayMixin):
         if self.component is not None:
             if self.language is not None:
                 translation = self.component.translation_set.filter(
-                    language_id=self.language_id
+                    language=self.language
                 ).first()
                 if translation is not None:
                     translation.component = self.component
