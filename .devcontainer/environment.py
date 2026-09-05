@@ -185,15 +185,24 @@ class Environment:
 
     def activate(self) -> int:
         domain = self.address("weblate", 8080)
-        # The domain is data, never shell code. Atomic replacement prevents the
-        # entrypoint from reading a partially written settings value.
+        # The image exposes uv's managed Python on PATH before venv bootstrap.
+        # Pass the domain as data and rename atomically so the entrypoint cannot
+        # read a partially written settings value.
         script = (
-            "import pathlib,sys; "
-            "p=pathlib.Path('/run/site-domain.tmp'); "
-            "p.write_text(sys.argv[1]); p.replace('/run/site-domain')"
+            "import os,pathlib,sys; os.umask(0o077); "
+            "p=pathlib.Path(sys.argv[2] + '.tmp'); "
+            "p.write_text(sys.argv[1]); p.replace(sys.argv[2])"
         )
         return self.call(
-            "exec", "-T", "weblate", "/opt/python/bin/python", "-c", script, domain
+            "exec",
+            "-T",
+            "weblate",
+            "/usr/bin/env",
+            "python3",
+            "-c",
+            script,
+            domain,
+            "/run/site-domain",
         )
 
     def wait(self) -> int:

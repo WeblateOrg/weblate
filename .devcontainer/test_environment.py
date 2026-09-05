@@ -273,8 +273,20 @@ class ApplicationTests(unittest.TestCase):
             patch.object(self.env, "call", return_value=0) as call,
         ):
             self.assertEqual(self.env.activate(), 0)
-        self.assertEqual(call.call_args.args[-1], "127.0.0.1:43210")
-        self.assertIn("p.replace('/run/site-domain')", call.call_args.args[-2])
+        command = list(call.call_args.args[3:])
+        self.assertEqual(command[:3], ["/usr/bin/env", "python3", "-c"])
+        self.assertEqual(command[-2:], ["127.0.0.1:43210", "/run/site-domain"])
+        with TemporaryDirectory() as directory:
+            target = Path(directory) / "domain with spaces"
+            command[-1] = str(target)
+            subprocess.run(command, check=True)
+            self.assertEqual(target.read_text(), "127.0.0.1:43210")
+            self.assertEqual(target.stat().st_mode & 0o777, 0o600)
+            self.assertFalse(target.with_suffix(".tmp").exists())
+            # A restart replaces the previous domain after Docker changes ports.
+            command[-2] = "127.0.0.1:43211"
+            subprocess.run(command, check=True)
+            self.assertEqual(target.read_text(), "127.0.0.1:43211")
 
     def test_readiness_requires_every_service(self) -> None:
         entries = [

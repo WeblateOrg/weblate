@@ -19,7 +19,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 USER root
-ENV PATH=/app/venv/bin:/opt/python/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+ENV PATH=/app/venv/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 ENV UV_CACHE_DIR=/app/data/uv-cache
 ENV UV_LINK_MODE=copy
 # Make sure user exists in the container
@@ -57,6 +57,12 @@ RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx
 # Start with fresh venv
 # Using the original would work, but chown on it is super slow, see https://github.com/docker/for-linux/issues/388
 RUN rm -rf /app/venv && mkdir /app/venv && chown "${USER_ID}:${GROUP_ID}" /app/venv
+
+# uv stores Python in a version- and architecture-specific directory. Keep it
+# available on PATH even before the application virtual environment is created.
+RUN ln -sf "$(uv python find --system --managed-python --no-python-downloads "${PYVERSION}")" /usr/local/bin/python3 \
+    && /usr/bin/env python3 --version
+
 
 COPY --link --chmod=0755 start-dev /app/bin/
 
