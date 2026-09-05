@@ -60,7 +60,8 @@ RUN rm -rf /app/venv && mkdir /app/venv && chown "${USER_ID}:${GROUP_ID}" /app/v
 
 # uv stores Python in a version- and architecture-specific directory. Keep it
 # available on PATH even before the application virtual environment is created.
-RUN ln -sf "$(uv python find --system --managed-python --no-python-downloads "${PYVERSION}")" /usr/local/bin/python3 \
+# Do not create root-owned files in the runtime user's uv cache.
+RUN ln -sf "$(uv --no-cache python find --system --managed-python --no-python-downloads "${PYVERSION}")" /usr/local/bin/python3 \
     && /usr/bin/env python3 --version
 
 

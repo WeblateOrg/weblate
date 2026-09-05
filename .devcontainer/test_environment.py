@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import unittest
 from contextlib import redirect_stderr
@@ -350,6 +351,45 @@ class ApplicationTests(unittest.TestCase):
         with patch.dict(os.environ, {"COMPOSE_PROFILES": "app"}):
             env = Environment(self.env.root, "tests", "devcontainer")
         self.assertNotIn("COMPOSE_PROFILES", env.environment)
+
+
+@unittest.skipUnless(shutil.which("docker"), "Docker Compose is not installed")
+class ComposeConfigurationTests(unittest.TestCase):
+    def test_application_paths_resolve_from_base_file(self) -> None:
+        root = Path(__file__).resolve().parent.parent
+        with TemporaryDirectory() as directory:
+            override = Path(directory) / "compose.local.json"
+            override.write_text(json.dumps(configuration(root)))
+            output = subprocess.check_output(
+                [
+                    "docker",
+                    "compose",
+                    "--project-name",
+                    project_name(root),
+                    "-f",
+                    str(root / ".devcontainer/compose.yaml"),
+                    "-f",
+                    str(override),
+                    "--profile",
+                    "app",
+                    "config",
+                    "--no-env-resolution",
+                    "--format",
+                    "json",
+                ],
+                cwd=directory,
+                text=True,
+            )
+        services = json.loads(output)["services"]
+        context = root / "dev-docker/weblate-dev"
+        self.assertEqual(services["weblate"]["build"]["context"], str(context))
+        self.assertEqual(services["developer"]["build"]["context"], str(context))
+        self.assertTrue((context / "Dockerfile").is_file())
+        files = services["weblate"]["env_file"]
+        self.assertEqual(
+            [entry["path"] for entry in files], [str(root / "dev-docker/environment")]
+        )
+        self.assertTrue(all(Path(entry["path"]).is_file() for entry in files))
 
 
 if __name__ == "__main__":

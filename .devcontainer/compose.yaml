@@ -50,6 +50,10 @@ services:
       file: ../dev-docker/docker-compose.yml
       service: cache
   weblate:
+    build:
+      context: ../dev-docker/weblate-dev
+    env_file:
+    - ../dev-docker/environment
     extends:
       file: ../dev-docker/docker-compose.yml
       service: weblate

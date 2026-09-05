@@ -9,8 +9,6 @@
 services:
   weblate:
     profiles: [app]
-    build:
-      context: ./weblate-dev
     init: true
     depends_on:
       app-database:
@@ -40,8 +38,6 @@ services:
       UV_CACHE_DIR: /app/data/uv-cache
       PRE_COMMIT_HOME: /app/data/prek-cache
       XDG_CACHE_HOME: /app/data/tool-cache
-    env_file:
-    - ./environment
     ports:
     - target: 8080
       host_ip: 127.0.0.1
