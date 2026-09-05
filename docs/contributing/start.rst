@@ -56,6 +56,97 @@ sources.
 
    :doc:`../admin/install/source`
 
+.. _devcontainer:
+
+Development container for tests and lint
+----------------------------------------
+
+The development container prepares Python dependencies, PostgreSQL, Valkey,
+compiled translations, and static files for running tests and lint checks.
+It supports ordinary clones and linked Git worktrees. Each checkout has its
+own containers, network, database, virtual environment, and caches, with no
+published host ports. It does not start the Weblate application or Celery workers.
+
+Install Docker with the Compose plugin, Git, and Python 3.12 or newer on the
+host. For the command-line workflow, also install Node.js 20 or newer and the
+Dev Container CLI:
+
+.. code-block:: sh
+
+   npm install --global @devcontainers/cli@0.89.0
+   ./scripts/devcontainer up
+   ./scripts/devcontainer doctor
+   ./scripts/devcontainer exec -- uv run pytest weblate/lang/tests.py
+   ./scripts/devcontainer exec -- uv run prek run --all-files
+
+Alternatively, open the checkout in Visual Studio Code with its Dev Containers
+extension and select :guilabel:`Dev Containers: Reopen in Container`. Both
+workflows use :file:`.devcontainer/devcontainer.json` and wait for bootstrap
+to finish. The CLI must be installed separately to use :file:`scripts/devcontainer`.
+
+Bootstrap uses the frozen dependency lock and builds ``lxml`` and ``xmlsec``
+from source, matching CI. Initial setup requires network access to download
+images and dependencies; lint hooks download their environments on first use.
+After changing dependencies, rerun:
+
+.. code-block:: sh
+
+   ./scripts/devcontainer bootstrap
+
+Pytest creates and migrates its test database on first use and reuses it on
+subsequent runs. To recreate it after incompatible migration changes, pass
+``--create-db`` to pytest. Existing host virtual environments and local
+:file:`weblate/settings.py` are not used by the container.
+
+For a separate task, create a worktree and start its environment:
+
+.. code-block:: sh
+
+   git worktree add ../weblate-task -b task/example
+   cd ../weblate-task
+   ./scripts/devcontainer up
+
+The environment identifier is derived from the checkout's absolute path,
+so changing branches preserves the environment. Stop or destroy the environment
+before moving or deleting its checkout. Linked worktrees also mount the shared
+Git metadata directory at its original path; Git operations therefore affect
+the same repository as host Git operations. Other worktrees' sources are not
+mounted. Unset ``COMPOSE_PROJECT_NAME`` when using this workflow, and remove
+its assignments from :file:`.env` files in the checkout, :file:`.devcontainer`,
+and the directory from which you launch the tools. Initialization rejects
+these assignments because they can override the checkout-specific project name.
+
+To stop containers while retaining their data, or explicitly delete their
+containers and volumes:
+
+.. code-block:: sh
+
+   ./scripts/devcontainer stop
+   ./scripts/devcontainer destroy --yes
+
+These commands only manage the current checkout's test environment. They do
+not remove its source files or the application environment started by
+:file:`rundev.sh`.
+
+If setup fails, use ``./scripts/devcontainer doctor`` to inspect the source
+paths, service connections, dependency consistency, and test assets. Service
+readiness checks have a timeout. Containers remain available for inspection;
+their logs can be read with :command:`docker compose`:
+
+.. code-block:: sh
+
+   docker compose -f .devcontainer/compose.yaml -f .devcontainer/compose.local.json logs
+
+The generated :file:`.devcontainer/compose.local.json` is ignored by Git and
+contains checkout-specific paths. Keep credentials and host configuration out
+of this file. Bootstrap does not install or configure a browser; Selenium
+tests may be skipped when WebDriver is unavailable.
+
+Linux and WSL2 with a checkout in the Linux filesystem are the primary targets.
+macOS Docker Desktop and Codespaces use the same configuration, but are not
+covered by the Linux CI smoke test. Native Windows paths and remote Docker
+daemons are not supported by the host-path mounts.
+
 .. _dev-docker:
 
 Running Weblate locally in Docker
@@ -80,6 +171,11 @@ The delivered e-mails can be seen at <http://127.0.0.1:1080/>.
 The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located in the
 :file:`dev-docker` directory. For easier access to the database during development,
 the container running PostgreSQL is exposed on port ``5433``.
+
+Valkey uses the ``valkey-data`` volume. When updating an older development
+environment, it starts with fresh storage; the previous ``redis-data`` volume
+is retained separately. Existing cache contents and queued tasks are not
+transferred.
 
 The script also accepts some parameters, to execute tests, run it with the
 ``test`` parameter and then specify any :djadmin:`django:test` parameters,

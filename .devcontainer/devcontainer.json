@@ -1,0 +1,27 @@
+{
+  "name": "Weblate tests and lint",
+  "dockerComposeFile": [
+    "compose.yaml",
+    "compose.local.json"
+  ],
+  "service": "developer",
+  "runServices": [
+    "developer",
+    "database",
+    "cache"
+  ],
+  "workspaceFolder": "${localWorkspaceFolder}",
+  "initializeCommand": [
+    "python3",
+    "${localWorkspaceFolder}/.devcontainer/environment.py",
+    "initialize"
+  ],
+  "postCreateCommand": [
+    "bash",
+    ".devcontainer/bootstrap.sh"
+  ],
+  "waitFor": "postCreateCommand",
+  "shutdownAction": "stopCompose",
+  "overrideCommand": false,
+  "updateRemoteUserUID": false
+}

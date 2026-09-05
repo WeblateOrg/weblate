@@ -115,6 +115,12 @@ For application-developer workflows and broader product integration guidance, us
 
 ## Testing and linting instructions
 
+- For an isolated worktree environment, use the development container workflow
+  in `docs/contributing/start.rst` (`devcontainer` section). Run
+  `./scripts/devcontainer up`, then use `./scripts/devcontainer exec --` before
+  the commands below. Run `./scripts/devcontainer doctor` to diagnose setup,
+  and `./scripts/devcontainer bootstrap` after dependency changes. The test
+  environment uses PostgreSQL and Valkey; it does not start application workers.
 - Install the development dependencies first using
   `uv sync --all-extras --dev`.
 - After syncing, prefer `uv run ...` for subsequent commands so they use the

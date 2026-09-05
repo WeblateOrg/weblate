@@ -1,0 +1,62 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+services:
+  developer:
+    build:
+      context: ../dev-docker/weblate-dev
+    entrypoint: [sleep, infinity]
+    command: []
+    init: true
+    # The application image's HTTP healthcheck does not apply to a test shell.
+    healthcheck:
+      disable: true
+    depends_on:
+      database:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    environment:
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
+      CI_DB_HOST: database
+      CI_DB_PORT: '5432'
+      CI_DB_NAME: weblate
+      CI_DB_USER: weblate
+      CI_DB_PASSWORD: weblate
+      CI_REDIS_HOST: cache
+      CI_REDIS_PORT: '6379'
+      CI_BASE_DIR: /app/data/tests
+      UV_PROJECT_ENVIRONMENT: /app/venv
+      VIRTUAL_ENV: /app/venv
+      UV_CACHE_DIR: /app/data/uv-cache
+      PRE_COMMIT_HOME: /app/data/prek-cache
+      XDG_CACHE_HOME: /app/data/tool-cache
+      HOME: /home/weblate
+    volumes:
+    - developer-data:/app/data
+    - developer-venv:/app/venv
+    - developer-home:/home/weblate
+  database:
+    extends:
+      file: ../dev-docker/postgres.yml
+      service: database
+    environment:
+      POSTGRES_USER: weblate
+      POSTGRES_PASSWORD: weblate
+      POSTGRES_DB: weblate
+  cache:
+    image: valkey/valkey:9.1.2-alpine@sha256:ccfa19b0d743e48927e1c8c14e39e0acb97b5cea347fef0bfe340247fea920cd
+    volumes:
+    - valkey-data:/data
+    healthcheck:
+      test: [CMD, valkey-cli, ping]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+volumes:
+  developer-data: {}
+  developer-venv: {}
+  developer-home: {}
+  postgres-data: {}
+  valkey-data: {}
