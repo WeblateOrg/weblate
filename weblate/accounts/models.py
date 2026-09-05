@@ -1426,7 +1426,10 @@ class Profile(models.Model):
     def _get_second_factors(self) -> Iterable[Device]:
         backend: type[Device]
         for backend in (StaticDevice, TOTPDevice, WebAuthnCredential):
-            yield from backend.objects.filter(user=self.user)
+            devices = backend.objects.filter(user=self.user)
+            if backend is TOTPDevice:
+                devices = devices.filter(confirmed=True)
+            yield from devices
 
     @cached_property
     def second_factors(self) -> list[Device]:

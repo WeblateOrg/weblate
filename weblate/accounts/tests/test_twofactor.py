@@ -134,19 +134,24 @@ class TwoFactorTestCase(FixtureTestCase):
         response = self.client.get(reverse("totp"))
 
         # Generate TOTP response
-        totp_key = response.context["form"].bin_key
-        totp_response = f"{totp(totp_key, 30, 0, 6, 0):06d}"
-
-        # Register TOTP device
-        response = self.post_with_callbacks(
-            reverse("totp"),
-            {
-                "name": test_name,
-                "token": totp_response,
-                "remove_previous": remove_previous,
-            },
-            follow=True,
-        )
+        device = response.context["form"].device
+        # Enroll in the previous timestep so login tests can use the current one.
+        timestamp = now().timestamp() - device.step
+        with (
+            mock.patch("django_otp.oath.time", return_value=timestamp),
+            mock.patch("time.time", return_value=timestamp),
+        ):
+            totp_response = f"{totp(device.bin_key):06d}"
+            response = self.post_with_callbacks(
+                reverse("totp"),
+                {
+                    "enrollment": device.pk,
+                    "name": test_name,
+                    "token": totp_response,
+                    "remove_previous": remove_previous,
+                },
+                follow=True,
+            )
         self.assertContains(response, test_name)
         devices = TOTPDevice.objects.all()
         self.assertEqual(len(devices), expected)
