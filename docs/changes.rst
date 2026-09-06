@@ -30,6 +30,7 @@ Weblate 2026.9.1
 
 .. rubric:: Bug fixes
 
+* Fixed the :ref:`uWSGI configuration example <uwsgi>` to use the virtual environment's Python when launching helpers for SSH repository operations.
 * Fixed language context and links in change history for scoped :doc:`announcements <admin/announcements>` and other language-specific events.
 * Restored :ref:`mt-deepl` API v1 translation support while retaining modern API language discovery and glossary improvements.
 * REST API unit updates now enforce the same translation text length limit as the web editor.

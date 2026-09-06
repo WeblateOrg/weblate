@@ -1383,6 +1383,15 @@ Configuration for uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` in the sourc
 .. literalinclude:: ../../weblate/examples/weblate.uwsgi.ini
     :language: ini
 
+Set ``py-executable`` to the absolute path of :file:`bin/python` inside the
+environment configured by ``virtualenv``. Weblate uses Python's
+``sys.executable`` to launch helper processes, including the SSH connection
+proxy used for Git repositories. uWSGI can otherwise set this value to its own
+executable, causing repository operations to fail with an error such as
+``/usr/bin/uwsgi-core: invalid option -- 'I'``. Setting ``virtualenv`` alone does
+not ensure that ``sys.executable`` points to Python. Restart uWSGI after updating
+the configuration.
+
 .. seealso::
 
     :doc:`django:howto/deployment/wsgi/uwsgi`
