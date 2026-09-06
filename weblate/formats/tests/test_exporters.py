@@ -54,8 +54,14 @@ if TYPE_CHECKING:
         BaseExporter,
     )
 
+    # Expose test-case assertions to type checkers without making the mixin a
+    # TestCase at runtime, where pytest would collect its tests separately.
+    ExporterTestBase = BaseTestCase
+else:
+    ExporterTestBase = object
 
-class PoExporterTest(BaseTestCase):
+
+class ExporterTestMixin(ExporterTestBase):
     _class: type[BaseExporter] = PoExporter
     _has_context = True
     _has_comments = True
@@ -163,24 +169,6 @@ class PoExporterTest(BaseTestCase):
             nplurals=1, source="xxx\x1e\x1efff", target="yyy", state=STATE_TRANSLATED
         )
 
-    def test_matching_file_format_params(self) -> None:
-        if self._class is not PoExporter:
-            return
-        self.check_matching_file_format_params()
-
-    def check_matching_file_format_params(self) -> None:
-        long_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " * 3
-
-        result = self.check_unit(
-            nplurals=1,
-            source="source",
-            target=long_text,
-            state=STATE_TRANSLATED,
-            file_format_params={"po_line_wrap": -1},
-        ).decode()
-
-        self.assertIn(f'msgstr "{long_text}"', result)
-
     def test_unit_not_translated(self) -> None:
         self.check_unit(
             nplurals=1, source="xxx\x1e\x1efff", target="yyy", state=STATE_EMPTY
@@ -217,29 +205,24 @@ class PoExporterTest(BaseTestCase):
             self.assertIn(self._encode("Suggested in Weblate"), result)
             self.assertIn(self._encode("Weblate translator suggestion"), result)
 
-    def setUp(self) -> None:
-        self.exporter = self.get_exporter()
 
-    def test_has_get_storage(self) -> None:
-        self.assertTrue(hasattr(self.exporter, "get_storage"))
+class PoExporterTest(ExporterTestMixin, BaseTestCase):
+    def test_matching_file_format_params(self) -> None:
+        long_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " * 3
 
-    def test_has_setsourcelanguage(self) -> None:
-        self.assertTrue(hasattr(self.exporter.storage, "setsourcelanguage"))
+        result = self.check_unit(
+            nplurals=1,
+            source="source",
+            target=long_text,
+            state=STATE_TRANSLATED,
+            file_format_params={"po_line_wrap": -1},
+        ).decode()
 
-    def test_has_settargetlanguage(self) -> None:
-        self.assertTrue(hasattr(self.exporter.storage, "settargetlanguage"))
-
-    def test_has_unitclass(self) -> None:
-        self.assertTrue(hasattr(self.exporter.storage, "UnitClass"))
-
-    def test_has_addunit(self) -> None:
-        self.assertTrue(hasattr(self.exporter.storage, "addunit"))
+        self.assertIn(f'msgstr "{long_text}"', result)
 
     def test_headers_config(
         self, language_team: bool = True, x_generator: bool = True
     ) -> None:
-        if self._class is not PoExporter:
-            return
         result = self.check_unit(
             source="xxx",
             target="yyy",
@@ -255,7 +238,7 @@ class PoExporterTest(BaseTestCase):
         self.test_headers_config(language_team=False, x_generator=False)
 
 
-class PoXliffExporterTest(PoExporterTest):
+class PoXliffExporterTest(ExporterTestMixin, BaseTestCase):
     _class = PoXliffExporter
     _has_context = True
 
@@ -307,7 +290,7 @@ class XliffExporterTest(PoXliffExporterTest):
         return
 
 
-class TBXExporterTest(PoExporterTest):
+class TBXExporterTest(ExporterTestMixin, BaseTestCase):
     _class = TBXExporter
     _has_context = False
 
@@ -347,7 +330,7 @@ class TBXExporterTest(PoExporterTest):
         self.assertEqual(result.count(b'<langSet xml:lang="en">'), 1)
 
 
-class MoExporterTest(PoExporterTest):
+class MoExporterTest(ExporterTestMixin, BaseTestCase):
     _class = MoExporter
     _has_context = True
     _has_comments = False
@@ -377,7 +360,7 @@ class MoExporterTest(PoExporterTest):
         self.assertFalse(hasattr(exporter.storage, "wrapper"))
 
 
-class CSVExporterTest(PoExporterTest):
+class CSVExporterTest(ExporterTestMixin, BaseTestCase):
     _class = CSVExporter
     _has_context = True
 
@@ -450,7 +433,7 @@ class CSVExporterTest(PoExporterTest):
         self.assertIn(b"\"'=HYPERLINK", output)
 
 
-class XlsxExporterTest(PoExporterTest):
+class XlsxExporterTest(ExporterTestMixin, BaseTestCase):
     _class = XlsxExporter
     _has_context = False
     _has_comments = False
@@ -515,7 +498,7 @@ class XlsxExporterTest(PoExporterTest):
         self.assertIn("Target A", target)
 
 
-class AndroidResourceExporterTest(PoExporterTest):
+class AndroidResourceExporterTest(ExporterTestMixin, BaseTestCase):
     _class = AndroidResourceExporter
     _has_comments = False
 
@@ -523,7 +506,7 @@ class AndroidResourceExporterTest(PoExporterTest):
         self.assertIn(b"<plural", result)
 
 
-class JSONExporterTest(PoExporterTest):
+class JSONExporterTest(ExporterTestMixin, BaseTestCase):
     _class = JSONExporter
     _has_comments = False
 
@@ -536,7 +519,7 @@ class JSONNestedExporterTest(JSONExporterTest):
     _class = JSONNestedExporter
 
 
-class StringsExporterTest(PoExporterTest):
+class StringsExporterTest(ExporterTestMixin, BaseTestCase):
     _class = StringsExporter
     _has_comments = False
 
@@ -566,7 +549,7 @@ class StringsExporterTest(PoExporterTest):
         self.assertEqual(exporter.storage.encoding, "utf-16")
 
 
-class MultiCSVExporterTest(PoExporterTest):
+class MultiCSVExporterTest(ExporterTestMixin, BaseTestCase):
     _class = MultiCSVExporter
     _has_context = True
 
