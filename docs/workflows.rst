@@ -49,8 +49,9 @@ Several settings can limit translation languages. They address different
 stages of the translation lifecycle and can be combined:
 
 Control requests for languages that do not exist yet
-    Configure :ref:`project-new-lang` at workspace, project, or component level.
-    Components can inherit this setting. You can let users contact maintainers,
+    Configure :ref:`project-new-lang` at workspace, project, category, or
+    component level. Categories and components can inherit this setting; see
+    :ref:`workspace-inherited-settings`. You can let users contact maintainers,
     point them to translation instructions, create the language file
     automatically, or disable adding new translations.
 
@@ -59,12 +60,21 @@ Control requests for languages that do not exist yet
     :ref:`component-new_lang` individually or automate the changes using
     :http:patch:`/api/components/(string:project)/(string:component)/`.
 
-Limit which translation files Weblate discovers
+    Disabling new translations controls user requests. It does not stop
+    discovery of translation files added to the repository or
+    :ref:`automatic glossary language synchronization <glossary-language-sync>`.
+
+Limit which translation files Weblate discovers or creates
     Configure :ref:`component-language_regex` on each component. For example,
     ``^(de|en|fr)$`` limits the component to translation files whose language
     code is ``de``, ``en``, or ``fr``. The filter applies while scanning the
-    component file mask; it does not change permissions for translations that
-    are already present.
+    component file mask and when creating a new translation file; it does not
+    change permissions for translations that are already present.
+
+    Language filters are configured per component, with no project-wide
+    language allowlist. To apply a filter across many components, automate the
+    changes using
+    :http:patch:`/api/components/(string:project)/(string:component)/`.
 
 Grant translation access only for selected languages
     Use :ref:`language-scoped teams <custom-acl>` when different users should be
