@@ -26,9 +26,9 @@ For application-developer workflows and broader product integration guidance, us
   validation explicitly. Keep secrets, computed state, and intentionally
   internal fields unexposed, and document the reason when the omission is not
   self-evident.
-- All user-facing strings must be translatable using Django i18n helpers, except
-  messages used in the API or persisted storage, such as the audit log, add-on
-  log, or changes; these messages should not be localized.
+- All translatable user-facing strings must be translatable using Django i18n
+  helpers, except messages used in the API or persisted storage, such as the
+  audit log, add-on log, or changes; these messages should not be localized.
 - In templates, use `{% translate %}` / `{% blocktranslate %}` for translatable
   text.
 - Preserve accessibility and the existing Bootstrap/jQuery-based frontend

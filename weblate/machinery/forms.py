@@ -733,30 +733,12 @@ class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
     # Current models are ordered from cheapest to most expensive. Previously offered
     # legacy models remain available until retirement for configuration compatibility.
     MODEL_CHOICES = (
-        (
-            "claude-haiku-4-5",
-            pgettext_lazy("Anthropic model selection", "Claude Haiku 4.5"),
-        ),
-        (
-            "claude-sonnet-5",
-            pgettext_lazy("Anthropic model selection", "Claude Sonnet 5"),
-        ),
-        (
-            "claude-opus-5",
-            pgettext_lazy("Anthropic model selection", "Claude Opus 5"),
-        ),
-        (
-            "claude-fable-5-1",
-            pgettext_lazy("Anthropic model selection", "Claude Fable 5.1"),
-        ),
-        (
-            "claude-opus-4-8",
-            pgettext_lazy("Anthropic model selection", "Claude Opus 4.8"),
-        ),
-        (
-            "claude-fable-5",
-            pgettext_lazy("Anthropic model selection", "Claude Fable 5"),
-        ),
+        ("claude-haiku-4-5", "Claude Haiku 4.5"),
+        ("claude-sonnet-5", "Claude Sonnet 5"),
+        ("claude-opus-5", "Claude Opus 5"),
+        ("claude-fable-5-1", "Claude Fable 5.1"),
+        ("claude-opus-4-8", "Claude Opus 4.8"),
+        ("claude-fable-5", "Claude Fable 5"),
         ("custom", pgettext_lazy("Anthropic model selection", "Custom model")),
     )
     base_url = WeblateServiceURLField(
