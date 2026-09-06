@@ -15,7 +15,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Count, Exists, F, OuterRef, Q
+from django.db.models import Count, Exists, F, OuterRef, Q, Sum
 from django.db.models.functions import Length
 from django.urls import reverse
 from django.utils import timezone
@@ -220,7 +220,6 @@ class BaseStats:
         self._object = obj
         self._data: StatDict = {}
         self._loaded: bool = False
-        self._pending_save: bool = False
         self.last_change_cache: Change | None = None
         self._collected_update_objects: list[BaseStats] | None = None
 
@@ -384,16 +383,11 @@ class BaseStats:
 
         # Calculate missing data
         if name not in self._data:
-            was_pending = self._pending_save
-            self._pending_save = True
+            # Calculators persist their results, including any nested calculations.
             self.calculate_by_name(name)
             if name not in self._data:
                 msg = f"Unsupported stats for {self}: {name}"
-                self._pending_save = was_pending
                 raise AttributeError(msg)
-            if not was_pending:
-                self.save()
-                self._pending_save = False
 
         return self._data[name]
 
@@ -683,7 +677,15 @@ class TranslationStats(BaseStats):
         bucket[f"{prefix}_chars"] = bucket.get(f"{prefix}_chars", 0) + num_chars
 
     @classmethod
-    def snapshot_to_bucket(cls, snapshot: UnitSnapshot) -> dict[str, int]:
+    def snapshot_to_bucket(
+        cls, snapshot: UnitSnapshot, *, count: int = 1
+    ) -> dict[str, int]:
+        """
+        Classify units with identical state and relation presence into buckets.
+
+        For grouped query results, count is the number of units and the snapshot
+        contains summed word and character counts, not per-unit averages.
+        """
         bucket: dict[str, int] = {}
         state = snapshot["state"]
         num_words = snapshot["num_words"]
@@ -742,6 +744,11 @@ class TranslationStats(BaseStats):
             has_suggestions and state == STATE_APPROVED,
         )
         cls._update_bucket(bucket, "comments", num_words, num_chars, has_comments)
+        # Grouped snapshots already contain summed words and characters, but
+        # each populated string counter represents all units in the group.
+        if count != 1:
+            for key in BASICS.intersection(bucket):
+                bucket[key] = count
         return bucket
 
     def can_apply_delta(self) -> bool:
@@ -779,19 +786,17 @@ class TranslationStats(BaseStats):
 
         values = (
             "state",
-            "num_words",
             "active_checks_count",
             "dismissed_checks_count",
             "suggestion_count",
             "label_count",
             "comment_count",
-            "num_chars",
         )
 
-        # These are independent to-many relations. Joining and counting all of
-        # them in one query multiplies rows and can produce incorrect presence
-        # results as well as poor query plans. Statistics only need presence.
-        units = self._object.unit_set.annotate(
+        # Only relation presence affects the buckets. Independent Exists
+        # expressions avoid joins that multiply unit rows and inflate totals.
+        # Clear ordering so it cannot introduce extra grouping columns.
+        units = self._object.unit_set.order_by().annotate(
             active_checks_count=Exists(
                 Check.objects.filter(unit_id=OuterRef("pk"), dismissed=False)
             ),
@@ -805,20 +810,28 @@ class TranslationStats(BaseStats):
             comment_count=Exists(
                 Comment.objects.filter(unit_id=OuterRef("pk"), resolved=False)
             ),
-            num_chars=Length("source"),
-        ).values_list(*values)
+        )
+        # Group by state and five presence flags, not by word or character count.
+        # This bounds the rows sent to Python regardless of translation size and
+        # avoids repeating Exists expressions for each conditional bucket sum.
+        groups = units.values(*values).annotate(
+            num_units=Count("pk"),
+            num_words=Sum("num_words"),
+            num_chars=Sum(Length("source")),
+        )
 
         totals = dict.fromkeys(self.UNIT_DELTA_KEYS, 0)
         for (
             state,
-            num_words,
             active_checks_count,
             dismissed_checks_count,
             suggestion_count,
             label_count,
             comment_count,
+            num_units,
+            num_words,
             num_chars,
-        ) in units.iterator(chunk_size=STATS_PREFETCH_CHUNK_SIZE):
+        ) in groups.values_list(*values, "num_units", "num_words", "num_chars"):
             bucket = self.snapshot_to_bucket(
                 {
                     "state": state,
@@ -829,7 +842,8 @@ class TranslationStats(BaseStats):
                     "suggestion_count": suggestion_count,
                     "label_count": label_count,
                     "comment_count": comment_count,
-                }
+                },
+                count=num_units,
             )
             for key, value in bucket.items():
                 totals[key] += value
@@ -909,7 +923,7 @@ class TranslationStats(BaseStats):
             self.calculate_labels()
 
     def calculate_checks(self) -> None:
-        """Prefetch check stats."""
+        """Calculate and cache all per-check totals for this translation."""
         self.ensure_loaded()
         allchecks = {check.url_id for check in CHECKS.values()}
         stats = (
@@ -920,7 +934,6 @@ class TranslationStats(BaseStats):
         for check, strings, words, chars in stats.values_list(
             "check__name", "strings", "words", "chars"
         ):
-            # Filtering here is way more effective than in SQL
             if check is None:
                 continue
             check = f"check:{check}"
@@ -932,10 +945,12 @@ class TranslationStats(BaseStats):
             self.store(check, 0)
             self.store(f"{check}_words", 0)
             self.store(f"{check}_chars", 0)
-        self.save()
+        # Filling missing details does not change totals already held by parents.
+        # Underlying edits, rather than these reads, invalidate parent statistics.
+        self.save(update_parents=False)
 
     def calculate_labels(self) -> None:
-        """Prefetch check stats."""
+        """Calculate and cache all per-label totals for this translation."""
         self.ensure_loaded()
         alllabels = set(
             self._object.component.project.label_set.values_list("name", flat=True)
@@ -947,7 +962,7 @@ class TranslationStats(BaseStats):
         )
 
         for label_name, strings, words, chars in stats:
-            # Filtering here is way more effective than in SQL
+            # The outer join also produces a group for unlabeled units.
             if label_name is None:
                 continue
             label = f"label:{label_name}"
@@ -960,7 +975,7 @@ class TranslationStats(BaseStats):
             self.store(label, 0)
             self.store(f"{label}_words", 0)
             self.store(f"{label}_chars", 0)
-        self.save()
+        self.save(update_parents=False)
 
 
 class AggregatingStats(BaseStats):
@@ -1329,6 +1344,7 @@ class ChecklistStats(SingleLanguageStats):
             self.calculate_labels()
 
     def aggregate_stats(self, keys: Iterable[str]) -> None:
+        """Aggregate details, calculating missing child details on demand."""
         self.ensure_loaded()
         all_stats: list[BaseStats] = self.aggregated_stats
         suffixes: tuple[str, ...] = ("", "_words", "_chars")
@@ -1343,11 +1359,11 @@ class ChecklistStats(SingleLanguageStats):
         self.save()
 
     def calculate_checks(self) -> None:
-        """Prefetch check stats."""
+        """Aggregate all per-check totals from child statistics."""
         self.aggregate_stats(check.url_id for check in CHECKS.values())
 
     def calculate_labels(self) -> None:
-        """Prefetch check stats."""
+        """Aggregate all per-label totals from child statistics."""
         self.aggregate_stats(
             f"label:{name}"
             for name in self._object.project.label_set.values_list("name", flat=True)
