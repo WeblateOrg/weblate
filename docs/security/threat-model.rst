@@ -393,13 +393,19 @@ Build-time and configuration variants
        tuning, not a security boundary. Operators choose a mode based on memory,
        capacity, and availability requirements. *(maintainer)*
    * - :envvar:`WEBLATE_API_RATELIMIT_ANON`,
-       :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`,
+       :envvar:`WEBLATE_API_RATELIMIT_USER`,
+       :setting:`API_RATELIMIT_USER_OVERRIDES`,
+       :setting:`API_RATELIMIT_IP_OVERRIDES`, :setting:`RATELIMIT_ATTEMPTS`,
        and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``
      - Rate limits are configurable. *(documented)* (source: :doc:`/api`,
        :doc:`/admin/config`)
      - Availability claims assume rate limits appropriate to deployment size
        and exposure. *(maintainer)*
-     - Disabling rate limits changes DoS triage from Weblate bug to deployment
+     - Operators can override or exempt users and IP networks, including
+       anonymous clients. IP exemptions rely on trusted proxy configuration;
+       they do not grant authentication or permissions. *(documented)*
+       (source: :ref:`api-rate`, :setting:`IP_BEHIND_REVERSE_PROXY`).
+       Disabling rate limits changes DoS triage from Weblate bug to deployment
        posture unless a single request violates a claimed property.
        *(maintainer)*
    * - :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`,
