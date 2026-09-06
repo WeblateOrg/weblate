@@ -9,6 +9,7 @@ from django.test import SimpleTestCase
 from weblate.checks.flags import Flags
 from weblate.utils.html import (
     AUTO_SAFE_HTML_VOID_TAGS,
+    MD_LINK,
     HTML2Text,
     HTMLAttribute,
     HTMLSanitizer,
@@ -22,6 +23,25 @@ from weblate.utils.html import (
     mail_quote_value,
     serialize_mdx_void_elements,
 )
+
+
+class MarkdownLinkTest(SimpleTestCase):
+    def test_title(self) -> None:
+        for title in (
+            '"Translation platform"',
+            "'Translation platform'",
+            "(Translation platform)",
+            '"A (translation) platform"',
+            '"A \\"translation\\" platform"',
+            "(A \\(translation\\) platform)",
+        ):
+            for destination in ("https://example.com/", "<https://example.com/>"):
+                source = f"[Link]({destination} {title})"
+                with self.subTest(source=source):
+                    match = MD_LINK.fullmatch(source)
+                    self.assertIsNotNone(match)
+                    self.assertEqual(match[3], "https://example.com/")
+                    self.assertEqual(match[4], title)
 
 
 class HTMLSanitizerTestCase(SimpleTestCase):

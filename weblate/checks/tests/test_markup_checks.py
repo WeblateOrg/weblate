@@ -287,6 +287,76 @@ class MarkdownLinkCheckTest(CheckTestCase):
             ),
         )
 
+    def test_title_delimiters(self) -> None:
+        for opening, closing in (("'", "'"), ('"', '"'), ("(", ")")):
+            for target_title, expected in (
+                ("Translation platform", True),
+                ("Localized platform", False),
+            ):
+                with self.subTest(opening=opening, target_title=target_title):
+                    self.do_test(
+                        expected,
+                        (
+                            f"[Weblate](https://weblate.org/ {opening}Translation platform{closing})",
+                            f"[Weblate](https://weblate.org/ {opening}{target_title}{closing})",
+                            "md-text",
+                        ),
+                    )
+
+    def test_title_exemptions(self) -> None:
+        for title, flags, lang in (
+            ("Linux", "md-text", "de"),
+            ("{name}", "md-text", "de"),
+            ("Translation platform", "md-text", "en_GB"),
+            ("Translation platform", "md-text", "en"),
+            ("Translation platform", "md-text", "ia"),
+            ("Translation platform", "md-text, ignore-same", "de"),
+        ):
+            with self.subTest(title=title, flags=flags, lang=lang):
+                self.do_test(
+                    False,
+                    (
+                        f'[Link](https://example.com "{title}")',
+                        f'[Odkaz](https://example.com "{title}")',
+                        flags,
+                    ),
+                    lang=lang,
+                )
+
+    def test_title_presence(self) -> None:
+        for source, target in (
+            (
+                '[Help](https://example.com "Translation platform")',
+                "[Hilfe](https://example.com)",
+            ),
+            (
+                "[Help](https://example.com)",
+                '[Hilfe](https://example.com "Hilfe öffnen")',
+            ),
+        ):
+            with self.subTest(source=source):
+                self.do_test(True, (source, target, "md-text"))
+
+    def test_title_correspondence(self) -> None:
+        source = '[Kind](https://example.com/kind "Kind") [Art](https://example.com/art "Art")'
+        for target in (
+            '[Art](https://example.com/kind "Art") [Kunst](https://example.com/art "Kunst")',
+            '[Kunst](https://example.com/art "Kunst") [Art](https://example.com/kind "Art")',
+            '[Art](https://example.de/kind "Art") [Kunst](https://example.de/art "Kunst")',
+        ):
+            with self.subTest(target=target):
+                self.do_test(False, (source, target, "md-text"), lang="de")
+
+    def test_title_reordered_links(self) -> None:
+        source = '[Help](#help "Translation platform") [Example](#example)'
+        for target, expected in (
+            ('[Beispiel](#example) [Hilfe](#help "Hilfe öffnen")', False),
+            ('[Beispiel](#example) [Hilfe](#help "Translation platform")', True),
+            ('[Beispiel](#example "Hilfe öffnen") [Hilfe](#help)', True),
+        ):
+            with self.subTest(target=target):
+                self.do_test(expected, (source, target, "md-text"), lang="de")
+
     def test_spacing(self) -> None:
         self.do_test(
             True,
