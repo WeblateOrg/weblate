@@ -47,7 +47,8 @@ jobs:
     - run: ./rundev.sh compilemessages
     - name: Test asynchronous application journeys
       run: ./rundev.sh application-test
-    - run: ./rundev.sh test --exitfirst
+    - name: Run non-browser tests
+      run: ./rundev.sh test --exitfirst --ignore=weblate/trans/tests/test_selenium.py
     - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
     - run: ./rundev.sh --all logs
       if: always()
