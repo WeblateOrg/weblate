@@ -298,6 +298,126 @@ If approval buttons are not visible, check both parts of the setup: reviews
 have to be enabled for that translation, and the signed-in user has to have
 review permission for that language.
 
+.. _machine-translation-workflows:
+
+Machine translation and LLM workflows
+-------------------------------------
+
+Machine translation services, including large language model (LLM) services,
+can assist human translators or generate translations for them to edit or
+approve. Choose a workflow based on when humans should check the generated
+text and when it should reach the repository.
+
+First, configure the services under :guilabel:`Automatic suggestions` in the
+project settings or site administration; see :ref:`machine-translation-setup`.
+For LLM services, see :ref:`llm-translation-context` for the context and
+instructions used to guide translation.
+
+To process strings in bulk, run :ref:`auto-translation`, select
+:guilabel:`Machine translation` as the source, and choose the services to use.
+For ongoing automation, configure the
+:ref:`addon-weblate.autotranslate.autotranslate` add-on on the component with
+the same source and desired mode. Use the query ``state:empty`` to fill empty
+translations without replacing existing human work; see :ref:`search-strings`.
+
+Human translation assisted by services
+++++++++++++++++++++++++++++++++++++++
+
+Use this workflow when translators should choose when to use machine
+translation for each string.
+
+Translators consult the :ref:`machine-translation` tab in the editor, choose a
+service result, edit it as needed, and save the translation. These service
+results are distinct from stored suggestions awaiting acceptance: a human
+decides what to save. This workflow does not require the Automatic translation
+add-on and can be combined with :ref:`reviews`.
+
+Service translation with human editing
+++++++++++++++++++++++++++++++++++++++
+
+Use this workflow to fill translations automatically and let humans improve
+them directly.
+
+* Select :guilabel:`Add as translation` as the automatic translation mode.
+* Turn off :ref:`project-translation_review` and allow translators to edit
+  directly, as in the direct translation workflow.
+* Set :ref:`project-commit_policy` to
+  :guilabel:`Commit all translations regardless of quality`.
+
+The service output becomes a translation that humans can edit in the usual
+editor. It can be committed to the repository without human approval.
+
+For machine drafts that should remain visibly unfinished, choose
+:guilabel:`Add as "Needing edit"` instead. Humans edit these drafts and clear
+the :guilabel:`Needs editing` state when finished. To keep unfinished drafts
+out of repository commits, set :ref:`project-commit_policy` to
+:guilabel:`Skip translations marked as needing editing`.
+
+Service suggestions with human acceptance
++++++++++++++++++++++++++++++++++++++++++
+
+Use this workflow when humans should check service output before it becomes
+a translation.
+
+* Select :guilabel:`Add as suggestion` as the automatic translation mode.
+* Turn on :ref:`component-enable_suggestions`, turn off
+  :ref:`component-suggestion_voting`, and set
+  :ref:`component-suggestion_autoaccept` to ``0``.
+* Leave :ref:`project-translation_review` off for a single acceptance step.
+  Give the people checking suggestions permission to accept them; see
+  :ref:`manage-acl`.
+
+Humans check the stored suggestions and accept suitable ones, or edit the
+proposed text before saving a translation. Suggestions are stored only in
+Weblate and do not enter translation files until accepted as translations.
+Accepting a suggestion is separate from approving a translation in the
+:ref:`dedicated review workflow <reviews>`.
+
+Service translation with review and a quality gateway
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Use this workflow when humans should edit machine translations in Weblate,
+but only reviewer-approved translations should reach the repository.
+
+* Select :guilabel:`Add as translation` as the automatic translation mode.
+* Turn on :ref:`project-translation_review` and assign translators and
+  reviewers as described in :ref:`reviews`.
+* Set :ref:`project-commit_policy` to
+  :guilabel:`Only include approved translations`.
+
+Generated translations appear as :guilabel:`Waiting for review`. Translators
+can edit them, and reviewers check and approve the finished translations.
+Only after approval are these translations eligible for repository commits.
+Translators can suggest further changes to approved strings, while reviewers
+can edit them directly.
+
+Enabling reviews alone does not keep unapproved translations out of commits.
+The translation quality filter provides that gateway. Keep reviews enabled
+for every language that should follow this workflow; check any
+:ref:`workflow customization <workflow-customization>` overrides.
+
+.. _translation-reuse-workflow:
+
+Reusing existing translations
+-----------------------------
+
+Use existing translations to bootstrap a new language or component, then
+have humans adapt matches and fill the remaining gaps.
+
+Run :ref:`auto-translation` with :guilabel:`Other translation components`
+as the source, or select the :ref:`translation-memory` service under
+:guilabel:`Machine translation`. Choose whether matches become translations,
+drafts needing editing, or suggestions using the modes described above. Use
+``state:empty`` to preserve existing translations. The
+:ref:`addon-weblate.autotranslate.autotranslate` add-on can apply this reuse
+automatically as strings arrive.
+
+For ongoing consistency, :ref:`translation-propagation` can copy edits to
+matching strings across components in the same project. Propagation happens
+while translating; it does not copy translations merely loaded from the
+repository. See :ref:`translation-consistency` for its requirements and for
+checks that help humans resolve differences.
+
 .. _source-quality-gateway:
 
 Quality gateway for the source strings
