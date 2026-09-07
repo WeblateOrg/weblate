@@ -79,6 +79,428 @@ class SearchSessionTest(TestCase):
         self.assertNotIn("search_invalid_ttl", session)
 
 
+class SearchRecoveryTest(ViewTestCase):
+    query = "state:<translated"
+    recovery_message = "Your previous search results are no longer available."
+
+    def prepare_search(self) -> tuple[Unit, list[int], str]:
+        self.url = self.translation.get_translate_url()
+        self.client.get(self.url, {"q": self.query})
+        session = self.client.session
+        session_keys = session.keys()
+        key = next(key for key in session_keys if key.startswith("search_"))
+        ids = session[key]["ids"]
+        unit = self.get_unit("Thank you for using Weblate.")
+        offset = ids.index(unit.pk) + 1
+        self.client.get(self.url, {"q": self.query, "offset": str(offset)})
+        return unit, ids, f"{self.url}?q=state:%3Ctranslated&offset={offset}"
+
+    def expire_search(self, *, missing: bool = False) -> None:
+        session = self.client.session
+        for key in list(session.keys()):
+            if key.startswith("search_"):
+                if missing:
+                    del session[key]
+                else:
+                    session[key] = {**session[key], "ttl": 0}
+        session.save()
+
+    def prepare_project_search(self) -> tuple[Unit, str]:
+        self.component.allow_translation_propagation = False
+        self.component.save(update_fields=["allow_translation_propagation"])
+        linked = self.create_link_existing(allow_translation_propagation=False)
+        unit = linked.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        self.url = reverse("translate", kwargs={"path": [self.project.slug, "-", "cs"]})
+        self.client.get(self.url, {"q": self.query})
+        ids = next(
+            value["ids"]
+            for key, value in self.client.session.items()
+            if key.startswith("search_")
+        )
+        url = f"{self.url}?q=state:%3Ctranslated&offset={ids.index(unit.pk) + 1}"
+        response = self.client.get(url)
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+        self.assertContains(response, f'name="unit_id" value="{unit.pk}"')
+        return unit, url
+
+    @staticmethod
+    def translation_data(unit: Unit) -> dict[str, str]:
+        return {
+            "unit_id": str(unit.pk),
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "target_0": "Díky za použití Weblate.",
+            "review": "20",
+        }
+
+    def test_expired_search_saves_submitted_unit_at_new_position(self) -> None:
+        unit, ids, url = self.prepare_search()
+        previous_ids = ids[: ids.index(unit.pk)]
+        self.assertTrue(previous_ids)
+        previous_targets = dict(
+            Unit.objects.filter(pk__in=previous_ids).values_list("pk", "target")
+        )
+        Unit.objects.filter(pk__in=previous_ids).update(state=STATE_TRANSLATED)
+        self.expire_search()
+
+        response = self.client.post(url, self.translation_data(unit), follow=True)
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Díky za použití Weblate.")
+        self.assertContains(response, self.recovery_message)
+        self.assertNotContains(response, "The source string has changed meanwhile.")
+        self.assertIn("offset=2", response.redirect_chain[0][0])
+        self.assertContains(response, "The translation has come to an end.")
+        self.assertEqual(
+            dict(Unit.objects.filter(pk__in=previous_ids).values_list("pk", "target")),
+            previous_targets,
+        )
+
+    def test_expired_project_search_uses_exact_submitted_unit(self) -> None:
+        unit, url = self.prepare_project_search()
+        self.expire_search(missing=True)
+        data = {
+            **self.translation_data(unit),
+            "target_0": "Nazdar svete!\n",
+            "save-stay": "1",
+        }
+        response = self.client.post(url, data, follow=True)
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, data["target_0"])
+        self.assertEqual(self.get_unit().target, "")
+
+    def test_legacy_project_form_uses_cached_position(self) -> None:
+        unit, url = self.prepare_project_search()
+        data = {
+            **self.translation_data(unit),
+            "target_0": "Nazdar svete!\n",
+            "save-stay": "1",
+        }
+        del data["unit_id"]
+        response = self.client.post(url, data, follow=True)
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, data["target_0"])
+        self.assertEqual(self.get_unit().target, "")
+
+    def test_legacy_project_form_uses_lightweight_position(
+        self, *, expired: bool = False
+    ) -> None:
+        self.prepare_project_search()
+        self.expire_search(missing=True)
+        url = f"{self.url}?offset=1"
+        response = self.client.get(url)
+        unit = response.context["unit"]
+        duplicates = Unit.objects.filter(
+            translation__component__project=self.project,
+            translation__language=self.translation.language,
+            id_hash=unit.id_hash,
+        ).exclude(pk=unit.pk)
+        targets = dict(duplicates.values_list("pk", "target"))
+        self.assertTrue(targets)
+        snapshot = next(
+            value
+            for key, value in self.client.session.items()
+            if key.startswith("search_")
+        )
+        self.assertNotIn("ids", snapshot)
+        if expired:
+            self.expire_search()
+        data = {
+            **self.translation_data(unit),
+            "target_0": "Nazdar svete!\n",
+            "save-stay": "1",
+        }
+        del data["unit_id"]
+        original_target = unit.target
+
+        response = self.client.post(url, data, follow=True)
+
+        unit.refresh_from_db()
+        if expired:
+            self.assertContains(
+                response, "The string you wanted to translate could not be identified."
+            )
+            self.assertEqual(unit.target, original_target)
+        else:
+            self.assertEqual(response.context["unit"].pk, unit.pk)
+            self.assertEqual(unit.target, data["target_0"])
+        self.assertEqual(dict(duplicates.values_list("pk", "target")), targets)
+
+    def test_expired_legacy_project_form_rejects_lightweight_position(self) -> None:
+        self.test_legacy_project_form_uses_lightweight_position(expired=True)
+
+    def test_expired_legacy_project_form_rejects_ambiguous_checksum(self) -> None:
+        unit, url = self.prepare_project_search()
+        data = self.translation_data(unit)
+        del data["unit_id"]
+        self.expire_search()
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(
+            response, "The string you wanted to translate could not be identified."
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "")
+        self.assertEqual(self.get_unit().target, "")
+
+    def test_submitted_unit_id_is_scoped_to_translation(self) -> None:
+        unit, _ids, url = self.prepare_search()
+        response = self.client.post(
+            url,
+            {**self.translation_data(unit), "unit_id": str(unit.source_unit_id)},
+            follow=True,
+        )
+        self.assertContains(
+            response, "The string you wanted to translate is no longer available."
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "")
+
+    def test_missing_search_keeps_nonmatching_submitted_unit(self) -> None:
+        unit, _ids, url = self.prepare_search()
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
+        self.expire_search(missing=True)
+        data = {**self.translation_data(unit), "save-stay": "1"}
+
+        response = self.client.post(url, data, follow=True)
+
+        self.assertContains(response, self.recovery_message)
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+        self.assertEqual(response.context["filter_pos"], 1)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, data["target_0"])
+        response = self.client.get(self.url, {"q": self.query, "offset": "2"})
+        self.assertNotEqual(response.context["unit"].pk, unit.pk)
+        response = self.client.get(self.url, {"q": self.query, "offset": "1"})
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+
+    def test_expired_search_saves_when_no_strings_match(self) -> None:
+        unit, ids, url = self.prepare_search()
+        Unit.objects.filter(pk__in=ids).update(state=STATE_TRANSLATED)
+        self.expire_search()
+        response = self.client.post(
+            url, {**self.translation_data(unit), "save-stay": "1"}, follow=True
+        )
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+        self.assertEqual(response.context["filter_count"], 1)
+        self.assertContains(response, self.recovery_message)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Díky za použití Weblate.")
+
+    def test_expired_search_preserves_text_on_conflict(self) -> None:
+        unit, _ids, url = self.prepare_search()
+        data = {**self.translation_data(unit), "contentsum": "aaa"}
+        self.expire_search()
+
+        response = self.client.post(url, data)
+
+        self.assertContains(response, "The source string has changed meanwhile.")
+        self.assertContains(response, data["target_0"])
+        self.assertEqual(response.context["unit"].pk, unit.pk)
+        self.assertTrue(response.context["form"].is_bound)
+        self.assertContains(response, 'data-unsaved="true"')
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "")
+
+        response = self.client.post(
+            url, {**self.translation_data(unit), "save-stay": "1"}, follow=True
+        )
+        self.assertContains(response, 'data-unsaved="false"')
+
+    def test_translation_conflict_retry_preserves_other_users_translation(self) -> None:
+        unit, _ids, url = self.prepare_search()
+        data = {**self.translation_data(unit), "save-stay": "1"}
+        competing_target = "Překlad jiného uživatele."
+        unit.translate(
+            self.anotheruser, competing_target, STATE_TRANSLATED, propagate=False
+        )
+
+        for expired in (False, True):
+            with self.subTest(expired=expired):
+                if expired:
+                    self.expire_search()
+                for _attempt in range(2):
+                    response = self.client.post(url, data)
+                    self.assertContains(
+                        response,
+                        "The translation of the string has changed meanwhile.",
+                    )
+                    self.assertContains(response, data["target_0"])
+                    self.assertContains(response, 'data-unsaved="true"')
+                    unit.refresh_from_db()
+                    self.assertEqual(unit.target, competing_target)
+                    # Retry using the hidden values actually rendered to the user.
+                    document = html.fromstring(response.content)
+                    fields = document.xpath(
+                        '//form[@data-unsaved="true"]//input[@type="hidden"]'
+                    )
+                    self.assertTrue(fields)
+                    for field in fields:
+                        data[field.get("name")] = field.get("value", "")
+                    self.assertNotEqual(
+                        data["translationsum"], hash_to_checksum(unit.get_target_hash())
+                    )
+
+    def test_expired_search_preserves_all_plural_values(self) -> None:
+        _unit, ids, _url = self.prepare_search()
+        unit = self.translation.unit_set.get(source__contains="Orangutan")
+        data = {
+            **self.translation_data(unit),
+            "contentsum": "aaa",
+            "target_0": "První návrh",
+            "target_1": "Druhý návrh",
+            "target_2": "Třetí návrh",
+        }
+        self.expire_search()
+        response = self.client.post(
+            f"{self.url}?q=state:%3Ctranslated&offset={ids.index(unit.pk) + 1}", data
+        )
+        for idx in range(3):
+            self.assertContains(response, data[f"target_{idx}"])
+        self.assertContains(response, 'data-unsaved="true"')
+
+    def test_expired_search_rejects_unavailable_checksum(self) -> None:
+        unit, _ids, url = self.prepare_search()
+        other = self.component.source_translation.unit_set.get(id_hash=unit.id_hash)
+        # Use a checksum that is valid but outside the translation's unit set.
+        other.id_hash = calculate_hash("unavailable string", "")
+        other.save(update_fields=["id_hash"], run_checks=False)
+        self.expire_search()
+        response = self.client.post(
+            url,
+            {**self.translation_data(unit), "checksum": other.checksum},
+            follow=True,
+        )
+        self.assertContains(
+            response, "The string you wanted to translate is no longer available."
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "")
+
+    def test_expired_search_get_recovers_out_of_range_offset(self) -> None:
+        _unit, ids, _url = self.prepare_search()
+        Unit.objects.filter(pk__in=ids[1:]).update(state=STATE_TRANSLATED)
+        self.expire_search()
+        response = self.client.get(self.url, {"q": self.query, "offset": str(len(ids))})
+        self.assertContains(response, self.recovery_message)
+        self.assertEqual(response.context["unit"].pk, ids[0])
+        self.assertEqual(response.context["filter_pos"], 1)
+
+    def test_expired_search_rejects_deleted_unit(self) -> None:
+        unit, _ids, url = self.prepare_search()
+        data = self.translation_data(unit)
+        unit.delete()
+        targets = dict(self.translation.unit_set.values_list("pk", "target"))
+        self.expire_search()
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(
+            response, "The string you wanted to translate is no longer available."
+        )
+        self.assertEqual(
+            dict(self.translation.unit_set.values_list("pk", "target")), targets
+        )
+
+    def test_expired_search_rejects_malformed_checksum(self) -> None:
+        unit, _ids, url = self.prepare_search()
+        self.expire_search()
+        response = self.client.post(
+            url,
+            {**self.translation_data(unit), "checksum": "invalid"},
+            follow=True,
+        )
+        self.assertContains(response, "Invalid checksum specified!")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "")
+
+    def test_expired_search_get_empty_results(self) -> None:
+        _unit, ids, _url = self.prepare_search()
+        Unit.objects.filter(pk__in=ids).update(state=STATE_TRANSLATED)
+        self.expire_search()
+        response = self.client.get(
+            self.url, {"q": self.query, "offset": "2"}, follow=True
+        )
+        self.assertContains(response, self.recovery_message)
+        self.assertContains(response, "No strings found!")
+        self.assertNotContains(response, "The translation has come to an end.")
+
+    def test_refresh_replaces_all_sort_variants(self) -> None:
+        unit, ids, url = self.prepare_search()
+        self.client.get(self.url, {"q": self.query, "sort_by": "source", "offset": "1"})
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
+        response = self.client.get(url)
+        self.assertEqual(response.context["filter_count"], len(ids))
+        self.assertContains(response, "Refresh results")
+
+        response = self.client.get(
+            self.url, {"q": self.query, "offset": "2", "refresh": "1"}, follow=True
+        )
+        self.assertEqual(response.context["filter_pos"], 1)
+        self.assertEqual(response.context["filter_count"], len(ids) - 1)
+        self.assertNotContains(response, self.recovery_message)
+        self.assertNotIn("refresh=", response.redirect_chain[-1][0])
+        response = self.client.get(
+            self.url, {"q": self.query, "sort_by": "source", "offset": "1"}
+        )
+        self.assertEqual(response.context["filter_count"], len(ids) - 1)
+        for key, value in self.client.session.items():
+            if key.startswith("search_"):
+                self.assertNotIn(unit.pk, value["ids"])
+
+    def test_zen_refresh_replaces_results(self) -> None:
+        unit, ids, _url = self.prepare_search()
+        url = reverse("zen", kwargs=self.kw_translation)
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
+        response = self.client.get(url, {"q": self.query, "offset": "1"})
+        self.assertEqual(response.context["filter_count"], len(ids))
+        self.assertContains(response, "Refresh results")
+        response = self.client.get(url, {"q": self.query, "refresh": "1"}, follow=True)
+        self.assertEqual(response.context["filter_count"], len(ids) - 1)
+        self.assertNotIn(
+            unit.pk, [item["unit"].pk for item in response.context["unitdata"]]
+        )
+
+    def test_refresh_preserves_invalid_query(self) -> None:
+        query = 'source:r"^(hello"'
+        for view in ("translate", "zen"):
+            with self.subTest(view=view):
+                url = reverse(view, kwargs={"path": self.translation.get_url_path()})
+                response = self.client.get(url, {"q": query, "refresh": "1"})
+                self.assertEqual(response.status_code, 200)
+                form = response.context["search_form"]
+                self.assertIn("q", form.errors)
+                document = html.fromstring(response.content)
+                self.assertEqual(
+                    document.xpath('//textarea[@name="q"]/text()'), [f"\n{query}"]
+                )
+
+    def test_refresh_empty_results(self) -> None:
+        _unit, ids, _url = self.prepare_search()
+        Unit.objects.filter(pk__in=ids).update(state=STATE_TRANSLATED)
+        response = self.client.get(
+            self.url,
+            {"q": self.query, "offset": "2", "refresh": "1"},
+            follow=True,
+        )
+        self.assertContains(response, "No strings found!")
+        self.assertNotContains(response, "The translation has come to an end.")
+        self.assertNotContains(response, self.recovery_message)
+
+    def test_expired_zen_scroll_requires_refresh(self) -> None:
+        self.prepare_search()
+        self.expire_search()
+        response = self.client.get(
+            reverse("load_zen", kwargs=self.kw_translation),
+            {"q": self.query, "offset": "21"},
+            headers={"X-Requested-With": "XMLHttpRequest"},
+        )
+        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.content, b"")
+
+
 class EditScreenshotContextTest(ViewTestCase):
     def test_screenshot_context_has_documentation_link(self) -> None:
         self.make_manager()

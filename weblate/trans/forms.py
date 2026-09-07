@@ -397,6 +397,7 @@ class PluralTextarea(forms.Textarea):
     """Text-area extension which possibly handles plurals."""
 
     profile: Profile
+    unit: Unit
 
     def __init__(self, *args, **kwargs) -> None:
         self.is_source_plural: Literal[True] | None = None
@@ -514,7 +515,7 @@ class PluralTextarea(forms.Textarea):
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
-        unit = value
+        unit = self.unit if isinstance(value, list) else value
         translation = unit.translation
         lang_label = lang = translation.language
         if self.is_source_plural:
@@ -523,6 +524,10 @@ class PluralTextarea(forms.Textarea):
         else:
             plurals = unit.get_source_plurals()
             values = unit.get_target_plurals()
+        if isinstance(value, list):
+            values = [
+                value[idx] if idx < len(value) else "" for idx in range(len(values))
+            ]
         if "zen-mode" in self.attrs:
             lang_label = format_html(
                 '<a class="language" href="{}" tabindex="-1">{}</a>',
@@ -631,10 +636,12 @@ class PluralField(forms.CharField):
 class ChecksumForm(forms.Form):
     """Form for handling checksum IDs for translation."""
 
+    unit_id = forms.IntegerField(required=False, min_value=1, widget=forms.HiddenInput)
     checksum = ChecksumField(required=True)
 
-    def __init__(self, unit_set, *args, **kwargs) -> None:
+    def __init__(self, unit_set, *args, require_unique: bool = False, **kwargs) -> None:
         self.unit_set = unit_set
+        self.require_unique = require_unique
         super().__init__(*args, **kwargs)
 
     def clean_checksum(self) -> str | None:
@@ -643,14 +650,24 @@ class ChecksumForm(forms.Form):
             return None
 
         unit_set = self.unit_set
+        if unit_id := self.cleaned_data.get("unit_id"):
+            unit_set = unit_set.filter(pk=unit_id)
 
         checksum = self.cleaned_data["checksum"]
-        try:
-            self.cleaned_data["unit"] = unit_set.filter(id_hash=checksum)[0]
-        except (Unit.DoesNotExist, IndexError) as error:
+        units = list(
+            unit_set.filter(id_hash=checksum)[: 2 if self.require_unique else 1]
+        )
+        if not units:
             raise ValidationError(
                 gettext("The string you wanted to translate is no longer available.")
-            ) from error
+            )
+        if len(units) > 1:
+            raise ValidationError(
+                gettext(
+                    "The string you wanted to translate could not be identified. Please reopen it and try again."
+                )
+            )
+        self.cleaned_data["unit"] = units[0]
         return checksum
 
 
@@ -676,6 +693,7 @@ class FuzzyField(forms.BooleanField):
 class TranslationForm(UnitForm):
     """Form used for translation of single string."""
 
+    unit_id = forms.IntegerField(required=False, min_value=1, widget=forms.HiddenInput)
     checksum = ChecksumField(required=True)
     contentsum = ChecksumField(required=True)
     translationsum = ChecksumField(required=True)
@@ -705,6 +723,7 @@ class TranslationForm(UnitForm):
         translation = unit.translation
         component = translation.component
         kwargs["initial"] = {
+            "unit_id": unit.pk,
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
@@ -755,6 +774,7 @@ class TranslationForm(UnitForm):
         self.user_can_edit = user_can_edit
         self.user = user
         self.fields["target"].widget.profile = user.profile
+        self.fields["target"].widget.unit = unit
         # Avoid failing validation on untranslated string
         if args:
             self.fields["review"].choices.append((STATE_EMPTY, ""))
@@ -765,6 +785,7 @@ class TranslationForm(UnitForm):
         self.helper.layout = Layout(
             Field("target"),
             Field("fuzzy"),
+            Field("unit_id"),
             Field("checksum"),
             Field("contentsum"),
             Field("translationsum"),
