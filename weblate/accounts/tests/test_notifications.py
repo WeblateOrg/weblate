@@ -147,7 +147,7 @@ class NotificationHeadersTest(SimpleTestCase):
                 )
 
         self.assertEqual(len(notification.subscription_cache), SUBSCRIPTION_CACHE_SIZE)
-        self.assertNotIn(0, notification.subscription_cache)
+        self.assertNotIn((0, False), notification.subscription_cache)
 
     @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_SOFT, HIDE_VERSION=False)
     def test_soft_mode_keeps_x_mailer_version(self) -> None:
