@@ -1324,7 +1324,7 @@ class NotificationDebugForm(forms.Form):
         label=gettext_lazy("Project, category, component, or translation path"),
         max_length=1000,
         help_text=gettext_lazy(
-            "Enter slash-separated slugs, for example project/category/component/cs. Parent paths include their components and translations."
+            "Enter slash-separated slugs, for example project/category/component/cs. Project and category paths summarize inherited settings and component exceptions."
         ),
     )
 

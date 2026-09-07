@@ -98,6 +98,11 @@
       </div>
 
       <div class="tab-pane" id="notifications">
+        <div class="alert alert-info">
+          {% translate "Check which subscriptions apply to a project, component, or translation and what can prevent notification delivery." %}
+          <a class="alert-link text-decoration-underline"
+             href="{% url 'user_notifications' user=user.username %}">{% translate "Open notification diagnostics" %}</a>
+        </div>
 
         <div class="card">
           <div class="card-header">

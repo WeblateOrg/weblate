@@ -1292,6 +1292,20 @@ thead th {
   text-align: center;
 }
 
+.notification-eligibility-table > thead > tr > th:first-child {
+  width: 25%;
+}
+@media (min-width: 80rem) {
+  .notification-eligibility-table > thead > tr > th:first-child {
+    width: 18rem;
+  }
+}
+.notification-subscription-highlight {
+  --bs-table-bg: var(--bs-info-bg-subtle);
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
 .table-scroll {
   overflow-x: auto;
   position: relative;

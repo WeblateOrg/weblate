@@ -9,8 +9,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
-from django.core.paginator import Page, Paginator
-from django.db.models import F, Value
+from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.utils.translation import gettext
 
 from weblate.accounts.notifications import (
@@ -29,7 +29,8 @@ if TYPE_CHECKING:
 
 
 NOTIFICATION_DETAIL_LIMIT = 5
-NOTIFICATION_TARGET_PAGE_SIZE = 50
+NOTIFICATION_COMPONENT_LIMIT = 200
+NOTIFICATION_PROJECT_LIMIT = 10
 
 
 @dataclass
@@ -39,11 +40,40 @@ class NotificationExplanation:
     subscription: Subscription | None = None
     overridden: list[Subscription] = field(default_factory=list)
     conditions: list[StrOrPromise] = field(default_factory=list)
-    targets: list[Project | Component | Translation] = field(default_factory=list)
+    exceptions: list[NotificationException] = field(default_factory=list)
 
     @property
     def name(self) -> StrOrPromise:
         return self.notification.verbose
+
+    @property
+    def behavior_key(self) -> tuple:
+        """Compare effective behavior without splitting equivalent subscriptions."""
+        subscription = self.subscription
+        return (
+            (subscription.scope, subscription.frequency, subscription.onetime)
+            if subscription
+            else None,
+            str(self.reason),
+            tuple(str(condition) for condition in self.conditions),
+        )
+
+
+@dataclass
+class NotificationException:
+    outcome: NotificationExplanation
+    count: int = 0
+    examples: list[Component] = field(default_factory=list)
+    subscription_id: int | None = None
+    shared_count: int = 0
+
+
+@dataclass
+class NotificationScopeSummary:
+    results: list[NotificationExplanation] = field(default_factory=list)
+    component_count: int = 0
+    broad: bool = False
+    empty: bool = False
 
 
 class NotificationDebugger:
@@ -68,19 +98,21 @@ class NotificationDebugger:
         result = NotificationExplanation(
             type(handler), gettext("No matching subscription.")
         )
+        # Share the delivery matcher, excluding only checks requiring an actual event.
+        subscriptions = list(
+            handler.get_scope_subscriptions(
+                None, project, component, translation, None, include_ineligible=True
+            )
+        )
+        if subscriptions:
+            result.subscription = subscriptions[0]
+            result.overridden = subscriptions[1:]
+
         if not self.user.is_active or self.user.is_bot:
             result.reason = gettext(
                 "Inactive users and bots do not receive notifications."
             )
             return result
-
-        # Share the delivery matcher, excluding only checks requiring an actual event.
-        subscriptions = list(
-            handler.get_scope_subscriptions(None, project, component, translation, None)
-        )
-        if subscriptions:
-            result.subscription = subscriptions[0]
-            result.overridden = subscriptions[1:]
 
         if not handler.can_access_target(self.user, project, component):
             result.reason = gettext("The user cannot access this target.")
@@ -150,115 +182,99 @@ class NotificationDebugger:
         self,
         target: Project | Category | Component | Translation,
         viewer: User,
-        page_number: str | None,
-    ) -> tuple[list[NotificationExplanation], Page]:
-        """Group equivalent outcomes over one page of accessible descendants."""
-        page = self.get_target_page(target, viewer, page_number)
-
-        groups: dict[tuple, NotificationExplanation] = {}
-        for obj in page:
-            translation = None
-            component = None
-            if isinstance(obj, Translation):
-                translation = obj
-                component = obj.component
-                project = component.project
-            elif isinstance(obj, Component):
-                component = obj
-                project = obj.project
-            else:
-                project = obj
-            for handler in self.handlers:
-                result = self.explain(handler, project, component, translation)
-                key = (
-                    handler.get_name(),
-                    str(result.reason),
-                    result.subscription.pk if result.subscription else None,
-                    tuple(subscription.pk for subscription in result.overridden),
-                    tuple(str(condition) for condition in result.conditions),
+    ) -> NotificationScopeSummary:
+        """Summarize inherited settings and exceptions across the accessible scope."""
+        if isinstance(target, (Component, Translation)):
+            component = target.component if isinstance(target, Translation) else target
+            if not viewer.can_access_component(component):
+                return NotificationScopeSummary(empty=True)
+            results = [
+                self.explain(
+                    handler,
+                    component.project,
+                    component,
+                    target if isinstance(target, Translation) else None,
                 )
-                if key not in groups:
-                    groups[key] = result
-                groups[key].targets.append(obj)
-        return sorted(
-            groups.values(), key=lambda result: str(result.notification.verbose)
-        ), page
+                for handler in self.handlers
+            ]
+            results.sort(key=lambda result: str(result.name))
+            return NotificationScopeSummary(
+                results=[result for result in results if result.subscription],
+                component_count=1,
+            )
 
-    @staticmethod
-    def get_target_page(
-        target: Project | Category | Component | Translation,
-        viewer: User,
-        page_number: str | None,
-    ) -> Page:
-        """Page identifiers before loading any component or translation objects."""
-        if isinstance(target, Translation):
-            components = Component.objects.filter(pk=target.component_id)
-        elif isinstance(target, Component):
-            components = Component.objects.filter(pk=target.pk)
-        elif isinstance(target, Category):
+        project = target.project if isinstance(target, Category) else target
+        if not viewer.can_access_project(project):
+            return NotificationScopeSummary(broad=True, empty=True)
+        if isinstance(target, Category):
             components = Component.objects.filter(
                 pk__in=target.get_component_ids_with_links()
             )
         else:
-            components = Component.objects.filter(project=target)
-        components = components.filter_access(viewer)
-        translations = Translation.objects.filter(component__in=components)
-        if isinstance(target, Translation):
-            translations = translations.filter(pk=target.pk)
-
-        # All branches have the same projection and no implicit model ordering.
-        # Ordering keeps each component immediately ahead of its translations.
-        translation_ids = (
-            translations.order_by()
-            .annotate(
-                target_component=F("component_id"),
-                target_kind=Value("translation"),
-                target_id=F("pk"),
+            components = Component.objects.filter(
+                Q(project=target) | Q(pk__in=target.shared_components.values("pk"))
             )
-            .values_list("target_component", "target_kind", "target_id")
+        components = (
+            components.filter_access(viewer)
+            .select_related("project", "category")
+            .order_by("project_id", "pk")
         )
-        target_ids = translation_ids
-        if not isinstance(target, Translation):
-            component_ids = (
-                components.order_by()
-                .annotate(
-                    target_component=F("pk"),
-                    target_kind=Value("component"),
-                    target_id=F("pk"),
+        # Bound both per-component explanations and per-project subscription
+        # queries before loading components or invoking notification handlers.
+        scope = list(
+            components.values_list("pk", "project_id")[
+                : NOTIFICATION_COMPONENT_LIMIT + 1
+            ]
+        )
+        if (
+            len(scope) > NOTIFICATION_COMPONENT_LIMIT
+            or len({project.pk, *(project_id for _, project_id in scope)})
+            > NOTIFICATION_PROJECT_LIMIT
+        ):
+            raise ValidationError(
+                gettext(
+                    "This scope is too large to check. Choose a smaller category, "
+                    "a component, or a translation."
+                ),
+                code="notification_scope_too_large",
+            )
+        results = [self.explain(handler, project) for handler in self.handlers]
+        groups: list[dict[tuple, NotificationException]] = [{} for _ in self.handlers]
+        summary = NotificationScopeSummary(broad=True)
+        for component in components.filter(pk__in=[pk for pk, _ in scope]):
+            summary.component_count += 1
+            for handler, inherited, exceptions in zip(
+                self.handlers, results, groups, strict=True
+            ):
+                # The matcher uses the component's own project, including linked
+                # components whose inherited settings differ from the selected scope.
+                outcome = self.explain(handler, component.project, component)
+                key = outcome.behavior_key
+                if key == inherited.behavior_key:
+                    continue
+                subscription_id = (
+                    outcome.subscription.pk if outcome.subscription else None
                 )
-                .values_list("target_component", "target_kind", "target_id")
-            )
-            target_ids = target_ids.union(component_ids)
-        if isinstance(target, Project):
-            project_ids = (
-                Project.objects.filter(pk=target.pk)
-                .order_by()
-                .annotate(
-                    target_component=Value(0),
-                    target_kind=Value("project"),
-                    target_id=F("pk"),
-                )
-                .values_list("target_component", "target_kind", "target_id")
-            )
-            target_ids = target_ids.union(project_ids)
-        target_ids = target_ids.order_by("target_component", "target_kind", "target_id")
-        page = Paginator(target_ids, NOTIFICATION_TARGET_PAGE_SIZE).get_page(
-            page_number
-        )
-        identifiers = list(page.object_list)
-        objects: dict[tuple[str, int], Project | Component | Translation] = {}
-        if isinstance(target, Project):
-            objects["project", target.pk] = target
-        for component in Component.objects.filter(
-            pk__in=[pk for _, kind, pk in identifiers if kind == "component"]
-        ).select_related("project", "category"):
-            objects["component", component.pk] = component
-        for translation in Translation.objects.filter(
-            pk__in=[pk for _, kind, pk in identifiers if kind == "translation"]
-        ).select_related("language", "component__project", "component__category"):
-            objects["translation", translation.pk] = translation
-        return Page(
-            [objects[kind, pk] for _, kind, pk in identifiers],
-            page.number,
-            page.paginator,
-        )
+                if key not in exceptions:
+                    exceptions[key] = NotificationException(
+                        outcome, subscription_id=subscription_id
+                    )
+                exception = exceptions[key]
+                if exception.subscription_id != subscription_id:
+                    exception.subscription_id = None
+                exception.count += 1
+                if component.project_id != project.pk:
+                    exception.shared_count += 1
+                if len(exception.examples) < NOTIFICATION_DETAIL_LIMIT:
+                    exception.examples.append(component)
+        if isinstance(target, Category) and not summary.component_count:
+            summary.empty = True
+            return summary
+        for result, exceptions in zip(results, groups, strict=True):
+            result.exceptions = list(exceptions.values())
+            if result.subscription or any(
+                item.outcome.subscription for item in result.exceptions
+            ):
+                summary.results.append(result)
+        summary.results.sort(key=lambda result: str(result.name))
+        return summary
