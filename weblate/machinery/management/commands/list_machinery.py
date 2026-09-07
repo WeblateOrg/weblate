@@ -43,7 +43,7 @@ class Command(DocGeneratorCommand):
                     *obj.get_versions_rst_lines(),
                     "",
                     f":Service ID: ``{obj.get_identifier()}``",
-                    f":Maximal score: {obj.max_score}",
+                    f":Maximum score: {obj.max_score}",
                 ]
             )
             features = []
