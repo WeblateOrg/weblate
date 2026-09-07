@@ -21,7 +21,7 @@ from django.core.paginator import Paginator
 from django.db import close_old_connections, connection
 from django.db.models import F
 from django.test import SimpleTestCase, TransactionTestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
 from translate.storage.base import ParseError
 
@@ -39,6 +39,7 @@ from weblate.trans.models import (
     Project,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.component import prefetch_tasks
 from weblate.trans.repository_context import (
@@ -55,7 +56,9 @@ from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
+    STATE_APPROVED,
     STATE_EMPTY,
+    STATE_FUZZY,
     STATE_NEEDS_CHECKING,
     STATE_READONLY,
     STATE_TRANSLATED,
@@ -82,6 +85,161 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_commit_pending_uses_linked_project_policy(self) -> None:
+        component = self.create_component()
+        project = component.project
+        project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
+        project.save()
+        other_project = self.create_project(
+            name="Other",
+            slug="other",
+            commit_policy=CommitPolicyChoices.APPROVED_ONLY,
+            translation_review=True,
+        )
+        linked = Component.objects.create(
+            project=other_project,
+            name="Linked",
+            slug="linked",
+            repo=component.get_repo_link_url(),
+            file_format="po",
+            filemask="po-duplicates/*.dpo",
+        )
+        translation = linked.translation_set.get(language_code="cs")
+        WorkflowSetting.objects.create(
+            project=other_project,
+            language=translation.language,
+            translation_review=False,
+        )
+        user = create_test_user()
+        owner_unit = component.translation_set.get(
+            language_code="cs"
+        ).unit_set.order_by("pk")[0]
+        owner_unit.translate(user, "Owner needs editing\n", STATE_FUZZY)
+        unit = translation.unit_set.order_by("pk")[0]
+        unit.translate(user, "Linked needs editing\n", STATE_FUZZY)
+        reviewed_translation = linked.translation_set.get(language_code="de")
+        reviewed = reviewed_translation.unit_set.order_by("pk")[0]
+        reviewed.translate(user, "First translation\n", STATE_TRANSLATED)
+        reviewed.translate(user, "Approved translation\n", STATE_APPROVED)
+        reviewed.translate(user, "Unapproved update\n", STATE_FUZZY)
+
+        eligible = PendingUnitChange.objects.for_component(
+            component, apply_filters=True, include_linked=True
+        )
+        self.assertEqual(eligible.filter(unit=unit).count(), 1)
+        self.assertFalse(eligible.filter(unit=owner_unit).exists())
+        self.assertEqual(
+            list(
+                eligible.filter(unit=reviewed)
+                .order_by("timestamp")
+                .values_list("state", flat=True)
+            ),
+            [STATE_TRANSLATED, STATE_APPROVED],
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.find_committable_components(hours=0)
+            .filter(pk=component.pk)
+            .exists()
+        )
+        component.commit_pending("test", user)
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+        self.assertTrue(PendingUnitChange.objects.filter(unit=owner_unit).exists())
+        self.assertEqual(PendingUnitChange.objects.filter(unit=reviewed).count(), 1)
+        for changed, expected in (
+            (unit, "Linked needs editing\n"),
+            (reviewed, "Approved translation\n"),
+        ):
+            fresh = Translation.objects.get(pk=changed.translation_id)
+            stored, _ = fresh.store.find_unit(changed.context, changed.source)
+            self.assertEqual(stored.target, expected)
+        self.assertFalse(
+            PendingUnitChange.objects.find_committable_components(hours=0)
+            .filter(pk=component.pk)
+            .exists()
+        )
+
+    def test_commit_pending_preloads_workflows(self) -> None:
+        component = self.create_component()
+        project = component.project
+        project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.translation_review = True
+        project.source_review = True
+        project.save()
+        other_project = self.create_project(
+            name="Other",
+            slug="other",
+            commit_policy=CommitPolicyChoices.APPROVED_ONLY,
+            translation_review=True,
+            source_review=False,
+        )
+        linked = Component.objects.create(
+            project=other_project,
+            name="Linked",
+            slug="linked",
+            repo=component.get_repo_link_url(),
+            file_format="po",
+            filemask="po-duplicates/*.dpo",
+        )
+        czech = Language.objects.get(code="cs")
+        german = Language.objects.get(code="de")
+        WorkflowSetting.objects.create(language=czech, translation_review=False)
+        WorkflowSetting.objects.create(language=german, translation_review=False)
+        local = WorkflowSetting.objects.create(
+            project=project, language=czech, translation_review=True
+        )
+        user = create_test_user()
+        translations = list(
+            Translation.objects.filter(component__in=[component, linked])
+        )
+        self.assertGreaterEqual(len(translations), 4)
+        for translation in translations:
+            PendingUnitChange.objects.create(
+                unit=translation.unit_set.order_by("pk")[0],
+                author=user,
+                state=STATE_APPROVED,
+            )
+
+        # Start with a fresh component and project-language cache, as background
+        # commits do. Check the actual instances passed into the commit loop.
+        component = Component.objects.get(pk=component.pk)
+        seen = set()
+
+        def check_workflow(translation, reason, author) -> bool:
+            with self.assertNumQueries(0):
+                setting = translation.workflow_settings
+                review = translation.enable_review
+            if translation.is_source or translation.language_id == czech.pk:
+                expected = translation.component.project_id == project.pk
+            else:
+                expected = translation.language_id != german.pk
+            self.assertEqual(review, expected, translation.full_slug)
+            if translation.component.project_id == project.pk:
+                if translation.language_id == czech.pk:
+                    self.assertEqual(setting, local)
+                elif translation.is_source:
+                    self.assertIsNone(setting)
+                    self.assertIs(translation, component.source_translation)
+            seen.add(translation.pk)
+            return False
+
+        with (
+            patch.object(
+                Translation,
+                "_commit_pending",
+                autospec=True,
+                side_effect=check_workflow,
+            ),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            component.commit_pending("test", user)
+        self.assertEqual(seen, {translation.pk for translation in translations})
+        workflow_queries = [
+            query
+            for query in queries
+            if query["sql"].startswith('SELECT "trans_workflowsetting".')
+        ]
+        self.assertEqual(len(workflow_queries), 2)
 
     def test_prefetch_tasks_preserves_page(self) -> None:
         component = self.create_po()
@@ -2905,6 +3063,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
 
     def test_file_sync_ignores_uncommittable_missing_translation_file(self) -> None:
         self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.translation_review = True
         self.project.save()
         self.prepare_missing_translation_file(
             self.de_translation,

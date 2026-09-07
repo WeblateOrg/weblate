@@ -2873,6 +2873,8 @@ class Unit(models.Model, LoggerMixin):
         return not self.readonly and (
             (commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING and self.fuzzy)
             or (
-                commit_policy == CommitPolicyChoices.APPROVED_ONLY and not self.approved
+                commit_policy == CommitPolicyChoices.APPROVED_ONLY
+                and self.translation.enable_review
+                and not self.approved
             )
         )

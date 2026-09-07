@@ -60,6 +60,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
     Vote,
+    WorkflowSetting,
 )
 from weblate.trans.models.change import ChangeQuerySet
 from weblate.trans.models.component import ComponentLink
@@ -1148,6 +1149,34 @@ class TranslationTest(RepoTestCase):
         # only adds pending change for target unit's translation file
         self.assertEqual(PendingUnitChange.objects.count(), 1)
 
+    def test_commit_without_language_reviews(self) -> None:
+        component = self.create_component()
+        project = component.project
+        user = create_test_user()
+        project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.translation_review = True
+        project.save()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(user, "Reviewed language", STATE_TRANSLATED)
+        translation.commit_pending("test", None)
+        self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+
+        WorkflowSetting.objects.create(
+            project=project,
+            language=translation.language,
+            translation_review=False,
+        )
+        translation = Translation.objects.get(pk=translation.pk)
+        unit = translation.unit_set.get(pk=unit.pk)
+        unit.translate(user, "Language without reviews\n", STATE_FUZZY)
+        translation.commit_pending("test", None)
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+        translation = Translation.objects.get(pk=translation.pk)
+        stored, _ = translation.store.find_unit(unit.context, unit.source)
+        self.assertEqual(stored.target, "Language without reviews\n")
+        self.assertTrue(stored.is_fuzzy())
+
     def test_commit_policy(self) -> None:
         component = self.create_xliff()
         translation = component.translation_set.get(language_code="cs")
@@ -1155,6 +1184,7 @@ class TranslationTest(RepoTestCase):
 
         project = component.project
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.translation_review = True
         project.save()
 
         self.assertIn("approved", project.get_commit_policy_description())
@@ -1264,6 +1294,7 @@ class TranslationTest(RepoTestCase):
         component = self.create_ftl()
         project = component.project
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.translation_review = True
         project.save()
 
         translation = component.translation_set.get(language_code="cs")
@@ -2459,6 +2490,7 @@ class PendingUnitChangeTest(RepoTestCase):
         self.project.save()
 
         self.other_project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.other_project.translation_review = True
         self.other_project.save()
 
         translation = self.component.translation_set.get(language_code="cs")
