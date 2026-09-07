@@ -2251,9 +2251,14 @@ Example SSL configuration:
 
     Configures if and how Weblate should update repositories.
 
+    The default, ``"false"``, fetches remote changes daily without merging them
+    into the working copy; it does not disable daily updates. Set to ``"true"``
+    to also merge remote changes into the working copy.
+
     .. seealso::
 
-        :setting:`AUTO_UPDATE`
+        :setting:`AUTO_UPDATE` for details on how updates are scheduled throughout
+        the day.
 
     .. note:: This is a Boolean setting (use ``"true"`` or ``"false"``).
 

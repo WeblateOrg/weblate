@@ -146,7 +146,7 @@ dependencies = [
   "django-crispy-forms==2.7",
   "django-filter[drf]==26.1",
   "django-otp-webauthn==0.10.3",
-  "django-otp==1.7.2",
+  "django-otp==1.7.3",
   "django-redis==7.0.0",
   "Django[argon2]==6.0.8",
   "djangorestframework-csv==3.0.2",
@@ -158,7 +158,7 @@ dependencies = [
   "filelock==3.32.5",
   # Pin for translate-toolkit extra
   "fluent.syntax==0.19.0",
-  "GitPython==3.1.61",
+  "GitPython==3.1.62",
   "hiredis==3.4.1",
   "html2text==2025.4.15",
   "httpx2[brotli,socks,zstd]==2.12.0",
@@ -312,6 +312,7 @@ ignore = [
   "*.yml",
   ".clusterfuzzlite/*",
   ".dclintrc",
+  ".devcontainer/*",
   ".editorconfig",
   ".gitmodules",
   ".imgbotconfig",
@@ -677,6 +678,12 @@ notice-rgx = "(?i)Copyright\\s+©\\s+"
 max-complexity = 16  # TODO: should be lower
 
 [tool.ruff.lint.per-file-ignores]
+".devcontainer/*.py" = [
+  "implicit-namespace-package",
+  "print",
+  "start-process-with-partial-path",
+  "suspicious-subprocess-import"
+]
 "ci/migrate-scripts/*.py" = ["INP001", "S101"]
 "docs/_ext/*.py" = ["INP001"]
 "docs/_ext/test_*.py" = ["S101"]

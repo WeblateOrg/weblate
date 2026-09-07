@@ -257,6 +257,17 @@ AUTO_UPDATE
 
 Updates all repositories on a daily basis.
 
+Every hour, Weblate queues updates for repositories whose component ID modulo 24
+matches the current UTC hour. This distributes updates throughout the day. For
+example, component ID ``25`` is selected during the hour from 01:00 to 01:59 UTC.
+Linked components use the schedule of the component that owns their shared
+repository.
+
+The assigned hour determines when updates are queued, not when they finish.
+Execution can be delayed by queued tasks or repository operations. Restarting
+Celery does not change the assigned hour. This setting does not provide a
+configurable update time window.
+
 .. hint::
 
     Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.
@@ -270,13 +281,15 @@ The options are:
 ``"none"``
     No daily updates.
 ``"remote"`` also ``False``
-    Only update remotes.
+    Fetch remote changes without merging them into the working copy. This is the
+    default; ``False`` does not disable daily updates.
 ``"full"`` also ``True``
-    Update remotes and merge working copy.
+    Fetch remote changes and merge them into the working copy.
 
 .. note::
 
-    This requires that :ref:`celery` is working, and will take effect after it is restarted.
+    Automatic updates require that :ref:`celery` is working. Restart Celery after
+    changing this setting for the new value to take effect.
 
 .. setting:: AVATAR_URL_PREFIX
 
