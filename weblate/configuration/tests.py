@@ -43,7 +43,7 @@ class SettingsTestCase(TestCase):
         )
 
     def test_font_quoting(self) -> None:
-        """Font families are not HTML escaped"""
+        """Font families are not HTML escaped."""
         fonts = 'Inter, "Open Sans", sans-serif'
         Setting.objects.bulk_create(
             Setting(category=SettingCategory.UI, name=name, value=fonts)
