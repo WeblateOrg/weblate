@@ -41,8 +41,7 @@
           </div>
           {% if privacy_url %}
             <p>
-              {% translate "Please also read the Privacy Policy:" %}
-              <a href="{{ privacy_url }}">{% translate "Privacy Policy" %}</a>
+              {% blocktranslate %}Please also read the <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktranslate %}
             </p>
           {% endif %}
         {% endif %}
