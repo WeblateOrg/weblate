@@ -783,7 +783,10 @@ class TranslationForm(UnitForm):
         else:
             self.fields["explanation"].widget = forms.HiddenInput()
 
-        if component.project.commit_policy:
+        if component.project.commit_policy and (
+            component.project.commit_policy != CommitPolicyChoices.APPROVED_ONLY
+            or translation.enable_review
+        ):
             commit_policy = f" {component.project.get_commit_policy_description()}"
             self.fields["review"].help_text += commit_policy
             self.fields["fuzzy"].help_text += commit_policy

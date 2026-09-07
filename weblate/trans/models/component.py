@@ -3885,6 +3885,30 @@ class Component(  # ruff: ignore[too-many-public-methods]
             translation = translation.component.source_translation
         return translation
 
+    @staticmethod
+    def preload_commit_workflows(translations: list[Translation]) -> None:
+        from weblate.trans.models.project import (  # ruff: ignore[import-outside-top-level]
+            CommitPolicyChoices,
+        )
+
+        by_project: dict[int, list[Translation]] = defaultdict(list)
+        for translation in translations:
+            by_project[translation.component.project_id].append(translation)
+
+        for project_translations in by_project.values():
+            project = project_translations[0].component.project
+            if project.commit_policy != CommitPolicyChoices.APPROVED_ONLY:
+                continue
+            languages = {
+                translation.language_id: project.project_languages[translation.language]
+                for translation in project_translations
+            }
+            project.project_languages.preload_workflow_settings(languages.values())
+            for translation in project_translations:
+                translation.__dict__["workflow_settings"] = languages[
+                    translation.language_id
+                ].workflow_settings
+
     @perform_on_link
     def commit_pending(
         self, reason: str, user: User | None, skip_push: bool = False
@@ -3906,7 +3930,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         translations = sorted(
             Translation.objects.filter(pk__in=pending_translation_ids)
             .distinct()
-            .prefetch_related("component"),
+            .prefetch_related("component__project", "language"),
             key=lambda translation: not translation.is_source,
         )
         components = {}
@@ -3918,13 +3942,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if not translations:
             return True
 
+        translations = [
+            self.reuse_component_for_translation(translation, reuse_source=True)
+            for translation in translations
+        ]
+        # Populate the actual instances used below, including reused source translations.
+        # Per-translation policy checks can then use enable_review without querying
+        # workflow settings once for every language.
+        self.preload_commit_workflows(translations)
+
         # Commit pending changes
         with self.track_local_head_change():
             for translation in translations:
                 self.repository.lock.reacquire()
-                translation = self.reuse_component_for_translation(
-                    translation, reuse_source=True
-                )
                 component = translation.component
                 if component.pk in skipped:
                     # We already failed at this component

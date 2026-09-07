@@ -4,21 +4,139 @@
 
 """Test for categories."""
 
+from __future__ import annotations
+
+from datetime import timedelta
+from itertools import product
+
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
+from django.utils import timezone
+
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role
 from weblate.lang.models import Language
+from weblate.trans.forms import TranslationForm
 from weblate.trans.models import (
     Category,
     ComponentLink,
+    PendingUnitChange,
     Project,
     Translation,
     WorkflowSetting,
 )
+from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tests.test_views import FixtureComponentTestCase
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 
 class WorkflowSettingsTestCase(FixtureComponentTestCase):
+    def test_commit_policy_form_help(self) -> None:
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.translation_review = True
+        self.project.source_review = True
+        self.project.save()
+        for is_source, review in product((False, True), (False, True)):
+            with self.subTest(is_source=is_source, review=review):
+                translation = (
+                    self.component.source_translation if is_source else self.translation
+                )
+                WorkflowSetting.objects.update_or_create(
+                    project=self.project,
+                    language=translation.language,
+                    defaults={"translation_review": review},
+                )
+                translation = Translation.objects.get(pk=translation.pk)
+                unit = translation.unit_set.order_by("pk")[0]
+                form = TranslationForm(self.user, unit)
+                for name in ("fuzzy", "review"):
+                    self.assertEqual(
+                        "only approved translations" in form.fields[name].help_text,
+                        review,
+                    )
+        self.assertIn(
+            "For languages with reviews enabled",
+            self.project.get_commit_policy_description(),
+        )
+
+    def test_commit_policy_effective_reviews(self) -> None:
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.save()
+        for is_source, project_review, global_review, local_review in product(
+            (False, True), (False, True), (None, False, True), (None, False, True)
+        ):
+            with self.subTest(
+                is_source=is_source,
+                project_review=project_review,
+                global_review=global_review,
+                local_review=local_review,
+            ):
+                self.project.source_review = project_review if is_source else False
+                self.project.translation_review = (
+                    project_review if not is_source else False
+                )
+                self.project.save()
+                translation = (
+                    self.component.source_translation if is_source else self.translation
+                )
+                WorkflowSetting.objects.all().delete()
+                for project_id, review in (
+                    (None, global_review),
+                    (self.project.pk, local_review),
+                ):
+                    if review is not None:
+                        WorkflowSetting.objects.create(
+                            project_id=project_id,
+                            language=translation.language,
+                            translation_review=review,
+                        )
+                translation = Translation.objects.get(pk=translation.pk)
+                override = local_review if local_review is not None else global_review
+                enabled = project_review and override is not False
+                self.assertEqual(translation.enable_review, enabled)
+                self.assertEqual(
+                    Translation.objects.with_review()
+                    .filter(pk=translation.pk)
+                    .exists(),
+                    enabled,
+                )
+                unit = translation.unit_set.order_by("pk")[0]
+                for state in (STATE_TRANSLATED, STATE_FUZZY, STATE_APPROVED):
+                    unit.state = state
+                    blocked = enabled and state != STATE_APPROVED
+                    self.assertEqual(unit.is_blocked_by_commit_policy, blocked)
+                    change = PendingUnitChange.objects.create(
+                        unit=unit,
+                        author=self.user,
+                        state=state,
+                        timestamp=timezone.now() - timedelta(hours=2),
+                    )
+                    with CaptureQueriesContext(connection) as queries:
+                        self.assertEqual(
+                            PendingUnitChange.objects.for_translation(
+                                translation
+                            ).exists(),
+                            not blocked,
+                        )
+                        PendingUnitChange.objects.detailed_count(translation)
+                    # The effective review setting is already cached on translation.
+                    for query in queries:
+                        self.assertNotIn("trans_workflowsetting", query["sql"])
+                    for obj in (translation, self.component, self.project):
+                        counts = PendingUnitChange.objects.detailed_count(obj)
+                        self.assertEqual(
+                            counts["eligible_for_commit"], int(not blocked)
+                        )
+                        self.assertEqual(counts["commit_policy_skipped"], int(blocked))
+                    self.assertEqual(
+                        PendingUnitChange.objects.find_committable_components(hours=1)
+                        .filter(pk=self.component.pk)
+                        .exists(),
+                        not blocked,
+                    )
+                    change.delete()
+
     def assert_workflow(self, **kwargs) -> None:
         self.assertFalse(self.translation.enable_review)
         self.assertTrue(self.translation.enable_suggestions)
