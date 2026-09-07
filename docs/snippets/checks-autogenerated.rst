@@ -1353,6 +1353,11 @@ Markdown links
 
 Markdown links do not match source.
 
+Link titles are user-visible and should be preserved and translated.
+The unchanged-title check respects the language and content exceptions of
+:ref:`check-same`. Links are paired by destination, with localized destinations
+paired in their order of appearance.
+
 .. seealso::
 
    `Markdown links <https://spec.commonmark.org/0.31.2/#links>`_

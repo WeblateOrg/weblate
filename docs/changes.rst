@@ -9,6 +9,7 @@ Weblate 2026.9.1
 
 .. rubric:: Improvements
 
+* The Markdown link quality check now detects untranslated link titles.
 * :ref:`Docker development tests <dev-docker>` now automatically prepare an isolated test environment without requiring application startup or the Dev Container CLI.
 * Added a :ref:`development container <devcontainer>` for tests and lint, with an optional :ref:`application QA profile <dev-docker>`, isolated storage per Git worktree, dynamically allocated localhost application and mailbox ports, and Chromium diagnostics and mandatory browser test commands.
 * Added posting and displaying scoped :doc:`announcements </admin/announcements>` on category-language pages.
