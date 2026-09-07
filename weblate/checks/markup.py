@@ -51,10 +51,9 @@ from weblate.utils.html import (
     MD_BROKEN_LINK,
     MD_LINK,
     MD_REFLINK,
-    MD_SYNTAX,
-    MD_SYNTAX_GROUPS,
     HTMLSanitizer,
     extract_html_attributes,
+    iter_markdown_syntax,
 )
 from weblate.utils.xml import parse_xml
 
@@ -569,30 +568,19 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
     name = gettext_lazy("Markdown syntax")
     description = gettext_lazy("Markdown syntax does not match source.")
 
-    @staticmethod
-    def extract_match(match):
-        for i in range(6):
-            if match[i]:
-                return match[i]
-        return None
-
     def check_single(self, source: str, target: str, unit: Unit):
-        src_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(source)}
-        tgt_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(target)}
+        src_tags = {match.value for match in iter_markdown_syntax(source)}
+        tgt_tags = {match.value for match in iter_markdown_syntax(target)}
 
         return src_tags != tgt_tags
 
     def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
             return
-        for match in MD_SYNTAX.finditer(source):
-            value = ""
-            for i in range(MD_SYNTAX_GROUPS):
-                value = match.group(i + 1)
-                if value:
-                    break
-            start = match.start()
-            end = match.end()
+        for match in iter_markdown_syntax(source):
+            value = match.value
+            start = match.start
+            end = match.end
             group = f"markdown:{start}:{end}"
             translatable = value != "<"
             forbidden_text = (value[0],) if translatable and len(value) > 1 else ()

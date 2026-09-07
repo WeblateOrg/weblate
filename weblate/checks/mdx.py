@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheck
+from weblate.utils.html import iter_markdown_autolinks, iter_markdown_code_spans
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -138,31 +139,26 @@ def _scan_expression(text: str, start: int) -> int | None:  # ruff: ignore[compl
     return None
 
 
-def _skip_code_span(text: str, start: int) -> int | None:
-    """
-    Find the end of the Markdown inline code span opening at ``start``.
+def _get_markdown_code_span_ends(text: str) -> dict[int, int]:
+    """Return Markdown code span ends keyed by opening position."""
+    return {span.start: span.end for span in iter_markdown_code_spans(text)}
 
-    Returns the index of closing backtick or None if there is no matching closing run.
-    """
+
+def _get_markdown_autolink_ends(text: str) -> dict[int, int]:
+    """Return Markdown autolink ends keyed by opening position."""
+    return {span.start: span.end for span in iter_markdown_autolinks(text)}
+
+
+def _skip_markdown_code(text: str, start: int, code_span_ends: dict[int, int]) -> int:
+    """Skip a Markdown code span or one unmatched maximal backtick run."""
+    if end := code_span_ends.get(start):
+        return end
+
     length = len(text)
-    run_end = start
-    while run_end < length and text[run_end] == "`":
-        run_end += 1
-    run = run_end - start
-
-    i = run_end
-    while i < length:
-        if text[i] == "`":
-            close_end = i
-            while close_end < length and text[close_end] == "`":
-                close_end += 1
-            if close_end - i == run:
-                return close_end - 1
-            i = close_end
-        else:
-            i += 1
-
-    return None
+    end = start + 1
+    while end < length and text[end] == "`":
+        end += 1
+    return end
 
 
 def _scan_jsx_tag(
@@ -211,6 +207,8 @@ def _scan_jsx_tag(
 
 def _iter_jsx_tags(text: str) -> Iterator[tuple[bool, str, bool]]:
     """Yield closed JSX tags while ignoring expressions and code spans."""
+    code_span_ends = _get_markdown_code_span_ends(text)
+    autolink_ends = _get_markdown_autolink_ends(text)
     i = 0
     length = len(text)
     while i < length:
@@ -219,16 +217,18 @@ def _iter_jsx_tags(text: str) -> Iterator[tuple[bool, str, bool]]:
             i += 2
             continue
         if char == "`":
-            close = _skip_code_span(text, i)
-            if close is not None:
-                i = close + 1
-                continue
+            i = _skip_markdown_code(text, i, code_span_ends)
+            continue
         if char == "{":
             close = _scan_expression(text, i)
-            if close is not None:
-                i = close + 1
-                continue
+            if close is None:
+                break
+            i = close + 1
+            continue
         if char == "<":
+            if end := autolink_ends.get(i):
+                i = end
+                continue
             tag = _scan_jsx_tag(text, i)
             if tag is not None:
                 closing, tag_name, self_closing, end = tag
@@ -242,6 +242,9 @@ def _iter_jsx_tags(text: str) -> Iterator[tuple[bool, str, bool]]:
 
 def _find_unclosed_jsx_tag(text: str, start: int) -> tuple[int, str] | None:
     """Find an opening JSX tag containing ``start``."""
+    prefix = text[:start]
+    code_span_ends = _get_markdown_code_span_ends(prefix)
+    autolink_ends = _get_markdown_autolink_ends(prefix)
     i = 0
     while i < start:
         char = text[i]
@@ -249,16 +252,18 @@ def _find_unclosed_jsx_tag(text: str, start: int) -> tuple[int, str] | None:
             i += 2
             continue
         if char == "`":
-            close = _skip_code_span(text, i)
-            if close is not None and close < start:
-                i = close + 1
-                continue
+            i = _skip_markdown_code(text, i, code_span_ends)
+            continue
         if char == "{":
             close = _scan_expression(text, i)
-            if close is not None and close < start:
-                i = close + 1
-                continue
+            if close is None or close >= start:
+                return None
+            i = close + 1
+            continue
         if char == "<":
+            if end := autolink_ends.get(i):
+                i = end
+                continue
             tag = _scan_jsx_tag(text, i, start)
             if tag is not None:
                 closing, tag_name, _self_closing, end = tag
@@ -321,6 +326,8 @@ class SafeMDXCheck(TargetCheck):
         self, text: str
     ) -> Iterator[tuple[str, str, tuple[str, ...], str]]:
         """Extract JSX expressions together with their syntactic context."""
+        code_span_ends = _get_markdown_code_span_ends(text)
+        autolink_ends = _get_markdown_autolink_ends(text)
         stack: list[str] = []
         open_tag: tuple[int, bool, str, bool, int | None] | None = None
         pending_attr: str | None = None
@@ -344,20 +351,21 @@ class SafeMDXCheck(TargetCheck):
                     pending_attr = _find_attribute_name(text, i)
                 elif char == "{":
                     close = _scan_expression(text, i)
-                    if close is not None:
-                        tag_stack = (*tuple(stack), tag)
-                        if pending_attr is None:
-                            yield ("tag", "", tag_stack, text[i : close + 1])
-                        else:
-                            yield (
-                                "attribute",
-                                pending_attr,
-                                tag_stack,
-                                text[i : close + 1],
-                            )
-                            pending_attr = None
-                        i = close + 1
-                        continue
+                    if close is None:
+                        break
+                    tag_stack = (*tuple(stack), tag)
+                    if pending_attr is None:
+                        yield ("tag", "", tag_stack, text[i : close + 1])
+                    else:
+                        yield (
+                            "attribute",
+                            pending_attr,
+                            tag_stack,
+                            text[i : close + 1],
+                        )
+                        pending_attr = None
+                    i = close + 1
+                    continue
                 elif i == end and char == ">":
                     if closing:
                         for index in range(len(stack) - 1, -1, -1):
@@ -375,11 +383,12 @@ class SafeMDXCheck(TargetCheck):
                 i += 2
                 continue
             if char == "`":
-                close = _skip_code_span(text, i)
-                if close is not None:
-                    i = close + 1
-                    continue
+                i = _skip_markdown_code(text, i, code_span_ends)
+                continue
             if char == "<":
+                if autolink_end := autolink_ends.get(i):
+                    i = autolink_end
+                    continue
                 scanned = _scan_jsx_tag(text, i)
                 if scanned is not None:
                     closing, tag, self_closing, end = scanned
@@ -388,10 +397,11 @@ class SafeMDXCheck(TargetCheck):
                     continue
             if char == "{":
                 close = _scan_expression(text, i)
-                if close is not None:
-                    yield ("text", "", tuple(stack), text[i : close + 1])
-                    i = close + 1
-                    continue
+                if close is None:
+                    break
+                yield ("text", "", tuple(stack), text[i : close + 1])
+                i = close + 1
+                continue
             i += 1
 
     def get_jsx_expression_context(
@@ -428,6 +438,8 @@ class SafeMDXCheck(TargetCheck):
             yield expression
 
     def _iter_jsx_expressions(self, text: str) -> Iterator[tuple[int, str]]:
+        code_span_ends = _get_markdown_code_span_ends(text)
+        autolink_ends = _get_markdown_autolink_ends(text)
         i = 0
         length = len(text)
         while i < length:
@@ -438,15 +450,17 @@ class SafeMDXCheck(TargetCheck):
                 continue
             if char == "`":
                 # Markdown inline code span
-                close = _skip_code_span(text, i)
-                if close is not None:
-                    i = close + 1
-                    continue
+                i = _skip_markdown_code(text, i, code_span_ends)
+                continue
+            if char == "<" and (end := autolink_ends.get(i)):
+                i = end
+                continue
             if char == "{":
                 # JSX expression
                 close = _scan_expression(text, i)
-                if close is not None:
-                    yield i, text[i : close + 1]
-                    i = close + 1
-                    continue
+                if close is None:
+                    break
+                yield i, text[i : close + 1]
+                i = close + 1
+                continue
             i += 1

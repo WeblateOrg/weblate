@@ -10,7 +10,7 @@
 
 {% block content %}
 
-  {% include 'legal/menu.html' %}
+  {% include "legal/menu.html" %}
 
   <div class="card">
     <div class="card-header">
@@ -18,7 +18,7 @@
     </div>
     <div class="card-body">
 
-      {% include 'legal/documents/summary.html' %}
+      {% include "legal/documents/summary.html" %}
 
       {% if terms_url or privacy_url %}
         <p>

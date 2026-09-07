@@ -92,7 +92,7 @@ from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.trans.validators import (
     SUGGESTION_REJECTION_REASON_LENGTH,
-    get_translation_text_max_length,
+    validate_translation_text_length,
 )
 from weblate.trans.workspace_move import (
     get_project_move_billing_error,
@@ -254,7 +254,11 @@ class ReportCreateSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 gettext_lazy("Invalid workspace.")
             ) from error
-        if self.request_user is not None and not workspace.can_view(self.request_user):
+        if (
+            self.request_user is not None
+            and not workspace.can_view(self.request_user)
+            and not self.request_user.has_perm("reports.view", workspace)
+        ):
             raise serializers.ValidationError(gettext_lazy("Invalid workspace."))
         return workspace
 
@@ -1715,6 +1719,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "enable_hooks",
             "language_aliases",
             "access_control",
+            "public_sharing",
             "use_shared_tm",
             "contribute_shared_tm",
             "use_workspace_tm",
@@ -1910,6 +1915,23 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                     raise serializers.ValidationError({"workspace": error})
 
         Project.apply_hosted_tm_contribution(attrs, defaults=self.instance)
+
+        if (
+            self.instance is not None
+            and "public_sharing" in attrs
+            and attrs["public_sharing"] != self.instance.public_sharing
+        ):
+            request = self.context.get("request")
+            if request is None or not request.user.has_perm(
+                "billing:project.permissions", self.instance
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "public_sharing": (
+                            "You do not have permission to change project access settings."
+                        )
+                    }
+                )
 
         access_control_provided = "access_control" in (
             attrs if self.instance is not None else getattr(self, "initial_data", {})
@@ -2831,8 +2853,25 @@ class BooleanResultSerializer(ReadOnlySerializer):
     result = serializers.BooleanField()
 
 
-class RepositoryOperationSerializer(BooleanResultSerializer):
+class RepositoryOperationSerializer(ReadOnlySerializer):
+    result = serializers.BooleanField(required=False)
     detail = serializers.CharField(required=False)
+    included_components = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of project components included in the operation.",
+    )
+    skipped_components = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of project components skipped by the operation.",
+    )
+    permission_blockers = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of components preventing access to skipped repositories.",
+    )
+    task_url = serializers.URLField(required=False)
 
 
 class UploadResultSerializer(BooleanResultSerializer):
@@ -3043,6 +3082,7 @@ class RepoRequestSerializer(ReadOnlySerializer):
     operation = serializers.ChoiceField(
         choices=RepoOperations.choices,
     )
+    background = serializers.BooleanField(required=False, default=False)
 
 
 class CommitInfoSerializer(ReadOnlySerializer):
@@ -3118,6 +3158,21 @@ class RepositorySerializer(ReadOnlySerializer):
     )
     needs_push = serializers.BooleanField(
         help_text="Whether the repository has commits that need to be pushed."
+    )
+    included_components = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of project components included in the status.",
+    )
+    skipped_components = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of project components skipped from the status.",
+    )
+    permission_blockers = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of components preventing access to skipped repositories.",
     )
     url = serializers.CharField(help_text="URL to the repository API endpoint.")
     remote_commit = CommitInfoSerializer(
@@ -3317,11 +3372,7 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
         if unit is None:
             return value
 
-        max_length = get_translation_text_max_length(unit)
-        for text in value:
-            if len(text) > max_length:
-                msg = gettext_lazy("Translation text too long!")
-                raise serializers.ValidationError(msg)
+        validate_translation_text_length(unit, value)
 
         if unit.translation.component.is_multivalue:
             return value
@@ -3646,6 +3697,11 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
         if isinstance(data, dict) and data.get("state") in {0, "0"}:
             self.fields["target"].child.allow_blank = True
         return super().to_internal_value(data)
+
+    def validate_target(self, value: list[str]) -> list[str]:
+        if self.instance is not None:
+            validate_translation_text_length(self.instance, value)
+        return value
 
 
 class NewUnitSerializer(serializers.Serializer):
@@ -4317,6 +4373,7 @@ class TaskSerializer(ReadOnlySerializer):
     progress = serializers.IntegerField(min_value=0, max_value=100)
     result = TaskResultField()
     log = serializers.CharField(allow_blank=True)
+    cancellable = serializers.BooleanField()
 
 
 @extend_schema_serializer(
@@ -4453,3 +4510,63 @@ class Error423Serializer(serializers.Serializer):
 class ErrorResponse423Serializer(serializers.Serializer):
     type = serializers.ChoiceField(choices=ServerErrorEnum.choices)
     errors = Error423Serializer(many=True)
+
+
+class AutoTranslateRequestSerializer(serializers.Serializer):
+    """Request body for the autotranslate action."""
+
+    # Mirrors :class:`weblate.trans.forms.AutoForm`.  Keep the two in sync
+    # when adding or removing fields.
+
+    q = serializers.CharField(
+        required=True,
+        help_text=(
+            "Query string selecting strings to translate. "
+            "Translating all strings discards existing translations."
+        ),
+    )
+    mode = serializers.ChoiceField(
+        choices=["suggest", "translate", "fuzzy", "approved"],
+        help_text=(
+            "How to store the result: as a suggestion, translation, "
+            "needing-edit, or approved. Typical value: ``suggest``."
+        ),
+    )
+    auto_source = serializers.ChoiceField(
+        choices=["others", "mt"],
+        help_text=(
+            "Translation source: other components (``others``) or machine "
+            "translation (``mt``). Typical value: ``others``."
+        ),
+    )
+    component = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        help_text=(
+            "Component ID (always accepted). "
+            "When the project has 30 or more eligible source components "
+            "a component slug or ``project/component`` path is also accepted. "
+            "Leave blank to use all components."
+        ),
+    )
+    engines = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text=(
+            "Machine translation engine identifiers to use when ``auto_source`` is ``mt``."
+        ),
+    )
+    threshold = serializers.IntegerField(
+        min_value=1,
+        max_value=100,
+        help_text=(
+            "Minimum translation score (1–100) to accept when using machine translation. "
+            "Typical value: 80."
+        ),
+    )
+
+
+class AutoTranslateResponseSerializer(serializers.Serializer):
+    """Response body for the autotranslate action."""
+
+    details = serializers.CharField()

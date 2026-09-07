@@ -93,8 +93,8 @@ from weblate.trans.models import (
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import (
-    get_translation_text_max_length,
     validate_check_flags,
+    validate_translation_text_length,
 )
 from weblate.trans.workspace_move import (
     PROJECT_MOVE_WORKSPACE_SELECT_LIMIT,
@@ -819,10 +819,7 @@ class TranslationForm(UnitForm):
 
         fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
 
-        max_length = get_translation_text_max_length(unit)
-        for text in self.cleaned_data["target"]:
-            if len(text) > max_length:
-                raise ValidationError(gettext("Translation text too long!"))
+        validate_translation_text_length(unit, self.cleaned_data["target"])
         if self.user.has_perm(
             "unit.review", unit.translation
         ) and self.cleaned_data.get("review"):
@@ -2264,6 +2261,22 @@ class ProjectDocsMixin(FieldDocsMixin):
         return ("admin/projects", f"project-{field.name.replace('_', '-')}")
 
 
+class HiddenFieldErrorsMixin(forms.Form):
+    """Surface validation errors attached to hidden fields."""
+
+    def full_clean(self) -> None:
+        super().full_clean()
+        # Hidden fields are rendered without their errors, show them on the
+        # form level instead of failing with no visible explanation.
+        errors = self.errors
+        for name in list(errors):
+            if name == NON_FIELD_ERRORS or not self[name].is_hidden:
+                continue
+            label = self[name].label
+            messages = errors.pop(name)
+            self.add_error(None, [f"{label}: {message}" for message in messages])
+
+
 class SpamCheckMixin(forms.Form):
     spam_fields: ClassVar[tuple[str, ...]]
     request: AuthenticatedHttpRequest
@@ -2623,6 +2636,7 @@ class ComponentSettingsForm(
 
 
 class ComponentCreateForm(
+    HiddenFieldErrorsMixin,
     InheritedSettingsFormMixin,
     SettingsBaseForm,
     ComponentDocsMixin,
@@ -2869,7 +2883,9 @@ class ComponentCreateForm(
                 setattr(self.instance, get_inherit_field_name(field), False)
 
 
-class ComponentNameForm(ComponentDocsMixin, ComponentAntispamMixin):
+class ComponentNameForm(
+    HiddenFieldErrorsMixin, ComponentDocsMixin, ComponentAntispamMixin
+):
     name = forms.CharField(
         label=Component.name.field.verbose_name,
         max_length=COMPONENT_NAME_LENGTH,
@@ -3512,6 +3528,7 @@ class ProjectSettingsForm(
             "inherit_secondary_language",
             "secondary_language",
             "access_control",
+            "public_sharing",
             "enforced_2fa",
             "translation_review",
             "source_review",
@@ -3559,12 +3576,24 @@ class ProjectSettingsForm(
         access = data["access_control"]
 
         self.changed_access = access != self.instance.access_control
+        self.changed_public_sharing = (
+            data.get("public_sharing", self.instance.public_sharing)
+            != self.instance.public_sharing
+        )
 
         if self.changed_access and not self.user_can_change_access:
             raise ValidationError(
                 {
                     "access_control": gettext(
                         "You do not have permission to change project access control."
+                    )
+                }
+            )
+        if self.changed_public_sharing and not self.user_can_change_access:
+            raise ValidationError(
+                {
+                    "public_sharing": gettext(
+                        "You do not have permission to change project access settings."
                     )
                 }
             )
@@ -3638,6 +3667,7 @@ class ProjectSettingsForm(
             "billing:project.permissions", self.instance
         )
         self.changed_access = False
+        self.changed_public_sharing = False
         self.helper.form_tag = False
         if not self.user_can_change_access:
             disabled = {"disabled": True}
@@ -3645,6 +3675,7 @@ class ProjectSettingsForm(
             self.fields["access_control"].help_text = gettext(
                 "You do not have permission to change project access control."
             )
+            self.fields["public_sharing"].disabled = True
         else:
             disabled = {}
         self.helper.layout = Layout(
@@ -3675,6 +3706,7 @@ class ProjectSettingsForm(
                         template="%s/layout/radioselect_access.html",
                         **disabled,
                     ),
+                    "public_sharing",
                     "enforced_2fa",
                     css_id="access",
                 ),

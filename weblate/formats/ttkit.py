@@ -84,6 +84,7 @@ from weblate.trans.file_format_params import (
     GettextLastTranslator,
     GettextRemoveObsolete,
     GettextXGenerator,
+    get_effective_params_for_file_format,
     get_encoding_param,
 )
 from weblate.trans.util import (
@@ -3146,16 +3147,22 @@ class FlatXMLFormat(TTKitFormat):
     supports_flags: bool = True
 
     def get_format_class_kwargs(self):
+        params = get_effective_params_for_file_format(
+            self.format_id, self.file_format_params
+        )
         return {
-            "root_name": self.file_format_params.get("flatxml_root_name", None),
-            "value_name": self.file_format_params.get("flatxml_value_name", None),
-            "key_name": self.file_format_params.get("flatxml_key_name", None),
+            "root_name": params.get("flatxml_root_name"),
+            "value_name": params.get("flatxml_value_name"),
+            "key_name": params.get("flatxml_key_name"),
         }
 
     def get_unit_class_kwargs(self):
+        params = get_effective_params_for_file_format(
+            self.format_id, self.file_format_params
+        )
         return {
-            "element_name": self.file_format_params.get("flatxml_value_name", None),
-            "attribute_name": self.file_format_params.get("flatxml_key_name", None),
+            "element_name": params.get("flatxml_value_name"),
+            "attribute_name": params.get("flatxml_key_name"),
         }
 
 

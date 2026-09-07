@@ -15,6 +15,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Q
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.html import format_html, format_html_join
@@ -211,7 +212,6 @@ def collect_report_data(
             scope=scope,
             language=parameters.get("language", ""),
             user=report_user,
-            access_user=creator,
             min_changes=parameters["min_changes"],
             max_changes=parameters["max_changes"],
             max_words=parameters["max_words"],
@@ -282,11 +282,10 @@ def get_cost_bucket_name(bucket: str) -> str:
 
 
 def get_cost_estimate_units(
-    user: User,
     language_code: str,
     entity: Workspace | Project | Component | Category | None,
 ):
-    translations = Translation.objects.exclude_source().filter_access(user)
+    translations = Translation.objects.exclude_source()
     if language_code:
         translations = translations.filter(language__code=language_code)
 
@@ -301,6 +300,21 @@ def get_cost_estimate_units(
     return Unit.objects.filter(translation__in=translations).exclude(
         state=STATE_READONLY
     )
+
+
+def get_cost_estimate_memory_access(
+    entity: Workspace | Project | Component | Category | None,
+) -> Q:
+    """Return the memory component access authorized by the report scope."""
+    if isinstance(entity, Workspace):
+        return Q(source_component__project__workspace=entity)
+    if isinstance(entity, Project):
+        return Q(source_component__project=entity)
+    if isinstance(entity, Category):
+        return Q(source_component_id__in=entity.all_component_ids)
+    if isinstance(entity, Component):
+        return Q(source_component=entity)
+    return Q(source_component__isnull=False)
 
 
 def get_match_quality(unit: Unit) -> int:
@@ -398,10 +412,13 @@ def generate_cost_estimate(
     }
     seen_sources: set[tuple[int, int, int]] = set()
     match_batches: dict[tuple[int, int, int], list[Unit]] = defaultdict(list)
-    service = WeblateMemory({})
+    service = WeblateMemory(
+        {},
+        additional_component_access=get_cost_estimate_memory_access(entity),
+    )
 
     for unit in (
-        get_cost_estimate_units(user, language_code, entity)
+        get_cost_estimate_units(language_code, entity)
         .search(q, parser="unit")
         .prefetch()
         .order()

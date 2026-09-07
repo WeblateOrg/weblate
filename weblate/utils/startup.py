@@ -20,7 +20,7 @@ def preload_url_patterns() -> list[URLPattern | URLResolver]:
     which require the main interpreter thread from being imported by an ASGI
     request adapter.
     """
-    from django.conf import settings  # ruff: ignore[import-outside-top-level, unsorted-imports]
+    from django.conf import settings  # ruff: ignore[import-outside-top-level]
     from django.urls import get_resolver  # ruff: ignore[import-outside-top-level]
 
     return get_resolver(settings.ROOT_URLCONF).url_patterns

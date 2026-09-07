@@ -269,6 +269,27 @@ Configure per project access control, see :ref:`acl` for more details.
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. _project-public_sharing:
+
+Public sharing
+++++++++++++++
+
+Allow anonymous access to the project's engage pages and rendered status
+widgets. This setting applies to :guilabel:`Private` and :guilabel:`Custom`
+projects; :guilabel:`Public` and :guilabel:`Protected` projects are always
+publicly shareable.
+
+Public sharing exposes project and component names, including restricted
+components, together with translation statistics, languages, and progress. It
+does not grant access to project pages, translations, repositories, or the API.
+
+Changing this setting requires the :guilabel:`Manage project access`
+permission. The status widget configuration page continues to use normal
+project access control.
+
+When :setting:`REQUIRE_LOGIN` is enabled, :setting:`PUBLIC_ENGAGE` must also be
+enabled for anonymous access to engage pages.
+
 .. _project-enforced_2fa:
 
 Enforced two-factor authentication
@@ -378,6 +399,7 @@ project.
 
    * :ref:`workspace-inherited-settings`
    * :ref:`component-new_lang`
+   * :ref:`workflow-language-restrictions`
 
 .. _project-language-code-style:
 
@@ -961,6 +983,7 @@ Disable adding new translations
    * :ref:`workspace-inherited-settings`
    * :ref:`adding-translation`
    * :ref:`component-new_base`
+   * :ref:`workflow-language-restrictions`
 
 .. _component-manage_units:
 
@@ -1180,6 +1203,10 @@ Language filter
 Regular expression used to filter the translation when scanning for file mask.
 It can be used to limit the list of languages managed by Weblate.
 
+The filter also applies when creating a new translation file. In this case,
+it checks the language code generated according to
+:ref:`component-language_code_style`.
+
 .. note::
 
     You need to list language codes as they appear in the filename.
@@ -1199,6 +1226,10 @@ Some examples of filtering:
 +-------------------------------+-----------------------+
 | Include all files (default)   | ``^[^.]+$``           |
 +-------------------------------+-----------------------+
+
+.. seealso::
+
+   :ref:`workflow-language-restrictions`
 
 
 .. _component-key_filter:
@@ -1347,6 +1378,9 @@ Glossaries are best for:
 .. note::
 
    Glossaries are not for regular translations—they are for managing terms only.
+
+Weblate automatically adds missing glossary languages for languages used in the
+project. See :ref:`glossary-language-sync` for details.
 
 You can configure how it will be listed using :ref:`component-glossary_color`.
 

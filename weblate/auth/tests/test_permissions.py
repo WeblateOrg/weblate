@@ -114,7 +114,12 @@ class PermissionsTest(FixtureComponentTestCase):
 
         self.assertFalse(self.user.has_perm("management.use"))
 
-        TOTPDevice.objects.create(user=self.user)
+        device = TOTPDevice.objects.create(user=self.user, confirmed=False)
+        user = User.objects.get(pk=self.user.pk)
+        self.assertFalse(user.has_perm("management.use"))
+
+        device.confirmed = True
+        device.save(update_fields=["confirmed"])
         user = User.objects.get(pk=self.user.pk)
 
         self.assertTrue(user.has_perm("management.use"))
@@ -148,6 +153,23 @@ class PermissionsTest(FixtureComponentTestCase):
 
         self.assertTrue(self.user.has_perm("workspace.edit", workspace))
         self.assertTrue(self.user.has_perm("reports.view", workspace))
+
+    def test_workspace_reports_permission_requires_project_2fa(self) -> None:
+        workspace = Workspace.objects.create(name="Workspace with enforced 2FA")
+        self.project.workspace = workspace
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["workspace", "enforced_2fa"])
+        workspace.add_owner(self.user)
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.superuser.has_perm("reports.view", workspace))
+        self.assertTrue(self.user.has_perm("workspace.edit", workspace))
+        self.assertFalse(self.user.has_perm("reports.view", workspace))
+
+        TOTPDevice.objects.create(user=self.user)
+        user = User.objects.get(pk=self.user.pk)
+
+        self.assertTrue(user.has_perm("reports.view", workspace))
 
     def test_reports_role_is_assignable_to_workspace_team(self) -> None:
         role = Role.objects.create(name="Workspace report viewer")

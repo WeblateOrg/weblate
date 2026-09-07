@@ -419,7 +419,7 @@ def announcements(
                 component=component,
                 language=language,
                 category=category,
-            )
+            ).filter_access(user)
         ),
     )
 

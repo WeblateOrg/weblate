@@ -63,7 +63,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.errors import log_handled_exception, report_error
+from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.regex import regex_match
 from weblate.utils.render import render_template
@@ -1105,10 +1105,9 @@ class Translation(
             self, apply_filters=True
         )
         pending_changes_count = pending_changes_qs.count()
-        report_error(
+        report_message(
             "Attempted to commit translation without filename",
             project=self.component.project,
-            message=True,
             extra_log=f"translation={self.full_slug}, pending_changes={pending_changes_count}",
         )
         pending_changes = list(pending_changes_qs.values_list("unit_id", flat=True))
@@ -1343,7 +1342,11 @@ class Translation(
                 ),
             )
             return
-        report_error("Could not update unit", project=self.component.project)
+        report_error(
+            "Could not update unit",
+            project=self.component.project,
+            exception=error,
+        )
 
     def _store_failed_unit_update(
         self, unit: Unit, pending_change: PendingUnitChange, error: Exception

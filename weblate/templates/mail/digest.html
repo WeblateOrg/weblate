@@ -7,8 +7,6 @@
 {% endblock extra_styles %}
 
 {% block content %}
-  {% if overlimit %}
-    <p class="note">{% translate "Note: This digest has been truncated as there were over 100 notifications." %}</p>
-  {% endif %}
+  {% include "mail/snippets/digest-overlimit.html" %}
   {% format_last_changes_content last_changes=changes user=user in_email=True %}
 {% endblock content %}

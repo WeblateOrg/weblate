@@ -38,7 +38,6 @@ from selenium.common.exceptions import (
     NoSuchElementException,
     WebDriverException,
 )
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.expected_conditions import (
@@ -71,6 +70,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.tests.browser import create_browser
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
@@ -232,28 +232,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Screenshots storage
         if not os.path.exists(cls.image_path):
             os.makedirs(cls.image_path)
-        # Build Chrome driver
-        options = Options()
-        # Run headless
-        options.add_argument("--headless=new")
-        # Seems to help in some corner cases, see
-        # https://stackoverflow.com/a/50642913/225718
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
-
-        # Force Chrome in English
-        options.add_argument("--lang=en")
-        # Accept English as primary language, this does not seem to work
-        options.add_experimental_option("prefs", {"intl.accept_languages": "en,en_US"})
-
-        # Force English locales, the --lang and accept_language settings does not
-        # work in some cases
-        backup_lang = os.environ.get("LANG")
-        os.environ["LANG"] = "en_US.UTF-8"
-
         try:
-            cls._driver = webdriver.Chrome(options=options)
+            cls._driver = create_browser()
         except WebDriverException as error:
             cls._driver_error = str(error)
             if "CI_SELENIUM" in os.environ:
@@ -288,12 +268,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     """
                 },
             )
-
-        # Restore locales
-        if backup_lang is None:
-            del os.environ["LANG"]
-        else:
-            os.environ["LANG"] = backup_lang
 
         if cls._driver is not None:
             cls._driver.implicitly_wait(5)
@@ -1052,6 +1026,91 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.assertEqual(text_box.get_attribute("value"), "")
 
+    def test_flag_editor_quoted_comma(self) -> None:
+        """Check that a comma inside a quoted value does not split the flag."""
+        # Load a page so that flag-editor.js and TomSelect are loaded
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+
+        self.driver.execute_script(
+            """
+            const input = document.createElement("input");
+            input.id = "flag-editor-test";
+            input.className = "flag-editor";
+            input.dataset.flagChoicesUrl = arguments[0];
+            document.body.appendChild(input);
+            window.initFlagEditor(input);
+            """,
+            reverse("js-flag-choices"),
+        )
+
+        hidden_input = self.driver.find_element(By.ID, "flag-editor-test")
+        text_box = self.driver.find_element(
+            By.CSS_SELECTOR, ".ts-wrapper.flag-editor-select .ts-control > input"
+        )
+
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                """
+                return "regex" in
+                    document.querySelector(".flag-editor-select").tomselect.options;
+                """
+            )
+        )
+
+        def type_flags(text: str, pending: str) -> None:
+            """Type flags and commit the text left in the box afterwards."""
+            text_box.send_keys(text)
+            WebDriverWait(self.driver, 10).until(
+                lambda driver: driver.execute_script(
+                    """
+                    const ts =
+                        document.querySelector(".flag-editor-select").tomselect;
+                    return ts.lastValue === arguments[0]
+                        && ts.refreshTimeout === null;
+                    """,
+                    pending,
+                )
+            )
+            text_box.send_keys(Keys.ENTER)
+
+        # A quoted value is kept in a single flag
+        regex_flag = 'regex:"^[a-z]{1,32}$"'
+        text_box.click()
+        type_flags(regex_flag, regex_flag)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: hidden_input.get_attribute("value") == regex_flag
+        )
+
+        # A comma outside of quotes still separates the flags
+        type_flags("max-length:100,priority:10", "priority:10")
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                hidden_input.get_attribute("value")
+                == f"{regex_flag}, max-length:100, priority:10"
+            )
+        )
+        self.assertEqual(text_box.get_attribute("value"), "")
+
+        # Pasting a flag list splits it the same way
+        self.driver.execute_script(
+            """
+            const box = arguments[0];
+            box.focus();
+            box.value = arguments[1];
+            box.dispatchEvent(new Event("paste", {bubbles: true}));
+            """,
+            text_box,
+            'placeholders:"a,b", ignore-same',
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                hidden_input.get_attribute("value")
+                == f"{regex_flag}, max-length:100, priority:10, "
+                'placeholders:"a,b", ignore-same'
+            )
+        )
+
     def test_search_preview_scopes_boolean_query(self) -> None:
         project = self.create_component()
         component = Component.objects.get(project=project, slug="language-names")
@@ -1313,6 +1372,51 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 'return document.querySelector(".translator .translation-editor").value;'
             ),
             "current replacement 2",
+        )
+
+    def test_editing_survives_comment(self) -> None:
+        """Posting a comment keeps pending translation and string state."""
+        project = self.create_component()
+        self.do_login(superuser=True)
+        unit = (
+            Unit.objects.filter(
+                translation__component__project=project,
+                translation__language_code="cs",
+            )
+            .exclude(source="")
+            .first()
+        )
+        self.assertIsNotNone(unit)
+        unit = cast("Unit", unit)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+        editor = self.driver.find_element(
+            By.CSS_SELECTOR, ".translator .translation-editor"
+        )
+        editor.click()
+        editor.send_keys("pending translation")
+        # Ticking this has to happen after typing, entering a translation
+        # marks the string as translated.
+        self.click(htmlid=f"id_{unit.checksum}_fuzzy")
+
+        # Comment on the string, that reloads the page
+        self.click(htmlid="toggle-comments")
+        self.click(htmlid="id_comment")
+        comment = self.driver.find_element(By.ID, "id_comment")
+        comment.send_keys("Comment posted while translating")
+        with self.wait_for_page_load():
+            comment.submit()
+
+        self.assertIn(
+            "pending translation",
+            self.driver.find_element(
+                By.CSS_SELECTOR, ".translator .translation-editor"
+            ).get_attribute("value"),
+        )
+        self.assertTrue(
+            self.driver.find_element(By.ID, f"id_{unit.checksum}_fuzzy").is_selected()
         )
 
     @override_settings(
@@ -2544,6 +2648,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("user-add-project.png")
             with self.wait_for_page_load():
                 self.driver.find_element(By.ID, "id_name").submit()
+
+            project = Project.objects.get(name="WeblateOrg")
+            self.assertEqual(project.access_control, Project.ACCESS_PRIVATE)
+            project.public_sharing = True
+            project.save(update_fields=["public_sharing"])
+            with self.wait_for_page_load():
+                self.driver.refresh()
+
+            self.assertTrue(
+                self.driver.find_element(By.LINK_TEXT, "Community").is_displayed()
+            )
             self.screenshot("user-add-project-done.png")
             self.assertIn("WeblateOrg", self.driver.title)
 

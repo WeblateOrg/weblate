@@ -392,6 +392,11 @@ determined automatically based on number of CPUs. This works well for most
 cloud virtual machines as these typically have few CPUs and good amount of
 memory.
 
+By default, one combined Celery worker handles all task queues using a prefork
+pool with three times :envvar:`WEBLATE_WORKERS` processes. Sharing the initial
+application memory between all Celery workers reduces memory usage while the
+higher process count increases task throughput.
+
 In case you have a lot of CPU cores and hit out of memory issues, try reducing
 number of workers:
 
@@ -400,11 +405,20 @@ number of workers:
     environment:
       WEBLATE_WORKERS: 2
 
-You can also fine-tune individual worker categories:
+You can fine-tune the combined worker:
 
 .. code-block:: yaml
 
     environment:
+      CELERY_COMBINED_OPTIONS: --concurrency 12 --prefetch-multiplier 1
+
+Alternatively, use the split mode to run and fine-tune individual worker
+categories:
+
+.. code-block:: yaml
+
+    environment:
+      CELERY_WORKER_MODE: split
       WEB_WORKERS: 4
       WEB_BLOCKING_THREADS: 4
       CELERY_MAIN_OPTIONS: --concurrency 2 --prefetch-multiplier 1
@@ -419,23 +433,25 @@ payload-heavy tasks. The notification worker uses four in this example because
 its short tasks can benefit from buffering. Increase the value only after
 measuring queue latency and worker memory usage.
 
-Memory usage can be further reduced by running only a single Celery process:
+Memory usage can be further reduced by running Celery in a single process:
 
 .. code-block:: yaml
 
     environment:
-      CELERY_SINGLE_PROCESS: 1
+      CELERY_WORKER_MODE: single
 
 .. seealso::
 
    * :envvar:`WEBLATE_WORKERS`
+   * :envvar:`CELERY_WORKER_MODE`
+   * :envvar:`CELERY_COMBINED_OPTIONS`
    * :envvar:`CELERY_MAIN_OPTIONS`
    * :envvar:`CELERY_NOTIFY_OPTIONS`
    * :envvar:`CELERY_MEMORY_OPTIONS`
    * :envvar:`CELERY_TRANSLATE_OPTIONS`
    * :envvar:`CELERY_BACKUP_OPTIONS`
    * :envvar:`CELERY_BEAT_OPTIONS`
-   * :envvar:`CELERY_SINGLE_PROCESS`
+   * :envvar:`CELERY_SINGLE_OPTIONS`
    * :envvar:`WEBLATE_ASGI`
    * :envvar:`WEB_WORKERS`
    * :envvar:`WEB_BLOCKING_THREADS`
@@ -460,6 +476,23 @@ services matters as well.
 You can find example setup in the ``docker-compose`` repo as
 `docker-compose-split.yml
 <https://github.com/WeblateOrg/docker-compose/blob/main/docker-compose-split.yml>`__.
+
+.. _docker-startup-warnings:
+
+Startup configuration warnings
+------------------------------
+
+The Docker container records actionable configuration warnings from startup
+in the shared :file:`/app/data` volume. They are shown by
+:command:`weblate check --deploy` and in the :ref:`manage-performance`
+management interface, in addition to being written to the container log.
+
+Each container reports its warnings separately. This keeps warnings from
+containers with different :envvar:`WEBLATE_SERVICE` roles visible in a
+horizontally scaled deployment. Reports are refreshed while their container is
+running and are removed during an orderly container shutdown. Reports left by
+an abrupt shutdown expire after five minutes, and stale report files are
+cleaned up automatically by later container startups.
 
 .. _docker-environment:
 
@@ -2184,19 +2217,48 @@ Example SSL configuration:
 
     Configures Django back-end to use for sending e-mails.
 
+    Set to ``django_ses.SESBackend`` to use AWS SES.
 
     .. seealso::
 
        * :ref:`production-email`
        * :setting:`django:EMAIL_BACKEND`
 
+.. envvar:: WEBLATE_AWS_SES_REGION_NAME
+
+    AWS region for SES (e.g. ``us-east-1``). Sets
+    ``AWS_SES_REGION_NAME`` and derives
+    :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT` automatically unless
+    that variable is set explicitly. If not set, the region must be
+    available through the standard boto3 credential chain (e.g.
+    ``AWS_DEFAULT_REGION`` or an AWS profile).
+
+.. envvar:: WEBLATE_AWS_SES_REGION_ENDPOINT
+
+    SES endpoint hostname. When set, it is passed to django-ses
+    directly regardless of :envvar:`WEBLATE_AWS_SES_REGION_NAME`.
+    When not set but :envvar:`WEBLATE_AWS_SES_REGION_NAME` is
+    provided, defaults to ``email.<region>.amazonaws.com``. Override
+    when using a VPC or custom endpoint.
+
+.. envvar:: WEBLATE_USE_SES_V2
+
+    Set to ``true`` to use the SES v2 API (``SendEmail``) instead of
+    the legacy ``SendRawEmail`` call. Boolean setting (use ``"true"``
+    or ``"false"``).
+
 .. envvar:: WEBLATE_AUTO_UPDATE
 
     Configures if and how Weblate should update repositories.
 
+    The default, ``"false"``, fetches remote changes daily without merging them
+    into the working copy; it does not disable daily updates. Set to ``"true"``
+    to also merge remote changes into the working copy.
+
     .. seealso::
 
-        :setting:`AUTO_UPDATE`
+        :setting:`AUTO_UPDATE` for details on how updates are scheduled throughout
+        the day.
 
     .. note:: This is a Boolean setting (use ``"true"`` or ``"false"``).
 
@@ -2420,24 +2482,66 @@ Container settings
    available.
 
    It is used to determine :envvar:`CELERY_MAIN_OPTIONS`,
+   :envvar:`CELERY_COMBINED_OPTIONS`,
    :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`,
    :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`,
-   :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, and
-   :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune.
+   :envvar:`WEB_WORKERS`, and :envvar:`WEB_BLOCKING_THREADS`. You can use these
+   settings to fine-tune.
+
+.. envvar:: CELERY_WORKER_MODE
+
+   .. versionadded:: 2026.9.1
+
+   Selects how Celery workers are run in the container. Supported modes are:
+
+   ``combined``
+      Runs one prefork worker for all queues. This is the default and reduces
+      memory usage by sharing the application startup memory. Its concurrency
+      defaults to three times :envvar:`WEBLATE_WORKERS`, and its prefetch
+      multiplier defaults to one.
+   ``split``
+      Runs a separate prefork worker for each queue. This matches the behavior
+      of container versions before 2026.9.1 and allows each queue to be tuned
+      independently.
+   ``single``
+      Runs all queues in one process using the solo pool. This minimizes memory
+      usage, but noticeably reduces task throughput.
+
+   Explicit :envvar:`WEBLATE_SERVICE` selection takes precedence over this
+   setting in horizontally scaled deployments.
+
+.. envvar:: CELERY_COMBINED_OPTIONS
+
+   .. versionadded:: 2026.9.1
+
+   Configures the worker used by ``CELERY_WORKER_MODE=combined``. By default,
+   its concurrency is three times :envvar:`WEBLATE_WORKERS`. The worker uses a
+   prefetch multiplier of one unless overridden here.
+
+   .. code-block:: yaml
+
+       environment:
+         CELERY_COMBINED_OPTIONS: --concurrency 12 --prefetch-multiplier 1
+
+   .. seealso::
+
+      * :doc:`Celery worker options <celery:reference/celery.bin.worker>`
+      * :ref:`celery`
 
 .. envvar:: CELERY_MAIN_OPTIONS
 .. envvar:: CELERY_NOTIFY_OPTIONS
 .. envvar:: CELERY_MEMORY_OPTIONS
 .. envvar:: CELERY_TRANSLATE_OPTIONS
 .. envvar:: CELERY_BACKUP_OPTIONS
-.. envvar:: CELERY_BEAT_OPTIONS
 
-    These variables allow you to adjust Celery worker options. It can be useful
-    to adjust concurrency (``--concurrency 16``), prefetching
+    These variables allow you to adjust Celery worker options in
+    ``CELERY_WORKER_MODE=split``. It can be useful to adjust concurrency
+    (``--concurrency 16``), prefetching
     (``--prefetch-multiplier 4``), or use different pool implementation
     (``--pool=gevent``). Command-line options take precedence over corresponding
     Celery settings, allowing each worker category to use a different prefetch
-    multiplier.
+    multiplier. When any of these variables is set in ``combined`` or
+    ``single`` mode, the container logs a startup warning that it is ignored.
 
     By default, the number of concurrent workers is based on :envvar:`WEBLATE_WORKERS`.
 
@@ -2453,20 +2557,32 @@ Container settings
        * :doc:`Celery worker options <celery:reference/celery.bin.worker>`
        * :ref:`celery`
 
+.. envvar:: CELERY_BEAT_OPTIONS
+
+   Configures the Celery beat scheduler in all worker modes.
+
+.. envvar:: CELERY_SINGLE_OPTIONS
+
+   Configures the worker used by ``CELERY_WORKER_MODE=single``.
+
+   .. seealso::
+
+      * :doc:`Celery worker options <celery:reference/celery.bin.worker>`
+      * :ref:`minimal-celery`
+
 .. envvar:: CELERY_SINGLE_PROCESS
 
    .. versionadded:: 5.7.1
+   .. deprecated:: 2026.9.1
 
-    This variable can be set to ``1`` to run only one celery process. This reduces memory usage but may impact Weblate performance.
+   Compatibility alias for ``CELERY_WORKER_MODE=single``. When set to ``1``
+   without :envvar:`CELERY_WORKER_MODE`, the container starts in ``single``
+   mode and logs a warning asking you to update the setting. If both variables
+   are set, :envvar:`CELERY_WORKER_MODE` takes precedence.
 
-    .. code-block:: yaml
+   .. seealso::
 
-        environment:
-          CELERY_SINGLE_PROCESS: 1
-
-    .. seealso::
-
-        :ref:`minimal-celery`
+      :ref:`minimal-celery`
 
 .. envvar:: WEBLATE_ASGI
 
@@ -2534,12 +2650,16 @@ Container settings
       and it should be started prior others.
    ``celery-backup``
       Celery worker for backups, only one instance should be running.
+   ``celery-combined``
+      Combined Celery worker for all task queues.
    ``celery-celery``
       Generic Celery worker.
    ``celery-memory``
       Translation memory Celery worker.
    ``celery-notify``
       Notifications Celery worker.
+   ``celery-single``
+      Single-process Celery worker for all task queues.
    ``celery-translate``
       Automatic translation Celery worker.
    ``web``
@@ -2997,8 +3117,17 @@ To check the services status use:
 
     docker compose exec --user weblate weblate supervisorctl status
 
-There are individual services for each Celery queue (see :ref:`celery` for
-details). You can stop processing some tasks by stopping the appropriate worker:
+The Celery services depend on :envvar:`CELERY_WORKER_MODE`. The default
+``combined`` mode runs ``celery-combined``, while ``single`` mode runs
+``celery-single``. You can stop all task processing in the default mode using:
+
+.. code-block:: sh
+
+    docker compose exec --user weblate weblate supervisorctl stop celery-combined
+
+The ``split`` mode runs an individual service for each Celery queue (see
+:ref:`celery` for details). In this mode, you can stop processing some tasks by
+stopping the appropriate worker:
 
 .. code-block:: sh
 

@@ -17,15 +17,16 @@
 # Giacomo La Serra <laserragiacomo1@gmail.com>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # Frostre_ <n9043395@gmail.com>, 2026.
+# Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
-"POT-Creation-Date: 2026-08-21 12:13+0000\n"
-"PO-Revision-Date: 2026-08-21 16:09+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"POT-Creation-Date: 2026-09-04 04:17+0200\n"
+"PO-Revision-Date: 2026-08-28 15:31+0000\n"
+"Last-Translator: Automatic translation add-on <noreply-addon-"
+"autotranslate@weblate.org>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "documentation/it/>\n"
 "Language: it\n"
@@ -627,10 +628,16 @@ msgstr ""
 "specifica (diciamo `Ceco`) solo a un gruppo chiuso di traduttori affidabili "
 "(mantenendo pubbliche le traduzioni in altre lingue):"
 
+#, fuzzy
+#| msgid ""
+#| "Remove the permission to translate `Czech` from all users. In the default "
+#| "configuration this can be done by altering the `Users` :ref:`default team "
+#| "<default-teams>`."
 msgid ""
 "Remove the permission to translate `Czech` from all users. In the default "
 "configuration this can be done by altering the `Users` :ref:`default team "
-"<default-teams>`."
+"<default-teams>`. Built-in teams reject this change in the team management "
+"UI, use the :ref:`Django admin interface <admin-interface>` instead."
 msgstr ""
 "Rimuovere il permesso di tradurre `Czech` a tutti gli utenti. Nella "
 "configurazione predefinita, questo può essere fatto modificando il parametro "
@@ -639,11 +646,11 @@ msgstr ""
 msgid "Group `Users`"
 msgstr ""
 
-msgid "Language selection"
-msgstr "Selezione lingua"
+msgid "All languages"
+msgstr "Tutte le lingue"
 
-msgid "`As defined`"
-msgstr ""
+msgid "Turned off"
+msgstr "Disabilitato"
 
 msgid "Languages"
 msgstr "Lingue"
@@ -816,6 +823,14 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Project-wide repository status and operations filter repositories using this "
+"rule. Repositories for which the member lacks permission on any linked "
+"component are listed separately and are not inspected or changed. An "
+"operation is denied when none of the project's repositories are available to "
+"it."
+msgstr ""
+
+msgid ""
 "The :guilabel:`Edit component settings` permission allows administrative "
 "operations that can affect repository contents. For example, users can "
 "choose files through component settings or install and configure component "
@@ -832,8 +847,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
-"automate inclusion of all languages or projects."
+"Use :guilabel:`All languages` or :guilabel:`Project selection` to automate "
+"inclusion of all languages or projects."
 msgstr ""
 
 msgid ""
@@ -3241,10 +3256,46 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Removing a connected GitHub account also uninstalls the App from GitHub when "
+"no other Weblate workspace uses that installation. If another workspace "
+"still uses the installation, Weblate removes only the selected workspace "
+"connection. Components imported through that connection lose access to their "
+"repositories. Removing a workspace uninstalls its connected accounts the "
+"same way."
+msgstr ""
+
+msgid ""
+"Weblate removes the connection even when GitHub no longer knows about the "
+"installation, and keeps it only when GitHub could not be reached, so that "
+"the removal can be retried."
+msgstr ""
+
+msgid ""
 "Components imported through the GitHub App flow use the "
 "dedicated :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. The "
 "component settings UI keeps the repository URL read-only to prevent the App-"
 "issued credentials from being redirected to an unrelated repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "From existing component"
+msgid "Migrating existing components"
+msgstr "Dal componente esistente"
+
+msgid ""
+"Weblate reports an informational diagnostic for Git and GitHub pull request "
+"components that can be migrated to a registered Weblate GitHub App. Follow "
+"the :guilabel:`Migrate to GitHub App` link from the diagnostic to review all "
+"eligible components in the workspace."
+msgstr ""
+
+msgid ""
+"Connect or update the GitHub account for the workspace, grant the App access "
+"to the listed repositories, and select the components to migrate. Weblate "
+"changes the selected components to the :guilabel:`GitHub (via Weblate GitHub "
+"app)` VCS backend, replaces their repository addresses with canonical HTTPS "
+"clone URLs, and removes separate push URLs because the App authenticates "
+"pushes to the source repository."
 msgstr ""
 
 #, fuzzy
@@ -3930,7 +3981,8 @@ msgid "Argon2id parallelism factor. Defaults to ``1``."
 msgstr ""
 
 msgid ""
-"`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_"
+"`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/integration/proof-"
+"of-work-captcha/>`_"
 msgstr ""
 
 msgid "Username of users that are not signed in."
@@ -3955,6 +4007,13 @@ msgstr ""
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
+msgstr ""
+
+msgid ""
+"Second-factor sign in. Deletes the account password after this many rejected "
+"second-factor submissions since the last successful second-factor sign in. "
+"This also invalidates pending password sign-ins. Other authentication "
+"methods and API tokens remain usable."
 msgstr ""
 
 msgid ""
@@ -5932,10 +5991,20 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The :guilabel:`File management` actions are available only "
-"from :guilabel:`Repository maintenance` for an individual translation. These "
-"actions rewrite that translation file and commit the result; they are not "
-"project-wide or component-wide operations."
+"Repository actions started from this view are queued for background "
+"processing. For a project, Weblate processes the affected repositories "
+"sequentially in one task and shows its progress. Repeating the same action "
+"opens the existing task; a different action cannot be started for the same "
+"repository until that task finishes."
+msgstr ""
+
+msgid ""
+"The :guilabel:`Synchronize` and :guilabel:`Rescan` repository operations are "
+"queued for background processing as described above. The "
+"separate :guilabel:`File management` actions are available only for an "
+"individual translation. They rewrite that translation file and commit the "
+"result during the web request; they are not project-wide or component-wide "
+"operations."
 msgstr ""
 
 msgid ""
@@ -6835,6 +6904,9 @@ msgstr "Pacchetti Python"
 
 msgid "Weblate feature"
 msgstr "Funzionalità Weblate"
+
+msgid ":ref:`mt-aws`, AWS SES e-mail backend"
+msgstr ""
 
 #, fuzzy
 #| msgid "wsgi server for Weblate"
@@ -9634,6 +9706,29 @@ msgid ""
 msgstr ""
 
 msgid "Configures Django back-end to use for sending e-mails."
+msgstr ""
+
+msgid "Set to ``django_ses.SESBackend`` to use AWS SES."
+msgstr ""
+
+msgid ""
+"AWS region for SES (e.g. ``us-east-1``). Sets ``AWS_SES_REGION_NAME`` and "
+"derives :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT` automatically unless that "
+"variable is set explicitly. If not set, the region must be available through "
+"the standard boto3 credential chain (e.g. ``AWS_DEFAULT_REGION`` or an AWS "
+"profile)."
+msgstr ""
+
+msgid ""
+"SES endpoint hostname. When set, it is passed to django-ses directly "
+"regardless of :envvar:`WEBLATE_AWS_SES_REGION_NAME`. When not set "
+"but :envvar:`WEBLATE_AWS_SES_REGION_NAME` is provided, defaults to ``email."
+"<region>.amazonaws.com``. Override when using a VPC or custom endpoint."
+msgstr ""
+
+msgid ""
+"Set to ``true`` to use the SES v2 API (``SendEmail``) instead of the legacy "
+"``SendRawEmail`` call. Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
 
 msgid "Configures if and how Weblate should update repositories."
@@ -14746,10 +14841,8 @@ msgid ""
 "Pootle and import them using :wladmin:`importusers`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Spaces"
 msgid "Workspaces"
-msgstr "Spazi"
+msgstr "Spazi di lavoro"
 
 msgid ""
 "Workspaces group related translation projects. They sit above projects and "
@@ -15368,7 +15461,7 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Weblate 2.4"
-msgid "Weblate 2026.9"
+msgid "Weblate 2026.9.1"
 msgstr "Weblate 2.4"
 
 msgid "*Not yet released.*"
@@ -15377,14 +15470,100 @@ msgstr "*Non ancora rilasciato.*"
 msgid "New features"
 msgstr "Nuove funzionalità"
 
+msgid "Improvements"
+msgstr "Miglioramenti"
+
+#, fuzzy
+#| msgid "Security policies"
+msgid "Security fixes"
+msgstr "Politiche di sicurezza"
+
+msgid "Bug fixes"
+msgstr "Correzioni di bug"
+
+msgid "Compatibility"
+msgstr "Compatibilità"
+
+msgid "Upgrading"
+msgstr "Aggiornamento"
+
+msgid ""
+"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
+msgstr ""
+
+msgid "Contributors"
+msgstr "Collaboratori"
+
+#, fuzzy
+#| msgid ""
+#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
+#| "73?closed=1>`__."
+msgid ""
+"`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/173?"
+"closed=1>`__."
+msgstr ""
+"`Tutte le modifiche nel dettaglio <https://github.com/WeblateOrg/weblate/"
+"milestone/73?closed=1>`__."
+
+#, fuzzy
+#| msgid "Weblate 2.4"
+msgid "Weblate 2026.9"
+msgstr "Weblate 2.4"
+
+msgid "*Released on September 3rd 2026.*"
+msgstr ""
+
+msgid ""
+":ref:`Repository maintenance actions <repository-maintenance>` now run as "
+"background tasks, avoiding request and proxy timeouts. Project-wide "
+"maintenance remains available for authorized repositories and lists "
+"components skipped because of linked-component permissions. "
+"The :http:post:`repository API </api/projects/(string:project)/repository/>` "
+"supports the same behavior using ``background: true``."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| ":ref:`addon-weblate.discovery.discovery`: Automatically discover new "
+#| "translation files"
+msgid ""
+":ref:`addon-weblate.discovery.discovery` can optionally create components "
+"from a monolingual base or new base file when no translation files exist yet."
+msgstr ""
+":ref:`addon-weblate.discovery.discovery`: rileva automaticamente nuovi file "
+"di traduzione"
+
 msgid ""
 "Added :ref:`vcs_params` to configure repository behavior per component, "
 "including force pushing, opting out of pull requests, and GitHub pull "
 "request automerge."
 msgstr ""
 
-msgid "Improvements"
-msgstr "Miglioramenti"
+msgid ""
+"Added :ref:`code-hosting-github-app-migrate` for migrating existing Git and "
+"GitHub components to the Weblate GitHub App integration."
+msgstr ""
+
+msgid ""
+"Added a :guilabel:`Visible columns in lists` preference to choose which "
+"statistics columns are shown in project, component, and language lists. "
+"See :ref:`profile-preferences`."
+msgstr ""
+
+msgid ""
+"AWS SES can now be used as the outbound e-mail transport in Docker "
+"deployments by setting :envvar:`WEBLATE_EMAIL_BACKEND` to "
+"``django_ses.SESBackend``. Region, endpoint, and SES v2 API opt-in are "
+"configurable "
+"via :envvar:`WEBLATE_AWS_SES_REGION_NAME`, :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT`, "
+"and :envvar:`WEBLATE_USE_SES_V2`."
+msgstr ""
+
+msgid ""
+"Removing the final Weblate workspace connection for a GitHub account, or "
+"removing the workspace holding it, now also uninstalls the :ref:`Weblate "
+"GitHub App <code-hosting-github-app-register>` from GitHub."
+msgstr ""
 
 msgid ""
 ":ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords "
@@ -15393,17 +15572,21 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Screenshot images are now cached in browsers to reduce repeated downloads."
+":ref:`Screenshot images <screenshots>` are now cached in browsers to reduce "
+"repeated downloads."
 msgstr ""
 
 msgid ""
 "Administrators can now find removed accounts by their former e-mail address "
-"in the audit log until :setting:`AUDITLOG_EXPIRY`."
+"in the audit log until :setting:`AUDITLOG_EXPIRY`. See :doc:`/security/"
+"privacy-compliance`."
 msgstr ""
 
 msgid ""
-"Deployment checks and the performance report now detect slow filesystem "
-"metadata access in data and cache directories."
+"Deployment diagnostics now detect slow filesystem metadata access in data "
+"and cache directories, and validate VCS command versions during "
+"configuration health checks instead of every process startup. "
+"See :ref:`manage-performance` and :setting:`VCS_BACKENDS`."
 msgstr ""
 
 msgid ""
@@ -15421,24 +15604,19 @@ msgstr ""
 "Prestazioni migliorate durante la visualizzazione delle traduzioni fantasma."
 
 msgid ""
-"Added a :guilabel:`Visible columns in lists` preference to choose which "
-"statistics columns are shown in project, component, and language lists. "
-"See :ref:`user-profile`."
-msgstr ""
-
-msgid ""
 "Reduced :ref:`Celery <celery>` worker startup memory usage by avoiding "
 "duplicate Django system checks and loading font rendering only when needed."
 msgstr ""
 
 msgid ""
-"VCS command versions are now validated by configuration health checks "
-"instead of during every process startup."
+":ref:`Billing <billing>` audit logs now identify users who change plans, "
+"initiate payments, or merge billings."
 msgstr ""
 
 msgid ""
-"Billing audit logs now identify users who change plans, initiate payments, "
-"or merge billings."
+"Assigning languages to a team now uses an :guilabel:`All languages` toggle "
+"which disables the language choice when turned on, and a manually chosen set "
+"of languages is kept when toggling it. See :ref:`manage-acl`."
 msgstr ""
 
 msgid ""
@@ -15462,8 +15640,10 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Flags in the translation flags editor can now be reopened for editing, "
-"navigated with arrow keys, and copied with Ctrl+C."
+"The :ref:`translation flags <additional-flags>` editor now supports "
+"reopening flags for editing, arrow-key navigation, and copying "
+"with :kbd:`Ctrl+C`. It also keeps commas inside quoted values intact, "
+"allowing flags such as ``regex:\"^.{1,32}$\"`` to be typed and pasted."
 msgstr ""
 
 msgid ""
@@ -15471,12 +15651,52 @@ msgid ""
 "validation errors. See :ref:`vcs-repository-url-troubleshooting`."
 msgstr ""
 
-msgid "Bug fixes"
-msgstr "Correzioni di bug"
+msgid ""
+"Component discovery now limits repository paths and file-mask comparisons to "
+"prevent excessive resource consumption from specially crafted repositories."
+msgstr ""
 
 msgid ""
-"Project backup restores now preserve all project, category, and component "
-"settings."
+"Rejected :ref:`two-factor authentication <2fa>` attempts now "
+"apply :setting:`AUTH_LOCK_ATTEMPTS`, invalidate pending password sign-ins on "
+"lock or password change, and accept six-digit TOTP codes with leading zeroes."
+msgstr ""
+
+msgid ""
+":ref:`Project backup restores <projectbackup>` now preserve all project, "
+"category, and component settings. They also allowlist repository metadata "
+"for Git, git-svn, and Mercurial to prevent archives from supplying "
+"executable configuration or repository indirection."
+msgstr ""
+
+msgid ""
+"Project administrators can no longer remove :ref:`API tokens <api-tokens>` "
+"belonging to other projects."
+msgstr ""
+
+msgid ""
+"User listings and site-wide searches no longer expose project-"
+"scoped :ref:`API tokens <api-tokens>` to users without global user viewing "
+"or editing permission."
+msgstr ""
+
+msgid ""
+"Project and workspace :ref:`translation memory <translation-memory>` now "
+"respects restricted component access, and restricted components no longer "
+"contribute to shared translation memory."
+msgstr ""
+
+msgid ""
+"Webhook target matching no longer falls back to host/path suffix matching. "
+"Component repository URLs must match a repository URL from the webhook "
+"payload. See :ref:`hooks-target-matching`."
+msgstr ""
+
+msgid ""
+"LLM-based machine translation services now report invalid provider responses "
+"more clearly, custom :ref:`mt-openai` and :ref:`mt-mistral` models no longer "
+"require a model-listing endpoint, and OpenAI automatic selection supports "
+"API keys restricted to older GPT models."
 msgstr ""
 
 msgid ""
@@ -15489,21 +15709,11 @@ msgstr ""
 #| msgid ""
 #| "Added support for appearance customization in the management interface."
 msgid ""
-"Database dump failures are now shown in the backups management interface."
+"Database dump failures are now shown in the :ref:`backups management "
+"interface <automated-backup>`."
 msgstr ""
 "Aggiunto il supporto per la personalizzazione dell'aspetto nell'interfaccia "
 "di gestione."
-
-msgid ""
-"Project administrators can no longer remove API tokens belonging to other "
-"projects."
-msgstr ""
-
-msgid ""
-"Project and workspace translation memory now respects restricted component "
-"access, and restricted components no longer contribute to shared translation "
-"memory."
-msgstr ""
 
 msgid ""
 "GitLab merge request forks now disable Git LFS to avoid missing-object push "
@@ -15511,24 +15721,29 @@ msgid ""
 msgstr ""
 
 msgid ""
-":ref:`Project backup restores <projectbackup>` now allowlists repository "
-"metadata for Git, git-svn, and Mercurial to prevent archives from supplying "
-"executable configuration or repository indirection."
+"Notification e-mails now wrap long strings instead of overflowing, keeping "
+"the :guilabel:`View` button reachable without horizontal scrolling."
 msgstr ""
 
-msgid "Compatibility"
-msgstr "Compatibilità"
+msgid ""
+"Creating additional components for a repository imported through "
+"the :ref:`GitHub App <code-hosting-github-repositories>` no longer fails "
+"without showing any error, and component creation errors which previously "
+"could go unreported are now always displayed."
+msgstr ""
+
+msgid ""
+"The ``json_sort_keys`` :ref:`file_format_params` is now a choice between "
+"``none``, ``case_sensitive``, and ``case_insensitive`` instead of a boolean, "
+"including when reading or writing it through the component REST API; "
+"existing components are migrated automatically. See :http:get:`/api/"
+"components/(string:project)/(string:component)/`."
+msgstr ""
 
 msgid ""
 "The :guilabel:`Git with force push` version control system has been replaced "
 "by the ``git_force_push`` :ref:`version control parameter <vcs_params>`; "
 "existing components are migrated automatically."
-msgstr ""
-
-msgid ""
-"Webhook target matching no longer falls back to host/path suffix matching. "
-"Component repository URLs must match a repository URL from the webhook "
-"payload. See :ref:`hooks-target-matching`."
 msgstr ""
 
 msgid ""
@@ -15544,16 +15759,10 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The project deletion REST API endpoint now returns ``202 Accepted`` instead "
-"of ``204 No Content`` and contains a task URL in the response to track "
-"asynchronous deletion progress."
-msgstr ""
-
-msgid "Upgrading"
-msgstr "Aggiornamento"
-
-msgid ""
-"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
+"The :http:delete:`project deletion REST API endpoint </api/projects/"
+"(string:project)/>` now returns ``202 Accepted`` instead of ``204 No "
+"Content`` and contains a task URL in the response to track asynchronous "
+"deletion progress."
 msgstr ""
 
 msgid ""
@@ -15563,9 +15772,6 @@ msgid ""
 "``WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR`` is used; otherwise, the "
 "immediate TCP peer is used."
 msgstr ""
-
-msgid "Contributors"
-msgstr "Collaboratori"
 
 #, fuzzy
 #| msgid ""
@@ -17119,6 +17325,33 @@ msgstr ""
 #| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, i4i, Kartik Ohri"
 msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
+
+msgid ""
+"Michal Čihař, Karen Konou, Gersona, Spyder, mmustafasenoglu, Kartik Ohri, "
+"Shweta Singh, Fabian Berg"
+msgstr ""
+
+msgid ""
+"Yuri Chornoivan, Matthaiks, Steve, hoanghuy309, VfBFan, António Oliveira, "
+"Andrei Stepanov, Adam Havránek, Dick Groskamp, Aindriú Mac Giolla Eoin, Andi "
+"Chandler, Lee Vincent, Michal Čihař, Milo Ivir, Ldm Public, Peter Vančo, "
+"Alos \\(bop2039\\), Tarás Lavrentiev, Lito Parra, goeran, Любомир Василев, "
+"Vik, Bone NI, Pierfrancesco Passerini, CYAXXX, Yaron Shahrabani, Pavel "
+"Borecki, حسين نور الإسلام, amano, reducedradius, Fjuro, Frostre\\_, Sup\\! "
+"0\\_0, Ulrik, xiezhihai, Yoshi, Alexander Gabilondo, Eduard Ereza Martínez, "
+"Watchman89, Kyotaro Iijima, AlexYang, justcontributor, Background update, "
+"Arif Budiman, Harsha Kanaparthi, notlin4, KuroisKitsune, Zahid Rizky Fakhri, "
+"Michal Várady, Massimo Pissarello, HThuren, SeyhaLite, David Wagener, "
+"Yauhen, Anucha Hlownonkor, michael0820, Artyom Rybakov, Nhật Nhật, 子悦解说, "
+"Mahdi B. Jahani, ℂ𝕠𝕠𝕠𝕝 \\(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞\\/ℂ𝕠𝕠𝕠𝕝\\)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Michal Čihař, Karen Konou, Gersona"
+msgid ""
+"Michal Čihař, Gersona, Karen Konou, Spyder, mmustafasenoglu, Kartik Ohri, "
+"Shweta Singh"
+msgstr "Michal Čihař, Karen Konou, Gersona"
 
 msgid ""
 "Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
@@ -24459,11 +24692,6 @@ msgid ""
 "with cold caches."
 msgstr ""
 
-#, fuzzy
-#| msgid "Security policies"
-msgid "Security fixes"
-msgstr "Politiche di sicurezza"
-
 msgid ""
 "Hardened repository boundary checks for symlink targets "
 "(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
@@ -30045,7 +30273,9 @@ msgstr ""
 msgid ""
 "The SPDX license data is included as a Git submodule in the source code "
 "and :file:`weblate/utils/licensedata.py` is generated using :file:`scripts/"
-"generate-license-data.py`."
+"generate-license-data.py`. The submodule tracks tagged SPDX releases. "
+"Renovate updates the release recorded in :file:`.gitmodules`, and the "
+"license update workflow updates the submodule and generated license data."
 msgstr ""
 
 msgid "Test data"
@@ -30644,10 +30874,8 @@ msgid ""
 "report_source_bugs`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component diagnostics"
-msgstr "Elenchi componenti"
+msgstr "Diagnostica del componente"
 
 msgid ""
 "Guidance is shown in the :guilabel:`Diagnostics` tab on each component. "
@@ -32018,10 +32246,8 @@ msgid ""
 "total."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translator persona"
 msgid "Translator work analysis"
-msgstr "Profilo traduttore"
+msgstr "Analisi del lavoro del traduttore"
 
 msgid ""
 "Estimates realistic daily translator throughput from change history. It "
@@ -35194,7 +35420,22 @@ msgstr ""
 msgid ":class:`Weblate`"
 msgstr ""
 
-msgid "The :class:`Weblate` class is the main API entry point."
+msgid ""
+"The :class:`Weblate` class is the main API entry point. Constructing it "
+"directly does not load Weblate Client configuration files or ``WLC_*`` "
+"environment variables; its connection settings come from the supplied "
+"arguments:"
+msgstr ""
+
+msgid ""
+"To use configuration-file and environment discovery, explicitly "
+"load :class:`~wlc.config.WeblateConfig` and pass it to the client:"
+msgstr ""
+
+msgid ""
+"The Python client follows the same URL, credential, and transport policy as "
+"the command-line client, see :ref:`wlc-security`. Direct API consumers "
+"remain responsible for safely rendering and storing returned values."
 msgstr ""
 
 #, fuzzy
@@ -35208,8 +35449,16 @@ msgid "API objects"
 msgstr "Progetti"
 
 msgid ""
-"API objects behave as mappings and support deferred loading. Attribute "
-"access loads missing data from the API when needed."
+"API objects support attribute and keyed access to their fields, together "
+"with ``keys()`` and ``items()``. Accessing a known field that is not loaded "
+"yet fetches the object from the API. ``get_data()`` returns a copy of only "
+"the data currently loaded without fetching missing fields."
+msgstr ""
+
+msgid ""
+"Projects, components, and translations share repository operations: "
+"``repository()``, ``commit()``, ``push()``, ``pull()``, ``reset()``, and "
+"``cleanup()``."
 msgstr ""
 
 msgid "Data residency and EU cloud sovereignty"
@@ -36279,6 +36528,13 @@ msgid ""
 "Product vulnerability reports cover security issues in Weblate source code, "
 "release artifacts, and documented Weblate security properties. They do not "
 "replace operational incident response for a particular deployment."
+msgstr ""
+
+msgid ""
+"Reports concerning the separately distributed Weblate Client (``wlc``) are "
+"evaluated against the `wlc threat model <https://github.com/WeblateOrg/wlc/"
+"blob/main/THREAT_MODEL.md>`_, which documents its intended trust boundaries, "
+"supported security properties, and explicit non-goals."
 msgstr ""
 
 msgid ""
@@ -37507,10 +37763,8 @@ msgid ""
 "Security update coverage and direct upgrade support are separate policies."
 msgstr ""
 
-#, fuzzy
-#| msgid "Subversion"
 msgid "Version"
-msgstr "Subversion"
+msgstr "Controllo versione"
 
 #, fuzzy
 #| msgid "Security updates"
@@ -37581,13 +37835,13 @@ msgstr "Modello di minaccia Weblate"
 msgid "Project: Weblate"
 msgstr "Sito web del progetto"
 
-msgid "Last reviewed for Weblate |release| at commit ``491e79010b2``."
+msgid "Last reviewed for Weblate |release| at commit ``8283fcad69f``."
 msgstr ""
 
-msgid "Date: 2026-05-14."
+msgid "Date: 2026-09-01."
 msgstr ""
 
-msgid "Status: Accepted, 2026-05-14."
+msgid "Status: Accepted, 2026-09-01."
 msgstr ""
 
 msgid ""
@@ -37612,7 +37866,7 @@ msgid ""
 "current project shape and needs maintainer confirmation."
 msgstr ""
 
-msgid "Provenance summary: 103 documented / 64 maintainer / 0 inferred claims."
+msgid "Provenance summary: 118 documented / 69 maintainer / 0 inferred claims."
 msgstr ""
 
 msgid ""
@@ -37750,10 +38004,14 @@ msgstr ""
 msgid "VCS integration"
 msgstr "**Integrazione VCS**"
 
-msgid "Repository URLs, branches, pushes, pulls, merge requests, local clones"
+msgid ""
+"Repository URLs, branches, pushes, pulls, merge requests, local clones, and "
+"GitHub App registration, connections, component migration, and removal"
 msgstr ""
 
-msgid "Filesystem, child VCS commands, SSH/HTTPS network connections"
+msgid ""
+"Filesystem, child VCS commands, SSH/HTTPS network connections, and provider "
+"repository or installation state"
 msgstr ""
 
 msgid ""
@@ -37767,8 +38025,8 @@ msgid "Background tasks"
 msgstr "Attività in background interne"
 
 msgid ""
-"Celery queues for repository updates, notifications, translation memory, "
-"translation, and backups"
+"Celery queues for repository updates, project deletion, notifications, "
+"translation memory, translation, and backups"
 msgstr ""
 
 msgid "Database, datastore, filesystem, outbound network"
@@ -37776,7 +38034,7 @@ msgstr ""
 
 msgid ""
 "In scope as Weblate-controlled execution of user or operator actions. "
-"*(documented)* (source: :doc:`/admin/install`)"
+"*(documented)* (source: :doc:`/admin/install`, :doc:`/api`)"
 msgstr ""
 
 #, fuzzy
@@ -37823,7 +38081,8 @@ msgstr "Motori di traduzione automatica"
 
 msgid ""
 "Machine translation, avatars, status reporting, telemetry, error reporting, "
-"VCS hosts, GitHub App connections, CDN add-on, Fedora Messaging add-on"
+"VCS hosts, GitHub App connections, CDN add-on, Fedora Messaging add-on, e-"
+"mail delivery (SMTP or AWS SES)"
 msgstr ""
 
 msgid "Outbound HTTP(S), AMQP(S), provider APIs, logs"
@@ -37839,7 +38098,8 @@ msgstr ""
 msgid "Built-in add-ons and administrator-configured add-on execution"
 msgstr ""
 
-msgid "Varies by add-on; can mutate repositories or contact services"
+msgid ""
+"Varies by add-on; can mutate project or repository state or contact services"
 msgstr ""
 
 msgid ""
@@ -37980,6 +38240,18 @@ msgstr "Piano di risposta agli incidenti per Weblate"
 msgid ""
 "Untrusted or authenticated requests become permission-checked application "
 "actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
+msgstr ""
+
+msgid "Weblate request process to repository Celery worker"
+msgstr ""
+
+msgid ""
+"Permission-checked browser and API repository actions become queued work "
+"carrying the initiating user and affected repository scope. The worker "
+"reacquires the datastore reservation and rechecks the user's current VCS "
+"permission across the current linked-component scope before mutation. The "
+"broker, datastore, and workers are trusted parts of the same Weblate "
+"instance. *(maintainer)*"
 msgstr ""
 
 #, fuzzy
@@ -38196,8 +38468,14 @@ msgid ""
 msgstr ""
 
 msgid ""
-"It sends e-mail and notifications when configured to do so. *(documented)* "
-"(source: :doc:`/admin/config`)"
+"It sends e-mail and notifications when configured to do so. When "
+"``django_ses.SESBackend`` is selected, outbound e-mail is delivered over "
+"HTTPS to the configured AWS SES regional endpoint (``email."
+"<region>.amazonaws.com`` by default, overridable "
+"via :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT`); the endpoint is operator-"
+"controlled trusted infrastructure and is not subject to private-target "
+"restrictions. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/"
+"install/docker`)"
 msgstr ""
 
 msgid ""
@@ -38363,8 +38641,11 @@ msgstr ""
 
 msgid ""
 "Allowlist settings and privileged configuration can intentionally expand "
-"reachability. Fedora Messaging broker URLs are site-administrator "
-"configuration and are trusted by this model. *(documented)* "
+"reachability. A non-empty :setting:`VCS_ALLOW_HOSTS` also restricts all "
+"configured VCS hosts, while :setting:`VCS_PRIVATE_ALLOWLIST` only exempts "
+"matching hosts from private-target checks and does not bypass that host "
+"filter. Fedora Messaging broker URLs are site-administrator configuration "
+"and are trusted by this model. *(documented)* "
 "(source: :setting:`ASSET_PRIVATE_ALLOWLIST`, :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`, :setting:`VCS_PRIVATE_ALLOWLIST`)"
 msgstr ""
 
@@ -38390,6 +38671,29 @@ msgid ""
 msgstr ""
 
 msgid "Operators own the security impact of custom SSH options. *(maintainer)*"
+msgstr ""
+
+msgid "AWS SES e-mail backend"
+msgstr ""
+
+msgid ""
+"Activated by setting :envvar:`WEBLATE_EMAIL_BACKEND` to "
+"``django_ses.SESBackend`` in Docker deployments. *(documented)* "
+"(source: :doc:`/admin/install/docker`)"
+msgstr ""
+
+msgid ""
+"Weblate opens an outbound HTTPS connection to the configured SES regional "
+"endpoint to deliver e-mail. AWS credentials are read from the boto3 "
+"credential chain (environment variables, IAM role, or credential file). The "
+"SES endpoint and credentials are operator-controlled trusted infrastructure. "
+"*(maintainer)*"
+msgstr ""
+
+msgid ""
+"Operators are responsible for securing AWS credentials, choosing an "
+"appropriate SES region and endpoint, and ensuring that the boto3 credential "
+"chain does not expose credentials beyond the intended scope. *(maintainer)*"
 msgstr ""
 
 msgid "Third-party add-ons and local customization"
@@ -38536,23 +38840,30 @@ msgid ""
 "*(maintainer)*"
 msgstr ""
 
-msgid "GitHub App connection callbacks"
+msgid "GitHub App lifecycle"
 msgstr ""
 
 msgid ""
-"GitHub OAuth code, signed Weblate state, installation ID, account metadata"
+"Registration and installation callbacks, GitHub OAuth code, signed Weblate "
+"state, installation ID, account metadata, component migration selections, "
+"and connection-removal requests"
 msgstr ""
 
 msgid ""
 "Yes, from authenticated Weblate users and GitHub redirect query strings. "
-"*(documented)* (source: :ref:`code-hosting-github-app-register`)"
+"*(documented)* (source: :ref:`code-hosting-github-app-register`, :ref:`code-"
+"hosting-github-app-migrate`)"
 msgstr ""
 
 msgid ""
-"Weblate requires workspace management rights and verifies that the GitHub "
-"user owns the personal installation or can administer the organization "
-"installation before saving it. *(documented)* (source: :ref:`code-hosting-"
-"github-app-register`)"
+"Registering App credentials requires the site-wide ``management.configure`` "
+"permission. Connecting or removing an installation requires management "
+"rights for its workspace, and Weblate verifies GitHub administration of an "
+"installation before connecting it. Component migration additionally requires "
+"edit permission for every selected component. Removing the last workspace "
+"connection also attempts to uninstall the App from GitHub. *(documented)* "
+"(source: :ref:`code-hosting-github-app-register`, :ref:`code-hosting-github-"
+"app-migrate`)"
 msgstr ""
 
 #, fuzzy
@@ -38562,7 +38873,8 @@ msgstr "Integrazione del repository"
 
 msgid ""
 "Repository URLs, branches, push URLs, credentials, Gerrit review push "
-"options, add-on settings"
+"options, add-on settings, and :ref:`vcs_params` controlling force pushes and "
+"pull-request behavior"
 msgstr ""
 
 msgid ""
@@ -38872,10 +39184,20 @@ msgid ""
 "enforced 2FA is satisfied by human users before team-derived permissions "
 "apply. Component administrators are trusted to configure operations that can "
 "affect repository contents, for example by selecting files through component "
-"settings or configuring add-ons. Linking a repository extends this trust to "
+"settings, configuring add-ons, or enabling force pushes and pull-request "
+"behavior through :ref:`vcs_params`. Users with management rights for a "
+"workspace are trusted to connect and remove its GitHub App installations; "
+"removing the final workspace connection can uninstall the App from GitHub. "
+"GitHub App component migration separately requires edit permission for every "
+"selected component. Linking a repository extends this trust to "
 "administrators of every linked component for the complete shared checkout. "
 "Permissions for explicit VCS actions cover every component sharing an "
-"affected repository, including linked components in other projects. "
+"affected repository, including linked components in other projects. Project-"
+"wide VCS actions omit repositories where this permission check fails; they "
+"do not partially operate on an individual shared checkout. Explicit VCS "
+"actions queued from the browser or API retain the initiating user, serialize "
+"access to the affected repositories, and recheck that user's permission "
+"against the current linked-component scope in the worker before mutation. "
 "Weblate's normal background commit and push of authorized translation "
 "changes does not require the editor to have these VCS permissions. "
 "Translation memory attributed to an existing restricted component follows "
@@ -38908,14 +39230,20 @@ msgstr "Sicurezza"
 
 msgid ""
 "Authentication and session controls protect browser sessions when HTTPS and "
-"proxy settings are correct. *(documented)* (source: :doc:`/admin/"
+"proxy settings are correct. Pending second-factor sessions are bound to the "
+"current password authentication state, and repeated rejected second-factor "
+"submissions lock password sign-in according "
+"to :setting:`AUTH_LOCK_ATTEMPTS`. *(documented)* (source: :doc:`/admin/"
 "auth`, :setting:`ENABLE_HTTPS`)"
 msgstr ""
 
 msgid "Production HTTPS and secure-cookie settings are enabled."
 msgstr ""
 
-msgid "Session fixation, credential bypass, or cross-user session confusion."
+msgid ""
+"Session fixation, credential bypass, cross-user session confusion, or a "
+"pending password sign-in remaining usable after a password change or account "
+"lock."
 msgstr ""
 
 msgid ""
@@ -38939,7 +39267,8 @@ msgid ""
 "VCS operations are invoked through Weblate-supported repository workflows "
 "and configured credentials. Project backup restores allow only non-"
 "executable Git, git-svn, and Mercurial repository state, and rebuild "
-"repository-local configuration from validated component settings."
+"repository-local configuration from validated component settings. Weblate "
+"does not populate Git submodules (see :ref:`git-submodules`)."
 msgstr ""
 
 msgid "Command injection or arbitrary code execution as the Weblate user."
@@ -38957,8 +39286,11 @@ msgid ""
 "responses expose only the match counts, project/component slugs, and API "
 "URLs documented in :ref:`hooks-target-matching`. Repository content "
 "deliberately shared through linked components follows the linked repository "
-"trust boundary. Custom add-ons list only non-sensitive fields as public "
-"configuration; unlisted values are redacted from public change history."
+"trust boundary. Project repository permission diagnostics expose the paths "
+"of linked components that prevent an operation, but do not expose their "
+"content or repository status. Custom add-ons list only non-sensitive fields "
+"as public configuration; unlisted values are redacted from public change "
+"history."
 msgstr ""
 
 msgid ""
@@ -39007,21 +39339,28 @@ msgid "Security-critical when it exposes internal services or metadata."
 msgstr ""
 
 msgid ""
-"Weblate records security-relevant account, permission, authenticated web-"
-"action rate-limit lockouts, and project or component setting changes in "
-"audit logs or history. *(documented)* (source: :doc:`/security/privacy-"
-"compliance`, :ref:`rate-limit`, :doc:`/changes`)"
-msgstr ""
-
-msgid "Logging is configured and storage is available."
-msgstr ""
-
-msgid "Missing audit trail for an action Weblate claims to log."
+"Weblate records security-relevant account, permission, billing lifecycle, "
+"authenticated web-action rate-limit lockouts, and project or component "
+"setting changes in audit logs or history. Account-removal audit entries "
+"retain the former e-mail address until :setting:`AUDITLOG_EXPIRY`. "
+"*(documented)* (source: :doc:`/security/privacy-compliance`, :ref:`rate-"
+"limit`, :ref:`billing`, :doc:`/changes`)"
 msgstr ""
 
 msgid ""
-"Security-critical when it blocks investigation of privileged changes; "
-"correctness-only for minor event gaps."
+"Logging is configured, storage is available, and :setting:`AUDITLOG_EXPIRY` "
+"reflects the operator's intended retention."
+msgstr ""
+
+msgid ""
+"Missing audit trail for an action Weblate claims to log, or personal data "
+"retained beyond the configured audit-log expiry."
+msgstr ""
+
+msgid ""
+"Security-critical when it blocks investigation of privileged changes or "
+"discloses retained personal data; privacy-impacting when data exceeds the "
+"configured retention; correctness-only for minor event gaps."
 msgstr ""
 
 msgid ""
@@ -39089,6 +39428,13 @@ msgid ""
 "repository size, project count, component count, and translation volume, "
 "Weblate does not claim a fixed universal resource ceiling independent of "
 "deployment capacity. *(maintainer)*"
+msgstr ""
+
+msgid ""
+"Component discovery is an exception: it stops after 100,000 repository paths "
+"or before performing more than 1,000,000 path-to-mask comparisons. These "
+"limits bound resource consumption when repository-controlled base files "
+"generate file masks. *(maintainer)*"
 msgstr ""
 
 msgid "Security properties Weblate does not provide"
@@ -39270,10 +39616,11 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Granting project management, VCS, or access-management permissions to users "
+"Granting workspace, project, VCS, or access-management permissions to users "
 "who are trusted only as translators. This is unsafe because those "
-"permissions can affect repositories, credentials, or other users. Assign "
-"narrower roles. *(documented)* (source: :doc:`/admin/access`)"
+"permissions can affect code-hosting connections, repositories, credentials, "
+"or other users. Assign narrower roles. *(documented)* (source: :doc:`/admin/"
+"access`, :doc:`/admin/code-hosting`)"
 msgstr ""
 
 msgid ""
@@ -39882,10 +40229,8 @@ msgstr "File struttura annidata JSON"
 msgid "Markdown file"
 msgstr "File Markdown"
 
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "File DTD"
+msgstr "File MDX"
 
 msgid "@draggable/i18n lang file"
 msgstr "File di lingua @draggable/i18n"
@@ -39950,15 +40295,11 @@ msgstr "File TermBase eXchange"
 msgid "TOML file"
 msgstr "File TOML"
 
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)"
-msgstr "File traduzione Qt Linguist"
+msgstr "File di traduzione Qt Linguist (versione 2)"
 
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 1)"
-msgstr "File traduzione Qt Linguist"
+msgstr "File di traduzione Qt Linguist (versione 1)"
 
 msgid "WebExtension JSON file"
 msgstr "File JSON WebExtension"
@@ -39984,25 +40325,17 @@ msgstr "Proprietà della pagina XWiki"
 msgid "YAML file"
 msgstr "File YAML"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Change events to trigger"
-msgstr "Cambia eventi"
+msgstr "Eventi di modifica che attivano"
 
-#, fuzzy
-#| msgid "Translation context"
 msgid "Translation content events"
-msgstr "Contesto di traduzione"
+msgstr "Eventi sul contenuto della traduzione"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "All change events"
-msgstr "Cambia eventi"
+msgstr "Tutti gli eventi di modifica"
 
-#, fuzzy
-#| msgid "Change events"
 msgid "Selected change events"
-msgstr "Cambia eventi"
+msgstr "Eventi di modifica selezionati"
 
 msgid ""
 "The following change actions can appear in notification payloads. Fedora "
@@ -40021,10 +40354,8 @@ msgstr "Controlla l'identificatore"
 msgid "Resource updated"
 msgstr "Risorsa aggiornata"
 
-#, fuzzy
-#| msgid "Commit translations to your Git repository"
 msgid "A translation file was synchronized with its repository."
-msgstr "Invia le traduzioni al tuo repository Git"
+msgstr "Un file di traduzione è stato sincronizzato con il suo repository."
 
 msgid "Translation completed"
 msgstr "Traduzione completata"
@@ -40045,10 +40376,8 @@ msgstr "Elenca le traduzioni con i contributi di un'utente."
 msgid "Comment added"
 msgstr "Commento aggiunto"
 
-#, fuzzy
-#| msgid "Automatically add language file"
 msgid "A comment was added to a string."
-msgstr "Aggiungi automaticamente file lingua"
+msgstr "È stato aggiunto un commento a una stringa."
 
 msgid "Suggestion added"
 msgstr "Aggiunto suggerimento"
@@ -40061,12 +40390,9 @@ msgstr "Viene aggiunta una nuova traduzione."
 msgid "Translation added"
 msgstr "Traduzione aggiunta"
 
-#, fuzzy
-#| msgid ""
-#| "Amount of newly translated strings which didn't have a translation before."
 msgid "A previously untranslated string was translated by a user."
 msgstr ""
-"Quantità di stringhe appena tradotte che non avevano una traduzione prima."
+"Una stringa precedentemente non tradotta è stata tradotta da un utente."
 
 msgid "Automatically translated"
 msgstr "Tradotto automaticamente"
@@ -40079,20 +40405,14 @@ msgstr ""
 msgid "Suggestion accepted"
 msgstr "Suggerimento accettato"
 
-#, fuzzy
-#| msgid ""
-#| "All translations within Weblate can be used thanks to shared translation "
-#| "memory."
 msgid "A translation suggestion was accepted as the translation."
-msgstr ""
-"Tutte le traduzioni all'interno di Weblate possono essere usate grazie alla "
-"memoria di traduzione condivisa."
+msgstr "Un suggerimento di traduzione è stato accettato come traduzione."
 
 msgid "Translation reverted"
 msgstr "Traduzione ripristinata"
 
 msgid "A translation was restored to an earlier value."
-msgstr ""
+msgstr "Una traduzione è stata ripristinata a un valore precedente."
 
 msgid "Translation uploaded"
 msgstr "Traduzione caricata"
@@ -40105,10 +40425,10 @@ msgstr ""
 msgid "Source string added"
 msgstr "Stringa sorgente aggiunta"
 
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added outside repository or upload updates."
-msgstr "Stringa di origine aggiunta nel repository"
+msgstr ""
+"È stata aggiunta una stringa sorgente al di fuori del repository o degli "
+"aggiornamenti di caricamento."
 
 msgid "Component locked"
 msgstr "Componente bloccato"
@@ -40131,18 +40451,14 @@ msgstr ""
 msgid "Changes pushed"
 msgstr "Modifiche inviate"
 
-#, fuzzy
-#| msgid "Whether the repository should be pushed upstream on every commit."
 msgid "Repository changes were pushed upstream."
-msgstr "Se il repository deve essere aggiornato per ogni commit."
+msgstr "Le modifiche del repository sono state inviate (push) a monte."
 
 msgid "Repository reset"
 msgstr "Reimpostazione repository"
 
-#, fuzzy
-#| msgid "Reset repository to upstream"
 msgid "A repository was reset to its upstream state."
-msgstr "Ripristina archivio in upstream"
+msgstr "Un repository è stato ripristinato al suo stato originale."
 
 msgid "Repository merged"
 msgstr "Repository unito"
@@ -40156,23 +40472,19 @@ msgid "Repository rebased"
 msgstr "Rebase del repository completato"
 
 msgid "Repository changes were rebased on upstream."
-msgstr ""
+msgstr "Le modifiche del repository sono state ribasate sull'upstream."
 
 msgid "Repository merge failed"
 msgstr "Unione del repository non riuscita"
 
-#, fuzzy
-#| msgid "View upstream repository location"
 msgid "Merging upstream repository changes failed."
-msgstr "Visualizza posizione repository upstream"
+msgstr "L'unione delle modifiche del repository upstream non è riuscita."
 
 msgid "Repository rebase failed"
 msgstr "Rebase del repository non riuscito"
 
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "Rebasing repository changes failed."
-msgstr "Rebase del repository non riuscito"
+msgstr "Il rebase delle modifiche del repository non è riuscito."
 
 msgid "Parsing failed"
 msgstr "Analisi non riuscita"
@@ -40209,26 +40521,22 @@ msgstr ""
 msgid "Repository push failed"
 msgstr "Push del repository non riuscito"
 
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "Pushing repository changes upstream failed."
-msgstr "Rebase del repository non riuscito"
+msgstr "L'invio (push) delle modifiche del repository a monte non è riuscito."
 
 msgid "Suggestion removed during cleanup"
 msgstr "Suggerimento rimosso durante pulizia"
 
-#, fuzzy
-#| msgid "Suggestion removed during cleanup"
 msgid "An obsolete translation suggestion was removed during cleanup."
-msgstr "Suggerimento rimosso durante pulizia"
+msgstr ""
+"Durante la fase di pulizia è stato rimosso un suggerimento di traduzione "
+"obsoleto."
 
 msgid "Source string changed"
 msgstr "Stringa sorgente modificata"
 
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was edited in Weblate."
-msgstr "Stringa di origine aggiunta nel caricamento"
+msgstr "Una stringa sorgente è stata modificata in Weblate."
 
 msgid "String added"
 msgstr "Stringa aggiunta"
@@ -40262,31 +40570,25 @@ msgid "User removed"
 msgstr "Utente rimosso"
 
 msgid "A user's access was removed."
-msgstr ""
+msgstr "L'accesso di un utente è stato rimosso."
 
 msgid "Translation approved"
 msgstr "Traduzione approvata"
 
-#, fuzzy
-#| msgid "Approve translations in a review."
 msgid "A translation was approved during review."
-msgstr "Può approvare le traduzioni durante la revisione."
+msgstr "Una traduzione è stata approvata durante la revisione."
 
 msgid "Marked for edit"
 msgstr "Contrassegnate per la modifica"
 
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "A translation was marked as needing editing."
-msgstr "Contrassegna le nuove traduzioni come \"Richiede modifica\""
+msgstr "Una traduzione è stata contrassegnata come bisognosa di modifica."
 
 msgid "Component removed"
 msgstr "Componente rimosso"
 
-#, fuzzy
-#| msgid "Other translation components"
 msgid "A translation component was removed."
-msgstr "Altri componenti di traduzione"
+msgstr "Un componente di traduzione è stato rimosso."
 
 msgid "Project removed"
 msgstr "Progetto rimosso"
@@ -40299,18 +40601,14 @@ msgstr "Progetti traduzione"
 msgid "Project renamed"
 msgstr "Progetto rinominato"
 
-#, fuzzy
-#| msgid "Translation projects"
 msgid "A translation project was renamed."
-msgstr "Progetti traduzione"
+msgstr "Un progetto di traduzione è stato rinominato."
 
 msgid "Component renamed"
 msgstr "Componente rinominato"
 
-#, fuzzy
-#| msgid "Other translation components"
 msgid "A translation component was renamed."
-msgstr "Altri componenti di traduzione"
+msgstr "Un componente di traduzione è stato rinominato."
 
 msgid "Moved component"
 msgstr "Componente spostato"
@@ -40321,60 +40619,44 @@ msgstr "Un componente è stato spostato all'interno di un progetto."
 msgid "Contributor joined"
 msgstr "Collaboratore aggiunto"
 
-#, fuzzy
-#| msgid "Added a new upload method to add new strings to a translation."
 msgid "A user made their first contribution to a translation."
-msgstr ""
-"Aggiunto un nuovo metodo di caricamento per aggiungere nuove stringhe a una "
-"traduzione."
+msgstr "Un utente ha dato il suo primo contributo a una traduzione."
 
 msgid "Announcement posted"
 msgstr "Annuncio pubblicato"
 
-#, fuzzy
-#| msgid "Announcement posted"
 msgid "An announcement was posted."
-msgstr "Annuncio pubblicato"
+msgstr "È stato affisso un annuncio."
 
 msgid "Alert triggered"
 msgstr "Avviso attivato"
 
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "A component alert was triggered."
-msgstr "Avviso attivato"
+msgstr "È stato attivato un avviso relativo a un componente."
 
 msgid "Language added"
 msgstr "Lingua aggiunta"
 
-#, fuzzy
-#| msgid "A new translation is added."
 msgid "A language translation was added."
-msgstr "Viene aggiunta una nuova traduzione."
+msgstr "È stata aggiunta una traduzione linguistica."
 
 msgid "Language requested"
 msgstr "Lingua richiesta"
 
-#, fuzzy
-#| msgid "Create new language file"
 msgid "A user requested a new language."
-msgstr "Crea nuovo file di lingua"
+msgstr "Un utente ha richiesto una nuova lingua."
 
 msgid "Project created"
 msgstr "Progetto creato"
 
-#, fuzzy
-#| msgid "Translation projects"
 msgid "A translation project was created."
-msgstr "Progetti traduzione"
+msgstr "È stato creato un progetto di traduzione."
 
 msgid "Component created"
 msgstr "Componente creato"
 
-#, fuzzy
-#| msgid "Other translation components"
 msgid "A translation component was created."
-msgstr "Altri componenti di traduzione"
+msgstr "È stato creato un componente di traduzione."
 
 msgid "User invited"
 msgstr "Utente invitato"
@@ -40395,10 +40677,8 @@ msgstr ""
 msgid "Translation replaced file by upload"
 msgstr "File sostituito dalla traduzione con upload"
 
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "A translation file was replaced by an uploaded file."
-msgstr "File sostituito dalla traduzione con upload"
+msgstr "Il file di traduzione è stato sostituito da un file caricato."
 
 msgid "License changed"
 msgstr "Licenza modificata"
@@ -40419,10 +40699,8 @@ msgstr "Contratto di licenza per collaboratori modificato"
 msgid "Screenshot added"
 msgstr "Screenshot aggiunto"
 
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "A screenshot was associated with a string."
-msgstr "Evita gli anni che sono associati a te."
+msgstr "Uno screenshot è stato associato a una stringa."
 
 msgid "Screenshot uploaded"
 msgstr "Screenshot caricato"
@@ -40467,10 +40745,8 @@ msgstr "Add-on disinstallato"
 msgid "String removed"
 msgstr "Stringa rimossa"
 
-#, fuzzy
-#| msgid "Listing of other translations."
 msgid "A string was removed from a translation."
-msgstr "Elenco di altre traduzioni."
+msgstr "Una stringa è stata rimossa da una traduzione."
 
 msgid "Comment removed"
 msgstr "Commento rimosso"
@@ -40491,41 +40767,32 @@ msgstr "Le stringhe rimosse sono contrassegnate come obsolete"
 msgid "Explanation updated"
 msgstr "Spiegazione aggiornata"
 
-#, fuzzy
-#| msgid "Added support for ordering strings by last update."
 msgid "The explanation for a source string was updated."
-msgstr ""
-"Aggiunto il supporto per ordinare le stringhe dall'ultimo aggiornamento."
+msgstr "La spiegazione di una stringa sorgente è stata aggiornata."
 
 msgid "Category removed"
 msgstr "Categoria rimossa"
 
-#, fuzzy
-#| msgid "Component removed"
 msgid "A component category was removed."
-msgstr "Componente rimosso"
+msgstr "Una categoria di componenti è stata rimossa."
 
 msgid "Category renamed"
 msgstr "Categoria rinominata"
 
-#, fuzzy
-#| msgid "Component renamed"
 msgid "A component category was renamed."
-msgstr "Componente rinominato"
+msgstr "Una categoria di componenti è stata rinominata."
 
 msgid "Category moved"
 msgstr "Categoria spostata"
 
-#, fuzzy
-#| msgid "Component removed"
 msgid "A component category was moved."
-msgstr "Componente rimosso"
+msgstr "Una categoria di componenti è stata spostata."
 
 msgid "Saving string failed"
 msgstr "Salvataggio stringa non riuscito"
 
 msgid "Weblate could not save a changed string."
-msgstr ""
+msgstr "Weblate non è riuscito a salvare una stringa modificata."
 
 msgid "String added in the repository"
 msgstr "Stringa aggiunta nel repository"
@@ -40538,16 +40805,16 @@ msgstr "Tieni traccia delle modifiche alle stringhe dal repository."
 msgid "String updated in the upload"
 msgstr "Stringa aggiornata nel caricamento"
 
-#, fuzzy
-#| msgid "Fixed processing of some uploaded CSV files."
 msgid "A string was changed while processing an uploaded file."
-msgstr "Corretta l'elaborazione di alcuni file CSV caricati."
+msgstr ""
+"Una stringa è stata modificata durante l'elaborazione di un file caricato."
 
 msgid "String added in the upload"
 msgstr "Stringa aggiunta nel caricamento"
 
 msgid "A new string was found while processing an uploaded file."
 msgstr ""
+"È stata trovata una nuova stringa durante l'elaborazione di un file caricato."
 
 msgid "Translation updated by source upload"
 msgstr "Traduzione aggiornata dal caricamento della sorgente"
@@ -40579,16 +40846,14 @@ msgstr ""
 msgid "File uploaded"
 msgstr "File caricato"
 
-#, fuzzy
-#| msgid "Define author of uploaded translation"
 msgid "A file was uploaded to a translation."
-msgstr "Definisci autore della traduzione caricata"
+msgstr "Un file è stato caricato in una traduzione."
 
 msgid "Extra flags updated"
 msgstr "Flag extra aggiornati"
 
 msgid "Additional source-string flags were updated."
-msgstr ""
+msgstr "I flag aggiuntivi della stringa sorgente sono stati aggiornati."
 
 msgid "Font uploaded"
 msgstr "Font caricato"
@@ -40602,13 +40867,13 @@ msgid "Font changed"
 msgstr "Font modificato"
 
 msgid "An uploaded font was changed."
-msgstr ""
+msgstr "Un font caricato è stato modificato."
 
 msgid "Font removed"
 msgstr "Font rimosso"
 
 msgid "An uploaded font was removed."
-msgstr ""
+msgstr "Un font caricato è stato rimosso."
 
 msgid "Forced synchronization of translations"
 msgstr "Sincronizzazione forzata delle traduzioni"
@@ -40623,6 +40888,7 @@ msgstr "Nuova scansione forzata delle traduzioni"
 
 msgid "Translation files were forcibly rescanned for changes."
 msgstr ""
+"I file di traduzione sono stati riscansionati forzatamente per le modifiche."
 
 msgid "Screenshot removed"
 msgstr "Screenshot rimosso"
@@ -40668,36 +40934,28 @@ msgstr "Stringa di origine aggiunta nel repository"
 msgid "A source string was added while synchronizing from the repository."
 msgstr "Stringa di origine aggiunta nel repository"
 
-#, fuzzy
-#| msgid "Project level backups"
 msgid "Project backed up"
-msgstr "Backup a livello di progetto"
+msgstr "Backup del progetto eseguito"
 
 #, fuzzy
 #| msgid "Project level backups"
 msgid "A project backup was created."
 msgstr "Backup a livello di progetto"
 
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project restored"
-msgstr "Progetto rimosso"
+msgstr "Progetto ripristinato"
 
 msgid "A project was restored from a backup."
 msgstr ""
 
-#, fuzzy
-#| msgid "Component removed"
 msgid "Component restored"
-msgstr "Componente rimosso"
+msgstr "Componente ripristinato"
 
 msgid "A component was restored from a backup."
 msgstr ""
 
-#, fuzzy
-#| msgid "User removed"
 msgid "User edit reverted"
-msgstr "Utente rimosso"
+msgstr "Modifica utente ripristinata"
 
 msgid "All selected edits by a user were reverted."
 msgstr ""
@@ -40712,15 +40970,11 @@ msgstr "Stringa sorgente modificata"
 msgid "A project setting was changed."
 msgstr "Stringa sorgente modificata"
 
-#, fuzzy
-#| msgid "Component renamed"
 msgid "Component setting changed"
-msgstr "Componente rinominato"
+msgstr "Impostazione del componente modificata"
 
-#, fuzzy
-#| msgid "Component renamed"
 msgid "A component setting was changed."
-msgstr "Componente rinominato"
+msgstr "Un'impostazione del componente è stata modificata."
 
 #, fuzzy
 #| msgid "License changed"
@@ -40732,15 +40986,11 @@ msgstr "Licenza modificata"
 msgid "A user's access permissions were changed."
 msgstr "Licenza modificata"
 
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created"
-msgstr "Componente creato"
+msgstr "Spazio di lavoro creato"
 
-#, fuzzy
-#| msgid "Component created"
 msgid "A workspace was created."
-msgstr "Componente creato"
+msgstr "È stato creato uno spazio di lavoro."
 
 #, fuzzy
 #| msgid "Source string changed"
@@ -40760,15 +41010,11 @@ msgstr "Progetto rimosso"
 msgid "A project was moved into or out of a workspace."
 msgstr ""
 
-#, fuzzy
-#| msgid "Repository pre-update"
 msgid "Remote repository updated"
-msgstr "Repository pre-aggiornamento"
+msgstr "Repository remoto aggiornato"
 
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "A remote repository update was completed."
-msgstr "Rebase del repository non riuscito"
+msgstr "Un aggiornamento del repository remoto è stato completato."
 
 #, fuzzy
 #| msgid "Repository rebase failed"
@@ -40780,21 +41026,19 @@ msgstr "Rebase del repository non riuscito"
 msgid "Updating a remote repository failed."
 msgstr "Rebase del repository non riuscito"
 
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Alert dismissed"
-msgstr "Avviso attivato"
+msgstr "Avviso ignorato"
 
 msgid "A component alert was dismissed."
-msgstr ""
+msgstr "Un avviso del componente è stato ignorato."
 
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Alert reopened"
-msgstr "Avviso attivato"
+msgstr "Avviso riaperto"
 
 msgid "A component alert was reopened after its context changed."
 msgstr ""
+"Un avviso del componente è stato riaperto dopo che il suo contesto è "
+"cambiato."
 
 msgid "Built-in add-ons"
 msgstr "Componenti aggiuntivi integrati"
@@ -41054,7 +41298,10 @@ msgid "Component discovery"
 msgstr "Scoperta dei componenti"
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
 
 msgid "Use Django template syntax. This template must include {{ component }}."
@@ -41063,37 +41310,41 @@ msgstr ""
 msgid "Define the monolingual base filename"
 msgstr "Definisci il file lingua a base monolingue"
 
-#, fuzzy
-#| msgid "Leave empty for bilingual translation files."
 msgid ""
 "Leave empty for bilingual translation files. When set, this template must "
 "include {{ component }}."
-msgstr "Lascia vuoto per i file di traduzione bilingue."
+msgstr ""
+"Lascia vuoto per i file di traduzione bilingue. Se impostato, questo modello "
+"deve includere {{ component }}."
 
-#, fuzzy
-#| msgid ""
-#| "Filename of file used for creating new translations. For gettext "
-#| "choose .pot file."
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Il nome file che verrà usato per creare nuove traduzioni. Per gettext scegli "
-"un file .pot."
+"Il nome file usato per creare nuove traduzioni. Per gettext scegli un "
+"file .pot. Questo modello deve includere {{ component }}."
 
-#, fuzzy
-#| msgid ""
-#| "Filename of intermediate translation file. In most cases this is a "
-#| "translation file provided by developers and is used when creating actual "
-#| "source strings."
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
-"Nome file del file traduzione intermedio. Nella maggior parte dei casi si "
-"tratta di un file traduzione fornito dagli sviluppatori e viene usato "
-"durante la creazione di stringhe sorgenti effettive."
+"Nome file del file di traduzione intermedio. Nella maggior parte dei casi si "
+"tratta di un file di traduzione fornito dagli sviluppatori e viene usato "
+"durante la creazione delle stringhe sorgente effettive. Questo modello deve "
+"includere {{ component }}."
+
+#, fuzzy
+#| msgid "Screenshot file mask"
+msgid "Define the file mask"
+msgstr "Maschere file scoperte:"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid ""
 "Regular expression to filter translation files against when scanning for "
@@ -41129,10 +41380,12 @@ msgstr ""
 #| "regular expression can be used as variables in the template fields."
 msgid ""
 "The matching is done using regular expressions enabling complex "
-"configuration, but some knowledge is required to do so. The regular "
+"configuration, but some knowledge is required to do so. Usually the regular "
 "expression to match translation files has to contain two named groups to "
-"match component and language. All named groups in the regular expression can "
-"be used as variables in the template fields."
+"match component and language. When creating components from a monolingual "
+"base or new base file, omit the language group and match that source file "
+"instead. All named groups in the regular expression can be used as variables "
+"in the template fields."
 msgstr ""
 "L'espressione regolare per abbinare i file di traduzione deve contenere due "
 "gruppi di nomi per abbinare componente e lingua. Tutti i gruppi denominati "
@@ -41149,10 +41402,15 @@ msgid ""
 "following:"
 msgstr ""
 
+#, fuzzy
+#| msgid ""
+#| "The regular expression must define named groups for component and "
+#| "language."
 msgid ""
-"The regular expression must define ``component`` and ``language`` named "
-"groups."
+"The regular expression must define a ``component`` named group. Matching "
+"translation files also requires a ``language`` named group."
 msgstr ""
+"L'espressione regolare deve definire gruppi con nome per componente e lingua."
 
 msgid ""
 "Template fields used to name or locate per-component files must include "
@@ -41162,7 +41420,37 @@ msgstr ""
 
 msgid ""
 "For monolingual formats, the component must contain a file matching "
-"``base_file_template`` and at least one translation file matching ``match``."
+"``base_file_template`` and at least one translation file matching ``match``, "
+"unless you set the file mask (see below)."
+msgstr ""
+
+#, fuzzy
+#| msgid "String position in the translation file."
+msgid "Discovering components without translation files"
+msgstr "Posizione della stringa nel file di traduzione."
+
+msgid ""
+"Set :guilabel:`Define the file mask` to discover components from a "
+"monolingual base or new base file alone, even when no translation files "
+"exist yet. In that mode:"
+msgstr ""
+
+msgid ""
+"Configure :guilabel:`Regular expression to match translation files against` "
+"to match the monolingual base or new base file, and omit the ``language`` "
+"group. Keep full control over the ``component`` capture, for example "
+"``locale/(?P<component>[^/]+)\\.pot`` or ``docs/(?P<component>[^/_]+)\\.md``."
+msgstr ""
+
+msgid ""
+"Fill :guilabel:`Define the file mask` with a path that includes both a "
+"language wildcard and ``{{ component }}``, for example ``locale/*/"
+"{{ component }}.po`` or ``docs/{{ component }}_*.md``."
+msgstr ""
+
+msgid ""
+"Keep using the other filename templates with any named groups from the match "
+"expression."
 msgstr ""
 
 msgid "Worked example: ``news_<lang>.md``"
@@ -41311,15 +41599,11 @@ msgstr ""
 msgid "Fedora Messaging"
 msgstr "Messaggistica Fedora"
 
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Host broker AMQP"
+msgstr "URL broker AMQP"
 
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "Il broker AMQP a cui connettersi."
+msgstr "L'URL del broker AMQP a cui connettersi."
 
 #, fuzzy
 #| msgid "String prefix"
@@ -41344,15 +41628,13 @@ msgid "How many times to try connecting to the broker."
 msgstr ""
 
 msgid "Retry delay"
-msgstr ""
+msgstr "Ritardo per nuovo tentativo"
 
 msgid "How many seconds to wait between connection attempts."
 msgstr ""
 
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "Certificati CA"
+msgstr "Bundle certificato CA (PEM)"
 
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
@@ -41367,10 +41649,8 @@ msgid ""
 "not supported."
 msgstr ""
 
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "Certificati SSL client"
+msgstr "Certificato client (PEM)"
 
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
@@ -41813,10 +42093,8 @@ msgstr ""
 msgid "Customize gettext output"
 msgstr "Personalizza l'uscita gettext"
 
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update gettext template (Django)"
-msgstr "Aggiorna il file POT (Django)"
+msgstr "Aggiorna il template gettext (Django)"
 
 msgid "Update frequency"
 msgstr "Frequenza di aggiornamento"
@@ -41907,10 +42185,8 @@ msgstr "Aggiorna file LINGUAS"
 msgid "Updates the LINGUAS file when a translation is added or removed."
 msgstr "Aggiorna il file LINGUAS quando viene aggiunta una nuova traduzione."
 
-#, fuzzy
-#| msgid "Update POT file (Django)"
 msgid "Update POT file (Meson)"
-msgstr "Aggiorna il file POT (Django)"
+msgstr "Aggiorna il file POT (Meson)"
 
 msgid "Code comments"
 msgstr "Commenti sul codice"
@@ -41962,16 +42238,13 @@ msgstr ""
 msgid "bullet-unicode"
 msgstr ""
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
-msgstr "Parola chiave aggiuntive"
+msgstr "Parole chiave aggiuntive"
 
-#, fuzzy
-#| msgid "Optional extra keyword passed to xgettext using --keyword."
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
-"Parola chiave aggiuntiva opzionale passata a xgettext tramite --keyword."
+"Parole chiave aggiuntive separate da una nuova riga, passate a xgettext "
+"tramite --keyword."
 
 msgid "Use keywords exclusively"
 msgstr "Utilizza esclusivamente le parole chiave"
@@ -41982,10 +42255,8 @@ msgid ""
 "specified above is recognized."
 msgstr ""
 
-#, fuzzy
-#| msgid "Repository reset"
 msgid "Meson preset"
-msgstr "Reimpostazione repository"
+msgstr "Preimpostazione Meson"
 
 msgid ""
 "Built-in xgettext argument preset matching Meson gettext integration. The "
@@ -41996,13 +42267,8 @@ msgstr ""
 msgid "GLib"
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Updates the gettext template using xgettext on selected source files."
 msgid "Updates the gettext template using Meson gettext conventions."
-msgstr ""
-"Aggiorna il modello gettext utilizzando xgettext sui file sorgente "
-"selezionati."
+msgstr "Aggiorna il modello gettext usando le convenzioni gettext di Meson."
 
 #, fuzzy
 #| msgid "Recovery Procedures"
@@ -42186,13 +42452,13 @@ msgstr "Manifesti di POTFILES"
 msgid "xgettext language"
 msgstr "linguaggio xgettext"
 
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
 msgstr ""
-"Linguaggio di programmazione passato a xgettext, ad esempio Python o C."
+"Linguaggio di programmazione passato a xgettext, ad esempio Python o C. "
+"Lascia vuoto per lasciare che xgettext indovini il linguaggio dalle "
+"estensioni dei file."
 
 msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
@@ -42204,17 +42470,14 @@ msgstr ""
 msgid "POTFILES path"
 msgstr "Percorso POTFILES"
 
-#, fuzzy
-#| msgid ""
-#| "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
-#| "relative to that file."
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
 "Percorso relativo al repository per POTFILES o POTFILES.in. Le voci vengono "
-"risolte rispetto a quel file."
+"risolte rispetto alla radice del repository. Se presente accanto al "
+"manifesto, POTFILES.skip esclude i file elencati dall'estrazione."
 
 msgid "Updates the gettext template using xgettext on selected source files."
 msgstr ""
@@ -42413,14 +42676,12 @@ msgstr "Rimozione suggerimenti obsoleti"
 msgid "Voting threshold"
 msgstr "Soglia votazione"
 
-#, fuzzy
-#| msgid ""
-#| "Threshold for removal. This field has no effect with voting turned off."
 msgid ""
 "Threshold for removal. Leave empty to remove suggestions regardless of "
 "votes. This field has no effect with voting turned off."
 msgstr ""
-"Soglia per la rimozione. Questo campo non ha effetto con la votazione "
+"Soglia per la rimozione. Lascia vuoto per rimuovere i suggerimenti "
+"indipendentemente dai voti. Questo campo non ha effetto con la votazione "
 "disabilitata."
 
 msgid "Set a timeframe for removal of suggestions."
@@ -43180,10 +43441,8 @@ msgstr ""
 msgid "Summary"
 msgstr "Riepilogo"
 
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon."
 msgid "Source and translation contain inconsistent accelerator keys."
-msgstr "Sorgente e traduzione non terminano entrambe con i due punti."
+msgstr "Il sorgente e la traduzione contengono tasti acceleratori incoerenti."
 
 msgid "translated strings"
 msgstr "stringhe tradotte"
@@ -43228,15 +43487,11 @@ msgid ""
 "the check for such strings."
 msgstr ""
 
-#, fuzzy
-#| msgid "AsciiDoc file"
 msgid "AsciiDoc markup"
-msgstr "File AsciiDoc"
+msgstr "Markup AsciiDoc"
 
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "La stringa in formato C non corrisponde al sorgente."
+msgstr "Il markup AsciiDoc non corrisponde al sorgente."
 
 msgid "File formats automatically enabling this check"
 msgstr ""
@@ -43823,7 +44078,7 @@ msgid "Laravel format string does not match source."
 msgstr "La stringa di formato Laravel non corrisponde al sorgente."
 
 msgid ""
-"`Laravel translation formatting <https://laravel.com/docs/"
+"`Laravel translation formatting <https://laravel.com/framework/docs/"
 "localization#replacing-parameters-in-translation-strings>`_"
 msgstr ""
 
@@ -43860,15 +44115,11 @@ msgid ""
 "en/System.SysUtils.Format>`_"
 msgstr ""
 
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Formato Object Pascal"
+msgstr "Formato Objective-C"
 
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "La stringa in formato C non corrisponde al sorgente."
+msgstr "La stringa in formato Objective-C non corrisponde al sorgente."
 
 #, fuzzy
 #| msgid "Component name"
@@ -44203,10 +44454,8 @@ msgid ""
 "When ``xml-text`` flag is also used, the length calculation ignores XML tags."
 msgstr ""
 
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Dimensione massima della traduzione"
+msgstr "Numero massimo di righe"
 
 #, fuzzy
 #| msgid "Translation should not exceed given length."
@@ -44584,10 +44833,8 @@ msgstr ""
 msgid "Safe MDX"
 msgstr ""
 
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid "JSX expressions in the translation do not match the source."
-msgstr "I tag XML nella traduzione non corrispondono al sorgente."
+msgstr "Le espressioni JSX nella traduzione non corrispondono al sorgente."
 
 msgid "Same plurals"
 msgstr "Uguale singolare/plurale"
@@ -45200,6 +45447,21 @@ msgstr ""
 msgid "Sort JSON keys"
 msgstr "Ordina le chiavi JSON"
 
+msgid "Do not sort"
+msgstr ""
+
+#, fuzzy
+#| msgid "Enable case-sensitive key sorting"
+msgid "Case-sensitive sort"
+msgstr ""
+"Abilita l'ordinamento delle chiavi con distinzione tra maiuscole e minuscole"
+
+#, fuzzy
+#| msgid "Enable case-sensitive key sorting"
+msgid "Case-insensitive sort"
+msgstr ""
+"Abilita l'ordinamento delle chiavi con distinzione tra maiuscole e minuscole"
+
 msgid "json_use_compact_separators"
 msgstr ""
 
@@ -45212,18 +45474,14 @@ msgstr ""
 msgid "Maximum line length"
 msgstr ""
 
-#, fuzzy
-#| msgid "Maximum number of tokens to generate in the response."
 msgid "The maximum number of characters for each line in the output file."
-msgstr "Numero massimo di token da generare nella risposta."
+msgstr "Il numero massimo di caratteri per ogni riga nel file di output."
 
 msgid "md_extract_code_blocks"
 msgstr ""
 
-#, fuzzy
-#| msgid "Critical components"
 msgid "Extract code blocks"
-msgstr "Componenti critici"
+msgstr "Estrai blocchi di codice"
 
 msgid ""
 "Whether to extract translatable content from code blocks in Markdown and MDX "
@@ -45244,10 +45502,8 @@ msgstr ""
 msgid "md_frontmatter_translate_values"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translate front matter values"
-msgstr "Stato memoria traduzione"
+msgstr "Traduci i valori del front matter"
 
 msgid ""
 "Parse YAML front matter and translate only scalar string values. Keys, "
@@ -45259,10 +45515,8 @@ msgstr ""
 msgid "md_no_placeholders"
 msgstr "Segnaposti"
 
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Disable placeholders"
-msgstr "Segnaposti percentuale"
+msgstr "Disabilita segnaposto"
 
 msgid ""
 "Disables detection and processing of placeholders in Markdown and MDX files."
@@ -45353,34 +45607,32 @@ msgid ""
 "Lets Weblate update the \"Report-Msgid-Bugs-To\" file header if Source "
 "string bug reporting address is set."
 msgstr ""
+"Permetti a Weblate di aggiornare l'intestazione del file «Report-Msgid-Bugs-"
+"To» se è impostato l'indirizzo di segnalazione bug per le stringhe sorgente."
 
 #, fuzzy
 #| msgid "move_language"
 msgid "po_set_language_team"
 msgstr "move_language"
 
-#, fuzzy
-#| msgid "Set \"Language-Team\" header"
 msgid "Update language team header"
-msgstr "Imposta intestazione \"Team traduzione\""
+msgstr "Aggiorna l'intestazione «Language-Team»"
 
-#, fuzzy
-#| msgid "Set \"Language-Team\" header"
 msgid "Lets Weblate update the \"Language-Team\" file header."
-msgstr "Imposta intestazione \"Team traduzione\""
+msgstr ""
+"Permetti a Weblate di aggiornare l'intestazione del file «Language-Team»."
 
 #, fuzzy
 #| msgid "auto_translate"
 msgid "po_set_last_translator"
 msgstr "auto_translate"
 
-#, fuzzy
-#| msgid "Make a test translation"
 msgid "Update last translator header"
-msgstr "Fai una traduzione di prova"
+msgstr "Aggiorna intestazione ultimo traduttore"
 
 msgid "Lets Weblate update the \"Last-Translator\" file header."
 msgstr ""
+"Permetti a Weblate di aggiornare l'intestazione del file «Last-Translator»."
 
 msgid "po_set_x_generator"
 msgstr ""
@@ -45390,6 +45642,7 @@ msgstr ""
 
 msgid "Lets Weblate update the \"X-Generator\" file header."
 msgstr ""
+"Permetti a Weblate di aggiornare l'intestazione del file «X-Generator»."
 
 msgid "properties_encoding"
 msgstr "properties_encoding"
@@ -45721,6 +45974,12 @@ msgstr ""
 msgid "``claude-sonnet-5`` -- Claude Sonnet 5"
 msgstr ""
 
+msgid "``claude-opus-5`` -- Claude Opus 5"
+msgstr ""
+
+msgid "``claude-fable-5-1`` -- Claude Fable 5.1"
+msgstr ""
+
 msgid "``claude-opus-4-8`` -- Claude Opus 4.8"
 msgstr ""
 
@@ -45749,10 +46008,8 @@ msgstr ""
 "Descrivi lo stile della traduzione. Ad esempio: “Usa un linguaggio "
 "informale.”"
 
-#, fuzzy
-#| msgid "Version-specific instructions"
 msgid "Language-specific instructions"
-msgstr "Istruzioni specifiche per la versione"
+msgstr "Istruzioni specifiche per lingua"
 
 msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
@@ -45779,6 +46036,12 @@ msgid ""
 "The Anthropic API provides access to the Claude family of models, which are "
 "known for their strong reasoning and language capabilities. You need an API "
 "key from Anthropic to use this service."
+msgstr ""
+
+msgid ""
+"The model choices favor current generally available Claude models. "
+"Previously offered models remain selectable while Anthropic continues to "
+"support them."
 msgstr ""
 
 msgid ""
@@ -45835,25 +46098,19 @@ msgstr ""
 msgid "Brevity"
 msgstr ""
 
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Prefer shorter translations when supported."
-msgstr "Pre completamento traduzione con sorgente"
+msgstr "Preferisci traduzioni più brevi, ove possibile."
 
 #, fuzzy
 #| msgid "Translated"
 msgid "``ON`` -- Enabled"
 msgstr "Stringhe tradotte"
 
-#, fuzzy
-#| msgid "Profile"
 msgid "Profanity"
-msgstr "Profilo"
+msgstr "Volgarità"
 
-#, fuzzy
-#| msgid "Amount of words in the translated string."
 msgid "Mask profane words in translated text."
-msgstr "Quantità di parole nella stringa tradotta."
+msgstr "Maschera le parole volgari nel testo tradotto."
 
 msgid "``MASK`` -- Mask profanity"
 msgstr ""
@@ -46250,27 +46507,15 @@ msgid ""
 "reference/authentication#authenticating-with-an-access-token>`_"
 msgstr ""
 
-#, fuzzy
-#| msgid "OpenAI API base URL"
 msgid "Mistral API base URL"
-msgstr "URL di base API OpenAI"
+msgstr "URL di base API Mistral"
 
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
-msgstr "URL di base dell'API OpenAI, se diverso dall'URL predefinito di OpenAI"
+msgstr ""
+"URL di base dell'API Mistral, se diverso dall'URL predefinito di Mistral"
 
-#, fuzzy
-#| msgid "LLM model"
 msgid "Mistral model"
-msgstr "Modello LLM"
-
-msgid "``ministral-3b-latest`` -- Ministral 3 3B"
-msgstr ""
-
-msgid "``ministral-8b-latest`` -- Ministral 3 8B"
-msgstr ""
+msgstr "Modello Mistral"
 
 msgid "``mistral-small-latest`` -- Mistral Small 4"
 msgstr ""
@@ -46278,10 +46523,25 @@ msgstr ""
 msgid "``ministral-14b-latest`` -- Ministral 3 14B"
 msgstr ""
 
+msgid "``ministral-8b-latest`` -- Ministral 3 8B"
+msgstr ""
+
+msgid "``ministral-3b-latest`` -- Ministral 3 3B"
+msgstr ""
+
 msgid "``mistral-large-latest`` -- Mistral Large 3"
 msgstr ""
 
 msgid "``mistral-medium-latest`` -- Mistral Medium 3.5"
+msgstr ""
+
+msgid ""
+"Automatic and predefined model selection queries the service model-listing "
+"endpoint. Automatic selection prefers general-purpose models that balance "
+"translation quality, response time, and price, trying other available models "
+"in the displayed order. Choose :guilabel:`Custom model` when using a "
+"compatible gateway that does not provide model discovery; Weblate sends the "
+"configured model identifier directly to the chat endpoint."
 msgstr ""
 
 msgid "Context vector"
@@ -46359,34 +46619,60 @@ msgstr "URL di base dell'API OpenAI, se diverso dall'URL predefinito di OpenAI"
 msgid "OpenAI model"
 msgstr "Modello OpenAI"
 
-msgid "``gpt-5-nano`` -- GPT-5 nano"
-msgstr ""
-
-msgid "``gpt-5.4-nano`` -- GPT-5.4 nano"
-msgstr ""
-
-msgid "``gpt-5-mini`` -- GPT-5 mini"
+msgid "``gpt-5.6-luna`` -- GPT-5.6 Luna"
 msgstr ""
 
 msgid "``gpt-5.4-mini`` -- GPT-5.4 mini"
 msgstr ""
 
-msgid "``gpt-5.6-luna`` -- GPT-5.6 Luna"
+msgid "``gpt-5-mini`` -- GPT-5 mini"
 msgstr ""
 
-msgid "``gpt-5`` -- GPT-5"
+msgid "``gpt-5.4-nano`` -- GPT-5.4 nano"
 msgstr ""
 
-msgid "``gpt-5.4`` -- GPT-5.4"
+msgid "``gpt-5-nano`` -- GPT-5 nano"
 msgstr ""
 
 msgid "``gpt-5.6-terra`` -- GPT-5.6 Terra"
 msgstr ""
 
-msgid "``gpt-5.5`` -- GPT-5.5"
+msgid "``gpt-5.4`` -- GPT-5.4"
+msgstr ""
+
+msgid "``gpt-5`` -- GPT-5"
 msgstr ""
 
 msgid "``gpt-5.6`` -- GPT-5.6 Sol"
+msgstr ""
+
+msgid "``gpt-5.5`` -- GPT-5.5"
+msgstr ""
+
+msgid "``gpt-4.1-mini`` -- GPT-4.1 mini"
+msgstr ""
+
+msgid "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr ""
+
+msgid "``gpt-4.1-nano`` -- GPT-4.1 nano"
+msgstr ""
+
+msgid "``gpt-4.1`` -- GPT-4.1"
+msgstr ""
+
+#, fuzzy
+#| msgid "``o3`` -- o3"
+msgid "``gpt-4o`` -- GPT-4o"
+msgstr "``o3`` -- o3"
+
+msgid "``gpt-4-turbo`` -- GPT-4 Turbo"
+msgstr ""
+
+msgid "``gpt-4`` -- GPT-4"
+msgstr ""
+
+msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgstr ""
 
 msgid "Performs translation using `OpenAI`_."
@@ -46397,6 +46683,16 @@ msgid ""
 "capabilities and price points. Automatic selection chooses the best model "
 "available, but you might want to choose a specific model that matches your "
 "needs."
+msgstr ""
+
+msgid ""
+"Automatic and predefined model selection queries the service model-listing "
+"endpoint. Automatic selection prefers current general-purpose models that "
+"balance translation quality, response time, and price, using older GPT "
+"models only as compatibility fallbacks. Choose :guilabel:`Custom model` when "
+"using an OpenAI-compatible gateway that does not provide model discovery; "
+"Weblate sends the configured model identifier directly to the chat "
+"completions endpoint."
 msgstr ""
 
 msgid ""
@@ -46767,23 +47063,19 @@ msgstr "Pubblica annunci"
 msgid "Delete announcements"
 msgstr "Elimina annunci"
 
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Edit workspace settings"
-msgstr "Modifica stringhe sorgente"
+msgstr "Modifica le impostazioni dello spazio di lavoro"
 
 msgid "Add projects to workspace"
-msgstr ""
+msgstr "Aggiungi progetti allo spazio di lavoro"
 
 #, fuzzy
 #| msgid ":guilabel:`Add new projects`"
 msgid ":guilabel:`Add workspace projects`"
 msgstr ":guilabel:`Aggiungi nuovi progetti`"
 
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Manage workspace access"
-msgstr "Gestisci accessi al progetto"
+msgstr "Gestisci l'accesso allo spazio di lavoro"
 
 msgid "Site wide privileges"
 msgstr ""
@@ -46791,10 +47083,8 @@ msgstr ""
 msgid "Use management interface"
 msgstr "Usa interfaccia di gestione"
 
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Configurazione Weblate"
+msgstr "Gestisci la configurazione del sito"
 
 msgid "Add new projects"
 msgstr "Aggiungi nuovi progetti"
@@ -46802,10 +47092,8 @@ msgstr "Aggiungi nuovi progetti"
 msgid ":guilabel:`Add new projects`"
 msgstr ":guilabel:`Aggiungi nuovi progetti`"
 
-#, fuzzy
-#| msgid "Add new projects"
 msgid "Add new workspaces"
-msgstr "Aggiungi nuovi progetti"
+msgstr "Aggiungi nuovi spazi di lavoro"
 
 msgid "Add language definitions"
 msgstr "Aggiungi definizioni lingua"
@@ -46817,7 +47105,7 @@ msgid "Manage teams"
 msgstr "Gestione team"
 
 msgid "View team info"
-msgstr "Visualizza info team"
+msgstr "Visualizza informazioni sulla squadra"
 
 msgid "Manage users"
 msgstr "Gestione degli utenti"
@@ -47084,10 +47372,8 @@ msgstr "Sistema di controllo versione"
 msgid "create_merge_request"
 msgstr "Richieste di unione di pagine"
 
-#, fuzzy
-#| msgid "Pagure merge requests"
 msgid "Create merge requests"
-msgstr "Richieste di unione di pagine"
+msgstr "Crea richieste di merge"
 
 msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
@@ -47638,7 +47924,7 @@ msgid "Glossary entry types"
 msgstr "Termini del glossario"
 
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 msgid "Purpose"
 msgstr ""
@@ -50186,8 +50472,9 @@ msgstr ""
 
 msgid ""
 "The :pypi:`Weblate Client <wlc>` is shipped separately and includes the "
-"Python module. To use the commands below, you need to install :program:`wlc` "
-"using pip:"
+"Python module. The source code is maintained in the `WeblateOrg/wlc "
+"repository <https://github.com/WeblateOrg/wlc>`_. To use the commands below, "
+"you need to install :program:`wlc` using pip:"
 msgstr ""
 
 msgid "You can also execute it directly using :program:`uvx`:"
@@ -50204,11 +50491,46 @@ msgid "The Weblate Client is also available as a Docker image."
 msgstr ""
 
 msgid ""
-"The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc"
+"Images are published on `Docker Hub <https://hub.docker.com/r/weblate/wlc>`_ "
+"and the `GitHub Container Registry <https://github.com/WeblateOrg/wlc/pkgs/"
+"container/wlc>`_. The examples below use the Docker Hub image name."
 msgstr ""
 
 msgid "Installing:"
 msgstr "Installazione:"
+
+#, fuzzy
+#| msgid "Following checks are failing:"
+msgid "The following tags are available:"
+msgstr "Errori trovati:"
+
+#, fuzzy
+#| msgid "Weblate stable release"
+msgid "Latest stable release."
+msgstr "Versione stabile di Weblate"
+
+msgid "Full version, for example ``2.2.0``"
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate stable release"
+msgid "A specific stable release."
+msgstr "Versione stabile di Weblate"
+
+msgid "Major version, for example ``2``"
+msgstr ""
+
+msgid "Latest stable release in that major series."
+msgstr ""
+
+msgid "Current development version from the main branch."
+msgstr ""
+
+msgid "A specific development snapshot."
+msgstr ""
+
+msgid "To build an image from the source checkout:"
+msgstr ""
 
 msgid ""
 "The Docker container uses Weblate Client defaults and connects to the API "
@@ -50234,14 +50556,19 @@ msgid ""
 "When the mounted repository provides the API URL in project configuration "
 "and you pass an unscoped API key to the container, also pin the URL "
 "explicitly: :envvar:`WLC_KEY` requires :envvar:`WLC_URL`, and :option:`--"
-"key` requires :option:`--url`."
+"key` requires :option:`--url`. The same pairing is required for "
+"the :option:`--allow-insecure-http` and :option:`--allow-insecure-ssl` "
+"overrides."
 msgstr ""
 
 msgid ""
 "If the configured API URL uses non-local ``http://`` and an API key is "
 "provided, the container refuses to send the key unless insecure HTTP is "
 "explicitly enabled. Prefer HTTPS; for legacy deployments, pass :option:`--"
-"allow-insecure-http` or set :envvar:`WLC_ALLOW_INSECURE_HTTP`."
+"allow-insecure-http` or set :envvar:`WLC_ALLOW_INSECURE_HTTP`. TLS "
+"certificates are always verified by default, including for loopback URLs. "
+"Use :option:`--allow-insecure-ssl` or :envvar:`WLC_ALLOW_INSECURE_SSL` only "
+"when certificate verification can not be enabled."
 msgstr ""
 
 msgid "Getting started"
@@ -50262,6 +50589,11 @@ msgstr "Configurazione legacy"
 msgid "The legacy configuration using unscoped ``key`` is no longer supported."
 msgstr ""
 
+msgid ""
+"Global ``allow_insecure_http`` configuration is no longer supported. "
+"Configure an origin in the ``[insecure_http]`` section instead."
+msgstr ""
+
 msgid "Migrate legacy configuration:"
 msgstr "Migrazione della configurazione legacy:"
 
@@ -50276,8 +50608,8 @@ msgstr ""
 
 msgid ""
 "Weblate Client is a Python library and command-line utility to manage "
-"Weblate remotely using :ref:`api`. The command-line utility can be invoked "
-"as :command:`wlc` and is built-in on :mod:`wlc`."
+"Weblate remotely using :ref:`api`. Invoke the command-line utility "
+"as :command:`wlc`; see :mod:`wlc` for the Python API."
 msgstr ""
 
 msgid "Arguments"
@@ -50288,7 +50620,18 @@ msgid ""
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
 
-msgid "Specify the output format."
+msgid "Specify the output format. The default is ``text``."
+msgstr ""
+
+msgid ""
+"Print the program version and exit. The :option:`version` command supports "
+"output formatting and can print only the version number."
+msgstr ""
+
+msgid ""
+"Print verbose HTTP communication. Authorization header values are redacted "
+"and request bodies are not logged, but query parameters are; do not put "
+"secrets in query parameters."
 msgstr ""
 
 msgid ""
@@ -50309,8 +50652,15 @@ msgid ""
 "Allow sending API keys over non-local ``http://`` URLs. Prefer HTTPS or "
 "loopback HTTP instead; this option is intended only for legacy deployments "
 "where HTTPS is not available. This option only enables insecure HTTP for the "
-"current run; omitting it does not disable ``allow_insecure_http`` from "
-"configuration."
+"current run. When the API URL comes from automatically discovered project "
+"configuration, this option requires :option:`--url`."
+msgstr ""
+
+msgid ""
+"Disable TLS certificate verification for the current run. Certificates are "
+"verified by default for every HTTPS URL, including loopback URLs. When the "
+"API URL comes from automatically discovered project configuration, this "
+"option requires :option:`--url`."
 msgstr ""
 
 msgid ""
@@ -50318,7 +50668,45 @@ msgid ""
 "project configuration files, see :ref:`wlc-config`."
 msgstr ""
 
-msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
+msgid ""
+"Selects the configuration file section to use instead of ``[weblate]``, "
+"see :ref:`wlc-config`."
+msgstr ""
+
+#, fuzzy
+#| msgid "object name"
+msgid "Object paths"
+msgstr "nome dell'oggetto"
+
+msgid "Commands that operate on an object accept one of these paths:"
+msgstr ""
+
+#, fuzzy
+#| msgid "*Project slug*"
+msgid "Project slug."
+msgstr "*Progetto slug*"
+
+#, fuzzy
+#| msgid "A component was moved within a project."
+msgid "Component slug, including its project."
+msgstr "Un componente è stato spostato all'interno di un progetto."
+
+#, fuzzy
+#| msgid ":guilabel:`Secondary language defined in project or component`"
+msgid "Translation language, including its project and component."
+msgstr ":guilabel:`Lingua secondaria definita nel progetto o nel componente`"
+
+msgid ""
+"Numeric translation unit ID. Only commands that explicitly support units "
+"accept this form."
+msgstr ""
+
+msgid ""
+"Commands that require an object use the ``translation`` setting "
+"from :ref:`wlc-config` when the path is omitted. The :option:`ls` "
+"and :option:`download` commands also use this setting before falling back to "
+"their no-object behavior. For :option:`list-components` and :option:`list-"
+"translations`, an omitted object always requests an instance-wide list."
 msgstr ""
 
 msgid "Commands"
@@ -50330,22 +50718,61 @@ msgstr ""
 msgid "Prints the current version."
 msgstr ""
 
-msgid "Lists used languages in Weblate."
+msgid "Prints only the version number."
 msgstr ""
 
-msgid "Lists projects in Weblate."
+#, fuzzy
+#| msgid "All changes in Weblate are logged."
+msgid "Lists all languages in Weblate."
+msgstr "Tutte le modifiche in Weblate vengono registrate."
+
+#, fuzzy
+#| msgid "Link to your project on Weblate"
+msgid "Lists all projects in Weblate."
+msgstr "Link al tuo progetto su Weblate"
+
+#, fuzzy
+#| msgid ""
+#| "Enter slug of a component to use as source, keep blank to use all "
+#| "components in the current project."
+msgid ""
+"Lists all components in Weblate, or components in the specified project."
+msgstr ""
+"Inserisci slug del componente da usare come sorgente, lascia vuoto per usare "
+"tutti i componenti nel progetto attuale."
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid ""
+"Lists all translations in Weblate, or translations in the specified "
+"component."
+msgstr ""
+"Traduce automaticamente le stringhe usando la traduzione automatica o altri "
+"componenti."
+
+#, fuzzy
+#| msgid "Listing of other translations."
+msgid "Lists units in the specified translation."
+msgstr "Elenco di altre traduzioni."
+
+msgid "Filters units using the :doc:`search query syntax </user/search>`."
 msgstr ""
 
-msgid "Lists components in Weblate."
+#, fuzzy
+#| msgid "Performs partial update on translation unit."
+msgid "Shows a project, component, translation, or unit."
+msgstr "Esegue l'aggiornamento parziale sull'unità di traduzione."
+
+msgid ""
+"Deletes a project, component, translation, or unit without a confirmation "
+"prompt."
 msgstr ""
 
-msgid "Lists translations in Weblate."
-msgstr ""
-
-msgid "Shows Weblate object (translation, component or project)."
-msgstr ""
-
-msgid "Lists Weblate object (translation, component or project)."
+msgid ""
+"Lists all projects when no object is specified, components in a project, or "
+"translations in a component."
 msgstr ""
 
 msgid ""
@@ -50382,8 +50809,12 @@ msgid ""
 "component or project)."
 msgstr ""
 
-msgid "Displays lock status."
+#, fuzzy
+#| msgid "Make parse errors lock translation of a component."
+msgid "Displays the lock status of a component."
 msgstr ""
+"Fai in modo che gli errori di analisi blocchino la traduzione di un "
+"componente."
 
 msgid "Locks component from further translation in Weblate."
 msgstr ""
@@ -50391,45 +50822,90 @@ msgstr ""
 msgid "Unlocks translation of Weblate component."
 msgstr ""
 
-msgid "Displays changes for a given object."
-msgstr ""
-
-msgid "Downloads a translation file."
+msgid "Displays changes for a project, component, or translation."
 msgstr ""
 
 msgid ""
-"Converts file format, if unspecified no conversion happens on the server and "
-"the file is downloaded as is to the repository."
+"Downloads translation files. For a translation, :program:`wlc` writes the "
+"file to :option:`--output` or to redirected standard output. It refuses to "
+"write raw file content to an interactive terminal."
 msgstr ""
 
 msgid ""
-"Specifies file to save output in, if left unspecified it is printed to "
-"stdout."
+"For a component or project, :option:`--output` is required and is treated as "
+"a directory. :program:`wlc` writes one ZIP archive per component. With no "
+"object, it downloads every component in the Weblate instance in the same way."
+msgstr ""
+
+msgid ""
+"Requests conversion to ``FORMAT`` on the server. If unspecified, no "
+"conversion happens."
+msgstr ""
+
+msgid ""
+"Specifies the output file for a translation or output directory for a "
+"component, project, or instance-wide download. Use ``-`` to write a "
+"translation to standard output."
+msgstr ""
+
+msgid ""
+"Excludes glossary components from component, project, and instance-wide "
+"downloads."
 msgstr ""
 
 msgid "Uploads a translation file."
 msgstr ""
 
-msgid "Overwrite existing translations upon uploading."
+msgid ""
+"Overwrites existing translated strings. This is equivalent to ``--conflicts "
+"replace-translated``."
+msgstr ""
+
+msgid "Selects how conflicts with existing translations are handled."
 msgstr ""
 
 msgid ""
-"File from which content is read, if left unspecified it is read from stdin."
-msgstr ""
-
-msgid "Upload method to use, see :ref:`upload-method`."
+"Reads content from ``PATH``. If unspecified or ``-``, content is read from "
+"standard input."
 msgstr ""
 
 msgid ""
-"Fuzzy (marked for edit) strings processing (*empty*, ``process``, "
-"``approve``)"
+"Upload method to use, see :ref:`upload-method`. The default is ``translate``."
 msgstr ""
+
+#, fuzzy
+#| msgid "percentage of fuzzy (marked for edit) words"
+msgid "Selects processing of fuzzy strings (marked for edit)."
+msgstr "percentuale di parole fuzzy (contrassegnate per la modifica)"
 
 msgid "Author name, to override currently authenticated user"
 msgstr ""
 
 msgid "Author e-mail, to override currently authenticated user"
 msgstr ""
+
+msgid "Updates a translation unit. At least one update option is required."
+msgstr ""
+
+#, fuzzy
+#| msgid "Untranslated strings"
+msgid "Sets one or more translated strings."
+msgstr "Stringhe non tradotte"
+
+msgid ""
+"Sets the unit state: ``0`` for empty, ``10`` for fuzzy, ``20`` for "
+"translated, or ``30`` for approved."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search in explanations."
+msgid "Sets the string explanation."
+msgstr "Cerca nelle spiegazioni."
+
+#, fuzzy
+#| msgid "Edit additional string info"
+msgid "Sets additional string flags."
+msgstr "Modifica info aggiuntiva stringa"
 
 msgid ""
 "You can get more detailed information on invoking individual commands by "
@@ -50470,9 +50946,20 @@ msgstr ""
 msgid "Global configuration file on Unix-like systems."
 msgstr ""
 
+msgid ":file:`~/.config/weblate.ini`"
+msgstr ""
+
+msgid "Alternative global configuration filename on Unix-like systems."
+msgstr ""
+
 #, fuzzy
 #| msgid "System wide configuration file."
 msgid "System-wide fallback configuration file."
+msgstr "File di configurazione a livello di sistema."
+
+#, fuzzy
+#| msgid "System wide configuration file."
+msgid "Alternative system-wide fallback filename."
 msgstr "File di configurazione a livello di sistema."
 
 msgid ""
@@ -50500,6 +50987,13 @@ msgid "Project configuration file placed in the repository."
 msgstr "File di configurazione inserito nella directory del progetto."
 
 msgid ""
+"Project configuration is loaded after global configuration and overrides "
+"matching settings. It can select the API URL, default object, request "
+"settings, and a matching URL-scoped API key, allowing a cloned repository to "
+"automatically select its Weblate server and translation."
+msgstr ""
+
+msgid ""
 "Only the closest project configuration file is loaded. Configuration files "
 "in farther parent directories are ignored."
 msgstr ""
@@ -50517,26 +51011,27 @@ msgstr ""
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
 msgstr ""
 
-msgid "Path to the default translation - component or project."
+msgid ""
+"Default object path for commands that accept one: a project, component, "
+"translation, or numeric unit ID."
 msgstr ""
 
 msgid ""
-"Allow API keys over non-local ``http://`` URLs, defaults to ``false``. "
-"Loopback HTTP URLs, such as ``http://127.0.0.1:8000/api/``, remain allowed "
-"for local development without this option. Prefer HTTPS instead of enabling "
-"this setting. Automatically discovered project configuration files cannot "
-"enable this option; set it in user configuration, an explicit :option:`--"
-"config` file, :envvar:`WLC_ALLOW_INSECURE_HTTP`, or :option:`--allow-"
-"insecure-http`. The setting is cumulative: any trusted source that enables "
-"insecure HTTP is enough, and false or unset values from command-line or "
-"environment sources do not disable it."
+"HTTP request retry and timeout settings. ``retries`` defaults to ``0`` and "
+"``backoff_factor`` to ``0``. ``status_forcelist`` is a comma-separated list "
+"of HTTP status codes that trigger retries and is empty by default."
 msgstr ""
 
 msgid ""
-"Optional HTTP retry and timeout settings passed to ``urllib3``. Use "
-"``allowed_methods`` to list the request methods that may be retried. "
-"Current :program:`wlc` releases use this setting name in place of the older "
-"``method_whitelist`` option."
+"``allowed_methods`` lists methods that may be retried, separated by commas "
+"or whitespace. It defaults to ``HEAD``, ``DELETE``, ``OPTIONS``, ``PUT``, "
+"and ``GET``. These retry settings are passed to ``urllib3.util.Retry``."
+msgstr ""
+
+msgid ""
+"``timeout`` is the request timeout in seconds and defaults to ``300``. "
+"Current :program:`wlc` releases use ``allowed_methods`` in place of the "
+"older ``method_whitelist`` option."
 msgstr ""
 
 msgid "The configuration file is an INI file, for example:"
@@ -50549,7 +51044,36 @@ msgid ""
 "This allows you to store keys in your personal settings, while using "
 "the :file:`.weblate` configuration in the VCS repository so "
 "that :program:`wlc` knows which server it should talk to. The ``[keys]`` "
-"lookup is scoped to the exact API URL."
+"lookup is scoped to the complete configured API URL, not merely its network "
+"origin."
+msgstr ""
+
+msgid ""
+"Project configuration can also supply or replace a matching entry in "
+"``[keys]``. Do not commit valuable API keys to version control; normally "
+"keep keys in personal configuration and only the API URL and default object "
+"in project configuration."
+msgstr ""
+
+msgid ""
+"Insecure transport exceptions are stored in origin-scoped sections in "
+"trusted user configuration:"
+msgstr ""
+
+msgid ""
+"An origin consists of the scheme, normalized hostname, and effective port. "
+"The API path is ignored, while different schemes and ports remain isolated. "
+"The ``[insecure_http]`` section allows API keys over non-local HTTP for "
+"matching origins. The ``[insecure_ssl]`` section disables TLS certificate "
+"verification for matching origins."
+msgstr ""
+
+msgid ""
+"TLS certificates are verified for all hosts by default. Insecure HTTP and "
+"TLS configuration is scoped to origins. Automatically discovered project "
+"configuration can neither add entries to these sections nor enable the "
+"removed global settings. User configuration and explicitly "
+"selected :option:`--config` files are trusted."
 msgstr ""
 
 msgid ""
@@ -50568,6 +51092,12 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Insecure HTTP and TLS environment overrides require :envvar:`WLC_URL` when "
+"the API URL would otherwise come from automatically discovered project "
+"configuration."
+msgstr ""
+
+msgid ""
 "The API URL and key can also be configured using environment variables. This "
 "is especially useful for CI workflows where :envvar:`WLC_URL` pins the "
 "destination and :envvar:`WLC_KEY` is injected as a secret:"
@@ -50583,13 +51113,23 @@ msgstr ""
 msgid ""
 "Set to ``1``, ``true``, ``yes``, or ``on`` to allow API keys over non-local "
 "``http://`` URLs. Prefer HTTPS or loopback HTTP instead. Other values, such "
-"as ``0`` or ``false``, are treated as unset and do not disable "
-"``allow_insecure_http`` from configuration."
+"as ``0`` or ``false``, are treated as unset. When the API URL would "
+"otherwise come from automatically discovered project configuration, this "
+"variable is accepted only together with :envvar:`WLC_URL`."
 msgstr ""
 
 msgid ""
-"The same protection applies to command-line arguments: :option:`--key` is "
-"accepted with automatically discovered project configuration only "
+"Set to ``1``, ``true``, ``yes``, or ``on`` to disable TLS certificate "
+"verification. Other values, such as ``0`` or ``false``, are treated as "
+"unset. When the API URL would otherwise come from automatically discovered "
+"project configuration, this variable is accepted only together "
+"with :envvar:`WLC_URL`."
+msgstr ""
+
+msgid ""
+"The same protection applies to command-line arguments: :option:`--"
+"key`, :option:`--allow-insecure-http`, and :option:`--allow-insecure-ssl` "
+"are accepted with automatically discovered project configuration only "
 "when :option:`--url` is provided."
 msgstr ""
 
@@ -50609,12 +51149,43 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The insecure HTTP opt-in is enable-only rather than a normal precedence "
-"setting. It is enabled when :option:`--allow-insecure-http` is passed, "
-"when :envvar:`WLC_ALLOW_INSECURE_HTTP` has a true value, or when "
-"``allow_insecure_http`` is enabled in trusted configuration. Automatically "
-"discovered project configuration cannot enable it; set it in user "
-"configuration or pass an explicit :option:`--config` file instead."
+"The insecure transport opt-ins are enable-only rather than normal precedence "
+"settings. They are enabled by a command-line or environment override, or by "
+"a matching origin in the trusted ``[insecure_http]`` or ``[insecure_ssl]`` "
+"section. Automatically discovered project configuration cannot add trusted "
+"origins."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security updates"
+msgid "Security model"
+msgstr "Aggiornamenti di sicurezza"
+
+msgid ""
+"Project configuration is part of the repository workflow and is "
+"intentionally trusted to select the API endpoint, default object, request "
+"settings, and a matching URL-scoped API key. Running :program:`wlc` inside a "
+"repository authorizes its nearest project configuration to select the server "
+"that receives commands and uploads and supplies displayed or downloaded "
+"content. Use an explicit trusted :option:`--config` file when this is not "
+"desired."
+msgstr ""
+
+msgid ""
+"The command-line client accepts API keys from :option:`--"
+"key`, :envvar:`WLC_KEY`, or the ``[keys]`` section. It does not load HTTP "
+"authentication from :file:`.netrc` or the file named by ``NETRC``. "
+"Credentials embedded in API URLs are rejected; use an API key instead. Other "
+"Requests environment integration, including proxy and CA-bundle variables, "
+"remains enabled."
+msgstr ""
+
+msgid ""
+"The `wlc threat model <https://github.com/WeblateOrg/wlc/blob/main/"
+"THREAT_MODEL.md>`_ documents the complete trust boundaries, security "
+"properties, non-goals, and downstream responsibilities. A version-matched "
+"copy is included in source and wheel distributions. Report security issues "
+"using the :ref:`Weblate vulnerability reporting process <security>`."
 msgstr ""
 
 msgid "Examples"
@@ -51070,6 +51641,9 @@ msgid ""
 "source code, or remove the label."
 msgstr ""
 
+#~ msgid "Language selection"
+#~ msgstr "Selezione lingua"
+
 #, fuzzy
 #~| msgid "List components in a component list."
 #~ msgid ""
@@ -51094,9 +51668,6 @@ msgstr ""
 
 #~ msgid "Older versions are no longer supported by Weblate."
 #~ msgstr "Le versioni precedenti non sono più supportate da Weblate."
-
-#~ msgid "``o3`` -- o3"
-#~ msgstr "``o3`` -- o3"
 
 #~ msgid "``o1`` -- o1"
 #~ msgstr "``o1`` -- o1"
@@ -51703,9 +52274,6 @@ msgstr ""
 #~ msgid "last string update"
 #~ msgstr "ultimo aggiornamento della stringa"
 
-#~ msgid "Performs partial update on translation unit."
-#~ msgstr "Esegue l'aggiornamento parziale sull'unità di traduzione."
-
 #~ msgid "Performs full update on translation unit."
 #~ msgstr "Esegue l'aggiornamento completo sull'unità di traduzione."
 
@@ -51808,9 +52376,6 @@ msgstr ""
 #~ msgid "number of fuzzy (marked for edit) characters"
 #~ msgstr "numero di caratteri fuzzy (contrassegnati per la modifica)"
 
-#~ msgid "percentage of fuzzy (marked for edit) words"
-#~ msgstr "percentuale di parole fuzzy (contrassegnate per la modifica)"
-
 #~ msgid "percentage of fuzzy (marked for edit) characters"
 #~ msgstr "percentuale di caratteri fuzzy (contrassegnati per la modifica)"
 
@@ -51852,9 +52417,6 @@ msgstr ""
 
 #~ msgid "number of strings with comments"
 #~ msgstr "numero di stringhe con commenti"
-
-#~ msgid "object name"
-#~ msgstr "nome dell'oggetto"
 
 #~ msgid "URL to access the translation (if applicable)"
 #~ msgstr "URL per accedere alla traduzione (se applicabile)"
@@ -53336,9 +53898,6 @@ msgstr ""
 #~ msgid "*Watched projects*"
 #~ msgstr "*Progetti monitorati*"
 
-#~ msgid "*Project slug*"
-#~ msgstr "*Progetto slug*"
-
 #~ msgid "weblate"
 #~ msgstr "weblate"
 
@@ -53978,11 +54537,6 @@ msgstr ""
 
 #~ msgid "Different strings are translated same."
 #~ msgstr "Stringhe diverse vengono tradotte allo stesso modo."
-
-#, fuzzy
-#~| msgid "Following checks are failing:"
-#~ msgid "Following operations are available:"
-#~ msgstr "Errori trovati:"
 
 #~ msgid "Locking prevents translators from doing changes"
 #~ msgstr "Il blocco impedisce ai traduttori di apportare modifiche"

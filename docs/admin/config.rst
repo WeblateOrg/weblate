@@ -203,7 +203,7 @@ Argon2id parallelism factor. Defaults to ``1``.
 
 .. seealso::
 
-    `ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_
+    `ALTCHA Proof of Work Mechanism <https://altcha.org/docs/integration/proof-of-work-captcha/>`_
 
 .. setting:: ANONYMOUS_USER_NAME
 
@@ -237,6 +237,10 @@ This is currently applied in the following locations:
 
 * Sign in. Deletes the account password, preventing the user from signing in
   without requesting a new password.
+* Second-factor sign in. Deletes the account password after this many rejected
+  second-factor submissions since the last successful second-factor sign in.
+  This also invalidates pending password sign-ins. Other authentication methods
+  and API tokens remain usable.
 * Password reset. Prevents new e-mails from being sent, avoiding spamming
   users with too many password-reset attempts.
 
@@ -253,6 +257,17 @@ AUTO_UPDATE
 
 Updates all repositories on a daily basis.
 
+Every hour, Weblate queues updates for repositories whose component ID modulo 24
+matches the current UTC hour. This distributes updates throughout the day. For
+example, component ID ``25`` is selected during the hour from 01:00 to 01:59 UTC.
+Linked components use the schedule of the component that owns their shared
+repository.
+
+The assigned hour determines when updates are queued, not when they finish.
+Execution can be delayed by queued tasks or repository operations. Restarting
+Celery does not change the assigned hour. This setting does not provide a
+configurable update time window.
+
 .. hint::
 
     Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.
@@ -266,13 +281,15 @@ The options are:
 ``"none"``
     No daily updates.
 ``"remote"`` also ``False``
-    Only update remotes.
+    Fetch remote changes without merging them into the working copy. This is the
+    default; ``False`` does not disable daily updates.
 ``"full"`` also ``True``
-    Update remotes and merge working copy.
+    Fetch remote changes and merge them into the working copy.
 
 .. note::
 
-    This requires that :ref:`celery` is working, and will take effect after it is restarted.
+    Automatic updates require that :ref:`celery` is working. Restart Celery after
+    changing this setting for the new value to take effect.
 
 .. setting:: AVATAR_URL_PREFIX
 

@@ -384,8 +384,8 @@ class Group(models.Model):
             self.componentlists.clear()
             self.languages.clear()
             return
-        if self.language_selection == SELECTION_ALL:
-            self.languages.clear()
+        if self.project_selection != SELECTION_COMPONENT_LIST:
+            self.componentlists.clear()
         if self.project_selection in {
             SELECTION_ALL,
             SELECTION_ALL_PUBLIC,
@@ -646,6 +646,12 @@ class UserQuerySet(models.QuerySet["User", "User"]):
 
     def order(self):
         return self.order_by("username")
+
+    def filter_search_access(self, user: User) -> Self:
+        """Hide bot accounts from unprivileged user listings and searches."""
+        if user.has_perm("user.view") or user.has_perm("user.edit"):
+            return self
+        return self.filter(Q(is_bot=False) | Q(pk=user.pk))
 
     def search(
         self,

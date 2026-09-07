@@ -32,14 +32,22 @@ from django.core.mail.message import EmailMessage
 from django.core.signing import BadSignature, SignatureExpired
 from django.db import transaction
 from django.db.models import Count, Q
-from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.cache import patch_response_headers
+from django.utils.crypto import constant_time_compare
 from django.utils.decorators import method_decorator
+from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.http import content_disposition_header, urlencode
 from django.utils.safestring import mark_safe
@@ -60,7 +68,6 @@ from django_otp import login as otp_login
 from django_otp.models import Device
 from django_otp.plugins.otp_static.models import StaticDevice, StaticToken
 from django_otp.plugins.otp_totp.models import TOTPDevice
-from django_otp.util import random_hex
 from django_otp_webauthn.exceptions import OTPWebAuthnApiError
 from django_otp_webauthn.models import WebAuthnCredential
 from django_otp_webauthn.views import (
@@ -107,6 +114,7 @@ from weblate.accounts.forms import (
     GroupRemoveForm,
     LanguagesForm,
     LoginForm,
+    NotificationDebugForm,
     NotificationForm,
     OTPTokenForm,
     PasswordConfirmForm,
@@ -123,6 +131,10 @@ from weblate.accounts.forms import (
     WebAuthnTokenForm,
 )
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
+from weblate.accounts.notification_debug import (
+    NOTIFICATION_DETAIL_LIMIT,
+    NotificationDebugger,
+)
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
     NotificationFrequency,
@@ -133,16 +145,20 @@ from weblate.accounts.notifications import (
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import (
     SECOND_FACTOR_VERIFY_SECONDS,
+    SESSION_SECOND_FACTOR_HASH,
     SESSION_SECOND_FACTOR_SOCIAL,
     SESSION_SECOND_FACTOR_TIMESTAMP,
     SESSION_SECOND_FACTOR_TOTP,
     SESSION_SECOND_FACTOR_USER,
     SESSION_WEBAUTHN_AUDIT,
+    TOTP_ENROLLMENT_SECONDS,
     adjust_session_expiry,
+    clear_second_factor_session,
     get_key_name,
     lock_user,
     remove_user,
     reset_api_token,
+    set_second_factor_session,
 )
 from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import UserEditForm
@@ -539,7 +555,7 @@ def user_profile(request: AuthenticatedHttpRequest):
             "new_backends": new_backends,
             "has_email_auth": "email" in all_backends,
             "auditlog": user.auditlog_set.order()[:20],
-            "totp_keys": user.totpdevice_set.all(),
+            "totp_keys": user.totpdevice_set.filter(confirmed=True),
             "webauthn_keys": user.webauthncredential_set.all(),
             "recovery_keys_count": StaticToken.objects.filter(
                 device__user=user
@@ -742,6 +758,100 @@ def trial(request: AuthenticatedHttpRequest):
             "trial_days": TRIAL_DAYS,
         },
     )
+
+
+@method_decorator(login_required, name="dispatch")
+class UserNotifications(DetailView):
+    model = User
+    template_name = "accounts/notification_debug.html"
+    slug_field = "username"
+    slug_url_kwarg = "user"
+    context_object_name = "page_user"
+    request: AuthenticatedHttpRequest
+
+    def get_object(self, queryset=None):
+        user = super().get_object(queryset)
+        if user.pk != self.request.user.pk:
+            check_management_access(self.request, "user.edit")
+        return user
+
+    def get_queryset(self):
+        return super().get_queryset().select_related("profile")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = gettext("Notification diagnostics for %(user)s") % {
+            "user": self.object
+        }
+        context.update(self.get_notification_context())
+        return context
+
+    def get_notification_context(self) -> dict[str, Any]:
+        request = self.request
+        user = self.object
+        submitted = "notification_target" in request.GET
+        form = NotificationDebugForm(request, request.GET if submitted else None)
+        groups: list[dict[str, Any]] = []
+        subscriptions = list(
+            user.subscription_set.filter(
+                Q(project__isnull=True, component__isnull=True)
+                | Q(component__isnull=True, project__in=request.user.allowed_projects)
+                | Q(component__in=Component.objects.filter_access(request.user))
+            )
+            .select_related("project", "component__project", "component__category")
+            .order()
+        )
+        for scope in NotificationScope:
+            scoped_groups: dict[int | None, list[Subscription]] = defaultdict(list)
+            for subscription in subscriptions:
+                if subscription.scope != scope:
+                    continue
+                target = subscription.component or subscription.project
+                scoped_groups[target.pk if target else None].append(subscription)
+            groups.extend(
+                {
+                    "label": scope.label,
+                    "target": rows[0].component or rows[0].project,
+                    "subscriptions": rows,
+                }
+                for rows in scoped_groups.values()
+            )
+        watched_projects = (
+            user.profile.watched.all() & request.user.allowed_projects
+        ).order()
+        languages = user.profile.languages.all().order()
+        watched_count = watched_projects.count()
+        language_count = languages.count()
+        context = {
+            "notification_form": form,
+            "notification_subscription_groups": groups,
+            "notification_detail_limit": NOTIFICATION_DETAIL_LIMIT,
+            "notification_watched_count": watched_count,
+            "notification_language_count": language_count,
+            "notification_watched_projects": list(
+                watched_projects[:NOTIFICATION_DETAIL_LIMIT]
+            )
+            if watched_count <= NOTIFICATION_DETAIL_LIMIT
+            else [],
+            "notification_languages": list(languages[:NOTIFICATION_DETAIL_LIMIT])
+            if language_count <= NOTIFICATION_DETAIL_LIMIT
+            else [],
+        }
+        if submitted and form.is_valid():
+            target = form.cleaned_data["notification_target"]
+            try:
+                summary = NotificationDebugger(user).inspect(target, request.user)
+            except ValidationError as error:
+                form.add_error("notification_target", error)
+                return context
+            context.update(
+                {
+                    "notification_debug_target": target,
+                    "notification_results": summary.results,
+                    "notification_summary": summary,
+                }
+            )
+        return context
 
 
 class UserPage(UpdateView):
@@ -1103,7 +1213,7 @@ class BaseLoginView(LoginView):
         user = form.get_user()
         if user.profile.has_2fa:
             # Store session indication for second factor
-            self.request.session[SESSION_SECOND_FACTOR_USER] = (user.id, user.backend)
+            set_second_factor_session(self.request, user, user.backend)
             # Redirect to second factor login
             redirect_to = self.request.POST.get(
                 self.redirect_field_name, self.request.GET.get(self.redirect_field_name)
@@ -1331,8 +1441,9 @@ def password(request: AuthenticatedHttpRequest):
                 "Please confirm your identity using a second factor before proceeding."
             ),
         )
-        request.session[SESSION_SECOND_FACTOR_USER] = (
-            user.id,
+        set_second_factor_session(
+            request,
+            user,
             "weblate.accounts.auth.WeblateUserBackend",
         )
         login_params: dict[str, str] = {"next": reverse("password")}
@@ -2116,10 +2227,10 @@ class UserList(ListView):
     initial_query = ""
 
     def get_base_queryset(self):
-        return User.objects.filter(is_active=True, is_bot=False)
+        return User.objects.filter(is_active=True)
 
     def get_queryset(self):
-        users = self.get_base_queryset()
+        users = self.get_base_queryset().filter_search_access(self.request.user)
         form = self.form
         if form.is_valid():
             search = form.cleaned_data.get("q", "")
@@ -2244,6 +2355,14 @@ class TOTPDetailView(WebAuthnCredentialView):
     message_remove = gettext_lazy("The authentication app was removed.")
     message_add = gettext_lazy("The authentication app %s was registered.")
 
+    def get_queryset(self):
+        return super().get_queryset().filter(confirmed=True)
+
+    def post(self, request, *args, **kwargs):
+        with transaction.atomic():
+            User.objects.select_for_update().get(pk=request.user.pk)
+            return super().post(request, *args, **kwargs)
+
 
 @method_decorator(login_required, name="dispatch")
 class TOTPView(FormView):
@@ -2252,14 +2371,77 @@ class TOTPView(FormView):
     session_key = SESSION_SECOND_FACTOR_TOTP
 
     request: AuthenticatedHttpRequest
+    device: TOTPDevice
+
+    def get(self, request, *args, **kwargs):
+        # Session-only enrollments from older versions must start with a new key.
+        request.session.pop("weblate:second_factor:totp_key", None)
+        with transaction.atomic():
+            # Share one pending enrollment across sessions. Use the same lock
+            # as confirmation and cleanup so concurrent GETs cannot exceed it.
+            User.objects.select_for_update().get(pk=request.user.pk)
+            pending = TOTPDevice.objects.filter(user=request.user, confirmed=False)
+            device = (
+                pending.filter(
+                    created_at__gt=timezone.now()
+                    - timedelta(seconds=TOTP_ENROLLMENT_SECONDS)
+                )
+                .order_by("pk")
+                .first()
+            )
+            if device is None:
+                device = TOTPDevice.objects.create(user=request.user, confirmed=False)
+            pending.exclude(pk=device.pk).delete()
+        request.session[self.session_key] = device.pk
+        self.device = device
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        device_id = request.session.get(self.session_key)
+        if not isinstance(device_id, int) or request.POST.get("enrollment") != str(
+            device_id
+        ):
+            return self.invalid_enrollment()
+
+        with transaction.atomic():
+            # Serialize enrollments and removals, including when no confirmed
+            # device exists yet. Session data alone cannot prevent replay.
+            User.objects.select_for_update().get(pk=request.user.pk)
+            device = (
+                TOTPDevice.objects.select_for_update()
+                .filter(pk=device_id, user=request.user, confirmed=False)
+                .first()
+            )
+            if (
+                device is None
+                or device.created_at is None
+                or device.created_at
+                <= timezone.now() - timedelta(seconds=TOTP_ENROLLMENT_SECONDS)
+            ):
+                return self.invalid_enrollment()
+            self.device = device
+            form = self.get_form()
+            if not form.is_valid():
+                return self.form_invalid(form)
+            if not device.verify_token(form.cleaned_data["token"]):
+                form.add_error("token", form.error_messages["invalid_token"])
+                # Commit failed verification so throttling is preserved.
+                return self.form_invalid(form)
+            return self.form_valid(form)
+
+    @staticmethod
+    def invalid_enrollment() -> HttpResponseBadRequest:
+        return HttpResponseBadRequest(
+            gettext(
+                "This authentication app registration is no longer valid. "
+                "Start a new registration."
+            ),
+            content_type="text/plain; charset=utf-8",
+        )
 
     @cached_property
     def totp_key(self) -> str:
-        key = self.request.session.get(self.session_key, None)
-        if key is None:
-            key = random_hex(20)
-            self.request.session[self.session_key] = key
-        return key
+        return self.device.key
 
     @cached_property
     def totp_key_b32(self) -> str:
@@ -2303,13 +2485,15 @@ class TOTPView(FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["key"] = self.totp_key
-        kwargs["user"] = self.request.user
+        kwargs["device"] = self.device
         return kwargs
 
     def form_valid(self, form: TOTPDeviceForm):
         user = self.request.user
-        device = form.save()
+        device = self.device
+        device.name = form.cleaned_data["name"]
+        device.confirmed = True
+        device.save(update_fields=["name", "confirmed"])
         AuditLog.objects.create(
             user,
             self.request,
@@ -2317,14 +2501,27 @@ class TOTPView(FormView):
             device=get_key_name(device),
         )
         if form.cleaned_data["remove_previous"]:
-            for old in user.totpdevice_set.exclude(pk=device.pk):
+            for old in user.totpdevice_set.filter(confirmed=True).exclude(pk=device.pk):
                 key_name = get_key_name(old)
                 old.delete()
                 AuditLog.objects.create(
                     user, self.request, "twofactor-remove", device=key_name
                 )
 
+        self.request.session.pop(self.session_key, None)
         return redirect_profile("#account")
+
+
+SECOND_FACTOR_LOCKED_MESSAGE = gettext_lazy(
+    "Too many failed authentication attempts. Please reset your password to "
+    "regain access to your account."
+)
+
+
+class SecondFactorLockedError(OTPWebAuthnApiError):
+    status_code = 403
+    default_detail = SECOND_FACTOR_LOCKED_MESSAGE
+    default_code = "account_locked"
 
 
 class SecondFactorMixin(View):
@@ -2334,7 +2531,7 @@ class SecondFactorMixin(View):
         # Store audit log entry about used device and update last used device type
         user = self.get_user()
         user.profile.log_2fa(self.request, device)
-        del self.request.session[SESSION_SECOND_FACTOR_USER]
+        clear_second_factor_session(self.request, preserve_social=True)
         self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
 
         if not self.request.session.get(SESSION_SECOND_FACTOR_SOCIAL):
@@ -2353,19 +2550,31 @@ class SecondFactorMixin(View):
             # This is completed in social_complete after completing social login
         return user
 
-    def second_factor_failed(self) -> None:
+    def second_factor_failed(self) -> bool:
         user = self.get_user()
-        user.profile.log_2fa_failed(self.request, self.get_backend())
+        audit = user.profile.log_2fa_failed(self.request, self.get_backend())
+        if not audit.check_rate_limit(self.request):
+            return False
+        clear_second_factor_session(self.request)
+        return True
 
     def get_user(self) -> User:
         try:
             user_id, backend = self.request.session[SESSION_SECOND_FACTOR_USER]
-        except KeyError as error:
+            session_auth_hash = self.request.session[SESSION_SECOND_FACTOR_HASH]
+        except (KeyError, TypeError, ValueError) as error:
+            clear_second_factor_session(self.request)
             raise Http404 from error
         try:
             user = User.objects.get(pk=user_id)
-        except User.DoesNotExist as error:
+        except (TypeError, ValueError, User.DoesNotExist) as error:
+            clear_second_factor_session(self.request)
             raise Http404 from error
+        if not isinstance(session_auth_hash, str) or not constant_time_compare(
+            session_auth_hash, user.get_session_auth_hash()
+        ):
+            clear_second_factor_session(self.request)
+            raise Http404
         user.backend = backend
         return user
 
@@ -2421,7 +2630,9 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form):
-        self.second_factor_failed()
+        if self.second_factor_failed():
+            messages.error(self.request, force_str(SECOND_FACTOR_LOCKED_MESSAGE))
+            return redirect("login")
         return super().form_invalid(form)
 
 
@@ -2448,6 +2659,7 @@ class WeblateCompleteCredentialAuthenticationView(
     def post(self, *args, **kwargs):
         try:
             return super().post(*args, **kwargs)
-        except OTPWebAuthnApiError:
-            self.second_factor_failed()
+        except OTPWebAuthnApiError as error:
+            if self.second_factor_failed():
+                raise SecondFactorLockedError from error
             raise

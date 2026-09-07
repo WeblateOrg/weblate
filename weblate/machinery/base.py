@@ -393,15 +393,13 @@ class BatchMachineTranslation(DocVersionsMixin):
     def report_error(
         self,
         cause: str,
+        exception: BaseException,
         extra_log: str | None = None,
-        message: bool = False,
-        exception: BaseException | None = None,
     ) -> None:
         """Report error situations."""
         report_error(
             f"machinery[{self.name}]: {cause}",
             extra_log=extra_log,
-            message=message,
             exception=exception,
         )
 
@@ -424,10 +422,10 @@ class BatchMachineTranslation(DocVersionsMixin):
         # Download
         try:
             languages = set(self.download_languages())
-        except Exception as exc:
-            self.supported_languages_error = exc
+        except Exception as error:
+            self.supported_languages_error = error
             self.supported_languages_error_age = time.time()
-            self.report_error("Could not fetch languages, using defaults")
+            self.report_error("Could not fetch languages, using defaults", error)
             return set()
 
         # Update cache
@@ -1103,10 +1101,35 @@ class BatchMachineTranslation(DocVersionsMixin):
         if self.is_rate_limit_error(exc):
             self.set_rate_limit()
 
-        self.report_error("Could not fetch translations", exception=exc)
         if isinstance(exc, MachineTranslationError):
+            self.report_error("Could not fetch translations", exception=exc)
             raise exc
-        raise MachineTranslationError(self.get_error_message(exc)) from exc
+
+        original_message = str(exc)
+        fallback = f"{exc.__class__.__name__}: {original_message}"
+        try:
+            error_message = self.get_error_message(exc)
+        except Exception:
+            # Provider response parsing must not hide the original failure.
+            error_message = fallback
+        if not isinstance(error_message, str) or not error_message.strip():
+            error_message = fallback
+
+        extra_log = error_message.removeprefix(f"{exc.__class__.__name__}: ")
+        extra_log = extra_log.removeprefix(original_message).strip(" :\r\n\t")
+        extra_log = extra_log[:200]
+        if extra_log in original_message:
+            extra_log = ""
+        response = getattr(exc, "response", None)
+        if isinstance(response, httpx2.Response) and not self.can_display_error_detail(
+            response
+        ):
+            extra_log = ""
+
+        self.report_error(
+            "Could not fetch translations", exception=exc, extra_log=extra_log or None
+        )
+        raise MachineTranslationError(error_message) from exc
 
     def _apply_downloaded_translations(
         self,

@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-14 13:26+0000\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
+"PO-Revision-Date: 2026-09-03 14:26+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
 "Language-Team: Kurdish (Kurmanji) <https://hosted.weblate.org/projects/"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.9\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -114,7 +114,7 @@ msgid "Your e-mail"
 msgstr ""
 
 msgid "Message"
-msgstr ""
+msgstr "Peyam"
 
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
@@ -157,7 +157,7 @@ msgid "Username or e-mail"
 msgstr ""
 
 msgid "Password"
-msgstr ""
+msgstr "Borînpeyv"
 
 msgid "Please enter the correct username and password."
 msgstr ""
@@ -243,7 +243,7 @@ msgid ""
 msgstr ""
 
 msgid "Username"
-msgstr ""
+msgstr "Navê bikarhêner"
 
 msgid "Date joined"
 msgstr ""
@@ -589,15 +589,11 @@ msgstr ""
 msgid "Triggered by {username}."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translate"
 msgid "Total strings"
-msgstr "Wergerîne"
+msgstr "Tevahiya rêzan"
 
-#, fuzzy
-#| msgid "Translate"
 msgid "Unfinished strings"
-msgstr "Wergerîne"
+msgstr "Rêzên neqediyayî"
 
 #, fuzzy
 #| msgid "Translate"
@@ -609,19 +605,17 @@ msgstr "Wergerîne"
 msgid "Unfinished characters"
 msgstr "Wergerîne"
 
-#, fuzzy
-#| msgid "Translate"
 msgid "Untranslated strings"
-msgstr "Wergerîne"
+msgstr "Rêzên newergerandî"
 
 msgid "Checks"
-msgstr ""
+msgstr "Kontrol"
 
 msgid "Suggestions"
-msgstr ""
+msgstr "Pêşniyar"
 
 msgid "Comments"
-msgstr ""
+msgstr "Şîrove"
 
 msgid "Invalid listing column selection."
 msgstr ""
@@ -809,7 +803,7 @@ msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
 msgstr ""
 
 msgid "Location"
-msgstr ""
+msgstr "Cih"
 
 msgid "Company"
 msgstr ""
@@ -1400,6 +1394,11 @@ msgstr "Rewşa wergerê"
 
 #, python-format
 msgid "The authentication app %s was registered."
+msgstr ""
+
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
 msgstr ""
 
 msgid "Second factor sign in"
@@ -2025,11 +2024,12 @@ msgstr ""
 msgid "Regular expression to match translation files against"
 msgstr "Rewşa wergerê"
 
-#, fuzzy
-#| msgid "Translation status"
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "Rewşa wergerê"
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr ""
@@ -2065,6 +2065,18 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Define the file mask"
+msgstr "Rewşa wergerê"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 
 msgid "Language filter"
@@ -2181,7 +2193,25 @@ msgstr ""
 msgid "You can not use a base file for bilingual translation."
 msgstr ""
 
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr ""
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
+msgstr ""
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
 msgstr ""
 
 msgid "This template must include {{ component }}."
@@ -2226,7 +2256,7 @@ msgid "Could not parse CSS selector: %s"
 msgstr "Rewşa wergerê"
 
 msgid "Source strings"
-msgstr ""
+msgstr "Rêzên çavkaniyê"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -2512,11 +2542,9 @@ msgctxt "Add-on scope"
 msgid "Repository"
 msgstr "Rewşa wergerê"
 
-#, fuzzy
-#| msgid "Components"
 msgctxt "Add-on scope"
 msgid "Component"
-msgstr "Hêman"
+msgstr "Beş"
 
 #, fuzzy
 #| msgid "Category"
@@ -2553,7 +2581,7 @@ msgid "Add-on run has been scheduled."
 msgstr "Rewşa wergerê"
 
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 msgid ""
 "Sends notifications to external services based on selected events, following "
@@ -2770,7 +2798,7 @@ msgid "Commit"
 msgstr ""
 
 msgid "Update"
-msgstr ""
+msgstr "Rojane bike"
 
 msgid "Update with rebase"
 msgstr ""
@@ -2908,7 +2936,7 @@ msgid "Category"
 msgstr "Beş"
 
 msgid "Component"
-msgstr ""
+msgstr "Beş"
 
 msgid "User"
 msgstr "Bikarhêner"
@@ -3042,11 +3070,11 @@ msgstr "Rewşa wergerê"
 
 #. Translators: Permission name
 msgid "Edit strings"
-msgstr ""
+msgstr "Rêzan biguhêrîne"
 
 #. Translators: Permission name
 msgid "Review strings"
-msgstr ""
+msgstr "Rêzan binirxîne"
 
 #. Translators: Permission name
 #, fuzzy
@@ -3304,7 +3332,7 @@ msgstr "Rewşa wergerê"
 
 msgctxt "Access-control role"
 msgid "Review strings"
-msgstr ""
+msgstr "Rêzan binirxîne"
 
 msgctxt "Access-control role"
 msgid "Translate"
@@ -3392,11 +3420,9 @@ msgctxt "Per-project access-control team name"
 msgid "Translate"
 msgstr "Wergerîne"
 
-#, fuzzy
-#| msgid "Translation status"
 msgctxt "Per-project access-control team name"
 msgid "Sources"
-msgstr "Rewşa wergerê"
+msgstr "Çavkanî"
 
 msgctxt "Per-project access-control team name"
 msgid "Languages"
@@ -3412,7 +3438,7 @@ msgstr ""
 
 msgctxt "Per-project access-control team name"
 msgid "Screenshots"
-msgstr ""
+msgstr "Wêneyên dîmenderê"
 
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
@@ -3478,6 +3504,14 @@ msgstr "Rewşa super bikarhêner"
 msgid "User has all possible permissions."
 msgstr ""
 
+msgid "All languages"
+msgstr ""
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr ""
@@ -3525,9 +3559,6 @@ msgid "Component lists"
 msgstr ""
 
 msgid "Language selection"
-msgstr ""
-
-msgid "All languages"
 msgstr ""
 
 msgid "Languages"
@@ -4318,10 +4349,8 @@ msgstr ""
 msgid "URL"
 msgstr "Girêdan"
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Read-only"
-msgstr "Rewşa wergerê"
+msgstr "Tenê-xwendin"
 
 msgid "Strict unchanged check"
 msgstr ""
@@ -5211,7 +5240,7 @@ msgid "Failing checks"
 msgstr ""
 
 msgid "Check"
-msgstr ""
+msgstr "Kontrol bike"
 
 msgid "Translation"
 msgstr "Werger"
@@ -5250,7 +5279,7 @@ msgid "Default font is used unless per language override matches."
 msgstr ""
 
 msgid "Font"
-msgstr "Cûreyê nivîsê"
+msgstr "Cûreya nivîsê"
 
 msgid "Unsupported file format."
 msgstr ""
@@ -5707,11 +5736,11 @@ msgstr ""
 
 msgctxt "Plural form description"
 msgid "Singular"
-msgstr ""
+msgstr "Yekjimar"
 
 msgctxt "Plural form description"
 msgid "Plural"
-msgstr ""
+msgstr "Pirjimar"
 
 msgctxt "Plural form description"
 msgid "One"
@@ -6034,7 +6063,7 @@ msgid "Terms"
 msgstr "Merc"
 
 msgid "Overview"
-msgstr ""
+msgstr "Pêşdîtin"
 
 #, fuzzy, python-format
 #| msgid "Translation status"
@@ -6090,7 +6119,7 @@ msgstr ""
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Username"
-msgstr ""
+msgstr "Navê bikarhêner"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP username"
@@ -6466,6 +6495,14 @@ msgid "Claude Sonnet 5"
 msgstr ""
 
 msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
+msgstr ""
+
+msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
 msgstr ""
 
@@ -6563,11 +6600,9 @@ msgctxt "Translation memory scope"
 msgid "Project"
 msgstr "Proje"
 
-#, fuzzy
-#| msgid "Translation status"
 msgctxt "Translation memory scope"
 msgid "Workspace"
-msgstr "Rewşa wergerê"
+msgstr "Qada xebatê"
 
 msgctxt "Translation memory scope"
 msgid "Shared"
@@ -6684,51 +6719,51 @@ msgstr[1] "Rewşa wergerê"
 
 msgctxt "Short name of month"
 msgid "Jan"
-msgstr ""
+msgstr "Rêb"
 
 msgctxt "Short name of month"
 msgid "Feb"
-msgstr ""
+msgstr "Reş"
 
 msgctxt "Short name of month"
 msgid "Mar"
-msgstr ""
+msgstr "Ada"
 
 msgctxt "Short name of month"
 msgid "Apr"
-msgstr ""
+msgstr "Avr"
 
 msgctxt "Short name of month"
 msgid "May"
-msgstr ""
+msgstr "Gul"
 
 msgctxt "Short name of month"
 msgid "Jun"
-msgstr ""
+msgstr "Pûş"
 
 msgctxt "Short name of month"
 msgid "Jul"
-msgstr ""
+msgstr "Tîr"
 
 msgctxt "Short name of month"
 msgid "Aug"
-msgstr ""
+msgstr "Teb"
 
 msgctxt "Short name of month"
 msgid "Sep"
-msgstr ""
+msgstr "Îlo"
 
 msgctxt "Short name of month"
 msgid "Oct"
-msgstr ""
+msgstr "Cot"
 
 msgctxt "Short name of month"
 msgid "Nov"
-msgstr ""
+msgstr "Mij"
 
 msgctxt "Short name of month"
 msgid "Dec"
-msgstr ""
+msgstr "Ber"
 
 #, fuzzy, python-format
 #| msgid "Translation status"
@@ -6791,7 +6826,7 @@ msgid "Scan for screenshot file change on repository update."
 msgstr ""
 
 msgid "Image"
-msgstr ""
+msgstr "Wêne"
 
 msgid "Upload image up to 2000x2000 pixels."
 msgstr ""
@@ -6847,10 +6882,8 @@ msgid_plural "%(count)s matching source strings found."
 msgstr[0] "Rewşa wergerê"
 msgstr[1] "Rewşa wergerê"
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "No new matching source strings found."
-msgstr "Rewşa wergerê"
+msgstr "Rêzikên çavkaniyê yên nû yên lihevhatî nehatine dîtin."
 
 #, fuzzy
 #| msgid "Translation status"
@@ -6871,7 +6904,7 @@ msgid "Insufficient privileges to display this page."
 msgstr ""
 
 msgid "Dashboard"
-msgstr ""
+msgstr "Destgeh"
 
 msgid "Browse all projects"
 msgstr ""
@@ -7041,7 +7074,7 @@ msgid "Commit signing is not configured."
 msgstr ""
 
 msgid "Statistics"
-msgstr ""
+msgstr "Amar"
 
 msgid "Second factor sign-in"
 msgstr ""
@@ -7083,7 +7116,7 @@ msgid "Back"
 msgstr ""
 
 msgid "Send"
-msgstr ""
+msgstr "Bişîne"
 
 msgid "How can we help?"
 msgstr ""
@@ -7164,7 +7197,7 @@ msgid "Open contact form"
 msgstr ""
 
 msgid "Registration"
-msgstr ""
+msgstr "Tomarkirin"
 
 msgid "Password reset almost complete"
 msgstr ""
@@ -7221,7 +7254,7 @@ msgstr "Rewşa wergerê"
 
 #. Translators: Register on the site
 msgid "Register"
-msgstr ""
+msgstr "Tomar bibe"
 
 msgid "Trial subscriptions"
 msgstr ""
@@ -7296,19 +7329,19 @@ msgid "Change my password"
 msgstr ""
 
 msgid "Preferences"
-msgstr ""
+msgstr "Vebijêrk"
 
 msgid "Notifications"
-msgstr ""
+msgstr "Agahdarî"
 
 msgid "Account"
-msgstr ""
+msgstr "Jimar"
 
 msgid "Profile"
-msgstr ""
+msgstr "Profîl"
 
 msgid "Licenses"
-msgstr ""
+msgstr "Lîsans"
 
 msgid "Audit log"
 msgstr ""
@@ -7350,7 +7383,7 @@ msgid "Set password"
 msgstr ""
 
 msgid "Disconnect"
-msgstr ""
+msgstr "Girêdanê qut bike"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -7440,7 +7473,7 @@ msgid "Download user data"
 msgstr "Daxîne"
 
 msgid "Removal"
-msgstr ""
+msgstr "Rakirin"
 
 msgid "Account removal deletes all your private data."
 msgstr ""
@@ -7814,7 +7847,7 @@ msgid "User identities"
 msgstr ""
 
 msgid "Edit"
-msgstr "Biguherîne"
+msgstr "Biguhêrîne"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -7842,7 +7875,7 @@ msgid "Browse all changes made by this user"
 msgstr "Rewşa wergerê"
 
 msgid "Identity"
-msgstr ""
+msgstr "Nasname"
 
 msgid "User ID"
 msgstr ""
@@ -7922,7 +7955,7 @@ msgid "Choose cleanup actions"
 msgstr "Rewşa wergerê"
 
 msgid "Close"
-msgstr ""
+msgstr "Bigire"
 
 #, python-format
 msgid ""
@@ -7937,7 +7970,7 @@ msgid "Account removal deletes all user private data."
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Jê bibe"
 
 msgid "Are you absolutely sure?"
 msgstr ""
@@ -8024,7 +8057,7 @@ msgid ""
 msgstr ""
 
 msgid "Uninstall"
-msgstr ""
+msgstr "Sazkirinê rake"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -8035,7 +8068,7 @@ msgid "This add-on is used for all components sharing this repository."
 msgstr ""
 
 msgid "History"
-msgstr ""
+msgstr "Dîrok"
 
 msgid "No add-ons currently installed"
 msgstr ""
@@ -8061,7 +8094,7 @@ msgid "The add-on can only be installed on the component level."
 msgstr "Rewşa wergerê"
 
 msgid "Install"
-msgstr ""
+msgstr "Saz bike"
 
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
@@ -8092,10 +8125,10 @@ msgid "No add-on activity logs available."
 msgstr ""
 
 msgid "Previous"
-msgstr ""
+msgstr "Paş"
 
 msgid "Next"
-msgstr ""
+msgstr "Pêş"
 
 msgid "Integration instructions"
 msgstr ""
@@ -8321,7 +8354,7 @@ msgid "Request payload"
 msgstr "Rewşa wergerê"
 
 msgid "Settings"
-msgstr ""
+msgstr "Sazkarî"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -8437,7 +8470,7 @@ msgid "Checks overview"
 msgstr ""
 
 msgid "Administration"
-msgstr ""
+msgstr "Rêveberî"
 
 msgid "Configuration errors"
 msgstr ""
@@ -8471,7 +8504,7 @@ msgid "Sign out"
 msgstr ""
 
 msgid "Help"
-msgstr ""
+msgstr "Alîkarî"
 
 msgid "Get help"
 msgstr ""
@@ -8502,10 +8535,8 @@ msgstr ""
 msgid "Weblate project"
 msgstr "Ji Weblateyê re bexşek bike"
 
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Contribute"
-msgstr "Ji Weblateyê re bexşek bike"
+msgstr "Beşdar bibe"
 
 #, fuzzy
 #| msgid "Donate to Weblate"
@@ -8725,7 +8756,7 @@ msgid "Check your billing status"
 msgstr ""
 
 msgid "Browse"
-msgstr ""
+msgstr "Bigere"
 
 msgid "No strings found!"
 msgstr ""
@@ -8734,7 +8765,7 @@ msgid "Insights"
 msgstr ""
 
 msgid "Files"
-msgstr ""
+msgstr "Pel"
 
 msgid "Download for offline translation."
 msgstr ""
@@ -8769,7 +8800,7 @@ msgid "Review changes"
 msgstr "Rewşa wergerê"
 
 msgid "Apply"
-msgstr ""
+msgstr "Bisepîne"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -8777,7 +8808,7 @@ msgid "Browse components"
 msgstr "Rewşa wergerê"
 
 msgid "Announcements"
-msgstr ""
+msgstr "Daxûyanî"
 
 msgid "Translation reports"
 msgstr ""
@@ -8861,7 +8892,7 @@ msgid "Dismissed"
 msgstr ""
 
 msgid "Translated"
-msgstr ""
+msgstr "Wergerandî"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -8869,7 +8900,7 @@ msgid "View check documentation"
 msgstr "Rewşa wergerê"
 
 msgid "Progress"
-msgstr ""
+msgstr "Pêvajo"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -8914,7 +8945,7 @@ msgid "Repository maintenance"
 msgstr ""
 
 msgid "Screenshots"
-msgstr ""
+msgstr "Wêneyên dîmenderê"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -8991,7 +9022,7 @@ msgid "Moving or renaming the component will also change its URLs."
 msgstr ""
 
 msgid "Loading…"
-msgstr ""
+msgstr "Tê barkirin…"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -9040,7 +9071,7 @@ msgid "Link"
 msgstr "Girêdan"
 
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
@@ -9102,7 +9133,7 @@ msgstr ""
 
 #, python-format
 msgid "Get involved in <strong>%(project)s</strong>"
-msgstr ""
+msgstr "Beşdarî <strong>%(project)s</strong> bibe"
 
 msgid "Hello and thank you for your interest"
 msgstr "Silav û spas ji bo têkildariya te"
@@ -9113,13 +9144,11 @@ msgid ""
 "designed to ease translating for both developers and translators."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation status"
 msgctxt "Label on engage page"
 msgid "String"
 msgid_plural "Strings"
-msgstr[0] "Rewşa wergerê"
-msgstr[1] "Rewşa wergerê"
+msgstr[0] "Rêz"
+msgstr[1] "Rêz"
 
 msgctxt "Label on engage page"
 msgid "Language"
@@ -9132,7 +9161,7 @@ msgstr[1] ""
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
-msgstr ""
+msgstr "%(percent)s%%"
 
 #, python-format
 msgid ""
@@ -9204,13 +9233,13 @@ msgid "View project languages"
 msgstr ""
 
 msgid "Fonts"
-msgstr ""
+msgstr "Cûre nivîs"
 
 msgid "File size"
 msgstr ""
 
 msgid "Created"
-msgstr ""
+msgstr "Hate afirandin"
 
 msgid "Uploaded by"
 msgstr ""
@@ -9237,7 +9266,7 @@ msgid "Add font"
 msgstr ""
 
 msgid "Upload"
-msgstr ""
+msgstr "Bar bike"
 
 msgid "Font group"
 msgstr ""
@@ -9280,6 +9309,27 @@ msgstr "Rewş"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Ji Weblateyê re bexşek bike"
+
+msgid "Some repositories are not accessible"
+msgstr ""
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Skipped components:"
+msgstr "Rewşa wergerê"
+
+msgid "Permission required on:"
+msgstr ""
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Rewşa depoyê"
@@ -9541,7 +9591,7 @@ msgid "Shortcut"
 msgstr ""
 
 msgid "Action"
-msgstr ""
+msgstr "Çalakî"
 
 msgid "Open available keyboard shortcuts."
 msgstr ""
@@ -9666,7 +9716,7 @@ msgid ""
 msgstr ""
 
 msgid "Tools"
-msgstr ""
+msgstr "Alav"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -9723,7 +9773,7 @@ msgid "Enable"
 msgstr ""
 
 msgid "Configure"
-msgstr ""
+msgstr "Rêkxistin"
 
 msgid "There are no services currently installed."
 msgstr ""
@@ -10021,7 +10071,7 @@ msgid "New announcement at %(site_title)s"
 msgstr ""
 
 msgid "Comment"
-msgstr ""
+msgstr "Şîrove"
 
 #. Translators: e-mail subject
 #, python-format
@@ -10093,7 +10143,7 @@ msgid "String to translate in %(translation)s"
 msgstr "Rewşa wergerê"
 
 msgid "Suggestion"
-msgstr ""
+msgstr "Pêşniyar"
 
 #. Translators: e-mail subject
 #, python-format
@@ -10267,13 +10317,13 @@ msgid "Updated"
 msgstr ""
 
 msgid "Approved"
-msgstr ""
+msgstr "Pejirandî"
 
 msgid "Needs editing"
 msgstr ""
 
 msgid "Unfinished"
-msgstr ""
+msgstr "Neqediyayî"
 
 #. Translators: e-mail subject
 #, fuzzy
@@ -10304,7 +10354,7 @@ msgid "Reset customization"
 msgstr ""
 
 msgid "Backups"
-msgstr ""
+msgstr "Hîlanîn"
 
 #, python-format
 msgid "Backup service: %(url)s"
@@ -10656,7 +10706,7 @@ msgid "Backup repository"
 msgstr ""
 
 msgid "Passphrase"
-msgstr ""
+msgstr "Borînpeyv"
 
 msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
@@ -10695,7 +10745,7 @@ msgid "Known host keys"
 msgstr ""
 
 msgid "Hostname"
-msgstr ""
+msgstr "Navê mêvandar"
 
 msgid "Key type"
 msgstr ""
@@ -10759,7 +10809,7 @@ msgid "Bulk invite users"
 msgstr "Rewşa wergerê"
 
 msgid "Invite"
-msgstr ""
+msgstr "Vexwîne"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -10797,7 +10847,7 @@ msgid "Search workspaces"
 msgstr "Rewşa wergerê"
 
 msgid "Clear"
-msgstr ""
+msgstr "Pak bike"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -10810,13 +10860,13 @@ msgid "String missing"
 msgstr "Rewşa wergerê"
 
 msgid "Matrix"
-msgstr ""
+msgstr "Matrix"
 
 msgid "Displayed languages"
 msgstr ""
 
 msgid "Choose"
-msgstr ""
+msgstr "Hilbijêre"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -10901,11 +10951,11 @@ msgstr "Rewşa wergerê"
 
 #. Translators: Shared translation memory is enabled
 msgid "on"
-msgstr ""
+msgstr "vekirî ye"
 
 #. Translators: Shared translation memory is disabled
 msgid "off"
-msgstr ""
+msgstr "vemirî ye"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -11005,7 +11055,7 @@ msgid "/ %(total)s"
 msgstr ""
 
 msgid "Labels"
-msgstr ""
+msgstr "Nîşan"
 
 msgid "Edit label"
 msgstr ""
@@ -11215,10 +11265,8 @@ msgstr "Rewşa wergerê"
 msgid "Paste from clipboard"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "strings"
-msgstr "Rewşa wergerê"
+msgstr "rêz"
 
 msgid "words"
 msgstr ""
@@ -11250,7 +11298,7 @@ msgstr ""
 
 msgctxt "Previous 12 months"
 msgid "Previous"
-msgstr ""
+msgstr "Paş"
 
 msgid "Activity in last 12 months"
 msgstr ""
@@ -11387,10 +11435,8 @@ msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Clone to translation"
-msgstr "Rewşa wergerê"
+msgstr "Ji bo wergerê jê bigire"
 
 msgid "Select"
 msgstr ""
@@ -11625,37 +11671,29 @@ msgctxt "Number of strings"
 msgid "Total"
 msgstr "Tevahî"
 
-#, fuzzy
-#| msgid "Translation status"
 msgctxt "Number of strings"
 msgid "Source"
-msgstr "Rewşa wergerê"
+msgstr "Çavkanî"
 
-#, fuzzy
-#| msgid "Translation status"
 msgctxt "Number of strings"
 msgid "Approved"
-msgstr "Rewşa wergerê"
+msgstr "Pejirandî"
 
 msgctxt "Number of strings"
 msgid "Waiting for review"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Number of strings"
 msgid "Translated"
-msgstr "Wergerîne"
+msgstr "Wergerandî"
 
 msgctxt "Number of strings"
 msgid "Needs editing"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation status"
 msgctxt "Number of strings"
 msgid "Read-only"
-msgstr "Rewşa wergerê"
+msgstr "Tenê-xwendin"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -11783,7 +11821,7 @@ msgid "The project has had active development for at least three months."
 msgstr ""
 
 msgid "License"
-msgstr ""
+msgstr "Lîsans"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -11799,7 +11837,7 @@ msgid "Add project"
 msgstr "Rewşa wergerê"
 
 msgid "Sort this column"
-msgstr ""
+msgstr "Vî stûnî rêz bike"
 
 msgid "Unreviewed"
 msgstr ""
@@ -11848,7 +11886,7 @@ msgid "Plural: %(source_description)s"
 msgstr ""
 
 msgid "Plurals"
-msgstr ""
+msgstr "Pirjimar"
 
 msgid "First"
 msgstr ""
@@ -11941,7 +11979,7 @@ msgid "String changed before"
 msgstr ""
 
 msgid "Date"
-msgstr ""
+msgstr "Dem"
 
 msgid "Query examples"
 msgstr ""
@@ -12154,10 +12192,10 @@ msgid "Accept all suggestions from %(username)s"
 msgstr "Rewşa wergerê"
 
 msgid "Accept"
-msgstr ""
+msgstr "Bipejirîne"
 
 msgid "Accept and approve"
-msgstr ""
+msgstr "Bipejirîne û erê bike"
 
 msgid "Accept and edit"
 msgstr ""
@@ -12183,7 +12221,7 @@ msgid "Translation status"
 msgstr "Rewşa wergerê"
 
 msgid "Strings"
-msgstr ""
+msgstr "Rêz"
 
 msgid "Words"
 msgstr ""
@@ -12454,6 +12492,21 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migrate to GitHub App"
+msgstr "Rewşa wergerê"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12602,6 +12655,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -13145,7 +13203,7 @@ msgid "This is your personal API key, do not share it with anybody else."
 msgstr ""
 
 msgid "Error while loading form:"
-msgstr ""
+msgstr "Di dema barkirina formê de şaşetî çê bû:"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -13390,7 +13448,7 @@ msgid "Selecting this option will set the corresponding ignore flag."
 msgstr ""
 
 msgid "Reset"
-msgstr ""
+msgstr "Ji nû ve saz bike"
 
 #, python-format
 msgid "There is %(count)s unresolved comment for this string."
@@ -13661,6 +13719,79 @@ msgid "No connected accounts yet."
 msgstr "Rewşa wergerê"
 
 #, fuzzy
+#| msgid "Translation status"
+msgid "Code-hosting integrations"
+msgstr "Rewşa wergerê"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Connect or update GitHub account"
+msgstr "Rewşa wergerê"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Connected GitHub accounts:"
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Refresh repositories"
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migrate selected components"
+msgstr "Rewşa wergerê"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Tenê-xwendin"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Repository access needed"
+msgstr "Rewşa wergerê"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Donate to Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "Ji Weblateyê re bexşek bike"
@@ -13690,7 +13821,7 @@ msgid "Continue to GitHub"
 msgstr "Bidomîne"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Têk bibe"
 
 msgid "Manifest preview"
 msgstr ""
@@ -13748,11 +13879,6 @@ msgstr ""
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Refresh repositories"
-msgstr "Rewşa wergerê"
 
 #, python-format
 msgid ""
@@ -13881,9 +14007,25 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Rewşa wergerê"
+msgstr[1] "Rewşa wergerê"
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "Rewşa wergerê"
+msgstr[1] "Rewşa wergerê"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -15041,6 +15183,9 @@ msgstr ""
 msgid "Inexistent files."
 msgstr ""
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Translation status"
@@ -15411,13 +15556,35 @@ msgid "Discovery configuration"
 msgstr "Rewşa wergerê"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr "Rewşa wergerê"
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 #, fuzzy
@@ -15454,6 +15621,17 @@ msgstr ""
 
 msgid "Sort JSON keys"
 msgstr ""
+
+msgid "Do not sort"
+msgstr ""
+
+msgid "Case-sensitive sort"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Case-insensitive sort"
+msgstr "Rewşa wergerê"
 
 msgid "JSON indentation"
 msgstr ""
@@ -17478,7 +17656,7 @@ msgid "Protected"
 msgstr ""
 
 msgid "Custom"
-msgstr "Kesane"
+msgstr "Kesane bike"
 
 msgid "Main website of translated project."
 msgstr ""
@@ -17832,6 +18010,31 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Repository operation could not be completed."
+msgstr "Rewşa wergerê"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Repository operation completed."
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Repository operation completed with errors."
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
 msgid "No suggestions found."
 msgstr "Rewşa wergerê"
 
@@ -18133,7 +18336,7 @@ msgstr ""
 
 #, python-brace-format
 msgid "Get involved in {0}!"
-msgstr ""
+msgstr "Beşdarî {0} bibe!"
 
 msgid "Language addition is not supported by any of the components."
 msgstr ""
@@ -18380,33 +18583,24 @@ msgstr ""
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Another repository operation is already in progress."
+msgstr "Rewşa wergerê"
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-
-msgid "All repositories were pushed."
-msgstr ""
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-
-msgid "All repositories have been cleaned up."
-msgstr ""
-
 #, fuzzy
 #| msgid "Translation status"
-msgid "Translation files have been synchronized."
+msgid "This repository operation is already queued."
 msgstr "Rewşa wergerê"
 
 #, fuzzy
 #| msgid "Translation status"
-msgid "Updates of translations are in progress."
+msgid "Repository operation has been queued."
 msgstr "Rewşa wergerê"
 
 #, fuzzy
@@ -18423,14 +18617,6 @@ msgstr "Rewşa wergerê"
 #| msgid "Translation status"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Rewşa wergerê"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Pending translations are being committed."
-msgstr "Rewşa wergerê"
-
-msgid "All pending translations were committed."
-msgstr ""
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -18970,21 +19156,17 @@ msgctxt "String state"
 msgid "Needs editing (Needs checking)"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translate"
 msgctxt "String state"
 msgid "Translated"
-msgstr "Wergerîne"
+msgstr "Wergerandî"
 
 msgctxt "String state"
 msgid "Approved"
-msgstr ""
+msgstr "Pejirandî"
 
-#, fuzzy
-#| msgid "Translation status"
 msgctxt "String state"
 msgid "Read-only"
-msgstr "Rewşa wergerê"
+msgstr "Tenê-xwendin"
 
 msgctxt "String state"
 msgid "Waiting for review"
@@ -19463,6 +19645,16 @@ msgstr ""
 msgid "Enter a valid GitHub host."
 msgstr "Rewşa wergerê"
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Components to migrate"
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Select at least one component to migrate."
+msgstr "Rewşa wergerê"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -19798,8 +19990,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -19870,6 +20089,26 @@ msgstr ""
 
 msgid "Connected GitHub account added."
 msgstr ""
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Rewşa wergerê"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr ""
@@ -20222,6 +20461,62 @@ msgstr ""
 #| msgid "Translation status"
 msgid "The workspace has been removed."
 msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Rewşa wergerê"
+
+#, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Rewşa wergerê"
 
 #, fuzzy, python-format
 #~| msgid "Translation status"

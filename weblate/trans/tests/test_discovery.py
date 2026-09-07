@@ -4,9 +4,10 @@
 
 import os
 import pathlib
+import shutil
 import tempfile
 from typing import TYPE_CHECKING, cast
-from unittest.mock import call, patch
+from unittest.mock import MagicMock, call, patch
 
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -22,6 +23,7 @@ from weblate.trans.discovery import (
 from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.utils import TEST_DATA
 from weblate.utils.files import remove_tree
 
 if TYPE_CHECKING:
@@ -331,6 +333,307 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertIsNotNone(component)
         self.assertFalse(component.manage_units)
 
+    def test_perform_creates_component_from_new_base_only(self) -> None:
+        pot_dir = pathlib.Path(self.component.full_path) / "locale"
+        pot_dir.mkdir(exist_ok=True)
+        shutil.copy(
+            os.path.join(TEST_DATA, "hello.pot"),
+            pot_dir / "hello.pot",
+        )
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="po",
+            match=r"locale/(?P<component>[^/]+)\.pot",
+            name_template="{{ component }}",
+            new_base_template="locale/{{ component }}.pot",
+            filemask_template="locale/*/{{ component }}.po",
+        )
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform()
+        self.assertEqual(skipped, [])
+        self.assertEqual(matched, [])
+        self.assertEqual(deleted, [])
+        self.assertEqual(len(created), 1)
+        match, component = created[0]
+
+        self.assertEqual(match["mask"], "locale/*/hello.po")
+        self.assertEqual(match["new_base"], "locale/hello.pot")
+
+        self.assertIsNotNone(component)
+        self.assertEqual(component.filemask, "locale/*/hello.po")
+        self.assertEqual(component.new_base, "locale/hello.pot")
+
+        translations = component.translation_set.select_related("language").all()
+        self.assertEqual(translations.count(), 1)
+        self.assertTrue(translations[0].is_source)
+
+    def test_perform_creates_component_from_monolingual_base_only(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        (docs / "news.md").write_text("# News\n\nContent\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>[^/_]+)\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}.md",
+            filemask_template="docs/{{ component }}_*.md",
+        )
+
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform()
+
+        self.assertEqual(skipped, [])
+        self.assertEqual(matched, [])
+        self.assertEqual(deleted, [])
+        self.assertEqual(len(created), 1)
+
+        match, component = created[0]
+        self.assertEqual(match["mask"], "docs/news_*.md")
+        self.assertEqual(match["base_file"], "docs/news.md")
+        self.assertEqual(match["files_langs"], ())
+        self.assertIsNotNone(component)
+        self.assertEqual(component.template, "docs/news.md")
+        self.assertFalse(component.manage_units)
+
+        translations = component.translation_set.select_related("language").all()
+        self.assertEqual(translations.count(), 1)
+        self.assertTrue(translations[0].is_source)
+
+    def test_create_from_template_disabled(self) -> None:
+        pot_dir = pathlib.Path(self.component.full_path) / "locale"
+        pot_dir.mkdir(exist_ok=True)
+        shutil.copy(os.path.join(TEST_DATA, "hello.pot"), pot_dir / "hello.pot")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="po",
+            match=r"locale/(?P<language>[^/.]+)/(?P<component>[^/]+)\.po",
+            name_template="{{ component }}",
+            new_base_template="locale/{{ component }}.pot",
+            filemask_template="",
+        )
+
+        self.assertEqual(discovery.matched_components, {})
+        created, matched, deleted, skipped = discovery.perform(preview=True)
+        self.assertEqual(created, [])
+        self.assertEqual(matched, [])
+        self.assertEqual(deleted, [])
+        self.assertEqual(skipped, [])
+
+    def test_create_from_template_merges_with_translation_matches(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        (docs / "news.md").write_text("# News\n\nContent\n", encoding="utf-8")
+        (docs / "news_cs.md").write_text("# News\n\nObsah\n", encoding="utf-8")
+        (docs / "guide.md").write_text("# Guide\n\nContent\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>[^/_]+)\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}.md",
+            filemask_template="docs/{{ component }}_*.md",
+        )
+
+        self.assertEqual(
+            set(discovery.matched_components),
+            {"docs/news_*.md", "docs/guide_*.md"},
+        )
+        self.assertEqual(
+            discovery.matched_components["docs/news_*.md"]["files_langs"],
+            (("docs/news_cs.md", "cs"),),
+        )
+        self.assertEqual(
+            discovery.matched_components["docs/guide_*.md"]["files_langs"],
+            (),
+        )
+        self.assertEqual(
+            discovery.matched_components["docs/guide_*.md"]["base_file"],
+            "docs/guide.md",
+        )
+
+    def test_create_from_template_walks_repository_once(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        (docs / "news.md").write_text("# News\n\nContent\n", encoding="utf-8")
+        (docs / "news_cs.md").write_text("# News\n\nObsah\n", encoding="utf-8")
+        (docs / "guide.md").write_text("# Guide\n\nContent\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>[^/_]+)\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}.md",
+            filemask_template="docs/{{ component }}_*.md",
+        )
+
+        with patch.object(
+            discovery,
+            "_iter_repository_paths",
+            # ruff: ignore[private-member-access]
+            wraps=discovery._iter_repository_paths,
+        ) as walk:
+            matched = discovery.matched_components
+
+        self.assertEqual(walk.call_count, 1)
+        self.assertEqual(
+            set(matched),
+            {"docs/news_*.md", "docs/guide_*.md"},
+        )
+        self.assertEqual(
+            matched["docs/news_*.md"]["files_langs"],
+            (("docs/news_cs.md", "cs"),),
+        )
+
+    def test_create_from_template_limits_comparisons(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        (docs / "news.md").write_text("# News\n", encoding="utf-8")
+        (docs / "guide.md").write_text("# Guide\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>[^/_]+)\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}.md",
+            filemask_template="docs/{{ component }}_*.md",
+        )
+
+        with patch("weblate.trans.discovery.MAX_DISCOVERY_COMPARISONS", 3):
+            self.assertEqual(discovery.matched_components, {})
+
+        self.assertTrue(discovery.limit_exceeded)
+        self.assertIn("too many comparisons", discovery.errors[0][1])
+
+    def test_discovery_limits_repository_paths(self) -> None:
+        with (
+            patch("weblate.trans.discovery.MAX_DISCOVERY_PATHS", 1),
+            patch.object(
+                self.discovery,
+                "_iter_repository_paths",
+                return_value=iter(("one", "two", "three")),
+            ) as walk,
+        ):
+            self.assertEqual(self.discovery.repository_paths, [])
+
+        walk.assert_called_once_with()
+        self.assertTrue(self.discovery.limit_exceeded)
+        self.assertIn("too many paths", self.discovery.errors[0][1])
+
+    def test_repository_path_iteration_is_streamed(self) -> None:
+        root = pathlib.Path(self.component.full_path)
+        for name in ("one", "two", "three"):
+            (root / name).touch()
+
+        with patch("weblate.trans.discovery.MAX_DISCOVERY_PATHS", 1):
+            self.assertEqual(self.discovery.repository_paths, [])
+
+        self.assertTrue(self.discovery.limit_exceeded)
+
+    def test_repository_paths_exclude_vcs_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            root = pathlib.Path(tempdir)
+            metadata = root / ".git"
+            metadata.mkdir()
+            (metadata / "config").touch()
+            (root / "translation.po").touch()
+            discovery = ComponentDiscovery(
+                self.component,
+                file_format="po",
+                match=r"(?P<language>[^/]*)\.po",
+                name_template="{{ language }}",
+                path=tempdir,
+            )
+
+            self.assertEqual(discovery.repository_paths, ["translation.po"])
+
+    def test_discovery_limit_prevents_removal(self) -> None:
+        self.discovery.limit_exceeded = True
+        self.discovery.__dict__["matched_components"] = {}
+        with patch.object(self.discovery, "cleanup") as cleanup:
+            created, matched, deleted, skipped = self.discovery.perform(remove=True)
+
+        self.assertEqual((created, matched, deleted, skipped), ([], [], [], []))
+        cleanup.assert_not_called()
+
+    def test_create_from_template_reports_colliding_masks(self) -> None:
+        templates = pathlib.Path(self.component.full_path) / "templates" / "foo"
+        templates.mkdir(parents=True)
+        (templates / "hello.pot").write_text("msgid\n", encoding="utf-8")
+        (templates / "world.pot").write_text("msgid\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="po",
+            match=r"templates/(?P<prefix>[^/]+)/(?P<component>[^/]+)\.pot",
+            name_template="{{ component }}",
+            new_base_template="templates/{{ prefix }}/{{ component }}.pot",
+            filemask_template="templates/{{ prefix }}/*.po",
+        )
+
+        self.assertEqual(set(discovery.matched_components), {"templates/foo/*.po"})
+        self.assertEqual(len(discovery.errors), 1)
+        self.assertIn("templates/foo/*.po", discovery.errors[0][0]["mask"])
+        self.assertIn("world", discovery.errors[0][1])
+
+    def test_create_from_template_excludes_base_from_translation_preview(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        (docs / "news_en.md").write_text("# News\n\nContent\n", encoding="utf-8")
+        (docs / "news_cs.md").write_text("# News\n\nObsah\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>[^/]+)_en\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}_en.md",
+            filemask_template="docs/{{ component }}_*.md",
+        )
+
+        matched = discovery.matched_components["docs/news_*.md"]
+        self.assertEqual(matched["base_file"], "docs/news_en.md")
+        self.assertEqual(
+            matched["files_langs"],
+            (("docs/news_cs.md", "cs"),),
+        )
+
+    def test_mask_path_bounds(self) -> None:
+        self.assertTrue(
+            ComponentDiscovery.path_matches_mask_bounds(
+                "docs/news_cs.md",
+                ComponentDiscovery.mask_path_bounds("docs/news_*.md"),
+            )
+        )
+        self.assertFalse(
+            ComponentDiscovery.path_matches_mask_bounds(
+                "docs/news.md",
+                ComponentDiscovery.mask_path_bounds("docs/news_*.md"),
+            )
+        )
+        self.assertFalse(
+            ComponentDiscovery.path_matches_mask_bounds(
+                "other/news_cs.md",
+                ComponentDiscovery.mask_path_bounds("docs/news_*.md"),
+            )
+        )
+        # multiple wildcards
+        self.assertTrue(
+            ComponentDiscovery.path_matches_mask_bounds(
+                "docs/en/resources/user_manual_en.md",
+                ComponentDiscovery.mask_path_bounds(
+                    "docs/*/resources/user_manual_*.md"
+                ),
+            )
+        )
+
     def test_create_component_preview_applies_inheritance_defaults(self) -> None:
         self.component.project.license = "GPL-3.0-or-later"
         self.component.project.new_lang = "none"
@@ -493,25 +796,19 @@ class ComponentDiscoveryTest(RepoTestCase):
             outside_path, os.path.join(self.component.full_path, "prefix-collision")
         )
 
-        walk_calls: list[str] = []
+        entry = MagicMock()
+        entry.name = "prefix-collision"
+        entry.path = os.path.join(self.discovery.path, entry.name)
+        entry.is_dir.return_value = True
 
-        def fake_walk(path: str, *, followlinks: bool):
-            self.assertEqual(path, self.discovery.path)
-            self.assertTrue(followlinks)
-
-            dirnames = ["prefix-collision"]
-            walk_calls.append(path)
-            yield path, dirnames, []
-
-            if "prefix-collision" in dirnames:
-                nested = os.path.join(path, "prefix-collision")
-                walk_calls.append(nested)
-                yield nested, [], ["cs.po"]
-
-        with patch("weblate.trans.discovery.os.walk", side_effect=fake_walk):
+        with patch.object(
+            self.discovery,
+            "_iter_directory_entries",
+            return_value=iter((entry,)),
+        ) as iter_entries:
             self.assertEqual(self.discovery.matches, [])
 
-        self.assertEqual(walk_calls, [self.discovery.path])
+        iter_entries.assert_called_once_with(self.discovery.path)
 
     def test_named_group(self) -> None:
         discovery = ComponentDiscovery(

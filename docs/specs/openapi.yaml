@@ -2488,7 +2488,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_categories_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      description: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: id
@@ -7612,7 +7613,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      description: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: project__slug
@@ -8049,12 +8051,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -8096,6 +8092,18 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/components/{project__slug}/{slug}/screenshots/:
     get:
       operationId: api_components_screenshots_list
@@ -19258,12 +19266,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -19305,6 +19307,18 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/projects/{slug}/statistics/:
     get:
       operationId: api_projects_statistics_retrieve
@@ -19629,7 +19643,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_reports_create
-      description: Schedule generation of a stored report.
+      description: Schedule generation of a stored report. The reports.view permission
+        authorizes the complete selected scope.
       tags:
       - reports
       requestBody:
@@ -24558,6 +24573,8 @@ paths:
                       detail: You do not have permission to perform this action.
                       attr: null
           description: The authenticated user does not have permission for this operation.
+        '409':
+          description: This task cannot be cancelled.
   /api/translations/:
     get:
       operationId: api_translations_list
@@ -25562,7 +25579,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/AutoTranslateRequest'
         required: true
       security:
       - tokenAuth: []
@@ -25704,7 +25721,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/AutoTranslateResponse'
           description: Successful response.
           headers:
             X-RateLimit-Limit:
@@ -26683,12 +26700,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -26730,6 +26741,18 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/statistics/:
     get:
       operationId: api_translations_statistics_retrieve
@@ -31918,6 +31941,62 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    AutoSourceEnum:
+      enum:
+      - others
+      - mt
+      type: string
+      description: |-
+        * `others` - others
+        * `mt` - mt
+    AutoTranslateRequest:
+      type: object
+      description: Request body for the autotranslate action.
+      properties:
+        q:
+          type: string
+          description: Query string selecting strings to translate. Translating all
+            strings discards existing translations.
+        mode:
+          allOf:
+          - $ref: '#/components/schemas/ModeEnum'
+          description: 'How to store the result: as a suggestion, translation, needing-edit,
+            or approved. Typical value: ``suggest``.'
+        auto_source:
+          allOf:
+          - $ref: '#/components/schemas/AutoSourceEnum'
+          description: 'Translation source: other components (``others``) or machine
+            translation (``mt``). Typical value: ``others``.'
+        component:
+          type: string
+          description: Component ID (always accepted). When the project has 30 or
+            more eligible source components a component slug or ``project/component``
+            path is also accepted. Leave blank to use all components.
+        engines:
+          type: array
+          items:
+            type: string
+          description: Machine translation engine identifiers to use when ``auto_source``
+            is ``mt``.
+        threshold:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: 'Minimum translation score (1–100) to accept when using machine
+            translation. Typical value: 80.'
+      required:
+      - auto_source
+      - mode
+      - q
+      - threshold
+    AutoTranslateResponse:
+      type: object
+      description: Response body for the autotranslate action.
+      properties:
+        details:
+          type: string
+      required:
+      - details
     Backup:
       type: object
       properties:
@@ -34420,6 +34499,18 @@ components:
       - units
       - units_translated
       - users
+    ModeEnum:
+      enum:
+      - suggest
+      - translate
+      - fuzzy
+      - approved
+      type: string
+      description: |-
+        * `suggest` - suggest
+        * `translate` - translate
+        * `fuzzy` - fuzzy
+        * `approved` - approved
     MonolingualUnit:
       type: object
       properties:
@@ -36038,6 +36129,10 @@ components:
           description: How to restrict access to this project is detailed in the documentation.
           minimum: -2147483648
           maximum: 2147483647
+        public_sharing:
+          type: boolean
+          description: Allows anonymous access to the engage pages and status widgets
+            for Private and Custom projects.
         use_shared_tm:
           type: boolean
           title: Use shared translation memory
@@ -36963,6 +37058,10 @@ components:
           description: How to restrict access to this project is detailed in the documentation.
           minimum: -2147483648
           maximum: 2147483647
+        public_sharing:
+          type: boolean
+          description: Allows anonymous access to the engage pages and status widgets
+            for Private and Custom projects.
         use_shared_tm:
           type: boolean
           title: Use shared translation memory
@@ -37682,6 +37781,9 @@ components:
       properties:
         operation:
           $ref: '#/components/schemas/OperationEnum'
+        background:
+          type: boolean
+          default: false
       required:
       - operation
     Report:
@@ -37943,6 +38045,21 @@ components:
         needs_push:
           type: boolean
           description: Whether the repository has commits that need to be pushed.
+        included_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components included in the status.
+        skipped_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components skipped from the status.
+        permission_blockers:
+          type: array
+          items:
+            type: string
+          description: Full paths of components preventing access to skipped repositories.
         url:
           type: string
           description: URL to the repository API endpoint.
@@ -37997,8 +38114,28 @@ components:
           type: boolean
         detail:
           type: string
-      required:
-      - result
+        included_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components included in the operation.
+        skipped_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components skipped by the operation.
+        permission_blockers:
+          type: array
+          items:
+            type: string
+          description: Full paths of components preventing access to skipped repositories.
+        task_url:
+          type: string
+          format: uri
+    RepositoryOperationConflict:
+      oneOf:
+      - $ref: '#/components/schemas/RepositoryOperation'
+      - $ref: '#/components/schemas/ErrorResponse423'
     ResultEnum:
       enum:
       - voted
@@ -38482,7 +38619,10 @@ components:
           - type: 'null'
         log:
           type: string
+        cancellable:
+          type: boolean
       required:
+      - cancellable
       - completed
       - log
       - progress

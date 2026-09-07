@@ -8,15 +8,16 @@
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
+# "Mahdi B. Jahani" <kelbowonl@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-07-25 07:17+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
+"PO-Revision-Date: 2026-09-03 14:26+0000\n"
+"Last-Translator: Automatic translation add-on <noreply-addon-"
+"autotranslate@weblate.org>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/weblate/"
 "application/fa/>\n"
 "Language: fa\n"
@@ -24,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -151,7 +152,7 @@ msgid "New password confirmation"
 msgstr "تایید گذرواژهٔ جدید"
 
 msgid "Regenerate API key"
-msgstr ""
+msgstr "تولید مجدد کلید API"
 
 msgid ""
 "Leave enabled to revoke the current API key and generate a new one. This is "
@@ -884,7 +885,7 @@ msgid "Public"
 msgstr "عمومی"
 
 msgid "Private"
-msgstr ""
+msgstr "خصوصی"
 
 msgid ""
 "Please choose which component list you want to display on the dashboard."
@@ -1501,6 +1502,11 @@ msgstr "رایانامه فعال‌سازی به این نشانی فرستاد
 
 #, python-format
 msgid "The authentication app %s was registered."
+msgstr ""
+
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
 msgstr ""
 
 #, fuzzy
@@ -2143,11 +2149,12 @@ msgstr ""
 msgid "Regular expression to match translation files against"
 msgstr "ترجمه"
 
-#, fuzzy
-#| msgid "Translate"
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "ترجمه"
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr ""
@@ -2185,6 +2192,18 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Define the file mask"
+msgstr "ترجمه"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 
 msgid "Language filter"
@@ -2303,7 +2322,25 @@ msgstr ""
 msgid "You can not use a base file for bilingual translation."
 msgstr "ترجمه"
 
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr ""
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
+msgstr ""
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
 msgstr ""
 
 msgid "This template must include {{ component }}."
@@ -3060,7 +3097,7 @@ msgid "Language"
 msgstr "زبان"
 
 msgid "Personal info"
-msgstr ""
+msgstr "اطلاعات شخصی"
 
 msgid "Authentication"
 msgstr ""
@@ -3069,7 +3106,7 @@ msgid "Permissions"
 msgstr ""
 
 msgid "Important dates"
-msgstr ""
+msgstr "تاریخ‌های مهم"
 
 msgid "This is not used when a component list is selected."
 msgstr ""
@@ -3642,6 +3679,14 @@ msgstr "کمک به وبلت"
 msgid "User has all possible permissions."
 msgstr ""
 
+msgid "All languages"
+msgstr "همه زبان‌ها"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr ""
@@ -3694,9 +3739,6 @@ msgstr "فهرست‌های اجزاء"
 
 msgid "Language selection"
 msgstr ""
-
-msgid "All languages"
-msgstr "همه زبان‌ها"
 
 msgid "Languages"
 msgstr "زبان‌ها"
@@ -4957,7 +4999,7 @@ msgid "Perl brace format string does not match source."
 msgstr "ترجمه"
 
 msgid "Perl format"
-msgstr ""
+msgstr "فرمت Perl"
 
 #, fuzzy
 #| msgid "Translate"
@@ -5467,7 +5509,7 @@ msgid "Font"
 msgstr ""
 
 msgid "Unsupported file format."
-msgstr ""
+msgstr "فرمت فایل پشتیبانی‌نمی‌شود."
 
 #, fuzzy
 #| msgid "Translate"
@@ -5588,7 +5630,7 @@ msgstr ""
 
 #. Translators: File format name
 msgid "JSON nested structure file"
-msgstr ""
+msgstr "فایل JSON با ساختار تو در تو"
 
 #. Translators: File format name
 msgid "Android String Resource"
@@ -5728,7 +5770,7 @@ msgstr ""
 
 #. Translators: File format name
 msgid "WebExtension JSON file"
-msgstr ""
+msgstr "فایل JSON افزونه وب (WebExtension)"
 
 #. Translators: File format name
 msgid "i18next JSON file v3"
@@ -5811,7 +5853,7 @@ msgstr ""
 
 #. Translators: File format name
 msgid "DTD file"
-msgstr ""
+msgstr "فایل DTD"
 
 #. Translators: File format name
 msgid "SubRip subtitle file"
@@ -5914,7 +5956,7 @@ msgid "Glossaries"
 msgstr ""
 
 msgid "Invalid integer list!"
-msgstr ""
+msgstr "فهرست اعداد صحیح، نامعتبر است!"
 
 msgid "Glossary"
 msgstr "واژه‌نامه"
@@ -6197,7 +6239,7 @@ msgid ""
 msgstr ""
 
 msgid "Legal"
-msgstr ""
+msgstr "قانونی"
 
 #, fuzzy
 #| msgid "Agreement with Terms of Service {date}."
@@ -6235,7 +6277,7 @@ msgid "Cookies"
 msgstr "کوکی‌ها"
 
 msgid "Cookies Policy"
-msgstr ""
+msgstr "سیاست کوکی‌ها"
 
 msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
@@ -6250,9 +6292,10 @@ msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
+"کوکی‌های احراز هویت که برای شناسایی کاربران احراز هویت‌شده مورد نیاز هستند."
 
 msgid "Preferences cookie to store user preferences in certain situations."
-msgstr ""
+msgstr "کوکیِ ترجیحات برای ذخیره‌سازی ترجیحات کاربر در موقعیت‌های خاص."
 
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours \"Do Not "
@@ -6263,13 +6306,13 @@ msgid "This site uses Google Analytics to analyze website traffic."
 msgstr ""
 
 msgid "Legal Terms Overview"
-msgstr ""
+msgstr "مروری بر اصطلاحات حقوقی"
 
 msgid "Privacy"
 msgstr ""
 
 msgid "Terms"
-msgstr ""
+msgstr "شرایط"
 
 msgid "Overview"
 msgstr ""
@@ -6742,6 +6785,14 @@ msgstr ""
 
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
 msgstr ""
 
 msgctxt "Anthropic model selection"
@@ -7326,9 +7377,12 @@ msgstr ""
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
+"این نمونهٔ Weblate میزبان ترجمه‌هایی برای پروژه‌های گوناگون نرم‌افزار آزاد است."
 
 msgid "Weblate can host your project as well, please get in touch."
 msgstr ""
+"Weblate می‌تواند میزبانی پروژه شما را نیز بر عهده بگیرد؛ لطفاً با ما تماس "
+"بگیرید."
 
 msgid ""
 "Start your gratis trial today and explore our competitively priced "
@@ -7398,6 +7452,8 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+"پس از تأیید این مورد، می‌توانید با استفاده از %(backend_verbose)s %(uid)s در "
+"Weblate احراز هویت کنید."
 
 msgid "Confirm"
 msgstr ""
@@ -7504,10 +7560,10 @@ msgid "Registration"
 msgstr ""
 
 msgid "Password reset almost complete"
-msgstr ""
+msgstr "بازنشانی رمز عبور تقریباً کامل شده است."
 
 msgid "Account removal almost complete"
-msgstr ""
+msgstr "حذف حساب تقریباً کامل شده است"
 
 msgid "Registration almost complete"
 msgstr ""
@@ -7618,10 +7674,10 @@ msgid "Please enable the password authentication to secure your account."
 msgstr ""
 
 msgid "You will be still able to authenticate using third party services."
-msgstr ""
+msgstr "همچنان می‌توانید با استفاده از سرویس‌های شخص ثالث احراز هویت کنید."
 
 msgid "The password is used to verify important changes on your account."
-msgstr ""
+msgstr "از رمز عبور برای تأیید تغییرات مهم در حساب کاربری شما استفاده می‌شود."
 
 msgid "Configure the password"
 msgstr ""
@@ -7833,7 +7889,7 @@ msgid "IP address"
 msgstr "نشانی IP"
 
 msgid "User agent"
-msgstr ""
+msgstr "عامل کاربر"
 
 #, fuzzy
 #| msgid "Translate"
@@ -7864,7 +7920,7 @@ msgid "API usage example:"
 msgstr ""
 
 msgid "CLI usage example:"
-msgstr ""
+msgstr "نمونه استفاده از رابط خط فرمان (CLI):"
 
 msgid "Accessing Git repositories"
 msgstr ""
@@ -7930,7 +7986,7 @@ msgid "Back to account settings"
 msgstr ""
 
 msgid "Redirecting you to the authentication provider."
-msgstr ""
+msgstr "در حال هدایت شما به سرویس‌دهنده احراز هویت."
 
 msgid "Registration without a password:"
 msgstr ""
@@ -7983,7 +8039,7 @@ msgid "Delete this account"
 msgstr ""
 
 msgid "Forgotten your password? You can now set new one."
-msgstr ""
+msgstr "رمز عبور خود را فراموش کرده‌اید؟ اکنون می‌توانید رمز جدیدی تعیین کنید."
 
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
@@ -7991,7 +8047,7 @@ msgid ""
 msgstr ""
 
 msgid "Set my password"
-msgstr ""
+msgstr "تنظیم رمز عبور"
 
 msgid "Reset my password"
 msgstr ""
@@ -8341,7 +8397,7 @@ msgid "Add-ons"
 msgstr ""
 
 msgid "Manage"
-msgstr ""
+msgstr "مدیریت"
 
 #, fuzzy
 #| msgid "Somali"
@@ -8774,7 +8830,7 @@ msgid "Add"
 msgstr ""
 
 msgid "All components"
-msgstr ""
+msgstr "تمام اجزا"
 
 msgid "Automatic assignment of users is configured for this team"
 msgstr ""
@@ -9122,7 +9178,7 @@ msgid ""
 msgstr ""
 
 msgid "You do not have permission to change project access control."
-msgstr ""
+msgstr "شما مجوز تغییر کنترل دسترسی پروژه را ندارید."
 
 msgid "Check your billing status"
 msgstr ""
@@ -9134,7 +9190,7 @@ msgid "No strings found!"
 msgstr "هیچ رشته‌ای یافت نشد!"
 
 msgid "Insights"
-msgstr ""
+msgstr "بینش‌ها"
 
 msgid "Files"
 msgstr ""
@@ -9433,11 +9489,16 @@ msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
 msgstr ""
+"در بخش تنظیمات برگزیده (Preferences)، زبان‌های مورد نظر خود را انتخاب کنید تا "
+"نمایی کلی از ترجمه‌های موجود برای آن زبان‌ها در پروژه‌های تحت‌نظر (Watched "
+"projects) خود مشاهده کنید."
 
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
 msgstr ""
+"هیچ پیشنهادی برای شما یافت نشد؛ لطفاً برای دریافت پیشنهاد، زبان‌های مورد نظر "
+"خود را در بخش تنظیمات انتخاب کنید."
 
 msgid "Various data from Weblate is available in machine-readable format."
 msgstr ""
@@ -9593,6 +9654,8 @@ msgid ""
 "This translation is open only to a limited group of translators, if you want "
 "to contribute please get in touch with the project maintainers."
 msgstr ""
+"این ترجمه تنها برای گروه محدودی از مترجمان در دسترس است؛ اگر مایل به همکاری "
+"هستید، لطفاً با مسئولان پروژه تماس بگیرید."
 
 msgid ""
 "Once you have activated your account, proceed to the translation section."
@@ -9705,6 +9768,27 @@ msgstr "کمک به وبلت"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "کمک به وبلت"
+
+msgid "Some repositories are not accessible"
+msgstr ""
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Skipped components:"
+msgstr "رشته های منبع"
+
+msgid "Permission required on:"
+msgstr ""
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr ""
@@ -10577,11 +10661,12 @@ msgstr[1] "رشته های منبع"
 #, python-format
 msgid "There was a request to remove your Weblate account at %(site_title)s."
 msgstr ""
+"درخواستی برای حذف حساب کاربری Weblate شما در %(site_title)s ثبت شده است."
 
 #. Translators: e-mail subject
 #, python-format
 msgid "Account removal on %(site_title)s"
-msgstr ""
+msgstr "حذف حساب کاربری در %(site_title)s"
 
 #. Translators: e-mail subject
 #, fuzzy, python-format
@@ -10721,10 +10806,10 @@ msgid "Updated"
 msgstr "رشته های منبع"
 
 msgid "Approved"
-msgstr ""
+msgstr "تأیید شده"
 
 msgid "Needs editing"
-msgstr ""
+msgstr "نیازمند ویرایش"
 
 msgid "Unfinished"
 msgstr ""
@@ -11107,7 +11192,7 @@ msgid "Show components without a remote VCS"
 msgstr "ترجمه"
 
 msgid "This repository is linked to:"
-msgstr ""
+msgstr "این مخزن متصل است به:"
 
 msgid "Activate support package"
 msgstr ""
@@ -11566,7 +11651,7 @@ msgid "Return to dashboard"
 msgstr "کمک به وبلت"
 
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "لطفاً نتایج عملیات جستجو و جایگزینی را بررسی و تأیید کنید."
 
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
@@ -11994,7 +12079,7 @@ msgid "Glossary string explanation"
 msgstr "رشته های منبع"
 
 msgid "No related strings found in the glossary."
-msgstr ""
+msgstr "هیچ عبارت مرتبطی در واژه‌نامه یافت نشد."
 
 msgid "Summary"
 msgstr ""
@@ -12051,7 +12136,7 @@ msgid "Translations can only be done through suggestions."
 msgstr ""
 
 msgid "Translations can be made directly."
-msgstr ""
+msgstr "ترجمه‌ها می‌توانند مستقیماً انجام شوند."
 
 #, fuzzy
 #| msgid "Translate"
@@ -12154,11 +12239,9 @@ msgctxt "Number of strings"
 msgid "Source"
 msgstr "رشته های منبع"
 
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "Number of strings"
 msgid "Approved"
-msgstr "رشته های منبع"
+msgstr "تأیید شده"
 
 #, fuzzy
 #| msgid "Translate"
@@ -12174,7 +12257,7 @@ msgstr "ترجمه"
 
 msgctxt "Number of strings"
 msgid "Needs editing"
-msgstr ""
+msgstr "نیازمند ویرایش"
 
 msgctxt "Number of strings"
 msgid "Read-only"
@@ -12504,7 +12587,7 @@ msgid "Strings with suggestions from others"
 msgstr ""
 
 msgid "Approved strings with suggestions"
-msgstr ""
+msgstr "عبارت‌های تأییدشده به همراه پیشنهادها"
 
 msgid "All untranslated strings added the past month"
 msgstr ""
@@ -13018,6 +13101,21 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Migrate to GitHub App"
+msgstr "ترجمه"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -13168,6 +13266,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -13790,7 +13893,7 @@ msgid "Permalink copied to clipboard."
 msgstr ""
 
 msgid "Copy permalink"
-msgstr ""
+msgstr "کپی کردن پیوند یکتا"
 
 #, fuzzy
 #| msgid "Glossary"
@@ -13889,7 +13992,7 @@ msgid "Translations of this string in the other languages"
 msgstr ""
 
 msgid "Other languages"
-msgstr ""
+msgstr "سایر زبان‌ها"
 
 msgid "List of recent changes done in Weblate"
 msgstr ""
@@ -14269,6 +14372,79 @@ msgid "No connected accounts yet."
 msgstr "حذف حساب کاربری"
 
 #, fuzzy
+#| msgid "Translate"
+msgid "Code-hosting integrations"
+msgstr "ترجمه"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connect or update GitHub account"
+msgstr "حذف حساب کاربری"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connected GitHub accounts:"
+msgstr "حذف حساب کاربری"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Refresh repositories"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Migrate selected components"
+msgstr "رشته های منبع"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Migration status"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "فقط خواندنی"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Repository access needed"
+msgstr "ترجمه"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Donate to Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "کمک به وبلت"
@@ -14364,11 +14540,6 @@ msgstr "رشته های منبع"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translate"
-msgid "Refresh repositories"
-msgstr "ترجمه"
 
 #, python-format
 msgid ""
@@ -14499,9 +14670,25 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "ترجمه"
+msgstr[1] "ترجمه"
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "ترجمه"
+msgstr[1] "ترجمه"
 
 #, fuzzy
 #| msgid "Translate"
@@ -14548,6 +14735,8 @@ msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
 msgstr ""
+"علاوه بر تبلیغ کل پروژه ترجمه، می‌توانید زبان یا بخش خاصی را نیز برای تبلیغ "
+"انتخاب کنید:"
 
 msgid "Image widgets"
 msgstr ""
@@ -14851,7 +15040,7 @@ msgid "An obsolete translation suggestion was removed during cleanup."
 msgstr ""
 
 msgid "Suggestion removed during cleanup"
-msgstr ""
+msgstr "پیشنهاد در جریان پاک‌سازی حذف شد"
 
 #, fuzzy
 #| msgid "Translate"
@@ -15704,6 +15893,9 @@ msgstr ""
 msgid "Inexistent files."
 msgstr ""
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Translate"
@@ -16067,7 +16259,7 @@ msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 
 msgid "Version control"
-msgstr ""
+msgstr "کنترل نسخه"
 
 #, fuzzy
 #| msgid "Donate to Weblate"
@@ -16089,13 +16281,35 @@ msgid "Discovery configuration"
 msgstr "ترجمه"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr "ترجمه"
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 #, fuzzy
@@ -16132,6 +16346,19 @@ msgstr ""
 
 msgid "Sort JSON keys"
 msgstr ""
+
+#, fuzzy
+#| msgid "Do not notify"
+msgid "Do not sort"
+msgstr "اعلان داده نشود"
+
+msgid "Case-sensitive sort"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Case-insensitive sort"
+msgstr "ترجمه"
 
 #, fuzzy
 #| msgid "Translate"
@@ -16374,7 +16601,7 @@ msgid "Read-only strings"
 msgstr "رشته های منبع"
 
 msgid "Strings marked for edit"
-msgstr ""
+msgstr "رشته‌های علامت‌گذاری‌شده برای ویرایش"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -16418,7 +16645,7 @@ msgid "Approved strings"
 msgstr "رشته های منبع"
 
 msgid "Strings waiting for review"
-msgstr ""
+msgstr "رشته‌های در انتظار بازبینی"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -16506,7 +16733,7 @@ msgid "The starting date has to be before the ending date."
 msgstr ""
 
 msgid "Invalid checksum specified!"
-msgstr ""
+msgstr "چک‌سام (Checksum) نامعتبر مشخص شده است!"
 
 msgid "Toggle text direction"
 msgstr ""
@@ -16525,7 +16752,7 @@ msgid ""
 msgstr ""
 
 msgid "Review state"
-msgstr ""
+msgstr "وضعیت بازبینی"
 
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
@@ -16736,7 +16963,7 @@ msgid "Block the user for one month"
 msgstr ""
 
 msgid "Report period"
-msgstr ""
+msgstr "دوره گزارش‌دهی"
 
 #, fuzzy
 #| msgid "Translate"
@@ -16849,10 +17076,10 @@ msgid "Translation settings"
 msgstr ""
 
 msgid "Locations"
-msgstr ""
+msgstr "مکان‌ها"
 
 msgid "Version control settings"
-msgstr ""
+msgstr "تنظیمات کنترل نسخه"
 
 msgid "Commit messages"
 msgstr ""
@@ -16982,7 +17209,7 @@ msgid ""
 msgstr ""
 
 msgid "Source language text"
-msgstr ""
+msgstr "متن زبان مبدأ"
 
 msgid ""
 "You can edit this later, as with any other string in the source language."
@@ -17782,11 +18009,13 @@ msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
 msgid "Age of changes to commit"
-msgstr ""
+msgstr "سن تغییرات آماده برای ثبت (Commit)"
 
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
+"مدت‌زمان (بر حسب ساعت) پس از آنکه هرگونه تغییر معلق در VCS ثبت (Commit) خواهد "
+"شد."
 
 msgid "Lock on error"
 msgstr ""
@@ -18308,7 +18537,7 @@ msgid ""
 msgstr ""
 
 msgid "Enable reviews"
-msgstr ""
+msgstr "فعال‌سازی نقد و بررسی‌ها"
 
 msgid "Requires dedicated reviewers to approve translations."
 msgstr ""
@@ -18624,6 +18853,31 @@ msgstr ""
 
 msgid "User configured character: {}"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Repository operation could not be completed."
+msgstr "رشته های منبع"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repository operation"
+msgid "Repository operation completed."
+msgstr "عملیات مخزن"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Repository operation completed with errors."
+msgstr "رشته های منبع"
 
 #, fuzzy
 #| msgid "No strings found!"
@@ -19048,6 +19302,8 @@ msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
+"پروژه‌ای که به دنبال آن بودید حذف شده است؛ با این حال، می‌توانید در سایر "
+"پروژه‌ها مشارکت کنید."
 
 msgid ""
 "You have activated your account, now you should set the password to be able "
@@ -19082,7 +19338,7 @@ msgid "Your suggestion is empty!"
 msgstr ""
 
 msgid "Your suggestion has been identified as spam!"
-msgstr ""
+msgstr "پیشنهاد شما به عنوان هرزنامه شناسایی شده است!"
 
 #, fuzzy, python-format
 #| msgid ""
@@ -19187,6 +19443,11 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
 #, fuzzy
+#| msgid "Translate"
+msgid "Another repository operation is already in progress."
+msgstr "ترجمه"
+
+#, fuzzy
 #| msgid ""
 #| "Could not activate your installation. Please ensure your activation token "
 #| "is correct."
@@ -19196,29 +19457,15 @@ msgid ""
 msgstr ""
 "نصب شما فعال نشد. لطفا اطمینان حاصل کنید که کلمه رمز فعال‌سازی شما درست است."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-
-msgid "All repositories were pushed."
-msgstr ""
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-
-msgid "All repositories have been cleaned up."
-msgstr ""
+#, fuzzy
+#| msgid "Repository operation"
+msgid "This repository operation is already queued."
+msgstr "عملیات مخزن"
 
 #, fuzzy
-#| msgid "Translate"
-msgid "Translation files have been synchronized."
-msgstr "ترجمه"
-
-#, fuzzy
-#| msgid "Translate"
-msgid "Updates of translations are in progress."
-msgstr "ترجمه"
+#| msgid "Repository operation"
+msgid "Repository operation has been queued."
+msgstr "عملیات مخزن"
 
 #, fuzzy
 #| msgid "Translate"
@@ -19234,14 +19481,6 @@ msgstr "ترجمه"
 #| msgid "Translate"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "ترجمه"
-
-#, fuzzy
-#| msgid "Translate"
-msgid "Pending translations are being committed."
-msgstr "ترجمه"
-
-msgid "All pending translations were committed."
-msgstr ""
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -19611,7 +19850,7 @@ msgid "A user with this e-mail already exists."
 msgstr "ترجمه"
 
 msgid "Add as translation needing edit"
-msgstr ""
+msgstr "به عنوان ترجمه‌ای که نیاز به ویرایش دارد، اضافه کنید"
 
 #, fuzzy
 #| msgid "Translate"
@@ -19794,7 +20033,7 @@ msgstr ""
 
 msgctxt "String state"
 msgid "Needs editing"
-msgstr ""
+msgstr "نیازمند ویرایش"
 
 #, fuzzy
 #| msgid "Flag new source strings as \"Needs editing\""
@@ -19812,11 +20051,9 @@ msgctxt "String state"
 msgid "Translated"
 msgstr "ترجمه"
 
-#, fuzzy
-#| msgid "Source strings"
 msgctxt "String state"
 msgid "Approved"
-msgstr "رشته های منبع"
+msgstr "تأیید شده"
 
 msgctxt "String state"
 msgid "Read-only"
@@ -20319,6 +20556,16 @@ msgstr ""
 msgid "Enter a valid GitHub host."
 msgstr "میان‌زبان"
 
+#, fuzzy
+#| msgid "Source strings"
+msgid "Components to migrate"
+msgstr "رشته های منبع"
+
+#, fuzzy
+#| msgid "New translation component"
+msgid "Select at least one component to migrate."
+msgstr "جزء ترجمه جدید"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -20664,8 +20911,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -20738,6 +21012,26 @@ msgstr ""
 
 msgid "Connected GitHub account added."
 msgstr ""
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "ترجمه"
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -21127,6 +21421,62 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "ترجمه"
 
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid "Pending translations are being committed."
+#~ msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "ترجمه"
+
 #~ msgid "Activation completed."
 #~ msgstr "فعال‌سازی تکمیل شد."
 
@@ -21502,9 +21852,6 @@ msgstr "ترجمه"
 #~ msgid_plural "%d new strings to translate appeared to the translation."
 #~ msgstr[0] "رشته‌های بدون ترجمه از پرونده‌های ترجمه برداشته می‌شوند."
 #~ msgstr[1] "رشته‌های بدون ترجمه از پرونده‌های ترجمه برداشته می‌شوند."
-
-#~ msgid "Do not notify"
-#~ msgstr "اعلان داده نشود"
 
 #~ msgid "Component locking"
 #~ msgstr "قفل کردن اجزاء"

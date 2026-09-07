@@ -1025,6 +1025,11 @@ real_patterns = [
     # User pages
     path("user/", weblate.accounts.views.UserList.as_view(), name="user_list"),
     path(
+        "user/<name:user>/notifications/",
+        weblate.accounts.views.UserNotifications.as_view(),
+        name="user_notifications",
+    ),
+    path(
         "user/<name:user>/", weblate.accounts.views.UserPage.as_view(), name="user_page"
     ),
     path(

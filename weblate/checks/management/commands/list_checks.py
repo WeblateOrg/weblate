@@ -93,7 +93,8 @@ class Command(DocGeneratorCommand):
             lines.append("~" * len(name))
         if version_lines := check.get_versions_rst_lines():
             lines.extend(version_lines)
-        lines.extend(("", f":Summary: {escape(check.description)}"))
+        description = check.get_documentation_description()
+        lines.extend(("", f":Summary: {description}"))
         if scope := get_scope(check):
             lines.append(f":Scope: {scope}")
         lines.extend(

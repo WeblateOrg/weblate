@@ -15,10 +15,10 @@ from django.contrib.messages import get_messages
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
-from django.db import models
+from django.db import connection, models
 from django.template.loader import render_to_string
 from django.test import RequestFactory
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone, translation
 from lxml import html
@@ -330,6 +330,90 @@ class BillingTest(BaseTestCase):
         self.assertContains(response, "btn btn-info")
         self.assertNotContains(response, 'title="Django admin"', status_code=200)
         self.assertNotContains(response, "cog.svg", status_code=200)
+
+    def test_detail_prefetches_project_flags(self) -> None:
+        projects = [self.add_project() for _unused in range(3)]
+        self.add_component(projects[1], "000001")
+        locked_component = self.add_component(projects[2], "000002")
+        Component.objects.filter(pk=locked_component.pk).update(locked=True)
+        self.client.login(username=self.user.username, password="testpassword")
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.billing.get_absolute_url())
+
+        rendered_projects = response.context["billing"].all_projects
+        self.assertCountEqual(rendered_projects, projects)
+        for project in rendered_projects:
+            self.assertIn("has_alerts", project.__dict__)
+            self.assertIn("locked", project.__dict__)
+        self.assertFalse(rendered_projects[0].locked)
+        self.assertFalse(rendered_projects[1].locked)
+        self.assertTrue(rendered_projects[2].locked)
+
+        component_lock_count_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if "COUNT(" in query["sql"] and '"trans_component"."locked"' in query["sql"]
+        ]
+        self.assertEqual(component_lock_count_queries, [])
+
+    def test_detail_prefetches_invoices(self) -> None:
+        Invoice.objects.create(
+            billing=self.billing,
+            start=self.invoice.start - timedelta(days=2),
+            end=self.invoice.start - timedelta(days=1),
+            amount=20,
+            ref="00001",
+        )
+        self.client.login(username=self.user.username, password="testpassword")
+
+        with (
+            patch("weblate.billing.models.os.path.exists", return_value=False),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            response = self.client.get(self.billing.get_absolute_url())
+
+        invoice_filename = self.invoice.filename
+        assert invoice_filename is not None
+        self.assertContains(response, invoice_filename)
+        self.assertNotContains(
+            response, reverse("invoice-download", kwargs={"pk": self.invoice.pk})
+        )
+        invoice_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if '"billing_invoice"' in query["sql"]
+        ]
+        self.assertEqual(len(invoice_queries), 1)
+
+    def test_detail_prefetches_audit_log_users(self) -> None:
+        users = [create_another_user(str(index)) for index in range(3)]
+        for user in users:
+            self.billing.billinglog_set.create(
+                event=BillingEvent.EMAIL,
+                summary="Test audit event",
+                user=user,
+            )
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.login(username=self.user.username, password="testpassword")
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.billing.get_absolute_url())
+
+        logs = list(response.context["billing_logs"])
+        self.assertTrue(
+            {user.pk for user in users}.issubset({log.user_id for log in logs})
+        )
+        # ruff: ignore[private-member-access]
+        self.assertTrue(all("user" in log._state.fields_cache for log in logs))
+        log_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if '"billing_billinglog"' in query["sql"]
+        ]
+        self.assertEqual(len(log_queries), 1)
+        self.assertIn('JOIN "weblate_auth_user"', log_queries[0])
 
     def test_can_terminate(self) -> None:
         self.assertTrue(self.billing.can_terminate)

@@ -167,8 +167,8 @@ class FontDetailView(ProjectViewMixin, DetailView):
 @method_decorator(login_required, name="dispatch")
 class FontGroupDetailView(ProjectViewMixin, DetailView):
     model = FontGroup
-    _form: FontOverrideForm | FontGroupForm | None = None
-    _override_form = None
+    _form: FontGroupForm | None = None
+    _override_form: FontOverrideForm | None = None
 
     def get_queryset(self):
         return self.project.fontgroup_set.all()
@@ -178,7 +178,9 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
         result["form"] = self._form or FontGroupForm(
             instance=self.object, project=self.project
         )
-        result["override_form"] = self._override_form or FontOverrideForm()
+        result["override_form"] = self._override_form or FontOverrideForm(
+            project=self.project
+        )
         result["can_edit"] = self.request.user.has_perm("project.edit", self.project)
         return result
 
@@ -206,7 +208,9 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                     return redirect(self.object)
             return self.get(request, **kwargs)
         if "language" in request.POST:
-            form = self._form = FontOverrideForm(request.POST)
+            form = self._override_form = FontOverrideForm(
+                request.POST, project=self.project
+            )
             if form.is_valid():
                 instance = form.save(commit=False)
                 instance.group = self.object

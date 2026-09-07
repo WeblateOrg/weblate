@@ -50,7 +50,7 @@ PERMISSIONS = (
     # Translators: Permission name
     ("project.permissions", gettext_noop("Manage project access")),
     # Translators: Permission name
-    ("reports.view", gettext_noop("Download reports")),
+    ("reports.view", gettext_noop("Manage reports")),
     # Translators: Permission name
     ("screenshot.add", gettext_noop("Add screenshot")),
     # Translators: Permission name

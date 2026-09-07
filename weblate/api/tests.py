@@ -7,7 +7,7 @@ import operator
 import os
 import tempfile
 import zipfile
-from contextlib import nullcontext
+from contextlib import contextmanager, nullcontext
 from copy import copy
 from datetime import UTC, date, datetime, timedelta
 from io import BytesIO, StringIO
@@ -22,7 +22,7 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db import DatabaseError
+from django.db import DatabaseError, transaction
 from django.db.models import Q
 from django.templatetags.static import static
 from django.test.utils import modify_settings, override_settings
@@ -68,6 +68,7 @@ from weblate.auth.models import (
     User,
     UserBlock,
 )
+from weblate.auth.permissions import get_project_repository_selection
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
@@ -79,6 +80,7 @@ from weblate.trans.component_copy import (
 )
 from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.forms import (
+    AutoForm,
     CategorySettingsForm,
     ComponentSettingsForm,
     ProjectSettingsForm,
@@ -90,6 +92,7 @@ from weblate.trans.models import (
     Component,
     ComponentLink,
     ComponentList,
+    PendingUnitChange,
     Project,
     Suggestion,
     Translation,
@@ -97,6 +100,10 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
+from weblate.trans.repository import (
+    QueuedRepositoryOperation,
+    RepositoryOperationConflictError,
+)
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     clear_users_cache,
@@ -105,7 +112,10 @@ from weblate.trans.tests.utils import (
     get_test_file,
 )
 from weblate.trans.util import join_plural
-from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
+from weblate.trans.validators import (
+    SUGGESTION_REJECTION_REASON_LENGTH,
+    get_translation_text_max_length,
+)
 from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -553,6 +563,60 @@ class UserAPITest(APIBaseTest):
         # Short search should return no results
         response = self.client.get(reverse("api:user-list"), {"username": "a"})
         self.assertEqual(response.data["count"], 0)
+
+    def test_filter_bot_user(self) -> None:
+        """Unprivileged searches do not list bot users."""
+        active_bot = User.objects.create(
+            username="bot-private-project-active",
+            full_name="Active project token",
+            is_active=True,
+            is_bot=True,
+        )
+        User.objects.create(
+            username="bot-private-project-expired",
+            full_name="Expired project token",
+            is_active=False,
+            is_bot=True,
+        )
+
+        self.authenticate(False)
+        response = self.client.get(
+            reverse("api:user-list"), {"username": "bot-private-project"}
+        )
+        self.assertEqual(response.data["count"], 0)
+
+        # Exact user lookup remains available with the limited serializer.
+        response = self.client.get(
+            reverse("api:user-detail", kwargs={"username": active_bot.username})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["username"], active_bot.username)
+
+        for permission in ("user.view", "user.edit"):
+            with self.subTest(permission=permission):
+                self.user.groups.set([self.group])
+                self.user.clear_permissions_cache()
+                self.grant_perm_to_user(
+                    permission, group_name=f"Bot search {permission}"
+                )
+                response = self.client.get(
+                    reverse("api:user-list"),
+                    {"username": "bot-private-project"},
+                )
+                self.assertEqual(response.data["count"], 2)
+
+    def test_filter_own_bot_user(self) -> None:
+        """An unprivileged bot can find its own account."""
+        self.user.is_bot = True
+        self.user.save(update_fields=["is_bot"])
+        self.authenticate(False)
+
+        response = self.client.get(
+            reverse("api:user-list"), {"username": self.user.username}
+        )
+
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["username"], self.user.username)
 
     def test_create(self) -> None:
         self.do_request("api:user-list", method="post", code=403)
@@ -3552,6 +3616,7 @@ class ProjectAPITest(APIBaseTest):
             "http://example.com/api/projects/test/metrics/",
         )
         self.assertEqual(response.data["access_control"], self.project.access_control)
+        self.assertFalse(response.data["public_sharing"])
         self.assertEqual(response.data["use_shared_tm"], self.project.use_shared_tm)
         self.assertEqual(
             response.data["contribute_shared_tm"], self.project.contribute_shared_tm
@@ -3583,6 +3648,198 @@ class ProjectAPITest(APIBaseTest):
                 superuser=True,
                 request={"operation": operation},
             )
+
+    def test_repo_operation_can_be_queued(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with patch(
+            "weblate.api.views.queue_repository_operation",
+            return_value=QueuedRepositoryOperation(task_id),
+        ) as queue_operation:
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=202,
+                request={"operation": "pull", "background": True},
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "detail": "Repository operation has been queued.",
+                "task_url": f"http://example.com/api/tasks/{task_id}/",
+                "included_components": sorted(
+                    component.full_slug
+                    for component in self.project.component_set.all()
+                ),
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+        selection = get_project_repository_selection(
+            self.user, self.project, ("vcs.update",)
+        )
+        queue_operation.assert_called_once_with(
+            self.project,
+            "pull",
+            self.user,
+            repository_components=selection.repositories,
+        )
+
+    def test_eager_repo_operation_returns_result(self) -> None:
+        with patch(
+            "weblate.api.views.queue_repository_operation",
+            return_value=QueuedRepositoryOperation("task-id", successful=False),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "pull", "background": True},
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data,
+            {
+                "result": False,
+                "included_components": sorted(
+                    component.full_slug
+                    for component in self.project.component_set.all()
+                ),
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+
+    def test_synchronous_repo_operation_releases_before_followups(self) -> None:
+        events = []
+
+        @contextmanager
+        def reserve(*args, **kwargs):
+            events.append("reserved")
+
+            def release() -> None:
+                events.append("released")
+
+            try:
+                yield release
+            finally:
+                events.append("reservation context exited")
+
+        def update(*args, **kwargs):
+            transaction.on_commit(lambda: events.append("follow-up"))
+            return True
+
+        with (
+            self.captureOnCommitCallbacks(execute=True),
+            patch("weblate.api.views.reserve_repository_operation", reserve),
+            patch.object(Project, "do_update", update),
+        ):
+            self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "pull"},
+            )
+
+        self.assertEqual(
+            events,
+            [
+                "reserved",
+                "reservation context exited",
+                "released",
+                "follow-up",
+            ],
+        )
+
+    def test_repo_operation_queue_conflict(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with (
+            patch(
+                "weblate.api.views.queue_repository_operation",
+                side_effect=RepositoryOperationConflictError(task_id),
+            ),
+            patch(
+                "weblate.api.views.can_access_repository_operation_task",
+                return_value=True,
+            ),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=423,
+                request={"operation": "push", "background": True},
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "detail": "Another repository operation is already in progress.",
+                "task_url": f"http://example.com/api/tasks/{task_id}/",
+                "included_components": sorted(
+                    component.full_slug
+                    for component in self.project.component_set.all()
+                ),
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+
+    def test_repo_operation_conflict_hides_inaccessible_task(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with (
+            patch(
+                "weblate.api.views.queue_repository_operation",
+                side_effect=RepositoryOperationConflictError(task_id),
+            ),
+            patch(
+                "weblate.api.views.can_access_repository_operation_task",
+                return_value=False,
+            ),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=423,
+                request={"operation": "push", "background": True},
+            )
+
+        self.assertNotIn("task_url", response.data)
+
+    def test_synchronous_repo_operation_honors_reservation(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with (
+            patch(
+                "weblate.api.views.reserve_repository_operation",
+                side_effect=RepositoryOperationConflictError(task_id),
+            ),
+            patch(
+                "weblate.api.views.can_access_repository_operation_task",
+                return_value=False,
+            ),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=423,
+                request={"operation": "pull"},
+            )
+
+        self.assertEqual(
+            response.data["detail"],
+            "Another repository operation is already in progress.",
+        )
+        self.assertNotIn("task_url", response.data)
 
     def test_repo_file_sync_returns_true(self) -> None:
         with patch.object(Component, "queue_background_task", return_value=None):
@@ -3684,8 +3941,116 @@ class ProjectAPITest(APIBaseTest):
                     "eligible_for_commit": 0,
                 },
             },
-            skip={"url"},
+            skip={
+                "url",
+                "included_components",
+                "skipped_components",
+                "permission_blockers",
+            },
         )
+
+    def test_repo_status_filters_inaccessible_repositories(self) -> None:
+        independent = self.create_po(project=self.project, name="Independent")
+        glossary = self.project.component_set.get(slug="glossary")
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        linked.restricted = True
+        linked.save(update_fields=["restricted"])
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.grant_perm_to_user(
+            "vcs.reset",
+            group_name="Project repository scope",
+            project=self.project,
+        )
+        unit = Unit.objects.filter(translation__component=self.component).first()
+        if unit is None:
+            self.fail("Expected a unit in the blocked component.")
+        PendingUnitChange.objects.create(unit=unit, author=self.user)
+
+        response = self.do_request("api:project-repository", self.project_kwargs)
+
+        self.assertFalse(response.data["needs_commit"])
+        self.assertEqual(response.data["pending_units"]["total"], 0)
+        self.assertEqual(
+            response.data["included_components"],
+            [glossary.full_slug, independent.full_slug],
+        )
+        self.assertEqual(response.data["skipped_components"], [])
+        self.assertEqual(response.data["permission_blockers"], [])
+        self.assertNotContains(response, self.component.full_slug)
+        self.assertNotContains(response, linked.full_slug)
+
+    def test_repo_operation_filters_inaccessible_repositories(self) -> None:
+        independent = self.create_po(project=self.project, name="Independent")
+        glossary = self.project.component_set.get(slug="glossary")
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        linked.restricted = True
+        linked.save(update_fields=["restricted"])
+        self.grant_perm_to_user(
+            "vcs.reset",
+            group_name="Project repository scope",
+            project=self.project,
+        )
+
+        with patch.object(
+            Component, "do_reset", autospec=True, return_value=True
+        ) as reset:
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                request={"operation": "reset"},
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "result": True,
+                "included_components": [glossary.full_slug, independent.full_slug],
+                "skipped_components": [self.component.full_slug],
+                "permission_blockers": [],
+            },
+        )
+        self.assertEqual(reset.call_count, 2)
+        self.assertEqual(
+            {call.args[0] for call in reset.call_args_list}, {glossary, independent}
+        )
+
+    def test_repo_operation_denied_without_accessible_repository(self) -> None:
+        glossary = self.project.component_set.get(slug="glossary")
+        glossary.restricted = True
+        glossary.save(update_fields=["restricted"])
+        other_project = self.create_project(name="Other", slug="other")
+        self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        self.grant_perm_to_user(
+            "vcs.reset",
+            group_name="Project repository scope",
+            project=self.project,
+        )
+
+        with patch.object(Component, "do_reset", autospec=True) as reset:
+            self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                request={"operation": "reset"},
+                code=403,
+            )
+        reset.assert_not_called()
 
     def test_components(self) -> None:
         request = self.do_request("api:project-components", self.project_kwargs)
@@ -5159,6 +5524,52 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["access_control"], Project.ACCESS_PRIVATE)
         self.assertEqual(self.project.access_control, Project.ACCESS_PRIVATE)
 
+    def test_patch_public_sharing(self) -> None:
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"public_sharing": True},
+        )
+
+        self.project.refresh_from_db()
+        self.assertTrue(response.data["public_sharing"])
+        self.assertTrue(self.project.public_sharing)
+
+    def test_patch_public_sharing_requires_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"public_sharing": True},
+        )
+
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.public_sharing)
+
+    def test_patch_unchanged_public_sharing_without_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"public_sharing": False},
+        )
+
+        self.assertFalse(response.data["public_sharing"])
+
     def test_patch_access_control_requires_permission(self) -> None:
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
@@ -5290,6 +5701,24 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(
             response.data["access_control"], settings.DEFAULT_ACCESS_CONTROL
         )
+
+    def test_create_public_sharing(self) -> None:
+        self.grant_perm_to_user("project.add")
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            format="json",
+            request={
+                "name": "Shared project",
+                "slug": "shared-project",
+                "web": "https://weblate.org/",
+                "public_sharing": True,
+            },
+        )
+
+        self.assertTrue(response.data["public_sharing"])
+        self.assertTrue(Project.objects.get(slug="shared-project").public_sharing)
 
     def test_create_access_control_requires_superuser(self) -> None:
         self.grant_perm_to_user("project.add")
@@ -9827,7 +10256,13 @@ class TasksAPITest(APIBaseTest):
 
         self.assertEqual(
             response.data,
-            {"completed": False, "progress": 0, "result": None, "log": ""},
+            {
+                "completed": False,
+                "progress": 0,
+                "result": None,
+                "log": "",
+                "cancellable": True,
+            },
         )
 
     def test_retrieve_requires_authentication(self) -> None:
@@ -9867,8 +10302,84 @@ class TasksAPITest(APIBaseTest):
 
         self.assertEqual(
             response.data,
-            {"completed": False, "progress": 0, "result": None, "log": ""},
+            {
+                "completed": False,
+                "progress": 0,
+                "result": None,
+                "log": "",
+                "cancellable": False,
+            },
         )
+
+    def test_retrieve_repository_task_after_tracked_component_deleted(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_ids": [self.component.id, self.component.id + 1_000_000],
+                "user_id": self.user.id,
+                "cancellable": False,
+            },
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+
+        self.assertFalse(response.data["completed"])
+        self.assertFalse(response.data["cancellable"])
+
+    def test_destroy_rejects_non_cancellable_task(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_ids": [self.component.id],
+                "cancellable": False,
+            },
+            3600,
+        )
+
+        class DummyAsyncResult:
+            latest = None
+
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+                self.revoked = False
+                DummyAsyncResult.latest = self
+
+            def ready(self):
+                return False
+
+            def revoke(self, *args, **kwargs) -> None:
+                self.revoked = True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="delete",
+                superuser=True,
+                code=409,
+            )
+
+        self.assertEqual(response.data, {"detail": "This task cannot be cancelled."})
+        assert DummyAsyncResult.latest is not None
+        self.assertFalse(DummyAsyncResult.latest.revoked)
 
     def test_retrieve_rejects_other_user_metadata(self) -> None:
         cache.set(
@@ -10922,36 +11433,42 @@ class MemoryAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data["errors"][0]["attr"], "exact")
 
-    def test_get_exact_matches_uses_distinct_on_source(self) -> None:
-        first = self.create_memory(
+    def test_get_exact_matches_prefers_active_then_lowest_id(self) -> None:
+        pending = self.create_memory(
             source="Shared exact source",
-            target="Prvni shoda",
+            target="Pending match",
             project=self.component.project,
             origin=self.component.full_slug,
         )
-        second = self.create_memory(
+        pending.status = Memory.STATUS_PENDING
+        pending.save(update_fields=["status"])
+        first_active = self.create_memory(
+            source="Shared exact source",
+            target="First active match",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        self.create_memory(
+            source="Shared exact source",
+            target="Second active match",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        other = self.create_memory(
             source="Another exact source",
-            target="Druha shoda",
+            target="Another match",
             project=self.component.project,
             origin=self.component.full_slug,
         )
-        queryset = self.mock_queryset()
-        filtered_queryset = self.mock_queryset()
-        ordered_queryset = self.mock_queryset()
-        distinct_queryset = self.mock_queryset()
-        distinct_queryset.__iter__.return_value = iter([first, second])
-        queryset.filter.return_value = filtered_queryset
-        filtered_queryset.order_by.return_value = ordered_queryset
-        ordered_queryset.distinct.return_value = distinct_queryset
 
         view = MemoryViewSet()
         matches = view.get_exact_matches(
-            queryset, ["Shared exact source", "Another exact source"]
+            Memory.objects.all(), ["Shared exact source", "Another exact source"]
         )
 
-        filtered_queryset.order_by.assert_called_once_with("source", "-status", "id")
-        ordered_queryset.distinct.assert_called_once_with("source")
-        self.assertEqual(matches, {first.source: first, second.source: second})
+        self.assertEqual(
+            matches, {first_active.source: first_active, other.source: other}
+        )
 
     def test_lookup_delegates_fuzzy_matching_to_queryset(self) -> None:
         source_language = Language.objects.get(code="en")
@@ -11691,6 +12208,33 @@ class TranslationAPITest(APIBaseTest):
                 code=403,
                 request={"operation": operation},
             )
+
+    def test_background_commit_preserves_translation_noop(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        PendingUnitChange.objects.filter(unit__translation=translation).delete()
+        other_translation = (
+            self.component.translation_set.exclude(pk=translation.pk)
+            .exclude(filename="")
+            .first()
+        )
+        assert other_translation is not None
+        unit = other_translation.unit_set.first()
+        assert unit is not None
+        PendingUnitChange.objects.create(unit=unit, author=self.user)
+        self.assertFalse(translation.needs_commit())
+        self.assertTrue(self.component.needs_commit())
+
+        with patch("weblate.api.views.queue_repository_operation") as queue:
+            response = self.do_request(
+                "api:translation-repository",
+                self.translation_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "commit", "background": True},
+            )
+
+        self.assertEqual(response.data, {"result": False})
+        queue.assert_not_called()
 
     def test_repo_status(self) -> None:
         response = self.do_request(
@@ -12502,6 +13046,28 @@ class UnitAPITest(APIBaseTest):
         unit = Unit.objects.get(pk=unit.pk)
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.target, "Test translation\n")
+
+    def test_translate_unit_too_long(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        original_target = unit.target
+        target = "x" * (get_translation_text_max_length(unit) + 1)
+
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "20", "target": target},
+        )
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Translation text too long!"
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "target")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original_target)
 
     def test_translate_unit_deleted_mid_request(self) -> None:
         """Unit removed between get_object() and the locking re-fetch."""
@@ -13402,7 +13968,7 @@ class SuggestionAPITest(APIBaseTest):
 
     def test_add_suggestion_too_long(self) -> None:
         unit = self._get_unit()
-        max_length = 10 * (unit.get_max_length() + 100)
+        max_length = get_translation_text_max_length(unit)
         response = self._add_suggestion(unit, "x" * (max_length + 1), code=400)
         self.assertEqual(
             response.data["errors"][0]["detail"], "Translation text too long!"
@@ -14493,6 +15059,22 @@ class SearchAPITest(APIBaseTest):
                 },
             ],
         )
+
+    def test_bot_visibility(self) -> None:
+        bot = User.objects.create(
+            username="bot-confidential-project-audit-token",
+            full_name="Confidential audit token",
+            is_bot=True,
+        )
+
+        response = self.do_request("api:search", request={"q": "confidential-project"})
+        self.assertFalse(
+            any(result["name"] == bot.username for result in response.data)
+        )
+
+        self.grant_perm_to_user("user.view")
+        response = self.do_request("api:search", request={"q": "confidential-project"})
+        self.assertTrue(any(result["name"] == bot.username for result in response.data))
 
     def test_language(self) -> None:
         response = self.client.get(reverse("api:search"), {"q": "czech"})
@@ -17003,6 +17585,13 @@ class OpenAPITest(APIBaseTest):
                     expected_pattern,
                 )
 
+    def test_project_public_sharing_field(self) -> None:
+        schemas = self.get_schema()["components"]["schemas"]
+        for schema_name in ("Project", "PatchedProject"):
+            with self.subTest(schema_name=schema_name):
+                field = schemas[schema_name]["properties"]["public_sharing"]
+                self.assertEqual(field["type"], "boolean")
+
     def test_metrics_version_is_optional(self) -> None:
         schema = self.get_schema()
         required = schema["components"]["schemas"]["Metrics"]["required"]
@@ -17470,7 +18059,8 @@ class OpenAPITest(APIBaseTest):
         )
         task_schema = schema["components"]["schemas"]["Task"]
         self.assertEqual(
-            task_schema["required"], ["completed", "log", "progress", "result"]
+            task_schema["required"],
+            ["cancellable", "completed", "log", "progress", "result"],
         )
         self.assertEqual(
             task_schema["properties"]["completed"],
@@ -17481,9 +18071,11 @@ class OpenAPITest(APIBaseTest):
             {"type": "integer", "maximum": 100, "minimum": 0},
         )
         self.assertEqual(task_schema["properties"]["log"], {"type": "string"})
+        self.assertEqual(task_schema["properties"]["cancellable"], {"type": "boolean"})
         self.assertEqual(
             task_schema["properties"]["result"]["oneOf"].count({"type": "null"}), 1
         )
+        self.assertIn("409", schema["paths"]["/api/tasks/{id}/"]["delete"]["responses"])
 
     def test_action_nested_list_schema_matches_runtime_behavior(self) -> None:
         schema = self.get_schema()
@@ -17525,11 +18117,22 @@ class OpenAPITest(APIBaseTest):
             ],
             {"$ref": "#/components/schemas/RepoRequest"},
         )
+        for status_code in ("200", "202"):
+            self.assertEqual(
+                project_repository["post"]["responses"][status_code]["content"][
+                    "application/json"
+                ]["schema"],
+                {"$ref": "#/components/schemas/RepositoryOperation"},
+            )
         self.assertEqual(
-            project_repository["post"]["responses"]["200"]["content"][
+            project_repository["post"]["responses"]["423"]["content"][
                 "application/json"
             ]["schema"],
-            {"$ref": "#/components/schemas/RepositoryOperation"},
+            {"$ref": "#/components/schemas/RepositoryOperationConflict"},
+        )
+        self.assertEqual(
+            schema["components"]["schemas"]["RepoRequest"]["properties"]["background"],
+            {"type": "boolean", "default": False},
         )
         component_lock = schema["paths"]["/api/components/{project__slug}/{slug}/lock/"]
         self.assertEqual(
@@ -17601,6 +18204,80 @@ class OpenAPITest(APIBaseTest):
                 }
             },
         )
+
+    def test_autotranslate_schema_describes_autoform_fields(self) -> None:
+        schema = self.get_schema()
+        autotranslate_path = "/api/translations/{component__project__slug}/{component__slug}/{language__code}/autotranslate/"
+        operation = schema["paths"][autotranslate_path]["post"]
+
+        # Request body must reference the AutoTranslateRequest schema, not Translation.
+        request_schema_ref = operation["requestBody"]["content"]["application/json"][
+            "schema"
+        ]["$ref"]
+        self.assertNotEqual(
+            request_schema_ref,
+            "#/components/schemas/Translation",
+            "autotranslate request body must not reference the Translation schema",
+        )
+        self.assertEqual(
+            request_schema_ref, "#/components/schemas/AutoTranslateRequest"
+        )
+
+        # The AutoTranslateRequest schema must describe exactly the AutoForm
+        # fields so the schema stays in sync when AutoForm changes.
+        request_schema = schema["components"]["schemas"]["AutoTranslateRequest"]
+        properties = request_schema["properties"]
+        form = AutoForm(self.component, self.user)
+        self.assertEqual(set(properties.keys()), set(form.fields.keys()))
+
+        # q, mode, auto_source, and threshold are required (no required=False /
+        # default in the serializer); component and engines are optional.
+        self.assertCountEqual(
+            request_schema.get("required", []),
+            ["q", "mode", "auto_source", "threshold"],
+        )
+
+        # drf-spectacular renders ChoiceField as a $ref to a separate enum schema.
+        # When the field also carries a description the $ref is nested under allOf,
+        # e.g. {"allOf": [{"$ref": "..."}], "description": "..."}.
+        def resolve(prop: dict) -> dict:
+            ref = prop.get("$ref") or (prop.get("allOf", [{}])[0].get("$ref"))
+            if ref:
+                node = schema
+                for part in ref.lstrip("#/").split("/"):
+                    node = node[part]
+                return node
+            return prop
+
+        # mode must enumerate the valid choices.
+        self.assertCountEqual(
+            resolve(properties["mode"])["enum"],
+            ["suggest", "translate", "fuzzy", "approved"],
+        )
+
+        # auto_source must enumerate the valid choices.
+        self.assertCountEqual(
+            resolve(properties["auto_source"])["enum"],
+            ["others", "mt"],
+        )
+
+        # threshold must carry numeric bounds.
+        self.assertEqual(properties["threshold"]["minimum"], 1)
+        self.assertEqual(properties["threshold"]["maximum"], 100)
+
+        # engines must be an array of strings.
+        self.assertEqual(properties["engines"]["type"], "array")
+        self.assertEqual(properties["engines"]["items"]["type"], "string")
+
+        # Response body must describe the details message, not Translation.
+        response_schema_ref = operation["responses"]["200"]["content"][
+            "application/json"
+        ]["schema"]["$ref"]
+        self.assertEqual(
+            response_schema_ref, "#/components/schemas/AutoTranslateResponse"
+        )
+        response_schema = schema["components"]["schemas"]["AutoTranslateResponse"]
+        self.assertIn("details", response_schema["properties"])
 
     def test_redoc(self) -> None:
         response = self.do_request("redoc")

@@ -73,7 +73,7 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
-from weblate.trans.tests.utils import get_optional_path
+from weblate.trans.tests.utils import TEST_DATA, get_optional_path
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -104,7 +104,7 @@ from .defaults import (
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
-from .discovery import DiscoveryAddon
+from .discovery import DISCOVERY_LIMIT_ERROR, DiscoveryAddon
 from .events import AddonActivityLogReason, AddonEvent, AddonEventOutcome
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
@@ -6142,6 +6142,28 @@ class CommandTest(ComponentTestCase):
 
 
 class DiscoveryTest(ViewTestCase):
+    def test_limit_failure_is_reported(self) -> None:
+        addon = DiscoveryAddon.create(
+            component=self.component,
+            configuration={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ component|title }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "remove": True,
+            },
+        )
+        discovery = MagicMock()
+        discovery.limit_exceeded = True
+        with patch.object(addon, "get_discovery", return_value=discovery):
+            outcome = addon.post_update(self.component, "", False, [])
+
+        self.assertEqual(
+            outcome,
+            AddonEventOutcome.error(result=DISCOVERY_LIMIT_ERROR),
+        )
+
     def test_creation(self) -> None:
         link = self.component.get_repo_link_url()
         self.assertEqual(Component.objects.filter(repo=link).count(), 0)
@@ -6373,6 +6395,218 @@ class DiscoveryTest(ViewTestCase):
             form.errors["name_template"],
             ["This template must include {{ component }}."],
         )
+
+    def test_form_match_help_text(self) -> None:
+        form = DiscoveryAddon.get_add_form(self.user, component=self.component)
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        help_text = str(form.fields["match"].help_text)
+        self.assertEqual(
+            help_text,
+            "The regular expression must define a named group for component. "
+            "Also define a named group for language when matching translation files. "
+            "When the file mask is set, omit language and match the "
+            "monolingual base or new base file instead.",
+        )
+
+    def test_form_filemask_template_requires_new_base(self) -> None:
+        data = {
+            "file_format": "po",
+            "match": r"locale/(?P<component>[^/]+)\.pot",
+            "name_template": "{{ component }}",
+            "language_regex": "^[^.]+$",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "filemask_template": "locale/{{ component }}.po",
+            "remove": False,
+            "confirm": True,
+        }
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data=data,
+        )
+        self.assertIsNotNone(form)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["new_base_template"],
+            [
+                "Define the base file for new translations when creating components from a template."
+            ],
+        )
+        self.assertEqual(
+            form.errors["filemask_template"],
+            ["The file mask must include a language wildcard (*)."],
+        )
+
+    def test_form_classic_mode_requires_language_group(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "filemask_template": "",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["match"],
+            [
+                (
+                    'Regular expression is missing named group "language", '
+                    "the simplest way to define it is (?P<language>.*)."
+                ),
+            ],
+        )
+
+    def test_form_whitespace_filemask_template_uses_classic_mode(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "filemask_template": "   ",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["match"],
+            [
+                (
+                    'Regular expression is missing named group "language", '
+                    "the simplest way to define it is (?P<language>.*)."
+                ),
+            ],
+        )
+
+    def test_form_create_from_template_requires_wildcard(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "filemask_template": "locale/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["filemask_template"],
+            ["The file mask must include a language wildcard (*)."],
+        )
+
+    def test_form_create_from_template_rejects_language_group(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<language>[^/]+)/(?P<component>[^/]+)\.po",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "filemask_template": "locale/*/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form, "Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["match"],
+            [
+                "Omit the language named group when creating components from a monolingual base or new base file."
+            ],
+        )
+
+    def test_form_create_from_template_rejects_unknown_match_groups(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}.{{ extension }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "filemask_template": "locale/*/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form, "Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.errors["name_template"])
+
+    def test_form_create_from_template_accepts_valid_configuration(self) -> None:
+        pot_dir = Path(self.component.full_path) / "locale"
+        pot_dir.mkdir(exist_ok=True)
+        shutil.copy(
+            os.path.join(TEST_DATA, "hello.pot"),
+            pot_dir / "hello.pot",
+        )
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "filemask_template": "locale/*/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form, "Expected discovery form to be created")
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.cleaned_data["filemask_template"],
+            "locale/*/{{ component }}.po",
+        )
+        serialized = form.serialize_form()
+        self.assertEqual(
+            serialized["filemask_template"],
+            "locale/*/{{ component }}.po",
+        )
+        self.assertNotIn("create_from_template", serialized)
 
     def test_ui_presets_are_not_part_of_form_configuration(self) -> None:
         form = DiscoveryAddon.get_add_form(
@@ -6687,6 +6921,11 @@ class DiscoveryTest(ViewTestCase):
         self.assertEqual(split_android["values"]["file_format"], "aresource")
         self.assertIn("file_format", filename_language["values"])
         self.assertEqual(filename_language["values"]["file_format"], "")
+
+    def test_discovery_ui_presets_clear_filemask_template(self) -> None:
+        presets = DiscoveryForm.get_builtin_ui_presets()
+        for preset in presets:
+            self.assertEqual(preset["values"]["filemask_template"], "")
 
 
 class ScriptsTest(TestAddonMixin, ComponentTestCase):
@@ -10925,6 +11164,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
@@ -10954,6 +11194,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=True,
@@ -10967,14 +11208,13 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             self.assertNotIn("-----BEGIN PRIVATE KEY-----", str(value))
 
     def test_missing_publisher_is_reported_and_resets_service(self) -> None:
+        error = AttributeError("'NoneType' object has no attribute 'publish'")
         with (
             patch.object(fedora_messaging.api, "_twisted_service", object()),
             patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
             patch(
                 "fedora_messaging.api.publish",
-                side_effect=AttributeError(
-                    "'NoneType' object has no attribute 'publish'"
-                ),
+                side_effect=error,
             ),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
             self.assertRaisesMessage(
@@ -10988,19 +11228,19 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
         )
 
     def test_broker_rejection_is_reported(self) -> None:
+        error = fedora_messaging_exceptions.PublishForbidden("permission denied")
         with (
             patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
             patch(
                 "fedora_messaging.api.publish",
-                side_effect=fedora_messaging_exceptions.PublishForbidden(
-                    "permission denied"
-                ),
+                side_effect=error,
             ),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
             self.assertRaisesMessage(
@@ -11013,6 +11253,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,

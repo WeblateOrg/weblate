@@ -37,11 +37,14 @@
       </div>
       <div class="card-footer">
         <a class="btn btn-primary" href="{% url 'hosting' %}">{% translate "Ask for Libre hosting" %}</a>
-        <a class="btn btn-primary btn-spaced" href="https://weblate.org/hosting/">{% translate "View hosting plans" %}</a>
+        <a class="btn btn-primary btn-spaced"
+           href="https://weblate.org/hosting/">{% translate "View hosting plans" %}</a>
         {% if payment_enabled %}
-          <a class="btn btn-primary btn-spaced" href="{% url 'trial' %}">{% translate "Gratis trial for commercial hosting" %}</a>
+          <a class="btn btn-primary btn-spaced"
+             href="{% url 'trial' %}">{% translate "Gratis trial for commercial hosting" %}</a>
         {% elif contact_form != "disabled" %}
-          <a class="btn btn-primary btn-spaced" href="{% url 'contact' %}?t=hosting">{% translate "Contact us for commercial hosting" %}</a>
+          <a class="btn btn-primary btn-spaced"
+             href="{% url 'contact' %}?t=hosting">{% translate "Contact us for commercial hosting" %}</a>
         {% endif %}
       </div>
     </div>

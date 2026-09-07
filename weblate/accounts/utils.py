@@ -28,6 +28,7 @@ from weblate.trans.signals import user_pre_delete
 from weblate.utils.token import get_token
 
 if TYPE_CHECKING:
+    from django.http import HttpRequest
     from django_otp.models import Device
 
     from weblate.accounts.types import DeviceType
@@ -35,9 +36,10 @@ if TYPE_CHECKING:
 
 SESSION_WEBAUTHN_AUDIT = "weblate:second_factor:webauthn_audit_log"
 SESSION_SECOND_FACTOR_USER = "weblate:second_factor:user"
+SESSION_SECOND_FACTOR_HASH = "weblate:second_factor:auth_hash"
 SESSION_SECOND_FACTOR_TIMESTAMP = "weblate:second_factor:timestamp"
 SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
-SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_key"
+SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_device"
 SESSION_EXPIRY_SCOPE = "weblate:session_expiry_scope"
 SESSION_EXPIRY_AGE = "weblate:session_expiry_age"
 SESSION_EXPIRY_REFRESHED = "weblate:session_expiry_refreshed"
@@ -50,6 +52,7 @@ SESSION_EXPIRY_REFRESH_MAX_SECONDS = 86_400
 SESSION_EXPIRY_SAML_SECONDS = 60
 
 SECOND_FACTOR_VERIFY_SECONDS = 600
+TOTP_ENROLLMENT_SECONDS = 24 * 60 * 60
 SessionExpiryScope = Literal["saml", "2fa", "login", "authenticated"]
 
 
@@ -321,6 +324,30 @@ def adjust_session_expiry(
     request.session[SESSION_EXPIRY_SCOPE] = scope
     request.session[SESSION_EXPIRY_AGE] = expiry_age
     request.session[SESSION_EXPIRY_REFRESHED] = now
+
+
+def set_second_factor_session(
+    request: HttpRequest,
+    user: User,
+    backend: str,
+    *,
+    social: bool = False,
+) -> None:
+    request.session[SESSION_SECOND_FACTOR_USER] = (user.id, backend)
+    request.session[SESSION_SECOND_FACTOR_HASH] = user.get_session_auth_hash()
+    if social:
+        request.session[SESSION_SECOND_FACTOR_SOCIAL] = True
+    else:
+        request.session.pop(SESSION_SECOND_FACTOR_SOCIAL, None)
+
+
+def clear_second_factor_session(
+    request: HttpRequest, *, preserve_social: bool = False
+) -> None:
+    request.session.pop(SESSION_SECOND_FACTOR_USER, None)
+    request.session.pop(SESSION_SECOND_FACTOR_HASH, None)
+    if not preserve_social:
+        request.session.pop(SESSION_SECOND_FACTOR_SOCIAL, None)
 
 
 def get_key_name(device: Device) -> str:

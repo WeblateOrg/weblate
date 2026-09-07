@@ -54,7 +54,9 @@ Configuring Weblate
 
    .. code-block:: sh
 
-         celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup
+         celery --app=weblate.utils worker --beat \
+             --queues=celery,notify,memory,translate,backup \
+             --prefetch-multiplier=1
 
 #. Start the development server (:ref:`server` details a production setup):
 

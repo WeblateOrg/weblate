@@ -17,6 +17,7 @@ from unittest.mock import Mock, call, patch
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
 from django.db import close_old_connections, connection
 from django.db.models import F
 from django.test import SimpleTestCase, TransactionTestCase
@@ -29,6 +30,7 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
     Change,
     CommitPolicyChoices,
@@ -38,13 +40,18 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.repository_context import (
+    RepositoryFollowupLockError,
+    inline_repository_followups,
+)
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
     FixtureTestCase,
     ViewTestCase,
 )
-from weblate.trans.tests.utils import RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -75,6 +82,15 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_prefetch_tasks_preserves_page(self) -> None:
+        component = self.create_po()
+        page = Paginator(
+            Component.objects.filter(pk=component.pk).order_by("pk"), 1
+        ).page(1)
+
+        self.assertIs(prefetch_tasks(page), page)
+        self.assertEqual(list(page), [component])
 
     def test_select_for_update_uses_component_only_no_key_lock(self) -> None:
         queryset = Component.objects.select_for_update()
@@ -236,6 +252,46 @@ class ComponentTest(RepoTestCase):
             self.assertTrue(component.do_reset(None))
 
         recover_lock_session.assert_not_called()
+
+    def test_inline_reset_marks_followup_lock_contention(self) -> None:
+        component = self.create_component()
+        lock_timeout = WeblateLockTimeoutError("locked", lock=component.lock)
+
+        with (
+            self.assertRaises(RepositoryFollowupLockError) as raised,
+            patch.object(
+                component, "reset_repository_to_remote", return_value="previous-head"
+            ),
+            patch(
+                "weblate.trans.tasks.perform_component_commit",
+                side_effect=lock_timeout,
+            ),
+            inline_repository_followups(),
+        ):
+            component.do_reset(None, keep_changes=True)
+
+        self.assertEqual(raised.exception.followup, "reset-keep")
+        self.assertEqual(raised.exception.previous_head, "previous-head")
+
+    def test_inline_update_marks_followup_lock_contention(self) -> None:
+        component = self.create_component()
+        lock_timeout = WeblateLockTimeoutError("locked", lock=component.lock)
+
+        with (
+            self.assertRaises(RepositoryFollowupLockError) as raised,
+            patch.object(component, "store_background_task"),
+            patch.object(component, "configure_repo"),
+            patch.object(component, "update_remote_branch", return_value=True),
+            patch.object(component, "configure_branch"),
+            patch.object(component, "repo_needs_merge", return_value=True),
+            patch.object(component, "needs_commit_upstream", return_value=False),
+            patch.object(component, "update_branch", return_value=True),
+            patch.object(component, "finish_update", side_effect=lock_timeout),
+            inline_repository_followups(),
+        ):
+            component.do_update(None)
+
+        self.assertEqual(raised.exception.followup, "pull")
 
     def verify_component(
         self,
@@ -890,9 +946,6 @@ class ComponentTest(RepoTestCase):
     def test_vcs_validation(self) -> None:
         component = self.create_po_push()
 
-        # force reload VCS list to include github
-        VCS_REGISTRY.clear_cache()
-
         component.vcs = "github"
 
         # check push branch cannot be empty when push URL is set
@@ -1154,6 +1207,79 @@ class ComponentDeleteTest(RepoTestCase):
 class ComponentChangeTest(RepoTestCase):
     """Component object change testing."""
 
+    def test_changed_setup_preserves_pending_commit_revision(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        self.assertIsNotNone(unit)
+        initial_revision = component.repository.last_revision
+
+        unit.translate(create_test_user(), "Changed translation", STATE_TRANSLATED)
+        component.edit_template = not component.edit_template
+        component.save()
+
+        component.refresh_from_db()
+        current_revision = component.repository.last_revision
+        self.assertNotEqual(initial_revision, current_revision)
+        self.assertEqual(component.local_revision, current_revision)
+        self.assertEqual(component.processed_revision, current_revision)
+
+    def test_changed_setup_preserves_check_settings(self) -> None:
+        component = self.create_component()
+        component.edit_template = not component.edit_template
+        component.check_flags = "ignore-inconsistent"
+
+        with (
+            patch.object(
+                Component, "schedule_update_checks", autospec=True
+            ) as schedule_update_checks,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            component.save()
+
+        schedule_update_checks.assert_called_once_with(component, update_state=True)
+
+    def test_file_format_params_change_forces_rescan(self) -> None:
+        component = self._create_component("markdown", "*.md")
+        component.file_format_params = {
+            **component.file_format_params,
+            "md_no_placeholders": True,
+        }
+
+        with (
+            patch.object(Component, "commit_pending", autospec=True) as commit_pending,
+            patch.object(
+                Component, "create_translations", autospec=True, return_value=False
+            ) as create_translations,
+        ):
+            component.save(update_fields=["file_format_params"])
+
+        commit_pending.assert_called_once()
+        self.assertEqual(commit_pending.call_args.args[1:], ("changed setup", None))
+        create_translations.assert_called_once_with(
+            component, force=True, changed_template=False
+        )
+
+    def test_equivalent_file_format_params_change_skips_rescan(self) -> None:
+        component = self.create_po()
+        default_params = get_default_params_for_file_format(component.file_format)
+
+        with (
+            patch.object(Component, "commit_pending", autospec=True) as commit_pending,
+            patch.object(
+                Component, "create_translations", autospec=True, return_value=False
+            ) as create_translations,
+        ):
+            for file_format_params in (
+                default_params,
+                {**default_params, "po_line_wrap": "77"},
+            ):
+                component.file_format_params = file_format_params
+                component.save(update_fields=["file_format_params"])
+
+        commit_pending.assert_not_called()
+        create_translations.assert_not_called()
+
     def test_rename(self) -> None:
         link_component = self.create_link()
         self.assertIsNotNone(link_component.linked_component)
@@ -1380,6 +1506,25 @@ class ComponentChangeTest(RepoTestCase):
         linked_component.refresh_from_db()
         self.assertTrue(component.locked)
         self.assertTrue(linked_component.locked)
+
+
+class ComponentResetTransactionTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    def test_reset_opens_transaction(self) -> None:
+        component = self.create_component()
+        unit = Unit.objects.filter(translation__component=component).first()
+        self.assertIsNotNone(unit)
+        unit.details["disk_state"] = {}
+        unit.save(update_fields=["details"], only_save=True)
+
+        self.assertTrue(connection.get_autocommit())
+        self.assertTrue(component.do_reset())
+
+        unit.refresh_from_db()
+        self.assertNotIn("disk_state", unit.details)
 
 
 class ComponentAlertConcurrencyTest(RepoTestMixin, TransactionTestCase):
@@ -2038,6 +2183,21 @@ class ComponentErrorTest(RepoTestCase):
         self.assertIs(context.exception, error)
         push_if_needed.assert_called_once_with(do_update=False)
 
+    def test_push_pushes_before_reraising_update_parse_error(self) -> None:
+        error = FileParseError("parse failed")
+
+        with (
+            patch.object(self.component, "can_push", return_value=True),
+            patch.object(self.component, "repo_needs_push", return_value=True),
+            patch.object(self.component, "do_update", side_effect=error),
+            patch.object(self.component, "push_if_needed") as push_if_needed,
+            self.assertRaises(FileParseError) as context,
+        ):
+            self.component.do_push(None, force_commit=False)
+
+        self.assertIs(context.exception, error)
+        push_if_needed.assert_called_once_with(do_update=False)
+
     def test_failed_update_remote(self) -> None:
         self.assertFalse(self.component.update_remote_branch())
 
@@ -2154,17 +2314,16 @@ class ComponentErrorTest(RepoTestCase):
         immediate.assert_not_called()
         queue_task.assert_called_once()
 
-    def test_create_translations_runs_immediately_inside_celery_task(self) -> None:
-        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+    def test_create_translations_runs_immediately_inside_repository_task(self) -> None:
         request = SimpleNamespace(user=None)
 
         with (
             override_settings(CELERY_TASK_ALWAYS_EAGER=False),
-            patch("weblate.trans.models.component.current_task", task),
             patch.object(
                 self.component, "create_translations_immediate", return_value=True
             ) as immediate,
             patch.object(self.component, "queue_background_task") as queue_task,
+            inline_repository_followups(),
         ):
             self.assertTrue(
                 self.component.create_translations(force=True, request=request)
@@ -2183,16 +2342,49 @@ class ComponentErrorTest(RepoTestCase):
         )
         queue_task.assert_not_called()
 
+    def test_create_translations_propagates_repository_lock_timeout(self) -> None:
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch.object(
+                self.component,
+                "create_translations_immediate",
+                side_effect=lock_timeout,
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+            inline_repository_followups(),
+            self.assertRaises(WeblateLockTimeoutError),
+        ):
+            self.component.create_translations(force=True)
+
+        immediate.assert_called_once()
+        queue_task.assert_not_called()
+
+    def test_create_translations_runs_immediately_inside_celery_task(self) -> None:
+        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", task),
+            patch.object(
+                self.component, "create_translations_immediate", return_value=True
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+        ):
+            self.assertTrue(self.component.create_translations(force=True))
+
+        immediate.assert_called_once()
+        queue_task.assert_not_called()
+
     def test_create_translations_queues_after_celery_lock_timeout(self) -> None:
         task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
-
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
         with (
             override_settings(CELERY_TASK_ALWAYS_EAGER=False),
             patch("weblate.trans.models.component.current_task", task),
             patch.object(
                 self.component,
                 "create_translations_immediate",
-                side_effect=WeblateLockTimeoutError("locked", lock=self.component.lock),
+                side_effect=lock_timeout,
             ) as immediate,
             patch.object(self.component, "queue_background_task") as queue_task,
         ):
@@ -2285,6 +2477,22 @@ class PendingChangeCleanupTest(SimpleTestCase):
 
 
 class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
+    def test_inline_file_sync_marks_post_commit_lock_contention(self) -> None:
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+
+        with (
+            self.assertRaises(RepositoryFollowupLockError),
+            patch(
+                "weblate.trans.tasks.perform_component_commit",
+                side_effect=lock_timeout,
+            ),
+            inline_repository_followups(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.component.do_file_sync(self.get_request())
+
+        self.assertTrue(PendingUnitChange.objects.filter(unit=self.get_unit()).exists())
+
     def test_file_sync_creates_pending_changes_from_unit_values(self) -> None:
         unit = self.get_unit()
         Unit.objects.filter(pk=unit.source_unit_id).update(
@@ -2552,13 +2760,14 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
             target="Hallo Welt!\n",
         )
         request = self.get_request()
+        restore_error = OSError("restore failed")
 
         with (
             patch.object(
                 Component,
                 "restore_missing_translation_file",
                 autospec=True,
-                side_effect=OSError("restore failed"),
+                side_effect=restore_error,
             ),
             patch.object(self.component.repository, "reset") as mock_reset,
             patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
@@ -2580,6 +2789,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         mock_report_error.assert_called_once_with(
             "Could not recreate missing translation file during file sync",
             project=self.component.project,
+            exception=restore_error,
         )
         messages = [message.message for message in get_messages(request)]
         self.assertEqual(len(messages), 1)
@@ -3138,6 +3348,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self,
     ) -> None:
         request = self.get_request()
+        restore_error = OSError("atomic failed")
         with (
             patch.object(self.component.repository, "reset") as mock_reset,
             patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
@@ -3148,7 +3359,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
                     request=request,
                     missing_translations=[],
                     current_translation=None,
-                    error=OSError("atomic failed"),
+                    error=restore_error,
                 )
             )
 
@@ -3157,6 +3368,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         mock_report_error.assert_called_once_with(
             "Could not recreate missing translation file during reset",
             project=self.component.project,
+            exception=restore_error,
         )
         messages = [message.message for message in get_messages(request)]
         self.assertEqual(len(messages), 1)

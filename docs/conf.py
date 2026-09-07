@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "2026.9"
+release = "2026.9.1"
 
 # -- General configuration ---------------------------------------------------
 
@@ -346,7 +346,7 @@ intersphinx_mapping = {
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
     "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),
-    "rtd": ("https://docs.readthedocs.io/en/latest/", None),
+    "rtd": ("https://docs.readthedocs.com/platform/latest/", None),
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
     "drf-standardized-error": (
         "https://drf-standardized-errors.readthedocs.io/en/latest/",
@@ -366,12 +366,14 @@ nitpick_ignore = [
     ("http:obj", "string"),
     ("http:obj", "timestamp"),
     ("http:obj", "file"),
-    # Autodoc renders these standard-library type annotations from wlc
-    # signatures, but intersphinx references for them are disabled here.
+    # Autodoc renders these type annotations from wlc signatures, but their
+    # reference targets are not available in the configured inventories.
     ("py:class", "Path"),
     ("py:class", "builtins.list"),
     ("py:class", "collections.abc.Iterator"),
     ("py:class", "collections.abc.Mapping"),
+    ("py:class", "requests.models.Response"),
+    ("py:class", "wlc.base.LazyObject"),
 ]
 
 # Number of retries and timeout for linkcheck

@@ -27,7 +27,8 @@
   {% endif %}
 
   {% if payment_enabled and not active_billing_count %}
-    <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% translate "Purchase new hosting plan" %}</a>
+    <a href="{% url 'create-billing' %}?upgrade=1"
+       class="btn btn-primary">{% translate "Purchase new hosting plan" %}</a>
   {% endif %}
 
 {% endblock content %}

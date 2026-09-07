@@ -33,6 +33,7 @@ Security policies
 * :doc:`dependencies` - dependency inventory, vulnerability triage, update
   automation, and container scanning.
 * :doc:`issues` - vulnerability reporting and disclosure.
+* :doc:`incident-reporting` - reporting steps and a private incident note template.
 * :doc:`disaster-recovery-plan`
 * :doc:`incident-response-plan`
 * :doc:`passwords`

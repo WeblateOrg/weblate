@@ -7,11 +7,12 @@ from __future__ import annotations
 import re
 from contextlib import nullcontext
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Literal, TypedDict
+from html import unescape
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict
 
 from django.http import Http404
-from django.utils.html import format_html, format_html_join
-from django.utils.safestring import mark_safe
+from django.utils.html import escape, format_html, format_html_join, strip_tags
+from django.utils.safestring import SafeData, mark_safe
 from django.utils.translation import gettext
 from lxml import etree
 from siphashc import siphash
@@ -25,6 +26,7 @@ from weblate.utils.xml import parse_xml
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
 
+    from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -254,6 +256,19 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
     def get_description(self, check_obj: Check) -> StrOrPromise:
         return self.description
 
+    def get_plain_description(self, check_obj: Check) -> str:
+        """Return description text suitable for an escaped HTML attribute."""
+        description = str(self.get_description(check_obj))
+        if isinstance(description, SafeData):
+            # Dynamic checks separate individual errors with HTML line breaks.
+            description = re.sub(r"<br\s*/?>", "\n", description, flags=re.IGNORECASE)
+            return unescape(strip_tags(description))
+        return description
+
+    def get_documentation_description(self) -> str:
+        """Return the description formatted for reStructuredText documentation."""
+        return str(self.description).replace("\\", "\\\\")
+
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
         return None
 
@@ -298,6 +313,38 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
 
         return lambda text: pattern.sub(
             lambda m: replacements[m.group(0)], replacement(text)
+        )
+
+
+class CodeDescriptionMixin(BaseCheck):
+    """Render literal examples for HTML, plain text, and documentation."""
+
+    description_template: StrOrPromise
+    description_values: ClassVar[dict[str, str]]
+
+    def get_description(self, check_obj: Check) -> SafeString:
+        return format_html(
+            escape(self.description_template),
+            **{
+                key: format_html("<code>{}</code>", value)
+                for key, value in self.description_values.items()
+            },
+        )
+
+    def get_plain_description(self, check_obj: Check) -> str:
+        return str(self.description_template).format(**self.description_values)
+
+    def get_documentation_description(self) -> str:
+        # Backslashes are literal inside RST inline code, unlike surrounding prose.
+        return (
+            str(self.description_template)
+            .replace("\\", "\\\\")
+            .format(
+                **{
+                    key: f"``{value}``"
+                    for key, value in self.description_values.items()
+                }
+            )
         )
 
 

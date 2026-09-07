@@ -962,6 +962,19 @@ onReady(() => {
     });
   });
 
+  /* Activate a tab from outside the navigation */
+  document.querySelectorAll("[data-tab-target]").forEach((element) => {
+    element.addEventListener("click", (e) => {
+      e.preventDefault();
+      const trigger = document.querySelector(
+        `.nav [data-bs-toggle=tab][data-bs-target="${element.getAttribute("data-tab-target")}"]`,
+      );
+      if (trigger !== null) {
+        bootstrap.Tab.getOrCreateInstance(trigger).show();
+      }
+    });
+  });
+
   /* Navigate to a tab when the history changes */
   window.addEventListener("popstate", (_e) => {
     let tab = null;
@@ -1319,6 +1332,9 @@ onReady(() => {
         create: false,
         allowEmptyOption: true,
       };
+      if (el.dataset.maxOptions === "none") {
+        options.maxOptions = null;
+      }
       new TomSelect(el, options);
     });
   };
@@ -1346,6 +1362,44 @@ onReady(() => {
       };
       el.addEventListener("change", updateLimitField);
       updateLimitField();
+    });
+  };
+
+  const initializeTeamSelectionControls = (root = document) => {
+    /* Checkbox disabling its target field while checked */
+    findElements(root, "input[data-team-selection-toggle]").forEach((el) => {
+      if (el.dataset.teamSelectionInitialized === "true") {
+        return;
+      }
+      el.dataset.teamSelectionInitialized = "true";
+      const target = document.getElementById(el.dataset.teamSelectionToggle);
+      if (!target) {
+        return;
+      }
+      const updateTarget = () => {
+        setControlDisabled(target, el.checked);
+      };
+      el.addEventListener("change", updateTarget);
+      updateTarget();
+    });
+    /* Select enabling each mapped field only for the listed values */
+    findElements(root, "select[data-team-selection-map]").forEach((el) => {
+      if (el.dataset.teamSelectionInitialized === "true") {
+        return;
+      }
+      el.dataset.teamSelectionInitialized = "true";
+      const targets = JSON.parse(el.dataset.teamSelectionMap);
+      const updateTargets = () => {
+        const value = Number.parseInt(el.value, 10);
+        Object.entries(targets).forEach(([targetId, values]) => {
+          const target = document.getElementById(targetId);
+          if (target) {
+            setControlDisabled(target, !values.includes(value));
+          }
+        });
+      };
+      el.addEventListener("change", updateTargets);
+      updateTargets();
     });
   };
 
@@ -1450,6 +1504,7 @@ onReady(() => {
   });
 
   initializeProjectMembershipControls();
+  initializeTeamSelectionControls();
 
   const projectUserGroupsModal = document.getElementById(
     "project-user-groups-modal",
