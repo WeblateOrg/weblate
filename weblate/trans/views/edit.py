@@ -423,6 +423,8 @@ class SearchNavigation:
         self.request = request
         self.blank = blank
         self.use_cache = use_cache
+        self.recovered = False
+        self.refreshing = False
 
         self.form = PositionSearchForm(
             request=request, data=request.GET, show_builder=False, obj=base
@@ -453,7 +455,7 @@ class SearchNavigation:
 
     @property
     def can_use_session_snapshot(self) -> bool:
-        return self.use_cache and "offset" in self.request.GET
+        return self.use_cache and not self.refreshing and "offset" in self.request.GET
 
     @property
     def can_use_bounded_page_lookup(self) -> bool:
@@ -480,9 +482,6 @@ class SearchNavigation:
 
     def get_matching_full_snapshots(self) -> Iterator[CachedSearchSnapshot]:
         """Yield cached full snapshots for the same search ignoring ordering."""
-        if not self.can_use_session_snapshot:
-            return
-
         prefix = f"search_{self.base.cache_key}_"
         session_keys = list(self.request.session.keys())
         for key in session_keys:
@@ -509,11 +508,37 @@ class SearchNavigation:
 
     def get_latest_cached_full_snapshot(self) -> CachedSearchSnapshot | None:
         """Return the newest full snapshot for the same search."""
+        if not self.can_use_session_snapshot:
+            return None
         return max(
             self.get_matching_full_snapshots(),
             key=self.get_cached_snapshot_sort_key,
             default=None,
         )
+
+    def notify_recovery(self) -> None:
+        """Explain why navigation no longer uses the previous results."""
+        if not self.recovered:
+            messages.info(
+                self.request,
+                gettext(
+                    "Your previous search results are no longer available. "
+                    "The results have been refreshed."
+                ),
+            )
+            self.recovered = True
+
+    def refresh_results(self, *, page_size: int) -> HttpResponse:
+        """Replace all sort variants and redirect to reusable navigation."""
+        cleanup_session(self.request.session)
+        for snapshot in self.get_matching_full_snapshots():
+            del self.request.session[snapshot.key]
+        self.offset = 1
+        self.refreshing = True
+        result = self.page(include_count=True, page_size=page_size)
+        if isinstance(result, HttpResponse):
+            return result
+        return redirect(f"{self.request.path}?{self.search_url}&offset=1")
 
     def get_reordered_cached_session_data(
         self, source: CachedSearchSnapshot, *, reset_offset_to_last_viewed: bool
@@ -573,7 +598,7 @@ class SearchNavigation:
         return session_data
 
     def load_data(
-        self, *, reset_offset_to_last_viewed: bool = False
+        self, *, reset_offset_to_last_viewed: bool = False, anchor: Unit | None = None
     ) -> HttpResponse | SearchResult:
         """Load a cached full snapshot or perform and store a new search."""
         cleanup_session(self.request.session)
@@ -592,7 +617,11 @@ class SearchNavigation:
             if session_data is not None:
                 return session_data
 
+        if self.can_use_session_snapshot:
+            self.notify_recovery()
         unit_ids = self.get_ordered_unit_ids()
+        if anchor is not None and anchor.pk not in unit_ids:
+            unit_ids.insert(0, anchor.pk)
         if not unit_ids and not self.blank:
             messages.warning(self.request, gettext("No strings found!"))
             return redirect(
@@ -612,6 +641,8 @@ class SearchNavigation:
         cleanup_session(self.request.session)
         session_data = self.get_session_data(self.request.session, self.session_key)
         ordered_units = self.get_ordered_units()
+        if session_data is None and self.can_use_session_snapshot:
+            self.notify_recovery()
 
         total = None
         if include_count or self.offset < 1:
@@ -623,6 +654,8 @@ class SearchNavigation:
                 )
             if self.offset < 1:
                 self.offset = max(total - page_size + 1, 1)
+            elif self.recovered and self.offset > total:
+                self.offset = 1
 
         offset = self.offset - 1
         unit_ids = list(
@@ -704,6 +737,8 @@ class SearchNavigation:
                     total=0 if include_count else None,
                     last_section=True,
                 )
+            if self.recovered and self.offset > len(unit_ids):
+                self.offset = 1
             snapshot = self._get_ids_snapshot(unit_ids, self.offset, page_size)
             if snapshot is None:
                 return self.make_result(
@@ -722,21 +757,53 @@ class SearchNavigation:
                 last_section=snapshot.last_section,
             )
 
+    def get_legacy_post_unit_id(self) -> int | None:
+        """Disambiguate older forms using their still-valid cached position."""
+        if not self.can_use_session_snapshot or not self.form_valid:
+            return None
+        cleanup_session(self.request.session)
+        data = self.get_session_data(self.request.session, self.session_key)
+        ids = self._get_unit_ids(data) if data is not None else None
+        if ids is not None and 0 < self.offset <= len(ids):
+            return ids[self.offset - 1]
+        if (
+            data is not None
+            and "ids" not in data
+            and self.can_use_bounded_page_lookup
+            and self.offset > 0
+        ):
+            return next(
+                iter(
+                    self.get_ordered_units().values_list("id", flat=True)[
+                        self.offset - 1 : self.offset
+                    ]
+                ),
+                None,
+            )
+        return None
+
     def post_unit(self, unit: Unit) -> tuple[SearchResult, int] | None:
-        """Resolve POST search context using the submitted offset."""
+        """Resolve POST navigation around the submitted string."""
         if not self.form_valid or self.offset < 1:
             return None
         with start_span(op="unit.search", name=self.search_url):
             if self.can_use_bounded_page_lookup:
-                return self.limited_post_unit(unit)
-            data = self.load_data()
+                result = self.limited_post_unit(unit)
+                if result is not None:
+                    return result
+            data = self.load_data(anchor=unit)
             if isinstance(data, HttpResponse):
                 return None
             unit_ids = self._get_unit_ids(data)
             if unit_ids is None:
                 return None
+            if unit.pk not in unit_ids:
+                unit_ids.insert(0, unit.pk)
+                self.request.session[self.session_key] = data
+                self.notify_recovery()
+            self.offset = unit_ids.index(unit.pk) + 1
             snapshot = self._get_ids_snapshot(unit_ids, self.offset, 1)
-            if snapshot is None or snapshot.ids[0] != unit.id:
+            if snapshot is None:
                 return None
             return (
                 self.make_result(
@@ -939,7 +1006,7 @@ def handle_translate(
     form = TranslationForm(request.user, unit, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return None
+        return form
 
     go_next = True
 
@@ -1197,22 +1264,31 @@ def get_translate_unit(
     unit_set: UnitQuerySet,
 ) -> HttpResponse | TranslateUnitResult:
     """Resolve search results and current unit for the translate view."""
+    navigation = SearchNavigation(obj, project, unit_set, request)
     if (
-        request.method == "POST"
-        and request.POST.get("checksum")
-        and request.GET.get("offset")
+        request.method == "GET"
+        and request.GET.get("refresh") == "1"
+        and navigation.form_valid
     ):
-        checksum_form = ChecksumForm(get_checksum_unit_set(unit_set), request.POST)
-        if checksum_form.is_valid():
-            unit = checksum_form.cleaned_data["unit"]
-            search_data = SearchNavigation(obj, project, unit_set, request).post_unit(
-                unit
-            )
-            if search_data is not None:
-                search_result, num_results = search_data
-                return TranslateUnitResult(
-                    search_result, num_results, search_result["offset"], unit
-                )
+        return navigation.refresh_results(page_size=1)
+    if request.method == "POST":
+        payload = request.GET if "merge" in request.POST else request.POST
+        checksum_units = get_checksum_unit_set(unit_set)
+        if (
+            not payload.get("unit_id")
+            and (cached_id := navigation.get_legacy_post_unit_id()) is not None
+        ):
+            checksum_units = checksum_units.filter(pk=cached_id)
+        checksum_form = ChecksumForm(checksum_units, payload, require_unique=True)
+        if not checksum_form.is_valid():
+            show_form_errors(request, checksum_form)
+            return redirect(obj)
+        unit = checksum_form.cleaned_data["unit"]
+        search_data = navigation.post_unit(unit)
+        if search_data is None:
+            return redirect(obj)
+        post_result, post_count = search_data
+        return TranslateUnitResult(post_result, post_count, post_result["offset"], unit)
 
     use_fast_search = (
         request.method == "GET"
@@ -1220,11 +1296,9 @@ def get_translate_unit(
         and "revert" not in request.GET
     )
     if use_fast_search:
-        search_result = SearchNavigation(obj, project, unit_set, request).page(
-            include_count=True, page_size=1
-        )
+        search_result = navigation.page(include_count=True, page_size=1)
     else:
-        search_result = SearchNavigation(obj, project, unit_set, request).search()
+        search_result = navigation.search()
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -1232,7 +1306,9 @@ def get_translate_unit(
 
     # Get number of results
     num_results = (
-        search_result["total"] if use_fast_search else len(search_result["ids"])
+        cast("int", search_result["total"])
+        if use_fast_search
+        else len(search_result["ids"])
     )
 
     # Search offset
@@ -1247,10 +1323,10 @@ def get_translate_unit(
             try:
                 offset = search_result["ids"].index(unit.id) + 1
             except ValueError:
-                offset = None
+                offset = 0
         else:
-            offset = None
-        if offset is None:
+            offset = 0
+        if not offset:
             messages.warning(request, gettext("No strings found!"))
             return redirect(obj)
     else:
@@ -1325,6 +1401,18 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     elif "revert" in request.GET:
         response = handle_revert(unit, request, this_unit_url)
 
+    # Keep submitted text when validation fails, including after cache recovery.
+    form = None
+    if isinstance(response, TranslationForm):
+        form = response
+        # The current source is shown, but the target still contains the draft.
+        # Preserve its translationsum so retrying cannot bypass a conflict.
+        form_data = request.POST.copy()
+        for name in ("unit_id", "checksum", "contentsum"):
+            form_data[name] = form.initial[name]
+        form.data = form_data
+        response = None
+
     # Pass possible redirect further
     if response is not None:
         return response
@@ -1333,7 +1421,8 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     secondary = unit.get_secondary_units(user) if user.is_authenticated else None
 
     # Prepare form
-    form = TranslationForm(user, unit)
+    if form is None:
+        form = TranslationForm(user, unit)
 
     screenshot_form = None
     if user.has_perm("screenshot.add", unit.translation):
@@ -1388,6 +1477,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             ),
             "context_form": ContextForm(instance=unit.source_unit, user=user),
             "search_form": search_result["form"].reset_offset(),
+            "can_refresh_search": True,
             "secondary": secondary,
             "locked": unit.translation.component.locked,
             "glossary": get_glossary_terms(unit, full=True),
@@ -1615,7 +1705,19 @@ def get_zen_unitdata(
 ):
     """Load unit data for zen mode."""
     # Search results
-    search_result = SearchNavigation(obj, project, unit_set, request).page(
+    navigation = SearchNavigation(obj, project, unit_set, request)
+    if request.GET.get("refresh") == "1" and navigation.form_valid:
+        return navigation.refresh_results(page_size=ZEN_PAGE_SIZE), None
+    if (
+        not include_count
+        and navigation.can_use_session_snapshot
+        and request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    ):
+        # Appending a different snapshot can duplicate or skip rows already shown.
+        cleanup_session(request.session)
+        if navigation.get_latest_cached_full_snapshot() is None:
+            return HttpResponse(status=409), None
+    search_result = navigation.page(
         include_count=include_count, page_size=ZEN_PAGE_SIZE
     )
 
@@ -1694,6 +1796,7 @@ def zen(request: AuthenticatedHttpRequest, path):
             "search_url": search_result["url"],
             "offset": search_result["offset"],
             "search_form": search_result["form"].reset_offset(),
+            "can_refresh_search": True,
             "is_zen": True,
         },
     )

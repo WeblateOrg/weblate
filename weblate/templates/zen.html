@@ -42,8 +42,11 @@
   </div>
 
   <div class="query-container">
-    <form method="get" class="result-page-form">
+    <form method="get" class="result-page-form double-submission">
       {% crispy search_form %}
+      <p id="search-cache-help" class="form-text mb-0">
+        {% translate "Search results stay fixed while you translate. Refresh results to show strings matching the filters now." %}
+      </p>
     </form>
   </div>
 
