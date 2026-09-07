@@ -34,3 +34,12 @@ class AutoGroupTest(TestCase):
         )
         user = self.create_user()
         self.assertEqual(user.groups.count(), 2)
+
+    def test_invalid_rule_does_not_break_user_creation(self) -> None:
+        AutoGroup.objects.bulk_create(
+            [AutoGroup(match="[", group=Group.objects.get(name="Guests"))]
+        )
+
+        user = self.create_user()
+
+        self.assertEqual(user.groups.count(), 2)

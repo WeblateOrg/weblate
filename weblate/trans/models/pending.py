@@ -32,6 +32,7 @@ from weblate.utils.state import (
 from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
+    from collections.abc import Collection
     from datetime import datetime
 
     from weblate.auth.models import User
@@ -313,7 +314,12 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         """Count distinct units in a PendingUnitChange queryset."""
         return qs.distinct("unit_id").count()
 
-    def detailed_count(self, obj: Project | Component | Translation) -> dict[str, int]:
+    def detailed_count(
+        self,
+        obj: Project | Component | Translation,
+        *,
+        component_ids: Collection[int] | None = None,
+    ) -> dict[str, int]:
         """Count total, skipped and eligible units pending and eligible for commit for the given object."""
         from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
             Component,
@@ -323,6 +329,8 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
 
         if isinstance(obj, Project):
             base_filter = Q(unit__translation__component__project=obj)
+            if component_ids is not None:
+                base_filter &= Q(unit__translation__component_id__in=component_ids)
             revision = None
             commit_policy = obj.commit_policy
         elif isinstance(obj, Component):

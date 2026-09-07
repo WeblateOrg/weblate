@@ -9,17 +9,23 @@ from unittest.mock import patch
 from django.urls import reverse
 from django.utils import timezone
 
-from weblate.auth.models import User
-from weblate.memory.models import Memory
-from weblate.trans.forms import MIN_COST_ESTIMATE_TM_THRESHOLD, CountsReportsForm
+from weblate.auth.models import Group, User
+from weblate.memory.models import Memory, MemoryScope
+from weblate.trans.forms import (
+    MIN_COST_ESTIMATE_TM_THRESHOLD,
+    CountsReportsForm,
+    get_report_language_choices,
+)
 from weblate.trans.models import (
     Category,
     Change,
     PendingUnitChange,
+    Project,
     Report,
     Suggestion,
     Unit,
 )
+from weblate.trans.models.component import ComponentLink
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import TESTPASSWORD
 from weblate.trans.views.reports import (
@@ -229,6 +235,35 @@ class ReportsTest(BaseReportsTest):
             ],
         )
 
+    def test_category_reports_exclude_linked_components(self) -> None:
+        project = Project.objects.create(
+            name="Linked report project",
+            slug="linked-report-project",
+        )
+        category = self.create_category(project=project)
+        ComponentLink.objects.create(
+            component=self.component,
+            project=project,
+            category=category,
+        )
+        self.add_change()
+
+        credit_data = generate_credits(
+            None,
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1),
+            "",
+            category,
+            "date_joined",
+            "ascending",
+        )
+        costs = self.generate_cost_data(entity=category)
+        language_choices = get_report_language_choices({"category": category})
+
+        self.assertEqual(credit_data, [])
+        self.assertEqual(costs["total"]["count"], 0)
+        self.assertEqual(len(language_choices), 1)
+
     def test_counts_one(self) -> None:
         self.add_change()
         data = generate_counts(
@@ -352,6 +387,66 @@ class ReportsTest(BaseReportsTest):
         self.assertEqual(buckets["tm_100"]["count"], 1)
         self.assertEqual(buckets["tm_100"]["words"], unit.num_words)
         self.assertEqual(buckets["tm_100"]["cost"], "0")
+
+    def test_cost_estimate_restricted_component_memory(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        self.add_memory(unit.source)
+        Memory.objects.get(source=unit.source).scopes.update(
+            source_component=self.component
+        )
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.user.groups.add(Group.objects.get(name="Managers"))
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("reports.view", self.project))
+        self.assertFalse(self.user.can_access_component(self.component))
+
+        data = self.generate_cost_data(entity=self.project)
+        buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
+
+        self.assertEqual(buckets["tm_100"]["count"], 1)
+        self.assertEqual(buckets["tm_100"]["words"], unit.num_words)
+
+    def test_cost_estimate_excludes_unrelated_restricted_memory(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        self.project.use_shared_tm = True
+        self.project.save(update_fields=["use_shared_tm"])
+        other_project = self.create_project(
+            name="Other memory project",
+            slug="other-memory-project",
+            contribute_shared_tm=True,
+        )
+        other_component = self.create_po(
+            project=other_project,
+            name="Other memory component",
+        )
+        other_component.restricted = True
+        other_component.save(update_fields=["restricted"])
+        memory = Memory.objects.create(
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
+            source=unit.source,
+            target="Unrelated restricted memory result",
+            origin=other_component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=other_project,
+            source_component=other_component,
+        )
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.user.groups.add(Group.objects.get(name="Managers"))
+        self.user.clear_permissions_cache()
+
+        data = self.generate_cost_data(entity=self.project)
+        buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
+
+        self.assertEqual(buckets["tm_100"]["count"], 0)
 
     def test_cost_estimate_fuzzy_memory(self) -> None:
         self.add_memory("Thank you for using Weblate!")

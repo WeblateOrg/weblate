@@ -9,8 +9,9 @@ import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from collections.abc import Mapping, Sequence
 from contextlib import suppress
+from copy import deepcopy
 from itertools import chain
-from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, TypeGuard, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -30,12 +31,12 @@ from weblate.addons.events import (
 from weblate.trans.actions import ACTIONS_CONTENT
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
-from weblate.trans.templatetags.translations import format_json
 from weblate.utils import messages
 from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message, get_repo_temp_dir
+from weblate.utils.formatting import format_json
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
@@ -60,6 +61,15 @@ type AddonConfigurationValue = (
 )
 type AddonConfiguration = dict[str, AddonConfigurationValue]
 
+ADDON_CHANGE_DETAILS_SCHEMA = "weblate-addon-configuration-v1"
+
+
+class AddonChangeDetails(TypedDict):
+    schema: str
+    configuration: AddonConfiguration
+    changed_fields: list[str]
+    redacted_fields: list[str]
+
 
 class CompatDict(TypedDict, total=False):
     vcs: set[str]
@@ -77,6 +87,56 @@ CHANGE_EVENT_FILTERS = frozenset(
         CHANGE_EVENT_FILTER_CUSTOM,
     )
 )
+
+
+def build_addon_change_details(
+    configuration: Mapping[str, AddonConfigurationValue],
+    compared_configuration: Mapping[str, AddonConfigurationValue],
+    public_fields: frozenset[str],
+) -> AddonChangeDetails:
+    """Build a public snapshot of an add-on configuration change."""
+    all_fields = set(configuration) | set(compared_configuration)
+    redacted_fields = all_fields - public_fields
+    public_configuration: AddonConfiguration = {
+        key: deepcopy(value) if key in public_fields else None
+        for key, value in configuration.items()
+    }
+    return {
+        "schema": ADDON_CHANGE_DETAILS_SCHEMA,
+        "configuration": public_configuration,
+        "changed_fields": sorted(
+            key
+            for key in all_fields
+            if configuration.get(key) != compared_configuration.get(key)
+            or (key in configuration) != (key in compared_configuration)
+        ),
+        "redacted_fields": sorted(redacted_fields),
+    }
+
+
+def is_public_addon_change_details(
+    details: object,
+) -> TypeGuard[AddonChangeDetails]:
+    """Return whether details use the public add-on configuration schema."""
+    if not isinstance(details, dict):
+        return False
+    if details.get("schema") != ADDON_CHANGE_DETAILS_SCHEMA:
+        return False
+    configuration = details.get("configuration")
+    changed_fields = details.get("changed_fields")
+    redacted_fields = details.get("redacted_fields")
+    if (
+        not isinstance(configuration, dict)
+        or not isinstance(changed_fields, list)
+        or not isinstance(redacted_fields, list)
+        or not all(isinstance(key, str) for key in changed_fields)
+        or not all(isinstance(key, str) for key in redacted_fields)
+    ):
+        return False
+    return all(
+        key not in configuration or configuration[key] is None
+        for key in redacted_fields
+    )
 
 
 def get_change_event_filter(
@@ -147,7 +207,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Addon:
-        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
         result = Addon(
             project=project,
@@ -232,6 +292,32 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def configuration(self) -> ConfigurationT:
         return self.get_configuration()
 
+    @classmethod
+    def get_public_configuration_fields(cls) -> frozenset[str]:
+        """Return configuration fields which are safe for public use."""
+        if cls.settings_form is None:
+            return frozenset()
+        return cls.settings_form.public_configuration_fields
+
+    def get_public_configuration(self) -> AddonConfiguration:
+        """Return configuration with non-public values redacted."""
+        return build_addon_change_details(
+            self.get_settings_form_data(),
+            {},
+            self.get_public_configuration_fields(),
+        )["configuration"]
+
+    def get_change_details(
+        self,
+        compared_configuration: Mapping[str, AddonConfigurationValue],
+    ) -> AddonChangeDetails:
+        """Return a public configuration snapshot and changed field names."""
+        return build_addon_change_details(
+            self.get_settings_form_data(),
+            compared_configuration,
+            self.get_public_configuration_fields(),
+        )
+
     def show_setting_field(self, field: BoundField) -> bool:
         return not field.is_hidden and field.value()
 
@@ -272,7 +358,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         self.post_configure()
 
     def post_configure(self, run: bool = True) -> None:
-        from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level]
 
         self.instance.log_debug("configuring events for %s add-on", self.name)
 
@@ -297,7 +383,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             self.post_configure_run_project(project)
 
     def post_configure_run_project(self, project: Project) -> None:
-        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level]
 
         for component in project.component_set.iterator():
             if self.can_process(component=component):
@@ -314,7 +400,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             )
 
     def post_configure_run_category(self, category: Category) -> None:
-        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level]
 
         for component in category.all_components.iterator():
             if self.can_process(component=component):
@@ -333,7 +419,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def post_configure_run_component(
         self, component: Component, skip_daily: bool = False
     ) -> None:
-        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level]
 
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
@@ -895,7 +981,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         obj: Component | Project | Category | None,
         request: AuthenticatedHttpRequest,
     ) -> None:
-        from weblate.trans.tasks import perform_update  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.trans.tasks import perform_update  # ruff: ignore[import-outside-top-level]
 
         if cls.trigger_update and isinstance(obj, Component):
             perform_update.delay("Component", obj.pk, auto=True)
@@ -911,7 +997,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     @cached_property
     def user(self) -> User:
         """Weblate user used to track changes by this add-on."""
-        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         if not self.user_name or not self.user_verbose:
             msg = f"{self.__class__.__name__} is missing user_name and user_verbose!"

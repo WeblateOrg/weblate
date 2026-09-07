@@ -2,15 +2,22 @@
 
 <p>{% translate "Weblate could not fetch upstream changes when updating the repository." %}</p>
 
-<pre>{{ error }}</pre>
+{% if not analysis.redirect %}<pre>{{ error }}</pre>{% endif %}
 
 {% include "trans/alert/common-repo.html" %}
 
 {% perm 'vcs.update' component as user_can_update %}
-{% if user_can_update %}
+{% perm 'component.edit' component as user_can_edit_component %}
+{% if user_can_update or user_can_edit_component %}
   <p>
-    <a href="#"
-       class="btn btn-primary link-post"
-       data-href="{% url "update" path=component.get_url_path %}">{% translate "Update the repository" %}</a>
+    {% if user_can_update %}
+      <a href="#"
+         class="btn btn-primary link-post"
+         data-href="{% url "update" path=component.get_url_path %}">{% translate "Update the repository" %}</a>
+    {% endif %}
+    {% if user_can_edit_component %}
+      <a class="btn btn-link"
+         href="{% url 'settings' path=component.get_url_path %}#vcs">{% translate "Edit component settings" %}</a>
+    {% endif %}
   </p>
 {% endif %}

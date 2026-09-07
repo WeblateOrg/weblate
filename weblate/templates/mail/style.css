@@ -210,17 +210,17 @@ pre {
 }
 @media (min-width: 768px) {
   .container {
-    width: 750px;
+    max-width: 750px;
   }
 }
 @media (min-width: 992px) {
   .container {
-    width: 970px;
+    max-width: 970px;
   }
 }
 @media (min-width: 1200px) {
   .container {
-    width: 970px;
+    max-width: 970px;
   }
 }
 .content {
@@ -248,6 +248,10 @@ code,
 pre {
   word-wrap: break-word;
   white-space: pre-wrap;
+}
+.list-group-item-text {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .buttons {
   padding-top: 18px;

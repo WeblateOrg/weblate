@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "base_file_template",
     "new_base_template",
     "intermediate_template",
+    "filemask_template",
     "language_regex",
   ];
   function flashChangedField(input) {

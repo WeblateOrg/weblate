@@ -4,13 +4,16 @@
 
 """Test for management commands."""
 
+import json
 import sys
 from io import StringIO
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import cast
 from unittest import SkipTest
 from unittest.mock import Mock, patch
 
-import requests
+import httpx2
 from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
 from django.test import SimpleTestCase, TestCase
@@ -38,6 +41,7 @@ from weblate.trans.tests.utils import (
     require_github,
 )
 from weblate.vcs.mercurial import HgRepository
+from weblate.vcs.params import VCS_PARAMS, BaseVCSParam, register_vcs_param
 
 TEST_PO = get_test_file("cs.po")
 TEST_COMPONENTS = get_test_file("components.json")
@@ -508,29 +512,30 @@ class ImportDemoTestCase(TestCase):
 class RequireGitHubTest(SimpleTestCase):
     repository = "https://github.com/WeblateOrg/demo.git"
 
-    @patch("weblate.trans.tests.utils.requests.get")
-    def test_success(self, get: Mock) -> None:
+    @patch("weblate.trans.tests.utils.fetch_url")
+    def test_success(self, fetch_url: Mock) -> None:
         require_github(self.repository)
 
-        get.assert_called_once_with(self.repository, timeout=1)
-        get.return_value.raise_for_status.assert_called_once_with()
+        fetch_url.assert_called_once_with("get", self.repository, timeout=1)
 
-    @patch("weblate.trans.tests.utils.requests.get")
-    def test_request_errors(self, get: Mock) -> None:
+    @patch("weblate.trans.tests.utils.fetch_url")
+    def test_request_errors(self, fetch_url: Mock) -> None:
         for exception in (
-            requests.exceptions.ConnectionError,
-            requests.exceptions.Timeout,
-            requests.exceptions.RequestException,
+            httpx2.ConnectError,
+            httpx2.TimeoutException,
+            httpx2.HTTPError,
         ):
             with self.subTest(exception=exception):
-                get.side_effect = exception("unavailable")
+                fetch_url.side_effect = exception("unavailable")
                 with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):
                     require_github(self.repository)
 
-    @patch("weblate.trans.tests.utils.requests.get")
-    def test_http_error(self, get: Mock) -> None:
-        get.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError(
-            "unavailable"
+    @patch("weblate.trans.tests.utils.fetch_url")
+    def test_http_error(self, fetch_url: Mock) -> None:
+        fetch_url.side_effect = httpx2.HTTPStatusError(
+            "unavailable",
+            request=httpx2.Request("GET", self.repository),
+            response=httpx2.Response(500),
         )
 
         with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):
@@ -661,6 +666,72 @@ class ImportCommandTest(RepoTestCase):
         self.assertEqual(Translation.objects.count(), 10)
         self.assertIn("Imported Test/Gettext PO with 4 translations", output.getvalue())
 
+    def test_import_source_language(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            filename = Path(tempdir) / "components.json"
+            filename.write_text(
+                json.dumps(
+                    [
+                        {
+                            "name": "Android",
+                            "filemask": "android/values-*/strings.xml",
+                            "template": "android/values/strings.xml",
+                            "repo": "weblate://test/test",
+                            "file_format": "aresource",
+                            "source_language": {
+                                "code": "ru",
+                                "name": "Russian",
+                                "direction": "ltr",
+                            },
+                        }
+                    ]
+                )
+            )
+
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    filename,
+                )
+
+        component = Component.objects.get(slug="android")
+        self.assertEqual(component.source_language.code, "ru")
+
+    def test_import_source_language_string(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            filename = Path(tempdir) / "components.json"
+            filename.write_text(
+                json.dumps(
+                    [
+                        {
+                            "name": "Android",
+                            "filemask": "android/values-*/strings.xml",
+                            "template": "android/values/strings.xml",
+                            "repo": "weblate://test/test",
+                            "file_format": "aresource",
+                            "source_language": "ru",
+                        }
+                    ]
+                )
+            )
+
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    filename,
+                )
+
+        component = Component.objects.get(slug="android")
+        self.assertEqual(component.source_language.code, "ru")
+
     def test_import_invalid(self) -> None:
         with (
             self.assertRaises(CommandError),
@@ -739,6 +810,39 @@ class ImportCommandTest(RepoTestCase):
                 TEST_COMPONENTS,
             )
 
+    def test_import_update_ignores_source_language(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            filename = Path(tempdir) / "components.json"
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    TEST_COMPONENTS,
+                )
+
+            components = json.loads(Path(TEST_COMPONENTS).read_text(encoding="utf-8"))
+            components[0]["source_language"] = "ru"
+            components[0]["name"] = "Updated Gettext PO"
+            filename.write_text(json.dumps(components))
+
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    "--update",
+                    filename,
+                )
+
+        component = Component.objects.get(slug="po")
+        self.assertEqual(component.name, "Updated Gettext PO")
+        self.assertEqual(component.source_language.code, "en")
+
     def test_invalid_file(self) -> None:
         with (
             self.assertRaises(CommandError),
@@ -816,6 +920,25 @@ class DocumentationCommandTest(TestCase):
         self.assertIn("json-test", output.getvalue())
 
         FILE_FORMATS_PARAMS.remove(TestJSONFileFormatParam)
+
+    def test_list_vcs_params(self) -> None:
+        class TestVCSParam(BaseVCSParam):
+            name = "vcs-test"  # type: ignore[assignment]
+            label = "VCSTest"
+            vcs_backends = ("test", "git")
+            help_text = "Test version control parameter"
+
+        register_vcs_param(TestVCSParam)
+
+        output = StringIO()
+        call_command("list_vcs_params", stdout=output)
+        self.assertIn("VCSTest", output.getvalue())
+        self.assertIn("Test version control parameter", output.getvalue())
+        self.assertIn("vcs-test", output.getvalue())
+        # Shipped parameters are listed as well
+        self.assertIn("git_force_push", output.getvalue())
+
+        VCS_PARAMS.remove(TestVCSParam)
 
     def test_list_change_events(self) -> None:
         output = StringIO()

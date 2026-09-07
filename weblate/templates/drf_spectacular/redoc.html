@@ -13,22 +13,18 @@
       <meta name="description" content="{{ description }}" />
       <link rel="stylesheet" href="{% static 'weblate_fonts/source-code-pro.css' %}" />
       <link rel="stylesheet" href="{% static 'weblate_fonts/source-sans-3.css' %}" />
-      <style>
-      {# Redoc doesn't change outer page styles. #}
-      body { margin: 0; padding: 0; }
-      </style>
+      <link rel="stylesheet" href="{% static 'styles/redoc.css' %}" />
     {% endblock head %}
 
   </head>
   <body>
     {% block body %}
       {% if settings %}
-        <div id="redoc-container"></div>
+        <div id="redoc-container"
+             data-schema-url="{{ schema_url }}"
+             data-settings="{{ settings|force_escape }}"></div>
         <script src="{{ redoc_standalone }}"></script>
-        <script>
-      const redocSettings = {{ settings|safe }};
-      Redoc.init("{{ schema_url }}", redocSettings, document.getElementById('redoc-container'))
-        </script>
+        <script src="{% static 'js/redoc.js' %}"></script>
       {% else %}
         <redoc spec-url="{{ schema_url }}"></redoc>
         <script src="{{ redoc_standalone }}"></script>

@@ -7,6 +7,7 @@ from __future__ import annotations
 from ssl import CertificateError
 from typing import TYPE_CHECKING
 
+import httpx2
 from django.apps import AppConfig
 from django.conf import settings
 from django.core.checks import register
@@ -54,7 +55,7 @@ def check_avatars(
         return []
     try:
         download_avatar_image("noreply@weblate.org", 32)
-    except (OSError, CertificateError) as error:
+    except (OSError, CertificateError, httpx2.HTTPError) as error:
         return [weblate_check("weblate.E018", f"Could not download avatar: {error}")]
     return []
 

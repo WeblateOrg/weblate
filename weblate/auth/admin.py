@@ -339,7 +339,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         Fix saving of automatic language/project selection, part 2.
 
         Uses stored attribute to save the model again. Saving triggers the automation
-        and adjusts project/language selection according to the chosen value.
+        and adjusts project selection according to the chosen value.
         """
         super().save_related(request, form, formsets, change)
         self.new_obj.save()

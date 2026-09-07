@@ -19,7 +19,7 @@ GPG_ERRORS: dict[str, str] = {}
 
 
 def gpg_error(name: str, error: Exception, silent: bool = False) -> None:
-    report_error(name)
+    report_error(name, exception=error)
 
     if not silent:
         GPG_ERRORS[name] = (

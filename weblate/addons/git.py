@@ -62,7 +62,8 @@ class GitSquashAddon(
             repository.ensure_no_interrupted_operation()
         except RepositoryError as error:
             component.add_alert(
-                "RepositoryOperationFailure", error=component.error_text(error)
+                "RepositoryOperationFailure",
+                **component.get_repository_alert_details(error),
             )
             raise
 

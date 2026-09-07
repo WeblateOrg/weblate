@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import time
 from collections import UserDict
-from typing import TYPE_CHECKING, ClassVar, Self, cast, overload
+from typing import TYPE_CHECKING, Any, ClassVar, Self, cast, overload
 
 from django.conf import settings
 from django.core.cache import cache
@@ -59,7 +59,7 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Collection, Iterable
+    from collections.abc import Callable, Collection, Iterable, MutableMapping
     from uuid import UUID
 
     from ahocorasick_rs import AhoCorasick
@@ -68,10 +68,11 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, Group, User
     from weblate.billing.models import Billing
     from weblate.machinery.types import SettingsDict
-    from weblate.trans.models import Alert
+    from weblate.trans.models import Alert, Category
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
+    from weblate.workspaces.models import Workspace
 
 
 # Project-wide batched checks serialize across all propagating components and can
@@ -181,7 +182,7 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
         queryset = Project.objects.filter(id__in=id_lookup)
         # Fallback value for locking and alerts
         for project in projects:
-            project.__dict__["locked"] = True
+            project.__dict__["locked"] = False
             project.__dict__["has_alerts"] = False
         # Indicate alerts
         for project_id in (
@@ -193,13 +194,15 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
             .distinct()
         ):
             id_lookup[project_id].__dict__["has_alerts"] = True
-        # Filter unlocked projects
+        # Indicate projects where all components are locked. Projects without
+        # components are not locked.
         for project_id in (
-            queryset.filter(component__locked=False)
+            queryset.filter(component__isnull=False)
+            .exclude(component__locked=False)
             .values_list("id", flat=True)
             .distinct()
         ):
-            id_lookup[project_id].__dict__["locked"] = False
+            id_lookup[project_id].__dict__["locked"] = True
 
     # Prefetch source language ids
     key_lookup = {project.source_language_cache_key: project for project in projects}
@@ -210,6 +213,7 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
 
 class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "public_sharing",
         "enforced_2fa",
         "translation_review",
         "source_review",
@@ -313,6 +317,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         verbose_name=gettext_lazy("Access control"),
         help_text=gettext_lazy(
             "How to restrict access to this project is detailed in the documentation."
+        ),
+    )
+    public_sharing = models.BooleanField(
+        verbose_name=gettext_lazy("Public sharing"),
+        default=False,
+        help_text=gettext_lazy(
+            "Allows anonymous access to the engage pages and status widgets "
+            "for Private and Custom projects."
         ),
     )
 
@@ -595,6 +607,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import component_alerts
 
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import update_workspace_stats
+
         update_tm = self.contribute_shared_tm or self.effective_contribute_workspace_tm
 
         # Renaming detection
@@ -676,6 +691,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 old_workspace_id,
                 update_tm,
             )
+            if (
+                should_track_field(self, "workspace", update_fields)
+                and old_workspace_id != self.workspace_id
+            ):
+                update_workspace_stats.delay_on_commit(
+                    [
+                        str(workspace_id)
+                        for workspace_id in (old_workspace_id, self.workspace_id)
+                        if workspace_id is not None
+                    ]
+                )
 
         # Update translation memory on enabled sharing
         if update_tm:
@@ -762,6 +788,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def clean(self) -> None:
         super().clean()
+        if (
+            settings.OFFER_HOSTING
+            and self.use_shared_tm
+            and self.pk
+            and self.component_set.filter(restricted=True).exists()
+        ):
+            raise ValidationError(
+                {
+                    "use_shared_tm": gettext(
+                        "Shared translation memory can not be enabled while the project has restricted components."
+                    )
+                }
+            )
         if self.web:
             try:
                 validate_project_web(self.web, project_slug=self.slug or None)
@@ -927,6 +966,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         """Return absolute URL usable for sharing."""
         return get_site_url(reverse("engage", kwargs={"path": self.get_url_path()}))
 
+    @property
+    def is_publicly_shared(self) -> bool:
+        """Whether engage pages and widgets are publicly accessible."""
+        return (
+            self.access_control
+            in {
+                self.ACCESS_PUBLIC,
+                self.ACCESS_PROTECTED,
+            }
+            or self.public_sharing
+        )
+
     @cached_property
     def locked(self) -> bool:
         return self.unlocked_components == 0 and self.locked_components > 0
@@ -996,11 +1047,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def on_repo_components(self, use_all: bool, func: str, *args, **kwargs) -> bool:
+    def on_repo_components(
+        self,
+        use_all: bool,
+        func: str,
+        *args,
+        repo_components: Iterable[Component] | None = None,
+        **kwargs,
+    ) -> bool:
         """Perform operation on all repository components."""
+        if repo_components is None:
+            repo_components = self.all_repo_components
         generator = (
-            getattr(component, func)(*args, **kwargs)
-            for component in self.all_repo_components
+            getattr(component, func)(*args, **kwargs) for component in repo_components
         )
         if use_all:
             # Call methods on all components as this performs an operation
@@ -1008,56 +1067,125 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # This is status checking, call only needed methods
         return any(generator)
 
-    def commit_pending(self, reason: str, user: User) -> bool:
+    def commit_pending(
+        self,
+        reason: str,
+        user: User,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Commit any pending changes."""
-        return self.on_repo_components(True, "commit_pending", reason, user)
+        return self.on_repo_components(
+            True,
+            "commit_pending",
+            reason,
+            user,
+            repo_components=repo_components,
+        )
 
-    def repo_needs_merge(self) -> bool:
-        return self.on_repo_components(False, "repo_needs_merge")
+    def repo_needs_merge(
+        self, *, repo_components: Iterable[Component] | None = None
+    ) -> bool:
+        return self.on_repo_components(
+            False, "repo_needs_merge", repo_components=repo_components
+        )
 
-    def repo_needs_push(self) -> bool:
-        return self.on_repo_components(False, "repo_needs_push")
+    def repo_needs_push(
+        self, *, repo_components: Iterable[Component] | None = None
+    ) -> bool:
+        return self.on_repo_components(
+            False, "repo_needs_push", repo_components=repo_components
+        )
 
     def do_update(
-        self, request: AuthenticatedHttpRequest | None = None, method: str | None = None
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        method: str | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
     ) -> bool:
         """Update all Git repos."""
-        return self.on_repo_components(True, "do_update", request, method=method)
+        return self.on_repo_components(
+            True,
+            "do_update",
+            request,
+            method=method,
+            repo_components=repo_components,
+        )
 
-    def do_push(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_push(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Push all Git repos."""
-        return self.on_repo_components(True, "do_push", request)
+        return self.on_repo_components(
+            True, "do_push", request, repo_components=repo_components
+        )
 
     def do_reset(
         self,
         request: AuthenticatedHttpRequest | None = None,
         *,
         keep_changes: bool = False,
+        repo_components: Iterable[Component] | None = None,
     ) -> bool:
         """Push all Git repos."""
         return self.on_repo_components(
-            True, "do_reset", request, keep_changes=keep_changes
+            True,
+            "do_reset",
+            request,
+            keep_changes=keep_changes,
+            repo_components=repo_components,
         )
 
-    def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_cleanup(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Push all Git repos."""
-        return self.on_repo_components(True, "do_cleanup", request)
+        return self.on_repo_components(
+            True, "do_cleanup", request, repo_components=repo_components
+        )
 
-    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_file_sync(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Force updating of all files."""
-        return self.on_repo_components(True, "do_file_sync", request)
+        return self.on_repo_components(
+            True, "do_file_sync", request, repo_components=repo_components
+        )
 
-    def do_file_scan(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_file_scan(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Rescanls all VCS repos."""
-        return self.on_repo_components(True, "do_file_scan", request)
+        return self.on_repo_components(
+            True, "do_file_scan", request, repo_components=repo_components
+        )
 
-    def has_push_configuration(self) -> bool:
+    def has_push_configuration(
+        self, *, repo_components: Iterable[Component] | None = None
+    ) -> bool:
         """Check whether any suprojects can push."""
-        return self.on_repo_components(False, "has_push_configuration")
+        return self.on_repo_components(
+            False, "has_push_configuration", repo_components=repo_components
+        )
 
-    def can_push(self) -> bool:
+    def can_push(self, *, repo_components: Iterable[Component] | None = None) -> bool:
         """Check whether any suprojects can push."""
-        return self.on_repo_components(False, "can_push")
+        return self.on_repo_components(
+            False, "can_push", repo_components=repo_components
+        )
 
     @cached_property
     def all_repo_components(self) -> list[Component]:
@@ -1397,6 +1525,97 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             and not settings.REQUIRE_LOGIN
             and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
         )
+
+    @staticmethod
+    def apply_hosted_tm_contribution(
+        data: MutableMapping[str, Any],
+        *,
+        defaults: Project | None = None,
+    ) -> None:
+        """Keep translation memory use and contribution coupled on hosting."""
+        if not settings.OFFER_HOSTING:
+            return
+        data["contribute_shared_tm"] = data.get(
+            "use_shared_tm",
+            defaults.use_shared_tm
+            if defaults is not None
+            else settings.DEFAULT_SHARED_TM,
+        )
+        data["contribute_workspace_tm"] = data.get(
+            "use_workspace_tm",
+            defaults.use_workspace_tm if defaults is not None else False,
+        )
+
+    def get_access_control_license(
+        self,
+        *,
+        license_value: str | None,
+        inherit_license: bool | None,
+        workspace: Workspace | None,
+    ) -> str:
+        """Return the effective project license for an access-control change."""
+        if license_value is None:
+            license_value = self.license
+        if inherit_license is None:
+            inherit_license = self.inherit_license
+        if inherit_license and workspace is not None:
+            return workspace.license
+        return license_value
+
+    def get_unlicensed_components_for_access(
+        self,
+        access_control: int,
+        *,
+        license_value: str | None,
+        inherit_license: bool | None,
+        workspace: Workspace | None,
+    ) -> list[Component]:
+        """Return components blocking the requested project access level."""
+        if not self.needs_license(access_control):
+            return []
+        return self.get_unlicensed_components(
+            self.get_access_control_license(
+                license_value=license_value,
+                inherit_license=inherit_license,
+                workspace=workspace,
+            )
+        )
+
+    def get_unlicensed_components(self, project_license: str) -> list[Component]:
+        """Return components lacking a license under the project license."""
+        categories_by_id = {
+            category.pk: category for category in self.category_set.all()
+        }
+        category_license_cache: dict[int, str] = {}
+
+        def get_category_license(category: Category) -> str:
+            if category.pk in category_license_cache:
+                return category_license_cache[category.pk]
+            if category.inherit_license:
+                if category.category_id is None:
+                    license_value = project_license
+                else:
+                    license_value = get_category_license(
+                        categories_by_id[category.category_id]
+                    )
+            else:
+                license_value = category.license
+            category_license_cache[category.pk] = license_value
+            return license_value
+
+        unlicensed_categories = [
+            category_id
+            for category_id, category in categories_by_id.items()
+            if not get_category_license(category)
+        ]
+        components_filter = Q(inherit_license=False, license="")
+        if not project_license:
+            components_filter |= Q(inherit_license=True, category__isnull=True)
+        if unlicensed_categories:
+            components_filter |= Q(
+                inherit_license=True, category_id__in=unlicensed_categories
+            )
+        return list(self.component_set.filter(components_filter))
 
     def get_commit_policy_description(self) -> str:
         if self.commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:

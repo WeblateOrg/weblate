@@ -79,6 +79,26 @@ class BaseLibreTranslateTranslation(BatchMachineTranslation):
         )
         return self._parse_translated_texts(response.json(), texts)
 
+    async def _arequest_translations(
+        self,
+        source_language: str,
+        target_language: str,
+        texts: list[str],
+        *,
+        scalar_query: bool = False,
+    ) -> list[str]:
+        response = await self.arequest(
+            "post",
+            self.get_api_url("translate"),
+            json={
+                "api_key": self.settings["key"],
+                "q": texts[0] if scalar_query else texts,
+                "source": source_language,
+                "target": target_language,
+            },
+        )
+        return self._parse_translated_texts(response.json(), texts)
+
     def download_translated_texts(
         self,
         source_language: str,
@@ -87,6 +107,17 @@ class BaseLibreTranslateTranslation(BatchMachineTranslation):
     ) -> list[str]:
         """Download translated texts from a service."""
         return self._request_translations(source_language, target_language, texts)
+
+    async def adownload_translated_texts(
+        self,
+        source_language: str,
+        target_language: str,
+        texts: list[str],
+    ) -> list[str]:
+        """Download translated texts without blocking."""
+        return await self._arequest_translations(
+            source_language, target_language, texts
+        )
 
     def format_translations(
         self, texts: list[str], translated_texts: list[str]
@@ -115,6 +146,21 @@ class BaseLibreTranslateTranslation(BatchMachineTranslation):
         """Download list of possible translations from a service."""
         texts = [text for text, _unit in sources]
         translated_texts = self.download_translated_texts(
+            source_language, target_language, texts
+        )
+        return self.format_translations(texts, translated_texts)
+
+    async def adownload_multiple_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadMultipleTranslations:
+        """Download translations without blocking."""
+        texts = [text for text, _unit in sources]
+        translated_texts = await self.adownload_translated_texts(
             source_language, target_language, texts
         )
         return self.format_translations(texts, translated_texts)
@@ -148,3 +194,22 @@ class LTEngineTranslation(BaseLibreTranslateTranslation):
             )[0]
             for text in texts
         ]
+
+    async def adownload_translated_texts(
+        self,
+        source_language: str,
+        target_language: str,
+        texts: list[str],
+    ) -> list[str]:
+        """Download scalar translations without blocking."""
+        result = []
+        for text in texts:
+            result.extend(
+                await self._arequest_translations(
+                    source_language,
+                    target_language,
+                    [text],
+                    scalar_query=True,
+                )
+            )
+        return result

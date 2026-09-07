@@ -4,10 +4,17 @@
 
 import os
 import shutil
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
+import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from threading import Barrier
 from time import time
+from types import SimpleNamespace
+from unittest.mock import MagicMock, patch
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.test.utils import override_settings
 
@@ -15,14 +22,17 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.ssh import (
+    SSH_WRAPPER,
     STALE_WRAPPER_SECONDS,
     SSHWrapper,
+    add_host_key,
     cleanup_legacy_wrapper_dirs,
     cleanup_stale_wrapper_dirs,
     extract_url_host_port,
     get_host_key_entries,
     get_host_keys,
     remove_host_key,
+    resolve_ssh_destination,
     ssh_file,
     ssh_wrapper_path,
 )
@@ -80,6 +90,74 @@ class SSHTest(TestCase):
 
     @tempdir_setting("CACHE_DIR")
     @tempdir_setting("DATA_DIR")
+    def test_create_ssh_wrapper_concurrently(self) -> None:
+        wrapper = SSHWrapper()
+        filename = wrapper.filename
+        expected_content = wrapper.get_content("/usr/bin/ssh")
+        worker_count = 4
+        barrier = Barrier(worker_count)
+        original_replace = os.replace
+        replacements: list[tuple[str, bool, bool]] = []
+
+        def synchronized_replace(source: str, destination: Path) -> None:
+            replacements.append(
+                (
+                    Path(source).read_text(encoding="utf-8"),
+                    os.access(source, os.X_OK),
+                    destination.exists(),
+                )
+            )
+            barrier.wait(timeout=10)
+            original_replace(source, destination)
+
+        def find_ssh(command: str) -> str | None:
+            if command == "ssh":
+                return "/usr/bin/ssh"
+            return None
+
+        with (
+            patch("weblate.vcs.ssh.find_command", side_effect=find_ssh),
+            patch("weblate.vcs.ssh.os.replace", side_effect=synchronized_replace),
+            ThreadPoolExecutor(max_workers=worker_count) as executor,
+        ):
+            list(executor.map(lambda _index: wrapper.create(), range(worker_count)))
+
+        self.assertEqual(
+            replacements,
+            [(expected_content, True, False)] * worker_count,
+        )
+        self.assertEqual(filename.read_text(encoding="utf-8"), expected_content)
+        self.assertTrue(os.access(filename, os.X_OK))
+        self.assertEqual(list(wrapper.path.iterdir()), [filename])
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_create_ssh_wrapper_cleans_up_write_failure(self) -> None:
+        wrapper = SSHWrapper()
+        wrapper.path.mkdir(parents=True)
+        with tempfile.NamedTemporaryFile(dir=wrapper.path) as temporary_handle:
+            temporary = Path(temporary_handle.name)
+            handle = MagicMock(name=temporary.as_posix())
+            handle.name = temporary.as_posix()
+            handle.write.side_effect = OSError
+            context = MagicMock()
+            context.__enter__.return_value = handle
+            context.__exit__.side_effect = temporary_handle.__exit__
+
+            with (
+                patch("weblate.vcs.ssh.find_command", return_value="/usr/bin/ssh"),
+                patch(
+                    "weblate.vcs.ssh.tempfile.NamedTemporaryFile",
+                    return_value=context,
+                ),
+                self.assertRaises(OSError),
+            ):
+                wrapper.create()
+
+            self.assertFalse(temporary.exists())
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
     @override_settings(SSH_EXTRA_ARGS="-oKexAlgorithms=+diffie-hellman-group1-sha1")
     def test_ssh_args(self) -> None:
         wrapper = SSHWrapper()
@@ -92,6 +170,99 @@ class SSHTest(TestCase):
         timestamp = os.stat(filename).st_mtime
         wrapper.create()
         self.assertEqual(timestamp, os.stat(filename).st_mtime)
+
+    def test_resolve_effective_destination(self) -> None:
+        result = SimpleNamespace(stdout="hostname effective.example\nport 2222\n")
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", return_value=result) as run,
+        ):
+            destination = resolve_ssh_destination("alias.example", "git", None)
+
+        self.assertEqual(destination, ("effective.example", 2222))
+        self.assertEqual(
+            run.call_args.args[0],
+            [SSH_WRAPPER.filename.as_posix(), "-G", "--", "git@alias.example"],
+        )
+
+    def test_resolve_effective_destination_with_explicit_port(self) -> None:
+        result = SimpleNamespace(stdout="hostname git.example\nport 2022\n")
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", return_value=result) as run,
+        ):
+            destination = resolve_ssh_destination("git.example", None, 2022)
+
+        self.assertEqual(destination, ("git.example", 2022))
+        self.assertEqual(
+            run.call_args.args[0],
+            [
+                SSH_WRAPPER.filename.as_posix(),
+                "-G",
+                "-p",
+                "2022",
+                "--",
+                "git.example",
+            ],
+        )
+
+    def test_resolve_effective_destination_failure_with_detail(self) -> None:
+        process_error = subprocess.CalledProcessError(
+            255,
+            ["ssh", "-G"],
+            stderr="Invalid SSH configuration",
+        )
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", side_effect=process_error),
+            self.assertRaises(ValidationError) as raised,
+        ):
+            resolve_ssh_destination("git.example", "git", None)
+
+        self.assertEqual(raised.exception.code, "ssh_destination_unresolved_with_error")
+        self.assertEqual(
+            raised.exception.params, {"error": "Invalid SSH configuration"}
+        )
+        self.assertEqual(
+            raised.exception.messages,
+            [
+                "Could not determine the effective SSH destination: Invalid SSH configuration"
+            ],
+        )
+
+    def test_resolve_effective_destination_failure_without_detail(self) -> None:
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch(
+                "weblate.vcs.ssh.subprocess.run",
+                return_value=SimpleNamespace(stdout=""),
+            ),
+            self.assertRaises(ValidationError) as raised,
+        ):
+            resolve_ssh_destination("git.example", "git", None)
+
+        self.assertEqual(raised.exception.code, "ssh_destination_unresolved")
+        self.assertEqual(
+            raised.exception.messages,
+            ["Could not determine the effective SSH destination."],
+        )
+
+    def test_allow_admin_ssh_proxy_routing(self) -> None:
+        result = SimpleNamespace(
+            stdout=(
+                "hostname git.example\n"
+                "port 22\n"
+                "proxycommand nc internal.example 22\n"
+                "proxyjump bastion.example\n"
+            )
+        )
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", return_value=result),
+        ):
+            destination = resolve_ssh_destination("git.example", "git", None)
+
+        self.assertEqual(destination, ("git.example", 22))
 
     @tempdir_setting("DATA_DIR")
     def test_cleanup_legacy_wrappers(self) -> None:
@@ -151,4 +322,15 @@ class SSHTest(TestCase):
         )
         self.assertEqual(
             ("github.com", 1234), extract_url_host_port("git://github.com:1234/repo")
+        )
+
+    @patch("weblate.vcs.ssh.subprocess.run")
+    def test_add_host_key_separates_hostname_from_options(self, mocked_run) -> None:
+        mocked_run.return_value.stdout = ""
+        mocked_run.return_value.stderr = ""
+
+        add_host_key(None, "-f", 22)
+
+        self.assertEqual(
+            mocked_run.call_args.args[0], ["ssh-keyscan", "-p", "22", "--", "-f"]
         )

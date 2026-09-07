@@ -91,17 +91,19 @@
       </td>
 
       {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}
-      </tr>
+        </tr>
 
 
-      <tr id="row-edit-{{ item.unit.checksum }}">
-        <td id="status-{{ item.unit.checksum }}"
-            class="unit-state-cell {% unit_state_class item.unit %}"
-            title="{% unit_state_title item.unit %}"></td>
+        <tr id="row-edit-{{ item.unit.checksum }}">
+          <td id="status-{{ item.unit.checksum }}"
+              class="unit-state-cell {% unit_state_class item.unit %}"
+              title="{% unit_state_title item.unit %}"></td>
       {% endif %}
       <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %}
           class="translator">
-        <button class="btn btn-light btn-sm hide-sticky" title="{% translate "Collapse" %}">{% icon "close.svg" %}</button>
+        <button class="btn btn-light btn-sm hide-sticky"
+                title="{% translate "Collapse" %}"
+                type="button">{% icon "close.svg" %}</button>
         {% crispy item.form %}
       </td>
     </tr>
@@ -114,7 +116,7 @@
   <tbody>
     <tr>
       <td colspan="3" id="last-section">
-        {% translate 'The translation has come to an end.' as msg %}
+        {% translate "The translation has come to an end." as msg %}
         {% show_message 'info' msg %}
       </td>
     </tr>

@@ -134,7 +134,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             "weblate.api.docs.document_all_static_vcs_choices",
             "weblate.api.docs.add_middleware_headers",
             "weblate.api.docs.simplify_license_schema",
-            "weblate.api.docs.document_user_group_delete_body",
+            "weblate.api.docs.document_delete_bodies",
             "weblate.api.docs.simplify_media_types",
             "weblate.api.docs.document_response_descriptions",
         ],

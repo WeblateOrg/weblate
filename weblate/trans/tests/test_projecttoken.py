@@ -9,10 +9,11 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
 
-from weblate.auth.models import setup_project_groups
+from weblate.auth.models import User, setup_project_groups
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Project
-from weblate.trans.tasks import actual_project_removal
+from weblate.trans.tasks import project_removal
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.files import remove_tree
 
@@ -60,7 +61,21 @@ class ProjectTokenTest(FixtureTestCase):
             web="https://nonexisting.weblate.org/",
         )
         self.addCleanup(remove_tree, project.full_path, True)
+        if not project.defined_groups.exists():
+            setup_project_groups(sender=Project, instance=project, created=False)
         return project
+
+    def create_attacker(self):
+        project = self.create_additional_project(name="Attacker", slug="attacker")
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save()
+        attacker = User.objects.create_user(
+            "attacker", "attacker@example.org", "testpassword"
+        )
+        project.add_user(attacker, "Administration")
+        client = self.client_class()
+        self.assertTrue(client.login(username="attacker", password="testpassword"))
+        return project, attacker, client
 
     def test_create_token(self) -> None:
         """Managers should be able to create new tokens."""
@@ -107,10 +122,58 @@ class ProjectTokenTest(FixtureTestCase):
 
         self.assertEqual(response.data["slug"], self.project.slug)
 
+    def test_token_not_enumerated_in_user_search(self) -> None:
+        """Unrelated users can not find project tokens through user searches."""
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
+        _attacker_project, _attacker, attacker_client = self.create_attacker()
+
+        response = attacker_client.get(reverse("api:user-list"), {"username": "bot-"})
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(
+            token_user.username,
+            {result["username"] for result in response.json()["results"]},
+        )
+
+        response = attacker_client.get(
+            reverse("api:search"), {"q": token_user.username}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(
+            token_user.username,
+            {result["name"] for result in response.json()},
+        )
+
+        # Exact API lookup remains available by design.
+        response = attacker_client.get(
+            reverse("api:user-detail", kwargs={"username": token_user.username})
+        )
+        self.assertEqual(response.status_code, 200)
+
+        token_client = self.client_class()
+        response = token_client.get(
+            reverse("api:user-list"),
+            {"username": token_user.username},
+            headers={"authorization": f"Token {token_key}"},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 1)
+        self.assertEqual(response.json()["results"][0]["username"], token_user.username)
+
     def test_revoke_token(self) -> None:
         """Create a token revoke it, check that usage is not allowed."""
         token = self.create_token()
+        token_user = self.get_token_user(token)
+        username = token_user.username
         self.delete_token(token)
+        token_user.refresh_from_db()
+
+        self.assertFalse(token_user.is_active)
+        self.assertTrue(token_user.username.startswith("deleted-"))
+        self.assertFalse(token_user.groups.exists())
+        change = self.project.change_set.get(action=ActionEvents.REMOVE_USER)
+        self.assertEqual(change.details["username"], username)
+
         self.client.logout()
 
         response = self.client.get(
@@ -135,6 +198,126 @@ class ProjectTokenTest(FixtureTestCase):
         self.assertEqual(
             audit.get_extra_message(), f"Triggered by {self.user.username}."
         )
+
+    def test_revoke_foreign_token_denied(self) -> None:
+        """Project administrators can not revoke another project's token."""
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
+        username = token_user.username
+        attacker_project, attacker, attacker_client = self.create_attacker()
+
+        self.assertTrue(attacker.has_perm("project.permissions", attacker_project))
+        self.assertFalse(attacker.has_perm("project.permissions", self.project))
+        self.assertFalse(attacker.has_perm("user.edit"))
+
+        response = attacker_client.post(
+            reverse("delete-user", kwargs={"project": attacker_project.slug}),
+            {"user": username},
+            follow=True,
+        )
+
+        self.assertContains(response, "Could not find any such user.")
+        self.assertTrue(Token.objects.filter(key=token_key).exists())
+        token_user.refresh_from_db()
+        self.assertEqual(token_user.username, username)
+        self.assertTrue(token_user.is_active)
+        self.assertTrue(
+            token_user.groups.filter(defining_project=self.project).exists()
+        )
+        self.assertFalse(
+            token_user.groups.filter(defining_project=attacker_project).exists()
+        )
+        self.assertFalse(
+            token_user.auditlog_set.filter(activity="token-removed").exists()
+        )
+        self.assertFalse(
+            attacker_project.change_set.filter(action=ActionEvents.REMOVE_USER).exists()
+        )
+
+    def test_foreign_token_team_assignment_denied(self) -> None:
+        """Project administrators can not attach another project's token."""
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
+        attacker_project, _attacker, attacker_client = self.create_attacker()
+        admin_group = attacker_project.defined_groups.get(name="Administration")
+
+        response = attacker_client.post(
+            reverse("set-groups", kwargs={"project": attacker_project.slug}),
+            {"user": token_user.username, "groups": [admin_group.pk]},
+            follow=True,
+        )
+
+        self.assertContains(response, "Could not find any such user.")
+        self.assertTrue(Token.objects.filter(key=token_key).exists())
+        self.assertFalse(
+            token_user.groups.filter(defining_project=attacker_project).exists()
+        )
+        self.assertTrue(
+            token_user.groups.filter(defining_project=self.project).exists()
+        )
+
+    def test_revoke_shared_token_detaches_project(self) -> None:
+        """Removing a shared token keeps it active for its other projects."""
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
+        username = token_user.username
+        second_project = self.create_additional_project(name="Other", slug="other")
+        second_project.access_control = Project.ACCESS_PRIVATE
+        second_project.save()
+        second_project.add_user(token_user, "Administration", allow_bot=True)
+
+        response = self.client.post(
+            reverse("delete-user", kwargs=self.kw_project),
+            {"user": username},
+            follow=True,
+        )
+
+        self.assertContains(response, "Token has been removed from this project.")
+        token_user.refresh_from_db()
+        self.assertEqual(token_user.username, username)
+        self.assertTrue(token_user.is_active)
+        self.assertTrue(Token.objects.filter(key=token_key).exists())
+        self.assertFalse(
+            token_user.groups.filter(defining_project=self.project).exists()
+        )
+        self.assertTrue(
+            token_user.groups.filter(defining_project=second_project).exists()
+        )
+        self.assertFalse(
+            token_user.auditlog_set.filter(activity="token-removed").exists()
+        )
+        change = self.project.change_set.get(action=ActionEvents.REMOVE_USER)
+        self.assertEqual(change.details["username"], username)
+
+        token_client = self.client_class()
+        token_response = token_client.get(
+            reverse("api:project-detail", kwargs={"slug": second_project.slug}),
+            headers={"authorization": f"Token {token_key}"},
+        )
+        self.assertEqual(token_response.status_code, 200)
+
+    def test_revoke_internal_bot_denied(self) -> None:
+        """Project access management can not remove internal bots."""
+        self.make_manager()
+        internal_bot = User.objects.create_user(
+            "addon:security-test",
+            "addon-security-test@example.org",
+            is_active=False,
+            is_bot=True,
+        )
+        admin_group = self.project.defined_groups.get(name="Administration")
+        internal_bot.groups.add(admin_group)
+
+        response = self.client.post(
+            reverse("delete-user", kwargs=self.kw_project),
+            {"user": internal_bot.username},
+            follow=True,
+        )
+
+        self.assertContains(response, "Could not find any such user.")
+        internal_bot.refresh_from_db()
+        self.assertEqual(internal_bot.username, "addon:security-test")
+        self.assertTrue(internal_bot.groups.filter(pk=admin_group.pk).exists())
 
     def test_remove_all_groups_token(self) -> None:
         """Removing all teams from a token should not be allowed."""
@@ -184,7 +367,7 @@ class ProjectTokenTest(FixtureTestCase):
         token_user = self.get_token_user(token_key)
         project_name = self.project.name
 
-        actual_project_removal(self.project.pk, self.user.pk)
+        project_removal.run(self.project.pk, self.user.pk, backup=False)
 
         self.assertFalse(Project.objects.filter(pk=self.project.pk).exists())
         token_user.refresh_from_db()
@@ -211,7 +394,7 @@ class ProjectTokenTest(FixtureTestCase):
             setup_project_groups(sender=Project, instance=second_project, created=False)
         second_project.add_user(token_user, "Administration", allow_bot=True)
 
-        actual_project_removal(self.project.pk, self.user.pk)
+        project_removal.run(self.project.pk, self.user.pk, backup=False)
 
         token_user.refresh_from_db()
         self.assertTrue(token_user.is_active)

@@ -43,13 +43,13 @@
   <li class="breadcrumb-item">
     {% if instance %}
       <a href="{% url 'addon-detail' pk=instance.pk %}">
-      {% endif %}
-      {% if addon %}
-        {{ addon.verbose }}
-      {% else %}
-        {{ addon_name }}
-      {% endif %}
-      {% if instance %}</a>{% endif %}
+    {% endif %}
+    {% if addon %}
+      {{ addon.verbose }}
+    {% else %}
+      {{ addon_name }}
+    {% endif %}
+    {% if instance %}</a>{% endif %}
   </li>
 {% endblock breadcrumbs %}
 

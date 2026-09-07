@@ -159,6 +159,7 @@ Learn more about :ref:`contributing`.
    security/release-artifacts
    security/dependencies
    security/issues
+   security/incident-reporting
    security/incident-response-plan
    security/passwords
    security/disaster-recovery-plan

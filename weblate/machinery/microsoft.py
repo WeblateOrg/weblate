@@ -6,7 +6,6 @@ from __future__ import annotations
 
 from datetime import timedelta
 from typing import TYPE_CHECKING, ClassVar
-from urllib.parse import urlparse
 
 from django.utils import timezone
 
@@ -117,9 +116,9 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
 
     def check_failure(self, response) -> None:
         # Microsoft tends to use utf-8-sig instead of plain utf-8
-        response.encoding = response.apparent_encoding
+        response.encoding = "utf-8-sig"
         super().check_failure(response)
-        hostname = urlparse(response.url).hostname
+        hostname = response.url.host
         if response.status_code == 200 and hostname in self.get_application_hosts():
             payload = response.json()
 
@@ -144,7 +143,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             "get", self.get_url("languages"), params={"api-version": "3.0"}
         )
         # Microsoft tends to use utf-8-sig instead of plain utf-8
-        response.encoding = response.apparent_encoding
+        response.encoding = "utf-8-sig"
         payload = response.json()
 
         return payload["translation"].keys()

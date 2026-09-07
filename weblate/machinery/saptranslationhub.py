@@ -11,7 +11,7 @@ from .base import MACHINERY_DEFAULT_THRESHOLD, MachineTranslation
 from .forms import SAPMachineryForm
 
 if TYPE_CHECKING:
-    from requests.auth import AuthBase
+    import httpx2
 
     from .base import DownloadTranslations
 
@@ -37,7 +37,7 @@ class SAPTranslationHub(MachineTranslation):
 
         return result
 
-    def get_auth(self) -> tuple[str, str] | AuthBase | None:
+    def get_auth(self) -> tuple[str, str] | httpx2.Auth | None:
         # to access the productive API
         if self.settings["username"] and self.settings["password"]:
             return (self.settings["username"], self.settings["password"])

@@ -19,14 +19,14 @@ from django.utils.html import format_html
 from weblate.auth.models import User
 from weblate.checks.flags import Flags
 from weblate.lang.models import Language
+from weblate.trans.formatting import format_translation
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.templatetags.translations import (
     PRIORITY_ICONS,
-    format_translation,
     get_location_links,
     indicate_alerts,
     naturaltime,
-    render_documentation_icon,
+    register,
     same_naturaltime,
     translation_progress_render,
 )
@@ -34,6 +34,27 @@ from weblate.trans.templatetags.upload_methods import get_upload_method_help
 from weblate.trans.tests.factories import make_language, make_unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.files import FileUploadMethod
+from weblate.utils.formatting import render_documentation_icon
+
+
+class ExtractedHelperRegistrationTest(SimpleTestCase):
+    def test_helpers_remain_registered(self) -> None:
+        self.assertLessEqual(
+            {
+                "format_language_string",
+                "format_source_string",
+                "format_unit_source",
+                "format_unit_target",
+                "get_glossary_badge",
+                "unit_state_class",
+                "unit_state_title",
+            },
+            register.tags.keys(),
+        )
+        self.assertLessEqual(
+            {"format_json", "number_format"},
+            register.filters.keys(),
+        )
 
 
 class NaturalTimeTest(SimpleTestCase):

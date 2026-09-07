@@ -4,6 +4,9 @@
 
 """Tests for char based quality checks."""
 
+from __future__ import annotations
+
+from django.template import Context, Template
 from django.test import SimpleTestCase
 
 from weblate.checks.chars import (
@@ -24,13 +27,44 @@ from weblate.checks.chars import (
     KabyleCharactersCheck,
     KashidaCheck,
     MaxLengthCheck,
+    MaxLinesCheck,
     MultipleCapitalCheck,
     NewLineCountCheck,
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
+from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
+
+
+class CharacterDescriptionTest(SimpleTestCase):
+    def test_rendering_contexts(self) -> None:
+        for name, plain, html in (
+            (
+                "escaped_newline",
+                r"Number of \n literals in translation does not match source.",
+                r"Number of <code>\n</code> literals in translation does not match source.",
+            ),
+            (
+                "kabyle-characters",
+                "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε).",
+                "Use standardized Latin Kabyle characters (e.g. <code>ɣ</code> instead of Greek <code>γ</code>; <code>ɛ</code> instead of <code>ε</code>).",
+            ),
+        ):
+            with self.subTest(check=name):
+                check = Check(name=name)
+                context = Context({"check": check})
+                self.assertEqual(
+                    Template("{{ check.get_description }}").render(context), html
+                )
+                self.assertEqual(check.get_plain_description(), plain)
+                self.assertEqual(
+                    Template(
+                        '<span title="{{ check.get_plain_description|force_escape }}"></span>'
+                    ).render(context),
+                    f'<span title="{plain}"></span>',
+                )
 
 
 class AcceleratorKeyCheckTest(CheckTestCase):
@@ -481,6 +515,65 @@ class MaxLengthCheckTest(SimpleTestCase):
         )
 
 
+class MaxLinesCheckTest(SimpleTestCase):
+    def setUp(self) -> None:
+        self.check = MaxLinesCheck()
+
+    def test_single_line_within_limit(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["source"],
+                ["translation"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_single_line_exceeds_limit(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2"],
+                make_unit(flags="max-lines:1"),
+            )
+        )
+
+    def test_multi_line_within_limit(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_multi_line_exceeds_limit(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2\nline3\nline4"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_exact_boundary(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2\nline3"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_invalid_flag(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["translation"],
+                make_unit(flags="max-lines:*"),
+            )
+        )
+
+
 class EndSemicolonCheckTest(CheckTestCase):
     check = EndSemicolonCheck()
 
@@ -503,11 +596,20 @@ class KashidaCheckTest(CheckTestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_good_matching = ("string", "string", "")
+        self.test_good_matching = ("string", "مـ", "")
         self.test_good_ignore = ("string", "بـ:", "")
-        self.test_failure_1 = ("string", "string\u0640", "")
-        self.test_failure_2 = ("string", "string\ufe79", "")
-        self.test_failure_3 = ("string", "string\ufe7f", "")
+        self.test_failure_1 = ("string", "صـــفــــحـــــے", "")
+        self.test_failure_2 = ("string", "صـف", "")
+        self.test_failure_3 = ("string", "بـالبيت", "")
+
+    def test_kashida_abbreviation(self) -> None:
+        # Single and multiple kashidas at end of abbreviation/word should be allowed
+        self.do_test(False, ("string", "اتـ", ""))
+        self.do_test(False, ("string", "مــ", ""))
+
+    def test_kashida_combining_mark(self) -> None:
+        # Kashidas holding combining marks should be allowed
+        self.do_test(False, ("string", "ــ٘ـ", ""))
 
 
 class PunctuationSpacingCheckTest(CheckTestCase):

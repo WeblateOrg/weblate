@@ -7,6 +7,7 @@
 from unittest.mock import patch
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test.utils import override_settings
@@ -21,10 +22,20 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.lang.models import Language, Plural
 from weblate.machinery.dummy import DummyTranslation
 from weblate.trans.actions import ActionEvents
+from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.forms import AutoForm
-from weblate.trans.models import Change, Component, PendingUnitChange, Project, Unit
+from weblate.trans.models import (
+    Change,
+    Component,
+    PendingUnitChange,
+    Project,
+    Translation,
+    Unit,
+    WorkflowSetting,
+)
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.celery import get_task_metadata, get_task_metadata_key
 from weblate.utils.state import STATE_APPROVED, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
 from weblate.workspaces.models import Workspace
@@ -89,6 +100,56 @@ class AutoTranslationTest(ViewTestCase):
         )
         self.assertRedirects(response, self.translation_url)
 
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_task_metadata(self) -> None:
+        category = self.create_category(project=self.component2.project)
+        self.component2.category = category
+        self.component2.save(update_fields=["category"])
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        self.component2.project.workspace = workspace
+        self.component2.project.save(update_fields=["workspace"])
+        translation = self.component2.translation_set.get(language_code="cs")
+        project_language = ProjectLanguage(
+            self.component2.project, language=translation.language
+        )
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        task_metadata_key = get_task_metadata_key(task_id)
+        self.addCleanup(cache.delete, task_metadata_key)
+
+        targets = (
+            (translation, None, translation.id),
+            (self.component2, self.component2.id, None),
+            (category, None, None),
+            (project_language, None, None),
+            (workspace, None, None),
+        )
+        for obj, component_id, translation_id in targets:
+            with (
+                self.subTest(obj=obj),
+                patch("weblate.trans.views.edit.auto_translate.delay") as delay,
+            ):
+                cache.delete(task_metadata_key)
+                delay.return_value.id = task_id
+                response = self.client.post(
+                    reverse("auto_translation", kwargs={"path": obj.get_url_path()}),
+                    {
+                        "auto_source": "others",
+                        "threshold": "100",
+                        "q": "state:<translated",
+                        "mode": "translate",
+                    },
+                )
+
+                self.assertEqual(response.status_code, 302)
+                self.assertEqual(
+                    get_task_metadata(task_id),
+                    {
+                        "component_id": component_id,
+                        "translation_id": translation_id,
+                        "user_id": self.user.id,
+                    },
+                )
+
     def make_different(self, language: str = "cs") -> None:
         with self.captureOnCommitCallbacks(execute=True):
             self.edit_unit("Hello, world!\n", "Nazdar svete!\n", language=language)
@@ -114,9 +175,16 @@ class AutoTranslationTest(ViewTestCase):
         )
 
     def perform_auto(
-        self, expected=1, expected_count=None, path_params=None, success=True, **kwargs
+        self,
+        expected=1,
+        expected_count=None,
+        path_params=None,
+        success=True,
+        prepare_source=True,
+        **kwargs,
     ) -> None:
-        self.make_different()
+        if prepare_source:
+            self.make_different()
         if path_params is None:
             path_params = {"path": [*self.component2.get_url_path(), "cs"]}
         url = reverse("auto_translation", kwargs=path_params)
@@ -162,6 +230,87 @@ class AutoTranslationTest(ViewTestCase):
     def test_different(self) -> None:
         """Test for automatic translation with different content."""
         self.perform_auto()
+
+    def restrict_direct_editing(self) -> Translation:
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Restricted automatic translation",
+            language_selection=SELECTION_ALL,
+        )
+        group.components.add(self.component2)
+        group.roles.add(
+            Role.objects.get(name="Translate"),
+            Role.objects.get(name="Automatic translation"),
+        )
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        translation = self.component2.translation_set.get(language_code="cs")
+        WorkflowSetting.objects.create(
+            project=translation.component.project,
+            language=translation.language,
+            restrict_direct_editing=True,
+        )
+        return Translation.objects.get(component=self.component2, language_code="cs")
+
+    def test_restrict_direct_editing_blocks_automatic_translation(self) -> None:
+        self.make_different()
+        translation = self.restrict_direct_editing()
+
+        self.assertTrue(self.user.has_perm("translation.auto", translation))
+        self.perform_auto(expected=0, prepare_source=False)
+
+    def test_restrict_direct_editing_allows_automatic_suggestions(self) -> None:
+        self.make_different()
+        translation = self.restrict_direct_editing()
+
+        self.assertTrue(self.user.has_perm("translation.auto", translation))
+        self.assertTrue(self.user.has_perm("suggestion.add", translation))
+        self.perform_auto(mode="suggest", prepare_source=False)
+
+    def test_restrict_direct_editing_in_component_batch(self) -> None:
+        self.make_different()
+        self.make_different("de")
+        translation = self.restrict_direct_editing()
+        german = self.component2.translation_set.get(language_code="de")
+        initial_german_translated = german.stats.translated
+
+        self.perform_auto(
+            expected=1,
+            expected_count=0,
+            path_params={"path": self.component2.get_url_path()},
+            prepare_source=False,
+        )
+
+        translation = Translation.objects.get(pk=translation.pk)
+        german = Translation.objects.get(pk=german.pk)
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(german.stats.translated, initial_german_translated + 1)
+
+    def test_batch_preloads_workflow_settings(self) -> None:
+        translation = self.component2.translation_set.get(language_code="cs")
+        setting = WorkflowSetting.objects.create(
+            project=translation.component.project,
+            language=translation.language,
+            restrict_direct_editing=True,
+        )
+
+        auto = BatchAutoTranslate(
+            self.component2,
+            user=self.user,
+            q="state:<translated",
+            mode="translate",
+        )
+
+        self.assertGreater(len(auto.translations), 1)
+        with self.assertNumQueries(0):
+            workflow_settings = [item.workflow_settings for item in auto.translations]
+            restrictions = [item.restrict_direct_editing for item in auto.translations]
+        self.assertIn(setting, workflow_settings)
+        self.assertIn(True, restrictions)
+        self.assertIn(False, restrictions)
 
     def test_readonly_empty_target_source_candidate(self) -> None:
         """Skip source candidates with empty targets even when read-only."""

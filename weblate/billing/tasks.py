@@ -17,7 +17,7 @@ from django.utils.translation import gettext
 from weblate.accounts.notifications import send_notification_email
 from weblate.billing.models import Billing, BillingEvent
 from weblate.trans.models import Project
-from weblate.trans.tasks import project_removal
+from weblate.trans.tasks import create_project_backup, project_removal
 from weblate.utils.celery import app
 
 if TYPE_CHECKING:
@@ -227,7 +227,8 @@ def remove_single_billing(billing_id: int) -> None:
             event=BillingEvent.REMOVED, summary=f"Removed project {prj}"
         )
         prj.log_warning("removing due to unpaid billing")
-        project_removal(prj.id, None)
+        create_project_backup(prj.id)
+        project_removal.delay(prj.id, None, backup=False)
     bill.removal = None
     bill.state = Billing.STATE_TERMINATED
     bill.save()

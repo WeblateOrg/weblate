@@ -91,6 +91,17 @@ class LegalTest(TestCase, RegistrationTestMixin):
         self.assertTemplateUsed(response, "legal/styles.html")
         self.assertContains(response, 'class="list-group-item pre-scrollable"')
         self.assertNotContains(response, 'class="list-group-item pre-scrollable tos"')
+        self.assertContains(
+            response,
+            "I agree with the General Terms and Conditions and the Privacy Policy",
+        )
+        self.assertContains(
+            response,
+            "You have to agree to the General Terms and Conditions and the Privacy Policy",
+            count=1,
+        )
+        self.assertContains(response, "Please also read the Privacy Policy")
+        self.assertContains(response, reverse("legal:privacy"))
 
     @override_settings(
         LEGAL_HIDDEN_DOCUMENTS=("terms", "privacy"),
@@ -107,6 +118,39 @@ class LegalTest(TestCase, RegistrationTestMixin):
         self.assertNotContains(response, reverse("legal:terms"))
         self.assertNotContains(response, reverse("legal:privacy"))
         self.assertNotContains(response, "no defined privacy terms of service")
+        self.assertContains(
+            response,
+            "I agree with the General Terms and Conditions and the Privacy Policy",
+        )
+        self.assertContains(
+            response,
+            "You have to agree to the General Terms and Conditions and the Privacy Policy",
+            count=1,
+        )
+
+    @override_settings(
+        LEGAL_HIDDEN_DOCUMENTS=("privacy",),
+        PRIVACY_URL=None,
+    )
+    def test_confirm_without_privacy_policy(self) -> None:
+        create_test_user()
+        self.client.login(username="testuser", password="testpassword")
+
+        response = self.client.get(reverse("legal:confirm"))
+        self.assertContains(
+            response,
+            "I agree with the General Terms and Conditions document",
+        )
+        self.assertContains(
+            response,
+            "You have to agree to the General Terms and Conditions",
+            count=1,
+        )
+        self.assertNotContains(
+            response,
+            "I agree with the General Terms and Conditions and the Privacy Policy",
+        )
+        self.assertNotContains(response, "Please also read the Privacy Policy")
 
     @override_settings(LEGAL_HIDDEN_DOCUMENTS=("terms",), LEGAL_URL=None)
     def test_confirm_without_external_terms(self) -> None:
@@ -201,6 +245,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         self.assertTrue(
             response.redirect_chain[-1][0].startswith(reverse("legal:confirm"))
         )
+        self.assertContains(response, "We have updated our legal documents")
         # Check that contact works even without TOS
         response = self.client.get(reverse("contact"), follow=True)
         self.assertContains(response, "How can we help?")

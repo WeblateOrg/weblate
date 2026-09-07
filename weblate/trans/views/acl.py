@@ -10,7 +10,9 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.db.models import Count, Prefetch
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -19,7 +21,6 @@ from django.views.decorators.http import require_POST
 
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
-from weblate.auth.data import SELECTION_ALL
 from weblate.auth.forms import (
     BulkInviteForm,
     InviteEmailForm,
@@ -34,6 +35,7 @@ from weblate.auth.utils import (
 from weblate.lang.forms import get_language_code_choices
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import (
+    ProjectMemberManageForm,
     ProjectTokenCreateForm,
     ProjectUserGroupForm,
     UserBlockForm,
@@ -79,6 +81,18 @@ def check_user_form(
         return obj, form
     show_form_errors(request, form)
     return obj, None
+
+
+def lock_project_member(project: Project, user: User) -> User:
+    """Lock and recheck a project member before destructive changes."""
+    users = User.objects.select_for_update()
+    memberships = TeamMembership.objects.select_for_update().filter(
+        user_id=user.pk, group__defining_project=project
+    )
+    user = get_object_or_404(users, pk=user.pk)
+    if user.is_internal or not memberships.exists():
+        raise Http404
+    return user
 
 
 def is_contribution_cleanup_requested(form: UserContributionCleanupForm) -> bool:
@@ -403,36 +417,41 @@ def invite_user(request: AuthenticatedHttpRequest, project):
 
 @require_POST
 @login_required
+@transaction.atomic
 def delete_user(request: AuthenticatedHttpRequest, project):
     """Remove user from a project."""
     obj, form = check_user_form(
         request,
         project,
+        form_class=ProjectMemberManageForm,
+        pass_project=True,
     )
     redirect_url = ""
 
     if form is not None:
-        user = form.cleaned_data["user"]
+        user = lock_project_member(obj, form.cleaned_data["user"])
         if request.user == user:
             messages.error(request, gettext("You can not remove yourself!"))
         else:
+            username = user.username
+            is_bot = user.is_bot
+            obj.remove_user(user)
             if user.is_bot:
                 redirect_url = "#api"
-                remove_user(
-                    user,
-                    request,
-                    activity="token-removed",
-                    project=obj.name,
-                    username=request.user.username,
-                )
-            else:
-                obj.remove_user(user)
+                if not user.groups.filter(defining_project__isnull=False).exists():
+                    remove_user(
+                        user,
+                        request,
+                        activity="token-removed",
+                        project=obj.name,
+                        username=request.user.username,
+                    )
             obj.change_set.create(
                 action=ActionEvents.REMOVE_USER,
                 user=request.user,
-                details={"username": user.username},
+                details={"username": username},
             )
-            if user.is_bot:
+            if is_bot:
                 messages.success(
                     request, gettext("Token has been removed from this project.")
                 )
@@ -514,7 +533,7 @@ def manage_access(request: AuthenticatedHttpRequest, project):
             ),
             "create_team_form": ProjectTeamForm(
                 project=obj,
-                initial={"language_selection": SELECTION_ALL},
+                initial={"all_languages": True},
                 auto_id="id_project_team_%s",
             ),
             "block_user_form": UserBlockForm(

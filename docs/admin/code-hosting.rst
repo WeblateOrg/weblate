@@ -32,7 +32,9 @@ Setup overview
 
 3. Configure incoming notifications so Weblate pulls changes soon after a push.
    The repository webhook or app must point to the matching Weblate hook URL,
-   and the project must have :ref:`project-enable_hooks` enabled.
+   and the project must have :ref:`project-enable_hooks` enabled. Component
+   :ref:`component-repo` must match a repository URL from the webhook payload;
+   see :ref:`hooks-target-matching`.
 
 4. Decide how Weblate should push translations back:
 
@@ -264,9 +266,10 @@ GitHub. Components imported from the connected GitHub account also use the App
 for repository access and pull requests, without inviting the Hosted Weblate
 :guilabel:`weblate` GitHub user.
 
-The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. Use
-it only when you need the legacy app to deliver GitHub notifications to Hosted
-Weblate.
+The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. Its
+deliveries use the generic GitHub webhook URL and are authenticated using a
+separate webhook secret configured by the Hosted Weblate operator. Use it only
+when you need the legacy app to deliver GitHub notifications to Hosted Weblate.
 
 .. _Hosted Weblate legacy app: https://github.com/apps/hosted-weblate-legacy
 
@@ -324,10 +327,37 @@ the install-time GitHub user can administer the organization installation.
 Projects that are not in a workspace cannot connect a GitHub account through
 the GitHub App.
 
+Removing a connected GitHub account also uninstalls the App from GitHub when
+no other Weblate workspace uses that installation. If another workspace still
+uses the installation, Weblate removes only the selected workspace connection.
+Components imported through that connection lose access to their repositories.
+Removing a workspace uninstalls its connected accounts the same way.
+
+Weblate removes the connection even when GitHub no longer knows about the
+installation, and keeps it only when GitHub could not be reached, so that the
+removal can be retried.
+
 Components imported through the GitHub App flow use the dedicated
 :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. The component
 settings UI keeps the repository URL read-only to prevent the App-issued
 credentials from being redirected to an unrelated repository.
+
+.. _code-hosting-github-app-migrate:
+
+Migrating existing components
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Weblate reports an informational diagnostic for Git and GitHub pull request
+components that can be migrated to a registered Weblate GitHub App. Follow
+the :guilabel:`Migrate to GitHub App` link from the diagnostic to review all
+eligible components in the workspace.
+
+Connect or update the GitHub account for the workspace, grant the App access
+to the listed repositories, and select the components to migrate. Weblate
+changes the selected components to the
+:guilabel:`GitHub (via Weblate GitHub app)` VCS backend, replaces their
+repository addresses with canonical HTTPS clone URLs, and removes separate
+push URLs because the App authenticates pushes to the source repository.
 
 .. _code-hosting-github-app-webhook:
 
@@ -340,6 +370,12 @@ opaque token that uniquely identifies a single registered App:
 .. code-block:: text
 
    https://weblate.example.com/hooks/integrations/<webhook_token>/
+
+Components using the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend
+are matched only through this dedicated endpoint. All generic forge webhook
+endpoints exclude them from matching and response diagnostics, including
+``/hooks/github/``. Legacy GitHub App deliveries sent to the generic endpoint
+can match only components using a non-App VCS backend.
 
 If you are not using a GitHub App, add the Weblate webhook in the repository
 settings (:guilabel:`Webhooks`) to receive notifications on every push to a
@@ -506,7 +542,7 @@ This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
 
 .. seealso::
 
-   * `Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_
+   * `Webhooks in Gitea manual <https://docs.gitea.com/usage/repository/webhooks>`_
    * :http:post:`/hooks/gitea/`
    * :ref:`hosted-push`
 
@@ -546,7 +582,7 @@ repository, while the :guilabel:`Gitea` backend creates pull requests.
 To create pull requests, select :guilabel:`Gitea` as
 :ref:`component-vcs` and configure :setting:`GITEA_CREDENTIALS`.
 
-.. _Gitea API: https://docs.gitea.io/en-us/api-usage/
+.. _Gitea API: https://docs.gitea.com/development/api-usage
 
 .. _code-hosting-bitbucket:
 

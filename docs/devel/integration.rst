@@ -63,6 +63,24 @@ the translations so that they match your codebase.
    * :ref:`continuous-translation`
    * :ref:`vcs-repos`
 
+.. _monitoring-translation-progress:
+
+Monitoring translation progress
++++++++++++++++++++++++++++++++
+
+Use the project metrics endpoint to track translation progress from external
+integrations. It returns statistics for all visible components and languages
+in a single request and supports JSON, CSV, and OpenMetrics formats.
+
+The OpenMetrics representation can be scraped by Prometheus-compatible
+monitoring systems without polling the statistics endpoint for each
+translation.
+
+.. seealso::
+
+   * :http:get:`/api/projects/(string:project)/metrics/`
+   * :ref:`api-statistics`
+
 .. _adding-new-strings:
 
 Adding new strings

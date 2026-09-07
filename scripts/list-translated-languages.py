@@ -6,7 +6,7 @@
 
 from importlib.util import module_from_spec, spec_from_file_location
 
-import requests
+import httpx2
 from icu import Locale
 
 URL = "https://hosted.weblate.org/api/components/weblate/application/statistics/?format=json-flat"
@@ -21,7 +21,7 @@ def print_language(lang, fmt="{0} ({1})") -> None:
 
 def main() -> None:
     # load and parse data
-    data = requests.get(URL, timeout=5).json()
+    data = httpx2.get(URL, timeout=5).json()
 
     # select languages
     languages_list = []

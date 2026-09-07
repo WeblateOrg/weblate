@@ -269,6 +269,27 @@ Configure per project access control, see :ref:`acl` for more details.
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. _project-public_sharing:
+
+Public sharing
+++++++++++++++
+
+Allow anonymous access to the project's engage pages and rendered status
+widgets. This setting applies to :guilabel:`Private` and :guilabel:`Custom`
+projects; :guilabel:`Public` and :guilabel:`Protected` projects are always
+publicly shareable.
+
+Public sharing exposes project and component names, including restricted
+components, together with translation statistics, languages, and progress. It
+does not grant access to project pages, translations, repositories, or the API.
+
+Changing this setting requires the :guilabel:`Manage project access`
+permission. The status widget configuration page continues to use normal
+project access control.
+
+When :setting:`REQUIRE_LOGIN` is enabled, :setting:`PUBLIC_ENGAGE` must also be
+enabled for anonymous access to engage pages.
+
 .. _project-enforced_2fa:
 
 Enforced two-factor authentication
@@ -378,6 +399,7 @@ project.
 
    * :ref:`workspace-inherited-settings`
    * :ref:`component-new_lang`
+   * :ref:`workflow-language-restrictions`
 
 .. _project-language-code-style:
 
@@ -516,6 +538,23 @@ VCS to use, see :ref:`vcs` for details.
 .. seealso::
 
    :ref:`code-hosting-push-options`
+
+.. _component-vcs_params:
+
+Version control parameters
+++++++++++++++++++++++++++
+
+Parameters tuning how Weblate interacts with the repository, for example
+whether to force push or to open pull requests. Only parameters applicable to
+the selected :ref:`component-vcs` are shown, see also :ref:`vcs_params`.
+
+.. note::
+
+   The settings form silently drops parameters which do not apply to the
+   selected version control system, but the REST API rejects them. When
+   changing :ref:`component-vcs` over the API, clear or replace ``vcs_params``
+   in the same request. The same applies to
+   :ref:`component-file_format_params` and :ref:`component-file_format`.
 
 .. _component-repo:
 
@@ -800,6 +839,18 @@ panel (including its “Add term to glossary” action) is hidden in the editor.
    * :ref:`glossary`
    * :ref:`component-is_glossary`
 
+.. _component-contribute_project_tm:
+
+Contribute to project translation memory
+++++++++++++++++++++++++++++++++++++++++
+
+Controls whether translations from this component are added to the project
+translation memory.
+
+.. seealso::
+
+   :doc:`memory`
+
 .. _component-allow_translation_propagation:
 
 Allow translation propagation
@@ -932,6 +983,7 @@ Disable adding new translations
    * :ref:`workspace-inherited-settings`
    * :ref:`adding-translation`
    * :ref:`component-new_base`
+   * :ref:`workflow-language-restrictions`
 
 .. _component-manage_units:
 
@@ -1037,8 +1089,8 @@ Rebase
    Rebasing can cause you trouble in case of complicated merges, so carefully
    consider whether or not you want to enable them.
 
-   You might need to enable force pushing by choosing :ref:`vcs-git-force-push`
-   as :ref:`component-vcs`, especially when pushing to a different branch.
+   You might need to turn on :ref:`force pushing <vcs-git-force-push>` in
+   :ref:`component-vcs_params`, especially when pushing to a different branch.
 
 Merge
    Upstream repository changes are merged into Weblate one. This setting utilizes
@@ -1151,6 +1203,10 @@ Language filter
 Regular expression used to filter the translation when scanning for file mask.
 It can be used to limit the list of languages managed by Weblate.
 
+The filter also applies when creating a new translation file. In this case,
+it checks the language code generated according to
+:ref:`component-language_code_style`.
+
 .. note::
 
     You need to list language codes as they appear in the filename.
@@ -1170,6 +1226,10 @@ Some examples of filtering:
 +-------------------------------+-----------------------+
 | Include all files (default)   | ``^[^.]+$``           |
 +-------------------------------+-----------------------+
+
+.. seealso::
+
+   :ref:`workflow-language-restrictions`
 
 
 .. _component-key_filter:
@@ -1277,6 +1337,13 @@ The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
    This applies to project admins as well — please ensure you will not
    lose access to the component after toggling the status.
 
+Restricted components do not contribute new entries to :ref:`shared-tm`.
+Project and workspace translation memory entries attributed to an existing
+restricted component follow the component restriction. Unattributed legacy
+entries follow the access rules of their translation memory scope. On Hosted
+Weblate, shared translation memory and restricted components can not be enabled
+in the same project.
+
 .. _component-links:
 
 Share in projects
@@ -1311,6 +1378,9 @@ Glossaries are best for:
 .. note::
 
    Glossaries are not for regular translations—they are for managing terms only.
+
+Weblate automatically adds missing glossary languages for languages used in the
+project. See :ref:`glossary-language-sync` for details.
 
 You can configure how it will be listed using :ref:`component-glossary_color`.
 

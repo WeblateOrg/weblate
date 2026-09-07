@@ -26,6 +26,32 @@ example ``https://github.com/WeblateOrg/weblate.git``), but for private
 repositories or for push URLs the setup is more complex and requires
 authentication.
 
+.. _vcs-repository-url-troubleshooting:
+
+Troubleshooting repository URLs
++++++++++++++++++++++++++++++++
+
+Weblate validates repository and push URLs before connecting. HTTPS and SSH
+are permitted by default; instance administrators can adjust this using
+:setting:`VCS_ALLOW_SCHEMES`.
+
+Repository hostnames have to resolve from the Weblate server. When
+:setting:`VCS_RESTRICT_PRIVATE` is enabled, Weblate also rejects destinations
+which resolve to internal or otherwise non-public addresses. Use a publicly
+reachable repository URL where possible. For an intentionally private
+repository on a trusted network, ask the instance administrator to add its
+hostname to :setting:`VCS_ALLOW_HOSTS`.
+
+Git over HTTPS and SSH can bind connections to addresses approved during
+validation. Backends which cannot do this safely, including Mercurial and
+Subversion, require the trusted repository hostname in
+:setting:`VCS_ALLOW_HOSTS` while private-address restrictions are enabled.
+
+Configure the final repository URL directly when possible. Weblate can
+automatically accept a permanent HTTP redirect only when it stays on the same
+host and the target is successfully validated. Redirects to another host or
+protocol have to be configured manually.
+
 .. _hosted-push:
 
 Accessing repositories from Hosted Weblate
@@ -143,6 +169,18 @@ Verifying SSH host keys
 Weblate automatically stores the SSH host keys on first access and remembers
 them for further use.
 
+When :setting:`VCS_RESTRICT_PRIVATE` is enabled, Weblate resolves and validates
+the repository host before scanning its key and connects ``ssh-keyscan`` only
+to the approved addresses. The stored key remains associated with the original
+hostname.
+
+For Git connections, Weblate also applies ``HostName`` and ``Port`` from
+:file:`DATA_DIR/ssh/config` before validating and pinning the effective
+destination. SSH configuration and :setting:`SSH_EXTRA_ARGS` are trusted
+administrator-controlled inputs. They can alter connection routing, and
+:setting:`SSH_EXTRA_ARGS` can override Weblate's address pinning;
+administrators are responsible for their effects.
+
 In case you want to verify the key fingerprint before connecting to the
 repository, add the SSH host keys of the servers you are going to access in
 :guilabel:`Add host key`, from the same section of the admin interface. Enter
@@ -220,6 +258,18 @@ main (referenced) component.
 
    Removing main component also removes linked components.
 
+   Linked components share the complete repository checkout; the link does not
+   isolate them to particular files or directories. Users allowed to administer
+   a linked component can configure operations affecting files anywhere in the
+   shared checkout. For example, they can change file masks, formats, and
+   templates, or install and configure add-ons that read, generate, or modify
+   repository files. Weblate can commit and push resulting changes using the
+   main component's repository configuration.
+
+   Only link components when the repository owner trusts the administrators of
+   every linked component with the complete checkout. Use separate repositories
+   when components require file-level isolation.
+
 Weblate automatically adjusts the repository URL when creating a component if it
 finds a component with a matching repository setup. You can override this in
 the last step of the component configuration.
@@ -270,28 +320,25 @@ In case you don't provide credentials in the URL and the repository requires it,
 Using proxy
 +++++++++++
 
-If you need to access HTTP/HTTPS VCS repositories using a proxy server,
-configure the VCS to use it.
+If you need to access Git repositories over HTTPS using a proxy server,
+configure the per-protocol environment variables described in :ref:`http-proxy`.
 
-This can be done using the ``http_proxy``, ``https_proxy``, and ``all_proxy``
-environment variables, (as described in the `cURL documentation <https://curl.se/docs/>`_)
-or by enforcing it in the VCS configuration, for example:
+.. _vcs_params:
 
-.. code-block:: sh
+Version control parameters
+--------------------------
 
-    git config --global http.proxy http://user:password@proxy.example.com:80
+.. versionadded:: 2026.9
 
-.. note::
+Version control parameters tune how a component interacts with its repository
+without having to choose a different version control system. They are
+configured per component in :ref:`component-vcs_params`, and only the
+parameters applicable to the selected :ref:`component-vcs` are offered.
 
-    The proxy configuration needs to be done under user running Weblate (see
-    also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see
-    :setting:`DATA_DIR`), otherwise Git executed by Weblate will not use it.
+List of version control parameters
+++++++++++++++++++++++++++++++++++
 
-.. seealso::
-
-    * `The cURL manpage <https://curl.se/docs/manpage.html>`_
-    * `Git config documentation <https://git-scm.com/docs/git-config>`_
-
+.. include:: /snippets/vcs-parameters.rst
 
 .. _vcs-git:
 
@@ -300,25 +347,77 @@ Git
 
 .. hint::
 
-   Weblate needs Git 2.28 or newer.
+   Weblate needs Git 2.46 or newer.
+
+.. note::
+
+   Weblate validates permanent HTTP redirects which stay on the repository
+   hostname and automatically stores the canonical repository URL. The change
+   is recorded in the component history as repository maintenance. Redirects
+   to another hostname have to be configured manually.
 
 .. seealso::
 
     See :ref:`vcs-repos` for info on how to access different kinds of repositories.
 
+.. _git-lfs:
+
+Git LFS
++++++++
+
+Weblate does not support files tracked by Git LFS as translation files. It does
+not download or upload Git LFS objects. Git LFS smudging and pre-push uploads
+are disabled for Weblate-managed repositories, so LFS-tracked files remain
+pointer files. This behavior applies to every Git hosting provider.
+
+A repository can use Git LFS for files that Weblate does not need to read or
+modify. The upstream repository remains the authoritative source for these LFS
+objects. Clone from upstream when you need the actual files rather than their
+pointers because repositories served by Weblate do not include LFS objects.
+
+For the GitLab merge request workflow, Weblate disables Git LFS in its managed
+fork. This prevents GitLab from rejecting pointer-only translation branches
+when the upstream repository added LFS objects after the fork was created.
+Existing managed forks are reconfigured on their next push. This does not
+change the Git LFS configuration of the upstream project.
+
+.. _git-submodules:
+
+Git submodules
+++++++++++++++
+
+Weblate does not populate Git submodules when cloning repositories. It does
+not initialize or update submodules, and it does not recurse into submodule
+repositories during file discovery or translation updates. Files stored inside
+a submodule are therefore not available to file masks when Weblate is connected
+to the parent repository.
+
+If translation files live in a submodule, add the submodule repository to
+Weblate as its own component instead of reaching it through the parent
+repository. Weblate can then clone, update, commit, and push to the repository
+that actually stores the translation files. The parent repository only records
+the submodule commit pointer, so updating that pointer has to happen outside
+Weblate, for example in your normal development workflow or CI.
+
 .. _vcs-git-force-push:
 
-Git with force push
-+++++++++++++++++++
+Force pushing
++++++++++++++
 
-This behaves exactly like Git itself, the only difference being that it always
-force pushes. This is intended only in the case of using a separate repository
-for translations.
+Turn on the ``git_force_push`` :ref:`version control parameter <vcs_params>` to
+make Weblate always force push. This is intended only in the case of using a
+separate repository for translations.
 
 .. warning::
 
     Use with caution, as this easily leads to lost commits in your
     upstream repository.
+
+.. versionchanged:: 2026.9
+
+   This used to be a separate :guilabel:`Git with force push` version control
+   system. Existing components were migrated to Git with the ``git_force_push``
+   parameter turned on.
 
 Customizing Git configuration
 +++++++++++++++++++++++++++++

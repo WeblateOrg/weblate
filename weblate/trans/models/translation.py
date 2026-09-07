@@ -18,6 +18,7 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import DatabaseError, IntegrityError, models, transaction
 from django.db.models import F, Q
+from django.db.models.signals import post_save
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -48,7 +49,7 @@ from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion, SuggestionAddResult
-from weblate.trans.models.unit import Unit
+from weblate.trans.models.unit import UNIT_METADATA_UPDATE_FIELDS, Unit
 from weblate.trans.signals import (
     component_post_update,
     translation_post_remove,
@@ -62,7 +63,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.errors import log_handled_exception, report_error
+from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.regex import regex_match
 from weblate.utils.render import render_template
@@ -588,6 +589,7 @@ class Translation(
         }
         updated: dict[int, Unit] = {}
         duplicates: list[Unit] = []
+        metadata_updates: dict[int, Unit] = {}
 
         # Process based on intermediate store if available
         if self.component.intermediate:
@@ -687,7 +689,31 @@ class Translation(
                 op="unit.update_from_unit",
                 name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
             ):
-                newunit.update_from_unit(user=user, author=author)
+                newunit.update_from_unit(
+                    user=user,
+                    author=author,
+                    metadata_updates=metadata_updates,
+                )
+
+        if metadata_updates:
+            metadata_timestamp = timezone.now()
+            for unit in metadata_updates.values():
+                unit.last_updated = metadata_timestamp
+            Unit.objects.bulk_update(
+                metadata_updates.values(),
+                UNIT_METADATA_UPDATE_FIELDS,
+                batch_size=500,
+            )
+            update_fields = frozenset(UNIT_METADATA_UPDATE_FIELDS)
+            for unit in metadata_updates.values():
+                post_save.send(
+                    sender=Unit,
+                    instance=unit,
+                    created=False,
+                    raw=False,
+                    using=unit._state.db,  # ruff: ignore[private-member-access]
+                    update_fields=update_fields,
+                )
 
         # Trigger duplicate alerts
         for newunit in duplicates:
@@ -1079,10 +1105,9 @@ class Translation(
             self, apply_filters=True
         )
         pending_changes_count = pending_changes_qs.count()
-        report_error(
+        report_message(
             "Attempted to commit translation without filename",
             project=self.component.project,
-            message=True,
             extra_log=f"translation={self.full_slug}, pending_changes={pending_changes_count}",
         )
         pending_changes = list(pending_changes_qs.values_list("unit_id", flat=True))
@@ -1317,7 +1342,11 @@ class Translation(
                 ),
             )
             return
-        report_error("Could not update unit", project=self.component.project)
+        report_error(
+            "Could not update unit",
+            project=self.component.project,
+            exception=error,
+        )
 
     def _store_failed_unit_update(
         self, unit: Unit, pending_change: PendingUnitChange, error: Exception
@@ -1579,7 +1608,12 @@ class Translation(
         store.update_header(self.component.file_format_params, **headers)
 
         # save translation changes
-        store.save()
+        try:
+            store.save()
+        except Exception as error:
+            raise FailedCommitError(
+                self.component.get_parse_error_message(error)
+            ) from error
 
         return changes_status
 
@@ -1604,6 +1638,12 @@ class Translation(
         if self.workflow_settings is not None:
             return self.workflow_settings.enable_suggestions
         return self.component.enable_suggestions
+
+    @property
+    def restrict_direct_editing(self) -> bool:
+        if self.workflow_settings is not None:
+            return self.workflow_settings.restrict_direct_editing
+        return False
 
     @property
     def suggestion_voting(self):

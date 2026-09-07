@@ -8,15 +8,19 @@ from __future__ import annotations
 
 import os
 import pathlib
+from concurrent.futures import ThreadPoolExecutor
+from threading import Event
 from types import SimpleNamespace
 from typing import cast
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, call, patch
 
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
+from django.db import close_old_connections, connection
 from django.db.models import F
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TransactionTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from translate.storage.base import ParseError
@@ -26,6 +30,7 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
     Change,
     CommitPolicyChoices,
@@ -35,12 +40,18 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.repository_context import (
+    RepositoryFollowupLockError,
+    inline_repository_followups,
+)
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import (
     ComponentTestCase,
     FixtureTestCase,
     ViewTestCase,
 )
+from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -49,8 +60,12 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-from weblate.vcs.base import RepositoryError, RepositoryRecoveryEvent
-from weblate.vcs.git import GitRepository
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositoryRecoveryEvent,
+    RepositoryRedirectError,
+)
+from weblate.vcs.git import GitMergeRequestBase, GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
@@ -67,6 +82,15 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_prefetch_tasks_preserves_page(self) -> None:
+        component = self.create_po()
+        page = Paginator(
+            Component.objects.filter(pk=component.pk).order_by("pk"), 1
+        ).page(1)
+
+        self.assertIs(prefetch_tasks(page), page)
+        self.assertEqual(list(page), [component])
 
     def test_select_for_update_uses_component_only_no_key_lock(self) -> None:
         queryset = Component.objects.select_for_update()
@@ -90,6 +114,92 @@ class ComponentTest(RepoTestCase):
         )
         self.assertFalse(
             component.alert_set.filter(name="RepositoryOperationFailure").exists()
+        )
+
+    def test_persist_repository_redirect_uses_repository_bot(self) -> None:
+        component = self.create_component()
+        old_url = "https://redirect-secret:@git.example/owner/repo"
+        canonical_url = "https://redirect-secret:@git.example/owner/repo.git"
+        Component.objects.filter(pk=component.pk).update(repo=old_url)
+        component.repo = old_url
+        repository = component.repository
+
+        with patch.object(repository, "configure_remote") as configure_remote:
+            changed = component.persist_repository_redirect(
+                "repo",
+                RepositoryRedirectError(old_url, canonical_url, 301),
+            )
+
+        self.assertTrue(changed)
+        component.refresh_from_db()
+        self.assertEqual(component.repo, canonical_url)
+        configure_remote.assert_called_once_with(
+            canonical_url,
+            component.push,
+            component.branch,
+        )
+        change = component.change_set.get(
+            action=ActionEvents.COMPONENT_SETTING_CHANGE,
+            target="repo",
+        )
+        self.assertEqual(change.user.username, "weblate:repository")
+        self.assertEqual(change.author.username, "weblate:repository")
+        self.assertEqual(change.user.full_name, "Repository maintenance")
+        self.assertEqual(
+            change.details,
+            {
+                "field": "repo",
+                "old": "https://git.example/owner/repo",
+                "target": "https://git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+
+    def test_validate_update_stages_repository_redirect(self) -> None:
+        component = self.create_component()
+        saved_url = component.repo
+        original_url = "https://git.example/owner/repo"
+        canonical_url = f"{original_url}.git"
+        component.repo = original_url
+        component.branch = "redirected"
+        component.drop_repository_cache()
+        repository = component.repository
+        repository.__dict__["last_remote_revision"] = None
+        repository.last_output = ""
+
+        with (
+            patch.object(
+                component,
+                "update_remote_repository",
+                side_effect=[
+                    (
+                        None,
+                        RepositoryRedirectError(
+                            original_url,
+                            canonical_url,
+                            301,
+                        ),
+                    ),
+                    (None, None),
+                ],
+            ) as update_remote,
+            patch.object(repository, "configure_remote") as configure_remote,
+        ):
+            updated = component.update_remote_branch(validate=True)
+
+        self.assertTrue(updated)
+        self.assertEqual(update_remote.call_count, 2)
+        self.assertEqual(component.repo, canonical_url)
+        self.assertEqual(
+            component.repository_redirect_changes,
+            [("repo", original_url, canonical_url)],
+        )
+        self.assertEqual(Component.objects.get(pk=component.pk).repo, saved_url)
+        configure_remote.assert_called_once_with(
+            canonical_url,
+            component.push,
+            component.branch,
         )
 
     def test_handle_repository_recovery_failure_adds_alert(self) -> None:
@@ -142,6 +252,46 @@ class ComponentTest(RepoTestCase):
             self.assertTrue(component.do_reset(None))
 
         recover_lock_session.assert_not_called()
+
+    def test_inline_reset_marks_followup_lock_contention(self) -> None:
+        component = self.create_component()
+        lock_timeout = WeblateLockTimeoutError("locked", lock=component.lock)
+
+        with (
+            self.assertRaises(RepositoryFollowupLockError) as raised,
+            patch.object(
+                component, "reset_repository_to_remote", return_value="previous-head"
+            ),
+            patch(
+                "weblate.trans.tasks.perform_component_commit",
+                side_effect=lock_timeout,
+            ),
+            inline_repository_followups(),
+        ):
+            component.do_reset(None, keep_changes=True)
+
+        self.assertEqual(raised.exception.followup, "reset-keep")
+        self.assertEqual(raised.exception.previous_head, "previous-head")
+
+    def test_inline_update_marks_followup_lock_contention(self) -> None:
+        component = self.create_component()
+        lock_timeout = WeblateLockTimeoutError("locked", lock=component.lock)
+
+        with (
+            self.assertRaises(RepositoryFollowupLockError) as raised,
+            patch.object(component, "store_background_task"),
+            patch.object(component, "configure_repo"),
+            patch.object(component, "update_remote_branch", return_value=True),
+            patch.object(component, "configure_branch"),
+            patch.object(component, "repo_needs_merge", return_value=True),
+            patch.object(component, "needs_commit_upstream", return_value=False),
+            patch.object(component, "update_branch", return_value=True),
+            patch.object(component, "finish_update", side_effect=lock_timeout),
+            inline_repository_followups(),
+        ):
+            component.do_update(None)
+
+        self.assertEqual(raised.exception.followup, "pull")
 
     def verify_component(
         self,
@@ -796,9 +946,6 @@ class ComponentTest(RepoTestCase):
     def test_vcs_validation(self) -> None:
         component = self.create_po_push()
 
-        # force reload VCS list to include github
-        VCS_REGISTRY.clear_cache()
-
         component.vcs = "github"
 
         # check push branch cannot be empty when push URL is set
@@ -1060,6 +1207,79 @@ class ComponentDeleteTest(RepoTestCase):
 class ComponentChangeTest(RepoTestCase):
     """Component object change testing."""
 
+    def test_changed_setup_preserves_pending_commit_revision(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        self.assertIsNotNone(unit)
+        initial_revision = component.repository.last_revision
+
+        unit.translate(create_test_user(), "Changed translation", STATE_TRANSLATED)
+        component.edit_template = not component.edit_template
+        component.save()
+
+        component.refresh_from_db()
+        current_revision = component.repository.last_revision
+        self.assertNotEqual(initial_revision, current_revision)
+        self.assertEqual(component.local_revision, current_revision)
+        self.assertEqual(component.processed_revision, current_revision)
+
+    def test_changed_setup_preserves_check_settings(self) -> None:
+        component = self.create_component()
+        component.edit_template = not component.edit_template
+        component.check_flags = "ignore-inconsistent"
+
+        with (
+            patch.object(
+                Component, "schedule_update_checks", autospec=True
+            ) as schedule_update_checks,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            component.save()
+
+        schedule_update_checks.assert_called_once_with(component, update_state=True)
+
+    def test_file_format_params_change_forces_rescan(self) -> None:
+        component = self._create_component("markdown", "*.md")
+        component.file_format_params = {
+            **component.file_format_params,
+            "md_no_placeholders": True,
+        }
+
+        with (
+            patch.object(Component, "commit_pending", autospec=True) as commit_pending,
+            patch.object(
+                Component, "create_translations", autospec=True, return_value=False
+            ) as create_translations,
+        ):
+            component.save(update_fields=["file_format_params"])
+
+        commit_pending.assert_called_once()
+        self.assertEqual(commit_pending.call_args.args[1:], ("changed setup", None))
+        create_translations.assert_called_once_with(
+            component, force=True, changed_template=False
+        )
+
+    def test_equivalent_file_format_params_change_skips_rescan(self) -> None:
+        component = self.create_po()
+        default_params = get_default_params_for_file_format(component.file_format)
+
+        with (
+            patch.object(Component, "commit_pending", autospec=True) as commit_pending,
+            patch.object(
+                Component, "create_translations", autospec=True, return_value=False
+            ) as create_translations,
+        ):
+            for file_format_params in (
+                default_params,
+                {**default_params, "po_line_wrap": "77"},
+            ):
+                component.file_format_params = file_format_params
+                component.save(update_fields=["file_format_params"])
+
+        commit_pending.assert_not_called()
+        create_translations.assert_not_called()
+
     def test_rename(self) -> None:
         link_component = self.create_link()
         self.assertIsNotNone(link_component.linked_component)
@@ -1165,6 +1385,52 @@ class ComponentChangeTest(RepoTestCase):
         # Unlocked event
         self.assertEqual(component.change_set.count() - start, 4)
 
+    def test_successful_push_unlocks_with_stale_component(self) -> None:
+        component = self.create_component()
+        stale_component = Component.objects.get(pk=component.pk)
+
+        component.add_alert("PushFailure")
+        self.assertTrue(component.locked)
+        self.assertFalse(stale_component.locked)
+
+        with patch.object(stale_component.repository, "push") as mocked_push:
+            self.assertTrue(
+                stale_component.push_repo(None, stale_component.get_push_user(None))
+            )
+
+        mocked_push.assert_called_once_with(stale_component.push_branch)
+        stale_component.refresh_from_db()
+        self.assertFalse(stale_component.locked)
+        change = stale_component.change_set.latest("id")
+        self.assertEqual(change.action, ActionEvents.UNLOCK)
+        self.assertTrue(change.auto_status)
+
+    def test_autolock_preserves_manual_lock(self) -> None:
+        component = self.create_component()
+        component.add_alert("PushFailure")
+        component.do_lock(user=None, lock=False)
+        component.do_lock(user=None)
+
+        component.delete_alert("PushFailure")
+
+        component.refresh_from_db()
+        self.assertTrue(component.locked)
+        change = component.change_set.latest("id")
+        self.assertEqual(change.action, ActionEvents.LOCK)
+        self.assertFalse(change.auto_status)
+
+    def test_absent_locking_alert_does_not_lock_component(self) -> None:
+        component = self.create_component()
+
+        with patch.object(
+            Component.objects,
+            "get_for_update",
+            wraps=Component.objects.get_for_update,
+        ) as get_for_update:
+            component.delete_alert("PushFailure")
+
+        get_for_update.assert_not_called()
+
     def test_do_lock_rolls_back_when_change_save_fails(self) -> None:
         component = self.create_component()
 
@@ -1240,6 +1506,150 @@ class ComponentChangeTest(RepoTestCase):
         linked_component.refresh_from_db()
         self.assertTrue(component.locked)
         self.assertTrue(linked_component.locked)
+
+
+class ComponentResetTransactionTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    def test_reset_opens_transaction(self) -> None:
+        component = self.create_component()
+        unit = Unit.objects.filter(translation__component=component).first()
+        self.assertIsNotNone(unit)
+        unit.details["disk_state"] = {}
+        unit.save(update_fields=["details"], only_save=True)
+
+        self.assertTrue(connection.get_autocommit())
+        self.assertTrue(component.do_reset())
+
+        unit.refresh_from_db()
+        self.assertNotIn("disk_state", unit.details)
+
+
+class ComponentAlertConcurrencyTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    def test_alert_addition_is_serialized_with_automatic_unlock(self) -> None:
+        component = self.create_component()
+        component.add_alert("PushFailure")
+        delete_ready = Event()
+        add_started = Event()
+        original_do_lock = Component.do_lock
+
+        def coordinated_do_lock(
+            instance, user, lock: bool = True, auto: bool = False
+        ) -> None:
+            if not lock:
+                delete_ready.set()
+                self.assertTrue(add_started.wait(5))
+            original_do_lock(instance, user, lock=lock, auto=auto)
+
+        def delete_alert() -> None:
+            close_old_connections()
+            try:
+                Component.objects.get(pk=component.pk).delete_alert("PushFailure")
+            finally:
+                connection.close()
+
+        def add_alert() -> None:
+            self.assertTrue(delete_ready.wait(5))
+            add_started.set()
+            close_old_connections()
+            try:
+                Component.objects.get(pk=component.pk).add_alert("MergeFailure")
+            finally:
+                connection.close()
+
+        with (
+            patch.object(
+                Component,
+                "do_lock",
+                autospec=True,
+                side_effect=coordinated_do_lock,
+            ),
+            ThreadPoolExecutor(max_workers=2) as executor,
+        ):
+            delete_future = executor.submit(delete_alert)
+            add_future = executor.submit(add_alert)
+            delete_future.result(timeout=10)
+            add_future.result(timeout=10)
+
+        component.refresh_from_db()
+        self.assertTrue(component.locked)
+        self.assertFalse(component.alert_set.filter(name="PushFailure").exists())
+        self.assertTrue(component.alert_set.filter(name="MergeFailure").exists())
+        changes = list(
+            component.change_set.filter(
+                action__in=(ActionEvents.LOCK, ActionEvents.UNLOCK)
+            ).order_by("-id")[:2]
+        )
+        self.assertEqual(
+            [change.action for change in changes],
+            [ActionEvents.LOCK, ActionEvents.UNLOCK],
+        )
+        self.assertTrue(all(change.auto_status for change in changes))
+
+    def test_linked_alert_propagation_is_serialized_with_deletion(self) -> None:
+        component = self.create_component()
+        self.component = component
+        self.project = component.project
+        linked_component = self.create_link_existing()
+        component._add_alert(  # ruff: ignore[private-member-access]
+            "MergeFailure"
+        )
+        child_add_started = Event()
+        delete_started = Event()
+        original_add_alert = Component._add_alert  # ruff: ignore[private-member-access]
+
+        def coordinated_add_alert(
+            instance, alert: str, noupdate: bool = False, **details
+        ) -> None:
+            if instance.pk == linked_component.pk:
+                child_add_started.set()
+                self.assertTrue(delete_started.wait(5))
+            original_add_alert(instance, alert, noupdate=noupdate, **details)
+
+        def add_alert() -> None:
+            close_old_connections()
+            try:
+                Component.objects.get(pk=component.pk).add_alert("MergeFailure")
+            finally:
+                connection.close()
+
+        def delete_alert() -> None:
+            self.assertTrue(child_add_started.wait(5))
+            delete_started.set()
+            close_old_connections()
+            try:
+                Component.objects.get(pk=component.pk).delete_alert("MergeFailure")
+            finally:
+                connection.close()
+
+        with (
+            patch.object(
+                Component,
+                "_add_alert",
+                autospec=True,
+                side_effect=coordinated_add_alert,
+            ),
+            ThreadPoolExecutor(max_workers=2) as executor,
+        ):
+            add_future = executor.submit(add_alert)
+            delete_future = executor.submit(delete_alert)
+            add_future.result(timeout=10)
+            delete_future.result(timeout=10)
+
+        component.refresh_from_db()
+        linked_component.refresh_from_db()
+        self.assertFalse(component.locked)
+        self.assertFalse(linked_component.locked)
+        self.assertFalse(component.alert_set.filter(name="MergeFailure").exists())
+        self.assertFalse(
+            linked_component.alert_set.filter(name="MergeFailure").exists()
+        )
 
 
 class ComponentValidationTest(RepoTestCase):
@@ -1773,6 +2183,21 @@ class ComponentErrorTest(RepoTestCase):
         self.assertIs(context.exception, error)
         push_if_needed.assert_called_once_with(do_update=False)
 
+    def test_push_pushes_before_reraising_update_parse_error(self) -> None:
+        error = FileParseError("parse failed")
+
+        with (
+            patch.object(self.component, "can_push", return_value=True),
+            patch.object(self.component, "repo_needs_push", return_value=True),
+            patch.object(self.component, "do_update", side_effect=error),
+            patch.object(self.component, "push_if_needed") as push_if_needed,
+            self.assertRaises(FileParseError) as context,
+        ):
+            self.component.do_push(None, force_commit=False)
+
+        self.assertIs(context.exception, error)
+        push_if_needed.assert_called_once_with(do_update=False)
+
     def test_failed_update_remote(self) -> None:
         self.assertFalse(self.component.update_remote_branch())
 
@@ -1889,17 +2314,16 @@ class ComponentErrorTest(RepoTestCase):
         immediate.assert_not_called()
         queue_task.assert_called_once()
 
-    def test_create_translations_runs_immediately_inside_celery_task(self) -> None:
-        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+    def test_create_translations_runs_immediately_inside_repository_task(self) -> None:
         request = SimpleNamespace(user=None)
 
         with (
             override_settings(CELERY_TASK_ALWAYS_EAGER=False),
-            patch("weblate.trans.models.component.current_task", task),
             patch.object(
                 self.component, "create_translations_immediate", return_value=True
             ) as immediate,
             patch.object(self.component, "queue_background_task") as queue_task,
+            inline_repository_followups(),
         ):
             self.assertTrue(
                 self.component.create_translations(force=True, request=request)
@@ -1918,16 +2342,49 @@ class ComponentErrorTest(RepoTestCase):
         )
         queue_task.assert_not_called()
 
+    def test_create_translations_propagates_repository_lock_timeout(self) -> None:
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch.object(
+                self.component,
+                "create_translations_immediate",
+                side_effect=lock_timeout,
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+            inline_repository_followups(),
+            self.assertRaises(WeblateLockTimeoutError),
+        ):
+            self.component.create_translations(force=True)
+
+        immediate.assert_called_once()
+        queue_task.assert_not_called()
+
+    def test_create_translations_runs_immediately_inside_celery_task(self) -> None:
+        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", task),
+            patch.object(
+                self.component, "create_translations_immediate", return_value=True
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+        ):
+            self.assertTrue(self.component.create_translations(force=True))
+
+        immediate.assert_called_once()
+        queue_task.assert_not_called()
+
     def test_create_translations_queues_after_celery_lock_timeout(self) -> None:
         task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
-
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
         with (
             override_settings(CELERY_TASK_ALWAYS_EAGER=False),
             patch("weblate.trans.models.component.current_task", task),
             patch.object(
                 self.component,
                 "create_translations_immediate",
-                side_effect=WeblateLockTimeoutError("locked", lock=self.component.lock),
+                side_effect=lock_timeout,
             ) as immediate,
             patch.object(self.component, "queue_background_task") as queue_task,
         ):
@@ -2020,6 +2477,22 @@ class PendingChangeCleanupTest(SimpleTestCase):
 
 
 class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
+    def test_inline_file_sync_marks_post_commit_lock_contention(self) -> None:
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+
+        with (
+            self.assertRaises(RepositoryFollowupLockError),
+            patch(
+                "weblate.trans.tasks.perform_component_commit",
+                side_effect=lock_timeout,
+            ),
+            inline_repository_followups(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.component.do_file_sync(self.get_request())
+
+        self.assertTrue(PendingUnitChange.objects.filter(unit=self.get_unit()).exists())
+
     def test_file_sync_creates_pending_changes_from_unit_values(self) -> None:
         unit = self.get_unit()
         Unit.objects.filter(pk=unit.source_unit_id).update(
@@ -2287,13 +2760,14 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
             target="Hallo Welt!\n",
         )
         request = self.get_request()
+        restore_error = OSError("restore failed")
 
         with (
             patch.object(
                 Component,
                 "restore_missing_translation_file",
                 autospec=True,
-                side_effect=OSError("restore failed"),
+                side_effect=restore_error,
             ),
             patch.object(self.component.repository, "reset") as mock_reset,
             patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
@@ -2315,6 +2789,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         mock_report_error.assert_called_once_with(
             "Could not recreate missing translation file during file sync",
             project=self.component.project,
+            exception=restore_error,
         )
         messages = [message.message for message in get_messages(request)]
         self.assertEqual(len(messages), 1)
@@ -2873,6 +3348,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self,
     ) -> None:
         request = self.get_request()
+        restore_error = OSError("atomic failed")
         with (
             patch.object(self.component.repository, "reset") as mock_reset,
             patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
@@ -2883,7 +3359,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
                     request=request,
                     missing_translations=[],
                     current_translation=None,
-                    error=OSError("atomic failed"),
+                    error=restore_error,
                 )
             )
 
@@ -2892,6 +3368,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         mock_report_error.assert_called_once_with(
             "Could not recreate missing translation file during reset",
             project=self.component.project,
+            exception=restore_error,
         )
         messages = [message.message for message in get_messages(request)]
         self.assertEqual(len(messages), 1)
@@ -3176,6 +3653,95 @@ class LinkedResetDiskStateTest(ComponentTestCase):
 
 
 class ComponentHostKeyHandlingTest(SimpleTestCase):
+    def test_add_host_key_skips_invalid_remote(self) -> None:
+        repository = Mock(
+            validate_remote_url=Mock(
+                side_effect=RepositoryError(0, "repository URL is no longer allowed")
+            )
+        )
+        component = SimpleNamespace(
+            repository=repository,
+            repo="git@private.example:owner/repo.git",
+            push="",
+            log_info=Mock(),
+        )
+
+        with patch("weblate.trans.models.component.add_host_key") as add_host_key:
+            Component.add_ssh_host_key(component)  # type: ignore[arg-type]
+
+        repository.validate_remote_url.assert_called_once_with(component.repo)
+        add_host_key.assert_not_called()
+
+    def test_add_host_key_uses_generated_fork_remote(self) -> None:
+        fork_url = "git@fork.example:owner/repo.git"
+        repository = Mock(spec=GitMergeRequestBase)
+        repository.get_fork_push_url.return_value = fork_url
+        repository.validate_remote_url.side_effect = [
+            SimpleNamespace(scheme="https"),
+            SimpleNamespace(
+                scheme="ssh",
+                hostname="fork.example",
+                port=22,
+                addresses=("93.184.216.34",),
+                requires_pinning=True,
+            ),
+        ]
+        component = SimpleNamespace(
+            repository=repository,
+            repo="https://upstream.example/owner/repo.git",
+            push="",
+            log_info=Mock(),
+        )
+
+        with patch("weblate.trans.models.component.add_host_key") as add_host_key:
+            Component.add_ssh_host_key(component)  # type: ignore[arg-type]
+
+        self.assertEqual(
+            repository.validate_remote_url.call_args_list,
+            [
+                call(component.repo),
+                call(fork_url),
+            ],
+        )
+        repository.get_fork_push_url.assert_called_once_with()
+        add_host_key.assert_called_once_with(
+            None,
+            "fork.example",
+            22,
+            restrict_private=True,
+            validated_addresses=("93.184.216.34",),
+        )
+
+    def test_add_host_key_uses_effective_validated_destination(self) -> None:
+        target = SimpleNamespace(
+            scheme="ssh",
+            hostname="alias.example",
+            connection_hostname="effective.example",
+            port=2222,
+            addresses=("93.184.216.34", "2001:4860:4860::8888"),
+            requires_pinning=True,
+        )
+        component = SimpleNamespace(
+            repository=Mock(
+                validate_remote_url=Mock(return_value=target),
+            ),
+            repo="git@alias.example:repo.git",
+            push="",
+            log_info=Mock(),
+        )
+
+        with patch("weblate.trans.models.component.add_host_key") as add_host_key:
+            Component.add_ssh_host_key(component)  # type: ignore[arg-type]
+
+        component.repository.validate_remote_url.assert_called_once_with(component.repo)
+        add_host_key.assert_called_once_with(
+            None,
+            "alias.example",
+            2222,
+            restrict_private=True,
+            validated_addresses=("93.184.216.34", "2001:4860:4860::8888"),
+        )
+
     def test_error_text_preserves_newlines(self) -> None:
         component = SimpleNamespace(
             repo="ssh://git@example.com/private/repo.git",
@@ -3259,13 +3825,16 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
         )
 
     def test_repo_needs_push_host_key_mismatch_skips_tofu_retry(self) -> None:
+        error = RepositoryError(255, HOST_KEY_MISMATCH_ERROR)
         component = SimpleNamespace(
-            repository=Mock(
-                needs_push=Mock(
-                    side_effect=RepositoryError(255, HOST_KEY_MISMATCH_ERROR)
-                )
-            ),
+            repository=Mock(needs_push=Mock(side_effect=error)),
             error_text=Mock(return_value=HOST_KEY_MISMATCH_ERROR),
+            get_repository_alert_details=Mock(
+                return_value={
+                    "error": HOST_KEY_MISMATCH_ERROR,
+                    "diagnoses": [{"code": "ssh_host_key_mismatch"}],
+                }
+            ),
             add_alert=Mock(),
             add_ssh_host_key=Mock(),
             push_branch="main",
@@ -3278,8 +3847,11 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             )
 
         component.add_ssh_host_key.assert_not_called()
+        component.get_repository_alert_details.assert_called_once_with(error)
         component.add_alert.assert_called_once_with(
-            "PushFailure", error=HOST_KEY_MISMATCH_ERROR
+            "PushFailure",
+            error=HOST_KEY_MISMATCH_ERROR,
+            diagnoses=[{"code": "ssh_host_key_mismatch"}],
         )
         mocked_report.assert_called_once()
 

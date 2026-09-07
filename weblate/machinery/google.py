@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, ClassVar
 
-from requests.exceptions import RequestException
+import httpx2
 
 from .base import (
     MACHINERY_DEFAULT_THRESHOLD,
@@ -104,7 +104,7 @@ class GoogleTranslation(GoogleBaseTranslation):
         }
 
     def get_error_message(self, exc):
-        if isinstance(exc, RequestException) and exc.response is not None:
+        if isinstance(exc, httpx2.HTTPStatusError):
             data = exc.response.json()
             try:
                 return data["error"]["message"]

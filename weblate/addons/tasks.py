@@ -9,6 +9,7 @@ from datetime import timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING, cast
 
+import httpx2
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -52,6 +53,20 @@ def read_component_file(component: Component, filename: str) -> str:
     return Path(component.full_path, resolved).read_text(encoding="utf-8")
 
 
+def read_cdn_file(component: Component, filename: str) -> str:
+    if not filename.startswith(("http://", "https://")):
+        return read_component_file(component, filename)
+
+    with open_restricted_asset_url(
+        "get",
+        filename,
+        allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
+        private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
+    ) as response:
+        response.read()
+        return response.text
+
+
 def parse_cdn_html(addon: Addon, component: Component) -> list[dict[str, str]]:
     source_translation = component.source_translation
     source_units = set(source_translation.unit_set.values_list("source", flat=True))
@@ -61,17 +76,8 @@ def parse_cdn_html(addon: Addon, component: Component) -> list[dict[str, str]]:
     for filename in addon.configuration["files"].splitlines():
         filename = filename.strip()
         try:
-            if filename.startswith(("http://", "https://")):
-                with open_restricted_asset_url(
-                    "get",
-                    filename,
-                    allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
-                    allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
-                ) as handle:
-                    content = handle.text
-            else:
-                content = read_component_file(component, filename)
-        except (OSError, ValidationError, ValueError) as error:
+            content = read_cdn_file(component, filename)
+        except (OSError, httpx2.HTTPError, ValidationError, ValueError) as error:
             errors.append(
                 {
                     "addon": addon.name,

@@ -11,9 +11,15 @@ from typing import TYPE_CHECKING, ClassVar
 
 import regex
 from django.utils.html import format_html
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy, ngettext
 
-from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
+from weblate.checks.base import (
+    CodeDescriptionMixin,
+    CountingCheck,
+    TargetCheck,
+    TargetCheckParametrized,
+)
 from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
 from weblate.checks.utils import highlight_string
@@ -181,14 +187,22 @@ class BeginSpaceCheck(TargetCheck):
         return [("regex", "^ *", replacement, "u")]
 
 
-class KabyleCharactersCheck(TargetCheck):
+class KabyleCharactersCheck(CodeDescriptionMixin, TargetCheck):
     """Flag and suggest standard Kabyle characters instead of visually similar but incorrect ones."""
 
     check_id = "kabyle-characters"
     name = gettext_lazy("Non‑standard characters in Kabyle")
-    description = gettext_lazy(
-        "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε)."
+    # Translators: placeholders are Latin and Greek character examples, formatted for display.
+    description_template = gettext_lazy(
+        "Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
     )
+    description_values: ClassVar[dict[str, str]] = {
+        "latin_gamma": "ɣ",
+        "greek_gamma": "γ",
+        "latin_epsilon": "ɛ",
+        "greek_epsilon": "ε",
+    }
+    description = format_lazy(description_template, **description_values)
     version_added = "5.12"
 
     confusable_to_standard: ClassVar[dict[str, str]] = {
@@ -486,15 +500,18 @@ class EndEllipsisCheck(TargetCheck):
         return self.check_chars(source, target, -1, {"…"})
 
 
-class EscapedNewlineCountingCheck(CountingCheck):
+class EscapedNewlineCountingCheck(CodeDescriptionMixin, CountingCheck):
     r"""Check whether there is same amount of escaped \n strings."""
 
     string = "\\n"
     check_id = "escaped_newline"
     name = gettext_lazy("Mismatched \\n")
-    description = gettext_lazy(
-        "Number of \\n literals in translation does not match source."
+    # Translators: newline is a literal backslash followed by n, formatted for display.
+    description_template = gettext_lazy(
+        "Number of {newline} literals in translation does not match source."
     )
+    description_values: ClassVar[dict[str, str]] = {"newline": r"\n"}
+    description = format_lazy(description_template, **description_values)
 
     ignore_re = re.compile(r"[A-Z]:\\\\[^\\ ]+(\\[^\\ ]+)+")
 
@@ -553,6 +570,35 @@ class MaxLengthCheck(TargetCheckParametrized):
         return any(len(replace(target)) > value for target in targets)
 
 
+class MaxLinesCheck(TargetCheckParametrized):
+    """
+    Check for maximum number of lines in translation.
+
+    This check flags translations that exceed a configured maximum number of
+    lines. It is useful for translations targeting fixed-height UI elements
+    such as displays, terminals, or constrained containers where a specific
+    number of visible lines is required.
+
+    The flag ``max-lines:<value>`` sets the upper bound. A translation with
+    more than ``<value>`` lines (counted by newlines + 1) triggers a warning.
+
+    Example flag: ``max-lines:3``
+    """
+
+    check_id = "max-lines"
+    name = gettext_lazy("Maximum number of lines")
+    description = gettext_lazy("Translation should not exceed given number of lines.")
+    default_disabled = True
+
+    param_type = single_value_flag(int)
+
+    def check_target_params(
+        self, sources: list[str], targets: list[str], unit: Unit, value
+    ):
+        replace = self.get_replacement_function(unit)
+        return any(replace(target).count("\n") + 1 > value for target in targets)
+
+
 class EndSemicolonCheck(TargetCheck):
     """Check for semicolon at end."""
 
@@ -577,12 +623,13 @@ class KashidaCheck(TargetCheck):
     description = gettext_lazy("The decorative kashida letters should not be used.")
 
     kashida_regex = (
-        # Allow kashida after certain letters
-        "(?<![\u0628\u0643\u0644])"
+        # Allow kashida after certain letters, only if sandwiched between actual letters
+        r"(?<=\p{sc=Arab})(?<![\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f])"
         # List of kashida letters to check
-        "[\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f]"
+        r"[\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f]+"
+        r"(?=\p{sc=Arab})(?![\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f])"
     )
-    kashida_re = re.compile(kashida_regex)
+    kashida_re = regex.compile(kashida_regex)
 
     def check_single(self, source: str, target: str, unit: Unit):
         return self.kashida_re.search(target)

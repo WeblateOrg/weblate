@@ -315,3 +315,30 @@ class ConsistencyCheckTest(ComponentTestCase):
         self.assertNotIn("COUNT(DISTINCT", sql)
         self.assertIn("MIN(", sql)
         self.assertIn("MAX(", sql)
+
+        aggregate_sql = next(
+            query["sql"].upper() for query in queries if "MIN(" in query["sql"].upper()
+        )
+        self.assertNotIn('"TRANS_COMPONENT"', aggregate_sql)
+        self.assertIn('"TRANS_UNIT"."TRANSLATION_ID" IN', aggregate_sql)
+
+        unit_sql = next(
+            query["sql"].upper()
+            for query in queries
+            if '"TRANS_UNIT"."TRANSLATION_ID" IN' in query["sql"].upper()
+            and '"TRANS_UNIT"."ID_HASH" IN' in query["sql"].upper()
+            and "MIN(" not in query["sql"].upper()
+        )
+        self.assertNotIn('"TRANS_COMPONENT"', unit_sql)
+        self.assertNotIn('"TRANS_TRANSLATION"', unit_sql)
+
+    def test_consistency_skips_singleton_plurals(self) -> None:
+        check = ConsistencyCheck()
+        self.other.allow_translation_propagation = False
+        self.other.save(update_fields=["allow_translation_propagation"])
+
+        with CaptureQueriesContext(connection) as queries:
+            self.assertEqual(check.check_component(self.component), [])
+
+        sql = "\n".join(query["sql"].upper() for query in queries)
+        self.assertNotIn("MIN(", sql)

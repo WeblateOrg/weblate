@@ -325,14 +325,20 @@ class UnusedScreenshot(BaseAlert):
 
     def get_context(self, user: User) -> dict[str, Any]:
         result = super().get_context(user)
-        if "unassigned" not in result:
+        if "unassigned" not in result or result["unassigned"] == 1:
             # ruff: ignore[import-outside-top-level]
             from weblate.screenshots.models import Screenshot
 
-            result["unassigned"] = Screenshot.objects.filter(
+            screenshots = Screenshot.objects.filter(
                 translation__component=self.instance.component,
                 units__isnull=True,
-            ).count()
+            )
+            if "unassigned" not in result:
+                result["unassigned"] = screenshots.count()
+            if result["unassigned"] == 1:
+                screenshot_ids = list(screenshots.values_list("pk", flat=True)[:2])
+                if len(screenshot_ids) == 1:
+                    result["screenshot_id"] = screenshot_ids[0]
         return result
 
     @classmethod
@@ -364,9 +370,10 @@ class UnusedScreenshot(BaseAlert):
         # ruff: ignore[import-outside-top-level]
         from weblate.screenshots.models import Screenshot
 
-        unassigned = Screenshot.objects.filter(
+        screenshots = Screenshot.objects.filter(
             translation__component=component, units__isnull=True
-        ).count()
+        )
+        unassigned = screenshots.count()
         if unassigned:
             return {"unassigned": unassigned}
         return False
@@ -481,6 +488,51 @@ class MonolingualGlossary(BaseAlert):
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
         return component.is_glossary and bool(component.template)
+
+
+@register
+class GlossaryStringManagementDisabled(BaseAlert):
+    verbose = gettext_lazy("Glossary string management is disabled")
+    severity = AlertSeverity.WARNING
+    dismissible = True
+    doc_page = "user/glossary"
+    doc_anchor = "glossary-terminology"
+
+    @classmethod
+    def get_url(cls, component: Component) -> str:
+        return (
+            reverse("settings", kwargs={"path": component.get_url_path()})
+            + "#translation"
+        )
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        component = self.instance.component
+        result.update(
+            local_glossary=component.repo == "local:",
+            can_configure=self.can_user_act(user, component),
+            configure_url=self.get_url(component),
+        )
+        return result
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {
+            "details": details,
+            "repo": component.repo,
+            "source_language": component.source_language_id,
+        }
+
+    @staticmethod
+    def check_component(component: Component) -> bool:
+        if not component.is_glossary or component.manage_units:
+            return False
+        if component.repo == "local:":
+            return True
+        return any(
+            "terminology" in source.all_flags
+            for source in component.source_translation.unit_set.iterator()
+        )
 
 
 @register

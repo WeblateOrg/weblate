@@ -83,6 +83,7 @@ from weblate.utils.views import (
     get_paginator,
     optional_form,
     parse_path,
+    parse_path_for_public_sharing,
     show_form_errors,
     try_set_language,
 )
@@ -202,8 +203,7 @@ def show_engage(request: AuthenticatedHttpRequest, path):
     # Legacy URL
     if len(path) == 2:
         return redirect("engage", permanent=True, path=[path[0], "-", path[1]])
-    # Get project object, skipping ACL
-    obj = parse_path(None, path, (ProjectLanguage, Project))
+    obj = parse_path_for_public_sharing(request, path, (ProjectLanguage, Project))
 
     translate_object = None
     if isinstance(obj, ProjectLanguage):
@@ -231,7 +231,7 @@ def show_engage(request: AuthenticatedHttpRequest, path):
         request,
         "engage.html",
         {
-            "allow_index": True,
+            "allow_index": project.is_publicly_shared,
             "object": obj,
             "path_object": obj,
             "project": project,
@@ -388,11 +388,11 @@ def show_category_language(
     category_object = obj.category
     user = request.user
 
-    last_changes = (
-        Change.objects.last_changes(user, language=language_object)
-        .for_category(category_object)
-        .recent()
-    )
+    last_changes = Change.objects.last_changes(
+        user,
+        category=category_object,
+        language=language_object,
+    ).recent()
 
     translations = get_paginator(
         request,
@@ -429,6 +429,9 @@ def show_category_language(
                 for category in obj.category.category_set.all()
             ),
             "title": f"{category_object} - {language_object}",
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "announcement.add", obj
+            ),
             "search_form": SearchForm(
                 request=request,
                 language=language_object,
@@ -569,9 +572,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
 def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpResponse:
     user = request.user
 
-    all_changes = (
-        Change.objects.for_category(obj).filter_components(request.user).prefetch()
-    )
+    all_changes = Change.objects.last_changes(user, category=obj)
 
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
@@ -1144,7 +1145,9 @@ def add_languages_to_component(
 
 @never_cache
 @login_not_required
-def healthz(request: AuthenticatedHttpRequest) -> HttpResponse:
+async def healthz(  # ruff: ignore[unused-async]
+    request: AuthenticatedHttpRequest,
+) -> HttpResponse:
     """Make simple health check endpoint."""
     return HttpResponse("ok")
 

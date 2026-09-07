@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from requests.exceptions import HTTPError
+import httpx2
 
 from .base import MACHINERY_DEFAULT_THRESHOLD, MachineTranslation
 from .forms import URLMachineryForm
@@ -32,7 +32,7 @@ class TMServerTranslation(MachineTranslation):
             # This URL needs trailing slash, that's why blank string is included
             response = self.request("get", self.get_api_url("languages", ""))
             data = response.json()
-        except HTTPError as error:
+        except httpx2.HTTPStatusError as error:
             if error.response.status_code == 404:
                 return []
             raise

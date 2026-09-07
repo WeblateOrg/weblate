@@ -8,6 +8,7 @@ from django.urls import reverse
 from weblate.fonts.models import Font, FontGroup
 from weblate.fonts.tests.utils import FONT, FONT_BOLD, FontTestCase
 from weblate.lang.models import Language
+from weblate.trans.models import Project
 
 
 class FontViewTest(FontTestCase):
@@ -122,3 +123,45 @@ class FontViewTest(FontTestCase):
         # Remove font
         self.client.post(font.get_absolute_url(), {"delete": 1})
         self.assertEqual(Font.objects.count(), 0)
+
+    def test_override_project_scope(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        local_font = self.add_font()
+        private_project = Project.objects.create(
+            name="Private",
+            slug="private",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_font = Font.objects.create(
+            family="Private font",
+            style="Regular",
+            font=local_font.font.name,
+            project=private_project,
+            user=self.user,
+        )
+        group = FontGroup.objects.create(
+            name="font-group", font=local_font, project=self.project
+        )
+        language = Language.objects.get(code="zh_Hant")
+
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("project.edit", self.project))
+        self.assertFalse(self.user.can_access_project(private_project))
+        self.assertNotContains(
+            self.client.get(group.get_absolute_url()), "Private font"
+        )
+
+        response = self.client.post(
+            group.get_absolute_url(),
+            {"language": language.pk, "font": private_font.pk},
+        )
+        self.assertContains(response, "Select a valid choice.")
+        self.assertEqual(group.fontoverride_set.count(), 0)
+
+        response = self.client.post(
+            group.get_absolute_url(),
+            {"language": language.pk, "font": local_font.pk},
+        )
+        self.assertRedirects(response, group.get_absolute_url())
+        override = group.fontoverride_set.get()
+        self.assertEqual(override.font, local_font)

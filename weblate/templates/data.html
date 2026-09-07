@@ -96,6 +96,28 @@
     {% endif %}
   {% endwith %}
 
+  {% url 'api:project-metrics' slug=object.slug as metrics_url %}
+  <h3>
+    {% translate "Metrics" %}
+    {% documentation_icon 'devel/integration' 'monitoring-translation-progress' %}
+  </h3>
+
+  <p>
+    {% blocktranslate %}Project translation metrics provide statistics for all visible components and languages in a single request.{% endblocktranslate %}
+  </p>
+
+  <ul>
+    <li>
+      <a href="{{ metrics_url }}">{% translate "JSON metrics" %}</a>
+    </li>
+    <li>
+      <a href="{{ metrics_url }}?format=csv">{% translate "CSV metrics" %}</a>
+    </li>
+    <li>
+      <a href="{{ metrics_url }}?format=openmetrics">{% translate "OpenMetrics metrics" %}</a>
+    </li>
+  </ul>
+
   {% if hooks_enabled and project.enable_hooks %}
     <h3>
       {% translate "Notification hooks" %}

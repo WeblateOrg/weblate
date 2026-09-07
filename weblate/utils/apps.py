@@ -16,11 +16,13 @@ from shutil import disk_usage
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 
+import httpx2
 from celery.exceptions import TimeoutError as CeleryTimeoutError
 from django.apps import AppConfig
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import Error, Info, register
+from django.core.checks import Warning as DjangoWarning
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import get_connection
 from django.db import DatabaseError, connections
@@ -44,8 +46,14 @@ from .db import (
     get_invalid_database_statistics,
     measure_database_latency,
 )
+from .docker import DOCKER_WARNING_MAX_DISPLAY_SOURCES, get_docker_startup_warnings
 from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
 from .errors import init_error_collection
+from .filesystem import (
+    FILESYSTEM_LATENCY_WARNING,
+    get_filesystem_latencies,
+    get_filesystem_latency_paths,
+)
 from .site import check_domain, get_site_domain
 from .version import VERSION_BASE, get_latest_version
 
@@ -155,7 +163,7 @@ def check_celery(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     # Import this lazily to avoid evaluating settings too early
-    from weblate.utils.tasks import ping  # ruff: ignore[import-outside-top-level, unsorted-imports]
+    from weblate.utils.tasks import ping  # ruff: ignore[import-outside-top-level]
 
     errors: list[CheckMessage] = []
     if settings.CELERY_TASK_ALWAYS_EAGER:
@@ -583,6 +591,55 @@ def check_diskspace(
 
 
 @register(deploy=True)
+def check_filesystem_latency(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
+    """Check filesystem metadata lookup latency."""
+    errors: list[CheckMessage] = []
+    paths = get_filesystem_latency_paths()
+    for name, latency in get_filesystem_latencies().items():
+        if latency is None or latency <= FILESYSTEM_LATENCY_WARNING:
+            continue
+        errors.append(
+            weblate_check(
+                "weblate.W048",
+                f"The filesystem at {paths[name]} seems slow; metadata lookups "
+                f"took {latency:g} milliseconds (configured by {name}).",
+                DjangoWarning,
+            )
+        )
+    return errors
+
+
+@register(deploy=True)
+def check_docker_startup_warnings(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
+    """Report actionable warnings emitted during Docker container startup."""
+    errors: list[CheckMessage] = []
+    for warning, sources in get_docker_startup_warnings().items():
+        displayed_sources = sources[:DOCKER_WARNING_MAX_DISPLAY_SOURCES]
+        omitted_sources = len(sources) - len(displayed_sources)
+        source = ", ".join(displayed_sources)
+        if omitted_sources:
+            source = f"{source}, and {omitted_sources} more"
+        errors.append(
+            weblate_check(
+                "weblate.W049",
+                f"Docker startup warning from {source}: {warning}",
+                DjangoWarning,
+            )
+        )
+    return errors
+
+
+@register(deploy=True)
 def check_version(
     *,
     app_configs: Sequence[AppConfig] | None,
@@ -591,7 +648,7 @@ def check_version(
 ) -> Iterable[CheckMessage]:
     try:
         latest = get_latest_version()
-    except (ValueError, OSError):
+    except (ValueError, OSError, httpx2.HTTPError):
         return []
     if Version(latest.version) > Version(VERSION_BASE):
         # With release every two months, this gets triggered after three releases

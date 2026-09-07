@@ -77,19 +77,6 @@ class WorkspaceCreateForm(forms.ModelForm):
         self.helper.form_tag = False
 
 
-class WorkspaceSearchForm(forms.Form):
-    q = forms.CharField(
-        label=gettext_lazy("Search"),
-        required=False,
-        widget=forms.SearchInput(
-            attrs={
-                "class": "form-control",
-                "placeholder": gettext_lazy("Search workspaces"),
-            }
-        ),
-    )
-
-
 class BackupSelectionForm(forms.Form):
     service = forms.ModelChoiceField(BackupService.objects.all())
 
@@ -149,6 +136,18 @@ class AppearanceForm(forms.Form):
     )
     hover_color = ThemeColorField(
         label=gettext_lazy("Hover color (Light, Dark)"), initial="#144d3f,#0a3d2f"
+    )
+    link_color = ThemeColorField(
+        label=gettext_lazy("Link and button color (Light, Dark)"),
+        initial="#107a62,#6cf8d8",
+    )
+    progress_color = ThemeColorField(
+        label=gettext_lazy("Progress bar color (Light, Dark)"),
+        initial="#107a62,#1c8f75",
+    )
+    progress_background_color = ThemeColorField(
+        label=gettext_lazy("Progress bar background color (Light, Dark)"),
+        initial="#e9ecef,#343a40",
     )
 
     hide_footer = forms.BooleanField(

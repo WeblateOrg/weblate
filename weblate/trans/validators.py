@@ -14,6 +14,7 @@ from pyparsing import ParseException
 from weblate.checks.flags import FlagsValidator
 from weblate.lang.models import Language
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH
+from weblate.utils.params import validate_params
 
 if TYPE_CHECKING:
     from weblate.trans.models.unit import Unit
@@ -31,6 +32,13 @@ def get_translation_text_max_length(unit: Unit) -> int:
     except ValueError:
         max_length = DEFAULT_TRANSLATION_MAX_LENGTH
     return 10 * (max_length + 100)
+
+
+def validate_translation_text_length(unit: Unit, target: list[str]) -> None:
+    """Validate translation text length for a unit."""
+    max_length = get_translation_text_max_length(unit)
+    if any(len(text) > max_length for text in target):
+        raise ValidationError(gettext("Translation text too long!"))
 
 
 def validate_filemask(val) -> None:
@@ -84,22 +92,31 @@ def validate_file_format_parameters(value: dict | None) -> None:
     # ruff: ignore[import-outside-top-level]
     from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
 
-    name_to_file_format_params = {param.name: param for param in FILE_FORMATS_PARAMS}
-
-    if value is None:
-        return
-
-    if not isinstance(value, dict):
+    if value is not None and not isinstance(value, dict):
         raise ValidationError(
             gettext("File format parameters must be a dictionary of key-value pairs.")
         )
 
-    for param_name, param_value in value.items():
-        if param_name in name_to_file_format_params:
-            param = name_to_file_format_params[param_name]
-            param().get_field().clean(param_value)
-        else:
-            raise ValidationError(
-                gettext('Unknown file format parameter: "%(param_name)s".')
-                % {"param_name": param_name}
+    validate_params(
+        FILE_FORMATS_PARAMS,
+        value,
+        gettext('Unknown file format parameter: "%(param_name)s".'),
+    )
+
+
+def validate_vcs_parameters(value: dict | None) -> None:
+    # ruff: ignore[import-outside-top-level]
+    from weblate.vcs.params import VCS_PARAMS
+
+    if value is not None and not isinstance(value, dict):
+        raise ValidationError(
+            gettext(
+                "Version control parameters must be a dictionary of key-value pairs."
             )
+        )
+
+    validate_params(
+        VCS_PARAMS,
+        value,
+        gettext('Unknown version control parameter: "%(param_name)s".'),
+    )

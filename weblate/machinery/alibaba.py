@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import quote
 from uuid import uuid4
 
-from requests.exceptions import JSONDecodeError
+from weblate.utils.requests import JSON_RESPONSE_ERRORS
 
 from .base import (
     MACHINERY_DEFAULT_THRESHOLD,
@@ -23,7 +23,7 @@ from .forms import AlibabaMachineryForm
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
-    from requests import Response
+    import httpx2
 
     from .base import DownloadTranslations
 
@@ -104,10 +104,10 @@ class AlibabaTranslation(MachineTranslation):
         )
         return query_params
 
-    def check_failure(self, response: Response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         try:
             payload = response.json()
-        except JSONDecodeError:
+        except JSON_RESPONSE_ERRORS:
             super().check_failure(response)
             return
 

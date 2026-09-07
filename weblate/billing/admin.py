@@ -12,7 +12,13 @@ from django.utils.translation import gettext_lazy
 
 from weblate.wladmin.models import WeblateModelAdmin
 
-from .models import Billing, Invoice, Plan
+from .models import (
+    Billing,
+    BillingEvent,
+    Invoice,
+    Plan,
+    get_plan_change_log_details,
+)
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -75,6 +81,19 @@ class BillingAdmin(WeblateModelAdmin):
         if not obj.all_projects:
             return "none projects associated"
         return ",".join(project.name for project in obj.all_projects)
+
+    def save_model(self, request, obj, form, change) -> None:
+        old_plan = None
+        if change:
+            old_plan = Billing.objects.select_related("plan").get(pk=obj.pk).plan
+        super().save_model(request, obj, form, change)
+        if old_plan is not None and old_plan.pk != obj.plan_id:
+            obj.billinglog_set.create(
+                event=BillingEvent.PLAN_CHANGED,
+                summary=f"Changed to {obj.plan}",
+                details=get_plan_change_log_details(old_plan, obj.plan),
+                user=request.user,
+            )
 
     def save_related(
         self, request: AuthenticatedHttpRequest, form, formsets, change

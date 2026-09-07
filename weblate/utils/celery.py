@@ -15,7 +15,12 @@ from typing import Any
 
 from celery import Celery
 from celery.contrib.django.task import DjangoTask
-from celery.signals import after_setup_logger, before_task_publish, task_failure
+from celery.signals import (
+    after_setup_logger,
+    before_task_publish,
+    task_failure,
+    worker_before_create_process,
+)
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
@@ -28,6 +33,11 @@ DjangoTask.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
+
+# Avoid loading the complete URL configuration and optional integrations in every
+# Celery worker. Deployment checks are run separately during container startup and
+# remain available through ``weblate check --deploy`` for other installations.
+os.environ.setdefault("CELERY_SKIP_CHECKS", "1")
 
 app = Celery[DjangoTask[..., Any]]("weblate")
 
@@ -43,6 +53,15 @@ app.autodiscover_tasks()
 TASK_METADATA_TTL = 6 * 3600
 
 
+@worker_before_create_process.connect
+def preload_urls_before_fork(**kwargs) -> None:
+    """Load URL patterns in the parent process before forking a worker."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.startup import preload_url_patterns
+
+    preload_url_patterns()
+
+
 def get_task_metadata_key(task_id: str) -> str:
     return f"task-meta-{task_id}"
 
@@ -51,17 +70,34 @@ def store_task_metadata(
     task_id: str | None,
     *,
     component_id: int | None = None,
+    component_ids: list[int] | None = None,
     translation_id: int | None = None,
     user_id: int | None = None,
+    task_kind: str | None = None,
+    cancellable: bool = True,
 ) -> None:
     if not task_id:
         return
-    data = {
-        "component_id": component_id,
-        "translation_id": translation_id,
-    }
+    existing = get_task_metadata(task_id)
+    if existing is None:
+        data: dict[str, Any] = {
+            "component_id": component_id,
+            "translation_id": translation_id,
+        }
+    else:
+        data = existing.copy()
+        if component_id is not None:
+            data["component_id"] = component_id
+        if translation_id is not None:
+            data["translation_id"] = translation_id
+    if component_ids is not None:
+        data["component_ids"] = component_ids
     if user_id is not None:
         data["user_id"] = user_id
+    if task_kind is not None:
+        data["task_kind"] = task_kind
+    if not cancellable:
+        data["cancellable"] = False
     cache.set(
         get_task_metadata_key(task_id),
         data,
@@ -69,7 +105,7 @@ def store_task_metadata(
     )
 
 
-def get_task_metadata(task_id: str) -> dict[str, int | None] | None:
+def get_task_metadata(task_id: str) -> dict[str, Any] | None:
     return cache.get(get_task_metadata_key(task_id))
 
 
@@ -122,14 +158,19 @@ def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
         )
 
     # ruff: ignore[import-outside-top-level]
-    from weblate.utils.errors import report_error
+    from weblate.utils.errors import report_error, report_message
 
-    report_error(
-        f"Failure while executing task {task_id}",
-        skip_error_reporting=True,
-        print_tb=True,
-        level="error",
-    )
+    cause = f"Failure while executing task {task_id}"
+    if exception is None:
+        report_message(cause, skip_error_reporting=True, level="error")
+    else:
+        report_error(
+            cause,
+            exception=exception,
+            skip_error_reporting=True,
+            print_tb=True,
+            level="error",
+        )
 
 
 @app.on_after_configure.connect

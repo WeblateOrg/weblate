@@ -988,6 +988,18 @@ You can either define which project or component to update (for example
 
    :wladmin:`unlock_translation`
 
+metrics
+-------
+
+.. weblate-admin:: metrics
+
+Outputs the server metrics exposed by :http:get:`/api/metrics/`.
+
+.. weblate-admin-option:: --format FORMAT
+
+    Selects the output format. Supported formats are ``json``, ``csv``, and
+    ``openmetrics``. The default is ``json``.
+
 migrate
 -------
 

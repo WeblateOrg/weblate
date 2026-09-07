@@ -22,7 +22,7 @@ Weblate Cloudron Package
 
 `Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web applications.
 Weblate installed with Cloudron will be automatically kept up-to-date.
-The package is maintained by the Cloudron team at their `Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_.
+The package is maintained by the Cloudron team; see the `Weblate package documentation <https://docs.cloudron.io/packages/weblate/>`_.
 
 .. image:: /images/cloudron.png
    :alt: Install Weblate with Cloudron

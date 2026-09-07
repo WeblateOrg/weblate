@@ -86,7 +86,8 @@ source.
 
 * Use :ref:`hooks` to integrate with the majority of common code-hosting services, see
   :doc:`/admin/code-hosting`. You must also :ref:`project-enable_hooks` for
-  this to work.
+  this to work. Hook deliveries update components whose repository URL matches
+  the payload; see :ref:`hooks-target-matching`.
 
 * Manually trigger update either in the repository management or using :ref:`api` or :ref:`wlc`
 
@@ -96,6 +97,45 @@ source.
 
 Whenever Weblate updates the repository, the post-update addons will be
 triggered, see :ref:`addons`.
+
+.. _hooks-target-matching:
+
+Matching webhook targets
+++++++++++++++++++++++++
+
+Forge webhooks update components whose :ref:`component-repo` exactly matches a
+repository URL from the payload (HTTPS or SSH as reported by the forge, plus
+common variants such as a trailing slash).
+
+Generic forge webhook endpoints are compatibility interfaces, and ordinary
+repository deliveries are not cryptographically authenticated. Legacy GitHub
+App deliveries containing installation data are an exception: the generic
+GitHub endpoint verifies their signature using
+:setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. Repository matching does not apply
+project or component access control because webhooks also need to update private
+projects and
+:ref:`restricted components <component-restricted>`. Their JSON responses
+include diagnostic counts for repository, branch, and enabled-hook matches.
+Successful responses also include the full project/component slugs and absolute
+API URLs of updated components. Supplying a matching repository URL can
+therefore confirm that a repository is registered and reveal these identifiers.
+
+Components managed through an authenticated integration are excluded from
+generic webhook matching and its diagnostic counts. Currently this applies to
+the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. These components
+receive notifications only through their dedicated tokenized and signed
+:ref:`GitHub App webhook URL <code-hosting-github-app-webhook>`. Future
+authenticated integrations are expected to use the same separation.
+
+The returned API URLs do not grant access to the components. The web interface
+and API continue to enforce normal access control, and webhook responses do not
+include repository content, translations, or credentials. Where available,
+prefer an authenticated integration such as :ref:`code-hosting-github-app-webhook`.
+
+.. versionchanged:: 2026.9
+
+   Host and path suffix fallback matching was removed. If updates stop, align
+   :ref:`component-repo` with a URL from the forge webhook payload.
 
 .. _avoid-merge-conflicts:
 
@@ -187,10 +227,17 @@ Availability of individual actions depends on permissions, the configured
 version control system, whether pushing is configured, and whether the selected
 object can be locked.
 
-The :guilabel:`File management` actions are available only from
-:guilabel:`Repository maintenance` for an individual translation. These actions
-rewrite that translation file and commit the result; they are not project-wide
-or component-wide operations.
+Repository actions started from this view are queued for background processing.
+For a project, Weblate processes the affected repositories sequentially in one
+task and shows its progress. Repeating the same action opens the existing task;
+a different action cannot be started for the same repository until that task
+finishes.
+
+The :guilabel:`Synchronize` and :guilabel:`Rescan` repository operations are
+queued for background processing as described above. The separate
+:guilabel:`File management` actions are available only for an individual
+translation. They rewrite that translation file and commit the result during
+the web request; they are not project-wide or component-wide operations.
 
 Operations that read repository content, such as updating, resetting, or
 rescanning, also reconcile translation files in Weblate. Added or removed
@@ -365,12 +412,16 @@ and webhook setup is documented in :doc:`/admin/code-hosting`.
    * :ref:`Forgejo notifications <code-hosting-forgejo-notifications>`
    * :ref:`Gitee notifications <code-hosting-gitee-notifications>`
 
-Automatically updating repositories nightly
-+++++++++++++++++++++++++++++++++++++++++++
+.. _automatically-updating-repositories-nightly:
 
-Weblate automatically fetches remote repositories nightly to improve
-performance when merging changes later. You can optionally turn this into doing
-nightly merges as well, by enabling :setting:`AUTO_UPDATE`.
+Automatically updating repositories daily
++++++++++++++++++++++++++++++++++++++++++
+
+By default, Weblate automatically fetches remote repositories daily to improve
+performance when merging changes later. Updates are distributed throughout the
+day. Set :setting:`AUTO_UPDATE` to ``"full"`` to also merge remote changes into
+the working copy. See :setting:`AUTO_UPDATE` for scheduling details and other
+update modes.
 
 .. _push-changes:
 

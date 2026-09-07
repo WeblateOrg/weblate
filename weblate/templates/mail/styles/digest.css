@@ -12,7 +12,8 @@ ol {
 }
 .container {
   margin: 0 auto;
-  width: 100vw;
+  width: 100%;
+  max-width: 970px;
   padding: 0 20px;
   display: flex;
   flex-direction: column;
@@ -23,24 +24,6 @@ ol {
 .box,
 table {
   width: 100%;
-}
-
-@media (min-width: 768px) {
-  .container {
-    width: 100vw;
-  }
-}
-
-@media (min-width: 992px) {
-  .container {
-    width: 100vw;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    width: 100vw;
-  }
 }
 
 @media (max-width: 768px) {
@@ -66,10 +49,8 @@ tr td {
   flex-direction: column;
 }
 
-#changes-item .history-data a {
-  align-self: end;
-  max-width: 100px;
-  padding: 0;
+#changes-item .history-data > a.button {
+  align-self: flex-start;
   margin: 5px 0;
 }
 
@@ -83,9 +64,20 @@ tr td {
   border-radius: 4px;
 }
 
-.table-autowidth tr td,
-.table-autowidth tr th {
-  white-space: nowrap;
+#changes-table tr td,
+#changes-table tr th {
+  white-space: normal;
+}
+
+@media (min-width: 769px) {
+  #changes-table .history-event {
+    width: 25%;
+  }
+}
+
+#changes-table .history-data {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .history-row + .history-row td {

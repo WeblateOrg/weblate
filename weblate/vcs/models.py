@@ -30,6 +30,7 @@ from .defaults import (
     DEFAULT_VCS_API_TIMEOUT,
     DEFAULT_VCS_BACKENDS,
     DEFAULT_VCS_CLONE_DEPTH,
+    DEFAULT_VCS_PRIVATE_ALLOWLIST,
     DEFAULT_VCS_RESTRICT_PRIVATE,
 )
 
@@ -156,6 +157,7 @@ class VCSConf(AppConf):
     VCS_API_TIMEOUT = DEFAULT_VCS_API_TIMEOUT
     VCS_ALLOW_SCHEMES: ClassVar[set[str]] = set(DEFAULT_VCS_ALLOW_SCHEMES)
     VCS_ALLOW_HOSTS: ClassVar[set[str]] = set(DEFAULT_VCS_ALLOW_HOSTS)
+    VCS_PRIVATE_ALLOWLIST: ClassVar[list[str]] = list(DEFAULT_VCS_PRIVATE_ALLOWLIST)
     VCS_RESTRICT_PRIVATE = DEFAULT_VCS_RESTRICT_PRIVATE
 
     # GitHub username for sending pull requests
@@ -191,27 +193,39 @@ class VCSConf(AppConf):
 
 class VcsClassLoader(ClassLoader):
     def __init__(self) -> None:
-        super().__init__("VCS_BACKENDS", construct=False, base_class=Repository)
+        super().__init__(
+            "VCS_BACKENDS",
+            construct=False,
+            base_class=Repository,
+            dependent_settings=(
+                "AZURE_DEVOPS_CREDENTIALS",
+                "BITBUCKETCLOUD_CREDENTIALS",
+                "BITBUCKETSERVER_CREDENTIALS",
+                "GITEA_CREDENTIALS",
+                "GITHUB_CREDENTIALS",
+                "GITLAB_CREDENTIALS",
+                "PAGURE_CREDENTIALS",
+            ),
+        )
 
     def get_unfiltered_choices(self):
-        result = super().load_data()
+        result = self.get_unfiltered_data()
         return [(x, result[x].name) for x in sorted(result)]
 
-    def load_data(self):
-        result = super().load_data()
+    def get_unfiltered_data(self) -> dict[str, type[Repository]]:
+        return super().load_data()
+
+    def load_data(self) -> dict[str, type[Repository]]:
+        result = self.get_unfiltered_data()
 
         for key, vcs in list(result.items()):
-            try:
-                version = vcs.get_version()
-            except Exception as error:
-                supported = False
-                self.errors[vcs.name] = str(error)
-            else:
-                supported = vcs.is_supported()
-                if not supported:
-                    self.errors[vcs.name] = f"Outdated version: {version}"
-
-            if not supported or not vcs.is_configured():
+            missing_commands = vcs.get_missing_commands()
+            if missing_commands:
+                self.errors[str(vcs.name)] = (
+                    f"Command not found: {', '.join(missing_commands)}"
+                )
+                result.pop(key)
+            elif not vcs.is_configured():
                 result.pop(key)
 
         return result
@@ -235,6 +249,32 @@ class VcsClassLoader(ClassLoader):
         return {
             vcs.get_identifier()
             for vcs in self.values()
+            if issubclass(vcs, GitMergeRequestBase)
+        }
+
+    @cached_property
+    def unfiltered_data(self) -> dict[str, type[Repository]]:
+        """
+        Load all backends listed in the setting, including unconfigured ones.
+
+        :attr:`data` hides backends whose credentials are not set up, which
+        makes it unsuitable for scoping and validating VCS parameters: those
+        have to give the same answer regardless of credentials.
+        """
+        return super().load_data()
+
+    def get_unfiltered(self, key: str) -> type[Repository] | None:
+        return self.unfiltered_data.get(key)
+
+    @cached_property
+    def unfiltered_merge_request_based(self) -> set[str]:
+        """List merge request backends regardless of their configuration."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.vcs.git import GitMergeRequestBase
+
+        return {
+            identifier
+            for identifier, vcs in self.unfiltered_data.items()
             if issubclass(vcs, GitMergeRequestBase)
         }
 

@@ -420,13 +420,23 @@ class ComponentLinkTestCase(ViewTestCase):
         cat = Category.objects.create(
             name="Empty Cat", slug="empty-cat", project=self.other
         )
+        child = Category.objects.create(
+            name="Nested Cat",
+            slug="nested-cat",
+            project=self.other,
+            category=cat,
+        )
         self.assertEqual(cat.component_set.count(), 0)
         self.assertEqual(len(cat.languages), 0)
 
-        self.link.category = cat
+        self.link.category = child
         self.link.save()
 
         cat = Category.objects.get(pk=cat.pk)
+        component_ids = cat.get_component_ids_with_links()
+        self.assertIn("UNION", str(component_ids.query))
+        self.assertIn(self.component.pk, set(component_ids))
+        self.assertNotIn(self.component.pk, cat.all_component_ids)
         self.assertNotEqual(len(cat.languages), 0)
 
         comp_languages = set(

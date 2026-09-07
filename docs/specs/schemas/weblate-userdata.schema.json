@@ -150,6 +150,47 @@
           ],
           "default": true
         },
+        "wide_tables": {
+          "$id": "#root/profile/wide_tables",
+          "title": "Show all columns in lists using horizontal scrolling",
+          "type": "boolean",
+          "examples": [
+            false
+          ],
+          "default": false
+        },
+        "listing_columns": {
+          "$id": "#root/profile/listing_columns",
+          "title": "Visible columns in lists",
+          "type": "array",
+          "default": [
+            "untranslated",
+            "untranslated_words",
+            "untranslated_chars",
+            "nottranslated",
+            "checks",
+            "suggestions",
+            "comments"
+          ],
+          "items": {
+            "$id": "#root/profile/listing_columns/items",
+            "title": "Column",
+            "type": "string",
+            "enum": [
+              "total",
+              "untranslated",
+              "untranslated_words",
+              "untranslated_chars",
+              "nottranslated",
+              "checks",
+              "suggestions",
+              "comments"
+            ],
+            "examples": [
+              "checks"
+            ]
+          }
+        },
         "editor_link": {
           "$id": "#root/profile/editor_link",
           "title": "Editor link",

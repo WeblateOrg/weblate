@@ -10,6 +10,7 @@ from time import sleep
 from types import SimpleNamespace
 from unittest import mock
 
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
@@ -28,7 +29,7 @@ from social_core.exceptions import (
 )
 from weblate_schemas import load_schema
 
-from weblate.accounts.forms import ProfileForm
+from weblate.accounts.forms import ProfileForm, UserSettingsForm
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
@@ -36,7 +37,7 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.accounts.views import log_handled_auth_failure
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -49,6 +50,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.zammad import ZammadError
 from weblate.workspaces.models import Workspace
 
 CONTACT_DATA = {
@@ -143,6 +145,24 @@ class ViewTest(RepoTestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, "[Weblate] Message from dark side")
         self.assertEqual(mail.outbox[0].to, list(settings.ADMINS))
+
+    @override_settings(
+        REGISTRATION_CAPTCHA=False,
+        ADMINS=("Weblate test <noreply@weblate.org>",),
+        ADMINS_CONTACT=["noreply@weblate.org"],
+        ZAMMAD_URL="https://support.example.com",
+    )
+    def test_contact_handles_zammad_error(self) -> None:
+        with mock.patch(
+            "weblate.accounts.views.submit_zammad_ticket",
+            side_effect=ZammadError("Customer care is currently unavailable."),
+        ):
+            response = self.client.post(reverse("contact"), CONTACT_DATA, follow=True)
+
+        self.assertContains(
+            response,
+            "Customer care is currently unavailable.",
+        )
 
     @override_settings(
         REGISTRATION_CAPTCHA=False, ADMINS_CONTACT=["noreply@example.com"]
@@ -269,6 +289,34 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, user_url)
         response = self.client.get(reverse("user_list"), {"sort_by": "invalid"})
         self.assertContains(response, user_url)
+
+    def test_user_list_bot_visibility(self) -> None:
+        """User listing hides bots unless the caller can view users globally."""
+        user = self.get_user()
+        bot = User.objects.create(
+            username="bot-confidential-project-ui-token",
+            full_name="Confidential UI token",
+            is_bot=True,
+        )
+        self.client.login(username=user.username, password="testpassword")
+
+        response = self.client.get(reverse("user_list"))
+        self.assertNotContains(response, bot.get_absolute_url())
+        response = self.client.get(reverse("user_list"), {"q": bot.username})
+        self.assertNotContains(response, bot.get_absolute_url())
+
+        permission = Permission.objects.get(codename="user.view")
+        role = Role.objects.create(name="View bot users")
+        role.permissions.add(permission)
+        group = Group.objects.create(name="View bot users")
+        group.roles.add(role)
+        user.groups.add(group)
+        user.clear_permissions_cache()
+
+        response = self.client.get(reverse("user_list"))
+        self.assertContains(response, bot.get_absolute_url())
+        response = self.client.get(reverse("user_list"), {"q": bot.username})
+        self.assertContains(response, bot.get_absolute_url())
 
     def test_user(self) -> None:
         """Test user pages."""
@@ -622,8 +670,10 @@ class ViewTest(RepoTestCase):
     def test_login_ratelimit(self, login=False) -> None:
         if login:
             self.test_login()
+            user = User.objects.get(username="testuser")
         else:
-            self.get_user()
+            user = self.get_user()
+        old_token = user.auth_token.key
 
         # Use auth attempts
         for _unused in range(5):
@@ -637,6 +687,7 @@ class ViewTest(RepoTestCase):
             reverse("login"), {"username": "testuser", "password": "testpassword"}
         )
         self.assertContains(response, "Please try again.")
+        self.assertEqual(Token.objects.get(user=user).key, old_token)
 
     @override_settings(RATELIMIT_ATTEMPTS=10, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit_login(self) -> None:
@@ -748,6 +799,8 @@ class ProfileTest(FixtureTestCase):
                 "zen_mode": Profile.ZEN_VERTICAL,
                 "nearby_strings": 10,
                 "theme": "auto",
+                "wide_tables": "on",
+                "listing_columns": ["total", "untranslated", "checks"],
                 "notifications__0-scope": 0,
                 "notifications__0-project": "",
                 "notifications__0-component": "",
@@ -760,6 +813,50 @@ class ProfileTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, reverse("profile"))
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.profile.wide_tables)
+        self.assertEqual(
+            self.user.profile.listing_columns, ["total", "untranslated", "checks"]
+        )
+
+    def test_profile_listing_columns_rejects_duplicates(self) -> None:
+        original_listing_columns = self.user.profile.listing_columns
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "language": "en",
+                "languages": Language.objects.get(code="cs").id,
+                "secondary_languages": Language.objects.get(code="cs").id,
+                "full_name": "First Last",
+                "email": "weblate@example.org",
+                "username": "testuser",
+                "dashboard_view": Profile.DASHBOARD_WATCHED,
+                "translate_mode": Profile.TRANSLATE_FULL,
+                "zen_mode": Profile.ZEN_VERTICAL,
+                "nearby_strings": 10,
+                "theme": "auto",
+                "listing_columns": ["comments", "comments"],
+                "notifications__0-scope": 0,
+                "notifications__0-project": "",
+                "notifications__0-component": "",
+                "notifications__1-scope": 10,
+                "notifications__1-project": "",
+                "notifications__1-component": "",
+                "notifications__2-scope": 20,
+                "notifications__2-project": "",
+                "notifications__2-component": "",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        form = next(
+            form
+            for form in response.context["all_forms"]
+            if isinstance(form, UserSettingsForm)
+        )
+        self.assertIn("listing_columns", form.errors)
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.listing_columns, original_listing_columns)
 
     def test_profile_group_display_uses_scoped_team_queryset(self) -> None:
         workspace = Workspace.objects.create(name="Profile workspace")
@@ -1150,7 +1247,10 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 10)
 
         # Watch component
-        self.client.post(reverse("watch", kwargs=self.kw_component))
+        self.async_client.force_login(self.user)
+        async_to_sync(self.async_client.post)(
+            reverse("watch", kwargs=self.kw_component)
+        )
         self.assertEqual(self.user.profile.watched.count(), 1)
         # All project notifications should be muted
         self.assertEqual(
@@ -1287,6 +1387,44 @@ class EditUserTest(FixtureTestCase):
 
         response = self.client.get(target.get_absolute_url())
         self.assertContains(response, "No language limit")
+
+    def test_disable_password_regenerates_api_key(self) -> None:
+        target = User.objects.create_user(
+            username="password-reset-target", password="testpassword"
+        )
+        old_token = target.auth_token.key
+
+        response = self.client.get(target.get_absolute_url())
+        self.assertContains(response, 'name="regenerate_api_key"')
+        self.assertContains(response, "checked")
+
+        response = self.client.post(
+            target.get_absolute_url(),
+            {"disable_password": "1", "regenerate_api_key": "on"},
+        )
+
+        self.assertRedirects(response, f"{target.get_absolute_url()}#edit")
+        target.refresh_from_db()
+        self.assertFalse(target.has_usable_password())
+        self.assertTrue(target.is_active)
+        token = Token.objects.get(user=target)
+        self.assertNotEqual(token.key, old_token)
+        self.assertFalse(Token.objects.filter(key=old_token).exists())
+
+    def test_disable_password_keeps_api_key(self) -> None:
+        target = User.objects.create_user(
+            username="password-reset-target", password="testpassword"
+        )
+        old_token = target.auth_token.key
+
+        response = self.client.post(
+            target.get_absolute_url(), {"disable_password": "1"}
+        )
+
+        self.assertRedirects(response, f"{target.get_absolute_url()}#edit")
+        target.refresh_from_db()
+        self.assertFalse(target.has_usable_password())
+        self.assertEqual(Token.objects.get(user=target).key, old_token)
 
 
 class AdminUserRevertTest(FixtureTestCase):

@@ -18,10 +18,32 @@ The workspace page lists projects in that workspace that you can access.
 Signed-in users can also review grouped project and component findings on the
 workspace :guilabel:`Diagnostics` tab. See :ref:`diagnostics-overviews`.
 
-You can list all workspaces in the management interface at
+Signed-in users can open :guilabel:`Projects` ↓ :guilabel:`My workspaces` to
+list workspaces where they have an explicit workspace-team assignment. This
+list does not include workspaces merely because the user has site-wide
+management access.
+
+Site managers can list all workspaces in the management interface at
 :guilabel:`Manage` ↓ :guilabel:`Workspaces`.
 
 .. image:: /screenshots/workspaces.webp
+
+Workspace statistics aggregate all owned and shared content, including projects
+and restricted components that you cannot access. Project listings and actions
+remain permission-filtered. See
+:ref:`statistics access filtering <statistics-access-filtering>`.
+
+The workspace :guilabel:`Files` menu downloads a ZIP archive of owned
+components that you can access and have permission to download. Workspace
+membership does not bypass project access control or component restrictions.
+The menu also provides :guilabel:`Upload translation` guidance. Uploading at
+workspace level is not supported; select a project and open an individual
+translation to upload a file.
+
+Users who can edit translations in an accessible project can choose
+:guilabel:`Operations` ↓ :guilabel:`Search and replace` to replace text across
+permission-filtered owned project content in the workspace. The existing
+:ref:`search-replace` preview and confirmation workflow applies.
 
 .. _workspace-removal:
 
@@ -87,6 +109,11 @@ Contribute to workspace translation memory
 
 Whether projects in this workspace can contribute translations to the workspace
 translation memory. Individual projects also have to enable contribution.
+
+Users with permission to edit the workspace can open
+:guilabel:`Operations` ↓ :guilabel:`Translation memory` to browse, download,
+delete, or rebuild automatically created workspace translation-memory entries.
+See :ref:`memory-user`.
 
 .. _workspace-license:
 

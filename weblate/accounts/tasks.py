@@ -6,17 +6,19 @@ from __future__ import annotations
 
 import logging
 from contextlib import closing
-from datetime import timedelta
+from datetime import datetime, timedelta
 from email.message import MIMEPart
+from itertools import batched
 from smtplib import SMTP, SMTPConnectError
 from types import MethodType
 from typing import TYPE_CHECKING, TypedDict
 
 from celery.schedules import crontab
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBackend
-from django.db import transaction
+from django.db import models, transaction
 from django.urls import reverse
 from django.utils.timezone import now
 from social_django.models import Code, Partial
@@ -31,8 +33,10 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
     from django.core.mail.backends.base import BaseEmailBackend
+    from django.db.models import QuerySet
 
-    from weblate.accounts.notifications import Notification
+    from weblate.accounts.notifications import Notification, NotificationFrequency
+    from weblate.trans.models import Project
 
 LOGGER = logging.getLogger("weblate.smtp")
 
@@ -73,6 +77,29 @@ def cleanup_social_auth() -> None:
 
     # Delete old partial data
     Partial.objects.filter(timestamp__lt=age).delete()
+
+
+@app.task(trail=False)
+def cleanup_totp_enrollments() -> None:
+    """Remove abandoned enrollments without racing device confirmation."""
+    # ruff: ignore[import-outside-top-level]
+    from django_otp.plugins.otp_totp.models import TOTPDevice
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.utils import TOTP_ENROLLMENT_SECONDS
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.auth.models import User
+
+    expired = TOTPDevice.objects.filter(confirmed=False).filter(
+        models.Q(created_at__lte=now() - timedelta(seconds=TOTP_ENROLLMENT_SECONDS))
+        | models.Q(created_at__isnull=True)
+    )
+    user_ids = expired.order_by().values_list("user_id", flat=True).distinct()
+    for user_id in user_ids.iterator():
+        with transaction.atomic():
+            if User.objects.select_for_update().filter(pk=user_id).first() is not None:
+                expired.filter(user_id=user_id).delete()
 
 
 @app.task(trail=False)
@@ -146,19 +173,168 @@ def notify_changes(change_ids: list[int]) -> None:
         factory.send_queued()
 
 
-@transaction.atomic
-def notify_digest(method: str) -> None:
+def get_digest_projects(
+    notification: type[Notification],
+    frequency: NotificationFrequency,
+    *,
+    since: datetime,
+    until: datetime,
+    user_ids: list[int] | None = None,
+) -> QuerySet[Project]:
+    """Return projects which can have recipients for a periodic notification."""
+    from weblate.accounts.models import (  # ruff: ignore[import-outside-top-level]
+        Subscription,
+    )
+    from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
+        NotificationScope,
+    )
+    from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+        Change,
+        Project,
+    )
+
+    subscriptions = Subscription.objects.filter(
+        notification=notification.get_name(),
+        frequency=frequency,
+        user__is_active=True,
+        user__is_bot=False,
+    )
+    if user_ids is not None:
+        subscriptions = subscriptions.filter(user_id__in=user_ids)
+    if subscriptions.filter(scope=NotificationScope.SCOPE_ALL).exists():
+        projects = Project.objects.all()
+    else:
+        query = models.Q(
+            pk__in=subscriptions.filter(
+                project__isnull=False,
+            ).values("project_id")
+        ) | models.Q(
+            pk__in=subscriptions.filter(
+                scope=NotificationScope.SCOPE_COMPONENT,
+                component__isnull=False,
+            ).values("component__project_id")
+        )
+        if not notification.ignore_watched:
+            query |= models.Q(
+                pk__in=subscriptions.filter(
+                    scope=NotificationScope.SCOPE_WATCHED,
+                    user__profile__watched__isnull=False,
+                ).values("user__profile__watched")
+            )
+        admin_user_ids = subscriptions.filter(
+            scope=NotificationScope.SCOPE_ADMIN
+        ).values("user_id")
+        query |= models.Q(
+            group__roles__permissions__codename="project.edit",
+            group__memberships__limit_languages__isnull=True,
+            group__memberships__user_id__in=admin_user_ids,
+        )
+        projects = Project.objects.filter(query).distinct()
+
+    periodic_actions = tuple(notification.get_periodic_actions())
+    if periodic_actions:
+        changed_projects = Change.objects.filter(
+            action__in=periodic_actions,
+            timestamp__gte=since,
+            timestamp__lt=until,
+            project__isnull=False,
+        ).values("project_id")
+        projects = projects.filter(pk__in=changed_projects)
+    return projects
+
+
+@app.task(trail=False)
+def notify_digest_batch(
+    notification_name: str,
+    frequency: int,
+    since: str,
+    until: str,
+    user_ids: list[int] | None,
+) -> None:
+    """Generate one notification type for a recipient batch."""
     # ruff: ignore[import-outside-top-level]
     from weblate.accounts.notifications import (
         NOTIFICATIONS,
+        NotificationFrequency,
     )
 
     outgoing: list[OutgoingEmail] = []
-    for notification_cls in NOTIFICATIONS:
-        notification = notification_cls(outgoing)
-        getattr(notification, method)()
+    notification_classes = {
+        notification_cls.get_name(): notification_cls
+        for notification_cls in NOTIFICATIONS
+    }
+    notification_cls = notification_classes[notification_name]
+    parsed_since = datetime.fromisoformat(since)
+    parsed_until = datetime.fromisoformat(until)
+    parsed_frequency = NotificationFrequency(frequency)
+    notification = notification_cls(outgoing, user_ids=user_ids)
+    notification.notify_periodic_batch(
+        parsed_frequency,
+        since=parsed_since,
+        until=parsed_until,
+    )
     if outgoing:
         queue_mails(outgoing)
+
+
+def notify_digest(method: str) -> None:
+    from weblate.accounts.models import (  # ruff: ignore[import-outside-top-level]
+        Subscription,
+    )
+    from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
+        DIGEST_USER_BATCH_SIZE,
+        NOTIFICATIONS,
+        NotificationFrequency,
+    )
+
+    periods = {
+        "notify_daily": (NotificationFrequency.FREQ_DAILY, relativedelta(days=1)),
+        "notify_weekly": (NotificationFrequency.FREQ_WEEKLY, relativedelta(weeks=1)),
+        "notify_monthly": (
+            NotificationFrequency.FREQ_MONTHLY,
+            relativedelta(months=1),
+        ),
+    }
+    frequency, period = periods[method]
+    until = now()
+    since = until - period
+    since_value = since.isoformat()
+    until_value = until.isoformat()
+
+    for notification_cls in NOTIFICATIONS:
+        subscriptions = Subscription.objects.filter(
+            notification=notification_cls.get_name(),
+            frequency=frequency,
+            user__is_active=True,
+            user__is_bot=False,
+        )
+        if not subscriptions.exists():
+            continue
+
+        if not notification_cls.batch_recipients:
+            notify_digest_batch.delay(
+                notification_cls.get_name(),
+                frequency,
+                since_value,
+                until_value,
+                None,
+            )
+            continue
+
+        user_ids = (
+            subscriptions.order_by("user_id")
+            .values_list("user_id", flat=True)
+            .distinct()
+            .iterator(chunk_size=200)
+        )
+        for user_batch in batched(user_ids, DIGEST_USER_BATCH_SIZE):
+            notify_digest_batch.delay(
+                notification_cls.get_name(),
+                frequency,
+                since_value,
+                until_value,
+                list(user_batch),
+            )
 
 
 @app.task(trail=False)
@@ -297,6 +473,9 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
 def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, cleanup_social_auth.s(), name="social-auth-cleanup")
     sender.add_periodic_task(3600, cleanup_auditlog.s(), name="auditlog-cleanup")
+    sender.add_periodic_task(
+        3600, cleanup_totp_enrollments.s(), name="totp-enrollment-cleanup"
+    )
     sender.add_periodic_task(
         crontab(hour=1, minute=0), notify_daily.s(), name="notify-daily"
     )

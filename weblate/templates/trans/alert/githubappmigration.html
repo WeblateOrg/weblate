@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<p>{% translate "This component can use the Weblate GitHub App for repository access and pull requests." %}</p>
+
+{% if migration_url %}
+  <p>
+    <a class="btn btn-primary" href="{{ migration_url }}">{% translate "Migrate to GitHub App" %}</a>
+  </p>
+{% endif %}

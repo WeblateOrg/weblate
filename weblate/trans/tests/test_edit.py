@@ -16,6 +16,7 @@ from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from lxml import html
 
 from weblate.addons.resx import ResxUpdateAddon
 from weblate.auth.data import SELECTION_ALL
@@ -24,6 +25,7 @@ from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.formatting import unit_state_title
 from weblate.trans.forms import get_new_unit_form
 from weblate.trans.models import (
     Change,
@@ -34,7 +36,6 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.templatetags.translations import unit_state_title
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import (
@@ -84,6 +85,19 @@ class EditScreenshotContextTest(ViewTestCase):
         response = self.client.get(self.translation.get_translate_url())
         self.assertContains(
             response, get_doc_url("admin/translating", "screenshots", user=self.user)
+        )
+
+    def test_screenshot_upload_has_paste_button(self) -> None:
+        self.make_manager()
+        response = self.client.get(self.translation.get_translate_url())
+        self.assertContains(response, 'id="paste-screenshot-btn"')
+        modal = html.fromstring(response.content).get_element_by_id(
+            "add-screenshot-form"
+        )
+        form = modal.xpath("ancestor::form[1]")[0]
+        self.assertEqual(
+            len(form.xpath('.//input[@name="csrfmiddlewaretoken"]')),
+            1,
         )
 
     def test_screenshot_context_deduplicates_source_and_unit_links(self) -> None:

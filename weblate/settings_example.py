@@ -39,7 +39,7 @@ ADMINS: tuple[str, ...] = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
+DATABASES: dict[str, dict[str, str | int | dict | None]] = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         # Database name.
@@ -111,6 +111,7 @@ LANGUAGES = (
     ("kab", "Taqbaylit"),
     ("kk", "Қазақ тілі"),
     ("ko", "한국어"),
+    ("lo", "ລາວ"),
     ("nb", "Norsk bokmål"),
     ("nl", "Nederlands"),
     ("pl", "Polski"),
@@ -210,6 +211,9 @@ TEMPLATES = [
 # GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
 GITHUB_CREDENTIALS = {}
+
+# Webhook secret for a legacy GitHub App delivering to /hooks/github/.
+GITHUB_LEGACY_APP_WEBHOOK_SECRET = ""
 
 # Azure DevOps username and token for sending pull requests.
 # Please see the documentation for more details.
@@ -392,6 +396,9 @@ REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 # Restrict private VCS repository targets
 # VCS_RESTRICT_PRIVATE = True
 
+# Private VCS repository target allowlist
+# VCS_PRIVATE_ALLOWLIST = [".internal.example", "vcs.internal.example"]
+
 # Private webhook target allowlist
 # WEBHOOK_PRIVATE_ALLOWLIST = [".internal.example", "hooks.internal.example"]
 
@@ -565,7 +572,7 @@ LOGGING: dict = {
         "django.request": {
             "handlers": ["mail_admins", *DEFAULT_LOG],
             "level": "ERROR",
-            "propagate": True,
+            "propagate": False,
         },
         "django.server": {
             "handlers": ["django.server"],
@@ -577,35 +584,42 @@ LOGGING: dict = {
             "handlers": [*DEFAULT_LOG],
             # Toggle to DEBUG to log all database queries
             "level": "CRITICAL",
+            "propagate": False,
         },
         "weblate": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Logging VCS operations
         "weblate.vcs": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Python Social Auth
         "social": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Django Authentication Using LDAP
         "django_auth_ldap": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # SAML IdP
         "djangosaml2idp": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Fedora messaging
         "fedora_messaging": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
     },
 }
@@ -955,7 +969,7 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_RETRY = True
 
 # Celery settings, it is not recommended to change these
-CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000 if DEBUG else 250000
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_TASK_ROUTES = {

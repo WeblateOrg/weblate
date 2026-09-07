@@ -37,3 +37,17 @@ For simple add-ons where the stored and runtime shapes are identical, define a
 single ``TypedDict`` and use it for both ``BaseAddon`` type parameters. Keep
 the form's ``serialize_form()`` return type aligned with the stored
 configuration type.
+
+
+Publishing add-on configuration
+-------------------------------
+
+Add-on change history can be visible without add-on management permission.
+List configuration fields that are safe to publish in the form's
+``public_configuration_fields`` attribute. Fields not explicitly listed are
+kept in the snapshot with a null value and identified as redacted. The default
+is an empty set so that newly added settings are not published accidentally.
+
+Use ``BaseAddon.get_public_configuration()`` whenever configuration is exposed
+outside trusted add-on management code. Internal operations which intentionally
+clone a working add-on can continue to use the stored configuration.

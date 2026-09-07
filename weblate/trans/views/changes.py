@@ -15,6 +15,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 from django.utils import feedgenerator
+from django.utils.http import content_disposition_header
 from django.utils.translation import activate, get_language, gettext, pgettext
 from django.views.generic.list import ListView
 
@@ -243,7 +244,9 @@ class ChangesCSVView(ChangesView):
         activate("en")
 
         response = HttpResponse(content_type="text/csv; charset=utf-8")
-        response["Content-Disposition"] = "attachment; filename=changes.csv"
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename="changes.csv"
+        )
 
         writer = csv.writer(response)
 

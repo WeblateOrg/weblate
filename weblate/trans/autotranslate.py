@@ -21,6 +21,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
     Component,
+    Project,
     Suggestion,
     SuggestionAddResult,
     Translation,
@@ -40,6 +41,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
 
     from weblate.auth.models import User
+    from weblate.auth.results import PermissionResult
     from weblate.machinery.base import BatchMachineTranslation, UnitMemoryResultDict
     from weblate.utils.state import StringState
 
@@ -90,6 +92,21 @@ def fetch_machinery_matches(
         for unit in units
         if unit.machinery and any(unit.machinery["quality"])
     }
+
+
+def check_auto_translate_permission(
+    user: User | None, translation: Translation, mode: str
+) -> bool | PermissionResult:
+    # Add-on users identify generated changes rather than authorize the operation.
+    if user is None or (user.is_bot and user.username.startswith("addon:")):
+        return True
+    if not (permission := user.has_perm("translation.auto", translation)):
+        return permission
+    if mode == "suggest":
+        if not translation.restrict_direct_editing:
+            return True
+        return user.has_perm("suggestion.add", translation)
+    return user.has_perm("meta:unit.direct_edit", translation)
 
 
 class BaseAutoTranslate:
@@ -529,6 +546,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
         component_wide: bool = False,
         unit_ids: list[int] | None = None,
         allow_non_shared_tm_source_components: bool = False,
+        enforce_permissions: bool = True,
     ) -> None:
         super().__init__(
             user=user,
@@ -542,23 +560,29 @@ class BatchAutoTranslate(BaseAutoTranslate):
         )
         self._task_meta: dict[str, Any] = {}
         self.workspace_source_component_ids: dict[int, list[int]] | None = None
-        self.check_translation_permissions = False
+        self.enforce_permissions = enforce_permissions
 
         match obj:
             case Translation():
                 self.translations = [obj]
                 self._task_meta = {"translation": obj.pk}
             case Component():
-                self.translations = obj.translation_set.exclude_source()
+                self.translations = obj.translation_set.select_related(
+                    "language"
+                ).exclude_source()
                 self._task_meta = {"component": obj.pk}
             case Category():
-                self.translations = Translation.objects.filter(
-                    component__category=obj
-                ).exclude_source()
+                self.translations = (
+                    Translation.objects.filter(component__category=obj)
+                    .select_related("language", "component", "component__project")
+                    .exclude_source()
+                )
                 self._task_meta = {"category": obj.pk}
             case ProjectLanguage():
                 self.translations = list(
-                    obj.action_translation_set.exclude_source().prefetch()
+                    obj.action_translation_set.select_related("language")
+                    .exclude_source()
+                    .prefetch()
                 )
                 self._task_meta = {
                     "project": obj.project.pk,
@@ -570,7 +594,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
                     components = components.filter_access(user)
                 self.translations = (
                     Translation.objects.filter(component__in=components)
-                    .select_related("component", "component__project")
+                    .select_related("language", "component", "component__project")
                     .exclude_source()
                 )
                 source_component_ids: dict[int, list[int]] = {}
@@ -582,19 +606,44 @@ class BatchAutoTranslate(BaseAutoTranslate):
                     )
                 self.workspace_source_component_ids = source_component_ids
                 self.allow_non_shared_tm_source_components = True
-                self.check_translation_permissions = True
                 self._task_meta = {"workspace": str(obj.pk)}
             case _:  # pragma: no cover
                 msg = "Unsupported object type for BatchAutoTranslate"
                 raise ValueError(msg)
-        self.progress_steps = (
-            self.translations.count()
-            if isinstance(self.translations, QuerySet)
-            else len(self.translations)
-        )
+        self._preload_workflow_settings()
+        self.progress_steps = len(self.translations)
+
+    def _preload_workflow_settings(self) -> None:
+        self.translations = list(self.translations)
+        projects: dict[int, Project] = {}
+        project_languages: dict[int, dict[int, ProjectLanguage]] = {}
+
+        for translation in self.translations:
+            project = translation.component.project
+            project = projects.setdefault(project.pk, project)
+            languages = project_languages.setdefault(project.pk, {})
+            if translation.language_id not in languages:
+                languages[translation.language_id] = ProjectLanguage(
+                    project, translation.language
+                )
+
+        for project_id, languages in project_languages.items():
+            projects[project_id].project_languages.preload_workflow_settings(
+                languages.values()
+            )
+
+        for translation in self.translations:
+            translation.__dict__["workflow_settings"] = project_languages[
+                translation.component.project_id
+            ][translation.language_id].workflow_settings
 
     def get_task_meta(self) -> dict[str, Any]:
         return self._task_meta
+
+    def _can_process_translation(self, translation: Translation) -> bool:
+        return not self.enforce_permissions or bool(
+            check_auto_translate_permission(self.user, translation, self.mode)
+        )
 
     def perform(
         self,
@@ -620,11 +669,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
                     ).append(component_id)
 
         for pos, translation in enumerate(self.translations, start=1):
-            if (
-                self.check_translation_permissions
-                and self.user is not None
-                and not self.user.has_perm("translation.auto", translation)
-            ):
+            if not self._can_process_translation(translation):
                 self.set_progress(pos)
                 continue
 

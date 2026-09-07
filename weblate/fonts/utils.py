@@ -14,18 +14,6 @@ from typing import TYPE_CHECKING, NamedTuple
 from django.core.cache import cache as django_cache
 from PIL import ImageFont
 
-from weblate.fonts.render import (
-    create_clip_box,
-    create_figure,
-    draw_outline_rectangle,
-    draw_text,
-    figure_to_png,
-    get_font_properties,
-    measure_multiline,
-    rendering_lock,
-    split_explicit_lines,
-    wrap_text,
-)
 from weblate.utils.files import read_file_bytes
 from weblate.utils.hash import calculate_hash
 
@@ -69,24 +57,30 @@ def _render_size(
     surface_width: int | None = None,
 ) -> tuple[Dimensions, int, bytes]:
     """Check whether rendered text fits."""
+    # Importing Matplotlib and NumPy has a significant memory cost. Most Weblate
+    # processes only need font metadata, so defer the rendering stack until it is
+    # actually used.
+    # ruff: ignore[import-outside-top-level]
+    from weblate.fonts import render
+
     if surface_height is None:
         surface_height = int(lines * size * 1.5)
     if surface_width is None:
         surface_width = width
 
-    font_properties = get_font_properties(
+    font_properties = render.get_font_properties(
         font,
         size=size,
         weight=weight,
         font_siblings=font_siblings,
     )
-    with rendering_lock():
+    with render.rendering_lock():
         rendered_lines = (
-            split_explicit_lines(text)
+            render.split_explicit_lines(text)
             if lines == 1
-            else wrap_text(text, width, font_properties, spacing=spacing)
+            else render.wrap_text(text, width, font_properties, spacing=spacing)
         )
-        measured_width, measured_height = measure_multiline(
+        measured_width, measured_height = render.measure_multiline(
             rendered_lines, font_properties, spacing=spacing
         )
         pixel_size = Dimensions(measured_width, measured_height)
@@ -103,11 +97,13 @@ def _render_size(
         )
         expected_height = ceil(lines * pixel_size.height / line_count)
         overflow = pixel_size.width > width or line_count > lines
-        figure = create_figure(surface_width, surface_height, facecolor=(0.8, 0.8, 0.8))
+        figure = render.create_figure(
+            surface_width, surface_height, facecolor=(0.8, 0.8, 0.8)
+        )
         rendered_text = "\n".join(rendered_lines)
 
         if overflow:
-            draw_text(
+            render.draw_text(
                 figure,
                 0,
                 0,
@@ -117,10 +113,10 @@ def _render_size(
                 spacing=spacing,
             )
 
-        clip_box = create_clip_box(
+        clip_box = render.create_clip_box(
             0, surface_height - expected_height, width, expected_height
         )
-        draw_text(
+        render.draw_text(
             figure,
             0,
             0,
@@ -130,7 +126,7 @@ def _render_size(
             spacing=spacing,
             clip_box=clip_box,
         )
-        draw_outline_rectangle(
+        render.draw_outline_rectangle(
             figure,
             1,
             1,
@@ -139,7 +135,7 @@ def _render_size(
             color=(0.1, 0.1, 0.1),
         )
         if overflow:
-            draw_outline_rectangle(
+            render.draw_outline_rectangle(
                 figure,
                 1,
                 1,
@@ -147,7 +143,7 @@ def _render_size(
                 pixel_size.height - 2,
                 color=(246 / 255, 102 / 255, 76 / 255),
             )
-        buffer = figure_to_png(figure)
+        buffer = render.figure_to_png(figure)
 
     return pixel_size, line_count, buffer
 

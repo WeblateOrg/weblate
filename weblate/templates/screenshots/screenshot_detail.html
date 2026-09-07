@@ -88,6 +88,7 @@
             <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}"
                     class="btn btn-primary w-100"
                     id="screenshots-auto"
+                    type="button"
                     title="{% translate "Suggests source strings by recognizing text in this screenshot." %}">
               {% translate "Find strings in image" %}
             </button>
@@ -121,7 +122,7 @@
         <div class="card-header">
           <h4 class="card-title">{% translate "Edit screenshot" %}</h4>
         </div>
-        <div class="card-body">{{ edit_form|crispy }}</div>
+        <div class="card-body">{% crispy edit_form %}</div>
         <div class="card-footer">
           <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
         </div>

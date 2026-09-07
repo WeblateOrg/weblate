@@ -102,10 +102,11 @@ Defaults to ``[]``.
 The allowlist affects project-managed machinery in two ways: it permits the
 configured endpoint during outbound validation, and it marks matching hosts as
 trusted when deciding whether remote provider error details or response bodies
-can be shown to the user. For direct connections, runtime checks still reject
-destinations that resolve to private or otherwise non-public addresses. When an
-HTTP(S) proxy is used, runtime validation falls back to hostname validation and
-does not perform the same local DNS or peer-IP checks.
+can be shown to the user. Matching hosts are also exempt from private-target
+restrictions. For direct connections, Weblate does not resolve, pin, or verify
+the peer address of matching hosts. Only add hosts or domains whose network
+destinations are trusted. When a configured :ref:`http-proxy` is used, the
+proxy is trusted to resolve the destination hostname.
 
 .. setting:: ALLOWED_ASSET_SIZE
 
@@ -202,7 +203,7 @@ Argon2id parallelism factor. Defaults to ``1``.
 
 .. seealso::
 
-    `ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_
+    `ALTCHA Proof of Work Mechanism <https://altcha.org/docs/integration/proof-of-work-captcha/>`_
 
 .. setting:: ANONYMOUS_USER_NAME
 
@@ -236,6 +237,10 @@ This is currently applied in the following locations:
 
 * Sign in. Deletes the account password, preventing the user from signing in
   without requesting a new password.
+* Second-factor sign in. Deletes the account password after this many rejected
+  second-factor submissions since the last successful second-factor sign in.
+  This also invalidates pending password sign-ins. Other authentication methods
+  and API tokens remain usable.
 * Password reset. Prevents new e-mails from being sent, avoiding spamming
   users with too many password-reset attempts.
 
@@ -252,6 +257,17 @@ AUTO_UPDATE
 
 Updates all repositories on a daily basis.
 
+Every hour, Weblate queues updates for repositories whose component ID modulo 24
+matches the current UTC hour. This distributes updates throughout the day. For
+example, component ID ``25`` is selected during the hour from 01:00 to 01:59 UTC.
+Linked components use the schedule of the component that owns their shared
+repository.
+
+The assigned hour determines when updates are queued, not when they finish.
+Execution can be delayed by queued tasks or repository operations. Restarting
+Celery does not change the assigned hour. This setting does not provide a
+configurable update time window.
+
 .. hint::
 
     Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.
@@ -265,13 +281,15 @@ The options are:
 ``"none"``
     No daily updates.
 ``"remote"`` also ``False``
-    Only update remotes.
+    Fetch remote changes without merging them into the working copy. This is the
+    default; ``False`` does not disable daily updates.
 ``"full"`` also ``True``
-    Update remotes and merge working copy.
+    Fetch remote changes and merge them into the working copy.
 
 .. note::
 
-    This requires that :ref:`celery` is working, and will take effect after it is restarted.
+    Automatic updates require that :ref:`celery` is working. Restart Celery after
+    changing this setting for the new value to take effect.
 
 .. setting:: AVATAR_URL_PREFIX
 
@@ -996,7 +1014,7 @@ List for credentials for Gitea servers.
    * :ref:`code-hosting-gitea-pull-requests`
    * `Creating a Gitea personal access token`_
 
-.. _Creating a Gitea personal access token: https://docs.gitea.io/en-us/api-usage
+.. _Creating a Gitea personal access token: https://docs.gitea.com/development/api-usage
 
 .. setting:: GITLAB_CREDENTIALS
 
@@ -1070,6 +1088,30 @@ List for credentials for GitHub servers.
    * `Creating a GitHub personal access token`_
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+.. setting:: GITHUB_LEGACY_APP_WEBHOOK_SECRET
+
+GITHUB_LEGACY_APP_WEBHOOK_SECRET
+--------------------------------
+
+.. versionadded:: 2026.8
+
+Webhook secret for a legacy GitHub App which delivers events to the generic
+GitHub webhook URL, ``/hooks/github/``.
+
+App webhook deliveries to the generic URL are rejected when this setting is
+empty or their ``X-Hub-Signature-256`` does not match. Ordinary repository
+webhooks are unaffected. GitHub Apps registered through Weblate use their
+per-App webhook URLs and do not use this setting.
+
+.. code-block:: python
+
+   GITHUB_LEGACY_APP_WEBHOOK_SECRET = "your-webhook-secret"
+
+.. seealso::
+
+   * :ref:`code-hosting-github-notifications`
+   * :ref:`code-hosting-github-app-webhook`
 
 .. setting:: BITBUCKETSERVER_CREDENTIALS
 
@@ -1281,8 +1323,13 @@ If set to ``True``, Weblate gets IP address from a header defined by
 
 .. warning::
 
-   Ensure you are actually using a reverse proxy and that it sets this header,
-   otherwise users will be able to fake the IP address.
+   The reverse proxy which connects to Weblate must overwrite the configured
+   header or append a verified peer address at the position selected by
+   :setting:`IP_PROXY_OFFSET`. Weblate does not verify which peer supplied the
+   header, so trusting a client-controlled value allows IP address spoofing.
+
+   Ensure that untrusted clients cannot reach Weblate without passing through
+   the trusted proxy.
 
 .. note::
 
@@ -1331,9 +1378,12 @@ which address from the header is used as client IP address here.
 
 .. warning::
 
-   Setting this affects the security of your installation. You should only
-   configure it to use trusted proxies for determining the IP address.
-   Please check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
+   Setting this affects the security of your installation. Select only an
+   address added or verified by a proxy under your control. Addresses supplied
+   by the client are untrusted. Ensure that the selected offset matches how
+   your proxies construct the header.
+
+   See <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
 
 Defaults to -1.
 
@@ -1381,16 +1431,17 @@ The ``index`` page is always visible. Supported document identifiers are
 
 Hidden pages are removed from the legal menu and return a 404 response when
 requested directly. Hiding ``terms`` or ``privacy`` is not recommended when
-terms of service confirmation is enabled.
+legal document confirmation is enabled.
 
 When ``terms`` or ``privacy`` is hidden, links exposed through the
 ``terms_url`` and ``privacy_url`` template variables use :setting:`LEGAL_URL`
 and :setting:`PRIVACY_URL` as fallbacks when configured. If no fallback URL is
 configured, the related link is omitted.
 
-With terms of service confirmation enabled, hiding ``terms`` and setting
+With legal document confirmation enabled, hiding ``terms`` and setting
 :setting:`LEGAL_URL` makes the confirmation page link to the external terms
-document instead of embedding :file:`legal/documents/tos.html`.
+document instead of embedding :file:`legal/documents/tos.html`. When a privacy
+policy link is available, the confirmation covers both documents.
 
 In non-Docker deployments, define :setting:`LEGAL_HIDDEN_DOCUMENTS` and
 :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the API
@@ -1415,8 +1466,9 @@ LEGAL_TOS_DATE
 
    You need :ref:`legal` installed to make this work.
 
-Date of last update of terms of service documents. Whenever the date changes,
-users are required to agree with the updated terms of service.
+Date of the legal documents users last agreed to. Whenever the date changes,
+users are required to agree with the current terms of service and, when a
+privacy policy link is available, the privacy policy.
 
 .. code-block:: python
 
@@ -2596,6 +2648,13 @@ Their offer: diffie-hellman-group1-sha1`, you can turn that on using:
    The string is evaluated by the shell, so ensure any whitespace and
    special characters is quoted.
 
+.. warning::
+
+   This is trusted administrator-controlled configuration. Arbitrary SSH
+   options can alter connection routing and override the address pinning
+   provided by :setting:`VCS_RESTRICT_PRIVATE`. Administrators are responsible
+   for the security and compatibility impact of all configured arguments.
+
 .. seealso::
 
    `OpenSSH Legacy Options <https://www.openssh.org/legacy.html>`_
@@ -2705,7 +2764,42 @@ A set of hosts to allow when configuring VCS URL. Defaults to an empty set,
 which does no filtering at all.
 
 When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also exempt
-from the private-target restriction.
+from the private-target restriction. This exemption is also needed for VCS
+backends which cannot bind the client connection to the address validated by
+Weblate, such as Mercurial and Subversion.
+
+Use :setting:`VCS_PRIVATE_ALLOWLIST` instead when hosts should be exempt from
+the private-target restriction without filtering access to other public hosts.
+
+.. setting:: VCS_PRIVATE_ALLOWLIST
+
+VCS_PRIVATE_ALLOWLIST
+---------------------
+
+.. versionadded:: 2026.9
+
+Defines hostnames or domains exempt from :setting:`VCS_RESTRICT_PRIVATE`.
+Unlike :setting:`VCS_ALLOW_HOSTS`, this setting does not filter access to other
+hosts. Entries follow Django host matching semantics, so values such as
+``vcs.internal.example`` or ``.internal.example`` can be used.
+
+The exemption is needed for VCS backends which cannot bind the client
+connection to the address validated by Weblate, such as Mercurial and
+Subversion. It can also be used to allow private Git repository hosts.
+
+When :setting:`VCS_ALLOW_HOSTS` is non-empty, its host filter still applies and
+takes precedence over this allowlist.
+
+Default configuration:
+
+.. code-block:: python
+
+   VCS_PRIVATE_ALLOWLIST = []
+
+.. seealso::
+
+   * :setting:`VCS_ALLOW_HOSTS`
+   * :setting:`VCS_RESTRICT_PRIVATE`
 
 .. setting:: VCS_ALLOW_SCHEMES
 
@@ -2725,10 +2819,26 @@ VCS_RESTRICT_PRIVATE
 .. versionadded:: 5.17
 
 Reject VCS repository URLs pointing to internal or non-public addresses unless
-the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
+the target host is included in :setting:`VCS_ALLOW_HOSTS` or matches
+:setting:`VCS_PRIVATE_ALLOWLIST`. On by default.
 
 When enabled, hostnames that cannot be resolved during validation are rejected
-unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`.
+unless they are trusted by :setting:`VCS_ALLOW_HOSTS` or
+:setting:`VCS_PRIVATE_ALLOWLIST`.
+
+For Git repositories accessed over HTTPS or SSH, Weblate binds each VCS command
+to the addresses approved during runtime validation for direct connections.
+Configured HTTP proxies are trusted infrastructure and resolve repository
+hostnames instead. Automatic redirect following remains disabled. Permanent
+same-host HTTP redirects are probed separately through the same outbound route,
+validated, and stored as the canonical component repository URL. Cross-host
+redirects have to be configured manually. Mercurial, Subversion, custom VCS
+backends, and additional URL schemes are rejected unless the target host is
+trusted by :setting:`VCS_ALLOW_HOSTS` or :setting:`VCS_PRIVATE_ALLOWLIST`.
+
+Network-level egress filtering which blocks internal, loopback, link-local,
+reserved, and cloud metadata address ranges is recommended as defense in depth,
+especially for custom integrations and administrator-installed extensions.
 
 .. setting:: VCS_API_DELAY
 
@@ -2775,7 +2885,9 @@ Configuration of available VCS backends.
 
 .. note::
 
-    Weblate tries to use all supported back-ends you have the tools for.
+    Weblate offers configured backends when their required commands are
+    available. Exact command versions are validated by the deployment and
+    periodic configuration health checks.
 
 .. hint::
 

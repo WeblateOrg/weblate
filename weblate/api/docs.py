@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from django.utils.translation import gettext, gettext_noop
 from drf_spectacular.plumbing import (
     ResolvedComponent,
@@ -45,7 +47,11 @@ WILDCARD_MEDIA_TYPE = "*/*"
 CSV_MEDIA_TYPE = "text/csv"
 OPENMETRICS_MEDIA_TYPE = "application/openmetrics-text"
 METRICS_PATH = "/api/metrics/"
+PROJECT_METRICS_PATH = "/api/projects/{slug}/metrics/"
+METRICS_PATHS = {METRICS_PATH, PROJECT_METRICS_PATH}
 USER_GROUPS_PATH = "/api/users/{username}/groups/"
+COMPONENT_PATH = "/api/components/{project__slug}/{slug}/"
+CATEGORY_PATH = "/api/categories/{id}/"
 CHANGES_PATH = "/api/changes/"
 UNSUPPORTED_MEDIA_TYPE_RESPONSE_CODE = "415"
 RESPONSE_DESCRIPTIONS = {
@@ -277,7 +283,7 @@ def _simplify_response_media_types(path: str, method: str, operation: dict) -> N
         if not isinstance(content, dict):
             continue
 
-        if path == METRICS_PATH and method == "get" and status_code == "200":
+        if path in METRICS_PATHS and method == "get" and status_code == "200":
             if CSV_MEDIA_TYPE in content:
                 content[CSV_MEDIA_TYPE]["schema"] = {"type": "string"}
             if OPENMETRICS_MEDIA_TYPE in content:
@@ -289,7 +295,7 @@ def _simplify_response_media_types(path: str, method: str, operation: dict) -> N
 
 
 def _simplify_format_parameter(path: str, method: str, operation: dict) -> None:
-    if path == METRICS_PATH and method == "get":
+    if path in METRICS_PATHS and method == "get":
         return
 
     parameters = operation.get("parameters")
@@ -342,31 +348,36 @@ def document_response_descriptions(result, generator, request, public):
     return result
 
 
-def document_user_group_delete_body(result, generator, request, public):
-    """Document legacy DELETE body support for user group removal."""
-    operation = result.get("paths", {}).get(USER_GROUPS_PATH, {}).get("delete")
-    if not isinstance(operation, dict):
-        return result
-
+def document_delete_bodies(result, generator, request, public):
+    """Document request bodies accepted by DELETE operations."""
     # drf-spectacular does not emit request bodies for DELETE methods.
     schemas = result.setdefault("components", {}).setdefault("schemas", {})
-    schemas["UserGroupDeleteRequest"] = {
-        "type": "object",
-        "properties": {
-            "group_id": {
-                "type": "integer",
+    delete_bodies = (
+        (USER_GROUPS_PATH, "UserGroupDeleteRequest", "group_id", "integer", True),
+        (COMPONENT_PATH, "ComponentDeleteRequest", "delete_memory", "boolean", False),
+        (CATEGORY_PATH, "CategoryDeleteRequest", "delete_memory", "boolean", False),
+    )
+    for path, schema_name, field_name, field_type, required in delete_bodies:
+        operation = result.get("paths", {}).get(path, {}).get("delete")
+        if not isinstance(operation, dict):
+            continue
+        schema: dict[str, Any] = {
+            "type": "object",
+            "properties": {field_name: {"type": field_type}},
+        }
+        if required:
+            schema["required"] = [field_name]
+        schemas[schema_name] = schema
+        request_body: dict[str, Any] = {
+            "content": {
+                JSON_MEDIA_TYPE: {
+                    "schema": {"$ref": f"#/components/schemas/{schema_name}"}
+                }
             }
-        },
-        "required": ["group_id"],
-    }
-    operation["requestBody"] = {
-        "content": {
-            JSON_MEDIA_TYPE: {
-                "schema": {"$ref": "#/components/schemas/UserGroupDeleteRequest"}
-            }
-        },
-        "required": True,
-    }
+        }
+        if required:
+            request_body["required"] = True
+        operation["requestBody"] = request_body
 
     return result
 

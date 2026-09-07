@@ -22,6 +22,8 @@ DATABASES["default"]["NAME"] = os.environ.get("CI_DB_NAME", default_name)
 DATABASES["default"]["USER"] = os.environ.get("CI_DB_USER", default_user)
 DATABASES["default"]["PASSWORD"] = os.environ.get("CI_DB_PASSWORD", "")
 DATABASES["default"]["PORT"] = os.environ.get("CI_DB_PORT", "")
+# Disable connection recycling in tests
+DATABASES["default"]["CONN_MAX_AGE"] = 0
 
 # Configure admins
 ADMINS = ("Weblate test <noreply@weblate.org>",)

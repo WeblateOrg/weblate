@@ -253,7 +253,7 @@ class MultiRepoTest(ViewTestCase):
         )
 
         with self.captureOnCommitCallbacks(execute=True):
-            perform_update("Component", self.component2.pk, user_id=hook_user.id)
+            perform_update.run("Component", self.component2.pk, user_id=hook_user.id)
 
         change = self.component2.change_set.filter(action=ActionEvents.REBASE).latest(
             "timestamp"
@@ -324,6 +324,11 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(change.details["error"], "fetch failed (1)")
         self.assertEqual(change.details["previous_remote_revision"], "old-remote")
         self.assertIn("fetch failed", change.get_details_display())
+        alert = self.component2.alert_set.get(name="UpdateFailure")
+        self.assertEqual(
+            alert.details,
+            {"error": "fetch failed (1)", "diagnoses": []},
+        )
 
     def test_remote_update_history_failure_skips_validation(self) -> None:
         """Test repository validation does not record failed update history."""
@@ -429,7 +434,7 @@ class MultiRepoTest(ViewTestCase):
         with patch.object(
             self.component2, "update_remote_branch", return_value=True
         ) as update_remote_branch:
-            perform_update("Component", -1, auto=True, obj=self.component2)
+            perform_update.run("Component", -1, auto=True, obj=self.component2)
 
         user = update_remote_branch.call_args.kwargs["user"]
         self.assertIsNotNone(user)

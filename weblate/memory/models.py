@@ -39,7 +39,8 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Iterable, Iterator
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
-    from weblate.trans.models import Project
+    from weblate.trans.models import Component, Project
+    from weblate.workspaces.models import Workspace
 
 NON_WORD_RE = re.compile(r"\W")
 
@@ -125,28 +126,47 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
             memory_scope_visible=self.get_scope_exists(scope_query),
         ).filter(memory_scope_visible=True)
 
-    def get_type_scope_query(
+    def _get_type_scope_query(
         self,
         *,
         user: User | None = None,
+        access_user: User | None = None,
+        additional_component_access: Q | None = None,
         project: Project | None = None,
+        workspace: Workspace | None = None,
         use_shared: bool = False,
         from_file: bool = False,
         use_workspace: bool = False,
+        check_component_access: bool,
     ) -> Q:
         query = Q(pk__isnull=True)
+        component_access = Q()
+        shared_component_access = Q()
+        if check_component_access:
+            component_access = self.get_component_access_query(access_user)
+            shared_component_access = self.get_shared_component_access_query()
+            if additional_component_access is not None:
+                if component_access:
+                    component_access |= additional_component_access
+                shared_component_access |= additional_component_access
         if from_file:
             query |= Q(scope=MemoryScope.SCOPE_GLOBAL_FILE)
         if use_shared:
-            query |= Q(
+            shared_query = Q(
                 scope=MemoryScope.SCOPE_SHARED,
                 source_project__contribute_shared_tm=True,
             )
+            if check_component_access:
+                shared_query &= shared_component_access
+            query |= shared_query
         if project:
-            query |= Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
+            project_query = Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
+            if check_component_access:
+                project_query &= component_access
+            query |= project_query
             query |= Q(scope=MemoryScope.SCOPE_PROJECT_FILE, project=project)
             if use_workspace and project.effective_use_workspace_tm:
-                query |= Q(
+                workspace_query = Q(
                     scope=MemoryScope.SCOPE_WORKSPACE,
                     workspace_id=project.workspace_id,
                 ) & Q(
@@ -154,16 +174,72 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
                     source_project__contribute_workspace_tm=True,
                     source_project__workspace__contribute_workspace_tm=True,
                 )
+                if check_component_access:
+                    workspace_query &= component_access
+                query |= workspace_query
+        if workspace:
+            workspace_query = Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace=workspace,
+            )
+            if check_component_access:
+                workspace_query &= component_access
+            query |= workspace_query
         if user:
             query |= Q(scope=MemoryScope.SCOPE_USER, user=user)
             query |= Q(scope=MemoryScope.SCOPE_USER_FILE, user=user)
         return query
 
+    def get_type_scope_query(
+        self,
+        *,
+        user: User | None = None,
+        access_user: User | None = None,
+        additional_component_access: Q | None = None,
+        project: Project | None = None,
+        workspace: Workspace | None = None,
+        use_shared: bool = False,
+        from_file: bool = False,
+        use_workspace: bool = False,
+    ) -> Q:
+        """Build a scope query with component access enforced."""
+        return self._get_type_scope_query(
+            user=user,
+            access_user=access_user,
+            additional_component_access=additional_component_access,
+            project=project,
+            workspace=workspace,
+            use_shared=use_shared,
+            from_file=from_file,
+            use_workspace=use_workspace,
+            check_component_access=True,
+        )
+
+    @staticmethod
+    def get_component_access_query(user: User | None) -> Q:
+        """Return component access filtering for project and workspace scopes."""
+        if user is not None and (user.is_superuser or user.has_perm("memory.manage")):
+            return Q()
+        query = Q(source_component__isnull=True) | Q(source_component__restricted=False)
+        if user is not None and user.component_permissions:
+            query |= Q(
+                source_component_id__in=user.component_permissions,
+            ) & user.get_project_access_query("source_component__project")
+        return query
+
+    @staticmethod
+    def get_shared_component_access_query() -> Q:
+        """Exclude shared memory attributed to restricted components."""
+        return Q(source_component__isnull=True) | Q(source_component__restricted=False)
+
     def filter_type(
         self,
         *,
         user: User | None = None,
+        access_user: User | None = None,
+        additional_component_access: Q | None = None,
         project: Project | None = None,
+        workspace: Workspace | None = None,
         use_shared: bool = False,
         from_file: bool = False,
         use_workspace: bool = False,
@@ -174,10 +250,39 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         return base.filter_scope(
             base.get_type_scope_query(
                 user=user,
+                access_user=access_user,
+                additional_component_access=additional_component_access,
                 project=project,
+                workspace=workspace,
                 use_shared=use_shared,
                 from_file=from_file,
                 use_workspace=use_workspace,
+            )
+        )
+
+    def filter_type_unchecked(
+        self,
+        *,
+        user: User | None = None,
+        project: Project | None = None,
+        workspace: Workspace | None = None,
+        use_shared: bool = False,
+        from_file: bool = False,
+        use_workspace: bool = False,
+    ) -> Self:
+        """Filter memory scopes without applying component access checks."""
+        base = self
+        if "memory_db" in settings.DATABASES:
+            base = base.using("memory_db")
+        return base.filter_scope(
+            self._get_type_scope_query(
+                user=user,
+                project=project,
+                workspace=workspace,
+                use_shared=use_shared,
+                from_file=from_file,
+                use_workspace=use_workspace,
+                check_component_access=False,
             )
         )
 
@@ -191,6 +296,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
             use_workspace_tm=True,
             workspace__use_workspace_tm=True,
         ).values("workspace_id")
+        component_access = self.get_component_access_query(user)
         scope_query = (
             Q(scope=MemoryScope.SCOPE_USER, user=user)
             | Q(scope=MemoryScope.SCOPE_USER_FILE, user=user)
@@ -198,15 +304,22 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
                 scope=MemoryScope.SCOPE_SHARED,
                 source_project__contribute_shared_tm=True,
             )
+            & self.get_shared_component_access_query()
             | Q(scope=MemoryScope.SCOPE_GLOBAL_FILE)
-            | Q(scope=MemoryScope.SCOPE_PROJECT, project__in=allowed_projects)
+            | (
+                Q(scope=MemoryScope.SCOPE_PROJECT, project__in=allowed_projects)
+                & component_access
+            )
             | Q(scope=MemoryScope.SCOPE_PROJECT_FILE, project__in=allowed_projects)
-            | Q(
-                scope=MemoryScope.SCOPE_WORKSPACE,
-                workspace__in=allowed_workspaces,
-                workspace_id=F("source_project__workspace_id"),
-                source_project__contribute_workspace_tm=True,
-                source_project__workspace__contribute_workspace_tm=True,
+            | (
+                Q(
+                    scope=MemoryScope.SCOPE_WORKSPACE,
+                    workspace__in=allowed_workspaces,
+                    workspace_id=F("source_project__workspace_id"),
+                    source_project__contribute_workspace_tm=True,
+                    source_project__workspace__contribute_workspace_tm=True,
+                )
+                & component_access
             )
         )
         return self.filter_scope(scope_query)
@@ -388,7 +501,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         limit: int = MEMORY_LOOKUP_LIMIT,
     ) -> list[tuple[int, Memory]]:
         candidates: list[Memory] = list(self.get_fuzzy_candidates(text, limit=limit))
-        accepted: list[tuple[int, int, Memory]] = []
+        accepted: list[tuple[int, Memory]] = []
         best_quality = threshold - 1
 
         for candidate in candidates:
@@ -396,7 +509,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
             if quality < threshold:
                 continue
             best_quality = max(best_quality, quality)
-            accepted.append((quality, len(accepted), candidate))
+            accepted.append((quality, candidate))
 
         if (
             best_quality < 100
@@ -414,14 +527,9 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
                 if quality < threshold:
                     continue
                 best_quality = max(best_quality, quality)
-                accepted.append((quality, len(accepted), candidate))
+                accepted.append((quality, candidate))
 
-        return [
-            (quality, candidate)
-            for quality, _sequence, candidate in sorted(
-                accepted, key=lambda item: (-item[0], item[1])
-            )[:limit]
-        ]
+        return sorted(accepted, key=lambda item: -item[0])[:limit]
 
     def get_best_fuzzy_match(
         self,
@@ -445,10 +553,14 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         user,
         project,
         use_shared,
+        *,
+        additional_component_access: Q | None = None,
     ) -> Self:
         return (
             self.filter_type(
                 user=user,
+                access_user=user,
+                additional_component_access=additional_component_access,
                 project=project,
                 use_shared=use_shared,
                 from_file=True,
@@ -479,24 +591,6 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
 
         return queryset.get_fuzzy_candidates(text)
 
-    def lookup_full_source(
-        self,
-        source_language,
-        target_language,
-        text: str,
-        user,
-        project,
-        use_shared,
-        *,
-        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
-        exclude_ids: Iterable[int] = (),
-    ) -> Iterator[Memory]:
-        return self.get_lookup_queryset(
-            source_language, target_language, user, project, use_shared
-        ).get_full_source_fuzzy_candidates(
-            text, threshold=threshold, exclude_ids=exclude_ids
-        )
-
     def prefetch_lang(self) -> Self:
         return self.prefetch_related("source_language", "target_language")
 
@@ -508,6 +602,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
                     "project",
                     "workspace",
                     "source_project",
+                    "source_component",
                 ),
             )
         )
@@ -530,7 +625,7 @@ class MemoryManager(models.Manager["Memory"]):
         user: User | None = None,
         project: Project | None = None,
         from_file: bool = True,
-    ):
+    ) -> int:
         origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
 
@@ -1137,6 +1232,7 @@ class MemoryScopeManager(models.Manager["MemoryScope"]):
         project: Project | None,
         from_file: bool,
         shared: bool,
+        component: Component | None = None,
     ) -> MemoryScope | None:
         if from_file:
             if project is not None:
@@ -1147,11 +1243,21 @@ class MemoryScopeManager(models.Manager["MemoryScope"]):
                 return MemoryScope(scope=MemoryScope.SCOPE_USER_FILE, user=user)
             return MemoryScope(scope=MemoryScope.SCOPE_GLOBAL_FILE)
         if project is not None:
-            return MemoryScope(scope=MemoryScope.SCOPE_PROJECT, project=project)
+            return MemoryScope(
+                scope=MemoryScope.SCOPE_PROJECT,
+                project=project,
+                source_component=component,
+            )
         if shared:
-            return MemoryScope(scope=MemoryScope.SCOPE_SHARED)
+            return MemoryScope(
+                scope=MemoryScope.SCOPE_SHARED, source_component=component
+            )
         if user is not None:
-            return MemoryScope(scope=MemoryScope.SCOPE_USER, user=user)
+            return MemoryScope(
+                scope=MemoryScope.SCOPE_USER,
+                user=user,
+                source_component=component,
+            )
         return None
 
     def get_scope_query(self, scope: MemoryScope) -> Q:
@@ -1178,6 +1284,7 @@ class MemoryScopeManager(models.Manager["MemoryScope"]):
                     project_id=scope.project_id,
                     workspace_id=scope.workspace_id,
                     source_project_id=scope.source_project_id,
+                    source_component_id=scope.source_component_id,
                     user_id=scope.user_id,
                 )
                 for scope in memory.pending_scopes
@@ -1301,6 +1408,13 @@ class MemoryScope(models.Model):
         blank=True,
         related_name="+",
     )
+    source_component = models.ForeignKey(
+        "trans.Component",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.deletion.CASCADE,
@@ -1327,6 +1441,10 @@ class MemoryScope(models.Model):
             models.Index(
                 fields=["scope", "source_project", "memory"],
                 name="memory_scope_source_project",
+            ),
+            models.Index(
+                fields=["scope", "source_component", "memory"],
+                name="memory_scope_source_component",
             ),
             models.Index(
                 fields=["scope", "workspace", "source_project", "memory"],

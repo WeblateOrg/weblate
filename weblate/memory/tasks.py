@@ -6,7 +6,7 @@ from __future__ import annotations
 from collections import defaultdict
 from datetime import timedelta
 from operator import itemgetter
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, Any, NotRequired, TypedDict
 from uuid import UUID
 
 from django.db import transaction
@@ -21,6 +21,8 @@ from weblate.utils.celery import app
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from django.db.models import QuerySet
+
     from weblate.auth.models import User
     from weblate.lang.models import Language
     from weblate.trans.models import Component, Project, Unit
@@ -32,6 +34,7 @@ MEMORY_SCOPE_COMPACTION_STALE_SECONDS = 4 * MEMORY_SCOPE_BACKFILL_STALE_SECONDS
 MEMORY_SCOPE_COMPACTION_BATCH_SIZE = 50000
 MEMORY_SCOPE_BACKFILL_STATE = "memory-scope-backfill"
 MEMORY_SCOPE_COMPACTION_STATE = "memory-scope-compaction"
+MEMORY_COMPONENT_BACKFILL_STATE = "memory-component-backfill"
 
 
 class MemoryUpdatePayload(TypedDict):
@@ -48,6 +51,7 @@ class MemoryUpdatePayload(TypedDict):
     user_id: int | None
     workspace_id: UUID | None
     project_id: int
+    component_id: NotRequired[int]
     unit_state: int
 
 
@@ -146,11 +150,12 @@ def get_unit_memory_update(
         "source": source,
         "target": target,
         "origin": origin,
-        "add_shared": project.contribute_shared_tm,
+        "add_shared": project.contribute_shared_tm and not component.restricted,
         "add_workspace": project.effective_contribute_workspace_tm,
         "user_id": user_id,
         "workspace_id": project.workspace_id,
         "project_id": project.id,
+        "component_id": component.id,
         "add_project": component.contribute_project_tm,
         "add_user": add_user,
         "unit_state": unit.state,
@@ -217,6 +222,95 @@ def set_scope_source_project_ids(memories: list[Memory]) -> None:
         memory.scope_source_project_id = source_project_ids.get(memory.id)
 
 
+def _get_component_path_lookup(
+    components: list[Component],
+) -> dict[tuple[int, str], Component]:
+    """Build a current project-relative component path lookup."""
+    return {
+        (
+            component.project_id,
+            component.full_slug.split("/", 1)[1].casefold(),
+        ): component
+        for component in components
+    }
+
+
+def _attribute_memory_scope_components(scopes: list[MemoryScope]) -> None:
+    """Associate a batch of memory scopes with their source components."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Component
+
+    memories = list({scope.memory_id: scope.memory for scope in scopes}.values())
+    inferred_project_ids = infer_scope_source_project_ids(memories)
+    scope_project_ids = {
+        scope.id: (
+            scope.project_id
+            or scope.source_project_id
+            or inferred_project_ids.get(scope.memory_id)
+        )
+        for scope in scopes
+    }
+    project_ids = {
+        project_id
+        for project_id in scope_project_ids.values()
+        if project_id is not None
+    }
+    components = list(Component.objects.filter(project_id__in=project_ids).prefetch())
+    components_by_project_path = _get_component_path_lookup(components)
+    restricted_shared_scope_ids = []
+    to_update = []
+    for scope in scopes:
+        _project_slug, separator, component_path = scope.memory.origin.partition("/")
+        scope_project_id = scope_project_ids[scope.id]
+        component = (
+            components_by_project_path.get(
+                (scope_project_id, component_path.casefold())
+            )
+            if scope.scope in AUTOMATIC_SCOPE_TYPES
+            and separator
+            and scope_project_id is not None
+            else None
+        )
+        scope.source_component = component
+        if (
+            component is not None
+            and component.restricted
+            and scope.scope == MemoryScope.SCOPE_SHARED
+        ):
+            restricted_shared_scope_ids.append(scope.id)
+        else:
+            to_update.append(scope)
+
+    if to_update:
+        MemoryScope.objects.using("default").bulk_update(
+            to_update,
+            fields=["source_component"],
+        )
+    if restricted_shared_scope_ids:
+        Memory.objects.using("default").filter(
+            scopes__id__in=restricted_shared_scope_ids
+        ).delete_scope(Q(id__in=restricted_shared_scope_ids), delete_legacy=False)
+
+
+def attribute_memory_scope_queryset(
+    queryset: QuerySet[MemoryScope], batch_size: int = 5000
+) -> None:
+    """Attribute scopes from a restricted queryset in batches."""
+    last_scope_id = 0
+    while True:
+        with transaction.atomic(using="default"):
+            scopes = list(
+                queryset.filter(id__gt=last_scope_id)
+                .select_for_update()
+                .select_related("memory")
+                .order_by("id")[:batch_size]
+            )
+            if not scopes:
+                return
+            last_scope_id = scopes[-1].id
+            _attribute_memory_scope_components(scopes)
+
+
 @app.task(trail=False)
 def backfill_memory_scopes(batch_size: int = 5000) -> None:
     # TODO(2028.1): Remove this background TM scope backfill once Weblate no
@@ -269,6 +363,53 @@ def backfill_memory_scopes(batch_size: int = 5000) -> None:
         backfill_memory_scopes.delay(batch_size=batch_size)
     elif run_compact:
         schedule_memory_scope_compaction()
+
+
+@app.task(trail=False)
+def backfill_memory_scope_components(batch_size: int = 5000) -> None:
+    # TODO(2028.1): Remove this component-attribution backfill once Weblate no
+    # longer supports direct upgrades from 2026 releases.
+    """Associate existing automatic memory scopes with source components."""
+    scope_objects = MemoryScope.objects.using("default")
+    state_objects = MemoryScopeMigrationState.objects.using("default")
+
+    with transaction.atomic(using="default"):
+        state, _created = state_objects.select_for_update().get_or_create(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        )
+        if state.completed:
+            return
+
+        scopes = list(
+            scope_objects.filter(
+                id__gt=state.last_memory_id,
+                scope__in=AUTOMATIC_SCOPE_TYPES,
+                source_component__isnull=True,
+            )
+            .select_for_update()
+            .select_related("memory")
+            .order_by("id")[:batch_size]
+        )
+        if not scopes:
+            state.completed = True
+            state.updated = timezone.now()
+            state.save(using="default", update_fields=["completed", "updated"])
+            run_next = False
+        else:
+            _attribute_memory_scope_components(scopes)
+
+            state.last_memory_id = scopes[-1].id
+            state.updated = timezone.now()
+            run_next = len(scopes) == batch_size
+            if not run_next:
+                state.completed = True
+            state.save(
+                using="default",
+                update_fields=["last_memory_id", "completed", "updated"],
+            )
+
+    if run_next:
+        backfill_memory_scope_components.delay(batch_size=batch_size)
 
 
 def set_memory_scope_compaction_completed(
@@ -447,6 +588,52 @@ def resume_memory_scope_backfill() -> None:
         backfill_memory_scopes.delay()
 
 
+@app.task(trail=False)
+def resume_memory_component_backfill() -> None:
+    # TODO(2028.1): Remove this component-attribution backfill once Weblate no
+    # longer supports direct upgrades from 2026 releases.
+    """Resume the component attribution backfill after interrupted workers."""
+    state_objects = MemoryScopeMigrationState.objects.using("default")
+    state = state_objects.filter(name=MEMORY_COMPONENT_BACKFILL_STATE).first()
+    last_scope_id = 0 if state is None else state.last_memory_id
+    needs_backfill = MemoryScope.objects.using("default").filter(
+        id__gt=last_scope_id,
+        scope__in=AUTOMATIC_SCOPE_TYPES,
+        source_component__isnull=True,
+    )
+    if not needs_backfill.exists():
+        if state is None:
+            state_objects.create(
+                name=MEMORY_COMPONENT_BACKFILL_STATE,
+                completed=True,
+                updated=timezone.now(),
+            )
+        elif not state.completed:
+            state.completed = True
+            state.updated = timezone.now()
+            state.save(using="default", update_fields=["completed", "updated"])
+        return
+
+    if state is None:
+        backfill_memory_scope_components.delay()
+        return
+    if state.completed:
+        state.completed = False
+        state.updated = timezone.now()
+        state.save(
+            using="default",
+            update_fields=["completed", "updated"],
+        )
+        backfill_memory_scope_components.delay()
+        return
+
+    stale_before = timezone.now() - timedelta(
+        seconds=MEMORY_SCOPE_BACKFILL_STALE_SECONDS
+    )
+    if state.updated <= stale_before:
+        backfill_memory_scope_components.delay()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(
@@ -454,10 +641,15 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
         resume_memory_scope_backfill.s(),
         name="resume-memory-scope-backfill",
     )
+    sender.add_periodic_task(
+        MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
+        resume_memory_component_backfill.s(),
+        name="resume-memory-component-backfill",
+    )
 
 
 @app.task(trail=False)
-def update_memory(  # ruff: ignore[too-many-arguments]
+def update_memory(  # ruff: ignore[too-many-arguments, complex-structure]
     *,
     source_language_id: int,
     target_language_id: int,
@@ -472,12 +664,30 @@ def update_memory(  # ruff: ignore[too-many-arguments]
     user_id: int | None,
     workspace_id: UUID | None,
     project_id: int,
+    component_id: int | None = None,
     unit_state: int,
 ) -> None:
     # ruff: ignore[import-outside-top-level]
-    from weblate.trans.models import Project
+    from weblate.trans.models import Component
 
-    project = Project.objects.select_related("workspace").get(pk=project_id)
+    components = Component.objects.select_related("project", "project__workspace")
+    if component_id is None:
+        component = (
+            components.filter_by_path(origin).filter(project_id=project_id).first()
+        )
+    else:
+        component = components.filter(pk=component_id, project_id=project_id).first()
+    if component is None:
+        return
+    component_id = component.id
+    project = component.project
+    origin = component.full_slug
+    workspace_id = project.workspace_id
+    add_project = add_project and component.contribute_project_tm
+    add_workspace = add_workspace and project.effective_contribute_workspace_tm
+    add_shared = (
+        add_shared and project.contribute_shared_tm and not component.restricted
+    )
     memory_objects = Memory.objects.using("default")
     memory_scope_objects = MemoryScope.objects.db_manager("default")
     check_matching = True
@@ -517,6 +727,7 @@ def update_memory(  # ruff: ignore[too-many-arguments]
             .filter_scope(Q(scope__in=AUTOMATIC_SCOPE_TYPES))
             .prefetch_related("scopes")
         ):
+            associate_memory_scopes(matching, component_id)
             matching = collect_status_update(matching, memory_status, to_update)
 
             categories = get_memory_categories(matching)
@@ -540,7 +751,11 @@ def update_memory(  # ruff: ignore[too-many-arguments]
             status=memory_status,
         )
         memory.pending_scopes = [
-            MemoryScope(scope=MemoryScope.SCOPE_PROJECT, project_id=project_id)
+            MemoryScope(
+                scope=MemoryScope.SCOPE_PROJECT,
+                project_id=project_id,
+                source_component_id=component_id,
+            )
         ]
         to_create.append(memory)
     if add_shared:
@@ -554,7 +769,11 @@ def update_memory(  # ruff: ignore[too-many-arguments]
             status=memory_status,
         )
         memory.pending_scopes = [
-            MemoryScope(scope=MemoryScope.SCOPE_SHARED, source_project_id=project_id)
+            MemoryScope(
+                scope=MemoryScope.SCOPE_SHARED,
+                source_project_id=project_id,
+                source_component_id=component_id,
+            )
         ]
         to_create.append(memory)
     if add_user:
@@ -568,7 +787,11 @@ def update_memory(  # ruff: ignore[too-many-arguments]
             status=memory_status,
         )
         memory.pending_scopes = [
-            MemoryScope(scope=MemoryScope.SCOPE_USER, user_id=user_id)
+            MemoryScope(
+                scope=MemoryScope.SCOPE_USER,
+                user_id=user_id,
+                source_component_id=component_id,
+            )
         ]
         to_create.append(memory)
     if add_workspace and workspace_id is not None:
@@ -586,6 +809,7 @@ def update_memory(  # ruff: ignore[too-many-arguments]
                 scope=MemoryScope.SCOPE_WORKSPACE,
                 workspace_id=workspace_id,
                 source_project_id=project_id,
+                source_component_id=component_id,
             )
         ]
         to_create.append(memory)
@@ -704,23 +928,46 @@ def compact_exact_memory_group(
         for memory in memories
         for scope in scopes_by_memory[memory.id]
     }
-    scopes = []
-    for memory in memories[1:]:
-        scopes.extend(
-            [
+    preferred_scopes: dict[MemoryScopeKey, MemoryScope] = {}
+    for memory in memories:
+        for scope in scopes_by_memory[memory.id]:
+            key = get_memory_scope_key(scope)
+            current = preferred_scopes.get(key)
+            if current is None or (
+                scope.source_component_id is not None
+                and current.source_component_id is None
+            ):
+                preferred_scopes[key] = scope
+
+    survivor_scopes = {
+        get_memory_scope_key(scope): scope for scope in scopes_by_memory[survivor.id]
+    }
+    scopes_to_create = []
+    scopes_to_update = []
+    for key, preferred in preferred_scopes.items():
+        scope = survivor_scopes.get(key)
+        if scope is None:
+            scopes_to_create.append(
                 MemoryScope(
                     memory=survivor,
-                    scope=scope.scope,
-                    project_id=scope.project_id,
-                    workspace_id=scope.workspace_id,
-                    source_project_id=scope.source_project_id,
-                    user_id=scope.user_id,
+                    scope=preferred.scope,
+                    project_id=preferred.project_id,
+                    workspace_id=preferred.workspace_id,
+                    source_project_id=preferred.source_project_id,
+                    source_component_id=preferred.source_component_id,
+                    user_id=preferred.user_id,
                 )
-                for scope in scopes_by_memory[memory.id]
-            ]
+            )
+        elif scope.source_component_id != preferred.source_component_id:
+            scope.source_component_id = preferred.source_component_id
+            scopes_to_update.append(scope)
+    if scopes_to_create:
+        memory_scope_objects.bulk_create(scopes_to_create, ignore_conflicts=True)
+    if scopes_to_update:
+        memory_scope_objects.bulk_update(
+            scopes_to_update,
+            fields=["source_component"],
         )
-    if scopes:
-        memory_scope_objects.bulk_create(scopes, ignore_conflicts=True)
     if len(scope_keys) >= 2:
         normalize_compacted_memory_owner(survivor)
     memory_objects.filter(id__in=duplicate_ids).delete()
@@ -810,6 +1057,7 @@ def split_automatic_scopes_from_file_memory(memory: Memory, status: int) -> Memo
                 project_id=scope.project_id,
                 workspace_id=scope.workspace_id,
                 source_project_id=scope.source_project_id,
+                source_component_id=scope.source_component_id,
                 user_id=scope.user_id,
             )
             for scope in scopes
@@ -843,6 +1091,21 @@ def normalize_compacted_memory_owner(memory: Memory) -> None:
     memory.normalize_legacy_owner()
 
 
+def associate_memory_scopes(memory: Memory, component_id: int) -> None:
+    """Attach matching automatic scopes to their current source component."""
+    to_update = []
+    for scope in memory.scopes.all():
+        if scope.scope not in AUTOMATIC_SCOPE_TYPES:
+            continue
+        if scope.source_component_id != component_id:
+            scope.source_component_id = component_id
+            to_update.append(scope)
+    if to_update:
+        MemoryScope.objects.using("default").bulk_update(
+            to_update, fields=["source_component"]
+        )
+
+
 def get_memory_categories(memory: Memory) -> set[MemoryCategory]:
     categories: set[MemoryCategory] = set()
     for scope in memory.scopes.all():
@@ -865,6 +1128,9 @@ def get_group_matching_memory(
     origin, source_language_id, target_language_id = group_key
     expected_keys = sorted({key for _, key, _, _ in group_entries})
     expected_key_set = set(expected_keys)
+    components_by_key = {
+        key: entry.get("component_id") for _, key, entry, _ in group_entries
+    }
     existing = defaultdict(set)
     to_update: list[Memory] = []
     memory_objects = Memory.objects.using("default")
@@ -899,6 +1165,9 @@ def get_group_matching_memory(
             )
             if key not in expected_key_set:
                 continue
+            component_id = components_by_key[key]
+            if component_id is not None:
+                associate_memory_scopes(matching, component_id)
             matching = collect_status_update(matching, statuses[key], to_update)
             existing[key].update(get_memory_categories(matching))
 
@@ -919,7 +1188,11 @@ def create_memory_entry(
             status=status,
         )
         memory.pending_scopes = [
-            MemoryScope(scope=MemoryScope.SCOPE_PROJECT, project_id=entry["project_id"])
+            MemoryScope(
+                scope=MemoryScope.SCOPE_PROJECT,
+                project_id=entry["project_id"],
+                source_component_id=entry["component_id"],
+            )
         ]
         return memory
     if category == "shared":
@@ -936,6 +1209,7 @@ def create_memory_entry(
             MemoryScope(
                 scope=MemoryScope.SCOPE_SHARED,
                 source_project_id=entry["project_id"],
+                source_component_id=entry["component_id"],
             )
         ]
         return memory
@@ -956,6 +1230,7 @@ def create_memory_entry(
                     scope=MemoryScope.SCOPE_WORKSPACE,
                     workspace_id=workspace_id,
                     source_project_id=entry["project_id"],
+                    source_component_id=entry["component_id"],
                 )
             ]
         return memory
@@ -969,7 +1244,11 @@ def create_memory_entry(
         status=status,
     )
     memory.pending_scopes = [
-        MemoryScope(scope=MemoryScope.SCOPE_USER, user_id=entry["user_id"])
+        MemoryScope(
+            scope=MemoryScope.SCOPE_USER,
+            user_id=entry["user_id"],
+            source_component_id=entry["component_id"],
+        )
     ]
     return memory
 
@@ -1009,13 +1288,35 @@ def create_missing_memory_entries(
 @app.task(trail=False)
 def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
     # ruff: ignore[import-outside-top-level]
-    from weblate.trans.models import Project
+    from weblate.trans.models import Component
 
     if not entries:
         return
 
-    projects = Project.objects.select_related("workspace").in_bulk(
-        {entry["project_id"] for entry in entries}
+    components_queryset = Component.objects.select_related(
+        "project", "project__workspace"
+    )
+    components = components_queryset.in_bulk(
+        {
+            component_id
+            for entry in entries
+            if (component_id := entry.get("component_id")) is not None
+        }
+    )
+    # TODO(2028.1): Remove support for queued payloads without component_id once
+    # Weblate no longer supports direct upgrades from 2026 releases.
+    legacy_project_ids = {
+        entry["project_id"] for entry in entries if entry.get("component_id") is None
+    }
+    legacy_components = (
+        {
+            component.full_slug.casefold(): component
+            for component in components_queryset.filter(
+                project_id__in=legacy_project_ids
+            ).prefetch()
+        }
+        if legacy_project_ids
+        else {}
     )
     fallback = []
     grouped_entries = defaultdict(list)
@@ -1024,7 +1325,22 @@ def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
     memory_scope_objects = MemoryScope.objects.db_manager("default")
 
     for position, entry in enumerate(entries):
-        project = projects[entry["project_id"]]
+        component_id = entry.get("component_id")
+        component = (
+            components.get(component_id)
+            if component_id is not None
+            else legacy_components.get(entry["origin"].casefold())
+        )
+        if component is None or component.project_id != entry["project_id"]:
+            continue
+        project = component.project
+        entry = entry.copy()
+        entry["component_id"] = component.id
+        entry["origin"] = component.full_slug
+        entry["workspace_id"] = project.workspace_id
+        entry["add_project"] &= component.contribute_project_tm
+        entry["add_workspace"] &= project.effective_contribute_workspace_tm
+        entry["add_shared"] &= project.contribute_shared_tm and not component.restricted
         if project.autoclean_tm:
             fallback.append(entry)
             continue

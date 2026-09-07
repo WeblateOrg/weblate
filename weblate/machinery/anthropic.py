@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import ClassVar
 from urllib.parse import urljoin
 
-from .base import MachineryRateLimitError
+from .base import MachineryRateLimitError, MachineTranslationError
 from .forms import AnthropicMachineryForm
 from .llm import BaseLLMTranslation
 
@@ -41,9 +41,7 @@ class AnthropicTranslation(BaseLLMTranslation):
 
     def check_failure(self, response) -> None:
         if response.status_code == 429:
-            payload = response.json()
-            error = payload.get("error", {})
-            message = error.get("message", "Rate limit exceeded")
+            message = self.get_error_detail(response) or "Rate limit exceeded"
             raise MachineryRateLimitError(message)
         super().check_failure(response)
 
@@ -51,7 +49,37 @@ class AnthropicTranslation(BaseLLMTranslation):
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
         model = self.get_traced_model()
-        payload = {
+        response = self.request(
+            "post",
+            self.get_chat_url(),
+            json=self.get_chat_payload(
+                model, prompt, content, previous_content, previous_response
+            ),
+        )
+        return self.parse_chat_response(self.parse_json_response(response))
+
+    async def afetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
+        model = await self.aget_traced_model()
+        response = await self.arequest(
+            "post",
+            self.get_chat_url(),
+            json=self.get_chat_payload(
+                model, prompt, content, previous_content, previous_response
+            ),
+        )
+        return self.parse_chat_response(self.parse_json_response(response))
+
+    def get_chat_payload(
+        self,
+        model: str,
+        prompt: str,
+        content: str,
+        previous_content: str,
+        previous_response: str,
+    ) -> dict:
+        return {
             "model": model,
             "max_tokens": self.settings.get("max_tokens", 4096),
             "system": prompt,
@@ -61,17 +89,40 @@ class AnthropicTranslation(BaseLLMTranslation):
                 {"role": "user", "content": content},
             ],
         }
-        api_url = urljoin(
+
+    def get_chat_url(self) -> str:
+        return urljoin(
             self.settings.get("base_url") or "https://api.anthropic.com",
             self.end_point,
         )
-        response = self.request("post", api_url, json=payload)
-        response_data = response.json()
 
-        content_blocks = response_data.get("content", [])
+    @staticmethod
+    def parse_chat_response(response_data) -> str:
+        if not isinstance(response_data, dict):
+            msg = "Invalid service response: expected a JSON object."
+            raise MachineTranslationError(msg)
+
+        content_blocks = response_data.get("content")
+        if not isinstance(content_blocks, list):
+            msg = 'Invalid service response: expected "content" to be a list.'
+            raise MachineTranslationError(msg)
+        if not content_blocks:
+            msg = "Service response did not contain an assistant message."
+            raise MachineTranslationError(msg)
+
+        invalid_block = False
         for block in content_blocks:
-            if isinstance(block, dict) and block.get("type") == "text":
+            if not isinstance(block, dict):
+                invalid_block = True
+            elif block.get("type") == "text":
                 text = block.get("text")
                 if isinstance(text, str):
                     return text
-        return None
+                msg = "Assistant message did not contain text content."
+                raise MachineTranslationError(msg)
+
+        if invalid_block:
+            msg = "Invalid service response: expected content blocks to be objects."
+            raise MachineTranslationError(msg)
+        msg = "Assistant message did not contain text content."
+        raise MachineTranslationError(msg)

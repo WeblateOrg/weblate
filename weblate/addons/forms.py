@@ -105,6 +105,8 @@ class BuiltinDiscoveryUIPreset(TypedDict):
 
 
 class BaseAddonForm[StoredConfigurationT, AddonT: BaseAddon](forms.Form):
+    public_configuration_fields: ClassVar[frozenset[str]] = frozenset()
+
     def __init__(
         self,
         user: User | None,
@@ -126,6 +128,8 @@ class BaseAddonForm[StoredConfigurationT, AddonT: BaseAddon](forms.Form):
 
 
 class GenerateMoForm(BaseAddonForm):
+    public_configuration_fields = frozenset({"fuzzy", "path"})
+
     path = forms.CharField(
         label=gettext_lazy("Path of generated MO file"),
         required=False,
@@ -163,6 +167,10 @@ class GenerateMoForm(BaseAddonForm):
 
 
 class BaseExtractPotForm(BaseAddonForm):
+    public_configuration_fields = frozenset(
+        {"interval", "location_mode", "normalize_header"}
+    )
+
     interval = forms.ChoiceField(
         label=gettext_lazy("Update frequency"),
         choices=(
@@ -246,7 +254,33 @@ class BaseExtractPotForm(BaseAddonForm):
         return data
 
 
+class KeywordField(forms.CharField):
+    def prepare_value(self, value: object) -> object:
+        if isinstance(value, list) and all(
+            isinstance(keyword, str) for keyword in value
+        ):
+            return "\n".join(value)
+        return super().prepare_value(value)
+
+    def to_python(self, value: object) -> str | None:
+        if isinstance(value, list):
+            if not all(isinstance(keyword, str) for keyword in value):
+                raise forms.ValidationError(
+                    gettext("Keyword entries have to be strings.")
+                )
+            value = "\n".join(value)
+        return super().to_python(value)
+
+
 class BaseXgettextExtractPotForm(BaseExtractPotForm):
+    public_configuration_fields = BaseExtractPotForm.public_configuration_fields | {
+        "checks",
+        "comment_mode",
+        "comment_tag",
+        "keyword",
+        "keyword_exclusive",
+    }
+
     COMMENT_MODE_CHOICES = (
         ("off", gettext_lazy("Do not extract comments")),
         ("all", gettext_lazy("Extract all comments")),
@@ -285,11 +319,12 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             "Additional xgettext validation checks to enable for extracted messages."
         ),
     )
-    keyword = forms.CharField(
-        label=gettext_lazy("Additional keyword"),
+    keyword = KeywordField(
+        label=gettext_lazy("Additional keywords"),
         required=False,
+        widget=forms.Textarea(),
         help_text=gettext_lazy(
-            "Optional extra keyword passed to xgettext using --keyword."
+            "Newline-separated extra keywords passed to xgettext using --keyword."
         ),
     )
     keyword_exclusive = forms.BooleanField(
@@ -319,7 +354,7 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         else:
             comment_tag = ""
         cleaned_data["comment_tag"] = comment_tag
-        cleaned_data["keyword"] = cleaned_data.get("keyword", "").strip()
+        cleaned_data["keyword"] = self.parse_keywords(cleaned_data.get("keyword", ""))
         keyword_exclusive = bool(cleaned_data.get("keyword_exclusive"))
         if keyword_exclusive and not cleaned_data["keyword"]:
             self.add_error(
@@ -332,8 +367,17 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         cleaned_data["location_mode"] = cleaned_data.get("location_mode", "file")
         return cleaned_data
 
+    @staticmethod
+    def parse_keywords(value: str) -> list[str]:
+        return [line.strip() for line in value.splitlines() if line.strip()]
+
 
 class XgettextExtractPotForm(BaseXgettextExtractPotForm):
+    public_configuration_fields = (
+        BaseXgettextExtractPotForm.public_configuration_fields
+        | {"input_mode", "language", "potfiles_path", "source_patterns"}
+    )
+
     input_mode = forms.ChoiceField(
         label=gettext_lazy("Input source"),
         choices=(
@@ -455,6 +499,10 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
 
 
 class MesonExtractPotForm(BaseXgettextExtractPotForm):
+    public_configuration_fields = (
+        BaseXgettextExtractPotForm.public_configuration_fields | {"preset"}
+    )
+
     preset = forms.ChoiceField(
         label=gettext_lazy("Meson preset"),
         choices=(("glib", gettext_lazy("GLib")),),
@@ -528,6 +576,10 @@ class DjangoExtractPotForm(BaseExtractPotForm):
 
 
 class SphinxExtractPotForm(BaseExtractPotForm):
+    public_configuration_fields = BaseExtractPotForm.public_configuration_fields | {
+        "filter_mode"
+    }
+
     filter_mode = forms.ChoiceField(
         label=gettext_lazy("Filtering"),
         choices=(
@@ -601,6 +653,8 @@ class SphinxExtractPotForm(BaseExtractPotForm):
 class GenerateForm(
     BaseAddonForm["GenerateFileAddonConfiguration", "GenerateFileAddon"]
 ):
+    public_configuration_fields = frozenset({"filename"})
+
     filename = forms.CharField(
         label=gettext_lazy("Name of generated file"), required=True
     )
@@ -643,6 +697,8 @@ class GenerateForm(
 class GitSquashForm(
     BaseAddonForm["GitSquashAddonStoredConfiguration", "GitSquashAddon"]
 ):
+    public_configuration_fields = frozenset({"append_trailers", "squash"})
+
     squash = forms.ChoiceField(
         label=gettext_lazy("Commit squashing"),
         widget=forms.RadioSelect,
@@ -695,12 +751,16 @@ class GitSquashForm(
 
 
 class RemoveForm(BaseAddonForm):
+    public_configuration_fields = frozenset({"age"})
+
     age = forms.IntegerField(
         label=gettext_lazy("Days to keep"), min_value=0, initial=30, required=True
     )
 
 
 class RemoveSuggestionForm(RemoveForm):
+    public_configuration_fields = RemoveForm.public_configuration_fields | {"votes"}
+
     votes = forms.IntegerField(
         label=gettext_lazy("Voting threshold"),
         initial=0,
@@ -748,6 +808,21 @@ class LanguageConsistencyPreviewForm(
 
 
 class DiscoveryForm(BaseAddonForm):
+    public_configuration_fields = frozenset(
+        {
+            "base_file_template",
+            "copy_addons",
+            "file_format",
+            "filemask_template",
+            "intermediate_template",
+            "language_regex",
+            "match",
+            "name_template",
+            "new_base_template",
+            "remove",
+        }
+    )
+
     COMPONENT_TEMPLATE_SENTINELS: ClassVar[tuple[str, ...]] = (
         "alpha",
         "bravo12",
@@ -762,6 +837,7 @@ class DiscoveryForm(BaseAddonForm):
         "base_file_template",
         "new_base_template",
         "intermediate_template",
+        "filemask_template",
         "language_regex",
     )
     PRESET_FILENAME_LANGUAGE = "filename-language"
@@ -779,6 +855,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_GETTEXT_LOCALES: {
@@ -788,6 +865,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_COMPLEX_FILENAMES: {
@@ -797,6 +875,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_FILENAME_LANGUAGE: {
@@ -806,6 +885,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_REPEATED_LANGUAGE: {
@@ -815,6 +895,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_SPLIT_ANDROID: {
@@ -824,6 +905,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_MULTIPLE_PATHS: {
@@ -833,6 +915,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
     }
@@ -841,7 +924,10 @@ class DiscoveryForm(BaseAddonForm):
         label=gettext_lazy("Regular expression to match translation files against"),
         required=True,
         help_text=gettext_lazy(
-            "The regular expression must define named groups for component and language."
+            "The regular expression must define a named group for component. "
+            "Also define a named group for language when matching translation files. "
+            "When the file mask is set, omit language and match the "
+            "monolingual base or new base file instead."
         ),
     )
     file_format = forms.ChoiceField(
@@ -885,6 +971,18 @@ class DiscoveryForm(BaseAddonForm):
             "used when creating actual source strings. This template must include {{ component }}."
         ),
     )
+    filemask_template = forms.CharField(
+        label=gettext_lazy("Define the file mask"),
+        initial="",
+        required=False,
+        help_text=gettext_lazy(
+            "Leave empty to match translation files directly. When set, discovery "
+            "matches the monolingual base or new base file and uses this template "
+            "as the file mask. Include a language wildcard and "
+            "{{ component }}, for example locale/*/{{ component }}.po or "
+            "docs/{{ component }}_*.md."
+        ),
+    )
 
     language_regex = forms.CharField(
         label=gettext_lazy("Language filter"),
@@ -922,6 +1020,7 @@ class DiscoveryForm(BaseAddonForm):
             Field("base_file_template"),
             Field("new_base_template"),
             Field("intermediate_template"),
+            Field("filemask_template"),
             Field("language_regex"),
             Field("copy_addons"),
             Field("remove"),
@@ -1216,6 +1315,27 @@ class DiscoveryForm(BaseAddonForm):
                         )
                     }
                 )
+            if filemask_template := self.cleaned_data.get("filemask_template"):
+                new_base_template = self.cleaned_data.get("new_base_template")
+                base_file_template = self.cleaned_data.get("base_file_template")
+                errors: dict[str, str] = {}
+                if is_monolingual is False and not new_base_template:
+                    errors["new_base_template"] = gettext(
+                        "Define the base file for new translations when creating components from a template."
+                    )
+                elif is_monolingual is None and not (
+                    base_file_template or new_base_template
+                ):
+                    errors["base_file_template"] = gettext(
+                        "Define a monolingual base or new base filename when creating components from a template."
+                    )
+                if "*" not in filemask_template:
+                    errors["filemask_template"] = gettext(
+                        "The file mask must include a language wildcard (*)."
+                    )
+
+                if errors:
+                    raise forms.ValidationError(errors)
 
         self.cleaned_data["preview"] = False
 
@@ -1231,8 +1351,32 @@ class DiscoveryForm(BaseAddonForm):
 
     def clean_match(self):
         match = self.cleaned_data["match"]
-        validate_re(match, ("component", "language"))
+        if self.create_from_template:
+            validate_re(match, ("component",))
+            if "language" in compile_regex(match).groupindex:
+                raise forms.ValidationError(
+                    gettext(
+                        "Omit the language named group when creating components "
+                        "from a monolingual base or new base file."
+                    )
+                )
+        else:
+            validate_re(match, ("component", "language"))
         return match
+
+    @property
+    def create_from_template(self) -> bool:
+        if "filemask_template" in self.cleaned_data:
+            return bool(self.cleaned_data["filemask_template"])
+        # match is declared before filemask_template, so fall back to raw data
+        # while field-level cleaning is still in progress.
+        data = getattr(self, "data", None)
+        if data is None:
+            return False
+        value = data.get("filemask_template")
+        if value is None:
+            return False
+        return bool(str(value).strip())
 
     @cached_property
     def cleaned_match_re(self):
@@ -1293,11 +1437,18 @@ class DiscoveryForm(BaseAddonForm):
     def clean_intermediate_template(self):
         return self.template_clean("intermediate_template")
 
+    def clean_filemask_template(self):
+        return self.template_clean("filemask_template")
+
 
 class AutoAddonForm(
     BaseAddonForm["AutoTranslateAddonStoredConfiguration", "AutoTranslateAddon"],
     AutoForm,
 ):
+    public_configuration_fields = frozenset(
+        {"auto_source", "component", "engines", "mode", "q", "threshold"}
+    )
+
     def __init__(
         self,
         user: User | None,
@@ -1322,6 +1473,18 @@ class AutoAddonForm(
 
 
 class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
+    public_configuration_fields = frozenset(
+        {
+            "add_flags",
+            "add_labels",
+            "path",
+            "q",
+            "remove_flags",
+            "remove_labels",
+            "state",
+        }
+    )
+
     def __init__(self, user: User | None, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
         obj: Project | Component | None = None
@@ -1350,6 +1513,10 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
 
 
 class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
+    public_configuration_fields = frozenset(
+        {"cookie_name", "css_selector", "threshold"}
+    )
+
     threshold = forms.IntegerField(
         label=gettext_lazy("Translation threshold"),
         initial=0,
@@ -1453,6 +1620,19 @@ class TranslationLanguageChoiceField(CachedModelChoiceField):
 
 
 class PseudolocaleAddonForm(BaseAddonForm):
+    public_configuration_fields = frozenset(
+        {
+            "include_readonly",
+            "prefix",
+            "source",
+            "suffix",
+            "target",
+            "var_multiplier",
+            "var_prefix",
+            "var_suffix",
+        }
+    )
+
     source = TranslationLanguageChoiceField(
         label=gettext_lazy("Source strings"),
         required=True,
@@ -1542,6 +1722,8 @@ class PropertiesSortAddonForm(
         "PropertiesSortAddon",
     ]
 ):
+    public_configuration_fields = frozenset({"case_sensitive"})
+
     case_sensitive = forms.BooleanField(
         label=gettext_lazy("Enable case-sensitive key sorting"),
         required=False,
@@ -1554,6 +1736,8 @@ class PropertiesSortAddonForm(
 
 class ChangeBaseAddonForm(BaseAddonForm):
     """Base form for Change-based addons."""
+
+    public_configuration_fields = frozenset({"event_filter", "events"})
 
     event_filter = forms.ChoiceField(
         label=gettext_lazy("Change events to trigger"),
@@ -1684,6 +1868,13 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
 
 
 class FedoraMessagingAddonForm(ChangeBaseAddonForm):
+    public_configuration_fields = ChangeBaseAddonForm.public_configuration_fields | {
+        "connection_attempts",
+        "publish_timeout",
+        "retry_delay",
+        "topic_prefix",
+    }
+
     amqp_url = forms.CharField(
         label=gettext_lazy("AMQP broker URL"),
         help_text=gettext_lazy("The AMQP broker URL to connect to."),

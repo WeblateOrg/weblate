@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from itertools import islice
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
@@ -42,6 +43,7 @@ if TYPE_CHECKING:
 
 
 SEARCH_SUMMARY_MAX_STRINGS = 1_000
+SEARCH_REPLACE_PREVIEW_LIMIT = 250
 
 
 @login_required
@@ -57,10 +59,15 @@ def search_replace(request: AuthenticatedHttpRequest, path):
             ProjectLanguage,
             Category,
             CategoryLanguage,
+            Workspace,
         ),
     )
 
-    if not request.user.has_perm("unit.edit", obj):
+    if isinstance(obj, Workspace):
+        unit_set = unit_set.filter_editable_scope(request.user)
+        if not unit_set.exists():
+            raise PermissionDenied
+    elif not request.user.has_perm("unit.edit", obj):
         raise PermissionDenied
 
     form = ReplaceForm(obj=obj, data=request.POST)
@@ -80,11 +87,20 @@ def search_replace(request: AuthenticatedHttpRequest, path):
 
     updated = 0
 
-    matching_ids = list(matching.order_by("id").values_list("id", flat=True)[:251])
+    editable_units = (
+        unit
+        for unit in matching.order_by("id").iterator(
+            chunk_size=SEARCH_REPLACE_PREVIEW_LIMIT + 1
+        )
+        if request.user.has_perm("unit.edit", unit)
+    )
+    matching_ids = [
+        unit.id for unit in islice(editable_units, SEARCH_REPLACE_PREVIEW_LIMIT + 1)
+    ]
 
     if matching_ids:
-        if len(matching_ids) == 251:
-            matching_ids = matching_ids[:250]
+        if len(matching_ids) > SEARCH_REPLACE_PREVIEW_LIMIT:
+            matching_ids = matching_ids[:SEARCH_REPLACE_PREVIEW_LIMIT]
             limited = True
         else:
             limited = False

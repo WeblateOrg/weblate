@@ -7,7 +7,7 @@ import json
 from typing import TYPE_CHECKING
 from urllib.parse import unquote_plus
 
-from requests.exceptions import RequestException
+import httpx2
 
 from .base import (
     MACHINERY_DEFAULT_THRESHOLD,
@@ -17,8 +17,6 @@ from .base import (
 from .forms import KeyMachineryForm
 
 if TYPE_CHECKING:
-    from requests import Response
-
     from weblate.auth.models import User
     from weblate.trans.models import Unit
 
@@ -33,7 +31,7 @@ class YandexV2Translation(MachineTranslation):
     settings_form = KeyMachineryForm
     version_added = "5.1"
 
-    def check_failure(self, response: Response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         super().check_failure(response)
         payload = response.json()
         if "message" in payload:
@@ -86,9 +84,10 @@ class YandexV2Translation(MachineTranslation):
             }
 
     def get_error_message(self, exc: Exception) -> str:
-        if isinstance(exc, RequestException):
+        response = getattr(exc, "response", None)
+        if isinstance(exc, httpx2.HTTPError) and response is not None:
             try:
-                return exc.response.json()["message"]
+                return response.json()["message"]
             # ruff: ignore[try-except-pass]
             except Exception:
                 pass

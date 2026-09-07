@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% if overlimit %}
+  <p class="note">{% translate "Note: This notification has been truncated as there were over 100 entries." %}</p>
+{% endif %}

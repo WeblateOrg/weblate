@@ -191,7 +191,9 @@ File format
    * - ``toml``
      - TOML file
    * - ``ts``
-     - Qt Linguist translation file
+     - Qt Linguist translation file (version 2)
+   * - ``ts1``
+     - Qt Linguist translation file (version 1)
    * - ``txt``
      - Plain text file
    * - ``webextension``

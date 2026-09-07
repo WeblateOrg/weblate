@@ -45,7 +45,7 @@ jobs:
     - name: Run Fuzzers (${{ matrix.sanitizer }})
       id: run
       timeout-minutes: 12
-      uses: ./.github/actions/cflite-run-fuzzers
+      uses: $/.github/actions/cflite-run-fuzzers
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         fuzz-seconds: 180

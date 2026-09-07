@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import Prefetch, prefetch_related_objects
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -19,6 +20,8 @@ from django.utils.translation import gettext
 from weblate.accounts.views import mail_admins_contact
 from weblate.auth.models import TeamMembership
 from weblate.trans.backups import PROJECTBACKUP_PREFIX
+from weblate.trans.models import Project
+from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
 from weblate.utils.data import data_path
 from weblate.utils.views import show_form_errors
@@ -30,7 +33,13 @@ from .forms import (
     BillingPlanChangeForm,
     HostingForm,
 )
-from .models import Billing, BillingEvent, Invoice, Plan
+from .models import (
+    Billing,
+    BillingEvent,
+    Invoice,
+    Plan,
+    get_plan_change_log_details,
+)
 
 if TYPE_CHECKING:
     from django.http import HttpResponse
@@ -183,10 +192,7 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
         billing.billinglog_set.create(
             event=BillingEvent.PLAN_CHANGED,
             summary=f"Changed to {new_plan}",
-            details={
-                "old_plan": {"id": old_plan.pk, "name": old_plan.name},
-                "new_plan": {"id": new_plan.pk, "name": new_plan.name},
-            },
+            details=get_plan_change_log_details(old_plan, new_plan),
             user=request.user,
         )
     elif "recurring" in request.POST:
@@ -301,13 +307,23 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         return redirect(billing)
 
     other = confirm_form.cleaned_data["other"]
+    source_details = {"id": billing.pk, "name": str(billing)}
+    target_details = {"id": other.pk, "name": str(other)}
     with transaction.atomic():
         if "recurring" in billing.payment:
             other.payment["recurring"] = billing.payment["recurring"]
         if "all" in billing.payment:
             other.payment.setdefault("all", []).extend(billing.payment["all"])
         other.save()
-        billing.get_projects_queryset().update(workspace=other.workspace)
+        moved_projects = billing.get_projects_queryset()
+        projects_moved = moved_projects.update(workspace=other.workspace)
+        if projects_moved:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.utils.tasks import update_workspace_stats
+
+            update_workspace_stats.delay_on_commit(
+                [str(billing.workspace_id), str(other.workspace_id)]
+            )
         other.update_workspace_name()
         merge_workspace_access(billing, other)
         billing.invoice_set.update(billing=other)
@@ -316,13 +332,24 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         billing.save()
         billing.check_limits()
         other.check_limits()
+        other.billinglog_set.create(
+            event=BillingEvent.MERGED,
+            summary=f"Merged billing {billing.pk} into {other.pk}",
+            details={
+                "source_billing": source_details,
+                "target_billing": target_details,
+            },
+            user=request.user,
+        )
 
     return redirect(confirm_form.cleaned_data["other"])
 
 
 @login_required
 def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
-    billing = get_object_or_404(Billing, pk=pk)
+    billing = get_object_or_404(
+        Billing.objects.select_related("plan", "workspace"), pk=pk
+    )
 
     if not request.user.has_perm("meta:billing.view", billing):
         raise PermissionDenied
@@ -331,13 +358,45 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         handle_post(request, billing)
         return redirect(billing)
 
+    prefetch_related_objects(
+        [billing],
+        Prefetch(
+            "workspace__projects",
+            queryset=Project.objects.order(),
+            to_attr="ordered_projects",
+        ),
+        Prefetch(
+            "invoice_set",
+            queryset=Invoice.objects.order(),
+            to_attr="ordered_invoices",
+        ),
+    )
+    prefetch_project_flags(billing.all_projects)
+
+    user_can_manage_billing = request.user.has_perm("billing.manage")
+    context: dict[str, object] = {
+        "billing": billing,
+        "billing_logs": (
+            billing.billinglog_set.recent().select_related("user")
+            if request.user.is_superuser
+            else ()
+        ),
+        "hosting_form": HostingForm(),
+        "invoices": billing.ordered_invoices,
+        "user_can_manage_billing": user_can_manage_billing,
+    }
+    if user_can_manage_billing:
+        context.update(
+            {
+                "merge_form": BillingMergeForm(),
+                "plan_change_form": BillingPlanChangeForm(
+                    initial={"plan": billing.plan}
+                ),
+            }
+        )
+
     return render(
         request,
         "billing/detail.html",
-        {
-            "billing": billing,
-            "hosting_form": HostingForm(),
-            "merge_form": BillingMergeForm(),
-            "plan_change_form": BillingPlanChangeForm(initial={"plan": billing.plan}),
-        },
+        context,
     )

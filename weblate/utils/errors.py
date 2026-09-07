@@ -9,6 +9,7 @@ import sys
 from contextlib import suppress
 from importlib import import_module
 from json import JSONDecodeError
+from traceback import format_exception
 from typing import TYPE_CHECKING, Any, Literal, cast
 
 from django.conf import settings
@@ -22,6 +23,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 ERROR_LOGGER = "weblate.errors"
+SENTRY_SECRET_DENYLIST = ("passphrase", "borg_passphrase", "borg_new_passphrase")
 
 LOGGER = logging.getLogger(ERROR_LOGGER)
 _STATE: dict[str, Any] = {
@@ -69,24 +71,23 @@ def report_error(
     print_tb: bool = False,
     extra_log: str | None = None,
     project=None,
-    message: bool = False,
+    exception: BaseException | None = None,
 ) -> None:
-    """
-    Report errors.
-
-    This can be used for store exceptions in error reporting solutions as rollbar while
-    handling error gracefully and giving user cleaner message.
-    """
+    """Report an active or explicitly supplied exception."""
     # pylint: disable-next=unused-variable
     __traceback_hide__ = True  # ruff: ignore[unused-variable]
-    error = sys.exc_info()[1]
+    error = exception if exception is not None else sys.exc_info()[1]
+    if error is None:
+        msg = f"report_error called without an exception: {cause}"
+        raise RuntimeError(msg)
     locale = get_language()
-    report_as_message = message or error is None
 
     if not skip_error_reporting:
         if hasattr(settings, "ROLLBAR"):
             rollbar = get_rollbar()
-            rollbar.report_exc_info(level=level)
+            rollbar.report_exc_info(
+                (type(error), error, error.__traceback__), level=level
+            )
 
         if settings.SENTRY_DSN:
             sentry_sdk = get_sentry_sdk()
@@ -95,29 +96,78 @@ def report_error(
                 sentry_sdk.set_tag("project", project.slug)
             sentry_sdk.set_tag("user.locale", locale)
             sentry_sdk.set_level(level)
-            if report_as_message:
-                sentry_sdk.capture_message(cause)
-            else:
-                sentry_sdk.capture_exception()
+            sentry_sdk.capture_exception(error)
 
         google_client = _STATE["google_cloud_error_reporting_client"]
         if google_client is not None:
-            if report_as_message:
-                google_client.report(cause)
-            else:
-                google_client.report_exception()
+            google_client.report(
+                "".join(format_exception(type(error), error, error.__traceback__))
+            )
 
         record_error(
             cause,
             level=level,
-            exception=None if report_as_message else error,
+            exception=error,
             attributes={
                 "weblate.project": None if project is None else project.slug,
                 "weblate.user_locale": locale,
             },
         )
 
-    _log_error(cause, level=level, extra_log=extra_log, print_tb=print_tb)
+    _log_error(
+        cause,
+        level=level,
+        extra_log=extra_log,
+        print_tb=print_tb,
+        exception=error,
+    )
+
+
+def report_message(
+    cause: str,
+    *,
+    level: Literal[
+        "fatal", "critical", "error", "warning", "info", "debug"
+    ] = "warning",
+    skip_error_reporting: bool = False,
+    extra_log: str | None = None,
+    project=None,
+) -> None:
+    """Report a message without using an ambient exception."""
+    locale = get_language()
+
+    if not skip_error_reporting:
+        if hasattr(settings, "ROLLBAR"):
+            get_rollbar().report_message(cause, level=level)
+
+        if settings.SENTRY_DSN:
+            sentry_sdk = get_sentry_sdk()
+            sentry_sdk.set_tag("cause", cause)
+            if project is not None:
+                sentry_sdk.set_tag("project", project.slug)
+            sentry_sdk.set_tag("user.locale", locale)
+            sentry_sdk.set_level(level)
+            sentry_sdk.capture_message(cause)
+
+        google_client = _STATE["google_cloud_error_reporting_client"]
+        if google_client is not None:
+            google_client.report(cause)
+
+        record_error(
+            cause,
+            level=level,
+            exception=None,
+            attributes={
+                "weblate.project": None if project is None else project.slug,
+                "weblate.user_locale": locale,
+            },
+        )
+
+    log = getattr(LOGGER, level)
+    if extra_log:
+        log("%s: %s", cause, extra_log)
+    else:
+        log("%s", cause)
 
 
 def _log_error(
@@ -128,10 +178,11 @@ def _log_error(
     ] = "warning",
     extra_log: str | None = None,
     print_tb: bool = False,
+    exception: BaseException | None = None,
 ) -> None:
     """Log the current exception without reporting it to external services."""
     log = getattr(LOGGER, level)
-    error = sys.exc_info()[1]
+    error = exception
 
     # Include JSON document if available. It might be missing
     # when the error is raised from requests.
@@ -145,9 +196,11 @@ def _log_error(
             log("%s: %s: %s", cause, error.__class__.__name__, extra_log)
         else:
             log("%s: %s", cause, extra_log)
-    if print_tb:
-        # This is called from an exception handler
-        LOGGER.exception(cause)  # ruff: ignore[log-exception-outside-except-handler]
+    if print_tb and error is not None:
+        LOGGER.error(
+            cause,
+            exc_info=(type(error), error, error.__traceback__),
+        )
 
 
 def log_handled_exception(
@@ -159,7 +212,23 @@ def log_handled_exception(
     extra_log: str | None = None,
 ) -> None:
     """Log a handled exception without reporting it to Sentry or Rollbar."""
-    _log_error(cause, level=level, extra_log=extra_log)
+    _log_error(
+        cause,
+        level=level,
+        extra_log=extra_log,
+        exception=sys.exc_info()[1],
+    )
+
+
+class ChainedEventScrubber:
+    """Run mandatory and operator-configured Sentry event scrubbers."""
+
+    def __init__(self, *scrubbers) -> None:
+        self.scrubbers = scrubbers
+
+    def scrub_event(self, event) -> None:
+        for scrubber in self.scrubbers:
+            scrubber.scrub_event(event)
 
 
 def add_breadcrumb(category: str, message: str, level: str = "info", **data) -> None:
@@ -190,6 +259,11 @@ def init_sentry() -> None:
     )
 
     # ruff: ignore[import-outside-top-level]
+    from sentry_sdk.integrations.httpx2 import (
+        Httpx2Integration,
+    )
+
+    # ruff: ignore[import-outside-top-level]
     from sentry_sdk.integrations.logging import (
         ignore_logger,
     )
@@ -199,11 +273,27 @@ def init_sentry() -> None:
         RedisIntegration,
     )
 
+    # ruff: ignore[import-outside-top-level]
+    from sentry_sdk.scrubber import DEFAULT_DENYLIST, EventScrubber
+
     integrations = [
         CeleryIntegration(monitor_beat_tasks=settings.SENTRY_MONITOR_BEAT_TASKS),
         DjangoIntegration(),
+        Httpx2Integration(),
         RedisIntegration(),
     ]
+    sentry_extra_args = dict(settings.SENTRY_EXTRA_ARGS)
+    configured_scrubber = sentry_extra_args.pop("event_scrubber", None)
+    mandatory_scrubber = EventScrubber(
+        denylist=[*DEFAULT_DENYLIST, *SENTRY_SECRET_DENYLIST],
+        recursive=True,
+        send_default_pii=settings.SENTRY_SEND_PII,
+    )
+    scrubbers = []
+    if configured_scrubber is not None:
+        scrubbers.append(configured_scrubber)
+    scrubbers.append(mandatory_scrubber)
+    sentry_extra_args["event_scrubber"] = ChainedEventScrubber(*scrubbers)
 
     sentry_sdk.init(
         dsn=settings.SENTRY_DSN,
@@ -226,7 +316,7 @@ def init_sentry() -> None:
         attach_stacktrace=True,
         _experiments={"max_spans": 2000},
         keep_alive=True,
-        **settings.SENTRY_EXTRA_ARGS,
+        **sentry_extra_args,
     )
     # Ignore Weblate logging, those should trigger proper errors
     ignore_logger("weblate")

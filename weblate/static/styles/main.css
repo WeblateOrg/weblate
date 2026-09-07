@@ -182,7 +182,7 @@ h1 {
 }
 
 .progress-bar-success {
-  background-color: var(--wl-color-success-soft);
+  background-color: var(--wl-progress-color);
 }
 
 .progress-bar-danger {
@@ -1292,6 +1292,78 @@ thead th {
   text-align: center;
 }
 
+.notification-eligibility-table > thead > tr > th:first-child {
+  width: 25%;
+}
+@media (min-width: 80rem) {
+  .notification-eligibility-table > thead > tr > th:first-child {
+    width: 18rem;
+  }
+}
+.notification-subscription-highlight {
+  --bs-table-bg: var(--bs-info-bg-subtle);
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  position: relative;
+  container-type: inline-size;
+}
+
+.table-scroll:focus-visible {
+  outline: 2px solid var(--wl-navi-color);
+  outline-offset: -2px;
+}
+
+.table-scroll .table-listing {
+  width: max-content;
+  min-width: 100%;
+}
+
+/* Keep the actions column and progress bars pinned while the other columns scroll. */
+.table-scroll .table-listing > thead > tr > th:first-child,
+.table-scroll .table-listing > tbody > tr > .actions {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: var(--wl-color-bg);
+}
+
+.dir-rtl .table-scroll .table-listing > thead > tr > th:first-child,
+.dir-rtl .table-scroll .table-listing > tbody > tr > .actions {
+  left: auto;
+  right: 0;
+}
+
+.table-scroll .progress-row .progress-stacked {
+  position: sticky;
+  left: 58px;
+  width: calc(100cqw - 66px);
+}
+
+.dir-rtl .table-scroll .progress-row .progress-stacked {
+  left: auto;
+  right: 58px;
+}
+
+.table-scroll .zero-width-540,
+.table-scroll .zero-width-640,
+.table-scroll .zero-width-720,
+.table-scroll .zero-width-768,
+.table-scroll .zero-width-900,
+.table-scroll .zero-width-1000,
+.table-scroll .zero-width-1200,
+.table-scroll .zero-width-1400 {
+  display: table-cell;
+  width: auto;
+}
+
+.table-scroll .sticky-header {
+  position: static;
+}
+
 .btn:hover {
   transition: all 300ms linear;
   -webkit-transition: all 300ms linear;
@@ -1360,7 +1432,10 @@ thead th {
   fill: var(--wl-navi-color);
 }
 
-.green path,
+.green path {
+  fill: var(--wl-color-link);
+}
+
 .btn-default path {
   fill: var(--wl-navi-color);
 }
@@ -1477,6 +1552,10 @@ svg {
   margin: 0;
   font-size: 16px;
   line-height: 20px;
+}
+
+.list-group-item.check h5 > svg {
+  fill: var(--wl-color-icon);
 }
 
 .check .list-group-item-text {
@@ -2047,6 +2126,16 @@ input.color_edit:checked + label {
 }
 .markdown p:last-child {
   margin-bottom: 0;
+}
+
+a[rel~="ugc"]:not(.btn) {
+  color: var(--wl-color-link-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a[rel~="ugc"]:not(.btn):hover,
+a[rel~="ugc"]:not(.btn):focus {
+  color: var(--wl-color-link-strong-hover);
 }
 .metric {
   text-align: center;
@@ -2708,8 +2797,9 @@ table.table-simple tbody#glossary-terms .alert-info {
   background-color: var(--bs-secondary-bg) !important;
 }
 
-/* styling fix for file format parameters caused by `display: none` elements as first children in the same container */
-.file-format-param {
+/* styling fix for scoped parameters caused by `display: none` elements as first children in the same container */
+.file-format-param,
+.vcs-param {
   display: flow-root;
   clear: left;
 }
@@ -2720,4 +2810,9 @@ table.table-simple tbody#glossary-terms .alert-info {
 
 .ts-dropdown .create {
   color: var(--bs-secondary-color);
+}
+
+.ts-wrapper.flag-editor-select .ts-control > div.active code {
+  color: inherit;
+  background-color: transparent;
 }

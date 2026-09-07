@@ -7,11 +7,12 @@ from __future__ import annotations
 import re
 from contextlib import nullcontext
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Literal, TypedDict
+from html import unescape
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict
 
 from django.http import Http404
-from django.utils.html import format_html, format_html_join
-from django.utils.safestring import mark_safe
+from django.utils.html import escape, format_html, format_html_join, strip_tags
+from django.utils.safestring import SafeData, mark_safe
 from django.utils.translation import gettext
 from lxml import etree
 from siphashc import siphash
@@ -25,6 +26,7 @@ from weblate.utils.xml import parse_xml
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
 
+    from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -254,6 +256,19 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
     def get_description(self, check_obj: Check) -> StrOrPromise:
         return self.description
 
+    def get_plain_description(self, check_obj: Check) -> str:
+        """Return description text suitable for an escaped HTML attribute."""
+        description = str(self.get_description(check_obj))
+        if isinstance(description, SafeData):
+            # Dynamic checks separate individual errors with HTML line breaks.
+            description = re.sub(r"<br\s*/?>", "\n", description, flags=re.IGNORECASE)
+            return unescape(strip_tags(description))
+        return description
+
+    def get_documentation_description(self) -> str:
+        """Return the description formatted for reStructuredText documentation."""
+        return str(self.description).replace("\\", "\\\\")
+
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
         return None
 
@@ -298,6 +313,38 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
 
         return lambda text: pattern.sub(
             lambda m: replacements[m.group(0)], replacement(text)
+        )
+
+
+class CodeDescriptionMixin(BaseCheck):
+    """Render literal examples for HTML, plain text, and documentation."""
+
+    description_template: StrOrPromise
+    description_values: ClassVar[dict[str, str]]
+
+    def get_description(self, check_obj: Check) -> SafeString:
+        return format_html(
+            escape(self.description_template),
+            **{
+                key: format_html("<code>{}</code>", value)
+                for key, value in self.description_values.items()
+            },
+        )
+
+    def get_plain_description(self, check_obj: Check) -> str:
+        return str(self.description_template).format(**self.description_values)
+
+    def get_documentation_description(self) -> str:
+        # Backslashes are literal inside RST inline code, unlike surrounding prose.
+        return (
+            str(self.description_template)
+            .replace("\\", "\\\\")
+            .format(
+                **{
+                    key: f"``{value}``"
+                    for key, value in self.description_values.items()
+                }
+            )
         )
 
 
@@ -394,9 +441,7 @@ class TargetCheck(BaseCheck):
 
     def format_value(self, value: str) -> StrOrPromise:
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.templatetags.translations import (
-            Formatter,
-        )
+        from weblate.trans.formatting import Formatter
 
         fmt = Formatter(0, value, None, None, None, None, None)
         fmt.parse()
@@ -444,6 +489,44 @@ class TargetCheck(BaseCheck):
             yield self.get_extra_text(self.format_string(x) for x in set(extra))
         if errors := result.get("errors"):
             yield self.get_errors_text(set(errors))
+
+
+class PluralResultDescriptionMixin(TargetCheck):
+    """
+    Build check descriptions by merging MissingExtraDict results across plurals.
+
+    For checks whose ``check_single`` returns a ``MissingExtraDict`` (missing,
+    extra, and/or errors), this merges those results from every plural form and
+    formats them into the check description.
+    """
+
+    def get_description(self, check_obj: Check) -> StrOrPromise:
+        unit = check_obj.unit
+
+        errors: list[StrOrPromise] = []
+
+        # Merge plurals
+        results: MissingExtraDict = {}
+        for result in self.check_target_generator(
+            unit.get_source_plurals(), unit.get_target_plurals(), unit
+        ):
+            if not isinstance(result, dict):
+                continue
+            if missing := result.get("missing"):
+                results.setdefault("missing", []).extend(missing)
+            if extra := result.get("extra"):
+                results.setdefault("extra", []).extend(extra)
+            if result_errors := result.get("errors"):
+                results.setdefault("errors", []).extend(result_errors)
+        if any(results.values()):
+            errors.extend(self.format_result(results))
+        if errors:
+            return format_html_join(
+                mark_safe("<br />"),
+                "{}",
+                ((error,) for error in errors),
+            )
+        return super().get_description(check_obj)
 
 
 class SourceCheck(BaseCheck):

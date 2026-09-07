@@ -3,8 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from functools import partial
 from typing import TYPE_CHECKING
 
+from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.models import AnonymousUser
@@ -17,6 +19,8 @@ from weblate.accounts.utils import adjust_session_expiry
 from weblate.auth.models import get_anonymous
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
@@ -35,6 +39,13 @@ def get_user(request: AuthenticatedHttpRequest):
     return request.weblate_cached_user
 
 
+async def aget_user(request: AuthenticatedHttpRequest):
+    """Return the user prepared by Weblate's authentication middleware."""
+    if hasattr(request, "weblate_cached_user"):
+        return request.weblate_cached_user
+    return await sync_to_async(get_user, thread_sensitive=True)(request)
+
+
 class AuthenticationMiddleware(OTPMiddleware):
     """
     Copy of django.contrib.auth.middleware.AuthenticationMiddleware.
@@ -43,12 +54,28 @@ class AuthenticationMiddleware(OTPMiddleware):
     """
 
     def __call__(self, request: AuthenticatedHttpRequest):
+        if self._is_async:
+            return self._acall(request)
+
+        user = self.prepare_request(request)
+        response = self.get_response(request)
+        return self.finalize_response(request, response, user)
+
+    async def _acall(self, request: AuthenticatedHttpRequest):
+        user = await sync_to_async(self.prepare_request, thread_sensitive=True)(request)
+        response = await self.get_response(request)
+        return await sync_to_async(self.finalize_response, thread_sensitive=True)(
+            request, response, user
+        )
+
+    def prepare_request(self, request: AuthenticatedHttpRequest):
         # ruff: ignore[import-outside-top-level]
         from weblate.lang.models import Language
 
         # Django uses lazy object here, but we need the user in pretty
         # much every request, so there is no reason to delay this
         request.user = user = get_user(request)
+        request.auser = partial(aget_user, request)
         self._verify_user_sync(request, user)
 
         # Get language to use in this request
@@ -69,9 +96,12 @@ class AuthenticationMiddleware(OTPMiddleware):
         activate(language)
         request.LANGUAGE_CODE = get_language()
 
-        # Invoke the request
-        response = self.get_response(request)
+        return user
 
+    @staticmethod
+    def finalize_response(
+        request: AuthenticatedHttpRequest, response: HttpResponse, user
+    ) -> HttpResponse:
         # Update the language cookie if needed
         if user.is_authenticated and user.profile.language != request.COOKIES.get(
             settings.LANGUAGE_COOKIE_NAME

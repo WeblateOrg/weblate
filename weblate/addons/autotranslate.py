@@ -155,6 +155,7 @@ class AutoTranslateAddon(
                 translation_id=translation_id,
                 activity_log_id=activity_log_id,
                 activity_log_task_count=activity_log_task_count,
+                enforce_permissions=False,
             )
         else:
             auto_translate_component.delay_on_commit(
@@ -167,6 +168,7 @@ class AutoTranslateAddon(
                 source_component_id=source_component_id,
                 user_id=task_user_id,
                 activity_log_id=activity_log_id,
+                enforce_permissions=False,
             )
         return AddonEventOutcome.pending()
 

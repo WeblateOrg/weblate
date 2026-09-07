@@ -26,11 +26,10 @@ from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
 from weblate.accounts.utils import (
-    SESSION_SECOND_FACTOR_SOCIAL,
-    SESSION_SECOND_FACTOR_USER,
     adjust_session_expiry,
     cycle_session_keys,
     invalidate_reset_codes,
+    set_second_factor_session,
 )
 from weblate.auth.models import (
     Invitation,
@@ -680,8 +679,7 @@ def second_factor(strategy, backend, user: User, current_partial, **kwargs):
     """Force authentication when adding new association."""
     if user.profile.has_2fa and DEVICE_ID_SESSION_KEY not in strategy.request.session:
         # Store session indication for second factor
-        strategy.request.session[SESSION_SECOND_FACTOR_USER] = (user.id, "")
-        strategy.request.session[SESSION_SECOND_FACTOR_SOCIAL] = True
+        set_second_factor_session(strategy.request, user, "", social=True)
         # Redirect to second factor login
         continue_url = f"{reverse('social:complete', args=(backend.name,))}?partial_token={current_partial.token}"
         login_params = {"next": continue_url}

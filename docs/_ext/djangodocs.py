@@ -17,6 +17,7 @@ from sphinx.util.nodes import split_explicit_title
 simple_option_desc_re = re.compile(r"([-_a-zA-Z0-9]+)(\s*.*?)(?=,\s+(?:/|-|--)|$)")
 
 GHSSA_URL = "https://github.com/WeblateOrg/weblate/security/advisories/{}"
+GHSA_RE = re.compile(r"GHSA(?:-[23456789cfghjmpqrvwx]{4}){3}")
 PYPI_URL = "https://pypi.org/project/{}/"
 
 
@@ -30,6 +31,11 @@ class WeblateCommandLiteral(literal):
 # ruff: ignore[mutable-argument-default]
 def ghsa_link(name, rawtext, text, lineno, inliner, options={}, content=[]):
     fullname = f"GHSA-{text}"
+    if not GHSA_RE.fullmatch(fullname):
+        msg = inliner.reporter.error(
+            f"Invalid GitHub Security Advisory identifier: {fullname}", line=lineno
+        )
+        return [inliner.problematic(rawtext, rawtext, msg)], [msg]
     url = GHSSA_URL.format(fullname)
     node = nodes.reference(rawtext, fullname, refuri=url, **options)
     return [node], []

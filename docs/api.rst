@@ -277,6 +277,7 @@ API Entry Point
             "languages":"http://example.com/api/languages/"
         }
 
+.. _api-users:
 
 Users
 +++++
@@ -291,6 +292,9 @@ Users
     :query string username: Username to search for
     :query int id: User ID to search for
     :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
+
+    Username searches by users without the global ``user.view`` or ``user.edit``
+    permission exclude bot accounts other than the caller's own account.
 
     .. seealso::
 
@@ -331,7 +335,7 @@ Users
     :>json string date_joined: date the user is created
     :>json string last_login: date the user last signed in
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
-    :>json array languages: link to translated languages; see :http:get:`/api/languages/(string:language)/`
+    :>json object profile: user profile preferences; see :ref:`api-user-profile`. Returned only with the ``user.view`` or ``user.edit`` permission.
 
     **Example JSON data:**
 
@@ -345,15 +349,53 @@ Users
                 "http://example.com/api/groups/2/",
                 "http://example.com/api/groups/3/"
             ],
-            "languages": [
-                "http://example.com/api/languages/cs/",
-            ],
+            "profile": {
+                "language": "en",
+                "languages": [
+                    "http://example.com/api/languages/cs/"
+                ],
+                "secondary_languages": [],
+                "translated": 42,
+                "suggested": 3,
+                "uploaded": 1,
+                "commented": 5,
+                "theme": "auto",
+                "hide_completed": false,
+                "secondary_in_zen": true,
+                "hide_source_secondary": false,
+                "wide_tables": false,
+                "listing_columns": ["untranslated", "untranslated_words", "untranslated_chars", "nottranslated", "checks", "suggestions", "comments"],
+                "editor_link": "",
+                "translate_mode": 0,
+                "zen_mode": 0,
+                "special_chars": "",
+                "nearby_strings": 10,
+                "auto_watch": true,
+                "contribute_personal_tm": true,
+                "dashboard_view": 1,
+                "dashboard_component_list": null,
+                "watched": [],
+                "website": "https://example.com/",
+                "contact": "",
+                "liberapay": "",
+                "fediverse": "",
+                "codesite": "",
+                "github": "",
+                "twitter": "",
+                "linkedin": "",
+                "location": "",
+                "company": "",
+                "public_email": "",
+                "commit_email": "",
+                "commit_name": 0,
+                "last_2fa": ""
+            },
             "is_superuser": true,
             "is_active": true,
             "is_bot": false,
             "date_joined": "2020-03-29T18:42:42.617681Z",
             "url": "http://example.com/api/users/exampleusername/",
-            "contributions_url": "http://example.com/api/users/exampleusername/contributions/"
+            "contributions_url": "http://example.com/api/users/exampleusername/contributions/",
             "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
         }
 
@@ -362,7 +404,7 @@ Users
     Changes the user parameters.
 
     Requires the global ``user.edit`` permission unless a user is updating
-    their own basic profile fields. See :ref:`access-control` for the user
+    their own account or profile fields. See :ref:`access-control` for the user
     management permission model.
 
     :param username: User's username
@@ -374,13 +416,14 @@ Users
     :>json boolean is_active: whether the user is active
     :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
+    :>json object profile: updated profile preferences when included in the request; see :ref:`api-user-profile`
 
 .. http:patch:: /api/users/(str:username)/
 
     Changes the user parameters.
 
     Requires the global ``user.edit`` permission unless a user is updating
-    their own basic profile fields. See :ref:`access-control` for the user
+    their own account or profile fields. See :ref:`access-control` for the user
     management permission model.
 
     :param username: User's username
@@ -392,6 +435,7 @@ Users
     :>json boolean is_active: whether the user is active
     :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
+    :>json object profile: updated profile preferences when included in the request; see :ref:`api-user-profile`
 
 .. http:delete:: /api/users/(str:username)/
 
@@ -409,6 +453,9 @@ Users
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
+    This permission authorizes membership changes for every team, including
+    project and workspace teams; no separate permission over the target team is
+    required.
 
     :param username: User's username
     :type username: string
@@ -422,6 +469,9 @@ Users
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
+    This permission authorizes membership changes for every team, including
+    project and workspace teams; no separate permission over the target team is
+    required.
 
     :param username: User's username
     :type username: string
@@ -505,6 +555,22 @@ Users
     :type username: string
     :param subscription_id: Name of notification registered
     :param subscription_id: int
+
+.. _api-user-profile:
+
+User profile
+++++++++++++
+
+.. versionadded:: 2026.8
+
+The user API exposes profile preferences in a nested ``profile`` object. The
+object is returned on :http:get:`/api/users/(str:username)/` only for callers
+with the ``user.view`` or ``user.edit`` permission. Users without those
+permissions can still update their own profile through
+:http:patch:`/api/users/(str:username)/`; the response then includes the updated
+``profile`` object.
+
+Profile fields mirror the settings described in :ref:`user-profile`.
 
 
 Groups
@@ -921,6 +987,26 @@ Projects
                        :guilabel:`Add new projects` permission. See
                        :ref:`workspace-project-creation`.
     :type workspace: string
+    :param access_control: :ref:`project-access_control`
+    :type access_control: integer
+    :param public_sharing: :ref:`project-public_sharing`
+    :type public_sharing: boolean
+    :param use_shared_tm: :ref:`project-use_shared_tm`
+    :type use_shared_tm: boolean
+    :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :type contribute_shared_tm: boolean
+    :param use_workspace_tm: :ref:`project-use-workspace-tm`
+    :type use_workspace_tm: boolean
+    :param contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :type contribute_workspace_tm: boolean
+    :param autoclean_tm: :ref:`project-autoclean_tm`
+    :type autoclean_tm: boolean
+
+    Omit ``access_control`` to use the configured default. Explicit non-default
+    access control requires a superuser unless a billing plan determines the
+    value. On Hosted Weblate, Custom access control is unavailable and each
+    translation-memory contribution setting is forced to match its
+    corresponding usage setting.
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -943,6 +1029,13 @@ Projects
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string license: :ref:`project-license`
+    :>json integer access_control: :ref:`project-access_control`
+    :>json boolean public_sharing: :ref:`project-public_sharing`
+    :>json boolean use_shared_tm: :ref:`project-use_shared_tm`
+    :>json boolean contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :>json boolean use_workspace_tm: :ref:`project-use-workspace-tm`
+    :>json boolean contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :>json boolean autoclean_tm: :ref:`project-autoclean_tm`
     :>json string announcements_url: URL to announcements; see :http:get:`/api/projects/(string:project)/announcements/`
 
     **Example JSON data:**
@@ -967,8 +1060,8 @@ Projects
     identifier, use the project ``url`` returned by :http:get:`/api/projects/`
     or :http:get:`/api/projects/(string:project)/`.
 
-    The request body accepts project fields such as ``instructions`` and
-    ``license``.
+    The request body accepts project fields such as ``instructions``,
+    ``license``, ``access_control``, and translation-memory settings.
 
     **Example JSON data:**
 
@@ -976,8 +1069,17 @@ Projects
 
         {
             "instructions": "Translate consistently.",
-            "license": "MIT"
+            "license": "MIT",
+            "use_shared_tm": true,
+            "access_control": 100
         }
+
+    Changing ``access_control`` or ``public_sharing`` requires permission to
+    manage project access.
+    Making a project publicly accessible can require licenses on its components
+    when :setting:`LICENSE_REQUIRED` is enabled. On Hosted Weblate, Custom
+    access control is unavailable and each translation-memory contribution
+    setting is forced to match its corresponding usage setting.
 
     Changing ``workspace`` moves the project. Moving a project requires
     permission to edit the project and the :guilabel:`Edit workspace settings`
@@ -992,6 +1094,20 @@ Projects
     :type instructions: string
     :param license: :ref:`project-license`
     :type license: string
+    :param access_control: :ref:`project-access_control`
+    :type access_control: integer
+    :param public_sharing: :ref:`project-public_sharing`
+    :type public_sharing: boolean
+    :param use_shared_tm: :ref:`project-use_shared_tm`
+    :type use_shared_tm: boolean
+    :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :type contribute_shared_tm: boolean
+    :param use_workspace_tm: :ref:`project-use-workspace-tm`
+    :type use_workspace_tm: boolean
+    :param contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :type contribute_workspace_tm: boolean
+    :param autoclean_tm: :ref:`project-autoclean_tm`
+    :type autoclean_tm: boolean
     :param workspace: Optional workspace UUID, or ``null`` to move the project
                        out of a workspace
     :type workspace: string
@@ -1011,6 +1127,20 @@ Projects
     :type instructions: string
     :param license: :ref:`project-license`
     :type license: string
+    :param access_control: :ref:`project-access_control`
+    :type access_control: integer
+    :param public_sharing: :ref:`project-public_sharing`
+    :type public_sharing: boolean
+    :param use_shared_tm: :ref:`project-use_shared_tm`
+    :type use_shared_tm: boolean
+    :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :type contribute_shared_tm: boolean
+    :param use_workspace_tm: :ref:`project-use-workspace-tm`
+    :type use_workspace_tm: boolean
+    :param contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :type contribute_workspace_tm: boolean
+    :param autoclean_tm: :ref:`project-autoclean_tm`
+    :type autoclean_tm: boolean
 
 .. http:delete:: /api/projects/(string:project)/
 
@@ -1046,20 +1176,30 @@ Projects
     only an overall summary for all repositories for the project. To get more detailed
     status use :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
+    Repository status includes repositories where the user has a VCS permission
+    on every component sharing that repository. Repositories blocked by linked
+    components in other projects are omitted and reported separately.
+
     :param project: Project URL slug
     :type project: string
     :>json boolean needs_commit: whether there are any pending changes to commit
     :>json boolean needs_merge: whether there are any upstream changes to merge
     :>json boolean needs_push: whether there are any local changes to push
+    :>json array included_components: full paths of project components included in the status
+    :>json array skipped_components: full paths of project components omitted from the status
+    :>json array permission_blockers: full paths of components preventing access to omitted repositories
 
     **Example JSON data:**
 
     .. code-block:: json
 
         {
+            "included_components": ["hello/app"],
             "needs_commit": true,
             "needs_merge": false,
-            "needs_push": true
+            "needs_push": true,
+            "permission_blockers": ["shared/glossary"],
+            "skipped_components": ["hello/glossary"]
         }
 
 
@@ -1067,11 +1207,27 @@ Projects
 
     Performs given operation on the VCS repository.
 
+    Repository operations process repositories where the user has the requested
+    VCS permission on every component sharing that repository. Repositories
+    blocked by linked components in other projects are skipped. The request is
+    denied when no repository is eligible for the operation.
 
     :param project: Project URL slug
     :type project: string
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``, ``file-scan``
-    :>json boolean result: result of the operation
+    :<json boolean background: Schedule the operation as a background task instead of waiting for it to finish. Defaults to ``false``.
+    :>json boolean result: result of a synchronous operation
+    :>json array included_components: full paths of project components included in the operation
+    :>json array skipped_components: full paths of project components omitted from the operation
+    :>json array permission_blockers: full paths of components preventing access to omitted repositories
+    :>json string detail: Status of a background operation
+    :>json string task_url: URL for tracking a background operation; see :http:get:`/api/tasks/(str:uuid)/`
+
+    With ``background`` set to ``true``, the endpoint returns ``202 Accepted``.
+    Repeating an identical queued operation returns the existing task URL. A
+    conflicting operation returns ``423 Locked`` and the active task URL when
+    available. Eligible project repositories are processed sequentially in one
+    task.
 
     **CURL example:**
 
@@ -1108,7 +1264,39 @@ Projects
         Content-Language: en
         Allow: GET, POST, HEAD, OPTIONS
 
-        {"result":true}
+        {
+            "included_components": ["hello/app"],
+            "permission_blockers": ["shared/glossary"],
+            "result": true,
+            "skipped_components": ["hello/glossary"]
+        }
+
+    **Background JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/projects/hello/repository/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+
+        {"operation":"pull","background":true}
+
+    **Background JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 202 Accepted
+        Content-Type: application/json
+
+        {
+            "detail": "Repository operation has been queued.",
+            "included_components": ["hello/app"],
+            "permission_blockers": ["shared/glossary"],
+            "skipped_components": ["hello/glossary"],
+            "task_url": "https://example.com/api/tasks/01234567-89ab-cdef-0123-456789abcdef/"
+        }
 
 
 .. http:get:: /api/projects/(string:project)/components/
@@ -1310,6 +1498,29 @@ Projects
     .. seealso::
 
        Returned attributes are described in :ref:`api-statistics`.
+
+.. http:get:: /api/projects/(string:project)/metrics/
+
+    .. versionadded:: 2026.8
+
+    Returns translation metrics for the project components visible to the
+    caller. Components are identified by their project-relative path and the
+    result is grouped by component and language. When multiple components have
+    the same project-relative path, ``@`` and the component ID are appended to
+    each colliding path.
+
+    The OpenMetrics representation exposes ``weblate_translation_info`` and
+    ``weblate_*`` gauges compatible with the project translation statistics.
+    Strings containing suggestions use
+    ``weblate_strings_with_suggestions`` to distinguish them from the
+    server-wide ``weblate_suggestions`` object count.
+    The CSV representation contains one row for each component, language, and
+    numeric metric.
+
+    :param project: Project URL slug
+    :type project: string
+    :query string format: Response format; use ``openmetrics`` or ``csv`` for
+       monitoring and tabular output.
 
 .. http:get:: /api/projects/(string:project)/categories/
 
@@ -1553,6 +1764,7 @@ Components
     :>json string name: :ref:`component-name`
     :>json string slug: :ref:`component-slug`
     :>json string vcs: :ref:`component-vcs`
+    :>json object vcs_params: :ref:`component-vcs_params`
     :>json string linked_component: component whose repository is linked via :ref:`internal-urls`
     :>json string repo: :ref:`component-repo`, this is the actual repository URL even when :ref:`internal-urls` are used, use ``linked_component`` to detect this situation
     :>json string git_export: :ref:`component-git_export`
@@ -1585,6 +1797,8 @@ Components
     :>json string addon_message: :ref:`component-addon_message`
     :>json string pull_message: :ref:`component-pull_message`
     :>json string allow_translation_propagation: :ref:`component-allow_translation_propagation`
+    :>json boolean hide_glossary_matches: :ref:`component-hide_glossary_matches`
+    :>json boolean contribute_project_tm: :ref:`component-contribute_project_tm`
     :>json string enable_suggestions: :ref:`component-enable_suggestions`
     :>json string suggestion_voting: :ref:`component-suggestion_voting`
     :>json string suggestion_autoaccept: :ref:`component-suggestion_autoaccept`
@@ -1668,6 +1882,8 @@ Components
     :<json string name: name of component
     :<json string slug: slug of component
     :<json string repo: VCS repository URL
+    :<json boolean hide_glossary_matches: :ref:`component-hide_glossary_matches`
+    :<json boolean contribute_project_tm: :ref:`component-contribute_project_tm`
 
     Linking to another Weblate component using an :ref:`internal URL
     <internal-urls>` requires permission to edit the referenced component.
@@ -1766,6 +1982,9 @@ Components
     :<json string template: base file for monolingual translations
     :<json string new_base: base file for adding new translations
     :<json string vcs: version control system
+    :<json object vcs_params: :ref:`component-vcs_params`
+    :<json boolean hide_glossary_matches: :ref:`component-hide_glossary_matches`
+    :<json boolean contribute_project_tm: :ref:`component-contribute_project_tm`
 
 .. http:delete:: /api/components/(string:project)/(string:component)/
 
@@ -1886,8 +2105,9 @@ Components
 
     The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
 
-    For a linked repository, permission is checked on the source component that
-    owns the repository.
+    Repository status requires component-wide permission on the component that
+    owns the repository and every component linked to it, including components
+    in other projects.
 
     :param project: Project URL slug
     :type project: string
@@ -1906,8 +2126,9 @@ Components
 
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
-    For a linked repository, permission is checked on the source component that
-    owns the repository.
+    Repository operations require component-wide permission on the component
+    that owns the repository and every component linked to it, including
+    components in other projects.
 
     :param project: Project URL slug
     :type project: string
@@ -2380,12 +2601,13 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string mode: Automatic translation mode
+    :<json string mode: Automatic translation mode; one of ``suggest``, ``translate``, ``fuzzy``, ``approved``
     :<json string q: Automatic translation search string, see :ref:`search-strings`.
     :<json string auto_source: Automatic translation source - ``mt`` or ``others``
-    :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
-    :<json array engines: Machine translation engines
-    :<json string threshold: Score threshold
+    :<json string component: Component ID (always accepted); when the project has 30 or more eligible source components, a component slug or ``project/component`` path is also accepted; leave blank to use all components in the project
+    :<json array engines: Machine translation engines to use when ``auto_source`` is ``mt``
+    :<json int threshold: Score threshold for machine translation (1–100)
+    :>json string details: Human-readable summary of the translation result
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -2444,9 +2666,10 @@ Translations
 
     The response is same as for :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
-    For a linked repository, permission is checked on the source component that
-    owns the repository. For an unlinked repository, permission can be limited
-    to the requested language.
+    Repository status requires component-wide permission on the component that
+    owns the repository and every component linked to it, including components
+    in other projects. A permission limited to the requested language is not
+    sufficient.
 
     :param project: Project URL slug
     :type project: string
@@ -2461,10 +2684,10 @@ Translations
 
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
-    Repository operations affect the entire component and therefore require
-    component-wide permission on the component that owns the repository. A
-    permission limited to the requested language is sufficient for viewing
-    unlinked repository status, but not for performing an operation.
+    Repository operations require component-wide permission on the component
+    that owns the repository and every component linked to it, including
+    components in other projects. A permission limited to the requested
+    language is not sufficient.
 
     :param project: Project URL slug
     :type project: string
@@ -3160,7 +3383,9 @@ Reports
 
     Lists stored reports accessible to the authenticated user. The optional
     ``kind``, ``workspace``, ``project``, ``category``, and ``component`` query
-    parameters filter the result.
+    parameters filter the result. The :guilabel:`Manage reports` permission is
+    authoritative for the selected scope and includes reports containing data
+    from private projects and restricted components below that scope.
 
 .. http:post:: /api/reports/
 
@@ -3169,7 +3394,9 @@ Reports
     ``credits``, ``contributor_stats``, ``cost_estimate``, or ``translator_work``.
     Specify at most one of ``workspace``, ``project``, ``category``, or
     ``component``; omitting all of them creates a global report. Contribution
-    reports require ``start`` and ``end`` ISO 8601 timestamps.
+    reports require ``start`` and ``end`` ISO 8601 timestamps. A workspace can
+    be selected when the user has :guilabel:`Manage reports` for it, even without
+    access to the regular workspace page.
 
 .. http:get:: /api/reports/(int:id)/
 
@@ -3201,12 +3428,21 @@ Tasks
 
     Returns information about a task.
 
+    Authentication is required.
+
     :param uuid: Task UUID
     :type uuid: string
     :>json boolean completed: Whether the task has completed
     :>json int progress: Task progress in percent
     :>json object result: Task result or progress details
     :>json string log: Task log
+    :>json boolean cancellable: Whether the task can be cancelled
+
+.. http:delete:: /api/tasks/(str:uuid)/
+
+    Cancels a running task when its ``cancellable`` property is ``true``.
+    Repository operation tasks cannot be cancelled because interruption can
+    leave a repository operation incomplete.
 
 .. _api-statistics:
 
@@ -3276,6 +3512,11 @@ Metrics
 
        Metrics can now be exposed in OpenMetrics compatible format with ``?format=openmetrics``.
 
+    .. versionchanged:: 2026.8
+
+       OpenMetrics responses now include ``HELP`` and ``TYPE`` metadata and use
+       the versioned OpenMetrics content type.
+
     :>json int units: Number of units
     :>json int units_translated: Number of translated units
     :>json int users: Number of users
@@ -3292,7 +3533,14 @@ Metrics
     :>json string version: Running Weblate version, included when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``
 
     In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
-    when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``.
+    when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``. All metrics are
+    exposed as gauges.
+
+Project metrics expose translation statistics for each visible component and
+language at :http:get:`/api/projects/(string:project)/metrics/`. They include
+translated, total, fuzzy, failing-check, and approved string, word, and
+character counts; suggestions; comments; and translated and approved
+percentages.
 
 Search
 +++++++
@@ -3440,7 +3688,35 @@ Notification hooks
 ++++++++++++++++++
 
 Notification hooks allow external applications to notify Weblate that the VCS
-repository has been updated.
+repository has been updated. Weblate matches the delivery to components by
+repository URL; see :ref:`hooks-target-matching`.
+
+The generic hook endpoints return diagnostics intended to help configure
+repository notifications. The ``match_status`` object contains:
+
+``repository_matches``
+    Number of components whose repository URL matches the payload.
+``branch_matches``
+    Number of repository matches whose configured branch matches the payload.
+    For events without a branch, every repository match is counted as a branch
+    match.
+``enabled_hook_matches``
+    Number of branch matches whose project has hooks enabled.
+
+A successful update response names the updated project/component slugs in
+``message`` and returns their absolute API URLs in ``updated_components``. These
+diagnostics include private projects and restricted components because matching
+does not apply user access control. Components managed through an authenticated
+integration are excluded from generic matching and diagnostics; currently this
+applies to the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. When an
+update event completes target matching but schedules no update, the response
+uses HTTP status code 202 and retains ``match_status`` so the repository,
+branch, and project hook settings can be diagnosed. Ping and ignored events
+return HTTP status code 201 without matching diagnostics. These responses can
+confirm that a supplied repository URL is registered, but do not grant access
+to the linked API objects or expose repository content, translations, or
+credentials. See :ref:`hooks-target-matching` for the security and compatibility
+implications.
 
 You can use repository endpoints for projects, components and translations to
 update individual repositories; see
@@ -3521,8 +3797,6 @@ update individual repositories; see
 
         :ref:`Pagure notifications <code-hosting-pagure-notifications>`
             For instruction on setting up Pagure integration
-        https://docs.pagure.org/pagure/usage/using_webhooks.html
-            Generic information about Pagure Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 
@@ -3554,7 +3828,7 @@ update individual repositories; see
 
         :ref:`Gitea notifications <code-hosting-gitea-notifications>`
             For instruction on setting up Gitea integration
-        https://docs.gitea.io/en-us/webhooks/
+        https://docs.gitea.com/usage/repository/webhooks
             Generic information about Gitea Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

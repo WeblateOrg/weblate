@@ -111,12 +111,26 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
 
     def check_component(self, component: Component) -> Iterable[Unit]:
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models import Unit
+        from weblate.trans.models import Translation, Unit
 
-        units = Unit.objects.filter(
-            translation__component__project=component.project,
-            translation__component__allow_translation_propagation=True,
-        )
+        translation_ids_by_plural: dict[int, list[int]] = defaultdict(list)
+        for translation_id, plural_id in Translation.objects.filter(
+            component__project=component.project,
+            component__allow_translation_propagation=True,
+        ).values_list("id", "plural_id"):
+            translation_ids_by_plural[plural_id].append(translation_id)
+
+        # A single translation cannot contain different targets for one id_hash.
+        translation_ids = [
+            translation_id
+            for plural_translation_ids in translation_ids_by_plural.values()
+            if len(plural_translation_ids) > 1
+            for translation_id in plural_translation_ids
+        ]
+        if not translation_ids:
+            return []
+
+        units = Unit.objects.filter(translation_id__in=translation_ids)
 
         # List strings with different targets
         # Limit this to 100 strings, otherwise the resulting query is way too complex
@@ -124,23 +138,29 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
             units.values("id_hash", "translation__plural_id")
             .annotate(min_target=Min("target"), max_target=Max("target"))
             .filter(min_target__lt=F("max_target"))
-            .order_by("id_hash")[:100]
+            .order_by("id_hash", "translation__plural_id")[:100]
         )
 
         if not matches:
             return []
 
+        id_hashes_by_plural: dict[int, list[int]] = defaultdict(list)
+        for match in matches:
+            id_hashes_by_plural[match["translation__plural_id"]].append(
+                match["id_hash"]
+            )
+
         return (
-            units.filter(
+            Unit.objects.filter(
                 reduce(
-                    lambda x, y: (
-                        x
-                        | (
-                            Q(id_hash=y["id_hash"])
-                            & Q(translation__plural_id=y["translation__plural_id"])
+                    lambda query, item: (
+                        query
+                        | Q(
+                            translation_id__in=translation_ids_by_plural[item[0]],
+                            id_hash__in=item[1],
                         )
                     ),
-                    matches,
+                    id_hashes_by_plural.items(),
                     Q(),
                 )
             )

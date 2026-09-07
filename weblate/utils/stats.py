@@ -103,6 +103,18 @@ SOURCE_KEYS = frozenset(
     )
 )
 
+# TODO: Remove after stats cache versioning prevents pre-5.2 values from
+# surviving supported staged upgrades.
+OUTDATED_STATS_KEYS = {
+    "unapproved",
+    "unapproved_chars",
+    "unapproved_words",
+    "recent_changes",
+    "monthly_changes",
+    "total_changes",
+    "stats_timestamp",
+}
+
 SOURCE_MAP = {
     "source_chars": "all_chars",
     "source_words": "all_words",
@@ -237,6 +249,12 @@ class BaseStats:
     def is_loaded(self) -> bool:
         return self._loaded
 
+    @property
+    def has_cached_data(self) -> bool:
+        """Whether basic statistics are available in the cache."""
+        self.ensure_loaded()
+        return "all" in self._data
+
     def set_data(self, data: StatDict) -> None:
         self._loaded = True
         self._data = data
@@ -334,6 +352,10 @@ class BaseStats:
             # Handle source_* keys as virtual on translation level for easier aggregation
             if name.startswith("source_"):
                 return self._data[SOURCE_MAP[name]]
+            # These keys used to be calculated on demand and can be missing
+            # from cached stats that survived a staged upgrade.
+            if name in OUTDATED_STATS_KEYS:
+                return 0
             raise
 
     def __getattr__(self, name: str):
@@ -1056,9 +1078,11 @@ class ComponentStats(AggregatingStats):
         yield from yield_stats(self._object.componentlist_set.only("id", "slug"))
 
         # Projects and categories this component is shared to.
+        linked_projects = []
         for link in self._object.componentlink_set.select_related(
-            "project", "category__category__category"
+            "project__workspace", "category__category__category"
         ):
+            linked_projects.append(link.project)
             if link.category_id:
                 category = link.category
                 while category:
@@ -1072,6 +1096,12 @@ class ComponentStats(AggregatingStats):
                 yield category.stats
                 category = category.category
         yield self._object.project.stats
+
+        # Workspaces aggregate projects, so update them after every affected
+        # project and before the site-wide aggregate.
+        for project in (*linked_projects, self._object.project):
+            if project.workspace_id:
+                yield project.workspace.stats
 
         # Every project has to be refreshed before the shared global parent.
         yield GlobalStats()
@@ -1188,6 +1218,12 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
         if self.workflow_settings is not None:
             return self.workflow_settings.enable_suggestions
         return True
+
+    @property
+    def restrict_direct_editing(self) -> bool:
+        if self.workflow_settings is not None:
+            return self.workflow_settings.restrict_direct_editing
+        return False
 
     @property
     def is_readonly(self) -> bool:
@@ -1376,6 +1412,12 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
         )
 
     @property
+    def restrict_direct_editing(self) -> bool:
+        if self.workflow_settings is not None:
+            return self.workflow_settings.restrict_direct_editing
+        return False
+
+    @property
     def is_readonly(self) -> bool:
         return False
 
@@ -1408,16 +1450,11 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
     def get_translate_url(self):
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
-    def _translation_filter(self) -> Q:
-        return (
-            Q(component__category__category__category=self.category)
-            | Q(component__category__category=self.category)
-            | Q(component__category=self.category)
-        )
-
     @property
     def action_translation_set(self):
-        return self.language.translation_set.filter(self._translation_filter())
+        return self.language.translation_set.filter(
+            component_id__in=self.category.all_component_ids
+        )
 
     @cached_property
     def has_action_translations(self) -> bool:
@@ -1429,14 +1466,8 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
 
     @cached_property
     def translation_set(self):
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.component import ComponentLink
-
-        shared_component_ids = ComponentLink.objects.filter(
-            category=self.category
-        ).values_list("component_id", flat=True)
         result = self.language.translation_set.filter(
-            self._translation_filter() | Q(component__pk__in=shared_component_ids)
+            component_id__in=self.category.get_component_ids_with_links()
         ).prefetch()
         for item in result:
             item.is_shared = (
@@ -1553,6 +1584,11 @@ class ProjectStats(ParentAggregatingStats):
             return (own | shared).distinct()
         return own
 
+    def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
+        if self._object.workspace_id:
+            yield self._object.workspace.stats
+        yield GlobalStats()
+
     def get_single_language_stats(self, language: Language) -> ProjectLanguageStats:
         return ProjectLanguageStats(ProjectLanguage(self._object, language))
 
@@ -1565,6 +1601,37 @@ class ProjectStats(ParentAggregatingStats):
     def _calculate_basic(self) -> None:
         super()._calculate_basic()
         self.store("languages", self._object.get_languages_count())
+
+
+class WorkspaceStats(ParentAggregatingStats):
+    @cached_property
+    def has_review(self):
+        if hasattr(self._object, "stats_has_review"):
+            return self._object.stats_has_review
+        return self._object.projects.filter(
+            Q(source_review=True) | Q(translation_review=True)
+        ).exists()
+
+    def get_child_objects(self):
+        if "projects" in getattr(self._object, "_prefetched_objects_cache", {}):
+            return self._object.projects.all()
+        return self._object.projects.only("id", "slug")
+
+    def _calculate_basic(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
+
+        super()._calculate_basic()
+        if self._object.stats_languages is not None:
+            self.store("languages", self._object.stats_languages)
+            return
+        owned_languages = Translation.objects.filter(
+            component__project__workspace=self._object
+        ).values_list("language_id", flat=True)
+        shared_languages = Translation.objects.filter(
+            component__links__workspace=self._object
+        ).values_list("language_id", flat=True)
+        self.store("languages", owned_languages.union(shared_languages).count())
 
 
 class ComponentListStats(ParentAggregatingStats):
@@ -1658,6 +1725,8 @@ def _stats_update_priority(stats: BaseStats) -> tuple[int, int]:
     """Return a stable child-before-parent ordering for topology updates."""
     if isinstance(stats, GlobalStats):
         return (100, 0)
+    if isinstance(stats, WorkspaceStats):
+        return (95, 0)
     if isinstance(stats, ProjectStats):
         return (90, 0)
     if isinstance(stats, CategoryStats):

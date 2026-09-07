@@ -6,6 +6,39 @@
 {% perm 'vcs.reset' object as user_can_reset_translation %}
 {% perm 'component.lock' object as user_can_lock_component %}
 
+{% if repository_operation_restrictions %}
+  <div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">{% translate "Some repositories are not accessible" %}</h4>
+    <p>
+      {% translate "Each operation below excludes repositories unless you have the required permission on every component sharing them." %}
+    </p>
+    {% for operation, restrictions in repository_operation_restrictions %}
+      <h5 class="h6 mb-1">{{ operation }}</h5>
+      {% for restriction in restrictions %}
+        <p class="{% if forloop.last and forloop.parentloop.last %}mb-0{% else %}mb-2{% endif %}">
+          {% if restriction.project_components or restriction.permission_blockers %}
+            {% if restriction.project_components %}
+              {% translate "Skipped components:" %}
+              {% for component in restriction.project_components %}
+                <a href="{{ component.get_absolute_url }}">{{ component.full_slug }}</a>{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            {% endif %}
+            {% if restriction.permission_blockers %}
+              {% if restriction.project_components %}<br>{% endif %}
+              {% translate "Permission required on:" %}
+              {% for component in restriction.permission_blockers %}
+                {{ component.full_slug }}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% else %}
+            {% translate "A repository was skipped because one or more of its components are not accessible." %}
+          {% endif %}
+        </p>
+      {% endfor %}
+    {% endfor %}
+  </div>
+{% endif %}
+
 
 <div class="card">
   <div class="card-header">
@@ -58,7 +91,7 @@
           <a href="#"
              class="float-end link-post btn btn-primary"
              data-href="{% url "push" path=object.get_url_path %}"
-             {% if not object.can_push %}disabled="disabled"{% endif %}>{% translate "Push" %}</a>
+             {% if not can_push %}disabled="disabled"{% endif %}>{% translate "Push" %}</a>
         {% endif %}
         <h6 class="mb-1 fw-bold">
           {% blocktranslate count units=outgoing_commits with count=outgoing_commits|intcomma %}{{ count }} outgoing commit{% plural %}{{ count }} outgoing commits{% endblocktranslate %}

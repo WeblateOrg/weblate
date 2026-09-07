@@ -328,6 +328,26 @@
                 {% endif %}
               </td>
             </tr>
+            <tr>
+              <td>{% translate "Data directory latency" %}</td>
+              <td class="number">
+                {% if data_dir_latency is not None %}
+                  {{ data_dir_latency }} ms
+                {% else %}
+                  {% translate "Not measured" %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Cache directory latency" %}</td>
+              <td class="number">
+                {% if cache_dir_latency is not None %}
+                  {{ cache_dir_latency }} ms
+                {% else %}
+                  {% translate "Not measured" %}
+                {% endif %}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

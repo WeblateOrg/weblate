@@ -7,12 +7,14 @@ import os
 from contextlib import ExitStack, contextmanager
 from typing import TYPE_CHECKING
 
+from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.db import transaction
 from django.http import Http404, JsonResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import aget_object_or_404, redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
@@ -30,8 +32,10 @@ from weblate.trans.forms import (
     AddCategoryForm,
     AnnouncementForm,
     BaseDeleteForm,
+    CategoryDeleteForm,
     CategoryRenameForm,
     CategorySettingsForm,
+    ComponentDeleteForm,
     ComponentLinkAddForm,
     ComponentLinkCategoryForm,
     ComponentRenameForm,
@@ -50,6 +54,7 @@ from weblate.trans.models import (
     Translation,
     WorkflowSetting,
 )
+from weblate.trans.repository import can_access_repository_operation_task
 from weblate.trans.tasks import (
     category_removal,
     component_removal,
@@ -59,16 +64,28 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
+from weblate.utils.celery import get_task_metadata
+from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.messages import store_task_completion_message
 from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
-from weblate.utils.views import parse_path, show_form_errors
+from weblate.utils.views import aparse_path, parse_path, show_form_errors
 from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+
+
+def _show_repository_lock_timeout(request: AuthenticatedHttpRequest) -> None:
+    messages.error(
+        request,
+        gettext(
+            "There appears to be an ongoing operation on the repository. Please try again later."
+        ),
+    )
 
 
 @never_cache
@@ -86,7 +103,13 @@ def change(request: AuthenticatedHttpRequest, path):
         raise Http404
 
     if isinstance(obj, Component):
-        return change_component(request, obj)
+        try:
+            return change_component(request, obj)
+        except WeblateLockTimeoutError:
+            if request.method != "POST":
+                raise
+            _show_repository_lock_timeout(request)
+            return redirect("settings", path=obj.get_url_path())
     if isinstance(obj, Category):
         return change_category(request, obj)
     if isinstance(obj, ProjectLanguage):
@@ -256,7 +279,13 @@ def remove(request: AuthenticatedHttpRequest, path):
     if not request.user.has_perm(obj.remove_permission, obj):
         raise PermissionDenied
 
-    form = BaseDeleteForm(obj, request.POST)
+    if isinstance(obj, Component):
+        form_class = ComponentDeleteForm
+    elif isinstance(obj, Category):
+        form_class = CategoryDeleteForm
+    else:
+        form_class = BaseDeleteForm
+    form = form_class(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect_param(obj, "#organize")
@@ -268,13 +297,17 @@ def remove(request: AuthenticatedHttpRequest, path):
         messages.success(request, gettext("The translation has been removed."))
     elif isinstance(obj, Component):
         parent = obj.category or obj.project
-        component_removal.delay(obj.pk, request.user.pk)
+        component_removal.delay(
+            obj.pk, request.user.pk, form.cleaned_data["delete_memory"]
+        )
         messages.success(
             request, gettext("The translation component was scheduled for removal.")
         )
     elif isinstance(obj, Category):
         parent = obj.category or obj.project
-        category_removal.delay(obj.pk, request.user.pk)
+        category_removal.delay(
+            obj.pk, request.user.pk, form.cleaned_data["delete_memory"]
+        )
         messages.success(request, gettext("The category was scheduled for removal."))
     elif isinstance(obj, Project):
         parent = reverse("home")
@@ -368,11 +401,15 @@ def perform_rename(
 @require_POST
 def rename(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component, Project, Category))
-    if isinstance(obj, Component):
-        return perform_rename(ComponentRenameForm, request, obj, "component.edit")
-    if isinstance(obj, Category):
-        return perform_rename(CategoryRenameForm, request, obj, "project.edit")
-    return perform_rename(ProjectRenameForm, request, obj, "project.edit")
+    try:
+        if isinstance(obj, Component):
+            return perform_rename(ComponentRenameForm, request, obj, "component.edit")
+        if isinstance(obj, Category):
+            return perform_rename(CategoryRenameForm, request, obj, "project.edit")
+        return perform_rename(ProjectRenameForm, request, obj, "project.edit")
+    except WeblateLockTimeoutError:
+        _show_repository_lock_timeout(request)
+        return redirect_param(obj, "#organize")
 
 
 @login_required
@@ -453,18 +490,20 @@ def component_link_add(request: AuthenticatedHttpRequest, path):
 
 @login_required
 @require_POST
-def component_link_delete(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(request, path, (Component,))
+async def component_link_delete(request: AuthenticatedHttpRequest, path):
+    obj = await aparse_path(request, path, (Component,))
     if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied
 
     link_id = request.POST.get("link_id")
+    if link_id is None:
+        raise Http404
     try:
-        link = ComponentLink.objects.get(pk=link_id, component=obj)
+        link = await ComponentLink.objects.aget(pk=link_id, component=obj)
     except (ComponentLink.DoesNotExist, ValueError, TypeError) as e:
         raise Http404 from e
 
-    link.delete()
+    await link.adelete()
     return redirect_param(obj, "#sharing")
 
 
@@ -494,23 +533,28 @@ def component_link_categories(request: AuthenticatedHttpRequest, path):
 
 @login_required
 @require_POST
-def announcement(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(
-        request, path, (ProjectLanguage, Translation, Component, Project, Category)
+async def announcement(request: AuthenticatedHttpRequest, path):
+    obj = await aparse_path(
+        request,
+        path,
+        (ProjectLanguage, CategoryLanguage, Translation, Component, Project, Category),
     )
 
-    if not request.user.has_perm("announcement.add", obj):
+    if not await sync_to_async(request.user.has_perm)("announcement.add", obj):
         raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, "#announcement")
+        return await sync_to_async(redirect_param)(obj, "#announcement")
 
     # Scope specific attributes
     scope = {}
     if isinstance(obj, ProjectLanguage):
         scope["project"] = obj.project
+        scope["language"] = obj.language
+    elif isinstance(obj, CategoryLanguage):
+        scope["category"] = obj.category
         scope["language"] = obj.language
     elif isinstance(obj, Category):
         scope["category"] = obj
@@ -524,26 +568,36 @@ def announcement(request: AuthenticatedHttpRequest, path):
     elif isinstance(obj, Project):
         scope["project"] = obj
 
-    Announcement.objects.create(
+    await Announcement.objects.acreate(
         user=request.user,
         **scope,
         **form.cleaned_data,
     )
 
-    return redirect(obj)
+    # Resolving nested category URLs can load ancestors from the database.
+    return redirect(await sync_to_async(obj.get_absolute_url)())
 
 
 @login_required
 @require_POST
-def announcement_delete(request: AuthenticatedHttpRequest, pk):
-    announcement = get_object_or_404(
-        Announcement.objects.filter_access(request.user), pk=pk
+async def announcement_delete(request: AuthenticatedHttpRequest, pk):
+    await request.user.aprepare_permissions()
+    announcement = await aget_object_or_404(
+        Announcement.objects.filter_access(request.user).select_related(
+            "category__project",
+            "component__project",
+            "language",
+            "project",
+        ),
+        pk=pk,
     )
 
-    if not request.user.has_perm("announcement.delete", announcement):
+    if not await sync_to_async(request.user.has_perm)(
+        "announcement.delete", announcement
+    ):
         raise PermissionDenied
 
-    announcement.delete()
+    await announcement.adelete()
     return JsonResponse({"responseStatus": 200})
 
 
@@ -562,11 +616,33 @@ def show_progress(request: AuthenticatedHttpRequest, path):
     return component_progress(request, obj)
 
 
+def can_view_component_progress(user: User, component: Component, task_id: str) -> bool:
+    """Authorize shared repository tasks against their complete component scope."""
+    repository_task_id = cache.get(component.repository_operation_update_key)
+    return repository_task_id != task_id or can_access_repository_operation_task(
+        user, task_id
+    )
+
+
 def multi_progress(request: AuthenticatedHttpRequest, obj: Category | Project):
-    components = list(obj.all_repo_components)
+    components_by_task: dict[str, Component] = {}
+    for component in obj.all_repo_components:
+        if (task_id := component.background_task_id) and can_view_component_progress(
+            request.user, component, task_id
+        ):
+            components_by_task.setdefault(task_id, component)
+    components = []
+    for component in components_by_task.values():
+        task = component.background_task
+        if task is None:
+            continue
+        if task.ready():
+            store_task_completion_message(request, task)
+        else:
+            components.append(component)
     return_target = obj
     return_url = obj.get_absolute_url()
-    if not any(component.in_progress() for component in components):
+    if not components:
         return redirect(return_url)
     return render(
         request,
@@ -589,9 +665,21 @@ def component_progress(request: AuthenticatedHttpRequest, obj: Component | Trans
         return_target = component
         return_url = f"{component.get_absolute_url()}#alerts"
 
-    if not component.in_progress():
+    task_id = component.background_task_id
+    if task_id is None:
+        return redirect(return_url)
+    if not can_view_component_progress(request.user, component, task_id):
+        msg = "Invalid task"
+        raise Http404(msg)
+
+    task = component.background_task
+    if task is None:
+        return redirect(return_url)
+    if task.ready():
+        store_task_completion_message(request, task)
         return redirect(return_url)
 
+    metadata = get_task_metadata(task_id)
     progress, log = component.get_progress()
 
     return render(
@@ -603,6 +691,7 @@ def component_progress(request: AuthenticatedHttpRequest, obj: Component | Trans
             "progress": progress,
             "log": "\n".join(log),
             "return_url": return_url,
+            "task_cancellable": (metadata or {}).get("cancellable", True),
         },
     )
 

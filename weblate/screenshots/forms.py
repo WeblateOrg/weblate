@@ -4,14 +4,15 @@
 
 import io
 from typing import Any, ClassVar, NoReturn, cast
+from urllib.parse import unquote, urlsplit
 
-import requests
+import httpx2
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Field, Layout
 from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.forms.forms import BaseForm
-from django.template.loader import render_to_string
-from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.translation import gettext, gettext_lazy
 
@@ -31,10 +32,10 @@ class ScreenshotImageValidationMixin(BaseForm):
             "get",
             url,
             allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
-            allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+            private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
         ) as response:
             content = b""
-            for chunk in response.iter_content(
+            for chunk in response.iter_bytes(
                 chunk_size=settings.ALLOWED_ASSET_SIZE + 1
             ):
                 if not content:
@@ -69,9 +70,7 @@ class ScreenshotImageValidationMixin(BaseForm):
         ):
             # download from image_url only if image is not provided and not updated
             cleaned_data["image"] = self.download_image(image_url)
-            # ruff: ignore[private-member-access]
-            image_field = Screenshot._meta.get_field("image")
-            image_field.run_validators(cleaned_data["image"])
+            Screenshot.validate_image_file(cleaned_data["image"])
 
         cleaned_data.pop("image_url", None)
         return cleaned_data
@@ -91,7 +90,7 @@ class ScreenshotImageValidationMixin(BaseForm):
                     % error.params
                 )
             self.raise_image_url_error(error.messages[0])
-        except requests.RequestException as e:
+        except httpx2.HTTPError as e:
             raise forms.ValidationError(
                 {
                     "image_url": gettext(
@@ -99,22 +98,15 @@ class ScreenshotImageValidationMixin(BaseForm):
                     )
                 }
             ) from e
-        filename = url.rsplit("/", maxsplit=1)[-1] or "screenshot"
+        filename = unquote(urlsplit(url).path).rsplit("/", maxsplit=1)[-1]
         return InMemoryUploadedFile(
             file=io.BytesIO(content),
             field_name="image",
-            name=filename,
+            name=filename or "screenshot",
             content_type=content_type,
             size=len(content),
             charset=None,
         )
-
-
-class ScreenshotInput(forms.FileInput):
-    def render(self, name, value, attrs=None, renderer=None, **kwargs):
-        rendered_input = super().render(name, value, attrs, renderer, **kwargs)
-        paste_button = render_to_string("screenshots/snippets/paste-button.html")
-        return format_html("{}{}", rendered_input, paste_button)
 
 
 class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
@@ -131,11 +123,19 @@ class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
         model = Screenshot
         fields = ("name", "image", "image_url", "repository_filename")
         # ruff: ignore[mutable-class-default]
-        widgets = {
-            "image": ScreenshotInput,
-        }
-        # ruff: ignore[mutable-class-default]
         field_classes = {"image": AssetImageField}
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            "name",
+            Field("image", template="screenshots/snippets/image-field.html"),
+            "image_url",
+            "repository_filename",
+        )
 
     def clean(self):
         cleaned_data = super().clean()
@@ -163,7 +163,6 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
         # ruff: ignore[mutable-class-default]
         widgets = {
             "translation": SortedSelect,
-            "image": ScreenshotInput,
         }
         # ruff: ignore[mutable-class-default]
         field_classes = {
@@ -188,6 +187,16 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
         translation_field.initial = component.source_translation
         translation_field.empty_label = None
         self.fields["image"].required = False
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            "name",
+            "repository_filename",
+            Field("image", template="screenshots/snippets/image-field.html"),
+            "image_url",
+            "translation",
+        )
 
     def clean(self):
         cleaned_data = super().clean()

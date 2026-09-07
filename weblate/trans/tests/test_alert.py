@@ -21,6 +21,7 @@ from django.test import SimpleTestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import override as translation_override
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
@@ -29,7 +30,7 @@ from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, MultiAlert
 from weblate.trans.alerts.registry import update_alerts
-from weblate.trans.alerts.vcs import UpdateFailure
+from weblate.trans.alerts.vcs import RepositoryErrorAlert, UpdateFailure
 from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
 from weblate.trans.models import (
     Category,
@@ -40,7 +41,13 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.alert import Alert
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.vcs.models import VCS_REGISTRY
+from weblate.utils.docs import get_doc_url
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositoryInternalError,
+    RepositoryStructuredError,
+)
+from weblate.vcs.github import GitHubAppCredentials
 from weblate.workspaces.models import Workspace
 
 
@@ -170,6 +177,20 @@ class AlertTest(ViewTestCase):
         return self.client.get(
             reverse("js-diagnostics", kwargs={"path": obj.get_url_path()}), data
         )
+
+    def test_alert_class_metadata_does_not_initialize_alert_object(self) -> None:
+        details = {"occurrences": [{"language_code": "cs"}]}
+        self.component.add_alert("UnusedGlossaryLanguage", **details)
+        alert = self.component.alert_set.get(name="UnusedGlossaryLanguage")
+
+        self.assertNotIn("alert_class", alert.__dict__)
+        alert_class = alert.alert_class
+
+        self.assertIn("alert_class", alert.__dict__)
+        self.assertIs(alert.alert_class, alert_class)
+        self.assertEqual(alert.category, "configuration")
+        self.assertNotIn("obj", alert.__dict__)
+        self.assertEqual(alert.details, details)
 
     def test_project_diagnostics_loads_lazily_for_authenticated_users(self) -> None:
         with patch("weblate.trans.views.js.get_diagnostics_context") as get_diagnostics:
@@ -787,6 +808,139 @@ class AlertTest(ViewTestCase):
             1,
         )
 
+    def test_repository_diagnoses_do_not_reopen_dismissed_alert(self) -> None:
+        error = "Repository not found."
+        self.component.add_alert("UpdateFailure", error=error)
+        alert = self.component.alert_set.get(name="UpdateFailure")
+        alert.dismissed_at = timezone.now()
+        alert.dismissed_by = self.user
+        alert.dismissal_fingerprint = alert.obj.get_dismissal_fingerprint(
+            self.component, alert.details
+        )
+        alert.save(
+            update_fields=(
+                "dismissed_at",
+                "dismissed_by",
+                "dismissal_fingerprint",
+            )
+        )
+
+        self.component.add_alert(
+            "UpdateFailure",
+            error=error,
+            diagnoses=[{"code": "repository_not_found"}],
+        )
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertEqual(alert.details["diagnoses"], [{"code": "repository_not_found"}])
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_repository_url_redaction_does_not_reopen_dismissed_alert(self) -> None:
+        self.component.add_alert(
+            "UpdateFailure", error="fatal: failed to access repository URL (128)"
+        )
+        alert = self.component.alert_set.get(name="UpdateFailure")
+        alert.dismissed_at = timezone.now()
+        alert.dismissed_by = self.user
+        alert.dismissal_fingerprint = alert.obj.get_dismissal_fingerprint(
+            self.component, alert.details
+        )
+        alert.save(
+            update_fields=(
+                "dismissed_at",
+                "dismissed_by",
+                "dismissal_fingerprint",
+            )
+        )
+
+        self.component.add_alert(
+            "UpdateFailure", error="fatal: failed to access ... (128)", diagnoses=[]
+        )
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_repository_url_failures_use_troubleshooting_documentation(self) -> None:
+        expected = get_doc_url(
+            "vcs", "vcs-repository-url-troubleshooting", user=self.user
+        )
+
+        for alert_name in ("MergeFailure", "UpdateFailure", "PushFailure"):
+            with self.subTest(alert_name=alert_name):
+                self.component.add_alert(
+                    alert_name,
+                    error={
+                        "code": "repository_url_backend_unsupported",
+                        "retcode": 0,
+                    },
+                    diagnoses=[],
+                )
+                alert = self.component.alert_set.get(name=alert_name)
+
+                self.assertEqual(alert.get_documentation_url(self.user), expected)
+
+                alert.delete()
+
+    def test_repository_failures_keep_operation_documentation(self) -> None:
+        expected = {
+            "MergeFailure": get_doc_url("faq", "merge", user=self.user),
+            "UpdateFailure": get_doc_url(
+                "admin/projects", "component-repo", user=self.user
+            ),
+            "PushFailure": "",
+        }
+
+        for alert_name, documentation_url in expected.items():
+            with self.subTest(alert_name=alert_name):
+                self.component.add_alert(
+                    alert_name, error="Repository operation failed", diagnoses=[]
+                )
+                alert = self.component.alert_set.get(name=alert_name)
+
+                self.assertEqual(
+                    alert.get_documentation_url(self.user), documentation_url
+                )
+
+                alert.delete()
+
+    def test_repository_error_is_stored_structured_and_rendered_for_user(
+        self,
+    ) -> None:
+        error = RepositoryInternalError(0, "repository_url_invalid")
+
+        with translation_override("fr"):
+            # spellchecker:off
+            self.assertEqual(
+                self.component.error_text(error),
+                "Saisissez une URL valide.",  # codespell:ignore valide
+            )
+            # spellchecker:on
+            details = self.component.get_repository_alert_details(error)
+            self.component.add_alert("UpdateFailure", **details)
+
+        alert = self.component.alert_set.get(name="UpdateFailure")
+        self.assertEqual(
+            alert.details["error"],
+            {"code": "repository_url_invalid", "retcode": 0},
+        )
+        with translation_override("fr"):
+            # spellchecker:off
+            self.assertEqual(
+                alert.obj.get_context(self.user)["error"],
+                "Saisissez une URL valide.",  # codespell:ignore valide
+            )
+            # spellchecker:on
+
     def test_legacy_dismissal_reopens_on_first_refresh(self) -> None:
         self.component.add_alert("BrokenProjectURL", error="failure")
         alert = self.component.alert_set.get(name="BrokenProjectURL")
@@ -893,31 +1047,6 @@ class AlertTest(ViewTestCase):
             ).exists()
         )
 
-    def test_inexact_hook_match_reopens_on_repository_change(self) -> None:
-        details = {
-            "service_long_name": "Gitea",
-            "repo_url": "https://example.com/owner/repo",
-            "branch": "main",
-            "full_name": "owner/repo",
-        }
-        self.component.repo = "https://example.com/first/repo.git"
-        self.component.save(update_fields=["repo"])
-        self.component.add_alert("InexactHookMatch", **details)
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-        self.assertTrue(alert.dismiss(self.user))
-
-        self.component.repo = "https://example.com/different/repo.git"
-        self.component.save(update_fields=["repo"])
-        self.component.add_alert("InexactHookMatch", **details)
-
-        alert.refresh_from_db()
-        self.assertIsNone(alert.dismissed_at)
-        self.assertTrue(
-            self.component.change_set.filter(
-                action=ActionEvents.ALERT_REOPENED, alert=alert
-            ).exists()
-        )
-
     def test_existing_alert_updates_last_seen(self) -> None:
         self.component.add_alert("MissingLicense")
         alert = self.component.alert_set.get(name="MissingLicense")
@@ -929,104 +1058,34 @@ class AlertTest(ViewTestCase):
         alert.refresh_from_db()
         self.assertGreater(alert.updated, old_updated)
 
-    def test_inexact_hook_match_alert_exact_history(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-            },
+    def test_automerge_failure_alert(self) -> None:
+        self.component.vcs_params = {"merge_request_automerge": True}
+        self.component.save(update_fields=["vcs_params"])
+        self.component.handle_automerge_failure(
+            "GitHub API request failed while merging a pull request (405): "
+            "Auto-merge is not allowed for this repository"
         )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
-
-    def test_inexact_hook_match_alert_inferred_history(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://other.example.com/owner/repo",
-                "repos": ["https://other.example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-        self.assertEqual(alert.severity, AlertSeverity.WARNING)
-        self.assertEqual(alert.details["service_long_name"], "Gitea")
-        self.assertEqual(alert.details["full_name"], "owner/repo")
-
-    def test_inexact_hook_match_alert_configure_link(self) -> None:
-        self.component.add_alert(
-            "InexactHookMatch",
-            service_long_name="Gitea",
-            repo_url="https://example.com/owner/repo",
-            branch="main",
-            full_name="owner/repo",
-        )
-        alert = self.component.alert_set.get(name="InexactHookMatch")
+        alert = self.component.alert_set.get(name="AutomergeFailure")
 
         rendered = alert.render(self.user)
-        self.assertNotIn("Configure component", rendered)
+        self.assertIn("Auto-merge is not allowed", rendered)
+        self.assertIn("could not merge it automatically", rendered)
 
-        self.user.is_superuser = True
-        self.user.save()
-
-        rendered = alert.render(self.user)
-        self.assertIn("Configure component", rendered)
-        self.assertIn(reverse("settings", kwargs=self.kw_component), rendered)
-
-    def test_inexact_hook_match_alert_explicit_match_method(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-                "match_method": "fallback",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertTrue(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
-
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-                "match_method": "exact",
-            },
-        )
-        update_alerts(self.component, {"InexactHookMatch"})
-
+        # Reporting a later success clears it
+        self.component.handle_automerge_success()
         self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
+            self.component.alert_set.filter(name="AutomergeFailure").exists()
         )
+
+    def test_automerge_failure_alert_cleared_when_turned_off(self) -> None:
+        self.component.vcs_params = {"merge_request_automerge": True}
+        self.component.save(update_fields=["vcs_params"])
+        self.component.handle_automerge_failure("boom")
+        self.assertIn("AutomergeFailure", self.get_problem_alert_names())
+
+        self.component.vcs_params = {}
+        self.component.save(update_fields=["vcs_params"])
+        self.assertNotIn("AutomergeFailure", self.get_problem_alert_names())
 
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
@@ -1168,6 +1227,168 @@ class AlertQueryPrefetchTest(ViewTestCase):
         self.assertEqual(len(alert_maps), 2)
 
 
+class GitHubAppMigrationAlertTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.workspace = Workspace.objects.create(name="Migration alert")
+        self.project.workspace = self.workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="123",
+            app_slug="weblate",
+            private_key="test",
+            client_id="client",
+            client_secret="secret",
+            webhook_secret="webhook",
+        )
+
+    def get_forking_disabled_alert(
+        self, repo: str = "https://github.com/test-org/repo1.git"
+    ) -> Alert:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo=repo,
+        )
+        self.component.refresh_from_db()
+        self.component.add_alert(
+            "PushFailure",
+            error={
+                "code": "repository_fork_failed_with_error",
+                "retcode": 0,
+                "params": {
+                    "hostname": "api.github.com",
+                    "error": "The repository exists, but forking is disabled.",
+                },
+            },
+            diagnoses=[{"code": "repository_permission"}],
+        )
+        return self.component.alert_set.get(name="PushFailure")
+
+    def test_migration_alert_lifecycle(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+
+        update_alerts(self.component, {"GitHubAppMigration"})
+
+        alert = self.component.alert_set.get(name="GitHubAppMigration")
+        self.assertEqual(alert.severity, AlertSeverity.INFO)
+        self.assertTrue(alert.obj.dismissible)
+        self.assertEqual(
+            alert.obj.get_url(self.component),
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            ),
+        )
+
+        self.component.vcs = "github-app"
+        update_alerts(self.component, {"GitHubAppMigration"})
+        self.assertFalse(
+            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+        )
+
+    def test_migration_alert_requires_workspace_and_configured_host(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.example.com/WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+
+        update_alerts(self.component, {"GitHubAppMigration"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+        )
+
+    def test_migration_alert_link_needs_workspace_access(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+        update_alerts(self.component, {"GitHubAppMigration"})
+        alert = self.component.alert_set.get(name="GitHubAppMigration")
+
+        # Editing the component is not enough; the migration view is scoped to
+        # the workspace.
+        role = Role.objects.create(name="Component editor")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Component editors")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.anotheruser.groups.add(group)
+        self.assertTrue(
+            self.anotheruser.has_perm("component.edit", self.component),
+        )
+        self.assertEqual(alert.obj.get_context(self.anotheruser)["migration_url"], "")
+
+        self.make_manager()
+        self.assertEqual(
+            alert.obj.get_context(self.user)["migration_url"],
+            alert.obj.get_url(self.component),
+        )
+
+    def test_forking_disabled_push_failure_suggests_app_migration(self) -> None:
+        alert = self.get_forking_disabled_alert()
+
+        rendered = alert.render(self.user)
+        self.assertIn(
+            "Ensure the Weblate GitHub App is connected to this workspace", rendered
+        )
+        self.assertIn(
+            "Ask a workspace owner to complete the GitHub App setup and migration",
+            rendered,
+        )
+        self.assertNotIn("Migrate to GitHub App</a>", rendered)
+
+        self.make_manager()
+
+        context = alert.obj.get_context(self.user)
+        self.assertTrue(context["analysis"]["github_app_migration_available"])
+        self.assertEqual(
+            context["github_app_migration_url"],
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            ),
+        )
+        rendered = alert.render(self.user)
+        self.assertIn("Migrate to GitHub App</a>", rendered)
+        self.assertNotIn("Ask a workspace owner", rendered)
+
+    def test_forking_disabled_hint_requires_configured_app_host(self) -> None:
+        alert = self.get_forking_disabled_alert(
+            "https://github.example.com/test-org/repo1.git"
+        )
+
+        context = alert.obj.get_context(self.user)
+        self.assertTrue(context["analysis"]["github_forking_disabled"])
+        self.assertNotIn("github_app_migration_available", context["analysis"])
+        self.assertNotIn("GitHub App", alert.render(self.user))
+
+    def test_other_push_failure_does_not_suggest_migration(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.com/test-org/repo1.git",
+        )
+        self.component.refresh_from_db()
+        self.component.add_alert(
+            "PushFailure",
+            error="Push denied to user",
+            diagnoses=[{"code": "repository_permission"}],
+        )
+        alert = self.component.alert_set.get(name="PushFailure")
+
+        context = alert.obj.get_context(self.user)
+        self.assertFalse(context["analysis"]["github_forking_disabled"])
+        self.assertNotIn("github_app_migration_available", context["analysis"])
+        self.assertNotIn("GitHub App", alert.render(self.user))
+
+
 @override_settings(
     GITHUB_CREDENTIALS={
         "api.github.com": {
@@ -1177,23 +1398,8 @@ class AlertQueryPrefetchTest(ViewTestCase):
     }
 )
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
-    @staticmethod
-    def clear_vcs_registry_cache() -> None:
-        VCS_REGISTRY.clear_cache()
-
     def create_component(self):
         return self.create_po()
-
-    @classmethod
-    def setUpTestData(cls) -> None:
-        super().setUpTestData()
-
-        cls.clear_vcs_registry_cache()
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.clear_vcs_registry_cache()
-        super().tearDownClass()
 
     def create_conflicting_component(self, **kwargs) -> Component:
         name = kwargs.pop("name", "Test2")
@@ -1684,6 +1890,191 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    @staticmethod
+    def render_failure_alert(
+        template_name: str,
+        permissions: set[str],
+        *,
+        analysis: dict | None = None,
+        error: str = "Repository operation failed",
+    ) -> str:
+        component = SimpleNamespace(get_url_path=lambda: ("test", "component"))
+        user = SimpleNamespace(
+            has_perm=lambda permission, _obj: permission in permissions
+        )
+        return render_to_string(
+            template_name,
+            {
+                "analysis": analysis or {},
+                "component": component,
+                "error": error,
+                "user": user,
+            },
+        )
+
+    def test_repository_redirect_failure_hides_raw_git_error(self) -> None:
+        raw_error = (
+            "fatal: unable to access repository URL: "
+            "The requested URL returned error: 301 (128)"
+        )
+        rendered = self.render_failure_alert(
+            "trans/alert/updatefailure.html",
+            set(),
+            analysis={"redirect": True},
+            error=raw_error,
+        )
+
+        self.assertIn("permanent HTTP redirect", rendered)
+        self.assertNotIn(raw_error, rendered)
+
+    def test_merge_url_failure_shows_url_guidance(self) -> None:
+        error = (
+            "This VCS backend cannot safely connect to this URL while private "
+            "address restrictions are enabled."
+        )
+        rendered = self.render_failure_alert(
+            "trans/alert/mergefailure.html",
+            set(),
+            analysis={
+                "repository_url_backend_unsupported": True,
+                "repository_url_failure": True,
+            },
+            error=error,
+        )
+
+        self.assertIn(error, rendered)
+        self.assertIn("cannot enforce private-address restrictions", rendered)
+        self.assertIn("VCS_ALLOW_HOSTS", rendered)
+        self.assertNotIn("Git HTTPS or SSH", rendered)
+        self.assertNotIn("Check the FAQ for info on how to resolve this", rendered)
+        self.assertNotIn("alert might disappear for the temporary issues", rendered)
+
+    def test_repository_url_failure_guidance(self) -> None:
+        cases = (
+            ("repository_url_private", "destination is not permitted"),
+            ("repository_url_invalid", "repository URL is not valid"),
+            ("repository_url_scheme", "protocol which is not permitted"),
+            ("repository_url_resolution", "could not resolve"),
+            ("repository_url_redirect", "redirect could not be safely followed"),
+        )
+
+        for analysis_key, expected in cases:
+            with self.subTest(analysis_key=analysis_key):
+                rendered = render_to_string(
+                    "trans/alert/common-repo.html",
+                    {"analysis": {analysis_key: True}},
+                )
+
+                self.assertIn(expected, rendered)
+
+    def test_repository_url_error_codes_are_classified(self) -> None:
+        cases: tuple[tuple[RepositoryStructuredError, str], ...] = (
+            (
+                {"code": "repository_url_backend_unsupported", "retcode": 0},
+                "repository_url_private",
+            ),
+            (
+                {"code": "repository_url_private_target", "retcode": 0},
+                "repository_url_private",
+            ),
+            (
+                {"code": "repository_url_parse_invalid", "retcode": 0},
+                "repository_url_invalid",
+            ),
+            (
+                {
+                    "code": "repository_url_scheme_not_allowed",
+                    "retcode": 0,
+                    "params": {"scheme": "file"},
+                },
+                "repository_url_scheme",
+            ),
+            (
+                {"code": "repository_url_unresolved", "retcode": 0},
+                "repository_url_resolution",
+            ),
+            (
+                {"code": "repository_ssh_destination_unresolved", "retcode": 0},
+                "repository_url_resolution",
+            ),
+            (
+                {"code": "repository_redirect_insecure", "retcode": 0},
+                "repository_url_redirect",
+            ),
+        )
+        expected_doc_url = get_doc_url("vcs", "vcs-repository-url-troubleshooting")
+
+        for error, analysis_key in cases:
+            with self.subTest(error_code=error["code"]):
+                alert = RepositoryErrorAlert(
+                    cast("Alert", SimpleNamespace(component=SimpleNamespace())),
+                    error,
+                    diagnoses=[],
+                )
+                analysis = alert.get_analysis()
+
+                self.assertTrue(analysis["repository_url_failure"])
+                self.assertTrue(analysis[analysis_key])
+                self.assertEqual(
+                    alert.get_instance_documentation_url(), expected_doc_url
+                )
+
+    def test_repository_redirect_errors_are_classified(self) -> None:
+        errors = (
+            "The repository URL permanently redirects to a canonical URL.",
+            "The repository returned a permanent HTTP redirect without a target URL.",
+            "The repository returned an HTTP redirect with an invalid hostname.",
+            "The repository returned too many HTTP redirects.",
+        )
+
+        for error in errors:
+            with self.subTest(error=error):
+                alert = RepositoryErrorAlert(
+                    cast("Alert", SimpleNamespace()),
+                    error,
+                )
+                self.assertTrue(alert.get_analysis()["redirect"])
+
+    def test_repository_failure_settings_action_permissions(self) -> None:
+        settings_url = (
+            reverse(
+                "settings",
+                kwargs={"path": ("test", "component")},
+            )
+            + "#vcs"
+        )
+        cases = (
+            (
+                "trans/alert/repositoryoperationfailure.html",
+                "vcs.reset",
+                "Reset the repository",
+            ),
+            (
+                "trans/alert/updatefailure.html",
+                "vcs.update",
+                "Update the repository",
+            ),
+            (
+                "trans/alert/pushfailure.html",
+                "vcs.push",
+                "Push the repository",
+            ),
+        )
+
+        for template_name, retry_permission, retry_label in cases:
+            with self.subTest(template_name=template_name, permission="component.edit"):
+                rendered = self.render_failure_alert(template_name, {"component.edit"})
+
+                self.assertIn("Edit component settings", rendered)
+                self.assertIn(f'href="{settings_url}"', rendered)
+                self.assertNotIn(retry_label, rendered)
+
+            with self.subTest(template_name=template_name, permission=retry_permission):
+                rendered = self.render_failure_alert(template_name, {retry_permission})
+
+                self.assertNotIn("Edit component settings", rendered)
+                self.assertIn(retry_label, rendered)
+
     def test_repository_guidance_uses_header_documentation_link(self) -> None:
         for template_name in (
             "trans/alert/repositoryoutdated.html",
@@ -1794,6 +2185,268 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
         )
 
         self.assertEqual(alert.get_analysis()["host_key_message"], "host key changed")
+
+    def test_repository_alert_uses_structured_diagnoses(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        alert = UpdateFailure(
+            cast("Alert", SimpleNamespace(component=component)),
+            "Repository not found.",
+            diagnoses=[],
+        )
+
+        self.assertFalse(alert.get_analysis()["not_found"])
+
+    def test_repository_alert_legacy_diagnosis_fallback(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        alert = UpdateFailure(
+            cast("Alert", SimpleNamespace(component=component)),
+            "Repository not found.",
+        )
+
+        self.assertTrue(alert.get_analysis()["not_found"])
+
+    def test_repository_diagnosis_is_localized_when_rendered(self) -> None:
+        analysis = {
+            "not_found": True,
+            "github_pull_request_creation_restricted": False,
+            "github_pull_request_creation_restricted_username": None,
+        }
+
+        with translation_override("fr"):
+            rendered = render_to_string(
+                "trans/alert/common-repo.html", {"analysis": analysis}
+            )
+
+        self.assertIn("n’a pas été trouvé. Veuillez vérifier", rendered)
+
+    def test_git_lfs_diagnosis_links_documentation(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        instance = cast("Alert", SimpleNamespace(component=component))
+        alerts = (
+            UpdateFailure(
+                instance,
+                "remote rejected the push",
+                diagnoses=[{"code": "git_lfs_missing_objects"}],
+            ),
+            UpdateFailure(
+                instance,
+                "remote: GitLab: LFS objects are missing.",
+            ),
+        )
+
+        for alert in alerts:
+            with self.subTest(diagnoses=alert.diagnoses):
+                rendered = render_to_string(
+                    "trans/alert/common-repo.html",
+                    {"analysis": alert.get_analysis()},
+                )
+
+                self.assertIn(
+                    "Weblate does not download or upload Git LFS objects", rendered
+                )
+                self.assertIn("vcs.html#git-lfs", rendered)
+
+    def test_github_pull_request_diagnosis_renders_username(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/common-repo.html",
+            {
+                "analysis": {
+                    "github_pull_request_creation_restricted": True,
+                    "github_pull_request_creation_restricted_username": (
+                        "<integration>"
+                    ),
+                }
+            },
+        )
+
+        self.assertIn(
+            "allow pull requests from all users or add "
+            "<code>&lt;integration&gt;</code> as a collaborator",
+            rendered,
+        )
+
+    def test_github_app_pull_request_diagnosis_omits_username(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/common-repo.html",
+            {
+                "analysis": {
+                    "github_pull_request_creation_restricted": True,
+                    "github_pull_request_creation_restricted_username": None,
+                }
+            },
+        )
+
+        self.assertIn(
+            "Ask a repository maintainer to allow pull requests from all users",
+            rendered,
+        )
+        self.assertNotIn("x-access-token", rendered)
+
+    def test_repository_alert_details_store_structured_error_and_diagnoses(
+        self,
+    ) -> None:
+        component = SimpleNamespace(
+            repo="https://example.com/repository",
+            push="",
+            full_path=Path.cwd() / "repository",
+        )
+        error = RepositoryInternalError(
+            1,
+            "repository_fork_not_found",
+            params={"hostname": "example.com", "username": "weblate"},
+            diagnoses=(
+                {
+                    "code": "github_pull_request_creation_restricted",
+                    "params": {"username": "weblate"},
+                },
+            ),
+        )
+
+        details = Component.get_repository_alert_details(  # type: ignore[arg-type]
+            component, error
+        )
+
+        self.assertEqual(
+            details["error"],
+            {
+                "code": "repository_fork_not_found",
+                "retcode": 1,
+                "params": {"hostname": "example.com", "username": "weblate"},
+            },
+        )
+        self.assertEqual(
+            details["diagnoses"],
+            [
+                {
+                    "code": "github_pull_request_creation_restricted",
+                    "params": {"username": "weblate"},
+                },
+                {"code": "repository_not_found"},
+            ],
+        )
+
+    def test_repository_alert_details_keep_external_error_text(self) -> None:
+        component = SimpleNamespace(
+            repo="https://user:super-secret-token@example.com/repository",
+            push="",
+            full_path=Path.cwd() / "repository",
+        )
+
+        with translation_override("fr"):
+            details = Component.get_repository_alert_details(  # type: ignore[arg-type]
+                component,
+                RepositoryError(128, f"fatal: failed to access {component.repo}"),
+            )
+
+        self.assertEqual(details["error"], "fatal: failed to access ... (128)")
+
+    def test_repository_alert_details_sanitize_structured_params(self) -> None:
+        component = SimpleNamespace(
+            repo="https://user:super-secret-token@example.com/repository",
+            push="",
+            full_path=Path.cwd() / "repository",
+        )
+        error = RepositoryInternalError(
+            0,
+            "repository_redirect_probe_failed",
+            params={
+                "error": (
+                    f"Failed to access {component.repo} from "
+                    f"{component.full_path}/private"
+                )
+            },
+        )
+
+        with translation_override("fr"):
+            details = Component.get_repository_alert_details(  # type: ignore[arg-type]
+                component, error
+            )
+
+        assert isinstance(details["error"], dict)
+        stored_detail = details["error"]["params"]["error"]
+        self.assertEqual(stored_detail, "Failed to access ... from .../private")
+        self.assertNotIn("super-secret-token", stored_detail)
+
+    def test_structured_repository_alert_error_is_localized_when_rendered(
+        self,
+    ) -> None:
+        details = {
+            "error": {"code": "repository_url_invalid", "retcode": 0},
+            "diagnoses": [],
+        }
+        instance = SimpleNamespace(
+            component=SimpleNamespace(), details=details, timestamp=None
+        )
+        alert = RepositoryErrorAlert(cast("Alert", instance), **details)
+        user = SimpleNamespace()
+
+        self.assertEqual(alert.get_context(user)["error"], "Enter a valid URL.")
+        with translation_override("fr"):
+            # spellchecker:off
+            self.assertEqual(
+                alert.get_context(user)["error"],
+                "Saisissez une URL valide.",  # codespell:ignore valide
+            )
+            # spellchecker:on
+
+    def test_structured_repository_error_preserves_legacy_fingerprint(self) -> None:
+        legacy_details = {"error": "Enter a valid URL.", "diagnoses": []}
+        structured_details = {
+            "error": {"code": "repository_url_invalid", "retcode": 0},
+            "diagnoses": [],
+        }
+
+        self.assertEqual(
+            RepositoryErrorAlert.get_dismissal_fingerprint(
+                SimpleNamespace(), legacy_details
+            ),
+            RepositoryErrorAlert.get_dismissal_fingerprint(
+                SimpleNamespace(), structured_details
+            ),
+        )
+
+    def test_repository_url_redaction_preserves_legacy_fingerprint(self) -> None:
+        legacy_details = {
+            "error": "fatal: failed to access repository URL (128)",
+            "diagnoses": [],
+        }
+        current_details = {
+            "error": "fatal: failed to access ... (128)",
+            "diagnoses": [],
+        }
+
+        self.assertEqual(
+            RepositoryErrorAlert.get_dismissal_fingerprint(
+                SimpleNamespace(), legacy_details
+            ),
+            RepositoryErrorAlert.get_dismissal_fingerprint(
+                SimpleNamespace(), current_details
+            ),
+        )
 
     def test_common_repo_renders_host_key_mismatch_message(self) -> None:
         rendered = render_to_string(

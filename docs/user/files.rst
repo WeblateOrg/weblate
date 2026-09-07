@@ -24,8 +24,18 @@ and the up-to-date file is yield without any conversions.
 
 You can also download the translation converted into one of the widely used
 localization formats. The converted files will be enriched with data provided
-in Weblate; such as additional context, comments or flags. Several file formats
-are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
+in Weblate; such as additional context, comments or flags.
+
+.. note::
+
+   Format conversion changes the localization file representation, but does
+   not translate between runtime message syntaxes such as ICU MessageFormat
+   and C ``printf`` formatting. Use application-specific tooling when consumers
+   need different placeholder syntaxes or a compiled resource format not
+   offered by Weblate.
+
+Several file formats are available via the :guilabel:`Files` ↓
+:guilabel:`Customize download` menu:
 
 * gettext PO (``po``)
 * XLIFF 1.1 with gettext extensions (``xliff``)

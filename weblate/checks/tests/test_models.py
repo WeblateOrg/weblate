@@ -4,6 +4,8 @@
 
 """Tests for unitdata models."""
 
+from __future__ import annotations
+
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
@@ -27,6 +29,36 @@ from weblate.utils.lock import WeblateLock
 
 
 class CheckLintTestCase(SimpleTestCase):
+    def test_plain_description(self) -> None:
+        check = Check(name="same")
+        for description, expected in (
+            ("Plain <tag> &amp; text.", "Plain <tag> &amp; text."),
+            (
+                format_html("Use <code>{}</code>.", '<tag> & "quote"'),
+                'Use <tag> & "quote".',
+            ),
+            (
+                format_html(
+                    "{}<br />{}<br>{}<BR/>{}", "First", "Second", "Third", "Fourth"
+                ),
+                "First\nSecond\nThird\nFourth",
+            ),
+            (
+                format_html("<code>{}</code>", "<br />"),
+                "<br />",
+            ),
+        ):
+            with (
+                self.subTest(description=description),
+                patch.object(
+                    check.check_obj, "get_description", return_value=description
+                ),
+            ):
+                self.assertEqual(check.get_plain_description(), expected)
+
+    def test_unknown_plain_description(self) -> None:
+        self.assertEqual(Check(name="-unknown-").get_plain_description(), "-unknown-")
+
     def test_check_id(self) -> None:
         for check in CHECKS.values():
             self.assertRegex(check.check_id, r"^[a-z][a-z0-9_-]*[a-z]$")

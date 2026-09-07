@@ -16,6 +16,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.workspaces.models import Workspace
 
 register = template.Library()
 
@@ -30,6 +31,8 @@ def metrics(obj):
         return MetricsWrapper(obj, Metric.SCOPE_COMPONENT, obj.pk)
     if isinstance(obj, Project):
         return MetricsWrapper(obj, Metric.SCOPE_PROJECT, obj.pk)
+    if isinstance(obj, Workspace):
+        return MetricsWrapper(obj, Metric.SCOPE_WORKSPACE, obj.metric_id)
     if isinstance(obj, ComponentList):
         return MetricsWrapper(obj, Metric.SCOPE_COMPONENT_LIST, obj.pk)
     if isinstance(obj, ProjectLanguage):

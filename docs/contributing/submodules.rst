@@ -17,7 +17,9 @@ SPDX license data
 
 The SPDX license data is included as a Git submodule in the source code and
 :file:`weblate/utils/licensedata.py` is generated using
-:file:`scripts/generate-license-data.py`.
+:file:`scripts/generate-license-data.py`. The submodule tracks tagged SPDX
+releases. Renovate updates the release recorded in :file:`.gitmodules`, and
+the license update workflow updates the submodule and generated license data.
 
 Test data
 ---------

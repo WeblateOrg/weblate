@@ -11,24 +11,25 @@ from shutil import disk_usage
 from typing import TYPE_CHECKING, Any, Literal, cast, get_args
 from urllib.parse import quote, urlencode
 
+import httpx2
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.models import Count, Max, Q
+from django.db.models import Count, Max
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.html import format_html
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, FormMixin
-from requests.exceptions import HTTPError, Timeout
 
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
 from weblate.accounts.views import UserList, get_initial_contact
@@ -53,7 +54,13 @@ from weblate.memory.tasks import MEMORY_SCOPE_COMPACTION_STATE
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import AnnouncementForm
-from weblate.trans.models import Alert, Announcement, Change, Component, Project
+from weblate.trans.models import (
+    Alert,
+    Announcement,
+    Change,
+    Component,
+    Project,
+)
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.cache import measure_cache_latency
@@ -65,11 +72,11 @@ from weblate.utils.db import (
     measure_database_latency,
 )
 from weblate.utils.encoding import get_encoding_list
-from weblate.utils.errors import report_error
+from weblate.utils.errors import report_error, report_message
+from weblate.utils.filesystem import filesystem_latency_snapshot
 from weblate.utils.requests import fetch_url
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.token import get_token
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
@@ -92,7 +99,6 @@ from weblate.wladmin.forms import (
     SSHAddForm,
     TestMailForm,
     WorkspaceCreateForm,
-    WorkspaceSearchForm,
 )
 from weblate.wladmin.middleware import (
     claim_configuration_health_check,
@@ -104,8 +110,9 @@ from weblate.wladmin.models import (
     SupportStatus,
     get_support_url,
 )
-from weblate.wladmin.tasks import backup_service, support_status_update
+from weblate.wladmin.tasks import backup, support_status_update
 from weblate.workspaces.models import Workspace
+from weblate.workspaces.views import WorkspaceListBase
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -296,7 +303,7 @@ def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
         if "sentry" in request.POST:
             if not can_configure:
                 raise PermissionDenied
-            report_error("Test message", message=True, level="info")
+            report_message("Test message", level="info")
             return redirect("manage-tools")
 
         if "message" in request.POST:
@@ -376,19 +383,19 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
     if not validate_discovery_registration_state(request, state):
         messages.error(
             request,
-            gettext("Could not activate your installation. Invalid activation state."),
+            gettext("Could not enable Discover Weblate. Invalid activation state."),
         )
         return redirect("manage")
     if not code:
         messages.error(
             request,
-            gettext("Could not activate your installation. Missing activation code."),
+            gettext("Could not enable Discover Weblate. Missing activation code."),
         )
         return redirect("manage")
     if len(code) > DISCOVERY_ACTIVATION_CODE_MAX_LENGTH:
         messages.error(
             request,
-            gettext("Could not activate your installation. Invalid activation code."),
+            gettext("Could not enable Discover Weblate. Invalid activation code."),
         )
         return redirect("manage")
 
@@ -404,17 +411,17 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
         support.refresh(
             site_url=get_discovery_site_url(reverse("manage-discovery-callback"))
         )
-    except Timeout:
+    except httpx2.TimeoutException:
         report_error("Activation timeout")
         messages.error(
             request,
-            gettext("Could not activate your installation. Please try again later."),
+            gettext("Could not enable Discover Weblate. Please try again later."),
         )
     except Exception:
         report_error("Activation error")
         messages.error(
             request,
-            gettext("Could not activate your installation. Please try again later."),
+            gettext("Could not enable Discover Weblate. Please try again later."),
         )
     else:
         with transaction.atomic():
@@ -427,7 +434,7 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
                 messages.error(
                     request,
                     gettext(
-                        "Could not activate discovery because a support package "
+                        "Could not enable Discover Weblate because a support package "
                         "is already linked."
                     ),
                 )
@@ -438,8 +445,29 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
                 )
                 support.save()
                 transaction.on_commit(support_status_update.delay)
-                messages.success(request, gettext("Activation completed."))
+                messages.success(request, gettext("Discover Weblate enabled."))
     return redirect("manage")
+
+
+def _get_support_action_messages(*, refresh: bool) -> tuple[str, str, str, str]:
+    if refresh:
+        return (
+            gettext("Support status refreshed."),
+            gettext("Could not refresh support status. Please try again later."),
+            gettext(
+                "Could not refresh support status. The activation token is invalid."
+            ),
+            gettext("Could not refresh support status: %s"),
+        )
+    return (
+        gettext("Support package activated."),
+        gettext("Could not activate the support package. Please try again later."),
+        gettext(
+            "Could not activate the support package. Please ensure the activation "
+            "token is correct."
+        ),
+        gettext("Could not activate the support package: %s"),
+    )
 
 
 @management_permission_required("management.configure")
@@ -447,18 +475,30 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
     support: SupportStatus | None = None
+    refresh = "refresh" in request.POST
     unlink = False
-    if "refresh" in request.POST:
+    if refresh:
+        success_message, retry_error, token_error, unexpected_error = (
+            _get_support_action_messages(refresh=True)
+        )
         support = SupportStatus.objects.get_current(for_update=True)
     elif "unlink" in request.POST:
         unlink = True
+        success_message = gettext("Support package unlinked.")
+        _, retry_error, token_error, unexpected_error = _get_support_action_messages(
+            refresh=False
+        )
         support = SupportStatus.objects.get_current(for_update=True)
         if support.secret and support.discoverable:
             support.discoverable = False
         else:
             support = None
             unlink_support_status()
+            messages.success(request, success_message)
     else:
+        success_message, retry_error, token_error, unexpected_error = (
+            _get_support_action_messages(refresh=False)
+        )
         form = ActivateForm(request.POST)
         if form.is_valid():
             support = SupportStatus(**form.cleaned_data)
@@ -469,27 +509,18 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
         activation_error = ""
         try:
             support.refresh()
-        except Timeout:
+        except httpx2.TimeoutException:
             report_error("Activation timeout")
-            activation_error = gettext(
-                "Could not activate your installation. Please try again later."
-            )
-        except HTTPError as error:
+            activation_error = retry_error
+        except httpx2.HTTPStatusError as error:
             report_error("Activation error")
             if error.response is not None and error.response.status_code == 404:
-                activation_error = gettext(
-                    "Could not activate your installation. "
-                    "Please ensure your activation token is correct."
-                )
+                activation_error = token_error
             else:
-                activation_error = gettext(
-                    "Could not activate your installation. Please try again later."
-                )
+                activation_error = retry_error
         except Exception as error:
             report_error("Activation error")
-            activation_error = (
-                gettext("Could not activate your installation: %s") % error
-            )
+            activation_error = unexpected_error % error
         if activation_error:
             if unlink:
                 unlink_support_status()
@@ -512,7 +543,7 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
                 support.save()
             else:
                 support.save()
-            messages.success(request, gettext("Activation completed."))
+            messages.success(request, success_message)
     return redirect("manage")
 
 
@@ -551,9 +582,7 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
                     service.save()
                     return redirect("manage-backups")
                 if "trigger" in request.POST:
-                    settings_backup.delay()
-                    database_backup.delay()
-                    backup_service.delay(pk=service.pk)
+                    backup.delay([service.pk])
                     messages.success(request, gettext("Backup process triggered"))
                     return redirect("manage-backups")
             else:
@@ -661,7 +690,8 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         if not request.user.has_perm("management.configure"):
             raise PermissionDenied
         return handle_dismiss(request)
-    all_checks = run_checks(include_deployment_checks=True)
+    with filesystem_latency_snapshot() as filesystem_latencies:
+        all_checks = run_checks(include_deployment_checks=True)
     if settings.BACKGROUND_ADMIN_CHECKS and claim_configuration_health_check():
         perform_configuration_health_check(all_checks)
     checks = sorted(
@@ -693,6 +723,8 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "celery_latency": cache.get("celery_latency"),
         "database_latency": measure_database_latency(),
         "cache_latency": measure_cache_latency(),
+        "data_dir_latency": filesystem_latencies.get("DATA_DIR"),
+        "cache_dir_latency": filesystem_latencies.get("CACHE_DIR"),
         "disk_usage": disk_usage_bytes,
         "disk_usage_percent": disk_usage_percent,
         "database_size": database_size,
@@ -718,7 +750,9 @@ def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
         raise Http404
 
     response = HttpResponse(data, content_type="text/plain")
-    response["Content-Disposition"] = f"attachment; filename={filename}"
+    response["Content-Disposition"] = content_disposition_header(
+        as_attachment=True, filename=filename
+    )
     response["Content-Length"] = len(data)
     return response
 
@@ -751,6 +785,7 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
                 form.cleaned_data["host"],
                 form.cleaned_data["port"],
                 accept_fingerprint=form.cleaned_data["fingerprint"],
+                restrict_private=True,
             )
     elif action == "remove-host":
         remove_host_key(request, request.POST.get("host_key", ""))
@@ -1034,43 +1069,16 @@ class TeamListView(FormMixin, ListView):
 
 
 @method_decorator(management_access, name="dispatch")
-class WorkspaceListView(ListView):
+class WorkspaceListView(WorkspaceListBase):
     template_name = "manage/workspaces.html"
-    paginate_by = 50
-    model = Workspace
 
-    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
-        super().setup(request, *args, **kwargs)
-        self.search_form = WorkspaceSearchForm(request.GET)
-
-    def get_queryset(self) -> QuerySet[Workspace]:
-        queryset = Workspace.objects.annotate(Count("projects")).order()
-        billing_enabled = "weblate.billing" in settings.INSTALLED_APPS
-        if self.search_form.is_valid() and (
-            query := self.search_form.cleaned_data["q"].strip()
-        ):
-            filters = Q(name__icontains=query)
-            if billing_enabled:
-                filters |= Q(billing__customer_name__icontains=query)
-            queryset = queryset.filter(filters)
-        if billing_enabled:
-            queryset = queryset.select_related("billing")
-        return queryset
+    def include_billing(self) -> bool:
+        return "weblate.billing" in settings.INSTALLED_APPS
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
-        search_query = ""
-        if self.search_form.is_valid():
-            search_query = self.search_form.cleaned_data["q"].strip()
-        search_items = (("q", search_query),) if search_query else ()
         result["menu_items"] = MENU
         result["menu_page"] = "workspaces"
-        result["billing_enabled"] = "weblate.billing" in settings.INSTALLED_APPS
-        result["can_add_workspace"] = self.request.user.has_perm("workspace.add")
-        result["search_form"] = self.search_form
-        result["search_query"] = search_query
-        result["search_items"] = search_items
-        result["query_string"] = urlencode(search_items)
         return result
 
 

@@ -9,6 +9,7 @@ from typing import cast
 from unittest.mock import patch
 
 from django.apps import apps
+from django.core.exceptions import ValidationError
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from filelock import FileLock
@@ -17,6 +18,7 @@ from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
 from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
+from weblate.trans.file_format_params import get_effective_params_for_file_format
 from weblate.trans.forms import (
     CategorySettingsForm,
     ComponentSettingsForm,
@@ -31,10 +33,12 @@ from weblate.trans.models import (
     Project,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.render import (
     validate_render_addon,
     validate_render_commit,
@@ -48,6 +52,46 @@ from weblate.workspaces.models import Workspace
 
 
 class SettingsTest(ViewTestCase):
+    def test_public_sharing_permission(self) -> None:
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+        self.assertTrue(form.fields["public_sharing"].disabled)
+
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_permissions_cache()
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+        self.assertFalse(form.fields["public_sharing"].disabled)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_restricted_component_rejects_shared_memory(self) -> None:
+        self.component.restricted = True
+        self.project.use_shared_tm = True
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "A component can not be restricted while its project uses shared translation memory.",
+        ):
+            self.component.clean_model_settings()
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_shared_memory_rejects_restricted_component(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.project.use_shared_tm = True
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "Shared translation memory can not be enabled while the project has restricted components.",
+        ):
+            self.project.clean()
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_shared_memory_allows_unrestricted_component_edit(self) -> None:
+        self.create_link_existing(restricted=True)
+        Project.objects.filter(pk=self.project.pk).update(use_shared_tm=True)
+        component = Component.objects.get(pk=self.component.pk)
+
+        component.clean_model_settings()
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_restricted_component_permission_denial(self) -> None:
         self.project.add_user(self.user, "Administration")
@@ -961,14 +1005,27 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, "Settings")
         response = self.client.post(
             url,
-            {"workflow-enable": 1, "workflow-suggestion_autoaccept": 0},
+            {
+                "workflow-enable": 1,
+                "workflow-restrict_direct_editing": 1,
+                "workflow-suggestion_autoaccept": 0,
+            },
             follow=True,
         )
         self.assertContains(response, "Settings saved")
-        self.assertIsNotNone(
+        workflow_settings = (
             Project.objects.get(pk=self.project.pk)
             .project_languages[self.translation.language]
             .workflow_settings
+        )
+        self.assertIsNotNone(workflow_settings)
+        self.assertTrue(workflow_settings.restrict_direct_editing)
+        self.assertTrue(
+            WorkflowSetting.objects.filter(
+                project=self.project,
+                language=self.translation.language,
+                restrict_direct_editing=True,
+            ).exists()
         )
         response = self.client.post(
             url, {"workflow-suggestion_autoaccept": 0}, follow=True
@@ -1020,9 +1077,30 @@ class SettingsTest(ViewTestCase):
         # Check change details display
         self.assertEqual(change.get_details_display(), "Protected")
 
+    def test_change_public_sharing(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["public_sharing"] = True
+
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, url)
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.public_sharing)
+
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, url)
+
+        self.project.refresh_from_db()
+        self.assertTrue(self.project.public_sharing)
+
     def test_project_audit_settings(self) -> None:
         self.project.acting_user = self.user
         self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.public_sharing = True
         self.project.enforced_2fa = True
         self.project.translation_review = True
         self.project.source_review = True
@@ -1243,6 +1321,28 @@ class SettingsTest(ViewTestCase):
                 unit.translated, f"{unit} should not be marked as translated"
             )
 
+    def test_component_repository_locked(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["license"] = "MIT"
+        lock_error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+
+        with patch.object(Component, "locked_for_update", side_effect=lock_error):
+            response = self.client.post(url, data, follow=True)
+
+        self.assertRedirects(response, url)
+        self.assertContains(
+            response,
+            "There appears to be an ongoing operation on the repository. "
+            "Please try again later.",
+        )
+        self.component.refresh_from_db()
+        self.assertNotEqual(self.component.license, "MIT")
+
     def test_component_inherited_required_license_validates(self) -> None:
         self.project.add_user(self.user, "Administration")
         self.project.license = "MIT"
@@ -1399,6 +1499,15 @@ class SettingsTest(ViewTestCase):
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
+        # Preserve checkbox values so the submission does not trigger a rescan.
+        data.update(
+            {
+                f"file_format_params_{name}": value
+                for name, value in get_effective_params_for_file_format(
+                    self.component.file_format, self.component.file_format_params
+                ).items()
+            }
+        )
         data["license"] = "MIT"
 
         original_clean = Component.clean
@@ -1485,8 +1594,10 @@ class SettingsTest(ViewTestCase):
         self.component.push_on_commit = True
         self.component.commit_pending_age = 12
         self.component.auto_lock_error = False
+        self.component.vcs_params = {"git_force_push": True}
         self.component.save(
             update_fields=[
+                "vcs_params",
                 "push_on_commit",
                 "commit_pending_age",
                 "auto_lock_error",
@@ -1498,8 +1609,10 @@ class SettingsTest(ViewTestCase):
         linked_component.push_on_commit = False
         linked_component.commit_pending_age = 1
         linked_component.auto_lock_error = True
+        linked_component.vcs_params = {"git_force_push": False}
         linked_component.save(
             update_fields=[
+                "vcs_params",
                 "push_on_commit",
                 "commit_pending_age",
                 "auto_lock_error",
@@ -1511,6 +1624,8 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, "Settings")
         form = response.context["form"]
 
+        self.assertTrue(form.fields["vcs_params"].disabled)
+        self.assertEqual(form.initial["vcs_params"], {"git_force_push": True})
         self.assertTrue(form.fields["push_on_commit"].disabled)
         self.assertTrue(form.initial["push_on_commit"])
         self.assertTrue(form.fields["commit_pending_age"].disabled)
@@ -1533,6 +1648,7 @@ class SettingsTest(ViewTestCase):
 
         linked_component.refresh_from_db()
         self.assertEqual(linked_component.name, "Settings linked renamed")
+        self.assertEqual(linked_component.vcs_params, {"git_force_push": False})
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 1)
         self.assertTrue(linked_component.auto_lock_error)

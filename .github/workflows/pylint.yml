@@ -32,11 +32,11 @@ jobs:
       id: setup_python
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+    - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.11.29
+        version: 0.12.10
     - name: Install deps
       run: uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --group pylint
     - name: Run pylint
