@@ -40,7 +40,9 @@ jobs:
       if: steps.detect.outputs.method == 'pep735'
       run: |
         uv run --only-group pre-commit prek run --all-files --show-diff-on-failure
+        du -h --max-depth=1 ~/.cache/prek ~/.cache/prek/cache ~/.cache/kingfisher || true
         uv run --only-group pre-commit prek cache gc
+        du -h --max-depth=1 ~/.cache/prek ~/.cache/prek/cache ~/.cache/kingfisher || true
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
@@ -49,7 +51,9 @@ jobs:
       if: steps.detect.outputs.method == 'uvx'
       run: |
         uvx prek run --all-files --show-diff-on-failure
+        du -h --max-depth=1 ~/.cache/prek ~/.cache/prek/cache ~/.cache/kingfisher || true
         uvx prek cache gc
+        du -h --max-depth=1 ~/.cache/prek ~/.cache/prek/cache ~/.cache/kingfisher || true
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
