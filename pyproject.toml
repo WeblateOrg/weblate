@@ -604,10 +604,10 @@ docstring-code-format = true
 extend-safe-fixes = [
   "ANN",
   "D",
-  "EM101",
-  "EM102",
-  "FA102",
+  "f-string-in-exception",
   "FLY",
+  "future-required-type-annotation",
+  "raw-string-in-exception",
   "SIM",
   "TCH",
   "UP"
@@ -617,53 +617,53 @@ future-annotations = true
 # TODO - needs decision whether intention, add noqa tags or fix
 # WONTFIX - not fixable in current codebase, might be better to go for noqa
 ignore = [
-  "A005",  # WONTFIX: Module is shadowing a Python builtin module
-  "ANN001",  # TODO: Missing type annotation for function argument
-  "ANN002",  # TODO: Missing type annotation for `*args`
-  "ANN003",  # TODO: Missing type annotation for `**kwargs`
-  "ANN201",  # TODO: Missing return type annotation for public function
-  "ANN202",  # TODO:  Missing return type annotation for private function
-  "ANN204",  # TODO: Missing return type annotation for special method
-  "ANN205",  # TODO: Missing return type annotation for staticmethod
-  "ANN206",  # TODO: Missing return type annotation for classmethod
-  "ARG001",  # TODO: Unused function argument (mostly for API compatibility)
-  "ARG002",  # TODO: Unused method argument (mostly for API compatibility)
-  "BLE001",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
+  "ambiguous-unicode-character-string",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
+  "blind-except",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
   "COM",  # CONFIG: No trailing commas
-  "D100",  # TODO: Missing docstring in public module
-  "D101",  # TODO: Missing docstring in public class
-  "D102",  # TODO: Missing docstring in public method
-  "D103",  # TODO: Missing docstring in public function
-  "D104",  # TODO: Missing docstring in public package
-  "D105",  # TODO: Missing docstring in magic method
-  "D106",  # TODO: Missing docstring in public nested class
-  "D107",  # TODO: Missing docstring in `__init__`
-  "D203",  # CONFIG: incompatible with D211
-  "D206",  # CONFIG: formatter
-  "D212",  # CONFIG: incompatible with D213
-  "DOC201",  # CONFIG: `return` is not documented in docstring
-  "DOC402",  # CONFIG: `yield` is not documented in docstring
-  "DOC501",  # TODO: Raised exception missing from docstring
-  "E203",  # CONFIG: formatter
-  "E501",  # WONTFIX: we accept long strings (rest is formatted by Ruff)
+  "docstring-missing-exception",  # TODO: Raised exception missing from docstring
+  "docstring-missing-returns",  # CONFIG: `return` is not documented in docstring
+  "docstring-missing-yields",  # CONFIG: `yield` is not documented in docstring
+  "docstring-tab-indentation",  # CONFIG: formatter
   "FBT",  # TODO: Boolean in function definition
-  "FIX002",  # CONFIG: we use TODO
-  "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
-  "PLR6301",  # TODO: Method could be a function, class method, or static method
-  "PLW2901",  # TODO: overwriting variables inside loop
+  "incorrect-blank-line-before-class",  # CONFIG: incompatible with D211
+  "line-contains-todo",  # CONFIG: we use TODO
+  "line-too-long",  # WONTFIX: we accept long strings (rest is formatted by Ruff)
+  "magic-value-comparison",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
+  "missing-return-type-class-method",  # TODO: Missing return type annotation for classmethod
+  "missing-return-type-private-function",  # TODO:  Missing return type annotation for private function
+  "missing-return-type-special-method",  # TODO: Missing return type annotation for special method
+  "missing-return-type-static-method",  # TODO: Missing return type annotation for staticmethod
+  "missing-return-type-undocumented-public-function",  # TODO: Missing return type annotation for public function
+  "missing-todo-author",  # CONFIG: no detailed TODO documentation is required
+  "missing-todo-link",  # CONFIG: no detailed TODO documentation is required
+  "missing-type-args",  # TODO: Missing type annotation for `*args`
+  "missing-type-function-argument",  # TODO: Missing type annotation for function argument
+  "missing-type-kwargs",  # TODO: Missing type annotation for `**kwargs`
+  "multi-line-summary-first-line",  # CONFIG: incompatible with D213
+  "no-self-use",  # TODO: Method could be a function, class method, or static method
   "PT",  # CONFIG: pytest-style rules are not enforced
   "PTH",  # TODO: Not using pathlib
-  "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
-  "S603",  # CONFIG: we do not want to use shell on subprocess
-  "TD002",  # CONFIG: no detailed TODO documentation is required
-  "TD003",  # CONFIG: no detailed TODO documentation is required
-  "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
-  'ISC001',  # CONFIG: formatter
-  'Q000',  # CONFIG: formatter
-  'Q001',  # CONFIG: formatter
-  'Q002',  # CONFIG: formatter
-  'Q003',  # CONFIG: formatter
-  'W191'  # CONFIG: formatter
+  "raise-vanilla-args",  # WONTFIX: Avoid specifying long messages outside the exception class
+  "redefined-loop-name",  # TODO: overwriting variables inside loop
+  "stdlib-module-shadowing",  # WONTFIX: Module is shadowing a Python builtin module
+  "subprocess-without-shell-equals-true",  # CONFIG: we do not want to use shell on subprocess
+  "undocumented-magic-method",  # TODO: Missing docstring in magic method
+  "undocumented-public-class",  # TODO: Missing docstring in public class
+  "undocumented-public-function",  # TODO: Missing docstring in public function
+  "undocumented-public-init",  # TODO: Missing docstring in `__init__`
+  "undocumented-public-method",  # TODO: Missing docstring in public method
+  "undocumented-public-module",  # TODO: Missing docstring in public module
+  "undocumented-public-nested-class",  # TODO: Missing docstring in public nested class
+  "undocumented-public-package",  # TODO: Missing docstring in public package
+  "unused-function-argument",  # TODO: Unused function argument (mostly for API compatibility)
+  "unused-method-argument",  # TODO: Unused method argument (mostly for API compatibility)
+  "whitespace-before-punctuation",  # CONFIG: formatter
+  'avoidable-escaped-quote',  # CONFIG: formatter
+  'bad-quotes-docstring',  # CONFIG: formatter
+  'bad-quotes-inline-string',  # CONFIG: formatter
+  'bad-quotes-multiline-string',  # CONFIG: formatter
+  'single-line-implicit-string-concatenation',  # CONFIG: formatter
+  'tab-indentation'  # CONFIG: formatter
 ]
 preview = true
 select = ["ALL"]
@@ -684,21 +684,21 @@ max-complexity = 16  # TODO: should be lower
   "start-process-with-partial-path",
   "suspicious-subprocess-import"
 ]
-"ci/migrate-scripts/*.py" = ["INP001", "S101"]
-"docs/_ext/*.py" = ["INP001"]
-"docs/_ext/test_*.py" = ["S101"]
-"docs/conf.py" = ["ERA001", "INP001"]
-"fuzzing/targets.py" = ["PLC0415"]
-"scripts/*" = ["T201", "T203"]
-"weblate/*/migrations/*.py" = ["RUF012"]
-"weblate/*/tests**.py" = ["ANN001", "S101", "S105", "S106"]
-"weblate/auth/migrations/0003_fixup_teams.py" = ["T201"]
-"weblate/examples/*.py" = ["CPY001", "INP001"]
-"weblate/settings_*.py" = ["F405"]
-"weblate/settings_example.py" = ["ERA001"]
-"weblate/trans/autofixes/__init__.py" = ["RUF067"]
-"weblate/trans/models/__init__.py" = ["RUF067"]
-"weblate/utils/generate_secret_key.py" = ["T201"]
+"ci/migrate-scripts/*.py" = ["assert", "implicit-namespace-package"]
+"docs/_ext/*.py" = ["implicit-namespace-package"]
+"docs/_ext/test_*.py" = ["assert"]
+"docs/conf.py" = ["commented-out-code", "implicit-namespace-package"]
+"fuzzing/targets.py" = ["import-outside-top-level"]
+"scripts/*" = ["p-print", "print"]
+"weblate/*/migrations/*.py" = ["mutable-class-default"]
+"weblate/*/tests**.py" = ["assert", "hardcoded-password-func-arg", "hardcoded-password-string", "missing-type-function-argument"]
+"weblate/auth/migrations/0003_fixup_teams.py" = ["print"]
+"weblate/examples/*.py" = ["implicit-namespace-package", "missing-copyright-notice"]
+"weblate/settings_*.py" = ["undefined-local-with-import-star-usage"]
+"weblate/settings_example.py" = ["commented-out-code"]
+"weblate/trans/autofixes/__init__.py" = ["non-empty-init-module"]
+"weblate/trans/models/__init__.py" = ["non-empty-init-module"]
+"weblate/utils/generate_secret_key.py" = ["print"]
 
 [tool.ruff.lint.pylint]
 # TODO: all these should be lower (or use defaults)
