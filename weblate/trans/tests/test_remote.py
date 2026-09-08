@@ -4,6 +4,8 @@
 
 """Test for changes done in remote repository."""
 
+from __future__ import annotations
+
 import os
 import pathlib
 import sys
@@ -375,7 +377,7 @@ class MultiRepoTest(ViewTestCase):
         repository = self.component2.repository
         sampled_locks = []
 
-        def get_last_remote_revision(repository):
+        def get_last_remote_revision(repository) -> str:
             sampled_locks.append(repository.lock.lock_object.is_locked)
             return "old-remote"
 
@@ -399,10 +401,10 @@ class MultiRepoTest(ViewTestCase):
         fetch_error = RepositoryError(1, "fetch failed")
         reported_errors = []
 
-        def collect_reported_error(*args, **kwargs):
+        def collect_reported_error(*args, **kwargs) -> None:
             reported_errors.append(sys.exc_info()[1])
 
-        def get_last_remote_revision(repository):
+        def get_last_remote_revision(repository) -> str:
             return "old-remote"
 
         with (
@@ -992,7 +994,7 @@ class MultiRepoTest(ViewTestCase):
 
         mock_push.assert_not_called()
 
-    def test_api(self):
+    def test_api(self) -> None:
         """Test the project repository API works for various VCS."""
         self.push_first()
         self.project.add_user(self.user, "Administration")
@@ -1299,7 +1301,7 @@ class GitBranchMultiRepoTest(MultiRepoTest):
     _branch = "translations"
     _filemask = "translations/*.po"
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_branch()
 
 
@@ -1307,7 +1309,7 @@ class MercurialMultiRepoTest(MultiRepoTest):
     _vcs = "mercurial"
     _branch = "default"
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_mercurial()
 
 
@@ -1315,5 +1317,5 @@ class SubversionMultiRepoTest(MultiRepoTest):
     _vcs = "subversion"
     _branch = "master"
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_svn()

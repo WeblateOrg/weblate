@@ -4,8 +4,15 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.db import migrations
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
 
 INHERITABLE_COMPONENT_SETTINGS = (
     "license",
@@ -99,7 +106,9 @@ def promote_workspace_agreements(contributor_agreement, workspace, project_ids) 
     )
 
 
-def consolidate_component_settings(apps, schema_editor) -> None:
+def consolidate_component_settings(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Project = apps.get_model("trans", "Project")
     Component = apps.get_model("trans", "Component")
     ContributorAgreement = apps.get_model("trans", "ContributorAgreement")
@@ -160,7 +169,9 @@ def consolidate_component_settings(apps, schema_editor) -> None:
         )
 
 
-def consolidate_workspace_settings(apps, schema_editor) -> None:
+def consolidate_workspace_settings(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Project = apps.get_model("trans", "Project")
     Workspace = apps.get_model("workspaces", "Workspace")
     ContributorAgreement = apps.get_model("trans", "ContributorAgreement")
@@ -225,7 +236,9 @@ def consolidate_workspace_settings(apps, schema_editor) -> None:
         )
 
 
-def consolidate_inherited_settings(apps, schema_editor) -> None:
+def consolidate_inherited_settings(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     consolidate_component_settings(apps, schema_editor)
     consolidate_workspace_settings(apps, schema_editor)
 

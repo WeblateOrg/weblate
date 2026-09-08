@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import httpx2
 
 from .base import (
@@ -10,6 +14,10 @@ from .base import (
     MachineTranslationError,
 )
 from .forms import KeyMachineryForm
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
 
 
 class SystranTranslation(MachineTranslation):
@@ -23,7 +31,7 @@ class SystranTranslation(MachineTranslation):
         """Add authentication headers to request."""
         return {"Authorization": f"Key {self.settings['key']}"}
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         if isinstance(response, httpx2.Response):
             super().check_failure(response)
             return
@@ -41,17 +49,17 @@ class SystranTranslation(MachineTranslation):
         self.check_failure(payload)
         return [(item["source"], item["target"]) for item in payload["languagePairs"]]
 
-    def is_supported(self, source_language, target_language):
+    def is_supported(self, source_language, target_language) -> bool:
         """Check whether given language combination is supported."""
         return (source_language, target_language) in self.supported_languages
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ):
         """Download list of possible translations from a service."""

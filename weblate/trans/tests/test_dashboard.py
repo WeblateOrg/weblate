@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.test.utils import override_settings
@@ -13,6 +16,9 @@ from weblate.trans.models import Announcement, ComponentList, Project
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.state import STATE_APPROVED
+
+if TYPE_CHECKING:
+    from unittest.mock import Mock
 
 
 class DashboardTest(FixtureTestCase):
@@ -128,7 +134,7 @@ class DashboardTest(FixtureTestCase):
         wraps=translation_prefetch_tasks,
     )
     def test_component_list_dashboard_fetches_only_requested_list(
-        self, prefetch_tasks
+        self, prefetch_tasks: Mock
     ) -> None:
         requested = ComponentList.objects.create(name="Requested", slug="requested")
         requested.components.add(self.component)

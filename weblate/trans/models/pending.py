@@ -143,7 +143,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
 
     def for_component(
         self, component: Component, *, apply_filters: bool, include_linked: bool = False
-    ):
+    ) -> PendingChangeQuerySet:
         """Return pending changes for a specific component."""
         component_filter = Q(unit__translation__component=component)
         if include_linked:
@@ -158,7 +158,9 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
             commit_policy=None if include_linked else component.project.commit_policy,
         )
 
-    def for_translation(self, translation: Translation, apply_filters: bool = True):
+    def for_translation(
+        self, translation: Translation, apply_filters: bool = True
+    ) -> PendingChangeQuerySet:
         """Return pending changes for a specific translation."""
         return self._apply_filters(
             base_filter=Q(unit__translation=translation),
@@ -175,7 +177,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         revision: str | None,
         commit_policy: int | None,
         translation: Translation | None = None,
-    ):
+    ) -> PendingChangeQuerySet:
         qs = self.filter(base_filter)
         if not apply_filters:
             return qs

@@ -4,6 +4,9 @@
 
 """Test for Git manipulation views."""
 
+from __future__ import annotations
+
+from typing import Never
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
@@ -54,10 +57,10 @@ class GitNoChangeProjectTest(ViewTestCase):
         obj = getattr(self, self.TEST_TYPE)
         return reverse(prefix, kwargs={"path": obj.get_url_path()})
 
-    def get_expected_redirect(self):
+    def get_expected_redirect(self) -> str:
         return f"{getattr(self, f'{self.TEST_TYPE}_url')}#repository"
 
-    def get_expected_redirect_progress(self):
+    def get_expected_redirect_progress(self) -> str:
         obj = getattr(self, self.TEST_TYPE)
         return f"{reverse('show_progress', kwargs={'path': obj.get_url_path()})}?info=1"
 
@@ -614,7 +617,7 @@ class RepositoryOperationQueueTest(ViewTestCase):
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_operation_is_not_reused_before_publication(self) -> None:
-        def fail_publication(**kwargs):
+        def fail_publication(**kwargs) -> Never:
             with self.assertRaises(RepositoryOperationConflictError):
                 queue_repository_operation(self.component, "pull", self.user)
             msg = "broker failure"

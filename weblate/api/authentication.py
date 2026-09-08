@@ -5,10 +5,15 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.utils.translation import gettext
 from drf_spectacular.authentication import SessionScheme
 from drf_spectacular.extensions import OpenApiAuthenticationExtension
 from rest_framework.authentication import TokenAuthentication
+
+if TYPE_CHECKING:
+    from drf_spectacular.openapi import AutoSchema
 
 
 class BearerAuthentication(TokenAuthentication):
@@ -21,7 +26,7 @@ class WeblateSessionScheme(SessionScheme):
     target_class = "rest_framework.authentication.SessionAuthentication"
     priority = 1
 
-    def get_security_definition(self, auto_schema):
+    def get_security_definition(self, auto_schema: AutoSchema) -> dict[str, str]:
         result = super().get_security_definition(auto_schema)
         result["description"] = gettext(
             "Session-based authentication used when user is signed in."
@@ -50,7 +55,7 @@ class BearerScheme(OpenApiAuthenticationExtension):
 - {project_token}
         """
 
-    def get_security_definition(self, auto_schema):
+    def get_security_definition(self, auto_schema: AutoSchema) -> dict[str, str]:
         keyword = self.target.keyword
         return {
             "type": "apiKey",

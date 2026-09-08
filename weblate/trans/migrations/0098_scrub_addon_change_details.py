@@ -4,7 +4,14 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.db import migrations
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
 
 BATCH_SIZE = 1000
 SENSITIVE_CONFIGURATION_FIELDS = {
@@ -16,7 +23,9 @@ SENSITIVE_CONFIGURATION_FIELDS = {
 }
 
 
-def scrub_addon_change_details(apps, schema_editor) -> None:
+def scrub_addon_change_details(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Change = apps.get_model("trans", "Change")
     database = schema_editor.connection.alias
     changes = (

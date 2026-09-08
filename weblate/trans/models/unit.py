@@ -906,7 +906,7 @@ class Unit(models.Model, LoggerMixin):
             self._prefetched_objects_cache = {}
         self._prefetched_objects_cache["defined_variants"] = Variant.objects.none()
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         return (*self.translation.get_url_path(), str(self.pk))
 
     def invalidate_checks_cache(self) -> None:

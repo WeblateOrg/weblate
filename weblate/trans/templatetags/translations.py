@@ -158,7 +158,7 @@ def documentation(context: Context, page, anchor=""):
 @register.simple_tag(takes_context=True)
 def documentation_icon(
     context: Context, page: str, anchor: str = "", right: bool = False
-):
+) -> str:
     return render_documentation_icon(documentation(context, page, anchor), right=right)
 
 
@@ -511,7 +511,7 @@ def init_unique_row_id(context) -> str:
 
 
 @register.simple_tag(takes_context=True)
-def get_unique_row_id(context: Context, obj):
+def get_unique_row_id(context: Context, obj) -> str:
     """Get unique row ID for multiline tables."""
     return f"{context['row_uuid']}-{obj.pk}"
 

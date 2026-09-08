@@ -179,7 +179,7 @@ class DeepLTranslation(
             for target in target_languages
         )
 
-    def is_supported(self, source_language, target_language):
+    def is_supported(self, source_language, target_language) -> bool:
         """Check whether given language combination is supported."""
         return (source_language, target_language) in self.supported_languages
 

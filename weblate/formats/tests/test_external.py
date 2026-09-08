@@ -4,6 +4,8 @@
 
 """File format specific behavior."""
 
+from __future__ import annotations
+
 import tempfile
 from io import BytesIO
 
@@ -33,7 +35,7 @@ class XlsxFormatTest(BaseFormatTest):
     BASE = XLSX_FILE
     EXPECTED_FLAGS = ""
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         newworkbook = load_workbook(BytesIO(newdata))
         testworkbook = load_workbook(BytesIO(testdata))
         self.assertEqual(len(newworkbook.worksheets), len(testworkbook.worksheets))

@@ -4,10 +4,16 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
 from django.utils import timezone
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
 
 def backfill_dismissals(alerts) -> None:
@@ -31,12 +37,14 @@ def backfill_dismissals(alerts) -> None:
         alert.save(update_fields=("dismissed_at", "dismissal_fingerprint"))
 
 
-def backfill_dismissed_at(apps, schema_editor) -> None:
+def backfill_dismissed_at(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Alert = apps.get_model("trans", "Alert")
     backfill_dismissals(Alert.objects.filter(dismissed=True))
 
 
-def restore_dismissed(apps, schema_editor) -> None:
+def restore_dismissed(apps: StateApps, schema_editor: BaseDatabaseSchemaEditor) -> None:
     Alert = apps.get_model("trans", "Alert")
     Alert.objects.filter(dismissed_at__isnull=False).update(dismissed=True)
 

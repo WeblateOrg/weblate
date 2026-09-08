@@ -680,7 +680,7 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
         }
 
     @property
-    def is_source_language(self):
+    def is_source_language(self) -> bool:
         return (
             isinstance(self.parent, ComponentSerializer)
             and self.field_name == "source_language"
@@ -921,7 +921,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
         )
         read_only_fields = PROFILE_READONLY_FIELDS
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["special_chars"].trim_whitespace = False
         if self.instance:
@@ -2439,7 +2439,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
         if errors:
             raise serializers.ValidationError(errors)
 
-    def populate_from_component_input_defaults(self, data, source_component: Component):
+    def populate_from_component_input_defaults(
+        self, data, source_component: Component
+    ) -> None:
         defaults = {
             "filemask": source_component.filemask,
             "file_format": source_component.file_format,
@@ -2493,7 +2495,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         return attrs
 
-    def validate_from_component_overrides(self, attrs, source_component: Component):
+    def validate_from_component_overrides(
+        self, attrs, source_component: Component
+    ) -> None:
         forbidden_fields = sorted(
             self.forbidden_from_component_override_fields.intersection(
                 self.initial_data
@@ -2531,7 +2535,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     def set_create_inheritance_defaults(
         self, attrs, *, preserve_existing: bool = False
-    ):
+    ) -> None:
         if self.instance:
             return
         apply_create_inheritance_defaults(

@@ -600,7 +600,7 @@ class social_core_modify_settings(SocialCacheMixin, modify_settings):
 # Lowercase name to be consistent with Django
 # ruff: ignore[invalid-class-name]
 class enable_login_required_settings(override_settings):
-    def __init__(self):
+    def __init__(self) -> None:
         middleware = settings.MIDDLEWARE.copy()
         middleware.insert(
             middleware.index("weblate.api.middleware.ThrottlingMiddleware"),

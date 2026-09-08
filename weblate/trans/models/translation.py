@@ -429,7 +429,7 @@ class Translation(
         return Flags(self.component.all_flags, self.check_flags)
 
     @cached_property
-    def is_readonly(self):
+    def is_readonly(self) -> bool:
         return "read-only" in self.all_flags
 
     def parse_check_flags(self) -> Flags:
@@ -483,14 +483,14 @@ class Translation(
                 % {"file": self.filename, "error": str(error)}
             ) from error
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         return (*self.component.get_url_path(), self.language.code)
 
     def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""
         return f"{self.component.project.get_widgets_url()}?lang={self.language.code}&component={self.component.pk}"
 
-    def get_share_url(self):
+    def get_share_url(self) -> str:
         """Return absolute URL usable for sharing."""
         return get_site_url(
             reverse(
@@ -499,7 +499,7 @@ class Translation(
             )
         )
 
-    def get_translate_url(self):
+    def get_translate_url(self) -> str:
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
     def get_filename(self) -> str | None:
@@ -1423,7 +1423,7 @@ class Translation(
         qs = PendingUnitChange.objects.for_translation(self, apply_filters=True)
         return qs.distinct("unit_id").count()
 
-    def needs_commit(self):
+    def needs_commit(self) -> bool:
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 

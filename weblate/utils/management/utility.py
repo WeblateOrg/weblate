@@ -2,19 +2,27 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import sys
+from typing import TYPE_CHECKING
 
 from django.core.management import ManagementUtility
+
+if TYPE_CHECKING:
+    from django.core.management.base import BaseCommand
 
 RESTRICTED_COMMANDS = {"squashmigrations", "makemigrations"}
 
 
 class WeblateManagementUtility(ManagementUtility):
-    def __init__(self, argv=None, developer_mode: bool = False) -> None:
+    def __init__(
+        self, argv: list[str] | None = None, developer_mode: bool = False
+    ) -> None:
         super().__init__(argv)
         self.developer_mode = developer_mode
 
-    def fetch_command(self, subcommand):
+    def fetch_command(self, subcommand: str) -> BaseCommand:
         # Block usage of some commands
         if not self.developer_mode and subcommand in RESTRICTED_COMMANDS:
             sys.stderr.write(f"Blocked command: {subcommand!r}\n")
@@ -31,9 +39,9 @@ class WeblateManagementUtility(ManagementUtility):
         # Monkey patch it's output
         original_notice = command.style.NOTICE
 
-        def patched_notice(txt):
+        def patched_notice(text: str) -> str:
             return original_notice(
-                txt.replace("python manage.py migrate", "weblate migrate")
+                text.replace("python manage.py migrate", "weblate migrate")
             )
 
         command.style.NOTICE = patched_notice  # type: ignore[method-assign]

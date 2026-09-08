@@ -4,14 +4,21 @@
 
 """Test for variants."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.urls import reverse
 
 from weblate.trans.models import Variant
 from weblate.trans.tests.test_views import ViewTestCase
 
+if TYPE_CHECKING:
+    from weblate.trans.models import Component
+
 
 class VariantTest(ViewTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_android()
 
     def add_variants(self, suffix: str = "") -> None:

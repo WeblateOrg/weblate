@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from datetime import timedelta
 
 from django.utils import timezone
@@ -15,7 +17,7 @@ class Command(BaseCommand):
 
     help = "extend pending approval billings"
 
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: object, **options: object) -> None:
         pending = [
             bill
             for bill in Billing.objects.filter(state=Billing.STATE_TRIAL)

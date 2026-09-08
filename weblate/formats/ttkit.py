@@ -287,7 +287,7 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
             return False
         return self.unit.istranslated()
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         """Check whether unit needs editing."""
         if not self.has_unit():
             return fallback
@@ -1000,7 +1000,7 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F])
                 if xliff_node is not None:
                     xliff_node.set("state", target_state)
 
-    def is_approved(self, fallback=False):
+    def is_approved(self, fallback: bool = False) -> bool:
         """Check whether unit is approved."""
         if not self.has_unit():
             return fallback
@@ -1595,7 +1595,7 @@ class CSVUnit(MonolingualSimpleUnit):
     def _get_row_plural_form(row: WeblateCSVUnit) -> int:
         return _get_csv_target_plural_form(row)
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         # Report fuzzy state only if present in the fields
         if "fuzzy" not in self.parent.store.fieldnames:
             return fallback

@@ -16,6 +16,7 @@ from weblate.utils.html import format_html_join_comma
 from weblate.utils.unicodechars import NON_WORD_CHARS
 
 if TYPE_CHECKING:
+    from weblate.checks.models import Check
     from weblate.trans.models import Unit
 
 # Regexp for non word chars
@@ -91,7 +92,7 @@ class DuplicateCheck(TargetCheck):
 
         return set(target_words) - set(source_words)
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         duplicate = set()
         unit = check_obj.unit
         source = unit.source_string

@@ -2,9 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import asyncio
 import base64
 import os
+from typing import TYPE_CHECKING
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from django.conf import settings
@@ -43,6 +46,10 @@ from weblate.utils.validators import (
     validate_webhook_secret_string,
     validate_webhook_url,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+    from unittest.mock import Mock
 
 
 class EditorValidatorTest(SimpleTestCase):
@@ -283,7 +290,7 @@ class WebhookURLTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
     )
-    def test_unresolved_rejected(self, mocked_getaddrinfo) -> None:
+    def test_unresolved_rejected(self, mocked_getaddrinfo: Mock) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_webhook_url("https://unresolved.example/hook")
 
@@ -294,7 +301,7 @@ class WebhookURLTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
     )
-    def test_unresolved_allowlisted(self, mocked_getaddrinfo) -> None:
+    def test_unresolved_allowlisted(self, mocked_getaddrinfo: Mock) -> None:
         with override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["unresolved.example"]):
             validate_webhook_url("https://unresolved.example/hook")
 
@@ -347,7 +354,7 @@ class FedoraMessagingURLTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
     )
-    def test_unresolved_rejected(self, mocked_getaddrinfo) -> None:
+    def test_unresolved_rejected(self, mocked_getaddrinfo: Mock) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_fedora_messaging_url("amqp://unresolved.example/%2F")
 
@@ -358,7 +365,7 @@ class FedoraMessagingURLTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
     )
-    def test_unresolved_allowlisted(self, mocked_getaddrinfo) -> None:
+    def test_unresolved_allowlisted(self, mocked_getaddrinfo: Mock) -> None:
         with override_settings(WEBHOOK_PRIVATE_ALLOWLIST=["unresolved.example"]):
             validate_fedora_messaging_url("amqp://unresolved.example/%2F")
 
@@ -502,7 +509,7 @@ class WebsiteTest(SimpleTestCase):
         side_effect=UnicodeError("label empty or too long"),
     )
     def test_project_web_malformed_idna_is_validation_error(
-        self, mocked_getaddrinfo
+        self, mocked_getaddrinfo: Mock
     ) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_project_web("https://a..b")
@@ -515,7 +522,7 @@ class WebsiteTest(SimpleTestCase):
         side_effect=UnicodeError("label empty or too long"),
     )
     def test_repoweb_malformed_idna_is_validation_error(
-        self, mocked_getaddrinfo
+        self, mocked_getaddrinfo: Mock
     ) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_repoweb("https://a..b/{{ filename }}")
@@ -523,7 +530,7 @@ class WebsiteTest(SimpleTestCase):
         self.assertIn("Could not resolve the URL domain", str(error.exception))
         mocked_getaddrinfo.assert_not_called()
 
-    def verify_validator(self, validator) -> None:
+    def verify_validator(self, validator: Callable[[str], None]) -> None:
         validator("https://1.1.1.1")
         validator("http://1.1.1.1")
         validator("https://[2606:4700:4700::1111]")
@@ -561,7 +568,7 @@ class WebsiteTest(SimpleTestCase):
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
     )
     def test_restricted_asset_url_validator_rejects_private(
-        self, mocked_getaddrinfo
+        self, mocked_getaddrinfo: Mock
     ) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_restricted_asset_url("https://private.example/messages.html")
@@ -577,7 +584,7 @@ class WebsiteTest(SimpleTestCase):
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
     )
     def test_restricted_asset_url_validator_allows_private_allowlist(
-        self, mocked_getaddrinfo
+        self, mocked_getaddrinfo: Mock
     ) -> None:
         validate_restricted_asset_url("https://private.example/messages.html")
 
@@ -773,7 +780,7 @@ class FediverseURLTest(SimpleTestCase):
 
 class OutboundAddressValidationTest(SimpleTestCase):
     @patch("weblate.utils.outbound.get_running_loop")
-    def test_async_resolve_runtime_hostname(self, mocked_get_loop) -> None:
+    def test_async_resolve_runtime_hostname(self, mocked_get_loop: Mock) -> None:
         resolver = AsyncMock(
             return_value=[
                 (0, 0, 0, "", ("93.184.216.34", 443)),
@@ -816,7 +823,7 @@ class OutboundAddressValidationTest(SimpleTestCase):
         return_value=[(0, 0, 0, "", ("100.64.0.1", 443))],
     )
     def test_validate_runtime_url_rejects_shared_address_space(
-        self, mocked_getaddrinfo
+        self, mocked_getaddrinfo: Mock
     ) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_runtime_url(
@@ -878,7 +885,9 @@ class OutboundAddressValidationTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("2002:a9fe:a9fe::", 0, 0, 0))],
     )
-    def test_validate_runtime_url_rejects_6to4_imds(self, mocked_getaddrinfo) -> None:
+    def test_validate_runtime_url_rejects_6to4_imds(
+        self, mocked_getaddrinfo: Mock
+    ) -> None:
         """
         Hostnames resolving to 6to4 metadata wrappers must be rejected.
 
@@ -903,7 +912,7 @@ class RepoURLValidationTestCase(SimpleTestCase):
         ],
     )
     def test_resolve_repo_url_retains_validated_addresses(
-        self, mocked_getaddrinfo
+        self, mocked_getaddrinfo: Mock
     ) -> None:
         target = resolve_repo_url("https://example.com/repo.git")
 
@@ -914,18 +923,18 @@ class RepoURLValidationTestCase(SimpleTestCase):
         self.assertEqual(target.addresses, ("93.184.216.34", "2001:4860:4860::8888"))
         self.assertTrue(target.requires_pinning)
 
-    def test_file_rejected(self):
+    def test_file_rejected(self) -> None:
         with (
             override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
             self.assertRaises(ValidationError),
         ):
             validate_repo_url("file:///home/weblate")
 
-    def test_invalid(self):
+    def test_invalid(self) -> None:
         with self.assertRaises(ValidationError):
             validate_repo_url("[/weblate")
 
-    def test_file(self):
+    def test_file(self) -> None:
         with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
             validate_repo_url("file:///home/weblate")
 
@@ -969,7 +978,7 @@ class RepoURLValidationTestCase(SimpleTestCase):
         ):
             validate_repo_url("/home/weblate")
 
-    def test_weblate(self):
+    def test_weblate(self) -> None:
         with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
             validate_repo_url("weblate://home/weblate")
 
@@ -977,14 +986,14 @@ class RepoURLValidationTestCase(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
     )
-    def test_https(self, mocked_getaddrinfo):
+    def test_https(self, mocked_getaddrinfo: Mock) -> None:
         with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}):
             validate_repo_url("https://example.com/weblate.git")
             validate_repo_url("https://user@example.com/weblate.git")
             validate_repo_url("https://user:pass@example.com/weblate.git")
         self.assertEqual(mocked_getaddrinfo.call_count, 3)
 
-    def test_https_allow(self):
+    def test_https_allow(self) -> None:
         with override_settings(
             VCS_ALLOW_SCHEMES={"https", "ssh"}, VCS_ALLOW_HOSTS={"example.com"}
         ):
@@ -1000,7 +1009,7 @@ class RepoURLValidationTestCase(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 22))],
     )
-    def test_ssh(self, mocked_getaddrinfo):
+    def test_ssh(self, mocked_getaddrinfo: Mock) -> None:
         with (
             override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
             patch(
@@ -1034,7 +1043,7 @@ class RepoURLValidationTestCase(SimpleTestCase):
         resolve_destination.assert_called_once_with("alias.example", "git", None)
         self.assertEqual(getaddrinfo.call_args.args[0], "effective.example")
 
-    def test_ext_rejected(self):
+    def test_ext_rejected(self) -> None:
         with (
             override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
             self.assertRaises(ValidationError),
@@ -1048,7 +1057,7 @@ class RepoURLValidationTestCase(SimpleTestCase):
         ):
             validate_repo_url("ssh:///path")
 
-    def test_ssh_allow(self):
+    def test_ssh_allow(self) -> None:
         with override_settings(
             VCS_ALLOW_SCHEMES={"https", "ssh"}, VCS_ALLOW_HOSTS={"example.com"}
         ):
@@ -1089,7 +1098,7 @@ class RepoURLValidationTestCase(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
     )
-    def test_unresolved_rejected(self, mocked_getaddrinfo) -> None:
+    def test_unresolved_rejected(self, mocked_getaddrinfo: Mock) -> None:
         with (
             override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
             self.assertRaises(ValidationError) as error,
@@ -1103,7 +1112,7 @@ class RepoURLValidationTestCase(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
     )
-    def test_proxy_resolves_repository_hostname(self, mocked_getaddrinfo) -> None:
+    def test_proxy_resolves_repository_hostname(self, mocked_getaddrinfo: Mock) -> None:
         with (
             override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
             patch.dict(
@@ -1135,7 +1144,7 @@ class RepoURLValidationTestCase(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=OSError("Name or service not known"),
     )
-    def test_unresolved_allowlisted_host(self, mocked_getaddrinfo) -> None:
+    def test_unresolved_allowlisted_host(self, mocked_getaddrinfo: Mock) -> None:
         with override_settings(
             VCS_ALLOW_SCHEMES={"https", "ssh"},
             VCS_ALLOW_HOSTS={"unresolved.example"},
@@ -1173,7 +1182,9 @@ class RepoURLValidationTestCase(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
     )
-    def test_private_allowlist_preserves_public_hosts(self, mocked_getaddrinfo) -> None:
+    def test_private_allowlist_preserves_public_hosts(
+        self, mocked_getaddrinfo: Mock
+    ) -> None:
         with override_settings(
             VCS_ALLOW_HOSTS=set(),
             VCS_ALLOW_SCHEMES={"https", "ssh"},

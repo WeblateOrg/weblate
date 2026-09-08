@@ -97,7 +97,7 @@ class MachineryConfiguration:
         self.is_configured = is_configured
 
     @property
-    def is_enabled(self):
+    def is_enabled(self) -> bool:
         return self.configuration is not None
 
     @property
@@ -117,7 +117,7 @@ class MachineryConfiguration:
         return self.machinery.get_doc_anchor()
 
     @property
-    def has_settings(self):
+    def has_settings(self) -> bool:
         return self.machinery.settings_form is not None
 
     def get_absolute_url(self) -> str:

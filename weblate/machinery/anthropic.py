@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import urljoin
 
 from .base import MachineryRateLimitError, MachineTranslationError
@@ -39,7 +39,7 @@ class AnthropicTranslation(BaseLLMTranslation):
             "content-type": "application/json",
         }
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         if response.status_code == 429:
             message = self.get_error_detail(response) or "Rate limit exceeded"
             raise MachineryRateLimitError(message)
@@ -97,7 +97,7 @@ class AnthropicTranslation(BaseLLMTranslation):
         )
 
     @staticmethod
-    def parse_chat_response(response_data) -> str:
+    def parse_chat_response(response_data: object) -> str:
         if not isinstance(response_data, dict):
             msg = "Invalid service response: expected a JSON object."
             raise MachineTranslationError(msg)
@@ -126,3 +126,7 @@ class AnthropicTranslation(BaseLLMTranslation):
             raise MachineTranslationError(msg)
         msg = "Assistant message did not contain text content."
         raise MachineTranslationError(msg)
+
+
+if TYPE_CHECKING:
+    import httpx2

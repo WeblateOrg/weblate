@@ -228,7 +228,7 @@ def get_task_progress(task):
     return 0
 
 
-def is_celery_queue_long():
+def is_celery_queue_long() -> bool:
     """
     Check whether celery queue is too long.
 

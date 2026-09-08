@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import csv
 import operator
 import os
@@ -13,6 +15,7 @@ from datetime import UTC, date, datetime, timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 import yaml
@@ -134,6 +137,10 @@ from weblate.vcs.base import RepositoryError, RepositoryLock
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from unittest.mock import Mock
+
 
 TEST_PO = get_test_file("cs.po")
 TEST_POT = get_test_file("hello-charset.pot")
@@ -3398,7 +3405,7 @@ class ComponentCopyTest(APITestCase):
             def order_by(self, *_args):
                 return self
 
-            def values_list(self, *_args):
+            def values_list(self, *_args) -> list[tuple[int, str, str, int, int]]:
                 return [
                     (1, "Hello", "first", 10, 1),
                     (2, "Hello", "second", 20, 1),
@@ -3729,7 +3736,7 @@ class ProjectAPITest(APIBaseTest):
             finally:
                 events.append("reservation context exited")
 
-        def update(*args, **kwargs):
+        def update(*args, **kwargs) -> bool:
             transaction.on_commit(lambda: events.append("follow-up"))
             return True
 
@@ -6809,7 +6816,7 @@ class ProjectAPITest(APIBaseTest):
 
     @patch("weblate.api.views.ComponentSlugFilter")
     def test_download_project_translations_language_path_filter_invalid(
-        self, filter_class
+        self, filter_class: Mock
     ) -> None:
         filter_instance = filter_class.return_value
         filter_instance.is_valid.return_value = False
@@ -7181,12 +7188,12 @@ class ProjectAPITest(APIBaseTest):
         task_url = response.data["task_url"]
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "SUCCESS"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return True
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10238,12 +10245,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10284,12 +10291,12 @@ class TasksAPITest(APIBaseTest):
         cache.set(get_task_metadata_key(self.task_id), {"user_id": self.user.id}, 3600)
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10323,12 +10330,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10355,14 +10362,14 @@ class TasksAPITest(APIBaseTest):
         class DummyAsyncResult:
             latest = None
 
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
                 self.revoked = False
                 DummyAsyncResult.latest = self
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
             def revoke(self, *args, **kwargs) -> None:
@@ -10403,7 +10410,7 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = {
                     "message": "Task completed.",
@@ -10415,7 +10422,7 @@ class TasksAPITest(APIBaseTest):
                 }
                 self.state = "SUCCESS"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return True
 
         self.client.credentials()
@@ -10453,7 +10460,7 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = {
                     "message": "Task completed.",
@@ -10461,7 +10468,7 @@ class TasksAPITest(APIBaseTest):
                 }
                 self.state = "SUCCESS"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return True
 
         self.client.credentials()
@@ -10481,14 +10488,14 @@ class TasksAPITest(APIBaseTest):
         class DummyAsyncResult:
             latest = None
 
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.revoked = False
                 self.state = "PENDING"
                 DummyAsyncResult.latest = self
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
             def revoke(self, *args, **kwargs) -> None:
@@ -10514,12 +10521,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10542,12 +10549,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10568,12 +10575,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10586,12 +10593,12 @@ class TasksAPITest(APIBaseTest):
 
     def test_retrieve_requires_cached_metadata(self) -> None:
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -14958,7 +14965,7 @@ class MetricsAPITest(APIBaseTest):
         "weblate.utils.celery.get_queue_stats",
         return_value={'queue"\\\n': 7},
     )
-    def test_metrics_openmetrics_escapes_labels(self, mock_queues) -> None:
+    def test_metrics_openmetrics_escapes_labels(self, mock_queues: Mock) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
         mock_queues.assert_called_once_with()
@@ -15879,7 +15886,7 @@ class AddonAPITest(APIBaseTest):
         )
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_trigger_project_addon(self, mocked_delay) -> None:
+    def test_trigger_project_addon(self, mocked_delay: Mock) -> None:
         self.project.add_user(self.user, "Administration")
         addon = XgettextAddon.create(
             component=self.component,
@@ -15943,7 +15950,7 @@ class AddonAPITest(APIBaseTest):
         )
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_trigger_category_addon(self, mocked_delay) -> None:
+    def test_trigger_category_addon(self, mocked_delay: Mock) -> None:
         category = Category.objects.create(
             name="API category",
             slug="api-category",

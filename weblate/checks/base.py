@@ -279,7 +279,7 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
     def get_cache_key(self, unit: Unit, pos: int) -> str:
         return f"check:{self.check_id}:{unit.pk}:{siphash('Weblate   Checks', unit.all_flags.format())}:{pos}"
 
-    def get_replacement_function(self, unit: Unit):
+    def get_replacement_function(self, unit: Unit) -> Callable[[str], str]:
         def strip_xml(content: str) -> str:
             try:
                 tree = parse_xml(f"<x>{content}</x>")

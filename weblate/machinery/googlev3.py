@@ -32,6 +32,7 @@ from .forms import GoogleV3MachineryForm
 from .google import GoogleBaseTranslation
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
     from weblate.checks.base import Highlight
     from weblate.trans.models import Unit
 
@@ -99,11 +100,11 @@ class GoogleV3Translation(
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

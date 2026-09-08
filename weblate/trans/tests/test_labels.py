@@ -4,7 +4,9 @@
 
 """Test for variants."""
 
-from typing import cast
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
 from asgiref.sync import async_to_sync
@@ -14,6 +16,9 @@ from django.urls import reverse
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Component
 
 
 class LabelTest(FixtureTestCase):
@@ -191,7 +196,7 @@ class LabelTest(FixtureTestCase):
 
 
 class MonolingualLabelTest(ViewTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_ts_mono()
 
     def test_source_change_recalculates_cached_label_stats(self) -> None:

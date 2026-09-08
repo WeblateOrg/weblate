@@ -2107,7 +2107,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         progress = get_task_progress(task)
         return (progress, cache.get(f"task-log-{task.id}", []))
 
-    def in_progress(self):
+    def in_progress(self) -> bool:
         return (
             not settings.CELERY_TASK_ALWAYS_EAGER
             and self.background_task is not None
@@ -2352,7 +2352,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         expression = "".join(result)
         return re.compile(f"^{expression}$")
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         parent = self.category or self.project
         return (*parent.get_url_path(), self.slug)
 
@@ -2360,7 +2360,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Return absolute URL for widgets."""
         return f"{self.project.get_widgets_url()}?component={self.pk}"
 
-    def get_share_url(self):
+    def get_share_url(self) -> str:
         """Return absolute shareable URL."""
         return self.project.get_share_url()
 
@@ -2911,7 +2911,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         with self.repository.lock:
             self.repository.configure_branch(self.branch)
 
-    def uses_changed_files(self, changed):
+    def uses_changed_files(self, changed) -> bool:
         """Detect whether list of changed files matches configuration."""
         for filename in [self.template, self.intermediate, self.new_base]:
             if filename and filename in changed:
@@ -3848,7 +3848,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.create_translations(request=request, force=True)
         return True
 
-    def get_repo_link_url(self):
+    def get_repo_link_url(self) -> str:
         return f"weblate://{'/'.join(self.get_url_path())}"
 
     @cached_property
@@ -6200,11 +6200,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
             pass
         return self.count_repo_outgoing
 
-    def needs_commit(self):
+    def needs_commit(self) -> bool:
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def repo_needs_merge(self):
+    def repo_needs_merge(self) -> bool:
         """Check for unmerged commits from remote repository."""
         return self.count_repo_missing > 0
 

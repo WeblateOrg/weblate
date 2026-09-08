@@ -140,14 +140,14 @@ class GitNoVersionRepository(GitRepository):
 
 class BrokenGitRepository(GitRepository):
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         msg = "missing git"
         raise FileNotFoundError(msg)
 
 
 class BrokenGitChildRepository(BrokenGitRepository):
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         return "1.0"
 
 

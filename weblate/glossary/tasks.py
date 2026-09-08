@@ -120,7 +120,7 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
     autoretry_for=(Component.DoesNotExist, WeblateLockTimeoutError),
     retry_backoff=60,
 )
-def sync_terminology(pk: int, component: Component | None = None):
+def sync_terminology(pk: int, component: Component | None = None) -> dict[str, int]:
     """Sync terminology and add missing glossary languages."""
     if component is None:
         component = Component.objects.get(pk=pk)

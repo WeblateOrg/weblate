@@ -5,13 +5,20 @@
 from __future__ import annotations
 
 import os
+from typing import TYPE_CHECKING
 
 from django.contrib.auth.hashers import make_password
 from django.db import migrations
 from django.db.models import Exists, OuterRef
 
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
-def cleanup_stale_project_tokens(apps, schema_editor) -> None:
+
+def cleanup_stale_project_tokens(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     AuditLog = apps.get_model("accounts", "AuditLog")
     Profile = apps.get_model("accounts", "Profile")
     Subscription = apps.get_model("accounts", "Subscription")

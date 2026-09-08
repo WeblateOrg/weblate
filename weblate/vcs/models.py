@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 from appconf import AppConf
 from django.db import models
@@ -33,6 +33,9 @@ from .defaults import (
     DEFAULT_VCS_PRIVATE_ALLOWLIST,
     DEFAULT_VCS_RESTRICT_PRIVATE,
 )
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
 
 
 class InstallationProvider(models.TextChoices):
@@ -208,7 +211,7 @@ class VcsClassLoader(ClassLoader):
             ),
         )
 
-    def get_unfiltered_choices(self):
+    def get_unfiltered_choices(self) -> list[tuple[str, StrOrPromise]]:
         result = self.get_unfiltered_data()
         return [(x, result[x].name) for x in sorted(result)]
 
