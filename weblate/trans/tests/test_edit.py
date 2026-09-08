@@ -36,6 +36,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import (
@@ -940,6 +941,41 @@ class EditAccessTest(ViewTestCase):
 
 
 class EditValidationTest(ViewTestCase):
+    def test_failed_edit_does_not_claim_translation_was_saved(self) -> None:
+        self.project.translation_review = True
+        self.project.save()
+        unit = self.get_unit()
+        unit.state = STATE_FUZZY
+        unit.save(update_fields=["state"])
+        original_target = unit.target
+        for policy in (
+            CommitPolicyChoices.APPROVED_ONLY,
+            CommitPolicyChoices.WITHOUT_NEEDS_EDITING,
+        ):
+            with self.subTest(policy=policy):
+                self.project.commit_policy = policy
+                self.project.save()
+                response = self.client.post(
+                    unit.translation.get_translate_url(),
+                    {
+                        "unit_id": unit.pk,
+                        "checksum": unit.checksum,
+                        "contentsum": hash_to_checksum(unit.content_hash),
+                        "translationsum": "invalid",
+                        "target_0": "Unsaved review regression draft",
+                        "review": STATE_TRANSLATED,
+                    },
+                    follow=True,
+                )
+                self.assertContains(response, "Unsaved review regression draft")
+                self.assertTrue(response.context["form"].errors)
+                self.assertContains(response, "Translation quality filter")
+                self.assertNotContains(
+                    response, "This translation is saved in Weblate."
+                )
+                unit.refresh_from_db()
+                self.assertEqual(unit.target, original_target)
+
     def edit(self, **kwargs):
         """Editing with no specific params."""
         unit = self.get_unit()
