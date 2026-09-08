@@ -7,6 +7,8 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* Whitespace characters are now rendered consistently in the source string display and the translation editor, and different kinds of whitespace are now distinguishable from each other.
+
 .. rubric:: Security fixes
 
 .. rubric:: Bug fixes
