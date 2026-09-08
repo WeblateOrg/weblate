@@ -17,7 +17,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import DatabaseError, IntegrityError, models, transaction
-from django.db.models import F, Q
+from django.db.models import F, OuterRef, Q, Subquery, Value
+from django.db.models.functions import Coalesce
 from django.db.models.signals import post_save
 from django.urls import reverse
 from django.utils import timezone
@@ -312,6 +313,27 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         Database equivalent of Translation.is_source property.
         """
         return self.exclude(language=F("component__source_language"))
+
+    def with_review(self) -> TranslationQuerySet:
+        """Return translations whose effective workflow enables reviews."""
+        from weblate.trans.models.workflow import (  # ruff: ignore[import-outside-top-level]
+            WorkflowSetting,
+        )
+
+        workflow = WorkflowSetting.objects.filter(
+            Q(project=None) | Q(project=OuterRef("component__project_id")),
+            language=OuterRef("language_id"),
+        ).order_by(F("project").desc(nulls_last=True))
+        source = Q(language=F("component__source_language"))
+        return self.alias(
+            workflow_review=Coalesce(
+                Subquery(workflow.values("translation_review")[:1]), Value(True)
+            )
+        ).filter(
+            (source & Q(component__project__source_review=True))
+            | (~source & Q(component__project__translation_review=True)),
+            workflow_review=True,
+        )
 
 
 class Translation(

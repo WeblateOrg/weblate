@@ -13,6 +13,7 @@ from django.db.models import (
     BooleanField,
     Case,
     DateTimeField,
+    Exists,
     ExpressionWrapper,
     F,
     OuterRef,
@@ -57,11 +58,6 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import (
             Component,
-        )
-
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.project import (
-            CommitPolicyChoices,
         )
 
         pending_changes = self.all()
@@ -111,7 +107,23 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         # This checks if ANY change passes the policy, not the full per-unit
         # latest-qualifying-change logic as we only need to check for the existence
         # of any eligible pending change.
-        policy_filter = (
+        pending_changes = pending_changes.filter(self._committable_states())
+
+        component_pks = list(
+            pending_changes.annotate(repo_owner_id=repo_owner_id)
+            .values_list("repo_owner_id", flat=True)
+            .distinct()
+        )
+        return Component.objects.filter(pk__in=component_pks)
+
+    def _committable_states(self) -> Q:
+        """Match changes using each translation's own project policy."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.project import (
+            CommitPolicyChoices,
+        )
+
+        return (
             Q(
                 unit__translation__component__project__commit_policy=CommitPolicyChoices.ALL
             )
@@ -125,17 +137,9 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
                 Q(
                     unit__translation__component__project__commit_policy=CommitPolicyChoices.APPROVED_ONLY
                 )
-                & Q(state=STATE_APPROVED)
+                & self._approved_or_review_disabled()
             )
         )
-        pending_changes = pending_changes.filter(policy_filter)
-
-        component_pks = list(
-            pending_changes.annotate(repo_owner_id=repo_owner_id)
-            .values_list("repo_owner_id", flat=True)
-            .distinct()
-        )
-        return Component.objects.filter(pk__in=component_pks)
 
     def for_component(
         self, component: Component, *, apply_filters: bool, include_linked: bool = False
@@ -151,7 +155,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
             base_filter=component_filter,
             apply_filters=apply_filters,
             revision=None,
-            commit_policy=component.project.commit_policy,
+            commit_policy=None if include_linked else component.project.commit_policy,
         )
 
     def for_translation(self, translation: Translation, apply_filters: bool = True):
@@ -161,6 +165,7 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
             apply_filters=apply_filters,
             revision=translation.revision,
             commit_policy=translation.component.project.commit_policy,
+            translation=translation,
         )
 
     def _apply_filters(
@@ -168,13 +173,16 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         base_filter: Q,
         apply_filters: bool,
         revision: str | None,
-        commit_policy: int,
+        commit_policy: int | None,
+        translation: Translation | None = None,
     ):
         qs = self.filter(base_filter)
         if not apply_filters:
             return qs
         qs = self._apply_retry_filter(qs, revision=revision, blocking_unit_filter=True)
-        return self._apply_commit_policy_filter(qs, commit_policy)
+        return self._apply_commit_policy_filter(
+            qs, commit_policy, translation=translation
+        )
 
     def _apply_retry_filter(
         self,
@@ -271,8 +279,26 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
 
         return self.filter(pk__in=eligible_pks)
 
+    @staticmethod
+    def _approved_or_review_disabled() -> Q:
+        from weblate.trans.models.translation import (  # ruff: ignore[import-outside-top-level]
+            Translation,
+        )
+
+        return Q(state=STATE_APPROVED) | Q(
+            ~Exists(
+                Translation.objects.with_review().filter(
+                    pk=OuterRef("unit__translation_id")
+                )
+            )
+        )
+
     def _apply_commit_policy_filter(
-        self, qs: PendingChangeQuerySet, commit_policy: int
+        self,
+        qs: PendingChangeQuerySet,
+        commit_policy: int | None,
+        *,
+        translation: Translation | None = None,
     ) -> PendingChangeQuerySet:
         """
         Filter pending changes based on the project's commit policy.
@@ -280,6 +306,9 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         For policies other than ALL, this finds the latest qualifying change per unit
         and includes all changes up to that point. This ensures we commit changes in
         chronological order and don't skip intermediate changes.
+
+        When scoped to a translation, reuse its effective review setting instead of
+        resolving workflows in SQL. Aggregate queries resolve reviews per translation.
         """
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.project import (
@@ -290,10 +319,19 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
             return qs
 
         filters = []
-        if commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:
+        if commit_policy is None:
+            # Repository-wide queries can include linked components from other projects.
+            filters.append(self._committable_states())
+        elif commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:
             filters.append(~Q(state__in=FUZZY_STATES))
         elif commit_policy == CommitPolicyChoices.APPROVED_ONLY:
-            filters.append(Q(state=STATE_APPROVED))
+            if translation is not None:
+                # Component.commit_pending preloads workflows on these instances.
+                if not translation.enable_review:
+                    return qs
+                filters.append(Q(state=STATE_APPROVED))
+            else:
+                filters.append(self._approved_or_review_disabled())
 
         # For each unit, finds the last change that makes it eligible for committing
         # based on the project's commit policy, and returns all changes up to and
@@ -354,7 +392,9 @@ class PendingChangeQuerySet(models.QuerySet["PendingUnitChange", "PendingUnitCha
         eligible_after_retry_filter = self._count_units_helper(qs)
         counts["errors_skipped"] = counts["total"] - eligible_after_retry_filter
 
-        qs = self._apply_commit_policy_filter(qs, commit_policy)
+        qs = self._apply_commit_policy_filter(
+            qs, commit_policy, translation=obj if isinstance(obj, Translation) else None
+        )
         eligible_after_commit_policy_filter = self._count_units_helper(qs)
         counts["commit_policy_skipped"] = (
             eligible_after_retry_filter - eligible_after_commit_policy_filter

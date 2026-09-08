@@ -344,6 +344,14 @@ supports the following options:
   reviewer will be committed. This option requires :ref:`project-translation_review`
   to be enabled.
 
+The approved-only policy applies only to translations with reviews enabled.
+Languages with reviews disabled through :ref:`workflow-customization` commit all
+translations, including those marked as needing editing. Source strings follow
+the same rule using :ref:`project-source_review`.
+
+Components linked to a repository in another project follow their own project's
+commit policy.
+
 
 .. _project-enable_hooks:
 

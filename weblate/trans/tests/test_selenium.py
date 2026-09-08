@@ -74,6 +74,7 @@ from weblate.trans.tests.browser import create_browser
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
+    RepoTestMixin,
     TempDirMixin,
     create_another_user,
     create_test_billing,
@@ -85,6 +86,7 @@ from weblate.trans.tests.utils import (
 from weblate.trans.widgets import WIDGETS
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
@@ -1108,6 +1110,224 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 hidden_input.get_attribute("value")
                 == f"{regex_flag}, max-length:100, priority:10, "
                 'placeholders:"a,b", ignore-same'
+            )
+        )
+
+    def test_retained_translation_is_unsaved(self) -> None:
+        """Retained plural drafts warn on navigation without further input."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Retained edits", slug="retained-edits")
+        component = fixture.create_po(project=project)
+        unit = component.translation_set.get(language_code="cs").unit_set.get(
+            source__contains="Orangutan"
+        )
+        self.do_login(superuser=True)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+        selector = ".translation-form .translation-editor"
+        self.assertFalse(
+            self.driver.execute_script("return WLT.Utils.editorHasChanges();")
+        )
+        editors = self.driver.find_elements(By.CSS_SELECTOR, selector)
+        self.assertEqual(len(editors), 3)
+        drafts = [f"Překlad %d {idx}\n" for idx in range(3)]
+        for editor, draft in zip(editors, drafts, strict=True):
+            editor.clear()
+            editor.send_keys(draft)
+        self.driver.execute_script(
+            "document.querySelector('.translation-form input[name=contentsum]').value = 'aaa';"
+        )
+        with self.wait_for_page_load():
+            self.driver.find_element(By.NAME, "save-stay").send_keys(Keys.ENTER)
+
+        self.assert_text_contains(
+            ".alert-danger", "The source string has changed meanwhile."
+        )
+        editors = self.driver.find_elements(By.CSS_SELECTOR, selector)
+        self.assertEqual([editor.get_attribute("value") for editor in editors], drafts)
+        for editor in editors:
+            self.assertIn("has-changes", editor.get_attribute("class") or "")
+        self.assertEqual(
+            len(self.driver.find_elements(By.CSS_SELECTOR, "#unsaved-label")), 3
+        )
+        # Exercise both ordinary navigation and Refresh's submit listeners
+        # without relying on WebDriver's handling of native browser dialogs.
+        for submit_search in (False, True):
+            self.assertTrue(
+                self.driver.execute_script(
+                    """
+                    if (arguments[0]) {
+                        document.querySelector('.result-page-form').dispatchEvent(
+                            new Event('submit', {bubbles: true, cancelable: true})
+                        );
+                    }
+                    const event = new Event('beforeunload', {cancelable: true});
+                    window.dispatchEvent(event);
+                    return WLT.Utils.editorHasChanges() && event.defaultPrevented;
+                    """,
+                    submit_search,
+                )
+            )
+
+        with self.wait_for_page_load():
+            self.driver.find_element(By.NAME, "save-stay").send_keys(Keys.ENTER)
+        self.assertFalse(
+            self.driver.execute_script("return WLT.Utils.editorHasChanges();")
+        )
+        self.assertEqual(
+            self.driver.find_elements(By.CSS_SELECTOR, "#unsaved-label"), []
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.get_target_plurals(), drafts)
+
+    def test_translation_search_refresh(self) -> None:
+        """Refresh and query Enter replace results; navigation preserves them."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(
+            name="Search navigation", slug="search-navigation"
+        )
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        self.do_login(superuser=True)
+        query = "state:<translated"
+        url = f"{self.live_server_url}{translation.get_translate_url()}?{urlencode({'q': query})}"
+        with self.wait_for_page_load():
+            self.driver.get(url)
+
+        def assert_compact_refresh() -> None:
+            original_size = self.driver.get_window_size()
+            for width in (1280, 768, 480):
+                self.driver.set_window_size(width, 900)
+                refresh = self.driver.find_element(
+                    By.CSS_SELECTOR, '.query-field button[name="refresh"]'
+                )
+                query_input = self.driver.find_element(By.CSS_SELECTOR, '[name="q"]')
+                self.assertEqual(refresh.get_attribute("aria-label"), "Refresh results")
+                self.assertAlmostEqual(
+                    refresh.rect["y"], query_input.rect["y"], delta=1
+                )
+                self.assertLess(refresh.rect["width"], 60)
+                self.assertGreater(query_input.rect["width"], 100)
+            self.driver.set_window_size(original_size["width"], original_size["height"])
+
+        assert_compact_refresh()
+
+        def current_checksum() -> str:
+            value = self.driver.find_element(
+                By.CSS_SELECTOR, '.translation-form input[name="checksum"]'
+            ).get_attribute("value")
+            self.assertIsNotNone(value)
+            return cast("str", value)
+
+        def result_count() -> int:
+            return int(
+                self.driver.find_element(By.CSS_SELECTOR, ".position-input")
+                .text.split("/")[-1]
+                .strip()
+            )
+
+        checksum = current_checksum()
+        unit = next(
+            unit for unit in translation.unit_set.all() if unit.checksum == checksum
+        )
+        count = result_count()
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
+        # Use a navigation URL, as initial searches intentionally omit offset.
+        with self.wait_for_page_load():
+            self.click(htmlid="button-first")
+        self.assertEqual(current_checksum(), checksum)
+        with self.wait_for_page_load():
+            self.driver.refresh()
+        self.assertEqual(result_count(), count)
+        self.assertEqual(current_checksum(), checksum)
+
+        self.click(htmlid="query-sort-dropdown")
+        with self.wait_for_page_load():
+            self.driver.find_element(By.CSS_SELECTOR, 'a[data-sort="source"]').click()
+        self.assertEqual(result_count(), count)
+        self.assertEqual(current_checksum(), checksum)
+
+        # Enter in the position field is navigation, not a fresh search.
+        self.driver.find_element(By.CSS_SELECTOR, ".position-input").click()
+        position = self.driver.find_element(By.ID, "position-input-editable-input")
+        position.clear()
+        position.send_keys("2")
+        with self.wait_for_page_load():
+            position.send_keys(Keys.ENTER)
+        self.assertEqual(result_count(), count)
+
+        with self.wait_for_page_load():
+            self.driver.find_element(By.ID, "id_q").send_keys(Keys.ENTER)
+        self.assertEqual(result_count(), count - 1)
+        self.assertNotEqual(current_checksum(), checksum)
+        self.assertNotIn("refresh=", self.driver.current_url)
+
+        # Refresh must retain the editor's unsaved-changes protection.
+        editor = self.driver.find_element(
+            By.CSS_SELECTOR, ".translator .translation-editor"
+        )
+        editor.send_keys("Unsaved translation")
+        refresh = self.driver.find_element(By.CSS_SELECTOR, 'button[name="refresh"]')
+        # Check the real listeners without relying on WebDriver's handling of
+        # native browser dialogs.
+        self.assertTrue(
+            self.driver.execute_script(
+                """
+                document.querySelector(".result-page-form").dispatchEvent(
+                    new Event("submit", {bubbles: true, cancelable: true})
+                );
+                const event = new Event("beforeunload", {cancelable: true});
+                window.dispatchEvent(event);
+                return WLT.Utils.editorHasChanges() && event.defaultPrevented;
+                """
+            )
+        )
+        self.assertEqual(editor.get_attribute("value"), "Unsaved translation")
+        self.driver.execute_script(
+            "arguments[0].value = ''; arguments[0].classList.remove('has-changes');",
+            editor,
+        )
+        with self.wait_for_page_load():
+            refresh.send_keys(Keys.ENTER)
+        self.assertEqual(result_count(), count - 1)
+
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{zen_url}?{urlencode({'q': query, 'offset': 1})}"
+            )
+        self.assertEqual(result_count(), count - 1)
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_EMPTY)
+        with self.wait_for_page_load():
+            self.driver.find_element(By.CSS_SELECTOR, 'button[name="refresh"]').click()
+        self.assertEqual(result_count(), count)
+
+        assert_compact_refresh()
+
+        # Pending edits in later Zen rows must warn before autosave starts.
+        self.assertTrue(
+            self.driver.execute_script(
+                """
+                const editors = document.querySelectorAll(
+                    ".translator .translation-editor"
+                );
+                const editor = editors[1];
+                editor.focus();
+                editor.value = "Pending Zen translation";
+                editor.dispatchEvent(new Event("input", {bubbles: true}));
+                document.querySelector('button[name="refresh"]').focus();
+                document.querySelector(".result-page-form").dispatchEvent(
+                    new Event("submit", {bubbles: true, cancelable: true})
+                );
+                const event = new Event("beforeunload", {cancelable: true});
+                window.dispatchEvent(event);
+                return !editors[0].classList.contains("has-changes")
+                    && WLT.Utils.editorHasChanges()
+                    && event.defaultPrevented;
+                """
             )
         )
 

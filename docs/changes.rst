@@ -1,7 +1,32 @@
+Weblate 2026.10
+---------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+.. rubric:: Security fixes
+
+.. rubric:: Bug fixes
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.10.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/172?closed=1>`__.
+
 Weblate 2026.9.1
 ----------------
 
-*Not yet released.*
+*Released on September 8th 2026.*
 
 .. rubric:: New features
 
@@ -9,11 +34,12 @@ Weblate 2026.9.1
 
 .. rubric:: Improvements
 
+* Added explicit :ref:`search result refresh <search-results-cache>` in the translation editors and improved recovery when saved search results expire.
 * :ref:`Docker development tests <dev-docker>` now automatically prepare an isolated test environment without requiring application startup or the Dev Container CLI.
 * Added a :ref:`development container <devcontainer>` for tests and lint, with an optional :ref:`application QA profile <dev-docker>`, isolated storage per Git worktree, dynamically allocated localhost application and mailbox ports, and Chromium diagnostics and mandatory browser test commands.
+* Improved :ref:`translation statistics <stats>` calculation performance and avoided redundant parent updates when loading check and label details.
 * Added posting and displaying scoped :doc:`announcements </admin/announcements>` on category-language pages.
 * Added a dismissible diagnostic for :ref:`glossaries <glossary-terminology>` with disabled string management when they use a local repository or contain terminology.
-
 * Clarified :doc:`incident reporting </security/incident-reporting>`, reporting deadlines, and security notifications for hosted and self-hosted users.
 * The :guilabel:`Manage reports` permission now consistently grants access to complete :doc:`translation reports </devel/reporting>` for the selected scope, including private projects and restricted components below it.
 * Docker deployments now use a combined :ref:`Celery <celery>` worker by default, reducing memory usage while increasing task throughput. Use :envvar:`CELERY_WORKER_MODE` to select the combined, split, or single worker setup.
@@ -32,6 +58,7 @@ Weblate 2026.9.1
 
 .. rubric:: Bug fixes
 
+* Fixed the approved-only :ref:`commit policy <project-commit_policy>` blocking commits for languages with reviews disabled by workflow settings.
 * Fixed the :ref:`uWSGI configuration example <uwsgi>` to use the virtual environment's Python when launching helpers for SSH repository operations.
 * Fixed language context and links in change history for scoped :doc:`announcements <admin/announcements>` and other language-specific events.
 * Restored :ref:`mt-deepl` API v1 translation support while retaining modern API language discovery and glossary improvements.
