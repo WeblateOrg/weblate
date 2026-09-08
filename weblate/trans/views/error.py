@@ -24,7 +24,7 @@ def bad_request(request: AuthenticatedHttpRequest, exception=None):
     if "text/html" not in request.headers.get("accept", ""):
         return rest_framework.exceptions.bad_request(request, exception)
     if exception:
-        report_error("Bad request")
+        report_error("Bad request", exception=exception)
     return render(request, "400.html", {"title": gettext("Bad Request")}, status=400)
 
 

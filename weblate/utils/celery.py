@@ -158,14 +158,19 @@ def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
         )
 
     # ruff: ignore[import-outside-top-level]
-    from weblate.utils.errors import report_error
+    from weblate.utils.errors import report_error, report_message
 
-    report_error(
-        f"Failure while executing task {task_id}",
-        skip_error_reporting=True,
-        print_tb=True,
-        level="error",
-    )
+    cause = f"Failure while executing task {task_id}"
+    if exception is None:
+        report_message(cause, skip_error_reporting=True, level="error")
+    else:
+        report_error(
+            cause,
+            exception=exception,
+            skip_error_reporting=True,
+            print_tb=True,
+            level="error",
+        )
 
 
 @app.on_after_configure.connect
@@ -223,7 +228,7 @@ def get_task_progress(task):
     return 0
 
 
-def is_celery_queue_long():
+def is_celery_queue_long() -> bool:
     """
     Check whether celery queue is too long.
 

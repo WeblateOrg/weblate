@@ -42,13 +42,16 @@
   </div>
 
   <div class="query-container">
-    <form method="get" class="result-page-form">
+    <form method="get" class="result-page-form double-submission">
       {% crispy search_form %}
+      <p id="search-cache-help" class="form-text mb-0">
+        {% translate "Search results stay fixed while you translate. Refresh results to show strings matching the filters now." %}
+      </p>
     </form>
   </div>
 
   <table class="zen table table-sm {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">
-    {% include 'zen-units.html' %}
+    {% include "zen-units.html" %}
     <tfoot>
       <tr>
         <td colspan="3" class="loading-icon">

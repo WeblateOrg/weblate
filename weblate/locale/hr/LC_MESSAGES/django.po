@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-07-31 08:24+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1368,6 +1368,17 @@ msgstr "Aplikacija za autentifikaciju je uklonjena."
 msgid "The authentication app %s was registered."
 msgstr "Aplikacija za autentifikaciju %s je registrirana."
 
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"Ako si to bio/bila ti, resetiraj lozinku za ponovno dobivanje pristupa tvom "
+"računu."
+
 msgid "Second factor sign in"
 msgstr "Drugi faktor prijave"
 
@@ -2020,13 +2031,12 @@ msgstr "Pregledaj i potvrdi odgovarajuće komponente."
 msgid "Regular expression to match translation files against"
 msgstr "Regularni izraz za usporedbu s prevodilačkim datotekama"
 
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
-"Regularni izraz je previše složen i trebalo je predugo vremena da se "
-"evaluira."
 
 msgid "File format"
 msgstr "Format datoteke"
@@ -2077,6 +2087,18 @@ msgstr ""
 "Ime posredne prevodilačke datoteke. U većini slučajeva radi se o "
 "prevodilačkoj datoteci programera koja se koristi za stvaranje izvornih "
 "izraza."
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "Dupla maska datoteke."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "Filtar jezika"
@@ -2185,8 +2207,32 @@ msgstr "Ne možeš koristiti jednojezični prijevod bez osnovne datoteke."
 msgid "You can not use a base file for bilingual translation."
 msgstr "Ne možeš koristiti osnovnu datoteku za dvojezični prijevod."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Odredi osnovnu datoteku za nove prijevode"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+"Dodaj jednojezičnu osnovnu prevodilačku datoteku u postavkama komponente."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "Pregledaj i potvrdi odgovarajuće komponente."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr ""
@@ -6382,6 +6428,20 @@ msgstr "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 4.5 (preporučeno)"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Opus 4.5"
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr "Claude Opus 4.5"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Haiku 4.5"
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
+msgstr "Claude Haiku 4.5"
 
 #, fuzzy
 #| msgctxt "Anthropic model selection"
@@ -12517,6 +12577,21 @@ msgstr ""
 "dostupan Weblate-u."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App"
+msgstr "Stanje Weblatea"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12702,6 +12777,11 @@ msgid ""
 msgstr ""
 "Također instaliraj dodatak msgmerge, ako želiš da datoteke prijevoda "
 "automatski slijede promjene predložaka."
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
 
 msgid "This component is set up incorrectly."
 msgstr "Ova je komponenta neispravno postavljena."
@@ -13804,6 +13884,79 @@ msgid "No connected accounts yet."
 msgstr "Još nemaš račun?"
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting integrations"
+msgstr "Hosting prijevoda"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connect or update GitHub account"
+msgstr "Izbriši ovaj račun"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connected GitHub accounts:"
+msgstr "Izbriši ovaj račun"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh repositories"
+msgstr "Repozitoriji"
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate selected components"
+msgstr "Stvorena komponenta"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Stanje prijevoda"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Samo-za-čitanje"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "Repozitorij premješten"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "Registriraj se na Weblate"
@@ -13901,11 +14054,6 @@ msgstr "Pozivnica za %(project_name)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Repositories"
-msgid "Refresh repositories"
-msgstr "Repozitoriji"
 
 #, python-format
 msgid ""
@@ -14040,9 +14188,28 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Sljedeće komponente bi se stvorile"
+msgstr[1] "Sljedeće komponente bi se stvorile"
+msgstr[2] "Sljedeće komponente bi se stvorile"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action in %(component)s"
+#| msgid_plural "%(count)s strings needing action in %(component)s"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s izraz koji zahtijeva radnju u %(component)s"
+msgstr[1] "%(count)s izraza koji zahtijevaju radnju u %(component)s"
+msgstr[2] "%(count)s izraza koji zahtijevaju radnju u %(component)s"
 
 msgid "Invitations"
 msgstr "Pozivnice"
@@ -15139,6 +15306,9 @@ msgstr "Nijedna maska datoteke se ne poklapa."
 msgid "Inexistent files."
 msgstr "Nepostojeće datoteke."
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
 msgstr "Konfliktna postavka repozitorija."
@@ -15507,11 +15677,8 @@ msgid "Discovery configuration"
 msgstr "Konfiguracija otkrivanja"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
-"Regularni izraz koji se koristi za pronalaženje otkrivenih datoteka je "
-"previše složen i trebalo je predugo vremena da se evaluira."
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
@@ -15519,6 +15686,33 @@ msgid ""
 msgstr ""
 "Regularni izraz jezičnog filtra je previše složen i predugo je trajao za "
 "evaluaciju."
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+"Regularni izraz koji se koristi za pronalaženje otkrivenih datoteka je "
+"previše složen i trebalo je predugo vremena da se evaluira."
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr ""
+"Regularni izraz je previše složen i trebalo je predugo vremena da se "
+"evaluira."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
 
 msgid "File mask matches the main component."
 msgstr "Maska datoteke se poklapa s glavnom komponentom."
@@ -15550,6 +15744,21 @@ msgstr "Sve nedavno urađene promjene upotrebom Weblatea u %s."
 
 msgid "Sort JSON keys"
 msgstr "Razvrstaj JSON ključeve"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "Ne uvozi"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "Razlikuje velika i mala slova"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "Ne razlikuje velika i mala slova"
 
 msgid "JSON indentation"
 msgstr "JSON uvlačenje"
@@ -18021,6 +18230,32 @@ msgstr "Dugačka povlaka"
 msgid "User configured character: {}"
 msgstr "Korisnički određen znak: {}"
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Automatski prijevod je preskočen jer cilj više ne postoji."
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "Operacija repozitorija u %(component)s"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "Neuspjela operacija u repozitoriju"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "Operacija repozitorija u %(component)s"
+
 msgid "No suggestions found."
 msgstr "Nije pronađen nijedan prijedlog."
 
@@ -18587,6 +18822,12 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
 #, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr ""
+"Nije bilo moguće zaključati repozitorij, jedna druga operacija je u tijeku."
+
+#, fuzzy
 #| msgid ""
 #| "Could not remove the string because another background operation is in "
 #| "progress. Please try again later."
@@ -18597,64 +18838,17 @@ msgstr ""
 "Nije bilo moguće ukloniti izraz jer u pozadini teče jedna druga operacija. "
 "Pokušaj ponovo kasnije."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-"Svi repozitoriji su aktualizirani, aktualiziranja prijevoda su u tijeku."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "Neuspjele operacije u repozitoriju"
 
 #, fuzzy
-#| msgid ""
-#| "All repositories have been updated, updates of translations are in "
-#| "progress."
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr ""
-"Svi repozitoriji su aktualizirani, aktualiziranja prijevoda su u tijeku."
-
-msgid "All repositories were pushed."
-msgstr "Svi repozitoriji su prenijeti."
-
-#, fuzzy
-#| msgid "All repositories were pushed."
-msgid "Accessible repositories were pushed."
-msgstr "Svi repozitoriji su prenijeti."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr "Svi repozitoriji su resetirani, aktualiziranja prijevoda su u tijeku."
-
-#, fuzzy
-#| msgid ""
-#| "All repositories have been reset, updates of translations are in progress."
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "Svi repozitoriji su resetirani, aktualiziranja prijevoda su u tijeku."
-
-msgid "All repositories have been cleaned up."
-msgstr "Svi repozitoriji su očišćeni."
-
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
-msgid "Accessible repositories have been cleaned up."
-msgstr "Svi repozitoriji su očišćeni."
-
-msgid "Translation files have been synchronized."
-msgstr "Prevodilačke datoteke su sinkronizirane."
-
-#, fuzzy
-#| msgid "Translation files have been synchronized."
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Prevodilačke datoteke su sinkronizirane."
-
-msgid "Updates of translations are in progress."
-msgstr "Aktualziranja prijevoda su u tijeku."
-
-#, fuzzy
-#| msgid "Updates of translations are in progress."
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "Aktualziranja prijevoda su u tijeku."
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "Neuspjela operacija u repozitoriju"
 
 #, fuzzy
 #| msgid "Please fix this by removing one of the translation files."
@@ -18670,19 +18864,6 @@ msgstr "Ispravi ovo, uklanjanjem jedne prevodilačke datoteke."
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Ispravi ovo, uklanjanjem jedne prevodilačke datoteke."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations are being committed."
-msgstr "Svi prijevodi na čekanju su spremljeni."
-
-msgid "All pending translations were committed."
-msgstr "Svi prijevodi na čekanju su spremljeni."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Svi prijevodi na čekanju su spremljeni."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Komponenta je sada zaključana za aktualiziranje prijevoda!"
@@ -19695,6 +19876,16 @@ msgstr "Ovo će poslati promjene u izvorni repozitorij."
 msgid "Enter a valid GitHub host."
 msgstr "Upiši jedan ispravan jezični kod."
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "Komponenta koja se uklanja"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr "Odaberi jednu postojeću konfiguraciju komponente koju želiš kopirati."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -20059,8 +20250,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -20135,6 +20353,28 @@ msgstr ""
 #| msgid "Created user account {}."
 msgid "Connected GitHub account added."
 msgstr "Stvoren je korisnički račun {}."
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Nije bilo moguće prenijeti %(component)s: %(error_text)s"
 
 #, fuzzy
 #| msgid "Enter a valid domain name or IP address."
@@ -20529,6 +20769,92 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Izvor je uklonjen."
 
+#, fuzzy
+#~| msgid ""
+#~| "The regular expression is too complex and took too long to evaluate."
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr ""
+#~ "Regularni izraz je previše složen i trebalo je predugo vremena da se "
+#~ "evaluira."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Svi repozitoriji su aktualizirani, aktualiziranja prijevoda su u tijeku."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been updated, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Svi repozitoriji su aktualizirani, aktualiziranja prijevoda su u tijeku."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "Svi repozitoriji su prenijeti."
+
+#, fuzzy
+#~| msgid "All repositories were pushed."
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Svi repozitoriji su prenijeti."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr ""
+#~ "Svi repozitoriji su resetirani, aktualiziranja prijevoda su u tijeku."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been reset, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Svi repozitoriji su resetirani, aktualiziranja prijevoda su u tijeku."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "Svi repozitoriji su očišćeni."
+
+#, fuzzy
+#~| msgid "All repositories have been cleaned up."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Svi repozitoriji su očišćeni."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Prevodilačke datoteke su sinkronizirane."
+
+#, fuzzy
+#~| msgid "Translation files have been synchronized."
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Prevodilačke datoteke su sinkronizirane."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "Aktualziranja prijevoda su u tijeku."
+
+#, fuzzy
+#~| msgid "Updates of translations are in progress."
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Aktualziranja prijevoda su u tijeku."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Svi prijevodi na čekanju su spremljeni."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "Svi prijevodi na čekanju su spremljeni."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Svi prijevodi na čekanju su spremljeni."
+
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
 #~ "showing a preview of edited strings before the actual change is confirmed."
@@ -20868,11 +21194,6 @@ msgstr "Izvor je uklonjen."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Prilagođavanje radnog toka"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr ""
-#~ "Nije bilo moguće zaključati repozitorij, jedna druga operacija je u "
-#~ "tijeku."
 
 #~ msgid "Add team"
 #~ msgstr "Dodaj tim"

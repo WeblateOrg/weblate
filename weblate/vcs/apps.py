@@ -37,7 +37,7 @@ def check_gpg(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     get_gpg_public_key()
     template = "{}: {}"
@@ -52,7 +52,7 @@ def check_vcs(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.vcs.models import VCS_REGISTRY
@@ -74,7 +74,7 @@ def check_vcs_versions(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.vcs.models import VCS_REGISTRY
@@ -108,7 +108,7 @@ def check_git(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     template = "Failure in configuring Git: {}"
     return [
@@ -122,7 +122,7 @@ def check_vcs_credentials(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.vcs.models import VCS_REGISTRY
@@ -143,7 +143,7 @@ class VCSConfig(AppConfig):
         super().ready()
         post_migrate.connect(self.post_migrate, sender=self)
 
-    def post_migrate(self, sender: AppConfig, **kwargs) -> None:
+    def post_migrate(self, sender: AppConfig, **kwargs: object) -> None:
         cleanup_legacy_wrapper_dirs()
         cleanup_stale_wrapper_dirs()
         ensure_ssh_key()

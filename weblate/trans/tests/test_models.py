@@ -4,11 +4,15 @@
 
 """Test for translation models."""
 
+from __future__ import annotations
+
 import importlib
 import os
 from contextlib import ExitStack
 from datetime import timedelta
+from itertools import product
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 from unittest.mock import Mock, patch
 
 from asgiref.sync import async_to_sync
@@ -56,6 +60,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
     Vote,
+    WorkflowSetting,
 )
 from weblate.trans.models.change import ChangeQuerySet
 from weblate.trans.models.component import ComponentLink
@@ -78,10 +83,19 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
+    StringState,
 )
-from weblate.utils.stats import CategoryLanguage, GlobalStats, ProjectLanguage
+from weblate.utils.stats import (
+    CategoryLanguage,
+    GlobalStats,
+    ProjectLanguage,
+    TranslationStats,
+)
 from weblate.utils.version import GIT_VERSION
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from weblate.utils.stats import UnitSnapshot
 
 
 class BaseTestCase(TestCase):
@@ -748,13 +762,12 @@ class TranslationTest(RepoTestCase):
         PendingUnitChange.store_unit_change(unit=unit, author=user)
         self.assertEqual(source.count_pending_units, 1)
 
-        with patch("weblate.trans.models.translation.report_error") as report_error:
+        with patch("weblate.trans.models.translation.report_message") as report_message:
             self.assertTrue(component.commit_pending("test", None))
 
-        report_error.assert_called_once_with(
+        report_message.assert_called_once_with(
             "Attempted to commit translation without filename",
             project=component.project,
-            message=True,
             extra_log=f"translation={source.full_slug}, pending_changes=1",
         )
         self.assertEqual(source.count_pending_units, 0)
@@ -840,6 +853,179 @@ class TranslationTest(RepoTestCase):
         ):
             self.assertIn(f'FROM "{table}"', unit_query)
             self.assertNotIn(f'JOIN "{table}"', unit_query)
+
+    def test_grouped_stats_match_unit_buckets(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        translation.unit_set.all().delete()
+        label = component.project.label_set.create(name="Grouped", color="red")
+        units: list[Unit] = []
+        snapshots: list[UnitSnapshot] = []
+        expected = dict.fromkeys(TranslationStats.UNIT_DELTA_KEYS, 0)
+        for state in StringState:
+            for flags in range(32):
+                # Different sizes in the same group catch accidental multiplication
+                # of word/character sums by the number of strings.
+                for source, words in (("", 0), ("Žluťoučký 🐈", 2), ("one\x1emany", 3)):
+                    snapshot: UnitSnapshot = {
+                        "state": state,
+                        "num_words": words,
+                        "num_chars": len(source),
+                        "active_checks_count": flags & 1,
+                        "dismissed_checks_count": flags & 2,
+                        "suggestion_count": flags & 4,
+                        "label_count": flags & 8,
+                        "comment_count": flags & 16,
+                    }
+                    snapshots.append(snapshot)
+                    for key, value in TranslationStats.snapshot_to_bucket(
+                        snapshot
+                    ).items():
+                        expected[key] += value
+                    units.append(
+                        Unit(
+                            translation=translation,
+                            id_hash=len(units),
+                            position=len(units),
+                            source=source,
+                            num_words=words,
+                            state=state,
+                        )
+                    )
+        Unit.objects.bulk_create(units)
+        for unit in units:
+            unit.source_unit = unit
+        Unit.objects.bulk_update(units, ["source_unit"])
+        checks = []
+        suggestions = []
+        comments = []
+        labels = []
+        for unit, snapshot in zip(units, snapshots, strict=True):
+            for dismissed, present in (
+                (False, snapshot["active_checks_count"]),
+                (True, snapshot["dismissed_checks_count"]),
+            ):
+                if present:
+                    checks.append(
+                        Check(
+                            unit=unit,
+                            name="ellipsis" if dismissed else "same",
+                            dismissed=dismissed,
+                        )
+                    )
+            if snapshot["suggestion_count"]:
+                suggestions.append(Suggestion(unit=unit, target="Suggestion"))
+            if snapshot["comment_count"]:
+                comments.append(Comment(unit=unit, comment="Comment"))
+            if snapshot["label_count"]:
+                labels.append(Unit.labels.through(unit_id=unit.pk, label_id=label.pk))
+        Check.objects.bulk_create(checks)
+        Suggestion.objects.bulk_create(suggestions)
+        Comment.objects.bulk_create(comments)
+        Unit.labels.through.objects.bulk_create(labels)
+
+        stats = TranslationStats(translation)
+        stats.calculate_basic()
+        self.assertEqual({key: stats.aggregate_get(key) for key in expected}, expected)
+
+    def test_detail_stats_save_without_updating_parents(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        component.project.label_set.create(name="Detail", color="red")
+        for lazy, eager, (name, method), direct in product(
+            (False, True),
+            (False, True),
+            (("check:same", "calculate_checks"), ("label:Detail", "calculate_labels")),
+            (False, True),
+        ):
+            with (
+                self.subTest(lazy=lazy, eager=eager, name=name, direct=direct),
+                override_settings(STATS_LAZY=lazy, CELERY_TASK_ALWAYS_EAGER=eager),
+            ):
+                stats = TranslationStats(translation)
+                stats.clear()
+                stats.calculate_basic()
+                stats.save(update_parents=False)
+                stats = TranslationStats(translation)
+                with (
+                    patch.object(stats, "save", wraps=stats.save) as save,
+                    patch.object(stats, "update_parents") as parents,
+                    patch(
+                        "weblate.utils.tasks.update_translation_stats_parents.delay_on_commit"
+                    ) as task,
+                    self.captureOnCommitCallbacks(execute=True),
+                ):
+                    if direct:
+                        getattr(stats, method)()
+                    else:
+                        getattr(stats, name)
+                    save.assert_called_once_with(update_parents=False)
+                    with self.assertNumQueries(0):
+                        getattr(stats, name)
+                    save.assert_called_once()
+                parents.assert_not_called()
+                task.assert_not_called()
+
+    def test_basic_stats_miss_still_updates_parents(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        for lazy in (False, True):
+            with self.subTest(lazy=lazy), override_settings(STATS_LAZY=lazy):
+                stats = TranslationStats(translation)
+                stats.delete()
+                with (
+                    patch.object(stats, "save", wraps=stats.save) as save,
+                    patch.object(stats, "update_parents") as parents,
+                    self.captureOnCommitCallbacks(execute=True),
+                ):
+                    self.assertGreater(stats.all, 0)
+                save.assert_called_once_with()
+                parents.assert_called_once_with()
+
+    def test_parent_details_are_lazy_and_invalidated(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        category = Category.objects.create(
+            project=component.project, name="Details", slug="details"
+        )
+        Component.objects.filter(pk=component.pk).update(category=category)
+        component.refresh_from_db()
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one unit")
+        label = component.project.label_set.create(name="Detail", color="red")
+        for lazy in (False, True):
+            with self.subTest(lazy=lazy), override_settings(STATS_LAZY=lazy):
+                with self.captureOnCommitCallbacks(execute=True):
+                    Check.objects.filter(unit__translation=translation).delete()
+                    Check.objects.create(unit=unit, name="same", dismissed=False)
+                    unit.source_unit.labels.add(label)
+                scopes = (
+                    ProjectLanguage(component.project, translation.language),
+                    CategoryLanguage(category, translation.language),
+                )
+                for scope in scopes:
+                    self.assertGreater(scope.stats.all, 0)
+                with (
+                    patch(
+                        "weblate.utils.stats.TranslationStats.update_parents"
+                    ) as parents,
+                    self.captureOnCommitCallbacks(execute=True),
+                ):
+                    for scope in scopes:
+                        self.assertEqual(getattr(scope.stats, "check:same"), 1)
+                        self.assertEqual(getattr(scope.stats, "label:Detail"), 1)
+                parents.assert_not_called()
+
+                with self.captureOnCommitCallbacks(execute=True):
+                    Check.objects.filter(unit=unit, name="same").delete()
+                    unit.source_unit.labels.remove(label)
+                for scope in (
+                    ProjectLanguage(component.project, translation.language),
+                    CategoryLanguage(category, translation.language),
+                ):
+                    self.assertEqual(getattr(scope.stats, "check:same"), 0)
+                    self.assertEqual(getattr(scope.stats, "label:Detail"), 0)
 
     def test_commit_grouping(self) -> None:
         component = self.create_component()
@@ -963,6 +1149,34 @@ class TranslationTest(RepoTestCase):
         # only adds pending change for target unit's translation file
         self.assertEqual(PendingUnitChange.objects.count(), 1)
 
+    def test_commit_without_language_reviews(self) -> None:
+        component = self.create_component()
+        project = component.project
+        user = create_test_user()
+        project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.translation_review = True
+        project.save()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(user, "Reviewed language", STATE_TRANSLATED)
+        translation.commit_pending("test", None)
+        self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+
+        WorkflowSetting.objects.create(
+            project=project,
+            language=translation.language,
+            translation_review=False,
+        )
+        translation = Translation.objects.get(pk=translation.pk)
+        unit = translation.unit_set.get(pk=unit.pk)
+        unit.translate(user, "Language without reviews\n", STATE_FUZZY)
+        translation.commit_pending("test", None)
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+        translation = Translation.objects.get(pk=translation.pk)
+        stored, _ = translation.store.find_unit(unit.context, unit.source)
+        self.assertEqual(stored.target, "Language without reviews\n")
+        self.assertTrue(stored.is_fuzzy())
+
     def test_commit_policy(self) -> None:
         component = self.create_xliff()
         translation = component.translation_set.get(language_code="cs")
@@ -970,6 +1184,7 @@ class TranslationTest(RepoTestCase):
 
         project = component.project
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.translation_review = True
         project.save()
 
         self.assertIn("approved", project.get_commit_policy_description())
@@ -1079,6 +1294,7 @@ class TranslationTest(RepoTestCase):
         component = self.create_ftl()
         project = component.project
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.translation_review = True
         project.save()
 
         translation = component.translation_set.get(language_code="cs")
@@ -1781,6 +1997,55 @@ class AnnouncementTest(ModelTestCase):
             ["test project"],
         )
 
+    def test_contextfilter_category_language(self) -> None:
+        parent = Category.objects.create(
+            project=self.component.project, name="Parent", slug="parent"
+        )
+        category = self.create_category(self.component.project, category=parent)
+        sibling = Category.objects.create(
+            project=self.component.project, name="Sibling", slug="sibling"
+        )
+        child = self.create_category(self.component.project, category=category)
+        foreign = self.create_category(self.second_project)
+        for scope in (parent, category, sibling, child, foreign):
+            for language in (None, self.czech, self.german):
+                Announcement.objects.create(
+                    category=scope,
+                    language=language,
+                    message=f"category {scope.pk} {language}",
+                )
+        Announcement.objects.create(
+            category=category,
+            language=self.czech,
+            expiry=timezone.now().date() - timedelta(days=1),
+            message="expired category announcement",
+        )
+        Announcement.objects.create(
+            project=self.component.project,
+            component=self.component,
+            language=self.czech,
+            message="component language announcement",
+        )
+
+        for language in (None, self.czech, self.german):
+            with self.subTest(language=language):
+                expected = ["test project"]
+                if language:
+                    expected.append(f"test project {language.code}")
+                expected.extend(
+                    f"category {scope.pk} {scope_language}"
+                    for scope in (parent, category)
+                    for scope_language in ((None, language) if language else (None,))
+                )
+                announcements = Announcement.objects.context_filter(
+                    category=category, language=language
+                )
+                self.assertCountEqual(
+                    [announcement.message for announcement in announcements], expected
+                )
+                ids = [announcement.pk for announcement in announcements]
+                self.assertEqual(ids, sorted(ids))
+
     def test_contextfilter_component(self) -> None:
         self.assertCountEqual(
             [
@@ -2225,6 +2490,7 @@ class PendingUnitChangeTest(RepoTestCase):
         self.project.save()
 
         self.other_project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.other_project.translation_review = True
         self.other_project.save()
 
         translation = self.component.translation_set.get(language_code="cs")

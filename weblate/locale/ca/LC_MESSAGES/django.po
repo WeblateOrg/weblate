@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-08-24 03:51+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
@@ -1430,6 +1430,17 @@ msgstr "S’ha suprimit l’aplicació d’autenticació."
 msgid "The authentication app %s was registered."
 msgstr "S’ha registrat l’aplicació d’autenticació %s."
 
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"Si heu estat vós, feu servir el restabliment de la contrasenya per a "
+"recuperar l’accés al compte."
+
 msgid "Second factor sign in"
 msgstr "Segon factor per a l’inici de sessió"
 
@@ -2174,10 +2185,11 @@ msgid "Regular expression to match translation files against"
 msgstr "Expressió regular per a trobar fitxers de traducció"
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
-"L’expressió regular ha de definir grups amb nom per al component i la "
-"llengua."
 
 msgid "File format"
 msgstr "Format de fitxer"
@@ -2230,6 +2242,18 @@ msgstr ""
 "El nom del fitxer de llengua intermèdia. En molts casos, és un fitxer de "
 "traducció que aporten els desenvolupadors i que s’utilitza quan es creen les "
 "cadenes d’origen."
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "Filtre de fitxers duplicat."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "Filtre de llengua"
@@ -2349,8 +2373,32 @@ msgstr "No podeu utilitzar una traducció monolingüe sense un fitxer base."
 msgid "You can not use a base file for bilingual translation."
 msgstr "No podeu utilitzar un fitxer base per a una traducció bilingüe."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Defineix el fitxer base per a noves traduccions"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+"Afegiu un fitxer de llengua base monolingüe a la configuració del component."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "Reviseu i confirmeu els components coincidents."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr "Aquesta plantilla ha d’incloure {{ component }}."
@@ -6690,6 +6738,20 @@ msgstr "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 4.5 (recomanat)"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Opus 4.5"
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr "Claude Opus 4.5"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Haiku 4.5"
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
+msgstr "Claude Haiku 4.5"
 
 #, fuzzy
 #| msgctxt "Anthropic model selection"
@@ -12970,6 +13032,21 @@ msgstr ""
 "accedir."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App"
+msgstr "Estat del Weblate"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -13160,6 +13237,11 @@ msgid ""
 msgstr ""
 "Instal·leu també el complement msgmerge si voleu que els fitxers de "
 "traducció segueixin els canvis de plantilla automàticament."
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
 
 msgid "This component is set up incorrectly."
 msgstr "Aquest component està configurat de manera incorrecta."
@@ -14276,6 +14358,79 @@ msgid "No connected accounts yet."
 msgstr "Encara no teniu compte?"
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting integrations"
+msgstr "Traduccions allotjades"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connect or update GitHub account"
+msgstr "Suprimeix aquest compte"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connected GitHub accounts:"
+msgstr "Suprimeix aquest compte"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh repositories"
+msgstr "Repositoris"
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate selected components"
+msgstr "S’ha creat el component"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Estat de la traducció"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Només lectura"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "S’ha fet «rebase» al repositori"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "Registreu-vos al Weblate"
@@ -14375,11 +14530,6 @@ msgstr "Invitació a %(project_name)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Repositories"
-msgid "Refresh repositories"
-msgstr "Repositoris"
 
 #, python-format
 msgid ""
@@ -14514,9 +14664,26 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Es crearan els següents components"
+msgstr[1] "Es crearan els següents components"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action in %(component)s"
+#| msgid_plural "%(count)s strings needing action in %(component)s"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s cadena pendent a %(component)s"
+msgstr[1] "%(count)s cadenes pendents a %(component)s"
 
 msgid "Invitations"
 msgstr "Invitacions"
@@ -15631,6 +15798,9 @@ msgstr "No hi ha cap coincidència per al filtre de fitxers."
 msgid "Inexistent files."
 msgstr "Fitxers inexistents."
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Confirm resetting repository"
@@ -16034,6 +16204,17 @@ msgstr ""
 msgid "Discovery configuration"
 msgstr "Configuració bona"
 
+msgid ""
+"Component discovery stopped because the repository contains too many paths."
+msgstr ""
+
+msgid ""
+"The language filter regular expression is too complex and took too long to "
+"evaluate."
+msgstr ""
+"L'expressió regular del filtre de llenguatge és massa complexa i va trigar "
+"massa a avaluar-se."
+
 #, fuzzy
 #| msgid ""
 #| "The regular expression to match translation files has to contain two "
@@ -16047,11 +16228,22 @@ msgstr ""
 "Alguns exemples:"
 
 msgid ""
-"The language filter regular expression is too complex and took too long to "
-"evaluate."
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
 msgstr ""
-"L'expressió regular del filtre de llenguatge és massa complexa i va trigar "
-"massa a avaluar-se."
+
+#, fuzzy
+#| msgid "The regular expression can not match an empty string."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr "L’expressió regular no pot coincidir amb la cadena buida."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
 
 msgid "File mask matches the main component."
 msgstr "El filtre de fitxers coincideix amb el component principal."
@@ -16083,6 +16275,21 @@ msgstr "Tots els canvis recents fets utilitzant el Weblate a %s."
 
 msgid "Sort JSON keys"
 msgstr "Ordena les claus del JSON"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "No importis"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "Distingeix entre majúscules i minúscules"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "No distingeix entre majúscules i minúscules"
 
 msgid "JSON indentation"
 msgstr "Sagnat del JSON"
@@ -18643,6 +18850,32 @@ msgid "User configured character: {}"
 msgstr "Caràcter configurat per l’usuari: {}"
 
 #, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "S’està executant la traducció automatitzada"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "Operació al repositori de %(component)s"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "S’ha produït un error en una operació al repositori"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "Operació al repositori de %(component)s"
+
+#, fuzzy
 #| msgid "No string found."
 msgid "No suggestions found."
 msgstr "No s'ha trobat cap cadena."
@@ -19231,75 +19464,27 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "No s’ha pogut blocar el repositori, hi ha una altra operació en curs."
+
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr "No s’ha pogut blocar el repositori, hi ha una altra operació en curs."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-"Tots els repositoris s'han actualitzat, les actualitzacions de traduccions "
-"estan en curs."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "S’han produït errors en operacions al repositori"
 
 #, fuzzy
-#| msgid ""
-#| "All repositories have been updated, updates of translations are in "
-#| "progress."
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr ""
-"Tots els repositoris s'han actualitzat, les actualitzacions de traduccions "
-"estan en curs."
-
-msgid "All repositories were pushed."
-msgstr "S’han pujat tots els repositoris."
-
-#, fuzzy
-#| msgid "All repositories were pushed."
-msgid "Accessible repositories were pushed."
-msgstr "S’han pujat tots els repositoris."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-"S’han reinicialitzat tots els repositoris. S’estan actualitzant les "
-"traduccions."
-
-#, fuzzy
-#| msgid ""
-#| "All repositories have been reset, updates of translations are in progress."
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr ""
-"S’han reinicialitzat tots els repositoris. S’estan actualitzant les "
-"traduccions."
-
-msgid "All repositories have been cleaned up."
-msgstr "S’han netejat tots els repositoris."
-
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
-msgid "Accessible repositories have been cleaned up."
-msgstr "S’han netejat tots els repositoris."
-
-msgid "Translation files have been synchronized."
-msgstr "S’han sincronitzat els fitxers de traducció."
-
-#, fuzzy
-#| msgid "Translation files have been synchronized."
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "S’han sincronitzat els fitxers de traducció."
-
-msgid "Updates of translations are in progress."
-msgstr "S’estan actualitzant les traduccions."
-
-#, fuzzy
-#| msgid "Updates of translations are in progress."
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "S’estan actualitzant les traduccions."
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "S’ha produït un error en una operació al repositori"
 
 #, fuzzy
 #| msgid "Please fix this by removing one of the translation files."
@@ -19315,19 +19500,6 @@ msgstr "Corregiu-ho suprimint un dels fitxers de traducció."
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Corregiu-ho suprimint un dels fitxers de traducció."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations are being committed."
-msgstr "S’han publicat totes les traduccions pendents."
-
-msgid "All pending translations were committed."
-msgstr "S’han publicat totes les traduccions pendents."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations in accessible repositories were committed."
-msgstr "S’han publicat totes les traduccions pendents."
 
 msgid "Component is now locked for translation updates!"
 msgstr "S’han blocat les actualitzacions de traduccions del component!"
@@ -20392,6 +20564,16 @@ msgstr "Es pujaran els canvis al repositori font."
 msgid "Enter a valid GitHub host."
 msgstr "Codis de llengua amb àlies"
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "Component que se suprimirà"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr "Seleccioneu el component existent del qual es copiarà la configuració."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -20772,8 +20954,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -20850,6 +21059,26 @@ msgstr ""
 #| msgid "Created user account {}."
 msgid "Connected GitHub account added."
 msgstr "S’ha creat el compte d’usuari {}."
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "No s’ha pogut pujar %(component)s: %(error_text)s"
 
 #, fuzzy
 #| msgid "Enter a valid domain name or IP address."
@@ -21250,6 +21479,93 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "S’ha suprimit l’origen."
+
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr ""
+#~ "L’expressió regular ha de definir grups amb nom per al component i la "
+#~ "llengua."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Tots els repositoris s'han actualitzat, les actualitzacions de "
+#~ "traduccions estan en curs."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been updated, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Tots els repositoris s'han actualitzat, les actualitzacions de "
+#~ "traduccions estan en curs."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "S’han pujat tots els repositoris."
+
+#, fuzzy
+#~| msgid "All repositories were pushed."
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "S’han pujat tots els repositoris."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr ""
+#~ "S’han reinicialitzat tots els repositoris. S’estan actualitzant les "
+#~ "traduccions."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been reset, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "S’han reinicialitzat tots els repositoris. S’estan actualitzant les "
+#~ "traduccions."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "S’han netejat tots els repositoris."
+
+#, fuzzy
+#~| msgid "All repositories have been cleaned up."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "S’han netejat tots els repositoris."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "S’han sincronitzat els fitxers de traducció."
+
+#, fuzzy
+#~| msgid "Translation files have been synchronized."
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "S’han sincronitzat els fitxers de traducció."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "S’estan actualitzant les traduccions."
+
+#, fuzzy
+#~| msgid "Updates of translations are in progress."
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "S’estan actualitzant les traduccions."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations are being committed."
+#~ msgstr "S’han publicat totes les traduccions pendents."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "S’han publicat totes les traduccions pendents."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "S’han publicat totes les traduccions pendents."
 
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
@@ -21657,10 +21973,6 @@ msgstr "S’ha suprimit l’origen."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Personalització del flux de treball"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr ""
-#~ "No s’ha pogut blocar el repositori, hi ha una altra operació en curs."
 
 #~ msgid "Add team"
 #~ msgstr "Afegeix un equip"

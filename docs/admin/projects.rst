@@ -269,6 +269,27 @@ Configure per project access control, see :ref:`acl` for more details.
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. _project-public_sharing:
+
+Public sharing
+++++++++++++++
+
+Allow anonymous access to the project's engage pages and rendered status
+widgets. This setting applies to :guilabel:`Private` and :guilabel:`Custom`
+projects; :guilabel:`Public` and :guilabel:`Protected` projects are always
+publicly shareable.
+
+Public sharing exposes project and component names, including restricted
+components, together with translation statistics, languages, and progress. It
+does not grant access to project pages, translations, repositories, or the API.
+
+Changing this setting requires the :guilabel:`Manage project access`
+permission. The status widget configuration page continues to use normal
+project access control.
+
+When :setting:`REQUIRE_LOGIN` is enabled, :setting:`PUBLIC_ENGAGE` must also be
+enabled for anonymous access to engage pages.
+
 .. _project-enforced_2fa:
 
 Enforced two-factor authentication
@@ -322,6 +343,35 @@ supports the following options:
 * **Only include approved translations**: Only translations that have been approved by a
   reviewer will be committed. This option requires :ref:`project-translation_review`
   to be enabled.
+
+The approved-only policy applies only to translations with reviews enabled.
+Languages with reviews disabled through :ref:`workflow-customization` commit all
+translations, including those marked as needing editing. Source strings follow
+the same rule using :ref:`project-source_review`.
+
+Components linked to a repository in another project follow their own project's
+commit policy.
+
+If the editor shows “Only approved translations are written to the translation
+file.” or “Approval is required before this translation can be written to the
+translation file.”, the quality filter prevents writing the translation to the
+file until it is approved. This notice does not confirm that your current edit
+was saved; resolve any validation errors before leaving the editor. The project
+policy description qualifies this as “For languages with reviews enabled, only
+approved translations are written to the translation file.” Having permission
+to approve translations does not automatically approve your edits.
+
+For a language that does not use reviews, open its page in the project and
+choose :guilabel:`Settings`. Enable :guilabel:`Customize translation workflow for
+this language in this project`, then turn :guilabel:`Enable reviews` off. This
+requires permission to edit project settings. See :ref:`workflow-customization`.
+With the approved-only policy, this makes all translation states eligible for
+writing to files for that language, including those needing editing.
+
+If reviews are needed, users with both review and bulk-edit permissions can use
+:ref:`bulk-edit` to approve existing translations they have reviewed. Eligibility
+for writing to a translation file does not mean the change is immediately
+committed or pushed; see :ref:`lazy-commit` and :ref:`component-push_on_commit`.
 
 
 .. _project-enable_hooks:
@@ -378,6 +428,7 @@ project.
 
    * :ref:`workspace-inherited-settings`
    * :ref:`component-new_lang`
+   * :ref:`workflow-language-restrictions`
 
 .. _project-language-code-style:
 
@@ -961,6 +1012,7 @@ Disable adding new translations
    * :ref:`workspace-inherited-settings`
    * :ref:`adding-translation`
    * :ref:`component-new_base`
+   * :ref:`workflow-language-restrictions`
 
 .. _component-manage_units:
 
@@ -1180,6 +1232,10 @@ Language filter
 Regular expression used to filter the translation when scanning for file mask.
 It can be used to limit the list of languages managed by Weblate.
 
+The filter also applies when creating a new translation file. In this case,
+it checks the language code generated according to
+:ref:`component-language_code_style`.
+
 .. note::
 
     You need to list language codes as they appear in the filename.
@@ -1199,6 +1255,10 @@ Some examples of filtering:
 +-------------------------------+-----------------------+
 | Include all files (default)   | ``^[^.]+$``           |
 +-------------------------------+-----------------------+
+
+.. seealso::
+
+   :ref:`workflow-language-restrictions`
 
 
 .. _component-key_filter:
@@ -1347,6 +1407,9 @@ Glossaries are best for:
 .. note::
 
    Glossaries are not for regular translations—they are for managing terms only.
+
+Weblate automatically adds missing glossary languages for languages used in the
+project. See :ref:`glossary-language-sync` for details.
 
 You can configure how it will be listed using :ref:`component-glossary_color`.
 

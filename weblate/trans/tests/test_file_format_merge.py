@@ -9,6 +9,8 @@ Verifies merging logic, context stripping, and location aggregation
 for Markdown, HTML, and Plain Text.
 """
 
+from __future__ import annotations
+
 import io
 import uuid
 
@@ -56,7 +58,7 @@ class TestFormatsMerge(TestCase):
         f.seek(0)
         return fmt.load(f, None)
 
-    def test_markdown_merge_and_location(self):
+    def test_markdown_merge_and_location(self) -> None:
         """Verify Markdown merging deduplicates items and aggregates locations."""
         content = b"- Item\n- Item\n- Item\n"
         # Test merging ENABLED
@@ -73,7 +75,7 @@ class TestFormatsMerge(TestCase):
         # Robust check: Assert context is "falsy" (None, "", or [])
         self.assertFalse(units[0].getcontext())
 
-    def test_markdown_explicit_false(self):
+    def test_markdown_explicit_false(self) -> None:
         """Verify that explicitly setting False disables merging."""
         content = b"- Item\n- Item"
         # Test merging explicitly DISABLED
@@ -94,7 +96,7 @@ class TestFormatsMerge(TestCase):
             loc_0, loc_1, "Locations should be distinct (different lines)"
         )
 
-    def test_mdx_merge_and_location(self):
+    def test_mdx_merge_and_location(self) -> None:
         """Verify MDX merging deduplicates translatable text."""
         content = b'import Box from "./Box"\n\n- Item\n- Item\n\n<Box>Code</Box>\n'
         store = self._load_format(content, MDXFormat, "mdx", {"merge_duplicates": True})
@@ -104,7 +106,7 @@ class TestFormatsMerge(TestCase):
         self.assertEqual(len(list(units[0].getlocations())), 2)
         self.assertFalse(units[0].getcontext())
 
-    def test_mdx_explicit_false(self):
+    def test_mdx_explicit_false(self) -> None:
         """Verify MDX duplicate merging can be disabled."""
         content = b'import Box from "./Box"\n\n- Item\n- Item\n\n<Box>Code</Box>\n'
         store = self._load_format(
@@ -114,7 +116,7 @@ class TestFormatsMerge(TestCase):
 
         self.assertEqual(len(units), 2, "Should have 2 units when explicitly disabled")
 
-    def test_markdown_default_behavior_empty_dict(self):
+    def test_markdown_default_behavior_empty_dict(self) -> None:
         """
         Verify behavior when params is an empty dict.
 
@@ -126,7 +128,7 @@ class TestFormatsMerge(TestCase):
 
         self.assertEqual(len(units), 2, "Empty dict param should default to NO merge")
 
-    def test_markdown_default_behavior_none(self):
+    def test_markdown_default_behavior_none(self) -> None:
         """
         Verify behavior when params is None (argument missing).
 
@@ -138,7 +140,7 @@ class TestFormatsMerge(TestCase):
 
         self.assertEqual(len(units), 2, "None param should default to NO merge")
 
-    def test_markdown_table_rows(self):
+    def test_markdown_table_rows(self) -> None:
         """Verify identical strings in Markdown tables are merged."""
         content = b"| Header |\n|---|\n| Cell |\n| Cell |\n"
         store = self._load_format(
@@ -148,7 +150,7 @@ class TestFormatsMerge(TestCase):
         self.assertEqual(len(units), 1)
         self.assertFalse(units[0].getcontext())
 
-    def test_markdown_mixed_content_safety(self):
+    def test_markdown_mixed_content_safety(self) -> None:
         """Ensure distinct strings in a table are NOT merged (sanity check)."""
         content = b"| Col |\n|---|\n| Yes |\n| No |\n| Yes |\n"
         store = self._load_format(
@@ -160,7 +162,7 @@ class TestFormatsMerge(TestCase):
         self.assertEqual(len(yes_units), 1)
         self.assertEqual(len(no_units), 1)
 
-    def test_html_merge(self):
+    def test_html_merge(self) -> None:
         """Verify HTML merging works when enabled."""
         content = b"<html><body><p>Hello</p><div>Hello</div></body></html>"
         store = self._load_format(
@@ -169,7 +171,7 @@ class TestFormatsMerge(TestCase):
         units = [u for u in store.units if u.source.strip() == "Hello"]
         self.assertEqual(len(units), 1)
 
-    def test_txt_merge(self):
+    def test_txt_merge(self) -> None:
         """Verify Plain Text merging works when enabled."""
         content = b"Line A\n\nLine B\n\nLine A\n"
         store = self._load_format(
@@ -213,7 +215,7 @@ class TestMergeIntegration(RepoTestCase):
         f.seek(0)
         return fmt.load(f, None)
 
-    def test_db_config_enabled(self):
+    def test_db_config_enabled(self) -> None:
         """Verify that setting the option to True in DB enables merging."""
         translation = self._create_integration_env({"merge_duplicates": True})
         content = b"- A\n- A"
@@ -222,7 +224,7 @@ class TestMergeIntegration(RepoTestCase):
         units = [u for u in store.units if u.source.strip() == "A"]
         self.assertEqual(len(units), 1)
 
-    def test_db_config_disabled(self):
+    def test_db_config_disabled(self) -> None:
         """Verify that setting the option to False in DB disables merging."""
         translation = self._create_integration_env({"merge_duplicates": False})
         content = b"- A\n- A"

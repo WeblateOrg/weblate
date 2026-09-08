@@ -85,7 +85,8 @@
       <form method="get" class="result-page-form mb-3">
         <div class="row g-2 align-items-start">
           <div class="col-12 col-lg">
-            <label class="visually-hidden" for="{{ search_form.q.id_for_label }}">{% translate "Search screenshots" %}</label>
+            <label class="visually-hidden"
+                   for="{{ search_form.q.id_for_label }}">{% translate "Search screenshots" %}</label>
             <div class="input-group">
               <button type="button"
                       id="query-dropdown"
@@ -189,7 +190,8 @@
                         {% endblocktranslate %}
                       </a>
                       {% if count == 0 %}
-                        <span title="{% translate "There are no assigned strings." %}" class="red">{% icon "alert.svg" %}</span>
+                        <span title="{% translate "There are no assigned strings." %}"
+                              class="red">{% icon "alert.svg" %}</span>
                       {% endif %}
                     </div>
                   {% endwith %}
@@ -197,7 +199,8 @@
                 {% if user_can_edit_screenshot or user_can_delete_screenshot %}
                   <div class="card-footer d-flex justify-content-end gap-2">
                     {% if user_can_edit_screenshot %}
-                      <a href="{{ screenshot.get_absolute_url }}" class="btn btn-sm btn-primary">{% translate "Edit" %}</a>
+                      <a href="{{ screenshot.get_absolute_url }}"
+                         class="btn btn-sm btn-primary">{% translate "Edit" %}</a>
                     {% endif %}
                     {% if user_can_delete_screenshot %}
                       <form action="{% url 'screenshot-delete' pk=screenshot.pk %}" method="post">

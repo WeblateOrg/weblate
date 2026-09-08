@@ -92,7 +92,7 @@ from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.trans.validators import (
     SUGGESTION_REJECTION_REASON_LENGTH,
-    get_translation_text_max_length,
+    validate_translation_text_length,
 )
 from weblate.trans.workspace_move import (
     get_project_move_billing_error,
@@ -254,7 +254,11 @@ class ReportCreateSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 gettext_lazy("Invalid workspace.")
             ) from error
-        if self.request_user is not None and not workspace.can_view(self.request_user):
+        if (
+            self.request_user is not None
+            and not workspace.can_view(self.request_user)
+            and not self.request_user.has_perm("reports.view", workspace)
+        ):
             raise serializers.ValidationError(gettext_lazy("Invalid workspace."))
         return workspace
 
@@ -676,7 +680,7 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
         }
 
     @property
-    def is_source_language(self):
+    def is_source_language(self) -> bool:
         return (
             isinstance(self.parent, ComponentSerializer)
             and self.field_name == "source_language"
@@ -917,7 +921,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
         )
         read_only_fields = PROFILE_READONLY_FIELDS
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["special_chars"].trim_whitespace = False
         if self.instance:
@@ -1715,6 +1719,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "enable_hooks",
             "language_aliases",
             "access_control",
+            "public_sharing",
             "use_shared_tm",
             "contribute_shared_tm",
             "use_workspace_tm",
@@ -1910,6 +1915,23 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                     raise serializers.ValidationError({"workspace": error})
 
         Project.apply_hosted_tm_contribution(attrs, defaults=self.instance)
+
+        if (
+            self.instance is not None
+            and "public_sharing" in attrs
+            and attrs["public_sharing"] != self.instance.public_sharing
+        ):
+            request = self.context.get("request")
+            if request is None or not request.user.has_perm(
+                "billing:project.permissions", self.instance
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "public_sharing": (
+                            "You do not have permission to change project access settings."
+                        )
+                    }
+                )
 
         access_control_provided = "access_control" in (
             attrs if self.instance is not None else getattr(self, "initial_data", {})
@@ -2417,7 +2439,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
         if errors:
             raise serializers.ValidationError(errors)
 
-    def populate_from_component_input_defaults(self, data, source_component: Component):
+    def populate_from_component_input_defaults(
+        self, data, source_component: Component
+    ) -> None:
         defaults = {
             "filemask": source_component.filemask,
             "file_format": source_component.file_format,
@@ -2471,7 +2495,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         return attrs
 
-    def validate_from_component_overrides(self, attrs, source_component: Component):
+    def validate_from_component_overrides(
+        self, attrs, source_component: Component
+    ) -> None:
         forbidden_fields = sorted(
             self.forbidden_from_component_override_fields.intersection(
                 self.initial_data
@@ -2509,7 +2535,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     def set_create_inheritance_defaults(
         self, attrs, *, preserve_existing: bool = False
-    ):
+    ) -> None:
         if self.instance:
             return
         apply_create_inheritance_defaults(
@@ -3350,11 +3376,7 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
         if unit is None:
             return value
 
-        max_length = get_translation_text_max_length(unit)
-        for text in value:
-            if len(text) > max_length:
-                msg = gettext_lazy("Translation text too long!")
-                raise serializers.ValidationError(msg)
+        validate_translation_text_length(unit, value)
 
         if unit.translation.component.is_multivalue:
             return value
@@ -3679,6 +3701,11 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
         if isinstance(data, dict) and data.get("state") in {0, "0"}:
             self.fields["target"].child.allow_blank = True
         return super().to_internal_value(data)
+
+    def validate_target(self, value: list[str]) -> list[str]:
+        if self.instance is not None:
+            validate_translation_text_length(self.instance, value)
+        return value
 
 
 class NewUnitSerializer(serializers.Serializer):
@@ -4487,3 +4514,63 @@ class Error423Serializer(serializers.Serializer):
 class ErrorResponse423Serializer(serializers.Serializer):
     type = serializers.ChoiceField(choices=ServerErrorEnum.choices)
     errors = Error423Serializer(many=True)
+
+
+class AutoTranslateRequestSerializer(serializers.Serializer):
+    """Request body for the autotranslate action."""
+
+    # Mirrors :class:`weblate.trans.forms.AutoForm`.  Keep the two in sync
+    # when adding or removing fields.
+
+    q = serializers.CharField(
+        required=True,
+        help_text=(
+            "Query string selecting strings to translate. "
+            "Translating all strings discards existing translations."
+        ),
+    )
+    mode = serializers.ChoiceField(
+        choices=["suggest", "translate", "fuzzy", "approved"],
+        help_text=(
+            "How to store the result: as a suggestion, translation, "
+            "needing-edit, or approved. Typical value: ``suggest``."
+        ),
+    )
+    auto_source = serializers.ChoiceField(
+        choices=["others", "mt"],
+        help_text=(
+            "Translation source: other components (``others``) or machine "
+            "translation (``mt``). Typical value: ``others``."
+        ),
+    )
+    component = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        help_text=(
+            "Component ID (always accepted). "
+            "When the project has 30 or more eligible source components "
+            "a component slug or ``project/component`` path is also accepted. "
+            "Leave blank to use all components."
+        ),
+    )
+    engines = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text=(
+            "Machine translation engine identifiers to use when ``auto_source`` is ``mt``."
+        ),
+    )
+    threshold = serializers.IntegerField(
+        min_value=1,
+        max_value=100,
+        help_text=(
+            "Minimum translation score (1–100) to accept when using machine translation. "
+            "Typical value: 80."
+        ),
+    )
+
+
+class AutoTranslateResponseSerializer(serializers.Serializer):
+    """Response body for the autotranslate action."""
+
+    details = serializers.CharField()

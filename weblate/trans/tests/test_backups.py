@@ -4,6 +4,8 @@
 
 """Tests for data exports."""
 
+from __future__ import annotations
+
 import json
 import os
 import tempfile
@@ -12,6 +14,7 @@ from contextlib import contextmanager, suppress
 from io import StringIO
 from pathlib import Path
 from shutil import copyfile
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
@@ -70,6 +73,11 @@ from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import Workspace
 
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+    from unittest.mock import Mock
+
+
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
 TEST_BACKUP_DUPLICATE = get_test_file("projectbackup-duplicate.zip")
@@ -77,7 +85,7 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 
 @contextmanager
-def remove_file_after(filename: str):
+def remove_file_after(filename: str) -> Iterator[None]:
     try:
         yield
     finally:
@@ -1047,9 +1055,17 @@ class BackupsTest(ViewTestCase):
     def test_backup_settings(self) -> None:
         project = self.project
         project.autoclean_tm = not project.autoclean_tm
+        project.public_sharing = True
         project.enforced_2fa = True
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
-        project.save(update_fields=["autoclean_tm", "enforced_2fa", "commit_policy"])
+        project.save(
+            update_fields=[
+                "autoclean_tm",
+                "public_sharing",
+                "enforced_2fa",
+                "commit_policy",
+            ]
+        )
         component = self.create_po_mono(project=project, name="Backup-settings")
         component.hide_glossary_matches = True
         component.contribute_project_tm = False
@@ -1078,6 +1094,7 @@ class BackupsTest(ViewTestCase):
             )["component"]
 
         self.assertEqual(project_data["autoclean_tm"], project.autoclean_tm)
+        self.assertTrue(project_data["public_sharing"])
         self.assertTrue(project_data["enforced_2fa"])
         self.assertEqual(
             project_data["commit_policy"], CommitPolicyChoices.APPROVED_ONLY
@@ -1100,6 +1117,7 @@ class BackupsTest(ViewTestCase):
         restored_component = restored.component_set.get(slug=component.slug)
 
         self.assertEqual(restored.autoclean_tm, project.autoclean_tm)
+        self.assertTrue(restored.public_sharing)
         self.assertTrue(restored.enforced_2fa)
         self.assertEqual(restored.commit_policy, CommitPolicyChoices.APPROVED_ONLY)
         self.assertTrue(restored_component.hide_glossary_matches)
@@ -2394,7 +2412,7 @@ class BackupsTest(ViewTestCase):
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     @patch("weblate.trans.views.create.import_project_backup.delay")
-    def test_view_restore_schedules_background_import(self, delay) -> None:
+    def test_view_restore_schedules_background_import(self, delay: Mock) -> None:
         delay.return_value.id = "01234567-89ab-cdef-0123-456789abcdef"
         self.user.is_superuser = True
         self.user.save()

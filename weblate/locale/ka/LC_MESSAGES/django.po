@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-07-25 07:18+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1353,6 +1353,11 @@ msgstr ""
 msgid "The authentication app %s was registered."
 msgstr ""
 
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+
 msgid "Second factor sign in"
 msgstr ""
 
@@ -1938,7 +1943,10 @@ msgid "Regular expression to match translation files against"
 msgstr ""
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
 
 msgid "File format"
@@ -1973,6 +1981,18 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshot file mask"
+msgid "Define the file mask"
+msgstr "ეკრანის ანაბეჭდის ფაილის ნიღაბი"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 
 msgid "Language filter"
@@ -2084,7 +2104,25 @@ msgstr ""
 msgid "You can not use a base file for bilingual translation."
 msgstr ""
 
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr ""
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
+msgstr ""
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
 msgstr ""
 
 msgid "This template must include {{ component }}."
@@ -6058,6 +6096,14 @@ msgstr ""
 
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
 msgstr ""
 
 msgctxt "Anthropic model selection"
@@ -11793,6 +11839,21 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Get support"
+msgid "Migrate to GitHub App"
+msgstr "მხარდაჭერა"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -11937,6 +11998,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -12927,6 +12993,77 @@ msgid "No connected accounts yet."
 msgstr "ანგარიშის წაშლა"
 
 #, fuzzy
+#| msgid "Pending invitations"
+msgid "Code-hosting integrations"
+msgstr "დარჩენილი მოსაწვევები"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connect or update GitHub account"
+msgstr "ანგარიშის წაშლა"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connected GitHub accounts:"
+msgstr "ანგარიშის წაშლა"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh repositories"
+msgstr "საცავები"
+
+#, fuzzy
+#| msgid "Rename component"
+msgid "Migrate selected components"
+msgstr "კომპონენტის სახელის გადარქმევა"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+msgid "Migration status"
+msgstr ""
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "მხოლოდ წასაკითხად"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Repository access needed"
+msgstr "საცავები"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Register new account"
 msgid "Register Weblate GitHub App"
 msgstr "ახალი ანგარიშის რეგისტრაცია"
@@ -13020,11 +13157,6 @@ msgstr ""
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Repositories"
-msgid "Refresh repositories"
-msgstr "საცავები"
 
 #, python-format
 msgid ""
@@ -13155,9 +13287,25 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, python-format
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgctxt "Notification name"
+#| msgid "Component was locked or unlocked"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "კომპონენტი დაბლოკილი ან განბლოკილია"
+msgstr[1] "კომპონენტი დაბლოკილი ან განბლოკილია"
 
 msgid "Invitations"
 msgstr "მოსაწვევები"
@@ -14299,6 +14447,9 @@ msgstr ""
 msgid "Inexistent files."
 msgstr ""
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Could not fetch translation: %s"
@@ -14669,13 +14820,33 @@ msgid "Discovery configuration"
 msgstr ""
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr ""
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 msgid "File mask matches the main component."
@@ -14709,6 +14880,15 @@ msgid "All recent changes made using Weblate in %s."
 msgstr ""
 
 msgid "Sort JSON keys"
+msgstr ""
+
+msgid "Do not sort"
+msgstr ""
+
+msgid "Case-sensitive sort"
+msgstr ""
+
+msgid "Case-insensitive sort"
 msgstr ""
 
 msgid "JSON indentation"
@@ -16900,6 +17080,32 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
+msgid "Repository operation could not be completed because it remained locked."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation could not be completed."
+msgstr "რეპოზიტორიის ოპერაცია ჩავარდა"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "რეპოზიტორიის ოპერაცია ჩავარდა"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed with errors."
+msgstr "რეპოზიტორიის ოპერაცია ჩავარდა"
+
 #, fuzzy
 #| msgid "Suggestions"
 msgid "No suggestions found."
@@ -17402,62 +17608,27 @@ msgstr ""
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
+#, fuzzy
+#| msgid "Weblate translations are unlocked"
+msgid "Another repository operation is already in progress."
+msgstr "Weblate-ის თარგმანები განბლოკილია"
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "This repository operation is already queued."
+msgstr "რეპოზიტორიის ოპერაცია ჩავარდა"
 
 #, fuzzy
-#| msgid "Weblate translations are unlocked"
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "Weblate-ის თარგმანები განბლოკილია"
-
-msgid "All repositories were pushed."
-msgstr ""
-
-#, fuzzy
-#| msgid "Repositories"
-msgid "Accessible repositories were pushed."
-msgstr "საცავები"
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-
-#, fuzzy
-#| msgid "Weblate translations are unlocked"
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "Weblate-ის თარგმანები განბლოკილია"
-
-msgid "All repositories have been cleaned up."
-msgstr ""
-
-msgid "Accessible repositories have been cleaned up."
-msgstr ""
-
-msgid "Translation files have been synchronized."
-msgstr ""
-
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr ""
-
-#, fuzzy
-#| msgid "Weblate translations are unlocked"
-msgid "Updates of translations are in progress."
-msgstr "Weblate-ის თარგმანები განბლოკილია"
-
-#, fuzzy
-#| msgid "Weblate translations are unlocked"
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "Weblate-ის თარგმანები განბლოკილია"
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "რეპოზიტორიის ოპერაცია ჩავარდა"
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr ""
@@ -17469,19 +17640,6 @@ msgstr ""
 #| msgid "Could not fetch translation: %s"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
-
-#, fuzzy
-#| msgid "Weblate translations are unlocked"
-msgid "Pending translations are being committed."
-msgstr "Weblate-ის თარგმანები განბლოკილია"
-
-msgid "All pending translations were committed."
-msgstr ""
-
-#, fuzzy
-#| msgid "Weblate translations are unlocked"
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Weblate-ის თარგმანები განბლოკილია"
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -18439,6 +18597,17 @@ msgstr ""
 msgid "Enter a valid GitHub host."
 msgstr "საწყისი ენა"
 
+#, fuzzy
+#| msgid "Component"
+msgid "Components to migrate"
+msgstr "კომპონენტი"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "Select at least one component to migrate."
+msgstr "შექმნილია ხალი თარგმანის კომპონენტი"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -18776,8 +18945,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -18846,6 +19042,26 @@ msgstr ""
 
 msgid "Connected GitHub account added."
 msgstr ""
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr ""
@@ -19175,6 +19391,40 @@ msgstr ""
 #| msgid "Component"
 msgid "The workspace has been removed."
 msgstr "კომპონენტი"
+
+#, fuzzy
+#~| msgid "Weblate translations are unlocked"
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "Weblate-ის თარგმანები განბლოკილია"
+
+#, fuzzy
+#~| msgid "Repositories"
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "საცავები"
+
+#, fuzzy
+#~| msgid "Weblate translations are unlocked"
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "Weblate-ის თარგმანები განბლოკილია"
+
+#, fuzzy
+#~| msgid "Weblate translations are unlocked"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Weblate-ის თარგმანები განბლოკილია"
+
+#, fuzzy
+#~| msgid "Weblate translations are unlocked"
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Weblate-ის თარგმანები განბლოკილია"
+
+#, fuzzy
+#~| msgid "Weblate translations are unlocked"
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Weblate-ის თარგმანები განბლოკილია"
 
 #, fuzzy
 #~| msgid "Overview"

@@ -60,15 +60,21 @@
   {% with variants=unit.variants %}
 
     <div class="query-container">
-      <form method="get" class="result-page-form">
+      <form method="get" class="result-page-form double-submission">
         {% crispy search_form %}
+        <p id="search-cache-help" class="form-text mb-0">
+          {% translate "Search results stay fixed while you translate. Refresh results to show strings matching the filters now." %}
+        </p>
       </form>
     </div>
 
     <div class="row">
       <div class="col-sm-9">
 
-        <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
+        <form action="{{ this_unit_url }}"
+              method="post"
+              class="translation-form translator"
+              data-unsaved="{{ form.is_bound|yesno:'true,false' }}">
           <div class="card">
 
             <div class="card-header {% if unit.approved %}text-bg-success{% elif unit.is_source %}text-bg-warning{% endif %}">
@@ -101,7 +107,8 @@
               {% if secondary %}
                 {% for secondary_unit in secondary %}
                   <div class="form-group">
-                    <a class="language" href="{{ secondary_unit.get_absolute_url }}">{{ secondary_unit.translation.language }}</a>
+                    <a class="language"
+                       href="{{ secondary_unit.get_absolute_url }}">{{ secondary_unit.translation.language }}</a>
                     {% format_unit_target secondary_unit search_match=search_query show_copy=True %}
                   </div>
                 {% endfor %}
@@ -167,7 +174,8 @@
                           {% format_source_string unit.context unit simple=True wrap=True search_match=search_query whitespace=False %}
                         </div>
                       {% endif %}
-                      <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
+                      <a class="language"
+                         href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
                       {% if not unit.source_unit.translated %}
                         <span class="badge text-bg-secondary">{% translate "The source string needs review." %}</span>
                       {% endif %}
@@ -234,7 +242,8 @@
                         {% endif %}
                         {% if user_can_translate and unit.translation.component.is_multivalue %}
                           <li>
-                            <a class="dropdown-item add-alternative-post" href="">{% translate "Add alternative translation" %}</a>
+                            <a class="dropdown-item add-alternative-post"
+                               href="">{% translate "Add alternative translation" %}</a>
                           </li>
                         {% endif %}
                       </ul>
@@ -384,6 +393,7 @@
             <div class="tab-pane" id="suggestions">
               <form action="{{ this_unit_url }}" method="post">
                 {% csrf_token %}
+                <input type="hidden" name="unit_id" value="{{ unit.pk }}" />
                 <input type="hidden" name="checksum" value="{{ unit.checksum }}" />
 
                 {% include "snippets/suggestions.html" with suggestions=unit.suggestions %}
@@ -397,7 +407,7 @@
                 <p class="help-block">{% translate "Showing only subset of the strings as there were too many matches." %}</p>
               {% endif %}
               <form method="post"
-                    action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
+                    action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;unit_id={{ unit.pk }}">
                 {% csrf_token %}
                 <table class="table table-sm">
                   <thead>
@@ -488,7 +498,8 @@
           <div class="tab-pane" id="history">
             {% format_last_changes_content last_changes=last_changes user=user translate_url=object.get_translate_url %}
 
-            <a class="btn btn-link" href="{% url 'changes' path=unit.get_url_path %}">{% translate "Browse all string changes" %}</a>
+            <a class="btn btn-link"
+               href="{% url 'changes' path=unit.get_url_path %}">{% translate "Browse all string changes" %}</a>
           </div>
 
           {% if user_can_use_machinery %}
@@ -608,10 +619,7 @@
                     {% blocktranslate count count=unit.suggestions|length %}There is {{ count }} suggestion for this string.{% plural %}There are {{ count }} suggestions for this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a data-bs-target="#suggestions"
-                       data-bs-toggle="tab"
-                       class="btn btn-warning"
-                       href="#">{% translate "View" %}</a>
+                    <a data-tab-target="#suggestions" class="btn btn-warning" href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -685,10 +693,7 @@
                     {% blocktranslate count count=comments_to_check|length %}There is {{ count }} unresolved comment for this string.{% plural %}There are {{ count }} unresolved comments for this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a data-bs-target="#comments"
-                       data-bs-toggle="tab"
-                       class="btn btn-warning"
-                       href="#">{% translate "View" %}</a>
+                    <a data-tab-target="#comments" class="btn btn-warning" href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -704,10 +709,7 @@
                     {% blocktranslate count count=variants|length %}There is {{ count }} variant of this string.{% plural %}There are {{ count }} variants of this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a data-bs-target="#variants"
-                       data-bs-toggle="tab"
-                       class="btn btn-warning"
-                       href="#">{% translate "View" %}</a>
+                    <a data-tab-target="#variants" class="btn btn-warning" href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -739,16 +741,7 @@
               {% endif %}
 
 
-              {% if unit.is_blocked_by_commit_policy %}
-                <div class="list-group-item check check-item">
-                  <h5>
-                    {% documentation_icon 'admin/projects' 'project-commit-policy' right=True %}
-                    {% icon "file-sync-outline.svg" %}
-                    {% translate "Translation quality filter" %}
-                  </h5>
-                  <p class="list-group-item-text check-description">{{ project.get_commit_policy_description }}</p>
-                </div>
-              {% endif %}
+              {% include "snippets/commit-policy-warning.html" %}
 
             </div>
           </div>
@@ -899,7 +892,8 @@
                 </h5>
                 {% for label in unit.all_labels %}
                   <a href="?q={{ label.filter_name|urlencode }}">
-                    <span class="badge label-{{ label.color }}" title="{{ label.description }}">{% translate label.name %}</span>
+                    <span class="badge label-{{ label.color }}"
+                          title="{{ label.description }}">{% translate label.name %}</span>
                   </a>
                 {% empty %}
                   <em>{% translate "No labels currently set." %}</em>

@@ -845,6 +845,15 @@ Authenticator apps (TOTP)
    that are used as a second factor to verify your identity when prompted
    during sign-in.
 
+   Registration becomes active only after you verify a code from the app.
+   Complete registration within 24 hours; otherwise start again with a new QR
+   code. Each registration can be completed only once. After registering, wait
+   for the next code before using the app to sign in.
+
+   Only one registration can be pending per account. Opening registration in
+   another browser session shows the same QR code until registration is
+   completed or expires.
+
 Recovery codes
    Recovery codes can be used to access your account if you lose access to your device and cannot receive two-factor authentication codes.
 

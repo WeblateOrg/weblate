@@ -6,6 +6,10 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from sphinx.application import Sphinx
 
 PROBLEMATIC_AUTODOC_TYPES = {
     "Addon",
@@ -128,11 +132,11 @@ def strip_problematic_parameter_annotation(parameter: str) -> str:
 
 
 def strip_problematic_autodoc_types(
-    app,
+    app: Sphinx,
     what: str,
     name: str,
-    obj,
-    options,
+    obj: object,
+    options: object,
     signature: str | None,
     return_annotation: str | None,
 ) -> tuple[str | None, str | None]:
@@ -159,7 +163,7 @@ def strip_problematic_autodoc_types(
     return signature, return_annotation
 
 
-def setup(app) -> dict[str, bool]:
+def setup(app: Sphinx) -> dict[str, bool]:
     app.connect("autodoc-process-signature", strip_problematic_autodoc_types)
     return {
         "parallel_read_safe": True,

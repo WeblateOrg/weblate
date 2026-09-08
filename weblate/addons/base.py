@@ -207,7 +207,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Addon:
-        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
         result = Addon(
             project=project,
@@ -358,7 +358,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         self.post_configure()
 
     def post_configure(self, run: bool = True) -> None:
-        from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level]
 
         self.instance.log_debug("configuring events for %s add-on", self.name)
 
@@ -383,7 +383,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             self.post_configure_run_project(project)
 
     def post_configure_run_project(self, project: Project) -> None:
-        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level]
 
         for component in project.component_set.iterator():
             if self.can_process(component=component):
@@ -400,7 +400,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             )
 
     def post_configure_run_category(self, category: Category) -> None:
-        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level]
 
         for component in category.all_components.iterator():
             if self.can_process(component=component):
@@ -419,7 +419,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def post_configure_run_component(
         self, component: Component, skip_daily: bool = False
     ) -> None:
-        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level]
 
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
@@ -981,7 +981,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         obj: Component | Project | Category | None,
         request: AuthenticatedHttpRequest,
     ) -> None:
-        from weblate.trans.tasks import perform_update  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.trans.tasks import perform_update  # ruff: ignore[import-outside-top-level]
 
         if cls.trigger_update and isinstance(obj, Component):
             perform_update.delay("Component", obj.pk, auto=True)
@@ -997,7 +997,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     @cached_property
     def user(self) -> User:
         """Weblate user used to track changes by this add-on."""
-        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         if not self.user_name or not self.user_verbose:
             msg = f"{self.__class__.__name__} is missing user_name and user_verbose!"

@@ -7,25 +7,37 @@
     {% if projects %}
       <li class="nav-item" role="presentation">
         {# Translators: Create a component from version control #}
-        <a class="nav-link active" data-bs-target="#vcs" data-bs-toggle="tab" href="#">{% translate "From version control" %}</a>
+        <a class="nav-link active"
+           data-bs-target="#vcs"
+           data-bs-toggle="tab"
+           href="#">{% translate "From version control" %}</a>
       </li>
     {% endif %}
     {% if form.fields.component.queryset %}
       <li class="nav-item" role="presentation">
         {# Translators: Create a component from existing component #}
-        <a class="nav-link" data-bs-target="#existing" data-bs-toggle="tab" href="#">{% translate "From an existing component" %}</a>
+        <a class="nav-link"
+           data-bs-target="#existing"
+           data-bs-toggle="tab"
+           href="#">{% translate "From an existing component" %}</a>
       </li>
     {% endif %}
     {% if branch_form.fields.component.queryset %}
       <li class="nav-item" role="presentation">
         {# Translators: Create a component as additional branch #}
-        <a class="nav-link" data-bs-target="#branch" data-bs-toggle="tab" href="#">{% translate "Additional branch" %}</a>
+        <a class="nav-link"
+           data-bs-target="#branch"
+           data-bs-toggle="tab"
+           href="#">{% translate "Additional branch" %}</a>
       </li>
     {% endif %}
     {% if zip_form %}
       <li class="nav-item" role="presentation">
         {# Translators: Create a component using ZIP upload #}
-        <a class="nav-link" data-bs-target="#zip" data-bs-toggle="tab" href="#">{% translate "Upload translations files" %}</a>
+        <a class="nav-link"
+           data-bs-target="#zip"
+           data-bs-toggle="tab"
+           href="#">{% translate "Upload translations files" %}</a>
       </li>
     {% endif %}
     {% if doc_form %}
@@ -37,7 +49,10 @@
     {% if scratch_form %}
       <li class="nav-item" role="presentation">
         {# Translators: Create a component from scratch #}
-        <a class="nav-link" data-bs-target="#scratch" data-bs-toggle="tab" href="#">{% translate "Start from scratch" %}</a>
+        <a class="nav-link"
+           data-bs-target="#scratch"
+           data-bs-toggle="tab"
+           href="#">{% translate "Start from scratch" %}</a>
       </li>
     {% endif %}
     {% if github_app_available %}
@@ -228,7 +243,8 @@
                       {% endif %}
                     </td>
                     <td>
-                      <a href="{{ repo.import_url }}" class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
+                      <a href="{{ repo.import_url }}"
+                         class="btn btn-outline-primary btn-sm">{% translate "Import" %}</a>
                     </td>
                   </tr>
                 {% endfor %}

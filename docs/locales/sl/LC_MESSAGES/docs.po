@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
-"POT-Creation-Date: 2026-08-28 05:08+0000\n"
+"POT-Creation-Date: 2026-09-04 04:17+0200\n"
 "PO-Revision-Date: 2026-08-28 15:32+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -3250,10 +3250,46 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Removing a connected GitHub account also uninstalls the App from GitHub when "
+"no other Weblate workspace uses that installation. If another workspace "
+"still uses the installation, Weblate removes only the selected workspace "
+"connection. Components imported through that connection lose access to their "
+"repositories. Removing a workspace uninstalls its connected accounts the "
+"same way."
+msgstr ""
+
+msgid ""
+"Weblate removes the connection even when GitHub no longer knows about the "
+"installation, and keeps it only when GitHub could not be reached, so that "
+"the removal can be retried."
+msgstr ""
+
+msgid ""
 "Components imported through the GitHub App flow use the "
 "dedicated :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. The "
 "component settings UI keeps the repository URL read-only to prevent the App-"
 "issued credentials from being redirected to an unrelated repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Component list"
+msgid "Migrating existing components"
+msgstr "Seznam komponent"
+
+msgid ""
+"Weblate reports an informational diagnostic for Git and GitHub pull request "
+"components that can be migrated to a registered Weblate GitHub App. Follow "
+"the :guilabel:`Migrate to GitHub App` link from the diagnostic to review all "
+"eligible components in the workspace."
+msgstr ""
+
+msgid ""
+"Connect or update the GitHub account for the workspace, grant the App access "
+"to the listed repositories, and select the components to migrate. Weblate "
+"changes the selected components to the :guilabel:`GitHub (via Weblate GitHub "
+"app)` VCS backend, replaces their repository addresses with canonical HTTPS "
+"clone URLs, and removes separate push URLs because the App authenticates "
+"pushes to the source repository."
 msgstr ""
 
 #, fuzzy
@@ -3970,7 +4006,8 @@ msgid "Argon2id parallelism factor. Defaults to ``1``."
 msgstr ""
 
 msgid ""
-"`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_"
+"`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/integration/proof-"
+"of-work-captcha/>`_"
 msgstr ""
 
 msgid "Username of users that are not signed in."
@@ -3995,6 +4032,13 @@ msgstr ""
 msgid ""
 "Sign in. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
+msgstr ""
+
+msgid ""
+"Second-factor sign in. Deletes the account password after this many rejected "
+"second-factor submissions since the last successful second-factor sign in. "
+"This also invalidates pending password sign-ins. Other authentication "
+"methods and API tokens remain usable."
 msgstr ""
 
 msgid ""
@@ -6003,10 +6047,20 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The :guilabel:`File management` actions are available only "
-"from :guilabel:`Repository maintenance` for an individual translation. These "
-"actions rewrite that translation file and commit the result; they are not "
-"project-wide or component-wide operations."
+"Repository actions started from this view are queued for background "
+"processing. For a project, Weblate processes the affected repositories "
+"sequentially in one task and shows its progress. Repeating the same action "
+"opens the existing task; a different action cannot be started for the same "
+"repository until that task finishes."
+msgstr ""
+
+msgid ""
+"The :guilabel:`Synchronize` and :guilabel:`Rescan` repository operations are "
+"queued for background processing as described above. The "
+"separate :guilabel:`File management` actions are available only for an "
+"individual translation. They rewrite that translation file and commit the "
+"result during the web request; they are not project-wide or component-wide "
+"operations."
 msgstr ""
 
 msgid ""
@@ -6919,6 +6973,9 @@ msgstr "Oblika oklepajev Python"
 #| msgid "Weblate statistics"
 msgid "Weblate feature"
 msgstr "Statistika Weblate"
+
+msgid ":ref:`mt-aws`, AWS SES e-mail backend"
+msgstr ""
 
 #, fuzzy
 #| msgid "Donate to Weblate"
@@ -9795,6 +9852,29 @@ msgid ""
 msgstr ""
 
 msgid "Configures Django back-end to use for sending e-mails."
+msgstr ""
+
+msgid "Set to ``django_ses.SESBackend`` to use AWS SES."
+msgstr ""
+
+msgid ""
+"AWS region for SES (e.g. ``us-east-1``). Sets ``AWS_SES_REGION_NAME`` and "
+"derives :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT` automatically unless that "
+"variable is set explicitly. If not set, the region must be available through "
+"the standard boto3 credential chain (e.g. ``AWS_DEFAULT_REGION`` or an AWS "
+"profile)."
+msgstr ""
+
+msgid ""
+"SES endpoint hostname. When set, it is passed to django-ses directly "
+"regardless of :envvar:`WEBLATE_AWS_SES_REGION_NAME`. When not set "
+"but :envvar:`WEBLATE_AWS_SES_REGION_NAME` is provided, defaults to ``email."
+"<region>.amazonaws.com``. Override when using a VPC or custom endpoint."
+msgstr ""
+
+msgid ""
+"Set to ``true`` to use the SES v2 API (``SendEmail``) instead of the legacy "
+"``SendRawEmail`` call. Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
 
 msgid "Configures if and how Weblate should update repositories."
@@ -15752,7 +15832,7 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Weblate languages"
-msgid "Weblate 2026.9"
+msgid "Weblate 2026.9.1"
 msgstr "Jeziki Weblate"
 
 msgid "*Not yet released.*"
@@ -15763,16 +15843,102 @@ msgstr ""
 msgid "New features"
 msgstr "Zmožnosti"
 
+#, fuzzy
+#| msgid "Components"
+msgid "Improvements"
+msgstr "Komponente"
+
+#, fuzzy
+#| msgid "Security issues"
+msgid "Security fixes"
+msgstr "Varnostne težave"
+
+#, fuzzy
+#| msgid "Languages"
+msgid "Bug fixes"
+msgstr "Jeziki"
+
+#, fuzzy
+#| msgid "Activity"
+msgid "Compatibility"
+msgstr "Dejavnost"
+
+#, fuzzy
+#| msgid "Browse pending"
+msgid "Upgrading"
+msgstr "Brskanje v teku"
+
+msgid ""
+"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
+msgstr ""
+
+#, fuzzy
+#| msgid "Contributor stats"
+msgid "Contributors"
+msgstr "Statistika sodelavca"
+
+#, fuzzy
+#| msgid "Weblate translations"
+msgid ""
+"`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/173?"
+"closed=1>`__."
+msgstr "Prevodi Weblate"
+
+#, fuzzy
+#| msgid "Weblate languages"
+msgid "Weblate 2026.9"
+msgstr "Jeziki Weblate"
+
+msgid "*Released on September 3rd 2026.*"
+msgstr ""
+
+msgid ""
+":ref:`Repository maintenance actions <repository-maintenance>` now run as "
+"background tasks, avoiding request and proxy timeouts. Project-wide "
+"maintenance remains available for authorized repositories and lists "
+"components skipped because of linked-component permissions. "
+"The :http:post:`repository API </api/projects/(string:project)/repository/>` "
+"supports the same behavior using ``background: true``."
+msgstr ""
+
+#, fuzzy
+#| msgid ":ref:`addon-weblate.discovery.discovery`"
+msgid ""
+":ref:`addon-weblate.discovery.discovery` can optionally create components "
+"from a monolingual base or new base file when no translation files exist yet."
+msgstr ":ref:`addon-weblate.discovery.discovery`"
+
 msgid ""
 "Added :ref:`vcs_params` to configure repository behavior per component, "
 "including force pushing, opting out of pull requests, and GitHub pull "
 "request automerge."
 msgstr ""
 
-#, fuzzy
-#| msgid "Components"
-msgid "Improvements"
-msgstr "Komponente"
+msgid ""
+"Added :ref:`code-hosting-github-app-migrate` for migrating existing Git and "
+"GitHub components to the Weblate GitHub App integration."
+msgstr ""
+
+msgid ""
+"Added a :guilabel:`Visible columns in lists` preference to choose which "
+"statistics columns are shown in project, component, and language lists. "
+"See :ref:`profile-preferences`."
+msgstr ""
+
+msgid ""
+"AWS SES can now be used as the outbound e-mail transport in Docker "
+"deployments by setting :envvar:`WEBLATE_EMAIL_BACKEND` to "
+"``django_ses.SESBackend``. Region, endpoint, and SES v2 API opt-in are "
+"configurable "
+"via :envvar:`WEBLATE_AWS_SES_REGION_NAME`, :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT`, "
+"and :envvar:`WEBLATE_USE_SES_V2`."
+msgstr ""
+
+msgid ""
+"Removing the final Weblate workspace connection for a GitHub account, or "
+"removing the workspace holding it, now also uninstalls the :ref:`Weblate "
+"GitHub App <code-hosting-github-app-register>` from GitHub."
+msgstr ""
 
 msgid ""
 ":ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords "
@@ -15781,17 +15947,21 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Screenshot images are now cached in browsers to reduce repeated downloads."
+":ref:`Screenshot images <screenshots>` are now cached in browsers to reduce "
+"repeated downloads."
 msgstr ""
 
 msgid ""
 "Administrators can now find removed accounts by their former e-mail address "
-"in the audit log until :setting:`AUDITLOG_EXPIRY`."
+"in the audit log until :setting:`AUDITLOG_EXPIRY`. See :doc:`/security/"
+"privacy-compliance`."
 msgstr ""
 
 msgid ""
-"Deployment checks and the performance report now detect slow filesystem "
-"metadata access in data and cache directories."
+"Deployment diagnostics now detect slow filesystem metadata access in data "
+"and cache directories, and validate VCS command versions during "
+"configuration health checks instead of every process startup. "
+"See :ref:`manage-performance` and :setting:`VCS_BACKENDS`."
 msgstr ""
 
 msgid ""
@@ -15808,24 +15978,13 @@ msgid ""
 msgstr "Nov prevod %(translation)s"
 
 msgid ""
-"Added a :guilabel:`Visible columns in lists` preference to choose which "
-"statistics columns are shown in project, component, and language lists. "
-"See :ref:`user-profile`."
-msgstr ""
-
-msgid ""
 "Reduced :ref:`Celery <celery>` worker startup memory usage by avoiding "
 "duplicate Django system checks and loading font rendering only when needed."
 msgstr ""
 
 msgid ""
-"VCS command versions are now validated by configuration health checks "
-"instead of during every process startup."
-msgstr ""
-
-msgid ""
-"Billing audit logs now identify users who change plans, initiate payments, "
-"or merge billings."
+":ref:`Billing <billing>` audit logs now identify users who change plans, "
+"initiate payments, or merge billings."
 msgstr ""
 
 msgid ""
@@ -15855,8 +16014,10 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Flags in the translation flags editor can now be reopened for editing, "
-"navigated with arrow keys, and copied with Ctrl+C."
+"The :ref:`translation flags <additional-flags>` editor now supports "
+"reopening flags for editing, arrow-key navigation, and copying "
+"with :kbd:`Ctrl+C`. It also keeps commas inside quoted values intact, "
+"allowing flags such as ``regex:\"^.{1,32}$\"`` to be typed and pasted."
 msgstr ""
 
 msgid ""
@@ -15865,19 +16026,51 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Project-wide repository maintenance now remains available for authorized "
-"repositories and lists components skipped because of linked-component "
-"permissions."
+"Component discovery now limits repository paths and file-mask comparisons to "
+"prevent excessive resource consumption from specially crafted repositories."
 msgstr ""
 
-#, fuzzy
-#| msgid "Languages"
-msgid "Bug fixes"
-msgstr "Jeziki"
+msgid ""
+"Rejected :ref:`two-factor authentication <2fa>` attempts now "
+"apply :setting:`AUTH_LOCK_ATTEMPTS`, invalidate pending password sign-ins on "
+"lock or password change, and accept six-digit TOTP codes with leading zeroes."
+msgstr ""
 
 msgid ""
-"Project backup restores now preserve all project, category, and component "
-"settings."
+":ref:`Project backup restores <projectbackup>` now preserve all project, "
+"category, and component settings. They also allowlist repository metadata "
+"for Git, git-svn, and Mercurial to prevent archives from supplying "
+"executable configuration or repository indirection."
+msgstr ""
+
+msgid ""
+"Project administrators can no longer remove :ref:`API tokens <api-tokens>` "
+"belonging to other projects."
+msgstr ""
+
+msgid ""
+"User listings and site-wide searches no longer expose project-"
+"scoped :ref:`API tokens <api-tokens>` to users without global user viewing "
+"or editing permission."
+msgstr ""
+
+msgid ""
+"Project and workspace :ref:`translation memory <translation-memory>` now "
+"respects restricted component access, and restricted components no longer "
+"contribute to shared translation memory."
+msgstr ""
+
+msgid ""
+"Webhook target matching no longer falls back to host/path suffix matching. "
+"Component repository URLs must match a repository URL from the webhook "
+"payload. See :ref:`hooks-target-matching`."
+msgstr ""
+
+msgid ""
+"LLM-based machine translation services now report invalid provider responses "
+"more clearly, custom :ref:`mt-openai` and :ref:`mt-mistral` models no longer "
+"require a model-listing endpoint, and OpenAI automatic selection supports "
+"API keys restricted to older GPT models."
 msgstr ""
 
 msgid ""
@@ -15889,19 +16082,9 @@ msgstr ""
 #, fuzzy
 #| msgid "There are some not committed changes!"
 msgid ""
-"Database dump failures are now shown in the backups management interface."
+"Database dump failures are now shown in the :ref:`backups management "
+"interface <automated-backup>`."
 msgstr "Obstaja nekaj neobjavljenih sprememb!"
-
-msgid ""
-"Project administrators can no longer remove API tokens belonging to other "
-"projects."
-msgstr ""
-
-msgid ""
-"Project and workspace translation memory now respects restricted component "
-"access, and restricted components no longer contribute to shared translation "
-"memory."
-msgstr ""
 
 msgid ""
 "GitLab merge request forks now disable Git LFS to avoid missing-object push "
@@ -15909,31 +16092,29 @@ msgid ""
 msgstr ""
 
 msgid ""
-":ref:`Project backup restores <projectbackup>` now allowlists repository "
-"metadata for Git, git-svn, and Mercurial to prevent archives from supplying "
-"executable configuration or repository indirection."
-msgstr ""
-
-msgid ""
 "Notification e-mails now wrap long strings instead of overflowing, keeping "
 "the :guilabel:`View` button reachable without horizontal scrolling."
 msgstr ""
 
-#, fuzzy
-#| msgid "Activity"
-msgid "Compatibility"
-msgstr "Dejavnost"
+msgid ""
+"Creating additional components for a repository imported through "
+"the :ref:`GitHub App <code-hosting-github-repositories>` no longer fails "
+"without showing any error, and component creation errors which previously "
+"could go unreported are now always displayed."
+msgstr ""
+
+msgid ""
+"The ``json_sort_keys`` :ref:`file_format_params` is now a choice between "
+"``none``, ``case_sensitive``, and ``case_insensitive`` instead of a boolean, "
+"including when reading or writing it through the component REST API; "
+"existing components are migrated automatically. See :http:get:`/api/"
+"components/(string:project)/(string:component)/`."
+msgstr ""
 
 msgid ""
 "The :guilabel:`Git with force push` version control system has been replaced "
 "by the ``git_force_push`` :ref:`version control parameter <vcs_params>`; "
 "existing components are migrated automatically."
-msgstr ""
-
-msgid ""
-"Webhook target matching no longer falls back to host/path suffix matching. "
-"Component repository URLs must match a repository URL from the webhook "
-"payload. See :ref:`hooks-target-matching`."
 msgstr ""
 
 msgid ""
@@ -15949,18 +16130,10 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The project deletion REST API endpoint now returns ``202 Accepted`` instead "
-"of ``204 No Content`` and contains a task URL in the response to track "
-"asynchronous deletion progress."
-msgstr ""
-
-#, fuzzy
-#| msgid "Browse pending"
-msgid "Upgrading"
-msgstr "Brskanje v teku"
-
-msgid ""
-"Please follow :ref:`generic-upgrade-instructions` in order to perform update."
+"The :http:delete:`project deletion REST API endpoint </api/projects/"
+"(string:project)/>` now returns ``202 Accepted`` instead of ``204 No "
+"Content`` and contains a task URL in the response to track asynchronous "
+"deletion progress."
 msgstr ""
 
 msgid ""
@@ -15970,11 +16143,6 @@ msgid ""
 "``WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR`` is used; otherwise, the "
 "immediate TCP peer is used."
 msgstr ""
-
-#, fuzzy
-#| msgid "Contributor stats"
-msgid "Contributors"
-msgstr "Statistika sodelavca"
 
 #, fuzzy
 #| msgid "Weblate translations"
@@ -17496,6 +17664,33 @@ msgstr ""
 #, fuzzy
 #| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, i4i, Kartik Ohri"
+msgstr "Michal Čihař, Gersona"
+
+msgid ""
+"Michal Čihař, Karen Konou, Gersona, Spyder, mmustafasenoglu, Kartik Ohri, "
+"Shweta Singh, Fabian Berg"
+msgstr ""
+
+msgid ""
+"Yuri Chornoivan, Matthaiks, Steve, hoanghuy309, VfBFan, António Oliveira, "
+"Andrei Stepanov, Adam Havránek, Dick Groskamp, Aindriú Mac Giolla Eoin, Andi "
+"Chandler, Lee Vincent, Michal Čihař, Milo Ivir, Ldm Public, Peter Vančo, "
+"Alos \\(bop2039\\), Tarás Lavrentiev, Lito Parra, goeran, Любомир Василев, "
+"Vik, Bone NI, Pierfrancesco Passerini, CYAXXX, Yaron Shahrabani, Pavel "
+"Borecki, حسين نور الإسلام, amano, reducedradius, Fjuro, Frostre\\_, Sup\\! "
+"0\\_0, Ulrik, xiezhihai, Yoshi, Alexander Gabilondo, Eduard Ereza Martínez, "
+"Watchman89, Kyotaro Iijima, AlexYang, justcontributor, Background update, "
+"Arif Budiman, Harsha Kanaparthi, notlin4, KuroisKitsune, Zahid Rizky Fakhri, "
+"Michal Várady, Massimo Pissarello, HThuren, SeyhaLite, David Wagener, "
+"Yauhen, Anucha Hlownonkor, michael0820, Artyom Rybakov, Nhật Nhật, 子悦解说, "
+"Mahdi B. Jahani, ℂ𝕠𝕠𝕠𝕝 \\(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞\\/ℂ𝕠𝕠𝕠𝕝\\)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Michal Čihař, Gersona"
+msgid ""
+"Michal Čihař, Gersona, Karen Konou, Spyder, mmustafasenoglu, Kartik Ohri, "
+"Shweta Singh"
 msgstr "Michal Čihař, Gersona"
 
 msgid ""
@@ -25240,11 +25435,6 @@ msgid ""
 "with cold caches."
 msgstr ""
 
-#, fuzzy
-#| msgid "Security issues"
-msgid "Security fixes"
-msgstr "Varnostne težave"
-
 msgid ""
 "Hardened repository boundary checks for symlink targets "
 "(:cve:`2026-40256` / :ghsa:`ffgh-3jrf-8wvh`)."
@@ -31243,7 +31433,9 @@ msgstr ""
 msgid ""
 "The SPDX license data is included as a Git submodule in the source code "
 "and :file:`weblate/utils/licensedata.py` is generated using :file:`scripts/"
-"generate-license-data.py`."
+"generate-license-data.py`. The submodule tracks tagged SPDX releases. "
+"Renovate updates the release recorded in :file:`.gitmodules`, and the "
+"license update workflow updates the submodule and generated license data."
 msgstr ""
 
 msgid "Test data"
@@ -36831,7 +37023,22 @@ msgstr ""
 msgid ":class:`Weblate`"
 msgstr ""
 
-msgid "The :class:`Weblate` class is the main API entry point."
+msgid ""
+"The :class:`Weblate` class is the main API entry point. Constructing it "
+"directly does not load Weblate Client configuration files or ``WLC_*`` "
+"environment variables; its connection settings come from the supplied "
+"arguments:"
+msgstr ""
+
+msgid ""
+"To use configuration-file and environment discovery, explicitly "
+"load :class:`~wlc.config.WeblateConfig` and pass it to the client:"
+msgstr ""
+
+msgid ""
+"The Python client follows the same URL, credential, and transport policy as "
+"the command-line client, see :ref:`wlc-security`. Direct API consumers "
+"remain responsible for safely rendering and storing returned values."
 msgstr ""
 
 #, fuzzy
@@ -36845,8 +37052,16 @@ msgid "API objects"
 msgstr "Projekti"
 
 msgid ""
-"API objects behave as mappings and support deferred loading. Attribute "
-"access loads missing data from the API when needed."
+"API objects support attribute and keyed access to their fields, together "
+"with ``keys()`` and ``items()``. Accessing a known field that is not loaded "
+"yet fetches the object from the API. ``get_data()`` returns a copy of only "
+"the data currently loaded without fetching missing fields."
+msgstr ""
+
+msgid ""
+"Projects, components, and translations share repository operations: "
+"``repository()``, ``commit()``, ``push()``, ``pull()``, ``reset()``, and "
+"``cleanup()``."
 msgstr ""
 
 msgid "Data residency and EU cloud sovereignty"
@@ -37969,6 +38184,13 @@ msgid ""
 "Product vulnerability reports cover security issues in Weblate source code, "
 "release artifacts, and documented Weblate security properties. They do not "
 "replace operational incident response for a particular deployment."
+msgstr ""
+
+msgid ""
+"Reports concerning the separately distributed Weblate Client (``wlc``) are "
+"evaluated against the `wlc threat model <https://github.com/WeblateOrg/wlc/"
+"blob/main/THREAT_MODEL.md>`_, which documents its intended trust boundaries, "
+"supported security properties, and explicit non-goals."
 msgstr ""
 
 msgid ""
@@ -39334,13 +39556,13 @@ msgstr "Statistika Weblate"
 msgid "Project: Weblate"
 msgstr "Spletna stran projekta"
 
-msgid "Last reviewed for Weblate |release| at commit ``491e79010b2``."
+msgid "Last reviewed for Weblate |release| at commit ``8283fcad69f``."
 msgstr ""
 
-msgid "Date: 2026-05-14."
+msgid "Date: 2026-09-01."
 msgstr ""
 
-msgid "Status: Accepted, 2026-05-14."
+msgid "Status: Accepted, 2026-09-01."
 msgstr ""
 
 msgid ""
@@ -39365,7 +39587,7 @@ msgid ""
 "current project shape and needs maintainer confirmation."
 msgstr ""
 
-msgid "Provenance summary: 103 documented / 64 maintainer / 0 inferred claims."
+msgid "Provenance summary: 118 documented / 69 maintainer / 0 inferred claims."
 msgstr ""
 
 msgid ""
@@ -39503,10 +39725,14 @@ msgstr ""
 msgid "VCS integration"
 msgstr "Nastavitve nadzora različic"
 
-msgid "Repository URLs, branches, pushes, pulls, merge requests, local clones"
+msgid ""
+"Repository URLs, branches, pushes, pulls, merge requests, local clones, and "
+"GitHub App registration, connections, component migration, and removal"
 msgstr ""
 
-msgid "Filesystem, child VCS commands, SSH/HTTPS network connections"
+msgid ""
+"Filesystem, child VCS commands, SSH/HTTPS network connections, and provider "
+"repository or installation state"
 msgstr ""
 
 msgid ""
@@ -39520,8 +39746,8 @@ msgid "Background tasks"
 msgstr "Nahajališča"
 
 msgid ""
-"Celery queues for repository updates, notifications, translation memory, "
-"translation, and backups"
+"Celery queues for repository updates, project deletion, notifications, "
+"translation memory, translation, and backups"
 msgstr ""
 
 msgid "Database, datastore, filesystem, outbound network"
@@ -39529,7 +39755,7 @@ msgstr ""
 
 msgid ""
 "In scope as Weblate-controlled execution of user or operator actions. "
-"*(documented)* (source: :doc:`/admin/install`)"
+"*(documented)* (source: :doc:`/admin/install`, :doc:`/api`)"
 msgstr ""
 
 #, fuzzy
@@ -39576,7 +39802,8 @@ msgstr "Predlogi strojnih prevodov"
 
 msgid ""
 "Machine translation, avatars, status reporting, telemetry, error reporting, "
-"VCS hosts, GitHub App connections, CDN add-on, Fedora Messaging add-on"
+"VCS hosts, GitHub App connections, CDN add-on, Fedora Messaging add-on, e-"
+"mail delivery (SMTP or AWS SES)"
 msgstr ""
 
 msgid "Outbound HTTP(S), AMQP(S), provider APIs, logs"
@@ -39592,7 +39819,8 @@ msgstr ""
 msgid "Built-in add-ons and administrator-configured add-on execution"
 msgstr ""
 
-msgid "Varies by add-on; can mutate repositories or contact services"
+msgid ""
+"Varies by add-on; can mutate project or repository state or contact services"
 msgstr ""
 
 msgid ""
@@ -39733,6 +39961,18 @@ msgstr "Seznam nedavnih sprememb, storjenih v Weblate"
 msgid ""
 "Untrusted or authenticated requests become permission-checked application "
 "actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
+msgstr ""
+
+msgid "Weblate request process to repository Celery worker"
+msgstr ""
+
+msgid ""
+"Permission-checked browser and API repository actions become queued work "
+"carrying the initiating user and affected repository scope. The worker "
+"reacquires the datastore reservation and rechecks the user's current VCS "
+"permission across the current linked-component scope before mutation. The "
+"broker, datastore, and workers are trusted parts of the same Weblate "
+"instance. *(maintainer)*"
 msgstr ""
 
 #, fuzzy
@@ -39949,8 +40189,14 @@ msgid ""
 msgstr ""
 
 msgid ""
-"It sends e-mail and notifications when configured to do so. *(documented)* "
-"(source: :doc:`/admin/config`)"
+"It sends e-mail and notifications when configured to do so. When "
+"``django_ses.SESBackend`` is selected, outbound e-mail is delivered over "
+"HTTPS to the configured AWS SES regional endpoint (``email."
+"<region>.amazonaws.com`` by default, overridable "
+"via :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT`); the endpoint is operator-"
+"controlled trusted infrastructure and is not subject to private-target "
+"restrictions. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/"
+"install/docker`)"
 msgstr ""
 
 msgid ""
@@ -40116,8 +40362,11 @@ msgstr ""
 
 msgid ""
 "Allowlist settings and privileged configuration can intentionally expand "
-"reachability. Fedora Messaging broker URLs are site-administrator "
-"configuration and are trusted by this model. *(documented)* "
+"reachability. A non-empty :setting:`VCS_ALLOW_HOSTS` also restricts all "
+"configured VCS hosts, while :setting:`VCS_PRIVATE_ALLOWLIST` only exempts "
+"matching hosts from private-target checks and does not bypass that host "
+"filter. Fedora Messaging broker URLs are site-administrator configuration "
+"and are trusted by this model. *(documented)* "
 "(source: :setting:`ASSET_PRIVATE_ALLOWLIST`, :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`, :setting:`VCS_PRIVATE_ALLOWLIST`)"
 msgstr ""
 
@@ -40139,6 +40388,29 @@ msgid ""
 msgstr ""
 
 msgid "Operators own the security impact of custom SSH options. *(maintainer)*"
+msgstr ""
+
+msgid "AWS SES e-mail backend"
+msgstr ""
+
+msgid ""
+"Activated by setting :envvar:`WEBLATE_EMAIL_BACKEND` to "
+"``django_ses.SESBackend`` in Docker deployments. *(documented)* "
+"(source: :doc:`/admin/install/docker`)"
+msgstr ""
+
+msgid ""
+"Weblate opens an outbound HTTPS connection to the configured SES regional "
+"endpoint to deliver e-mail. AWS credentials are read from the boto3 "
+"credential chain (environment variables, IAM role, or credential file). The "
+"SES endpoint and credentials are operator-controlled trusted infrastructure. "
+"*(maintainer)*"
+msgstr ""
+
+msgid ""
+"Operators are responsible for securing AWS credentials, choosing an "
+"appropriate SES region and endpoint, and ensuring that the boto3 credential "
+"chain does not expose credentials beyond the intended scope. *(maintainer)*"
 msgstr ""
 
 msgid "Third-party add-ons and local customization"
@@ -40285,23 +40557,30 @@ msgid ""
 "*(maintainer)*"
 msgstr ""
 
-msgid "GitHub App connection callbacks"
+msgid "GitHub App lifecycle"
 msgstr ""
 
 msgid ""
-"GitHub OAuth code, signed Weblate state, installation ID, account metadata"
+"Registration and installation callbacks, GitHub OAuth code, signed Weblate "
+"state, installation ID, account metadata, component migration selections, "
+"and connection-removal requests"
 msgstr ""
 
 msgid ""
 "Yes, from authenticated Weblate users and GitHub redirect query strings. "
-"*(documented)* (source: :ref:`code-hosting-github-app-register`)"
+"*(documented)* (source: :ref:`code-hosting-github-app-register`, :ref:`code-"
+"hosting-github-app-migrate`)"
 msgstr ""
 
 msgid ""
-"Weblate requires workspace management rights and verifies that the GitHub "
-"user owns the personal installation or can administer the organization "
-"installation before saving it. *(documented)* (source: :ref:`code-hosting-"
-"github-app-register`)"
+"Registering App credentials requires the site-wide ``management.configure`` "
+"permission. Connecting or removing an installation requires management "
+"rights for its workspace, and Weblate verifies GitHub administration of an "
+"installation before connecting it. Component migration additionally requires "
+"edit permission for every selected component. Removing the last workspace "
+"connection also attempts to uninstall the App from GitHub. *(documented)* "
+"(source: :ref:`code-hosting-github-app-register`, :ref:`code-hosting-github-"
+"app-migrate`)"
 msgstr ""
 
 #, fuzzy
@@ -40311,7 +40590,8 @@ msgstr "Vzdrževanje shrambe"
 
 msgid ""
 "Repository URLs, branches, push URLs, credentials, Gerrit review push "
-"options, add-on settings"
+"options, add-on settings, and :ref:`vcs_params` controlling force pushes and "
+"pull-request behavior"
 msgstr ""
 
 msgid ""
@@ -40620,18 +40900,26 @@ msgid ""
 "enforced 2FA is satisfied by human users before team-derived permissions "
 "apply. Component administrators are trusted to configure operations that can "
 "affect repository contents, for example by selecting files through component "
-"settings or configuring add-ons. Linking a repository extends this trust to "
+"settings, configuring add-ons, or enabling force pushes and pull-request "
+"behavior through :ref:`vcs_params`. Users with management rights for a "
+"workspace are trusted to connect and remove its GitHub App installations; "
+"removing the final workspace connection can uninstall the App from GitHub. "
+"GitHub App component migration separately requires edit permission for every "
+"selected component. Linking a repository extends this trust to "
 "administrators of every linked component for the complete shared checkout. "
 "Permissions for explicit VCS actions cover every component sharing an "
 "affected repository, including linked components in other projects. Project-"
 "wide VCS actions omit repositories where this permission check fails; they "
-"do not partially operate on an individual shared checkout. Weblate's normal "
-"background commit and push of authorized translation changes does not "
-"require the editor to have these VCS permissions. Translation memory "
-"attributed to an existing restricted component follows that component's "
-"access rules. Unattributed automatic memory, including unmatched legacy "
-"entries and memory retained after component removal, follows its remaining "
-"translation-memory scope."
+"do not partially operate on an individual shared checkout. Explicit VCS "
+"actions queued from the browser or API retain the initiating user, serialize "
+"access to the affected repositories, and recheck that user's permission "
+"against the current linked-component scope in the worker before mutation. "
+"Weblate's normal background commit and push of authorized translation "
+"changes does not require the editor to have these VCS permissions. "
+"Translation memory attributed to an existing restricted component follows "
+"that component's access rules. Unattributed automatic memory, including "
+"unmatched legacy entries and memory retained after component removal, "
+"follows its remaining translation-memory scope."
 msgstr ""
 
 msgid "User or token can read or mutate data outside assigned scope."
@@ -40658,14 +40946,20 @@ msgstr "Vrni"
 
 msgid ""
 "Authentication and session controls protect browser sessions when HTTPS and "
-"proxy settings are correct. *(documented)* (source: :doc:`/admin/"
+"proxy settings are correct. Pending second-factor sessions are bound to the "
+"current password authentication state, and repeated rejected second-factor "
+"submissions lock password sign-in according "
+"to :setting:`AUTH_LOCK_ATTEMPTS`. *(documented)* (source: :doc:`/admin/"
 "auth`, :setting:`ENABLE_HTTPS`)"
 msgstr ""
 
 msgid "Production HTTPS and secure-cookie settings are enabled."
 msgstr ""
 
-msgid "Session fixation, credential bypass, or cross-user session confusion."
+msgid ""
+"Session fixation, credential bypass, cross-user session confusion, or a "
+"pending password sign-in remaining usable after a password change or account "
+"lock."
 msgstr ""
 
 msgid ""
@@ -40689,7 +40983,8 @@ msgid ""
 "VCS operations are invoked through Weblate-supported repository workflows "
 "and configured credentials. Project backup restores allow only non-"
 "executable Git, git-svn, and Mercurial repository state, and rebuild "
-"repository-local configuration from validated component settings."
+"repository-local configuration from validated component settings. Weblate "
+"does not populate Git submodules (see :ref:`git-submodules`)."
 msgstr ""
 
 msgid "Command injection or arbitrary code execution as the Weblate user."
@@ -40760,21 +41055,28 @@ msgid "Security-critical when it exposes internal services or metadata."
 msgstr ""
 
 msgid ""
-"Weblate records security-relevant account, permission, authenticated web-"
-"action rate-limit lockouts, and project or component setting changes in "
-"audit logs or history. *(documented)* (source: :doc:`/security/privacy-"
-"compliance`, :ref:`rate-limit`, :doc:`/changes`)"
-msgstr ""
-
-msgid "Logging is configured and storage is available."
-msgstr ""
-
-msgid "Missing audit trail for an action Weblate claims to log."
+"Weblate records security-relevant account, permission, billing lifecycle, "
+"authenticated web-action rate-limit lockouts, and project or component "
+"setting changes in audit logs or history. Account-removal audit entries "
+"retain the former e-mail address until :setting:`AUDITLOG_EXPIRY`. "
+"*(documented)* (source: :doc:`/security/privacy-compliance`, :ref:`rate-"
+"limit`, :ref:`billing`, :doc:`/changes`)"
 msgstr ""
 
 msgid ""
-"Security-critical when it blocks investigation of privileged changes; "
-"correctness-only for minor event gaps."
+"Logging is configured, storage is available, and :setting:`AUDITLOG_EXPIRY` "
+"reflects the operator's intended retention."
+msgstr ""
+
+msgid ""
+"Missing audit trail for an action Weblate claims to log, or personal data "
+"retained beyond the configured audit-log expiry."
+msgstr ""
+
+msgid ""
+"Security-critical when it blocks investigation of privileged changes or "
+"discloses retained personal data; privacy-impacting when data exceeds the "
+"configured retention; correctness-only for minor event gaps."
 msgstr ""
 
 msgid ""
@@ -40842,6 +41144,13 @@ msgid ""
 "repository size, project count, component count, and translation volume, "
 "Weblate does not claim a fixed universal resource ceiling independent of "
 "deployment capacity. *(maintainer)*"
+msgstr ""
+
+msgid ""
+"Component discovery is an exception: it stops after 100,000 repository paths "
+"or before performing more than 1,000,000 path-to-mask comparisons. These "
+"limits bound resource consumption when repository-controlled base files "
+"generate file masks. *(maintainer)*"
 msgstr ""
 
 msgid "Security properties Weblate does not provide"
@@ -41023,10 +41332,11 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Granting project management, VCS, or access-management permissions to users "
+"Granting workspace, project, VCS, or access-management permissions to users "
 "who are trusted only as translators. This is unsafe because those "
-"permissions can affect repositories, credentials, or other users. Assign "
-"narrower roles. *(documented)* (source: :doc:`/admin/access`)"
+"permissions can affect code-hosting connections, repositories, credentials, "
+"or other users. Assign narrower roles. *(documented)* (source: :doc:`/admin/"
+"access`, :doc:`/admin/code-hosting`)"
 msgstr ""
 
 msgid ""
@@ -43076,7 +43386,10 @@ msgid "Component discovery"
 msgstr "Odkrivanje komponent"
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
 
 msgid "Use Django template syntax. This template must include {{ component }}."
@@ -43117,6 +43430,18 @@ msgstr ""
 "zagotovijo razvijalci in se uporablja pri ustvarjanju dejanskih izvornih "
 "nizov."
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Define the file mask"
+msgstr "Zaslonski posnetki"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
+
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
@@ -43145,10 +43470,12 @@ msgstr ""
 
 msgid ""
 "The matching is done using regular expressions enabling complex "
-"configuration, but some knowledge is required to do so. The regular "
+"configuration, but some knowledge is required to do so. Usually the regular "
 "expression to match translation files has to contain two named groups to "
-"match component and language. All named groups in the regular expression can "
-"be used as variables in the template fields."
+"match component and language. When creating components from a monolingual "
+"base or new base file, omit the language group and match that source file "
+"instead. All named groups in the regular expression can be used as variables "
+"in the template fields."
 msgstr ""
 
 msgid "Discovery requirements"
@@ -43160,8 +43487,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The regular expression must define ``component`` and ``language`` named "
-"groups."
+"The regular expression must define a ``component`` named group. Matching "
+"translation files also requires a ``language`` named group."
 msgstr ""
 
 msgid ""
@@ -43172,7 +43499,37 @@ msgstr ""
 
 msgid ""
 "For monolingual formats, the component must contain a file matching "
-"``base_file_template`` and at least one translation file matching ``match``."
+"``base_file_template`` and at least one translation file matching ``match``, "
+"unless you set the file mask (see below)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Qt Linguist Translation File"
+msgid "Discovering components without translation files"
+msgstr "Datoteka s prevodom Qt Linguist"
+
+msgid ""
+"Set :guilabel:`Define the file mask` to discover components from a "
+"monolingual base or new base file alone, even when no translation files "
+"exist yet. In that mode:"
+msgstr ""
+
+msgid ""
+"Configure :guilabel:`Regular expression to match translation files against` "
+"to match the monolingual base or new base file, and omit the ``language`` "
+"group. Keep full control over the ``component`` capture, for example "
+"``locale/(?P<component>[^/]+)\\.pot`` or ``docs/(?P<component>[^/_]+)\\.md``."
+msgstr ""
+
+msgid ""
+"Fill :guilabel:`Define the file mask` with a path that includes both a "
+"language wildcard and ``{{ component }}``, for example ``locale/*/"
+"{{ component }}.po`` or ``docs/{{ component }}_*.md``."
+msgstr ""
+
+msgid ""
+"Keep using the other filename templates with any named groups from the match "
+"expression."
 msgstr ""
 
 msgid "Worked example: ``news_<lang>.md``"
@@ -46229,7 +46586,7 @@ msgid "Laravel format string does not match source."
 msgstr "Oblika niza C se ne ujema z izvirnikom"
 
 msgid ""
-"`Laravel translation formatting <https://laravel.com/docs/"
+"`Laravel translation formatting <https://laravel.com/framework/docs/"
 "localization#replacing-parameters-in-translation-strings>`_"
 msgstr ""
 
@@ -47811,6 +48168,21 @@ msgstr ""
 msgid "Sort JSON keys"
 msgstr "Razvrsti s ključi JSON"
 
+msgid "Do not sort"
+msgstr ""
+
+#, fuzzy
+#| msgid "Enable case-sensitive key sorting"
+msgid "Case-sensitive sort"
+msgstr ""
+"Omogoči razvrščanje ključev z razlikovanjem med velikimi in malimi črkami"
+
+#, fuzzy
+#| msgid "Enable case-sensitive key sorting"
+msgid "Case-insensitive sort"
+msgstr ""
+"Omogoči razvrščanje ključev z razlikovanjem med velikimi in malimi črkami"
+
 msgid "json_use_compact_separators"
 msgstr ""
 
@@ -48373,6 +48745,12 @@ msgstr ""
 msgid "``claude-sonnet-5`` -- Claude Sonnet 5"
 msgstr ""
 
+msgid "``claude-opus-5`` -- Claude Opus 5"
+msgstr ""
+
+msgid "``claude-fable-5-1`` -- Claude Fable 5.1"
+msgstr ""
+
 msgid "``claude-opus-4-8`` -- Claude Opus 4.8"
 msgstr ""
 
@@ -48436,6 +48814,12 @@ msgid ""
 "The Anthropic API provides access to the Claude family of models, which are "
 "known for their strong reasoning and language capabilities. You need an API "
 "key from Anthropic to use this service."
+msgstr ""
+
+msgid ""
+"The model choices favor current generally available Claude models. "
+"Previously offered models remain selectable while Anthropic continues to "
+"support them."
 msgstr ""
 
 msgid ""
@@ -48931,22 +49315,31 @@ msgstr ""
 msgid "Mistral model"
 msgstr ""
 
-msgid "``ministral-3b-latest`` -- Ministral 3 3B"
-msgstr ""
-
-msgid "``ministral-8b-latest`` -- Ministral 3 8B"
-msgstr ""
-
 msgid "``mistral-small-latest`` -- Mistral Small 4"
 msgstr ""
 
 msgid "``ministral-14b-latest`` -- Ministral 3 14B"
 msgstr ""
 
+msgid "``ministral-8b-latest`` -- Ministral 3 8B"
+msgstr ""
+
+msgid "``ministral-3b-latest`` -- Ministral 3 3B"
+msgstr ""
+
 msgid "``mistral-large-latest`` -- Mistral Large 3"
 msgstr ""
 
 msgid "``mistral-medium-latest`` -- Mistral Medium 3.5"
+msgstr ""
+
+msgid ""
+"Automatic and predefined model selection queries the service model-listing "
+"endpoint. Automatic selection prefers general-purpose models that balance "
+"translation quality, response time, and price, trying other available models "
+"in the displayed order. Choose :guilabel:`Custom model` when using a "
+"compatible gateway that does not provide model discovery; Weblate sends the "
+"configured model identifier directly to the chat endpoint."
 msgstr ""
 
 #, fuzzy
@@ -49030,34 +49423,60 @@ msgstr ""
 msgid "OpenAI model"
 msgstr "Način Zen"
 
-msgid "``gpt-5-nano`` -- GPT-5 nano"
-msgstr ""
-
-msgid "``gpt-5.4-nano`` -- GPT-5.4 nano"
-msgstr ""
-
-msgid "``gpt-5-mini`` -- GPT-5 mini"
+msgid "``gpt-5.6-luna`` -- GPT-5.6 Luna"
 msgstr ""
 
 msgid "``gpt-5.4-mini`` -- GPT-5.4 mini"
 msgstr ""
 
-msgid "``gpt-5.6-luna`` -- GPT-5.6 Luna"
+msgid "``gpt-5-mini`` -- GPT-5 mini"
 msgstr ""
 
-msgid "``gpt-5`` -- GPT-5"
+msgid "``gpt-5.4-nano`` -- GPT-5.4 nano"
 msgstr ""
 
-msgid "``gpt-5.4`` -- GPT-5.4"
+msgid "``gpt-5-nano`` -- GPT-5 nano"
 msgstr ""
 
 msgid "``gpt-5.6-terra`` -- GPT-5.6 Terra"
 msgstr ""
 
-msgid "``gpt-5.5`` -- GPT-5.5"
+msgid "``gpt-5.4`` -- GPT-5.4"
+msgstr ""
+
+msgid "``gpt-5`` -- GPT-5"
 msgstr ""
 
 msgid "``gpt-5.6`` -- GPT-5.6 Sol"
+msgstr ""
+
+msgid "``gpt-5.5`` -- GPT-5.5"
+msgstr ""
+
+msgid "``gpt-4.1-mini`` -- GPT-4.1 mini"
+msgstr ""
+
+msgid "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr ""
+
+msgid "``gpt-4.1-nano`` -- GPT-4.1 nano"
+msgstr ""
+
+msgid "``gpt-4.1`` -- GPT-4.1"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "``gpt-4o`` -- GPT-4o"
+msgstr "Izvirni nizi"
+
+msgid "``gpt-4-turbo`` -- GPT-4 Turbo"
+msgstr ""
+
+msgid "``gpt-4`` -- GPT-4"
+msgstr ""
+
+msgid "``gpt-3.5-turbo`` -- GPT-3.5 Turbo"
 msgstr ""
 
 #, fuzzy
@@ -49070,6 +49489,16 @@ msgid ""
 "capabilities and price points. Automatic selection chooses the best model "
 "available, but you might want to choose a specific model that matches your "
 "needs."
+msgstr ""
+
+msgid ""
+"Automatic and predefined model selection queries the service model-listing "
+"endpoint. Automatic selection prefers current general-purpose models that "
+"balance translation quality, response time, and price, using older GPT "
+"models only as compatibility fallbacks. Choose :guilabel:`Custom model` when "
+"using an OpenAI-compatible gateway that does not provide model discovery; "
+"Weblate sends the configured model identifier directly to the chat "
+"completions endpoint."
 msgstr ""
 
 msgid ""
@@ -53214,8 +53643,9 @@ msgstr ""
 
 msgid ""
 "The :pypi:`Weblate Client <wlc>` is shipped separately and includes the "
-"Python module. To use the commands below, you need to install :program:`wlc` "
-"using pip:"
+"Python module. The source code is maintained in the `WeblateOrg/wlc "
+"repository <https://github.com/WeblateOrg/wlc>`_. To use the commands below, "
+"you need to install :program:`wlc` using pip:"
 msgstr ""
 
 msgid "You can also execute it directly using :program:`uvx`:"
@@ -53232,10 +53662,45 @@ msgid "The Weblate Client is also available as a Docker image."
 msgstr ""
 
 msgid ""
-"The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc"
+"Images are published on `Docker Hub <https://hub.docker.com/r/weblate/wlc>`_ "
+"and the `GitHub Container Registry <https://github.com/WeblateOrg/wlc/pkgs/"
+"container/wlc>`_. The examples below use the Docker Hub image name."
 msgstr ""
 
 msgid "Installing:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Failing checks found"
+msgid "The following tags are available:"
+msgstr "Nekatera preverjanja niso uspela"
+
+#, fuzzy
+#| msgid "Weblate statistics"
+msgid "Latest stable release."
+msgstr "Statistika Weblate"
+
+msgid "Full version, for example ``2.2.0``"
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate statistics"
+msgid "A specific stable release."
+msgstr "Statistika Weblate"
+
+msgid "Major version, for example ``2``"
+msgstr ""
+
+msgid "Latest stable release in that major series."
+msgstr ""
+
+msgid "Current development version from the main branch."
+msgstr ""
+
+msgid "A specific development snapshot."
+msgstr ""
+
+msgid "To build an image from the source checkout:"
 msgstr ""
 
 msgid ""
@@ -53262,14 +53727,19 @@ msgid ""
 "When the mounted repository provides the API URL in project configuration "
 "and you pass an unscoped API key to the container, also pin the URL "
 "explicitly: :envvar:`WLC_KEY` requires :envvar:`WLC_URL`, and :option:`--"
-"key` requires :option:`--url`."
+"key` requires :option:`--url`. The same pairing is required for "
+"the :option:`--allow-insecure-http` and :option:`--allow-insecure-ssl` "
+"overrides."
 msgstr ""
 
 msgid ""
 "If the configured API URL uses non-local ``http://`` and an API key is "
 "provided, the container refuses to send the key unless insecure HTTP is "
 "explicitly enabled. Prefer HTTPS; for legacy deployments, pass :option:`--"
-"allow-insecure-http` or set :envvar:`WLC_ALLOW_INSECURE_HTTP`."
+"allow-insecure-http` or set :envvar:`WLC_ALLOW_INSECURE_HTTP`. TLS "
+"certificates are always verified by default, including for loopback URLs. "
+"Use :option:`--allow-insecure-ssl` or :envvar:`WLC_ALLOW_INSECURE_SSL` only "
+"when certificate verification can not be enabled."
 msgstr ""
 
 msgid "Getting started"
@@ -53292,6 +53762,11 @@ msgstr "Slaba konfiguracija"
 msgid "The legacy configuration using unscoped ``key`` is no longer supported."
 msgstr ""
 
+msgid ""
+"Global ``allow_insecure_http`` configuration is no longer supported. "
+"Configure an origin in the ``[insecure_http]`` section instead."
+msgstr ""
+
 #, fuzzy
 #| msgid "Possible configuration"
 msgid "Migrate legacy configuration:"
@@ -53308,8 +53783,8 @@ msgstr ""
 
 msgid ""
 "Weblate Client is a Python library and command-line utility to manage "
-"Weblate remotely using :ref:`api`. The command-line utility can be invoked "
-"as :command:`wlc` and is built-in on :mod:`wlc`."
+"Weblate remotely using :ref:`api`. Invoke the command-line utility "
+"as :command:`wlc`; see :mod:`wlc` for the Python API."
 msgstr ""
 
 #, fuzzy
@@ -53322,7 +53797,18 @@ msgid ""
 "which Weblate instance to use. These must be entered before any command."
 msgstr ""
 
-msgid "Specify the output format."
+msgid "Specify the output format. The default is ``text``."
+msgstr ""
+
+msgid ""
+"Print the program version and exit. The :option:`version` command supports "
+"output formatting and can print only the version number."
+msgstr ""
+
+msgid ""
+"Print verbose HTTP communication. Authorization header values are redacted "
+"and request bodies are not logged, but query parameters are; do not put "
+"secrets in query parameters."
 msgstr ""
 
 msgid ""
@@ -53343,8 +53829,15 @@ msgid ""
 "Allow sending API keys over non-local ``http://`` URLs. Prefer HTTPS or "
 "loopback HTTP instead; this option is intended only for legacy deployments "
 "where HTTPS is not available. This option only enables insecure HTTP for the "
-"current run; omitting it does not disable ``allow_insecure_http`` from "
-"configuration."
+"current run. When the API URL comes from automatically discovered project "
+"configuration, this option requires :option:`--url`."
+msgstr ""
+
+msgid ""
+"Disable TLS certificate verification for the current run. Certificates are "
+"verified by default for every HTTPS URL, including loopback URLs. When the "
+"API URL comes from automatically discovered project configuration, this "
+"option requires :option:`--url`."
 msgstr ""
 
 msgid ""
@@ -53352,7 +53845,45 @@ msgid ""
 "project configuration files, see :ref:`wlc-config`."
 msgstr ""
 
-msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
+msgid ""
+"Selects the configuration file section to use instead of ``[weblate]``, "
+"see :ref:`wlc-config`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Object paths"
+msgstr "Ime projekta"
+
+msgid "Commands that operate on an object accept one of these paths:"
+msgstr ""
+
+#, fuzzy
+#| msgid "URL slug"
+msgid "Project slug."
+msgstr "Lepši URL"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Component slug, including its project."
+msgstr "Druge komponente"
+
+#, fuzzy
+#| msgid "New language request in %(translation)s"
+msgid "Translation language, including its project and component."
+msgstr "Nova prošnja za jezik %(translation)s"
+
+msgid ""
+"Numeric translation unit ID. Only commands that explicitly support units "
+"accept this form."
+msgstr ""
+
+msgid ""
+"Commands that require an object use the ``translation`` setting "
+"from :ref:`wlc-config` when the path is omitted. The :option:`ls` "
+"and :option:`download` commands also use this setting before falling back to "
+"their no-object behavior. For :option:`list-components` and :option:`list-"
+"translations`, an omitted object always requests an instance-wide list."
 msgstr ""
 
 #, fuzzy
@@ -53366,22 +53897,58 @@ msgstr ""
 msgid "Prints the current version."
 msgstr ""
 
-msgid "Lists used languages in Weblate."
+msgid "Prints only the version number."
 msgstr ""
 
-msgid "Lists projects in Weblate."
+#, fuzzy
+#| msgid "Allow changes in the local repository"
+msgid "Lists all languages in Weblate."
+msgstr "Dovoli spremembe v lokalni shrambi"
+
+#, fuzzy
+#| msgid "Owners of the project."
+msgid "Lists all projects in Weblate."
+msgstr "Lastniki projekta."
+
+#, fuzzy
+#| msgid ""
+#| "Ensures a consistent set of languages is used for all components within a "
+#| "project."
+msgid ""
+"Lists all components in Weblate, or components in the specified project."
+msgstr "Zagotavlja uporabo doslednega nabora jezikov vseh sestavin projekta."
+
+#, fuzzy
+#| msgid ""
+#| "Automatically translates strings using machine translation or other "
+#| "components."
+msgid ""
+"Lists all translations in Weblate, or translations in the specified "
+"component."
+msgstr ""
+"Samodejno prevede nize s pomočjo strojnega prevajanja ali drugih komponent."
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Lists units in the specified translation."
+msgstr "Gostovanje prevodov"
+
+msgid "Filters units using the :doc:`search query syntax </user/search>`."
 msgstr ""
 
-msgid "Lists components in Weblate."
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Shows a project, component, translation, or unit."
+msgstr "Samodejni prevod"
+
+msgid ""
+"Deletes a project, component, translation, or unit without a confirmation "
+"prompt."
 msgstr ""
 
-msgid "Lists translations in Weblate."
-msgstr ""
-
-msgid "Shows Weblate object (translation, component or project)."
-msgstr ""
-
-msgid "Lists Weblate object (translation, component or project)."
+msgid ""
+"Lists all projects when no object is specified, components in a project, or "
+"translations in a component."
 msgstr ""
 
 msgid ""
@@ -53418,8 +53985,10 @@ msgid ""
 "component or project)."
 msgstr ""
 
-msgid "Displays lock status."
-msgstr ""
+#, fuzzy
+#| msgid "Merge translation comments"
+msgid "Displays the lock status of a component."
+msgstr "Združi pripombe prevoda"
 
 msgid "Locks component from further translation in Weblate."
 msgstr ""
@@ -53427,45 +53996,90 @@ msgstr ""
 msgid "Unlocks translation of Weblate component."
 msgstr ""
 
-msgid "Displays changes for a given object."
-msgstr ""
-
-msgid "Downloads a translation file."
+msgid "Displays changes for a project, component, or translation."
 msgstr ""
 
 msgid ""
-"Converts file format, if unspecified no conversion happens on the server and "
-"the file is downloaded as is to the repository."
+"Downloads translation files. For a translation, :program:`wlc` writes the "
+"file to :option:`--output` or to redirected standard output. It refuses to "
+"write raw file content to an interactive terminal."
 msgstr ""
 
 msgid ""
-"Specifies file to save output in, if left unspecified it is printed to "
-"stdout."
+"For a component or project, :option:`--output` is required and is treated as "
+"a directory. :program:`wlc` writes one ZIP archive per component. With no "
+"object, it downloads every component in the Weblate instance in the same way."
+msgstr ""
+
+msgid ""
+"Requests conversion to ``FORMAT`` on the server. If unspecified, no "
+"conversion happens."
+msgstr ""
+
+msgid ""
+"Specifies the output file for a translation or output directory for a "
+"component, project, or instance-wide download. Use ``-`` to write a "
+"translation to standard output."
+msgstr ""
+
+msgid ""
+"Excludes glossary components from component, project, and instance-wide "
+"downloads."
 msgstr ""
 
 msgid "Uploads a translation file."
 msgstr ""
 
-msgid "Overwrite existing translations upon uploading."
+msgid ""
+"Overwrites existing translated strings. This is equivalent to ``--conflicts "
+"replace-translated``."
+msgstr ""
+
+msgid "Selects how conflicts with existing translations are handled."
 msgstr ""
 
 msgid ""
-"File from which content is read, if left unspecified it is read from stdin."
-msgstr ""
-
-msgid "Upload method to use, see :ref:`upload-method`."
+"Reads content from ``PATH``. If unspecified or ``-``, content is read from "
+"standard input."
 msgstr ""
 
 msgid ""
-"Fuzzy (marked for edit) strings processing (*empty*, ``process``, "
-"``approve``)"
+"Upload method to use, see :ref:`upload-method`. The default is ``translate``."
 msgstr ""
+
+#, fuzzy
+#| msgid "Number of source strings"
+msgid "Selects processing of fuzzy strings (marked for edit)."
+msgstr "Število izvirnih nizov"
 
 msgid "Author name, to override currently authenticated user"
 msgstr ""
 
 msgid "Author e-mail, to override currently authenticated user"
 msgstr ""
+
+msgid "Updates a translation unit. At least one update option is required."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated strings"
+msgid "Sets one or more translated strings."
+msgstr "Prevedeni nizi"
+
+msgid ""
+"Sets the unit state: ``0`` for empty, ``10`` for fuzzy, ``20`` for "
+"translated, or ``30`` for approved."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search in location strings"
+msgid "Sets the string explanation."
+msgstr "Išči v nizih lokacije"
+
+#, fuzzy
+#| msgid "Edit source string"
+msgid "Sets additional string flags."
+msgstr "Uredi izvirni niz"
 
 msgid ""
 "You can get more detailed information on invoking individual commands by "
@@ -53506,9 +54120,20 @@ msgstr ""
 msgid "Global configuration file on Unix-like systems."
 msgstr ""
 
+msgid ":file:`~/.config/weblate.ini`"
+msgstr ""
+
+msgid "Alternative global configuration filename on Unix-like systems."
+msgstr ""
+
 #, fuzzy
 #| msgid "Bad configuration"
 msgid "System-wide fallback configuration file."
+msgstr "Slaba konfiguracija"
+
+#, fuzzy
+#| msgid "Bad configuration"
+msgid "Alternative system-wide fallback filename."
 msgstr "Slaba konfiguracija"
 
 msgid ""
@@ -53536,6 +54161,13 @@ msgid "Project configuration file placed in the repository."
 msgstr "Ne morem ustvariti mape projekta: %s"
 
 msgid ""
+"Project configuration is loaded after global configuration and overrides "
+"matching settings. It can select the API URL, default object, request "
+"settings, and a matching URL-scoped API key, allowing a cloned repository to "
+"automatically select its Weblate server and translation."
+msgstr ""
+
+msgid ""
 "Only the closest project configuration file is loaded. Configuration files "
 "in farther parent directories are ignored."
 msgstr ""
@@ -53553,26 +54185,27 @@ msgstr ""
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
 msgstr ""
 
-msgid "Path to the default translation - component or project."
+msgid ""
+"Default object path for commands that accept one: a project, component, "
+"translation, or numeric unit ID."
 msgstr ""
 
 msgid ""
-"Allow API keys over non-local ``http://`` URLs, defaults to ``false``. "
-"Loopback HTTP URLs, such as ``http://127.0.0.1:8000/api/``, remain allowed "
-"for local development without this option. Prefer HTTPS instead of enabling "
-"this setting. Automatically discovered project configuration files cannot "
-"enable this option; set it in user configuration, an explicit :option:`--"
-"config` file, :envvar:`WLC_ALLOW_INSECURE_HTTP`, or :option:`--allow-"
-"insecure-http`. The setting is cumulative: any trusted source that enables "
-"insecure HTTP is enough, and false or unset values from command-line or "
-"environment sources do not disable it."
+"HTTP request retry and timeout settings. ``retries`` defaults to ``0`` and "
+"``backoff_factor`` to ``0``. ``status_forcelist`` is a comma-separated list "
+"of HTTP status codes that trigger retries and is empty by default."
 msgstr ""
 
 msgid ""
-"Optional HTTP retry and timeout settings passed to ``urllib3``. Use "
-"``allowed_methods`` to list the request methods that may be retried. "
-"Current :program:`wlc` releases use this setting name in place of the older "
-"``method_whitelist`` option."
+"``allowed_methods`` lists methods that may be retried, separated by commas "
+"or whitespace. It defaults to ``HEAD``, ``DELETE``, ``OPTIONS``, ``PUT``, "
+"and ``GET``. These retry settings are passed to ``urllib3.util.Retry``."
+msgstr ""
+
+msgid ""
+"``timeout`` is the request timeout in seconds and defaults to ``300``. "
+"Current :program:`wlc` releases use ``allowed_methods`` in place of the "
+"older ``method_whitelist`` option."
 msgstr ""
 
 msgid "The configuration file is an INI file, for example:"
@@ -53585,7 +54218,36 @@ msgid ""
 "This allows you to store keys in your personal settings, while using "
 "the :file:`.weblate` configuration in the VCS repository so "
 "that :program:`wlc` knows which server it should talk to. The ``[keys]`` "
-"lookup is scoped to the exact API URL."
+"lookup is scoped to the complete configured API URL, not merely its network "
+"origin."
+msgstr ""
+
+msgid ""
+"Project configuration can also supply or replace a matching entry in "
+"``[keys]``. Do not commit valuable API keys to version control; normally "
+"keep keys in personal configuration and only the API URL and default object "
+"in project configuration."
+msgstr ""
+
+msgid ""
+"Insecure transport exceptions are stored in origin-scoped sections in "
+"trusted user configuration:"
+msgstr ""
+
+msgid ""
+"An origin consists of the scheme, normalized hostname, and effective port. "
+"The API path is ignored, while different schemes and ports remain isolated. "
+"The ``[insecure_http]`` section allows API keys over non-local HTTP for "
+"matching origins. The ``[insecure_ssl]`` section disables TLS certificate "
+"verification for matching origins."
+msgstr ""
+
+msgid ""
+"TLS certificates are verified for all hosts by default. Insecure HTTP and "
+"TLS configuration is scoped to origins. Automatically discovered project "
+"configuration can neither add entries to these sections nor enable the "
+"removed global settings. User configuration and explicitly "
+"selected :option:`--config` files are trusted."
 msgstr ""
 
 msgid ""
@@ -53606,6 +54268,12 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Insecure HTTP and TLS environment overrides require :envvar:`WLC_URL` when "
+"the API URL would otherwise come from automatically discovered project "
+"configuration."
+msgstr ""
+
+msgid ""
 "The API URL and key can also be configured using environment variables. This "
 "is especially useful for CI workflows where :envvar:`WLC_URL` pins the "
 "destination and :envvar:`WLC_KEY` is injected as a secret:"
@@ -53621,13 +54289,23 @@ msgstr ""
 msgid ""
 "Set to ``1``, ``true``, ``yes``, or ``on`` to allow API keys over non-local "
 "``http://`` URLs. Prefer HTTPS or loopback HTTP instead. Other values, such "
-"as ``0`` or ``false``, are treated as unset and do not disable "
-"``allow_insecure_http`` from configuration."
+"as ``0`` or ``false``, are treated as unset. When the API URL would "
+"otherwise come from automatically discovered project configuration, this "
+"variable is accepted only together with :envvar:`WLC_URL`."
 msgstr ""
 
 msgid ""
-"The same protection applies to command-line arguments: :option:`--key` is "
-"accepted with automatically discovered project configuration only "
+"Set to ``1``, ``true``, ``yes``, or ``on`` to disable TLS certificate "
+"verification. Other values, such as ``0`` or ``false``, are treated as "
+"unset. When the API URL would otherwise come from automatically discovered "
+"project configuration, this variable is accepted only together "
+"with :envvar:`WLC_URL`."
+msgstr ""
+
+msgid ""
+"The same protection applies to command-line arguments: :option:`--"
+"key`, :option:`--allow-insecure-http`, and :option:`--allow-insecure-ssl` "
+"are accepted with automatically discovered project configuration only "
 "when :option:`--url` is provided."
 msgstr ""
 
@@ -53647,12 +54325,43 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The insecure HTTP opt-in is enable-only rather than a normal precedence "
-"setting. It is enabled when :option:`--allow-insecure-http` is passed, "
-"when :envvar:`WLC_ALLOW_INSECURE_HTTP` has a true value, or when "
-"``allow_insecure_http`` is enabled in trusted configuration. Automatically "
-"discovered project configuration cannot enable it; set it in user "
-"configuration or pass an explicit :option:`--config` file instead."
+"The insecure transport opt-ins are enable-only rather than normal precedence "
+"settings. They are enabled by a command-line or environment override, or by "
+"a matching origin in the trusted ``[insecure_http]`` or ``[insecure_ssl]`` "
+"section. Automatically discovered project configuration cannot add trusted "
+"origins."
+msgstr ""
+
+#, fuzzy
+#| msgid "Security issues"
+msgid "Security model"
+msgstr "Varnostne težave"
+
+msgid ""
+"Project configuration is part of the repository workflow and is "
+"intentionally trusted to select the API endpoint, default object, request "
+"settings, and a matching URL-scoped API key. Running :program:`wlc` inside a "
+"repository authorizes its nearest project configuration to select the server "
+"that receives commands and uploads and supplies displayed or downloaded "
+"content. Use an explicit trusted :option:`--config` file when this is not "
+"desired."
+msgstr ""
+
+msgid ""
+"The command-line client accepts API keys from :option:`--"
+"key`, :envvar:`WLC_KEY`, or the ``[keys]`` section. It does not load HTTP "
+"authentication from :file:`.netrc` or the file named by ``NETRC``. "
+"Credentials embedded in API URLs are rejected; use an API key instead. Other "
+"Requests environment integration, including proxy and CA-bundle variables, "
+"remains enabled."
+msgstr ""
+
+msgid ""
+"The `wlc threat model <https://github.com/WeblateOrg/wlc/blob/main/"
+"THREAT_MODEL.md>`_ documents the complete trust boundaries, security "
+"properties, non-goals, and downstream responsibilities. A version-matched "
+"copy is included in source and wheel distributions. Report security issues "
+"using the :ref:`Weblate vulnerability reporting process <security>`."
 msgstr ""
 
 msgid "Examples"
@@ -54170,11 +54879,6 @@ msgstr ""
 #~| msgid "List of recent changes done in Weblate"
 #~ msgid "Older versions are no longer supported by Weblate."
 #~ msgstr "Seznam nedavnih sprememb, storjenih v Weblate"
-
-#, fuzzy
-#~| msgid "Source strings"
-#~ msgid "``o3`` -- o3"
-#~ msgstr "Izvirni nizi"
 
 #, fuzzy
 #~| msgid "Source strings"
@@ -54968,11 +55672,6 @@ msgstr ""
 
 #, fuzzy
 #~| msgid "Automatic translation"
-#~ msgid "Performs partial update on translation unit."
-#~ msgstr "Samodejni prevod"
-
-#, fuzzy
-#~| msgid "Automatic translation"
 #~ msgid "Performs full update on translation unit."
 #~ msgstr "Samodejni prevod"
 
@@ -55125,11 +55824,6 @@ msgstr ""
 
 #, fuzzy
 #~| msgid "Number of source strings"
-#~ msgid "percentage of fuzzy (marked for edit) words"
-#~ msgstr "Število izvirnih nizov"
-
-#, fuzzy
-#~| msgid "Number of source strings"
 #~ msgid "percentage of fuzzy (marked for edit) characters"
 #~ msgstr "Število izvirnih nizov"
 
@@ -55197,11 +55891,6 @@ msgstr ""
 #~| msgid "Strings with comments"
 #~ msgid "number of strings with comments"
 #~ msgstr "Nizi s pripombami"
-
-#, fuzzy
-#~| msgid "Project name"
-#~ msgid "object name"
-#~ msgstr "Ime projekta"
 
 #, fuzzy
 #~| msgid "Translation process"
@@ -56679,11 +57368,6 @@ msgstr ""
 #~ msgstr "Spremljani projekti"
 
 #, fuzzy
-#~| msgid "URL slug"
-#~ msgid "*Project slug*"
-#~ msgstr "Lepši URL"
-
-#, fuzzy
 #~| msgid "Weblate languages"
 #~ msgid "weblate"
 #~ msgstr "Jeziki Weblate"
@@ -57251,11 +57935,6 @@ msgstr ""
 #~| msgid_plural "New strings to translate"
 #~ msgid "Different strings are translated same."
 #~ msgstr "Nov niz za prevajanje"
-
-#, fuzzy
-#~| msgid "Failing checks found"
-#~ msgid "Following operations are available:"
-#~ msgstr "Nekatera preverjanja niso uspela"
 
 #~ msgid "Public"
 #~ msgstr "Javno"

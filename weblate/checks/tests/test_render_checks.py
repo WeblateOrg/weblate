@@ -4,12 +4,18 @@
 
 """Tests for rendering quality checks."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from weblate.checks.render import MaxSizeCheck
 from weblate.fonts.models import FONT_STORAGE, Font, FontGroup, FontOverride
 from weblate.fonts.tests.utils import FONT_BOLD, FontTestCase
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from unittest.mock import Mock
 
 
 class MaxSizeCheckTest(FontTestCase):
@@ -67,7 +73,9 @@ class MaxSizeCheckTest(FontTestCase):
         self.assertEqual(self.check.last_font, group.font.font.path)
 
     @patch("weblate.checks.render.check_render_size", return_value=True)
-    def test_custom_font_uses_same_family_faces(self, check_render_size_mock) -> None:
+    def test_custom_font_uses_same_family_faces(
+        self, check_render_size_mock: Mock
+    ) -> None:
         self.add_font_group()
         with FONT_BOLD.open("rb") as handle:
             fontfile = FONT_STORAGE.save(FONT_BOLD.name, handle)

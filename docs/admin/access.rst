@@ -67,6 +67,10 @@ project.
 
 The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
+Private and Custom projects can make their :ref:`project-public_sharing`
+engage pages and status widgets anonymously accessible without making the rest
+of the project public. Public sharing is disabled by default for these projects.
+
 .. _statistics-access-filtering:
 
 .. note::
@@ -510,6 +514,14 @@ the following rules:
   component are listed separately and are not inspected or changed. An
   operation is denied when none of the project's repositories are available to
   it.
+
+- The :guilabel:`Manage reports` permission applies to the complete selected
+  report scope. It grants access to report data from restricted components and,
+  at workspace scope, private projects even when those descendants are not
+  otherwise visible to the user. Grant it only to users trusted with all report
+  data in that scope. Complete workspace reports are unavailable to regular
+  users until they configure two-factor authentication when any project in the
+  workspace enforces it. Superusers and bot accounts are exempt.
 
 - The :guilabel:`Edit component settings` permission allows administrative
   operations that can affect repository contents. For example, users can choose

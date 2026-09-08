@@ -4,13 +4,21 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.db import migrations
 
 from weblate.addons.events import AddonEvent
 from weblate.addons.utils import adjust_addon_events
 
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
-def update_cdnjs_events(apps, schema_editor) -> None:
+
+def update_cdnjs_events(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     adjust_addon_events(
         apps,
         schema_editor,

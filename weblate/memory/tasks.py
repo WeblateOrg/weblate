@@ -21,6 +21,7 @@ from weblate.utils.celery import app
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from celery import Celery
     from django.db.models import QuerySet
 
     from weblate.auth.models import User
@@ -635,7 +636,7 @@ def resume_memory_component_backfill() -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(
         MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
         resume_memory_scope_backfill.s(),

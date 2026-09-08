@@ -70,16 +70,16 @@ class MultiUnit(TranslationUnit):
     def notes(self):
         return "\n".join(unit.notes for unit in self.units if unit.notes)
 
-    def is_translated(self):
+    def is_translated(self) -> bool:
         return any(unit.is_translated() for unit in self.units)
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         return any(unit.is_fuzzy(fallback) for unit in self.units)
 
-    def has_content(self):
+    def has_content(self) -> bool:
         return any(unit.has_content() for unit in self.units)
 
-    def is_readonly(self):
+    def is_readonly(self) -> bool:
         return any(unit.is_readonly() for unit in self.units)
 
     def set_target(self, target: str | list[str]) -> None:

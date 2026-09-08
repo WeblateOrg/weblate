@@ -386,6 +386,27 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
             ],
         )
 
+    def test_code_span_delimiter(self) -> None:
+        self.do_test(True, ("`code`", "``code``", "md-text"))
+
+    def test_code_span_in_autolink(self) -> None:
+        self.do_test(
+            False,
+            (
+                "<https://example.com/`path`>",
+                "<https://example.com/path>",
+                "md-text",
+            ),
+        )
+
+    def test_partially_escaped_code_span(self) -> None:
+        self.do_test(True, (r"\``{danger}`", "{danger}", "md-text"))
+
+    def test_incomplete_code_span(self) -> None:
+        for length in (400, 800, 1600, 100_000):
+            with self.subTest(length=length):
+                self.do_test(False, ("", "`" * length + "X", "md-text"))
+
 
 class URLCheckTest(CheckTestCase):
     check = URLCheck()

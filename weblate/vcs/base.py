@@ -1153,7 +1153,7 @@ class Repository:
     @classmethod
     def validate_remote_url(cls, url: str) -> ResolvedRepositoryURL | None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level]
 
         from weblate.utils.validators import resolve_repo_url  # ruff: ignore[import-outside-top-level]
 
@@ -1321,7 +1321,7 @@ class Repository:
         """Check whether repository needs commit."""
         raise NotImplementedError
 
-    def count_missing(self):
+    def count_missing(self) -> int:
         """Count missing commits."""
         return len(
             self.log_revisions(self.ref_to_remote.format(self.get_remote_branch_name()))
@@ -1359,11 +1359,11 @@ class Repository:
             return outgoing
         return [revision for revision in outgoing if revision in branch_outgoing]
 
-    def count_outgoing(self, branch: str | None = None):
+    def count_outgoing(self, branch: str | None = None) -> int:
         """Count outgoing commits."""
         return len(self.get_outgoing_revisions(branch))
 
-    def needs_merge(self):
+    def needs_merge(self) -> bool:
         """
         Check whether repository needs merge with upstream.
 
@@ -1472,7 +1472,7 @@ class Repository:
         cls._version_cache.clear()
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False)
 

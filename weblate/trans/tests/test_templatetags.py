@@ -1198,7 +1198,9 @@ class DiffTestCase(SimpleTestCase):
 
 class FormatterNestingTestCase(SimpleTestCase):
     class GlossaryTerm:
-        def __init__(self, source: str, target: str, positions: list[tuple[int, int]]):
+        def __init__(
+            self, source: str, target: str, positions: list[tuple[int, int]]
+        ) -> None:
             self.source = source
             self.target = target
             self.glossary_positions = positions
@@ -1375,7 +1377,7 @@ class UploadMethodsHelpTestCase(SimpleTestCase):
 
 
 class ProgressTestCase(SimpleTestCase):
-    def test_review(self):
+    def test_review(self) -> None:
         self.assertHTMLEqual(
             """
 <div class="progress-stacked" title="Needs attention">
@@ -1388,7 +1390,7 @@ class ProgressTestCase(SimpleTestCase):
             str(translation_progress_render(60, 0, 0, 60, True)),
         )
 
-    def test_review_checks(self):
+    def test_review_checks(self) -> None:
         self.assertHTMLEqual(
             """
 <div class="progress-stacked" title="Needs attention">
@@ -1397,7 +1399,7 @@ class ProgressTestCase(SimpleTestCase):
             str(translation_progress_render(60, 0, 0, 0, True)),
         )
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         self.assertHTMLEqual(
             """
 <div class="progress-stacked" title="Needs attention">

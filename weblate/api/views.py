@@ -73,6 +73,8 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    AutoTranslateRequestSerializer,
+    AutoTranslateResponseSerializer,
     BackupSerializer,
     BasicUserSerializer,
     BilingualSourceUnitSerializer,
@@ -1897,7 +1899,7 @@ def validate_report_scope_access(user, scope) -> None:
     if scope is None:
         return
     if isinstance(scope, Workspace):
-        allowed = scope.can_view(user)
+        allowed = scope.can_view(user) or user.has_perm("reports.view", scope)
     elif isinstance(scope, Project):
         allowed = user.allowed_projects.filter(pk=scope.pk).exists()
     elif isinstance(scope, Category):
@@ -1946,7 +1948,10 @@ class ReportsMixin(APIViewSetMixin):
     )
     @extend_schema(
         methods=["post"],
-        description="Schedule report generation using the endpoint object as scope.",
+        description=(
+            "Schedule report generation using the endpoint object as the complete "
+            "report scope."
+        ),
         request=ScopedReportCreateSerializer,
         responses={HTTP_202_ACCEPTED: REPORT_TASK_RESPONSE_SERIALIZER},
     )
@@ -3867,7 +3872,12 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Trigger automatic translation.", methods=["post"])
+    @extend_schema(
+        description="Trigger automatic translation.",
+        methods=["post"],
+        request=AutoTranslateRequestSerializer,
+        responses={HTTP_200_OK: AutoTranslateResponseSerializer},
+    )
     @action(detail=True, methods=["post"])
     def autotranslate(self, request: Request, **kwargs):
         translation = self.get_object()
@@ -5002,7 +5012,10 @@ class Search(APIView):
         parameters=REPORT_LIST_FILTER_PARAMETERS,
     ),
     create=extend_schema(
-        description="Schedule generation of a stored report.",
+        description=(
+            "Schedule generation of a stored report. The reports.view permission "
+            "authorizes the complete selected scope."
+        ),
         request=ReportCreateSerializer,
         responses={HTTP_202_ACCEPTED: REPORT_TASK_RESPONSE_SERIALIZER},
     ),

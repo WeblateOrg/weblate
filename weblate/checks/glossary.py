@@ -18,6 +18,7 @@ from weblate.utils.csv import (
 from weblate.utils.html import format_html_join_comma
 
 if TYPE_CHECKING:
+    from weblate.checks.models import Check
     from weblate.trans.models import Unit
 
 
@@ -60,7 +61,7 @@ class GlossaryCheck(TargetCheck):
 
         return forbidden | mismatched
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         unit = check_obj.unit
         sources = unit.get_source_plurals()
         targets = unit.get_target_plurals()
@@ -110,7 +111,7 @@ class ProhibitedInitialCharacterCheck(TargetCheck):
             source and source[0] in PROHIBITED_INITIAL_CHARS
         )
 
-    def get_description(self, check_obj) -> str:
+    def get_description(self, check_obj: Check) -> str:
         """Return description of the check."""
         return format_html(
             escape(

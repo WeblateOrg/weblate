@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-07-31 08:23+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1310,6 +1310,14 @@ msgstr "인증 앱이 제거되었습니다."
 msgid "The authentication app %s was registered."
 msgstr "인증 앱 %s이(가) 등록되었습니다."
 
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"본인이 맞다면, 계정에 다시 로그인할 수 있도록 비밀번호를 재설정해 주세요."
+
 msgid "Second factor sign in"
 msgstr "2단계 인증 로그인"
 
@@ -1950,8 +1958,11 @@ msgid "Regular expression to match translation files against"
 msgstr "번역 파일과 일치시킬 정규 표현식"
 
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "정규식은 구성요소와 언어에 대한 명명된 그룹을 정의해야 합니다."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr "파일 형식"
@@ -1995,6 +2006,18 @@ msgstr ""
 "중간 번역 파일의 파일 이름입니다. 대부분의 경우 개발자가 제공하는 번역 파일이"
 "며, 실제 원문 문자열을 생성할 때 사용됩니다. 이 템플릿에 {{ component }}가 포"
 "함되어야 합니다."
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "중복된 파일 마스크."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "언어 필터"
@@ -2092,8 +2115,31 @@ msgstr "기본 파일 없이는 단일 언어 번역을 사용할 수 없습니�
 msgid "You can not use a base file for bilingual translation."
 msgstr "이중 언어 번역에는 기본 파일을 사용할 수 없습니다."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "새 번역을 위한 기본 파일 정의"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr "구성요소 설정에서 단일 언어 기본 언어 파일을 추가하세요."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "일치하는 구성요소를 검토하고 확인하세요."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr "이 템플릿에는 {{ component }}가 포함되어야 합니다."
@@ -6103,6 +6149,20 @@ msgstr "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 4.5 (권장)"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Opus 4.5"
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr "Claude Opus 4.5"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Haiku 4.5"
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
+msgstr "Claude Haiku 4.5"
 
 #, fuzzy
 #| msgctxt "Anthropic model selection"
@@ -11872,6 +11932,21 @@ msgstr ""
 "업스트림 저장소에 접근할 수 없습니다. Weblate에서 접근 가능한지 확인하세요."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App"
+msgstr "Weblate 상태"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12052,6 +12127,11 @@ msgid ""
 msgstr ""
 "번역 파일이 템플릿 변경을 자동으로 따르도록 하려면 msgmerge 애드온도 설치하세"
 "요."
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
 
 msgid "This component is set up incorrectly."
 msgstr "이 구성요소가 올바르게 설정되지 않았습니다."
@@ -13083,6 +13163,79 @@ msgid "No connected accounts yet."
 msgstr "아직 계정이 없으십니까?"
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting integrations"
+msgstr "번역 호스팅"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connect or update GitHub account"
+msgstr "이 계정 삭제"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connected GitHub accounts:"
+msgstr "이 계정 삭제"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh repositories"
+msgstr "저장소"
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate selected components"
+msgstr "구성요소 생성됨"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "번역 현황"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "읽기 전용"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "저장소 리베이스됨"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "웹레이트 가입"
@@ -13182,11 +13335,6 @@ msgstr "%(project_name)s 초대"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Repositories"
-msgid "Refresh repositories"
-msgstr "저장소"
 
 #, python-format
 msgid ""
@@ -13321,9 +13469,24 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "다음 구성요소가 생성됩니다"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action in %(component)s"
+#| msgid_plural "%(count)s strings needing action in %(component)s"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(component)s의 %(count)s개 문자열에 작업이 필요합니다"
 
 msgid "Invitations"
 msgstr "초대"
@@ -14388,6 +14551,9 @@ msgstr "일치하는 파일 마스크가 없습니다."
 msgid "Inexistent files."
 msgstr "존재하지 않는 파일."
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
 msgstr "충돌하는 저장소 설정."
@@ -14747,6 +14913,15 @@ msgid "Discovery configuration"
 msgstr "검색 구성"
 
 msgid ""
+"Component discovery stopped because the repository contains too many paths."
+msgstr ""
+
+msgid ""
+"The language filter regular expression is too complex and took too long to "
+"evaluate."
+msgstr "언어 필터 정규식이 너무 복잡하여 평가 시간이 오래 걸렸습니다."
+
+msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
 msgstr ""
@@ -14754,9 +14929,22 @@ msgstr ""
 "시간이 너무 오래 걸립니다."
 
 msgid ""
-"The language filter regular expression is too complex and took too long to "
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
 "evaluate."
-msgstr "언어 필터 정규식이 너무 복잡하여 평가 시간이 오래 걸렸습니다."
+msgstr "정규 표현식이 너무 복잡하고 평가하는 데 시간이 너무 오래 걸립니다."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
 
 msgid "File mask matches the main component."
 msgstr "파일 마스크가 기본 구성요소와 일치합니다."
@@ -14788,6 +14976,21 @@ msgstr "%s에서 Weblate를 사용하여 이루어진 모든 최근 변경사항
 
 msgid "Sort JSON keys"
 msgstr "JSON 키 정렬"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "가져오지 않음"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "대소문자 구분"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "대소문자 구분 안 함"
 
 msgid "JSON indentation"
 msgstr "JSON 들여쓰기"
@@ -17045,6 +17248,32 @@ msgstr "전각 대시"
 msgid "User configured character: {}"
 msgstr "사용자 설정 문자: {}"
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "대상이 더 이상 존재하지 않으므로 자동 번역이 건너뛰었습니다."
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "%(component)s의 저장소 작업"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "저장소 작업 실패"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "%(component)s의 저장소 작업"
+
 msgid "No suggestions found."
 msgstr "제안을 찾을 수 없습니다."
 
@@ -17563,68 +17792,28 @@ msgstr "업로드한 파일의 복수형이 현재 번역과 일치하지 않습
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "저장소를 잠글 수 없습니다. 다른 작업이 진행 중입니다."
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
 "저장소에서 진행 중인 작업이 있는 것으로 보입니다. 나중에 다시 시도하세요."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr "모든 저장소가 업데이트되었으며 번역 업데이트가 진행 중입니다."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "저장소 작업 실패"
 
 #, fuzzy
-#| msgid ""
-#| "All repositories have been updated, updates of translations are in "
-#| "progress."
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "모든 저장소가 업데이트되었으며 번역 업데이트가 진행 중입니다."
-
-msgid "All repositories were pushed."
-msgstr "모든 저장소가 푸시되었습니다."
-
-#, fuzzy
-#| msgid "All repositories were pushed."
-msgid "Accessible repositories were pushed."
-msgstr "모든 저장소가 푸시되었습니다."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr "모든 저장소가 재설정되었으며 번역 업데이트가 진행 중입니다."
-
-#, fuzzy
-#| msgid ""
-#| "All repositories have been reset, updates of translations are in progress."
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "모든 저장소가 재설정되었으며 번역 업데이트가 진행 중입니다."
-
-msgid "All repositories have been cleaned up."
-msgstr "모든 저장소가 정리되었습니다."
-
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
-msgid "Accessible repositories have been cleaned up."
-msgstr "모든 저장소가 정리되었습니다."
-
-msgid "Translation files have been synchronized."
-msgstr "번역 파일이 동기화되었습니다."
-
-#, fuzzy
-#| msgid "Translation files have been synchronized."
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "번역 파일이 동기화되었습니다."
-
-msgid "Updates of translations are in progress."
-msgstr "번역 업데이트가 진행 중입니다."
-
-#, fuzzy
-#| msgid "Updates of translations are in progress."
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "번역 업데이트가 진행 중입니다."
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "저장소 작업 실패"
 
 #, fuzzy
 #| msgid "Please fix this by removing one of the translation files."
@@ -17640,19 +17829,6 @@ msgstr "번역 파일 중 하나를 제거하여 이 문제를 해결하세요."
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "번역 파일 중 하나를 제거하여 이 문제를 해결하세요."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations are being committed."
-msgstr "보류 중인 모든 번역이 커밋되었습니다."
-
-msgid "All pending translations were committed."
-msgstr "보류 중인 모든 번역이 커밋되었습니다."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations in accessible repositories were committed."
-msgstr "보류 중인 모든 번역이 커밋되었습니다."
 
 msgid "Component is now locked for translation updates!"
 msgstr "구성요소가 번역 업데이트를 위해 잠겼습니다!"
@@ -18625,6 +18801,16 @@ msgstr "변경 사항이 업스트림 저장소에 푸시됩니다."
 msgid "Enter a valid GitHub host."
 msgstr "유효한 언어 코드를 입력하세요."
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "제거할 구성요소"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr "복사할 기존 구성요소 설정을 선택하세요."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -18979,8 +19165,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -19057,6 +19270,24 @@ msgstr ""
 #| msgid "Created user account {}."
 msgid "Connected GitHub account added."
 msgstr "사용자 계정 {}로 생성되었습니다."
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "%(component)s을(를) 푸시할 수 없습니다: %(error_text)s"
 
 #, fuzzy
 #| msgid "Enter a valid domain name or IP address."
@@ -19429,6 +19660,83 @@ msgid "The workspace has been removed."
 msgstr "원문이 제거되었습니다."
 
 #~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "정규식은 구성요소와 언어에 대한 명명된 그룹을 정의해야 합니다."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "모든 저장소가 업데이트되었으며 번역 업데이트가 진행 중입니다."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been updated, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "모든 저장소가 업데이트되었으며 번역 업데이트가 진행 중입니다."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "모든 저장소가 푸시되었습니다."
+
+#, fuzzy
+#~| msgid "All repositories were pushed."
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "모든 저장소가 푸시되었습니다."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr "모든 저장소가 재설정되었으며 번역 업데이트가 진행 중입니다."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been reset, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "모든 저장소가 재설정되었으며 번역 업데이트가 진행 중입니다."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "모든 저장소가 정리되었습니다."
+
+#, fuzzy
+#~| msgid "All repositories have been cleaned up."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "모든 저장소가 정리되었습니다."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "번역 파일이 동기화되었습니다."
+
+#, fuzzy
+#~| msgid "Translation files have been synchronized."
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "번역 파일이 동기화되었습니다."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "번역 업데이트가 진행 중입니다."
+
+#, fuzzy
+#~| msgid "Updates of translations are in progress."
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "번역 업데이트가 진행 중입니다."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations are being committed."
+#~ msgstr "보류 중인 모든 번역이 커밋되었습니다."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "보류 중인 모든 번역이 커밋되었습니다."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "보류 중인 모든 번역이 커밋되었습니다."
+
+#~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
 #~ "showing a preview of edited strings before the actual change is confirmed."
 #~ msgstr ""
@@ -19787,9 +20095,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Workflow customization"
 #~ msgstr "워크플로 사용자 지정"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr "저장소를 잠글 수 없습니다. 다른 작업이 진행 중입니다."
 
 #~ msgid "Add team"
 #~ msgstr "팀 추가"

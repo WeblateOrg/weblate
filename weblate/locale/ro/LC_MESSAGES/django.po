@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-07-31 08:23+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1510,6 +1510,17 @@ msgid "The authentication app %s was registered."
 msgstr "Aplicația de autentificare %s a fost înregistrată."
 
 #, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"Dacă ai fost tu, folosește o resetare a parolei pentru a redobândi accesul "
+"la contul tău."
+
+#, fuzzy
 #| msgid "Last sign in"
 msgid "Second factor sign in"
 msgstr "Ultima conectare"
@@ -2216,11 +2227,12 @@ msgstr "Te rugăm să verifici și să confirmi componentele potrivite."
 msgid "Regular expression to match translation files against"
 msgstr "Expresie regulată pentru a potrivi fișierele de traducere"
 
-#, fuzzy
-#| msgid "The regular expression can not match an empty string."
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "Expresia regulată nu se poate potrivi cu un șir gol."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr "Format fișier"
@@ -2271,6 +2283,18 @@ msgstr ""
 "Numele de fișier al fișierului de traducere intermediar. În cele mai multe "
 "cazuri, acesta este un fișier de traducere furnizat de dezvoltatori și este "
 "utilizat la crearea șirurilor sursă reale."
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "Mască de fișier duplicată."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "Filtru limbă"
@@ -2388,8 +2412,33 @@ msgstr "Nu poți utiliza o traducere monolingvă fără un fișier de bază."
 msgid "You can not use a base file for bilingual translation."
 msgstr "Nu poți utiliza un fișier de bază pentru o traducere bilingvă."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Definește fișierul de bază pentru traduceri noi"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+"Te rugăm să adaugi un fișier de limbă de bază monolingvă în setările "
+"componentei."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "Te rugăm să verifici și să confirmi componentele potrivite."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr ""
@@ -6949,6 +6998,14 @@ msgstr ""
 
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
 msgstr ""
 
 msgctxt "Anthropic model selection"
@@ -13438,6 +13495,21 @@ msgstr ""
 "dacă este accesibil pentru Weblate."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App"
+msgstr "Stare Weblate"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -13623,6 +13695,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -14758,6 +14835,79 @@ msgid "No connected accounts yet."
 msgstr "Elimină cont"
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting integrations"
+msgstr "Găzduir traduceri"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connect or update GitHub account"
+msgstr "Șterge acest cont"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connected GitHub accounts:"
+msgstr "Șterge acest cont"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh repositories"
+msgstr "Depozitare"
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate selected components"
+msgstr "Componenta creată"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Stare traducere"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Doar în citire"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "Depozitar rebazat"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "Înregistrează-te în Weblate"
@@ -14853,11 +15003,6 @@ msgstr "Invitație către %(project_name)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Repositories"
-msgid "Refresh repositories"
-msgstr "Depozitare"
 
 #, python-format
 msgid ""
@@ -14990,9 +15135,28 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Următoarele componente vor fi create"
+msgstr[1] "Următoarele componente vor fi create"
+msgstr[2] "Următoarele componente vor fi create"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action in %(component)s"
+#| msgid_plural "%(count)s strings needing action in %(component)s"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "Șirul %(count)s care necesită o acțiune în %(component)s"
+msgstr[1] "Șirul %(count)s care necesită o acțiune în %(component)s"
+msgstr[2] "Șirurile %(count)s care necesită niște acțiuni în %(component)s"
 
 msgid "Invitations"
 msgstr "Invitații"
@@ -16158,6 +16322,9 @@ msgstr "Nicio mască de fișier nu se potrivește."
 msgid "Inexistent files."
 msgstr "Fișiere inexistente."
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Could not merge the repository."
@@ -16572,6 +16739,15 @@ msgstr ""
 msgid "Discovery configuration"
 msgstr "Configurație bună"
 
+msgid ""
+"Component discovery stopped because the repository contains too many paths."
+msgstr ""
+
+msgid ""
+"The language filter regular expression is too complex and took too long to "
+"evaluate."
+msgstr ""
+
 #, fuzzy
 #| msgid ""
 #| "The regular expression to match translation files has to contain two "
@@ -16585,8 +16761,21 @@ msgstr ""
 "câteva exemple:"
 
 msgid ""
-"The language filter regular expression is too complex and took too long to "
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "The regular expression can not match an empty string."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
 "evaluate."
+msgstr "Expresia regulată nu se poate potrivi cu un șir gol."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 #, fuzzy
@@ -16624,6 +16813,19 @@ msgstr "Toate modificările recente efectuate cu ajutorul Weblate în %s."
 
 msgid "Sort JSON keys"
 msgstr "Sortează chei JSON"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "Nu importa"
+
+msgid "Case-sensitive sort"
+msgstr ""
+
+#, fuzzy
+#| msgid "Percent placeholders"
+msgid "Case-insensitive sort"
+msgstr "Procentaj substituenți"
 
 msgid "JSON indentation"
 msgstr "Indentarea JSON"
@@ -19222,6 +19424,32 @@ msgid "User configured character: {}"
 msgstr "Caracter configurat de utilizator: {}"
 
 #, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Traducere automată în curs"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "Operațiune depozitar în %(component)s"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "Operațiunea depozitarului a eșuat"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "Operațiune depozitar în %(component)s"
+
+#, fuzzy
 #| msgid "No strings found!"
 msgid "No suggestions found."
 msgstr "Nu s-au găsit șiruri!"
@@ -19826,68 +20054,27 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "Nu s-a putut bloca depozitarul, altă operațiune este în curs."
+
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr "Nu s-a putut bloca depozitarul, altă operațiune este în curs."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "This repository operation is already queued."
+msgstr "Operațiunea depozitarului a eșuat"
 
 #, fuzzy
-#| msgid "All repositories have been reset."
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "Toate depozitarele au fost resetate."
-
-msgid "All repositories were pushed."
-msgstr "Toate depozitarele au fost încărcate."
-
-#, fuzzy
-#| msgid "All repositories were pushed."
-msgid "Accessible repositories were pushed."
-msgstr "Toate depozitarele au fost încărcate."
-
-#, fuzzy
-#| msgid "All repositories have been reset."
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr "Toate depozitarele au fost resetate."
-
-#, fuzzy
-#| msgid "All repositories have been reset."
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "Toate depozitarele au fost resetate."
-
-msgid "All repositories have been cleaned up."
-msgstr "Toate depozitarele au fost curățate."
-
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
-msgid "Accessible repositories have been cleaned up."
-msgstr "Toate depozitarele au fost curățate."
-
-msgid "Translation files have been synchronized."
-msgstr "Fișierele de traducere au fost sincronizate."
-
-#, fuzzy
-#| msgid "Translation files have been synchronized."
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Fișierele de traducere au fost sincronizate."
-
-#, fuzzy
-#| msgid "Automatic translation in progress"
-msgid "Updates of translations are in progress."
-msgstr "Traducere automată în curs"
-
-#, fuzzy
-#| msgid "Automatic translation in progress"
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "Traducere automată în curs"
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "Operațiunea depozitarului a eșuat"
 
 #, fuzzy
 #| msgid "Please fix this by removing one of the translation files."
@@ -19909,19 +20096,6 @@ msgid "Obsolete strings have been removed from the translation file."
 msgstr ""
 "Te rugăm să remediezi acest lucru prin eliminarea unuia dintre fișierele de "
 "traducere."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations are being committed."
-msgstr "Toate traducerile în așteptare au fost comise."
-
-msgid "All pending translations were committed."
-msgstr "Toate traducerile în așteptare au fost comise."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Toate traducerile în așteptare au fost comise."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Componenta este acum blocată pentru actualizări de traducere!"
@@ -20982,6 +21156,16 @@ msgstr "Aceasta va încărca modificările în depozitarul din sursa principală
 msgid "Enter a valid GitHub host."
 msgstr "Coduri lingvistice alipite"
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "Componentă de eliminat"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr "Selectează o configurație de componentă existentă pentru a o copia."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -21369,8 +21553,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -21445,6 +21656,28 @@ msgstr ""
 #| msgid "Created user account {}."
 msgid "Connected GitHub account added."
 msgstr "A fost creat contul de utilizator {}."
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Nu s-a reușit încărcarea %(component)s: %(error_text)s"
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -21852,6 +22085,80 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Sursa a fost eliminată."
 
+#, fuzzy
+#~| msgid "The regular expression can not match an empty string."
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "Expresia regulată nu se poate potrivi cu un șir gol."
+
+#, fuzzy
+#~| msgid "All repositories have been reset."
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "Toate depozitarele au fost resetate."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "Toate depozitarele au fost încărcate."
+
+#, fuzzy
+#~| msgid "All repositories were pushed."
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Toate depozitarele au fost încărcate."
+
+#, fuzzy
+#~| msgid "All repositories have been reset."
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr "Toate depozitarele au fost resetate."
+
+#, fuzzy
+#~| msgid "All repositories have been reset."
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "Toate depozitarele au fost resetate."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "Toate depozitarele au fost curățate."
+
+#, fuzzy
+#~| msgid "All repositories have been cleaned up."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Toate depozitarele au fost curățate."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Fișierele de traducere au fost sincronizate."
+
+#, fuzzy
+#~| msgid "Translation files have been synchronized."
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Fișierele de traducere au fost sincronizate."
+
+#, fuzzy
+#~| msgid "Automatic translation in progress"
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "Traducere automată în curs"
+
+#, fuzzy
+#~| msgid "Automatic translation in progress"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Traducere automată în curs"
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Toate traducerile în așteptare au fost comise."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "Toate traducerile în așteptare au fost comise."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Toate traducerile în așteptare au fost comise."
+
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
 #~ "showing a preview of edited strings before the actual change is confirmed."
@@ -22182,9 +22489,6 @@ msgstr "Sursa a fost eliminată."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Personalizare flux de lucru"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr "Nu s-a putut bloca depozitarul, altă operațiune este în curs."
 
 #, fuzzy
 #~| msgid "Edit team"

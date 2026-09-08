@@ -13,6 +13,9 @@ from .forms import SAPMachineryForm
 if TYPE_CHECKING:
     import httpx2
 
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import DownloadTranslations
 
 
@@ -22,13 +25,13 @@ class SAPTranslationHub(MachineTranslation):
     settings_form = SAPMachineryForm
 
     @property
-    def api_base_url(self):
+    def api_base_url(self) -> str:
         base = super().api_base_url
         if base.endswith("/v1"):
             return base
         return f"{base}/v1"
 
-    def get_headers(self):
+    def get_headers(self) -> dict[str, str]:
         """Add authentication headers to request."""
         # to access the sandbox
         result = {}
@@ -43,7 +46,7 @@ class SAPTranslationHub(MachineTranslation):
             return (self.settings["username"], self.settings["password"])
         return None
 
-    def download_languages(self):
+    def download_languages(self) -> list[str]:
         """Get all available languages from SAP Translation Hub."""
         # get all available languages
         response = self.request("get", self.get_api_url("languages"))
@@ -53,11 +56,11 @@ class SAPTranslationHub(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

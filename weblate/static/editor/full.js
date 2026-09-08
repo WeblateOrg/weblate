@@ -171,6 +171,23 @@
       if (fuzzy) fuzzy.checked = false;
       return submitForm(e);
     });
+    hotkeys("ctrl+alt+enter,command+alt+enter", (e) => {
+      const approved = this.translationForm?.querySelector(
+        'input[type="radio"][name="review"][value="30"]',
+      );
+      const save = this.translationForm?.querySelector('button[name="save"]');
+      if (
+        !e.repeat &&
+        approved &&
+        !approved.matches(":disabled") &&
+        save &&
+        !save.matches(":disabled")
+      ) {
+        approved.click();
+        save.click();
+      }
+      return false;
+    });
     hotkeys("alt+enter", (e) => {
       return submitForm(e, null, 'button[name="suggest"]');
     });
@@ -232,25 +249,50 @@
 
     /* Form persistence. Restores translation form upon comment submission */
     const restoreKey = "translation_autosave";
+    const stateSelector =
+      'input[name="fuzzy"], input[name="review"], [name="explanation"]';
     const restoreValue = localStorage.getItem(restoreKey);
     if (restoreValue !== null) {
-      const translationRestore = JSON.parse(restoreValue);
+      const restored = JSON.parse(restoreValue);
+      const areas = Array.isArray(restored) ? restored : restored.areas;
+      const state = Array.isArray(restored) ? [] : restored.state;
 
-      translationRestore.forEach((restoreArea) => {
+      areas.forEach((restoreArea) => {
         const target = document.getElementById(restoreArea.id);
         if (target) {
           target.value = restoreArea.value;
           target.dispatchEvent(new Event("input", { bubbles: true }));
         }
       });
+      state.forEach((restoreField) => {
+        const target = document.getElementById(restoreField.id);
+        if (target === null) {
+          return;
+        }
+        if (target.type === "checkbox" || target.type === "radio") {
+          target.checked = restoreField.checked;
+        } else {
+          target.value = restoreField.value;
+        }
+      });
       localStorage.removeItem(restoreKey);
     }
 
     delegate(this.editors, "submit", ".auto-save-translation", () => {
-      const data = Array.from(this.translationArea, (area) => ({
-        id: area.id,
-        value: area.value,
-      }));
+      const data = {
+        areas: Array.from(this.translationArea, (area) => ({
+          id: area.id,
+          value: area.value,
+        })),
+        state: Array.from(
+          this.translationForm?.querySelectorAll(stateSelector) ?? [],
+          (field) => ({
+            id: field.id,
+            value: field.value,
+            checked: field.checked,
+          }),
+        ),
+      };
 
       localStorage.setItem(restoreKey, JSON.stringify(data));
     });
@@ -461,21 +503,12 @@
   FullEditor.prototype.initChecks = function () {
     /* Clicking links (e.g. comments, suggestions)
      * This is inside things to checks, but not a check-item */
-    delegate(
-      this.editors,
-      "click",
-      '.check [data-bs-toggle="tab"]',
-      function (e) {
-        const target = this.getAttribute("data-bs-target");
-
-        e.preventDefault();
-        document.querySelector(`.nav [data-bs-target="${target}"]`)?.click();
-        const tabs = document.querySelector(".translation-tabs");
-        if (tabs) {
-          window.scrollTo(0, tabs.getBoundingClientRect().top + window.scrollY);
-        }
-      },
-    );
+    delegate(this.editors, "click", ".check [data-tab-target]", () => {
+      const tabs = document.querySelector(".translation-tabs");
+      if (tabs) {
+        window.scrollTo(0, tabs.getBoundingClientRect().top + window.scrollY);
+      }
+    });
 
     const checks = document.querySelectorAll(".check-item");
     if (checks.length === 0) {

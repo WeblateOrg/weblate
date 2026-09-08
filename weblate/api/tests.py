@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import csv
 import operator
 import os
@@ -13,6 +15,7 @@ from datetime import UTC, date, datetime, timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 import yaml
@@ -80,6 +83,7 @@ from weblate.trans.component_copy import (
 )
 from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.forms import (
+    AutoForm,
     CategorySettingsForm,
     ComponentSettingsForm,
     ProjectSettingsForm,
@@ -111,7 +115,10 @@ from weblate.trans.tests.utils import (
     get_test_file,
 )
 from weblate.trans.util import join_plural
-from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
+from weblate.trans.validators import (
+    SUGGESTION_REJECTION_REASON_LENGTH,
+    get_translation_text_max_length,
+)
 from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -130,6 +137,10 @@ from weblate.vcs.base import RepositoryError, RepositoryLock
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from unittest.mock import Mock
+
 
 TEST_PO = get_test_file("cs.po")
 TEST_POT = get_test_file("hello-charset.pot")
@@ -3394,7 +3405,7 @@ class ComponentCopyTest(APITestCase):
             def order_by(self, *_args):
                 return self
 
-            def values_list(self, *_args):
+            def values_list(self, *_args) -> list[tuple[int, str, str, int, int]]:
                 return [
                     (1, "Hello", "first", 10, 1),
                     (2, "Hello", "second", 20, 1),
@@ -3612,6 +3623,7 @@ class ProjectAPITest(APIBaseTest):
             "http://example.com/api/projects/test/metrics/",
         )
         self.assertEqual(response.data["access_control"], self.project.access_control)
+        self.assertFalse(response.data["public_sharing"])
         self.assertEqual(response.data["use_shared_tm"], self.project.use_shared_tm)
         self.assertEqual(
             response.data["contribute_shared_tm"], self.project.contribute_shared_tm
@@ -3724,7 +3736,7 @@ class ProjectAPITest(APIBaseTest):
             finally:
                 events.append("reservation context exited")
 
-        def update(*args, **kwargs):
+        def update(*args, **kwargs) -> bool:
             transaction.on_commit(lambda: events.append("follow-up"))
             return True
 
@@ -5519,6 +5531,52 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["access_control"], Project.ACCESS_PRIVATE)
         self.assertEqual(self.project.access_control, Project.ACCESS_PRIVATE)
 
+    def test_patch_public_sharing(self) -> None:
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"public_sharing": True},
+        )
+
+        self.project.refresh_from_db()
+        self.assertTrue(response.data["public_sharing"])
+        self.assertTrue(self.project.public_sharing)
+
+    def test_patch_public_sharing_requires_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"public_sharing": True},
+        )
+
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.public_sharing)
+
+    def test_patch_unchanged_public_sharing_without_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"public_sharing": False},
+        )
+
+        self.assertFalse(response.data["public_sharing"])
+
     def test_patch_access_control_requires_permission(self) -> None:
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
@@ -5650,6 +5708,24 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(
             response.data["access_control"], settings.DEFAULT_ACCESS_CONTROL
         )
+
+    def test_create_public_sharing(self) -> None:
+        self.grant_perm_to_user("project.add")
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            format="json",
+            request={
+                "name": "Shared project",
+                "slug": "shared-project",
+                "web": "https://weblate.org/",
+                "public_sharing": True,
+            },
+        )
+
+        self.assertTrue(response.data["public_sharing"])
+        self.assertTrue(Project.objects.get(slug="shared-project").public_sharing)
 
     def test_create_access_control_requires_superuser(self) -> None:
         self.grant_perm_to_user("project.add")
@@ -6740,7 +6816,7 @@ class ProjectAPITest(APIBaseTest):
 
     @patch("weblate.api.views.ComponentSlugFilter")
     def test_download_project_translations_language_path_filter_invalid(
-        self, filter_class
+        self, filter_class: Mock
     ) -> None:
         filter_instance = filter_class.return_value
         filter_instance.is_valid.return_value = False
@@ -7112,12 +7188,12 @@ class ProjectAPITest(APIBaseTest):
         task_url = response.data["task_url"]
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "SUCCESS"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return True
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10169,12 +10245,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10215,12 +10291,12 @@ class TasksAPITest(APIBaseTest):
         cache.set(get_task_metadata_key(self.task_id), {"user_id": self.user.id}, 3600)
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10254,12 +10330,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10286,14 +10362,14 @@ class TasksAPITest(APIBaseTest):
         class DummyAsyncResult:
             latest = None
 
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
                 self.revoked = False
                 DummyAsyncResult.latest = self
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
             def revoke(self, *args, **kwargs) -> None:
@@ -10334,7 +10410,7 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = {
                     "message": "Task completed.",
@@ -10346,7 +10422,7 @@ class TasksAPITest(APIBaseTest):
                 }
                 self.state = "SUCCESS"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return True
 
         self.client.credentials()
@@ -10384,7 +10460,7 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = {
                     "message": "Task completed.",
@@ -10392,7 +10468,7 @@ class TasksAPITest(APIBaseTest):
                 }
                 self.state = "SUCCESS"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return True
 
         self.client.credentials()
@@ -10412,14 +10488,14 @@ class TasksAPITest(APIBaseTest):
         class DummyAsyncResult:
             latest = None
 
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.revoked = False
                 self.state = "PENDING"
                 DummyAsyncResult.latest = self
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
             def revoke(self, *args, **kwargs) -> None:
@@ -10445,12 +10521,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10473,12 +10549,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10499,12 +10575,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -10517,12 +10593,12 @@ class TasksAPITest(APIBaseTest):
 
     def test_retrieve_requires_cached_metadata(self) -> None:
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -11364,36 +11440,42 @@ class MemoryAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data["errors"][0]["attr"], "exact")
 
-    def test_get_exact_matches_uses_distinct_on_source(self) -> None:
-        first = self.create_memory(
+    def test_get_exact_matches_prefers_active_then_lowest_id(self) -> None:
+        pending = self.create_memory(
             source="Shared exact source",
-            target="Prvni shoda",
+            target="Pending match",
             project=self.component.project,
             origin=self.component.full_slug,
         )
-        second = self.create_memory(
+        pending.status = Memory.STATUS_PENDING
+        pending.save(update_fields=["status"])
+        first_active = self.create_memory(
+            source="Shared exact source",
+            target="First active match",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        self.create_memory(
+            source="Shared exact source",
+            target="Second active match",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        other = self.create_memory(
             source="Another exact source",
-            target="Druha shoda",
+            target="Another match",
             project=self.component.project,
             origin=self.component.full_slug,
         )
-        queryset = self.mock_queryset()
-        filtered_queryset = self.mock_queryset()
-        ordered_queryset = self.mock_queryset()
-        distinct_queryset = self.mock_queryset()
-        distinct_queryset.__iter__.return_value = iter([first, second])
-        queryset.filter.return_value = filtered_queryset
-        filtered_queryset.order_by.return_value = ordered_queryset
-        ordered_queryset.distinct.return_value = distinct_queryset
 
         view = MemoryViewSet()
         matches = view.get_exact_matches(
-            queryset, ["Shared exact source", "Another exact source"]
+            Memory.objects.all(), ["Shared exact source", "Another exact source"]
         )
 
-        filtered_queryset.order_by.assert_called_once_with("source", "-status", "id")
-        ordered_queryset.distinct.assert_called_once_with("source")
-        self.assertEqual(matches, {first.source: first, second.source: second})
+        self.assertEqual(
+            matches, {first_active.source: first_active, other.source: other}
+        )
 
     def test_lookup_delegates_fuzzy_matching_to_queryset(self) -> None:
         source_language = Language.objects.get(code="en")
@@ -12972,6 +13054,28 @@ class UnitAPITest(APIBaseTest):
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.target, "Test translation\n")
 
+    def test_translate_unit_too_long(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        original_target = unit.target
+        target = "x" * (get_translation_text_max_length(unit) + 1)
+
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "20", "target": target},
+        )
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Translation text too long!"
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "target")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original_target)
+
     def test_translate_unit_deleted_mid_request(self) -> None:
         """Unit removed between get_object() and the locking re-fetch."""
         unit = Unit.objects.get(
@@ -13871,7 +13975,7 @@ class SuggestionAPITest(APIBaseTest):
 
     def test_add_suggestion_too_long(self) -> None:
         unit = self._get_unit()
-        max_length = 10 * (unit.get_max_length() + 100)
+        max_length = get_translation_text_max_length(unit)
         response = self._add_suggestion(unit, "x" * (max_length + 1), code=400)
         self.assertEqual(
             response.data["errors"][0]["detail"], "Translation text too long!"
@@ -14861,7 +14965,7 @@ class MetricsAPITest(APIBaseTest):
         "weblate.utils.celery.get_queue_stats",
         return_value={'queue"\\\n': 7},
     )
-    def test_metrics_openmetrics_escapes_labels(self, mock_queues) -> None:
+    def test_metrics_openmetrics_escapes_labels(self, mock_queues: Mock) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
         mock_queues.assert_called_once_with()
@@ -15782,7 +15886,7 @@ class AddonAPITest(APIBaseTest):
         )
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_trigger_project_addon(self, mocked_delay) -> None:
+    def test_trigger_project_addon(self, mocked_delay: Mock) -> None:
         self.project.add_user(self.user, "Administration")
         addon = XgettextAddon.create(
             component=self.component,
@@ -15846,7 +15950,7 @@ class AddonAPITest(APIBaseTest):
         )
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_trigger_category_addon(self, mocked_delay) -> None:
+    def test_trigger_category_addon(self, mocked_delay: Mock) -> None:
         category = Category.objects.create(
             name="API category",
             slug="api-category",
@@ -17488,6 +17592,13 @@ class OpenAPITest(APIBaseTest):
                     expected_pattern,
                 )
 
+    def test_project_public_sharing_field(self) -> None:
+        schemas = self.get_schema()["components"]["schemas"]
+        for schema_name in ("Project", "PatchedProject"):
+            with self.subTest(schema_name=schema_name):
+                field = schemas[schema_name]["properties"]["public_sharing"]
+                self.assertEqual(field["type"], "boolean")
+
     def test_metrics_version_is_optional(self) -> None:
         schema = self.get_schema()
         required = schema["components"]["schemas"]["Metrics"]["required"]
@@ -18100,6 +18211,80 @@ class OpenAPITest(APIBaseTest):
                 }
             },
         )
+
+    def test_autotranslate_schema_describes_autoform_fields(self) -> None:
+        schema = self.get_schema()
+        autotranslate_path = "/api/translations/{component__project__slug}/{component__slug}/{language__code}/autotranslate/"
+        operation = schema["paths"][autotranslate_path]["post"]
+
+        # Request body must reference the AutoTranslateRequest schema, not Translation.
+        request_schema_ref = operation["requestBody"]["content"]["application/json"][
+            "schema"
+        ]["$ref"]
+        self.assertNotEqual(
+            request_schema_ref,
+            "#/components/schemas/Translation",
+            "autotranslate request body must not reference the Translation schema",
+        )
+        self.assertEqual(
+            request_schema_ref, "#/components/schemas/AutoTranslateRequest"
+        )
+
+        # The AutoTranslateRequest schema must describe exactly the AutoForm
+        # fields so the schema stays in sync when AutoForm changes.
+        request_schema = schema["components"]["schemas"]["AutoTranslateRequest"]
+        properties = request_schema["properties"]
+        form = AutoForm(self.component, self.user)
+        self.assertEqual(set(properties.keys()), set(form.fields.keys()))
+
+        # q, mode, auto_source, and threshold are required (no required=False /
+        # default in the serializer); component and engines are optional.
+        self.assertCountEqual(
+            request_schema.get("required", []),
+            ["q", "mode", "auto_source", "threshold"],
+        )
+
+        # drf-spectacular renders ChoiceField as a $ref to a separate enum schema.
+        # When the field also carries a description the $ref is nested under allOf,
+        # e.g. {"allOf": [{"$ref": "..."}], "description": "..."}.
+        def resolve(prop: dict) -> dict:
+            ref = prop.get("$ref") or (prop.get("allOf", [{}])[0].get("$ref"))
+            if ref:
+                node = schema
+                for part in ref.lstrip("#/").split("/"):
+                    node = node[part]
+                return node
+            return prop
+
+        # mode must enumerate the valid choices.
+        self.assertCountEqual(
+            resolve(properties["mode"])["enum"],
+            ["suggest", "translate", "fuzzy", "approved"],
+        )
+
+        # auto_source must enumerate the valid choices.
+        self.assertCountEqual(
+            resolve(properties["auto_source"])["enum"],
+            ["others", "mt"],
+        )
+
+        # threshold must carry numeric bounds.
+        self.assertEqual(properties["threshold"]["minimum"], 1)
+        self.assertEqual(properties["threshold"]["maximum"], 100)
+
+        # engines must be an array of strings.
+        self.assertEqual(properties["engines"]["type"], "array")
+        self.assertEqual(properties["engines"]["items"]["type"], "string")
+
+        # Response body must describe the details message, not Translation.
+        response_schema_ref = operation["responses"]["200"]["content"][
+            "application/json"
+        ]["schema"]["$ref"]
+        self.assertEqual(
+            response_schema_ref, "#/components/schemas/AutoTranslateResponse"
+        )
+        response_schema = schema["components"]["schemas"]["AutoTranslateResponse"]
+        self.assertIn("details", response_schema["properties"])
 
     def test_redoc(self) -> None:
         response = self.do_request("redoc")

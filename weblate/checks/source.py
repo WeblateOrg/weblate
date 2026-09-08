@@ -7,20 +7,22 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from datetime import timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.db.models import Count, F, Q
 from django.utils import timezone
 from django.utils.html import format_html, format_html_join
+from django.utils.text import format_lazy
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.checks.base import BatchCheckMixin, SourceCheck
+from weblate.checks.base import BatchCheckMixin, CodeDescriptionMixin, SourceCheck
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import FUZZY_STATES, STATE_EMPTY
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from weblate.checks.models import Check
     from weblate.trans.models import Component, Unit
 
 # Matches (s) not followed by alphanumeric chars or at the end
@@ -36,22 +38,25 @@ class OptionalPluralCheck(SourceCheck):
         "The string is used as plural, but not using plural forms."
     )
 
-    def check_source_unit(self, sources: list[str], unit: Unit):
+    def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         if len(sources) > 1:
             return False
         return len(PLURAL_MATCH.findall(sources[0])) > 0
 
 
-class EllipsisCheck(SourceCheck):
+class EllipsisCheck(CodeDescriptionMixin, SourceCheck):
     """Check for using "..." instead of "…"."""
 
     check_id = "ellipsis"
     name = gettext_lazy("Ellipsis")
-    description = gettext_lazy(
-        "The string uses three dots ``(...)`` instead of an ellipsis character ``(…)``."
+    # Translators: dots and ellipsis are punctuation examples, formatted for display.
+    description_template = gettext_lazy(
+        "The string uses three dots {dots} instead of an ellipsis character {ellipsis}."
     )
+    description_values: ClassVar[dict[str, str]] = {"dots": "...", "ellipsis": "…"}
+    description = format_lazy(description_template, **description_values)
 
-    def check_source_unit(self, sources: list[str], unit: Unit):
+    def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         return "..." in sources[0]
 
 
@@ -140,7 +145,7 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
             )
         )
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         related = self.get_related_checks([check_obj.unit_id]).select_related(
             "unit__translation__language"
         )

@@ -13,9 +13,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
-"PO-Revision-Date: 2026-08-28 20:35+0000\n"
-"Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
+"PO-Revision-Date: 2026-09-04 03:42+0000\n"
+"Last-Translator: GitHub webhook <noreply-webhook-github-"
+"integration@weblate.org>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
 "Language: sk\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.9\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -1338,6 +1339,15 @@ msgstr "Aplikačná autentifikácia bola odstránená."
 msgid "The authentication app %s was registered."
 msgstr "Aplikačná autentifikácia %s bola zaregistrovaná."
 
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"Ak ste to boli vy, obnovte si heslo, aby ste znovu získali prístup k svojmu "
+"účtu."
+
 msgid "Second factor sign in"
 msgstr "Prihlásenie druhým faktorom"
 
@@ -1967,9 +1977,11 @@ msgid "Regular expression to match translation files against"
 msgstr "Regulárny výraz na porovnanie súborov prekladov"
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
-"Regulárny výraz musí definovať pomenované skupiny pre komponent a jazyk."
 
 msgid "File format"
 msgstr "Formát súboru"
@@ -2012,6 +2024,18 @@ msgstr ""
 "Názov súboru priebežného prekladu. Vo väčšine prípadov ide o prekladový "
 "súbor poskytnutý vývojármi a používa sa pri vytváraní skutočných zdrojových "
 "reťazcov. Táto šablóna musí obsahovať {{ component }}."
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "Duplikovaná maska súboru."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "Jazykový filter"
@@ -2111,8 +2135,33 @@ msgstr "Nemôžete použiť jednojazyčný preklad bez základného súboru."
 msgid "You can not use a base file for bilingual translation."
 msgstr "Nemôžete použiť základný súbor pre dvojjazyčný preklad."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Definovať základný súbor pre nové preklady"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+"Prosím, pridajte jednojazyčný základný jazykový súbor v nastaveniach "
+"komponentu."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "Prosím, skontrolujte a potvrďte zodpovedajúce komponenty."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr "Táto šablóna musí obsahovať {{ component }}."
@@ -6080,6 +6129,20 @@ msgstr "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 5"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Opus 4.8"
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr "Claude Opus 4.8"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Fable 5"
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
+msgstr "Claude Fable 5"
 
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
@@ -11993,6 +12056,21 @@ msgstr ""
 "prístupný pre Weblate."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate GitHub Apps"
+msgid "Migrate to GitHub App"
+msgstr "Aplikácie Weblate GitHub"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12183,6 +12261,11 @@ msgid ""
 msgstr ""
 "Nainštalujte aj doplnok msgmerge, ak chcete, aby prekladové súbory "
 "automaticky sledovali zmeny šablóny."
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
 
 msgid "This component is set up incorrectly."
 msgstr "Tento komponent je nesprávne nastavený."
@@ -13275,6 +13358,75 @@ msgstr "Obnoviť"
 msgid "No connected accounts yet."
 msgstr "Zatiaľ žiadne pripojené účty."
 
+msgid "Code-hosting integrations"
+msgstr "Integrácie s platformami na hosťovanie kódu"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect GitHub account"
+msgid "Connect or update GitHub account"
+msgstr "Pripojiť účet GitHub"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "connected GitHub accounts"
+msgid "Connected GitHub accounts:"
+msgstr "pripojené účty GitHub"
+
+msgid "Refresh repositories"
+msgstr "Obnoviť repozitáre"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "Migrate selected components"
+msgstr "Ovplyvnené komponenty"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Stav prekladu"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Iba na čítanie"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "Repozitár prepísaný"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
 msgid "Register Weblate GitHub App"
 msgstr "Registrovať aplikáciu Weblate GitHub"
 
@@ -13372,9 +13524,6 @@ msgstr "Nainštalovať na %(hostname)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr "Pripojený účet GitHub: %(login)s"
-
-msgid "Refresh repositories"
-msgstr "Obnoviť repozitáre"
 
 #, python-format
 msgid ""
@@ -13508,11 +13657,28 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr "Tým sa odstráni pripojený účet <code>%(login)s</code> z Weblate."
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
-"Aplikácia Weblate GitHub zostáva nainštalovaná na GitHube. Odstráňte ju z "
-"GitHubu samostatne, ak ju už nepotrebujete."
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Nasledujúce komponenty by boli vytvorené"
+msgstr[1] "Nasledujúce komponenty by boli vytvorené"
+msgstr[2] "Nasledujúce komponenty by boli vytvorené"
+
+#, fuzzy, python-format
+#| msgid "%(count)s more affected component."
+#| msgid_plural "%(count)s more affected components."
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s ďalší ovplyvnený komponent."
+msgstr[1] "%(count)s ďalšie ovplyvnené komponenty."
+msgstr[2] "%(count)s ďalších ovplyvnených komponentov."
 
 msgid "Invitations"
 msgstr "Pozvánky"
@@ -14394,6 +14560,9 @@ msgstr "Žiadna maska súboru nezodpovedá."
 msgid "Inexistent files."
 msgstr "Neexistujúce súbory."
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
 msgstr "Konfliktné nastavenie repozitára."
@@ -14701,6 +14870,23 @@ msgstr "Riešiteľné mnou"
 msgid "Discovery configuration"
 msgstr "Konfigurácia objavovania"
 
+#, fuzzy
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"Component discovery stopped because the repository contains too many paths."
+msgstr ""
+"Komponent %(component)s bol preskočený, pretože jeho prepojený repozitár je "
+"nedostupný."
+
+msgid ""
+"The language filter regular expression is too complex and took too long to "
+"evaluate."
+msgstr ""
+"Regulárny výraz jazykového filtra je príliš komplexný a trvalo príliš dlho "
+"na vyhodnotenie."
+
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
@@ -14709,11 +14895,23 @@ msgstr ""
 "a trvalo príliš dlho na vyhodnotenie."
 
 msgid ""
-"The language filter regular expression is too complex and took too long to "
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
 "evaluate."
 msgstr ""
-"Regulárny výraz jazykového filtra je príliš komplexný a trvalo príliš dlho "
-"na vyhodnotenie."
+"Regulárny výraz je príliš komplexný a trvalo príliš dlho na vyhodnotenie."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
 
 msgid "File mask matches the main component."
 msgstr "Maska súboru zodpovedá hlavnému komponentu."
@@ -14745,6 +14943,21 @@ msgstr "Všetky nedávne zmeny vykonané pomocou Weblate v %s."
 
 msgid "Sort JSON keys"
 msgstr "Zoradiť kľúče JSON"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "Neimportovať"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "Rozlišuje veľkosť písmen"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "Nerozlišuje veľkosť písmen"
 
 msgid "JSON indentation"
 msgstr "Odsadenie JSON"
@@ -17136,6 +17349,33 @@ msgstr "Em pomlčka"
 msgid "User configured character: {}"
 msgstr "Používateľom nakonfigurovaný znak: {}"
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation cannot be started because the target is locked."
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Automatický preklad nemožno spustiť, pretože cieľ je uzamknutý."
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "Operácia s repozitárom v %(component)s"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "Operácia v repozitári zlyhala"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "Operácia s repozitárom v %(component)s"
+
 msgid "No suggestions found."
 msgstr "Nenašli sa žiadne návrhy."
 
@@ -17669,57 +17909,28 @@ msgstr ""
 msgid "Use the button on the repository status page to run this action."
 msgstr "Na spustenie tejto akcie použite tlačidlo na stránke stavu repozitára."
 
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "Nepodarilo sa zamknúť repozitár, iná operácia je v priebehu."
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
 "Zdá sa, že na repozitári prebieha operácia. Skúste to prosím znova neskôr."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-"Všetky repozitáre boli aktualizované, aktualizácie prekladov sú v priebehu."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "Operácie v repozitári zlyhali"
 
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr ""
-"Dostupné repozitáre boli aktualizované, aktualizácie prekladov sú v priebehu."
-
-msgid "All repositories were pushed."
-msgstr "Všetky repozitáre boli odoslané."
-
-msgid "Accessible repositories were pushed."
-msgstr "Dostupné repozitáre boli odoslané."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-"Všetky repozitáre boli resetované, aktualizácie prekladov sú v priebehu."
-
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr ""
-"Dostupné repozitáre boli resetované, aktualizácie prekladov sú v priebehu."
-
-msgid "All repositories have been cleaned up."
-msgstr "Všetky repozitáre boli vyčistené."
-
-msgid "Accessible repositories have been cleaned up."
-msgstr "Dostupné repozitáre boli vyčistené."
-
-msgid "Translation files have been synchronized."
-msgstr "Prekladové súbory boli synchronizované."
-
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Prekladové súbory v dostupných repozitároch boli synchronizované."
-
-msgid "Updates of translations are in progress."
-msgstr "Aktualizácie prekladov sú v priebehu."
-
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "Aktualizácie prekladov v dostupných repozitároch sú v priebehu."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "Operácia v repozitári zlyhala"
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "Duplicitné reťazce boli odstránené z prekladového súboru."
@@ -17729,15 +17940,6 @@ msgstr "Nepoužité reťazce boli odstránené z prekladového súboru."
 
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Zastarané reťazce boli odstránené z prekladového súboru."
-
-msgid "Pending translations are being committed."
-msgstr "Čakajúce preklady sa zapisujú."
-
-msgid "All pending translations were committed."
-msgstr "Všetky čakajúce preklady boli zapísané."
-
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Čakajúce preklady v dostupných repozitároch boli zapísané."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Komponent je teraz zamknutý pre aktualizácie prekladu!"
@@ -18698,6 +18900,16 @@ msgstr "Tým sa odošlú zmeny do hlavného repozitára."
 msgid "Enter a valid GitHub host."
 msgstr "Zadajte platného hostiteľa GitHub."
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "Komponent na odstránenie"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr "Vyberte existujúcu konfiguráciu komponentu na kopírovanie."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -19024,9 +19236,37 @@ msgstr ""
 "Vytvorte pracovný priestor pred pripojením účtu GitHub. Pripojenia aplikácie "
 "GitHub sú prepojené s pracovnými priestormi."
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
 msgstr "Odstránený pripojený účet GitHub %(target)s."
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -19108,6 +19348,38 @@ msgstr ""
 
 msgid "Connected GitHub account added."
 msgstr "Pripojený účet GitHub bol pridaný."
+
+#, fuzzy, python-format
+#| msgid "Remove Weblate GitHub App?"
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] "Odstrániť aplikáciu Weblate GitHub?"
+msgstr[1] "Odstrániť aplikáciu Weblate GitHub?"
+msgstr[2] "Odstrániť aplikáciu Weblate GitHub?"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+"Komponent %(component)s bol preskočený, pretože jeho prepojený repozitár je "
+"nedostupný."
+msgstr[1] ""
+"Komponent %(component)s bol preskočený, pretože jeho prepojený repozitár je "
+"nedostupný."
+msgstr[2] ""
+"Komponent %(component)s bol preskočený, pretože jeho prepojený repozitár je "
+"nedostupný."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Nepodarilo sa odoslať %(component)s: %(error_text)s"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Zadajte platný názov aplikácie GitHub a hostiteľa."
@@ -19437,6 +19709,77 @@ msgstr "Pracovný priestor nemožno odstrániť, pretože sa stále používa."
 
 msgid "The workspace has been removed."
 msgstr "Pracovný priestor bol odstránený."
+
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr ""
+#~ "Regulárny výraz musí definovať pomenované skupiny pre komponent a jazyk."
+
+#~ msgid ""
+#~ "The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
+#~ "separately if you no longer need it."
+#~ msgstr ""
+#~ "Aplikácia Weblate GitHub zostáva nainštalovaná na GitHube. Odstráňte ju z "
+#~ "GitHubu samostatne, ak ju už nepotrebujete."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Všetky repozitáre boli aktualizované, aktualizácie prekladov sú v "
+#~ "priebehu."
+
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Dostupné repozitáre boli aktualizované, aktualizácie prekladov sú v "
+#~ "priebehu."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "Všetky repozitáre boli odoslané."
+
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Dostupné repozitáre boli odoslané."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr ""
+#~ "Všetky repozitáre boli resetované, aktualizácie prekladov sú v priebehu."
+
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Dostupné repozitáre boli resetované, aktualizácie prekladov sú v priebehu."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "Všetky repozitáre boli vyčistené."
+
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Dostupné repozitáre boli vyčistené."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Prekladové súbory boli synchronizované."
+
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Prekladové súbory v dostupných repozitároch boli synchronizované."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "Aktualizácie prekladov sú v priebehu."
+
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Aktualizácie prekladov v dostupných repozitároch sú v priebehu."
+
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Čakajúce preklady sa zapisujú."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "Všetky čakajúce preklady boli zapísané."
+
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Čakajúce preklady v dostupných repozitároch boli zapísané."
 
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
@@ -19812,9 +20155,6 @@ msgstr "Pracovný priestor bol odstránený."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Prispôsobenie pracovného postupu"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr "Nepodarilo sa zamknúť repozitár, iná operácia je v priebehu."
 
 #~ msgid "Add team"
 #~ msgstr "Pridať tím"

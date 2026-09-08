@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-07-31 08:24+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1392,6 +1392,17 @@ msgstr "A hitelesítő alkalmazás el lett távolítva."
 msgid "The authentication app %s was registered."
 msgstr "A(z) %s hitelesítő alkalmazás regisztrálva lett."
 
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"Ha Ön volt az, akkor használja a jelszó-visszaállítást a fiókjához való "
+"hozzáférés visszaszerzéséhez."
+
 msgid "Second factor sign in"
 msgstr "Második faktoros bejelentkezés"
 
@@ -2084,11 +2095,12 @@ msgstr "Nézze át és erősítse meg az illesztett összetevőket."
 msgid "Regular expression to match translation files against"
 msgstr "Reguláris kifejezés, amellyel a fordítási fájlokat egyezteti"
 
-#, fuzzy
-#| msgid "The regular expression can not match an empty string."
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "A reguláris kifejezés nem illeszkedhet üres szövegre."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr "Fájlformátum"
@@ -2139,6 +2151,18 @@ msgstr ""
 "A köztes fordítási fájl neve. A legtöbb esetben ez egy fejlesztők által "
 "biztosított fordítási fájl, amelyet az eredeti forrásszövegek létrehozásakor "
 "használnak."
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "Kettőzött fájlmaszk."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "Nyelvi szűrő"
@@ -2247,8 +2271,32 @@ msgstr "Egy alapfájl nélkül nem használható az egynyelvű fordítás."
 msgid "You can not use a base file for bilingual translation."
 msgstr "Nem használhat egy alapfájlt kétnyelvű fordításhoz."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Új fordítások alapfájljának meghatározása"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+"Adjon hozzá egy egynyelvű alap nyelvi fájlt az összetevő beállításaiban."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "Nézze át és erősítse meg az illesztett összetevőket."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr ""
@@ -6541,6 +6589,20 @@ msgstr "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 4.5 (Ajánlott)"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Opus 4.5"
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr "Claude Opus 4.5"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Haiku 4.5"
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
+msgstr "Claude Haiku 4.5"
 
 #, fuzzy
 #| msgctxt "Anthropic model selection"
@@ -12723,6 +12785,21 @@ msgstr ""
 "számára."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App"
+msgstr "Weblate állapot"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12909,6 +12986,11 @@ msgid ""
 msgstr ""
 "Telepítse az msgmerge kiegészítőt is, ha azt szeretné, hogy a fordítási "
 "fájlok automatikusan kövessék a sablonok változásait."
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
 
 msgid "This component is set up incorrectly."
 msgstr "Ez az összetevő helytelenül van beállítva."
@@ -14021,6 +14103,79 @@ msgid "No connected accounts yet."
 msgstr "Még nincs fiókja?"
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting integrations"
+msgstr "Fordítások tárhelyének szolgáltatása"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connect or update GitHub account"
+msgstr "A fiók törlése"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connected GitHub accounts:"
+msgstr "A fiók törlése"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh repositories"
+msgstr "Tárolók"
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate selected components"
+msgstr "Összetevő létrehozva"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Fordítás állapota"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Csak olvasható"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "Tároló újraalapozva"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "Regisztráció a Weblate-en"
@@ -14118,11 +14273,6 @@ msgstr "Meghívás a(z) %(project_name)s projektbe"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Repositories"
-msgid "Refresh repositories"
-msgstr "Tárolók"
 
 #, python-format
 msgid ""
@@ -14257,9 +14407,26 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "A következő összetevők lesznek létrehozva"
+msgstr[1] "A következő összetevők lesznek létrehozva"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action in %(component)s"
+#| msgid_plural "%(count)s strings needing action in %(component)s"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s műveletet igénylő szöveg a(z) %(component)s összetevőben"
+msgstr[1] "%(count)s műveletet igénylő szöveg a(z) %(component)s összetevőben"
 
 msgid "Invitations"
 msgstr "Meghívások"
@@ -15371,6 +15538,9 @@ msgstr "Nincs egyező fájlmaszk."
 msgid "Inexistent files."
 msgstr "Nem létező fájlok."
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Could not get repository status!"
@@ -15767,6 +15937,17 @@ msgstr ""
 msgid "Discovery configuration"
 msgstr "Helyes beállítás"
 
+msgid ""
+"Component discovery stopped because the repository contains too many paths."
+msgstr ""
+
+msgid ""
+"The language filter regular expression is too complex and took too long to "
+"evaluate."
+msgstr ""
+"A nyelvi szűrő reguláris kifejezése túl bonyolult, és túl sok időbe telt a "
+"kiértékelése."
+
 #, fuzzy
 #| msgid ""
 #| "The regular expression to match translation files has to contain two "
@@ -15780,11 +15961,22 @@ msgstr ""
 "illesztéséhez. Néhány példa:"
 
 msgid ""
-"The language filter regular expression is too complex and took too long to "
-"evaluate."
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
 msgstr ""
-"A nyelvi szűrő reguláris kifejezése túl bonyolult, és túl sok időbe telt a "
-"kiértékelése."
+
+#, fuzzy
+#| msgid "The regular expression can not match an empty string."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr "A reguláris kifejezés nem illeszkedhet üres szövegre."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
 
 msgid "File mask matches the main component."
 msgstr "A fájlmaszk illeszkedik a fő összetevőre."
@@ -15818,6 +16010,21 @@ msgstr "A Weblate használatával végzett összes változtatás %s nyelven."
 
 msgid "Sort JSON keys"
 msgstr "JSON kulcsok rendezése"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "Ne importálja"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "Kis- és nagybetűk megkülönböztetése"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "Kis- és nagybetűk nincsenek megkülönböztetve"
 
 msgid "JSON indentation"
 msgstr "JSON behúzás"
@@ -18339,6 +18546,32 @@ msgstr "Kvirtmínusz"
 msgid "User configured character: {}"
 msgstr "Felhasználó által beállított karakter: {}"
 
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Automatikus fordítás folyamatban"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "Tárolóművelet a(z) %(component)s összetevőben"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "A tárolóművelet sikertelen"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "Tárolóművelet a(z) %(component)s összetevőben"
+
 msgid "No suggestions found."
 msgstr "Nem találhatók javaslatok."
 
@@ -18916,73 +19149,27 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "Nem sikerült zárolni a tárolót, egy másik művelet folyamatban van."
+
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr "Nem sikerült zárolni a tárolót, egy másik művelet folyamatban van."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-"Az összes tároló frissítve lett, a fordítások frissítései folyamatban vannak."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "A tárolóműveletek sikertelenek voltak"
 
 #, fuzzy
-#| msgid ""
-#| "All repositories have been updated, updates of translations are in "
-#| "progress."
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr ""
-"Az összes tároló frissítve lett, a fordítások frissítései folyamatban vannak."
-
-msgid "All repositories were pushed."
-msgstr "Az összes tároló felküldésre került."
-
-#, fuzzy
-#| msgid "All repositories were pushed."
-msgid "Accessible repositories were pushed."
-msgstr "Az összes tároló felküldésre került."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-"Az összes tároló vissza lett állítva, a fordítások frissítései folyamatban "
-"vannak."
-
-#, fuzzy
-#| msgid ""
-#| "All repositories have been reset, updates of translations are in progress."
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr ""
-"Az összes tároló vissza lett állítva, a fordítások frissítései folyamatban "
-"vannak."
-
-msgid "All repositories have been cleaned up."
-msgstr "Az összes tároló tisztításra került."
-
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
-msgid "Accessible repositories have been cleaned up."
-msgstr "Az összes tároló tisztításra került."
-
-msgid "Translation files have been synchronized."
-msgstr "A fordítási fájlok szinkronizálva lettek."
-
-#, fuzzy
-#| msgid "Translation files have been synchronized."
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "A fordítási fájlok szinkronizálva lettek."
-
-msgid "Updates of translations are in progress."
-msgstr "A fordítások frissítései folyamatban vannak."
-
-#, fuzzy
-#| msgid "Updates of translations are in progress."
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "A fordítások frissítései folyamatban vannak."
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "A tárolóművelet sikertelen"
 
 #, fuzzy
 #| msgid "Please fix this by removing one of the translation files."
@@ -18998,19 +19185,6 @@ msgstr "Javítsa ezt a fordítási fájlok egyikének eltávolításával."
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Javítsa ezt a fordítási fájlok egyikének eltávolításával."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations are being committed."
-msgstr "Az összes függőben lévő fordítás véglegesítve lett."
-
-msgid "All pending translations were committed."
-msgstr "Az összes függőben lévő fordítás véglegesítve lett."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Az összes függőben lévő fordítás véglegesítve lett."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Az összetevő most zárolva van a fordítási frissítésekhez!"
@@ -20039,6 +20213,16 @@ msgstr "Ez fel fogja küldeni a változtatásokat a távoli tárolóba."
 msgid "Enter a valid GitHub host."
 msgstr "Ismételt nyelvkód"
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "Eltávolítandó összetevő"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr "Válasszon egy meglévő összetevő-beállítást a másoláshoz."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -20423,8 +20607,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -20501,6 +20712,26 @@ msgstr ""
 #| msgid "Created user account {}."
 msgid "Connected GitHub account added."
 msgstr "Felhasználói fiók létrehozva: {}."
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Nem sikerült felküldeni a(z) %(component)s összetevőt: %(error_text)s"
 
 #, fuzzy
 #| msgid "Enter a valid domain name or IP address."
@@ -20897,6 +21128,93 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "A forrás el lett távolítva."
 
+#, fuzzy
+#~| msgid "The regular expression can not match an empty string."
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "A reguláris kifejezés nem illeszkedhet üres szövegre."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Az összes tároló frissítve lett, a fordítások frissítései folyamatban "
+#~ "vannak."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been updated, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Az összes tároló frissítve lett, a fordítások frissítései folyamatban "
+#~ "vannak."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "Az összes tároló felküldésre került."
+
+#, fuzzy
+#~| msgid "All repositories were pushed."
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Az összes tároló felküldésre került."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr ""
+#~ "Az összes tároló vissza lett állítva, a fordítások frissítései "
+#~ "folyamatban vannak."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been reset, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Az összes tároló vissza lett állítva, a fordítások frissítései "
+#~ "folyamatban vannak."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "Az összes tároló tisztításra került."
+
+#, fuzzy
+#~| msgid "All repositories have been cleaned up."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Az összes tároló tisztításra került."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "A fordítási fájlok szinkronizálva lettek."
+
+#, fuzzy
+#~| msgid "Translation files have been synchronized."
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "A fordítási fájlok szinkronizálva lettek."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "A fordítások frissítései folyamatban vannak."
+
+#, fuzzy
+#~| msgid "Updates of translations are in progress."
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "A fordítások frissítései folyamatban vannak."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Az összes függőben lévő fordítás véglegesítve lett."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "Az összes függőben lévő fordítás véglegesítve lett."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Az összes függőben lévő fordítás véglegesítve lett."
+
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
 #~ "showing a preview of edited strings before the actual change is confirmed."
@@ -21257,9 +21575,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Munkafolyamat testreszabása"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr "Nem sikerült zárolni a tárolót, egy másik művelet folyamatban van."
 
 #~ msgid "Add team"
 #~ msgstr "Csapat hozzáadása"

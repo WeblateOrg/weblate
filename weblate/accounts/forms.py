@@ -6,9 +6,7 @@ from __future__ import annotations
 
 import json
 import struct
-from binascii import unhexlify
 from datetime import UTC, datetime, timedelta
-from time import time
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from altcha import Payload, create_challenge, verify_solution
@@ -18,8 +16,10 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.forms import Script
+from django.http import Http404
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
@@ -33,7 +33,6 @@ from django.utils.translation import (
 )
 from django_otp.forms import OTPTokenForm as DjangoOTPTokenForm
 from django_otp.forms import otp_verification_failed
-from django_otp.oath import totp
 from django_otp.plugins.otp_static.models import StaticDevice
 from django_otp.plugins.otp_totp.models import TOTPDevice
 
@@ -58,7 +57,7 @@ from weblate.lang.forms import LimitLanguagesField, get_language_code_choices
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Category, Component, Project, Translation
 from weblate.utils import messages
 from weblate.utils.forms import (
     ContextDiv,
@@ -70,6 +69,7 @@ from weblate.utils.forms import (
 )
 from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_rate_limit
 from weblate.utils.validators import validate_fullname
+from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
     from altcha import Challenge
@@ -1174,6 +1174,8 @@ class GroupRemoveForm(forms.Form):
 class TOTPDeviceForm(forms.Form):
     """Based on two_factor.forms.TOTPDeviceForm."""
 
+    enrollment = forms.IntegerField(widget=forms.HiddenInput())
+
     name = forms.CharField(
         # Must match django_otp.models.Device.name
         max_length=64,
@@ -1213,52 +1215,12 @@ class TOTPDeviceForm(forms.Form):
         "invalid_token": gettext_lazy("The entered token is not valid."),
     }
 
-    def __init__(self, key, user, metadata=None, **kwargs) -> None:
+    def __init__(self, device: TOTPDevice, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.key = key
-        self.tolerance = 1
-        self.t0 = 0
-        self.step = 30
-        self.drift = 0
-        self.digits = 6
-        self.user = user
-        self.metadata = metadata or {}
-        if not self.user.totpdevice_set.exists():
+        self.device = device
+        self.initial["enrollment"] = device.pk
+        if not device.user.totpdevice_set.filter(confirmed=True).exists():
             self.fields["remove_previous"].widget = forms.HiddenInput()
-
-    @property
-    def bin_key(self):
-        """The secret key as a binary string."""
-        return unhexlify(self.key.encode())
-
-    def clean_token(self):
-        token = self.cleaned_data.get("token")
-        validated = False
-        t0s = [self.t0]
-        key = self.bin_key
-        if "valid_t0" in self.metadata:
-            t0s.append(int(time()) - self.metadata["valid_t0"])
-        for t0 in t0s:
-            for offset in range(-self.tolerance, self.tolerance + 1):
-                if totp(key, self.step, t0, self.digits, self.drift + offset) == token:
-                    self.drift = offset
-                    self.metadata["valid_t0"] = int(time()) - t0
-                    validated = True
-        if not validated:
-            raise forms.ValidationError(self.error_messages["invalid_token"])
-        return token
-
-    def save(self):
-        return TOTPDevice.objects.create(
-            user=self.user,
-            key=self.key,
-            tolerance=self.tolerance,
-            t0=self.t0,
-            step=self.step,
-            drift=self.drift,
-            digits=self.digits,
-            name=self.cleaned_data["name"],
-        )
 
 
 class WebAuthnTokenForm(forms.Form):
@@ -1355,3 +1317,30 @@ class TOTPTokenForm(OTPTokenForm):
                 "autocomplete": "one-time-code",
             }
         )
+
+
+class NotificationDebugForm(forms.Form):
+    notification_target = forms.CharField(
+        label=gettext_lazy("Project, category, component, or translation path"),
+        max_length=1000,
+        help_text=gettext_lazy(
+            "Enter slash-separated slugs, for example project/category/component/cs. Project and category paths summarize inherited settings and component exceptions."
+        ),
+    )
+
+    def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.request = request
+
+    def clean_notification_target(self):
+        path = self.cleaned_data["notification_target"].strip("/").split("/")
+        if not all(path):
+            raise forms.ValidationError(gettext("Enter a valid object path."))
+        try:
+            return parse_path(
+                self.request, path, (Project, Category, Component, Translation)
+            )
+        except (Http404, PermissionDenied) as error:
+            raise forms.ValidationError(
+                gettext("The target does not exist or you cannot access it.")
+            ) from error

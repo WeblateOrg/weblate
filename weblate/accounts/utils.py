@@ -39,7 +39,7 @@ SESSION_SECOND_FACTOR_USER = "weblate:second_factor:user"
 SESSION_SECOND_FACTOR_HASH = "weblate:second_factor:auth_hash"
 SESSION_SECOND_FACTOR_TIMESTAMP = "weblate:second_factor:timestamp"
 SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
-SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_key"
+SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_device"
 SESSION_EXPIRY_SCOPE = "weblate:session_expiry_scope"
 SESSION_EXPIRY_AGE = "weblate:session_expiry_age"
 SESSION_EXPIRY_REFRESHED = "weblate:session_expiry_refreshed"
@@ -52,6 +52,7 @@ SESSION_EXPIRY_REFRESH_MAX_SECONDS = 86_400
 SESSION_EXPIRY_SAML_SECONDS = 60
 
 SECOND_FACTOR_VERIFY_SECONDS = 600
+TOTP_ENROLLMENT_SECONDS = 24 * 60 * 60
 SessionExpiryScope = Literal["saml", "2fa", "login", "authenticated"]
 
 

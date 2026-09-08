@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+import importlib
 import json
 import os
 from contextlib import contextmanager
@@ -9,12 +12,13 @@ from datetime import UTC, datetime, timedelta
 from io import StringIO
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest import TestCase
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlparse
 
 import httpx2
+from django.apps import apps
 from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
@@ -26,6 +30,7 @@ from django.test import TestCase as DjangoTestCase
 from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation, Permission, Role
@@ -60,6 +65,7 @@ from weblate.wladmin.models import (
     SupportStatus,
     get_support_url,
 )
+from weblate.wladmin.tasks import backup as backup_task
 from weblate.wladmin.tasks import backup_service
 from weblate.wladmin.views import (
     DISCOVERY_REGISTRATION_SESSION,
@@ -67,6 +73,9 @@ from weblate.wladmin.views import (
     get_discovery_site_url,
 )
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
 
@@ -76,7 +85,7 @@ def get_response_call_body(index: int) -> str:
 
 
 @contextmanager
-def restored_environment(name: str, value: str):
+def restored_environment(name: str, value: str) -> Iterator[None]:
     try:
         yield
     finally:
@@ -100,6 +109,43 @@ class BackupFailureService:
 
 
 class BackupTaskTest(TestCase):
+    def test_backup_prepares_before_dispatching_services(self) -> None:
+        operations = []
+
+        with (
+            patch(
+                "weblate.wladmin.tasks.run_backup_preparation",
+                side_effect=lambda service_ids: operations.append(
+                    ("prepare", service_ids)
+                ),
+            ),
+            patch(
+                "weblate.wladmin.tasks.backup_service.delay",
+                side_effect=lambda service_id: operations.append(
+                    ("dispatch", service_id)
+                ),
+            ),
+        ):
+            backup_task([2, 3])
+
+        self.assertEqual(
+            operations,
+            [("prepare", [2, 3]), ("dispatch", 2), ("dispatch", 3)],
+        )
+
+    def test_backup_does_not_dispatch_after_preparation_failure(self) -> None:
+        with (
+            patch(
+                "weblate.wladmin.tasks.run_backup_preparation",
+                side_effect=OSError("pg_dump failed"),
+            ),
+            patch("weblate.wladmin.tasks.backup_service.delay") as delay,
+            self.assertRaisesRegex(OSError, "pg_dump failed"),
+        ):
+            backup_task([2, 3])
+
+        delay.assert_not_called()
+
     def test_backup_service_stops_after_init_failure(self) -> None:
         service = Mock()
         service.ensure_init.return_value = False
@@ -189,19 +235,15 @@ class BackupCommandTest(DjangoTestCase):
 
         with (
             patch(
-                "weblate.wladmin.management.commands.backup.run_settings_backup"
-            ) as settings_backup,
-            patch(
-                "weblate.wladmin.management.commands.backup.run_database_backup"
-            ) as database_backup,
+                "weblate.wladmin.management.commands.backup.run_backup_preparation"
+            ) as prepare_backup,
             patch(
                 "weblate.wladmin.management.commands.backup.run_backup_service"
             ) as backup_service_runner,
         ):
             call_command("backup", "--service", str(service.pk))
 
-        settings_backup.assert_called_once_with()
-        database_backup.assert_called_once_with([service.pk])
+        prepare_backup.assert_called_once_with([service.pk])
         backup_service_runner.assert_called_once_with(service)
 
     def test_all_runs_enabled_services_synchronously(self) -> None:
@@ -214,19 +256,15 @@ class BackupCommandTest(DjangoTestCase):
 
         with (
             patch(
-                "weblate.wladmin.management.commands.backup.run_settings_backup"
-            ) as settings_backup,
-            patch(
-                "weblate.wladmin.management.commands.backup.run_database_backup"
-            ) as database_backup,
+                "weblate.wladmin.management.commands.backup.run_backup_preparation"
+            ) as prepare_backup,
             patch(
                 "weblate.wladmin.management.commands.backup.run_backup_service"
             ) as backup_service_runner,
         ):
             call_command("backup", "--all")
 
-        settings_backup.assert_called_once_with()
-        database_backup.assert_called_once_with([enabled.pk])
+        prepare_backup.assert_called_once_with([enabled.pk])
         self.assertEqual(
             [call.args[0].pk for call in backup_service_runner.call_args_list],
             [enabled.pk],
@@ -239,8 +277,7 @@ class BackupCommandTest(DjangoTestCase):
         )
 
         with (
-            patch("weblate.wladmin.management.commands.backup.run_settings_backup"),
-            patch("weblate.wladmin.management.commands.backup.run_database_backup"),
+            patch("weblate.wladmin.management.commands.backup.run_backup_preparation"),
             patch(
                 "weblate.wladmin.management.commands.backup.run_backup_service",
                 side_effect=[False, True],
@@ -263,8 +300,7 @@ class BackupCommandTest(DjangoTestCase):
 
         output = StringIO()
         with (
-            patch("weblate.wladmin.management.commands.backup.run_settings_backup"),
-            patch("weblate.wladmin.management.commands.backup.run_database_backup"),
+            patch("weblate.wladmin.management.commands.backup.run_backup_preparation"),
             patch(
                 "weblate.wladmin.management.commands.backup.run_backup_service",
                 side_effect=run_backup,
@@ -286,8 +322,7 @@ class BackupCommandTest(DjangoTestCase):
 
         output = StringIO()
         with (
-            patch("weblate.wladmin.management.commands.backup.run_settings_backup"),
-            patch("weblate.wladmin.management.commands.backup.run_database_backup"),
+            patch("weblate.wladmin.management.commands.backup.run_backup_preparation"),
             patch(
                 "weblate.wladmin.management.commands.backup.run_backup_service",
                 side_effect=run_backup,
@@ -308,6 +343,38 @@ class BackupCommandTest(DjangoTestCase):
     def test_rejects_unknown_service(self) -> None:
         with self.assertRaisesRegex(CommandError, "Backup service 1 does not exist"):
             call_command("backup", "--service", "1")
+
+
+class BackupScheduleMigrationTest(DjangoTestCase):
+    def test_only_default_separate_backup_schedules_are_removed(self) -> None:
+        interval = IntervalSchedule.objects.create(
+            every=1, period=IntervalSchedule.HOURS
+        )
+        PeriodicTask.objects.create(
+            name="settings-backup",
+            task="weblate.utils.tasks.settings_backup",
+            interval=interval,
+        )
+        PeriodicTask.objects.create(
+            name="custom-settings-backup",
+            task="weblate.utils.tasks.settings_backup",
+            interval=interval,
+        )
+        PeriodicTask.objects.create(
+            name="backup", task="weblate.wladmin.tasks.backup", interval=interval
+        )
+        PeriodicTasks.objects.all().delete()
+        migration = importlib.import_module(
+            "weblate.wladmin.migrations.0007_remove_separate_backup_schedules"
+        )
+
+        migration.remove_obsolete_backup_tasks(apps, None)
+
+        self.assertEqual(
+            list(PeriodicTask.objects.order_by("name").values_list("name", flat=True)),
+            ["backup", "custom-settings-backup"],
+        )
+        self.assertTrue(PeriodicTasks.objects.exists())
 
 
 class BackupServiceStatusTest(DjangoTestCase):
@@ -1379,10 +1446,10 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "pg_dump version mismatch")
         response = do_post(service=service.pk, toggle="1")
         self.assertContains(response, "Turned off")
-        with patch("weblate.wladmin.views.database_backup.delay") as database_delay:
+        with patch("weblate.wladmin.views.backup.delay") as backup_delay:
             response = do_post(service=service.pk, trigger="1")
         self.assertContains(response, "triggered")
-        database_delay.assert_called_once_with([service.pk])
+        backup_delay.assert_called_once_with([service.pk])
         response = do_post(service=service.pk, remove="1")
         self.assertNotContains(response, settings.BACKUP_DIR)
 
@@ -1406,7 +1473,7 @@ class AdminTest(ViewTestCase):
         "weblate.utils.filesystem.measure_filesystem_latencies",
         return_value={"DATA_DIR": 1.5, "CACHE_DIR": 0.0},
     )
-    def test_performance_filesystem_latency(self, measure_mock) -> None:
+    def test_performance_filesystem_latency(self, measure_mock: Mock) -> None:
         response = self.client.get(reverse("manage-performance"))
 
         self.assertContains(response, "Data directory latency")
@@ -1421,7 +1488,9 @@ class AdminTest(ViewTestCase):
         "weblate.utils.filesystem.measure_filesystem_latencies",
         return_value={"DATA_DIR": None, "CACHE_DIR": None},
     )
-    def test_performance_filesystem_latency_unavailable(self, measure_mock) -> None:
+    def test_performance_filesystem_latency_unavailable(
+        self, measure_mock: Mock
+    ) -> None:
         response = self.client.get(reverse("manage-performance"))
 
         self.assertContains(response, "Not measured", count=2)

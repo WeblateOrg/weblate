@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.utils.translation import gettext_lazy
@@ -31,7 +33,7 @@ class BillingMergeForm(forms.Form):
         widget=forms.NumberInput,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
@@ -54,7 +56,7 @@ class BillingPlanChangeForm(forms.Form):
         ),
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False

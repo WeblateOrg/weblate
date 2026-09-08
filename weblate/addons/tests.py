@@ -21,7 +21,7 @@ from datetime import timedelta
 from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, Never, TypedDict, cast
 from unittest.mock import MagicMock, patch
 
 import fedora_messaging.api
@@ -172,6 +172,8 @@ from .tasks import (
 from .webhooks import MessageNotDeliveredError, SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
+    from unittest.mock import Mock
+
     from weblate.trans.models import (
         Project,
     )
@@ -532,7 +534,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertTrue(addon.instance.can_run_manually)
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_schedule_manual_run(self, mocked_delay) -> None:
+    def test_schedule_manual_run(self, mocked_delay: Mock) -> None:
         addon = ManualResultAddon.create(component=self.component, run=False)
 
         addon.instance.schedule_manual_run()
@@ -905,7 +907,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
 
         component.repository.resolve_symlinks = resolve_symlinks
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -975,7 +977,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
 
         component.repository.resolve_symlinks = resolve_symlinks
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3405,7 +3407,7 @@ class GettextAddonTest(ViewTestCase):
 
         revision_before = self.component.repository.last_revision
 
-        def run_process(component, command, env=None, cwd=None, extra_path=None):
+        def run_process(component, command, env=None, cwd=None, extra_path=None) -> str:
             template = Path(component.full_path) / "po" / "hello.pot"
             template.parent.mkdir(parents=True, exist_ok=True)
             template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
@@ -3440,7 +3442,7 @@ class GettextAddonTest(ViewTestCase):
         )
         revision_before = self.component.repository.last_revision
 
-        def run_process(component, command, env=None, cwd=None, extra_path=None):
+        def run_process(component, command, env=None, cwd=None, extra_path=None) -> str:
             template = Path(component.full_path) / "po" / "hello.pot"
             template.parent.mkdir(parents=True, exist_ok=True)
             template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
@@ -3708,7 +3710,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3746,7 +3748,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3779,7 +3781,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3810,7 +3812,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3843,7 +3845,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3876,7 +3878,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3912,7 +3914,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3943,7 +3945,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -4139,7 +4141,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4196,7 +4198,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4228,7 +4230,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4260,7 +4262,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4921,7 +4923,7 @@ msgstr ""
         self.component.new_base = "locale/django.pot"
         self.component.save(update_fields=["new_base"])
 
-        def fake_which(name, path=None):
+        def fake_which(name, path=None) -> str | None:
             if name == "xgettext":
                 return "/usr/bin/xgettext"
             if name == "msguniq":
@@ -5459,7 +5461,7 @@ class ViewTests(ViewTestCase):
         self.assertNotContains(response, "Run now")
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_manual_run(self, mocked_delay) -> None:
+    def test_manual_run(self, mocked_delay: Mock) -> None:
         addon = XgettextAddon.create(
             component=self.component,
             run=False,
@@ -10590,7 +10592,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             )
         )
 
-    def test_topic(self):
+    def test_topic(self) -> None:
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_topic(change))
 
@@ -10669,11 +10671,11 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "org.fedoraproject.weblate.test",
         )
 
-    def test_body(self):
+    def test_body(self) -> None:
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_body(change))
 
-    def test_headers(self):
+    def test_headers(self) -> None:
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_headers(change))
 
@@ -10725,20 +10727,20 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         locked = False
         lock = MagicMock()
 
-        def enter_lock():
+        def enter_lock() -> None:
             nonlocal locked
 
             locked = True
 
-        def exit_lock(*_args):
+        def exit_lock(*_args) -> None:
             nonlocal locked
 
             locked = False
 
-        def configure_fedora_messaging(**_kwargs):
+        def configure_fedora_messaging(**_kwargs) -> None:
             self.assertTrue(locked)
 
-        def publish_message(*_args, **_kwargs):
+        def publish_message(*_args, **_kwargs) -> None:
             self.assertTrue(locked)
 
         lock.__enter__.side_effect = enter_lock
@@ -10784,28 +10786,28 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "Publishing timed out after waiting 30 seconds."
         )
 
-        def enter_lock():
+        def enter_lock() -> None:
             nonlocal locked
 
             locked = True
 
-        def exit_lock(*_args):
+        def exit_lock(*_args) -> None:
             nonlocal locked
 
             locked = False
 
-        def prepare_service(**_kwargs):
+        def prepare_service(**_kwargs) -> None:
             self.assertTrue(locked)
 
-        def publish(*_args, **_kwargs):
+        def publish(*_args, **_kwargs) -> Never:
             self.assertTrue(locked)
             raise error
 
-        def reset_service():
+        def reset_service() -> bool:
             self.assertTrue(locked)
             return True
 
-        def report_error(*_args, **_kwargs):
+        def report_error(*_args, **_kwargs) -> None:
             self.assertTrue(locked)
 
         lock.__enter__.side_effect = enter_lock
@@ -11164,6 +11166,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
@@ -11193,6 +11196,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=True,
@@ -11206,14 +11210,13 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             self.assertNotIn("-----BEGIN PRIVATE KEY-----", str(value))
 
     def test_missing_publisher_is_reported_and_resets_service(self) -> None:
+        error = AttributeError("'NoneType' object has no attribute 'publish'")
         with (
             patch.object(fedora_messaging.api, "_twisted_service", object()),
             patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
             patch(
                 "fedora_messaging.api.publish",
-                side_effect=AttributeError(
-                    "'NoneType' object has no attribute 'publish'"
-                ),
+                side_effect=error,
             ),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
             self.assertRaisesMessage(
@@ -11227,19 +11230,19 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
         )
 
     def test_broker_rejection_is_reported(self) -> None:
+        error = fedora_messaging_exceptions.PublishForbidden("permission denied")
         with (
             patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
             patch(
                 "fedora_messaging.api.publish",
-                side_effect=fedora_messaging_exceptions.PublishForbidden(
-                    "permission denied"
-                ),
+                side_effect=error,
             ),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
             self.assertRaisesMessage(
@@ -11252,6 +11255,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
@@ -11339,7 +11343,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         original_loaded = messaging_config.loaded
         original_config = deepcopy(messaging_config.copy())
 
-        def restore_config():
+        def restore_config() -> None:
             messaging_config.loaded = True
             messaging_config.clear()
             messaging_config.update(original_config)

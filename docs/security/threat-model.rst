@@ -25,7 +25,7 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 118 documented / 69 maintainer / 0 inferred claims.
+Provenance summary: 118 documented / 70 maintainer / 0 inferred claims.
 
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
@@ -61,8 +61,10 @@ Scope and intended use
      - Report forms and :http:get:`/api/reports/` endpoints
      - Database snapshots and background tasks
      - In scope as authenticated, permission-checked contributor data with
-       operator-configured retention. *(documented)* (source:
-       :doc:`/devel/reporting`, :doc:`/api`)
+       operator-configured retention. The selected report scope is the
+       authorization boundary, including private projects and restricted
+       components below it. *(documented)* (source: :doc:`/devel/reporting`,
+       :doc:`/api`)
    * - Authentication, sessions, and authorization
      - Login, 2FA, SSO, teams, permissions, project access, API tokens
      - Database, identity providers, browser cookies
@@ -128,6 +130,15 @@ Scope and intended use
      - :file:`docs/_build/`, :file:`docs/screenshots/`, tests, local fixtures
      - Development-only files and generated artifacts
      - Out of scope for product security claims. *(maintainer)*
+
+The :ref:`local application QA profile <dev-docker>` runs development Weblate
+and workers with known development credentials. Its application and mailbox
+ports are dynamically allocated and bound to IPv4 loopback; PostgreSQL, Valkey,
+and SMTP are not published. Test and application profiles use separate storage
+and networks within a checkout-specific Compose project. Worktrees still share
+host Git metadata and the Docker daemon: this provides development-state
+separation, not a boundary against a malicious checkout or local user. This
+profile is not a supported production deployment. *(maintainer)*
 
 The intended deployment is a server-side Weblate installation behind a web
 server or reverse proxy, with a WSGI or ASGI application server, PostgreSQL
@@ -268,9 +279,11 @@ Reachability preconditions:
   an in-scope Weblate surface or scheduled Weblate maintenance path.
   *(documented)* (source: :doc:`/admin/install`)
 * A stored-report finding is in model when an authenticated user can generate,
-  list, or render contributor data outside the creator or current
-  ``reports.view`` scope. *(documented)* (source: :doc:`/devel/reporting`,
-  :doc:`/api`)
+  list, or render contributor data outside the current authorized scope.
+  Creator access applies only to reports containing the creator's own data
+  (``own_data=True``) and still requires current access to the selected scope.
+  Full reports require current ``reports.view`` permission even for their
+  creator. *(documented)* (source: :doc:`/devel/reporting`, :doc:`/api`)
 * A user-profile API finding is in model when an authenticated user can read or
   mutate another user's profile preferences outside the documented
   ``user.view``, ``user.edit``, or self-service boundaries.
@@ -302,6 +315,13 @@ SSH wrappers, backups, and secret material. *(documented)* (source: :doc:`/admin
 Celery workers are trusted components of the same Weblate instance. A malicious
 or compromised worker is equivalent to a compromised application process.
 *(maintainer)*
+
+Docker's combined, split, and single Celery worker modes change how task queues
+and concurrency are distributed among worker processes. *(documented)* (source:
+:envvar:`CELERY_WORKER_MODE`) These modes do not create security isolation
+between queues; every worker retains the same trusted application authority.
+Resource contention, throughput, and task latency differences between modes are
+deployment-sizing and availability concerns. *(maintainer)*
 
 VCS command execution, SSH, and HTTPS clients are assumed to execute as the
 Weblate service user with the credentials configured for the relevant project
@@ -363,6 +383,15 @@ Build-time and configuration variants
      - Broad host acceptance can weaken host-header based protections and URL
        generation assumptions. *(maintainer)*
      - Production deployments restrict this to instance hostnames. *(maintainer)*
+   * - :envvar:`CELERY_WORKER_MODE`
+     - Docker defaults to one combined prefork worker for all queues. Split mode
+       uses queue-specific workers, while single mode uses one solo worker.
+       *(documented)* (source: :doc:`/admin/install/docker`)
+     - Changes worker process topology, concurrency, and queue contention, but
+       not worker trust or application authority. *(maintainer)*
+     - Queue-specific workers provide operational isolation and independent
+       tuning, not a security boundary. Operators choose a mode based on memory,
+       capacity, and availability requirements. *(maintainer)*
    * - :envvar:`WEBLATE_API_RATELIMIT_ANON`,
        :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`,
        and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``
@@ -656,7 +685,14 @@ Security properties Weblate provides
        :doc:`/admin/auth`, :doc:`/admin/memory`)
      - Permission assignments match the intended trust relationship.
        Team-level enforced 2FA is satisfied by human users before
-       team-derived permissions apply. Component administrators are trusted to
+       team-derived permissions apply. Pending authenticator app registrations
+       do not satisfy 2FA requirements. Registration requires a valid TOTP code
+       and can be completed only once, including under concurrent submissions;
+       the registration code is consumed for subsequent authentication.
+       Each account can have at most one pending registration, shared across
+       browser sessions and expiring after 24 hours.
+       *(documented)* (source: :ref:`2fa`)
+       Component administrators are trusted to
        configure operations that can affect repository contents, for example by
        selecting files through component settings, configuring add-ons, or
        enabling force pushes and pull-request behavior through :ref:`vcs_params`.
@@ -676,12 +712,22 @@ Security properties Weblate provides
        permission against the current linked-component scope in the worker
        before mutation. Weblate's normal background commit and push of
        authorized translation changes does not require the editor to have
-       these VCS permissions. Translation memory
+       these VCS permissions. The ``reports.view`` permission authorizes all
+       report data in the selected scope, including private projects and
+       restricted components below it. Complete workspace-level report access
+       requires two-factor authentication for regular users if any project in
+       the workspace enforces it. Superusers and bot accounts are exempt.
+       Translation memory
        attributed to an existing restricted component follows that component's
        access rules.
        Unattributed automatic memory, including unmatched legacy entries and
        memory retained after component removal, follows its remaining
-       translation-memory scope.
+       translation-memory scope. Private and Custom project engage pages and
+       rendered status widgets follow project access control unless a trusted
+       access manager enables :ref:`project-public_sharing`. That explicit
+       opt-in publishes project and component names, including restricted
+       components, together with translation statistics, languages, and
+       progress, but does not grant access to project content or APIs.
      - User or token can read or mutate data outside assigned scope.
      - Security-critical when private data or privileged mutation is exposed.
    * - Project-scoped API tokens are limited by assigned project/team
@@ -715,12 +761,17 @@ Security properties Weblate provides
      - Command injection or arbitrary code execution as the Weblate user.
      - Security-critical.
    * - Private project data other than documented generic webhook matching
-       diagnostics, user data, credentials, tokens, SSH keys, and 2FA secrets
-       are not disclosed to actors lacking permission. *(documented)* (source:
+       diagnostics and metadata published through :ref:`project-public_sharing`,
+       user data, credentials, tokens, SSH keys, and 2FA secrets are not
+       disclosed to actors lacking permission. *(documented)* (source:
        :doc:`/admin/access`, :doc:`/security/privacy-compliance`, :doc:`/vcs`)
      - Host, database, and storage permissions are intact. Generic webhook
        responses expose only the match counts, project/component slugs, and API
-       URLs documented in :ref:`hooks-target-matching`. Repository content
+       URLs documented in :ref:`hooks-target-matching`. Public sharing permits
+       unauthenticated access to engage pages and rendered status widgets,
+       exposing project and component names, including restricted components,
+       translation statistics, languages, and progress. It does not grant
+       access to project content or APIs. Repository content
        deliberately shared through linked components follows the linked
        repository trust boundary. Project repository permission diagnostics
        expose the paths of linked components that prevent an operation, but do
@@ -728,8 +779,8 @@ Security properties Weblate provides
        non-sensitive fields as public configuration; unlisted values are
        redacted from public change history.
      - Cross-project data leak not covered by the documented generic webhook
-       diagnostics or linked-repository trust boundary, credential exposure, or
-       unauthorized export.
+       diagnostics, public-sharing metadata, or linked-repository trust
+       boundary, credential exposure, or unauthorized export.
      - Security-critical.
    * - Backup import rejects archives exceeding documented upload, member,
        aggregate size, and suspicious compression thresholds. *(documented)* (source: :doc:`/admin/config`, :ref:`projectbackup`)
@@ -770,6 +821,14 @@ Security properties Weblate provides
      - Rate limiting is enabled and backed by a working datastore.
      - Requests exceeding configured thresholds continue to be processed.
      - Availability/security hardening depending on endpoint sensitivity.
+   * - Built-in translation quality checks must not permit user-controlled
+       content within configured size limits to monopolize synchronous request
+       workers through disproportionate resource consumption. *(maintainer)*
+     - The check is enabled and runs during a supported browser or API
+       translation write.
+     - A single accepted translation causes CPU or memory consumption
+       disproportionate to its size and stalls a request worker.
+     - Security-critical for single-request DoS; otherwise availability bug.
    * - Generic webhooks schedule repository updates only for eligible components
        whose repository URL exactly matches a repository URL from the payload,
        including documented URL variants. Components managed through an
@@ -965,6 +1024,11 @@ Known non-findings
 * A report that a project manager can change repository settings, VCS
   credentials, or project configuration is not a vulnerability when the actor
   has the documented permission for that action. *(documented)* (source: :doc:`/admin/access`)
+* A report containing private-project or restricted-component data is not a
+  vulnerability when the user has effective ``reports.view`` permission on the
+  selected parent scope. That permission intentionally authorizes the complete
+  report scope. *(documented)* (source: :doc:`/devel/reporting`,
+  :doc:`/admin/access`)
 * A report that a project manager can configure Gerrit review push options is
   not a vulnerability by itself. Gerrit interprets these options as the
   configured Weblate Gerrit account and enforces Gerrit-side permissions.

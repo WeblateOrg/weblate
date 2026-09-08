@@ -91,6 +91,7 @@ from weblate.trans.file_format_params import (
     GettextXGenerator,
     XliffPlaceables,
     XMLWhitespaceHandling,
+    get_effective_params_for_file_format,
     get_encoding_param,
 )
 from weblate.trans.util import (
@@ -344,7 +345,7 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
             return False
         return self.unit.istranslated()
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         """Check whether unit needs editing."""
         if not self.has_unit():
             return fallback
@@ -1057,7 +1058,7 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "BaseXliffFormat"](TTKitUnit[U,
                 if xliff_node is not None:
                     xliff_node.set("state", target_state)
 
-    def is_approved(self, fallback=False):
+    def is_approved(self, fallback: bool = False) -> bool:
         """Check whether unit is approved."""
         if not self.has_unit():
             return fallback
@@ -1681,7 +1682,7 @@ class CSVUnit(MonolingualSimpleUnit):
     def _get_row_plural_form(row: WeblateCSVUnit) -> int:
         return _get_csv_target_plural_form(row)
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         # Report fuzzy state only if present in the fields
         if "fuzzy" not in self.parent.store.fieldnames:
             return fallback
@@ -3288,16 +3289,22 @@ class FlatXMLFormat(TTKitFormat):
     supports_flags: bool = True
 
     def get_format_class_kwargs(self):
+        params = get_effective_params_for_file_format(
+            self.format_id, self.file_format_params
+        )
         return {
-            "root_name": self.file_format_params.get("flatxml_root_name", None),
-            "value_name": self.file_format_params.get("flatxml_value_name", None),
-            "key_name": self.file_format_params.get("flatxml_key_name", None),
+            "root_name": params.get("flatxml_root_name"),
+            "value_name": params.get("flatxml_value_name"),
+            "key_name": params.get("flatxml_key_name"),
         }
 
     def get_unit_class_kwargs(self):
+        params = get_effective_params_for_file_format(
+            self.format_id, self.file_format_params
+        )
         return {
-            "element_name": self.file_format_params.get("flatxml_value_name", None),
-            "attribute_name": self.file_format_params.get("flatxml_key_name", None),
+            "element_name": params.get("flatxml_value_name"),
+            "attribute_name": params.get("flatxml_key_name"),
         }
 
 

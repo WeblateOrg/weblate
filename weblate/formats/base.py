@@ -334,11 +334,11 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
         """Check whether unit is translated."""
         return self.has_translation()
 
-    def is_approved(self, fallback=False) -> bool:
+    def is_approved(self, fallback: bool = False) -> bool:
         """Check whether unit is approved."""
         return fallback
 
-    def is_fuzzy(self, fallback=False) -> bool:
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         """Check whether unit needs edit."""
         return fallback
 
@@ -428,7 +428,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         return cls.supports_plural
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.format_id
 
     @classmethod
@@ -1193,7 +1193,7 @@ class BaseExporter:
         return multistring([self.string_filter(plural) for plural in plurals])
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.name
 
     def get_storage(self):

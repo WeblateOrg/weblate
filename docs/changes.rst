@@ -1,5 +1,5 @@
-Weblate 2026.9.1
-----------------
+Weblate 2026.10
+---------------
 
 *Not yet released.*
 
@@ -10,11 +10,14 @@ Weblate 2026.9.1
 
 .. rubric:: Improvements
 
-* Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
+* Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
+* Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
 
 .. rubric:: Security fixes
 
 .. rubric:: Bug fixes
+
+* Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
 
 .. rubric:: Compatibility
 
@@ -23,6 +26,71 @@ Weblate 2026.9.1
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.10.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/172?closed=1>`__.
+
+Weblate 2026.9.1
+----------------
+
+*Released on September 8th 2026.*
+
+.. rubric:: New features
+
+* Added per-user :ref:`notification diagnostics <notifications>` for users and administrators, with compact explanations of matching subscriptions for object paths.
+
+.. rubric:: Improvements
+
+* Added explicit :ref:`search result refresh <search-results-cache>` in the translation editors and improved recovery when saved search results expire.
+* :ref:`Docker development tests <dev-docker>` now automatically prepare an isolated test environment without requiring application startup or the Dev Container CLI.
+* Added a :ref:`development container <devcontainer>` for tests and lint, with an optional :ref:`application QA profile <dev-docker>`, isolated storage per Git worktree, dynamically allocated localhost application and mailbox ports, and Chromium diagnostics and mandatory browser test commands.
+* Improved :ref:`translation statistics <stats>` calculation performance and avoided redundant parent updates when loading check and label details.
+* Added posting and displaying scoped :doc:`announcements </admin/announcements>` on category-language pages.
+* Added a dismissible diagnostic for :ref:`glossaries <glossary-terminology>` with disabled string management when they use a local repository or contain terminology.
+* Clarified :doc:`incident reporting </security/incident-reporting>`, reporting deadlines, and security notifications for hosted and self-hosted users.
+* The :guilabel:`Manage reports` permission now consistently grants access to complete :doc:`translation reports </devel/reporting>` for the selected scope, including private projects and restricted components below it.
+* Docker deployments now use a combined :ref:`Celery <celery>` worker by default, reducing memory usage while increasing task throughput. Use :envvar:`CELERY_WORKER_MODE` to select the combined, split, or single worker setup.
+* Improved :ref:`Billing <billing>` detail page loading performance by batching related project, invoice, and audit log queries.
+* Further reduced :ref:`Celery <celery>` worker memory usage by sharing preloaded URL configuration between worker processes and loading bitmap widget rendering dependencies only when needed.
+* Docker startup configuration warnings are now available as :ref:`deployment checks <docker-startup-warnings>`, including in horizontally scaled deployments.
+* Reduced peak memory use and task duration for :ref:`notification digests <notifications>` by processing recipients in bounded batches and limiting each summary to 100 entries.
+
+.. rubric:: Security fixes
+
+* Prevented repeated :ref:`authenticator app registration <2fa>` from creating duplicate devices and allowing reuse of one-time codes. Existing equivalent duplicate devices are merged while preserving consumed codes.
+* Borg backup passphrases are now recursively scrubbed from Sentry error reports, including when a custom event scrubber is configured.
+* Font overrides are now restricted to fonts uploaded to the same project.
+* Engage pages and status widgets no longer disclose Private or Custom projects unless :ref:`project-public_sharing` is enabled.
+* Prevented excessive CPU consumption while checking malformed Markdown and MDX syntax.
+
+.. rubric:: Bug fixes
+
+* Fixed the approved-only :ref:`commit policy <project-commit_policy>` blocking commits for languages with reviews disabled by workflow settings.
+* Fixed the :ref:`uWSGI configuration example <uwsgi>` to use the virtual environment's Python when launching helpers for SSH repository operations.
+* Fixed language context and links in change history for scoped :doc:`announcements <admin/announcements>` and other language-specific events.
+* Restored :ref:`mt-deepl` API v1 translation support while retaining modern API language discovery and glossary improvements.
+* REST API unit updates now enforce the same translation text length limit as the web editor.
+* HTML void elements in :ref:`mdx` translations are now kept self-closing after sanitization, preventing invalid MDX output.
+* The :http:post:`autotranslate API endpoint </api/translations/(string:project)/(string:component)/(string:language)/autotranslate/>` now correctly describes its accepted request body fields (``q``, ``mode``, ``auto_source``, ``component``, ``engines``, ``threshold``) in the OpenAPI schema instead of incorrectly reflecting the Translation resource.
+* Links outside tab navigation now correctly activate their target tabs, fixing upload links for missing translations and new components.
+* Error reporting integrations now distinguish informational messages from exceptions and reliably report the explicitly handled exception.
+* The default Celery per-child memory limit now accommodates the application's baseline memory usage, avoiding unnecessary worker recycling.
+* Backup services now start only after settings and database backup files are fully updated, while backups to different Borg repositories can run in parallel.
+
+.. rubric:: Compatibility
+
+* Anonymous access to engage pages and status widgets is now disabled by default for Private and Custom projects. Enable :ref:`project-public_sharing` to preserve existing shared links after upgrading. Public and Protected projects are unchanged.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Authenticator app registrations started before this upgrade must be restarted. Sessions referencing a removed duplicate device may require two-factor verification again.
+* Docker deployments now default to the combined Celery worker mode. If your deployment relies on separate workers for each queue or configures them using ``CELERY_MAIN_OPTIONS``, ``CELERY_NOTIFY_OPTIONS``, ``CELERY_MEMORY_OPTIONS``, ``CELERY_TRANSLATE_OPTIONS``, or ``CELERY_BACKUP_OPTIONS``, set ``CELERY_WORKER_MODE=split`` to preserve the previous behavior.
+* The Docker ``CELERY_SINGLE_PROCESS`` environment variable is deprecated. Use ``CELERY_WORKER_MODE=single`` instead; the compatibility alias logs a startup warning.
 
 .. rubric:: Contributors
 

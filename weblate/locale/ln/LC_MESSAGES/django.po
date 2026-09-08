@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-05-30 06:52+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1507,6 +1507,11 @@ msgstr "Nkótá ibóngolámí"
 msgid "The authentication app %s was registered."
 msgstr ""
 
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+
 #, fuzzy
 #| msgid "Source strings"
 msgid "Second factor sign in"
@@ -2150,11 +2155,12 @@ msgstr ""
 msgid "Regular expression to match translation files against"
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
-#, fuzzy
-#| msgid "Watched translations"
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr ""
@@ -2194,6 +2200,18 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Define the file mask"
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 
 msgid "Language filter"
@@ -2312,7 +2330,27 @@ msgstr ""
 msgid "You can not use a base file for bilingual translation."
 msgstr "Kobanda libóngoli lokótá la sika"
 
+#, fuzzy
+#| msgid "Start new translation"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Kobanda libóngoli lokótá la sika"
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
+msgstr ""
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
 msgstr ""
 
 msgid "This template must include {{ component }}."
@@ -6888,6 +6926,14 @@ msgstr ""
 
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
 msgstr ""
 
 msgctxt "Anthropic model selection"
@@ -13186,6 +13232,21 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate languages"
+msgid "Migrate to GitHub App"
+msgstr "Nkótá ya Weblate"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -13338,6 +13399,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -14444,6 +14510,79 @@ msgstr "Kolongola kɔ́nti"
 
 #, fuzzy
 #| msgid "Watched translations"
+msgid "Code-hosting integrations"
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connect or update GitHub account"
+msgstr "Kolongola kɔ́nti"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connected GitHub accounts:"
+msgstr "Kolongola kɔ́nti"
+
+#, fuzzy
+#| msgid "VCS repositories"
+msgid "Refresh repositories"
+msgstr "Bibómbelo bya VCS"
+
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Migrate selected components"
+msgstr "Motángo mwa masakola"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Migration status"
+msgstr "Ndelo ya masakola"
+
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Ready"
+msgstr "Motángo mwa masakola"
+
+#, fuzzy
+#| msgid "VCS repositories"
+msgid "Repository access needed"
+msgstr "Bibómbelo bya VCS"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
 msgid "Register Weblate GitHub App"
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
@@ -14538,11 +14677,6 @@ msgstr "Motángo mwa masakola"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "VCS repositories"
-msgid "Refresh repositories"
-msgstr "Bibómbelo bya VCS"
 
 #, python-format
 msgid ""
@@ -14673,9 +14807,25 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Your account has been removed."
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Kɔ́nti na yɔ̌ elongolámí."
+msgstr[1] "Kɔ́nti na yɔ̌ elongolámí."
+
+#, fuzzy, python-format
+#| msgid "Watched translations"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "Mabóngoli lokótá makɛ́ngɛlámí"
+msgstr[1] "Mabóngoli lokótá makɛ́ngɛlámí"
 
 #, fuzzy
 #| msgid "Weblate administration"
@@ -15868,6 +16018,9 @@ msgstr ""
 msgid "Inexistent files."
 msgstr ""
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Watched translations"
@@ -16255,13 +16408,35 @@ msgid "Discovery configuration"
 msgstr "Boyángeli bwa Weblate"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 #, fuzzy
@@ -16300,6 +16475,17 @@ msgstr ""
 #| msgid "SSH keys"
 msgid "Sort JSON keys"
 msgstr "Lifungóla SSH"
+
+msgid "Do not sort"
+msgstr ""
+
+msgid "Case-sensitive sort"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Case-insensitive sort"
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
 msgid "JSON indentation"
 msgstr ""
@@ -18824,6 +19010,31 @@ msgid "User configured character: {}"
 msgstr ""
 
 #, fuzzy
+#| msgid "Watched translations"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Repository operation could not be completed."
+msgstr "Motángo mwa masakola"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Repository operation completed."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Repository operation completed with errors."
+msgstr "Motángo mwa masakola"
+
+#, fuzzy
 #| msgid "Source string changed"
 msgid "No suggestions found."
 msgstr "Ebandela ya masakola ebongwání"
@@ -19380,68 +19591,25 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
 #, fuzzy
+#| msgid "Watched translations"
+msgid "Another repository operation is already in progress."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
 #| msgid "Too many messages sent, please try again later!"
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr "Nkomá ebelé etíndámí, bolímbisi meká nsima!"
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-
 #, fuzzy
 #| msgid "Watched translations"
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
-
-msgid "All repositories were pushed."
-msgstr ""
-
-#, fuzzy
-#| msgid "VCS repositories"
-msgid "Accessible repositories were pushed."
-msgstr "Bibómbelo bya VCS"
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-
-#, fuzzy
-#| msgid "Watched translations"
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
-
-msgid "All repositories have been cleaned up."
-msgstr ""
-
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Accessible repositories have been cleaned up."
-msgstr "Kɔ́nti na yɔ̌ elongolámí."
-
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Translation files have been synchronized."
-msgstr "Kɔ́nti na yɔ̌ elongolámí."
-
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Kɔ́nti na yɔ̌ elongolámí."
-
-#, fuzzy
-#| msgid "Watched translations"
-msgid "Updates of translations are in progress."
+msgid "This repository operation is already queued."
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
 #, fuzzy
 #| msgid "Watched translations"
-msgid "Updates of translations in accessible repositories are in progress."
+msgid "Repository operation has been queued."
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
 #, fuzzy
@@ -19458,19 +19626,6 @@ msgstr "Pɔná nkótá iye okokí kobóngola."
 #| msgid "Choose languages to which you can translate."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Pɔná nkótá iye okokí kobóngola."
-
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Pending translations are being committed."
-msgstr "Kɔ́nti na yɔ̌ elongolámí."
-
-msgid "All pending translations were committed."
-msgstr ""
-
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Kɔ́nti na yɔ̌ elongolámí."
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -20540,6 +20695,16 @@ msgstr ""
 msgid "Enter a valid GitHub host."
 msgstr "Nkótá"
 
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Components to migrate"
+msgstr "Motángo mwa masakola"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Select at least one component to migrate."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -20883,8 +21048,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -20957,6 +21149,26 @@ msgstr ""
 
 msgid "Connected GitHub account added."
 msgstr ""
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Watched translations"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr ""
@@ -21319,6 +21531,62 @@ msgstr ""
 #| msgid "Translated languages"
 msgid "The workspace has been removed."
 msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#~| msgid "Watched translations"
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
+#~| msgid "Watched translations"
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
+#~| msgid "VCS repositories"
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Bibómbelo bya VCS"
+
+#, fuzzy
+#~| msgid "Watched translations"
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
+#~| msgid "Your account has been removed."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Kɔ́nti na yɔ̌ elongolámí."
+
+#, fuzzy
+#~| msgid "Your account has been removed."
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Kɔ́nti na yɔ̌ elongolámí."
+
+#, fuzzy
+#~| msgid "Your account has been removed."
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Kɔ́nti na yɔ̌ elongolámí."
+
+#, fuzzy
+#~| msgid "Watched translations"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
+#~| msgid "Your account has been removed."
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Kɔ́nti na yɔ̌ elongolámí."
+
+#, fuzzy
+#~| msgid "Your account has been removed."
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Kɔ́nti na yɔ̌ elongolámí."
 
 #, fuzzy, python-format
 #~| msgid "Watched translations"

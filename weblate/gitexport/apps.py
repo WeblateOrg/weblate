@@ -28,7 +28,7 @@ def check_git_backend(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     if find_git_http_backend() is None:
         return [

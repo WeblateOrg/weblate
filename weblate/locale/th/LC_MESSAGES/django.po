@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-08-28 15:30+0000\n"
 "Last-Translator: Anucha Hlownonkor <anucha.initdz@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
@@ -1290,6 +1290,13 @@ msgstr "ลบแอปยืนยันตัวตนแล้ว"
 msgid "The authentication app %s was registered."
 msgstr "ลงทะเบียนแอปยืนยันตัวตน %s แล้ว"
 
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr "หากเป็นคุณ, โปรดรีเซ็ตรหัสผ่านเพื่อเข้าถึงบัญชีของคุณอีกครั้ง"
+
 msgid "Second factor sign in"
 msgstr "การเข้าสู่ระบบแบบสองขั้นตอน"
 
@@ -1935,11 +1942,12 @@ msgstr "โปรดตรวจสอบและยืนยันคอมโ
 msgid "Regular expression to match translation files against"
 msgstr "นิพจน์ทั่วไป (Regular expression) เพื่อจับคู่ไฟล์คำแปล"
 
-#, fuzzy
-#| msgid "Administration"
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "การดูแลระบบ"
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr "รูปแบบไฟล์"
@@ -1987,6 +1995,18 @@ msgid ""
 msgstr ""
 "ชื่อไฟล์คำแปลภาษากลาง ในกรณีส่วนใหญ่นี่คือไฟล์คำแปลที่นักพัฒนาให้มา "
 "และใช้เมื่อสร้างข้อความต้นฉบับจริง"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Define the file mask"
+msgstr "การดูแลระบบ"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "ตัวกรองภาษา"
@@ -2100,8 +2120,28 @@ msgstr "คุณไม่สามารถใช้คำแปลภาษา
 msgid "You can not use a base file for bilingual translation."
 msgstr "คุณไม่สามารถใช้ไฟล์ฐานสำหรับการแปลสองภาษาได้"
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "กำหนดไฟล์ฐานสำหรับคำแปลใหม่"
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "โปรดตรวจสอบและยืนยันคอมโพเนนต์ที่จับคู่"
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr ""
@@ -6404,6 +6444,14 @@ msgstr ""
 
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
 msgstr ""
 
 msgctxt "Anthropic model selection"
@@ -12798,6 +12846,21 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Migrate to GitHub App"
+msgstr "การดูแลระบบ"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12952,6 +13015,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -14067,6 +14135,79 @@ msgid "No connected accounts yet."
 msgstr "ลบบัญชี"
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting integrations"
+msgstr "การโฮสต์การแปล"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connect or update GitHub account"
+msgstr "ลบบัญชีนี้"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connected GitHub accounts:"
+msgstr "ลบบัญชีนี้"
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Refresh repositories"
+msgstr "รุ่น"
+
+#, fuzzy
+#| msgid "Delete"
+msgid "Migrate selected components"
+msgstr "ลบ"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "สถานะการแปล"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "อ่านได้อย่างเดียว"
+
+#, fuzzy
+#| msgid "Repository details"
+msgid "Repository access needed"
+msgstr "รายละเอียดคลังเก็บ"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Donate to Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "บริจาคให้ Weblate"
@@ -14160,11 +14301,6 @@ msgstr "คำเชิญไปยัง %(site_title)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Versions"
-msgid "Refresh repositories"
-msgstr "รุ่น"
 
 #, python-format
 msgid ""
@@ -14297,9 +14433,24 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Administration"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "การดูแลระบบ"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action in %(component)s"
+#| msgid_plural "%(count)s strings needing action in %(component)s"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s สตริงที่จำเป็นต้องตรวจสอบใน %(component)s"
 
 #, fuzzy
 #| msgid "Resend invitation"
@@ -15547,6 +15698,9 @@ msgstr ""
 msgid "Inexistent files."
 msgstr ""
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Administration"
@@ -15945,13 +16099,35 @@ msgid "Discovery configuration"
 msgstr "การกำหนดค่า Weblate"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr "การดูแลระบบ"
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 #, fuzzy
@@ -15989,6 +16165,21 @@ msgstr ""
 
 msgid "Sort JSON keys"
 msgstr "เรียงลำดับคีย์ JSON"
+
+#, fuzzy
+#| msgid "Do not notify"
+msgid "Do not sort"
+msgstr "ไม่ต้องแจ้งเตือน"
+
+#, fuzzy
+#| msgid "Last activity"
+msgid "Case-sensitive sort"
+msgstr "กิจกรรมล่าสุด"
+
+#, fuzzy
+#| msgid "Last activity"
+msgid "Case-insensitive sort"
+msgstr "กิจกรรมล่าสุด"
 
 msgid "JSON indentation"
 msgstr "การเยื้อง JSON"
@@ -18574,6 +18765,32 @@ msgid "User configured character: {}"
 msgstr ""
 
 #, fuzzy
+#| msgid "Administration"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "การดูแลระบบ"
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Repository operation could not be completed."
+msgstr "รุ่น"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "การทำงานของคลังโค้ดล้มเหลว"
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Repository operation completed with errors."
+msgstr "รุ่น"
+
+#, fuzzy
 #| msgid "No words found!"
 msgid "No suggestions found."
 msgstr "ไม่พบคำ!"
@@ -19145,69 +19362,28 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
 #, fuzzy
+#| msgid "Administration"
+msgid "Another repository operation is already in progress."
+msgstr "การดูแลระบบ"
+
+#, fuzzy
 #| msgid "Could not authenticate due to invalid session state."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr "ไม่สามารถรับรองความถูกต้องได้เนื่องจากมีสถานะเซสชันที่ไม่ถูกต้อง"
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "การทำงานของคลังโค้ดล้มเหลว"
 
 #, fuzzy
-#| msgid "Administration"
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "การดูแลระบบ"
-
-msgid "All repositories were pushed."
-msgstr ""
-
-#, fuzzy
-#| msgid "Versions"
-msgid "Accessible repositories were pushed."
-msgstr "รุ่น"
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-
-#, fuzzy
-#| msgid "Administration"
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "การดูแลระบบ"
-
-msgid "All repositories have been cleaned up."
-msgstr ""
-
-#, fuzzy
-#| msgid "There are no addons currently installed."
-msgid "Accessible repositories have been cleaned up."
-msgstr "ไม่มีส่วนเสริมที่ติดตั้งในขณะนี้"
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Translation files have been synchronized."
-msgstr "การดูแลระบบ"
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "การดูแลระบบ"
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Updates of translations are in progress."
-msgstr "การดูแลระบบ"
-
-#, fuzzy
-#| msgid "Administration"
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "การดูแลระบบ"
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "การทำงานของคลังโค้ดล้มเหลว"
 
 #, fuzzy
 #| msgid "Administration"
@@ -19223,19 +19399,6 @@ msgstr "การดูแลระบบ"
 #| msgid "Administration"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "การดูแลระบบ"
-
-#, fuzzy
-#| msgid "%(translation)s has been completed"
-msgid "Pending translations are being committed."
-msgstr "%(translation)s ถูกแปลสำเร็จแล้ว"
-
-msgid "All pending translations were committed."
-msgstr ""
-
-#, fuzzy
-#| msgid "%(translation)s has been completed"
-msgid "Pending translations in accessible repositories were committed."
-msgstr "%(translation)s ถูกแปลสำเร็จแล้ว"
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -20318,6 +20481,16 @@ msgstr "ผลักข้อมูลการเปลี่ยนแปลง
 msgid "Enter a valid GitHub host."
 msgstr "ภาษา"
 
+#, fuzzy
+#| msgid "Component name"
+msgid "Components to migrate"
+msgstr "ชื่อคอมโพเนนต์"
+
+#, fuzzy
+#| msgid "Information"
+msgid "Select at least one component to migrate."
+msgstr "ข้อมูล"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -20701,8 +20874,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -20777,6 +20977,24 @@ msgstr ""
 #| msgid "Delete this account"
 msgid "Connected GitHub account added."
 msgstr "ลบบัญชีนี้"
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+
+#, fuzzy, python-format
+#| msgid "Error in parameter %(field)s: %(error)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "ข้อผิดพลาดในพารามิเตอร์ %(field)s: %(error)s"
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -21145,6 +21363,62 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
+
+#, fuzzy
+#~| msgid "Administration"
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "การดูแลระบบ"
+
+#, fuzzy
+#~| msgid "Administration"
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "การดูแลระบบ"
+
+#, fuzzy
+#~| msgid "Versions"
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "รุ่น"
+
+#, fuzzy
+#~| msgid "Administration"
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "การดูแลระบบ"
+
+#, fuzzy
+#~| msgid "There are no addons currently installed."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "ไม่มีส่วนเสริมที่ติดตั้งในขณะนี้"
+
+#, fuzzy
+#~| msgid "Administration"
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "การดูแลระบบ"
+
+#, fuzzy
+#~| msgid "Administration"
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "การดูแลระบบ"
+
+#, fuzzy
+#~| msgid "Administration"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "การดูแลระบบ"
+
+#, fuzzy
+#~| msgid "%(translation)s has been completed"
+#~ msgid "Pending translations are being committed."
+#~ msgstr "%(translation)s ถูกแปลสำเร็จแล้ว"
+
+#, fuzzy
+#~| msgid "%(translation)s has been completed"
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "%(translation)s ถูกแปลสำเร็จแล้ว"
 
 #, fuzzy
 #~| msgid "Authentication"
@@ -22054,9 +22328,6 @@ msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 #~ msgid "%d new string to translate appeared in the translation."
 #~ msgid_plural "%d new strings to translate appeared to the translation."
 #~ msgstr[0] "มีสตริงใหม่ให้แปลใน %(translation)s"
-
-#~ msgid "Do not notify"
-#~ msgstr "ไม่ต้องแจ้งเตือน"
 
 #~ msgid "Component locking"
 #~ msgstr "การล็อกคอมโพเนนต์"

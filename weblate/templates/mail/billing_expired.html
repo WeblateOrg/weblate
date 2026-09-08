@@ -63,7 +63,8 @@
           <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
              class="button">{% translate "New payment" %}</a>
         {% else %}
-          <a href="{{ billing.get_absolute_url }}" class="button">{% translate "Request approval for Libre hosting" %}</a>
+          <a href="{{ billing.get_absolute_url }}"
+             class="button">{% translate "Request approval for Libre hosting" %}</a>
         {% endif %}
       </div>
     {% endif %}

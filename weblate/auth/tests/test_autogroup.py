@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.test import TestCase
 
 from weblate.auth.models import AutoGroup, Group, User
@@ -9,7 +11,7 @@ from weblate.auth.models import AutoGroup, Group, User
 
 class AutoGroupTest(TestCase):
     @staticmethod
-    def create_user():
+    def create_user() -> User:
         return User.objects.create_user("test1", "noreply1@weblate.org", "pass")
 
     def test_default(self) -> None:

@@ -42,7 +42,7 @@ class SkipHtmlSpan(span_token.HtmlSpan):
     parse_inner = False
     content: str
 
-    def __init__(self, match) -> None:
+    def __init__(self, match: re.Match[str]) -> None:
         super().__init__(match)
         self.content = ""
 
