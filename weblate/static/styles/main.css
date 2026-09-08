@@ -343,6 +343,8 @@ textarea.highlight-editor {
 .space-nl,
 .space-space,
 .space-nbsp,
+.space-thin,
+.space-narrow-nbsp,
 .token.newline {
   min-width: 0.3em;
   /* inline-block needed for proper ::before placement in Chrome */
@@ -360,6 +362,20 @@ textarea.highlight-editor {
 
 .space-nbsp::before {
   content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-thin::before {
+  content: "˙";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-narrow-nbsp::before {
+  content: "˘";
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

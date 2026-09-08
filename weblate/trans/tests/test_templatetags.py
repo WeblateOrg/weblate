@@ -1007,7 +1007,7 @@ glosář [glossary]">glossary</span>
             """
             Hello
             <span class="hlspace">
-                <span class="space-nbsp" title="NARROW NO-BREAK SPACE">
+                <span class="space-narrow-nbsp" title="NARROW NO-BREAK SPACE">
                     \u202f
                 </span>
             </span>
@@ -1037,8 +1037,23 @@ glosář [glossary]">glossary</span>
             """
             Hello
             <span class="hlspace">
-                <span class="space-space" title="THIN SPACE">
+                <span class="space-thin" title="THIN SPACE">
                     \u2009
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u200aworld"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-space" title="HAIR SPACE">
+                    \u200a
                 </span>
             </span>
             world

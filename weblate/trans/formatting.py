@@ -48,7 +48,15 @@ WHITESPACE_REGEX = (
     r"\u202F|\u205F|\u3000)"
 )
 WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
-NON_BREAKING_SPACES = {"\u00a0", "\u2007", "\u202f"}
+# Whitespace characters rendered with a dedicated marker, others use space-space.
+# This should match the hlspace inside tokens in weblate/static/loader-bootstrap.js
+WHITESPACE_CLASSES = {
+    "\t": "space-tab",
+    "\u00a0": "space-nbsp",
+    "\u2007": "space-nbsp",
+    "\u2009": "space-thin",
+    "\u202f": "space-narrow-nbsp",
+}
 NEWLINE_RE = re.compile(r"(\r\n|\r|\n)", re.MULTILINE)
 MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
 ESCAPE_RE = re.compile(r"""['"&<>]""")
@@ -363,12 +371,7 @@ class Formatter:
 
         for match in WHITESPACE_RE.finditer(value):
             whitespace = match.group(0)
-            if whitespace == "\t":
-                cls = "space-tab"
-            elif whitespace in NON_BREAKING_SPACES:
-                cls = "space-nbsp"
-            else:
-                cls = "space-space"
+            cls = WHITESPACE_CLASSES.get(whitespace, "space-space")
             title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
                 format_html(

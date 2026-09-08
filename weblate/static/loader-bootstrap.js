@@ -752,9 +752,11 @@ function initHighlight(root) {
           lookbehind: true,
           inside: {
             "space-tab": /\t/,
-            "space-nbsp": /[\u2007\u202F]/,
+            "space-nbsp": /\u2007/,
+            "space-thin": /\u2009/,
+            "space-narrow-nbsp": /\u202F/,
             "space-space":
-              /[ \u00AD\u1680\u2000-\u2006\u2008-\u200A\u205F\u3000]/,
+              /[ \u00AD\u1680\u2000-\u2006\u2008\u200A\u205F\u3000]/,
           },
         },
         newline: {
