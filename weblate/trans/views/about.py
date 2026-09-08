@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import httpx2
 from django.core.cache import cache
 from django.db.models import Sum
@@ -54,7 +56,7 @@ class AboutView(TemplateView):
 
         return context
 
-    def get_template_names(self):
+    def get_template_names(self) -> list[str]:
         return [f"about/{self.page}.html"]
 
 

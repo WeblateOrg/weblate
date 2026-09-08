@@ -22,15 +22,15 @@ class SampleTranslation(MachineTranslation):
 
     name = "Sample"
 
-    def download_languages(self):
+    def download_languages(self) -> list[str]:
         """Return list of languages your machine translation supports."""
         response = self.request("get", "http://example.com/languages")
         return response.json()["languages"]
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
         unit: Unit | None,
         user: User | None,

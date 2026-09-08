@@ -13,7 +13,7 @@ from importlib import import_module
 from itertools import batched
 from pathlib import Path
 from shutil import copyfile
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
 from django.core.cache import cache
@@ -38,9 +38,12 @@ from weblate.vcs.models import VCS_REGISTRY
 from .const import HEARTBEAT_FREQUENCY
 from .encoding import get_encoding_list
 
+if TYPE_CHECKING:
+    from celery import Celery
+
 
 @app.task(trail=False)
-def ping():
+def ping() -> dict[str, str | list[str] | int]:
     return {
         "version": weblate.utils.version.GIT_VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
@@ -353,6 +356,6 @@ def database_backup(additional_service_ids: list[int] | None = None) -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     cache.set("celery_loaded", time.time())
     sender.add_periodic_task(HEARTBEAT_FREQUENCY, heartbeat.s(), name="heartbeat")

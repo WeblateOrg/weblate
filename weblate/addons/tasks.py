@@ -42,6 +42,8 @@ from weblate.utils.requests import open_restricted_asset_url
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
+    from celery import Celery
+
     from weblate.addons.consistency import LanguageConsistencyAddon
 
 IGNORED_TAGS = {"script", "style"}
@@ -404,7 +406,7 @@ def postconfigure_addon(addon_id: int, addon: Addon | None = None) -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(crontab(minute=45), daily_addons.s(), name="daily-addons")
     sender.add_periodic_task(
         crontab(hour=0, minute=40),  # Not to run on minute 0 to spread the load

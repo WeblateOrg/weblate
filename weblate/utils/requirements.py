@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import sys
 from importlib.metadata import PackageNotFoundError, metadata
 from typing import TYPE_CHECKING, cast
@@ -76,7 +78,9 @@ OPTIONAL = [
 ]
 
 
-def get_version_module(name, optional=False) -> tuple[str, str, str] | None:
+def get_version_module(
+    name: str, optional: bool = False
+) -> tuple[str, str, str] | None:
     """
     Return module object.
 

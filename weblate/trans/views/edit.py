@@ -866,7 +866,7 @@ def get_checksum_unit_set(unit_set: UnitQuerySet) -> UnitQuerySet:
     )
 
 
-def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
+def perform_suggestion(unit, form, request: AuthenticatedHttpRequest) -> bool:
     """Handle suggestion saving."""
     if not form.cleaned_data["target"][0]:
         messages.error(request, gettext("Your suggestion is empty!"))

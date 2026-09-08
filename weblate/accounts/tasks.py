@@ -32,6 +32,7 @@ from weblate.utils.tracing import start_span
 if TYPE_CHECKING:
     from collections.abc import Generator
 
+    from celery import Celery
     from django.core.mail.backends.base import BaseEmailBackend
     from django.db.models import QuerySet
 
@@ -470,7 +471,7 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(3600, cleanup_social_auth.s(), name="social-auth-cleanup")
     sender.add_periodic_task(3600, cleanup_auditlog.s(), name="auditlog-cleanup")
     sender.add_periodic_task(

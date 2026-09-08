@@ -817,7 +817,7 @@ class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
         )
         self.obj = self.category
 
-    def test_category_add_no_extra_components(self):
+    def test_category_add_no_extra_components(self) -> None:
         """Test that adding a language to a category does not add it to components not in the category."""
         # Create a component in the same project but outside the category
         outside_component = self.create_po_new_base(

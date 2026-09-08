@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from datetime import datetime
 
 
-def get_root_dir():
+def get_root_dir() -> str:
     """Return Weblate root dir."""
     curdir = os.path.dirname(os.path.abspath(__file__))
     return os.path.abspath(os.path.join(curdir, "..", ".."))

@@ -319,7 +319,7 @@ class BatchCheckMixinTest(SimpleTestCase):
         class FakeCheck:
             objects = MagicMock()
 
-            def __init__(self, *, unit, dismissed, name):
+            def __init__(self, *, unit, dismissed, name) -> None:
                 self.dismissed = dismissed
                 self.name = name
                 self.unit_id = unit.pk

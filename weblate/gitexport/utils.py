@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 # ruff: ignore[suspicious-subprocess-import]
 import subprocess
 from contextlib import suppress
@@ -18,7 +20,7 @@ GIT_PATHS = [
 
 
 @functools_cache
-def find_git_http_backend():
+def find_git_http_backend() -> str | None:
     """Find Git HTTP back-end."""
     with suppress(OSError):
         path = subprocess.run(

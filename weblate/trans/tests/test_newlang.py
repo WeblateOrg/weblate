@@ -4,8 +4,11 @@
 
 """Test for adding new language."""
 
+from __future__ import annotations
+
 import os
 import tempfile
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.core import mail
@@ -20,6 +23,9 @@ from weblate.utils.ratelimit import reset_rate_limit
 
 from .test_views import ViewTestCase
 
+if TYPE_CHECKING:
+    from weblate.trans.models import Component
+
 
 class NewLangTest(ViewTestCase):
     expected_lang_code = "pt_BR"
@@ -31,7 +37,7 @@ class NewLangTest(ViewTestCase):
     def reset_rate(self) -> None:
         reset_rate_limit("language", user=self.user)
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_new_base(new_lang="add")
 
     def test_no_permission(self) -> None:
@@ -263,7 +269,7 @@ class NewLangTest(ViewTestCase):
 class AndroidNewLangTest(NewLangTest):
     expected_lang_code = "pt-rBR"
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_android(new_lang="add")
 
     def test_add_rejects_symlinked_target(self) -> None:
@@ -288,7 +294,7 @@ class AndroidNewLangTest(NewLangTest):
 class AppStoreNewLangTest(NewLangTest):
     expected_lang_code = "pt-BR"
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_appstore(new_lang="add")
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)

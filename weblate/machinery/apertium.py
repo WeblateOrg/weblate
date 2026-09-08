@@ -16,6 +16,9 @@ from .base import (
 from .forms import URLMachineryForm
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import (
         DownloadTranslations,
     )
@@ -131,17 +134,17 @@ class ApertiumAPYTranslation(ResponseStatusMachineTranslation):
             for item in data["responseData"]
         ]
 
-    def is_supported(self, source_language, target_language):
+    def is_supported(self, source_language, target_language) -> bool:
         """Check whether given language combination is supported."""
         return (source_language, target_language) in self.supported_languages
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from Apertium."""

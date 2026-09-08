@@ -989,7 +989,7 @@ class MemoryModelTest(FixtureTestCase):
     ) -> None:
         late_memories: list[Memory] = []
 
-        def delete_with_late_write(cleanup):
+        def delete_with_late_write(cleanup) -> None:
             delete_collected_component_memory(cleanup)
             if not late_memories:
                 late_memories.append(
@@ -1109,7 +1109,7 @@ class MemoryModelTest(FixtureTestCase):
         self.component.save(update_fields=["category"])
         late_memories: list[Memory] = []
 
-        def delete_with_late_write(cleanup):
+        def delete_with_late_write(cleanup) -> None:
             delete_collected_component_memory(cleanup)
             if not late_memories:
                 late_memories.append(
@@ -5219,7 +5219,7 @@ class LookupPolicyTest(SimpleTestCase):
         queryset.get_fuzzy_candidates.return_value = prefix_candidates
         queryset.get_full_source_fuzzy_candidates.return_value = [accepted]
 
-        def scorer(candidate):
+        def scorer(candidate) -> int:
             if candidate is accepted:
                 return 95
             return 80
@@ -5253,7 +5253,7 @@ class LookupPolicyTest(SimpleTestCase):
         queryset = MagicMock()
         queryset.get_fuzzy_candidates.return_value = prefix_candidates
 
-        def scorer(candidate):
+        def scorer(candidate) -> int:
             if candidate is prefix_candidates[0]:
                 return 100
             return 80

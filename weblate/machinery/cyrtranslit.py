@@ -12,7 +12,9 @@ from .base import MACHINERY_DEFAULT_THRESHOLD, MachineTranslation
 from .types import TranslationResultDict
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Translation
+    from weblate.auth.models import User
+    from weblate.machinery.base import DownloadTranslations
+    from weblate.trans.models import Translation, Unit
 
 CYRTRANSLIT_TO_WEBLATE_LANGS = {
     # bulgarian
@@ -93,13 +95,13 @@ class CyrTranslitTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
-    ):
+    ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
         # ruff: ignore[import-outside-top-level]
         import cyrtranslit
@@ -119,10 +121,13 @@ class CyrTranslitTranslation(MachineTranslation):
             source=text,
         )
 
-    def is_supported(self, source_language, target_language):
+    def is_supported(self, source_language: str, target_language: str) -> bool:
         """Check whether given language combination is supported."""
         if super().is_supported(source_language, target_language):
-            return source_language.split("@")[0] == target_language.split("@")[0]
+            return (
+                source_language.split("@", maxsplit=1)[0]
+                == target_language.split("@", maxsplit=1)[0]
+            )
         return False
 
     def map_language_code(self, code: str) -> str:

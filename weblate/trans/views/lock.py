@@ -16,12 +16,14 @@ from weblate.utils import messages
 from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
+    from django.http import HttpResponseRedirect
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
 @require_POST
 @login_required
-def lock(request: AuthenticatedHttpRequest, path):
+def lock(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseRedirect:
     obj = parse_path(request, path, (Project, Component))
 
     if not request.user.has_perm("component.lock", obj):
@@ -43,7 +45,7 @@ def lock(request: AuthenticatedHttpRequest, path):
 
 @require_POST
 @login_required
-def unlock(request: AuthenticatedHttpRequest, path):
+def unlock(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseRedirect:
     obj = parse_path(request, path, (Project, Component))
 
     if not request.user.has_perm("component.lock", obj):

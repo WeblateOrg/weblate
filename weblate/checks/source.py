@@ -22,6 +22,7 @@ from weblate.utils.state import FUZZY_STATES, STATE_EMPTY
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from weblate.checks.models import Check
     from weblate.trans.models import Component, Unit
 
 # Matches (s) not followed by alphanumeric chars or at the end
@@ -37,7 +38,7 @@ class OptionalPluralCheck(SourceCheck):
         "The string is used as plural, but not using plural forms."
     )
 
-    def check_source_unit(self, sources: list[str], unit: Unit):
+    def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         if len(sources) > 1:
             return False
         return len(PLURAL_MATCH.findall(sources[0])) > 0
@@ -55,7 +56,7 @@ class EllipsisCheck(CodeDescriptionMixin, SourceCheck):
     description_values: ClassVar[dict[str, str]] = {"dots": "...", "ellipsis": "…"}
     description = format_lazy(description_template, **description_values)
 
-    def check_source_unit(self, sources: list[str], unit: Unit):
+    def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         return "..." in sources[0]
 
 
@@ -144,7 +145,7 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
             )
         )
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         related = self.get_related_checks([check_obj.unit_id]).select_related(
             "unit__translation__language"
         )

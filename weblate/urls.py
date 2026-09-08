@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import django.contrib.sitemaps.views
+import django.http
 import django.views.i18n
 import django.views.static
 from django.conf import settings
@@ -16,10 +17,7 @@ from django.utils.module_loading import import_string
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-)
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView
 
 import weblate.accounts.urls
 import weblate.accounts.views
@@ -74,7 +72,9 @@ handler404 = weblate.trans.views.error.not_found
 handler500 = weblate.trans.views.error.server_error
 
 
-def redirect_static(_request, filename: str, **kwargs):
+def redirect_static(
+    _request: django.http.HttpRequest | None, filename: str, **kwargs: str
+) -> django.http.HttpResponsePermanentRedirect:
     stable_url = f"{settings.STATIC_URL.rstrip('/')}/{filename % kwargs}"
     return redirect(stable_url, permanent=True)
 

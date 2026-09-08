@@ -15,6 +15,11 @@ from .base import (
 from .forms import KeySecretMachineryForm
 
 if TYPE_CHECKING:
+    import httpx2
+
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import (
         DownloadTranslations,
     )
@@ -49,7 +54,7 @@ class BaiduTranslation(MachineTranslation):
     }
     settings_form = KeySecretMachineryForm
 
-    def download_languages(self):
+    def download_languages(self) -> list[str]:
         """List of supported languages."""
         return [
             "zh",
@@ -82,7 +87,7 @@ class BaiduTranslation(MachineTranslation):
             "vie",  # codespell:ignore vie
         ]
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         payload = response.json()
 
         if "error_code" in payload:
@@ -99,11 +104,11 @@ class BaiduTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

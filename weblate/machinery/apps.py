@@ -22,7 +22,7 @@ def check_machinery(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.machinery.models import MACHINERY

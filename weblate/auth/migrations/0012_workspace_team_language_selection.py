@@ -2,10 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.db import migrations
 
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
-def normalize_workspace_team_language_selection(apps, schema_editor) -> None:
+
+def normalize_workspace_team_language_selection(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     db_alias = schema_editor.connection.alias
     Group = apps.get_model("weblate_auth", "Group")
 

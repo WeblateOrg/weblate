@@ -12,6 +12,9 @@ from .base import MACHINERY_DEFAULT_THRESHOLD, MachineTranslation
 from .forms import URLMachineryForm
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import DownloadTranslations
     from .forms import BaseMachineryForm
 
@@ -42,7 +45,7 @@ class TMServerTranslation(MachineTranslation):
             for tgt in data["targetLanguages"]
         ]
 
-    def is_supported(self, source_language, target_language):
+    def is_supported(self, source_language, target_language) -> bool:
         """Check whether given language combination is supported."""
         if not self.supported_languages:
             # Fallback for old tmserver which does not export list of
@@ -52,11 +55,11 @@ class TMServerTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

@@ -4,8 +4,14 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.db import migrations
 from django.utils.timezone import now
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
 OBSOLETE_BACKUP_SCHEDULES = (
     "settings-backup",
@@ -13,7 +19,9 @@ OBSOLETE_BACKUP_SCHEDULES = (
 )
 
 
-def remove_obsolete_backup_tasks(apps, _schema_editor) -> None:
+def remove_obsolete_backup_tasks(
+    apps: StateApps, _schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     PeriodicTask = apps.get_model("django_celery_beat", "PeriodicTask")
     PeriodicTasks = apps.get_model("django_celery_beat", "PeriodicTasks")
 

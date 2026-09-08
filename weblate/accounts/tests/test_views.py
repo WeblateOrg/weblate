@@ -667,7 +667,7 @@ class ViewTest(RepoTestCase):
         )
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
-    def test_login_ratelimit(self, login=False) -> None:
+    def test_login_ratelimit(self, login: bool = False) -> None:
         if login:
             self.test_login()
             user = User.objects.get(username="testuser")

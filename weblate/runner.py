@@ -2,12 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import sys
 from contextlib import suppress
 
 
-def main(argv=None, developer_mode: bool = False) -> None:
+def main(argv: list[str] | None = None, developer_mode: bool = False) -> None:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 
     # ruff: ignore[import-outside-top-level]

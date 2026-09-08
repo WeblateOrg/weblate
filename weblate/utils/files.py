@@ -78,7 +78,7 @@ def remove_tree(path: str | Path, ignore_errors: bool = False) -> None:
     shutil.rmtree(path, ignore_errors=ignore_errors, onexc=remove_readonly)
 
 
-def should_skip(location):
+def should_skip(location: str | os.PathLike[str]) -> bool:
     """Check for skipping location in manage commands."""
     excluded_directories = (
         VENV_DIR,
@@ -124,7 +124,9 @@ def is_vcs_metadata_path(path: str) -> bool:
     return any(part in VCS_METADATA_DIRS for part in PurePosixPath(normalized).parts)
 
 
-def is_path_within_directory(path: str, directory: str) -> bool:
+def is_path_within_directory(
+    path: str | os.PathLike[str], directory: str | os.PathLike[str]
+) -> bool:
     """Check whether resolved path is contained within resolved directory."""
     try:
         resolved_directory = Path(directory).resolve(strict=False)
@@ -134,7 +136,7 @@ def is_path_within_directory(path: str, directory: str) -> bool:
 
 
 def is_path_within_resolved_directory(
-    path: str | Path, resolved_directory: Path
+    path: str | os.PathLike[str], resolved_directory: Path
 ) -> bool:
     """Check whether resolved path is contained within a resolved directory."""
     try:

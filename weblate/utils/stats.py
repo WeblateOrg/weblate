@@ -1252,7 +1252,7 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
     def stats(self):
         return ProjectLanguageStats(self)
 
-    def get_share_url(self):
+    def get_share_url(self) -> str:
         """Return absolute URL usable for sharing."""
         return get_site_url(
             reverse(
@@ -1273,13 +1273,13 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
     def cache_key(self) -> str:
         return f"{self.project.cache_key}-{self.language.pk}"
 
-    def get_url_path(self):
+    def get_url_path(self) -> list[str]:
         return [*self.project.get_url_path(), "-", self.language.code]
 
     def get_absolute_url(self) -> str:
         return reverse("show", kwargs={"path": self.get_url_path()})
 
-    def get_translate_url(self):
+    def get_translate_url(self) -> str:
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
     @property
@@ -1313,7 +1313,7 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
         )
 
     @cached_property
-    def is_source(self):
+    def is_source(self) -> bool:
         return self.language.id in self.project.source_language_ids
 
     @cached_property
@@ -1457,13 +1457,13 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
     def cache_key(self) -> str:
         return f"{self.category.cache_key}-{self.language.pk}"
 
-    def get_url_path(self):
+    def get_url_path(self) -> list[str]:
         return [*self.category.get_url_path(), "-", self.language.code]
 
     def get_absolute_url(self) -> str:
         return reverse("show", kwargs={"path": self.get_url_path()})
 
-    def get_translate_url(self):
+    def get_translate_url(self) -> str:
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
     @property
@@ -1497,7 +1497,7 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
         )
 
     @cached_property
-    def is_source(self):
+    def is_source(self) -> bool:
         return self.language.id in self.category.source_language_ids
 
     @cached_property

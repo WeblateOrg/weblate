@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from unittest.mock import PropertyMock, patch
 
 from django.contrib.admin.sites import AdminSite
@@ -35,6 +36,9 @@ from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
 from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.admin import WorkspaceAdmin
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
+
+if TYPE_CHECKING:
+    from django.core.handlers.wsgi import WSGIRequest
 
 
 class WorkspaceViewTest(BaseTestCase):
@@ -1018,7 +1022,7 @@ class WorkspaceAdminTest(BaseTestCase):
         self.actor.is_superuser = True
         self.actor.save(update_fields=["is_superuser"])
 
-    def get_request(self):
+    def get_request(self) -> WSGIRequest:
         request = self.factory.post("/")
         request.user = self.actor
         return request

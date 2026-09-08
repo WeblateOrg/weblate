@@ -4,6 +4,8 @@
 
 """Tests for data exports."""
 
+from __future__ import annotations
+
 import json
 import os
 import tempfile
@@ -12,6 +14,7 @@ from contextlib import contextmanager, suppress
 from io import StringIO
 from pathlib import Path
 from shutil import copyfile
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
@@ -70,6 +73,11 @@ from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import Workspace
 
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+    from unittest.mock import Mock
+
+
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
 TEST_BACKUP_DUPLICATE = get_test_file("projectbackup-duplicate.zip")
@@ -77,7 +85,7 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 
 @contextmanager
-def remove_file_after(filename: str):
+def remove_file_after(filename: str) -> Iterator[None]:
     try:
         yield
     finally:
@@ -2368,7 +2376,7 @@ class BackupsTest(ViewTestCase):
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     @patch("weblate.trans.views.create.import_project_backup.delay")
-    def test_view_restore_schedules_background_import(self, delay) -> None:
+    def test_view_restore_schedules_background_import(self, delay: Mock) -> None:
         delay.return_value.id = "01234567-89ab-cdef-0123-456789abcdef"
         self.user.is_superuser = True
         self.user.save()

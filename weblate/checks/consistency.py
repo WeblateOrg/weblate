@@ -22,6 +22,7 @@ from weblate.utils.state import STATE_TRANSLATED
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from weblate.checks.models import Check
     from weblate.trans.models import Change, Component, Unit
 
     from .base import FixupType
@@ -39,7 +40,9 @@ class PluralsCheck(TargetCheck):
             return True
         return super().should_skip(unit)
 
-    def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
+    def check_target_unit(
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> bool:
         # Is this plural?
         if len(sources) == 1:
             return False
@@ -61,7 +64,9 @@ class SamePluralsCheck(TargetCheck):
     name = gettext_lazy("Same plurals")
     description = gettext_lazy("Some plural forms are translated in the same way.")
 
-    def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
+    def check_target_unit(
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> bool:
         # Is this plural?
         if len(sources) == 1 or len(targets) == 1:
             return False
@@ -206,7 +211,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
 
         return Unit.objects.same_target(unit).exists()
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Unit
 
@@ -314,11 +319,11 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
             return super().get_description(check_obj)
         return gettext('Previous translation was "%s".') % target
 
-    def should_skip_change(self, change: Change, unit: Unit):
+    def should_skip_change(self, change: Change, unit: Unit) -> bool:
         # Skip translation entries adding needs editing string
         return change.details.get("state", STATE_TRANSLATED) < STATE_TRANSLATED
 
-    def should_break_changes(self, change: Change):
+    def should_break_changes(self, change: Change) -> bool:
         # Stop changes processing on source string change or on
         # intentional marking as needing edit
         return change.action in self.SOURCE_ACTIONS

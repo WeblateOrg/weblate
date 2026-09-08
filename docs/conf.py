@@ -14,15 +14,21 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+from __future__ import annotations
+
 import os
 import sys
 from importlib import resources
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import sphinx.builders.gettext
 import weblate_fonts
 from matplotlib import font_manager
 from sphinx.util.tags import Tags
+
+if TYPE_CHECKING:
+    from sphinx.application import Sphinx
 
 # -- Path setup --------------------------------------------------------------
 
@@ -41,12 +47,12 @@ sys.path.append(str(weblate_dir))
 
 
 class WeblateTags(Tags):
-    def eval_condition(self, condition):
+    def eval_condition(self, condition: str) -> bool:
         # Exclude blocks marked as not gettext
         return condition != "not gettext"
 
 
-def setup(app) -> None:
+def setup(app: Sphinx) -> None:
     # Monkey patch gettext build tags handling, this is workaround until
     # https://github.com/sphinx-doc/sphinx/issues/13307 is addressed.
     sphinx.builders.gettext.I18nTags = WeblateTags

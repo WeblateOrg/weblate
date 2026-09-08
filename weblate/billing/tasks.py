@@ -23,8 +23,12 @@ from weblate.utils.celery import app
 if TYPE_CHECKING:
     from datetime import datetime
 
+    from celery import Celery
 
-def filter_with_projects(queryset):
+    from weblate.billing.models import BillingQuerySet
+
+
+def filter_with_projects(queryset: BillingQuerySet) -> BillingQuerySet:
     db = queryset.db
     return queryset.filter(
         Exists(Project.objects.using(db).filter(workspace_id=OuterRef("workspace_id")))
@@ -242,7 +246,7 @@ def perform_removal() -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(3600, billing_check.s(), name="billing-check")
     sender.add_periodic_task(
         crontab(hour=3, minute=0, day_of_week="mon,thu"),

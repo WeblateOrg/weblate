@@ -12,6 +12,9 @@ from .base import (
 )
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import (
         DownloadTranslations,
     )
@@ -24,7 +27,7 @@ class DummyTranslation(MachineTranslation):
     sends_data_to_third_party = False
     settings_form = None
 
-    def download_languages(self):
+    def download_languages(self) -> tuple[str, ...]:
         """
         List supported languages.
 
@@ -34,11 +37,11 @@ class DummyTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """
@@ -89,11 +92,11 @@ class DummyGlossaryTranslation(DummyTranslation, GlossaryMachineTranslationMixin
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Translate with glossary."""

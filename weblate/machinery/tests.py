@@ -8597,7 +8597,7 @@ class WeblateTranslationTest(FixtureComponentTestCase):
         self.assertNotEqual(results, [])
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_matches_still_probe_fuzzy_lookup(self, adjust_threshold) -> None:
+    def test_matches_still_probe_fuzzy_lookup(self, adjust_threshold: Mock) -> None:
         unit = Unit.objects.get(translation__language_code="cs", position=1)
         other = unit.translation.unit_set.exclude(pk=unit.pk).order_by("pk")[0]
         other.source = unit.source
@@ -9161,7 +9161,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
     @patch("weblate.machinery.weblatetm.Unit.objects")
     @patch("weblate.machinery.weblatetm.Translation.objects")
     def test_get_base_queryset_uses_translation_subquery(
-        self, translation_objects, unit_objects
+        self, translation_objects: Mock, unit_objects: Mock
     ) -> None:
         machine = WeblateTranslation({})
         user = MagicMock()
@@ -9197,7 +9197,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         )
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_get_matching_units_uses_fuzzy_lookup(self, adjust_threshold) -> None:
+    def test_get_matching_units_uses_fuzzy_lookup(self, adjust_threshold: Mock) -> None:
         machine = WeblateTranslation({})
         base = MagicMock()
         queryset = MagicMock()
@@ -9227,7 +9227,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
     def test_get_matching_units_orders_short_queries_before_slicing(
-        self, adjust_threshold
+        self, adjust_threshold: Mock
     ) -> None:
         machine = WeblateTranslation({})
         base = MagicMock()
@@ -9256,7 +9256,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
     def test_get_matching_units_uses_exact_lookup_at_full_threshold(
-        self, adjust_threshold
+        self, adjust_threshold: Mock
     ) -> None:
         machine = WeblateTranslation({})
         base = MagicMock()

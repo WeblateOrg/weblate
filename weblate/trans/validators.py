@@ -41,7 +41,7 @@ def validate_translation_text_length(unit: Unit, target: list[str]) -> None:
         raise ValidationError(gettext("Translation text too long!"))
 
 
-def validate_filemask(val) -> None:
+def validate_filemask(val: str) -> None:
     """Validate that the filemask contains *."""
     if "*" not in val:
         raise ValidationError(
@@ -49,7 +49,7 @@ def validate_filemask(val) -> None:
         )
 
 
-def validate_autoaccept(val) -> None:
+def validate_autoaccept(val: int) -> None:
     """Validate correct value for automatic acceptance."""
     if val == 1:
         raise ValidationError(
@@ -60,7 +60,7 @@ def validate_autoaccept(val) -> None:
         )
 
 
-def validate_check_flags(val) -> None:
+def validate_check_flags(val: str) -> None:
     """Validate check-influencing flags."""
     try:
         flags = FlagsValidator(val)

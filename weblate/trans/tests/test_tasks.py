@@ -2,12 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import time
 from contextlib import contextmanager, nullcontext
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 from unittest.mock import ANY, Mock, patch
 
 from celery.exceptions import Retry
@@ -70,6 +73,9 @@ from weblate.utils.tasks import (
     update_translation_stats_parents,
 )
 from weblate.utils.version import GIT_VERSION
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 class CleanupTest(ComponentTestCase):
@@ -360,7 +366,7 @@ class TasksTest(ComponentTestCase):
         original_push_if_needed = Component.push_if_needed
 
         @contextmanager
-        def reservation(*args, **kwargs):
+        def reservation(*args, **kwargs) -> Iterator[None]:
             events.append("reserve")
             try:
                 yield
@@ -393,7 +399,7 @@ class TasksTest(ComponentTestCase):
         lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
 
         @contextmanager
-        def reservation(*args, **kwargs):
+        def reservation(*args, **kwargs) -> Iterator[None]:
             events.append("reserve")
             try:
                 yield
@@ -588,7 +594,7 @@ class TasksTest(ComponentTestCase):
     def test_repository_operation_preserves_failure_message(self) -> None:
         task = SimpleNamespace(update_state=Mock())
 
-        def cleanup(component, request):
+        def cleanup(component, request) -> bool:
             messages.error(request, "Specific repository failure.")
             return False
 
@@ -812,7 +818,7 @@ class TasksTest(ComponentTestCase):
         calls: list[int] = []
         lock_timeout = WeblateLockTimeoutError("locked", lock=second.lock)
 
-        def cleanup(component, request):
+        def cleanup(component, request) -> bool:
             calls.append(component.pk)
             if component == self.component:
                 messages.error(request, "Earlier repository failure.")
@@ -1035,7 +1041,7 @@ class TasksTest(ComponentTestCase):
         events: list[str] = []
 
         @contextmanager
-        def reservation(*args, **kwargs):
+        def reservation(*args, **kwargs) -> Iterator[None]:
             events.append("reserve")
             try:
                 yield
@@ -1272,7 +1278,9 @@ class TasksTest(ComponentTestCase):
         self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
 
     @patch("weblate.trans.tasks.perform_commit")
-    def test_commit_pending_with_ineligible_changes(self, mock_perform_commit) -> None:
+    def test_commit_pending_with_ineligible_changes(
+        self, mock_perform_commit: Mock
+    ) -> None:
         """Test that perform_commit is not called when all changes are ineligible."""
         mock_perform_commit.delay.return_value.id = "commit-task-id"
         self.project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING

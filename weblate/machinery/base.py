@@ -184,7 +184,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         )
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.name.lower().replace(" ", "-")
 
     @classmethod
@@ -432,7 +432,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         cache.set(self.languages_cache, languages, 3600 * 48)
         return languages
 
-    def is_supported(self, source_language, target_language):
+    def is_supported(self, source_language, target_language) -> bool:
         """Check whether given language combination is supported."""
         return (
             target_language in self.supported_languages

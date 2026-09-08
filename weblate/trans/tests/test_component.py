@@ -391,7 +391,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_component()
         repository = component.repository
 
-        def reset_repository_to_remote(request, user, *, keep_changes: bool):
+        def reset_repository_to_remote(request, user, *, keep_changes: bool) -> str:
             with repository.lock:
                 return "old"
 
@@ -1049,7 +1049,7 @@ class ComponentTest(RepoTestCase):
 
         self.assertEqual(Check.objects.count(), 0)
 
-    def test_create_symlinks(self):
+    def test_create_symlinks(self) -> None:
         component = self._create_component("po", "po-brokenlink/*.po")
         # - xx should not be present as it is a symlink to existing translation
         # - fr should not be present as it is a symlink out of tree
@@ -1260,19 +1260,19 @@ class ComponentTest(RepoTestCase):
         component.create_translations_immediate(force=True)
         self.verify_component(component, 4, "cs", 4)
 
-    def test_maintenance_po(self):
+    def test_maintenance_po(self) -> None:
         component = self.create_po()
         self._test_maintenance(component)
 
-    def test_maintenance_po_branch(self):
+    def test_maintenance_po_branch(self) -> None:
         component = self.create_po_branch()
         self._test_maintenance(component)
 
-    def test_maintenance_po_mercurial(self):
+    def test_maintenance_po_mercurial(self) -> None:
         component = self.create_po_mercurial()
         self._test_maintenance(component)
 
-    def test_maintenance_po_mercurial_branch(self):
+    def test_maintenance_po_mercurial_branch(self) -> None:
         component = self.create_po_mercurial_branch()
         self._test_maintenance(component)
 
@@ -2723,7 +2723,7 @@ class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
 
 
 class ExistingIntermediateLanguageFileTest(ComponentTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_mono(new_lang="add")
 
     def test_existing_language_file_can_be_used_and_cleared_as_intermediate(
@@ -2787,7 +2787,7 @@ class ExistingIntermediateLanguageFileTest(ComponentTestCase):
 
 
 class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_new_base(new_lang="add")
 
     def setUp(self) -> None:
@@ -3758,7 +3758,7 @@ class CleanupRevisionTest(ComponentTestCase):
 
 
 class LinkedResetDiskStateTest(ComponentTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_link()
 
     def test_reset_keep_clears_disk_state_for_linked_components(self) -> None:
@@ -4016,7 +4016,7 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
 
 
 class LinkedEditTest(ViewTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_link()
 
     def test_linked(self) -> None:
@@ -4064,7 +4064,7 @@ class ComponentEditTest(ViewTestCase):
 class ComponentEditMonoTest(ComponentEditTest):
     """Test for error handling."""
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_ts_mono()
 
     @staticmethod
@@ -4100,7 +4100,7 @@ class ComponentEditMonoTest(ComponentEditTest):
 class ComponentKeyFilterTest(ViewTestCase):
     """Test the key filtering implementation in Component."""
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_android(key_filter="^tr")
 
     def test_get_key_filter_re(self) -> None:
@@ -4152,13 +4152,13 @@ class ComponentRepoWebTestCase(FixtureTestCase):
     def get_url(self) -> str | None:
         return self.component.get_repoweb_link("test.py", "42", user=self.user)
 
-    def test_provided(self):
+    def test_provided(self) -> None:
         self.component.repoweb = (
             "https://example.com/{{branch}}/f/{{filename}}#_{{line}}"
         )
         self.assertEqual("https://example.com/main/f/test.py#_42", self.get_url())
 
-    def test_blank(self):
+    def test_blank(self) -> None:
         self.assertIsNone(self.get_url())
 
     def test_repo_link_generation_bitbucket(self) -> None:

@@ -9,7 +9,7 @@ from __future__ import annotations
 from copy import deepcopy
 from datetime import timedelta
 from types import SimpleNamespace
-from typing import Protocol, cast
+from typing import Never, Protocol, cast
 from unittest.mock import patch
 
 from django.conf import settings
@@ -85,7 +85,7 @@ class LazyTranslation:
         self.prefetched_language = None
 
     @property
-    def language(self):
+    def language(self) -> Never:
         msg = "fill_in_prefetched should inject change.language"
         raise AssertionError(msg)
 

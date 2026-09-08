@@ -154,7 +154,7 @@ def get_percent_color(percent) -> str:
     return "#cc3d20"
 
 
-def get_page_limit(request: AuthenticatedHttpRequest, default: int) -> tuple[int, int]:
+def get_page_limit(request: HttpRequest, default: int) -> tuple[int, int]:
     """Return page and limit as integers."""
     try:
         limit = int(request.GET.get("limit", default))
