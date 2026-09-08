@@ -58,6 +58,7 @@ COLOR_DATA = {
 
 WIDGETS: dict[str, type[Widget]] = {}
 WIDGET_FONT = "Source Sans 3"
+WIDGET_FONT_SCALE = 4 / 3
 # Pango rounded the Source Sans ascent and descent independently. Preserve
 # those logical line metrics because the bitmap backgrounds were designed for
 # their resulting baselines.
@@ -212,11 +213,11 @@ class BitmapWidget(Widget):
         return [
             render.get_font_properties(
                 WIDGET_FONT,
-                size=self.font_size * 1.5 * render.FONT_SCALE,
+                size=self.font_size * 1.5 * WIDGET_FONT_SCALE,
                 weight=700,
             ),
             render.get_font_properties(
-                WIDGET_FONT, size=self.font_size * render.FONT_SCALE, weight=400
+                WIDGET_FONT, size=self.font_size * WIDGET_FONT_SCALE, weight=400
             ),
         ]
 
@@ -350,10 +351,10 @@ class OpenGraphWidget(NormalWidget):
 
         return [
             render.get_font_properties(
-                WIDGET_FONT, size=42 * render.FONT_SCALE, weight=400
+                WIDGET_FONT, size=42 * WIDGET_FONT_SCALE, weight=400
             ),
             render.get_font_properties(
-                WIDGET_FONT, size=18 * render.FONT_SCALE, weight=400
+                WIDGET_FONT, size=18 * WIDGET_FONT_SCALE, weight=400
             ),
         ]
 
@@ -399,7 +400,7 @@ class OpenGraphWidget(NormalWidget):
         # ruff: ignore[import-outside-top-level]
         from weblate.fonts import render
 
-        font_size = 52 * render.FONT_SCALE
+        font_size = 52 * WIDGET_FONT_SCALE
         regular_font = render.get_font_properties(
             WIDGET_FONT, size=font_size, weight=400
         )
