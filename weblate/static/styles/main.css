@@ -342,15 +342,52 @@ textarea.highlight-editor {
 .space-tab,
 .space-nl,
 .space-space,
+.space-nbsp,
+.space-thin,
+.space-narrow-nbsp,
 .token.newline {
   min-width: 0.3em;
   /* inline-block needed for proper ::before placement in Chrome */
   display: inline-block;
+  /* anchor for the absolutely positioned markers */
+  position: relative;
+}
+
+.space-space::before {
+  content: "·";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-nbsp::before {
+  content: "˚";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-thin::before {
+  content: "˙";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-narrow-nbsp::before {
+  content: "˘";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-tab {
+  min-width: 1em;
 }
 
 .space-tab::before {
   content: "→";
-  position: relative;
+  position: absolute;
 }
 
 .space-nl::before,
@@ -358,12 +395,6 @@ textarea.highlight-editor {
   content: "↵";
   position: absolute;
   outline: 1px dotted red;
-}
-
-.space-space::before {
-  content: "·";
-  position: relative;
-  left: 25%;
 }
 
 ins,
@@ -2068,7 +2099,9 @@ input.color_edit:checked + label {
   color: #009;
 }
 .token.newline,
-.token.hlspace {
+.token.hlspace,
+.token.hlspace .token {
+  /* Inline to keep the overlay layout identical to the textarea */
   display: inline;
 }
 

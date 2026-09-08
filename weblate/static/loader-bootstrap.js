@@ -613,6 +613,15 @@ function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
+  Prism.util.encode = function encode(tokens) {
+    if (tokens instanceof Prism.Token) {
+      return new Prism.Token(tokens.type, encode(tokens.content), tokens.alias);
+    }
+    if (Array.isArray(tokens)) {
+      return tokens.map(encode);
+    }
+    return tokens.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  };
   root.querySelectorAll("textarea[name='q']").forEach((input) => {
     const parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
@@ -735,25 +744,38 @@ function initHighlight(root) {
         ].join(""),
       );
       const newlineRegex = /\n/;
-      const nonBreakingSpaceRegex = /\u00A0/;
+      const nonBreakingSpaceRegex = /\u00A0+/;
+      const nbspToken = {
+        pattern: nonBreakingSpaceRegex,
+        alias: "hlspace",
+        inside: {
+          "space-nbsp": /\u00A0/,
+        },
+      };
       const extension = {
         hlspace: {
           pattern: whitespaceRegex,
           lookbehind: true,
+          inside: {
+            "space-tab": /\t/,
+            "space-nbsp": /\u2007/,
+            "space-thin": /\u2009/,
+            "space-narrow-nbsp": /\u202F/,
+            "space-space":
+              /[ \u00AD\u1680\u2000-\u2006\u2008\u200A\u205F\u3000]/,
+          },
         },
         newline: {
           pattern: newlineRegex,
         },
-        nbsp: {
-          pattern: nonBreakingSpaceRegex,
-        },
+        nbsp: nbspToken,
       };
       if (placeables) {
         extension.placeable = new RegExp(placeables);
       }
       const nestedTokens = {
         newline: { pattern: newlineRegex },
-        nbsp: { pattern: nonBreakingSpaceRegex },
+        nbsp: nbspToken,
       };
       if (placeables) {
         nestedTokens.placeable = {
@@ -794,18 +816,7 @@ function initHighlight(root) {
       languageMode = extension;
     }
     const syncContent = () => {
-      /*
-       * Prism turns non-breaking spaces into regular spaces when generating
-       * markup. Restore them.
-       */
-      highlight.innerHTML = Prism.highlight(
-        editor.value,
-        languageMode,
-        mode,
-      ).replaceAll(
-        '<span class="token nbsp"> </span>',
-        '<span class="token nbsp">\u00A0</span>',
-      );
+      highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
     };
     syncContent();
     editor.addEventListener("input", syncContent);
