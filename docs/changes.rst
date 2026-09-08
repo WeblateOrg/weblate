@@ -8,6 +8,7 @@ Weblate 2026.10
 .. rubric:: Improvements
 
 * Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
+* Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
 
 .. rubric:: Security fixes
 

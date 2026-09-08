@@ -352,6 +352,27 @@ the same rule using :ref:`project-source_review`.
 Components linked to a repository in another project follow their own project's
 commit policy.
 
+If the editor shows “Only approved translations are written to the translation
+file.” or “Approval is required before this translation can be written to the
+translation file.”, the quality filter prevents writing the translation to the
+file until it is approved. This notice does not confirm that your current edit
+was saved; resolve any validation errors before leaving the editor. The project
+policy description qualifies this as “For languages with reviews enabled, only
+approved translations are written to the translation file.” Having permission
+to approve translations does not automatically approve your edits.
+
+For a language that does not use reviews, open its page in the project and
+choose :guilabel:`Settings`. Enable :guilabel:`Customize translation workflow for
+this language in this project`, then turn :guilabel:`Enable reviews` off. This
+requires permission to edit project settings. See :ref:`workflow-customization`.
+With the approved-only policy, this makes all translation states eligible for
+writing to files for that language, including those needing editing.
+
+If reviews are needed, users with both review and bulk-edit permissions can use
+:ref:`bulk-edit` to approve existing translations they have reviewed. Eligibility
+for writing to a translation file does not mean the change is immediately
+committed or pushed; see :ref:`lazy-commit` and :ref:`component-push_on_commit`.
+
 
 .. _project-enable_hooks:
 

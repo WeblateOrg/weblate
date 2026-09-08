@@ -1,0 +1,33 @@
+{% load i18n icons permissions translations %}
+
+{% if unit.is_blocked_by_commit_policy %}
+  {% get_review_workflow unit.translation as review_workflow %}
+  <div class="list-group-item check check-item">
+    <h5>
+      {% documentation_icon 'admin/projects' 'project-commit-policy' right=True %}
+      {% icon "file-sync-outline.svg" %}
+      {% translate "Translation quality filter" %}
+    </h5>
+    <p class="list-group-item-text check-description">
+      {% if review_workflow.approved_only %}
+        {% translate "Approval is required before this translation can be written to the translation file." %}
+      {% else %}
+        {% translate "Resolve this translation’s needs-editing state before it can be written to the translation file." %}
+      {% endif %}
+    </p>
+    <p class="list-group-item-text">
+      {% documentation 'admin/projects' 'project-commit-policy' as policy_url %}
+      {% blocktranslate %}Learn how the <a href="{{ policy_url }}">translation quality filter</a> controls which translations are written to files.{% endblocktranslate %}
+    </p>
+    {% perm review_workflow.project_language.settings_permission review_workflow.project_language as can_configure_workflow %}
+    {% if can_configure_workflow %}
+      <p class="list-group-item-text list-buttons">
+        {% if review_workflow.approved_only %}
+          <a href="{% url 'settings' path=review_workflow.project_language.get_url_path %}">{% translate "Configure language workflow" %}</a>
+        {% else %}
+          <a href="{% url 'settings' path=review_workflow.project.get_url_path %}">{% translate "Configure translation quality filter" %}</a>
+        {% endif %}
+      </p>
+    {% endif %}
+  </div>
+{% endif %}
