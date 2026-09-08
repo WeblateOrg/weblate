@@ -223,7 +223,6 @@ def language_consistency(
         )
 
 
-@transaction.atomic
 def enforce_language_consistency_task(
     addon_id: int,
     language_ids: list[int],

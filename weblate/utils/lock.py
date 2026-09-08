@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import hashlib
 import threading
+import time
 from typing import TYPE_CHECKING, Protocol
 
 from django.db import connection, transaction
@@ -15,6 +16,20 @@ from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
     from types import TracebackType
+
+
+LOCK_SCOPE_REPOSITORY = 1
+LOCK_SCOPE_COMPONENT_UPDATE = 2
+LOCK_SCOPE_COMPONENT_CHECKS = 3
+LOCK_SCOPE_PROJECT_CHECKS = 4
+LOCK_SCOPE_STATS_UPDATE = 5
+LOCK_SCOPE_VCS_SETUP = 6
+LOCK_SCOPE_VCS_API_THROTTLE = 7
+LOCK_SCOPE_SCREENSHOTS_TESSERACT = 8
+LOCK_SCOPE_BACKUP = 9
+
+LOCK_POLL_INTERVAL = 0.1
+LOCK_DEFAULT_TIMEOUT = 1
 
 
 class LockInfo(Protocol):
@@ -53,12 +68,16 @@ class WeblateLock:
         scope: str,
         key: int | str,
         slug: str,
+        timeout: float = LOCK_DEFAULT_TIMEOUT,
         origin: str | None = None,
+        shared: bool = False,
     ) -> None:
         self._scope = scope
         self._key = key
         self._slug = slug
+        self._timeout = timeout
         self._origin = origin
+        self._shared = shared
         self._local = threading.local()
         self._local.depth = 0
         self._transaction = None
@@ -77,15 +96,49 @@ class WeblateLock:
         return self._name
 
     @property
+    def scope_key(self) -> int:
+        try:
+            return {
+                "repository": LOCK_SCOPE_REPOSITORY,
+                "component:update": LOCK_SCOPE_COMPONENT_UPDATE,
+                "component:checks": LOCK_SCOPE_COMPONENT_CHECKS,
+                "project:checks": LOCK_SCOPE_PROJECT_CHECKS,
+                "stats:update": LOCK_SCOPE_STATS_UPDATE,
+                "vcs:setup": LOCK_SCOPE_VCS_SETUP,
+                "vcs:api:throttle": LOCK_SCOPE_VCS_API_THROTTLE,
+                "screenshots:tesseract:download": LOCK_SCOPE_SCREENSHOTS_TESSERACT,
+                "backup:run": LOCK_SCOPE_BACKUP,
+            }[self._scope]
+        except KeyError as error:
+            raise ValueError(f"Unknown lock scope: {self._scope}") from error
+
+    @property
     def lock_key(self) -> int:
-        """Return a stable signed 64-bit PostgreSQL advisory lock key."""
-        digest = hashlib.sha256(f"{self._scope}:{self._key}".encode()).digest()
-        return int.from_bytes(digest[:8], byteorder="big", signed=True)
+        """Return the 32-bit PostgreSQL advisory lock key."""
+        if isinstance(self._key, int):
+            key = self._key
+        else:
+            digest = hashlib.sha256(str(self._key).encode("utf-8")).digest()
+            key = int.from_bytes(digest[:4], byteorder="big", signed=True)
+
+        if not -(2**31) <= key < 2**31:
+            raise ValueError(f"Lock key is outside PostgreSQL int4 range: {key}")
+
+        return key
+
+    @property
+    def _try_lock_query(self) -> str:
+        if self._shared:
+            return "SELECT pg_try_advisory_xact_lock_shared(%s, %s)"
+        return "SELECT pg_try_advisory_xact_lock(%s, %s)"
 
     def get_error_message(self) -> str:
         if self.origin:
-            return f"Lock on {self._name} ({self.origin} / {self.scope})"
-        return f"Lock on {self._name}"
+            return (
+                f"Lock on {self._name} ({self.origin} / {self.scope}) "
+                f"could not be acquired in {self._timeout}s"
+            )
+        return f"Lock on {self._name} could not be acquired in {self._timeout}s"
 
     def add_breadcrumb(self, operation: str) -> None:
         add_breadcrumb(
@@ -98,20 +151,36 @@ class WeblateLock:
 
         if not self.is_locked:
             self.add_breadcrumb("acquire")
-
             self._transaction = None
 
             if not connection.in_atomic_block:
                 self._transaction = transaction.atomic()
                 self._transaction.__enter__()
 
+            deadline = time.monotonic() + self._timeout
+
             try:
                 with start_span(op="lock.wait", name=self._name):
-                    with connection.cursor() as cursor:
-                        cursor.execute(
-                            "SELECT pg_advisory_xact_lock(%s)",
-                            [self.lock_key],
-                        )
+                    while True:
+                        with connection.cursor() as cursor:
+                            cursor.execute(
+                                self._try_lock_query,
+                                [self.scope_key, self.lock_key],
+                            )
+                            result = cursor.fetchone()
+
+                        if result is not None and result[0]:
+                            break
+
+                        remaining = deadline - time.monotonic()
+                        if remaining <= 0:
+                            self.add_breadcrumb("timeout")
+                            raise WeblateLockTimeoutError(
+                                self.get_error_message(),
+                                lock=self,
+                            )
+
+                        time.sleep(min(LOCK_POLL_INTERVAL, remaining))
             except BaseException as exc:
                 if self._transaction is not None:
                     self._transaction.__exit__(
