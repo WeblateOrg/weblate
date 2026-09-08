@@ -8,6 +8,8 @@ Weblate 2026.10
 .. rubric:: Improvements
 
 * Whitespace characters are now rendered consistently in the source string display and the translation editor, and different kinds of whitespace are now distinguishable from each other.
+* Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
+* Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
 
 .. rubric:: Security fixes
 

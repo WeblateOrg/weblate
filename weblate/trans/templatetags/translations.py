@@ -43,6 +43,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import translation_percent
 from weblate.utils.docs import get_doc_url
@@ -880,6 +881,90 @@ def get_workflow_flags(translation: Translation | None, component: Component):
         "restrict_direct_editing": False,
         "translation_review": component.project.translation_review,
     }
+
+
+@register.simple_tag
+def get_review_workflow(translation: Translation) -> dict:
+    """Describe the effective review workflow using the existing policy resolver."""
+    project = translation.component.project
+    project_review = (
+        project.source_review if translation.is_source else project.translation_review
+    )
+    workflow = translation.workflow_settings
+    if not project_review or workflow is None:
+        origin = gettext("Project settings")
+    elif workflow.project_id is None:
+        origin = gettext("Site-wide language customization")
+    else:
+        origin = gettext("Project-language customization")
+    reviews = translation.enable_review
+    policy = project.get_commit_policy_description()
+    approved_only = project.commit_policy == CommitPolicyChoices.APPROVED_ONLY
+    if approved_only and reviews:
+        policy = gettext(
+            "Only approved translations are written to the translation file."
+        )
+    elif project.commit_policy == CommitPolicyChoices.ALL or approved_only:
+        policy = gettext(
+            "All translation states, including those needing editing, "
+            "are eligible to be written to the translation file."
+        )
+    project_language = project.project_languages[translation.language]
+    settings_object = project_language if project_review else project
+    settings_url = reverse("settings", kwargs={"path": settings_object.get_url_path()})
+    if project_review:
+        settings_label = gettext("Configure language workflow")
+    else:
+        settings_url += "#workflow"
+        settings_label = (
+            gettext("Configure source reviews")
+            if translation.is_source
+            else gettext("Configure translation reviews")
+        )
+    return {
+        "enabled": reviews,
+        "origin": origin,
+        "policy": policy,
+        "approved_only": approved_only,
+        "project": project,
+        "project_language": project_language,
+        "settings_object": settings_object,
+        "settings_url": settings_url,
+        "settings_label": settings_label,
+    }
+
+
+@register.simple_tag
+def get_review_workflows(obj: Translation | ProjectLanguage) -> list[dict]:
+    """Group language-page workflows by owning project and source/target role."""
+    if isinstance(obj, Translation):
+        return [get_review_workflow(obj)]
+    representatives: dict[tuple[int, bool], Translation] = {}
+    for translation in obj.translation_set:
+        representatives.setdefault(
+            (translation.component.project_id, translation.is_source), translation
+        )
+    show_project = any(
+        project_id != obj.project.pk for project_id, _ in representatives
+    )
+    return [
+        {
+            **get_review_workflow(translation),
+            "role": gettext("Source strings")
+            if translation.is_source
+            else gettext("Translations"),
+            "show_project": show_project,
+        }
+        for translation in sorted(
+            representatives.values(),
+            key=lambda item: (
+                item.component.project_id != obj.project.pk,
+                item.component.project.name,
+                item.component.project_id,
+                item.is_source,
+            ),
+        )
+    ]
 
 
 @register.simple_tag
