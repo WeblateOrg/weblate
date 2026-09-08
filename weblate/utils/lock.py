@@ -110,7 +110,8 @@ class WeblateLock:
                 "backup:run": LOCK_SCOPE_BACKUP,
             }[self._scope]
         except KeyError as error:
-            raise ValueError(f"Unknown lock scope: {self._scope}") from error
+            msg = f"Unknown lock scope: {self._scope}"
+            raise ValueError(msg) from error
 
     @property
     def lock_key(self) -> int:
@@ -122,7 +123,8 @@ class WeblateLock:
             key = int.from_bytes(digest[:4], byteorder="big", signed=True)
 
         if not -(2**31) <= key < 2**31:
-            raise ValueError(f"Lock key is outside PostgreSQL int4 range: {key}")
+            msg = f"Lock key is outside PostgreSQL int4 range: {key}"
+            raise ValueError(msg)
 
         return key
 

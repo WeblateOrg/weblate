@@ -36,8 +36,6 @@ class WeblateLockTest(SimpleTestCase):
             with lock:
                 pass
 
-
-
         cursor.execute.assert_called_once_with(
             "SELECT pg_try_advisory_xact_lock(%s, %s)",
             [1, 1],
@@ -62,8 +60,6 @@ class WeblateLockTest(SimpleTestCase):
             lock = WeblateLock(scope="repository", key=1, slug="component")
             with lock:
                 pass
-
-
 
         cursor.execute.assert_called_once_with(
             "SELECT pg_try_advisory_xact_lock(%s, %s)",
@@ -99,8 +95,12 @@ class WeblateLockTest(SimpleTestCase):
                 timeout=5,
                 origin="project/component",
             )
-            first_repository = SimpleNamespace(ensure_lock_session_recovered=lambda: None)
-            second_repository = SimpleNamespace(ensure_lock_session_recovered=lambda: None)
+            first_repository = SimpleNamespace(
+                ensure_lock_session_recovered=lambda: None
+            )
+            second_repository = SimpleNamespace(
+                ensure_lock_session_recovered=lambda: None
+            )
             outer_lock = RepositoryLock(first_repository, first_lock)
             inner_lock = RepositoryLock(second_repository, second_lock)
 
@@ -142,14 +142,11 @@ class WeblateLockTest(SimpleTestCase):
             lock = WeblateLock(
                 scope="backup:run",
                 key=1,
-
                 slug="backup",
                 shared=True,
             )
             with lock:
                 pass
-
-
 
         cursor.execute.assert_called_once_with(
             "SELECT pg_try_advisory_xact_lock_shared(%s, %s)",
@@ -182,8 +179,6 @@ class WeblateLockTest(SimpleTestCase):
             )
             with lock:
                 pass
-
-
 
         cursor.execute.assert_called_once_with(
             "SELECT pg_try_advisory_xact_lock(%s, %s)",
