@@ -10,10 +10,35 @@ description: Prepare pre-commit environment
 runs:
   using: composite
   steps:
+  # Save on default-branch pushes; other runs only restore shared caches.
+  # Keep installed environments, but exclude package-manager download/build caches.
+  # Select entries separately so tar cannot include excluded buckets via a parent.
   - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9   # v6.1.0
+    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     with:
       path: |
-        ~/.cache/prek
+        ~/.cache/prek/*
+        !~/.cache/prek/cache
+        ~/.cache/prek/cache/*
+        !~/.cache/prek/cache/uv
+        !~/.cache/prek/cache/npm
+        !~/.cache/prek/cache/go
+        !~/.cache/prek/cache/cargo
+        ~/.cache/kingfisher
+      key: ${{ runner.os }}-${{ runner.arch }}-prek-${{ hashFiles('.pre-commit-config.yaml') }}
+      restore-keys: |
+        ${{ runner.os }}-${{ runner.arch }}-prek-
+  - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9   # v6.1.0
+    if: github.event_name != 'push' || github.ref != format('refs/heads/{0}', github.event.repository.default_branch)
+    with:
+      path: |
+        ~/.cache/prek/*
+        !~/.cache/prek/cache
+        ~/.cache/prek/cache/*
+        !~/.cache/prek/cache/uv
+        !~/.cache/prek/cache/npm
+        !~/.cache/prek/cache/go
+        !~/.cache/prek/cache/cargo
         ~/.cache/kingfisher
       key: ${{ runner.os }}-${{ runner.arch }}-prek-${{ hashFiles('.pre-commit-config.yaml') }}
       restore-keys: |
@@ -25,3 +50,4 @@ runs:
   - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d   # v10.0.1
     with:
       version: 0.12.10
+      save-cache: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
