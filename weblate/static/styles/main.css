@@ -351,6 +351,20 @@ textarea.highlight-editor {
   position: relative;
 }
 
+.space-space::before {
+  content: "·";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-nbsp::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .space-tab {
   min-width: 1em;
 }
@@ -365,20 +379,6 @@ textarea.highlight-editor {
   content: "↵";
   position: absolute;
   outline: 1px dotted red;
-}
-
-.space-space::before {
-  content: "·";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.space-nbsp::before {
-  content: "°";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 ins,

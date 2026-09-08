@@ -738,7 +738,14 @@ function initHighlight(root) {
         ].join(""),
       );
       const newlineRegex = /\n/;
-      const nonBreakingSpaceRegex = /\u00A0/;
+      const nonBreakingSpaceRegex = /\u00A0+/;
+      const nbspToken = {
+        pattern: nonBreakingSpaceRegex,
+        alias: "hlspace",
+        inside: {
+          "space-nbsp": /\u00A0/,
+        },
+      };
       const extension = {
         hlspace: {
           pattern: whitespaceRegex,
@@ -753,16 +760,14 @@ function initHighlight(root) {
         newline: {
           pattern: newlineRegex,
         },
-        nbsp: {
-          pattern: nonBreakingSpaceRegex,
-        },
+        nbsp: nbspToken,
       };
       if (placeables) {
         extension.placeable = new RegExp(placeables);
       }
       const nestedTokens = {
         newline: { pattern: newlineRegex },
-        nbsp: { pattern: nonBreakingSpaceRegex },
+        nbsp: nbspToken,
       };
       if (placeables) {
         nestedTokens.placeable = {
