@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-03 21:16-0500\n"
-"PO-Revision-Date: 2026-09-08 06:43+0000\n"
+"PO-Revision-Date: 2026-09-09 08:51+0000\n"
 "Last-Translator: Watchman89 <rplatte@hotmail.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.1.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -2019,8 +2019,8 @@ msgstr ""
 "De reguliere uitdrukking moet een groep met een naam voor het onderdeel "
 "definiëren. Definiëer ook een groep met een naam voor een taal wanneer u "
 "vertalingsbestanden vergelijkt. Wanneer het bestandsmasker is ingesteld, "
-"laat taal eruit en laat in plaats daarvan de mono-linguale basis of het "
-"nieuwe bestand overeenkomen."
+"laat taal eruit en laat in plaats daarvan de eentalige basis of het nieuwe "
+"bestand overeenkomen."
 
 msgid "File format"
 msgstr "Bestandsformaat"
@@ -2075,6 +2075,11 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
+"Laat leeg om direct vertalingsbestanden te vergelijken. Als dit is ingesteld "
+"vergelijkt het ontdekkingshulpmiddel de eentalige basis of een nieuw "
+"basisbestand en gebruikt het dit sjabloon als bestandsmasker. Voeg een taal-"
+"jokerteken en {{ onderdeel }} toe, zoals locale/*/{{ onderdeel }}.p or docs/{"
+"{ onderdeel }}_*.md."
 
 msgid "Language filter"
 msgstr "Taalfilter"
@@ -2175,23 +2180,22 @@ msgstr "U kunt geen enkeltalige vertaling gebruiken zonder basisbestand."
 msgid "You can not use a base file for bilingual translation."
 msgstr "U kunt geen basisbestand gebruiken voor tweetalige vertaling."
 
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid ""
 "Define the base file for new translations when creating components from a "
 "template."
-msgstr "Geef het basisbestand voor nieuwe vertalingen op"
+msgstr ""
+"Geef het basisbestand voor nieuwe vertalingen op tijdens het aanmaken van "
+"nieuwe onderdelen vanuit een sjabloon."
 
-#, fuzzy
-#| msgid ""
-#| "Please add a monolingual base language file in the component settings."
 msgid ""
 "Define a monolingual base or new base filename when creating components from "
 "a template."
-msgstr "Voeg een enkeltalig basistaalbestand toe in de onderdeelinstellingen."
+msgstr ""
+"Geef een eentalige basis of een bestandsnaam van een nieuwe basis aan "
+"tijdens het aanmaken van onderdelen vanuit een sjabloon."
 
 msgid "The file mask must include a language wildcard (*)."
-msgstr ""
+msgstr "Het bestandsmasker moet een taal-jokerteken bevatten (*)."
 
 msgid "Please review and confirm the matched components."
 msgstr "Controleer en bevestig de overeenkomende onderdelen."
@@ -2200,6 +2204,8 @@ msgid ""
 "Omit the language named group when creating components from a monolingual "
 "base or new base file."
 msgstr ""
+"Laat de groep met de naam van een taal weg tijdens het maken van onderdelen "
+"vanuit een eentalige basis of een nieuw basisbestand."
 
 msgid "This template must include {{ component }}."
 msgstr "Dit sjabloon moet bevatten {{ component }}."
@@ -6238,19 +6244,13 @@ msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 5"
 
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.8"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 5"
-msgstr "Claude Opus 4.8"
+msgstr "Claude Opus 5"
 
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Fable 5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5.1"
-msgstr "Claude Fable 5"
+msgstr "Claude Fable 5.1"
 
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
@@ -12186,14 +12186,18 @@ msgid ""
 "the component to push translation branches directly to the upstream "
 "repository."
 msgstr ""
+"Deze opslagruimte staat splitsen niet toe. Zorg ervoor dat de Weblate GitHub "
+"App verbonden is met deze werkruimte en dat deze toegang heeft tot de "
+"opslagruimte, migreer daarna het onderdeel om gesplitste vertalingen direct "
+"naar de upstream opslagplaats op te halen."
 
-#, fuzzy
-#| msgid "Weblate GitHub Apps"
 msgid "Migrate to GitHub App"
-msgstr "Weblate GitHub-apps"
+msgstr "Migreer naar GitHub-apps"
 
 msgid "Ask a workspace owner to complete the GitHub App setup and migration."
 msgstr ""
+"Vraag de eigenaar van een werkruimte om de GitHub App installatie en "
+"migratie te voltooien."
 
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
@@ -12394,6 +12398,8 @@ msgid ""
 "This component can use the Weblate GitHub App for repository access and pull "
 "requests."
 msgstr ""
+"Dit onderdeel kan de Weblate GitHub App gebruiken voor toegang tot "
+"opslagruimten en ophaalaanvragen."
 
 msgid "This component is set up incorrectly."
 msgstr "Dit onderdeel is onjuist opgezet."
@@ -13496,69 +13502,70 @@ msgstr "Integraties codehosten"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
-msgstr ""
+msgstr "Migreer %(workspace_name)s naar de Weblate GitHub App"
 
-#, fuzzy
-#| msgid "Connect GitHub account"
 msgid "Connect or update GitHub account"
-msgstr "Met GitHub-account verbinden"
+msgstr "Verbind of update GitHub account"
 
 msgid ""
 "Select existing Git or GitHub components to use the Weblate GitHub App. "
 "Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
 "push URLs will be removed."
 msgstr ""
+"Selecteer bestaande Git- of GitHub-onderdelen om de Weblate GitHub App te "
+"gebruiken. Hun opslagruimte-URLs zullen vervangen worden met canonieke HTTPS "
+"URLs en individuele aanvraag-URLs zullen worden verwijderd."
 
 #, python-format
 msgid ""
 "The GitHub App needs repository access for these accounts: %(accounts)s."
 msgstr ""
+"De GitHub App heeft toegang tot de opslagruimten van deze accounts nodig: %"
+"(accounts)s."
 
-#, fuzzy
-#| msgid "connected GitHub accounts"
 msgid "Connected GitHub accounts:"
-msgstr "verbonden GitHub-accounts"
+msgstr "Verbonden GitHub-accounts:"
 
 msgid "Refresh repositories"
 msgstr "Opslagruimtes vernieuwen"
 
-#, fuzzy
-#| msgid "Affected components"
 msgid "Migrate selected components"
-msgstr "Beïnvloed onderdeel"
+msgstr "Migreer geselecteerde onderdelen"
 
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
 msgstr ""
+"Verbind of update de GitHub App of toegang te krijgen tot de overgebleven "
+"opslagruimtes."
 
 msgid ""
 "Connect the GitHub App to the listed accounts and grant access to their "
 "repositories before migrating."
 msgstr ""
+"Verbind de GitHub App met de accounts op de lijst en geef toegang tot hun "
+"opslagruimtes voordat u begint met migreren."
 
 msgid ""
 "A workspace owner needs to connect the GitHub App and grant access to these "
 "repositories before they can be migrated."
 msgstr ""
+"De eigenaar van een werkruimte moet verbinden met de GitHub App en toegang "
+"geven voor deze opslagruimtes voordat ze gemigreerd kunnen worden."
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Migration status"
-msgstr "Vertaalstatus"
+msgstr "Migratiestatus"
 
-#, fuzzy
-#| msgid "Read-only"
 msgid "Ready"
-msgstr "Alleen-lezen"
+msgstr "Klaar"
 
-#, fuzzy
-#| msgid "Repository rebased"
 msgid "Repository access needed"
-msgstr "Opslagruimte heropgebouwd"
+msgstr "Toegang voor opslagruimte vereist"
 
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+"Er zijn geen GitHub-onderdelen in deze werkruimte die gemigreerd kunnen "
+"worden."
 
 msgid "Register Weblate GitHub App"
 msgstr "Weblate-GitHub-app registreren"
@@ -13797,22 +13804,24 @@ msgid ""
 "will also be uninstalled from GitHub. Reconnecting it then requires "
 "installing the app on GitHub again."
 msgstr ""
+"Als geen andere Weblate-werkruimte deze verbinding gebruikt zal de Weblate "
+"GitHub App gedeïnstalleerd worden vanuit GitHub. Herverbinden vereist dan "
+"het herinstalleren van de app op GitHub."
 
-#, fuzzy, python-format
-#| msgid "The following components would be created"
+#, python-format
 msgid "The following component will lose access to its repository:"
 msgid_plural ""
 "The following %(counter)s components will lose access to their repositories:"
-msgstr[0] "De volgende onderdelen zouden aangemaakt worden"
-msgstr[1] "De volgende onderdelen zouden aangemaakt worden"
+msgstr[0] "De volgende onderdeel zal toegang tot de opslagruimte verliezen:"
+msgstr[1] ""
+"De volgende %(counter)s onderdelen zullen toegang tot de opslagruimte "
+"verliezen:"
 
-#, fuzzy, python-format
-#| msgid "%(count)s more affected component."
-#| msgid_plural "%(count)s more affected components."
+#, python-format
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
-msgstr[0] "%(count)s meer beïnvloed onderdeel."
-msgstr[1] "%(count)s meer beïnvloede onderdelen."
+msgstr[0] "en nog %(counter)s onderdeel"
+msgstr[1] "en nog %(counter)s onderdelen"
 
 msgid "Invitations"
 msgstr "Uitnodigingen"
@@ -14725,6 +14734,7 @@ msgstr "Niet-bestaande bestanden."
 
 msgid "This component can be migrated to the Weblate GitHub App integration."
 msgstr ""
+"Dit onderdeel kan gemigreerd worden naar de Weblate GitHub App-integratie."
 
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
@@ -15039,15 +15049,10 @@ msgstr "Actie door mij"
 msgid "Discovery configuration"
 msgstr "Configuratie voor verkennen"
 
-#, fuzzy
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
 msgstr ""
-"Onderdeel %(component)s werd overgeslagen omdat de daaraan gekoppelde "
-"opslagruimte niet beschikbaar is."
+"Onderdelenontdekking is gestopt omdat de opslagruimte te veel paden bevat."
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
@@ -15067,21 +15072,23 @@ msgid ""
 "Component discovery stopped because matching translation files would require "
 "too many comparisons."
 msgstr ""
+"Onderdelenontdekking is gestopt omdat vergelijken van vertalingsbestanden te "
+"veel vergelijkingen nodig zou hebben."
 
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
 "The file mask used for discovery is too complex and took too long to "
 "evaluate."
 msgstr ""
-"De reguliere uitdrukking is te complex en duurde te lang om te worden "
-"geëvalueerd."
+"Het bestandsmasker dat is gebruikt voor ontdekking is te complex en het "
+"duurde te lang om te worden geëvalueerd."
 
 #, python-format
 msgid ""
 "Multiple base or new base files render to the same file mask %(mask)s "
 "(%(existing)s and %(new)s)."
 msgstr ""
+"Meerdere bases of nieuwe basisbestanden renderen hetzelfde bestandsmasker %"
+"(mask)s (%(existing)s en %(new)s)."
 
 msgid "File mask matches the main component."
 msgstr "Bestandsmasker komt overeen met het hoofdonderdeel."
@@ -15114,20 +15121,14 @@ msgstr "Alle recente aanpassingen door middel van Weblate aan %s."
 msgid "Sort JSON keys"
 msgstr "JSON-sleutels sorteren"
 
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not sort"
-msgstr "Niet importeren"
+msgstr "Niet sorteren"
 
-#, fuzzy
-#| msgid "Case-sensitive"
 msgid "Case-sensitive sort"
-msgstr "Hoofdlettergevoelig"
+msgstr "Hoofdlettergevoelig sorteren"
 
-#, fuzzy
-#| msgid "Case-insensitive"
 msgid "Case-insensitive sort"
-msgstr "Niet hoofdlettergevoelig"
+msgstr "Niet hoofdlettergevoelig sorteren"
 
 msgid "JSON indentation"
 msgstr "JSON-inspringing"
@@ -17556,33 +17557,25 @@ msgstr "Kastlijntje"
 msgid "User configured character: {}"
 msgstr "Door gebruiker geconfigureerd teken: {}"
 
-#, fuzzy
-#| msgid ""
-#| "Automatic translation cannot be started because the target is locked."
 msgid "Repository operation could not be completed because it remained locked."
 msgstr ""
-"Automatisch vertalen kan niet worden begonnen, omdat het doel is vergrendeld."
+"Opslagruimtebewerking kon niet voltooid worden omdat het vergrendeld blijft."
 
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operation could not be completed."
-msgstr "Opslagruimtebewerking in %(component)s"
+msgstr "Opslagruimtebewerking kon niet worden voltooid."
 
 msgid ""
 "Repository operation could not be completed because access is no longer "
 "permitted."
 msgstr ""
+"Opslagruimtebewerking kon niet worden voltooid omdat toegang niet langer is "
+"toegestaan."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository operation completed."
-msgstr "Bewerken opslagruimte mislukt"
+msgstr "Bewerken opslagruimte voltooid."
 
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operation completed with errors."
-msgstr "Opslagruimtebewerking in %(component)s"
+msgstr "Opslagruimtebewerking voltooid met fouten."
 
 msgid "No suggestions found."
 msgstr "Geen suggesties gevonden."
@@ -18112,12 +18105,8 @@ msgstr ""
 "Gebruik de knop op de pagina van de status van de opslagruimte om deze actie "
 "uit te voeren."
 
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Another repository operation is already in progress."
-msgstr ""
-"Het vergrendelen van de opslagruimte is mislukt; er wordt al een actie "
-"uitgevoerd."
+msgstr "Een andere opslagruimtebewerking is al in uitvoer."
 
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
@@ -18126,17 +18115,11 @@ msgstr ""
 "Er lijkt al een bewerking op de achtergrond in de opslagruimte te worden "
 "uitgevoerd. Probeer het later nog eens."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operations failed"
 msgid "This repository operation is already queued."
-msgstr "Bewerkingen opslagruimte mislukt"
+msgstr "Deze opslagruimtebewerking staat al in de wachtrij."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository operation has been queued."
-msgstr "Bewerken opslagruimte mislukt"
+msgstr "Opslagruimtebewerking is in de wachtrij gezet."
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "Duplicate tekenreeksen zijn verwijderd uit het vertaalbestand."
@@ -19128,16 +19111,11 @@ msgstr ""
 msgid "Enter a valid GitHub host."
 msgstr "Voer een geldige host voor GitHub in."
 
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Components to migrate"
-msgstr "Te verwijderen onderdeel"
+msgstr "Onderdelen te migreren"
 
-#, fuzzy
-#| msgid "Select an existing component configuration to copy."
 msgid "Select at least one component to migrate."
-msgstr ""
-"Kies het vertaalonderdeel waarvan de configuratie moet worden gekopieerd."
+msgstr "Selecteer ten minste één onderdeel om te migreren."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -19490,19 +19468,24 @@ msgid ""
 "GitHub could not uninstall the connected account. The connection was not "
 "removed from Weblate, please try again."
 msgstr ""
+"GitHub kon de verbonden account niet deïnstalleren. De verbinding is niet "
+"verwijderd van Weblate, probeer alstublieft opnieuw."
 
 #, python-format
 msgid ""
 "Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
 "installed because another workspace still uses it."
 msgstr ""
+"Verbonden GitHub account %(target)s verwijderd. De Weblate GitHub App blijt "
+"geïnstalleerd omdat een andere werkruimte die nog steeds gebruikt."
 
-#, fuzzy, python-format
-#| msgid "Removed connected GitHub account %(target)s."
+#, python-format
 msgid ""
 "Removed connected GitHub account %(target)s and uninstalled the Weblate "
 "GitHub App from GitHub."
-msgstr "Verbonden GitHub-account %(target)s verwijderd."
+msgstr ""
+"Verbonden GitHub account %(target)s verwijderd en de Weblate GitHub App "
+"gedeïnstalleerd vanuit GitHub."
 
 #, python-format
 msgid ""
@@ -19510,6 +19493,9 @@ msgid ""
 "to this installation, so it was not uninstalled. Check on GitHub whether the "
 "Weblate GitHub App is still installed."
 msgstr ""
+"Verbonden GitHub account %(target)s verwijderd. GitHub geeft geen toegang "
+"meer aan deze installatie dus het was niet gedeïnstalleerd. Controler op "
+"GitHub of de Weblate GitHub App nog geïnstalleerd is."
 
 #, python-format
 msgid ""
@@ -19517,6 +19503,9 @@ msgid ""
 "longer configured on this Weblate instance, so it could not be uninstalled, "
 "please remove it on GitHub manually."
 msgstr ""
+"Verbonden GitHub account %(target)s verwijderd. De Weblate GitHub App is "
+"niet langer ingesteld op deze Weblate-instantie dus hij kon niet worden "
+"gedeïnstalleerd, verwijder deze alstublieft handmatig van GitHub."
 
 #, python-format
 msgid ""
@@ -19600,33 +19589,28 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Verbonden GitHub-account toegevoegd."
 
-#, fuzzy, python-format
-#| msgid "Remove Weblate GitHub App?"
+#, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
-msgstr[0] "Weblate-GitHub-App verwijderen?"
-msgstr[1] "Weblate-GitHub-App verwijderen?"
+msgstr[0] "Één onderdeel gemigreerd naar de Weblate GitHub App."
+msgstr[1] "%(count)d onderdelen gemigreerd naar de Weblate GitHub App."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
+#, python-format
 msgid ""
 "One component was not migrated because its repository is no longer available."
 msgid_plural ""
 "%(count)d components were not migrated because their repositories are no "
 "longer available."
 msgstr[0] ""
-"Onderdeel %(component)s werd overgeslagen omdat de daaraan gekoppelde "
-"opslagruimte niet beschikbaar is."
+"Één onderdeel werd niet gemigreerd omdat die opslagruimte niet langer "
+"beschikbaar is."
 msgstr[1] ""
-"Onderdeel %(component)s werd overgeslagen omdat de daaraan gekoppelde "
-"opslagruimte niet beschikbaar is."
+"%(count)d onderdelen werden niet gemigreerd omdat die opslagruimtes niet "
+"langer beschikbaar zijn."
 
-#, fuzzy, python-format
-#| msgid "Could not push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not migrate %(component)s: %(error)s"
-msgstr "%(component)s kan niet worden verwerkt: %(error_text)s"
+msgstr "%(component)s kon niet worden gemigreerd: %(error)s"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Voer een geldige naam voor de Github-app en host in."
