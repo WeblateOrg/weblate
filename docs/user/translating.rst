@@ -293,6 +293,10 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+Shift+Enter`                    |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
+| :kbd:`Ctrl+Alt+Enter` or                  | Approve the translation and save and continue.                        |
+|                                           | Only available to reviewers.                                          |
+| :kbd:`Cmd+Alt+Enter`                      |                                                                       |
++-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Alt+Enter` or                       | Submit the string as a suggestion; this works the same as             |
 |                                           | pressing :guilabel:`Suggest` while editing translation.               |
 | :kbd:`Option+Enter`                       |                                                                       |

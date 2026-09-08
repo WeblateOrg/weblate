@@ -171,6 +171,23 @@
       if (fuzzy) fuzzy.checked = false;
       return submitForm(e);
     });
+    hotkeys("ctrl+alt+enter,command+alt+enter", (e) => {
+      const approved = this.translationForm?.querySelector(
+        'input[type="radio"][name="review"][value="30"]',
+      );
+      const save = this.translationForm?.querySelector('button[name="save"]');
+      if (
+        !e.repeat &&
+        approved &&
+        !approved.matches(":disabled") &&
+        save &&
+        !save.matches(":disabled")
+      ) {
+        approved.click();
+        save.click();
+      }
+      return false;
+    });
     hotkeys("alt+enter", (e) => {
       return submitForm(e, null, 'button[name="suggest"]');
     });

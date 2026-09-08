@@ -7,6 +7,8 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
+
 .. rubric:: Security fixes
 
 .. rubric:: Bug fixes
