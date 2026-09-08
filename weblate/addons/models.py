@@ -274,7 +274,7 @@ class Addon(models.Model):
     # pylint: disable-next=arguments-differ
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+    ) -> None:
         cls = self.addon_class
         self.repo_scope = cls.repo_scope
 
@@ -389,7 +389,7 @@ class Addon(models.Model):
 
         run_addon_manually.delay_on_commit(self.pk)
 
-    def _drop_addons_cache(self):
+    def _drop_addons_cache(self) -> None:
         if self.component:
             self.component.drop_addons_cache()
 

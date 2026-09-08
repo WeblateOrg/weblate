@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 from types import SimpleNamespace
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from unittest.mock import patch
 
 from django.test import override_settings
@@ -21,9 +21,14 @@ from weblate.trans.tests.test_reports import BaseReportsTest
 from weblate.trans.tests.utils import create_another_user
 from weblate.workspaces.models import Workspace
 
+if TYPE_CHECKING:
+    from unittest.mock import Mock
+
 
 class StoredReportsTest(BaseReportsTest):
-    def generate_scoped_report(self, kind: str, scope_type: str, scope) -> Report:
+    def generate_scoped_report(
+        self, kind: str, scope_type: str, scope: Project | Workspace
+    ) -> Report:
         now = timezone.now()
         parameters: dict[str, Any] = {"language": "", "own_data": False}
         if kind in {Report.Kind.CREDITS, Report.Kind.CONTRIBUTOR_STATS}:
@@ -537,7 +542,7 @@ class StoredReportsTest(BaseReportsTest):
                 self.assert_report_contains_scope_data(report)
 
     @patch("weblate.api.views.generate_report.delay")
-    def test_workspace_reports_only_access(self, mocked_delay) -> None:
+    def test_workspace_reports_only_access(self, mocked_delay: Mock) -> None:
         mocked_delay.return_value = SimpleNamespace(id="report-task")
         workspace = Workspace.objects.create(name="Reports-only workspace")
         user = create_another_user("-reports-only")
@@ -603,7 +608,9 @@ class StoredReportsTest(BaseReportsTest):
         )
 
     @patch("weblate.api.views.generate_report.delay")
-    def test_workspace_report_access_requires_project_2fa(self, mocked_delay) -> None:
+    def test_workspace_report_access_requires_project_2fa(
+        self, mocked_delay: Mock
+    ) -> None:
         mocked_delay.return_value = SimpleNamespace(id="report-task")
         workspace = Workspace.objects.create(name="2FA reporting workspace")
         self.project.workspace = workspace
@@ -710,7 +717,7 @@ class StoredReportsTest(BaseReportsTest):
         self.assertFalse(Report.objects.filter(pk=report.pk).exists())
 
     @patch("weblate.api.views.generate_report.delay")
-    def test_scoped_api_schedules_report(self, mocked_delay) -> None:
+    def test_scoped_api_schedules_report(self, mocked_delay: Mock) -> None:
         mocked_delay.return_value = SimpleNamespace(id="report-task")
         self.client.force_login(self.user)
         now = timezone.now()
@@ -788,7 +795,7 @@ class StoredReportsTest(BaseReportsTest):
         self.assertEqual(mocked_delay.call_args.kwargs["scope_type"], "workspace")
 
     @patch("weblate.api.views.generate_report.delay")
-    def test_api_rejects_invalid_cost_query(self, mocked_delay) -> None:
+    def test_api_rejects_invalid_cost_query(self, mocked_delay: Mock) -> None:
         self.client.force_login(self.user)
         response = self.client.post(
             reverse(
@@ -806,7 +813,7 @@ class StoredReportsTest(BaseReportsTest):
         mocked_delay.assert_not_called()
 
     @patch("weblate.api.views.generate_report.delay")
-    def test_api_rejects_invalid_component_scope(self, mocked_delay) -> None:
+    def test_api_rejects_invalid_component_scope(self, mocked_delay: Mock) -> None:
         self.client.force_login(self.user)
         now = timezone.now()
         response = self.client.post(
@@ -824,7 +831,7 @@ class StoredReportsTest(BaseReportsTest):
         mocked_delay.assert_not_called()
 
     @patch("weblate.api.views.generate_report.delay")
-    def test_api_hides_inaccessible_project_scope(self, mocked_delay) -> None:
+    def test_api_hides_inaccessible_project_scope(self, mocked_delay: Mock) -> None:
         private_project = self.create_project(
             name="Private report project",
             slug="private-report-project",
@@ -872,7 +879,7 @@ class StoredReportsTest(BaseReportsTest):
 
     @patch("weblate.api.views.generate_report.delay")
     def test_api_ignores_translator_limits_for_other_reports(
-        self, mocked_delay
+        self, mocked_delay: Mock
     ) -> None:
         mocked_delay.return_value = SimpleNamespace(id="report-task")
         self.client.force_login(self.user)

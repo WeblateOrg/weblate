@@ -2105,7 +2105,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         progress = get_task_progress(task)
         return (progress, cache.get(f"task-log-{task.id}", []))
 
-    def in_progress(self):
+    def in_progress(self) -> bool:
         return (
             not settings.CELERY_TASK_ALWAYS_EAGER
             and self.background_task is not None
@@ -2350,7 +2350,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         expression = "".join(result)
         return re.compile(f"^{expression}$")
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         parent = self.category or self.project
         return (*parent.get_url_path(), self.slug)
 
@@ -2358,7 +2358,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Return absolute URL for widgets."""
         return f"{self.project.get_widgets_url()}?component={self.pk}"
 
-    def get_share_url(self):
+    def get_share_url(self) -> str:
         """Return absolute shareable URL."""
         return self.project.get_share_url()
 
@@ -2909,7 +2909,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         with self.repository.lock:
             self.repository.configure_branch(self.branch)
 
-    def uses_changed_files(self, changed):
+    def uses_changed_files(self, changed) -> bool:
         """Detect whether list of changed files matches configuration."""
         for filename in [self.template, self.intermediate, self.new_base]:
             if filename and filename in changed:
@@ -3846,7 +3846,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.create_translations(request=request, force=True)
         return True
 
-    def get_repo_link_url(self):
+    def get_repo_link_url(self) -> str:
         return f"weblate://{'/'.join(self.get_url_path())}"
 
     @cached_property
@@ -3883,6 +3883,30 @@ class Component(  # ruff: ignore[too-many-public-methods]
             translation = translation.component.source_translation
         return translation
 
+    @staticmethod
+    def preload_commit_workflows(translations: list[Translation]) -> None:
+        from weblate.trans.models.project import (  # ruff: ignore[import-outside-top-level]
+            CommitPolicyChoices,
+        )
+
+        by_project: dict[int, list[Translation]] = defaultdict(list)
+        for translation in translations:
+            by_project[translation.component.project_id].append(translation)
+
+        for project_translations in by_project.values():
+            project = project_translations[0].component.project
+            if project.commit_policy != CommitPolicyChoices.APPROVED_ONLY:
+                continue
+            languages = {
+                translation.language_id: project.project_languages[translation.language]
+                for translation in project_translations
+            }
+            project.project_languages.preload_workflow_settings(languages.values())
+            for translation in project_translations:
+                translation.__dict__["workflow_settings"] = languages[
+                    translation.language_id
+                ].workflow_settings
+
     @perform_on_link
     def commit_pending(
         self, reason: str, user: User | None, skip_push: bool = False
@@ -3904,7 +3928,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         translations = sorted(
             Translation.objects.filter(pk__in=pending_translation_ids)
             .distinct()
-            .prefetch_related("component"),
+            .prefetch_related("component__project", "language"),
             key=lambda translation: not translation.is_source,
         )
         components = {}
@@ -3915,6 +3939,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if not translations:
             return True
+
+        translations = [
+            self.reuse_component_for_translation(translation, reuse_source=True)
+            for translation in translations
+        ]
+        # Populate the actual instances used below, including reused source translations.
+        # Per-translation policy checks can then use enable_review without querying
+        # workflow settings once for every language.
+        self.preload_commit_workflows(translations)
 
         # Commit pending changes
         with self.track_local_head_change():
@@ -6156,11 +6189,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
             pass
         return self.count_repo_outgoing
 
-    def needs_commit(self):
+    def needs_commit(self) -> bool:
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def repo_needs_merge(self):
+    def repo_needs_merge(self) -> bool:
         """Check for unmerged commits from remote repository."""
         return self.count_repo_missing > 0
 

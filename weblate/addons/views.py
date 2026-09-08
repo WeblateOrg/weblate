@@ -82,7 +82,9 @@ class AddonList(PathViewMixin, ListView):
         )
 
     @staticmethod
-    def _get_scope_rank(addon: Addon, target: Component | Project | Category | None):
+    def _get_scope_rank(
+        addon: Addon, target: Component | Project | Category | None
+    ) -> int:
         if addon.component:
             if addon.component == target:
                 return 0

@@ -41,6 +41,17 @@ Category specified
 
     Shown within the category, including all its components and translations.
 
+Category and language specified
+
+    Shown on the category-language page and for translations in that language
+    within the category and its subcategories. Post these announcements from
+    the category-language page using :guilabel:`Operations` >
+    :guilabel:`Post announcement`.
+    This also applies to shared components linked into the category. Posting
+    and deleting these announcements requires permission for the category's
+    project and language. Announcements from linked categories are only shown
+    to users who can access the category's project.
+
 Component specified
 
     Shown for a given component and all its translations.

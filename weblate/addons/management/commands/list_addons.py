@@ -19,6 +19,8 @@ from weblate.utils.rst import format_rst_string, format_table
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from django.core.management.base import CommandParser
+
     from weblate.utils.rst import CellType
 
 
@@ -45,7 +47,7 @@ SHARED_PARAMS = ("engines", "file_format", "event_filter", "events")
 class Command(DocGeneratorCommand):
     help = "List installed add-ons"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "-s",

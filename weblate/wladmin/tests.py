@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import importlib
 import json
 import os
@@ -10,7 +12,7 @@ from datetime import UTC, datetime, timedelta
 from io import StringIO
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest import TestCase
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlparse
@@ -72,6 +74,9 @@ from weblate.wladmin.views import (
 )
 from weblate.workspaces.models import Workspace
 
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
 
 
@@ -80,7 +85,7 @@ def get_response_call_body(index: int) -> str:
 
 
 @contextmanager
-def restored_environment(name: str, value: str):
+def restored_environment(name: str, value: str) -> Iterator[None]:
     try:
         yield
     finally:
@@ -1468,7 +1473,7 @@ class AdminTest(ViewTestCase):
         "weblate.utils.filesystem.measure_filesystem_latencies",
         return_value={"DATA_DIR": 1.5, "CACHE_DIR": 0.0},
     )
-    def test_performance_filesystem_latency(self, measure_mock) -> None:
+    def test_performance_filesystem_latency(self, measure_mock: Mock) -> None:
         response = self.client.get(reverse("manage-performance"))
 
         self.assertContains(response, "Data directory latency")
@@ -1483,7 +1488,9 @@ class AdminTest(ViewTestCase):
         "weblate.utils.filesystem.measure_filesystem_latencies",
         return_value={"DATA_DIR": None, "CACHE_DIR": None},
     )
-    def test_performance_filesystem_latency_unavailable(self, measure_mock) -> None:
+    def test_performance_filesystem_latency_unavailable(
+        self, measure_mock: Mock
+    ) -> None:
         response = self.client.get(reverse("manage-performance"))
 
         self.assertContains(response, "Not measured", count=2)

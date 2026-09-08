@@ -52,7 +52,7 @@ class GitExportTest(ViewTestCase):
         ):
             pass
 
-    def get_auth_string(self, code):
+    def get_auth_string(self, code) -> str:
         encoded = b64encode(f"{self.user.username}:{code}".encode())
         return f"basic {encoded.decode('ascii')}"
 

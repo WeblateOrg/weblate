@@ -58,8 +58,9 @@ from .site import check_domain, get_site_domain
 from .version import VERSION_BASE, get_latest_version
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Sequence
+    from collections.abc import Callable, Iterable, Mapping, Sequence
 
+    from celery.result import AsyncResult
     from django.core.checks import CheckMessage
     from django.db.models.lookups import Lookup
 
@@ -116,7 +117,7 @@ def check_mail_connection(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     errors: list[CheckMessage] = []
     try:
@@ -131,7 +132,10 @@ def check_mail_connection(
 
 
 def check_celery_response(
-    errors: list[CheckMessage], result, start: float, ping_task
+    errors: list[CheckMessage],
+    result: AsyncResult,
+    start: float,
+    ping_task: Callable[[], Mapping[str, object]],
 ) -> None:
     pong = result.get(timeout=10, disable_sync_subtasks=False)
     cache.set("celery_latency", round(1000 * (time.monotonic() - start)))
@@ -160,7 +164,7 @@ def check_celery(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # Import this lazily to avoid evaluating settings too early
     from weblate.utils.tasks import ping  # ruff: ignore[import-outside-top-level]
@@ -251,7 +255,7 @@ def check_database(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     errors: list[CheckMessage] = []
     if connections["default"].vendor != "postgresql":
@@ -291,7 +295,7 @@ def check_cache(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check for sane caching."""
     errors: list[CheckMessage] = []
@@ -324,7 +328,7 @@ def check_settings(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check for sane settings."""
     errors: list[CheckMessage] = []
@@ -382,7 +386,7 @@ def check_class_loader(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     errors: list[CheckMessage] = []
     for instance in ClassLoader.instances:
@@ -398,7 +402,7 @@ def check_data_writable(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check we can write to data dir."""
     errors: list[CheckMessage] = []
@@ -444,7 +448,7 @@ def check_site(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     errors: list[CheckMessage] = []
     if not check_domain(get_site_domain()):
@@ -457,7 +461,7 @@ def check_perms(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check that the data dir can be written to."""
     if not settings.DATA_DIR:
@@ -499,7 +503,7 @@ def check_errors(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check that error collection is configured."""
     if (
@@ -523,7 +527,7 @@ def check_encoding(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check that the encoding is UTF-8."""
     if (
@@ -545,7 +549,7 @@ def check_database_size(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check that PostgreSQL database size can be collected."""
     connection = connections["default"]
@@ -569,7 +573,7 @@ def check_diskspace(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check free disk space."""
     if settings.DATA_DIR:
@@ -595,7 +599,7 @@ def check_filesystem_latency(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check filesystem metadata lookup latency."""
     errors: list[CheckMessage] = []
@@ -619,7 +623,7 @@ def check_docker_startup_warnings(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Report actionable warnings emitted during Docker container startup."""
     errors: list[CheckMessage] = []
@@ -644,7 +648,7 @@ def check_version(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     try:
         latest = get_latest_version()

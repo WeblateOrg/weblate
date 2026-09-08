@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 import time
 from pathlib import Path
+from typing import TYPE_CHECKING
 from unittest.mock import Mock, patch
 from weakref import WeakSet
 
@@ -47,13 +48,16 @@ from weblate.utils.filesystem import (
 )
 from weblate.utils.unittest import tempdir_setting
 
+if TYPE_CHECKING:
+    from unittest.mock import MagicMock
+
 
 class CeleryQueueTest(SimpleTestCase):
     # ruff: ignore[mutable-class-default]
     databases = {"default"}
 
     @staticmethod
-    def set_cache(value) -> None:
+    def set_cache(value: object) -> None:
         cache.set("celery_queue_stats", value)
 
     def test_empty(self) -> None:
@@ -225,7 +229,7 @@ class FilesystemLatencyTestCase(SimpleTestCase):
         autospec=True,
         side_effect=PermissionError,
     )
-    def test_measure_filesystem_latency_error(self, lstat_mock) -> None:
+    def test_measure_filesystem_latency_error(self, lstat_mock: MagicMock) -> None:
         self.assertIsNone(measure_filesystem_latency(Path(settings.DATA_DIR)))
         lstat_mock.assert_called_once()
 
@@ -233,7 +237,7 @@ class FilesystemLatencyTestCase(SimpleTestCase):
         "weblate.utils.filesystem.measure_filesystem_latencies",
         return_value={"DATA_DIR": 1.0, "CACHE_DIR": 2.0},
     )
-    def test_filesystem_latency_snapshot(self, measure_mock) -> None:
+    def test_filesystem_latency_snapshot(self, measure_mock: Mock) -> None:
         with filesystem_latency_snapshot() as snapshot:
             self.assertIs(get_filesystem_latencies(), snapshot)
             self.assertIs(get_filesystem_latencies(), snapshot)
@@ -252,7 +256,9 @@ class FilesystemLatencyTestCase(SimpleTestCase):
         "weblate.utils.apps.get_filesystem_latencies",
         return_value={"DATA_DIR": 10.0, "CACHE_DIR": None},
     )
-    def test_filesystem_latency_acceptable(self, latency_mock, paths_mock) -> None:
+    def test_filesystem_latency_acceptable(
+        self, latency_mock: Mock, paths_mock: Mock
+    ) -> None:
         self.assertEqual(
             list(check_filesystem_latency(app_configs=None, databases=None)), []
         )
@@ -270,7 +276,9 @@ class FilesystemLatencyTestCase(SimpleTestCase):
         "weblate.utils.apps.get_filesystem_latencies",
         return_value={"DATA_DIR": 10.1, "CACHE_DIR": 20.0},
     )
-    def test_filesystem_latency_slow(self, latency_mock, paths_mock) -> None:
+    def test_filesystem_latency_slow(
+        self, latency_mock: Mock, paths_mock: Mock
+    ) -> None:
         errors = list(check_filesystem_latency(app_configs=None, databases=None))
 
         self.assertEqual(len(errors), 2)
@@ -411,8 +419,8 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
     @patch("weblate.utils.apps.connections")
     def test_database_size_available(
         self,
-        connections_mock,
-        database_size_mock,
+        connections_mock: Mock,
+        database_size_mock: Mock,
     ) -> None:
         connections_mock.__getitem__.return_value.vendor = "postgresql"
 
@@ -424,7 +432,7 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
     @patch("weblate.utils.apps.get_database_size", return_value=None)
     @patch("weblate.utils.apps.connections")
     def test_database_size_unavailable(
-        self, connections_mock, database_size_mock
+        self, connections_mock: Mock, database_size_mock: Mock
     ) -> None:
         connections_mock.__getitem__.return_value.vendor = "postgresql"
 
@@ -436,7 +444,7 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
     @patch("weblate.utils.apps.get_database_size")
     @patch("weblate.utils.apps.connections")
     def test_database_size_non_postgresql(
-        self, connections_mock, database_size_mock
+        self, connections_mock: Mock, database_size_mock: Mock
     ) -> None:
         connections_mock.__getitem__.return_value.vendor = "sqlite"
 
@@ -449,7 +457,7 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
 class DatabaseStatisticsCheckTestCase(SimpleTestCase):
     @patch("weblate.utils.apps.measure_database_latency", return_value=1)
     @patch("weblate.utils.apps.get_invalid_database_statistics", return_value=[])
-    def test_valid_statistics(self, statistics_mock, latency_mock) -> None:
+    def test_valid_statistics(self, statistics_mock: Mock, latency_mock: Mock) -> None:
         errors = list(check_database(app_configs=None, databases=None))
 
         self.assertFalse(any(error.id == "weblate.C047" for error in errors))
@@ -461,7 +469,9 @@ class DatabaseStatisticsCheckTestCase(SimpleTestCase):
         "weblate.utils.apps.get_invalid_database_statistics",
         return_value=["public.trans_unit"],
     )
-    def test_invalid_statistics(self, statistics_mock, latency_mock) -> None:
+    def test_invalid_statistics(
+        self, statistics_mock: Mock, latency_mock: Mock
+    ) -> None:
         errors = list(check_database(app_configs=None, databases=None))
 
         error = next(error for error in errors if error.id == "weblate.C047")
@@ -475,7 +485,9 @@ class DatabaseStatisticsCheckTestCase(SimpleTestCase):
         "weblate.utils.apps.get_invalid_database_statistics",
         side_effect=DatabaseError("catalog query failed"),
     )
-    def test_statistics_database_error(self, statistics_mock, latency_mock) -> None:
+    def test_statistics_database_error(
+        self, statistics_mock: Mock, latency_mock: Mock
+    ) -> None:
         errors = list(check_database(app_configs=None, databases=None))
 
         error = next(error for error in errors if error.id == "weblate.C037")
@@ -515,7 +527,7 @@ class VersionCheckTestCase(SimpleTestCase):
         "weblate.utils.apps.get_latest_version",
         side_effect=httpx2.ConnectError("PyPI unavailable"),
     )
-    def test_http_error_is_ignored(self, get_latest_version) -> None:
+    def test_http_error_is_ignored(self, get_latest_version: Mock) -> None:
         errors = list(check_version(app_configs=None, databases=None))
 
         self.assertEqual(errors, [])

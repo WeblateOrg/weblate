@@ -27,7 +27,7 @@ def check_auth(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     result: list[CheckMessage] = []
     if settings.REGISTRATION_ALLOW_BACKENDS:
@@ -49,7 +49,7 @@ def check_avatars(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     if not settings.ENABLE_AVATARS:
         return []

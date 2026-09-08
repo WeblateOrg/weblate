@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import httpx2
 from django.core.cache import cache
 from django.db.models import Sum
@@ -26,9 +28,9 @@ MENU = (
 REPO_URL = "https://api.github.com/repos/WeblateOrg/weblate"
 ACTIVITY_URL = "https://api.github.com/repos/WeblateOrg/weblate/stats/commit_activity"
 FALLBACK_STATS = {
-    "stars": 6051,
-    "issues": 501,
-    "commits": 1445,
+    "stars": 6059,
+    "issues": 499,
+    "commits": 1325,
 }
 
 
@@ -54,7 +56,7 @@ class AboutView(TemplateView):
 
         return context
 
-    def get_template_names(self):
+    def get_template_names(self) -> list[str]:
         return [f"about/{self.page}.html"]
 
 

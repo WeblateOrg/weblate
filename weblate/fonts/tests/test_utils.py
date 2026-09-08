@@ -11,6 +11,7 @@ from io import BytesIO
 from pathlib import Path
 from shutil import copyfile
 from tempfile import TemporaryDirectory
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.core.cache import cache
@@ -47,6 +48,9 @@ from weblate.fonts.utils import (
     get_font_name,
     get_font_weight,
 )
+
+if TYPE_CHECKING:
+    from matplotlib.font_manager import FontProperties
 
 
 class RenderTest(SimpleTestCase):
@@ -373,7 +377,7 @@ class RenderTest(SimpleTestCase):
         self.assertEqual(properties.get_style(), "italic")
 
     def test_render_uploaded_font_synthesizes_missing_bold_face(self) -> None:
-        def render_ink(font_properties) -> int:
+        def render_ink(font_properties: FontProperties) -> int:
             figure = create_figure(300, 80)
             draw_text(
                 figure,

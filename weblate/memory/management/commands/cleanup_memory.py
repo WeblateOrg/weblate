@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from weblate.memory.models import Memory
 from weblate.utils.management.base import BaseCommand
 
@@ -9,7 +11,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     """Command for wiping out pending memories."""
 
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: object, **options: object) -> None:
         """Perform memory cleaning."""
         count, _ = Memory.objects.filter(status=Memory.STATUS_PENDING).delete()
         if count == 0:

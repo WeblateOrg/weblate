@@ -1,8 +1,15 @@
 """Simple quality check example."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import TargetCheck
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Unit
 
 
 class FooCheck(TargetCheck):
@@ -18,5 +25,5 @@ class FooCheck(TargetCheck):
     description = gettext_lazy("Your translation is foo")
 
     # Real check code
-    def check_single(self, source, target, unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         return "foo" in target

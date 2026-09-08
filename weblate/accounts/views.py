@@ -114,6 +114,7 @@ from weblate.accounts.forms import (
     GroupRemoveForm,
     LanguagesForm,
     LoginForm,
+    NotificationDebugForm,
     NotificationForm,
     OTPTokenForm,
     PasswordConfirmForm,
@@ -130,6 +131,10 @@ from weblate.accounts.forms import (
     WebAuthnTokenForm,
 )
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
+from weblate.accounts.notification_debug import (
+    NOTIFICATION_DETAIL_LIMIT,
+    NotificationDebugger,
+)
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
     NotificationFrequency,
@@ -753,6 +758,100 @@ def trial(request: AuthenticatedHttpRequest):
             "trial_days": TRIAL_DAYS,
         },
     )
+
+
+@method_decorator(login_required, name="dispatch")
+class UserNotifications(DetailView):
+    model = User
+    template_name = "accounts/notification_debug.html"
+    slug_field = "username"
+    slug_url_kwarg = "user"
+    context_object_name = "page_user"
+    request: AuthenticatedHttpRequest
+
+    def get_object(self, queryset=None):
+        user = super().get_object(queryset)
+        if user.pk != self.request.user.pk:
+            check_management_access(self.request, "user.edit")
+        return user
+
+    def get_queryset(self):
+        return super().get_queryset().select_related("profile")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = gettext("Notification diagnostics for %(user)s") % {
+            "user": self.object
+        }
+        context.update(self.get_notification_context())
+        return context
+
+    def get_notification_context(self) -> dict[str, Any]:
+        request = self.request
+        user = self.object
+        submitted = "notification_target" in request.GET
+        form = NotificationDebugForm(request, request.GET if submitted else None)
+        groups: list[dict[str, Any]] = []
+        subscriptions = list(
+            user.subscription_set.filter(
+                Q(project__isnull=True, component__isnull=True)
+                | Q(component__isnull=True, project__in=request.user.allowed_projects)
+                | Q(component__in=Component.objects.filter_access(request.user))
+            )
+            .select_related("project", "component__project", "component__category")
+            .order()
+        )
+        for scope in NotificationScope:
+            scoped_groups: dict[int | None, list[Subscription]] = defaultdict(list)
+            for subscription in subscriptions:
+                if subscription.scope != scope:
+                    continue
+                target = subscription.component or subscription.project
+                scoped_groups[target.pk if target else None].append(subscription)
+            groups.extend(
+                {
+                    "label": scope.label,
+                    "target": rows[0].component or rows[0].project,
+                    "subscriptions": rows,
+                }
+                for rows in scoped_groups.values()
+            )
+        watched_projects = (
+            user.profile.watched.all() & request.user.allowed_projects
+        ).order()
+        languages = user.profile.languages.all().order()
+        watched_count = watched_projects.count()
+        language_count = languages.count()
+        context = {
+            "notification_form": form,
+            "notification_subscription_groups": groups,
+            "notification_detail_limit": NOTIFICATION_DETAIL_LIMIT,
+            "notification_watched_count": watched_count,
+            "notification_language_count": language_count,
+            "notification_watched_projects": list(
+                watched_projects[:NOTIFICATION_DETAIL_LIMIT]
+            )
+            if watched_count <= NOTIFICATION_DETAIL_LIMIT
+            else [],
+            "notification_languages": list(languages[:NOTIFICATION_DETAIL_LIMIT])
+            if language_count <= NOTIFICATION_DETAIL_LIMIT
+            else [],
+        }
+        if submitted and form.is_valid():
+            target = form.cleaned_data["notification_target"]
+            try:
+                summary = NotificationDebugger(user).inspect(target, request.user)
+            except ValidationError as error:
+                form.add_error("notification_target", error)
+                return context
+            context.update(
+                {
+                    "notification_debug_target": target,
+                    "notification_results": summary.results,
+                    "notification_summary": summary,
+                }
+            )
+        return context
 
 
 class UserPage(UpdateView):

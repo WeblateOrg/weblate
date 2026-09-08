@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
@@ -21,7 +23,7 @@ from weblate.utils.state import STATE_APPROVED
 class BulkAcceptSuggestionsTest(ViewTestCase):
     """Tests for bulk accepting suggestions from a specific user."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.translation = self.component.translation_set.get(language_code="cs")
         # Source unit is "Hello, world!\n"
@@ -31,7 +33,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         # Give test user permission to accept suggestions
         self.project.add_user(self.user, "Administration")
 
-    def test_bulk_accept_requires_post(self):
+    def test_bulk_accept_requires_post(self) -> None:
         """Test that GET request is not allowed."""
         response = self.client.get(
             reverse(
@@ -41,7 +43,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 405)
 
-    def test_bulk_accept_requires_login(self):
+    def test_bulk_accept_requires_login(self) -> None:
         """Test that anonymous users cannot bulk accept."""
         self.client.logout()
         response = self.client.post(
@@ -53,7 +55,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 302)  # Redirect to login
 
-    def test_bulk_accept_requires_permission(self):
+    def test_bulk_accept_requires_permission(self) -> None:
         """Test that users without suggestion.accept permission get 403."""
         # Create a user without permissions
         User.objects.create_user(username="noperm", password="test")
@@ -71,7 +73,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertIn("error", data)
         self.assertIn("permission", data["error"].lower())
 
-    def test_bulk_accept_invalid_username(self):
+    def test_bulk_accept_invalid_username(self) -> None:
         """Test that invalid username returns 400."""
         response = self.client.post(
             reverse(
@@ -85,7 +87,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertIn("error", data)
         self.assertIn("not found", data["error"].lower())
 
-    def test_bulk_accept_preview_count(self):
+    def test_bulk_accept_preview_count(self) -> None:
         """Test that preview returns matching suggestion count."""
         self.project.translation_review = True
         self.project.save(update_fields=["translation_review"])
@@ -124,7 +126,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertTrue(data["can_approve"])
         self.assertEqual(Suggestion.objects.filter(user=user).count(), 3)
 
-    def test_bulk_accept_requires_confirmation(self):
+    def test_bulk_accept_requires_confirmation(self) -> None:
         """Test that accepting requires the confirmed marker."""
         suggestion_user = User.objects.create_user(
             username="unconfirmed-suggester", password="test"
@@ -148,7 +150,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertIn("confirmation", data["error"].lower())
         self.assertTrue(Suggestion.objects.filter(user=suggestion_user).exists())
 
-    def test_bulk_accept_success(self):
+    def test_bulk_accept_success(self) -> None:
         """Test successful bulk accept of suggestions."""
         # Create a suggestion user
         suggestion_user = User.objects.create_user(
@@ -203,7 +205,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
             0,
         )
 
-    def test_bulk_accept_skips_failing_checks(self):
+    def test_bulk_accept_skips_failing_checks(self) -> None:
         """Test that suggestions with failing checks are skipped."""
         suggestion_user = User.objects.create_user(
             username="check_suggester", password="test"
@@ -243,7 +245,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         # Verify invalid suggestion remains in DB
         self.assertTrue(Suggestion.objects.filter(pk=s2.pk).exists())
 
-    def test_bulk_accept_only_target_user(self):
+    def test_bulk_accept_only_target_user(self) -> None:
         """Test that only suggestions from the specified user are accepted."""
         # Create two users with suggestions
         user1 = User.objects.create_user(username="user1", password="test")
@@ -286,7 +288,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         )
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
-    def test_bulk_accept_no_size_limit_schedules_task(self):
+    def test_bulk_accept_no_size_limit_schedules_task(self) -> None:
         """Test that large batches are scheduled instead of blocked."""
         user = User.objects.create_user(username="spammer", password="test")
 
@@ -349,7 +351,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertEqual(messages[0].extra_tags, "task:task-bulk-accept")
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
-    def test_bulk_accept_and_approve_schedules_task(self):
+    def test_bulk_accept_and_approve_schedules_task(self) -> None:
         """Test that accepting and approving schedules approval mode."""
         self.project.translation_review = True
         self.project.save(update_fields=["translation_review"])
@@ -385,7 +387,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
             return_url=self.translation.get_translate_url(),
         )
 
-    def test_bulk_accept_and_approve_requires_permission(self):
+    def test_bulk_accept_and_approve_requires_permission(self) -> None:
         """Test that approval mode requires review permission."""
         user = User.objects.create_user(username="review-denied", password="test")
         Suggestion.objects.create(
@@ -394,7 +396,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
             user=user,
         )
 
-        def has_perm(_user, permission, _obj):
+        def has_perm(_user: User, permission: str, _obj: object) -> bool:
             return permission == "suggestion.accept"
 
         with patch("weblate.trans.views.bulk_suggestions.User.has_perm", has_perm):
@@ -411,7 +413,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertIn("error", data)
         self.assertIn("approve", data["error"])
 
-    def test_bulk_accept_only_target_translation(self):
+    def test_bulk_accept_only_target_translation(self) -> None:
         """Test that only suggestions for the specified translation are accepted."""
         # Create suggestion in current translation
         user = User.objects.create_user(username="translator", password="test")
@@ -455,7 +457,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
             1,
         )
 
-    def test_bulk_accept_partial_permission_failure(self):
+    def test_bulk_accept_partial_permission_failure(self) -> None:
         """Test that some suggestions fail if user lacks per-unit permissions."""
         # Create a user WITHOUT project permissions (no add_user call)
         limited_user = User.objects.create_user(username="limited", password="test")
@@ -505,7 +507,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         ).count()
         self.assertEqual(remaining, 3)
 
-    def test_bulk_accept_task_rechecks_permissions(self):
+    def test_bulk_accept_task_rechecks_permissions(self) -> None:
         """Test that the task skips suggestions when permissions are removed."""
         suggester = User.objects.create_user(username="task-suggester", password="test")
         Suggestion.objects.create(
@@ -530,7 +532,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
             1,
         )
 
-    def test_bulk_accept_task_approves(self):
+    def test_bulk_accept_task_approves(self) -> None:
         """Test that approval mode accepts suggestions as approved."""
         self.project.translation_review = True
         self.project.save(update_fields=["translation_review"])
@@ -551,7 +553,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.unit.refresh_from_db()
         self.assertEqual(self.unit.state, STATE_APPROVED)
 
-    def test_bulk_accept_task_returns_url(self):
+    def test_bulk_accept_task_returns_url(self) -> None:
         """Test that the task returns a URL for progress completion reload."""
         suggester = User.objects.create_user(username="task-url", password="test")
         Suggestion.objects.create(unit=self.unit, target="Task URL!\n", user=suggester)
@@ -571,7 +573,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         )
         self.assertEqual(completion_message["text"], result["message"])
 
-    def test_bulk_accept_task_uses_user_language(self):
+    def test_bulk_accept_task_uses_user_language(self) -> None:
         """Test that task completion messages use the requesting user's language."""
         self.user.profile.language = "cs"
         self.user.profile.save(update_fields=["language"])
@@ -589,7 +591,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
 
         mocked_override.assert_called_once_with("cs")
 
-    def test_bulk_accept_task_reports_progress(self):
+    def test_bulk_accept_task_reports_progress(self) -> None:
         """Test that the task reports Celery progress."""
         suggester = User.objects.create_user(username="progress-user", password="test")
         for i in range(2):

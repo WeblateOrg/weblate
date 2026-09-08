@@ -4,18 +4,121 @@
 
 """Tests for changes browsing."""
 
+from __future__ import annotations
+
 from datetime import timedelta
 from html import escape
+from typing import cast
+from unittest.mock import patch
 
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import urlencode
 
+from weblate.lang.models import Language
+from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.feeds import ChangeFeedScope, TranslationChangesFeed
-from weblate.trans.models import Change, Project, Unit
+from weblate.trans.models import Announcement, Change, Project, Translation, Unit
+from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.xml import parse_xml
+
+
+class ChangeScopeTest(ViewTestCase):
+    def test_language_scoped_history(self) -> None:
+        language = self.translation.language
+        category = self.create_category(self.project)
+        scopes: tuple[
+            tuple[
+                dict[str, object],
+                ProjectLanguage | Translation | CategoryLanguage | Language,
+            ],
+            ...,
+        ] = (
+            ({"project": self.project}, ProjectLanguage(self.project, language)),
+            (
+                {"project": self.project, "component": self.component},
+                self.translation,
+            ),
+            ({"category": category}, CategoryLanguage(category, language)),
+            ({}, language),
+        )
+        for scope, expected in scopes:
+            for action in (ActionEvents.ANNOUNCEMENT, ActionEvents.COMMENT):
+                with self.subTest(scope=scope, action=action):
+                    if action == ActionEvents.ANNOUNCEMENT:
+                        announcement = Announcement.objects.create(
+                            language=language, message="Scoped announcement", **scope
+                        )
+                        change = Change.objects.get(announcement=announcement)
+                    else:
+                        change = Change(action=action, language=language, **scope)
+                    self.assertIsNone(change.translation_id)
+                    content = render_to_string(
+                        "snippets/last-changes-content.html",
+                        format_last_changes_content([change], self.user),
+                    )
+                    url = expected.get_absolute_url()
+                    self.assertInHTML(
+                        f'<li class="breadcrumb-item"><a href="{url}">{escape(str(language))}</a></li>',
+                        content,
+                    )
+                    self.assertIn(f'href="{url}"\n', content)
+                    self.assertEqual(change.get_absolute_url(), url)
+                    self.assertIsNone(change.translation_id)
+
+    def test_component_language_resolution_is_cached(self) -> None:
+        Translation.objects.filter(pk=self.translation.pk).update(
+            language_code="custom"
+        )
+        change = Change(component=self.component, language=self.translation.language)
+        with self.assertNumQueries(1):
+            resolved = change.path_object
+        self.assertEqual(resolved, self.translation)
+        self.assertEqual(cast("Translation", resolved).language_code, "custom")
+        expected_url = self.translation.get_absolute_url()
+        with self.assertNumQueries(0):
+            self.assertIs(change.path_object, resolved)
+            self.assertEqual(change.get_absolute_url(), expected_url)
+        self.assertIsNone(change.translation_id)
+
+    def test_missing_translation_falls_back_to_component(self) -> None:
+        language = Language.objects.exclude(
+            pk__in=self.component.translation_set.values("language_id")
+        ).first()
+        self.assertIsNotNone(language)
+        change = Change(component=self.component, language=language)
+        self.assertEqual(change.path_object, self.component)
+        self.assertEqual(change.get_absolute_url(), self.component.get_absolute_url())
+
+    def test_existing_destinations(self) -> None:
+        category = self.create_category(self.project)
+        for field, obj in (
+            ("translation", self.translation),
+            ("component", self.component),
+            ("category", category),
+            ("project", self.project),
+        ):
+            with self.subTest(field=field):
+                change = Change(**{field: obj})
+                self.assertEqual(change.path_object, obj)
+                self.assertEqual(change.get_absolute_url(), obj.get_absolute_url())
+        self.assertEqual(Change().get_absolute_url(), "/")
+
+    def test_detail_destinations_take_precedence(self) -> None:
+        change = Change(translation=self.translation)
+        for field, model in (("unit", Unit), ("screenshot", Screenshot)):
+            with self.subTest(field=field):
+                detail = model()
+                setattr(change, field, detail)
+                with patch.object(
+                    detail, "get_absolute_url", return_value=f"/{field}/"
+                ):
+                    self.assertEqual(change.get_absolute_url(), f"/{field}/")
+                setattr(change, field, None)
 
 
 class FeedQueriesTest(FixtureTestCase):

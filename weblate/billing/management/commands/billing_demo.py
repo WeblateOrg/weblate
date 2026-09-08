@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
     help = "imports demo project and components"
 
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: object, **options: object) -> None:
         # Create project
         project = Project.objects.get_or_create(
             slug="billing-demo",

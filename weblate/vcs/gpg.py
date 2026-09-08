@@ -59,7 +59,7 @@ def generate_gpg_key() -> str | None:
     return get_gpg_key()
 
 
-def get_gpg_key(silent=False) -> str | None:
+def get_gpg_key(silent: bool = False) -> str | None:
     try:
         result = subprocess.run(
             # ruff: ignore[start-process-with-partial-path]

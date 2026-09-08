@@ -258,26 +258,26 @@ AUTOMATTIC_COMPONENTS_MATCH = re.compile(r"(\{\{/?\s*\w+\s*/?}})")
 LARAVEL_MATCH = re.compile(r"(:[A-Za-z][A-Za-z0-9_]*)")
 
 
-def c_format_is_position_based(string: str):
+def c_format_is_position_based(string: str) -> bool:
     return "$" not in string and string != "%"
 
 
-def objc_format_is_position_based(string: str):
+def objc_format_is_position_based(string: str) -> bool:
     # Stringsdict tokens like %#@name@ are named references, not positional
     if string.startswith("#@"):
         return False
     return "$" not in string and string != "%"
 
 
-def pascal_format_is_position_based(string: str):
+def pascal_format_is_position_based(string: str) -> bool:
     return ":" not in string and string != "%"
 
 
-def scheme_format_is_position_based(string: str):
+def scheme_format_is_position_based(string: str) -> bool:
     return "@*" not in string and string != "~"
 
 
-def python_format_is_position_based(string: str):
+def python_format_is_position_based(string: str) -> bool:
     return "(" not in string and string not in {"{", "}"}
 
 
@@ -389,7 +389,9 @@ class BaseFormatCheck(TargetCheck):
     default_disabled = True
     normalize_remove: ClassVar[set[str]] = set()
 
-    def check_target_unit(self, sources: list[str], targets: list[str], unit: Unit):
+    def check_target_unit(
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> bool:
         """Check single unit, handling plurals."""
         return any(self.check_generator(sources, targets, unit))
 
@@ -444,7 +446,7 @@ class BaseFormatCheck(TargetCheck):
                 sources[1], target, len(plural_examples[i + 1]) == 1, unit
             )
 
-    def cleanup_string(self, text):
+    def cleanup_string(self, text: str) -> str:
         return text
 
     def normalize(self, matches: list[str]) -> list[str]:
@@ -510,7 +512,7 @@ class BaseFormatCheck(TargetCheck):
         """Target strings are checked in check_target_unit."""
         return False
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
         if self.regexp is None:
@@ -596,7 +598,7 @@ class BasePrintfCheck(BaseFormatCheck):
             self.enable_string
         ]
 
-    def is_position_based(self, string: str):
+    def is_position_based(self, string: str) -> bool:
         return self._is_position_based(string)
 
     def extract_string(self, match: re.Match) -> str:
@@ -605,7 +607,7 @@ class BasePrintfCheck(BaseFormatCheck):
     def format_string(self, string: str) -> str:
         return f"%{string}"
 
-    def cleanup_string(self, text):
+    def cleanup_string(self, text: str) -> str:
         """Remove locale-specific code from format string."""
         if "'" in text:
             return text.replace("'", "")
@@ -655,7 +657,7 @@ class PerlBraceFormatCheck(BaseFormatCheck):
     regexp = PERL_BRACE_MATCH
     plural_parameter_regexp = re.compile(r"\{(?:count|number|num|n)\}")
 
-    def is_position_based(self, string: str):
+    def is_position_based(self, string: str) -> bool:
         return name_format_is_position_based(string)
 
 
@@ -717,7 +719,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     def extract_string(self, match: re.Match) -> str:
         return extract_string_python_brace(match)
 
-    def is_position_based(self, string: str):
+    def is_position_based(self, string: str) -> bool:
         return name_format_is_position_based(string)
 
     def format_string(self, string: str) -> str:
@@ -760,7 +762,7 @@ class CSharpFormatCheck(BaseFormatCheck):
     regexp = C_SHARP_MATCH
     extra_enable_strings = ("csharp-format",)
 
-    def is_position_based(self, string: str):
+    def is_position_based(self, string: str) -> bool:
         return name_format_is_position_based(string)
 
     def format_string(self, string: str) -> str:
@@ -798,7 +800,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     def format_string(self, string: str) -> str:
         return f"{{{string}}}"
 
-    def should_skip(self, unit: Unit):
+    def should_skip(self, unit: Unit) -> bool:
         all_flags = unit.all_flags
         if self.is_ignored(all_flags):
             return True
@@ -841,7 +843,7 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     plural_parameter_regexp = re.compile(r"{{count}}")
     version_added = "4.0"
 
-    def cleanup_string(self, text):
+    def cleanup_string(self, text: str) -> str:
         return WHITESPACE.sub("", text)
 
 
@@ -854,7 +856,7 @@ class ESTemplateLiteralsCheck(BaseFormatCheck):
     regexp = ES_TEMPLATE_MATCH
     plural_parameter_regexp = re.compile(r"\$\{(?:count|number|num|n)\}")
 
-    def cleanup_string(self, text):
+    def cleanup_string(self, text: str) -> str:
         return WHITESPACE.sub("", text)
 
     def format_string(self, string: str) -> str:

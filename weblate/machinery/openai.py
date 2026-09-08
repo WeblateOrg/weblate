@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import quote, urljoin
 
 from django.core.cache import cache
@@ -31,7 +31,7 @@ class BaseOpenAITranslation(BaseLLMTranslation):
     def join_api_url(base_url: str, path: str) -> str:
         return urljoin(f"{base_url.rstrip('/')}/", path)
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         if response.status_code == 429:
             message = self.get_error_detail(response) or "Rate limit exceeded"
             raise MachineryRateLimitError(message)
@@ -82,7 +82,7 @@ class BaseOpenAITranslation(BaseLLMTranslation):
         }
 
     @staticmethod
-    def parse_chat_response(payload) -> str:
+    def parse_chat_response(payload: object) -> str:
         if not isinstance(payload, dict):
             msg = "Invalid service response: expected a JSON object."
             raise MachineTranslationError(msg)
@@ -179,7 +179,7 @@ class OpenAITranslation(BaseOpenAITranslation):
         return self.select_model()
 
     @staticmethod
-    def parse_models(payload) -> set[str]:
+    def parse_models(payload: object) -> set[str]:
         if not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
             msg = (
                 "Invalid model listing response: expected a JSON object containing "
@@ -291,3 +291,7 @@ class AzureOpenAITranslation(BaseOpenAITranslation):
 
     async def aget_model(self) -> str:
         return self.get_model()
+
+
+if TYPE_CHECKING:
+    import httpx2

@@ -19,7 +19,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 USER root
-ENV PATH=/app/venv/bin:/opt/python/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+ENV PATH=/app/venv/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 ENV UV_CACHE_DIR=/app/data/uv-cache
 ENV UV_LINK_MODE=copy
 # Make sure user exists in the container
@@ -51,12 +51,42 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libjpeg62-dev
 
+# Ubuntu's Chromium packages use Snap. XtraDeb supplies native packages on
+# amd64 and arm64. Keep APT packages unpinned, matching the other system tools;
+# chromium-driver depends on the matching Chromium version.
+RUN curl --fail --location --output /etc/apt/keyrings/xtradeb.asc \
+        'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x5301FA4FD93244FBC6F6149982BB6851C64F6880' \
+    && gpg --show-keys --with-colons /etc/apt/keyrings/xtradeb.asc \
+        | cut -d : -f 10 | grep -Fx '5301FA4FD93244FBC6F6149982BB6851C64F6880'
+RUN printf '%s\n' \
+        'deb [signed-by=/etc/apt/keyrings/xtradeb.asc] https://ppa.launchpadcontent.net/xtradeb/apps/ubuntu resolute main' \
+        > /etc/apt/sources.list.d/xtradeb.list \
+    && printf '%s\n' \
+        'Package: chromium chromium-common chromium-driver chromium-sandbox' \
+        'Pin: release o=LP-PPA-xtradeb-apps' \
+        'Pin-Priority: 700' '' \
+        'Package: *' \
+        'Pin: release o=LP-PPA-xtradeb-apps' \
+        'Pin-Priority: -1' \
+        > /etc/apt/preferences.d/xtradeb \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends chromium chromium-driver
+ENV WEBLATE_TEST_CHROME_BINARY=/usr/bin/chromium
+ENV WEBLATE_TEST_CHROMEDRIVER=/usr/bin/chromedriver
+
 # List should match weblate/weblate
 RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp /home
 
 # Start with fresh venv
 # Using the original would work, but chown on it is super slow, see https://github.com/docker/for-linux/issues/388
 RUN rm -rf /app/venv && mkdir /app/venv && chown "${USER_ID}:${GROUP_ID}" /app/venv
+
+# uv stores Python in a version- and architecture-specific directory. Keep it
+# available on PATH even before the application virtual environment is created.
+# Do not create root-owned files in the runtime user's uv cache.
+RUN ln -sf "$(uv --no-cache python find --system --managed-python --no-python-downloads "${PYVERSION}")" /usr/local/bin/python3 \
+    && /usr/bin/env python3 --version
+
 
 COPY --link --chmod=0755 start-dev /app/bin/
 

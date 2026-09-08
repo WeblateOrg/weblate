@@ -153,7 +153,7 @@ class BorgResult:
         return self.returncode == 1
 
 
-def make_password(length: int = 50):
+def make_password(length: int = 50) -> str:
     generator = SystemRandom()
     chars = f"{string.ascii_letters}{string.digits}!@#$%^&*()"
     return "".join(generator.choice(chars) for i in range(length))

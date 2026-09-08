@@ -11,9 +11,15 @@ from typing import TYPE_CHECKING, ClassVar
 
 import regex
 from django.utils.html import format_html
+from django.utils.text import format_lazy
 from django.utils.translation import gettext_lazy, ngettext
 
-from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
+from weblate.checks.base import (
+    CodeDescriptionMixin,
+    CountingCheck,
+    TargetCheck,
+    TargetCheckParametrized,
+)
 from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
 from weblate.checks.utils import highlight_string
@@ -22,6 +28,7 @@ from weblate.utils.html import MD_LINK, format_html_join_comma
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from weblate.checks.models import Check
     from weblate.trans.models import Unit
 
     from .base import FixupType
@@ -130,7 +137,7 @@ class BeginNewlineCheck(TargetCheck):
         "Source and translation do not both start with a newline."
     )
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         return self.check_chars(source, target, 0, {"\n"})
 
 
@@ -141,7 +148,7 @@ class EndNewlineCheck(TargetCheck):
     name = gettext_lazy("Trailing newline")
     description = gettext_lazy("Source and translation do not both end with a newline.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         return self.check_chars(source, target, -1, {"\n"})
 
 
@@ -154,7 +161,7 @@ class BeginSpaceCheck(TargetCheck):
         "Source and translation do not both start with same number of spaces."
     )
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
@@ -181,14 +188,22 @@ class BeginSpaceCheck(TargetCheck):
         return [("regex", "^ *", replacement, "u")]
 
 
-class KabyleCharactersCheck(TargetCheck):
+class KabyleCharactersCheck(CodeDescriptionMixin, TargetCheck):
     """Flag and suggest standard Kabyle characters instead of visually similar but incorrect ones."""
 
     check_id = "kabyle-characters"
     name = gettext_lazy("Non‑standard characters in Kabyle")
-    description = gettext_lazy(
-        "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε)."
+    # Translators: placeholders are Latin and Greek character examples, formatted for display.
+    description_template = gettext_lazy(
+        "Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
     )
+    description_values: ClassVar[dict[str, str]] = {
+        "latin_gamma": "ɣ",
+        "greek_gamma": "γ",
+        "latin_epsilon": "ɛ",
+        "greek_epsilon": "ε",
+    }
+    description = format_lazy(description_template, **description_values)
     version_added = "5.12"
 
     confusable_to_standard: ClassVar[dict[str, str]] = {
@@ -224,7 +239,7 @@ class EndSpaceCheck(TargetCheck):
     name = gettext_lazy("Trailing space")
     description = gettext_lazy("Source and translation do not both end with a space.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
@@ -260,7 +275,7 @@ class DoubleSpaceCheck(TargetCheck):
     name = gettext_lazy("Double space")
     description = gettext_lazy("Translation contains double space.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
@@ -284,7 +299,7 @@ class EndStopCheck(TargetCheck):
         "Source and translation do not both end with a full stop."
     )
 
-    def _check_my(self, source: str, target: str):
+    def _check_my(self, source: str, target: str) -> bool:
         if target.endswith(MY_QUESTION_MARK):
             # Laeave this on the question mark check
             return False
@@ -296,7 +311,7 @@ class EndStopCheck(TargetCheck):
             return True
         return super().should_skip(unit)
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if len(source) <= 4:
             # Might need to use shortcut in translation
             return False
@@ -344,19 +359,19 @@ class EndColonCheck(TargetCheck):
             return True
         return super().should_skip(unit)
 
-    def _check_hy(self, source: str, target: str):
+    def _check_hy(self, source: str, target: str) -> bool:
         if source[-1] == ":":
             return self.check_chars(source, target, -1, {":", "՝", "`"})
         return False
 
-    def _check_ja(self, source: str, target: str):
+    def _check_ja(self, source: str, target: str) -> bool:
         # Japanese sentence might need to end with full stop
         # in case it's used before list.
         if source[-1] in {":", ";"}:
             return self.check_chars(source, target, -1, {";", ":", "：", ".", "。"})
         return False
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if not source or not target:
             return False
         if unit.translation.language.is_base({"hy"}):
@@ -382,20 +397,20 @@ class EndQuestionCheck(TargetCheck):
             return True
         return super().should_skip(unit)
 
-    def _check_hy(self, source: str, target: str):
+    def _check_hy(self, source: str, target: str) -> bool:
         if source[-1] == "?":
             return self.check_chars(source, target, -1, {"?", "՞", "։"})
         return False
 
-    def _check_el(self, source: str, target: str):
+    def _check_el(self, source: str, target: str) -> bool:
         if source[-1] != "?":
             return False
         return target[-1] not in self.question_el
 
-    def _check_my(self, source: str, target: str):
+    def _check_my(self, source: str, target: str) -> bool:
         return source.endswith("?") != target.endswith(MY_QUESTION_MARK)
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if not source or not target:
             return False
         if source.endswith(INTERROBANGS) or target.endswith(INTERROBANGS):
@@ -427,7 +442,7 @@ class EndExclamationCheck(TargetCheck):
             return True
         return super().should_skip(unit)
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if not source or not target:
             return False
         if source.endswith(INTERROBANGS) or target.endswith(INTERROBANGS):
@@ -455,7 +470,7 @@ class EndInterrobangCheck(TargetCheck):
         "Source and translation do not both end with an interrobang expression."
     )
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if not source or not target:
             return False
 
@@ -477,7 +492,7 @@ class EndEllipsisCheck(TargetCheck):
             return True
         return super().should_skip(unit)
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if not target:
             return False
         # Allow ... to be translated into ellipsis
@@ -486,19 +501,22 @@ class EndEllipsisCheck(TargetCheck):
         return self.check_chars(source, target, -1, {"…"})
 
 
-class EscapedNewlineCountingCheck(CountingCheck):
+class EscapedNewlineCountingCheck(CodeDescriptionMixin, CountingCheck):
     r"""Check whether there is same amount of escaped \n strings."""
 
     string = "\\n"
     check_id = "escaped_newline"
     name = gettext_lazy("Mismatched \\n")
-    description = gettext_lazy(
-        "Number of \\n literals in translation does not match source."
+    # Translators: newline is a literal backslash followed by n, formatted for display.
+    description_template = gettext_lazy(
+        "Number of {newline} literals in translation does not match source."
     )
+    description_values: ClassVar[dict[str, str]] = {"newline": r"\n"}
+    description = format_lazy(description_template, **description_values)
 
     ignore_re = re.compile(r"[A-Z]:\\\\[^\\ ]+(\\[^\\ ]+)+")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if not target or not source:
             return False
 
@@ -525,7 +543,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
     name = gettext_lazy("Zero-width space")
     description = gettext_lazy("Translation contains extra zero-width space character.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if unit.translation.language.is_base({"km"}):
             return False
         if "\u200b" in source:
@@ -547,8 +565,8 @@ class MaxLengthCheck(TargetCheckParametrized):
     param_type = single_value_flag(int)
 
     def check_target_params(
-        self, sources: list[str], targets: list[str], unit: Unit, value
-    ):
+        self, sources: list[str], targets: list[str], unit: Unit, value: int
+    ) -> bool:
         replace = self.get_replacement_function(unit)
         return any(len(replace(target)) > value for target in targets)
 
@@ -576,8 +594,8 @@ class MaxLinesCheck(TargetCheckParametrized):
     param_type = single_value_flag(int)
 
     def check_target_params(
-        self, sources: list[str], targets: list[str], unit: Unit, value
-    ):
+        self, sources: list[str], targets: list[str], unit: Unit, value: int
+    ) -> bool:
         replace = self.get_replacement_function(unit)
         return any(replace(target).count("\n") + 1 > value for target in targets)
 
@@ -591,7 +609,7 @@ class EndSemicolonCheck(TargetCheck):
         "Source and translation do not both end with a semicolon."
     )
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         if unit.translation.language.is_base({"el"}) and source and source[-1] == "?":
             # Complement to question mark check
             return False
@@ -696,7 +714,7 @@ class PunctuationSpacingCheck(TargetCheck):
                     punctuation.append(char)
         return punctuation
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         punctuation = []
         unit = check_obj.unit
         for target in unit.get_target_plurals():

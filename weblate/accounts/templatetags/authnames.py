@@ -17,6 +17,7 @@ from django.utils.translation import gettext_lazy
 from weblate.accounts.utils import get_key_name
 
 if TYPE_CHECKING:
+    from django.template import Context
     from django_otp.models import Device
     from django_stubs_ext import StrOrPromise
 
@@ -89,7 +90,7 @@ def get_auth_params(auth: str) -> dict[str, StrOrPromise]:
 
 
 @register.simple_tag
-def auth_name(auth: str, only: str = ""):
+def auth_name(auth: str, only: str = "") -> StrOrPromise:
     """Create HTML markup for social authentication method."""
     params = get_auth_params(auth)
 
@@ -103,7 +104,7 @@ def auth_name(auth: str, only: str = ""):
     return format_html(SOCIAL_TEMPLATE, **params)
 
 
-def get_auth_name(auth: str):
+def get_auth_name(auth: str) -> StrOrPromise:
     """Get nice name for authentication backend."""
     return get_auth_params(auth)["name"]
 
@@ -119,7 +120,7 @@ def second_factor_name(name: DeviceType) -> StrOrPromise:
 
 
 @register.simple_tag(takes_context=True)
-def format_site_title(context) -> str:
+def format_site_title(context: Context) -> str:
     style = ""
     site_title = context["site_title"]
     if context["support_status"]["is_hosted_weblate"]:

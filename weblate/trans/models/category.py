@@ -382,7 +382,7 @@ class Category(
             component.project = project
             component.save()
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         parent = self.category or self.project
         return (*parent.get_url_path(), self.slug)
 
@@ -410,7 +410,7 @@ class Category(
         ) + self._get_parents_depth()
 
     @property
-    def can_add_category(self):
+    def can_add_category(self) -> bool:
         return self._get_parents_depth() + 1 < CATEGORY_DEPTH
 
     def clean(self) -> None:

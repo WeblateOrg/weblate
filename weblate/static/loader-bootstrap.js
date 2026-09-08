@@ -622,7 +622,13 @@ function initHighlight(root) {
     input.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         if (!event.repeat) {
-          event.target.form.requestSubmit();
+          const form = event.target.form;
+          const refresh = form.querySelector('button[name="refresh"]');
+          if (refresh !== null) {
+            form.requestSubmit(refresh);
+          } else {
+            form.requestSubmit();
+          }
         }
         event.preventDefault();
       }
@@ -1816,6 +1822,14 @@ onReady(() => {
   const positionInputEditableInput = document.getElementById(
     "position-input-editable-input",
   );
+  positionInputEditableInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (!event.repeat) {
+        event.target.form.requestSubmit();
+      }
+    }
+  });
   const clickedOutsideEditableInput = (event) => {
     // Check if clicked outside of the input and the editable input
     if (

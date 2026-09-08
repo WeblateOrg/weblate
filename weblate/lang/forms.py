@@ -122,7 +122,7 @@ class LanguageForm(forms.ModelForm):
         )
 
     @staticmethod
-    def get_field_doc(field):
+    def get_field_doc(field) -> tuple[str, str]:
         return ("admin/languages", f"language-{field.name}")
 
 
@@ -140,5 +140,5 @@ class PluralForm(forms.ModelForm):
         self.helper.form_tag = False
 
     @staticmethod
-    def get_field_doc(field):
+    def get_field_doc(field) -> tuple[str, str]:
         return ("admin/languages", f"plural-{field.name}")

@@ -1373,7 +1373,7 @@ class GitRepository(Repository):
         ).splitlines()
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False).split()[2]
 
@@ -1483,11 +1483,11 @@ class GitRepository(Repository):
             ).splitlines()
         ]
 
-    def has_branch(self, branch):
+    def has_branch(self, branch) -> bool:
         branches = self.list_branches()
         return branch in branches
 
-    def configure_branch(self, branch) -> None:
+    def configure_branch(self, branch: str) -> None:
         """Configure repository branch."""
         branch = self.validate_branch_name(branch)
         # Add branch
@@ -1723,7 +1723,7 @@ class GitWithGerritRepository(GitRepository):
     pushes_to_different_location: ClassVar[bool] = True
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
 
@@ -1775,7 +1775,7 @@ class GitWithGerritRepository(GitRepository):
     def checkout_with_temp_cleanup(self, branch: str) -> None:
         super().checkout_with_temp_cleanup(self.get_gerrit_branch_name(branch))
 
-    def configure_branch(self, branch) -> None:
+    def configure_branch(self, branch: str) -> None:
         review_target = self.validate_review_target(branch)
         super().configure_branch(branch)
         self.branch = review_target
@@ -1786,7 +1786,7 @@ class GitWithGerritRepository(GitRepository):
             ('remote "gerrit"', "tagOpt", "--no-tags"),
         )
 
-    def push(self, branch, *, force: bool | None = None) -> None:
+    def push(self, branch: str, *, force: bool | None = None) -> None:
         target_branch = self.validate_review_target(branch or self.branch)
         if self.needs_push(branch):
             self.configure_gerrit_target_branch(target_branch)
@@ -1871,12 +1871,12 @@ class SubversionRepository(GitRepository):
             config.write(handle)
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["svn", "--version"], merge_err=False).split()[2]
 
     @classmethod
-    def is_stdlayout(cls, url):
+    def is_stdlayout(cls, url) -> bool:
         output = cls._popen(["svn", "ls", url], fullcmd=True).splitlines()
         return "trunk/" in output
 
@@ -3561,7 +3561,7 @@ class LocalRepository(GitRepository):
     def update_remote(self) -> None:
         return
 
-    def push(self, branch, *, force: bool | None = None) -> None:
+    def push(self, branch: str, *, force: bool | None = None) -> None:
         return
 
     def reset(self) -> None:

@@ -34,7 +34,7 @@ class Command(BaseCommand):
         project_slug: str,
         username: str,
         filename: str,
-        **options,
+        **options: object,
     ) -> None:
         user = User.objects.get(username=username)
         restore = ProjectBackup(filename)

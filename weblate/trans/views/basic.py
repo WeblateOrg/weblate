@@ -429,6 +429,9 @@ def show_category_language(
                 for category in obj.category.category_set.all()
             ),
             "title": f"{category_object} - {language_object}",
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "announcement.add", obj
+            ),
             "search_form": SearchForm(
                 request=request,
                 language=language_object,

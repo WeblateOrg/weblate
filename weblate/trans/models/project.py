@@ -1623,6 +1623,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             )
         if self.commit_policy == CommitPolicyChoices.APPROVED_ONLY:
             return gettext(
-                "Only approved translations are written to the translation file."
+                "For languages with reviews enabled, only approved translations "
+                "are written to the translation file."
             )
         return ""

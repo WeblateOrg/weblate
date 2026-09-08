@@ -4,13 +4,15 @@
 
 """Test for alerts."""
 
+from __future__ import annotations
+
 import importlib
 import os
 import tempfile
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
@@ -50,6 +52,9 @@ from weblate.vcs.base import (
 from weblate.vcs.github import GitHubAppCredentials
 from weblate.workspaces.models import Workspace
 
+if TYPE_CHECKING:
+    from unittest.mock import Mock
+
 
 class WebsiteAlertSettingTest(ViewTestCase):
     """Test WEBSITE_ALERTS_ENABLED setting."""
@@ -59,7 +64,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
 
     @override_settings(WEBSITE_ALERTS_ENABLED=False)
     @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
-    def test_website_alerts_disabled(self, mocked_get_uri_error) -> None:
+    def test_website_alerts_disabled(self, mocked_get_uri_error: Mock) -> None:
         """Test that website alerts are not created when setting is False."""
         self.project.web = "https://example.com/project"
         update_alerts(self.component, {"BrokenProjectURL"})
@@ -70,7 +75,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
-    def test_website_alerts_enabled(self, mocked_get_uri_error) -> None:
+    def test_website_alerts_enabled(self, mocked_get_uri_error: Mock) -> None:
         """Test that website alerts are created when setting is True."""
         self.project.web = "https://example.com/project"
         update_alerts(self.component, {"BrokenProjectURL"})
@@ -84,7 +89,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch("weblate.trans.alerts.config.get_uri_error")
     def test_website_alert_uses_validator_error_without_fetch(
-        self, mocked_get_uri_error
+        self, mocked_get_uri_error: Mock
     ) -> None:
         self.project.web = "https://localhost/project"
 
@@ -106,7 +111,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
     )
     @patch("weblate.trans.alerts.config.get_uri_error")
     def test_website_alert_uses_runtime_validation_without_fetch(
-        self, mocked_get_uri_error, mocked_validate_request_url
+        self, mocked_get_uri_error: Mock, mocked_validate_request_url: Mock
     ) -> None:
         self.project.web = "https://public.example/project"
 
@@ -131,7 +136,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
     @patch("weblate.trans.alerts.config.get_uri_error", return_value=None)
     @patch("weblate.trans.alerts.config.validate_request_url")
     def test_website_alert_respects_project_allowlist(
-        self, mocked_validate_request_url, mocked_get_uri_error
+        self, mocked_validate_request_url: Mock, mocked_get_uri_error: Mock
     ) -> None:
         self.project.web = "https://localhost/project"
 

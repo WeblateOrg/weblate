@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.core.management.base import BaseCommand
 from django.db.models import Count
 
@@ -11,7 +13,7 @@ from weblate.checks.models import Check
 class Command(BaseCommand):
     help = "lists top untranslated failing checks"
 
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: object, **options: object) -> None:
         results = (
             Check.objects.filter(name="same")
             .values("unit__source")

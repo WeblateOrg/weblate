@@ -118,7 +118,7 @@
                       <li>{% translate "Translation suggestions are turned off." %}</li>
                     {% endif %}
                   {% endif %}
-                  {% if workflow_flags.translation_review %}
+                  {% if workflow_flags.translation_review and not translation %}
                     <li>{% translate "Translations are reviewed by dedicated reviewers." %}</li>
                   {% endif %}
                   {% if component.project.access_control %}
@@ -136,8 +136,11 @@
                   {% else %}
                     <li>{% translate "The translation uses bilingual files." %}</li>
                   {% endif %}
-                  {% if component.project.commit_policy %}<li>{{ component.project.get_commit_policy_description }}</li>{% endif %}
+                  {% if component.project.commit_policy and not translation %}<li>{{ component.project.get_commit_policy_description }}</li>{% endif %}
                 </ul>
+                {% if translation %}
+                  {% include "snippets/review-workflow.html" with workflow_translation=translation %}
+                {% endif %}
               </td>
             </tr>
 

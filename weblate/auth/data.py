@@ -168,7 +168,7 @@ GLOBAL_PERMISSIONS = (
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
 
 
-def filter_perms(prefix: str, exclude: set | None = None):
+def filter_perms(prefix: str, exclude: set[str] | None = None) -> set[str]:
     """Filter permission based on prefix."""
     result = {perm[0] for perm in PERMISSIONS if perm[0].startswith(prefix)}
     if exclude:

@@ -77,11 +77,11 @@ class NotificationFrequency(IntegerChoices):
 
 
 class NotificationScope(IntegerChoices):
-    SCOPE_ALL = 0, "All"
-    SCOPE_WATCHED = 10, "Watched"
-    SCOPE_ADMIN = 20, "Administered"
-    SCOPE_PROJECT = 30, "Project"
-    SCOPE_COMPONENT = 40, "Component"
+    SCOPE_ALL = 0, gettext_lazy("All")
+    SCOPE_WATCHED = 10, gettext_lazy("Watched")
+    SCOPE_ADMIN = 20, gettext_lazy("Administered")
+    SCOPE_PROJECT = 30, gettext_lazy("Project")
+    SCOPE_COMPONENT = 40, gettext_lazy("Component")
 
 
 NOTIFICATIONS: list[type[Notification]] = []
@@ -145,6 +145,7 @@ class Notification:
     any_watched: bool = False
     required_attr: str | None = None
     batch_recipients = True
+    debug_conditions: ClassVar[tuple[StrOrPromise, ...]] = ()
     skip_when_notify: ClassVar[set[type[Notification]]] = set()
 
     def __init__(
@@ -155,9 +156,9 @@ class Notification:
     ) -> None:
         self.outgoing: list[OutgoingEmail] = outgoing
         self.user_ids = user_ids
-        self.subscription_cache: OrderedDict[int | None, list[Subscription]] = (
-            OrderedDict()
-        )
+        self.subscription_cache: OrderedDict[
+            tuple[int | None, bool], list[Subscription]
+        ] = OrderedDict()
         self.child_notify: list[Notification] | None = None
 
     def get_language_filter(
@@ -183,7 +184,9 @@ class Notification:
     def get_periodic_actions(cls) -> Iterable[int]:
         return cls.actions
 
-    def filter_subscriptions(self, project: Project | None) -> list[Subscription]:
+    def filter_subscriptions(
+        self, project: Project | None, *, include_ineligible: bool = False
+    ) -> list[Subscription]:
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.models import Subscription
 
@@ -208,29 +211,41 @@ class Notification:
             query |= Q(scope=NotificationScope.SCOPE_ADMIN) & Q(
                 user__in=User.objects.all_admins(project)
             )
+        if not include_ineligible:
+            result = result.filter(user__is_bot=False, user__is_active=True)
         return list(
             result.filter(query)
-            # Inactive users and bots
-            .filter(Q(user__is_bot=False) & Q(user__is_active=True))
+            # The watched-project join can repeat subscriptions from other scopes.
+            .distinct()
             .order_by("user", "-scope")
             .select_related("user", "user__profile")
             .prefetch_related("user__profile__languages")
         )
 
-    def get_subscriptions(
+    def get_scope_subscriptions(
         self,
         change: Change | None,
         project: Project | None,
         component: Component | None,
         translation: Translation | None,
         users: list[int] | None,
+        *,
+        include_ineligible: bool = False,
     ) -> Iterable[Subscription]:
+        """
+        Match subscriptions in descending priority.
+
+        Diagnostics can retain inactive accounts and unmatched languages to
+        explain why a subscription does not result in delivery.
+        """
         lang_filter: Language | None = self.get_language_filter(change, translation)
-        cache_key: int | None = project.pk if project else None
+        cache_key = (project.pk if project else None, include_ineligible)
         try:
             subscriptions = self.subscription_cache.pop(cache_key)
         except KeyError:
-            subscriptions = self.filter_subscriptions(project)
+            subscriptions = self.filter_subscriptions(
+                project, include_ineligible=include_ineligible
+            )
             if len(self.subscription_cache) >= SUBSCRIPTION_CACHE_SIZE:
                 self.subscription_cache.popitem(last=False)
         self.subscription_cache[cache_key] = subscriptions
@@ -241,7 +256,8 @@ class Notification:
 
             # Languages filter
             if (
-                lang_filter
+                not include_ineligible
+                and lang_filter
                 and lang_filter not in subscription.user.profile.languages.all()
             ):
                 continue
@@ -253,6 +269,18 @@ class Notification:
                 continue
 
             yield subscription
+
+    def get_subscriptions(
+        self,
+        change: Change | None,
+        project: Project | None,
+        component: Component | None,
+        translation: Translation | None,
+        users: list[int] | None,
+    ) -> Iterable[Subscription]:
+        return self.get_scope_subscriptions(
+            change, project, component, translation, users
+        )
 
     def missing_required_attrs(self, change: Change | None) -> bool:
         if not self.required_attr:
@@ -1153,6 +1181,11 @@ class ComponentTranslatedNotificaton(Notification):
 
 @register_notification
 class NewCommentNotificaton(Notification):
+    debug_conditions = (
+        gettext_lazy(
+            "Source-string comments ignore notification languages; other comments require a matching language."
+        ),
+    )
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "Comment was added")
     verbose_plural = pgettext_lazy("Notification name", "Comments were added")
@@ -1163,13 +1196,14 @@ class NewCommentNotificaton(Notification):
     def get_language_filter(
         self, change: Change | None, translation: Translation | None
     ) -> Language | None:
-        if (
-            translation is not None
-            and change is not None
-            and not cast("Unit", change.unit).is_source
-        ):
-            return translation.language
-        return None
+        if translation is None:
+            return None
+        is_source = (
+            cast("Unit", change.unit).is_source
+            if change is not None
+            else translation.is_source
+        )
+        return None if is_source else translation.language
 
     def notify_immediate(self, change: Change) -> None:
         super().notify_immediate(change)
@@ -1182,6 +1216,7 @@ class NewCommentNotificaton(Notification):
 
 @register_notification
 class MentionCommentNotificaton(Notification):
+    debug_conditions = (gettext_lazy("The comment must mention this user."),)
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "You were mentioned in a comment")
     verbose_plural = pgettext_lazy(
@@ -1219,6 +1254,11 @@ class MentionCommentNotificaton(Notification):
 
 @register_notification
 class LastAuthorCommentNotificaton(Notification):
+    debug_conditions = (
+        gettext_lazy(
+            "The user must have contributed to the string or previously participated in its discussion."
+        ),
+    )
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy(
         "Notification name",
@@ -1380,6 +1420,11 @@ class NewComponentNotificaton(Notification):
 
 @register_notification
 class NewAnnouncementNotificaton(Notification):
+    debug_conditions = (
+        gettext_lazy(
+            "The announcement must enable notifications. If it specifies a language, that language must match the user’s notification languages."
+        ),
+    )
     actions = (ActionEvents.ANNOUNCEMENT,)
     verbose = pgettext_lazy("Notification name", "Announcement was published")
     verbose_plural = pgettext_lazy("Notification name", "Announcements were published")
@@ -1400,6 +1445,11 @@ class NewAnnouncementNotificaton(Notification):
 
 @register_notification
 class NewAlertNotificaton(Notification):
+    debug_conditions = (
+        gettext_lazy(
+            "The alert must be at least a warning and the user must be able to act on it. Linked-component and project-wide alerts can be deduplicated."
+        ),
+    )
     actions = (ActionEvents.ALERT, ActionEvents.ALERT_REOPENED)
     verbose = pgettext_lazy("Notification name", "New alert emerged in a component")
     verbose_plural = pgettext_lazy(

@@ -2,11 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import tempfile
 from io import BytesIO
 from pathlib import Path
-from typing import cast
+from typing import Never, cast
 from unittest.mock import patch
 
 from django.conf import settings
@@ -61,7 +63,7 @@ class FilesTestCase(SimpleTestCase):
     def test_read_file_bytes_rejects_oversized_file_without_size(self) -> None:
         class FileWithoutSize(BytesIO):
             @property
-            def size(self):
+            def size(self) -> Never:
                 raise AttributeError
 
         with self.assertRaisesMessage(ValidationError, "Uploaded file is too big."):

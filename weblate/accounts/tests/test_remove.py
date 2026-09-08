@@ -4,10 +4,17 @@
 
 """Test for account removal."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.urls import reverse
 
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
+
+if TYPE_CHECKING:
+    from django.test.client import _MonkeyPatchedWSGIResponse
 
 
 class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
@@ -15,7 +22,7 @@ class AccountRemovalTest(ViewTestCase, RegistrationTestMixin):
         response = self.client.get(reverse("remove"))
         self.assertContains(response, "Account removal deletes all your private data.")
 
-    def verify_removal(self, response) -> None:
+    def verify_removal(self, response: _MonkeyPatchedWSGIResponse) -> None:
         self.assertRedirects(response, reverse("email-sent"))
 
         # Get confirmation URL

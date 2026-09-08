@@ -60,15 +60,21 @@
   {% with variants=unit.variants %}
 
     <div class="query-container">
-      <form method="get" class="result-page-form">
+      <form method="get" class="result-page-form double-submission">
         {% crispy search_form %}
+        <p id="search-cache-help" class="form-text mb-0">
+          {% translate "Search results stay fixed while you translate. Refresh results to show strings matching the filters now." %}
+        </p>
       </form>
     </div>
 
     <div class="row">
       <div class="col-sm-9">
 
-        <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
+        <form action="{{ this_unit_url }}"
+              method="post"
+              class="translation-form translator"
+              data-unsaved="{{ form.is_bound|yesno:'true,false' }}">
           <div class="card">
 
             <div class="card-header {% if unit.approved %}text-bg-success{% elif unit.is_source %}text-bg-warning{% endif %}">
@@ -387,6 +393,7 @@
             <div class="tab-pane" id="suggestions">
               <form action="{{ this_unit_url }}" method="post">
                 {% csrf_token %}
+                <input type="hidden" name="unit_id" value="{{ unit.pk }}" />
                 <input type="hidden" name="checksum" value="{{ unit.checksum }}" />
 
                 {% include "snippets/suggestions.html" with suggestions=unit.suggestions %}
@@ -400,7 +407,7 @@
                 <p class="help-block">{% translate "Showing only subset of the strings as there were too many matches." %}</p>
               {% endif %}
               <form method="post"
-                    action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
+                    action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;unit_id={{ unit.pk }}">
                 {% csrf_token %}
                 <table class="table table-sm">
                   <thead>
@@ -734,16 +741,7 @@
               {% endif %}
 
 
-              {% if unit.is_blocked_by_commit_policy %}
-                <div class="list-group-item check check-item">
-                  <h5>
-                    {% documentation_icon 'admin/projects' 'project-commit-policy' right=True %}
-                    {% icon "file-sync-outline.svg" %}
-                    {% translate "Translation quality filter" %}
-                  </h5>
-                  <p class="list-group-item-text check-description">{{ project.get_commit_policy_description }}</p>
-                </div>
-              {% endif %}
+              {% include "snippets/commit-policy-warning.html" %}
 
             </div>
           </div>

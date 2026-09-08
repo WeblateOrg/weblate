@@ -4,9 +4,12 @@
 
 """Test for component guidance alerts."""
 
+from __future__ import annotations
+
 import os
 import shutil
 from pathlib import Path
+from typing import TYPE_CHECKING
 from unittest.mock import Mock, patch
 
 from django.core.exceptions import ValidationError
@@ -44,6 +47,9 @@ from weblate.trans.templatetags.translations import component_alerts
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.docs import get_doc_url
 
+if TYPE_CHECKING:
+    from weblate.trans.models import Component
+
 
 class RecommendedGenerateMoAddonTest(SimpleTestCase):
     def test_recommendation_ignores_invalid_translation_file(self) -> None:
@@ -68,7 +74,7 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         shutil.copytree(self.git_base_repo_path, path)
         return path
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_new_base(new_lang="add")
 
     def test_xgettext_recommendation(self) -> None:

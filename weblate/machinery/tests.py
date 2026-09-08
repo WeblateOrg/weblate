@@ -106,6 +106,7 @@ from weblate.trans.tests.test_views import (
 )
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
+from weblate.utils.errors import report_error as report_exception
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 from weblate.utils.tests import http_mock
 
@@ -545,6 +546,62 @@ class BaseMachineTranslationTest(TestCase):
 
 
 class MachineTranslationTest(BaseMachineTranslationTest):
+    def test_translate_error_details(self) -> None:
+        extracted: object
+        for asynchronous in (False, True):
+            for extracted in (
+                "Provider explanation",
+                ValueError("Bad JSON"),
+                "",
+                None,
+                {},
+            ):
+                with self.subTest(asynchronous=asynchronous, extracted=extracted):
+                    machine = self.get_machine()
+                    error = ValueError("Provider failed")
+                    expected = (
+                        extracted
+                        if isinstance(extracted, str) and extracted
+                        else "ValueError: Provider failed"
+                    )
+                    method = (
+                        "adownload_pending_translations"
+                        if asynchronous
+                        else "download_pending_translations"
+                    )
+                    download = AsyncMock if asynchronous else Mock
+                    with (
+                        patch.object(machine, method, new=download(side_effect=error)),
+                        patch.object(
+                            machine,
+                            "get_error_message",
+                            side_effect=extracted
+                            if isinstance(extracted, Exception)
+                            else None,
+                            return_value=extracted,
+                        ) as extract,
+                        patch("weblate.machinery.base.report_error") as report_error,
+                        self.assertRaises(MachineTranslationError) as raised,
+                    ):
+                        unit = make_unit(
+                            code=self.SUPPORTED, source=self.SOURCE_TRANSLATED
+                        )
+                        if asynchronous:
+                            async_to_sync(machine.atranslate)(unit)
+                        else:
+                            machine.translate(unit)
+
+                    self.assertEqual(str(raised.exception), expected)
+                    self.assertIs(raised.exception.__cause__, error)
+                    extract.assert_called_once_with(error)
+                    report_error.assert_called_once_with(
+                        f"machinery[{machine.name}]: Could not fetch translations",
+                        exception=error,
+                        extra_log="Provider explanation"
+                        if extracted == "Provider explanation"
+                        else None,
+                    )
+
     def test_async_translate_error_reports_original_exception(self) -> None:
         machine = self.get_machine()
         error = ValueError("Provider failed")
@@ -726,6 +783,132 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(
             machine_translation.get_cache_key("test"),
             "mt:dummy:test:11364700946005001116",
+        )
+
+
+class MachineTranslationErrorLoggingTest(SimpleTestCase):
+    def test_supplemental_log_output(self) -> None:
+        for message, extra in (
+            ("ValueError: Provider failed", None),
+            ("Provider failed", None),
+            ("failed", None),
+            ("ValueError: Provider failed: Quota exceeded", "Quota exceeded"),
+            ("x" * 250, "x" * 200),
+        ):
+            with self.subTest(message=message):
+                machine = DummyTranslation({})
+                error = ValueError("Provider failed")
+                with (
+                    patch.object(machine, "get_error_message", return_value=message),
+                    patch(
+                        "weblate.machinery.base.report_error",
+                        wraps=report_exception,
+                    ) as report_error,
+                    patch("weblate.utils.errors.record_error") as record_error,
+                    self.assertLogs("weblate.errors", level="WARNING") as logs,
+                    self.assertRaises(MachineTranslationError) as raised,
+                ):
+                    machine._handle_download_error(error)  # ruff: ignore[private-member-access]
+
+                self.assertEqual(str(raised.exception), message)
+                self.assertIs(raised.exception.__cause__, error)
+                report_error.assert_called_once_with(
+                    "machinery[Dummy]: Could not fetch translations",
+                    exception=error,
+                    extra_log=extra,
+                )
+                record_error.assert_called_once()
+                self.assertIs(record_error.call_args.kwargs["exception"], error)
+                expected = [
+                    "machinery[Dummy]: Could not fetch translations: ValueError: Provider failed"
+                ]
+                if extra:
+                    expected.append(
+                        f"machinery[Dummy]: Could not fetch translations: ValueError: {extra}"
+                    )
+                self.assertEqual(
+                    [record.getMessage() for record in logs.records], expected
+                )
+
+    def test_deepl_quota_explanation(self) -> None:
+        machine = DeepLTranslation({"key": "x"})
+        response = make_error_response("https://api.deepl.com/v2/translate", 456)
+        with self.assertRaises(HTTPError) as original:
+            machine.check_failure(response)
+        with (
+            patch.object(machine, "set_rate_limit") as set_rate_limit,
+            patch("weblate.machinery.base.report_error") as report_error,
+            self.assertRaises(MachineTranslationError) as raised,
+        ):
+            machine._handle_download_error(original.exception)  # ruff: ignore[private-member-access]
+        message = "Quota exceeded. The character limit has been reached."
+        self.assertEqual(str(raised.exception), message)
+        set_rate_limit.assert_called_once_with()
+        report_error.assert_called_once_with(
+            "machinery[DeepL]: Could not fetch translations",
+            exception=original.exception,
+            extra_log=message,
+        )
+
+    def test_http_details_already_logged(self) -> None:
+        machine = DeepLTranslation({"key": "x"})
+        response = make_error_response(
+            "https://api.deepl.com/v2/translate",
+            400,
+            json_data={"message": "Invalid request"},
+        )
+        with self.assertRaises(HTTPError) as original:
+            machine.check_failure(response)
+        with (
+            patch("weblate.machinery.base.report_error") as report_error,
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine._handle_download_error(original.exception)  # ruff: ignore[private-member-access]
+        self.assertIsNone(report_error.call_args.kwargs["extra_log"])
+
+    def test_untrusted_response_details(self) -> None:
+        machine = OpenAITranslation(
+            {
+                "key": "x",
+                "model": "auto",
+                "persona": "",
+                "style": "",
+                "base_url": "https://custom.example.com/",
+                "_project": Mock(),
+            }
+        )
+        response = make_error_response(
+            "https://custom.example.com/v1", 400, json_data={"message": "Top secret"}
+        )
+        with self.assertRaises(HTTPError) as original:
+            machine.check_failure(response)
+        with (
+            patch("weblate.machinery.base.report_error", wraps=report_exception),
+            patch("weblate.utils.errors.record_error"),
+            self.assertLogs("weblate.errors", level="WARNING") as logs,
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine._handle_download_error(original.exception)  # ruff: ignore[private-member-access]
+        self.assertEqual(len(logs.records), 1)
+        self.assertNotIn("Top secret", logs.output[0])
+
+    def test_machine_translation_error_identity(self) -> None:
+        machine = DummyTranslation({})
+        error = MachineryRateLimitError("Too many requests")
+        with (
+            patch.object(machine, "set_rate_limit") as set_rate_limit,
+            patch.object(machine, "get_error_message") as extract,
+            patch("weblate.machinery.base.report_error") as report_error,
+            self.assertRaises(MachineryRateLimitError) as raised,
+        ):
+            machine._handle_download_error(error)  # ruff: ignore[private-member-access]
+        self.assertIs(raised.exception, error)
+        extract.assert_not_called()
+        set_rate_limit.assert_called_once_with()
+        report_error.assert_called_once_with(
+            "machinery[Dummy]: Could not fetch translations",
+            exception=error,
+            extra_log=None,
         )
 
 
@@ -8414,7 +8597,7 @@ class WeblateTranslationTest(FixtureComponentTestCase):
         self.assertNotEqual(results, [])
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_matches_still_probe_fuzzy_lookup(self, adjust_threshold) -> None:
+    def test_matches_still_probe_fuzzy_lookup(self, adjust_threshold: Mock) -> None:
         unit = Unit.objects.get(translation__language_code="cs", position=1)
         other = unit.translation.unit_set.exclude(pk=unit.pk).order_by("pk")[0]
         other.source = unit.source
@@ -8978,7 +9161,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
     @patch("weblate.machinery.weblatetm.Unit.objects")
     @patch("weblate.machinery.weblatetm.Translation.objects")
     def test_get_base_queryset_uses_translation_subquery(
-        self, translation_objects, unit_objects
+        self, translation_objects: Mock, unit_objects: Mock
     ) -> None:
         machine = WeblateTranslation({})
         user = MagicMock()
@@ -9014,7 +9197,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         )
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_get_matching_units_uses_fuzzy_lookup(self, adjust_threshold) -> None:
+    def test_get_matching_units_uses_fuzzy_lookup(self, adjust_threshold: Mock) -> None:
         machine = WeblateTranslation({})
         base = MagicMock()
         queryset = MagicMock()
@@ -9044,7 +9227,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
     def test_get_matching_units_orders_short_queries_before_slicing(
-        self, adjust_threshold
+        self, adjust_threshold: Mock
     ) -> None:
         machine = WeblateTranslation({})
         base = MagicMock()
@@ -9073,7 +9256,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
     def test_get_matching_units_uses_exact_lookup_at_full_threshold(
-        self, adjust_threshold
+        self, adjust_threshold: Mock
     ) -> None:
         machine = WeblateTranslation({})
         base = MagicMock()

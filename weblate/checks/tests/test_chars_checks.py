@@ -4,6 +4,9 @@
 
 """Tests for char based quality checks."""
 
+from __future__ import annotations
+
+from django.template import Context, Template
 from django.test import SimpleTestCase
 
 from weblate.checks.chars import (
@@ -30,8 +33,38 @@ from weblate.checks.chars import (
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
+from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
+
+
+class CharacterDescriptionTest(SimpleTestCase):
+    def test_rendering_contexts(self) -> None:
+        for name, plain, html in (
+            (
+                "escaped_newline",
+                r"Number of \n literals in translation does not match source.",
+                r"Number of <code>\n</code> literals in translation does not match source.",
+            ),
+            (
+                "kabyle-characters",
+                "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε).",
+                "Use standardized Latin Kabyle characters (e.g. <code>ɣ</code> instead of Greek <code>γ</code>; <code>ɛ</code> instead of <code>ε</code>).",
+            ),
+        ):
+            with self.subTest(check=name):
+                check = Check(name=name)
+                context = Context({"check": check})
+                self.assertEqual(
+                    Template("{{ check.get_description }}").render(context), html
+                )
+                self.assertEqual(check.get_plain_description(), plain)
+                self.assertEqual(
+                    Template(
+                        '<span title="{{ check.get_plain_description|force_escape }}"></span>'
+                    ).render(context),
+                    f'<span title="{plain}"></span>',
+                )
 
 
 class AcceleratorKeyCheckTest(CheckTestCase):

@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from secrets import token_hex
+from typing import Never
 from unittest.mock import patch
 
 from django.conf import settings
@@ -723,11 +726,11 @@ class ModelTest(FixtureComponentTestCase):
             self.user.has_perm("translation.auto", CategoryLanguage(category, german))
         )
 
-        def fail_translation_set(_obj):
+        def fail_translation_set(_obj) -> Never:
             msg = "Permission checks should not materialize translations"
             raise AssertionError(msg)
 
-        def fail_component_scope(_obj):
+        def fail_component_scope(_obj) -> Never:
             msg = "Unrestricted project permissions should not check components"
             raise AssertionError(msg)
 

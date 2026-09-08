@@ -906,7 +906,7 @@ class Unit(models.Model, LoggerMixin):
             self._prefetched_objects_cache = {}
         self._prefetched_objects_cache["defined_variants"] = Variant.objects.none()
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         return (*self.translation.get_url_path(), str(self.pk))
 
     def invalidate_checks_cache(self) -> None:
@@ -2873,6 +2873,8 @@ class Unit(models.Model, LoggerMixin):
         return not self.readonly and (
             (commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING and self.fuzzy)
             or (
-                commit_policy == CommitPolicyChoices.APPROVED_ONLY and not self.approved
+                commit_policy == CommitPolicyChoices.APPROVED_ONLY
+                and self.translation.enable_review
+                and not self.approved
             )
         )

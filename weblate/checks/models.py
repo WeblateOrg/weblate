@@ -123,6 +123,11 @@ class Check(models.Model):
             return self.check_obj.get_description(self)
         return self.name
 
+    def get_plain_description(self) -> str:
+        if self.check_obj:
+            return self.check_obj.get_plain_description(self)
+        return self.name
+
     def get_fixup(self) -> Iterable[FixupType] | None:
         if self.check_obj:
             return self.check_obj.get_fixup(self.unit)
