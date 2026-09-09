@@ -14,7 +14,7 @@ from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
 from weblate.glossary.forms import TermForm
-from weblate.glossary.models import get_glossary_terms
+from weblate.glossary.models import get_glossary_terms, prepare_glossary_alternatives
 from weblate.trans.models import Unit
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.ratelimit import session_ratelimit_post
@@ -86,6 +86,8 @@ def add_glossary_term(request: AuthenticatedHttpRequest, unit_id):
             if missing_terms:
                 all_terms.extend(translation.unit_set.filter(pk__in=missing_terms))
 
+            for term in all_terms:
+                prepare_glossary_alternatives(term)
             results = render_to_string(
                 "snippets/glossary.html",
                 {

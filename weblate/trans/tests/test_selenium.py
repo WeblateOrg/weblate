@@ -25,11 +25,13 @@ from django.core.cache import cache
 from django.core.files import File
 from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
+from django.db import transaction
 from django.http import HttpRequest
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
+from lxml import etree
 from PIL import Image
 from selenium import webdriver
 from selenium.common.exceptions import (
@@ -1253,6 +1255,47 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             )
         )
 
+    def test_glossary_copy_uses_last_active_alternative(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(
+            name="Glossary copying", slug="glossary-copying"
+        )
+        component = fixture.create_po(project=project)
+        unit = component.translation_set.get(language_code="cs").unit_set.get(
+            source__contains="Orangutan"
+        )
+        self.do_login(superuser=True)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        editors = self.driver.find_elements(
+            By.CSS_SELECTOR, ".translation-form .translation-editor"
+        )
+        self.assertEqual(len(editors), 3)
+        for editor in editors:
+            editor.clear()
+        button = self.driver.execute_script("""
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "glossary-copy";
+            button.dataset.glossaryText = "alternative";
+            button.textContent = "Copy alternative";
+            document.querySelector(".translation-form").append(button);
+            return button;
+        """)
+        editors[1].click()
+        button.send_keys(Keys.SPACE)
+        self.assertEqual(
+            [editor.get_attribute("value") for editor in editors],
+            ["", "alternative", ""],
+        )
+        editors[2].click()
+        button.click()
+        self.assertEqual(
+            [editor.get_attribute("value") for editor in editors],
+            ["", "alternative", "alternative"],
+        )
+
     def test_retained_translation_is_unsaved(self) -> None:
         """Retained plural drafts warn on navigation without further input."""
         fixture = RepoTestMixin()
@@ -2279,7 +2322,34 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         glossary.add_unit(
             None, "", "machine translation", "strojový překlad", author=user
         )
-        glossary.add_unit(None, "", "project", "projekt", author=user)
+        unit = glossary.add_unit(
+            None,
+            "",
+            "project",
+            ["projekt", "překladový projekt", "projektík"],
+            explanation="A collection of related translation components.",
+            author=user,
+        )
+        assert unit is not None
+        glossary.commit_pending("test", user)
+        store = glossary.store
+        term, _ = store.find_unit(unit.context, unit.source)
+        term.unit.set_source_terms(["project", "translation project"])
+        groups = term.unit.get_target_dom().findall("tig")
+        for group, status in zip(
+            groups, ("preferred", "admitted", "forbidden"), strict=True
+        ):
+            etree.SubElement(
+                group, "termNote", type="administrativeStatus"
+            ).text = status
+        etree.SubElement(
+            groups[2], "note", {"from": "translator"}
+        ).text = "Avoid this informal diminutive."
+        store.save()
+        glossary.drop_store_cache()
+        glossary.component.unload_sources()
+        with transaction.atomic():
+            glossary.check_sync(force=True)
         return glossary
 
     def view_site(self) -> None:
@@ -2579,6 +2649,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             with self.wait_for_page_load():
                 self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
             self.click(htmlid=tab)
+            if name == "source-information.png":
+                self.assert_text_contains("#glossary-terms", "překladový projekt")
+                self.assert_text_contains(
+                    "#glossary-terms", "Avoid this informal diminutive."
+                )
+                forbidden = self.driver.find_element(
+                    By.CSS_SELECTOR,
+                    '#glossary-terms button[data-glossary-text="projektík"]',
+                )
+                self.assertFalse(forbidden.is_enabled())
             self.screenshot(name)
             with self.wait_for_page_load():
                 self.click("Dashboard")
@@ -3855,6 +3935,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "projekt"))
 
+        self.click(
+            self.driver.find_element(
+                By.XPATH,
+                '//summary[normalize-space()="Term information from the translation file"]',
+            )
+        )
+        self.assert_text_contains("details[open]", "Avoid this informal diminutive.")
         self.click(htmlid="unit_tools_dropdown")
         self.screenshot("glossary-tools.png")
 

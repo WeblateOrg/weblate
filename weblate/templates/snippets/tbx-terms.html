@@ -1,0 +1,29 @@
+{% load i18n %}
+
+{% if unit.tbx_terms %}
+  <details class="mb-3">
+    <summary>{% translate "Term information from the translation file" %}</summary>
+    {% for side, terms in unit.tbx_terms.items %}
+      {% if terms %}
+        {% if side == "source" %}
+          <strong>{% translate "Source terms" %}</strong>
+        {% else %}
+          <strong>{% translate "Target terms" %}</strong>
+        {% endif %}
+        <ul>
+          {% for term in terms %}
+            <li>
+              {{ term.text }}
+              {% if term.administrative_status %}
+                <span class="badge text-bg-secondary">{{ term.administrative_status }}</span>
+              {% endif %}
+              {% for note in term.notes %}
+                <div>{{ note.text }}</div>
+              {% endfor %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+  </details>
+{% endif %}

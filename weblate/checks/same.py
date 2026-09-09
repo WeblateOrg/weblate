@@ -102,7 +102,10 @@ class SameCheck(TargetCheck):
     def should_ignore(self, source: str, unit: Unit) -> bool:
         """Check whether given unit should be ignored."""
         # ruff: ignore[import-outside-top-level]
-        from weblate.glossary.models import get_glossary_terms
+        from weblate.glossary.models import (
+            get_glossary_terms,
+            iter_glossary_alternatives,
+        )
 
         # Ignore some strings based on notes (typically from gettext PO file)
         # - certain docbook tags
@@ -147,8 +150,10 @@ class SameCheck(TargetCheck):
             # Extract untranslatable terms
             terms = [
                 re.escape(term.source)
-                for term in get_glossary_terms(unit, include_variants=False)
-                if "read-only" in term.all_flags
+                for term in iter_glossary_alternatives(
+                    get_glossary_terms(unit, include_variants=False)
+                )
+                if "read-only" in term.all_flags and "forbidden" not in term.all_flags
             ]
             if terms:
                 stripped = re.sub("|".join(terms), "", source, flags=re.IGNORECASE)

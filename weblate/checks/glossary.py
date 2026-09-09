@@ -33,16 +33,23 @@ class GlossaryCheck(TargetCheck):
 
     def check_single(self, source: str, target: str, unit: Unit):
         # ruff: ignore[import-outside-top-level]
-        from weblate.glossary.models import get_glossary_terms
+        from weblate.glossary.models import (
+            get_glossary_terms,
+            iter_glossary_alternatives,
+        )
 
         forbidden = set()
         mismatched = set()
         matched = set()
         boundary = r"\b" if unit.translation.language.uses_whitespace() else ""
-        for term in get_glossary_terms(unit, include_variants=False):
+        for term in iter_glossary_alternatives(
+            get_glossary_terms(unit, include_variants=False)
+        ):
             term_source = term.source
             flags = term.all_flags
             expected = term_source if "read-only" in flags else term.target
+            if not expected:
+                continue
             if "forbidden" in flags:
                 if re.search(
                     rf"{boundary}{re.escape(expected)}{boundary}", target, re.IGNORECASE

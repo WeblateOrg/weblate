@@ -719,6 +719,13 @@
   };
 
   FullEditor.prototype.initGlossary = function () {
+    delegate(this.editors, "click", ".glossary-copy", (e) => {
+      const button = e.target.closest(".glossary-copy");
+      if (!button.disabled) {
+        WLT.Editor.insertEditor(button.dataset.glossaryText, button);
+      }
+    });
+
     /* Copy from glossary */
     delegate(this.editors, "click", ".glossary-embed", (e) => {
       const currentTarget = e.target.closest(".glossary-embed");

@@ -38808,6 +38808,10 @@ components:
     Unit:
       type: object
       properties:
+        tbx_terms:
+          type: object
+          additionalProperties: {}
+          readOnly: true
         translation:
           type: string
           format: uri
@@ -38932,6 +38936,7 @@ components:
       - source
       - source_unit
       - target
+      - tbx_terms
       - timestamp
       - translated
       - translation

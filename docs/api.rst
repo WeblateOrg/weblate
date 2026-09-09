@@ -2899,6 +2899,7 @@ and XLIFF.
     :>json int num_words: number of source words
     :>json int priority: translation priority; 100 is default
     :>json int id: unit identifier
+    :>json object tbx_terms: Read-only TBX metadata with source and target alternative lists. Each record contains text, optional ID, administrative status, and notes with text, origin, category, and scope (concept, language, or term). Empty for other formats.
     :>json string explanation: String explanation, available on source units, see :ref:`additional`
     :>json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :>json string web_url: URL where the unit can be edited
