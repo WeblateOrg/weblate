@@ -31,6 +31,7 @@ from django.test.utils import CaptureQueriesContext, modify_settings, override_s
 from django.urls import reverse
 from django.utils import timezone
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
+from lxml import html
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation, Permission, Role
@@ -1176,7 +1177,19 @@ class AdminTest(ViewTestCase):
             set(response.context["object_list"]),
             set(workspaces[:50]),
         )
-        self.assertContains(response, "sort_by=-translated&amp;q=localization")
+        document = html.fromstring(response.content)
+        self.assertIn(
+            {
+                "q": ["localization"],
+                "sort_by": ["-translated"],
+                "page": ["1"],
+                "limit": ["50"],
+            },
+            [
+                parse_qs(urlparse(href).query)
+                for href in document.xpath("//th//a/@href")
+            ],
+        )
         self.assertEqual(
             response.context["object_list"].paginator.sort_by,
             "translated",
@@ -1211,7 +1224,7 @@ class AdminTest(ViewTestCase):
         self.assertNotContains(response, "Documentation workspace")
         self.assertEqual(list(response.context["object_list"]), [workspace])
         self.assertEqual(response.context["search_query"], "local")
-        self.assertEqual(response.context["query_string"], "q=local")
+        self.assertEqual(response.context["query_params"].urlencode(), "q=local")
 
         response = self.client.get(reverse("manage-workspaces"), {"q": "missing"})
 

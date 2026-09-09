@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import Sum
+from django.http import QueryDict
 from django.shortcuts import redirect
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
@@ -214,10 +215,8 @@ def search(request: AuthenticatedHttpRequest, path=None):
                 "page_obj": units,
                 "path_object": obj,
                 "title": gettext("Search for %s") % (search_form.cleaned_data["q"]),
-                "query_string": search_form.urlencode(),
-                "search_url": search_form.urlencode(),
+                "query_params": QueryDict(search_form.urlencode()),
                 "search_query": search_form.cleaned_data["q"],
-                "search_items": search_form.items(),
                 "total_strings": total_strings,
                 "total_words": total_words,
             }
