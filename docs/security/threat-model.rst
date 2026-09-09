@@ -25,7 +25,7 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 118 documented / 70 maintainer / 0 inferred claims.
+Provenance summary: 118 documented / 71 maintainer / 0 inferred claims.
 
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
@@ -822,6 +822,12 @@ Security properties Weblate provides
      - Security-critical when it blocks investigation of privileged changes or
        discloses retained personal data; privacy-impacting when data exceeds the
        configured retention; correctness-only for minor event gaps.
+   * - Self-service trial creation grants only the designated commercial trial
+       plan or the Libre setup plan. *(maintainer)*
+     - The deployment offers self-service hosting trials.
+     - An authenticated user can select another public, private, or internal
+       billing plan when creating a trial.
+     - Security-critical when this bypasses paid service limits.
    * - Rate-limited API and web actions enforce configured rate limits.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
      - Rate limiting is enabled and backed by a working datastore.

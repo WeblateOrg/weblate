@@ -171,7 +171,7 @@ from weblate.auth.utils import (
     prefetch_membership_limit_languages,
     validate_team_assignable_user,
 )
-from weblate.billing.defines import TRIAL_DAYS
+from weblate.billing.defines import TRIAL_DAYS, TRIAL_PLAN_SLUG
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
@@ -716,7 +716,12 @@ def trial(request: AuthenticatedHttpRequest):
     if not settings.OFFER_HOSTING:
         return redirect("home")
 
-    plan = request.POST.get("plan", "640k")
+    plan = request.POST.get("plan", TRIAL_PLAN_SLUG)
+    if plan not in {"libre", TRIAL_PLAN_SLUG}:
+        return HttpResponseBadRequest(
+            gettext("Invalid trial plan."),
+            content_type="text/plain; charset=utf-8",
+        )
 
     # Avoid frequent requests for a trial for same user
     if plan != "libre" and request.user.auditlog_set.filter(activity="trial").exists():
@@ -757,6 +762,7 @@ def trial(request: AuthenticatedHttpRequest):
         {
             "title": gettext("Gratis trial"),
             "trial_days": TRIAL_DAYS,
+            "trial_plan": TRIAL_PLAN_SLUG,
         },
     )
 
