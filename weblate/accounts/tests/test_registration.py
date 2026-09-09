@@ -305,6 +305,39 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, "That was not correct, please try again.")
         self.assertContains(response, "Validation failed, please try again.")
 
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
+    )
+    def test_register_captcha_gates_username_validation(self) -> None:
+        User.objects.create_user(REGISTRATION_DATA["username"])
+
+        response = self.do_register()
+
+        self.assertContains(response, "That was not correct, please try again.")
+        self.assertContains(response, "Validation failed, please try again.")
+        self.assertNotContains(response, "This username is already taken.")
+
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
+    )
+    def test_register_valid_captcha_validates_username(self) -> None:
+        User.objects.create_user(REGISTRATION_DATA["username"])
+        response = self.client.get(reverse("register"))
+        data = REGISTRATION_DATA.copy()
+        self.solve_captcha(response, data)
+
+        response = self.do_register(data)
+
+        self.assertContains(response, "This username is already taken.")
+
     def solve_altcha(self, response, data: dict) -> None:
         form = response.context["form"]
         challenge: Challenge = form.challenge
@@ -313,6 +346,13 @@ class RegistrationTest(BaseRegistrationTest):
     def solve_math(self, response, data: dict) -> None:
         form = response.context["form"]
         data["captcha"] = form.mathcaptcha.result
+
+    def solve_captcha(self, response, data: dict) -> None:
+        form = response.context["form"]
+        if form.fields["altcha"].required:
+            self.solve_altcha(response, data)
+        if form.fields["captcha"].required:
+            self.solve_math(response, data)
 
     @override_settings(
         REGISTRATION_CAPTCHA=True,
@@ -364,8 +404,7 @@ class RegistrationTest(BaseRegistrationTest):
         """Test registration with captcha enabled."""
         response = self.client.get(reverse("register"))
         data = REGISTRATION_DATA.copy()
-        self.solve_altcha(response, data)
-        self.solve_math(response, data)
+        self.solve_captcha(response, data)
         response = self.do_register(data)
         self.assertContains(response, REGISTRATION_SUCCESS)
 
@@ -1110,24 +1149,33 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertContains(response, "Password reset has been already completed.")
 
     def test_wrong_username(self) -> None:
+        response = self.client.get(reverse("register"))
         data = REGISTRATION_DATA.copy()
         data["username"] = ""
+        self.solve_captcha(response, data)
         response = self.do_register(data)
         self.assertContains(response, "This field is required.")
 
     def test_wrong_mail(self) -> None:
+        response = self.client.get(reverse("register"))
         data = REGISTRATION_DATA.copy()
         data["email"] = "x"
+        self.solve_captcha(response, data)
         response = self.do_register(data)
         self.assertContains(response, "Enter a valid e-mail address.")
 
     @override_settings(REGISTRATION_EMAIL_MATCH="^.*@weblate.org$")
     def test_filtered_mail(self) -> None:
+        response = self.client.get(reverse("register"))
         data = REGISTRATION_DATA.copy()
         data["email"] = "noreply@example.com"
+        self.solve_captcha(response, data)
         response = self.do_register(data)
         self.assertContains(response, "This e-mail address is disallowed.")
+
+        response = self.client.get(reverse("register"))
         data["email"] = "noreply@weblate.org"
+        self.solve_captcha(response, data)
         response = self.client.post(reverse("register"), data, follow=True)
         self.assertNotContains(response, "This e-mail address is disallowed.")
 
