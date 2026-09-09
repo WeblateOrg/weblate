@@ -22,6 +22,7 @@ Weblate 2026.10
 .. rubric:: Compatibility
 
 * API throttles now read :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` directly; ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` is no longer used by Weblate's throttle classes.
+* :ref:`API authentication <api-generic>` now rejects unsupported authentication schemes, such as Basic, with HTTP 401, including when a valid browser session is present.
 
 .. rubric:: Upgrading
 

@@ -163,6 +163,79 @@ class SettingsAPIFieldsTest(APITestCase):
                 )
 
 
+class AuthenticationAPITest(APITestCase):
+    user: User
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        super().setUpTestData()
+        cls.user = User.objects.create_user("apiauth", "apiauth@example.org", "x")
+
+    def test_unsupported_scheme(self) -> None:
+        for signed_in in (False, True):
+            if signed_in:
+                self.client.force_login(self.user)
+            for header in (
+                "Basic dXNlcjpwYXNzd29yZA==",
+                "bAsIc dXNlcjpwYXNzd29yZA==",
+                "Basic",
+                "Digest credentials",
+                "Unknown credentials",
+                "Unknown",
+            ):
+                with self.subTest(signed_in=signed_in, header=header):
+                    self.client.credentials(HTTP_AUTHORIZATION=header)
+                    response = self.client.get(reverse("api:api-root"))
+                    self.assertEqual(response.status_code, 401)
+                    self.assertEqual(response["WWW-Authenticate"], "Token")
+                    self.assertEqual(
+                        response.data["errors"][0]["detail"],
+                        "Unsupported authentication scheme. Use Token or Bearer.",
+                    )
+                    self.assertEqual(
+                        response.data["errors"][0]["code"], "authentication_failed"
+                    )
+
+    def test_token_schemes(self) -> None:
+        for scheme in ("Token", "Bearer", "tOkEn", "bEaReR"):
+            with self.subTest(scheme=scheme):
+                self.client.credentials(
+                    HTTP_AUTHORIZATION=f"{scheme} {self.user.auth_token.key}"
+                )
+                response = self.client.get(reverse("api:api-root"))
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.wsgi_request.user, self.user)
+
+    def test_invalid_token(self) -> None:
+        for scheme in ("Token", "Bearer"):
+            for credentials in ("", "invalid", "invalid extra"):
+                with self.subTest(scheme=scheme, credentials=credentials):
+                    self.client.credentials(
+                        HTTP_AUTHORIZATION=f"{scheme} {credentials}"
+                    )
+                    response = self.client.get(reverse("api:api-root"))
+                    self.assertEqual(response.status_code, 401)
+                    self.assertEqual(response["WWW-Authenticate"], "Token")
+
+    def test_without_scheme(self) -> None:
+        for signed_in in (False, True):
+            if signed_in:
+                self.client.force_login(self.user)
+            for header in (None, "", " \t "):
+                with self.subTest(signed_in=signed_in, header=header):
+                    if header is None:
+                        self.client.credentials()
+                    else:
+                        self.client.credentials(HTTP_AUTHORIZATION=header)
+                    response = self.client.get(reverse("api:api-root"))
+                    self.assertEqual(response.status_code, 200)
+                    user = response.wsgi_request.user
+                    if signed_in:
+                        self.assertEqual(user, self.user)
+                    else:
+                        self.assertFalse(user.is_authenticated)
+
+
 class APIBaseTest(APITestCase, RepoTestMixin):
     CREATE_GLOSSARIES: bool = True
 

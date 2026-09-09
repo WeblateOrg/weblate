@@ -31,7 +31,9 @@ throttled (by default to 100 requests per day), so it is recommended to use
 authentication.
 
 The authentication uses a token, which you can get in your profile. Use it in
-the ``Authorization`` header:
+the ``Authorization`` header with the ``Token`` or ``Bearer`` scheme.
+Unsupported schemes, such as ``Basic``, return :http:statuscode:`401`, even
+for public endpoints or when you are signed in using a browser session.
 
 .. http:any:: /
 
@@ -66,6 +68,7 @@ the ``Authorization`` header:
     :status 201: when a new object was created successfully
     :status 204: when an object was deleted successfully
     :status 400: when form parameters are missing
+    :status 401: when authentication credentials are invalid or the authentication scheme is unsupported
     :status 403: when access is denied
     :status 429: when throttling is in place
 
