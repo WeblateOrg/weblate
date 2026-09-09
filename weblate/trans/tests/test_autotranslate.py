@@ -4,10 +4,13 @@
 
 """Test for automatic translation."""
 
+from __future__ import annotations
+
 from unittest.mock import patch
 
 from django.conf import settings
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test.utils import override_settings
@@ -15,7 +18,8 @@ from django.urls import reverse
 
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.events import AddonEvent
-from weblate.addons.models import AddonActivityLog
+from weblate.addons.forms import AutoAddonForm
+from weblate.addons.models import Addon, AddonActivityLog
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, TeamMembership, User
 from weblate.configuration.models import Setting, SettingCategory
@@ -33,6 +37,7 @@ from weblate.trans.models import (
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.celery import get_task_metadata, get_task_metadata_key
@@ -1090,6 +1095,115 @@ class AutoTranslationMtTest(ViewTestCase):
         translation = self.component3.translation_set.get(language_code="cs")
         translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, expected)
+
+    def test_component_help_matches_scope_and_accepted_inputs(self) -> None:
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        original_values_list = ComponentQuerySet.values_list
+        component = self.component3
+
+        for count in (29, 30):
+            # Exercise the widget boundary without creating 30 repositories.
+            def values_list(
+                queryset: ComponentQuerySet,
+                *fields: str,
+                component_count: int = count,
+                flat: bool = False,
+                named: bool = False,
+            ) -> object:
+                if fields == ("id",):
+                    return list(range(component_count))
+                return original_values_list(queryset, *fields, flat=flat, named=named)
+
+            for obj, addon_form in (
+                (component, False),
+                (self.project, False),
+                (workspace, False),
+                (component, True),
+                (self.project, True),
+                (None, True),
+            ):
+                with (
+                    self.subTest(
+                        count=count, scope=type(obj).__name__, addon=addon_form
+                    ),
+                    patch.object(
+                        ComponentQuerySet,
+                        "values_list",
+                        autospec=True,
+                        side_effect=values_list,
+                    ),
+                ):
+                    form: AutoForm
+                    if addon_form:
+                        addon = AutoTranslateAddon(
+                            Addon(
+                                component=obj if isinstance(obj, Component) else None,
+                                project=obj if isinstance(obj, Project) else None,
+                            )
+                        )
+                        form = AutoAddonForm(self.user, addon)
+                    else:
+                        form = AutoForm(obj, self.user)
+                    field = form.fields["component"]
+                    help_text = str(field.help_text)
+                    scope_help = (
+                        AutoForm.COMPONENT_WORKSPACE_HELP_TEXT
+                        if isinstance(obj, Workspace)
+                        else AutoForm.COMPONENT_PROJECT_HELP_TEXT
+                    )
+                    self.assertIn(str(scope_help), help_text)
+                    self.assertNotIn("shared translation memory", help_text)
+                    has_project = isinstance(obj, (Component, Project))
+                    self.assertEqual(
+                        "component slug" in help_text, count == 30 and has_project
+                    )
+                    self.assertEqual("project/component" in help_text, count == 30)
+                    if count == 29:
+                        self.assertNotIn("Enter", help_text)
+                        if obj is None:
+                            self.assertIn("each target", dict(field.choices)[""])
+                    else:
+                        self.assertIn(str(AutoForm.COMPONENT_ID_HELP_TEXT), help_text)
+
+                    for value, accepted in (
+                        ("", True),
+                        (str(component.pk), True),
+                        (component.slug, count == 30 and has_project),
+                        (f"{self.project.slug}/{component.slug}", count == 30),
+                    ):
+                        with self.subTest(value=value):
+                            if accepted:
+                                form.cleaned_data = {
+                                    "auto_source": "others",
+                                    "component": field.clean(value),
+                                }
+                                self.assertEqual(
+                                    form.clean_component(),
+                                    component.pk if value else None,
+                                )
+                            else:
+                                with self.assertRaises(ValidationError):
+                                    form.cleaned_data = {
+                                        "auto_source": "others",
+                                        "component": field.clean(value),
+                                    }
+                                    form.clean_component()
+
+    def test_form_filters_approved_mode_by_permission(self) -> None:
+        declared_choices = list(AutoForm.base_fields["mode"].choices)
+        for can_review in (False, True):
+            with self.subTest(can_review=can_review):
+                with patch.object(self.user, "has_perm", return_value=can_review):
+                    form = AutoForm(self.component3, self.user)
+                self.assertEqual(
+                    "approved" in dict(form.fields["mode"].choices), can_review
+                )
+        form = AutoForm(self.component3)
+        self.assertNotIn("approved", dict(form.fields["mode"].choices))
+        self.assertEqual(list(AutoForm.base_fields["mode"].choices), declared_choices)
+        self.assertIn("approved", dict(declared_choices))
 
     def test_form_uses_list_initial_for_default_engine(self) -> None:
         form = AutoForm(self.component3, self.user)
