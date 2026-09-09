@@ -5,6 +5,9 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
+* Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
+
 .. rubric:: Improvements
 
 * Whitespace characters are now rendered consistently in the source string display and the translation editor, and different kinds of whitespace are now distinguishable from each other.
@@ -15,7 +18,11 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
+
 .. rubric:: Compatibility
+
+* The former ``plainxliff`` and ``xliff2-placeables`` file formats are migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the ``xliff_placeables`` :ref:`file_format_params`.
 
 .. rubric:: Upgrading
 

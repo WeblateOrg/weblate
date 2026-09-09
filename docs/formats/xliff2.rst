@@ -3,6 +3,8 @@ XLIFF 2.0
 
 .. versionadded:: 5.15
 
+.. versionchanged:: 2026.9
+
 .. include:: /snippets/format-in-development.rst
 
 .. note::
@@ -15,18 +17,19 @@ is one of `many standards <https://xkcd.com/927/>`_, in this area.
 `XML Localization Interchange File Format (XLIFF) 2.0` is currently only supported as bilingual.
 
 
-Weblate supports XLIFF in several variants:
+Weblate supports XLIFF 2.0 as a single file format. Placeables handling is
+controlled by the ``xliff_placeables`` :ref:`file_format_params`:
 
-`XLIFF 2.0 translation file`
-   Simple XLIFF file where content of the elements is stored as plain text (all XML elements being escaped).
-`XLIFF 2.0 with placeables support`
-   Standard XLIFF supporting placeables and other XML elements.
+* :guilabel:`Plain text` — escape XML elements in the content (the historical
+  default for existing XLIFF 2.0 components).
+* :guilabel:`Placeables` — preserve placeables and other XML elements.
 
 .. seealso::
 
     * `XML Localization Interchange File Format (XLIFF) 2.0`_ specification
     * `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_
     * :doc:`tt:formats/xliff`
+    * :ref:`file_format_params`
 
 .. _XML Localization Interchange File Format (XLIFF) 2.0: https://docs.oasis-open.org/xliff/xliff-core/v2.0/xliff-core-v2.0.html
 

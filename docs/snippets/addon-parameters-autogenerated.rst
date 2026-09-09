@@ -156,8 +156,6 @@ File format
      - OpenDocument file
    * - ``php``
      - PHP strings
-   * - ``plainxliff``
-     - XLIFF 1.2 translation file
    * - ``po``
      - gettext PO file
    * - ``po-mono``
@@ -201,11 +199,9 @@ File format
    * - ``wxl``
      - WixLocalization file
    * - ``xliff``
-     - XLIFF 1.2 with placeables support
+     - XLIFF 1.2 translation file
    * - ``xliff2``
      - XLIFF 2.0 translation file
-   * - ``xliff2-placeables``
-     - XLIFF 2.0 translation file with placeables support
    * - ``xlsx``
      - Excel Open XML
    * - ``xwiki-fullpage``

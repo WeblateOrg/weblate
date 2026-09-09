@@ -82,6 +82,29 @@ def params_iter(
         yield {}, False
 
 
+XLIFF_PLACEABLE_FORMATS = frozenset({"xliff", "xliff2"})
+
+
+def params_for_detected_format(
+    file_format: type[TranslationFormat],
+    original_format: type[TranslationFormat] | None,
+    file_format_params: FileFormatParams | None,
+) -> FileFormatParams | None:
+    """
+    Return format params for conversion autodetection.
+
+    When the uploaded file is not the component format, use params
+    that other than the defaults and that fit that detected format
+    instead of the component's params.
+    """
+    if (
+        file_format.format_id in XLIFF_PLACEABLE_FORMATS
+        and getattr(original_format, "format_id", None) not in XLIFF_PLACEABLE_FORMATS
+    ):
+        return {**(file_format_params or {}), "xliff_placeables": "plain"}
+    return file_format_params
+
+
 def try_load(
     filename: str,
     content: bytes,
@@ -105,6 +128,9 @@ def try_load(
         return existing_units
 
     for file_format in formats_iter(filename, original_format):
+        file_format_params = params_for_detected_format(
+            file_format, original_format, file_format_params
+        )
         for kwargs, validate in params_iter(file_format, template_store, is_template):
             handle = NamedBytesIO(filename, content)
             try:

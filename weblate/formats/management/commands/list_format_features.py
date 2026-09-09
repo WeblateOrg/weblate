@@ -18,11 +18,7 @@ if TYPE_CHECKING:
 FORMAT_DOC_SNIPPETS_MERGES = {
     "xliff": [
         "apple-xliff",
-        "plainxliff",
         "poxliff",
-    ],
-    "xliff2": [
-        "xliff2-placeables",
     ],
     "srt": [
         "ass",

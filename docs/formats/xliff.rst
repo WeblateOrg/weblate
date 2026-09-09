@@ -18,9 +18,8 @@ is one of `many standards <https://xkcd.com/927/>`_, in this area.
 Weblate supports XLIFF in several variants:
 
 `XLIFF 1.2 translation file`
-   Simple XLIFF file where content of the elements is stored as plain text (all XML elements being escaped).
-`XLIFF 1.2 with placeables support`
-   Standard XLIFF supporting placeables and other XML elements.
+   Standard XLIFF file. Placeables handling is controlled by the
+   ``xliff_placeables`` :ref:`file_format_params`.
 `XLIFF 1.2 with gettext extensions`
    XLIFF enriched by `XLIFF 1.2 Representation Guide for Gettext PO`_ to support plurals.
 `XLIFF 1.2 with Apple extensions`
@@ -72,11 +71,18 @@ Similarly upon importing such files (in the upload form), you should choose
 Whitespace and newlines in XLIFF
 ++++++++++++++++++++++++++++++++
 
-Generally types or amounts of whitespace is not differentiated between in XML formats.
-If you want to keep it, you have to add the ``xml:space="preserve"`` flag to
-the string.
+Weblate controls how whitespaces are handled with the ``xml_whitespace_handling``
+:ref:`file_format_params` for XLIFF components:
 
-For example:
+* :guilabel:`Follow xml:space` — honor ``xml:space`` attributes in the file
+  (and the XLIFF default when the attribute is missing).
+* :guilabel:`Always preserve` — keep all whitespace and set
+  ``xml:space="preserve"`` on units (Weblate's default for new units).
+* :guilabel:`Always normalize` — collapse whitespace even when the file sets
+  ``xml:space="preserve"``.
+
+To keep newlines or surrounding spaces when following ``xml:space``, mark the
+string with ``xml:space="preserve"``:
 
 .. code-block:: xml
 
@@ -85,6 +91,24 @@ For example:
             <target xml:space="preserve">Hello, world!
     </target>
         </trans-unit>
+
+.. seealso::
+
+   :ref:`file_format_params`
+
+Placeables in XLIFF
++++++++++++++++++++
+
+Weblate controls how XML elements inside XLIFF content are handled with the
+``xliff_placeables`` :ref:`file_format_params`:
+
+* :guilabel:`Plain text` — escape XML elements in the content.
+* :guilabel:`Placeables` — preserve placeables and other XML elements (the
+  default). Tags then appear as placeholders in the editor.
+
+.. seealso::
+
+   :ref:`file_format_params`
 
 .. _xliff-flags:
 
