@@ -2,12 +2,17 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from uuid import UUID
+
 from django.test import SimpleTestCase
 
 from weblate.utils.hash import (
     calculate_checksum,
     calculate_dict_hash,
     calculate_hash,
+    calculate_json_fingerprint,
     checksum_to_hash,
     hash_to_checksum,
 )
@@ -58,4 +63,34 @@ class HashTest(SimpleTestCase):
         self.assertNotEqual(
             calculate_dict_hash({"a": 2, "b": 2}),
             calculate_dict_hash({"a": 1, "b": 2}),
+        )
+
+    def test_json_fingerprint_compatibility(self) -> None:
+        """Stored dismissals and historical migrations need stable serialization."""
+        self.assertEqual(
+            calculate_json_fingerprint(
+                {
+                    "details": {"label": "Čeština", "count": 2},
+                    "ids": [3, 1],
+                    "revision": UUID("12345678-1234-5678-1234-567812345678"),
+                }
+            ),
+            "4f210e9e14ee189de65e17fa4e261b87b122ba4eadbdc40bc31c9512202004cc",
+        )
+
+    def test_json_fingerprint_ordering(self) -> None:
+        fingerprint = calculate_json_fingerprint(
+            {"details": {"a": 1, "b": 2}, "ids": [3, 1]}
+        )
+        self.assertEqual(
+            fingerprint,
+            calculate_json_fingerprint({"ids": [3, 1], "details": {"b": 2, "a": 1}}),
+        )
+        self.assertNotEqual(
+            fingerprint,
+            calculate_json_fingerprint({"ids": [1, 3], "details": {"a": 1, "b": 2}}),
+        )
+        self.assertNotEqual(
+            fingerprint,
+            calculate_json_fingerprint({"ids": [3, 1], "details": {"a": 1, "b": "2"}}),
         )

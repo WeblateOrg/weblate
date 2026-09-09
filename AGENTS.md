@@ -122,6 +122,15 @@ For application-developer workflows and broader product integration guidance, us
 
 ## Testing and linting instructions
 
+- Complex data migrations must have populated upgrade tests in `ci/run-migrate`:
+  add old-version setup and post-upgrade assertion scripts in
+  `ci/migrate-scripts/`, gated to applicable source releases. Seed data that
+  exercises conditional branches and cross-app relationships, and verify the
+  resulting data, not just successful migration execution. Empty-database runs
+  and helper tests against the latest schema do not detect missing migration
+  dependencies or premature access to future columns. Use historical models
+  from `apps.get_model()` and declare dependencies for the models accessed.
+  Keep migration database access independent of current model helpers.
 - For an isolated worktree environment, use the development container workflow
   in `docs/contributing/start.rst` (`devcontainer` section). Run
   `./scripts/devcontainer up`, then use `./scripts/devcontainer exec --` before

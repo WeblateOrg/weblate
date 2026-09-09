@@ -4,9 +4,7 @@
 
 from __future__ import annotations
 
-import json
 from collections import defaultdict
-from hashlib import sha256
 from typing import TYPE_CHECKING, Any
 
 from django.db import models
@@ -14,6 +12,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy
 
 from weblate.utils.docs import get_doc_url
+from weblate.utils.hash import calculate_json_fingerprint
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
@@ -116,10 +115,7 @@ class BaseAlert:
     @classmethod
     def get_dismissal_fingerprint(cls, component, details: dict[str, Any]) -> str:
         context = cls.get_dismissal_context(component, details)
-        serialized = json.dumps(
-            context, sort_keys=True, separators=(",", ":"), default=str
-        )
-        return sha256(serialized.encode()).hexdigest()
+        return calculate_json_fingerprint(context)
 
     @classmethod
     def can_user_act_for(cls, user: User, component, _details: dict[str, Any]) -> bool:
