@@ -79,6 +79,17 @@ if TYPE_CHECKING:
 
 
 class CleanupTest(ComponentTestCase):
+    def test_cleanup_suggestions_batches_query(self) -> None:
+        suggestions = Mock()
+        suggestions.iterator.return_value = ()
+
+        with patch.object(
+            Suggestion.objects, "prefetch_related", return_value=suggestions
+        ):
+            cleanup_suggestions()
+
+        suggestions.iterator.assert_called_once_with(chunk_size=100)
+
     def test_cleanup_suggestions_case_sensitive(self) -> None:
         request = self.get_request()
         unit = self.get_unit()
