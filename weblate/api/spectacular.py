@@ -264,9 +264,7 @@ def get_drf_standardized_errors_settings() -> dict[str, Any]:
     }
 
 
-def get_drf_settings(
-    *, require_login: bool, anon_throttle: str, user_throttle: str
-) -> dict[str, Any]:
+def get_drf_settings(*, require_login: bool) -> dict[str, Any]:
     return {
         # Use Django's standard `django.contrib.auth` permissions,
         # or allow read-only access for unauthenticated users.
@@ -285,10 +283,6 @@ def get_drf_settings(
             "weblate.api.throttling.UserRateThrottle",
             "weblate.api.throttling.AnonRateThrottle",
         ),
-        "DEFAULT_THROTTLE_RATES": {
-            "anon": anon_throttle,
-            "user": user_throttle,
-        },
         "DEFAULT_RENDERER_CLASSES": [
             "rest_framework.renderers.JSONRenderer",
             "rest_framework.renderers.BrowsableAPIRenderer",

@@ -201,12 +201,45 @@ The API requests are rate limited; the default configuration limits it to 100
 requests per day for anonymous users and 5000 requests per hour for authenticated
 users.
 
-Rate limiting can be adjusted in the :file:`settings.py`; see
-`Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
-for more details how to configure it.
+Configure the default limits in :file:`settings.py` using
+:setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`.
 
 In the Docker container this can be configured using
 :envvar:`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`.
+
+Use :setting:`API_RATELIMIT_USER_OVERRIDES` to give an automation account a
+different limit. Use :setting:`API_RATELIMIT_IP_OVERRIDES` for individual IP
+addresses or networks, including anonymous CI clients:
+
+.. code-block:: python
+
+    API_RATELIMIT_USER_OVERRIDES = {"automation": "20000/hour"}
+    API_RATELIMIT_IP_OVERRIDES = {
+        "192.0.2.42": None,
+        "198.51.100.0/24": "10000/hour",
+        "2001:db8::/48": "10000/hour",
+    }
+
+An explicit username override takes precedence over IP rules. Otherwise, the
+most specific matching network applies; an individual address is equivalent to
+a single-address network. A value of ``None`` exempts matching requests from API
+rate limits, including the anonymous limit. Authentication and permissions still
+apply: an exemption does not grant access to private projects or write operations.
+
+Limits are counted per authenticated user, or per client IP for anonymous
+requests. Clients within a network do not share a single budget. Each override
+rule and rate has a separate budget, so changing a rule or rate starts a new
+budget. Requests without an override use the default limits.
+
+IP rules use the client address resolved by Weblate. Behind a reverse proxy,
+configure :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, and
+:setting:`IP_PROXY_OFFSET` correctly. The trusted proxy must supply the client
+address, and untrusted clients must not be able to bypass it. Exempting a shared
+proxy address can exempt all clients using that proxy.
+
+In Docker, configure the equivalent JSON mappings using
+:envvar:`WEBLATE_API_RATELIMIT_USER_OVERRIDES` and
+:envvar:`WEBLATE_API_RATELIMIT_IP_OVERRIDES`. Use JSON ``null`` for exemptions.
 
 The status of rate limiting is reported in following headers:
 
@@ -217,6 +250,8 @@ The status of rate limiting is reported in following headers:
 +---------------------------+------------------------------------------------------+
 | ``X-RateLimit-Reset``     | Number of seconds until the rate-limit window resets |
 +---------------------------+------------------------------------------------------+
+
+Requests exempt from rate limiting do not include these headers.
 
 .. versionchanged:: 4.1
 
