@@ -63,7 +63,10 @@ def read_report_file(path: Path, limit: int = DOCKER_WARNING_MAX_SIZE) -> str | 
 
 def iter_active_docker_reports(root: Path, now: float) -> Iterator[tuple[float, Path]]:
     """Yield active Docker reports with their heartbeat timestamps."""
-    reports = root.iterdir()
+    try:
+        reports = root.iterdir()
+    except OSError:
+        return
     while True:
         try:
             report = next(reports)
