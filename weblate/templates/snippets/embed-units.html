@@ -1,6 +1,7 @@
 {% load i18n icons translations %}
 
 {% any_unit_has_context units as any_unit_has_context %}
+{% get_embed_unit_query as embed_query %}
 
 <table class="table table-sm table-embed-units">
   <thead>
@@ -86,6 +87,7 @@
   <tbody class="unit-listing-body">
 
     {% for unit in units %}
+      {% querystring embed_query checksum=unit.checksum as unit_query %}
       <tr class="{% if current_unit.id == unit.id %}current_translation{% endif %}">
         {% if selection_template %}
           <td class="unit-selection-cell">{% include selection_template %}</td>
@@ -106,7 +108,7 @@
         {% if not hide_context and any_unit_has_context %}
           <td>
             {% if unit.context %}
-              <a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">
+              <a href="{{ unit.translation.get_translate_url }}{{ unit_query }}">
                 {% format_source_string unit.context unit wrap=True search_match=search_query %}
               </a>
             {% endif %}
@@ -114,13 +116,13 @@
         {% endif %}
         {% if force_source or not hide_source and not unit.is_source %}
           <td>
-            <a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">
+            <a href="{{ unit.translation.get_translate_url }}{{ unit_query }}">
               {% format_unit_source unit search_match=search_query %}
             </a>
           </td>
         {% endif %}
         <td>
-          <a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">
+          <a href="{{ unit.translation.get_translate_url }}{{ unit_query }}">
             {% format_unit_target unit search_match=search_query %}
           </a>
         </td>

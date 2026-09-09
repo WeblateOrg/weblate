@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
@@ -105,9 +105,9 @@ class ChangesView(PathViewMixin, ListView):
         context["title"] = self.get_title()
         context["changes_rss"] = self.get_changes_url("changes-rss")
 
+        context["query_params"] = QueryDict()
         if self.changes_form.is_valid():
-            context["query_string"] = self.changes_form.urlencode()
-            context["search_items"] = self.changes_form.items()
+            context["query_params"] = QueryDict(self.changes_form.urlencode())
             if period := self.changes_form.cleaned_data.get("period"):
                 self.changes_form.fields["period"].widget.attrs["data-start-date"] = (
                     period["start_date"].strftime("%m/%d/%Y")

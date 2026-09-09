@@ -11,11 +11,10 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_not_required, login_required
 from django.db import transaction
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.html import format_html
-from django.utils.http import urlencode
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
@@ -109,20 +108,18 @@ class _ComponentChangeSet(Protocol):
 @never_cache
 def list_projects(request: AuthenticatedHttpRequest):
     """List all projects."""
-    query_string = ""
+    query_params = QueryDict(mutable=True)
     projects = request.user.allowed_projects
     form = ProjectFilterForm(request.GET)
     if form.is_valid():
-        query = {}
         if form.cleaned_data["owned"]:
             user = form.cleaned_data["owned"]
-            query["owned"] = user.username
+            query_params["owned"] = user.username
             projects = (user.owned_projects & projects.distinct()).order()
         elif form.cleaned_data["watched"]:
             user = form.cleaned_data["watched"]
-            query["watched"] = user.username
+            query_params["watched"] = user.username
             projects = (user.watched_projects & projects).order()
-        query_string = urlencode(query)
     else:
         show_form_errors(request, form)
 
@@ -144,7 +141,7 @@ def list_projects(request: AuthenticatedHttpRequest):
                 )
             ),
             "title": gettext("Projects"),
-            "query_string": query_string,
+            "query_params": query_params,
             "show_review_columns": show_review_columns,
         },
     )
