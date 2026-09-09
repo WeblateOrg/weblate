@@ -514,22 +514,51 @@
                 </div>
                 <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
               </form>
-              <table class="table table-compact table-striped">
-                <thead>
-                  <tr>
-                    <th>{% translate "Translation" %}</th>
-                    <th>{% translate "Suggested change" %}</th>
-                    <th>{% translate "Source" %}</th>
-                    <th>{% translate "Origin" %}</th>
-                    <th>{% translate "Similarity" %}</th>
-                    <th colspan="2">
-                      {% loading_icon "machinery" %}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody id="machinery-translations">
-                </tbody>
-              </table>
+              <div class="machinery-header" role="status" aria-live="polite">
+                {% loading_icon "machinery" %}
+              </div>
+              <div class="container-fluid container-gapped" id="machinery-translations"></div>
+              <template id="machinery-actions">
+                <div class="btn-float">
+                  <button type="button"
+                          class="btn btn-link green js-copy-machinery"
+                          title="{% translate "Clone to translation" %}"
+                          aria-label="{% translate "Clone to translation" %}">{% icon "clone.svg" %}</button>
+                  <button type="button"
+                          class="btn btn-link green js-copy-save-machinery"
+                          title="{% translate "Accept" %}"
+                          aria-label="{% translate "Accept" %}">{% icon "check.svg" %}</button>
+                  <button type="button"
+                          class="btn btn-link green js-copy-approve-save-machinery"
+                          title="{% translate "Accept and approve" %}"
+                          aria-label="{% translate "Accept and approve" %}">{% icon "check-all.svg" %}</button>
+                  <button type="button"
+                          class="btn btn-link red js-delete-machinery"
+                          data-bs-toggle="modal"
+                          data-bs-target="#delete-url-modal"
+                          title="{% translate "Delete entry" %}"
+                          aria-label="{% translate "Delete entry" %}">{% icon "delete.svg" %}</button>
+                </div>
+              </template>
+              <template id="machinery-row">
+                <div class="row history-row machinery-row">
+                  <div class="col-sm-2 history-event">
+                    <div class="machinery-quality"></div>
+                    <span class="machinery-number"></span>
+                  </div>
+                  <div class="col-sm-10 history-data">
+                    <div class="comment-content">
+                      <div class="machinery-text machinery-target bidi-isolate"></div>
+                      <p class="help-block">{% translate "Suggested change:" %}</p>
+                      <div class="machinery-text machinery-diff"></div>
+                      <p class="help-block">{% translate "Source:" %}</p>
+                      <div class="machinery-text machinery-source"></div>
+                      <p class="help-block machinery-context-label" hidden>{% translate "Context:" %}</p>
+                      <code class="machinery-context" hidden></code>
+                    </div>
+                  </div>
+                </div>
+              </template>
               <form action="" method="post" class="delete-url-form">
                 {% csrf_token %}
                 <input type="hidden" name="user" value="{{ user.username }}" />

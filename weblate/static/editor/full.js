@@ -5,8 +5,6 @@
 (() => {
   const EditorBase = WLT.Editor.Base;
 
-  const _tmServiceName = "weblate-translation-memory";
-
   // Shared two-step keyboard sequence state.
   // Only one sequence can be pending at a time — starting a new one cancels
   // the previous.
@@ -39,9 +37,10 @@
     return row?.dataset.raw ? JSON.parse(row.dataset.raw) : undefined;
   }
 
-  // Direct `<tr>` children of an element (equivalent to jQuery `.children("tr")`).
-  function childRows(el) {
-    return Array.from(el.children).filter((child) => child.matches("tr"));
+  function machineryRows(el) {
+    return Array.from(el.children).filter((child) =>
+      child.matches(".machinery-row"),
+    );
   }
 
   function FullEditor() {
@@ -71,18 +70,21 @@
 
     /* Copy machinery results */
     delegate(this.editors, "click", ".js-copy-machinery", (e) => {
-      copyMachinery(e.target.closest("tr"), WLT.Utils.markFuzzy);
+      copyMachinery(e.target.closest(".machinery-row"), WLT.Utils.markFuzzy);
     });
 
     /* Copy and save machinery results */
     delegate(this.editors, "click", ".js-copy-save-machinery", (e) => {
-      copyMachinery(e.target.closest("tr"), WLT.Utils.markTranslated);
+      copyMachinery(
+        e.target.closest(".machinery-row"),
+        WLT.Utils.markTranslated,
+      );
       submitForm({ target: this.translationArea[0] });
     });
 
     /* Copy, approve and save machinery results */
     delegate(this.editors, "click", ".js-copy-approve-save-machinery", (e) => {
-      copyMachinery(e.target.closest("tr"), WLT.Utils.markApproved);
+      copyMachinery(e.target.closest(".machinery-row"), WLT.Utils.markApproved);
       submitForm({ target: this.translationArea[0] });
     });
 
@@ -101,7 +103,7 @@
           deleteEntriesDialog = this;
           const modalBody = deleteEntriesDialog.querySelector(".modal-body");
           modalBody.replaceChildren();
-          const text = getRawData(deleteButton.closest("tr")).text;
+          const text = getRawData(deleteButton.closest(".machinery-row")).text;
           modalBody.append(self.machinery.renderDeleteUrls(text));
         },
       );
@@ -383,7 +385,9 @@
         return;
       }
 
-      const rows = childRows(document.getElementById("machinery-translations"));
+      const rows = machineryRows(
+        document.getElementById("machinery-translations"),
+      );
       for (const row of rows) {
         if (row.dataset.machineryKey === e.key) {
           const copyButton = row.querySelector(".js-copy-machinery");
@@ -469,7 +473,7 @@
     });
     this.machinery.render(data.translations);
 
-    const translationRows = childRows(
+    const translationRows = machineryRows(
       document.getElementById("machinery-translations"),
     );
 
@@ -809,77 +813,60 @@
       this.state = { ...this.state, ...newState };
     }
 
+    cloneTemplate(id) {
+      return document
+        .getElementById(id)
+        .content.firstElementChild.cloneNode(true);
+    }
+
+    renderActions(el) {
+      const actions = this.cloneTemplate("machinery-actions");
+      if (!WLT.Config.HAS_REVIEW_WORKFLOW) {
+        actions.querySelector(".js-copy-approve-save-machinery").remove();
+      }
+      if (!this.state.weblateTranslationMemory.has(el.text)) {
+        actions.querySelector(".js-delete-machinery").remove();
+      }
+      return actions;
+    }
+
     renderTranslation(el, service) {
       el.plural_forms = [el.plural_form];
-      const row = document.createElement("tr");
+      const row = this.cloneTemplate("machinery-row");
       setRawData(row, el);
 
-      const target = document.createElement("td");
-      target.className = "target machinery-text";
+      const target = row.querySelector(".machinery-target");
       target.setAttribute("lang", this.state.lang);
       target.setAttribute("dir", this.state.dir);
       target.innerHTML = el.html;
-      row.append(target);
 
-      const diff = document.createElement("td");
-      diff.className = "machinery-text";
-      diff.innerHTML = el.diff;
-      row.append(diff);
+      row.querySelector(".machinery-diff").innerHTML = el.diff;
+      row.querySelector(".machinery-source").innerHTML = el.source_diff;
 
-      const sourceDiff = document.createElement("td");
-      sourceDiff.className = "machinery-text";
-      sourceDiff.innerHTML = el.source_diff;
-      row.append(sourceDiff);
+      const quality = row.querySelector(".machinery-quality");
+      quality.before(service);
 
-      row.append(service);
-
-      /* Quality score as bar with the text */
-      const qualityCell = document.createElement("td");
-      qualityCell.className = "number";
       if (el.show_quality) {
-        const quality = document.createElement("strong");
-        quality.textContent = String(el.quality);
-        qualityCell.append(quality, " %");
-      }
-      row.append(qualityCell);
-
-      /* Translators: Verb for copy operation */
-      row.insertAdjacentHTML(
-        "beforeend",
-        `<td><a class="js-copy-machinery btn btn-warning">${gettext(
-          "Clone to translation",
-        )}<span class="mt-number text-info"></span></a></td><td><a class="js-copy-save-machinery btn btn-info">${gettext(
-          "Accept",
-        )}</a></td>`,
-      );
-
-      if (WLT.Config.HAS_REVIEW_WORKFLOW) {
-        row.insertAdjacentHTML(
-          "beforeend",
-          `<td><a class="js-copy-approve-save-machinery btn btn-warning">${gettext(
-            "Accept and approve",
-          )}</a></td>`,
-        );
-      } else {
-        row.insertAdjacentHTML("beforeend", "<td></td>");
+        const score = document.createElement("strong");
+        score.textContent = String(el.quality);
+        quality.append(score, " %");
       }
 
-      if (this.state.weblateTranslationMemory.has(el.text)) {
-        row.insertAdjacentHTML(
-          "beforeend",
-          `<td><a class="js-delete-machinery btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-url-modal">${gettext(
-            "Delete entry",
-          )}</a></td>`,
-        );
-      } else {
-        row.insertAdjacentHTML("beforeend", "<td></td>");
+      if (el.context) {
+        const context = row.querySelector(".machinery-context");
+        context.textContent = el.context;
+        context.hidden = false;
+        row.querySelector(".machinery-context-label").hidden = false;
       }
+
+      row.querySelector(".history-data").prepend(this.renderActions(el));
 
       return row;
     }
 
     renderService(el) {
-      const service = document.createElement("td");
+      const service = document.createElement("div");
+      service.classList.add("text-muted", "machinery-origin");
       service.textContent = el.service;
       if (typeof el.origin !== "undefined") {
         service.append(" (");
@@ -945,7 +932,7 @@
         let done = false;
 
         /* This is the merging and insert sort logic */
-        for (const row of childRows(translationsEl)) {
+        for (const row of machineryRows(translationsEl)) {
           const base = getRawData(row);
           if (
             base.text === translation.text &&
@@ -957,7 +944,7 @@
               setRawData(row, base);
             }
             // Add origin to current ones
-            const current = row.querySelector("td:nth-child(4)");
+            const current = row.querySelector(".machinery-origin");
             if (base.quality < translation.quality) {
               service.insertAdjacentHTML("beforeend", "<br/>");
               service.insertAdjacentHTML("beforeend", current.innerHTML);

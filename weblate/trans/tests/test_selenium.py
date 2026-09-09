@@ -1540,7 +1540,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click(htmlid="toggle-machinery")
         WebDriverWait(self.driver, 10).until(
             lambda driver: (
-                len(driver.find_elements(By.CSS_SELECTOR, "#machinery-translations tr"))
+                len(
+                    driver.find_elements(
+                        By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+                    )
+                )
                 == 2
             )
         )
@@ -1549,26 +1553,23 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             """
             const translations = document.getElementById("machinery-translations");
             translations.replaceChildren();
+            const cloneTemplate = (id) => document
+                .getElementById(id)
+                .content.firstElementChild.cloneNode(true);
             ["stale replacement 1", "current replacement 2"].forEach((text, idx) => {
                 const key = String((idx + 1) % 10);
-                const row = document.createElement("tr");
+                const row = cloneTemplate("machinery-row");
                 row.setAttribute("data-machinery-key", key);
                 row.setAttribute("data-raw", JSON.stringify({
                     plural_forms: [0],
                     text: text,
                 }));
-                const numberCell = document.createElement("td");
-                numberCell.className = "machinery-number";
                 const kbd = document.createElement("kbd");
                 kbd.textContent = key;
-                numberCell.appendChild(kbd);
-                row.appendChild(numberCell);
-                const cloneCell = document.createElement("td");
-                const cloneLink = document.createElement("a");
-                cloneLink.className = "js-copy-machinery";
-                cloneLink.textContent = "Clone";
-                cloneCell.appendChild(cloneLink);
-                row.appendChild(cloneCell);
+                row.querySelector(".machinery-number").replaceChildren(kbd);
+                row.querySelector(".history-data").prepend(
+                    cloneTemplate("machinery-actions"),
+                );
                 translations.appendChild(row);
             });
             document.querySelector(".translator .translation-editor").value = "";

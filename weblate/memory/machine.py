@@ -58,6 +58,7 @@ class WeblateMemory(InternalMachineTranslation):
             "text": result.target,
             "quality": quality,
             "service": self.name,
+            "context": result.context,
             "origin": result.get_origin_display(project=project, user=user),
             "source": result.source,
             "show_quality": True,
