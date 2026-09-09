@@ -15,6 +15,7 @@ from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
+from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.http import QueryDict
@@ -971,7 +972,9 @@ class AlertTest(ViewTestCase):
         self.component.add_alert("BrokenProjectURL", error="failure")
         alert = self.component.alert_set.get(name="BrokenProjectURL")
 
-        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        migration.backfill_dismissals(
+            apps, self.component.alert_set.filter(pk=alert.pk)
+        )
         self.component.add_alert("BrokenProjectURL", error="failure")
 
         alert.refresh_from_db()
@@ -1006,7 +1009,9 @@ class AlertTest(ViewTestCase):
         self.component.add_alert("MsgmergeAddonError", occurrences=[occurrence])
         alert = self.component.alert_set.get(name="MsgmergeAddonError")
 
-        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        migration.backfill_dismissals(
+            apps, self.component.alert_set.filter(pk=alert.pk)
+        )
         self.component.add_alert(
             "MsgmergeAddonError",
             occurrences=[{**occurrence, "addon_id": "123"}],

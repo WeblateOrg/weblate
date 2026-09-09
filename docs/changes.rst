@@ -18,6 +18,7 @@ Weblate 2026.10
 .. rubric:: Bug fixes
 
 * Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` failing when the warning directory is missing or inaccessible.
+* Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when migrating dismissed component alerts from releases before 2026.8.
 
 .. rubric:: Compatibility
 
