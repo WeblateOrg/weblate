@@ -865,8 +865,24 @@ class ManagementAccessControlTest(ViewTestCase):
             "--wl-progress-approved-color: #988470",
             "--wl-progress-bg: #010203",
             "--wl-progress-bg: #040506",
+            "--bs-navbar-brand-hover-color: #158068",
+            "--bs-navbar-brand-hover-color: #25303b",
+            "--bs-navbar-hover-color: #158068",
+            "--bs-navbar-hover-color: #25303b",
+            "--bs-nav-pills-link-active-bg: #144d3f",
+            "--bs-nav-pills-link-active-bg: #0a3d2f",
+            "--wl-hover-color: #144d3f",
+            "--wl-hover-color: #0a3d2f",
         ):
             self.assertIn(value, css)
+
+        for value in (
+            "--bs-navbar-hover-color: #144d3f",
+            "--bs-navbar-hover-color: #0a3d2f",
+            "--bs-nav-pills-link-active-bg: #158068",
+            "--bs-nav-pills-link-active-bg: #25303b",
+        ):
+            self.assertNotIn(value, css)
 
     def test_tools_without_announcement_permission(self) -> None:
         self.grant_global_permissions("management.use")
