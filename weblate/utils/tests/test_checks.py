@@ -295,6 +295,29 @@ class FilesystemLatencyTestCase(SimpleTestCase):
 
 
 class DockerStartupWarningsCheckTestCase(SimpleTestCase):
+    @tempdir_setting("DATA_DIR")
+    def test_missing_directory(self) -> None:
+        with patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(errors, [])
+
+    @tempdir_setting("DATA_DIR")
+    def test_directory_listing_error(self) -> None:
+        for error in (FileNotFoundError, PermissionError):
+            with (
+                self.subTest(error=error),
+                patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}),
+                patch("weblate.utils.docker.Path.iterdir", side_effect=error),
+            ):
+                errors = list(
+                    check_docker_startup_warnings(app_configs=None, databases=None)
+                )
+
+                self.assertEqual(errors, [])
+
     def create_report(
         self,
         name: str,

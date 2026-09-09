@@ -97,6 +97,7 @@ release = "2026.10"
 # ones.
 extensions = [
     "djangodocs",
+    "rubric_permalinks",
     "sphinxcontrib.httpdomain",
     "sphinx.ext.autodoc",
     "autodoc_signature_filter",
@@ -168,7 +169,7 @@ if os.environ.get("READTHEDOCS", "") == "True":
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["../weblate/static/"]
+html_static_path = ["../weblate/static/", "_ext/static"]
 
 html_logo = "images/logo-text.svg"
 
