@@ -131,6 +131,70 @@ class SeleniumDummyTranslation(DummyTranslation):
         }
 
 
+class SeleniumMergeTranslation(DummyTranslation):
+    """Dummy machine translation returning results which merge into single rows."""
+
+    name = "Selenium Merge"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, unit, user, threshold)
+        # Same text and source merges into a single row, the context is carried
+        # by the lower quality result in both possible orders.
+        yield {
+            "text": "merged target A",
+            "quality": 95,
+            "service": self.name,
+            "source": text,
+            "context": "context.a",
+        }
+        yield {
+            "text": "merged target A",
+            "quality": 100,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "merged target B",
+            "quality": 100,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "merged target B",
+            "quality": 95,
+            "service": self.name,
+            "source": text,
+            "context": "context.b",
+        }
+
+
+class SeleniumEmptyTranslation(DummyTranslation):
+    """Dummy machine translation which never returns any result."""
+
+    name = "Selenium Empty"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, text, unit, user, threshold)
+        return
+        yield
+
+
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
     "social_core.backends.google.GoogleOAuth2",
@@ -1593,6 +1657,108 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 'return document.querySelector(".translator .translation-editor").value;'
             ),
             "current replacement 2",
+        )
+
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.trans.tests.test_selenium.SeleniumMergeTranslation",
+        )
+    )
+    def test_machinery_merge_keeps_context(self) -> None:
+        """Merging results of equal text keeps the context of either of them."""
+        identifier = SeleniumMergeTranslation.get_identifier()
+        project = self.create_component()
+        project.machinery_settings = dict.fromkeys(
+            Setting.objects.get_settings_dict(SettingCategory.MT)
+        )
+        project.machinery_settings[identifier] = {}
+        project.save(update_fields=["machinery_settings"])
+
+        self.do_login(superuser=True)
+        unit = (
+            Unit.objects.filter(
+                translation__component__project=project,
+                translation__language_code="cs",
+            )
+            .exclude(source="")
+            .first()
+        )
+        self.assertIsNotNone(unit)
+        unit = cast("Unit", unit)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+        self.click(htmlid="toggle-machinery")
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: (
+                len(
+                    driver.find_elements(
+                        By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+                    )
+                )
+                == 2
+            )
+        )
+
+        # The context has to survive both merge directions: the row being
+        # replaced by a better result and a better result being merged into.
+        contexts = self.driver.execute_script(
+            """
+            const result = {};
+            for (const row of document.querySelectorAll(".machinery-row")) {
+                const context = row.querySelector(".machinery-context");
+                result[JSON.parse(row.dataset.raw).text] = context.hidden
+                    ? null
+                    : context.textContent;
+            }
+            return result;
+            """
+        )
+        self.assertEqual(
+            contexts,
+            {"merged target A": "context.a", "merged target B": "context.b"},
+        )
+
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            "weblate.trans.tests.test_selenium.SeleniumEmptyTranslation",
+        )
+    )
+    def test_machinery_empty_results(self) -> None:
+        """Machinery tab tells apart no results from not being loaded."""
+        identifier = SeleniumEmptyTranslation.get_identifier()
+        project = self.create_component()
+        project.machinery_settings = dict.fromkeys(
+            Setting.objects.get_settings_dict(SettingCategory.MT)
+        )
+        project.machinery_settings[identifier] = {}
+        project.save(update_fields=["machinery_settings"])
+
+        self.do_login(superuser=True)
+        unit = (
+            Unit.objects.filter(
+                translation__component__project=project,
+                translation__language_code="cs",
+            )
+            .exclude(source="")
+            .first()
+        )
+        self.assertIsNotNone(unit)
+        unit = cast("Unit", unit)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+        self.click(htmlid="toggle-machinery")
+        empty = self.driver.find_element(By.ID, "machinery-empty")
+        WebDriverWait(self.driver, 10).until(lambda _driver: empty.is_displayed())
+        self.assertEqual(
+            self.driver.find_elements(
+                By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+            ),
+            [],
         )
 
     def test_editing_survives_comment(self) -> None:

@@ -337,13 +337,14 @@
   FullEditor.prototype.initMachinery = function () {
     this.isMachineryLoaded = true;
     this.machinery = new Machinery();
+    this.machineryPending = 0;
     this.initMachineryHotkeys();
 
     const services = JSON.parse(
       document.getElementById("js-translate").dataset.services,
     );
     services.forEach((serviceName) => {
-      increaseLoading("machinery");
+      this.startMachineryRequest();
       this.fetchMachinery(serviceName);
     });
 
@@ -351,7 +352,7 @@
       const form = e.target.closest("#memory-search");
       e.preventDefault();
 
-      increaseLoading("machinery");
+      this.startMachineryRequest();
       this.machinery.setState({ translations: [] });
       document.getElementById("machinery-translations").replaceChildren();
       fetch(form.getAttribute("action"), {
@@ -441,8 +442,22 @@
       });
   };
 
-  FullEditor.prototype.processMachineryError = (error) => {
+  FullEditor.prototype.startMachineryRequest = function () {
+    this.machineryPending += 1;
+    increaseLoading("machinery");
+    document.getElementById("machinery-empty").hidden = true;
+  };
+
+  FullEditor.prototype.finishMachineryRequest = function () {
     decreaseLoading("machinery");
+    this.machineryPending = Math.max(this.machineryPending - 1, 0);
+    const translationsEl = document.getElementById("machinery-translations");
+    document.getElementById("machinery-empty").hidden =
+      this.machineryPending > 0 || machineryRows(translationsEl).length > 0;
+  };
+
+  FullEditor.prototype.processMachineryError = function (error) {
+    this.finishMachineryRequest();
     addAlert(
       `${gettext("The request for machine translation has failed:")} ${
         error.message
@@ -451,8 +466,8 @@
   };
 
   FullEditor.prototype.processMachineryResults = function (data) {
-    decreaseLoading("machinery");
     if (data.responseStatus !== 200) {
+      this.finishMachineryRequest();
       const msg = interpolate(
         gettext("The request for machine translation using %s has failed:"),
         [data.service],
@@ -502,6 +517,8 @@
         }
       }
     });
+
+    this.finishMachineryRequest();
   };
 
   FullEditor.prototype.initChecks = function () {
@@ -831,7 +848,13 @@
     }
 
     renderTranslation(el, service) {
-      el.plural_forms = [el.plural_form];
+      /* These accumulate while merging, they might be already filled in by it */
+      if (typeof el.plural_forms === "undefined") {
+        el.plural_forms = [el.plural_form];
+      }
+      if (typeof el.contexts === "undefined") {
+        el.contexts = el.context ? [el.context] : [];
+      }
       const row = this.cloneTemplate("machinery-row");
       setRawData(row, el);
 
@@ -852,16 +875,25 @@
         quality.append(score, " %");
       }
 
-      if (el.context) {
-        const context = row.querySelector(".machinery-context");
-        context.textContent = el.context;
-        context.hidden = false;
-        row.querySelector(".machinery-context-label").hidden = false;
-      }
+      this.renderContext(row, el.contexts);
 
       row.querySelector(".history-data").prepend(this.renderActions(el));
 
       return row;
+    }
+
+    renderContext(row, contexts) {
+      const context = row.querySelector(".machinery-context");
+      context.replaceChildren();
+      contexts.forEach((value, i) => {
+        if (i > 0) {
+          context.append(document.createElement("br"));
+        }
+        context.append(value);
+      });
+      const hidden = contexts.length === 0;
+      context.hidden = hidden;
+      row.querySelector(".machinery-context-label").hidden = hidden;
     }
 
     renderService(el) {
@@ -941,16 +973,26 @@
             // Add plural
             if (!base.plural_forms.includes(translation.plural_form)) {
               base.plural_forms.push(translation.plural_form);
-              setRawData(row, base);
+            }
+            // Add context, only some of the merged results carry one
+            if (
+              translation.context &&
+              !base.contexts.includes(translation.context)
+            ) {
+              base.contexts.push(translation.context);
             }
             // Add origin to current ones
             const current = row.querySelector(".machinery-origin");
             if (base.quality < translation.quality) {
               service.insertAdjacentHTML("beforeend", "<br/>");
               service.insertAdjacentHTML("beforeend", current.innerHTML);
+              translation.plural_forms = base.plural_forms;
+              translation.contexts = base.contexts;
               row.remove();
               break;
             }
+            setRawData(row, base);
+            this.renderContext(row, base.contexts);
             current.insertAdjacentHTML("beforeend", "<br/>");
             current.insertAdjacentHTML("beforeend", service.innerHTML);
             done = true;
