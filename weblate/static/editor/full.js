@@ -867,7 +867,7 @@
       row.querySelector(".machinery-source").innerHTML = el.source_diff;
 
       const quality = row.querySelector(".machinery-quality");
-      quality.before(service);
+      quality.after(service);
 
       if (el.show_quality) {
         const score = document.createElement("strong");
@@ -884,24 +884,28 @@
 
     renderContext(row, contexts) {
       const context = row.querySelector(".machinery-context");
-      context.replaceChildren();
-      contexts.forEach((value, i) => {
-        if (i > 0) {
-          context.append(document.createElement("br"));
-        }
-        context.append(value);
-      });
+      context.replaceChildren(
+        ...contexts.map((value) => {
+          const item = document.createElement("code");
+          item.classList.add("list-group-item");
+          item.textContent = value;
+          return item;
+        }),
+      );
       const hidden = contexts.length === 0;
       context.hidden = hidden;
       row.querySelector(".machinery-context-label").hidden = hidden;
     }
 
-    renderService(el) {
-      const service = document.createElement("div");
-      service.classList.add("text-muted", "machinery-origin");
-      service.textContent = el.service;
+    renderServiceEntry(el) {
+      const entry = document.createElement("div");
+      entry.classList.add("machinery-service");
+
+      const name = document.createElement("div");
+      name.textContent = el.service;
+      entry.append(name);
+
       if (typeof el.origin !== "undefined") {
-        service.append(" (");
         let origin;
         if (typeof el.origin_detail !== "undefined") {
           origin = document.createElement("abbr");
@@ -922,9 +926,18 @@
         if (el.delete_url) {
           this.state.weblateTranslationMemory.add(el.text);
         }
-        service.append(origin);
-        service.append(")");
+        const detail = document.createElement("div");
+        detail.classList.add("machinery-origin-detail");
+        detail.append(origin);
+        entry.append(detail);
       }
+      return entry;
+    }
+
+    renderService(el) {
+      const service = document.createElement("div");
+      service.classList.add("text-muted", "machinery-origin");
+      service.append(this.renderServiceEntry(el));
       return service;
     }
 
@@ -984,8 +997,7 @@
             // Add origin to current ones
             const current = row.querySelector(".machinery-origin");
             if (base.quality < translation.quality) {
-              service.insertAdjacentHTML("beforeend", "<br/>");
-              service.insertAdjacentHTML("beforeend", current.innerHTML);
+              service.append(...current.children);
               translation.plural_forms = base.plural_forms;
               translation.contexts = base.contexts;
               row.remove();
@@ -993,8 +1005,7 @@
             }
             setRawData(row, base);
             this.renderContext(row, base.contexts);
-            current.insertAdjacentHTML("beforeend", "<br/>");
-            current.insertAdjacentHTML("beforeend", service.innerHTML);
+            current.append(...service.children);
             done = true;
             break;
           }
