@@ -1497,17 +1497,36 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             for translation in self.label_cleanups:
                 translation.stats.remove_stats(f"label:{name}")
 
+    def get_existing_target_language_ids(self) -> set[int]:
+        """Languages qualifying for the existing-project-language creation policy."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.translation import Translation
+
+        translations = Translation.objects.filter(
+            component__is_glossary=False
+        ).exclude_source()
+        own = translations.filter(component__project=self).values_list(
+            "language_id", flat=True
+        )
+        shared = translations.filter(component__links=self).values_list(
+            "language_id", flat=True
+        )
+        return set(own.union(shared))
+
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
-        """Return a queryset of components within the project that the given user is allowed to add new languages to."""
+        """Return owned components available for language creation or requests."""
         filter_ = Q(is_glossary=True)
         check_effective_new_lang = not user.has_perm("project.edit", self)
         if check_effective_new_lang:
             filter_ |= get_disabled_component_new_language_filter()
 
-        def filter_callback(qs: ComponentQuerySet) -> ComponentQuerySet:
-            return qs.exclude(filter_)
-
-        return self.get_child_components_access(user, filter_callback)
+        return (
+            self.component_set.defer_huge()
+            .filter_access(user)
+            .exclude(filter_)
+            .prefetch()
+            .order()
+        )
 
     def needs_license(self, access_control: int | None = None) -> bool:
         """

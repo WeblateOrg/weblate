@@ -40,6 +40,7 @@ from weblate.auth.models import (
     setup_project_groups,
 )
 from weblate.lang.models import Language
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
     Component,
@@ -55,6 +56,7 @@ from weblate.trans.tests.utils import (
     create_test_user,
     wait_for_celery,
 )
+from weblate.trans.views.basic import add_languages_to_component
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
@@ -519,6 +521,208 @@ class TranslationManipulationTest(ViewTestCase):
             self.component.translation_set.filter(language_code="af").exists()
         )
 
+    def test_existing_language_policy(self) -> None:
+        self.component.new_lang = "existing"
+        self.component.inherit_new_lang = False
+        self.component.save()
+        language = Language.objects.get(code="af")
+        request = self.get_request()
+        self.assertIsNone(self.component.add_new_language(language, request))
+        source = self.create_po_new_base(name="other", project=self.project)
+        self.assertIsNotNone(source.add_new_language(language, None))
+        self.assertIsNotNone(self.component.add_new_language(language, request))
+
+    def test_existing_language_request(self) -> None:
+        self.project.new_lang = "existing"
+        self.project.inherit_new_lang = False
+        self.project.save()
+        self.component.inherit_new_lang = True
+        self.component.save()
+        url = reverse("new-language", kwargs={"path": self.component.get_url_path()})
+        response = self.client.get(url)
+        self.assertContains(response, "Other languages are requested")
+        response = self.client.post(url, {"lang": "af"}, follow=True)
+        self.assertIn(
+            "A request for a new translation has been sent to the project's maintainers.",
+            [message.message for message in response.context["messages"]],
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="af").exists()
+        )
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.REQUESTED_LANGUAGE
+            ).exists()
+        )
+
+    def test_existing_language_mixed_submission_change_references(self) -> None:
+        self.component.new_lang = "existing"
+        self.component.inherit_new_lang = False
+        self.component.save()
+        existing_language = Language.objects.get(code="af")
+        requested_language = Language.objects.get(code="fa")
+        source = self.create_po_new_base(name="other", project=self.project)
+        source.add_new_language(existing_language, None)
+
+        group = Group.objects.create(
+            name="Multiple languages", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        role = Role.objects.create(name="Multiple languages")
+        role.permissions.add(Permission.objects.get(codename="translation.add_more"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("translation.add_more", self.component))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
+        _, counts = add_languages_to_component(
+            self.get_request(),
+            self.user,
+            [existing_language, requested_language],
+            self.component,
+            show_messages=False,
+        )
+        self.assertEqual(counts["added_af"], 1)
+        self.assertEqual(counts["requested_fa"], 1)
+        created = self.component.translation_set.get(language=existing_language)
+        added = self.component.change_set.get(action=ActionEvents.ADDED_LANGUAGE)
+        self.assertEqual(added.translation, created)
+        self.assertEqual(added.language, existing_language)
+        self.assertEqual(added.details["language"], "af")
+        requested = self.component.change_set.get(
+            action=ActionEvents.REQUESTED_LANGUAGE
+        )
+        self.assertIsNone(requested.translation_id)
+        self.assertIsNone(requested.language_id)
+        self.assertEqual(requested.component, self.component)
+        self.assertEqual(requested.details["language"], "fa")
+        self.assertEqual(
+            requested.get_absolute_url(), self.component.get_absolute_url()
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language=requested_language).exists()
+        )
+
+    def test_existing_language_shared_membership(self) -> None:
+        self.component.new_lang = "existing"
+        self.component.inherit_new_lang = False
+        self.component.save()
+        owner = self.create_project(name="Owner", slug="owner")
+        shared = self.create_po_new_base(name="shared", project=owner)
+        language = Language.objects.get(code="af")
+        shared.add_new_language(language, None)
+        ComponentLink.objects.create(component=shared, project=self.project)
+
+        self.assertIn(language.pk, self.project.get_existing_target_language_ids())
+        self.assertNotIn(
+            shared.source_language_id, self.project.get_existing_target_language_ids()
+        )
+        shared.is_glossary = True
+        shared.save(update_fields=["is_glossary"])
+        self.assertNotIn(language.pk, self.project.get_existing_target_language_ids())
+        shared.is_glossary = False
+        shared.save(update_fields=["is_glossary"])
+        self.assertIsNotNone(
+            self.component.add_new_language(language, self.get_request())
+        )
+
+    def test_language_addition_requires_component_permission(self) -> None:
+        owner = self.create_project(name="Owner", slug="owner")
+        shared = self.create_po_new_base(name="shared", project=owner, new_lang="add")
+        ComponentLink.objects.create(component=shared, project=self.project)
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Local languages", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        role = Role.objects.create(name="Local languages")
+        role.permissions.add(Permission.objects.get(codename="translation.add"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("translation.add", self.project))
+        self.assertFalse(self.user.has_perm("translation.add", shared))
+        language = Language.objects.get(code="af")
+        with patch.object(shared, "commit_pending") as commit_pending:
+            _, counts = add_languages_to_component(
+                self.get_request(), self.user, [language], shared, show_messages=False
+            )
+        commit_pending.assert_not_called()
+        self.assertEqual(counts["errors_af"], 1)
+        self.assertFalse(shared.translation_set.filter(language=language).exists())
+        self.assertFalse(
+            shared.change_set.filter(
+                action__in=[
+                    ActionEvents.ADDED_LANGUAGE,
+                    ActionEvents.REQUESTED_LANGUAGE,
+                ]
+            ).exists()
+        )
+
+    def test_existing_language_membership(self) -> None:
+        language = Language.objects.get(code="af")
+        self.assertNotIn(
+            self.component.source_language_id,
+            self.project.get_existing_target_language_ids(),
+        )
+        source = self.create_po_new_base(name="other", project=self.project)
+        translation = source.add_new_language(language, None)
+        assert translation is not None
+        self.assertIn(language.pk, self.project.get_existing_target_language_ids())
+        category = Category.objects.create(
+            name="Other category", slug="other-category", project=self.project
+        )
+        Component.objects.filter(pk=source.pk).update(category=category)
+        self.assertIn(language.pk, self.project.get_existing_target_language_ids())
+        other_project = self.create_project(name="Other", slug="other")
+        Component.objects.filter(pk=source.pk).update(
+            project=other_project, category=None
+        )
+        self.assertNotIn(language.pk, self.project.get_existing_target_language_ids())
+        Component.objects.filter(pk=source.pk).update(project=self.project)
+        source.is_glossary = True
+        source.save(update_fields=["is_glossary"])
+        self.assertNotIn(language.pk, self.project.get_existing_target_language_ids())
+        source.is_glossary = False
+        source.save(update_fields=["is_glossary"])
+        translation.delete()
+        self.assertNotIn(language.pk, self.project.get_existing_target_language_ids())
+
+    def test_existing_language_privileged_creation(self) -> None:
+        self.component.new_lang = "existing"
+        self.component.inherit_new_lang = False
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+        self.assertIsNotNone(
+            self.component.add_new_language(
+                Language.objects.get(code="af"), self.get_request()
+            )
+        )
+        self.assertIsNotNone(
+            self.component.add_new_language(Language.objects.get(code="fa"), None)
+        )
+
+    def test_existing_language_snapshot_cannot_be_replaced_by_live_membership(
+        self,
+    ) -> None:
+        self.component.new_lang = "existing"
+        self.component.inherit_new_lang = False
+        self.component.save()
+        snapshot = self.project.get_existing_target_language_ids()
+        language = Language.objects.get(code="af")
+        source = self.create_po_new_base(name="other", project=self.project)
+        source.add_new_language(language, None)
+        self.assertIsNone(
+            self.component.add_new_language(
+                language, self.get_request(), existing_language_ids=snapshot
+            )
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language=language).exists()
+        )
+
     def test_model_add_duplicate(self) -> None:
         request = self.get_request()
         self.assertFalse(get_messages(request))
@@ -632,6 +836,76 @@ class ProjectLanguageAdditionTest(ViewTestCase):
             [
                 "Please fix errors in the form.",
             ],
+        )
+
+    def test_bulk_language_addition_excludes_shared_components(self) -> None:
+        owner = self.create_project(name="Owner", slug="owner")
+        shared = self.create_po_new_base(
+            name="shared", project=owner, new_lang="existing", inherit_new_lang=False
+        )
+        ComponentLink.objects.create(
+            component=shared,
+            project=self.project,
+            category=self.obj if isinstance(self.obj, Category) else None,
+        )
+        language = Language.objects.get(code="af")
+        self.component.add_new_language(language, None)
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Local languages", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        role = Role.objects.create(name="Local languages")
+        role.permissions.add(Permission.objects.get(codename="translation.add"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("translation.add", self.project))
+        self.assertFalse(self.user.has_perm("translation.add", shared))
+
+        response = self.client.post(self.url, {"lang": "af"}, follow=True)
+        self.assertRedirects(response, self.obj.get_absolute_url())
+        self.assertTrue(
+            self.components["add"].translation_set.filter(language=language).exists()
+        )
+        self.assertFalse(shared.translation_set.filter(language=language).exists())
+        self.assertFalse(
+            shared.change_set.filter(
+                action__in=[
+                    ActionEvents.ADDED_LANGUAGE,
+                    ActionEvents.REQUESTED_LANGUAGE,
+                ]
+            ).exists()
+        )
+        # Bulk operations exclude shared components even for their administrators.
+        self.user.is_superuser = True
+        self.user.save()
+        self.user.clear_permissions_cache()
+        self.assertNotIn(
+            shared, self.obj.components_user_can_add_new_language(self.user)
+        )
+
+    def test_existing_language_bulk_snapshot(self) -> None:
+        component = self.components["contact"]
+        component.new_lang = "existing"
+        component.inherit_new_lang = False
+        component.save()
+        # Force unrestricted creation first, to exercise the snapshot.
+        with patch.object(
+            type(self.obj),
+            "components_user_can_add_new_language",
+            return_value=Component.objects.filter(
+                pk__in=[self.components["add"].pk, component.pk]
+            ).order_by("-pk"),
+        ):
+            response = self.client.post(self.url, {"lang": "af"}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            self.components["add"].translation_set.filter(language_code="af").exists()
+        )
+        self.assertFalse(component.translation_set.filter(language_code="af").exists())
+        self.assertTrue(
+            component.change_set.filter(action=ActionEvents.REQUESTED_LANGUAGE).exists()
         )
 
     def test_view_add_language(self) -> None:

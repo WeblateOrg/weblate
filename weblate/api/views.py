@@ -3056,6 +3056,15 @@ class ComponentViewSet(
                 message = f"Could not add {language_code!r}!"
                 raise ValidationError({"language_code": message}) from error
 
+            if obj.get_new_language_action(request.user, language) != "add":
+                self.permission_denied(
+                    request,
+                    "This language requires maintainer approval. "
+                    "Request it using the web interface.",
+                )
+            if not obj.can_add_new_language(request.user, language=language):
+                self.permission_denied(request, message=obj.new_lang_error_message)
+
             if source_components:
                 auto_permission = check_auto_translate_permission(
                     request.user,

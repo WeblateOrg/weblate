@@ -60,6 +60,31 @@ Control requests for languages that do not exist yet
     :ref:`component-new_lang` individually or automate the changes using
     :http:patch:`/api/components/(string:project)/(string:component)/`.
 
+    To allow existing project languages while requesting approval for new ones,
+    select :guilabel:`Create existing project languages; contact maintainers for new languages`.
+    A language qualifies when any non-glossary component in the project has a
+    target translation for it, even with no translated strings. Source-only
+    languages and glossary translations do not qualify. This applies across
+    categories, including shared components and components the contributor cannot
+    access.
+
+    Maintainers approve a language by creating its first target translation.
+    Removing the last qualifying translation removes eligibility. Component
+    overrides that allow unrestricted language creation can also introduce an
+    eligible language. Project and category submissions use the languages present
+    at the start of the operation, so component processing order does not affect
+    the result.
+
+    Project and category submissions modify only components owned by that project
+    or category. To add a language to a shared component, use its own language
+    creation page; the owning project's eligibility and permissions apply there.
+
+    The REST translation creation endpoint returns HTTP 403 for languages requiring
+    approval; submit these requests through the web interface. The permission to
+    add several languages does not bypass this policy. Maintainers and trusted
+    add-ons retain their existing creation permissions, and repository file
+    discovery is unaffected.
+
     Disabling new translations controls user requests. It does not stop
     discovery of translation files added to the repository or
     :ref:`automatic glossary language synchronization <glossary-language-sync>`.
