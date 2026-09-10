@@ -308,6 +308,7 @@ class BaseStats:
     def lock(self) -> WeblateLock:
         return WeblateLock(
             scope="stats:update",
+            timeout=5,
             key=self.cache_key,
             slug=self.cache_key,
             origin=self.cache_key,

@@ -1878,6 +1878,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # updates should rely on row locks, and check refreshes use checks_lock.
         return WeblateLock(
             scope="component:update",
+            timeout=5,
             key=self.pk,
             slug=self.slug,
             origin=self.full_slug,
@@ -1887,6 +1888,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def checks_lock(self):
         return WeblateLock(
             scope="component:checks",
+            timeout=5,
             key=self.pk,
             slug=self.slug,
             origin=self.full_slug,

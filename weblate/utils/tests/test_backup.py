@@ -30,7 +30,7 @@ from weblate.utils.backup import (
     tag_cache_dirs,
 )
 from weblate.utils.data import data_path
-from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.lock import LOCK_SCOPE_BACKUP, WeblateLockTimeoutError
 from weblate.utils.tasks import (
     database_backup,
     run_backup_preparation,
@@ -217,20 +217,16 @@ class BackupLockTest(SimpleTestCase):
         cursor_context.__enter__.return_value = cursor
         database_connection = MagicMock()
         database_connection.cursor.return_value = cursor_context
-        atomic = MagicMock()
 
         with (
-            patch("weblate.utils.backup.connection", database_connection),
-            patch("weblate.utils.backup.transaction.atomic", return_value=atomic),
+            patch("weblate.utils.lock.connection", database_connection),
             backup_lock(shared=True),
         ):
             pass
 
         cursor.execute.assert_called_once_with(
-            "SELECT pg_try_advisory_xact_lock_shared(%s)", [BACKUP_LOCK_KEY]
+            "SELECT pg_try_advisory_xact_lock_shared(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
         )
-        atomic.__enter__.assert_called_once_with()
-        atomic.__exit__.assert_called_once_with(None, None, None)
 
     def test_transaction_rolls_back_after_exception(self) -> None:
         cursor = MagicMock()
@@ -239,11 +235,9 @@ class BackupLockTest(SimpleTestCase):
         cursor_context.__enter__.return_value = cursor
         database_connection = MagicMock()
         database_connection.cursor.return_value = cursor_context
-        atomic = MagicMock()
 
         with (
-            patch("weblate.utils.backup.connection", database_connection),
-            patch("weblate.utils.backup.transaction.atomic", return_value=atomic),
+            patch("weblate.utils.lock.connection", database_connection),
             self.assertRaisesRegex(RuntimeError, "backup failed"),
             backup_lock(),
         ):
@@ -251,11 +245,8 @@ class BackupLockTest(SimpleTestCase):
             raise RuntimeError(msg)
 
         cursor.execute.assert_called_once_with(
-            "SELECT pg_try_advisory_xact_lock(%s)", [BACKUP_LOCK_KEY]
+            "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
         )
-        exit_args = atomic.__exit__.call_args.args
-        self.assertIs(exit_args[0], RuntimeError)
-        self.assertEqual(str(exit_args[1]), "backup failed")
 
     def test_exclusive_lock_times_out(self) -> None:
         cursor = MagicMock()
@@ -264,18 +255,16 @@ class BackupLockTest(SimpleTestCase):
         cursor_context.__enter__.return_value = cursor
         database_connection = MagicMock()
         database_connection.cursor.return_value = cursor_context
-        atomic = MagicMock()
 
         with (
-            patch("weblate.utils.backup.connection", database_connection),
-            patch("weblate.utils.backup.transaction.atomic", return_value=atomic),
+            patch("weblate.utils.lock.connection", database_connection),
             self.assertRaisesRegex(WeblateLockTimeoutError, "could not be acquired"),
             backup_lock(timeout=0),
         ):
             pass
 
         cursor.execute.assert_called_once_with(
-            "SELECT pg_try_advisory_xact_lock(%s)", [BACKUP_LOCK_KEY]
+            "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
         )
 
 
@@ -286,18 +275,18 @@ class BackupLockDatabaseTest(TransactionTestCase):
             other_connection.set_autocommit(False)
             with backup_lock(shared=True), other_connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT pg_try_advisory_xact_lock_shared(%s)", [BACKUP_LOCK_KEY]
+                    "SELECT pg_try_advisory_xact_lock_shared(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
                 )
                 self.assertTrue(cursor.fetchone()[0])
                 cursor.execute(
-                    "SELECT pg_try_advisory_xact_lock(%s)", [BACKUP_LOCK_KEY]
+                    "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
                 )
                 self.assertFalse(cursor.fetchone()[0])
             other_connection.rollback()
 
             with other_connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT pg_try_advisory_xact_lock(%s)", [BACKUP_LOCK_KEY]
+                    "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
                 )
                 self.assertTrue(cursor.fetchone()[0])
             other_connection.rollback()
@@ -314,7 +303,7 @@ class BackupLockDatabaseTest(TransactionTestCase):
 
             with other_connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT pg_try_advisory_xact_lock(%s)", [BACKUP_LOCK_KEY]
+                    "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
                 )
                 self.assertTrue(cursor.fetchone()[0])
             other_connection.rollback()

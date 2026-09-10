@@ -772,6 +772,7 @@ class Repository:
         base_path = self.path.rstrip("/").rstrip("\\")
         lock = WeblateLock(
             scope="repository",
+            timeout=120,
             key=get_repository_lock_key(base_path, component),
             slug=os.path.basename(base_path),
             origin=component.full_slug if component else base_path,

@@ -9,7 +9,6 @@ from __future__ import annotations
 import os
 import string
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
-import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
@@ -19,15 +18,13 @@ from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
 from django.conf import settings
-from django.db import connection, transaction
 from django.utils.translation import gettext
 
 from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import add_breadcrumb, report_error, report_message
 from weblate.utils.files import cleanup_error_message
-from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.tracing import start_span
+from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 if TYPE_CHECKING:
@@ -46,11 +43,9 @@ CACHEDIR = """Signature: 8a477f597d28d172789f06886806bc55
 # For information about cache directory tags, see:
 #	https://bford.info/cachedir/spec.html
 """
-
-# Stable application-specific PostgreSQL advisory lock key ("WEBLATE").
-BACKUP_LOCK_KEY = 0x5745424C415445
+# Stable application-specific PostgreSQL advisory lock key.
+BACKUP_LOCK_KEY = 1
 BACKUP_LOCK_TIMEOUT = 120
-BACKUP_LOCK_POLL_INTERVAL = 0.1
 
 
 def ensure_backup_dir() -> Path:
@@ -59,75 +54,17 @@ def ensure_backup_dir() -> Path:
     return backup_dir
 
 
-class BackupLock:
+class BackupLock(WeblateLock):
     """Transaction-scoped reader/writer lock for backup file access."""
 
     def __init__(self, *, shared: bool, timeout: int = BACKUP_LOCK_TIMEOUT) -> None:
-        # PostgreSQL is deliberately the only lock authority here. A filesystem
-        # fallback would not coordinate workers running on different hosts.
-        self._shared = shared
-        self._timeout = timeout
-        self._scope = "backup:run"
-        self._origin = None
-        self._name = "postgresql:backup:run"
-        self._locked = False
-
-    @property
-    def _try_lock_query(self) -> str:
-        if self._shared:
-            return "SELECT pg_try_advisory_xact_lock_shared(%s)"
-        return "SELECT pg_try_advisory_xact_lock(%s)"
-
-    @property
-    def name(self) -> str:
-        return self._name
-
-    @property
-    def scope(self) -> str:
-        return self._scope
-
-    @property
-    def origin(self) -> None:
-        return self._origin
-
-    def get_error_message(self) -> str:
-        return f"Lock on {self._name} could not be acquired in {self._timeout}s"
-
-    def add_breadcrumb(self, operation: str) -> None:
-        mode = "shared" if self._shared else "exclusive"
-        add_breadcrumb(category="lock", message=f"{operation} {self._name} ({mode})")
-
-    @property
-    def is_locked(self) -> bool:
-        return self._locked
-
-    def __enter__(self) -> None:
-        deadline = time.monotonic() + self._timeout
-        self.add_breadcrumb("enter")
-        with start_span(op="lock.wait", name=self._name):
-            while True:
-                with connection.cursor() as cursor:
-                    cursor.execute(self._try_lock_query, [BACKUP_LOCK_KEY])
-                    result = cursor.fetchone()
-                if result is not None and result[0]:
-                    self._locked = True
-                    self.add_breadcrumb("acquire")
-                    return
-                remaining = deadline - time.monotonic()
-                if remaining <= 0:
-                    self.add_breadcrumb("timeout")
-                    raise WeblateLockTimeoutError(self.get_error_message(), lock=self)
-                time.sleep(min(BACKUP_LOCK_POLL_INTERVAL, remaining))
-
-    def __exit__(
-        self,
-        exc_type: type[BaseException] | None,
-        exc_value: BaseException | None,
-        traceback: TracebackType | None,
-    ) -> None:
-        self._locked = False
-        self.add_breadcrumb("release")
-
+        super().__init__(
+            scope="backup:run",
+            key=BACKUP_LOCK_KEY,
+            slug="backup:run",
+            timeout=timeout,
+            shared=shared,
+        )
 
 @contextmanager
 def backup_lock(
@@ -135,7 +72,7 @@ def backup_lock(
 ) -> Iterator[None]:
     ensure_backup_dir()
     lock = BackupLock(shared=shared, timeout=timeout)
-    with transaction.atomic(), lock:
+    with lock:
         yield
 
 
