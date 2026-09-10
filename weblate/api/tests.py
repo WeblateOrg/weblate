@@ -5839,6 +5839,25 @@ class ProjectAPITest(APIBaseTest):
             )
         self.assertFalse(Project.objects.filter(slug="billing-acl-conflict").exists())
 
+    def test_patch_existing_language_policy(self) -> None:
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=403,
+            request={"new_lang": "existing"},
+        )
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            request={"new_lang": "existing"},
+        )
+        self.assertEqual(response.data["effective_new_lang"], "existing")
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.new_lang, "existing")
+
     def test_patch_inherited_setting_disables_inheritance(self) -> None:
         workspace = Workspace.objects.create(
             name="API workspace", commit_message="Workspace commit"
@@ -9334,6 +9353,47 @@ class ComponentAPITest(APIBaseTest):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"language_code": "fa"},
+        )
+
+    def test_create_translation_existing_policy(self) -> None:
+        self.component.new_lang = "existing"
+        self.component.inherit_new_lang = False
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        response = self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "fa"},
+        )
+        self.assertIn(
+            "requires maintainer approval", response.data["errors"][0]["detail"]
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="fa").exists()
+        )
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.REQUESTED_LANGUAGE
+            ).exists()
+        )
+        self.grant_perm_to_user("translation.add_more", project=self.project)
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "fa"},
+        )
+        source = self.create_po_new_base(name="other", project=self.project)
+        source.add_new_language(Language.objects.get(code="fa"), None)
         self.do_request(
             "api:component-translations",
             self.component_kwargs,

@@ -227,6 +227,26 @@ class SettingsTest(ViewTestCase):
             set(component.all_flags), {"safe-html", "strict-same", "ignore-same"}
         )
 
+    def test_existing_language_policy_inheritance(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Policy workspace", new_lang="existing"
+        )
+        self.project.workspace = workspace
+        self.project.inherit_new_lang = True
+        self.project.save()
+        category = Category.objects.create(
+            name="Policy", slug="policy", project=self.project
+        )
+        self.component.category = category
+        self.component.inherit_new_lang = True
+        self.component.save()
+        component = Component.objects.get(pk=self.component.pk)
+        self.assertEqual(component.effective_new_lang, "existing")
+        component.inherit_new_lang = False
+        component.new_lang = "contact"
+        component.save()
+        self.assertEqual(component.effective_new_lang, "contact")
+
     def test_inherited_setting_widget_state(self) -> None:
         self.project.license = "MIT"
         self.project.save()

@@ -1,0 +1,36 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
+
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+    dependencies = [
+        ("workspaces", "0004_workspace_metric_id"),
+    ]
+
+    operations = [
+        migrations.AlterField(
+            model_name="workspace",
+            name="new_lang",
+            field=models.CharField(
+                choices=[
+                    ("contact", "Contact maintainers"),
+                    ("url", "Point to translation instructions URL"),
+                    ("add", "Create new language file"),
+                    (
+                        "existing",
+                        "Create existing project languages; contact maintainers for new languages",
+                    ),
+                    ("none", "Disable adding new translations"),
+                ],
+                default="add",
+                help_text="How to handle requests for creating new translations.",
+                max_length=10,
+                verbose_name="Adding new translation",
+            ),
+        ),
+    ]

@@ -998,6 +998,11 @@ Point to translation instructions URL
 Create new language file
     User can select language and Weblate automatically creates the file for it
     and translation can begin.
+Create existing project languages; contact maintainers for new languages
+    Users can create translations for languages already used as target languages
+    in another non-glossary component in the project. Other languages are requested
+    from maintainers, who approve them by creating the first target translation.
+    See :ref:`workflow-language-restrictions` for eligibility and API behavior.
 Disable adding new translations
     There will be no option for user to start new translation.
 

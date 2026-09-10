@@ -5,6 +5,7 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added an inherited :ref:`language creation policy <workflow-language-restrictions>` allowing existing project target languages while requesting maintainer approval for new languages.
 * Added configurable per-user and IP/network :ref:`API rate limits and exemptions <api-rate>`, including Docker configuration.
 
 .. rubric:: Improvements

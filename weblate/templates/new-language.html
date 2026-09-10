@@ -55,6 +55,9 @@
               {% if new_lang == "contact" and not can_add %}
                 <p>{% translate "Project maintainers are notified of this request, prompting them to add the language manually." %}</p>
               {% endif %}
+              {% if new_lang == "existing" %}
+                <p>{% translate "Languages already used as target languages in this project can be added immediately. Other languages are requested from the project maintainers." %}</p>
+              {% endif %}
               {{ form|crispy }}
               {% if user_can_add_more_translation %}
                 {% if contact_form != "disabled" %}
@@ -69,7 +72,9 @@
               {% endif %}
               </div>
               <div class="card-footer">
-                {% if new_lang == "contact" %}
+                {% if new_lang == "existing" %}
+                  <input class="btn btn-primary" type="submit" value="{% translate "Submit" %}" />
+                {% elif new_lang == "contact" %}
                   <input class="btn btn-primary"
                          type="submit"
                          value="{% translate "Request new translation" %}" />
