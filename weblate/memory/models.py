@@ -1090,6 +1090,28 @@ class Memory(models.Model):
             self.scope_list = list(self.scopes.all())
         return self.scope_list
 
+    def is_context_visible(
+        self,
+        scopes: list[MemoryScope],
+        *,
+        project: Project | None,
+        user: User | None,
+    ) -> bool:
+        """Check whether the context can be shown for given project and user."""
+        if project is not None and any(
+            scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE}
+            and scope.project_id == project.id
+            for scope in scopes
+        ):
+            return True
+        if user is not None and any(
+            scope.scope in {MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE}
+            and scope.user_id == user.id
+            for scope in scopes
+        ):
+            return True
+        return any(scope.scope == MemoryScope.SCOPE_GLOBAL_FILE for scope in scopes)
+
     def get_context_origin_display(
         self,
         scopes: list[MemoryScope],

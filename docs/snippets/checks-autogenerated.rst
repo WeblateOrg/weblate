@@ -150,6 +150,11 @@ Consecutive duplicated words
 Checks that no consecutive duplicate words occur in a translation. This usually
 indicates a mistake in the translation.
 
+The check is skipped for Assamese, Bengali, Gujarati, Hindi, Kannada, Malayalam,
+Marathi, Nepali, Odia, Punjabi, Sindhi, Sinhala, Tamil, Telugu, Toki Pona, and Urdu,
+including their language variants, because word repetition carries grammatical
+meaning in these languages.
+
 .. hint::
 
    This check includes language specific rules to avoid false positives. In

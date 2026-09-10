@@ -19,6 +19,7 @@ Weblate 2026.10
 * History :guilabel:`View details` now uses a distinct eye icon, and :guilabel:`Revert` is shown in red to make the two actions easier to tell apart.
 * Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
 * Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
+* Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use the same layout as suggestions, and it now shows the :ref:`translation memory <translation-memory>` context of each match.
 
 .. rubric:: Security fixes
 
@@ -26,6 +27,7 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* Fixed false positives from the :ref:`consecutive duplicated words check <check-duplicate>` in South Asian languages with grammatical word repetition.
 * Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` failing when the warning directory is missing or inaccessible.
 * Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when migrating dismissed component alerts from releases before 2026.8.
 

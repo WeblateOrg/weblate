@@ -1167,6 +1167,7 @@ class MemoryModelTest(FixtureTestCase):
                 {
                     "quality": 100,
                     "service": "Weblate Translation Memory",
+                    "context": "",
                     "origin": "File: test",
                     "source": "Hello",
                     "text": "Ahoj",
@@ -1185,6 +1186,7 @@ class MemoryModelTest(FixtureTestCase):
                 {
                     "quality": 100,
                     "service": "Weblate Translation Memory",
+                    "context": "",
                     "origin": "File: test",
                     "source": "Hello",
                     "original_source": "Hello",
@@ -1410,6 +1412,78 @@ class MemoryModelTest(FixtureTestCase):
             machine_translation, unit, "Hello, world!\n", origin="File"
         )
         self.assertEqual(suggestion["quality"], 95)
+
+    def test_machine_context(self) -> None:
+        """Memory context is exposed so that the penalty can be understood."""
+        unit = self.get_unit()
+        unit.context = "Unit Context"
+        unit.save()
+        Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Hello",
+            target="Ahoj",
+            origin="test",
+            context="Unit Context",
+            legacy_from_file=True,
+            legacy_shared=False,
+            status=Memory.STATUS_ACTIVE,
+        )
+        machine_translation = WeblateMemory({})
+
+        suggestion = self.search_suggestion(
+            machine_translation, unit, "Hello", origin="File"
+        )
+        self.assertEqual(suggestion["context"], "Unit Context")
+        self.assertEqual(suggestion["quality"], 100)
+
+        # A differing context is penalized and the context is still exposed,
+        # that is what explains the lowered score in the UI.
+        unit.context = "Different context"
+        unit.save()
+        suggestion = self.search_suggestion(
+            machine_translation, unit, "Hello", origin="File"
+        )
+        self.assertEqual(suggestion["context"], "Unit Context")
+        self.assertEqual(suggestion["quality"], 95)
+
+    def test_machine_context_hidden_for_shared_scope(self) -> None:
+        """Context of an entry from another project does not cross over."""
+        unit = self.get_unit()
+        unit.context = "Different context"
+        unit.save()
+        source_project = Project.objects.create(
+            name="Shared context source",
+            slug="shared-context-source",
+            contribute_shared_tm=True,
+        )
+        self.project.use_shared_tm = True
+        self.project.save(update_fields=["use_shared_tm"])
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source=unit.source,
+            target="Sdileny cil",
+            origin="shared-context-source/component",
+            context="internal.key.of.other.project",
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=source_project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=source_project,
+        )
+
+        suggestions = list(WeblateMemory({}).search(unit, unit.source, None))
+
+        self.assertEqual(suggestions[0]["origin"], f"Shared: {memory.origin}")
+        self.assertEqual(suggestions[0]["context"], "")
+        self.assertEqual(suggestions[0]["quality"], 95)
 
     def test_import_map(self) -> None:
         call_command(

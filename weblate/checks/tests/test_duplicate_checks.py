@@ -4,9 +4,11 @@
 
 """Tests for duplicate checks."""
 
+from __future__ import annotations
+
 from weblate.checks.duplicate import DuplicateCheck
 from weblate.checks.tests.test_checks import CheckTestCase
-from weblate.trans.tests.factories import make_check, make_unit
+from weblate.trans.tests.factories import make_check, make_language, make_unit
 
 
 class DuplicateCheckTest(CheckTestCase):
@@ -17,6 +19,72 @@ class DuplicateCheckTest(CheckTestCase):
 
     def test_no_duplicated_token(self) -> None:
         self.assertFalse(self._run_check("I have two lemons"))
+
+    def test_reduplicating_languages(self) -> None:
+        for code in (
+            "as",
+            "bn",
+            "gu",
+            "hi",
+            "kn",
+            "ml",
+            "mr",
+            "ne",
+            "or",
+            "pa",
+            "sd",
+            "si",
+            "ta",
+            "te",  # codespell:ignore
+            "tok",
+            "ur",
+            "pa_PK",
+            "pa-PK",
+            "bn_BD",
+            "ur_PK",
+        ):
+            with self.subTest(code=code):
+                unit = make_unit(code=code, source="string", target="word word")
+                self.assertFalse(
+                    self.check.check_target([unit.source], [unit.target], unit)
+                )
+                self.assertFalse(
+                    self.check.check_target_with_flags(
+                        [unit.source], [unit.target], unit, unit.all_flags
+                    )
+                )
+
+    def test_punjabi_reduplication(self) -> None:
+        examples = (
+            ("anyone", "ਜਿਹੜੇ ਜਿਹੜੇ", "جہڑے جہڑے"),
+            ("in small parts", "ਥੋੜ੍ਹਾ ਥੋੜ੍ਹਾ", "تھوڑھا تھوڑھا"),
+            ("continuously", "ਰਹਿ ਰਹਿ ਕੇ", "رہ رہ کے"),
+            ("slowly", "ਸਣੇ ਸਣੇ", "سݨے سݨے"),
+            ("intermittently", "ਠਹਿਰ ਠਹਿਰ ਕੇ", "ٹھیر ٹھیر کے"),
+        )
+        for source, gurmukhi, shahmukhi in examples:
+            for code, target in (("pa", gurmukhi), ("pa_PK", shahmukhi)):
+                with self.subTest(code=code, target=target):
+                    unit = make_unit(code=code, source=source, target=target)
+                    self.assertFalse(self.check.check_target([source], [target], unit))
+
+    def test_target_language_and_flags(self) -> None:
+        for code in ("en", "cs"):
+            for flags in ("", "ignore-duplicate"):
+                with self.subTest(code=code, flags=flags):
+                    unit = make_unit(
+                        code=code, flags=flags, source="string", target="word word"
+                    )
+                    self.assertEqual(
+                        self.check.check_target([unit.source], [unit.target], unit),
+                        not flags,
+                    )
+
+    def test_hindi_source_exception(self) -> None:
+        unit = make_unit(code="en", source="कर कर", target="word word")
+        unit.translation.component.source_language = make_language("hi")
+        # Ignored source repetitions must not mask duplicates in other languages.
+        self.assertTrue(self.check.check_target([unit.source], [unit.target], unit))
 
     def test_check_respects_boundaries_suffix(self) -> None:
         # 'lemon lemon' is a false duplicate.
