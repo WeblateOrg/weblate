@@ -539,7 +539,7 @@ class SearchNavigation:
         result = self.page(include_count=True, page_size=page_size)
         if isinstance(result, HttpResponse):
             return result
-        return redirect(f"{self.request.path}?{self.search_url}&offset=1")
+        return HttpResponseRedirect(f"?{self.search_url}&offset=1")
 
     def get_reordered_cached_session_data(
         self, source: CachedSearchSnapshot, *, reset_offset_to_last_viewed: bool
