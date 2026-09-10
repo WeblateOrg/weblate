@@ -3483,11 +3483,11 @@ class ComponentCopyTest(APITestCase):
             def order_by(self, *_args):
                 return self
 
-            def values_list(self, *_args) -> list[tuple[int, str, str, int, int]]:
+            def values_list(self, *_args) -> list[tuple[int, str, str, str, int, int]]:
                 return [
-                    (1, "Hello", "first", 10, 1),
-                    (2, "Hello", "second", 20, 1),
-                    (1, "Hello", "later", 30, 1),
+                    (1, "Hello", "", "first", 10, 1),
+                    (2, "Hello", "", "second", 20, 1),
+                    (1, "Hello", "", "later", 30, 1),
                 ]
 
         class EmptyComponents:
@@ -3509,7 +3509,9 @@ class ComponentCopyTest(APITestCase):
         ):
             translations = auto.collect_other_translations(FilteredSources(), [1, 2])
 
-        self.assertEqual(translations, {"Hello": ["first"]})
+        self.assertEqual(
+            translations, ({("Hello", ""): ["first"]}, {"Hello": ["first"]})
+        )
 
 
 class RoleAPITest(APIBaseTest):

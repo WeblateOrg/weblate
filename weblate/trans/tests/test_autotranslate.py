@@ -26,7 +26,7 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.lang.models import Language, Plural
 from weblate.machinery.dummy import DummyTranslation
 from weblate.trans.actions import ActionEvents
-from weblate.trans.autotranslate import BatchAutoTranslate
+from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
 from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
     Change,
@@ -41,7 +41,12 @@ from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.celery import get_task_metadata, get_task_metadata_key
-from weblate.utils.state import STATE_APPROVED, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.stats import ProjectLanguage
 from weblate.workspaces.models import Workspace
 
@@ -235,6 +240,126 @@ class AutoTranslationTest(ViewTestCase):
     def test_different(self) -> None:
         """Test for automatic translation with different content."""
         self.perform_auto()
+
+    def test_context_matches_and_fallback(self) -> None:
+        source_units = list(self.translation.unit_set.order_by("pk")[:4])
+        for unit, context, target in zip(
+            source_units,
+            ("verb", "adjective", "", "adjective"),
+            ("Otevřít", "Otevřeno", "Prázdný kontext", "Later match"),
+            strict=True,
+        ):
+            Unit.objects.filter(pk=unit.pk).update(
+                source="Open", context=context, target=target, state=STATE_TRANSLATED
+            )
+        translation = self.component2.translation_set.get(language_code="cs")
+        target_unit = translation.unit_set.earliest("pk")
+        for mode in ("translate", "suggest"):
+            for context, expected in (
+                ("verb", "Otevřít"),
+                ("adjective", "Otevřeno"),
+                ("", "Prázdný kontext"),
+                ("unknown", "Otevřít"),
+                ("Adjective", "Otevřít"),
+            ):
+                with self.subTest(mode=mode, context=context):
+                    target_unit.suggestion_set.all().delete()
+                    Unit.objects.filter(pk=target_unit.pk).update(
+                        source="Open", context=context, target="", state=STATE_EMPTY
+                    )
+                    auto = AutoTranslate(
+                        translation=translation,
+                        user=self.user,
+                        q="",
+                        mode=mode,
+                        unit_ids=[target_unit.pk],
+                    )
+                    auto.process_others(
+                        [self.component.pk] if self.use_component_id else None
+                    )
+                    self.assertEqual(auto.updated, 1)
+                    target_unit.refresh_from_db()
+                    if mode == "suggest":
+                        self.assertEqual(
+                            target_unit.suggestion_set.get().target, expected
+                        )
+                    else:
+                        self.assertEqual(target_unit.target, expected)
+
+    def test_context_precedes_component_priority(self) -> None:
+        first = self.get_unit("Hello, world!\n")
+        translation = self.component2.translation_set.get(language_code="cs")
+        second = translation.unit_set.earliest("pk")
+        Unit.objects.filter(pk=first.pk).update(
+            source="Open", context="verb", target="Otevřít", state=STATE_TRANSLATED
+        )
+        Unit.objects.filter(pk=second.pk).update(
+            source="Open",
+            context="adjective",
+            target="Otevřeno",
+            state=STATE_TRANSLATED,
+        )
+        auto = AutoTranslate(
+            translation=translation, user=self.user, q="", mode="translate"
+        )
+        sources = Unit.objects.filter(pk__in=[first.pk, second.pk])
+        for component_ids in (
+            [self.component.pk, self.component2.pk],
+            [self.component2.pk, self.component.pk],
+        ):
+            with self.subTest(component_ids=component_ids):
+                with self.assertNumQueries(1):
+                    contexts, fallback = auto.collect_other_translations(
+                        sources, component_ids
+                    )
+                self.assertEqual(contexts["Open", "adjective"], ["Otevřeno"])
+                self.assertEqual(
+                    fallback["Open"],
+                    [
+                        "Otevřít"
+                        if component_ids[0] == self.component.pk
+                        else "Otevřeno"
+                    ],
+                )
+        target_unit = translation.unit_set.exclude(pk=second.pk).earliest("pk")
+        Unit.objects.filter(pk=target_unit.pk).update(
+            source="Open", context="adjective", target="", state=STATE_EMPTY
+        )
+        auto.unit_ids = [target_unit.pk]
+        auto.process_others([self.component.pk, self.component2.pk])
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, "Otevřeno")
+
+        Unit.objects.filter(pk=first.pk).update(context="adjective")
+        contexts, _fallback = auto.collect_other_translations(
+            sources, [self.component.pk, self.component2.pk]
+        )
+        self.assertEqual(contexts["Open", "adjective"], ["Otevřít"])
+
+    def test_context_match_skips_incompatible_plurals(self) -> None:
+        self.set_mismatched_plural()
+        self.translate_plural_source()
+        source_unit = self.get_unit("Orangutan has %d banana.\n")
+        translation = self.component2.translation_set.get(language_code="cs")
+        compatible_unit = self.get_unit(
+            "Orangutan has %d banana.\n", translation=translation
+        )
+        target = ["Jeden banán\n", "Dva banány\n", "Pět banánů\n"]
+        compatible_unit.translate(self.user, target, STATE_TRANSLATED, propagate=False)
+        Unit.objects.filter(pk=source_unit.pk).update(context="matching")
+        Unit.objects.filter(pk=compatible_unit.pk).update(context="fallback")
+        auto = AutoTranslate(
+            translation=translation, user=self.user, q="", mode="translate"
+        )
+        contexts, fallback = auto.collect_other_translations(
+            Unit.objects.filter(pk__in=[source_unit.pk, compatible_unit.pk]),
+            [self.component.pk, self.component2.pk],
+        )
+        self.assertNotIn((source_unit.source, "matching"), contexts)
+        self.assertEqual(contexts[source_unit.source, "fallback"], target)
+        self.assertEqual(fallback[source_unit.source], target)
+        self.assertEqual(len(auto.warnings), 1)
+        self.assertIn("do not match the target translation", auto.warnings[0])
 
     def restrict_direct_editing(self) -> Translation:
         self.user.is_superuser = False

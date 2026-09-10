@@ -469,9 +469,14 @@ Two modes of operation are possible:
 - Using selected machine translation services with translations above a certain
   quality threshold.
 
-When using other components as the source, Weblate applies translations only
-when plural forms are compatible. If the source component uses different plural
-rules, pluralized strings are skipped and Weblate shows a warning, while
+When using other components as the source, Weblate first looks for an exact match
+of both source text and context, including empty context. If none exists, it uses
+a translation matching only the source text. Context matches take precedence over
+source component order; component order breaks ties between equally matching
+candidates.
+
+Weblate applies translations only when plural forms are compatible. If the source
+component uses different plural rules, pluralized strings are skipped and Weblate shows a warning, while
 single-form strings are still translated.
 
 You can also choose which strings are to be auto-translated.
