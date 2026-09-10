@@ -868,6 +868,30 @@ form + .login-label {
   line-height: 0;
 }
 
+/* History view only: keep .btn-float compact on suggestions and comments. */
+#changes-table .btn-float {
+  gap: 10px;
+}
+
+#changes-table .btn-float .btn {
+  padding: 6px !important;
+  border: 1px solid var(--wl-color-border-strong);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--wl-color-bg);
+}
+
+#changes-table .btn-float .btn:hover,
+#changes-table .btn-float .btn:focus,
+#changes-table .btn-float .btn:focus-visible {
+  background-color: var(--wl-color-row-hover);
+  border-color: var(--wl-color-border-strong);
+  text-decoration: none;
+}
+
+#changes-table .btn-float .btn:not(.red):focus-visible path {
+  fill: var(--wl-navi-color);
+}
+
 kbd {
   border: 1px solid var(--wl-color-border-strong);
   -webkit-box-shadow: none;
