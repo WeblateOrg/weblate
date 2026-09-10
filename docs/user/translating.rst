@@ -68,6 +68,12 @@ remain for manual review. Weblate shows the number of matching suggestions for
 confirmation and processes the acceptance in the background. If you can review
 the translation, you can accept and approve the suggestions in the same step.
 
+Bulk acceptance selects suggestions from that user only for the current language
+in the current component. It does not select suggestions in other languages or
+components, even within the same project. For example, when translating a
+component into French, bulk acceptance selects only that user's French
+suggestions in that component.
+
 .. _user-comments:
 
 Comments

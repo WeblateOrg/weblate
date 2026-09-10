@@ -21,8 +21,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-03 21:16-0500\n"
-"PO-Revision-Date: 2026-09-05 05:51+0000\n"
-"Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
+"PO-Revision-Date: 2026-09-09 08:51+0000\n"
+"Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.9.1.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -10960,9 +10960,9 @@ msgstr "Dotčené součásti"
 #, python-format
 msgid "%(count)s more affected component."
 msgid_plural "%(count)s more affected components."
-msgstr[0] "%(count)s více dotčená součást."
-msgstr[1] "%(count)s více dotčené součásti."
-msgstr[2] "%(count)s více dotčených součástí."
+msgstr[0] "%(count)s další dotčená součást."
+msgstr[1] "%(count)s další dotčené součásti."
+msgstr[2] "%(count)s dalších dotčených součástí."
 
 msgid "No diagnostics match the selected filters."
 msgstr "Žádná diagnostika neodpovídá zadaným filtrům."
@@ -13322,76 +13322,74 @@ msgstr "Obnovit"
 msgid "No connected accounts yet."
 msgstr "Zatím nejsou propojeny žádné účty."
 
-#, fuzzy
-#| msgid "code-hosting installations"
 msgid "Code-hosting integrations"
-msgstr "instalace služeb pro hostování kódu"
+msgstr "Integrace služeb pro hostování kódu"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
-msgstr ""
+msgstr "Přenést %(workspace_name)s do Weblate na GitHubu"
 
-#, fuzzy
-#| msgid "Connect GitHub account"
 msgid "Connect or update GitHub account"
-msgstr "Propojit účet GitHub"
+msgstr "Připojit nebo aktualizovat účet na GitHubu"
 
 msgid ""
 "Select existing Git or GitHub components to use the Weblate GitHub App. "
 "Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
 "push URLs will be removed."
 msgstr ""
+"Vyberte stávající komponenty Git nebo GitHub, u nichž chcete používat "
+"Weblate pro GitHub. Adresy URL jejich repozitářů budou nahrazeny kanonickými "
+"adresami HTTPS a samostatné adresy URL pro odesílání budou odstraněny."
 
 #, python-format
 msgid ""
 "The GitHub App needs repository access for these accounts: %(accounts)s."
 msgstr ""
+"Aplikace GitHub potřebuje přístup k repozitářům pro tyto účty: %(accounts)s."
 
-#, fuzzy
-#| msgid "connected GitHub accounts"
 msgid "Connected GitHub accounts:"
-msgstr "propojené účty na GitHubu"
+msgstr "Propojené účty GitHub:"
 
 msgid "Refresh repositories"
 msgstr "Obnovit repozitáře"
 
-#, fuzzy
-#| msgid "Affected components"
 msgid "Migrate selected components"
-msgstr "Dotčené součásti"
+msgstr "Přenést vybrané komponenty"
 
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
 msgstr ""
+"Připojte aplikaci GitHub nebo ji aktualizujte, abyste udělili přístup k "
+"zbývajícím repozitářům."
 
 msgid ""
 "Connect the GitHub App to the listed accounts and grant access to their "
 "repositories before migrating."
 msgstr ""
+"Před migrací propojte aplikaci GitHub s uvedenými účty a udělejte jim "
+"přístup k jejich repozitářům."
 
 msgid ""
 "A workspace owner needs to connect the GitHub App and grant access to these "
 "repositories before they can be migrated."
 msgstr ""
+"Vlastník pracovního prostoru musí nejprve propojit aplikaci GitHub a udělit "
+"přístup k těmto repozitářům, aby bylo možné je migrovat."
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Migration status"
-msgstr "Stav překladu"
+msgstr "Stav migrace"
 
-#, fuzzy
-#| msgid "Read-only"
 msgid "Ready"
-msgstr "Pouze ke čtení"
+msgstr "Připraveno"
 
-#, fuzzy
-#| msgid "Repository rebased"
 msgid "Repository access needed"
-msgstr "Proveden rebase repozitáře"
+msgstr "Je nutný přístup k repozitáři"
 
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+"V tomto pracovním prostoru se nenacházejí žádné součásti GitHubu, které je "
+"možné zmigrovat."
 
 msgid "Register Weblate GitHub App"
 msgstr "Zaregistrovat aplikaci Weblate na GitHubu"
@@ -13630,24 +13628,24 @@ msgid ""
 "will also be uninstalled from GitHub. Reconnecting it then requires "
 "installing the app on GitHub again."
 msgstr ""
+"Pokud toto připojení nepoužívá žádný jiný pracovní prostor, bude GitHubová "
+"aplikace Weblate odinstalována také z GitHubu. Její opětovné připojení bude "
+"poté vyžadovat opětovnou instalaci aplikace na GitHubu."
 
-#, fuzzy, python-format
-#| msgid "The following components would be created"
+#, python-format
 msgid "The following component will lose access to its repository:"
 msgid_plural ""
 "The following %(counter)s components will lose access to their repositories:"
-msgstr[0] "Následující součásti by byly vytvořeny"
-msgstr[1] "Následující součásti by byly vytvořeny"
-msgstr[2] "Následující součásti by byly vytvořeny"
+msgstr[0] "Následující součást ztratí přístup ke svému repozitáři:"
+msgstr[1] "Následující %(counter)s součásti ztratí přístup ke svým repozitářům:"
+msgstr[2] "Následujících %(counter)s součástí ztratí přístup ke svým repozitářům:"
 
-#, fuzzy, python-format
-#| msgid "%(count)s more affected component."
-#| msgid_plural "%(count)s more affected components."
+#, python-format
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
-msgstr[0] "%(count)s více dotčená součást."
-msgstr[1] "%(count)s více dotčené součásti."
-msgstr[2] "%(count)s více dotčených součástí."
+msgstr[0] "a %(counter)s další součást"
+msgstr[1] "a %(counter)s další součásti"
+msgstr[2] "a %(counter)s dalších součástí"
 
 msgid "Invitations"
 msgstr "Pozvánky"
@@ -14533,7 +14531,7 @@ msgid "Inexistent files."
 msgstr "Neexistující soubory."
 
 msgid "This component can be migrated to the Weblate GitHub App integration."
-msgstr ""
+msgstr "Tuto součást lze zmigrovat do GitHubové aplikace Weblate."
 
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
@@ -14843,15 +14841,10 @@ msgstr "Můžu to provést já"
 msgid "Discovery configuration"
 msgstr "Nastavení objevování"
 
-#, fuzzy
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
 msgstr ""
-"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
-"není k dispozici."
+"Objevování součástí zastaveno, protože repozitář obsahuje příliš mnoho cest."
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
@@ -14871,20 +14864,23 @@ msgid ""
 "Component discovery stopped because matching translation files would require "
 "too many comparisons."
 msgstr ""
+"Objevování součást zastaveno, protože odpovídající soubory překladu by "
+"vyžadovaly příliš mnoho porovnání."
 
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
 "The file mask used for discovery is too complex and took too long to "
 "evaluate."
 msgstr ""
-"Regulární výraz je příliš složitý a jeho vyhodnocení trvalo příliš dlouho."
+"Souborová maska použitá pro objevování je příliš složitá a její vyhodnocení "
+"trvalo příliš dlouho."
 
 #, python-format
 msgid ""
 "Multiple base or new base files render to the same file mask %(mask)s "
 "(%(existing)s and %(new)s)."
 msgstr ""
+"Několik základních nebo nových základních souborů se vykresluje do stejné "
+"souborové masky %(mask)s (%(existing)s a %(new)s)."
 
 msgid "File mask matches the main component."
 msgstr "Maska souborů odpovídá hlavní součásti."
@@ -14917,20 +14913,14 @@ msgstr "Seznam nedávných změn provedených za pomocí Weblate v %s."
 msgid "Sort JSON keys"
 msgstr "Seřadit JSON klíče"
 
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not sort"
-msgstr "Nenahrávat"
+msgstr "Netřídit"
 
-#, fuzzy
-#| msgid "Case-sensitive"
 msgid "Case-sensitive sort"
-msgstr "Rozlišuje velikost písmen"
+msgstr "Třízení s rozlišením velikosti písmen"
 
-#, fuzzy
-#| msgid "Case-insensitive"
 msgid "Case-insensitive sort"
-msgstr "Nerozlišuje velikost písmen"
+msgstr "Třízení bez rozlišení velikosti písmen"
 
 msgid "JSON indentation"
 msgstr "Odsazování JSON"
@@ -17298,32 +17288,23 @@ msgstr "Dlouhá pomlčka"
 msgid "User configured character: {}"
 msgstr "Uživatelem zadaný znak: {}"
 
-#, fuzzy
-#| msgid ""
-#| "Automatic translation cannot be started because the target is locked."
 msgid "Repository operation could not be completed because it remained locked."
-msgstr "Automatický překlad nelze spustit, protože cíl je uzamčen."
+msgstr "Operaci repozitáře nebylo možné dokončit, protože zůstala zamčená."
 
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operation could not be completed."
-msgstr "Operace s repozitářem v %(component)s"
+msgstr "Operaci repozitáře nebylo možné dokončit."
 
 msgid ""
 "Repository operation could not be completed because access is no longer "
 "permitted."
 msgstr ""
+"Operaci repozitáře nebylo možné dokončit, protože přístup již není povolen."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository operation completed."
-msgstr "Operace na repozitáři selhala"
+msgstr "Operace repozitáře dokončena."
 
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operation completed with errors."
-msgstr "Operace s repozitářem v %(component)s"
+msgstr "Operace repozitáře dokončena s chybami."
 
 msgid "No suggestions found."
 msgstr "Nenalezeny žádné řetězce."
@@ -17856,27 +17837,19 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 "K provedení této akce použijte tlačítko na stránce se stavem repozitáře."
 
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Another repository operation is already in progress."
-msgstr "Nepodařilo se zamknout repozitář, právě probíhá jiná operace."
+msgstr "Již probíhá jiná operace repozitáře."
 
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr "Zdá se, že v úložišti právě probíhá operace. Zkuste to prosím později."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operations failed"
 msgid "This repository operation is already queued."
-msgstr "Operace na repozitáři selhaly"
+msgstr "Tato operace repozitáře je již ve frontě."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository operation has been queued."
-msgstr "Operace na repozitáři selhala"
+msgstr "Operace repozitáře byla zařazena do fronty."
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "Z překladového souboru byly odstraněny duplicitní řetězce."
@@ -18854,15 +18827,11 @@ msgstr "Toto odešle změny do upstream repozitáře."
 msgid "Enter a valid GitHub host."
 msgstr "Zadejte platný hostitelský název GitHubu."
 
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Components to migrate"
-msgstr "Součást k odstranění"
+msgstr "Součást k migraci"
 
-#, fuzzy
-#| msgid "Select an existing component configuration to copy."
 msgid "Select at least one component to migrate."
-msgstr "Vyberte existující konfiguraci součásti ke zkopírování."
+msgstr "Vyberte alespoň jednu součást k migraci."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -19198,19 +19167,24 @@ msgid ""
 "GitHub could not uninstall the connected account. The connection was not "
 "removed from Weblate, please try again."
 msgstr ""
+"GitHubu se nepodařilo odinstalovat připojený účet. Připojení nebylo "
+"odstraněno z Weblate, zkuste to prosím znovu."
 
 #, python-format
 msgid ""
 "Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
 "installed because another workspace still uses it."
 msgstr ""
+"Odstraněn připojený GitHub účet %(target)s. GitHubová aplikace Weblate "
+"zůstává nainstalovaná, protože ji stále používá jiný pracovní prostor."
 
-#, fuzzy, python-format
-#| msgid "Removed connected GitHub account %(target)s."
+#, python-format
 msgid ""
 "Removed connected GitHub account %(target)s and uninstalled the Weblate "
 "GitHub App from GitHub."
-msgstr "Odpojen účet GitHub %(target)s."
+msgstr ""
+"Odstraněn připojený GitHub účet %(target)s a odinstalována GitHubová "
+"aplikace Weblate z GitHubu."
 
 #, python-format
 msgid ""
@@ -19218,6 +19192,9 @@ msgid ""
 "to this installation, so it was not uninstalled. Check on GitHub whether the "
 "Weblate GitHub App is still installed."
 msgstr ""
+"Odstraněn připojený GitHub účet %(target)s. GitHub již neuděluje přístup k "
+"této instalaci, takže nebyla odinstalována. Zkontrolujte GitHub, zda je "
+"aplikace Weblate stále nainstalovaná."
 
 #, python-format
 msgid ""
@@ -19225,6 +19202,9 @@ msgid ""
 "longer configured on this Weblate instance, so it could not be uninstalled, "
 "please remove it on GitHub manually."
 msgstr ""
+"Odstraněn připojený GitHub účet %(target)s. GitHubová aplikace Weblate již "
+"není na této instanci Weblate nastavena, takže se ji nepodařilo "
+"odinstalovat, odstraňte ji prosím na GitHubu ručně."
 
 #, python-format
 msgid ""
@@ -19309,37 +19289,31 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Byl přidán propojený účet GitHub."
 
-#, fuzzy, python-format
-#| msgid "Remove Weblate GitHub App?"
+#, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
-msgstr[0] "Odstranit aplikaci Weblate z GitHubu?"
-msgstr[1] "Odstranit aplikaci Weblate z GitHubu?"
-msgstr[2] "Odstranit aplikaci Weblate z GitHubu?"
+msgstr[0] "Jedna součást zmigrována do GitHubové aplikace Weblate."
+msgstr[1] "%(count)d součásti zmigrovány do GitHubové aplikace Weblate."
+msgstr[2] "%(count)d součástí zmigrováno do GitHubové aplikace Weblate."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
+#, python-format
 msgid ""
 "One component was not migrated because its repository is no longer available."
 msgid_plural ""
 "%(count)d components were not migrated because their repositories are no "
 "longer available."
 msgstr[0] ""
-"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
-"není k dispozici."
+"Jedna součást nebyla zmigrována, protože její repozitář již není dostupný."
 msgstr[1] ""
-"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
-"není k dispozici."
+"%(count)d součásti nebyly zmigrovány, protože jejich repozitáře již nejsou "
+"dostupné."
 msgstr[2] ""
-"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
-"není k dispozici."
+"%(count)d součástí nebylo zmigrováno, protože jejich repozitáře již nejsou "
+"dostupné."
 
-#, fuzzy, python-format
-#| msgid "Could not push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not migrate %(component)s: %(error)s"
-msgstr "Nepodařilo se odeslat %(component)s: %(error_text)s"
+msgstr "Nepodařilo se zmigrovat součást %(component)s: %(error)s"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Zadejte platný název aplikace GitHub a hostitele."

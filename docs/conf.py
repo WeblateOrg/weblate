@@ -97,6 +97,7 @@ release = "2026.10"
 # ones.
 extensions = [
     "djangodocs",
+    "rubric_permalinks",
     "sphinxcontrib.httpdomain",
     "sphinx.ext.autodoc",
     "autodoc_signature_filter",
@@ -168,7 +169,7 @@ if os.environ.get("READTHEDOCS", "") == "True":
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["../weblate/static/"]
+html_static_path = ["../weblate/static/", "_ext/static"]
 
 html_logo = "images/logo-text.svg"
 
@@ -385,6 +386,10 @@ nitpick_ignore = [
 # Number of retries and timeout for linkcheck
 linkcheck_retries = 10
 linkcheck_timeout = 10
+linkcheck_anchors_ignore_for_url = [
+    # JavaScript robot checks prevent verifying article anchors
+    r"https://eur-lex\.europa\.eu/",
+]
 linkcheck_ignore = [
     # Local URL to Weblate
     "http://127.0.0.1:8080/",
@@ -410,6 +415,7 @@ linkcheck_ignore = [
     "https://platform.openai.com/docs/models",
     "https://translate.systran.net/en/account",
     "https://api.sap.com/api/translationhub/overview",
+    r"https://www\.enisa\.europa\.eu/topics/product-security/single-reporting-platform-srp/cra-srp-glossary$",
     # Anchor is not there for linkcheck
     "https://hub.docker.com/_/postgres#pgdata",
     "https://github.com/SAML-Toolkits/python3-saml#settings",

@@ -25,7 +25,7 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 118 documented / 70 maintainer / 0 inferred claims.
+Provenance summary: 119 documented / 71 maintainer / 0 inferred claims.
 
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
@@ -393,13 +393,19 @@ Build-time and configuration variants
        tuning, not a security boundary. Operators choose a mode based on memory,
        capacity, and availability requirements. *(maintainer)*
    * - :envvar:`WEBLATE_API_RATELIMIT_ANON`,
-       :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`,
+       :envvar:`WEBLATE_API_RATELIMIT_USER`,
+       :setting:`API_RATELIMIT_USER_OVERRIDES`,
+       :setting:`API_RATELIMIT_IP_OVERRIDES`, :setting:`RATELIMIT_ATTEMPTS`,
        and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``
      - Rate limits are configurable. *(documented)* (source: :doc:`/api`,
        :doc:`/admin/config`)
      - Availability claims assume rate limits appropriate to deployment size
        and exposure. *(maintainer)*
-     - Disabling rate limits changes DoS triage from Weblate bug to deployment
+     - Operators can override or exempt users and IP networks, including
+       anonymous clients. IP exemptions rely on trusted proxy configuration;
+       they do not grant authentication or permissions. *(documented)*
+       (source: :ref:`api-rate`, :setting:`IP_BEHIND_REVERSE_PROXY`).
+       Disabling rate limits changes DoS triage from Weblate bug to deployment
        posture unless a single request violates a claimed property.
        *(maintainer)*
    * - :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`,
@@ -557,6 +563,10 @@ Input assumptions
        and pull-request behavior
      - Trusted to users with corresponding management permissions.
        *(documented)* (source: :doc:`/admin/access`, :doc:`/admin/continuous`)
+       The automatic translation add-on can create approved strings when the
+       target language's effective review settings allow it. Configuring this
+       behavior uses add-on management permissions rather than the configuring
+       user's review permission. *(documented)* (source: :doc:`/admin/addons`)
      - Assign VCS and project management permissions only to trusted users.
        *(documented)* (source: :doc:`/admin/access`)
    * - External repository content
@@ -816,6 +826,12 @@ Security properties Weblate provides
      - Security-critical when it blocks investigation of privileged changes or
        discloses retained personal data; privacy-impacting when data exceeds the
        configured retention; correctness-only for minor event gaps.
+   * - Self-service trial creation grants only the designated commercial trial
+       plan or the Libre setup plan. *(maintainer)*
+     - The deployment offers self-service hosting trials.
+     - An authenticated user can select another public, private, or internal
+       billing plan when creating a trial.
+     - Security-critical when this bypasses paid service limits.
    * - Rate-limited API and web actions enforce configured rate limits.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
      - Rate limiting is enabled and backed by a working datastore.

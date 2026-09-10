@@ -1568,7 +1568,7 @@ class SourceUnitTest(ModelTestCase):
     def test_check_flags(self) -> None:
         """Setting of Source check_flags changes checks for related units."""
         self.assertEqual(Check.objects.count(), 3)
-        check = Check.objects.all()[0]
+        check = Check.objects.filter(name="same")[0]
         unit = check.unit
         # reload component to clear stats cache
         self.component = unit.translation.component

@@ -178,6 +178,7 @@ class AutoTranslate(BaseAutoTranslate):
         component_wide: bool = False,
         unit_ids: list[int] | None = None,
         allow_non_shared_tm_source_components: bool = False,
+        enforce_permissions: bool = True,
     ) -> None:
         super().__init__(
             user=user,
@@ -190,6 +191,7 @@ class AutoTranslate(BaseAutoTranslate):
             ),
         )
         self.translation: Translation = translation
+        self.enforce_permissions = enforce_permissions
         translation.component.start_batched_checks()
         self.progress_base = 0
         self.target_state = STATE_TRANSLATED
@@ -229,6 +231,7 @@ class AutoTranslate(BaseAutoTranslate):
         else:
             if (
                 state == STATE_APPROVED
+                and self.enforce_permissions
                 and self.user is not None
                 and not self.user.has_perm("unit.review", unit)
             ):
@@ -683,6 +686,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 allow_non_shared_tm_source_components=(
                     self.allow_non_shared_tm_source_components
                 ),
+                enforce_permissions=self.enforce_permissions,
             )
 
             effective_source_component_ids = source_component_ids

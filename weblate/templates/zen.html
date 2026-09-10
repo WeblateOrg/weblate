@@ -31,7 +31,7 @@
 
   <div class="btn-group float-end btn-group-settings" role="group">
 
-    <a href="{% url 'translate' path=object.get_url_path %}?{{ search_url }}"
+    <a href="{% url 'translate' path=object.get_url_path %}{% querystring query_params %}"
        data-params="{{ search_url }}"
        title="{% translate "Edit in single string mode" %}"
        class="btn btn-link">{% icon "close.svg" %} {% translate "Exit Zen" %}</a>
@@ -56,7 +56,7 @@
       <tr>
         <td colspan="3" class="loading-icon">
           {% loading_icon "next" %}
-          <a href="{% url 'load_zen' path=object.get_url_path %}?{{ search_url }}"
+          <a href="{% url 'load_zen' path=object.get_url_path %}{% querystring query_params %}"
              class="hidden"
              id="zen-load"
              data-offset="{{ offset }}"></a>

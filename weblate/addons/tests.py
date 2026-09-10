@@ -50,6 +50,7 @@ from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 from weblate_schemas.messages import WeblateV1Message
 
 from weblate.addons.forms import (
+    AutoAddonForm,
     FedoraMessagingAddonForm,
     MesonExtractPotForm,
     SphinxExtractPotForm,
@@ -71,6 +72,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
     Vote,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
 from weblate.trans.tests.utils import TEST_DATA, get_optional_path
@@ -78,6 +80,7 @@ from weblate.utils.celery import handle_task_failure
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
+    STATE_APPROVED,
     STATE_EMPTY,
     STATE_NEEDS_REWRITING,
     STATE_READONLY,
@@ -5989,8 +5992,7 @@ class CommandTest(ComponentTestCase):
         self.assertIn("msgmerge", generated)
         self.assertNotIn("Guided preset", generated)
         self.assertIn(
-            "Enter slug of a component to use as source, keep blank to use all "
-            "components in the current project.",
+            str(AutoAddonForm.base_fields["component"].help_text),
             generated,
         )
         # Hidden fields such as DiscoveryForm.confirm (HiddenInput) should not be documented
@@ -8014,6 +8016,93 @@ class TestRemoval(ComponentTestCase):
 
 
 class AutoTranslateAddonTest(ComponentTestCase):
+    def test_approved_mode_configuration(self) -> None:
+        configuration = {
+            "component": "",
+            "q": "state:<translated",
+            "auto_source": "others",
+            "engines": [],
+            "threshold": 80,
+            "mode": "approved",
+        }
+        for review_enabled in (False, True):
+            self.project.translation_review = review_enabled
+            self.project.save(update_fields=["translation_review"])
+            for scope in ("component", "project", "site"):
+                addon = AutoTranslateAddon(
+                    Addon(
+                        component=self.component if scope == "component" else None,
+                        project=self.project if scope == "project" else None,
+                    )
+                )
+                for user in (None, self.user):
+                    with self.subTest(review=review_enabled, scope=scope, user=user):
+                        form = AutoAddonForm(user, addon, data=configuration)
+                        self.assertTrue(form.is_valid(), form.errors)
+                        self.assertEqual(form.serialize_form()["mode"], "approved")
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_approved_mode_uses_effective_review_settings(self) -> None:
+        target = self.create_po(
+            name="Target",
+            slug="target",
+            project=self.project,
+            allow_translation_propagation=False,
+        )
+        translation = target.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        source_unit = self.component.translation_set.get(
+            language_code="cs"
+        ).unit_set.get(source=unit.source)
+        source_unit.translate(self.user, "Ahoj svete!\n", STATE_TRANSLATED)
+        addon = AutoTranslateAddon.create(
+            project=self.project,
+            run=False,
+            configuration={
+                "component": self.component.pk,
+                "q": "state:empty",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "approved",
+            },
+        )
+
+        for project_review, language_review, expected_state in (
+            (True, None, STATE_APPROVED),
+            (True, False, STATE_TRANSLATED),
+            (True, True, STATE_APPROVED),
+            (False, True, STATE_TRANSLATED),
+            (True, True, STATE_APPROVED),
+        ):
+            with self.subTest(project=project_review, language=language_review):
+                self.project.translation_review = project_review
+                self.project.save(update_fields=["translation_review"])
+                if language_review is not None:
+                    WorkflowSetting.objects.update_or_create(
+                        project=self.project,
+                        language=translation.language,
+                        defaults={"translation_review": language_review},
+                    )
+                for user_id in (None, self.user.pk):
+                    with self.subTest(user_id=user_id):
+                        Unit.objects.filter(pk=unit.pk).update(
+                            target="", state=STATE_EMPTY
+                        )
+                        with self.captureOnCommitCallbacks(execute=True):
+                            if user_id is None:
+                                addon.component_update(target)
+                            else:
+                                addon.trigger_autotranslate(
+                                    translation_id=translation.pk,
+                                    unit_ids=[unit.pk],
+                                    user_id=user_id,
+                                )
+                        unit.refresh_from_db()
+                        self.assertEqual(unit.target, source_unit.target)
+                        self.assertEqual(unit.state, expected_state)
+                        self.assertEqual(addon.get_configuration()["mode"], "approved")
+
     def test_auto(self) -> None:
         self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(

@@ -153,6 +153,14 @@ if [ "$gettext_header_settings_migrate" -eq 0 ]; then
     check
 fi
 
+# Exercise the alert lifecycle backfill with dismissed alerts in the old schema.
+semver_compare "$1" "<" "2026.8"
+alert_lifecycle_migrate=$?
+if [ "$alert_lifecycle_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-alerts.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -231,5 +239,10 @@ fi
 if [ "$gettext_header_settings_migrate" -eq 0 ]; then
     # check that the gettext file format header settings have been migrated
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-gettext-header-settings.py"
+    check
+fi
+
+if [ "$alert_lifecycle_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-alerts.py"
     check
 fi

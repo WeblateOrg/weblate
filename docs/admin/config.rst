@@ -2181,6 +2181,69 @@ The default setting is:
     ]
 
 
+.. setting:: API_RATELIMIT_ANON
+
+API_RATELIMIT_ANON
+------------------
+
+.. versionadded:: 2026.10
+
+Default anonymous :ref:`API rate limit <api-rate>`. Defaults to ``"100/day"``.
+Rates use a request count and a period of seconds, minutes, hours, or days, for
+example ``"100/hour"``. A zero count rejects every request covered by this
+throttle; ``None`` disables this throttle. Anonymous requests without an IP
+override are also subject to :setting:`API_RATELIMIT_USER`.
+
+.. setting:: API_RATELIMIT_USER
+
+API_RATELIMIT_USER
+------------------
+
+.. versionadded:: 2026.10
+
+Default authenticated :ref:`API rate limit <api-rate>`. Defaults to
+``"5000/hour"``. Uses the same rate syntax as :setting:`API_RATELIMIT_ANON`.
+Authenticated requests are counted per user; anonymous requests are counted
+per client IP. Set ``None`` to disable this throttle.
+
+.. setting:: API_RATELIMIT_USER_OVERRIDES
+
+API_RATELIMIT_USER_OVERRIDES
+----------------------------
+
+.. versionadded:: 2026.10
+
+Mapping of exact usernames to API rate limits. Defaults to an empty dictionary.
+Override rates require a positive request count, or ``None`` for an exemption.
+These rules take precedence over :setting:`API_RATELIMIT_IP_OVERRIDES`.
+
+.. code-block:: python
+
+    API_RATELIMIT_USER_OVERRIDES = {"automation": "20000/hour"}
+
+.. setting:: API_RATELIMIT_IP_OVERRIDES
+
+API_RATELIMIT_IP_OVERRIDES
+--------------------------
+
+.. versionadded:: 2026.10
+
+Mapping of IPv4 or IPv6 addresses and CIDR networks to API rate limits. Defaults
+to an empty dictionary. The most specific matching network applies to both
+anonymous and authenticated requests, unless a username override matches.
+CIDRs must specify network addresses; duplicate normalized networks are rejected.
+Override rates require a positive request count, or ``None`` for an exemption.
+
+.. code-block:: python
+
+    API_RATELIMIT_IP_OVERRIDES = {
+        "192.0.2.42": None,
+        "198.51.100.0/24": "10000/hour",
+        "2001:db8::/48": "10000/hour",
+    }
+
+See :ref:`api-rate` for counting behavior and trusted proxy requirements.
+
 .. setting:: RATELIMIT_ATTEMPTS
 
 RATELIMIT_ATTEMPTS

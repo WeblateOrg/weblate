@@ -16,9 +16,10 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.forms import Script
+from django.forms.utils import ErrorDict
 from django.http import Http404
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
@@ -618,6 +619,43 @@ class CaptchaForm(forms.Form):
                 result.error,
             )
             raise forms.ValidationError(gettext("Validation failed, please try again."))
+
+    def _clean_selected_fields(self, names: set[str]) -> None:
+        """Clean selected fields using Django's standard field-cleaning flow."""
+        for name, bound_field in self._bound_items():
+            if name not in names:
+                continue
+            try:
+                self.cleaned_data[name] = bound_field.field._clean_bound_field(  # ruff: ignore[private-member-access]
+                    bound_field
+                )
+                clean_method = getattr(self, f"clean_{name}", None)
+                if clean_method is not None:
+                    self.cleaned_data[name] = clean_method()
+            except ValidationError as error:
+                self.add_error(name, error)
+
+    def full_clean(self) -> None:
+        """Validate CAPTCHA before processing any other form fields."""
+        self._errors = ErrorDict(renderer=self.renderer)
+        if not self.is_bound:
+            return
+        self.cleaned_data = {}
+        if self.empty_permitted and not self.has_changed():
+            return
+
+        captcha_fields = {"captcha", "altcha"}
+        if any(self.fields[name].required for name in captcha_fields):
+            self._clean_selected_fields(captcha_fields)
+            if self.errors:
+                return
+            remaining_fields = set(self.fields) - captcha_fields
+            self._clean_selected_fields(remaining_fields)
+        else:
+            self._clean_fields()
+
+        self._clean_form()
+        self._post_clean()
 
     def is_valid(self) -> bool:
         result = super().is_valid()

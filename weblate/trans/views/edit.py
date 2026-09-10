@@ -21,6 +21,7 @@ from django.http import (
     HttpResponseBadRequest,
     HttpResponseRedirect,
     JsonResponse,
+    QueryDict,
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -1465,7 +1466,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "can_go_next_section": offset + user.profile.nearby_strings <= num_results,
             "others": get_other_units(unit) if user.is_authenticated else {"total": 0},
             "search_url": search_result["url"],
-            "search_items": search_result["items"],
+            "query_params": QueryDict(search_result["url"]),
             "search_query": search_result["query"],
             "offset": offset,
             "filter_count": num_results,
@@ -1794,6 +1795,7 @@ def zen(request: AuthenticatedHttpRequest, path):
             "filter_pos": search_result["offset"],
             "last_section": search_result["last_section"],
             "search_url": search_result["url"],
+            "query_params": QueryDict(search_result["url"]),
             "offset": search_result["offset"],
             "search_form": search_result["form"].reset_offset(),
             "can_refresh_search": True,
@@ -1825,7 +1827,7 @@ def load_zen(request: AuthenticatedHttpRequest, path):
             "component": obj.component if isinstance(obj, Translation) else None,
             "unitdata": unitdata,
             "search_query": search_result["query"],
-            "search_url": search_result["url"],
+            "query_params": QueryDict(search_result["url"]),
             "last_section": search_result["last_section"],
         },
     )
@@ -1971,7 +1973,7 @@ def browse(request: AuthenticatedHttpRequest, path):
             "component": obj.component if isinstance(obj, Translation) else None,
             "units": units,
             "search_query": search_result["query"],
-            "search_url": search_result["url"],
+            "query_params": QueryDict(search_result["url"]),
             "search_form": search_result["form"].reset_offset(),
             "filter_count": num_results,
             "filter_pos": offset,

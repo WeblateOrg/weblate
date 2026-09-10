@@ -22,10 +22,17 @@ For application-developer workflows and broader product integration guidance, us
 - Use `TYPE_CHECKING` imports for type-only dependencies when that avoids
   runtime import cycles.
 - Add new user-configurable model fields to the existing REST serializers, API
-  documentation, schema, and tests for that model. Review write permissions and
-  validation explicitly. Keep secrets, computed state, and intentionally
-  internal fields unexposed, and document the reason when the omission is not
-  self-evident.
+  documentation, schema, and API behavior tests for that model. Review write
+  permissions and validation explicitly. Keep secrets, computed state, and
+  intentionally internal fields unexposed, and document the reason when the
+  omission is not self-evident.
+- Do not add tests that duplicate OpenAPI schema expectations covered by the
+  tracked snapshot in `docs/specs/openapi.yaml`; schema changes are visible
+  during review. Allow focused tests of configuration-dependent behavior that
+  the snapshot cannot cover, and parsing and validation of served schema
+  documents without asserting fixed schema contents. Keep other tests focused
+  on API behavior, permissions, validation, schema endpoint availability, and
+  documentation UI integration.
 - All translatable user-facing strings must be translatable using Django i18n
   helpers, except messages used in the API or persisted storage, such as the
   audit log, add-on log, or changes; these messages should not be localized.
@@ -115,6 +122,15 @@ For application-developer workflows and broader product integration guidance, us
 
 ## Testing and linting instructions
 
+- Complex data migrations must have populated upgrade tests in `ci/run-migrate`:
+  add old-version setup and post-upgrade assertion scripts in
+  `ci/migrate-scripts/`, gated to applicable source releases. Seed data that
+  exercises conditional branches and cross-app relationships, and verify the
+  resulting data, not just successful migration execution. Empty-database runs
+  and helper tests against the latest schema do not detect missing migration
+  dependencies or premature access to future columns. Use historical models
+  from `apps.get_model()` and declare dependencies for the models accessed.
+  Keep migration database access independent of current model helpers.
 - For an isolated worktree environment, use the development container workflow
   in `docs/contributing/start.rst` (`devcontainer` section). Run
   `./scripts/devcontainer up`, then use `./scripts/devcontainer exec --` before

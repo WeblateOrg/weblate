@@ -14,7 +14,7 @@ import httpx2
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
-from django.http import FileResponse, JsonResponse
+from django.http import FileResponse, JsonResponse, QueryDict
 from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -456,8 +456,7 @@ class ScreenshotList(PathViewMixin, ListView):  # type: ignore[misc]
         result["sort_name"] = self.search_form.sort_choices["name"]
         result["sort_choices"] = self.search_form.sort_choices
         result["sort_desc"] = False
-        result["query_string"] = ""
-        result["search_items"] = []
+        result["query_params"] = QueryDict()
         if self.search_form.is_valid():
             result["active_query"] = self.search_form.cleaned_data["q"]
             result["sort_query"] = self.search_form.cleaned_data["sort_by"]
@@ -465,8 +464,7 @@ class ScreenshotList(PathViewMixin, ListView):  # type: ignore[misc]
                 result["sort_query"].removeprefix("-")
             ]
             result["sort_desc"] = result["sort_query"].startswith("-")
-            result["query_string"] = self.search_form.urlencode()
-            result["search_items"] = self.search_form.items()
+            result["query_params"] = QueryDict(self.search_form.urlencode())
         result["screenshot_search_presets"] = self.get_search_presets()
         for preset in result["screenshot_search_presets"]:
             if preset["query"] == result["active_query"]:

@@ -873,7 +873,7 @@ def cleanup_suggestions() -> None:
     # Process suggestions
     anonymous_user = get_anonymous()
     suggestions = Suggestion.objects.prefetch_related("unit")
-    for suggestion in suggestions:
+    for suggestion in suggestions.iterator(chunk_size=100):
         with transaction.atomic():
             # Remove suggestions with same text as real translation
             if (
