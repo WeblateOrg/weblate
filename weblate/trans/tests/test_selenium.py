@@ -1322,6 +1322,108 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         unit.refresh_from_db()
         self.assertEqual(unit.get_target_plurals(), drafts)
 
+    def test_all_strings_filter(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Search filters", slug="search-filters")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        self.do_login(superuser=True)
+        search_url = f"{self.live_server_url}{reverse('search', kwargs={'path': translation.get_url_path()})}"
+        with self.wait_for_page_load():
+            self.driver.get(search_url)
+        query_input = self.driver.find_element(By.ID, "id_q")
+        query_input.send_keys("state:empty")
+        self.click(htmlid="query-dropdown")
+        option = self.driver.find_element(By.CSS_SELECTOR, '[data-filter="all"]')
+        option.send_keys(Keys.ENTER)
+        self.assertEqual(query_input.get_attribute("value"), "")
+        self.assertEqual(self.driver.current_url, search_url)
+        self.assertEqual(self.driver.switch_to.active_element, query_input)
+        self.assertEqual(
+            self.driver.find_element(By.ID, "query-dropdown").get_attribute(
+                "aria-expanded"
+            ),
+            "false",
+        )
+        original_dark_mode = self.driver.execute_script(
+            "return matchMedia('(prefers-color-scheme: dark)').matches;"
+        )
+        try:
+            for theme in ("light", "dark"):
+                self.driver.execute_cdp_cmd(
+                    "Emulation.setEmulatedMedia",
+                    {"features": [{"name": "prefers-color-scheme", "value": theme}]},
+                )
+                for width in (1280, 480):
+                    self.driver.set_window_size(width, 900)
+                    self.click(htmlid="query-dropdown")
+                    marker = self.driver.find_element(
+                        By.CSS_SELECTOR, '[data-filter="translated"] .filter-marker'
+                    )
+                    self.assertTrue(marker.is_displayed())
+                    self.assertEqual(marker.get_attribute("aria-hidden"), "true")
+                    self.screenshot_viewport(
+                        f"search-filters-{theme}-{width}.png", width, 900
+                    )
+                    self.driver.find_element(
+                        By.CSS_SELECTOR, '[data-filter="all"]'
+                    ).send_keys(Keys.ESCAPE)
+                self.driver.set_window_size(1280, 900)
+        finally:
+            self.driver.execute_cdp_cmd("Emulation.setEmulatedMedia", {"features": []})
+        self.assertEqual(
+            self.driver.execute_script(
+                "return matchMedia('(prefers-color-scheme: dark)').matches;"
+            ),
+            original_dark_mode,
+        )
+        # Ordinary filters still insert at the cursor in the query builder.
+        query_input.send_keys("state:empty")
+        self.click(htmlid="query-dropdown")
+        self.driver.find_element(By.CSS_SELECTOR, '[data-filter="suggestions"]').click()
+        self.assertEqual(
+            query_input.get_attribute("value"), "state:empty has:suggestion "
+        )
+        self.click(htmlid="query-dropdown")
+        self.driver.find_element(By.CSS_SELECTOR, '[data-filter="all"]').click()
+        with self.wait_for_page_load():
+            query_input.submit()
+        self.assertEqual(
+            self.driver.find_element(By.ID, "id_q").get_attribute("value"), ""
+        )
+
+        # Results and the editor apply the empty query immediately.
+        for url in (
+            search_url,
+            f"{self.live_server_url}{translation.get_translate_url()}",
+        ):
+            with self.subTest(url=url):
+                with self.wait_for_page_load():
+                    self.driver.get(
+                        f"{url}?{urlencode({'q': 'state:<translated', 'sort_by': 'source', 'offset': 2})}"
+                    )
+                self.click(htmlid="query-dropdown")
+                with self.wait_for_page_load():
+                    self.driver.find_element(
+                        By.CSS_SELECTOR, '[data-filter="all"]'
+                    ).send_keys(Keys.ENTER)
+                self.assertEqual(
+                    self.driver.find_element(By.ID, "id_q").get_attribute("value"), ""
+                )
+                self.assertEqual(
+                    self.driver.find_element(By.NAME, "sort_by").get_attribute("value"),
+                    "source",
+                )
+                self.assertNotIn("offset=2", self.driver.current_url)
+                if url != search_url:
+                    count = (
+                        self.driver.find_element(By.CSS_SELECTOR, ".position-input")
+                        .text.split("/")[-1]
+                        .strip()
+                    )
+                    self.assertEqual(int(count), translation.unit_set.count())
+
     def test_translation_search_refresh(self) -> None:
         """Refresh and query Enter replace results; navigation preserves them."""
         fixture = RepoTestMixin()

@@ -11,6 +11,7 @@ Weblate 2026.10
 .. rubric:: Improvements
 
 * :ref:`Automatic translation <auto-translation>` using other components now prefers translations with matching source text and context.
+* Aligned :ref:`string search filters <search-strings>` with the status overview's order and colors, and added an :guilabel:`All strings` option to clear the query.
 * Added monthly instance activity to the :ref:`data sent with support integration <support-data>` for activity monitoring and discovery ranking.
 * Improved :ref:`repository maintenance <repository-maintenance>` with disabled push controls when push configuration is missing and direct links to component VCS settings.
 * The :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` can create approved strings, falling back to translated strings when reviews are disabled for the target language.
