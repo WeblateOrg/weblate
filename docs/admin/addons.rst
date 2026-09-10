@@ -32,6 +32,16 @@ mode is preserved, including for project-wide and site-wide add-ons whose target
 have different review settings. Configuring this mode requires the usual add-on
 management permission; it does not require the configuring user to be a reviewer.
 
+.. _component-discovery-limits:
+
+The :ref:`addon-weblate.discovery.discovery` add-on stops with an error if the
+repository scan exceeds 100,000 paths or matching translation files would
+require more than 1,000,000 path-to-mask comparisons. The comparison limit is
+checked using the number of repository paths multiplied by the number of file
+masks. These fixed limits bound resource consumption when repository content
+determines the masks. When either limit is exceeded, discovery does not create
+or remove components.
+
 Obsolete add-ons
 ++++++++++++++++
 
