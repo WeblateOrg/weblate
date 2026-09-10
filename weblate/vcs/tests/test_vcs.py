@@ -5507,6 +5507,24 @@ remove the file manually to continue.
             LocalRepository.from_zip(target, archive)
         self.assertFalse(os.path.exists(target))
 
+    def test_from_zip_excludes_casefolded_vcs_metadata(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr(".GIT/config", "[casefold]\nsentinel = true\n")
+            zipfile.writestr(".HG/hgrc", "casefold sentinel")
+            zipfile.writestr("locale/cs.po", "msgid ''\nmsgstr ''\n")
+        archive.seek(0)
+        target = Path(self.tempdir) / "from-zip-casefolded-metadata"
+
+        repo = LocalRepository.from_zip(str(target), archive)
+
+        self.assertTrue(repo.is_valid())
+        self.assertTrue((target / "locale" / "cs.po").is_file())
+        self.assertNotIn(
+            "casefold", (target / ".git" / "config").read_text(encoding="utf-8")
+        )
+        self.assertFalse((target / ".hg" / "hgrc").exists())
+
     def test_from_zip_rejects_too_many_entries(self) -> None:
         archive = BytesIO()
         with ZipFile(archive, "w") as zipfile:
