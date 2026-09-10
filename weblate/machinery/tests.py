@@ -97,6 +97,7 @@ from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
 from weblate.machinery.youdao import YoudaoTranslation
 from weblate.memory.machine import WeblateMemory
+from weblate.memory.models import Memory
 from weblate.trans.models import Category, Component, Project, Unit
 from weblate.trans.tests.factories import make_language, make_unit
 from weblate.trans.tests.test_views import (
@@ -8989,6 +8990,28 @@ class ViewsTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertEqual(data["service"], "Weblate Translation Memory")
+
+    def test_memory_includes_context(self) -> None:
+        """The JSON payload carries the memory context for the editor."""
+        unit = self.get_unit()
+        Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Hello",
+            target="Ahoj",
+            origin="test",
+            context="menu.file.open",
+            legacy_from_file=True,
+            legacy_shared=False,
+            status=Memory.STATUS_ACTIVE,
+        )
+        response = self.client.post(
+            reverse("js-memory", kwargs={"unit_id": unit.id}), {"q": "Hello"}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["responseStatus"], 200)
+        self.assertEqual(data["translations"][0]["context"], "menu.file.open")
 
     def test_machinery_hides_private_unit_from_anonymous_user(self) -> None:
         unit = self.get_unit()

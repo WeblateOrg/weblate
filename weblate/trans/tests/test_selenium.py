@@ -131,6 +131,146 @@ class SeleniumDummyTranslation(DummyTranslation):
         }
 
 
+class SeleniumMergeTranslation(DummyTranslation):
+    """Dummy machine translation returning results which merge into single rows."""
+
+    name = "Selenium Merge"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, unit, user, threshold)
+        # Same text and source merges into a single row, the context is carried
+        # by the lower quality result in both possible orders.
+        yield {
+            "text": "merged target A",
+            "quality": 95,
+            "service": self.name,
+            "source": text,
+            "context": "context.a",
+        }
+        yield {
+            "text": "merged target A",
+            "quality": 100,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "merged target B",
+            "quality": 100,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "merged target B",
+            "quality": 95,
+            "service": self.name,
+            "source": text,
+            "context": "context.b",
+        }
+        # A better result has to take over the place of the row it replaces
+        # instead of being appended after the worse ones.
+        yield {
+            "text": "reordered target",
+            "quality": 90,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "lower target",
+            "quality": 85,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "reordered target",
+            "quality": 95,
+            "service": self.name,
+            "source": text,
+        }
+
+
+class SeleniumEmptyTranslation(DummyTranslation):
+    """Dummy machine translation which never returns any result."""
+
+    name = "Selenium Empty"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, text, unit, user, threshold)
+        return
+        yield
+
+
+class SeleniumScoredTranslation(DummyTranslation):
+    """Dummy machine translation reporting a quality score as the memory does."""
+
+    name = "Selenium Memory"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, unit, user, threshold)
+        yield {
+            "text": "machinery target",
+            "quality": 100,
+            "service": self.name,
+            "source": text,
+            "show_quality": True,
+            "origin": "Project: WeblateOrg/Django",
+            "context": "machinery.context",
+        }
+
+
+class SeleniumEngineTranslation(DummyTranslation):
+    """Dummy machine translation without any quality score."""
+
+    name = "Selenium Engine"
+
+    def download_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        _ = (source_language, target_language, unit, user, threshold)
+        # The first result merges into the scored one from the memory
+        yield {
+            "text": "machinery target",
+            "quality": 90,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "another machinery target",
+            "quality": 85,
+            "service": self.name,
+            "source": text,
+        }
+
+
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
     "social_core.backends.google.GoogleOAuth2",
@@ -1506,20 +1646,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             [],
         )
 
-    @override_settings(
-        WEBLATE_MACHINERY=(
-            *settings.WEBLATE_MACHINERY,
-            "weblate.trans.tests.test_selenium.SeleniumDummyTranslation",
-        )
-    )
-    def test_machinery_hotkeys_use_current_results(self) -> None:
-        """Test that machinery hotkeys use current result rows."""
-        identifier = SeleniumDummyTranslation.get_identifier()
+    def open_machinery_unit(self, *identifiers: str) -> Unit:
+        """Open the machinery tab of a unit with given services enabled."""
         project = self.create_component()
         project.machinery_settings = dict.fromkeys(
             Setting.objects.get_settings_dict(SettingCategory.MT)
         )
-        project.machinery_settings[identifier] = {}
+        for identifier in identifiers:
+            project.machinery_settings[identifier] = {}
         project.save(update_fields=["machinery_settings"])
 
         self.do_login(superuser=True)
@@ -1538,37 +1672,54 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
 
         self.click(htmlid="toggle-machinery")
+        return unit
+
+    def wait_for_machinery_rows(self, count: int) -> None:
+        """Wait until the machinery tab settles on given number of results."""
         WebDriverWait(self.driver, 10).until(
             lambda driver: (
-                len(driver.find_elements(By.CSS_SELECTOR, "#machinery-translations tr"))
-                == 2
+                len(
+                    driver.find_elements(
+                        By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+                    )
+                )
+                == count
+                and not driver.find_element(By.ID, "loading-machinery").is_displayed()
             )
         )
+
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.trans.tests.test_selenium.SeleniumDummyTranslation",
+        )
+    )
+    def test_machinery_hotkeys_use_current_results(self) -> None:
+        """Test that machinery hotkeys use current result rows."""
+        self.open_machinery_unit(SeleniumDummyTranslation.get_identifier())
+        self.wait_for_machinery_rows(2)
 
         self.driver.execute_script(
             """
             const translations = document.getElementById("machinery-translations");
             translations.replaceChildren();
+            const cloneTemplate = (id) => document
+                .getElementById(id)
+                .content.firstElementChild.cloneNode(true);
             ["stale replacement 1", "current replacement 2"].forEach((text, idx) => {
                 const key = String((idx + 1) % 10);
-                const row = document.createElement("tr");
+                const row = cloneTemplate("machinery-row");
                 row.setAttribute("data-machinery-key", key);
                 row.setAttribute("data-raw", JSON.stringify({
                     plural_forms: [0],
                     text: text,
                 }));
-                const numberCell = document.createElement("td");
-                numberCell.className = "machinery-number";
                 const kbd = document.createElement("kbd");
                 kbd.textContent = key;
-                numberCell.appendChild(kbd);
-                row.appendChild(numberCell);
-                const cloneCell = document.createElement("td");
-                const cloneLink = document.createElement("a");
-                cloneLink.className = "js-copy-machinery";
-                cloneLink.textContent = "Clone";
-                cloneCell.appendChild(cloneLink);
-                row.appendChild(cloneCell);
+                row.querySelector(".machinery-number").replaceChildren(kbd);
+                row.querySelector(".history-data").prepend(
+                    cloneTemplate("machinery-actions"),
+                );
                 translations.appendChild(row);
             });
             document.querySelector(".translator .translation-editor").value = "";
@@ -1593,6 +1744,138 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ),
             "current replacement 2",
         )
+
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            *settings.WEBLATE_MACHINERY,
+            "weblate.trans.tests.test_selenium.SeleniumMergeTranslation",
+        )
+    )
+    def test_machinery_merge_keeps_context(self) -> None:
+        """Merging results of equal text keeps the context of either of them."""
+        self.open_machinery_unit(SeleniumMergeTranslation.get_identifier())
+        self.wait_for_machinery_rows(4)
+
+        # The context has to survive both merge directions: the row being
+        # replaced by a better result and a better result being merged into.
+        contexts = self.driver.execute_script(
+            """
+            const result = {};
+            for (const row of document.querySelectorAll(".machinery-row")) {
+                const context = row.querySelector(".machinery-context");
+                result[JSON.parse(row.dataset.raw).text] = context.hidden
+                    ? null
+                    : context.textContent;
+            }
+            return result;
+            """
+        )
+        self.assertEqual(
+            contexts,
+            {
+                "merged target A": "context.a",
+                "merged target B": "context.b",
+                "reordered target": None,
+                "lower target": None,
+            },
+        )
+
+        # The results stay sorted by the quality even when a merge replaces
+        # an already displayed row.
+        self.assertEqual(
+            self.driver.execute_script(
+                """
+                return Array.from(
+                    document.querySelectorAll(".machinery-row"),
+                ).map((row) => JSON.parse(row.dataset.raw).text);
+                """
+            ),
+            [
+                "merged target B",
+                "merged target A",
+                "reordered target",
+                "lower target",
+            ],
+        )
+
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            "weblate.trans.tests.test_selenium.SeleniumEmptyTranslation",
+        )
+    )
+    def test_machinery_empty_results(self) -> None:
+        """Machinery tab tells apart no results from not being loaded."""
+        self.open_machinery_unit(SeleniumEmptyTranslation.get_identifier())
+        empty = self.driver.find_element(By.ID, "machinery-empty")
+        WebDriverWait(self.driver, 10).until(lambda _driver: empty.is_displayed())
+        self.assertEqual(
+            self.driver.find_elements(
+                By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+            ),
+            [],
+        )
+
+    @override_settings(
+        WEBLATE_MACHINERY=(
+            "weblate.trans.tests.test_selenium.SeleniumScoredTranslation",
+            "weblate.trans.tests.test_selenium.SeleniumEngineTranslation",
+        )
+    )
+    def test_machinery_results(self) -> None:
+        """Machinery results label each service with its own quality score."""
+        self.open_machinery_unit(
+            SeleniumScoredTranslation.get_identifier(),
+            SeleniumEngineTranslation.get_identifier(),
+        )
+        # The results of both services merge into a single row, the second
+        # result of the engine is listed separately.
+        self.wait_for_machinery_rows(2)
+
+        rows = self.driver.find_elements(
+            By.CSS_SELECTOR, "#machinery-translations .machinery-row"
+        )
+        # The score is displayed with the service it belongs to, the service
+        # without a score is listed without one.
+        self.assertEqual(
+            [
+                element.text
+                for element in rows[0].find_elements(
+                    By.CSS_SELECTOR, ".machinery-service-name"
+                )
+            ],
+            [
+                f"{SeleniumScoredTranslation.name} (100%)",
+                SeleniumEngineTranslation.name,
+            ],
+        )
+        self.assertEqual(
+            [
+                element.text
+                for element in rows[1].find_elements(
+                    By.CSS_SELECTOR, ".machinery-service-name"
+                )
+            ],
+            [SeleniumEngineTranslation.name],
+        )
+
+        # The keyboard shortcut hint shows up only while the modifier is held.
+        number = rows[0].find_element(By.CSS_SELECTOR, ".machinery-number")
+        self.assertFalse(number.is_displayed())
+
+        self.screenshot("machinery.png")
+
+        self.actions.key_down(Keys.CONTROL).perform()
+        try:
+            WebDriverWait(self.driver, 10).until(lambda _driver: number.is_displayed())
+        finally:
+            self.actions.key_up(Keys.CONTROL).perform()
+        WebDriverWait(self.driver, 10).until(lambda _driver: not number.is_displayed())
+
+    def test_machinery_no_services(self) -> None:
+        """Machinery tab reports the empty state with no service configured."""
+        self.open_machinery_unit()
+        empty = self.driver.find_element(By.ID, "machinery-empty")
+        WebDriverWait(self.driver, 10).until(lambda _driver: empty.is_displayed())
 
     def test_editing_survives_comment(self) -> None:
         """Posting a comment keeps pending translation and string state."""

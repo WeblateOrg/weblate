@@ -18,6 +18,7 @@ Weblate 2026.10
 * History :guilabel:`View details` and :guilabel:`Revert` actions are larger, more widely spaced, and show a hover and focus background.
 * Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
 * Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
+* Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use the same layout as suggestions, and it now shows the :ref:`translation memory <translation-memory>` context of each match.
 
 .. rubric:: Security fixes
 

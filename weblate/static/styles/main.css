@@ -773,7 +773,8 @@ form + .login-label {
   color: var(--wl-color-text-muted);
 }
 
-#suggestions {
+#suggestions,
+#machinery-translations {
   margin-top: 55px;
 }
 
@@ -824,7 +825,6 @@ form + .login-label {
 #keys,
 #others,
 #translations,
-#machinery,
 #comments {
   overflow-x: auto;
 }
@@ -843,6 +843,10 @@ form + .login-label {
   }
 
   #changes-table {
+    margin-top: 20px;
+  }
+
+  #machinery-translations {
     margin-top: 20px;
   }
 
@@ -2035,6 +2039,40 @@ h2 .label {
   word-wrap: anywhere;
 }
 
+.machinery-context {
+  overflow-wrap: anywhere;
+  font-family: monospace;
+}
+
+.machinery-origin {
+  overflow-wrap: anywhere;
+}
+
+.machinery-search {
+  margin-right: 0;
+}
+
+.dir-rtl .machinery-search {
+  margin-left: 0;
+}
+
+.machinery-service + .machinery-service {
+  margin-top: 8px;
+}
+
+.machinery-origin-detail {
+  font-size: 12px;
+}
+
+.machinery-number {
+  display: none;
+  margin-top: 8px;
+}
+
+.show-machinery-numbers .machinery-number {
+  display: inline-block;
+}
+
 .ghost {
   font-weight: normal;
   font-style: italic;
@@ -2314,7 +2352,8 @@ a[rel~="ugc"]:not(.btn):focus {
   top: 0;
   background-color: var(--wl-color-bg);
 }
-.input-group > .form-control {
+.input-group > .form-control,
+.search-group > button {
   height: 38px;
 }
 .input-group-text label {
