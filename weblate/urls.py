@@ -71,11 +71,24 @@ handler403 = weblate.trans.views.error.denied
 handler404 = weblate.trans.views.error.not_found
 handler500 = weblate.trans.views.error.server_error
 
+STATIC_ICON_REDIRECTS = {
+    "192": "weblate-192.png",
+    "512": "weblate-512.png",
+}
+
 
 def redirect_static(
-    _request: django.http.HttpRequest | None, filename: str, **kwargs: str
+    _request: django.http.HttpRequest | None,
+    filename: str,
+    *,
+    size: str | None = None,
 ) -> django.http.HttpResponsePermanentRedirect:
-    stable_url = f"{settings.STATIC_URL.rstrip('/')}/{filename % kwargs}"
+    if size is not None:
+        try:
+            filename = STATIC_ICON_REDIRECTS[size]
+        except KeyError as error:
+            raise django.http.Http404 from error
+    stable_url = f"{settings.STATIC_URL.rstrip('/')}/{filename}"
     return redirect(stable_url, permanent=True)
 
 
