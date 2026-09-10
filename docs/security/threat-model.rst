@@ -25,7 +25,7 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 118 documented / 71 maintainer / 0 inferred claims.
+Provenance summary: 119 documented / 71 maintainer / 0 inferred claims.
 
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
@@ -563,6 +563,10 @@ Input assumptions
        and pull-request behavior
      - Trusted to users with corresponding management permissions.
        *(documented)* (source: :doc:`/admin/access`, :doc:`/admin/continuous`)
+       The automatic translation add-on can create approved strings when the
+       target language's effective review settings allow it. Configuring this
+       behavior uses add-on management permissions rather than the configuring
+       user's review permission. *(documented)* (source: :doc:`/admin/addons`)
      - Assign VCS and project management permissions only to trusted users.
        *(documented)* (source: :doc:`/admin/access`)
    * - External repository content
