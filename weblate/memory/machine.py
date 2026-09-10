@@ -54,11 +54,14 @@ class WeblateMemory(InternalMachineTranslation):
     def format_result(
         self, result: Memory, quality: int, project, user
     ) -> TranslationResultDict:
+        scopes = result.get_scope_list()
         return {
             "text": result.target,
             "quality": quality,
             "service": self.name,
-            "context": result.context,
+            "context": result.context
+            if result.is_context_visible(scopes, project=project, user=user)
+            else "",
             "origin": result.get_origin_display(project=project, user=user),
             "source": result.source,
             "show_quality": True,

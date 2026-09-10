@@ -1447,6 +1447,44 @@ class MemoryModelTest(FixtureTestCase):
         self.assertEqual(suggestion["context"], "Unit Context")
         self.assertEqual(suggestion["quality"], 95)
 
+    def test_machine_context_hidden_for_shared_scope(self) -> None:
+        """Context of an entry from another project does not cross over."""
+        unit = self.get_unit()
+        unit.context = "Different context"
+        unit.save()
+        source_project = Project.objects.create(
+            name="Shared context source",
+            slug="shared-context-source",
+            contribute_shared_tm=True,
+        )
+        self.project.use_shared_tm = True
+        self.project.save(update_fields=["use_shared_tm"])
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source=unit.source,
+            target="Sdileny cil",
+            origin="shared-context-source/component",
+            context="internal.key.of.other.project",
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=source_project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=source_project,
+        )
+
+        suggestions = list(WeblateMemory({}).search(unit, unit.source, None))
+
+        self.assertEqual(suggestions[0]["origin"], f"Shared: {memory.origin}")
+        self.assertEqual(suggestions[0]["context"], "")
+        self.assertEqual(suggestions[0]["quality"], 95)
+
     def test_import_map(self) -> None:
         call_command(
             "import_memory", get_test_file("memory.tmx"), language_map="en_US:en"

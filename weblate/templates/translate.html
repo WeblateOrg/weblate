@@ -519,11 +519,11 @@
               </form>
               <div class="machinery-header" role="status" aria-live="polite">
                 {% loading_icon "machinery" %}
+                <p id="machinery-empty" hidden>
+                  <em>{% translate "No matching machine translations found." %}</em>
+                </p>
               </div>
               <div class="container-fluid container-gapped" id="machinery-translations"></div>
-              <p id="machinery-empty" hidden>
-                <em>{% translate "No matching machine translations found." %}</em>
-              </p>
               <template id="machinery-actions">
                 <div class="btn-float">
                   <button type="button"

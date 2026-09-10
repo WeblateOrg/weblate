@@ -1761,6 +1761,33 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             [],
         )
 
+    def test_machinery_no_services(self) -> None:
+        """Machinery tab reports the empty state with no service configured."""
+        project = self.create_component()
+        project.machinery_settings = dict.fromkeys(
+            Setting.objects.get_settings_dict(SettingCategory.MT)
+        )
+        project.save(update_fields=["machinery_settings"])
+
+        self.do_login(superuser=True)
+        unit = (
+            Unit.objects.filter(
+                translation__component__project=project,
+                translation__language_code="cs",
+            )
+            .exclude(source="")
+            .first()
+        )
+        self.assertIsNotNone(unit)
+        unit = cast("Unit", unit)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+        self.click(htmlid="toggle-machinery")
+        empty = self.driver.find_element(By.ID, "machinery-empty")
+        WebDriverWait(self.driver, 10).until(lambda _driver: empty.is_displayed())
+
     def test_editing_survives_comment(self) -> None:
         """Posting a comment keeps pending translation and string state."""
         project = self.create_component()

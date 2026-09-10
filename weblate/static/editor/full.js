@@ -347,6 +347,8 @@
       this.startMachineryRequest();
       this.fetchMachinery(serviceName);
     });
+    /* Show the empty state right away when there is no service to wait for */
+    this.updateMachineryEmpty();
 
     delegate(this.editors, "submit", "#memory-search", (e) => {
       const form = e.target.closest("#memory-search");
@@ -448,12 +450,16 @@
     document.getElementById("machinery-empty").hidden = true;
   };
 
-  FullEditor.prototype.finishMachineryRequest = function () {
-    decreaseLoading("machinery");
-    this.machineryPending = Math.max(this.machineryPending - 1, 0);
+  FullEditor.prototype.updateMachineryEmpty = function () {
     const translationsEl = document.getElementById("machinery-translations");
     document.getElementById("machinery-empty").hidden =
       this.machineryPending > 0 || machineryRows(translationsEl).length > 0;
+  };
+
+  FullEditor.prototype.finishMachineryRequest = function () {
+    decreaseLoading("machinery");
+    this.machineryPending = Math.max(this.machineryPending - 1, 0);
+    this.updateMachineryEmpty();
   };
 
   FullEditor.prototype.processMachineryError = function (error) {
