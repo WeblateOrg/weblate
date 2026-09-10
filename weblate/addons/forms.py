@@ -1459,6 +1459,10 @@ class AutoAddonForm(
         AutoForm.__init__(
             self, obj=addon.instance.component or addon.instance.project, **kwargs
         )
+        # Add-ons use management permissions, not the configuring user's review
+        # permission. AutoTranslate applies each target's effective review settings
+        # and falls back to translated when reviews are disabled.
+        self.fields["mode"].choices = self.base_fields["mode"].choices
 
     def serialize_form(self) -> AutoTranslateAddonStoredConfiguration:
         return {

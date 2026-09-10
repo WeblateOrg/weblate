@@ -386,6 +386,10 @@ nitpick_ignore = [
 # Number of retries and timeout for linkcheck
 linkcheck_retries = 10
 linkcheck_timeout = 10
+linkcheck_anchors_ignore_for_url = [
+    # JavaScript robot checks prevent verifying article anchors
+    r"https://eur-lex\.europa\.eu/",
+]
 linkcheck_ignore = [
     # Local URL to Weblate
     "http://127.0.0.1:8080/",
@@ -411,6 +415,7 @@ linkcheck_ignore = [
     "https://platform.openai.com/docs/models",
     "https://translate.systran.net/en/account",
     "https://api.sap.com/api/translationhub/overview",
+    r"https://www\.enisa\.europa\.eu/topics/product-security/single-reporting-platform-srp/cra-srp-glossary$",
     # Anchor is not there for linkcheck
     "https://hub.docker.com/_/postgres#pgdata",
     "https://github.com/SAML-Toolkits/python3-saml#settings",

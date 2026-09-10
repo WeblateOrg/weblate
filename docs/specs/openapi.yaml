@@ -31947,43 +31947,41 @@ components:
       - mt
       type: string
       description: |-
-        * `others` - others
-        * `mt` - mt
+        * `others` - Other translation components
+        * `mt` - Machine translation
     AutoTranslateRequest:
       type: object
       description: Request body for the autotranslate action.
       properties:
-        q:
-          type: string
-          description: Query string selecting strings to translate. Translating all
-            strings discards existing translations.
         mode:
           allOf:
           - $ref: '#/components/schemas/ModeEnum'
-          description: 'How to store the result: as a suggestion, translation, needing-edit,
-            or approved. Typical value: ``suggest``.'
+          title: Automatic translation mode
+        q:
+          type: string
+          title: Query
+          description: Please note that translating all strings will discard all existing
+            translations.
         auto_source:
           allOf:
           - $ref: '#/components/schemas/AutoSourceEnum'
-          description: 'Translation source: other components (``others``) or machine
-            translation (``mt``). Typical value: ``others``.'
+          title: Source of automated translations
         component:
           type: string
-          description: Component ID (always accepted). When the project has 30 or
-            more eligible source components a component slug or ``project/component``
-            path is also accepted. Leave blank to use all components.
+          description: Enter a source component ID. With 30 or more eligible source
+            components, a project/component path is also accepted. In that case, component
+            and project operations also accept a component slug from the target project.
+            Leave blank to use eligible components from each target component's project.
         engines:
           type: array
           items:
             type: string
-          description: Machine translation engine identifiers to use when ``auto_source``
-            is ``mt``.
+          title: Machine translation engines
         threshold:
           type: integer
           maximum: 100
           minimum: 1
-          description: 'Minimum translation score (1–100) to accept when using machine
-            translation. Typical value: 80.'
+          title: Score threshold
       required:
       - auto_source
       - mode
@@ -34507,10 +34505,10 @@ components:
       - approved
       type: string
       description: |-
-        * `suggest` - suggest
-        * `translate` - translate
-        * `fuzzy` - fuzzy
-        * `approved` - approved
+        * `suggest` - Add as suggestion
+        * `translate` - Add as translation
+        * `fuzzy` - Add as "Needing edit"
+        * `approved` - Add as approved translation
     MonolingualUnit:
       type: object
       properties:
