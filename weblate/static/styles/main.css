@@ -2024,6 +2024,16 @@ h2 .label {
   overflow-wrap: anywhere;
 }
 
+/* Spans the tab so it lines up with the results below, unlike the search
+ * groups which sit next to each other in a toolbar */
+.machinery-search {
+  margin-right: 0;
+}
+
+.dir-rtl .machinery-search {
+  margin-left: 0;
+}
+
 .machinery-service + .machinery-service {
   margin-top: 8px;
 }
@@ -2316,7 +2326,8 @@ a[rel~="ugc"]:not(.btn):focus {
   top: 0;
   background-color: var(--wl-color-bg);
 }
-.input-group > .form-control {
+.input-group > .form-control,
+.input-group > button {
   height: 38px;
 }
 .input-group-text label {

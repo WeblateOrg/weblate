@@ -504,15 +504,18 @@
 
           {% if user_can_use_machinery %}
             <div class="tab-pane" id="machinery">
-              <form class="form-inline"
-                    id="memory-search"
-                    action="{% url 'js-memory' unit_id=unit.id %}">
+              <form id="memory-search" action="{% url 'js-memory' unit_id=unit.id %}">
                 {% csrf_token %}
-                <div class="form-group">
-                  <label for="memory-search-input">{% translate "Translation memory" %}</label>
-                  <input type="text" class="form-control" id="memory-search-input" name="q">
+                <label class="visually-hidden"
+                       for="memory-search-input">{% translate "Search translation memory" %}</label>
+                <div class="input-group search-group machinery-search">
+                  <input type="text"
+                         class="form-control"
+                         id="memory-search-input"
+                         name="q"
+                         placeholder="{% translate "Search translation memory" %}">
+                  <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
                 </div>
-                <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
               </form>
               <div class="machinery-header" role="status" aria-live="polite">
                 {% loading_icon "machinery" %}
