@@ -378,6 +378,22 @@
   };
 
   FullEditor.prototype.initMachineryHotkeys = () => {
+    const toggleMachineryNumbers = (shown) => {
+      document
+        .getElementById("machinery-translations")
+        ?.classList.toggle("show-machinery-numbers", shown);
+    };
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Control" || e.key === "Meta") {
+        toggleMachineryNumbers(true);
+      }
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "Control" || e.key === "Meta") {
+        toggleMachineryNumbers(false);
+      }
+    });
+
     hotkeys("ctrl+m,command+m", () => {
       _seqStart("machinery");
       return false;
@@ -872,14 +888,7 @@
       row.querySelector(".machinery-diff").innerHTML = el.diff;
       row.querySelector(".machinery-source").innerHTML = el.source_diff;
 
-      const quality = row.querySelector(".machinery-quality");
-      quality.after(service);
-
-      if (el.show_quality) {
-        const score = document.createElement("strong");
-        score.textContent = String(el.quality);
-        quality.append(score, " %");
-      }
+      row.querySelector(".machinery-number").before(service);
 
       this.renderContext(row, el.contexts);
 
@@ -907,8 +916,11 @@
       const entry = document.createElement("div");
       entry.classList.add("machinery-service");
 
-      const name = document.createElement("div");
-      name.textContent = el.service;
+      const name = document.createElement("strong");
+      name.classList.add("machinery-service-name");
+      name.textContent = el.show_quality
+        ? `${el.service} (${el.quality}%)`
+        : el.service;
       entry.append(name);
 
       if (typeof el.origin !== "undefined") {
@@ -933,7 +945,7 @@
           this.state.weblateTranslationMemory.add(el.text);
         }
         const detail = document.createElement("div");
-        detail.classList.add("machinery-origin-detail");
+        detail.classList.add("machinery-origin-detail", "text-muted");
         detail.append(origin);
         entry.append(detail);
       }
@@ -942,7 +954,7 @@
 
     renderService(el) {
       const service = document.createElement("div");
-      service.classList.add("text-muted", "machinery-origin");
+      service.classList.add("machinery-origin");
       service.append(this.renderServiceEntry(el));
       return service;
     }
