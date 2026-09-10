@@ -18,6 +18,8 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Prevented component ZIP imports from overwriting version control metadata on case-insensitive filesystems.
+
 .. rubric:: Bug fixes
 
 * Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` failing when the warning directory is missing or inaccessible.

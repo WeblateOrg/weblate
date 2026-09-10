@@ -32,7 +32,7 @@ SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
 CLIENT_DIR = os.path.join(BASE_DIR, "client")
 EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 
-PATH_EXCLUDES = [f"/{exclude}/" for exclude in EXCLUDES]
+PATH_EXCLUDES = [f"/{exclude.casefold()}/" for exclude in EXCLUDES]
 VCS_METADATA_DIRS = frozenset((".git", ".hg"))
 REPO_TEMP_DIRNAME = "weblate-tmp"
 
@@ -99,7 +99,7 @@ def should_skip(location: str | os.PathLike[str]) -> bool:
 
 def is_excluded(path: str) -> bool:
     """Whether path should be excluded from zip extraction."""
-    normalized = path.replace("\\", "/")
+    normalized = path.replace("\\", "/").casefold()
     return any(
         exclude in f"/{normalized}/" for exclude in PATH_EXCLUDES
     ) or is_unsafe_path(path)
@@ -120,7 +120,7 @@ def is_unsafe_path(path: str) -> bool:
 
 def is_vcs_metadata_path(path: str) -> bool:
     """Whether path points to VCS metadata."""
-    normalized = path.replace("\\", "/")
+    normalized = path.replace("\\", "/").casefold()
     return any(part in VCS_METADATA_DIRS for part in PurePosixPath(normalized).parts)
 
 

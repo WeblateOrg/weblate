@@ -180,12 +180,18 @@ class FilenameTest(SimpleTestCase):
     def test_prohibited(self) -> None:
         with self.assertRaises(ValidationError):
             validate_filename(".git/config")
+        with self.assertRaises(ValidationError):
+            validate_filename(".GIT/CONFIG")
         validate_filename(".git/config", check_prohibited=False)
+        validate_filename(".GIT/CONFIG", check_prohibited=False)
 
     def test_prohibited_subdir(self) -> None:
         with self.assertRaises(ValidationError):
             validate_filename("path/.git/config")
+        with self.assertRaises(ValidationError):
+            validate_filename(r"path\.Hg\hgrc")
         validate_filename("path/.git/config", check_prohibited=False)
+        validate_filename(r"path\.Hg\hgrc", check_prohibited=False)
 
 
 class RegexTest(SimpleTestCase):

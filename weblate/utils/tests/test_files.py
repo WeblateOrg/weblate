@@ -84,6 +84,26 @@ class FilesTestCase(SimpleTestCase):
     def test_is_excluded_allows_regular_relative_paths(self) -> None:
         self.assertFalse(is_excluded("locale/cs/messages.po"))
 
+    def test_is_excluded_rejects_casefolded_paths(self) -> None:
+        for path in (
+            ".GIT/config",
+            ".Git/CONFIG",
+            "nested/.gIt/config",
+            ".HG/HGRC",
+            r"nested\.Hg\hgrc",
+        ):
+            with self.subTest(path=path):
+                self.assertTrue(is_excluded(path))
+
+    def test_is_excluded_preserves_mixed_case_excludes(self) -> None:
+        self.assertTrue(is_excluded(".DS_Store"))
+        self.assertTrue(is_excluded("__MACOSX/metadata"))
+
+    def test_is_excluded_allows_similar_names(self) -> None:
+        for path in (".gitignore", ".hgignore", "docs/.gitish/config"):
+            with self.subTest(path=path):
+                self.assertFalse(is_excluded(path))
+
     def test_is_unsafe_path(self) -> None:
         self.assertTrue(is_unsafe_path("../outside.po"))
         self.assertTrue(is_unsafe_path("/etc/passwd"))
@@ -93,8 +113,11 @@ class FilesTestCase(SimpleTestCase):
     def test_is_vcs_metadata_path(self) -> None:
         self.assertTrue(is_vcs_metadata_path(".git/config"))
         self.assertTrue(is_vcs_metadata_path("path/.hg/hgrc"))
+        self.assertTrue(is_vcs_metadata_path(".GIT/CONFIG"))
+        self.assertTrue(is_vcs_metadata_path(r"path\.Hg\hgrc"))
         self.assertFalse(is_vcs_metadata_path("build/translation.txt"))
         self.assertFalse(is_vcs_metadata_path("node_modules/translation.txt"))
+        self.assertFalse(is_vcs_metadata_path("docs/.gitish/config"))
 
     def test_is_path_within_directory_accepts_descendants(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
