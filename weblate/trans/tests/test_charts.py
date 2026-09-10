@@ -4,6 +4,8 @@
 
 """Test for charts and widgets."""
 
+from __future__ import annotations
+
 from calendar import monthrange
 from datetime import date, timedelta
 
@@ -30,6 +32,7 @@ class ChartsTest(FixtureTestCase):
 
         last_month = timezone.now().date().replace(day=1) - timedelta(days=1)
         month_start = date(last_month.year, last_month.month, 1)
+        zero_month = month_start - timedelta(days=1)
         previous_year = last_month.year - 1
         previous_month_end = date(
             previous_year,
@@ -64,6 +67,13 @@ class ChartsTest(FixtureTestCase):
                     date=previous_month_end,
                     changes=4,
                 ),
+                Metric(
+                    scope=Metric.SCOPE_TRANSLATION,
+                    relation=self.translation.pk,
+                    secondary=0,
+                    date=zero_month,
+                    changes=0,
+                ),
             ]
         )
 
@@ -77,3 +87,21 @@ class ChartsTest(FixtureTestCase):
 
         self.assertEqual(activity[-1]["current"], 5)
         self.assertEqual(activity[-1]["previous"], 4)
+        self.assertEqual(activity[-2]["current"], 0)
+        self.assertEqual(activity[-2]["previous"], 0)
+
+        warm_wrapper = MetricsWrapper(
+            self.translation, Metric.SCOPE_TRANSLATION, self.translation.pk
+        )
+        with self.assertNumQueries(0):
+            self.assertEqual(warm_wrapper.monthly_activity, activity)
+            totals = warm_wrapper.monthly_activity_totals
+        self.assertEqual(totals[zero_month.year, zero_month.month], 0)
+        self.assertEqual(totals[zero_month.year - 1, zero_month.month], 0)
+
+        cache.delete(wrapper.get_month_cache_key(last_month.year, last_month.month))
+        partial_wrapper = MetricsWrapper(
+            self.translation, Metric.SCOPE_TRANSLATION, self.translation.pk
+        )
+        with self.assertNumQueries(1):
+            self.assertEqual(partial_wrapper.monthly_activity, activity)
