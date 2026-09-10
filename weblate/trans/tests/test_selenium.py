@@ -174,6 +174,26 @@ class SeleniumMergeTranslation(DummyTranslation):
             "source": text,
             "context": "context.b",
         }
+        # A better result has to take over the place of the row it replaces
+        # instead of being appended after the worse ones.
+        yield {
+            "text": "reordered target",
+            "quality": 90,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "lower target",
+            "quality": 85,
+            "service": self.name,
+            "source": text,
+        }
+        yield {
+            "text": "reordered target",
+            "quality": 95,
+            "service": self.name,
+            "source": text,
+        }
 
 
 class SeleniumEmptyTranslation(DummyTranslation):
@@ -1734,7 +1754,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_machinery_merge_keeps_context(self) -> None:
         """Merging results of equal text keeps the context of either of them."""
         self.open_machinery_unit(SeleniumMergeTranslation.get_identifier())
-        self.wait_for_machinery_rows(2)
+        self.wait_for_machinery_rows(4)
 
         # The context has to survive both merge directions: the row being
         # replaced by a better result and a better result being merged into.
@@ -1752,7 +1772,30 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.assertEqual(
             contexts,
-            {"merged target A": "context.a", "merged target B": "context.b"},
+            {
+                "merged target A": "context.a",
+                "merged target B": "context.b",
+                "reordered target": None,
+                "lower target": None,
+            },
+        )
+
+        # The results stay sorted by the quality even when a merge replaces
+        # an already displayed row.
+        self.assertEqual(
+            self.driver.execute_script(
+                """
+                return Array.from(
+                    document.querySelectorAll(".machinery-row"),
+                ).map((row) => JSON.parse(row.dataset.raw).text);
+                """
+            ),
+            [
+                "merged target B",
+                "merged target A",
+                "reordered target",
+                "lower target",
+            ],
         )
 
     @override_settings(

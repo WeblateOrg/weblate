@@ -1018,6 +1018,9 @@
               service.append(...current.children);
               translation.plural_forms = base.plural_forms;
               translation.contexts = base.contexts;
+              if (!insertBefore) {
+                insertBefore = row.nextElementSibling;
+              }
               row.remove();
               break;
             }
