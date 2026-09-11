@@ -15,7 +15,7 @@ from typing import NamedTuple
 from lxml import etree
 
 # renovate-its: datasource=github-tags depName=polkit-org/polkit
-POLKIT_VERSION = "126"
+POLKIT_VERSION = "127"
 # renovate-its: datasource=github-tags depName=ximion/appstream
 APPSTREAM_VERSION = "v1.0.5"
 # renovate-its: datasource=github-tags depName=GNOME/glib
