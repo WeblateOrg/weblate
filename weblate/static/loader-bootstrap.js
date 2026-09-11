@@ -2489,6 +2489,23 @@ onReady(() => {
       });
     });
 
+  /* Clarify browser verification failures using the page's translated guidance. */
+  document.addEventListener("otp_webauthn.verification_failed", (event) => {
+    if (
+      event.target.id !== "passkey-verification-button" ||
+      event.detail?.fromAutofill ||
+      event.detail?.error?.name !== "NotAllowedError"
+    ) {
+      return;
+    }
+    const status = document.getElementById(
+      "passkey-verification-status-message",
+    );
+    if (status?.dataset.notAllowedMessage) {
+      status.textContent = status.dataset.notAllowedMessage;
+    }
+  });
+
   /* WebAuthn registration completion in profile */
   document.addEventListener("otp_webauthn.register_complete", (event) => {
     const id = event.detail.id;
