@@ -21,6 +21,7 @@ Weblate 2026.10
 
 * Added a thumbnail picker to associate existing :ref:`screenshots <add-existing-screenshot>` with a string from the translation editor.
 * :ref:`Repository maintenance <repository-maintenance>` now checks permissions on the repository-owning component and explains where missing permissions are required.
+* Added a guided :ref:`first translation <translator-start>` and practical advice for :doc:`building a translators community <devel/community>`.
 
 * :ref:`Automatic translation <auto-translation>` using other components now prefers translations with matching source text and context.
 * Aligned :ref:`string search filters <search-strings>` with the status overview's order and colors, and added an :guilabel:`All strings` option to clear the query.
