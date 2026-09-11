@@ -10,6 +10,8 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* Added a thumbnail picker to associate existing :ref:`screenshots <add-existing-screenshot>` with a string from the translation editor.
+
 * :ref:`Automatic translation <auto-translation>` using other components now prefers translations with matching source text and context.
 * Aligned :ref:`string search filters <search-strings>` with the status overview's order and colors, and added an :guilabel:`All strings` option to clear the query.
 * Added monthly instance activity to the :ref:`data sent with support integration <support-data>` for activity monitoring and discovery ranking.

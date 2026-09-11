@@ -2388,6 +2388,106 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains("#screenshots-add", "Repository path to screenshot")
         self.screenshot("screenshot-filemask-repository-filename.png")
 
+    def test_select_existing_screenshot(self) -> None:
+        project = self.create_component()
+        self.do_login(superuser=True)
+        unit = Unit.objects.filter(
+            translation__component__project=project,
+            translation__component__slug="django",
+            translation__language__code="cs",
+        ).first()
+        assert unit is not None
+        screenshot = Screenshot.objects.create(
+            name="Source strings", translation=unit.source_unit.translation
+        )
+        translated_screenshot = Screenshot.objects.create(
+            name="Translated strings", translation=unit.translation
+        )
+        for image in (screenshot, translated_screenshot):
+            with open(get_test_file("screenshot.png"), "rb") as handle:
+                image.image.save("picker.png", File(handle))
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        editor_url = self.driver.current_url
+        trigger = self.driver.find_element(
+            By.CSS_SELECTOR, '[data-bs-target="#select-screenshot-modal"]'
+        )
+        trigger.send_keys(Keys.ENTER)
+        search = WebDriverWait(self.driver, 10).until(
+            element_to_be_clickable((By.ID, "screenshot-picker-q"))
+        )
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: driver.switch_to.active_element == search
+        )
+        search_button = self.driver.find_element(
+            By.CSS_SELECTOR, "#screenshot-picker-search button"
+        )
+        self.assertEqual(search.rect["y"], search_button.rect["y"])
+        self.assertEqual(search.size["height"], search_button.size["height"])
+        self.screenshot_viewport("screenshot-picker.png", 1200)
+        search.send_keys("strings", Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(staleness_of(search))
+        radio = WebDriverWait(self.driver, 10).until(
+            element_to_be_clickable((By.ID, f"screenshot-choice-{screenshot.pk}"))
+        )
+        card = radio.find_element(By.XPATH, "ancestor::label")
+        selected_status = card.find_element(By.CLASS_NAME, "screenshot-selected")
+        initial_border = card.value_of_css_property("border-top-color")
+        self.assertFalse(selected_status.is_displayed())
+        self.assertEqual(radio.size, {"height": 1, "width": 1})
+        # Tab from search through its submit button to the radio group.
+        self.driver.switch_to.active_element.send_keys(Keys.TAB, Keys.TAB)
+        self.assertEqual(self.driver.switch_to.active_element, radio)
+        self.assertEqual(card.value_of_css_property("outline-style"), "solid")
+        radio.send_keys(Keys.SPACE)
+        self.assertTrue(selected_status.is_displayed())
+        self.assertNotEqual(
+            card.value_of_css_property("border-top-color"), initial_border
+        )
+        other_radio = self.driver.find_element(
+            By.ID, f"screenshot-choice-{translated_screenshot.pk}"
+        )
+        other_radio.find_element(By.XPATH, "ancestor::label").click()
+        self.assertTrue(other_radio.is_selected())
+        self.assertFalse(radio.is_selected())
+        self.assertFalse(selected_status.is_displayed())
+        other_radio.send_keys(Keys.ARROW_LEFT)
+        self.assertTrue(radio.is_selected())
+        self.assertTrue(selected_status.is_displayed())
+        self.screenshot_viewport("screenshot-picker-selected.png", 1200)
+        add = self.driver.find_element(By.ID, "screenshot-picker-add")
+        self.assertTrue(add.is_enabled())
+        with self.wait_for_page_load():
+            add.send_keys(Keys.ENTER)
+        self.assertEqual(self.driver.current_url, editor_url)
+        self.assertTrue(screenshot.units.filter(pk=unit.source_unit.pk).exists())
+        self.assertFalse(translated_screenshot.units.exists())
+        self.screenshot_viewport("screenshot-picker-associated.png", 1200)
+        trigger = self.driver.find_element(
+            By.CSS_SELECTOR, '[data-bs-target="#select-screenshot-modal"]'
+        )
+        trigger.send_keys(Keys.ENTER)
+        search = WebDriverWait(self.driver, 10).until(
+            element_to_be_clickable((By.ID, "screenshot-picker-q"))
+        )
+        self.assertEqual(
+            self.driver.find_elements(By.ID, f"screenshot-choice-{screenshot.pk}"), []
+        )
+        self.assert_text_contains("#screenshot-picker-content", "Translated strings")
+        search.clear()
+        search.send_keys("unmatched screenshot", Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(staleness_of(search))
+        search = WebDriverWait(self.driver, 10).until(
+            element_to_be_clickable((By.ID, "screenshot-picker-q"))
+        )
+        self.assert_text_contains(
+            "#screenshot-picker-content", "No matching screenshots available."
+        )
+        search.send_keys(Keys.ESCAPE)
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: driver.switch_to.active_element == trigger
+        )
+
     def test_screenshot_clipboard_paste(self) -> None:
         """Test uploading a screenshot pasted from the clipboard."""
         project = self.create_component()
@@ -2401,7 +2501,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
-        self.click("Add screenshot")
+        self.click("Upload screenshot")
         modal = WebDriverWait(self.driver, 5).until(
             element_to_be_clickable((By.ID, "add-screenshot-form"))
         )
