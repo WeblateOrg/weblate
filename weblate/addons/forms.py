@@ -46,7 +46,12 @@ from weblate.utils.forms import (
     WeblateServiceURLField,
 )
 from weblate.utils.regex import compile_regex, regex_match, regex_sub
-from weblate.utils.render import validate_render, validate_render_translation
+from weblate.utils.render import (
+    validate_render,
+    validate_render_mock,
+    validate_render_translation,
+)
+from weblate.utils.stats import DummyTranslationStats
 from weblate.utils.validators import (
     validate_fedora_messaging_url,
     validate_filename,
@@ -653,7 +658,20 @@ class SphinxExtractPotForm(BaseExtractPotForm):
 class GenerateForm(
     BaseAddonForm["GenerateFileAddonConfiguration", "GenerateFileAddon"]
 ):
-    public_configuration_fields = frozenset({"filename"})
+    public_configuration_fields = frozenset({"filename", "scope"})
+
+    scope = forms.ChoiceField(
+        label=gettext_lazy("Output scope"),
+        choices=(
+            ("translation", gettext_lazy("One file per translation")),
+            ("component", gettext_lazy("One file per component")),
+        ),
+        initial="translation",
+        required=False,
+    )
+
+    def clean_scope(self):
+        return self.cleaned_data["scope"] or "translation"
 
     filename = forms.CharField(
         label=gettext_lazy("Name of generated file"), required=True
@@ -668,6 +686,7 @@ class GenerateForm(
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
+            Field("scope"),
             Field("filename"),
             Field("template"),
             ContextDiv(
@@ -675,11 +694,30 @@ class GenerateForm(
             ),
         )
 
-    def test_render(self, value) -> None:
-        validate_render_translation(value)
+    def test_render(self, value: str, *, filename: bool = False) -> None:
+        if self.cleaned_data.get("scope") == "component" and filename:
+            validate_render_mock(value)
+        elif self.cleaned_data.get("scope") == "component":
+            validate_render_mock(
+                value,
+                translations=[
+                    {
+                        "language_code": "cs",
+                        "language_name": "Czech",
+                        "language_native_name": "Čeština",
+                        "language_direction": "ltr",
+                        "filename": "cs.po",
+                        "url": "https://example.com/cs/",
+                        "is_source": False,
+                        "stats": DummyTranslationStats(None).get_data(),
+                    }
+                ],
+            )
+        else:
+            validate_render_translation(value)
 
     def clean_filename(self):
-        self.test_render(self.cleaned_data["filename"])
+        self.test_render(self.cleaned_data["filename"], filename=True)
         validate_filename(self.cleaned_data["filename"])
         return self.cleaned_data["filename"]
 
@@ -689,6 +727,7 @@ class GenerateForm(
 
     def serialize_form(self) -> GenerateFileAddonConfiguration:
         return {
+            "scope": self.cleaned_data["scope"],
             "filename": self.cleaned_data["filename"],
             "template": self.cleaned_data["template"],
         }
