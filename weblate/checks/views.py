@@ -25,6 +25,26 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
+def get_check_search_urls(path_object, check_id: str) -> dict[str, str]:
+    """Build search URLs jumping straight to units failing a given check.
+
+    Lets a checks-overview cell link directly into the unit search
+    (scoped to path_object, or site-wide when None) instead of requiring a
+    separate drilldown click per project/component/language.
+    """
+    kwargs = {}
+    if path_object is not None:
+        kwargs["path"] = path_object.get_url_path()
+    base = reverse("search", kwargs=kwargs)
+    url_id = f"check:{check_id}"
+    return {
+        "total": f"{base}?q={url_id} OR dismissed_{url_id}",
+        "dismissed": f"{base}?q=dismissed_{url_id}",
+        "active": f"{base}?q={url_id}",
+        "translated": f"{base}?q={url_id} AND state:>=translated",
+    }
+
+
 class CheckWrapper:
     check_obj: Check | None
 
@@ -52,6 +72,7 @@ class CheckWrapper:
         if path_object is not None:
             kwargs["path"] = path_object.get_url_path()
         self.row_url = reverse("checks", kwargs=kwargs)
+        self.search_urls = get_check_search_urls(path_object, self.name)
 
 
 class CheckList(PathViewMixin, ListView):
@@ -112,6 +133,10 @@ class CheckList(PathViewMixin, ListView):
                         "name": self.check_obj.check_id if self.check_obj else "-",
                         "path": item.get_url_path(),
                     },
+                )
+            if not hasattr(item, "search_urls"):
+                item.search_urls = get_check_search_urls(
+                    item, self.check_obj.check_id
                 )
         return result
 
@@ -264,12 +289,10 @@ class CheckList(PathViewMixin, ListView):
             context["column_title"] = gettext("Component")
         elif isinstance(self.path_object, Component):
             context["column_title"] = gettext("Translation")
-            context["translate_links"] = True
         elif isinstance(self.path_object, Language):
             context["column_title"] = gettext("Project")
         elif isinstance(self.path_object, ProjectLanguage):
             context["column_title"] = gettext("Component")
-            context["translate_links"] = True
         else:
             msg = f"Type not supported: {self.path_object}"
             raise TypeError(msg)

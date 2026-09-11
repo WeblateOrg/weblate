@@ -46,38 +46,16 @@
             <a href="{{ row.row_url }}">{{ row.row_title }}</a>
           </th>
           <td class="number" data-value="{{ row.check_count }}">
-            {% if translate_links %}
-              <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }} OR dismissed_{{ row.check_obj.url_id }}">
-                {{ row.check_count|intcomma }}
-              </a>
-            {% else %}
-              {{ row.check_count|intcomma }}
-            {% endif %}
+            <a href="{{ row.search_urls.total }}">{{ row.check_count|intcomma }}</a>
           </td>
           <td class="number" data-value="{{ row.dismissed_check_count }}">
-            {% if translate_links %}
-              <a href="{{ row.get_translate_url }}?q=dismissed_{{ row.check_obj.url_id }}">
-                {{ row.dismissed_check_count|intcomma }}
-              </a>
-            {% else %}
-              {{ row.dismissed_check_count|intcomma }}
-            {% endif %}
+            <a href="{{ row.search_urls.dismissed }}">{{ row.dismissed_check_count|intcomma }}</a>
           </td>
           <td class="number" data-value="{{ row.active_check_count }}">
-            {% if translate_links %}
-              <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }}">{{ row.active_check_count|intcomma }}</a>
-            {% else %}
-              {{ row.active_check_count|intcomma }}
-            {% endif %}
+            <a href="{{ row.search_urls.active }}">{{ row.active_check_count|intcomma }}</a>
           </td>
           <td class="number" data-value="{{ row.translated_check_count }}">
-            {% if translate_links %}
-              <a href="{{ row.get_translate_url }}?q={{ row.check_obj.url_id }} AND state:&gt;=translated">
-                {{ row.translated_check_count|intcomma }}
-              </a>
-            {% else %}
-              {{ row.translated_check_count|intcomma }}
-            {% endif %}
+            <a href="{{ row.search_urls.translated }}">{{ row.translated_check_count|intcomma }}</a>
           </td>
         </tr>
         <tr data-parent="row-{{ row.pk }}">

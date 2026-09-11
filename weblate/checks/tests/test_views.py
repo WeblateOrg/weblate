@@ -208,6 +208,36 @@ class ChecksViewTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, translation_check_url, status_code=200)
 
+    def test_check_totals_link_to_search(self) -> None:
+        """Totals on the checks overview should link straight into unit search."""
+        same_search_url = reverse("search") + "?q=check:same OR dismissed_check:same"
+        response = self.client.get(reverse("checks"))
+        self.assertContains(response, same_search_url)
+
+        project_search_url = (
+            reverse("search", kwargs={"path": self.project.get_url_path()})
+            + "?q=check:same OR dismissed_check:same"
+        )
+        response = self.client.get(
+            reverse("checks", kwargs={"path": self.project.get_url_path()})
+        )
+        self.assertContains(response, project_search_url)
+
+        component_search_url = (
+            reverse(
+                "search",
+                kwargs={"path": self.component.get_url_path()},
+            )
+            + "?q=check:same"
+        )
+        response = self.client.get(
+            reverse(
+                "checks",
+                kwargs={"name": "same", "path": self.project.get_url_path()},
+            )
+        )
+        self.assertContains(response, component_search_url)
+
     def test_component(self) -> None:
         response = self.client.get(
             reverse(
