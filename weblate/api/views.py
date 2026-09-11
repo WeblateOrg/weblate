@@ -129,6 +129,8 @@ from weblate.api.serializers import (
     TaskSerializer,
     TranslationCreateSerializer,
     TranslationSerializer,
+    UnitScreenshotAssociationSerializer,
+    UnitScreenshotsSerializer,
     UnitSerializer,
     UnitWriteSerializer,
     UploadRequestSerializer,
@@ -4191,7 +4193,12 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         )
         return Response(serializer.data)
 
-    @extend_schema(description="Associate screenshot with unit.", methods=["post"])
+    @extend_schema(
+        description="Associate screenshot with unit.",
+        methods=["post"],
+        request=UnitScreenshotAssociationSerializer,
+        responses=UnitScreenshotsSerializer,
+    )
     @action(detail=True, methods=["post"])
     @transaction.atomic
     def screenshots(self, request: Request, **kwargs):
@@ -4213,8 +4220,15 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         except Screenshot.DoesNotExist as error:
             raise not_found_validation_error(field_name, "Screenshot") from error
 
-        screenshot.add_unit(unit, user=request.user)
-        serializer = UnitSerializer(unit, context={"request": request})
+        # Idempotent: avoid creating a duplicate SCREENSHOT_ADDED change entry
+        # when the association already exists (for example on a client retry).
+        if not screenshot.units.filter(pk=unit.pk).exists():
+            screenshot.add_unit(unit, user=request.user)
+            # get_object() uses prefetch_api(), which may have already
+            # cached an (now stale) empty "screenshots" relation; drop it so
+            # the response reflects the association we just created.
+            unit.refresh_from_db()
+        serializer = UnitScreenshotsSerializer(unit, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
 
@@ -4239,6 +4253,12 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         except Screenshot.DoesNotExist as error:
             msg = "Screenshot"
             raise not_found_http404(msg) from error
+
+        # Idempotent: only record SCREENSHOT_REMOVED when the unit was
+        # actually associated, avoiding a false audit trail entry for a
+        # no-op removal.
+        if not screenshot.units.filter(pk=unit.pk).exists():
+            return Response(status=HTTP_204_NO_CONTENT)
         screenshot.remove_unit(unit, user=request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
