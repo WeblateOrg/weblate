@@ -1,0 +1,57 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: ITS rules update
+
+on:
+  push:
+    branches:
+    - renovate/**
+    - dependabot/**
+    - main
+    paths:
+    - .github/workflows/its-rules-update.yml
+    - scripts/update-gettext-rules.py
+    - weblate/addons/extractors/gettext/**
+  workflow_dispatch:
+  pull_request:
+    paths:
+    - .github/workflows/its-rules-update.yml
+    - scripts/update-gettext-rules.py
+    - weblate/addons/extractors/gettext/**
+
+permissions:
+  contents: read
+
+jobs:
+  its-rules-update:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1   # v7.0.1
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+      with:
+        enable-cache: false
+        version: 0.12.10
+    - name: Set up Python
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      with:
+        python-version: '3.14'
+    - name: Install Python dependencies
+      run: uv sync --only-group scripts --only-group pre-commit
+    - run: uv run --frozen --only-group scripts scripts/update-gettext-rules.py
+
+    - name: Prepare maintenance patch
+      uses: $/.github/actions/auto-commit
+
+    # Keep this outside the composite action; pre-commit.ci lite detects the
+    # top-level post step, and composites expose nested post hooks.
+    # The condition mirrors pre-commit-ci/lite-action's main.mjs user-PR check.
+    - name: Commit changes (external PR, pre-commit-ci-lite)
+      if: github.event_name == 'pull_request' && github.event.sender.type == 'User'
+      uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
+      with:
+        msg: 'chore: update gettext ITS rules'

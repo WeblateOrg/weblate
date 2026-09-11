@@ -3205,7 +3205,7 @@ class GettextAddonTest(ViewTestCase):
             "Thank you for using Weblate!",
         )
 
-        def run_process(component: Component, command: list[str]) -> str:
+        def run_process(component: Component, command: list[str], **kwargs) -> str:
             template.write_text(template_content, encoding="utf-8")
             return ""
 
@@ -3240,7 +3240,7 @@ class GettextAddonTest(ViewTestCase):
             "Thank you for using Weblate!",
         )
 
-        def run_process(component: Component, command: list[str]) -> str:
+        def run_process(component: Component, command: list[str], **kwargs) -> str:
             template.write_text(template_content, encoding="utf-8")
             return ""
 
@@ -4842,7 +4842,7 @@ msgstr ""
             "Thank you for using Weblate!",
         )
 
-        def run_process(component: Component, command: list[str]) -> str:
+        def run_process(component: Component, command: list[str], **kwargs) -> str:
             template.write_text(template_content, encoding="utf-8")
             return ""
 

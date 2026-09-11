@@ -29,6 +29,7 @@ from weblate.addons.defaults import (
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
+from weblate.addons.gettext_rules import resolve_data_dirs, validate_data_dirs
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
@@ -272,14 +273,38 @@ class KeywordField(forms.CharField):
         return super().to_python(value)
 
 
+class GettextDataDirsField(forms.CharField):
+    def prepare_value(self, value: object) -> object:
+        if isinstance(value, list):
+            return "\n".join(validate_data_dirs(value))
+        return super().prepare_value(value)
+
+    def to_python(self, value: object) -> str | None:
+        if isinstance(value, list):
+            value = "\n".join(validate_data_dirs(value))
+        return super().to_python(value)
+
+
 class BaseXgettextExtractPotForm(BaseExtractPotForm):
     public_configuration_fields = BaseExtractPotForm.public_configuration_fields | {
         "checks",
+        "data_dirs",
         "comment_mode",
         "comment_tag",
         "keyword",
         "keyword_exclusive",
     }
+
+    data_dirs = GettextDataDirsField(
+        label=gettext_lazy("ITS data directories"),
+        required=False,
+        widget=forms.Textarea(),
+        help_text=gettext_lazy(
+            "Newline-separated repository-relative directories containing an its "
+            "subdirectory, for example po for po/its. Earlier directories override "
+            "later directories and bundled rules."
+        ),
+    )
 
     COMMENT_MODE_CHOICES = (
         ("off", gettext_lazy("Do not extract comments")),
@@ -344,6 +369,19 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         if data is not None:
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
+
+    def clean_data_dirs(self) -> list[str]:
+        names = validate_data_dirs(
+            [
+                line.strip()
+                for line in self.cleaned_data.get("data_dirs", "").splitlines()
+                if line.strip()
+            ]
+        )
+        component = self._addon.instance.component
+        if component is not None:
+            resolve_data_dirs(Path(component.full_path), names)
+        return names
 
     def clean_xgettext_options(self, cleaned_data: dict[str, Any]) -> dict[str, Any]:
         comment_mode = cleaned_data.get("comment_mode", "off")
@@ -446,6 +484,7 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
             Field("comment_mode"),
             Field("comment_tag"),
             Field("checks"),
+            Field("data_dirs"),
             Field("keyword"),
             Field("keyword_exclusive"),
             Field("location_mode"),
@@ -525,6 +564,7 @@ class MesonExtractPotForm(BaseXgettextExtractPotForm):
             Field("comment_mode"),
             Field("comment_tag"),
             Field("checks"),
+            Field("data_dirs"),
             Field("keyword"),
             Field("keyword_exclusive"),
             Field("location_mode"),

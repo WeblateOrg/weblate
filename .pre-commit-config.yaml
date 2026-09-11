@@ -5,7 +5,10 @@ repos:
   rev: v6.0.0
   hooks:
   - id: trailing-whitespace
+    # Preserve imported license texts and copyright notices verbatim.
+    exclude: ^LICENSES/
   - id: end-of-file-fixer
+    exclude: ^LICENSES/
   - id: check-yaml
   - id: check-xml
   - id: check-toml
@@ -13,6 +16,7 @@ repos:
   - id: check-json
   - id: mixed-line-ending
     args: [--fix=lf]
+    exclude: ^LICENSES/
   - id: pretty-format-json
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$

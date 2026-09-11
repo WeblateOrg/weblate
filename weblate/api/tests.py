@@ -15955,6 +15955,53 @@ class AddonAPITest(APIBaseTest):
         self.assertNotIn("_install_msgmerge", addon.configuration)
         self.assertEqual(addon.configuration["source_patterns"], ["src/*.py"])
 
+    def test_gettext_data_dirs_configuration(self) -> None:
+        rules = Path(self.component.full_path) / "po" / "its"
+        rules.mkdir(parents=True, exist_ok=True)
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"source_patterns": ["*.py"], "interval": "weekly"},
+        ).instance
+        with patch("weblate.addons.base.BaseAddon.post_configure"):
+            response = self.do_request(
+                "api:addon-detail",
+                kwargs={"pk": addon.pk},
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={
+                    "configuration": {
+                        "data_dirs": ["po"],
+                        "interval": "weekly",
+                        "source_patterns": ["*.py"],
+                    }
+                },
+            )
+        self.assertEqual(response.data["configuration"]["data_dirs"], ["po"])
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration["data_dirs"], ["po"])
+        for value in (["../outside"], ["missing"], [1]):
+            with self.subTest(value=value):
+                self.do_request(
+                    "api:addon-detail",
+                    kwargs={"pk": addon.pk},
+                    method="patch",
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request={
+                        "configuration": {
+                            "data_dirs": value,
+                            "interval": "weekly",
+                            "source_patterns": ["*.py"],
+                        }
+                    },
+                )
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration["data_dirs"], ["po"])
+
     def test_edit_preserves_omitted_optional_configuration(self) -> None:
         addon = GitSquashAddon.create(
             component=self.component,

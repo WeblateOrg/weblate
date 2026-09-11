@@ -3286,6 +3286,12 @@ Add-ons
 
     Creates a new add-on.
 
+    The xgettext and Meson extraction add-ons accept ``data_dirs`` in
+    ``configuration`` as an ordered list of repository-relative ITS data
+    directories, for example ``{"data_dirs": ["po"]}``. Each directory must
+    contain an :file:`its/` subdirectory. See
+    :ref:`addon-weblate.gettext.xgettext` for supported formats and validation.
+
     :param string project_slug: Project slug
     :param string component_slug: Component slug
     :<json string name: name of an add-on
