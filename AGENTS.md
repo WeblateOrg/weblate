@@ -22,13 +22,20 @@ For application-developer workflows and broader product integration guidance, us
 - Use `TYPE_CHECKING` imports for type-only dependencies when that avoids
   runtime import cycles.
 - Add new user-configurable model fields to the existing REST serializers, API
-  documentation, schema, and tests for that model. Review write permissions and
-  validation explicitly. Keep secrets, computed state, and intentionally
-  internal fields unexposed, and document the reason when the omission is not
-  self-evident.
-- All user-facing strings must be translatable using Django i18n helpers, except
-  messages used in the API or persisted storage, such as the audit log, add-on
-  log, or changes; these messages should not be localized.
+  documentation, schema, and API behavior tests for that model. Review write
+  permissions and validation explicitly. Keep secrets, computed state, and
+  intentionally internal fields unexposed, and document the reason when the
+  omission is not self-evident.
+- Do not add tests that duplicate OpenAPI schema expectations covered by the
+  tracked snapshot in `docs/specs/openapi.yaml`; schema changes are visible
+  during review. Allow focused tests of configuration-dependent behavior that
+  the snapshot cannot cover, and parsing and validation of served schema
+  documents without asserting fixed schema contents. Keep other tests focused
+  on API behavior, permissions, validation, schema endpoint availability, and
+  documentation UI integration.
+- All translatable user-facing strings must be translatable using Django i18n
+  helpers, except messages used in the API or persisted storage, such as the
+  audit log, add-on log, or changes; these messages should not be localized.
 - In templates, use `{% translate %}` / `{% blocktranslate %}` for translatable
   text.
 - Preserve accessibility and the existing Bootstrap/jQuery-based frontend
@@ -83,15 +90,19 @@ For application-developer workflows and broader product integration guidance, us
   risks.
 - Handle VCS operations defensively and surface failures cleanly.
 - Mock external VCS operations and API calls in tests.
-- Check `docs/security/threat-model.rst` when changing public endpoints,
+- Review `docs/security/threat-model.rst` when changing public endpoints,
   authentication or token modes, deployment modes, backup or import formats, VCS
   execution paths, outbound integration classes, add-on execution capabilities,
   or security-relevant defaults for hooks, HTTPS, rate limits, CSP,
   private-network access, or backup import limits.
-- Update `docs/security/threat-model.rst` in the same change when the threat
-  model's "Conditions that change this model" apply, including when unsupported
-  components become supported product surface, claimed security properties
-  change, or a vulnerability report exposes a model gap.
+- Review does not necessarily require an edit. Update the threat model in the
+  same change only when its scope, actors, trust boundaries, assumptions,
+  claimed security properties, or triage dispositions change or leave a gap,
+  following its "Conditions that change this model" section. Features covered
+  by existing guidance do not need individual entries. Keep feature-level
+  endpoint, permission, configuration, implementation, and limit details in
+  the relevant feature or administration documentation; link to them only when
+  needed to explain a distinct boundary, exception, or triage outcome.
 - For user-visible changes, add or update a changelog entry in the top section
   of `docs/changes.rst` for the upcoming release.
 - Do not alter changelog sections for already released versions; put follow-up
@@ -115,6 +126,21 @@ For application-developer workflows and broader product integration guidance, us
 
 ## Testing and linting instructions
 
+- Complex data migrations must have populated upgrade tests in `ci/run-migrate`:
+  add old-version setup and post-upgrade assertion scripts in
+  `ci/migrate-scripts/`, gated to applicable source releases. Seed data that
+  exercises conditional branches and cross-app relationships, and verify the
+  resulting data, not just successful migration execution. Empty-database runs
+  and helper tests against the latest schema do not detect missing migration
+  dependencies or premature access to future columns. Use historical models
+  from `apps.get_model()` and declare dependencies for the models accessed.
+  Keep migration database access independent of current model helpers.
+- For an isolated worktree environment, use the development container workflow
+  in `docs/contributing/start.rst` (`devcontainer` section). Run
+  `./scripts/devcontainer up`, then use `./scripts/devcontainer exec --` before
+  the commands below. Run `./scripts/devcontainer doctor` to diagnose setup,
+  and `./scripts/devcontainer bootstrap` after dependency changes. The test
+  environment uses PostgreSQL and Valkey; it does not start application workers.
 - Install the development dependencies first using
   `uv sync --all-extras --dev`.
 - After syncing, prefer `uv run ...` for subsequent commands so they use the

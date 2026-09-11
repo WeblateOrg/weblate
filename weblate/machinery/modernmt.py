@@ -24,6 +24,9 @@ from .base import (
 from .forms import ModernMTMachineryForm
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import (
         DownloadTranslations,
         TranslationResultDict,
@@ -63,7 +66,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
             "MMT-PlatformVersion": weblate.utils.version.VERSION,
         }
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         super().check_failure(response)
         payload = response.json()
 
@@ -83,11 +86,11 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

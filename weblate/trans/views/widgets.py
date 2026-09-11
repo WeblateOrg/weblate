@@ -24,7 +24,12 @@ from weblate.trans.util import render
 from weblate.trans.widgets import WIDGETS, OpenGraphWidget
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage
-from weblate.utils.views import parse_path, show_form_errors, try_set_language
+from weblate.utils.views import (
+    parse_path,
+    parse_path_for_public_sharing,
+    show_form_errors,
+    try_set_language,
+)
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -157,9 +162,8 @@ def render_widget(
     color: str,
     extension: str,
 ):
-    # We intentionally skip ACL here to allow widget sharing
-    obj = parse_path(
-        None,
+    obj = parse_path_for_public_sharing(
+        request,
         path,
         (Component, ProjectLanguage, Project, Translation, Language, None),
     )

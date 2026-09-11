@@ -119,10 +119,16 @@ WLT.Utils = (() => ({
    * @returns {boolean}
    */
   editorHasChanges: (e) => {
-    const editorArea = e
-      ? e.target.closest(".translation-editor")
-      : document.querySelector(".translator .translation-editor");
-    return editorArea?.classList.contains("has-changes") ?? false;
+    if (e) {
+      return (
+        e.target
+          .closest(".translation-editor")
+          ?.classList.contains("has-changes") ?? false
+      );
+    }
+    return !!document.querySelector(
+      ".translator .translation-editor.has-changes",
+    );
   },
 }))();
 
@@ -266,6 +272,13 @@ WLT.Editor = (() => {
     this.initHighlight();
     this.init();
 
+    // Retained edits need the same warning as text entered on this page.
+    for (const editorArea of this.translationArea) {
+      if (editorArea.closest('form[data-unsaved="true"]')) {
+        WLT.Utils.indicateChanges({ target: editorArea });
+      }
+    }
+
     this.translationArea[0]?.focus();
 
     // Show confirmation dialog if changes have been made
@@ -292,7 +305,10 @@ WLT.Editor = (() => {
 
     // Remove unsaved changes warning when submitting
     for (const editor of this.editors) {
-      editor.addEventListener("submit", () => {
+      editor.addEventListener("submit", (event) => {
+        if (event.target.matches(".result-page-form")) {
+          return;
+        }
         for (const el of document.querySelectorAll(
           ".translator .translation-editor",
         )) {

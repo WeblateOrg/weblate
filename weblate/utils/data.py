@@ -12,7 +12,7 @@ from pathlib import Path
 from django.conf import settings
 
 
-def data_dir(component, *args):
+def data_dir(component: str, *args: str | os.PathLike[str]):
     """Return path to data dir for given component."""
     # TODO: remove once all users are migrated to data_path
     if component == "cache" and settings.CACHE_DIR:

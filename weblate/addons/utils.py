@@ -6,12 +6,15 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
     from weblate.addons.events import AddonEvent
 
 
 def adjust_addon_events(
-    apps,
-    schema_editor,
+    apps: StateApps,
+    schema_editor: BaseDatabaseSchemaEditor,
     addon_names: list[str],
     add_events: list[AddonEvent],
     remove_events: list[AddonEvent],

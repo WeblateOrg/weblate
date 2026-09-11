@@ -8,13 +8,17 @@ from __future__ import annotations
 
 from copy import deepcopy
 from datetime import timedelta
+from email import policy
+from email.parser import BytesParser
 from types import SimpleNamespace
-from typing import Protocol
+from typing import Never, Protocol, cast
+from unittest.mock import patch
 
 from django.conf import settings
 from django.core import mail
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.db.models import Manager, Model
+from django.template.loader import render_to_string
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -22,18 +26,26 @@ from django.utils import timezone
 from weblate.accounts.data import DEFAULT_NOTIFICATIONS
 from weblate.accounts.models import AuditLog, Profile, Subscription
 from weblate.accounts.notifications import (
+    DIGEST_MAX_ITEMS,
     RECIPIENT_USERNAME_HEADER,
+    SUBSCRIPTION_CACHE_SIZE,
     LastAuthorCommentNotificaton,
     MergeFailureNotification,
+    Notification,
     NotificationFrequency,
     NotificationScope,
+    PendingSuggestionsNotification,
+    RepositoryNotification,
     TranslationActivitySummaryNotification,
     get_email_headers,
     get_notification_emails,
 )
 from weblate.accounts.tasks import (
+    get_digest_projects,
     notify_changes,
     notify_daily,
+    notify_digest,
+    notify_digest_batch,
     notify_monthly,
     notify_weekly,
     send_mails,
@@ -44,13 +56,14 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Announcement, Change, Comment, Suggestion
+from weblate.trans.models import Announcement, Change, Comment, Project, Suggestion
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
     RegistrationTestMixin,
     ViewTestCase,
 )
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.icons import load_icon
 from weblate.utils.site import get_site_url
 from weblate.utils.version import USER_AGENT
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
@@ -76,7 +89,7 @@ class LazyTranslation:
         self.prefetched_language = None
 
     @property
-    def language(self):
+    def language(self) -> Never:
         msg = "fill_in_prefetched should inject change.language"
         raise AssertionError(msg)
 
@@ -123,6 +136,23 @@ class ChangePrefetchTest(SimpleTestCase):
 
 
 class NotificationHeadersTest(SimpleTestCase):
+    def test_subscription_cache_is_bounded(self) -> None:
+        notification = Notification([])
+        with patch.object(notification, "filter_subscriptions", return_value=[]):
+            for project_id in range(SUBSCRIPTION_CACHE_SIZE + 1):
+                list(
+                    notification.get_subscriptions(
+                        None,
+                        cast("Project", SimpleNamespace(pk=project_id)),
+                        None,
+                        None,
+                        None,
+                    )
+                )
+
+        self.assertEqual(len(notification.subscription_cache), SUBSCRIPTION_CACHE_SIZE)
+        self.assertNotIn((0, False), notification.subscription_cache)
+
     @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_SOFT, HIDE_VERSION=False)
     def test_soft_mode_keeps_x_mailer_version(self) -> None:
         self.assertEqual(get_email_headers("test")["X-Mailer"], USER_AGENT)
@@ -1363,6 +1393,275 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             self.user.username,
         )
 
+    def test_digest_collection_is_bounded(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_WATCHED,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        changes = Change.objects.bulk_create(
+            [
+                Change(
+                    action=ActionEvents.COMMIT,
+                    project=self.project,
+                    component=self.component,
+                    workspace=self.project.workspace,
+                )
+                for _unused in range(DIGEST_MAX_ITEMS + 1)
+            ]
+        )
+        queryset = (
+            Change.objects.filter(pk__in=[change.pk for change in changes])
+            .order_by("-timestamp", "-pk")
+            .prefetch_for_render()
+        )
+        notification = RepositoryNotification([])
+
+        with patch.object(notification, "send_digest") as send_digest:
+            notification.notify_digest(NotificationFrequency.FREQ_DAILY, queryset)
+
+        self.assertIsNone(
+            queryset._result_cache  # ruff: ignore[private-member-access]
+        )
+        self.assertEqual(send_digest.call_count, 1)
+        digest_changes = send_digest.call_args.kwargs["changes"]
+        self.assertEqual(len(digest_changes), DIGEST_MAX_ITEMS)
+        self.assertEqual(
+            [change.pk for change in digest_changes],
+            [change.pk for change in reversed(changes[1:])],
+        )
+        self.assertTrue(send_digest.call_args.kwargs["overlimit"])
+
+    def test_digest_groups_subscription_queries_by_project(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        projects = Project.objects.bulk_create(
+            [
+                Project(
+                    name=f"Subscription cache project {index}",
+                    slug=f"subscription-cache-project-{index}",
+                    web="https://example.com/",
+                )
+                for index in range(SUBSCRIPTION_CACHE_SIZE + 1)
+            ]
+        )
+        changes = Change.objects.bulk_create(
+            [
+                Change(action=ActionEvents.COMMIT, project=project)
+                for _round in range(2)
+                for project in projects
+            ]
+        )
+        queryset = Change.objects.filter(pk__in=[change.pk for change in changes])
+        notification = RepositoryNotification([])
+
+        with (
+            patch.object(
+                notification,
+                "filter_subscriptions",
+                wraps=notification.filter_subscriptions,
+            ) as filter_subscriptions,
+            patch.object(notification, "send_digest"),
+        ):
+            notification.notify_digest(NotificationFrequency.FREQ_DAILY, queryset)
+
+        self.assertEqual(filter_subscriptions.call_count, len(projects))
+
+    def test_digest_batch_combines_projects(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        second_project = Project.objects.create(
+            name="Second notification project",
+            slug="second-notification-project",
+            web="https://example.com/",
+        )
+        changes = Change.objects.bulk_create(
+            [
+                Change(action=ActionEvents.COMMIT, project=self.project),
+                Change(action=ActionEvents.COMMIT, project=second_project),
+            ]
+        )
+        until = timezone.now() + timedelta(seconds=1)
+
+        with patch.object(RepositoryNotification, "send_digest") as send_digest:
+            notify_digest_batch(
+                RepositoryNotification.get_name(),
+                NotificationFrequency.FREQ_DAILY,
+                (until - timedelta(days=1)).isoformat(),
+                until.isoformat(),
+                [self.user.pk],
+            )
+
+        send_digest.assert_called_once()
+        self.assertTrue(
+            {change.pk for change in changes}.issubset(
+                {change.pk for change in send_digest.call_args.kwargs["changes"]}
+            )
+        )
+
+    @override_settings(RATELIMIT_NOTIFICATION_LIMITS=[(3, 120)])
+    def test_digest_batch_enforces_rate_limit(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        projects = [self.project]
+        projects.extend(
+            Project.objects.create(
+                name=f"Rate limit project {index}",
+                slug=f"rate-limit-project-{index}",
+                web="https://example.com/",
+            )
+            for index in range(3)
+        )
+        Change.objects.bulk_create(
+            [
+                Change(action=ActionEvents.COMMIT, project=project)
+                for project in projects
+            ]
+        )
+        until = timezone.now() + timedelta(seconds=1)
+
+        with (
+            patch("weblate.accounts.notifications.rate_limit_notify") as limiter,
+            patch("weblate.accounts.tasks.queue_mails") as queue,
+        ):
+            limiter.return_value = (False, "")
+            notify_digest_batch(
+                RepositoryNotification.get_name(),
+                NotificationFrequency.FREQ_DAILY,
+                (until - timedelta(days=1)).isoformat(),
+                until.isoformat(),
+                [self.user.pk],
+            )
+
+        limiter.assert_called_once_with(self.user.email)
+        queue.assert_called_once()
+
+    def test_digest_projects_resolve_admin_scope(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ADMIN,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        self.project.add_user(self.user, "Administration")
+        Project.objects.create(
+            name="Unadministered notification project",
+            slug="unadministered-notification-project",
+            web="https://example.com/",
+        )
+        Change.objects.create(action=ActionEvents.COMMIT, project=self.project)
+        until = timezone.now() + timedelta(seconds=1)
+
+        self.assertQuerySetEqual(
+            get_digest_projects(
+                RepositoryNotification,
+                NotificationFrequency.FREQ_DAILY,
+                since=until - timedelta(days=1),
+                until=until,
+            ),
+            [self.project],
+            ordered=False,
+        )
+
+    def test_summary_collection_is_bounded(self) -> None:
+        translations = [
+            SimpleNamespace(pk=translation_id, component=self.component)
+            for translation_id in range(DIGEST_MAX_ITEMS + 1)
+        ]
+        notification = PendingSuggestionsNotification([])
+        with (
+            patch(
+                "weblate.accounts.notifications.iter_prefetch_stats",
+                return_value=translations,
+            ),
+            patch.object(notification, "get_count", return_value=1),
+            patch.object(notification, "get_users", return_value=[self.user]),
+            patch.object(notification, "send_digest") as send_digest,
+        ):
+            notification.notify_summary(NotificationFrequency.FREQ_DAILY)
+
+        self.assertEqual(send_digest.call_count, 1)
+        self.assertEqual(
+            len(send_digest.call_args.kwargs["summaries"]), DIGEST_MAX_ITEMS
+        )
+        self.assertTrue(send_digest.call_args.kwargs["overlimit"])
+        self.assertEqual(
+            send_digest.call_args.kwargs["extracontext"]["total_count"],
+            DIGEST_MAX_ITEMS + 1,
+        )
+
+    def test_digest_coordinator_batches_users(self) -> None:
+        Subscription.objects.all().delete()
+        users = [self.user, self.anotheruser, self.thirduser]
+        Subscription.objects.bulk_create(
+            [
+                Subscription(
+                    user=user,
+                    scope=NotificationScope.SCOPE_ALL,
+                    notification=RepositoryNotification.get_name(),
+                    frequency=NotificationFrequency.FREQ_DAILY,
+                )
+                for user in users
+            ]
+        )
+
+        with (
+            patch("weblate.accounts.notifications.DIGEST_USER_BATCH_SIZE", 2),
+            patch("weblate.accounts.tasks.notify_digest_batch.delay") as delay_digest,
+        ):
+            notify_digest("notify_daily")
+
+        self.assertEqual(delay_digest.call_count, 2)
+        user_batches = [call.args[4] for call in delay_digest.call_args_list]
+        self.assertEqual([len(batch) for batch in user_batches], [2, 1])
+        self.assertCountEqual(
+            [user_id for batch in user_batches for user_id in batch],
+            [user.pk for user in users],
+        )
+        windows = {(call.args[2], call.args[3]) for call in delay_digest.call_args_list}
+        self.assertEqual(len(windows), 1)
+
+    def test_summary_coordinator_scans_once(self) -> None:
+        Subscription.objects.all().delete()
+        for user in (self.user, self.anotheruser, self.thirduser):
+            user.subscription_set.create(
+                scope=NotificationScope.SCOPE_ALL,
+                notification=PendingSuggestionsNotification.get_name(),
+                frequency=NotificationFrequency.FREQ_DAILY,
+            )
+
+        with (
+            patch("weblate.accounts.notifications.DIGEST_USER_BATCH_SIZE", 2),
+            patch("weblate.accounts.tasks.notify_digest_batch.delay") as delay_digest,
+        ):
+            notify_digest("notify_daily")
+
+        delay_digest.assert_called_once()
+        self.assertIsNone(delay_digest.call_args.args[4])
+
     def test_digest_new_lang(self) -> None:
         self.test_digest(
             change=ActionEvents.REQUESTED_LANGUAGE,
@@ -1633,6 +1932,79 @@ class SubscriptionTest(FixtureComponentTestCase):
 
 
 class SendMailsTest(SimpleTestCase):
+    @override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+    def test_inline_images(self) -> None:
+        subject = "Překlad změněn"
+        body = render_to_string(
+            "mail/base.html", {"subject": subject, "LANGUAGE_CODE": "cs"}
+        )
+        headers = {
+            "Auto-Submitted": "auto-generated",
+            "List-Unsubscribe": "<https://example.com/unsubscribe>",
+        }
+        send_mails(
+            [
+                {
+                    "address": address,
+                    "subject": subject,
+                    "body": body,
+                    "headers": headers,
+                }
+                for address in ("first@example.com", "second@example.com")
+            ]
+        )
+        self.assertEqual(len(mail.outbox), 2)
+        previous_ids: set[str] = set()
+        for address, outgoing in zip(
+            ("first@example.com", "second@example.com"), mail.outbox, strict=True
+        ):
+            serialized = outgoing.message(policy=policy.SMTP).as_bytes()
+            message = BytesParser(policy=policy.default).parsebytes(serialized)
+            self.assertEqual(
+                message["Subject"], settings.EMAIL_SUBJECT_PREFIX + subject
+            )
+            self.assertEqual(message["To"], address)
+            for name, value in headers.items():
+                self.assertEqual(message[name], value)
+            self.assertEqual(message.get_content_type(), "multipart/alternative")
+            plain, related = message.iter_parts()
+            self.assertEqual(plain.get_content_type(), "text/plain")
+            self.assertIn(subject, plain.get_content())
+            self.assertEqual(related.get_content_type(), "multipart/related")
+            self.assertEqual(related.get_param("type"), "text/html")
+            html, *images = related.iter_parts()
+            self.assertEqual(html.get_content_type(), "text/html")
+            self.assertIn(subject, html.get_content())
+            self.assertEqual(len(images), 2)
+            content_ids = set()
+            for name, image in zip(
+                ("email-logo.png", "email-logo-footer.png"), images, strict=True
+            ):
+                self.assertEqual(image.get_content_type(), "image/png")
+                self.assertEqual(image.get_content_disposition(), "inline")
+                self.assertEqual(image.get_filename(), name)
+                self.assertEqual(image["Content-Transfer-Encoding"], "base64")
+                self.assertEqual(
+                    image.get_payload(decode=True), load_icon(name, auto_prefix=False)
+                )
+                cid = image["Content-ID"]
+                self.assertTrue(cid.startswith("<") and cid.endswith(">"))
+                self.assertIn(f"cid:{cid[1:-1]}", html.get_content())
+                self.assertNotIn(f"cid:{name}@cid.weblate.org", html.get_content())
+                content_ids.add(cid)
+            self.assertEqual(len(content_ids), 2)
+            self.assertTrue(content_ids.isdisjoint(previous_ids))
+            previous_ids.update(content_ids)
+            repeated = outgoing.message(policy=policy.SMTP)
+            self.assertEqual(
+                [part.get_content_type() for part in repeated.walk()],
+                [part.get_content_type() for part in message.walk()],
+            )
+            self.assertEqual(
+                {part["Content-ID"] for part in repeated.walk() if part["Content-ID"]},
+                content_ids,
+            )
+
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",
         EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",

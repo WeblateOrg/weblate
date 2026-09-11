@@ -37,9 +37,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
-"PO-Revision-Date: 2026-08-22 21:47+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"PO-Revision-Date: 2026-09-11 04:03+0000\n"
+"Last-Translator: GitHub webhook <noreply-webhook-github-"
+"integration@weblate.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -47,7 +48,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -359,6 +360,27 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "Entrer le code à partir de l’application"
 
+#, fuzzy
+#| msgid "Subproject is now open for translation updates."
+msgid "Project, category, component, or translation path"
+msgstr "Le sous-projet est maintenant ouvert aux mises à jour de traduction."
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Enter a valid language code."
+msgid "Enter a valid object path."
+msgstr "Entrez un code de langue valide."
+
+#, fuzzy
+#| msgid "The requested resource was not found or is not accessible."
+msgid "The target does not exist or you cannot access it."
+msgstr "La ressource demandée n'a pas été trouvée ou n'est pas accessible."
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Mot de passe modifié."
@@ -415,10 +437,10 @@ msgstr "Authentifié grâce à {method} ({name}) depuis un nouvel appareil."
 
 #. Translators: Audit log entry
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Quelqu’un a essayé de s’inscrire avec votre courriel."
+msgstr "Quelqu’un a essayé de se connecter avec votre courriel."
 
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Quelqu’un a essayé de s’inscrire avec votre courriel."
+msgstr "Quelqu’un a essayé de se connecter avec votre courriel."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -620,9 +642,7 @@ msgstr ""
 "pas approprié."
 
 msgid "If it was you, reset your password to regain access to your account."
-msgstr ""
-"Si c'est votre cas, réinitialisez votre mot de passe pour retrouver l'accès "
-"à votre compte."
+msgstr "Il est conseillé de réinitialiser votre mot de passe."
 
 #. Translators: User agent device type
 msgctxt "User agent device type"
@@ -655,10 +675,8 @@ msgstr "Activité du compte"
 msgid "Triggered by {username}."
 msgstr "Déclenché par {username}."
 
-#, fuzzy
-#| msgid "Total strings:"
 msgid "Total strings"
-msgstr "Nombre total de chaînes : "
+msgstr "Nombre total de chaînes"
 
 msgid "Unfinished strings"
 msgstr "Chaînes non terminées"
@@ -927,6 +945,66 @@ msgstr "Utiliser le nom du compte"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Veuillez indiquer une adresse e-mail pour proposer vos traductions."
 
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscription."
+msgstr "Aucune chaîne correspondante n’a été trouvée."
+
+#, fuzzy
+#| msgid "Inactive users can not be assigned to teams."
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Les utilisateurs inactifs ne peuvent pas être affectés à des équipes."
+
+#, fuzzy
+#| msgid "This user can not be edited."
+msgid "The user cannot access this target."
+msgstr "Cet utilisateur ne peut pas être modifié."
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is not blocked on this project."
+msgid "The user is not watching this project."
+msgstr "L'utilisateur n'est pas bloqué sur ce projet."
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project access control has been changed."
+msgid "The project or component subscriptions apply to other targets."
+msgstr "Le contrôle d’accès au projet a été modifié."
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language-specific instructions contain unknown language code \"%s\"."
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+"Les instructions spécifiques à la langue contiennent un code de langue "
+"inconnu « %s »."
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
 msgid "No notification"
 msgstr "Aucune notification"
 
@@ -941,6 +1019,23 @@ msgstr "Résumé hebdomadaire"
 
 msgid "Monthly digest"
 msgstr "Résumé mensuel"
+
+msgid "All"
+msgstr "Tous"
+
+msgid "Watched"
+msgstr "Suivi"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "Projets administrés"
+
+msgid "Project"
+msgstr "Projet"
+
+msgid "Component"
+msgstr "Composant"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -972,7 +1067,7 @@ msgstr "Des erreurs d'analyse se sont produites"
 
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Chaînes sources ajoutées et disponibles à la traduction"
+msgstr "Chaîne en attente de traduction"
 
 msgctxt "Notification name"
 msgid "Strings are available for translation"
@@ -1014,6 +1109,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "Des composants ont été traduits"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Un commentaire a été ajouté"
@@ -1022,6 +1122,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Des commentaires ont été ajoutés"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Vous avez été mentionné dans un commentaire"
@@ -1029,6 +1132,11 @@ msgstr "Vous avez été mentionné dans un commentaire"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Vous avez été mentionné dans certains commentaires"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
@@ -1078,6 +1186,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "De nouveaux composants de traduction ont été créés"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Une annonce a été publiée"
@@ -1085,6 +1198,11 @@ msgstr "Une annonce a été publiée"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Des annonces ont été publiées"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1242,6 +1360,11 @@ msgstr "Contact"
 msgid "Hosting"
 msgstr "Hébergement"
 
+#, fuzzy
+#| msgid "Invalid workspace."
+msgid "Invalid trial plan."
+msgstr "Espace de travail non valide."
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1259,6 +1382,11 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Essai gratuit"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification diagnostics for %(user)s"
+msgstr "Suspendre les notifications pour %(object)s"
 
 msgid "This user can not be edited."
 msgstr "Cet utilisateur ne peut pas être modifié."
@@ -1420,6 +1548,20 @@ msgstr "L’application d’authentification a été supprimée."
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "L’application d’authentification %s a été enregistrée."
+
+#, fuzzy
+#| msgid "The invitation link is no longer valid."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "Le lien d’invitation n’est plus valide."
+
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr "Il est conseillé de réinitialiser votre mot de passe."
 
 msgid "Second factor sign in"
 msgstr "Enregistrement du second facteur"
@@ -2084,10 +2226,11 @@ msgstr ""
 "traduction"
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
-"L’expression rationnelle doit définir des groupes nommés pour composant et "
-"langue."
 
 msgid "File format"
 msgstr "Format de fichier"
@@ -2131,6 +2274,18 @@ msgstr ""
 "Nom du fichier de traduction intermédiaire. Dans la plupart des cas, il "
 "s’agit d’un fichier de traduction fourni par les développeurs et utilisé "
 "pour créer les chaînes sources. Ce modèle doit inclure {{ component }}."
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "Motif de fichier en double."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "Filtre sur la langue"
@@ -2236,8 +2391,34 @@ msgid "You can not use a base file for bilingual translation."
 msgstr ""
 "Vous ne pouvez pas utiliser un fichier de base pour une traduction bilingue."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Définit le fichier de base pour de nouvelles traductions"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+"Veuillez ajouter un fichier de langue de base mono-langue dans les "
+"paramètres du composant."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+"Le motif de fichier doit inclure un caractère joker pour la langue (*)."
+
 msgid "Please review and confirm the matched components."
 msgstr "Veuillez examiner et confirmer les composants correspondants."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr "Ce modèle doit inclure {{ component }}."
@@ -2854,14 +3035,14 @@ msgstr "Parcours tous les fichiers de traduction dans le dépôt Weblate"
 msgid "Please provide a suggestion"
 msgstr "Merci de nous faire part de vos suggestions"
 
-msgid "Translation text too long!"
-msgstr "Le texte de la traduction est trop long !"
-
 msgid "Number of plurals does not match"
 msgstr "Le nombre de pluriels ne correspond pas"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Votre suggestion est similaire à la traduction actuelle !"
+
+msgid "Translation text too long!"
+msgstr "Le texte de la traduction est trop long !"
 
 msgid "Your suggestion already exists!"
 msgstr "Une suggestion identique existe déjà !"
@@ -2940,14 +3121,8 @@ msgstr "Vous n'avez pas l'autorisation d'approuver des chaînes de caractères."
 msgid "This string seems to already exist."
 msgstr "Il semble que cette chaîne existe déjà."
 
-msgid "Project"
-msgstr "Projet"
-
 msgid "Category"
 msgstr "Catégorie"
-
-msgid "Component"
-msgstr "Composant"
 
 msgid "User"
 msgstr "Utilisateur"
@@ -3038,8 +3213,11 @@ msgid "Manage project access"
 msgstr "Gérer l’accès au projet"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Télécharger des rapports"
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage repository"
+msgid "Manage reports"
+msgstr "Gérer le dépôt"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -3925,36 +4103,32 @@ msgstr "Facturation"
 msgid "Billing event"
 msgstr "Evénement de facturation"
 
-#, fuzzy
-#| msgid "Monthly"
 msgid "monthly"
-msgstr "Mensuel"
+msgstr "mensuellement"
 
 msgid "yearly"
-msgstr ""
+msgstr "annuellement"
 
-#, fuzzy
-#| msgid "Unknown error"
 msgid "unknown period"
-msgstr "Erreur inconnue"
+msgstr "durée inconnue"
 
 msgid "Changed from \"{}\" to \"{}\"."
 msgstr "Remplacement de « {} » par « {} »."
 
 msgid "Payment \"{}\" initiated for \"{}\" ({})."
-msgstr ""
+msgstr "Paiement \"{}\" initié pour \"{}\" ({})."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
-msgstr ""
+msgstr "Paiement \"{}\" pour \"{}\" ({}) rejeté : {}."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
-msgstr ""
+msgstr "Paiement \"{}\" pour \"{}\" ({}) rejeté."
 
 msgid "Automatic payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Paiement automatique \"{}\" reçu pour \"{}\" ({})."
 
 msgid "Payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Paiement \"{}\" reçu pour \"{}\" ({})."
 
 #, fuzzy
 #| msgid "Changed from \"{}\" to \"{}\"."
@@ -4037,9 +4211,13 @@ msgstr ""
 msgid "Non‑standard characters in Kabyle"
 msgstr "Caractères non standard en kabyle"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
+#| "instead of ε)."
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 "Utiliser les caractères standardisés Latin Kabyle (par exemple ɣ au lieu du "
 "γ grec ; ɛ au lieu du ε)."
@@ -4109,7 +4287,9 @@ msgstr ""
 msgid "Mismatched \\n"
 msgstr "Pas de correspondance \\n"
 
-msgid "Number of \\n literals in translation does not match source."
+#, fuzzy, python-brace-format
+#| msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "Le nombre de « \\n » de la traduction n’est pas identique à la source."
 
 msgid "Mismatching line breaks"
@@ -5047,9 +5227,13 @@ msgstr ""
 msgid "Ellipsis"
 msgstr "Points de suspension"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "The string uses three dots ``(...)`` instead of an ellipsis character "
+#| "``(…)``."
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr ""
 "Cette chaîne contient trois points (...) au lieu du caractère points de "
 "suspension (…)."
@@ -5123,6 +5307,11 @@ msgstr ""
 
 msgid "Font"
 msgstr "Police"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Font has to be in the same project as the font group."
+msgstr "La catégorie parente doit être dans le même projet !"
 
 msgid "Unsupported file format."
 msgstr "Format de fichier non pris en charge."
@@ -5837,7 +6026,9 @@ msgid "Please read the following General Terms and Conditions document:"
 msgstr ""
 "Veuillez lire le document intitulé « Conditions générales » ci-dessous :"
 
-msgid "Please also read the Privacy Policy:"
+#, fuzzy, python-format
+#| msgid "Please also read the Privacy Policy:"
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr "Veuillez également lire la politique de confidentialité :"
 
 msgid "Submit"
@@ -5860,6 +6051,31 @@ msgstr ""
 "Cette page est rédigée d’après nos termes généraux et conditions "
 "d’utilisation et notre politique de confidentialité. Vous devriez aussi lire "
 "les documents originaux pour bien les comprendre :"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"Cette page est rédigée d’après nos termes généraux et conditions "
+"d’utilisation et notre politique de confidentialité. Vous devriez aussi lire "
+"les documents originaux pour bien les comprendre :"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the Terms of Service, you should still read the "
+#| "original document to fully understand them."
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
+msgstr ""
+"Cette page est établie d'après nos conditions générales d'utilisation, mais "
+"vous devriez quand même lire l’intégralité du document original afin de bien "
+"le comprendre."
 
 msgid "Cookies are used on this site for the following:"
 msgstr "Ce site utilise des cookies pour :"
@@ -6180,9 +6396,6 @@ msgstr ""
 "Préférer next-gen LLM par rapport au modèle de traduction automatique "
 "classique."
 
-msgid "DeepL API v1 is no longer supported."
-msgstr "L'API DeepL v1 n'est plus supportée."
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr "Modèle LLM"
@@ -6328,22 +6541,6 @@ msgstr "Modèle Ollama"
 
 msgid "Name of the model described in Ollama catalogue."
 msgstr "Nom du modèle décrit dans le catalogue Ollama."
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr "Claude Haiku 4.5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.8"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
-msgstr "Claude Fable 5"
 
 msgctxt "Anthropic model selection"
 msgid "Custom model"
@@ -6536,8 +6733,8 @@ msgstr ""
 #, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "%(count)d unité de traduction active traitée"
-msgstr[1] "%(count)d unités de traduction actives traitées"
+msgstr[0] "%(count)d entrée du mémoire de traduction active traitée."
+msgstr[1] "%(count)d entrées du mémoire de traduction actives traitées."
 
 msgctxt "Short name of month"
 msgid "Jan"
@@ -7103,7 +7300,6 @@ msgstr "Veuillez corriger les erreurs dans le formulaire d’inscription."
 msgid "Verify new e-mail address"
 msgstr "Vérifier la nouvelle adresse courriel"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "S’inscrire"
 
@@ -7159,6 +7355,147 @@ msgstr "Mot de passe oublié ?"
 
 msgid "Register new account"
 msgstr "Créer un nouveau compte"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification diagnostics"
+msgstr "Paramètres de notification"
+
+msgid "Diagnostics"
+msgstr "Diagnostics"
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "View notification"
+msgid "Check notifications"
+msgstr "Afficher les notifications"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification eligibility for %(target)s"
+msgstr "Suspendre les notifications pour %(object)s"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+msgid "Notification"
+msgstr "Notification"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Inherited project settings"
+msgstr "Modifier les paramètres du projet"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Component exceptions"
+msgstr "Alertes du composant"
+
+msgid "One-time"
+msgstr "A usage unique"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Overridden subscriptions"
+msgstr "Abonnements d’essai"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse all components"
+msgid "Inspect example components:"
+msgstr "Parcourir tous les composants"
+
+#, fuzzy
+#| msgid "Skipped components:"
+msgid "Inspect components:"
+msgstr "Composants ignorés :"
+
+msgid "None"
+msgstr "Aucun"
+
+#, fuzzy
+#| msgid "You do not have permission to save translations in this project."
+msgid "No accessible components or translations in this target."
+msgstr "Vous n'êtes pas autorisé à enregistrer des traductions dans ce projet."
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscriptions in this scope."
+msgstr "Aucune chaîne correspondante n’a été trouvée."
+
+#, fuzzy, python-format
+#| msgid "%(count)s more affected project."
+#| msgid_plural "%(count)s more affected projects."
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "%(count)s projet supplémentaire impacté."
+msgstr[1] "%(count)s projets supplémentaires impactés."
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "Projets surveillés"
+
+#, fuzzy
+#| msgid "Notification on new language request"
+msgid "Notification languages"
+msgstr "Être notifié lors d’une demande de nouvelle langue"
+
+#, fuzzy, python-format
+#| msgid "Could not find matching language!"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "Impossible de trouver la langue !"
+msgstr[1] "Impossible de trouver la langue !"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Subscriptions"
+msgstr "Abonnements d’essai"
+
+msgid "Frequency"
+msgstr "Fréquence"
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "No subscriptions."
+msgstr "Abonnements d’essai"
 
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
@@ -7221,6 +7558,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Enregistrer"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Open notification diagnostics"
+msgstr "Paramètres de notification"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7672,7 +8019,12 @@ msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "Votre essai durera %(days)s jour."
 msgstr[1] "Votre essai durera %(days)s jours."
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, fuzzy, python-format
+#| msgid ""
+#| "Your trial will run the 640k plan, but you can choose any plan later."
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 "Votre essai utilisera l’offre 640k, mais vous pourrez choisir n’importe "
 "quelle offre plus tard."
@@ -7773,15 +8125,6 @@ msgstr "Identité"
 
 msgid "User ID"
 msgstr "Identifiant de l’utilisateur"
-
-msgid "Notification"
-msgstr "Notification"
-
-msgid "Frequency"
-msgstr "Fréquence"
-
-msgid "One-time"
-msgstr "A usage unique"
 
 msgid "Members"
 msgstr "Membres"
@@ -8654,6 +8997,9 @@ msgstr "Opérations"
 msgid "Search and replace"
 msgstr "Rechercher et remplacer"
 
+msgid "Post announcement"
+msgstr "Publier une annonce"
+
 msgid "Organize or remove"
 msgstr "Organiser ou supprimer"
 
@@ -8670,6 +9016,19 @@ msgstr "Appliquer"
 
 msgid "Browse components"
 msgstr "Parcourir les composants"
+
+#, fuzzy
+#| msgid ""
+#| "The message is shown for all translations in this project language, until "
+#| "its given expiry, or permanently until it is deleted."
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
+"Le message s'affiche pour toutes les traductions dans la langue de ce "
+"projet, jusqu'à la date d'expiration indiquée, ou de manière permanente "
+"jusqu'à ce qu'il soit supprimé."
 
 msgid "Announcements"
 msgstr "Annonces"
@@ -8694,9 +9053,6 @@ msgstr "Traductions automatiques en masse"
 
 msgid "Add new category"
 msgstr "Ajouter une nouvelle catégorie"
-
-msgid "Post announcement"
-msgstr "Publier une annonce"
 
 msgid "Browse all category changes"
 msgstr "Parcourir toutes les modifications de catégorie"
@@ -8760,9 +9116,6 @@ msgstr "Interrompre la mise à jour"
 
 msgid "Continue after completion"
 msgstr "Continuer après avoir terminé"
-
-msgid "Diagnostics"
-msgstr "Diagnostics"
 
 msgid "error"
 msgid_plural "errors"
@@ -9187,30 +9540,26 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Devenez un supporter de Weblate"
 
-#, fuzzy
-#| msgid "VCS repository is accessible to everybody."
 msgid "Some repositories are not accessible"
-msgstr "Le dépôt VCS est accessible à tous."
+msgstr "Certains dépôts ne sont pas accessibles"
 
 msgid ""
 "Each operation below excludes repositories unless you have the required "
 "permission on every component sharing them."
 msgstr ""
 
-#, fuzzy
-#| msgid "View components"
 msgid "Skipped components:"
-msgstr "Afficher les composants"
+msgstr "Composants ignorés :"
 
-#, fuzzy
-#| msgid "Permission Denied"
 msgid "Permission required on:"
-msgstr "Permission refusée"
+msgstr "Permission requise sur :"
 
 msgid ""
 "A repository was skipped because one or more of its components are not "
 "accessible."
 msgstr ""
+"Un dépôt a été ignoré car un ou plusieurs de ses composants ne sont pas "
+"accessibles."
 
 msgid "Repository status"
 msgstr "État du dépôt"
@@ -9251,6 +9600,9 @@ msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "(%(count)s manquant dans la branche push)"
 msgstr[1] "(%(count)s manquants dans la branche push)"
+
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
 
 #, python-format
 msgid "%(count)s missing commit"
@@ -9463,6 +9815,11 @@ msgstr "Dépôt pour %(component)s"
 msgid "Repository details"
 msgstr "Détails du dépôt"
 
+#, fuzzy
+#| msgid "Discovery configuration"
+msgid "Edit repository configuration"
+msgstr "Configuration de découverte"
+
 msgid "Repository changes"
 msgstr "Modifications dans le dépôt"
 
@@ -9503,6 +9860,10 @@ msgstr ""
 
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Ne plus marquer que la traduction doit être modifiée et la soumettre."
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -9588,6 +9949,11 @@ msgstr "Changer les règles du pluriel pourrait ne pas avoir l’effet escompté
 
 msgid "Please see a documentation for more info."
 msgstr "Veuillez consulter la documentation pour plus d’informations."
+
+#, fuzzy
+#| msgid "Translation Info"
+msgid "Translation workflow"
+msgstr "Infos sur la traduction"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -9900,11 +10266,6 @@ msgstr "Le composant %(component)s a été verrouillé"
 msgid "Component %(component)s was unlocked"
 msgstr "Le composant %(component)s a été déverrouillé"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
-"Note : Ce résumé a été tronqué car il y avait plus de 100 notifications."
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -10125,7 +10486,9 @@ msgid "Password reset on %(site_title)s"
 msgstr "Le mot de passe a été réinitialisé pour %(site_title)s"
 
 msgid "Sign in to see the full audit log, including the IP address."
-msgstr "Connectez-vous pour voir le journal complet d'audit avec l'adresse IP."
+msgstr ""
+"Connectez-vous pour consulter le journal d'audit complet (incluant l'adresse "
+"IP)."
 
 msgid ""
 "If you didn't initiate this, please report it to the server administrators "
@@ -10138,7 +10501,7 @@ msgid "View audit log"
 msgstr "Voir le journal d’audit"
 
 msgid "Report"
-msgstr "Rapport"
+msgstr "Signaler"
 
 msgid ""
 "Please click on the confirmation button below. In case it doesn't work you "
@@ -10160,6 +10523,14 @@ msgstr "Confirmez la suppression du compte"
 
 msgid "Confirm invitation"
 msgstr "Confirmer l’invitation"
+
+#, fuzzy
+#| msgid ""
+#| "Note: This digest has been truncated as there were over 100 notifications."
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr ""
+"Note : Ce résumé a été tronqué car il y avait plus de 100 notifications."
 
 msgid "Source string description"
 msgstr "Description de la chaîne source"
@@ -10880,6 +11251,11 @@ msgstr ""
 "Cette demande a été transmise aux mainteneurs du projet afin qu’ils ajoutent "
 "la langue manuellement."
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr "Vous ne trouvez pas votre langue dans la liste ci-dessus ?"
 
@@ -11204,6 +11580,45 @@ msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Vous pouvez modifier, en une fois, l’état de toutes les chaînes pour un type "
 "donné."
+
+msgid "Translation quality filter"
+msgstr "Filtre sur la qualité de traduction"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr ""
+"Seules les traductions approuvées sont enregistrées dans le fichier de "
+"traduction."
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr ""
+"Les traductions marquées comme nécessitant une révision ne sont pas "
+"enregistrées dans le fichier de traduction."
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Configure language workflow"
+msgstr "Fichier de langue de base mono-langue"
+
+#, fuzzy
+#| msgid "Translation quality filter"
+msgid "Configure translation quality filter"
+msgstr "Filtre sur la qualité de traduction"
 
 msgid "View details"
 msgstr "Afficher les détails"
@@ -11844,6 +12259,11 @@ msgstr "Chaînes traduites dans une certaine langue"
 msgid "Query"
 msgstr "Requête"
 
+#, fuzzy
+#| msgid "Refresh repositories"
+msgid "Refresh results"
+msgstr "Actualiser les dépôts"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -11915,6 +12335,37 @@ msgstr "Aucun rapport n'a encore été généré."
 #| msgid "Repository initialization"
 msgid "Report history pagination"
 msgstr "Initialisation du dépôt"
+
+#, fuzzy
+#| msgid "There are no glossaries defined for this language."
+msgid "Reviews are enabled for this language."
+msgstr "Il n’existe aucun glossaire pour cette langue."
+
+#, fuzzy
+#| msgid "There are no glossaries defined for this language."
+msgid "Reviews are disabled for this language."
+msgstr "Il n’existe aucun glossaire pour cette langue."
+
+#, fuzzy, python-format
+#| msgid "Review strings"
+msgid "Review setting: %(origin)s."
+msgstr "Réviser les chaînes"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+#, fuzzy
+#| msgid "Customize translation workflow for this language"
+msgid "Learn how to customize translation workflows."
+msgstr "Personnaliser le flux de travail de traduction pour cette langue"
+
+#, fuzzy
+#| msgid "Your translation is foo"
+msgid "Configure translation workflow"
+msgstr "Votre traduction est blabla"
 
 #, python-format
 msgid ""
@@ -12009,8 +12460,9 @@ msgstr "Voter pour"
 msgid "Vote against"
 msgstr "Voter contre"
 
-#, python-format
-msgid "Accept all suggestions from %(username)s"
+#, fuzzy, python-format
+#| msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "Accepter toutes les suggestions de %(username)s"
 
 msgid "Accept"
@@ -12335,6 +12787,21 @@ msgstr ""
 "par Weblate."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App"
+msgstr "Applications GitHub Weblate"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12534,6 +13001,29 @@ msgstr ""
 "Installez également l'extension msgmerge si vous souhaitez que les fichiers "
 "de traduction suivent automatiquement les modifications apportées aux "
 "modèles."
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
+
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
 
 msgid "This component is set up incorrectly."
 msgstr "Ce composant n’est pas paramétré correctement."
@@ -12752,14 +13242,11 @@ msgstr ""
 "traductions correspondantes aux composants standard si le glossaire doit "
 "être utilisé."
 
-#, fuzzy, python-format
-#| msgid "At least one screenshot has no string assigned to it."
+#, python-format
 msgid "One screenshot has no string assigned to it."
 msgid_plural "%(count)s screenshots have no string assigned to them."
-msgstr[0] ""
-"Il y a au moins une capture d’écran qui n’est associée à aucune chaîne."
-msgstr[1] ""
-"Il y a au moins une capture d’écran qui n’est associée à aucune chaîne."
+msgstr[0] "Une capture d’écran n’est associée à aucune chaîne."
+msgstr[1] "%(count)s captures écran ne sont associées à aucune chaîne."
 
 msgid "Manage screenshots"
 msgstr "Gérer les captures d’écran"
@@ -12799,19 +13286,15 @@ msgstr "Télécharger les dernières modifications au format CSV"
 msgid "Follow using RSS"
 msgstr "Flux RSS"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "Depuis le contrôle de version"
 
-#. Translators: Create a component from existing component
 msgid "From an existing component"
 msgstr "Depuis un composant existant"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "Branche supplémentaire"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "Téléverser les fichiers de traduction"
 
@@ -12819,7 +13302,6 @@ msgstr "Téléverser les fichiers de traduction"
 msgid "Translate document"
 msgstr "Traduire le document"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "Démarrer de zéro"
 
@@ -13218,18 +13700,19 @@ msgstr ""
 "autre emplacement. Mais si le contenu du dépôt est différent, il peut être "
 "préférable de créer un nouveau composant de traduction."
 
-#, fuzzy
-#| msgid "URL of repository where users can fetch changes from Weblate"
 msgid "Learn more about pushing changes from Weblate."
-msgstr ""
-"URL d’un dépôt où les utilisateurs peuvent récupérer les modifications "
-"effectuées dans Weblate"
+msgstr "En savoir plus sur l’envoi des modifications depuis Weblate."
 
 msgid "Open in Zen mode"
 msgstr "Ouvrir en mode Zen"
 
 msgid "Configure editor"
 msgstr "Paramétrer l’éditeur"
+
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
 
 msgid "Permalink copied to clipboard."
 msgstr "Lien permanent copié dans le presse-papiers."
@@ -13352,14 +13835,26 @@ msgstr "Appliquer la traduction sélectionnée à la chaîne courante"
 msgid "Browse all string changes"
 msgstr "Parcourir toutes les modifications de chaînes"
 
-msgid "Suggested change"
-msgstr "Modification suggérée"
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "Search translation memory"
+msgstr "Mémoire de traduction partagé"
 
-msgid "Origin"
-msgstr "Origine"
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching machine translations found."
+msgstr "Aucune chaîne correspondante n’a été trouvée."
 
-msgid "Similarity"
-msgstr "Cohérence avec le glossaire"
+msgid "Delete entry"
+msgstr "Supprimer l’entrée"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
+msgstr "Source"
+
+msgid "Context:"
+msgstr "Contexte :"
 
 msgid "Remove selected translation memory entries"
 msgstr "Supprimer les éléments sélectionnés de la mémoire de traduction"
@@ -13422,9 +13917,6 @@ msgstr "Cette chaîne a été traduite automatiquement avec %(author)s."
 #, python-format
 msgid "This string was translated automatically by %(author)s."
 msgstr "Cette chaîne a été traduite automatiquement par %(author)s."
-
-msgid "Translation quality filter"
-msgstr "Filtre sur la qualité de traduction"
 
 msgid "Add term to glossary"
 msgstr "Ajouter au glossaire"
@@ -13672,10 +14164,79 @@ msgstr "Désactiver"
 msgid "Refresh"
 msgstr "Actualiser"
 
-#, fuzzy
-#| msgid "Do not have an account yet?"
 msgid "No connected accounts yet."
-msgstr "Vous n’avez pas encore de compte ?"
+msgstr "Aucun compte n'est connecté actuellement."
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting integrations"
+msgstr "Hébergement de traductions"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect GitHub account"
+msgid "Connect or update GitHub account"
+msgstr "Connecter un compte GitHub"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "connected GitHub accounts"
+msgid "Connected GitHub accounts:"
+msgstr "comptes GitHub connectés"
+
+msgid "Refresh repositories"
+msgstr "Actualiser les dépôts"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "Migrate selected components"
+msgstr "Composants impactés"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "État de la traduction"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Lecture seule"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "Dépôt rebasé"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
 
 #, fuzzy
 #| msgid "Register in Weblate"
@@ -13780,9 +14341,6 @@ msgstr "Installer sur %(hostname)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr "Compte GitHub connecté : %(login)s"
-
-msgid "Refresh repositories"
-msgstr "Actualiser les dépôts"
 
 #, fuzzy, python-format
 msgid ""
@@ -13924,11 +14482,26 @@ msgstr ""
 "Weblate."
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
-"L’application GitHub Weblate reste installée sur GitHub. Supprimez-la "
-"séparément sur GitHub si vous n’en avez plus besoin."
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Les composants suivants vont être créés"
+msgstr[1] "Les composants suivants vont être créés"
+
+#, fuzzy, python-format
+#| msgid "%(count)s more affected component."
+#| msgid_plural "%(count)s more affected components."
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s composant supplémentaire impacté."
+msgstr[1] "%(count)s composants supplémentaires impactés."
 
 msgid "Invitations"
 msgstr "Invitations"
@@ -14332,10 +14905,8 @@ msgstr "Un nouveau composant de traduction a été créé"
 msgid "Component renamed"
 msgstr "Composant renommé"
 
-#, fuzzy
-#| msgid "All components in current project"
 msgid "A component was moved within a project."
-msgstr "Tous les composants du projet actuel"
+msgstr "Un composant a été déplacé dans un projet."
 
 msgid "Moved component"
 msgstr "Composant déplacé"
@@ -14956,6 +15527,11 @@ msgid "Glossary using monolingual files."
 msgstr "Le glossaire utilise des fichiers mono-langue."
 
 #, fuzzy
+#| msgid "Source string editing is disabled."
+msgid "Glossary string management is disabled"
+msgstr "La modification de la chaîne source est désactivée."
+
+#, fuzzy
 #| msgid "Used languages"
 msgid "Unused glossary language."
 msgstr "Langues utilisées"
@@ -14981,6 +15557,9 @@ msgstr "Aucun motif de fichier correspondant."
 
 msgid "Inexistent files."
 msgstr "Fichiers inexistants."
+
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
 
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
@@ -15344,9 +15923,6 @@ msgstr "Contrôle de version"
 msgid "State"
 msgstr "État"
 
-msgid "All"
-msgstr "Tous"
-
 msgid "Severity"
 msgstr "Gravité"
 
@@ -15357,6 +15933,19 @@ msgstr "Actionnable par moi"
 msgid "Discovery configuration"
 msgstr "Configuration de découverte"
 
+#, fuzzy
+msgid ""
+"Component discovery stopped because the repository contains too many paths."
+msgstr ""
+"Le composant %(component)s a été ignoré car son dépôt lié est indisponible."
+
+msgid ""
+"The language filter regular expression is too complex and took too long to "
+"evaluate."
+msgstr ""
+"L'expression régulière du filtre de langage est trop complexe et son "
+"évaluation a pris trop de temps."
+
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
@@ -15365,11 +15954,24 @@ msgstr ""
 "est trop complexe et son évaluation a pris trop de temps."
 
 msgid ""
-"The language filter regular expression is too complex and took too long to "
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
 "evaluate."
 msgstr ""
-"L'expression régulière du filtre de langage est trop complexe et son "
-"évaluation a pris trop de temps."
+"L'expression régulière est trop complexe et son évaluation a pris trop de "
+"temps."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
 
 msgid "File mask matches the main component."
 msgstr "Le masque de fichier correspond au composant principal."
@@ -15401,6 +16003,21 @@ msgstr "Toutes les modifications récentes faites via Weblate dans %s."
 
 msgid "Sort JSON keys"
 msgstr "Trier les clés JSON"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "Ne pas importer"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "Sensible à la casse"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "Insensible à la casse"
 
 msgid "JSON indentation"
 msgstr "Indentation JSON"
@@ -15765,6 +16382,13 @@ msgstr "Traduction alternative"
 msgid "The string you wanted to translate is no longer available."
 msgstr "La chaîne que vous souhaitiez traduire n’est plus disponible."
 
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr "La chaîne que vous souhaitiez traduire n’est plus disponible."
+
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -15846,33 +16470,41 @@ msgstr "Impossible de trouver la chaîne fusionnée."
 msgid "Could not find the reverted change."
 msgstr "Impossible de trouver la modification restaurée."
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Enter a source component ID."
+msgstr "Composant restreint"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"Précisez l’identifiant du composant à utiliser comme source, laissez vide "
-"pour utiliser tous les composants du projet actuel."
+
+msgid ""
+"Leave blank to use eligible components from each target component's project."
+msgstr ""
 
 #, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
-msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
-msgstr ""
-"Précisez l’identifiant du composant à utiliser comme source, laissez vide "
-"pour utiliser tous les composants du projet actuel."
-
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr ""
-"Activez la contribution au mémoire de traduction partagé du projet afin "
-"d’avoir accès aux composants supplémentaires."
+#| msgid "All components in current project"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "Tous les composants du projet actuel"
 
 msgid "Automatic translation mode"
 msgstr "Mode de traduction automatique"
+
+msgid "Add as suggestion"
+msgstr "Ajouter comme suggestion"
+
+msgid "Add as translation"
+msgstr "Ajouter comme traduction"
+
+msgid "Add as \"Needing edit\""
+msgstr "Ajouter comme \"À vérifier\""
+
+msgid "Add as approved translation"
+msgstr "Ajouter comme traduction approuvée"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -15898,23 +16530,28 @@ msgstr "Seuil de score"
 
 #, fuzzy
 #| msgid "All components in current project"
-msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "Tous les composants du projet actuel"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "All eligible components in current project"
 msgstr "Tous les composants du projet actuel"
 
-msgid "Add as suggestion"
-msgstr "Ajouter comme suggestion"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Eligible components from each target component's project"
+msgstr "Tous les composants du projet actuel"
 
-msgid "Add as translation"
-msgstr "Ajouter comme traduction"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
 
-msgid "Add as \"Needing edit\""
-msgstr "Ajouter comme \"À vérifier\""
-
-msgid "Add as approved translation"
-msgstr "Ajouter comme traduction approuvée"
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "You can also enter a project/component path."
+msgstr "Saisissez l'identifiant du composant ou le slug du projet/composant."
 
 msgid "Component not found!"
 msgstr "Composant introuvable !"
@@ -16119,6 +16756,11 @@ msgstr "Indiquer une configuration personnalisée"
 
 msgid "The category does not belong to the selected project."
 msgstr "La catégorie n'appartient pas au projet sélectionné."
+
+#, fuzzy
+#| msgid "You do not have permission to change project access control."
+msgid "You do not have permission to change project access settings."
+msgstr "Vous n’avez pas le droit de modifier le contrôle d’accès au projet."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -16381,6 +17023,10 @@ msgstr "Pointer vers l’URL des directives de traduction"
 msgid "Create new language file"
 msgstr "Créer un fichier de nouvelle langue"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "Désactiver l’ajout de nouvelles traductions"
@@ -16443,6 +17089,16 @@ msgid ""
 "unavailable."
 msgstr ""
 "Le composant %(component)s a été ignoré car son dépôt lié est indisponible."
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Public email"
+msgid "Public sharing"
+msgstr "Adresse courriel publique"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17780,7 +18436,11 @@ msgstr ""
 "Les traductions marquées comme nécessitant une révision ne sont pas "
 "enregistrées dans le fichier de traduction."
 
-msgid "Only approved translations are written to the translation file."
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr ""
 "Seules les traductions approuvées sont enregistrées dans le fichier de "
 "traduction."
@@ -17993,6 +18653,33 @@ msgstr "Tiret cadratin"
 msgid "User configured character: {}"
 msgstr "Caractère défini par l’utilisateur : {}"
 
+#, fuzzy
+#| msgid "Automatic translation skipped because the target no longer exists."
+msgid "Repository operation could not be completed because it remained locked."
+msgstr ""
+"La traduction automatique a été ignorée parce que la cible n’existe plus."
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "Opération de dépôt dans %(component)s"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "Échec d’opération sur le dépôt"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "Opération de dépôt dans %(component)s"
+
 msgid "No suggestions found."
 msgstr "Aucune suggestion trouvée."
 
@@ -18106,6 +18793,45 @@ msgstr[1] "Il y a %(count)s chaînes non traduites ici."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Partagé depuis le projet %s."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Project settings"
+msgstr "Modifier les paramètres du projet"
+
+#, fuzzy
+#| msgid "Reset customization"
+msgid "Site-wide language customization"
+msgstr "Ré-initialiser la personnalisation"
+
+msgid "Project-language customization"
+msgstr "Personnaliser la langue du projet"
+
+msgid "Only approved translations are written to the translation file."
+msgstr ""
+"Seules les traductions approuvées sont enregistrées dans le fichier de "
+"traduction."
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr ""
+"Les traductions marquées comme nécessitant une révision ne sont pas "
+"enregistrées dans le fichier de traduction."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Configure source reviews"
+msgstr "Activer la révision des chaînes sources"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configure translation reviews"
+msgstr "Nettoyer les fichiers de traduction"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -18477,6 +19203,11 @@ msgstr[1] ""
 "La traduction a été enregistrée mais il y a de nouvelles vérifications en "
 "échec : {checks}"
 
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
+
 msgid "Your suggestion is empty!"
 msgstr "Votre suggestion est vide !"
 
@@ -18505,10 +19236,8 @@ msgstr "Vous n'êtes pas autorisé à accepter des suggestions."
 msgid "Invalid suggestion!"
 msgstr "Suggestion invalide !"
 
-#, fuzzy
-#| msgid "Rejection reason"
 msgid "Rejection reason is too long!"
-msgstr "Motif du rejet"
+msgstr "Le motif de rejet est trop long !"
 
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
@@ -18570,6 +19299,11 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 "Utilisez le bouton de la page d’état du dépôt pour exécuter cette action."
 
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "Impossible de verrouiller le dépôt, une autre opération est en cours."
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
@@ -18577,70 +19311,17 @@ msgstr ""
 "Une opération semble être en cours sur le dépôt. Veuillez réessayer plus "
 "tard."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-"Tous les dépôts ont été mis à jour, les traductions sont en cours de mise à "
-"jour."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "Échec d’opérations sur le dépôt"
 
 #, fuzzy
-#| msgid ""
-#| "All repositories have been updated, updates of translations are in "
-#| "progress."
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr ""
-"Tous les dépôts ont été mis à jour, les traductions sont en cours de mise à "
-"jour."
-
-msgid "All repositories were pushed."
-msgstr "Tous les dépôts ont été propagés."
-
-#, fuzzy
-#| msgid "All repositories were pushed."
-msgid "Accessible repositories were pushed."
-msgstr "Tous les dépôts ont été propagés."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-"Tous les dépôts ont été réinitialisés, la mise à jour des traductions est en "
-"cours."
-
-#, fuzzy
-#| msgid ""
-#| "All repositories have been reset, updates of translations are in progress."
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr ""
-"Tous les dépôts ont été réinitialisés, la mise à jour des traductions est en "
-"cours."
-
-msgid "All repositories have been cleaned up."
-msgstr "Tous les dépôts ont été nettoyés."
-
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
-msgid "Accessible repositories have been cleaned up."
-msgstr "Tous les dépôts ont été nettoyés."
-
-msgid "Translation files have been synchronized."
-msgstr "Les fichiers de traduction ont été synchronisés."
-
-#, fuzzy
-#| msgid "Translation files have been synchronized."
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Les fichiers de traduction ont été synchronisés."
-
-msgid "Updates of translations are in progress."
-msgstr "En cours de mise à jour des traductions."
-
-#, fuzzy
-#| msgid "Updates of translations are in progress."
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "En cours de mise à jour des traductions."
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "Échec d’opération sur le dépôt"
 
 #, fuzzy
 #| msgid "Please fix this by removing one of the translation files."
@@ -18656,19 +19337,6 @@ msgstr "Veuillez corriger en supprimant l’un des fichiers de traduction."
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Veuillez corriger en supprimant l’un des fichiers de traduction."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations are being committed."
-msgstr "Toutes les traductions en attente ont été commitées."
-
-msgid "All pending translations were committed."
-msgstr "Toutes les traductions en attente ont été commitées."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Toutes les traductions en attente ont été commitées."
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -18687,10 +19355,8 @@ msgstr ""
 "Tous les composants sont désormais disponibles pour mise à jour des "
 "traductions."
 
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Generating report…"
-msgstr "Rapports de traduction"
+msgstr "Génération du rapport …"
 
 msgid "Repetitions"
 msgstr "Répétitions"
@@ -19556,10 +20222,9 @@ msgstr "Échec de la publication via Fedora Messaging : %(error)s"
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "%(message)s Veuillez réessayer plus tard."
 
-#, fuzzy, python-format
-#| msgid "Could not get repository status!"
+#, python-format
 msgid "Could not fork repository at %(hostname)s"
-msgstr "Impossible de récupérer le statut du dépôt !"
+msgstr "Impossible de créer un fork du dépôt sur %(hostname)s"
 
 #, fuzzy, python-format
 #| msgid "Could not open a ticket, please try again later."
@@ -19750,6 +20415,17 @@ msgstr "Cela va pousser les modifications vers le dépôt en amont."
 msgid "Enter a valid GitHub host."
 msgstr "Entrez un code de langue valide."
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "Composant à supprimer"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr ""
+"Sélectionnez un composant existant à partir duquel copier la configuration."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -19865,10 +20541,8 @@ msgstr "Requête de fusion dans le Cloud Bitbucket"
 msgid "GitHub hostname"
 msgstr "Nom d’utilisateur GitHub"
 
-#, fuzzy
-#| msgid "URL slug"
 msgid "App slug"
-msgstr "Abrégé de l’URL"
+msgstr "Abrégé de l'application"
 
 msgid "Private key (PEM)"
 msgstr "Clé privée (PEM)"
@@ -19967,10 +20641,8 @@ msgstr "Chaîne cible"
 msgid "Hosting organization or user login"
 msgstr "Hébergement de traductions"
 
-#, fuzzy
-#| msgid "VCS repositories"
 msgid "Available repositories"
-msgstr "Dépôts VCS"
+msgstr "Dépôts disponibles"
 
 #, fuzzy
 #| msgid "Hosting translations"
@@ -20132,9 +20804,38 @@ msgstr ""
 "Créez un espace de travail avant de connecter un compte GitHub. Les "
 "connexions d'applications GitHub sont liées aux espaces de travail."
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+"GitHub n'a pas pu déconnecter le compte. La connexion n'a pas été retirée de "
+"Weblate, veuillez réessayer."
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
 #, fuzzy, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
 msgstr "Compte GitHub connecté %(target)s supprimé."
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
+msgstr ""
 
 #, fuzzy, python-format
 msgid ""
@@ -20236,10 +20937,31 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Compte utilisateur {} créé."
 
-#, fuzzy
-#| msgid "Enter a valid domain name or IP address."
+#, fuzzy, python-format
+#| msgid "Remove Weblate GitHub App?"
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] "Supprimer l’application GitHub Weblate ?"
+msgstr[1] "Supprimer l’application GitHub Weblate ?"
+
+#, fuzzy, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+"Le composant %(component)s a été ignoré car son dépôt lié est indisponible."
+msgstr[1] ""
+"Le composant %(component)s a été ignoré car son dépôt lié est indisponible."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Échec du push de %(component)s : %(error_text)s"
+
 msgid "Enter a valid GitHub App name and host."
-msgstr "Saisissez un nom de domaine ou une adresse IP valide."
+msgstr "Saisissez un nom et un hôte valides pour l'application GitHub."
 
 #, python-format
 msgid ""
@@ -20313,14 +21035,25 @@ msgstr "Police de caractères de la page"
 msgid "Header font"
 msgstr "Police de caractères de l’entête"
 
-msgid "Navigation color (Light, Dark)"
-msgstr "Couleur de navigation (clair, sombre)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header color (Light, Dark)"
+msgstr "Couleur de survol (clair, sombre)"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr "Couleur du texte de navigation (clair, sombre)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
+msgstr "Couleur de survol (clair, sombre)"
 
-msgid "Focus color (Light, Dark)"
+#, fuzzy
+#| msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
 msgstr "Couleur du focus (clair, sombre)"
+
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header accent color (Light, Dark)"
+msgstr "Couleur de survol (clair, sombre)"
 
 msgid "Hover color (Light, Dark)"
 msgstr "Couleur de survol (clair, sombre)"
@@ -20428,7 +21161,6 @@ msgstr "L’affichage de la liste des objets est désactivé"
 msgid "Return to Weblate"
 msgstr "Retourner à Weblate"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr "Documentation sur la vitesse d’importation"
 
@@ -20634,6 +21366,176 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "La source a été retirée."
+
+#~ msgid "Download reports"
+#~ msgstr "Télécharger des rapports"
+
+#~ msgid "DeepL API v1 is no longer supported."
+#~ msgstr "L'API DeepL v1 n'est plus supportée."
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Haiku 4.5"
+#~ msgstr "Claude Haiku 4.5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Sonnet 5"
+#~ msgstr "Claude Sonnet 5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Opus 4.8"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 5"
+#~ msgstr "Claude Opus 4.8"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Fable 5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5.1"
+#~ msgstr "Claude Fable 5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 4.8"
+#~ msgstr "Claude Opus 4.8"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5"
+#~ msgstr "Claude Fable 5"
+
+#~ msgid "Suggested change"
+#~ msgstr "Modification suggérée"
+
+#~ msgid "Origin"
+#~ msgstr "Origine"
+
+#~ msgid "Similarity"
+#~ msgstr "Cohérence avec le glossaire"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr ""
+#~ "Précisez l’identifiant du composant à utiliser comme source, laissez vide "
+#~ "pour utiliser tous les composants du projet actuel."
+
+#, fuzzy
+#~| msgid ""
+#~| "Enter slug of a component to use as source, keep blank to use all "
+#~| "components in the current project."
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "Précisez l’identifiant du composant à utiliser comme source, laissez vide "
+#~ "pour utiliser tous les composants du projet actuel."
+
+#~ msgid ""
+#~ "Turn on contribution to shared translation memory for the project to get "
+#~ "access to additional components."
+#~ msgstr ""
+#~ "Activez la contribution au mémoire de traduction partagé du projet afin "
+#~ "d’avoir accès aux composants supplémentaires."
+
+#~ msgid "Navigation color (Light, Dark)"
+#~ msgstr "Couleur de navigation (clair, sombre)"
+
+#~ msgid "Navigation text color (Light, Dark)"
+#~ msgstr "Couleur du texte de navigation (clair, sombre)"
+
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr ""
+#~ "L’expression rationnelle doit définir des groupes nommés pour composant "
+#~ "et langue."
+
+#~ msgid ""
+#~ "The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
+#~ "separately if you no longer need it."
+#~ msgstr ""
+#~ "L’application GitHub Weblate reste installée sur GitHub. Supprimez-la "
+#~ "séparément sur GitHub si vous n’en avez plus besoin."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Tous les dépôts ont été mis à jour, les traductions sont en cours de mise "
+#~ "à jour."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been updated, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Tous les dépôts ont été mis à jour, les traductions sont en cours de mise "
+#~ "à jour."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "Tous les dépôts ont été propagés."
+
+#, fuzzy
+#~| msgid "All repositories were pushed."
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Tous les dépôts ont été propagés."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr ""
+#~ "Tous les dépôts ont été réinitialisés, la mise à jour des traductions est "
+#~ "en cours."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been reset, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Tous les dépôts ont été réinitialisés, la mise à jour des traductions est "
+#~ "en cours."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "Tous les dépôts ont été nettoyés."
+
+#, fuzzy
+#~| msgid "All repositories have been cleaned up."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Tous les dépôts ont été nettoyés."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Les fichiers de traduction ont été synchronisés."
+
+#, fuzzy
+#~| msgid "Translation files have been synchronized."
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Les fichiers de traduction ont été synchronisés."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "En cours de mise à jour des traductions."
+
+#, fuzzy
+#~| msgid "Updates of translations are in progress."
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "En cours de mise à jour des traductions."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Toutes les traductions en attente ont été commitées."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "Toutes les traductions en attente ont été commitées."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Toutes les traductions en attente ont été commitées."
 
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
@@ -21004,9 +21906,6 @@ msgstr "La source a été retirée."
 #~ msgid "View all alerts"
 #~ msgstr "Afficher toutes les alertes"
 
-#~ msgid "Component alerts"
-#~ msgstr "Alertes du composant"
-
 #~ msgid "Automatically recognize"
 #~ msgstr "Reconnaître automatiquement"
 
@@ -21029,10 +21928,6 @@ msgstr "La source a été retirée."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Personnalisation du flux"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr ""
-#~ "Impossible de verrouiller le dépôt, une autre opération est en cours."
 
 #~ msgid "Add team"
 #~ msgstr "Ajouter une équipe"
@@ -21948,9 +22843,6 @@ msgstr "La source a été retirée."
 #~ msgid "Could not find matching project!"
 #~ msgstr "Impossible de trouver le projet !"
 
-#~ msgid "Could not find matching language!"
-#~ msgstr "Impossible de trouver la langue !"
-
 #~ msgid "XLIFF with gettext extensions"
 #~ msgstr "XLIFF avec extensions gettext"
 
@@ -22665,9 +23557,6 @@ msgstr "La source a été retirée."
 #~ msgid "Export glossary"
 #~ msgstr "Exporter le glossaire"
 
-#~ msgid "There are no glossaries defined for this language."
-#~ msgstr "Il n’existe aucun glossaire pour cette langue."
-
 #~ msgid "Failed to change a context!"
 #~ msgstr "Échec de modification d’un contexte !"
 
@@ -22799,9 +23688,6 @@ msgstr "La source a été retirée."
 
 #~ msgid "run the Enterprise plan."
 #~ msgstr "utilisera l’offre Entreprise."
-
-#~ msgid "Public email"
-#~ msgstr "Adresse courriel publique"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL du dépôt de code source, par exemple Git ou Mercurial."
@@ -22956,9 +23842,6 @@ msgstr "La source a été retirée."
 #~ msgid "Insufficient privileges for editing template."
 #~ msgstr "Droits insuffisants pour modifier le modèle."
 
-#~ msgid "Context:"
-#~ msgstr "Contexte :"
-
 #~ msgid "Translation memory for the whole platform"
 #~ msgstr "Mémoire de traduction pour toute la plateforme"
 
@@ -23014,9 +23897,6 @@ msgstr "La source a été retirée."
 #~ msgstr ""
 #~ "Si cette option est désactivée, les URL seront converties en liens et "
 #~ "toute balise « markup » sera échappée."
-
-#~ msgid "Administered projects"
-#~ msgstr "Projets administrés"
 
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "Ajouter des groupes (pour toute la plateforme)"
@@ -23855,9 +24735,6 @@ msgstr "La source a été retirée."
 #~ msgid "Notification on merge failure"
 #~ msgstr "Être notifié en cas d’échec de fusion"
 
-#~ msgid "Notification on new language request"
-#~ msgstr "Être notifié lors d’une demande de nouvelle langue"
-
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "
 #~ "projects."
@@ -24370,14 +25247,6 @@ msgstr "La source a été retirée."
 
 #~ msgid "Summary of languages"
 #~ msgstr "Résumé des langues"
-
-#~ msgid ""
-#~ "This page is based on the Terms of Service, you should still read the "
-#~ "original document to fully understand them."
-#~ msgstr ""
-#~ "Cette page est établie d'après nos conditions générales d'utilisation, "
-#~ "mais vous devriez quand même lire l’intégralité du document original afin "
-#~ "de bien le comprendre."
 
 # Translators: Indexing is postponed to cron job
 #~ msgid "Indexing offloading processing"
@@ -25814,9 +26683,6 @@ msgstr "La source a été retirée."
 #~ msgid "Git repository with Weblate translations:"
 #~ msgstr "Référentiel Git contenant des traductions Weblate : "
 
-#~ msgid "Watched"
-#~ msgstr "Suivi"
-
 #, fuzzy
 #~| msgid "Invalid link to a Weblate project, can not link to self!"
 #~ msgid ""
@@ -25938,10 +26804,6 @@ msgstr "La source a été retirée."
 
 #~ msgid "Git push URL"
 #~ msgstr "URL pour la transmission Git"
-
-#~ msgid "Subproject is now open for translation updates."
-#~ msgstr ""
-#~ "Le sous-projet est maintenant ouvert aux mises à jour de traduction."
 
 #~ msgid "+1 vote"
 #~ msgstr "vote en faveur"

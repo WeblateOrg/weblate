@@ -153,7 +153,7 @@ class Plan(models.Model):
         return round(self.yearly_price * settings.VAT_RATE, 2)
 
     @property
-    def is_free(self):
+    def is_free(self) -> bool:
         return self.price == 0 and self.yearly_price == 0
 
 
@@ -258,6 +258,9 @@ class Billing(models.Model):
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
     STATE_TERMINATED = 3
+
+    if TYPE_CHECKING:
+        ordered_invoices: list[Invoice]
 
     EXPIRING_STATES: ClassVar[set[int]] = {STATE_TRIAL}
     ACTIVE_STATES: ClassVar[set[int]] = {STATE_ACTIVE, STATE_TRIAL}
@@ -583,11 +586,11 @@ class Billing(models.Model):
         return format_html_join_comma("{}", list_to_tuples(self.all_projects))
 
     @property
-    def is_trial(self):
+    def is_trial(self) -> bool:
         return self.state == Billing.STATE_TRIAL
 
     @property
-    def is_terminated(self):
+    def is_terminated(self) -> bool:
         return self.state == Billing.STATE_TERMINATED
 
     @property
@@ -662,7 +665,7 @@ class Billing(models.Model):
                 if isinstance(value, cached_property):
                     self.__dict__.pop(key, None)
 
-    def check_in_limits(self, plan=None):
+    def check_in_limits(self, plan=None) -> bool:
         if plan is None:
             plan = self.plan
         return (
@@ -690,6 +693,9 @@ class Billing(models.Model):
         return sum(p.stats.all for p in self.all_projects)
 
     def get_last_invoice_object(self):
+        prefetched_invoices = getattr(self, "ordered_invoices", None)
+        if prefetched_invoices is not None:
+            return prefetched_invoices[0]
         return self.invoice_set.order_by("-start")[0]
 
     @admin.display(description=gettext_lazy("Last invoice"))
@@ -705,7 +711,7 @@ class Billing(models.Model):
         description=gettext_lazy("In display limits"),
         boolean=True,
     )
-    def in_display_limits(self, plan=None):
+    def in_display_limits(self, plan=None) -> bool:
         if plan is None:
             plan = self.plan
         return (
@@ -787,7 +793,7 @@ class Billing(models.Model):
                 for component in project.component_set.iterator():
                     component.add_alert("BillingLimit")
 
-    def is_active(self):
+    def is_active(self) -> bool:
         return self.state in Billing.ACTIVE_STATES
 
     def get_notify_users(self):
@@ -1037,9 +1043,11 @@ class Billing(models.Model):
             )
             if project.access_control:
                 yield LibreCheck(False, gettext("Only public projects are allowed"))
-        components = Component.objects.filter(
-            project__in=self.all_projects
-        ).select_related("project")
+        components = (
+            Component.objects.filter(project__in=self.all_projects)
+            .defer_huge()
+            .select_related("project")
+        )
         if include_alerts:
             components = components.prefetch_related(
                 Prefetch(
@@ -1177,7 +1185,7 @@ class Invoice(models.Model):
         return f"{self.start} - {self.end}: {self.billing if self.billing_id else None}"
 
     @cached_property
-    def is_legacy(self):
+    def is_legacy(self) -> bool:
         return len(self.ref) <= 6
 
     @cached_property

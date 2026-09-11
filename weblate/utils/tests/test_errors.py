@@ -4,11 +4,15 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 from django.test import SimpleTestCase, override_settings
 
 from weblate.utils import errors
+
+if TYPE_CHECKING:
+    from sentry_sdk._types import Event
 
 
 def raise_broken_error() -> None:
@@ -361,7 +365,7 @@ class SentryScrubberTest(SimpleTestCase):
             def __init__(self) -> None:
                 self.called = False
 
-            def scrub_event(self, event) -> None:
+            def scrub_event(self, event: Event) -> None:
                 self.called = True
                 event["extra"] = {"BORG_PASSPHRASE": "custom-secret"}
 

@@ -155,7 +155,8 @@
           </td>
           <td class="number">{{ item.id__count|intcomma }}</td>
           <td>
-            <a href="{{ download_url }}?origin={{ item.origin }}" class="btn btn-primary">{% translate "Download as JSON" %}</a>
+            <a href="{{ download_url }}?origin={{ item.origin }}"
+               class="btn btn-primary">{% translate "Download as JSON" %}</a>
             <a href="{{ download_url }}?format=tmx&amp;origin={{ item.origin }}"
                class="btn btn-primary">{% translate "Download as TMX" %}</a>
             {% if delete_url %}
@@ -307,7 +308,8 @@
             {% endif %}
           </td>
           <td>
-            <a href="{% url 'settings' path=workspace.get_url_path %}" class="btn btn-primary">{% translate "Configure" %}</a>
+            <a href="{% url 'settings' path=workspace.get_url_path %}"
+               class="btn btn-primary">{% translate "Configure" %}</a>
           </td>
         </tr>
         <tr>
@@ -321,7 +323,8 @@
             {% endif %}
           </td>
           <td>
-            <a href="{% url 'settings' path=workspace.get_url_path %}" class="btn btn-primary">{% translate "Configure" %}</a>
+            <a href="{% url 'settings' path=workspace.get_url_path %}"
+               class="btn btn-primary">{% translate "Configure" %}</a>
           </td>
         </tr>
       {% endif %}
@@ -333,7 +336,8 @@
           <td>
             {% if from_file %}
               <a href="{{ download_url }}?kind=shared" class="btn btn-primary">{% translate "Download as JSON" %}</a>
-              <a href="{{ download_url }}?kind=shared&amp;format=tmx" class="btn btn-primary">{% translate "Download as TMX" %}</a>
+              <a href="{{ download_url }}?kind=shared&amp;format=tmx"
+                 class="btn btn-primary">{% translate "Download as TMX" %}</a>
             {% endif %}
           </td>
         </tr>
@@ -345,7 +349,8 @@
         <td>
           {% if from_file %}
             <a href="{{ download_url }}?kind=all" class="btn btn-primary">{% translate "Download as JSON" %}</a>
-            <a href="{{ download_url }}?kind=all&amp;format=tmx" class="btn btn-primary">{% translate "Download as TMX" %}</a>
+            <a href="{{ download_url }}?kind=all&amp;format=tmx"
+               class="btn btn-primary">{% translate "Download as TMX" %}</a>
           {% endif %}
         </td>
       </tr>

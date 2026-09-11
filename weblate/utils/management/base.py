@@ -235,7 +235,7 @@ class DocGeneratorCommand(BaseCommand):
         super().__init__(*args, **kwargs)
         self.sections: list[tuple[str, list[str]]] = []
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
             "-o",
             "--output",

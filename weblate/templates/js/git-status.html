@@ -88,10 +88,9 @@
     {% if supports_push %}
       <li class="list-group-item">
         {% if user_can_push_translation %}
-          <a href="#"
-             class="float-end link-post btn btn-primary"
-             data-href="{% url "push" path=object.get_url_path %}"
-             {% if not can_push %}disabled="disabled"{% endif %}>{% translate "Push" %}</a>
+          <button type="button"
+                  class="float-end btn btn-primary{% if can_push %} link-post{% endif %}"
+                  {% if can_push %}data-href="{% url "push" path=object.get_url_path %}"{% else %}disabled aria-describedby="push-disabled-reason"{% endif %}>{% translate "Push" %}</button>
         {% endif %}
         <h6 class="mb-1 fw-bold">
           {% blocktranslate count units=outgoing_commits with count=outgoing_commits|intcomma %}{{ count }} outgoing commit{% plural %}{{ count }} outgoing commits{% endblocktranslate %}
@@ -100,6 +99,11 @@
           {% endif %}
         </h6>
         <p class="mb-0">{{ push_label }}</p>
+        {% if not can_push %}
+          <p class="mb-0" id="push-disabled-reason">
+            {% translate "Pushing is disabled because no repository push URL is configured." %}
+          </p>
+        {% endif %}
       </li>
     {% endif %}
     <li class="list-group-item">
@@ -320,6 +324,15 @@
         </td>
       </tr>
     </table>
+    {% with repository_owner=component.effective_repo_component %}
+      {% perm 'component.edit' repository_owner as user_can_edit_repository %}
+      {% if user_can_edit_repository %}
+        <div class="card-footer">
+          <a class="btn btn-primary"
+             href="{% url 'settings' path=repository_owner.get_url_path %}#vcs">{% translate "Edit repository configuration" %}</a>
+        </div>
+      {% endif %}
+    {% endwith %}
   </div>
 {% endfor %}
 

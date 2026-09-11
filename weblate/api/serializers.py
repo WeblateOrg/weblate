@@ -11,6 +11,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 from zipfile import BadZipfile
 
+from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import models, transaction
@@ -67,6 +68,7 @@ from weblate.trans.exceptions import (
     SuggestionSimilarToTranslationError,
     SuggestionTooLongError,
 )
+from weblate.trans.forms import AutoForm
 from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     apply_create_inheritance_defaults,
@@ -92,7 +94,7 @@ from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.trans.validators import (
     SUGGESTION_REJECTION_REASON_LENGTH,
-    get_translation_text_max_length,
+    validate_translation_text_length,
 )
 from weblate.trans.workspace_move import (
     get_project_move_billing_error,
@@ -254,7 +256,11 @@ class ReportCreateSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 gettext_lazy("Invalid workspace.")
             ) from error
-        if self.request_user is not None and not workspace.can_view(self.request_user):
+        if (
+            self.request_user is not None
+            and not workspace.can_view(self.request_user)
+            and not self.request_user.has_perm("reports.view", workspace)
+        ):
             raise serializers.ValidationError(gettext_lazy("Invalid workspace."))
         return workspace
 
@@ -676,7 +682,7 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
         }
 
     @property
-    def is_source_language(self):
+    def is_source_language(self) -> bool:
         return (
             isinstance(self.parent, ComponentSerializer)
             and self.field_name == "source_language"
@@ -917,7 +923,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
         )
         read_only_fields = PROFILE_READONLY_FIELDS
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["special_chars"].trim_whitespace = False
         if self.instance:
@@ -1715,6 +1721,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "enable_hooks",
             "language_aliases",
             "access_control",
+            "public_sharing",
             "use_shared_tm",
             "contribute_shared_tm",
             "use_workspace_tm",
@@ -1910,6 +1917,23 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                     raise serializers.ValidationError({"workspace": error})
 
         Project.apply_hosted_tm_contribution(attrs, defaults=self.instance)
+
+        if (
+            self.instance is not None
+            and "public_sharing" in attrs
+            and attrs["public_sharing"] != self.instance.public_sharing
+        ):
+            request = self.context.get("request")
+            if request is None or not request.user.has_perm(
+                "billing:project.permissions", self.instance
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "public_sharing": (
+                            "You do not have permission to change project access settings."
+                        )
+                    }
+                )
 
         access_control_provided = "access_control" in (
             attrs if self.instance is not None else getattr(self, "initial_data", {})
@@ -2417,7 +2441,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
         if errors:
             raise serializers.ValidationError(errors)
 
-    def populate_from_component_input_defaults(self, data, source_component: Component):
+    def populate_from_component_input_defaults(
+        self, data, source_component: Component
+    ) -> None:
         defaults = {
             "filemask": source_component.filemask,
             "file_format": source_component.file_format,
@@ -2471,7 +2497,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         return attrs
 
-    def validate_from_component_overrides(self, attrs, source_component: Component):
+    def validate_from_component_overrides(
+        self, attrs, source_component: Component
+    ) -> None:
         forbidden_fields = sorted(
             self.forbidden_from_component_override_fields.intersection(
                 self.initial_data
@@ -2509,7 +2537,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     def set_create_inheritance_defaults(
         self, attrs, *, preserve_existing: bool = False
-    ):
+    ) -> None:
         if self.instance:
             return
         apply_create_inheritance_defaults(
@@ -3350,11 +3378,7 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
         if unit is None:
             return value
 
-        max_length = get_translation_text_max_length(unit)
-        for text in value:
-            if len(text) > max_length:
-                msg = gettext_lazy("Translation text too long!")
-                raise serializers.ValidationError(msg)
+        validate_translation_text_length(unit, value)
 
         if unit.translation.component.is_multivalue:
             return value
@@ -3679,6 +3703,11 @@ class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
         if isinstance(data, dict) and data.get("state") in {0, "0"}:
             self.fields["target"].child.allow_blank = True
         return super().to_internal_value(data)
+
+    def validate_target(self, value: list[str]) -> list[str]:
+        if self.instance is not None:
+            validate_translation_text_length(self.instance, value)
+        return value
 
 
 class NewUnitSerializer(serializers.Serializer):
@@ -4487,3 +4516,69 @@ class Error423Serializer(serializers.Serializer):
 class ErrorResponse423Serializer(serializers.Serializer):
     type = serializers.ChoiceField(choices=ServerErrorEnum.choices)
     errors = Error423Serializer(many=True)
+
+
+class AutoTranslateRequestSerializer(serializers.Serializer):
+    """Request body for the autotranslate action."""
+
+    def get_fields(self) -> dict[str, serializers.Field]:
+        # Use declarations to avoid database queries and user-specific choices.
+        # Runtime validation remains in AutoForm, including dynamic choices.
+        fields: dict[str, serializers.Field] = {}
+        for name, field in AutoForm.base_fields.items():
+            kwargs: dict[str, Any] = {
+                "required": field.required,
+                "label": field.label,
+                "help_text": field.help_text,
+            }
+            if isinstance(field, forms.ChoiceField):
+                kwargs["choices"] = field.choices
+            if isinstance(field, forms.MultipleChoiceField):
+                choices = kwargs.pop("choices")
+                child = (
+                    serializers.ChoiceField(choices=choices)
+                    if choices
+                    else serializers.CharField()
+                )
+                fields[name] = serializers.ListField(child=child, **kwargs)
+            elif isinstance(field, forms.ChoiceField):
+                if field.choices:
+                    fields[name] = serializers.ChoiceField(
+                        allow_blank=not field.required, **kwargs
+                    )
+                else:
+                    kwargs.pop("choices")
+                    fields[name] = serializers.CharField(
+                        allow_blank=not field.required, **kwargs
+                    )
+            elif isinstance(field, forms.IntegerField):
+                fields[name] = serializers.IntegerField(
+                    min_value=(
+                        field.min_value()
+                        if callable(field.min_value)
+                        else field.min_value
+                    ),
+                    max_value=(
+                        field.max_value()
+                        if callable(field.max_value)
+                        else field.max_value
+                    ),
+                    **kwargs,
+                )
+            elif isinstance(field, forms.CharField):
+                fields[name] = serializers.CharField(
+                    allow_blank=not field.required,
+                    min_length=field.min_length,
+                    max_length=field.max_length,
+                    **kwargs,
+                )
+            else:
+                msg = f"Unsupported AutoForm field {name}: {type(field).__name__}"
+                raise TypeError(msg)
+        return fields
+
+
+class AutoTranslateResponseSerializer(serializers.Serializer):
+    """Response body for the autotranslate action."""
+
+    details = serializers.CharField()

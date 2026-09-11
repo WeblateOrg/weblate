@@ -31,7 +31,9 @@ throttled (by default to 100 requests per day), so it is recommended to use
 authentication.
 
 The authentication uses a token, which you can get in your profile. Use it in
-the ``Authorization`` header:
+the ``Authorization`` header with the ``Token`` or ``Bearer`` scheme.
+Unsupported schemes, such as ``Basic``, return :http:statuscode:`401`, even
+for public endpoints or when you are signed in using a browser session.
 
 .. http:any:: /
 
@@ -66,6 +68,7 @@ the ``Authorization`` header:
     :status 201: when a new object was created successfully
     :status 204: when an object was deleted successfully
     :status 400: when form parameters are missing
+    :status 401: when authentication credentials are invalid or the authentication scheme is unsupported
     :status 403: when access is denied
     :status 429: when throttling is in place
 
@@ -201,12 +204,45 @@ The API requests are rate limited; the default configuration limits it to 100
 requests per day for anonymous users and 5000 requests per hour for authenticated
 users.
 
-Rate limiting can be adjusted in the :file:`settings.py`; see
-`Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
-for more details how to configure it.
+Configure the default limits in :file:`settings.py` using
+:setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`.
 
 In the Docker container this can be configured using
 :envvar:`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`.
+
+Use :setting:`API_RATELIMIT_USER_OVERRIDES` to give an automation account a
+different limit. Use :setting:`API_RATELIMIT_IP_OVERRIDES` for individual IP
+addresses or networks, including anonymous CI clients:
+
+.. code-block:: python
+
+    API_RATELIMIT_USER_OVERRIDES = {"automation": "20000/hour"}
+    API_RATELIMIT_IP_OVERRIDES = {
+        "192.0.2.42": None,
+        "198.51.100.0/24": "10000/hour",
+        "2001:db8::/48": "10000/hour",
+    }
+
+An explicit username override takes precedence over IP rules. Otherwise, the
+most specific matching network applies; an individual address is equivalent to
+a single-address network. A value of ``None`` exempts matching requests from API
+rate limits, including the anonymous limit. Authentication and permissions still
+apply: an exemption does not grant access to private projects or write operations.
+
+Limits are counted per authenticated user, or per client IP for anonymous
+requests. Clients within a network do not share a single budget. Each override
+rule and rate has a separate budget, so changing a rule or rate starts a new
+budget. Requests without an override use the default limits.
+
+IP rules use the client address resolved by Weblate. Behind a reverse proxy,
+configure :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:`IP_PROXY_HEADER`, and
+:setting:`IP_PROXY_OFFSET` correctly. The trusted proxy must supply the client
+address, and untrusted clients must not be able to bypass it. Exempting a shared
+proxy address can exempt all clients using that proxy.
+
+In Docker, configure the equivalent JSON mappings using
+:envvar:`WEBLATE_API_RATELIMIT_USER_OVERRIDES` and
+:envvar:`WEBLATE_API_RATELIMIT_IP_OVERRIDES`. Use JSON ``null`` for exemptions.
 
 The status of rate limiting is reported in following headers:
 
@@ -217,6 +253,8 @@ The status of rate limiting is reported in following headers:
 +---------------------------+------------------------------------------------------+
 | ``X-RateLimit-Reset``     | Number of seconds until the rate-limit window resets |
 +---------------------------+------------------------------------------------------+
+
+Requests exempt from rate limiting do not include these headers.
 
 .. versionchanged:: 4.1
 
@@ -989,6 +1027,8 @@ Projects
     :type workspace: string
     :param access_control: :ref:`project-access_control`
     :type access_control: integer
+    :param public_sharing: :ref:`project-public_sharing`
+    :type public_sharing: boolean
     :param use_shared_tm: :ref:`project-use_shared_tm`
     :type use_shared_tm: boolean
     :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
@@ -1028,6 +1068,7 @@ Projects
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string license: :ref:`project-license`
     :>json integer access_control: :ref:`project-access_control`
+    :>json boolean public_sharing: :ref:`project-public_sharing`
     :>json boolean use_shared_tm: :ref:`project-use_shared_tm`
     :>json boolean contribute_shared_tm: :ref:`project-contribute_shared_tm`
     :>json boolean use_workspace_tm: :ref:`project-use-workspace-tm`
@@ -1071,7 +1112,8 @@ Projects
             "access_control": 100
         }
 
-    Changing ``access_control`` requires permission to manage project access.
+    Changing ``access_control`` or ``public_sharing`` requires permission to
+    manage project access.
     Making a project publicly accessible can require licenses on its components
     when :setting:`LICENSE_REQUIRED` is enabled. On Hosted Weblate, Custom
     access control is unavailable and each translation-memory contribution
@@ -1092,6 +1134,8 @@ Projects
     :type license: string
     :param access_control: :ref:`project-access_control`
     :type access_control: integer
+    :param public_sharing: :ref:`project-public_sharing`
+    :type public_sharing: boolean
     :param use_shared_tm: :ref:`project-use_shared_tm`
     :type use_shared_tm: boolean
     :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
@@ -1123,6 +1167,8 @@ Projects
     :type license: string
     :param access_control: :ref:`project-access_control`
     :type access_control: integer
+    :param public_sharing: :ref:`project-public_sharing`
+    :type public_sharing: boolean
     :param use_shared_tm: :ref:`project-use_shared_tm`
     :type use_shared_tm: boolean
     :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
@@ -2593,12 +2639,13 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string mode: Automatic translation mode
+    :<json string mode: Automatic translation mode; one of ``suggest``, ``translate``, ``fuzzy``, ``approved``
     :<json string q: Automatic translation search string, see :ref:`search-strings`.
     :<json string auto_source: Automatic translation source - ``mt`` or ``others``
-    :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
-    :<json array engines: Machine translation engines
-    :<json string threshold: Score threshold
+    :<json string component: Component ID (always accepted); when the project has 30 or more eligible source components, a component slug or ``project/component`` path is also accepted; leave blank to use all components in the project
+    :<json array engines: Machine translation engines to use when ``auto_source`` is ``mt``
+    :<json int threshold: Score threshold for machine translation (1–100)
+    :>json string details: Human-readable summary of the translation result
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -3374,7 +3421,9 @@ Reports
 
     Lists stored reports accessible to the authenticated user. The optional
     ``kind``, ``workspace``, ``project``, ``category``, and ``component`` query
-    parameters filter the result.
+    parameters filter the result. The :guilabel:`Manage reports` permission is
+    authoritative for the selected scope and includes reports containing data
+    from private projects and restricted components below that scope.
 
 .. http:post:: /api/reports/
 
@@ -3383,7 +3432,9 @@ Reports
     ``credits``, ``contributor_stats``, ``cost_estimate``, or ``translator_work``.
     Specify at most one of ``workspace``, ``project``, ``category``, or
     ``component``; omitting all of them creates a global report. Contribution
-    reports require ``start`` and ``end`` ISO 8601 timestamps.
+    reports require ``start`` and ``end`` ISO 8601 timestamps. A workspace can
+    be selected when the user has :guilabel:`Manage reports` for it, even without
+    access to the regular workspace page.
 
 .. http:get:: /api/reports/(int:id)/
 

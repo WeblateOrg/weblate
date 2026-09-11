@@ -89,7 +89,7 @@ class ComponentList(models.Model, CacheKeyMixin):
     def get_absolute_url(self) -> str:
         return reverse("component-list", kwargs={"name": self.slug})
 
-    def tab_slug(self):
+    def tab_slug(self) -> str:
         return f"list-{self.slug}"
 
 

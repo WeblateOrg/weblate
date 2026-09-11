@@ -25,8 +25,6 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 118 documented / 69 maintainer / 0 inferred claims.
-
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
 repositories, backup archives, background workers, and configured external
@@ -36,6 +34,11 @@ datastore, local filesystem repositories, and external code-hosting systems.
 
 Scope and intended use
 ----------------------
+
+This model describes shared trust boundaries and security properties. Features
+within a component family follow its general guidance unless an explicit
+exception applies; the representative surfaces below are not an exhaustive
+feature inventory. *(maintainer)*
 
 .. list-table::
    :header-rows: 1
@@ -48,21 +51,6 @@ Scope and intended use
      - Browser views, forms, session endpoints, :doc:`/api`
      - Database, datastore, e-mail, logs, uploaded files
      - In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)
-   * - Project translation metrics
-     - :http:get:`/api/projects/(string:project)/metrics/` in JSON, CSV, and
-       OpenMetrics formats
-     - Database and statistics-cache reads, including possible lazy cache
-       population
-     - In scope as a read-only public API. Unauthenticated callers can query
-       public projects; private projects and restricted components remain
-       permission-filtered. *(documented)* (source: :doc:`/api`,
-       :doc:`/admin/access`)
-   * - Stored translation reports
-     - Report forms and :http:get:`/api/reports/` endpoints
-     - Database snapshots and background tasks
-     - In scope as authenticated, permission-checked contributor data with
-       operator-configured retention. *(documented)* (source:
-       :doc:`/devel/reporting`, :doc:`/api`)
    * - Authentication, sessions, and authorization
      - Login, 2FA, SSO, teams, permissions, project access, API tokens
      - Database, identity providers, browser cookies
@@ -129,15 +117,15 @@ Scope and intended use
      - Development-only files and generated artifacts
      - Out of scope for product security claims. *(maintainer)*
 
+Development environments are not supported production deployments and do not
+provide security isolation from a malicious checkout or local user.
+*(maintainer)*
+
 The intended deployment is a server-side Weblate installation behind a web
 server or reverse proxy, with a WSGI or ASGI application server, PostgreSQL
 database, datastore, Celery workers, a writable data directory, and optional
 outbound VCS, backup, identity-provider, and machine-translation integrations.
 *(documented)* (source: :doc:`/admin/install`)
-
-The WSGI and ASGI deployment modes expose the same Django HTTP request surface
-and rely on the same reverse-proxy controls. ASGI deployment does not add a
-WebSocket interface. *(documented)* (source: :ref:`running-granian-asgi`)
 
 The relevant actors are split by trust level: unauthenticated clients,
 authenticated users, reviewers, project managers, administrators,
@@ -240,12 +228,6 @@ Reachability preconditions:
 * A web UI or API finding is in model only when reachable by an unauthenticated
   client, authenticated user, or project-scoped token through documented
   routes, forms, or API endpoints. *(maintainer)*
-* A project-metrics finding is in model when the response includes a project
-  or component the caller cannot access, or exposes data beyond the documented
-  component and language identifiers, aggregate translation statistics, and
-  statistics update timestamps. Unauthenticated access to these aggregates for
-  public projects is intentional. *(documented)* (source: :doc:`/api`,
-  :doc:`/admin/access`)
 * An authorization finding is in model only when it crosses a documented
   permission, team, project, component, language, glossary, token, or site-wide
   boundary. *(documented)* (source: :doc:`/admin/access`)
@@ -267,14 +249,6 @@ Reachability preconditions:
 * A background-task finding is in model only when the task can be queued from
   an in-scope Weblate surface or scheduled Weblate maintenance path.
   *(documented)* (source: :doc:`/admin/install`)
-* A stored-report finding is in model when an authenticated user can generate,
-  list, or render contributor data outside the creator or current
-  ``reports.view`` scope. *(documented)* (source: :doc:`/devel/reporting`,
-  :doc:`/api`)
-* A user-profile API finding is in model when an authenticated user can read or
-  mutate another user's profile preferences outside the documented
-  ``user.view``, ``user.edit``, or self-service boundaries.
-  *(documented)* (source: :doc:`/api`, :ref:`user-profile`)
 * A management-command finding is in model only when untrusted Weblate data is
   processed by the command; arbitrary local shell access is not an attacker
   capability. *(maintainer)*
@@ -303,6 +277,9 @@ Celery workers are trusted components of the same Weblate instance. A malicious
 or compromised worker is equivalent to a compromised application process.
 *(maintainer)*
 
+Worker process and queue separation do not create security isolation; workers
+retain the same trusted application authority. *(maintainer)*
+
 VCS command execution, SSH, and HTTPS clients are assumed to execute as the
 Weblate service user with the credentials configured for the relevant project
 or integration, including database-stored GitHub App credentials used for
@@ -323,14 +300,10 @@ What Weblate does to its host:
 * It writes to the configured data directory, repository storage, media/fonts,
   backup dumps, logs, and cache locations. *(documented)* (source: :doc:`/admin/config`,
   :doc:`/admin/backup`)
-* It sends e-mail and notifications when configured to do so. When
-  ``django_ses.SESBackend`` is selected, outbound e-mail is delivered over
-  HTTPS to the configured AWS SES regional endpoint
-  (``email.<region>.amazonaws.com`` by default, overridable via
-  :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT`); the endpoint is
-  operator-controlled trusted infrastructure and is not subject to
-  private-target restrictions. *(documented)* (source: :doc:`/admin/config`,
-  :doc:`/admin/install/docker`)
+* It sends e-mail and notifications through configured providers.
+  Operator-controlled service endpoints and credentials are trusted
+  infrastructure, outside user-configurable private-target restrictions.
+  *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/install/docker`)
 * It does not claim to be free of process-wide side effects such as logging,
   cache writes, subprocess execution, or outbound network access. *(maintainer)*
 
@@ -364,13 +337,19 @@ Build-time and configuration variants
        generation assumptions. *(maintainer)*
      - Production deployments restrict this to instance hostnames. *(maintainer)*
    * - :envvar:`WEBLATE_API_RATELIMIT_ANON`,
-       :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`,
+       :envvar:`WEBLATE_API_RATELIMIT_USER`,
+       :setting:`API_RATELIMIT_USER_OVERRIDES`,
+       :setting:`API_RATELIMIT_IP_OVERRIDES`, :setting:`RATELIMIT_ATTEMPTS`,
        and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``
      - Rate limits are configurable. *(documented)* (source: :doc:`/api`,
        :doc:`/admin/config`)
      - Availability claims assume rate limits appropriate to deployment size
        and exposure. *(maintainer)*
-     - Disabling rate limits changes DoS triage from Weblate bug to deployment
+     - Operators can override or exempt users and IP networks, including
+       anonymous clients. IP exemptions rely on trusted proxy configuration;
+       they do not grant authentication or permissions. *(documented)*
+       (source: :ref:`api-rate`, :setting:`IP_BEHIND_REVERSE_PROXY`).
+       Disabling rate limits changes DoS triage from Weblate bug to deployment
        posture unless a single request violates a claimed property.
        *(maintainer)*
    * - :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`,
@@ -435,19 +414,6 @@ Build-time and configuration variants
        assumptions. Routing options can override protected repository address
        pinning. *(maintainer)*
      - Operators own the security impact of custom SSH options. *(maintainer)*
-   * - AWS SES e-mail backend
-     - Activated by setting :envvar:`WEBLATE_EMAIL_BACKEND` to
-       ``django_ses.SESBackend`` in Docker deployments.
-       *(documented)* (source: :doc:`/admin/install/docker`)
-     - Weblate opens an outbound HTTPS connection to the configured SES
-       regional endpoint to deliver e-mail. AWS credentials are read from
-       the boto3 credential chain (environment variables, IAM role, or
-       credential file). The SES endpoint and credentials are
-       operator-controlled trusted infrastructure. *(maintainer)*
-     - Operators are responsible for securing AWS credentials, choosing an
-       appropriate SES region and endpoint, and ensuring that the boto3
-       credential chain does not expose credentials beyond the intended
-       scope. *(maintainer)*
    * - Third-party add-ons and local customization
      - Administrators can extend behavior. *(documented)* (source: :doc:`/admin/addons`)
      - Custom code can add new trust boundaries and security properties outside
@@ -480,27 +446,11 @@ Input assumptions
      - Token storage, rotation, and least-privilege team membership.
        *(maintainer)*
    * - Translation content
-     - Source strings, translations, comments, suggestions, glossary entries;
-       suggestion API requests including ``rejection_reason`` text, ``is_spam``
-       flag, and ``approve`` flag
+     - Source strings, translations, comments, suggestions, glossary entries
      - Yes, from users with relevant permissions or imported repositories.
        *(documented)* (source: :doc:`/user/translating`, :doc:`/admin/access`)
-     - Review workflows for project-specific content integrity; approving a
-       suggestion via the API additionally requires the ``unit.review``
-       permission check to be satisfied.
-       *(documented)* (source: :doc:`/workflows`, :doc:`/api`)
-   * - User profile API
-     - Nested ``profile`` object on :http:get:`/api/users/(str:username)/`,
-       :http:put:`/api/users/(str:username)/`, and
-       :http:patch:`/api/users/(str:username)/`, including language and project
-       watch preferences, dashboard component list selection, and commit or
-       public e-mail choices
-     - Yes, for authenticated users updating their own profile or actors with
-       ``user.edit``. *(documented)* (source: :doc:`/api`, :ref:`user-profile`)
-     - Assign ``user.edit`` only to trusted administrators; self-service profile
-       e-mail fields accept only verified addresses, watched projects are
-       limited to accessible projects, and dashboard component lists are limited
-       to lists the user is allowed to use. *(documented)* (source: :doc:`/api`)
+     - Review workflows and permission assignment for project-specific content
+       integrity. *(documented)* (source: :doc:`/workflows`, :doc:`/admin/access`)
    * - Webhook endpoints
      - Headers, event type, body, repository and branch metadata
      - Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)
@@ -528,6 +478,10 @@ Input assumptions
        and pull-request behavior
      - Trusted to users with corresponding management permissions.
        *(documented)* (source: :doc:`/admin/access`, :doc:`/admin/continuous`)
+       The automatic translation add-on can create approved strings when the
+       target language's effective review settings allow it. Configuring this
+       behavior uses add-on management permissions rather than the configuring
+       user's review permission. *(documented)* (source: :doc:`/admin/addons`)
      - Assign VCS and project management permissions only to trusted users.
        *(documented)* (source: :doc:`/admin/access`)
    * - External repository content
@@ -571,12 +525,6 @@ Size and rate assumptions:
   created by that attempt. *(documented)* (source: :ref:`projectbackup`)
 * API and selected web actions are expected to be protected by configured rate
   limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
-* Project metrics response size and request work scale with the number of
-  visible components and translations and with statistics-cache state. Cache
-  misses can calculate and store translation statistics. The endpoint relies
-  on standard API rate limits and deployment sizing rather than a separate
-  fixed project-size limit. *(documented)* (source: :doc:`/api`,
-  :doc:`/admin/config`)
 * Repository size, number of projects, number of components, and worker
   capacity are deployment-sizing concerns unless a single in-scope input
   bypasses documented limits or permissions. *(maintainer)*
@@ -656,7 +604,11 @@ Security properties Weblate provides
        :doc:`/admin/auth`, :doc:`/admin/memory`)
      - Permission assignments match the intended trust relationship.
        Team-level enforced 2FA is satisfied by human users before
-       team-derived permissions apply. Component administrators are trusted to
+       team-derived permissions apply. Pending authenticator app registrations
+       do not satisfy 2FA requirements. Registration requires a valid,
+       single-use TOTP code and cannot be completed more than once, including
+       under concurrent submissions. *(documented)* (source: :ref:`2fa`)
+       Component administrators are trusted to
        configure operations that can affect repository contents, for example by
        selecting files through component settings, configuring add-ons, or
        enabling force pushes and pull-request behavior through :ref:`vcs_params`.
@@ -676,12 +628,22 @@ Security properties Weblate provides
        permission against the current linked-component scope in the worker
        before mutation. Weblate's normal background commit and push of
        authorized translation changes does not require the editor to have
-       these VCS permissions. Translation memory
+       these VCS permissions. The ``reports.view`` permission authorizes all
+       report data in the selected scope, including private projects and
+       restricted components below it. Complete workspace-level report access
+       requires two-factor authentication for regular users if any project in
+       the workspace enforces it. Superusers and bot accounts are exempt.
+       Translation memory
        attributed to an existing restricted component follows that component's
        access rules.
        Unattributed automatic memory, including unmatched legacy entries and
        memory retained after component removal, follows its remaining
-       translation-memory scope.
+       translation-memory scope. Private and Custom project engage pages and
+       rendered status widgets follow project access control unless a trusted
+       access manager enables :ref:`project-public_sharing`. That explicit
+       opt-in publishes project and component names, including restricted
+       components, together with translation statistics, languages, and
+       progress, but does not grant access to project content or APIs.
      - User or token can read or mutate data outside assigned scope.
      - Security-critical when private data or privileged mutation is exposed.
    * - Project-scoped API tokens are limited by assigned project/team
@@ -715,12 +677,17 @@ Security properties Weblate provides
      - Command injection or arbitrary code execution as the Weblate user.
      - Security-critical.
    * - Private project data other than documented generic webhook matching
-       diagnostics, user data, credentials, tokens, SSH keys, and 2FA secrets
-       are not disclosed to actors lacking permission. *(documented)* (source:
+       diagnostics and metadata published through :ref:`project-public_sharing`,
+       user data, credentials, tokens, SSH keys, and 2FA secrets are not
+       disclosed to actors lacking permission. *(documented)* (source:
        :doc:`/admin/access`, :doc:`/security/privacy-compliance`, :doc:`/vcs`)
      - Host, database, and storage permissions are intact. Generic webhook
        responses expose only the match counts, project/component slugs, and API
-       URLs documented in :ref:`hooks-target-matching`. Repository content
+       URLs documented in :ref:`hooks-target-matching`. Public sharing permits
+       unauthenticated access to engage pages and rendered status widgets,
+       exposing project and component names, including restricted components,
+       translation statistics, languages, and progress. It does not grant
+       access to project content or APIs. Repository content
        deliberately shared through linked components follows the linked
        repository trust boundary. Project repository permission diagnostics
        expose the paths of linked components that prevent an operation, but do
@@ -728,8 +695,8 @@ Security properties Weblate provides
        non-sensitive fields as public configuration; unlisted values are
        redacted from public change history.
      - Cross-project data leak not covered by the documented generic webhook
-       diagnostics or linked-repository trust boundary, credential exposure, or
-       unauthorized export.
+       diagnostics, public-sharing metadata, or linked-repository trust
+       boundary, credential exposure, or unauthorized export.
      - Security-critical.
    * - Backup import rejects archives exceeding documented upload, member,
        aggregate size, and suspicious compression thresholds. *(documented)* (source: :doc:`/admin/config`, :ref:`projectbackup`)
@@ -765,11 +732,25 @@ Security properties Weblate provides
      - Security-critical when it blocks investigation of privileged changes or
        discloses retained personal data; privacy-impacting when data exceeds the
        configured retention; correctness-only for minor event gaps.
+   * - Self-service trial creation grants only the designated commercial trial
+       plan or the Libre setup plan. *(maintainer)*
+     - The deployment offers self-service hosting trials.
+     - An authenticated user can select another public, private, or internal
+       billing plan when creating a trial.
+     - Security-critical when this bypasses paid service limits.
    * - Rate-limited API and web actions enforce configured rate limits.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
      - Rate limiting is enabled and backed by a working datastore.
      - Requests exceeding configured thresholds continue to be processed.
      - Availability/security hardening depending on endpoint sensitivity.
+   * - Built-in translation quality checks must not permit user-controlled
+       content within configured size limits to monopolize synchronous request
+       workers through disproportionate resource consumption. *(maintainer)*
+     - The check is enabled and runs during a supported browser or API
+       translation write.
+     - A single accepted translation causes CPU or memory consumption
+       disproportionate to its size and stalls a request worker.
+     - Security-critical for single-request DoS; otherwise availability bug.
    * - Generic webhooks schedule repository updates only for eligible components
        whose repository URL exactly matches a repository URL from the payload,
        including documented URL variants. Components managed through an
@@ -804,10 +785,9 @@ repository size, project count, component count, and translation volume, Weblate
 does not claim a fixed universal resource ceiling independent of deployment
 capacity. *(maintainer)*
 
-Component discovery is an exception: it stops after 100,000 repository paths or
-before performing more than 1,000,000 path-to-mask comparisons. These limits
-bound resource consumption when repository-controlled base files generate file
-masks. *(maintainer)*
+Component discovery bounds repository traversal and file-mask matching work
+even when repository content controls the masks; see
+:ref:`component discovery limits <component-discovery-limits>`. *(maintainer)*
 
 Security properties Weblate does not provide
 --------------------------------------------
@@ -965,10 +945,11 @@ Known non-findings
 * A report that a project manager can change repository settings, VCS
   credentials, or project configuration is not a vulnerability when the actor
   has the documented permission for that action. *(documented)* (source: :doc:`/admin/access`)
-* A report that a project manager can configure Gerrit review push options is
-  not a vulnerability by itself. Gerrit interprets these options as the
-  configured Weblate Gerrit account and enforces Gerrit-side permissions.
-  *(documented)* (source: :ref:`component-push_branch`)
+* A report containing private-project or restricted-component data is not a
+  vulnerability when the user has effective ``reports.view`` permission on the
+  selected parent scope. That permission intentionally authorizes the complete
+  report scope. *(documented)* (source: :doc:`/devel/reporting`,
+  :doc:`/admin/access`)
 * A report against third-party add-on behavior is not a Weblate core
   vulnerability unless the report shows Weblate's permission or installation
   boundaries are bypassed. *(maintainer)*
@@ -983,16 +964,24 @@ Known non-findings
 Conditions that change this model
 ---------------------------------
 
-Revise this model when Weblate adds a new public endpoint family, a new
-authentication or token mode, a new default deployment mode, a new backup or
-import format, a new VCS execution path, a new outbound integration class, a
-new add-on execution capability, or a change to defaults for hooks, HTTPS,
-rate limits, CSP, private-network access, or backup import limits. *(maintainer)*
+Review this model when changes affect public interfaces, authentication or
+authorization, deployment assumptions, untrusted input processing, external
+integrations, execution capabilities, or security-relevant defaults. Review
+whether the existing scope, actors, trust boundaries, assumptions, security
+properties, and triage dispositions still cover the change. *(maintainer)*
 
-Revise this model when an unsupported component becomes supported product
-surface, when a documented security property is removed or narrowed, or when
-maintainers accept a vulnerability report that cannot be routed to a triage
-disposition below. *(maintainer)*
+Revise this model in the same change only when those elements change or leave
+a gap. This includes an unsupported component becoming supported product
+surface, a claimed security property changing, or an accepted vulnerability
+report that cannot be routed to an existing triage disposition. *(maintainer)*
+
+Features that follow existing boundaries and security properties do not need
+individual entries. Keep endpoint schemas, permission details, configuration
+instructions, implementation mechanics, and numeric limits in the relevant
+feature or administration documentation. Link to that documentation when a
+detail is needed to explain a distinct boundary, exception, or triage outcome.
+A review that confirms existing coverage requires no threat-model edit.
+*(maintainer)*
 
 Triage dispositions
 -------------------

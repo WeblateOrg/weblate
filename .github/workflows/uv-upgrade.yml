@@ -34,7 +34,7 @@ jobs:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1   # v7.0.1
       with:
         persist-credentials: false
-    - uses: ./.github/actions/pre-commit-setup
+    - uses: $/.github/actions/pre-commit-setup
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
 
@@ -46,7 +46,7 @@ jobs:
       name: Update lock file
 
     - name: Prepare maintenance patch
-      uses: ./.github/actions/auto-commit
+      uses: $/.github/actions/auto-commit
 
     # Keep this outside the composite action; pre-commit.ci lite detects the
     # top-level post step, and composites expose nested post hooks.

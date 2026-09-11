@@ -573,7 +573,7 @@ class CreateComponent(BaseCreateView):
         if changed:
             self.request.session[SESSION_CREATE_KEY] = session_data
 
-    def has_all_fields(self):
+    def has_all_fields(self) -> bool:
         session_data = {}
         if (
             SESSION_CREATE_KEY in self.request.GET

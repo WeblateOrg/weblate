@@ -2488,7 +2488,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_categories_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      description: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: id
@@ -7612,7 +7613,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      description: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: project__slug
@@ -19641,7 +19643,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_reports_create
-      description: Schedule generation of a stored report.
+      description: Schedule generation of a stored report. The reports.view permission
+        authorizes the complete selected scope.
       tags:
       - reports
       requestBody:
@@ -25576,7 +25579,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/AutoTranslateRequest'
         required: true
       security:
       - tokenAuth: []
@@ -25718,7 +25721,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/AutoTranslateResponse'
           description: Successful response.
           headers:
             X-RateLimit-Limit:
@@ -31938,6 +31941,60 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    AutoSourceEnum:
+      enum:
+      - others
+      - mt
+      type: string
+      description: |-
+        * `others` - Other translation components
+        * `mt` - Machine translation
+    AutoTranslateRequest:
+      type: object
+      description: Request body for the autotranslate action.
+      properties:
+        mode:
+          allOf:
+          - $ref: '#/components/schemas/ModeEnum'
+          title: Automatic translation mode
+        q:
+          type: string
+          title: Query
+          description: Please note that translating all strings will discard all existing
+            translations.
+        auto_source:
+          allOf:
+          - $ref: '#/components/schemas/AutoSourceEnum'
+          title: Source of automated translations
+        component:
+          type: string
+          description: Enter a source component ID. With 30 or more eligible source
+            components, a project/component path is also accepted. In that case, component
+            and project operations also accept a component slug from the target project.
+            Leave blank to use eligible components from each target component's project.
+        engines:
+          type: array
+          items:
+            type: string
+          title: Machine translation engines
+        threshold:
+          type: integer
+          maximum: 100
+          minimum: 1
+          title: Score threshold
+      required:
+      - auto_source
+      - mode
+      - q
+      - threshold
+    AutoTranslateResponse:
+      type: object
+      description: Response body for the autotranslate action.
+      properties:
+        details:
+          type: string
+      required:
+      - details
     Backup:
       type: object
       properties:
@@ -34440,6 +34497,18 @@ components:
       - units
       - units_translated
       - users
+    ModeEnum:
+      enum:
+      - suggest
+      - translate
+      - fuzzy
+      - approved
+      type: string
+      description: |-
+        * `suggest` - Add as suggestion
+        * `translate` - Add as translation
+        * `fuzzy` - Add as "Needing edit"
+        * `approved` - Add as approved translation
     MonolingualUnit:
       type: object
       properties:
@@ -34459,12 +34528,14 @@ components:
       - contact
       - url
       - add
+      - existing
       - none
       type: string
       description: |-
         * `contact` - Contact maintainers
         * `url` - Point to translation instructions URL
         * `add` - Create new language file
+        * `existing` - Create existing project languages; contact maintainers for new languages
         * `none` - Disable adding new translations
     NewUnitRequest:
       oneOf:
@@ -36058,6 +36129,10 @@ components:
           description: How to restrict access to this project is detailed in the documentation.
           minimum: -2147483648
           maximum: 2147483647
+        public_sharing:
+          type: boolean
+          description: Allows anonymous access to the engage pages and status widgets
+            for Private and Custom projects.
         use_shared_tm:
           type: boolean
           title: Use shared translation memory
@@ -36983,6 +37058,10 @@ components:
           description: How to restrict access to this project is detailed in the documentation.
           minimum: -2147483648
           maximum: 2147483647
+        public_sharing:
+          type: boolean
+          description: Allows anonymous access to the engage pages and status widgets
+            for Private and Custom projects.
         use_shared_tm:
           type: boolean
           title: Use shared translation memory

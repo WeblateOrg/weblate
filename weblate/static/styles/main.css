@@ -239,10 +239,18 @@ ul.legend li {
 
 .legend .progress {
   width: 14px;
+  height: 14px;
+  border-radius: 3px;
 }
 
 .legend .progress-bar {
   width: 14px;
+}
+
+.filter-marker {
+  display: inline-block;
+  margin-inline-end: 0.5rem;
+  vertical-align: -1px;
 }
 
 .translatetext {
@@ -342,15 +350,52 @@ textarea.highlight-editor {
 .space-tab,
 .space-nl,
 .space-space,
+.space-nbsp,
+.space-thin,
+.space-narrow-nbsp,
 .token.newline {
   min-width: 0.3em;
   /* inline-block needed for proper ::before placement in Chrome */
   display: inline-block;
+  /* anchor for the absolutely positioned markers */
+  position: relative;
+}
+
+.space-space::before {
+  content: "·";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-nbsp::before {
+  content: "˚";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-thin::before {
+  content: "˙";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-narrow-nbsp::before {
+  content: "˘";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-tab {
+  min-width: 1em;
 }
 
 .space-tab::before {
   content: "→";
-  position: relative;
+  position: absolute;
 }
 
 .space-nl::before,
@@ -358,12 +403,6 @@ textarea.highlight-editor {
   content: "↵";
   position: absolute;
   outline: 1px dotted red;
-}
-
-.space-space::before {
-  content: "·";
-  position: relative;
-  left: 25%;
 }
 
 ins,
@@ -742,7 +781,8 @@ form + .login-label {
   color: var(--wl-color-text-muted);
 }
 
-#suggestions {
+#suggestions,
+#machinery-translations {
   margin-top: 55px;
 }
 
@@ -793,7 +833,6 @@ form + .login-label {
 #keys,
 #others,
 #translations,
-#machinery,
 #comments {
   overflow-x: auto;
 }
@@ -812,6 +851,10 @@ form + .login-label {
   }
 
   #changes-table {
+    margin-top: 20px;
+  }
+
+  #machinery-translations {
     margin-top: 20px;
   }
 
@@ -835,6 +878,30 @@ form + .login-label {
 .btn-padded .btn {
   padding: 2px 4px !important;
   line-height: 0;
+}
+
+/* History view only: keep .btn-float compact on suggestions and comments. */
+#changes-table .btn-float {
+  gap: 10px;
+}
+
+#changes-table .btn-float .btn {
+  padding: 6px !important;
+  border: 1px solid var(--wl-color-border-strong);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--wl-color-bg);
+}
+
+#changes-table .btn-float .btn:hover,
+#changes-table .btn-float .btn:focus,
+#changes-table .btn-float .btn:focus-visible {
+  background-color: var(--wl-color-row-hover);
+  border-color: var(--wl-color-border-strong);
+  text-decoration: none;
+}
+
+#changes-table .btn-float .btn:not(.red):focus-visible path {
+  fill: var(--wl-navi-color);
 }
 
 kbd {
@@ -1290,6 +1357,20 @@ thead th {
   padding-left: 0;
   padding-right: 0;
   text-align: center;
+}
+
+.notification-eligibility-table > thead > tr > th:first-child {
+  width: 25%;
+}
+@media (min-width: 80rem) {
+  .notification-eligibility-table > thead > tr > th:first-child {
+    width: 18rem;
+  }
+}
+.notification-subscription-highlight {
+  --bs-table-bg: var(--bs-info-bg-subtle);
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
 }
 
 .table-scroll {
@@ -1966,6 +2047,40 @@ h2 .label {
   word-wrap: anywhere;
 }
 
+.machinery-context {
+  overflow-wrap: anywhere;
+  font-family: monospace;
+}
+
+.machinery-origin {
+  overflow-wrap: anywhere;
+}
+
+.machinery-search {
+  margin-right: 0;
+}
+
+.dir-rtl .machinery-search {
+  margin-left: 0;
+}
+
+.machinery-service + .machinery-service {
+  margin-top: 8px;
+}
+
+.machinery-origin-detail {
+  font-size: 12px;
+}
+
+.machinery-number {
+  display: none;
+  margin-top: 8px;
+}
+
+.show-machinery-numbers .machinery-number {
+  display: inline-block;
+}
+
 .ghost {
   font-weight: normal;
   font-style: italic;
@@ -2054,7 +2169,9 @@ input.color_edit:checked + label {
   color: #009;
 }
 .token.newline,
-.token.hlspace {
+.token.hlspace,
+.token.hlspace .token {
+  /* Inline to keep the overlay layout identical to the textarea */
   display: inline;
 }
 
@@ -2243,7 +2360,8 @@ a[rel~="ugc"]:not(.btn):focus {
   top: 0;
   background-color: var(--wl-color-bg);
 }
-.input-group > .form-control {
+.input-group > .form-control,
+.search-group > button {
   height: 38px;
 }
 .input-group-text label {

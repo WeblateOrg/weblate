@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from io import BytesIO
 
 from weblate.utils.hash import hash_to_checksum
@@ -59,7 +61,7 @@ def format_csv_id_hash(id_hash: int) -> str:
 class NamedBytesIO(BytesIO):
     """StringIO with mode attribute to make ttkit happy."""
 
-    def __init__(self, filename, data) -> None:
+    def __init__(self, filename: str, data: bytes) -> None:
         super().__init__(data)
         self.mode = "r"  # type: ignore[misc]
         self.name = filename

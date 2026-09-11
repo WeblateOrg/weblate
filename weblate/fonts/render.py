@@ -87,7 +87,6 @@ from matplotlib.transforms import (
 )
 
 RENDER_DPI = 72
-FONT_SCALE = 4 / 3
 
 SOURCE_SANS_ALIAS = "Weblate Source Sans 3"
 KURINTO_ALIASES = (

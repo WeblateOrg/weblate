@@ -15,12 +15,13 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.utils.management.base import DocGeneratorCommand
 
 if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
     from django_stubs_ext import StrOrPromise
 
     from weblate.checks.base import BaseCheck
 
 
-def sorter(check: BaseCheck):
+def sorter(check: BaseCheck) -> tuple[bool, int, str]:
     if isinstance(check, BaseFormatCheck):
         pos = 1
     elif check.name < "Formatted strings":
@@ -30,7 +31,7 @@ def sorter(check: BaseCheck):
     return (check.source and not check.target, pos, check.name.lower())
 
 
-def escape(text: StrOrPromise):
+def escape(text: StrOrPromise) -> str:
     return text.replace("\\", "\\\\")
 
 
@@ -69,7 +70,7 @@ EXTRA_ENABLE_FLAG_DESCRIPTION = {
 class Command(DocGeneratorCommand):
     help = "List installed checks"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "-s",
@@ -80,7 +81,7 @@ class Command(DocGeneratorCommand):
             "If not specified, all sections are shown.",
         )
 
-    def build_check_section(self, check) -> list[str]:
+    def build_check_section(self, check: BaseCheck) -> list[str]:
         lines: list[str] = []
         check_class = check.__class__
         is_format = isinstance(check, BaseFormatCheck)
@@ -93,7 +94,8 @@ class Command(DocGeneratorCommand):
             lines.append("~" * len(name))
         if version_lines := check.get_versions_rst_lines():
             lines.extend(version_lines)
-        lines.extend(("", f":Summary: {escape(check.description)}"))
+        description = check.get_documentation_description()
+        lines.extend(("", f":Summary: {description}"))
         if scope := get_scope(check):
             lines.append(f":Scope: {scope}")
         lines.extend(

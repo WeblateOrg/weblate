@@ -12,6 +12,18 @@ Reports are generated in the background. Weblate shows the generation progress
 and opens the stored report when it is ready. Previously generated reports remain
 available on the same page according to :setting:`REPORT_EXPIRY`.
 
+.. warning::
+
+   The :guilabel:`Manage reports` permission applies to the complete selected
+   report scope. Reports for a project or category include restricted
+   components, and reports for a workspace include private projects, even when
+   the user can not otherwise access those descendants. Grant this permission
+   only to users trusted with all report data in that scope.
+
+   Complete workspace reports require two-factor authentication for regular
+   users when any project in the workspace enforces it. Superusers and bot
+   accounts are exempt.
+
 .. image:: /screenshots/report-view.webp
 
 Several reporting tools are available on this page, all of which can produce output

@@ -77,7 +77,6 @@ from weblate.utils.filesystem import filesystem_latency_snapshot
 from weblate.utils.requests import fetch_url
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.token import get_token
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
@@ -111,7 +110,7 @@ from weblate.wladmin.models import (
     SupportStatus,
     get_support_url,
 )
-from weblate.wladmin.tasks import backup_service, support_status_update
+from weblate.wladmin.tasks import backup, support_status_update
 from weblate.workspaces.models import Workspace
 from weblate.workspaces.views import WorkspaceListBase
 
@@ -583,9 +582,7 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
                     service.save()
                     return redirect("manage-backups")
                 if "trigger" in request.POST:
-                    settings_backup.delay()
-                    database_backup.delay([service.pk])
-                    backup_service.delay(pk=service.pk)
+                    backup.delay([service.pk])
                     messages.success(request, gettext("Backup process triggered"))
                     return redirect("manage-backups")
             else:

@@ -1,6 +1,30 @@
 Searching
 =========
 
+.. _search-results-cache:
+
+Results while translating
++++++++++++++++++++++++++
+
+The translation editor keeps the current search results while you translate.
+For example, translating an untranslated string does not remove it from the
+list, so you can navigate back to it. Reloading a page with a saved position
+in its URL (``offset``) keeps this list. An initial search URL without a
+position runs the search again when reloaded.
+
+Select the :guilabel:`Refresh results` icon next to the query input or press
+:kbd:`Enter` in the filter field to
+run the search again and start at the first matching string. This also works
+in Zen mode. Changing the sort order keeps the current result list.
+
+After 30 minutes of inactivity, the saved search results expire. Weblate
+refreshes the results when you continue and displays a notice. Saving still
+applies to the string you were editing, subject to the usual checks for
+conflicting changes. If that string no longer matches the filters, it is kept
+at the start of the refreshed list so you can return to it.
+If results expire while scrolling in Zen mode, save any pending edits and
+select :guilabel:`Refresh results` to continue loading strings.
+
 Search query syntax
 +++++++++++++++++++
 
@@ -112,6 +136,11 @@ Searching for strings
 String search supports the shared query syntax above.
 
 When no field is defined, the lookup happens on source, target, and context strings.
+
+Select :guilabel:`All strings` at the top of the :guilabel:`Filters` menu to
+clear the query within the current search scope. If the form does not submit
+automatically, submit it to show all strings. Shared filters follow the order
+and status colors used in the strings status overview.
 
 .. image:: /screenshots/search.webp
 

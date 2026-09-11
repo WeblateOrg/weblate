@@ -141,14 +141,18 @@ Each screenshot is stored for a specific translation language. In the
 translate page, screenshots attached to the source language are shown for
 every translation of the string, while screenshots attached to any other
 language are shown only for that language. You can add a screenshot directly
-from the translate page using :guilabel:`Add screenshot` in the
-:guilabel:`Screenshot context` panel, or open the separate management
+from the translate page using :guilabel:`Upload screenshot` in the
+:guilabel:`Screenshots` panel, or open the separate management
 interface under the :guilabel:`Operations` menu. There you can upload
 screenshots, assign them to source strings manually, or let Weblate find
 strings in the image using text recognition (OCR) with the
 :guilabel:`Find strings in image` button.
 Matching source strings can be assigned individually, in a selected batch, or
 all at once.
+
+To associate an uploaded screenshot with the current string, use
+:guilabel:`Add existing screenshot` in the translation editor. See
+:ref:`add-existing-screenshot` for the workflow and required permission.
 
 The screenshot listing summarizes uploaded screenshots and lets you search or
 filter them:

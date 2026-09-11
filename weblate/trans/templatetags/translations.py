@@ -4,11 +4,12 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from django import template
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.humanize.templatetags.humanize import intcomma
+from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
@@ -43,6 +44,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import translation_percent
 from weblate.utils.docs import get_doc_url
@@ -66,6 +68,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     from django import forms
+    from django.core.paginator import Page
     from django.db.models import QuerySet
     from django.template.context import Context
     from django.utils.safestring import SafeString
@@ -158,7 +161,7 @@ def documentation(context: Context, page, anchor=""):
 @register.simple_tag(takes_context=True)
 def documentation_icon(
     context: Context, page: str, anchor: str = "", right: bool = False
-):
+) -> str:
     return render_documentation_icon(documentation(context, page, anchor), right=right)
 
 
@@ -419,7 +422,7 @@ def announcements(
                 component=component,
                 language=language,
                 category=category,
-            )
+            ).filter_access(user)
         ),
     )
 
@@ -511,7 +514,7 @@ def init_unique_row_id(context) -> str:
 
 
 @register.simple_tag(takes_context=True)
-def get_unique_row_id(context: Context, obj):
+def get_unique_row_id(context: Context, obj) -> str:
     """Get unique row ID for multiline tables."""
     return f"{context['row_uuid']}-{obj.pk}"
 
@@ -810,6 +813,12 @@ def hash_text(name: str) -> str:
     return hash_to_checksum(siphash("Weblate URL hash", name.encode()))
 
 
+@register.filter
+def toggle_sort(column: str, current: str | None) -> str:
+    """Reverse an ascending column, or select a column in ascending order."""
+    return f"-{column}" if current == column else column
+
+
 @register.simple_tag
 def sort_choices():
     return SORT_CHOICES.items()
@@ -823,6 +832,17 @@ def render_alert(context: Context, alert: Alert) -> str:
 @register.simple_tag
 def get_message_kind(tags) -> str:
     return get_message_kind_impl(tags)
+
+
+@register.simple_tag(takes_context=True)
+def get_embed_unit_query(context: Context) -> QueryDict:
+    """Select search filters or fallback sorting for embedded unit links."""
+    if context.get("include_search") and (params := context.get("query_params")):
+        return params
+    params = QueryDict(mutable=True)
+    if sort_query := context.get("sort_query"):
+        params["sort_by"] = sort_query
+    return params
 
 
 @register.simple_tag
@@ -880,6 +900,90 @@ def get_workflow_flags(translation: Translation | None, component: Component):
         "restrict_direct_editing": False,
         "translation_review": component.project.translation_review,
     }
+
+
+@register.simple_tag
+def get_review_workflow(translation: Translation) -> dict:
+    """Describe the effective review workflow using the existing policy resolver."""
+    project = translation.component.project
+    project_review = (
+        project.source_review if translation.is_source else project.translation_review
+    )
+    workflow = translation.workflow_settings
+    if not project_review or workflow is None:
+        origin = gettext("Project settings")
+    elif workflow.project_id is None:
+        origin = gettext("Site-wide language customization")
+    else:
+        origin = gettext("Project-language customization")
+    reviews = translation.enable_review
+    policy = project.get_commit_policy_description()
+    approved_only = project.commit_policy == CommitPolicyChoices.APPROVED_ONLY
+    if approved_only and reviews:
+        policy = gettext(
+            "Only approved translations are written to the translation file."
+        )
+    elif project.commit_policy == CommitPolicyChoices.ALL or approved_only:
+        policy = gettext(
+            "All translation states, including those needing editing, "
+            "are eligible to be written to the translation file."
+        )
+    project_language = project.project_languages[translation.language]
+    settings_object = project_language if project_review else project
+    settings_url = reverse("settings", kwargs={"path": settings_object.get_url_path()})
+    if project_review:
+        settings_label = gettext("Configure language workflow")
+    else:
+        settings_url += "#workflow"
+        settings_label = (
+            gettext("Configure source reviews")
+            if translation.is_source
+            else gettext("Configure translation reviews")
+        )
+    return {
+        "enabled": reviews,
+        "origin": origin,
+        "policy": policy,
+        "approved_only": approved_only,
+        "project": project,
+        "project_language": project_language,
+        "settings_object": settings_object,
+        "settings_url": settings_url,
+        "settings_label": settings_label,
+    }
+
+
+@register.simple_tag
+def get_review_workflows(obj: Translation | ProjectLanguage) -> list[dict]:
+    """Group language-page workflows by owning project and source/target role."""
+    if isinstance(obj, Translation):
+        return [get_review_workflow(obj)]
+    representatives: dict[tuple[int, bool], Translation] = {}
+    for translation in obj.translation_set:
+        representatives.setdefault(
+            (translation.component.project_id, translation.is_source), translation
+        )
+    show_project = any(
+        project_id != obj.project.pk for project_id, _ in representatives
+    )
+    return [
+        {
+            **get_review_workflow(translation),
+            "role": gettext("Source strings")
+            if translation.is_source
+            else gettext("Translations"),
+            "show_project": show_project,
+        }
+        for translation in sorted(
+            representatives.values(),
+            key=lambda item: (
+                item.component.project_id != obj.project.pk,
+                item.component.project.name,
+                item.component.project_id,
+                item.is_source,
+            ),
+        )
+    ]
 
 
 @register.simple_tag
@@ -1034,6 +1138,25 @@ def format_headers(value: dict[str, str]) -> str:
     return format_html_join(mark_safe("<br>"), "<b>{}</b>: {}", value.items())
 
 
+class PaginationQuery(NamedTuple):
+    params: QueryDict
+    items: list[tuple[str, list[str]]]
+
+
+@register.simple_tag(takes_context=True)
+def get_pagination_query(context: Context, page: Page) -> PaginationQuery:
+    """Share effective filters and sorting between pagination links and forms."""
+    params = context.get("query_params")
+    if params is None:
+        request = context.get("request")
+        params = request.GET if request is not None else QueryDict()
+    params = params.copy()
+    if sort_by := getattr(page.paginator, "sort_by", None):
+        params["sort_by"] = sort_by
+    # Resolve lists in Python so a query parameter named "lists" cannot shadow it.
+    return PaginationQuery(params, list(params.lists()))
+
+
 @register.inclusion_tag("snippets/last-changes-content.html")
 def format_last_changes_content(
     last_changes: Iterable[Change],
@@ -1086,8 +1209,8 @@ def format_last_changes_content(
         "changes_with_context": processed_changes,
         "in_email": in_email,
         "debug": debug,
-        "search_url": search_url,
-        "offset": offset,
+        "query_params": QueryDict(search_url or ""),
+        "offset": offset if search_url else None,
         "translate_url": translate_url,
     }
 

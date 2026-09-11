@@ -20,6 +20,13 @@ NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
     ("add", gettext_lazy("Create new language file")),
     # Translators: Action when adding new translation
+    (
+        "existing",
+        gettext_lazy(
+            "Create existing project languages; contact maintainers for new languages"
+        ),
+    ),
+    # Translators: Action when adding new translation
     ("none", gettext_lazy("Disable adding new translations")),
 )
 

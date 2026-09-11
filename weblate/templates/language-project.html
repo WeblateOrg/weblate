@@ -29,7 +29,8 @@
           <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if last_announcements %}
           <li>
@@ -66,7 +67,10 @@
         </li>
         {% if user_can_upload_translation %}
           <li>
-            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#upload"
+               data-bs-toggle="tab"
+               href="#">{% translate "Upload translation" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -76,17 +80,26 @@
       <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#replace"
+               data-bs-toggle="tab"
+               href="#">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#bulk-edit"
+               data-bs-toggle="tab"
+               href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         {% if autoform %}
           <li>
-            <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#auto"
+               data-bs-toggle="tab"
+               href="#">{% translate "Batch automatic translation" %}</a>
           </li>
         {% endif %}
         {% if replace_form or bulk_state_form or autoform %}
@@ -116,12 +129,15 @@
             </li>
           {% endif %}
           <li>
-            <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#organize"
+               data-bs-toggle="tab"
+               href="#">{% translate "Organize or remove" %}</a>
           </li>
         {% endif %}
       </ul>
     </li>
-    {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/share-menu.html" with object=object project=object.project %}
     {% include "snippets/watch-dropdown.html" %}
   </ul>
 {% endblock nav_pills %}
@@ -151,12 +167,19 @@
     </div>
 
     <div class="tab-pane" id="information">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Translation workflow" %}</h4>
+        </div>
+        <div class="card-body">{% include "snippets/review-workflow.html" with workflow_translation=object %}</div>
+      </div>
       {% show_info project=project language=language stats=language_stats metrics=object|metrics show_full_language=False %}
     </div>
 
     <div class="tab-pane" id="history">
       {% format_last_changes_content last_changes=last_changes user=user %}
-      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
+      <a class="btn btn-primary"
+         href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
     {% if last_announcements %}

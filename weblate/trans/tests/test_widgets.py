@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, Any, cast
 from unittest.mock import patch
 
 from django.http import HttpResponse
-from django.test import RequestFactory, SimpleTestCase
+from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
 from PIL import Image
 
@@ -24,7 +24,7 @@ from weblate.fonts.render import (
 )
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.filter import FILTERS
-from weblate.trans.models import Translation
+from weblate.trans.models import Project, Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
 from weblate.trans.widgets import (
@@ -36,6 +36,7 @@ from weblate.trans.widgets import (
     OpenGraphWidget,
     PNGBadgeWidget,
 )
+from weblate.utils.forms import QueryField, SearchField
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.xml import parse_xml
 
@@ -47,6 +48,9 @@ class EngageTaskObject(TranslationChecklistMixin):
     def __init__(self, stats, enable_review: bool = True) -> None:
         self.stats = stats
         self.enable_review = enable_review
+        self.is_readonly = False
+        self.is_source = False
+        self.project = SimpleNamespace(label_set=SimpleNamespace(order=list))
 
     def get_translate_url(self) -> str:
         return "/translate/"
@@ -86,6 +90,88 @@ class EngageTaskChecklistTest(SimpleTestCase):
         tasks = self.get_engage_tasks(enable_review=True)
 
         self.assertEqual(tasks, [])
+
+
+class FilterPresentationTest(SimpleTestCase):
+    def test_search_matches_status_overview(self) -> None:
+        stats = SimpleNamespace(
+            **{
+                f"{key}{suffix}": 1
+                for key in FILTERS.id_query
+                for suffix in ("", "_words", "_chars")
+            }
+        )
+        for review in (False, True):
+            with self.subTest(review=review):
+                obj = EngageTaskObject(stats, enable_review=review)
+                overview = cast("Any", obj).list_translation_checks
+                choices = SearchField("q").get_search_query_choices(
+                    SimpleNamespace(fields={"q": QueryField()})
+                )
+                self.assertEqual(choices[0][:3], ("all", "All strings", ""))
+                queries = {choice[2] for choice in choices}
+                shared = [entry for entry in overview if entry[0] in queries]
+                overview_queries = {entry[0] for entry in shared}
+                self.assertEqual(
+                    [
+                        (choice[2], choice[3])
+                        for choice in choices
+                        if choice[2] in overview_queries
+                    ],
+                    [(entry[0], entry[3]) for entry in shared],
+                )
+                self.assertEqual(
+                    next(
+                        entry[3] for entry in overview if entry[0] == "state:read-only"
+                    ),
+                    "primary" if review else "success",
+                )
+                self.assertEqual("state:approved" in overview_queries, review)
+
+    def test_status_visibility_and_label_order(self) -> None:
+        label_name = "label:Example"
+        stats = SimpleNamespace(
+            **{
+                f"{key}{suffix}": 1
+                for key in (*FILTERS.id_query, label_name)
+                for suffix in ("", "_words", "_chars")
+            }
+        )
+        for readonly, source in ((True, False), (False, True)):
+            with self.subTest(readonly=readonly, source=source):
+                obj = EngageTaskObject(stats)
+                obj.is_readonly = readonly
+                obj.is_source = source
+                obj.project.label_set.order = lambda: [
+                    SimpleNamespace(name="Example", color="blue")
+                ]
+                overview = cast("Any", obj).list_translation_checks
+                queries = [entry[0] for entry in overview]
+                self.assertEqual("state:>=translated" in queries, not readonly)
+                self.assertEqual(
+                    "has:check AND state:>=translated" in queries, not source
+                )
+                self.assertEqual(queries[-2:], ['label:"Example"', "NOT has:label"])
+                self.assertEqual(overview[-2][3], "label label-blue")
+
+    def test_empty_statuses_remain_searchable(self) -> None:
+        obj = EngageTaskObject(
+            SimpleNamespace(
+                **{
+                    f"{key}{suffix}": 0
+                    for key in FILTERS.id_query
+                    for suffix in ("", "_words", "_chars")
+                }
+            )
+        )
+        self.assertEqual(len(cast("Any", obj).list_translation_checks), 1)
+        choices = SearchField("q").get_search_query_choices(
+            SimpleNamespace(fields={"q": QueryField()})
+        )
+        self.assertIn("nottranslated", [choice[0] for choice in choices])
+        self.assertEqual(
+            next(choice[3] for choice in choices if choice[0] == "context"), ""
+        )
 
 
 class WidgetsTest(FixtureTestCase):
@@ -230,7 +316,7 @@ class WidgetsTest(FixtureTestCase):
 
         with (
             patch("weblate.trans.widgets.gettext", return_value="Project {}"),
-            patch("weblate.trans.widgets.draw_text") as mocked_draw_text,
+            patch("weblate.fonts.render.draw_text") as mocked_draw_text,
             rendering_lock(),
         ):
             widget.render_additional(object())
@@ -253,7 +339,7 @@ class WidgetsTest(FixtureTestCase):
         with (
             patch("weblate.trans.widgets.get_language_bidi", return_value=True),
             patch("weblate.trans.widgets.gettext", return_value="מיזם {}"),
-            patch("weblate.trans.widgets.draw_text") as mocked_draw_text,
+            patch("weblate.fonts.render.draw_text") as mocked_draw_text,
             rendering_lock(),
         ):
             widget.render_additional(object())
@@ -319,7 +405,7 @@ class WidgetsTest(FixtureTestCase):
         response = HttpResponse()
         widget = PNGBadgeWidget(self.project, "badge")
 
-        with patch("weblate.trans.widgets.draw_text") as mocked_draw_text:
+        with patch("weblate.fonts.render.draw_text") as mocked_draw_text:
             widget.render(request, response)
 
         self.assertEqual(
@@ -332,7 +418,7 @@ class WidgetsTest(FixtureTestCase):
         response = HttpResponse()
         widget = NormalWidget(self.project, "grey")
 
-        with patch("weblate.trans.widgets.draw_text") as mocked_draw_text:
+        with patch("weblate.fonts.render.draw_text") as mocked_draw_text:
             widget.render(request, response)
 
         self.assertEqual(
@@ -345,6 +431,157 @@ class WidgetsTest(FixtureTestCase):
                 for call in mocked_draw_text.call_args_list
             )
         )
+
+
+class PublicSharingTest(FixtureTestCase):
+    def get_sharing_urls(self) -> list[str]:
+        return [
+            reverse("engage", kwargs={"path": self.project.get_url_path()}),
+            reverse(
+                "engage",
+                kwargs={"path": [*self.project.get_url_path(), "-", "cs"]},
+            ),
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.project.get_url_path(),
+                    "widget": "svg",
+                    "color": "badge",
+                    "extension": "svg",
+                },
+            ),
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.component.get_url_path(),
+                    "widget": "svg",
+                    "color": "badge",
+                    "extension": "svg",
+                },
+            ),
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.translation.get_url_path(),
+                    "widget": "svg",
+                    "color": "badge",
+                    "extension": "svg",
+                },
+            ),
+        ]
+
+    def set_project_access(self, access_control: int, public_sharing: bool) -> None:
+        self.project.access_control = access_control
+        self.project.public_sharing = public_sharing
+        self.project.save(update_fields=["access_control", "public_sharing"])
+
+    def test_public_and_protected_projects_are_shared(self) -> None:
+        self.client.logout()
+        for access_control in (Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED):
+            with self.subTest(access_control=access_control):
+                self.set_project_access(access_control, public_sharing=False)
+                self.assertTrue(self.project.is_publicly_shared)
+                for url in self.get_sharing_urls():
+                    self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_private_and_custom_projects_require_public_sharing(self) -> None:
+        self.client.logout()
+        for access_control in (Project.ACCESS_PRIVATE, Project.ACCESS_CUSTOM):
+            with self.subTest(access_control=access_control):
+                self.set_project_access(access_control, public_sharing=False)
+                self.assertFalse(self.project.is_publicly_shared)
+                for url in self.get_sharing_urls():
+                    self.assertEqual(self.client.get(url).status_code, 404)
+
+                self.set_project_access(access_control, public_sharing=True)
+                self.assertTrue(self.project.is_publicly_shared)
+                for url in self.get_sharing_urls():
+                    self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_public_sharing_value_survives_access_control_changes(self) -> None:
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=True)
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save(update_fields=["access_control"])
+        self.project.refresh_from_db()
+        self.assertTrue(self.project.public_sharing)
+
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.refresh_from_db()
+        self.assertTrue(self.project.is_publicly_shared)
+
+    def test_authorized_user_can_access_private_sharing_pages(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=False)
+
+        for url in self.get_sharing_urls():
+            self.assertEqual(self.client.get(url).status_code, 200)
+
+        response = self.client.get(self.get_sharing_urls()[0])
+        self.assertContains(response, '<meta name="robots" content="noindex,nofollow"')
+
+    def test_restricted_component_widget_follows_project_sharing(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.client.logout()
+        widget_url = self.get_sharing_urls()[3]
+
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=False)
+        self.assertEqual(self.client.get(widget_url).status_code, 404)
+
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=True)
+        self.assertEqual(self.client.get(widget_url).status_code, 200)
+
+    def test_widget_configuration_remains_access_controlled(self) -> None:
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=True)
+        self.client.logout()
+
+        response = self.client.get(
+            reverse("widgets", kwargs={"path": self.project.get_url_path()})
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_missing_sharing_paths_return_not_found(self) -> None:
+        self.client.logout()
+        self.assertEqual(
+            self.client.get(
+                reverse("engage", kwargs={"path": ["missing-project"]})
+            ).status_code,
+            404,
+        )
+        self.assertEqual(
+            self.client.get(
+                reverse(
+                    "widget-image",
+                    kwargs={
+                        "path": ["missing-project"],
+                        "widget": "svg",
+                        "color": "badge",
+                        "extension": "svg",
+                    },
+                )
+            ).status_code,
+            404,
+        )
+
+    @override_settings(ENABLE_SHARING=True)
+    def test_community_menu_follows_project_sharing(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=False)
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertNotContains(response, ">Community<")
+
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=True)
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertContains(response, ">Community<")
+
+        self.set_project_access(Project.ACCESS_PUBLIC, public_sharing=False)
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertContains(response, ">Community<")
 
 
 class WidgetsMeta(type):

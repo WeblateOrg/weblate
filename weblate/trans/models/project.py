@@ -182,7 +182,7 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
         queryset = Project.objects.filter(id__in=id_lookup)
         # Fallback value for locking and alerts
         for project in projects:
-            project.__dict__["locked"] = True
+            project.__dict__["locked"] = False
             project.__dict__["has_alerts"] = False
         # Indicate alerts
         for project_id in (
@@ -194,13 +194,15 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
             .distinct()
         ):
             id_lookup[project_id].__dict__["has_alerts"] = True
-        # Filter unlocked projects
+        # Indicate projects where all components are locked. Projects without
+        # components are not locked.
         for project_id in (
-            queryset.filter(component__locked=False)
+            queryset.filter(component__isnull=False)
+            .exclude(component__locked=False)
             .values_list("id", flat=True)
             .distinct()
         ):
-            id_lookup[project_id].__dict__["locked"] = False
+            id_lookup[project_id].__dict__["locked"] = True
 
     # Prefetch source language ids
     key_lookup = {project.source_language_cache_key: project for project in projects}
@@ -211,6 +213,7 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
 
 class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "public_sharing",
         "enforced_2fa",
         "translation_review",
         "source_review",
@@ -314,6 +317,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         verbose_name=gettext_lazy("Access control"),
         help_text=gettext_lazy(
             "How to restrict access to this project is detailed in the documentation."
+        ),
+    )
+    public_sharing = models.BooleanField(
+        verbose_name=gettext_lazy("Public sharing"),
+        default=False,
+        help_text=gettext_lazy(
+            "Allows anonymous access to the engage pages and status widgets "
+            "for Private and Custom projects."
         ),
     )
 
@@ -955,6 +966,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         """Return absolute URL usable for sharing."""
         return get_site_url(reverse("engage", kwargs={"path": self.get_url_path()}))
 
+    @property
+    def is_publicly_shared(self) -> bool:
+        """Whether engage pages and widgets are publicly accessible."""
+        return (
+            self.access_control
+            in {
+                self.ACCESS_PUBLIC,
+                self.ACCESS_PROTECTED,
+            }
+            or self.public_sharing
+        )
+
     @cached_property
     def locked(self) -> bool:
         return self.unlocked_components == 0 and self.locked_components > 0
@@ -1474,17 +1497,36 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             for translation in self.label_cleanups:
                 translation.stats.remove_stats(f"label:{name}")
 
+    def get_existing_target_language_ids(self) -> set[int]:
+        """Languages qualifying for the existing-project-language creation policy."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.translation import Translation
+
+        translations = Translation.objects.filter(
+            component__is_glossary=False
+        ).exclude_source()
+        own = translations.filter(component__project=self).values_list(
+            "language_id", flat=True
+        )
+        shared = translations.filter(component__links=self).values_list(
+            "language_id", flat=True
+        )
+        return set(own.union(shared))
+
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
-        """Return a queryset of components within the project that the given user is allowed to add new languages to."""
+        """Return owned components available for language creation or requests."""
         filter_ = Q(is_glossary=True)
         check_effective_new_lang = not user.has_perm("project.edit", self)
         if check_effective_new_lang:
             filter_ |= get_disabled_component_new_language_filter()
 
-        def filter_callback(qs: ComponentQuerySet) -> ComponentQuerySet:
-            return qs.exclude(filter_)
-
-        return self.get_child_components_access(user, filter_callback)
+        return (
+            self.component_set.defer_huge()
+            .filter_access(user)
+            .exclude(filter_)
+            .prefetch()
+            .order()
+        )
 
     def needs_license(self, access_control: int | None = None) -> bool:
         """
@@ -1601,6 +1643,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             )
         if self.commit_policy == CommitPolicyChoices.APPROVED_ONLY:
             return gettext(
-                "Only approved translations are written to the translation file."
+                "For languages with reviews enabled, only approved translations "
+                "are written to the translation file."
             )
         return ""

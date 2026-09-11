@@ -21,7 +21,7 @@ from datetime import timedelta
 from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, Never, TypedDict, cast
 from unittest.mock import MagicMock, patch
 
 import fedora_messaging.api
@@ -50,6 +50,7 @@ from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 from weblate_schemas.messages import WeblateV1Message
 
 from weblate.addons.forms import (
+    AutoAddonForm,
     FedoraMessagingAddonForm,
     MesonExtractPotForm,
     SphinxExtractPotForm,
@@ -71,6 +72,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
     Vote,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
 from weblate.trans.tests.utils import TEST_DATA, get_optional_path
@@ -78,6 +80,7 @@ from weblate.utils.celery import handle_task_failure
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
+    STATE_APPROVED,
     STATE_EMPTY,
     STATE_NEEDS_REWRITING,
     STATE_READONLY,
@@ -172,6 +175,8 @@ from .tasks import (
 from .webhooks import MessageNotDeliveredError, SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
+    from unittest.mock import Mock
+
     from weblate.trans.models import (
         Project,
     )
@@ -532,7 +537,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertTrue(addon.instance.can_run_manually)
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_schedule_manual_run(self, mocked_delay) -> None:
+    def test_schedule_manual_run(self, mocked_delay: Mock) -> None:
         addon = ManualResultAddon.create(component=self.component, run=False)
 
         addon.instance.schedule_manual_run()
@@ -905,7 +910,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
 
         component.repository.resolve_symlinks = resolve_symlinks
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -975,7 +980,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
 
         component.repository.resolve_symlinks = resolve_symlinks
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3405,7 +3410,7 @@ class GettextAddonTest(ViewTestCase):
 
         revision_before = self.component.repository.last_revision
 
-        def run_process(component, command, env=None, cwd=None, extra_path=None):
+        def run_process(component, command, env=None, cwd=None, extra_path=None) -> str:
             template = Path(component.full_path) / "po" / "hello.pot"
             template.parent.mkdir(parents=True, exist_ok=True)
             template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
@@ -3440,7 +3445,7 @@ class GettextAddonTest(ViewTestCase):
         )
         revision_before = self.component.repository.last_revision
 
-        def run_process(component, command, env=None, cwd=None, extra_path=None):
+        def run_process(component, command, env=None, cwd=None, extra_path=None) -> str:
             template = Path(component.full_path) / "po" / "hello.pot"
             template.parent.mkdir(parents=True, exist_ok=True)
             template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
@@ -3708,7 +3713,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3746,7 +3751,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3779,7 +3784,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3810,7 +3815,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3843,7 +3848,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3876,7 +3881,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3912,7 +3917,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3943,7 +3948,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -4139,7 +4144,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4196,7 +4201,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4228,7 +4233,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4260,7 +4265,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4921,7 +4926,7 @@ msgstr ""
         self.component.new_base = "locale/django.pot"
         self.component.save(update_fields=["new_base"])
 
-        def fake_which(name, path=None):
+        def fake_which(name, path=None) -> str | None:
             if name == "xgettext":
                 return "/usr/bin/xgettext"
             if name == "msguniq":
@@ -5459,7 +5464,7 @@ class ViewTests(ViewTestCase):
         self.assertNotContains(response, "Run now")
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_manual_run(self, mocked_delay) -> None:
+    def test_manual_run(self, mocked_delay: Mock) -> None:
         addon = XgettextAddon.create(
             component=self.component,
             run=False,
@@ -5987,8 +5992,7 @@ class CommandTest(ComponentTestCase):
         self.assertIn("msgmerge", generated)
         self.assertNotIn("Guided preset", generated)
         self.assertIn(
-            "Enter slug of a component to use as source, keep blank to use all "
-            "components in the current project.",
+            str(AutoAddonForm.base_fields["component"].help_text),
             generated,
         )
         # Hidden fields such as DiscoveryForm.confirm (HiddenInput) should not be documented
@@ -8012,6 +8016,93 @@ class TestRemoval(ComponentTestCase):
 
 
 class AutoTranslateAddonTest(ComponentTestCase):
+    def test_approved_mode_configuration(self) -> None:
+        configuration = {
+            "component": "",
+            "q": "state:<translated",
+            "auto_source": "others",
+            "engines": [],
+            "threshold": 80,
+            "mode": "approved",
+        }
+        for review_enabled in (False, True):
+            self.project.translation_review = review_enabled
+            self.project.save(update_fields=["translation_review"])
+            for scope in ("component", "project", "site"):
+                addon = AutoTranslateAddon(
+                    Addon(
+                        component=self.component if scope == "component" else None,
+                        project=self.project if scope == "project" else None,
+                    )
+                )
+                for user in (None, self.user):
+                    with self.subTest(review=review_enabled, scope=scope, user=user):
+                        form = AutoAddonForm(user, addon, data=configuration)
+                        self.assertTrue(form.is_valid(), form.errors)
+                        self.assertEqual(form.serialize_form()["mode"], "approved")
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_approved_mode_uses_effective_review_settings(self) -> None:
+        target = self.create_po(
+            name="Target",
+            slug="target",
+            project=self.project,
+            allow_translation_propagation=False,
+        )
+        translation = target.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        source_unit = self.component.translation_set.get(
+            language_code="cs"
+        ).unit_set.get(source=unit.source)
+        source_unit.translate(self.user, "Ahoj svete!\n", STATE_TRANSLATED)
+        addon = AutoTranslateAddon.create(
+            project=self.project,
+            run=False,
+            configuration={
+                "component": self.component.pk,
+                "q": "state:empty",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "approved",
+            },
+        )
+
+        for project_review, language_review, expected_state in (
+            (True, None, STATE_APPROVED),
+            (True, False, STATE_TRANSLATED),
+            (True, True, STATE_APPROVED),
+            (False, True, STATE_TRANSLATED),
+            (True, True, STATE_APPROVED),
+        ):
+            with self.subTest(project=project_review, language=language_review):
+                self.project.translation_review = project_review
+                self.project.save(update_fields=["translation_review"])
+                if language_review is not None:
+                    WorkflowSetting.objects.update_or_create(
+                        project=self.project,
+                        language=translation.language,
+                        defaults={"translation_review": language_review},
+                    )
+                for user_id in (None, self.user.pk):
+                    with self.subTest(user_id=user_id):
+                        Unit.objects.filter(pk=unit.pk).update(
+                            target="", state=STATE_EMPTY
+                        )
+                        with self.captureOnCommitCallbacks(execute=True):
+                            if user_id is None:
+                                addon.component_update(target)
+                            else:
+                                addon.trigger_autotranslate(
+                                    translation_id=translation.pk,
+                                    unit_ids=[unit.pk],
+                                    user_id=user_id,
+                                )
+                        unit.refresh_from_db()
+                        self.assertEqual(unit.target, source_unit.target)
+                        self.assertEqual(unit.state, expected_state)
+                        self.assertEqual(addon.get_configuration()["mode"], "approved")
+
     def test_auto(self) -> None:
         self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(
@@ -10590,7 +10681,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             )
         )
 
-    def test_topic(self):
+    def test_topic(self) -> None:
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_topic(change))
 
@@ -10669,11 +10760,11 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "org.fedoraproject.weblate.test",
         )
 
-    def test_body(self):
+    def test_body(self) -> None:
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_body(change))
 
-    def test_headers(self):
+    def test_headers(self) -> None:
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_headers(change))
 
@@ -10725,20 +10816,20 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         locked = False
         lock = MagicMock()
 
-        def enter_lock():
+        def enter_lock() -> None:
             nonlocal locked
 
             locked = True
 
-        def exit_lock(*_args):
+        def exit_lock(*_args) -> None:
             nonlocal locked
 
             locked = False
 
-        def configure_fedora_messaging(**_kwargs):
+        def configure_fedora_messaging(**_kwargs) -> None:
             self.assertTrue(locked)
 
-        def publish_message(*_args, **_kwargs):
+        def publish_message(*_args, **_kwargs) -> None:
             self.assertTrue(locked)
 
         lock.__enter__.side_effect = enter_lock
@@ -10784,28 +10875,28 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "Publishing timed out after waiting 30 seconds."
         )
 
-        def enter_lock():
+        def enter_lock() -> None:
             nonlocal locked
 
             locked = True
 
-        def exit_lock(*_args):
+        def exit_lock(*_args) -> None:
             nonlocal locked
 
             locked = False
 
-        def prepare_service(**_kwargs):
+        def prepare_service(**_kwargs) -> None:
             self.assertTrue(locked)
 
-        def publish(*_args, **_kwargs):
+        def publish(*_args, **_kwargs) -> Never:
             self.assertTrue(locked)
             raise error
 
-        def reset_service():
+        def reset_service() -> bool:
             self.assertTrue(locked)
             return True
 
-        def report_error(*_args, **_kwargs):
+        def report_error(*_args, **_kwargs) -> None:
             self.assertTrue(locked)
 
         lock.__enter__.side_effect = enter_lock
@@ -11341,7 +11432,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         original_loaded = messaging_config.loaded
         original_config = deepcopy(messaging_config.copy())
 
-        def restore_config():
+        def restore_config() -> None:
             messaging_config.loaded = True
             messaging_config.clear()
             messaging_config.update(original_config)

@@ -4,6 +4,8 @@
 
 """Captcha tests."""
 
+from __future__ import annotations
+
 from unittest import TestCase
 
 from django.core.exceptions import ValidationError
@@ -12,12 +14,12 @@ from weblate.accounts.password_validation import CharsPasswordValidator
 
 
 class ValidationTest(TestCase):
-    def validate(self, password):
+    def validate(self, password: str) -> None:
         validator = CharsPasswordValidator()
         return validator.validate(password)
 
     def test_chars_good(self) -> None:
-        self.assertIsNone(self.validate("123"))
+        self.validate("123")
 
     def test_chars_whitespace(self) -> None:
         with self.assertRaises(ValidationError):

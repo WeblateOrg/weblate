@@ -2,7 +2,7 @@
 build-backend = "setuptools.build_meta"
 requires = [
   "setuptools==84.0.0",
-  "translate-toolkit==3.19.19"
+  "translate-toolkit==3.20.0"
 ]
 
 [dependency-groups]
@@ -39,7 +39,7 @@ lint = [
 ]
 package-build = [
   "setuptools==84.0.0",
-  "translate-toolkit==3.19.19"
+  "translate-toolkit==3.20.0"
 ]
 package-lint = [
   "check-manifest==0.51",
@@ -58,7 +58,7 @@ sbom = [
   "packaging==26.3"
 ]
 schemas = [
-  "weblate-schemas==2026.7"
+  "weblate-schemas==2026.8"
 ]
 scripts = [
   "django-debug-toolbar==8.0.0",
@@ -75,17 +75,17 @@ test = [
   "pytest-xdist==3.8.0",
   "pytest==9.1.1",
   "responses==0.26.3",
-  "selenium==4.48.0",
+  "selenium==4.49.0",
   "standardwebhooks==1.1.0"
 ]
 types = [
-  "boto3-stubs==1.43.87",
+  "boto3-stubs==1.43.92",
   "celery-types==0.26.0",
   "django-stubs-ext==6.1.0",
   "django-stubs[compatible-mypy]==6.1.0",
   "djangorestframework-stubs==3.18.1",
   "mypy==2.3.1",
-  "types-dateparser==1.4.2.20260813",
+  "types-dateparser==1.4.3.20260907",
   "types-docutils==0.23.0.20260827",
   "types-jsonschema==4.26.0.20260518",
   "types-lxml==2026.2.16",
@@ -137,28 +137,28 @@ dependencies = [
   "cssselect==1.5.0",
   "cyrtranslit==1.2.0",
   "cysignals==1.12.6",
-  "dateparser==1.4.2",
+  "dateparser==1.4.3",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.248",
+  "disposable-email-domains==0.0.255",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-cors-headers==4.9.0",
   "django-crispy-forms==2.7",
   "django-filter[drf]==26.1",
   "django-otp-webauthn==0.10.3",
-  "django-otp==1.7.1",
+  "django-otp==1.7.3",
   "django-redis==7.0.0",
   "Django[argon2]==6.0.8",
   "djangorestframework-csv==3.0.2",
-  "djangorestframework==3.18.0",
+  "djangorestframework==3.18.1",
   "docutils==0.21.2",
   "drf-spectacular[sidecar]==0.30.0",
   "drf-standardized-errors[openapi]==0.16.0",
   "fedora-messaging==3.9.1",
-  "filelock==3.32.5",
+  "filelock==3.32.6",
   # Pin for translate-toolkit extra
   "fluent.syntax==0.19.0",
-  "GitPython==3.1.61",
+  "GitPython==3.1.62",
   "hiredis==3.4.1",
   "html2text==2025.4.15",
   "httpx2[brotli,socks,zstd]==2.12.0",
@@ -193,18 +193,18 @@ dependencies = [
   "qrcode==8.2",
   "rapidfuzz==3.14.6",
   "redis==6.4.0",
-  "regex==2026.9.3",
+  "regex==2026.9.10",
   "requests==2.34.2",
   "ruamel.yaml==0.19.1",
-  "sentry-sdk==2.68.1",
+  "sentry-sdk==2.69.1",
   "siphashc==2.8",
   "social-auth-app-django==6.0.1",
   "social-auth-core==5.1.0",
   "tesserocr==2.11.0",
   # Pin for translate-toolkit extra
   "tomlkit==0.15.1",
-  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.19",
-  "translation-finder==3.4.0",
+  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.20.0",
+  "translation-finder==3.4.1",
   "twisted==26.4.0",
   "unicode-segmentation-rs==0.3.3",
   "unidecode==1.4.0",
@@ -213,7 +213,7 @@ dependencies = [
   "webauthn==3.0.0",
   "weblate-fonts==2026.1",
   "weblate-language-data==2026.10",
-  "weblate-schemas==2026.7"
+  "weblate-schemas==2026.8"
 ]
 description = "A web-based continuous localization system with tight version control integration"
 keywords = [
@@ -228,15 +228,15 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 name = "weblate"
 requires-python = ">=3.12"
-version = "2026.9.1.dev0"
+version = "2026.10.dev0"
 
 [project.optional-dependencies]
 all = [
   "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.87",
-  "django-ses==4.7.2"
+  "boto3==1.43.92",
+  "django-ses==4.8.0"
 ]
 asgi = [
   "granian==2.8.2"
@@ -248,7 +248,7 @@ gerrit = [
   "git-review==2.5.0"
 ]
 google = [
-  "google-cloud-storage==3.13.1",
+  "google-cloud-storage==3.14.1",
   "google-cloud-translate==3.27.0"
 ]
 google-errors = [
@@ -312,6 +312,7 @@ ignore = [
   "*.yml",
   ".clusterfuzzlite/*",
   ".dclintrc",
+  ".devcontainer/*",
   ".editorconfig",
   ".gitmodules",
   ".imgbotconfig",
@@ -603,10 +604,10 @@ docstring-code-format = true
 extend-safe-fixes = [
   "ANN",
   "D",
-  "EM101",
-  "EM102",
-  "FA102",
+  "f-string-in-exception",
   "FLY",
+  "future-required-type-annotation",
+  "raw-string-in-exception",
   "SIM",
   "TCH",
   "UP"
@@ -616,53 +617,45 @@ future-annotations = true
 # TODO - needs decision whether intention, add noqa tags or fix
 # WONTFIX - not fixable in current codebase, might be better to go for noqa
 ignore = [
-  "A005",  # WONTFIX: Module is shadowing a Python builtin module
-  "ANN001",  # TODO: Missing type annotation for function argument
-  "ANN002",  # TODO: Missing type annotation for `*args`
-  "ANN003",  # TODO: Missing type annotation for `**kwargs`
-  "ANN201",  # TODO: Missing return type annotation for public function
-  "ANN202",  # TODO:  Missing return type annotation for private function
-  "ANN204",  # TODO: Missing return type annotation for special method
-  "ANN205",  # TODO: Missing return type annotation for staticmethod
-  "ANN206",  # TODO: Missing return type annotation for classmethod
-  "ARG001",  # TODO: Unused function argument (mostly for API compatibility)
-  "ARG002",  # TODO: Unused method argument (mostly for API compatibility)
-  "BLE001",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
+  "ambiguous-unicode-character-string",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
+  "blind-except",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
   "COM",  # CONFIG: No trailing commas
-  "D100",  # TODO: Missing docstring in public module
-  "D101",  # TODO: Missing docstring in public class
-  "D102",  # TODO: Missing docstring in public method
-  "D103",  # TODO: Missing docstring in public function
-  "D104",  # TODO: Missing docstring in public package
-  "D105",  # TODO: Missing docstring in magic method
-  "D106",  # TODO: Missing docstring in public nested class
-  "D107",  # TODO: Missing docstring in `__init__`
-  "D203",  # CONFIG: incompatible with D211
-  "D206",  # CONFIG: formatter
-  "D212",  # CONFIG: incompatible with D213
-  "DOC201",  # CONFIG: `return` is not documented in docstring
-  "DOC402",  # CONFIG: `yield` is not documented in docstring
-  "DOC501",  # TODO: Raised exception missing from docstring
-  "E203",  # CONFIG: formatter
-  "E501",  # WONTFIX: we accept long strings (rest is formatted by Ruff)
+  "docstring-missing-exception",  # TODO: Raised exception missing from docstring
+  "docstring-missing-returns",  # CONFIG: `return` is not documented in docstring
+  "docstring-missing-yields",  # CONFIG: `yield` is not documented in docstring
+  "docstring-tab-indentation",  # CONFIG: formatter
   "FBT",  # TODO: Boolean in function definition
-  "FIX002",  # CONFIG: we use TODO
-  "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
-  "PLR6301",  # TODO: Method could be a function, class method, or static method
-  "PLW2901",  # TODO: overwriting variables inside loop
+  "incorrect-blank-line-before-class",  # CONFIG: incompatible with D211
+  "line-contains-todo",  # CONFIG: we use TODO
+  "line-too-long",  # WONTFIX: we accept long strings (rest is formatted by Ruff)
+  "magic-value-comparison",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
+  "missing-todo-author",  # CONFIG: no detailed TODO documentation is required
+  "missing-todo-link",  # CONFIG: no detailed TODO documentation is required
+  "multi-line-summary-first-line",  # CONFIG: incompatible with D213
+  "no-self-use",  # TODO: Method could be a function, class method, or static method
   "PT",  # CONFIG: pytest-style rules are not enforced
   "PTH",  # TODO: Not using pathlib
-  "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
-  "S603",  # CONFIG: we do not want to use shell on subprocess
-  "TD002",  # CONFIG: no detailed TODO documentation is required
-  "TD003",  # CONFIG: no detailed TODO documentation is required
-  "TRY003",  # WONTFIX: Avoid specifying long messages outside the exception class
-  'ISC001',  # CONFIG: formatter
-  'Q000',  # CONFIG: formatter
-  'Q001',  # CONFIG: formatter
-  'Q002',  # CONFIG: formatter
-  'Q003',  # CONFIG: formatter
-  'W191'  # CONFIG: formatter
+  "raise-vanilla-args",  # WONTFIX: Avoid specifying long messages outside the exception class
+  "redefined-loop-name",  # TODO: overwriting variables inside loop
+  "stdlib-module-shadowing",  # WONTFIX: Module is shadowing a Python builtin module
+  "subprocess-without-shell-equals-true",  # CONFIG: we do not want to use shell on subprocess
+  "undocumented-magic-method",  # TODO: Missing docstring in magic method
+  "undocumented-public-class",  # TODO: Missing docstring in public class
+  "undocumented-public-function",  # TODO: Missing docstring in public function
+  "undocumented-public-init",  # TODO: Missing docstring in `__init__`
+  "undocumented-public-method",  # TODO: Missing docstring in public method
+  "undocumented-public-module",  # TODO: Missing docstring in public module
+  "undocumented-public-nested-class",  # TODO: Missing docstring in public nested class
+  "undocumented-public-package",  # TODO: Missing docstring in public package
+  "unused-function-argument",  # TODO: Unused function argument (mostly for API compatibility)
+  "unused-method-argument",  # TODO: Unused method argument (mostly for API compatibility)
+  "whitespace-before-punctuation",  # CONFIG: formatter
+  'avoidable-escaped-quote',  # CONFIG: formatter
+  'bad-quotes-docstring',  # CONFIG: formatter
+  'bad-quotes-inline-string',  # CONFIG: formatter
+  'bad-quotes-multiline-string',  # CONFIG: formatter
+  'single-line-implicit-string-concatenation',  # CONFIG: formatter
+  'tab-indentation'  # CONFIG: formatter
 ]
 preview = true
 select = ["ALL"]
@@ -677,21 +670,1484 @@ notice-rgx = "(?i)Copyright\\s+©\\s+"
 max-complexity = 16  # TODO: should be lower
 
 [tool.ruff.lint.per-file-ignores]
-"ci/migrate-scripts/*.py" = ["INP001", "S101"]
-"docs/_ext/*.py" = ["INP001"]
-"docs/_ext/test_*.py" = ["S101"]
-"docs/conf.py" = ["ERA001", "INP001"]
-"fuzzing/targets.py" = ["PLC0415"]
-"scripts/*" = ["T201", "T203"]
-"weblate/*/migrations/*.py" = ["RUF012"]
-"weblate/*/tests**.py" = ["ANN001", "S101", "S105", "S106"]
-"weblate/auth/migrations/0003_fixup_teams.py" = ["T201"]
-"weblate/examples/*.py" = ["CPY001", "INP001"]
-"weblate/settings_*.py" = ["F405"]
-"weblate/settings_example.py" = ["ERA001"]
-"weblate/trans/autofixes/__init__.py" = ["RUF067"]
-"weblate/trans/models/__init__.py" = ["RUF067"]
-"weblate/utils/generate_secret_key.py" = ["T201"]
+# Missing annotations are deferred for dynamic signatures and contracts that need
+# more involved typing. Keep these exceptions limited to exact files and rules so
+# new files and other annotation checks remain covered.
+".devcontainer/*.py" = [
+  "implicit-namespace-package",
+  "print",
+  "start-process-with-partial-path",
+  "suspicious-subprocess-import"
+]
+".devcontainer/application_qa.py" = [
+  "missing-return-type-private-function",
+  "missing-type-kwargs"
+]
+"ci/migrate-scripts/*.py" = [
+  "assert",
+  "implicit-namespace-package"
+]
+"docs/_ext/*.py" = ["implicit-namespace-package"]
+"docs/_ext/djangodocs.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"docs/_ext/test_*.py" = ["assert"]
+"docs/conf.py" = ["commented-out-code", "implicit-namespace-package"]
+"fuzzing/bootstrap.py" = [
+  "missing-return-type-class-method",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"fuzzing/targets.py" = ["import-outside-top-level"]
+"scripts/*" = [
+  "p-print",
+  "print"
+]
+"scripts/rtd-projects.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/*/migrations/*.py" = ["mutable-class-default"]
+"weblate/*/tests**.py" = [
+  "assert",
+  "hardcoded-password-func-arg",
+  "hardcoded-password-string"
+]
+"weblate/accounts/auth.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/accounts/captcha.py" = [
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/accounts/forms.py" = [
+  "missing-return-type-class-method",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/accounts/management/commands/dumpuserdata.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/accounts/management/commands/importuserdata.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/accounts/middleware.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-special-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/accounts/models.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/accounts/notifications.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/accounts/pipeline.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/accounts/strategy.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/accounts/tests/test_notification_debug.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/accounts/tests/test_notifications.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/accounts/tests/test_registration.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/accounts/tests/test_totp_enrollment.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/accounts/tests/test_twofactor.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/accounts/tests/test_utils.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/accounts/tests/test_views.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/accounts/utils.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/accounts/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/addons/base.py" = ["missing-type-kwargs"]
+"weblate/addons/cdn.py" = ["missing-type-kwargs"]
+"weblate/addons/consistency.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/addons/discovery.py" = ["missing-type-kwargs"]
+"weblate/addons/extractors/django/command.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/addons/forms.py" = [
+  "missing-return-type-class-method",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/addons/gettext.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/addons/management/commands/install_addon.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/addons/management/commands/list_addons.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/addons/models.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/addons/resx.py" = ["missing-type-function-argument"]
+"weblate/addons/scripts.py" = ["missing-type-function-argument"]
+"weblate/addons/tasks.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/addons/tests.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/addons/views.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/addons/webhooks.py" = ["missing-type-function-argument"]
+"weblate/api/docs.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/api/generators.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/api/pagination.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/api/renderers.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/api/routers.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/api/serializers.py" = [
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/api/tests.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/api/throttling.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/api/views.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/auth/admin.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/auth/decorators.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/auth/forms.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/auth/management/commands/createadmin.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/auth/management/commands/importusers.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/auth/management/commands/list_permissions.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/auth/management/commands/setupgroups.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/auth/migrations/0003_fixup_teams.py" = ["print"]
+"weblate/auth/models.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/auth/permissions.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function"
+]
+"weblate/auth/templatetags/permissions.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/auth/tests/test_models.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/auth/utils.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/auth/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/billing/admin.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/billing/forms.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/billing/management/commands/billing_check.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/billing/migrations/0011_workspace.py" = ["missing-type-function-argument"]
+"weblate/billing/models.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/billing/tests.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/chars.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/checks/consistency.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/duplicate.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/checks/glossary.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/checks/icu.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/management/commands/list_checks.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/checks/management/commands/updatechecks.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/checks/models.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/checks/parser.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/placeholders.py" = [
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/render.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/source.py" = [
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function"
+]
+"weblate/checks/tests/test_checks.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/checks/tests/test_consistency_checks.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/tests/test_duplicate_checks.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/tests/test_mdx.py" = [
+  "missing-return-type-private-function",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/checks/tests/test_models.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/tests/test_placeholders.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/tests/test_render_checks.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/checks/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/configuration/templatetags/colors.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/configuration/views.py" = [
+  "missing-return-type-class-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/examples/*.py" = [
+  "implicit-namespace-package",
+  "missing-copyright-notice"
+]
+"weblate/examples/check_czech.py" = ["missing-type-function-argument"]
+"weblate/fonts/forms.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/fonts/models.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/fonts/render.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/fonts/validators.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/fonts/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/formats/auto.py" = ["missing-type-function-argument"]
+"weblate/formats/base.py" = [
+  "missing-return-type-class-method",
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/formats/exporters.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/formats/external.py" = [
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/formats/management/commands/list_format_features.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/formats/models.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/formats/multi.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/formats/tests/test_convert.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/formats/tests/test_exporters.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/formats/tests/test_formats.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/formats/ttkit.py" = [
+  "missing-return-type-class-method",
+  "missing-return-type-private-function",
+  "missing-return-type-special-method",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/formats/txt.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/gitexport/models.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/gitexport/tests.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/gitexport/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/glossary/forms.py" = ["missing-type-function-argument"]
+"weblate/glossary/models.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/glossary/tests.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/glossary/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/lang/admin.py" = ["missing-type-function-argument"]
+"weblate/lang/forms.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/lang/management/commands/cleanup_languages.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/lang/management/commands/list_languages.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/lang/management/commands/move_language.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/lang/management/commands/setuplang.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/lang/models.py" = [
+  "missing-return-type-special-method",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/lang/tests.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-special-method",
+  "missing-return-type-static-method",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/lang/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/legal/forms.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/legal/middleware.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/legal/pipeline.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/legal/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/machinery/apertium.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/aws.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/base.py" = [
+  "missing-return-type-class-method",
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/machinery/cyrtranslit.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/machinery/deepl.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/forms.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/machinery/google.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/googlev3.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/libretranslate.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/llm.py" = ["missing-type-function-argument"]
+"weblate/machinery/management/commands/install_machinery.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/machinery/management/commands/list_machinery.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/machinery/microsoft.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/modernmt.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/mymemory.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/openai.py" = ["missing-type-function-argument"]
+"weblate/machinery/systran.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/tests.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/machinery/tmserver.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/machinery/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/machinery/weblatetm.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/memory/forms.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/memory/machine.py" = ["missing-type-function-argument"]
+"weblate/memory/management/commands/dump_memory.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/memory/management/commands/import_memory.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/memory/models.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/memory/tasks.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/memory/tests.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/memory/utils.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/memory/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/metrics/models.py" = [
+  "missing-return-type-special-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/metrics/templatetags/metrics.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/metrics/wrapper.py" = ["missing-type-function-argument"]
+"weblate/screenshots/forms.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/screenshots/models.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/screenshots/tests.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/screenshots/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/settings_*.py" = ["undefined-local-with-import-star-usage"]
+"weblate/settings_example.py" = ["commented-out-code"]
+"weblate/sitemaps.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/admin.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/alerts/base.py" = ["missing-type-function-argument"]
+"weblate/trans/alerts/community.py" = [
+  "missing-return-type-class-method",
+  "missing-type-function-argument"
+]
+"weblate/trans/alerts/config.py" = ["missing-type-function-argument"]
+"weblate/trans/alerts/files.py" = ["missing-type-function-argument"]
+"weblate/trans/alerts/vcs.py" = ["missing-type-function-argument"]
+"weblate/trans/autofixes/__init__.py" = ["non-empty-init-module"]
+"weblate/trans/autotranslate.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/checklists.py" = ["missing-type-function-argument"]
+"weblate/trans/context_processors.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/debug.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/trans/diagnostics.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/discovery.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/exceptions.py" = ["missing-type-function-argument"]
+"weblate/trans/feeds.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/file_format_params.py" = [
+  "missing-return-type-class-method",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/filter.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/formatting.py" = [
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/forms.py" = [
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/add_suggestions.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/auto_translate.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/benchmark.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/checkgit.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/commit_pending.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/commitgit.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/import_demo.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/import_json.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/import_project.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/list_file_format_params.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/list_translators.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/list_vcs_params.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/list_versions.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/loadpo.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/lock_translation.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/pushgit.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/unlock_translation.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/management/commands/updategit.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/migrations/0040_auto_20250613_1813.py" = ["missing-type-function-argument"]
+"weblate/trans/migrations/0046_component_file_format_params.py" = ["missing-type-function-argument"]
+"weblate/trans/migrations/0084_consolidate_inherited_settings.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/migrations/0087_consolidate_category_inherited_settings.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/migrations/0089_repair_license_inheritance.py" = ["missing-type-function-argument"]
+"weblate/trans/migrations/0094_alert_lifecycle.py" = ["missing-type-function-argument"]
+"weblate/trans/migrations/0101_component_vcs_params.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/migrations/0102_migrate_json_sort_keys_to_choice.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/mixins.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument"
+]
+"weblate/trans/models/__init__.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs",
+  "non-empty-init-module"
+]
+"weblate/trans/models/agreement.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/alert.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/announcement.py" = [
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/category.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/change.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/comment.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/models/component.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/componentlist.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/project.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/suggestion.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/translation.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/models/unit.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/specialchars.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/tasks.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/templatetags/translations.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/tests/test_alert.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_autotranslate.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_backups.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_changes.py" = ["missing-type-function-argument"]
+"weblate/trans/tests/test_commands.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_comment.py" = ["missing-type-kwargs"]
+"weblate/trans/tests/test_component.py" = ["missing-return-type-private-function", "missing-return-type-special-method", "missing-type-args", "missing-type-function-argument", "missing-type-kwargs"]
+"weblate/trans/tests/test_create.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_discovery.py" = ["missing-return-type-static-method"]
+"weblate/trans/tests/test_edit.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_file_format_merge.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/tests/test_file_format_params.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_files.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_git_views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_hooks.py" = ["missing-type-function-argument"]
+"weblate/trans/tests/test_labels.py" = ["missing-type-args", "missing-type-kwargs"]
+"weblate/trans/tests/test_manage.py" = [
+  "missing-return-type-private-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_models.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/tests/test_projecttoken.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/tests/test_remote.py" = ["missing-type-args", "missing-type-function-argument", "missing-type-kwargs"]
+"weblate/trans/tests/test_reports.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_search.py" = [
+  "missing-return-type-special-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/tests/test_selenium.py" = [
+  "missing-type-args",
+  "missing-type-function-argument"
+]
+"weblate/trans/tests/test_settings.py" = [
+  "missing-return-type-private-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_specialchars.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_suggestions.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_tasks.py" = [
+  "missing-return-type-private-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_templatetags.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/tests/test_views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_widgets.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-special-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/tests/test_workflowsetting.py" = ["missing-type-kwargs"]
+"weblate/trans/tests/utils.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/util.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/validators.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/trans/views/about.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/views/acl.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/views/basic.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/views/changes.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/views/create.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/views/edit.py" = [
+  "missing-return-type-class-method",
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/views/error.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/views/files.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/views/git.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/views/hooks.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/views/js.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/views/labels.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/views/reports.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/views/search.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/views/settings.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/trans/views/source.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/views/widgets.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/trans/widgets.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/utils/celery.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/classloader.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/data.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/utils/db.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/utils/decorators.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/djangosaml2idp.py" = ["missing-type-kwargs"]
+"weblate/utils/djangosaml2idp_views.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/errors.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/fields.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/forms.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-special-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/generate_secret_key.py" = ["print"]
+"weblate/utils/management/base.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/utils/management/commands/metrics.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/utils/markdown.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/models.py" = ["missing-return-type-undocumented-public-function"]
+"weblate/utils/params.py" = ["missing-return-type-class-method"]
+"weblate/utils/ratelimit.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/render.py" = [
+  "missing-return-type-special-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/utils/requests.py" = ["missing-type-kwargs"]
+"weblate/utils/search.py" = [
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/stats.py" = [
+  "missing-return-type-special-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/utils/tests/http_mock.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/tests/test_commands.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/utils/tests/test_files.py" = ["missing-type-function-argument"]
+"weblate/utils/tests/test_ratelimit.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/utils/tests/test_requests.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument"
+]
+"weblate/utils/tests/test_search.py" = ["missing-type-kwargs"]
+"weblate/utils/urls.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/utils/validators.py" = [
+  "missing-return-type-special-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/utils/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/vcs/base.py" = [
+  "missing-return-type-class-method",
+  "missing-return-type-special-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/vcs/forms.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/vcs/git.py" = [
+  "missing-return-type-class-method",
+  "missing-return-type-static-method",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/vcs/github.py" = [
+  "missing-return-type-class-method",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/vcs/tests/test_github.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-kwargs"
+]
+"weblate/vcs/tests/test_github_hooks.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/vcs/tests/test_github_models.py" = ["missing-type-kwargs"]
+"weblate/vcs/tests/test_github_views.py" = [
+  "missing-return-type-private-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/vcs/tests/test_vcs.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/vcs/views.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/wladmin/forms.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/wladmin/management/commands/backup.py" = [
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/wladmin/middleware.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/wladmin/models.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/wladmin/sites.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/wladmin/tests.py" = [
+  "missing-return-type-private-function",
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/wladmin/views.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/workspaces/admin.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-function-argument"
+]
+"weblate/workspaces/forms.py" = [
+  "missing-return-type-undocumented-public-function",
+  "missing-type-args",
+  "missing-type-kwargs"
+]
+"weblate/workspaces/models.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
+"weblate/workspaces/views.py" = [
+  "missing-type-args",
+  "missing-type-function-argument",
+  "missing-type-kwargs"
+]
 
 [tool.ruff.lint.pylint]
 # TODO: all these should be lower (or use defaults)

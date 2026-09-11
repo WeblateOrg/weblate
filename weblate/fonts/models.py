@@ -160,3 +160,22 @@ class FontOverride(models.Model):
 
     def __str__(self) -> str:
         return f"{self.group}:{self.font}:{self.language}"
+
+    def save(self, *args, **kwargs) -> None:
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def clean(self) -> None:
+        super().clean()
+        if (
+            self.group_id
+            and self.font_id
+            and self.group.project_id != self.font.project_id
+        ):
+            raise ValidationError(
+                {
+                    "font": gettext_lazy(
+                        "Font has to be in the same project as the font group."
+                    )
+                }
+            )

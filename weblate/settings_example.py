@@ -439,6 +439,7 @@ ROOT_URLCONF = "weblate.urls"
 INSTALLED_APPS = [
     # Weblate apps on top to override Django locales and templates
     "weblate.addons",
+    "weblate.api",
     "weblate.auth",
     "weblate.checks",
     "weblate_fonts",
@@ -921,11 +922,13 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # REST framework settings for API
-REST_FRAMEWORK = get_drf_settings(
-    require_login=REQUIRE_LOGIN,
-    anon_throttle="100/day",
-    user_throttle="5000/hour",
-)
+API_RATELIMIT_ANON = "100/day"
+API_RATELIMIT_USER = "5000/hour"
+API_RATELIMIT_USER_OVERRIDES: dict[str, str | None] = {}
+API_RATELIMIT_IP_OVERRIDES: dict[str, str | None] = {}
+# API_RATELIMIT_USER_OVERRIDES = {"automation": "20000/hour"}
+# API_RATELIMIT_IP_OVERRIDES = {"192.0.2.42": None, "198.51.100.0/24": "10000/hour"}
+REST_FRAMEWORK = get_drf_settings(require_login=REQUIRE_LOGIN)
 DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
 SPECTACULAR_SETTINGS = get_spectacular_settings(
     INSTALLED_APPS,

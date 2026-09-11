@@ -989,7 +989,7 @@ class MemoryModelTest(FixtureTestCase):
     ) -> None:
         late_memories: list[Memory] = []
 
-        def delete_with_late_write(cleanup):
+        def delete_with_late_write(cleanup) -> None:
             delete_collected_component_memory(cleanup)
             if not late_memories:
                 late_memories.append(
@@ -1109,7 +1109,7 @@ class MemoryModelTest(FixtureTestCase):
         self.component.save(update_fields=["category"])
         late_memories: list[Memory] = []
 
-        def delete_with_late_write(cleanup):
+        def delete_with_late_write(cleanup) -> None:
             delete_collected_component_memory(cleanup)
             if not late_memories:
                 late_memories.append(
@@ -1167,6 +1167,7 @@ class MemoryModelTest(FixtureTestCase):
                 {
                     "quality": 100,
                     "service": "Weblate Translation Memory",
+                    "context": "",
                     "origin": "File: test",
                     "source": "Hello",
                     "text": "Ahoj",
@@ -1185,6 +1186,7 @@ class MemoryModelTest(FixtureTestCase):
                 {
                     "quality": 100,
                     "service": "Weblate Translation Memory",
+                    "context": "",
                     "origin": "File: test",
                     "source": "Hello",
                     "original_source": "Hello",
@@ -1410,6 +1412,78 @@ class MemoryModelTest(FixtureTestCase):
             machine_translation, unit, "Hello, world!\n", origin="File"
         )
         self.assertEqual(suggestion["quality"], 95)
+
+    def test_machine_context(self) -> None:
+        """Memory context is exposed so that the penalty can be understood."""
+        unit = self.get_unit()
+        unit.context = "Unit Context"
+        unit.save()
+        Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Hello",
+            target="Ahoj",
+            origin="test",
+            context="Unit Context",
+            legacy_from_file=True,
+            legacy_shared=False,
+            status=Memory.STATUS_ACTIVE,
+        )
+        machine_translation = WeblateMemory({})
+
+        suggestion = self.search_suggestion(
+            machine_translation, unit, "Hello", origin="File"
+        )
+        self.assertEqual(suggestion["context"], "Unit Context")
+        self.assertEqual(suggestion["quality"], 100)
+
+        # A differing context is penalized and the context is still exposed,
+        # that is what explains the lowered score in the UI.
+        unit.context = "Different context"
+        unit.save()
+        suggestion = self.search_suggestion(
+            machine_translation, unit, "Hello", origin="File"
+        )
+        self.assertEqual(suggestion["context"], "Unit Context")
+        self.assertEqual(suggestion["quality"], 95)
+
+    def test_machine_context_hidden_for_shared_scope(self) -> None:
+        """Context of an entry from another project does not cross over."""
+        unit = self.get_unit()
+        unit.context = "Different context"
+        unit.save()
+        source_project = Project.objects.create(
+            name="Shared context source",
+            slug="shared-context-source",
+            contribute_shared_tm=True,
+        )
+        self.project.use_shared_tm = True
+        self.project.save(update_fields=["use_shared_tm"])
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source=unit.source,
+            target="Sdileny cil",
+            origin="shared-context-source/component",
+            context="internal.key.of.other.project",
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=source_project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=source_project,
+        )
+
+        suggestions = list(WeblateMemory({}).search(unit, unit.source, None))
+
+        self.assertEqual(suggestions[0]["origin"], f"Shared: {memory.origin}")
+        self.assertEqual(suggestions[0]["context"], "")
+        self.assertEqual(suggestions[0]["quality"], 95)
 
     def test_import_map(self) -> None:
         call_command(
@@ -5219,7 +5293,7 @@ class LookupPolicyTest(SimpleTestCase):
         queryset.get_fuzzy_candidates.return_value = prefix_candidates
         queryset.get_full_source_fuzzy_candidates.return_value = [accepted]
 
-        def scorer(candidate):
+        def scorer(candidate) -> int:
             if candidate is accepted:
                 return 95
             return 80
@@ -5253,7 +5327,7 @@ class LookupPolicyTest(SimpleTestCase):
         queryset = MagicMock()
         queryset.get_fuzzy_candidates.return_value = prefix_candidates
 
-        def scorer(candidate):
+        def scorer(candidate) -> int:
             if candidate is prefix_candidates[0]:
                 return 100
             return 80
@@ -5314,6 +5388,7 @@ class LookupPolicyTest(SimpleTestCase):
         filter_type.assert_called_once_with(
             user=None,
             access_user=None,
+            additional_component_access=None,
             project=None,
             use_shared=False,
             from_file=True,
@@ -5325,45 +5400,6 @@ class LookupPolicyTest(SimpleTestCase):
             target_language="cs",
         )
         typed_base.get_fuzzy_candidates.assert_called_once_with("Username")
-
-    def test_lookup_full_source_uses_scoped_full_source_candidates(self) -> None:
-        base = MagicMock()
-        typed_base = MagicMock()
-        base.prefetch_scopes.return_value = base
-        base.filter.return_value = typed_base
-        typed_base.get_full_source_fuzzy_candidates.return_value = []
-
-        with patch.object(
-            MemoryQuerySet, "filter_type", return_value=base
-        ) as filter_type:
-            results = Memory.objects.lookup_full_source(
-                "en",
-                "cs",
-                "Username",
-                None,
-                None,
-                False,
-                threshold=80,
-                exclude_ids=[1, 2],
-            )
-
-        self.assertEqual(list(results), [])
-        filter_type.assert_called_once_with(
-            user=None,
-            access_user=None,
-            project=None,
-            use_shared=False,
-            from_file=True,
-            use_workspace=True,
-        )
-        base.prefetch_scopes.assert_called_once_with()
-        base.filter.assert_called_once_with(
-            source_language="en",
-            target_language="cs",
-        )
-        typed_base.get_full_source_fuzzy_candidates.assert_called_once_with(
-            "Username", threshold=80, exclude_ids=[1, 2]
-        )
 
     def test_weblate_memory_uses_scored_model_candidates(self) -> None:
         text = "x" * (MEMORY_LOOKUP_PREFIX_LENGTH + 1)
@@ -5402,6 +5438,7 @@ class LookupPolicyTest(SimpleTestCase):
             None,
             project,
             False,
+            additional_component_access=None,
         )
         queryset.get_scored_fuzzy_candidates.assert_called_once()
         call_args = queryset.get_scored_fuzzy_candidates.call_args
@@ -5461,6 +5498,7 @@ class LookupPolicyTest(SimpleTestCase):
         filter_type.assert_called_once_with(
             user=None,
             access_user=None,
+            additional_component_access=None,
             project=None,
             use_shared=False,
             from_file=True,

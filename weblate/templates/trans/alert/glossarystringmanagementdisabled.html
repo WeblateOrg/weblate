@@ -1,0 +1,15 @@
+{% load i18n %}
+
+{% if local_glossary %}
+  <p>{% translate "This glossary has no remote repository, and ‘Manage strings’ is disabled. You cannot add glossary terms directly in Weblate, and terminology entries are not automatically added to missing glossary languages." %}</p>
+{% else %}
+  <p>{% translate "This glossary contains terms marked as terminology, but ‘Manage strings’ is disabled. Weblate will not automatically add these terms to missing glossary languages." %}</p>
+{% endif %}
+
+<p>{% translate "Enable ‘Manage strings’ in the component settings to add terms and synchronize terminology. You can dismiss this warning if the glossary files are maintained separately." %}</p>
+
+{% if can_configure %}
+  <p>
+    <a class="btn btn-primary" href="{{ configure_url }}">{% translate "Configure" %}</a>
+  </p>
+{% endif %}

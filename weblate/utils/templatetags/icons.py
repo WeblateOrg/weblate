@@ -29,7 +29,7 @@ def icon(name: str) -> str:
 
 
 @register.simple_tag
-def loading_icon(name=None, hidden=True):
+def loading_icon(name: str | None = None, hidden: bool = True) -> str:
     return format_html(
         SPIN,
         format_html('id="loading-{}"', name) if name else "",

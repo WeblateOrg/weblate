@@ -4,15 +4,18 @@
 
 """Test for alerts."""
 
+from __future__ import annotations
+
 import importlib
 import os
 import tempfile
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
+from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.http import QueryDict
@@ -29,6 +32,7 @@ from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, MultiAlert
+from weblate.trans.alerts.files import DuplicateString
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.alerts.vcs import RepositoryErrorAlert, UpdateFailure
 from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
@@ -37,6 +41,7 @@ from weblate.trans.models import (
     Component,
     ComponentLink,
     Project,
+    Translation,
     Unit,
 )
 from weblate.trans.models.alert import Alert
@@ -50,6 +55,11 @@ from weblate.vcs.base import (
 from weblate.vcs.github import GitHubAppCredentials
 from weblate.workspaces.models import Workspace
 
+if TYPE_CHECKING:
+    from unittest.mock import Mock
+
+    from weblate.auth.models import User
+
 
 class WebsiteAlertSettingTest(ViewTestCase):
     """Test WEBSITE_ALERTS_ENABLED setting."""
@@ -59,7 +69,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
 
     @override_settings(WEBSITE_ALERTS_ENABLED=False)
     @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
-    def test_website_alerts_disabled(self, mocked_get_uri_error) -> None:
+    def test_website_alerts_disabled(self, mocked_get_uri_error: Mock) -> None:
         """Test that website alerts are not created when setting is False."""
         self.project.web = "https://example.com/project"
         update_alerts(self.component, {"BrokenProjectURL"})
@@ -70,7 +80,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
-    def test_website_alerts_enabled(self, mocked_get_uri_error) -> None:
+    def test_website_alerts_enabled(self, mocked_get_uri_error: Mock) -> None:
         """Test that website alerts are created when setting is True."""
         self.project.web = "https://example.com/project"
         update_alerts(self.component, {"BrokenProjectURL"})
@@ -84,7 +94,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch("weblate.trans.alerts.config.get_uri_error")
     def test_website_alert_uses_validator_error_without_fetch(
-        self, mocked_get_uri_error
+        self, mocked_get_uri_error: Mock
     ) -> None:
         self.project.web = "https://localhost/project"
 
@@ -106,7 +116,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
     )
     @patch("weblate.trans.alerts.config.get_uri_error")
     def test_website_alert_uses_runtime_validation_without_fetch(
-        self, mocked_get_uri_error, mocked_validate_request_url
+        self, mocked_get_uri_error: Mock, mocked_validate_request_url: Mock
     ) -> None:
         self.project.web = "https://public.example/project"
 
@@ -131,7 +141,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
     @patch("weblate.trans.alerts.config.get_uri_error", return_value=None)
     @patch("weblate.trans.alerts.config.validate_request_url")
     def test_website_alert_respects_project_allowlist(
-        self, mocked_validate_request_url, mocked_get_uri_error
+        self, mocked_validate_request_url: Mock, mocked_get_uri_error: Mock
     ) -> None:
         self.project.web = "https://localhost/project"
 
@@ -584,6 +594,91 @@ class AlertTest(ViewTestCase):
             },
         )
 
+    def test_duplicate_cleanup_groups(self) -> None:
+        component = self._create_component(
+            "po", "po/*.po", name="Grouped", project=self.project
+        )
+        translations = list(
+            component.translation_set.exclude(filename="").order_by("pk")[:2]
+        )
+        self.assertEqual(len(translations), 2)
+        first, second = [translation.unit_set.first() for translation in translations]
+        self.assertIsNotNone(first)
+        self.assertIsNotNone(second)
+        assert first is not None
+        assert second is not None
+        occurrences = [
+            {"unit_pk": first.pk, "language_code": first.translation.language.code},
+            {"unit_pk": second.pk, "language_code": second.translation.language.code},
+            {"unit_pk": first.pk, "language_code": first.translation.language.code},
+            {"unit_pk": -1, "language_code": "cs", "source": "Missing unit source"},
+        ]
+        component.add_alert("DuplicateString", occurrences=occurrences)
+        instance = component.alert_set.get(name="DuplicateString")
+        all_translations = {translation.pk for translation in translations}
+        for supported, allowed in (
+            (True, all_translations),
+            (True, {translations[0].pk}),
+            (False, all_translations),
+            (True, set()),
+        ):
+            with (
+                self.subTest(supported=supported, allowed=allowed),
+                patch.object(
+                    Translation,
+                    "supports_remove_duplicate_units",
+                    return_value=supported,
+                ),
+                translation_override("en"),
+            ):
+                user = SimpleNamespace(
+                    has_perm=lambda permission, obj, allowed=allowed: (
+                        permission == "vcs.reset" and obj.pk in allowed
+                    )
+                )
+                alert = DuplicateString(instance, instance.details["occurrences"])
+                rendered = render_to_string(
+                    "trans/alert/duplicatestring.html",
+                    alert.get_context(cast("User", user)),
+                )
+                rows = (
+                    rendered.split("<tbody>")[1].split("</tbody>")[0].split("<tr>")[1:]
+                )
+                self.assertEqual(len(rows), 3)
+                for row, translation, unit, count in zip(
+                    rows, translations, (first, second), (2, 1), strict=False
+                ):
+                    self.assertIn(translation.filename, row)
+                    self.assertIn(str(translation.language), row)
+                    self.assertEqual(
+                        row.count(f'href="{unit.get_absolute_url()}"'), count
+                    )
+                    cleanup_url = reverse(
+                        "remove_duplicate_units",
+                        kwargs={"path": translation.get_url_path()},
+                    )
+                    if supported and translation.pk in allowed:
+                        self.assertIn(f'data-href="{cleanup_url}"', row)
+                        self.assertIn(
+                            f'aria-label="Remove duplicate strings from {translation.language} ({translation.filename})"',
+                            row,
+                        )
+                        self.assertEqual(
+                            row.count('class="btn btn-danger link-post"'), 1
+                        )
+                    else:
+                        self.assertNotIn("link-post", row)
+                self.assertIn("Missing unit source", rows[2])
+                self.assertNotIn("link-post", rows[2])
+
+    def test_duplicate_cleanup_missing_filename(self) -> None:
+        instance = self.component.alert_set.get(name="DuplicateString")
+        alert = DuplicateString(instance, instance.details["occurrences"])
+        alert.occurrences[0]["unit"].translation.filename = ""
+        group = alert.get_analysis()["translation_groups"][0]
+        self.assertFalse(group["can_cleanup"])
+        self.assertEqual(len(group["occurrences"]), 1)
+
     def test_unused_enforced(self) -> None:
         self.assertEqual(
             self.get_problem_alert_names(),
@@ -966,7 +1061,9 @@ class AlertTest(ViewTestCase):
         self.component.add_alert("BrokenProjectURL", error="failure")
         alert = self.component.alert_set.get(name="BrokenProjectURL")
 
-        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        migration.backfill_dismissals(
+            apps, self.component.alert_set.filter(pk=alert.pk)
+        )
         self.component.add_alert("BrokenProjectURL", error="failure")
 
         alert.refresh_from_db()
@@ -1001,7 +1098,9 @@ class AlertTest(ViewTestCase):
         self.component.add_alert("MsgmergeAddonError", occurrences=[occurrence])
         alert = self.component.alert_set.get(name="MsgmergeAddonError")
 
-        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        migration.backfill_dismissals(
+            apps, self.component.alert_set.filter(pk=alert.pk)
+        )
         self.component.add_alert(
             "MsgmergeAddonError",
             occurrences=[{**occurrence, "addon_id": "123"}],

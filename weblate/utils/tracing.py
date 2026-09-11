@@ -14,6 +14,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+    from types import ModuleType
 
     from opentelemetry.trace import Tracer
 
@@ -42,7 +43,7 @@ _STATE: dict[str, object | None] = {"opentelemetry_tracer": None}
 LOGGER = logging.getLogger("weblate.tracing")
 
 
-def get_sentry_sdk():
+def get_sentry_sdk() -> ModuleType:
     try:
         return import_module("sentry_sdk")
     except ImportError as error:

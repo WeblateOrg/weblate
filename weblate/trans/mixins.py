@@ -19,6 +19,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
     from uuid import UUID
 
     from weblate.auth.models import User
@@ -55,11 +56,11 @@ class _HasComponentCategoryAttrs(Protocol):
 
 
 class URLPathObject(Protocol):
-    def get_url_path(self) -> tuple[str, ...]: ...
+    def get_url_path(self) -> Sequence[str]: ...
 
 
 class BaseURLMixin:
-    def get_url_path(self) -> tuple[str, ...]:
+    def get_url_path(self) -> Sequence[str]:
         raise NotImplementedError
 
     @cached_property

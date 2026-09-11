@@ -20,6 +20,8 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.auth.models import User
+from weblate.metrics.models import Metric
+from weblate.metrics.wrapper import MetricsWrapper
 from weblate.trans.models import Component, Project
 from weblate.utils.backup import (
     BackupError,
@@ -195,6 +197,7 @@ class SupportStatus(models.Model):
 
     def refresh(self, *, site_url: str | None = None) -> None:
         stats = GlobalStats()
+        metrics = MetricsWrapper(None, Metric.SCOPE_GLOBAL, 0)
         data = {
             "secret": self.secret,
             "site_url": site_url or get_site_url(),
@@ -206,6 +209,19 @@ class SupportStatus(models.Model):
             "source_strings": stats.source_strings,
             "strings": stats.all,
             "words": stats.all_words,
+            "activity": json.dumps(
+                [
+                    {
+                        "year": year,
+                        "month": month,
+                        "changes": changes,
+                    }
+                    for (
+                        year,
+                        month,
+                    ), changes in metrics.monthly_activity_totals.items()
+                ]
+            ),
         }
         if self.discoverable:
             data["discoverable"] = 1

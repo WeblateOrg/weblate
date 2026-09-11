@@ -19,14 +19,14 @@ if TYPE_CHECKING:
     from datetime import datetime
 
 
-def get_root_dir():
+def get_root_dir() -> str:
     """Return Weblate root dir."""
     curdir = os.path.dirname(os.path.abspath(__file__))
     return os.path.abspath(os.path.join(curdir, "..", ".."))
 
 
 # Weblate version
-VERSION = "2026.9.1.dev0"
+VERSION = "2026.10.dev0"
 
 # Version string without suffix
 VERSION_BASE = Version(VERSION).base_version

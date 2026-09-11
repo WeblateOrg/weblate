@@ -4,9 +4,13 @@
 
 """Tests for source checks."""
 
+from __future__ import annotations
+
 from datetime import timedelta
 from typing import cast
+from unittest.mock import patch
 
+from django.template import Context, Template
 from django.test import TestCase
 from django.utils import timezone
 
@@ -50,6 +54,42 @@ class EllipsisCheckTest(TestCase):
 
     def test_failing(self) -> None:
         self.assertTrue(self.check.check_source(["text..."], make_unit()))
+
+    def test_description_html(self) -> None:
+        check = Check(name="ellipsis")
+        rendered = Template("{{ check.get_description }}").render(
+            Context({"check": check})
+        )
+        self.assertEqual(
+            rendered,
+            "The string uses three dots <code>...</code> instead of an ellipsis character <code>…</code>.",
+        )
+
+    def test_description_contexts(self) -> None:
+        check = Check(name="ellipsis")
+        check_obj = cast("EllipsisCheck", check.check_obj)
+        with patch.object(
+            check_obj,
+            "description_template",
+            'Use {ellipsis}, not {dots}: "quotes" & <text>.',
+        ):
+            self.assertEqual(
+                check.get_description(),
+                "Use <code>…</code>, not <code>...</code>: &quot;quotes&quot; &amp; &lt;text&gt;.",
+            )
+            self.assertEqual(
+                check.get_plain_description(), 'Use …, not ...: "quotes" & <text>.'
+            )
+            self.assertEqual(
+                check_obj.get_documentation_description(),
+                'Use ``…``, not ``...``: "quotes" & <text>.',
+            )
+            self.assertEqual(
+                Template(
+                    '<span title="{{ check.get_plain_description|force_escape }}"></span>'
+                ).render(Context({"check": check})),
+                '<span title="Use …, not ...: &quot;quotes&quot; &amp; &lt;text&gt;."></span>',
+            )
 
 
 class SourceMaxLengthCheckTest(TestCase):

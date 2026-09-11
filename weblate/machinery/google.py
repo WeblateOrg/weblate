@@ -15,6 +15,9 @@ from .base import (
 from .forms import KeyMachineryForm
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import DownloadTranslations
 
 GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
@@ -58,7 +61,7 @@ class GoogleTranslation(GoogleBaseTranslation):
         """Add authentication headers to request."""
         return {"X-Goog-Api-Key": self.settings["key"]}
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         super().check_failure(response)
         payload = response.json()
 
@@ -74,11 +77,11 @@ class GoogleTranslation(GoogleBaseTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

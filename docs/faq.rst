@@ -4,6 +4,25 @@ Frequently Asked Questions
 Configuration
 +++++++++++++
 
+How do I restrict which languages can be translated?
+-----------------------------------------------------
+
+To prevent users from starting new translations across a project, open the
+project settings, select :guilabel:`Workflow`, and set
+:guilabel:`Adding new translation` to :guilabel:`Disable adding new translations`.
+Ensure that the project's categories and components inherit this setting; see
+:ref:`workspace-inherited-settings`. Project admins can still add translations
+when Weblate can create the files.
+
+To allow only selected language codes, configure
+:ref:`component-language_regex` on each component. This filters translation
+files rather than controlling who can edit existing translations. See
+:ref:`workflow-language-restrictions` for the available controls.
+
+If unexpected languages appear in a glossary, check
+:ref:`glossary-language-sync`: Weblate automatically adds glossary languages
+for languages used in the project.
+
 .. _auto-workflow:
 
 How to create an automated workflow?

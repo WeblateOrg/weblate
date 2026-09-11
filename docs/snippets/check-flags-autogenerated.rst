@@ -6,8 +6,6 @@
     Priority of the string. Higher priority strings are presented first for translation.
     The default priority is 100, the higher priority a string has, the earlier it is
     offered for translation.
-``max-length:N``
-    Limit the maximal length for a string to N characters, see :ref:`check-max-length`.
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
 ``font-family:NAME``

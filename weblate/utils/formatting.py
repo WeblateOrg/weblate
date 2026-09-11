@@ -31,7 +31,7 @@ def number_format(number: int) -> str:
     return format_string % django_number_format(number, force_grouping=True)
 
 
-def render_documentation_icon(doc_url: str, *, right: bool = False):
+def render_documentation_icon(doc_url: str, *, right: bool = False) -> str:
     if not doc_url:
         return ""
     return format_html(

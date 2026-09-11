@@ -73,6 +73,7 @@ from weblate.trans.exceptions import (
 from weblate.trans.fields import RegexField
 from weblate.trans.file_format_params import (
     FILE_FORMATS_PARAMS,
+    get_effective_params_for_file_format,
     get_encoding_param,
 )
 from weblate.trans.inherited_settings import (
@@ -1268,6 +1269,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             changed_setup = (
                 (old.file_format != self.file_format)
+                or (
+                    get_effective_params_for_file_format(
+                        old.file_format, old.file_format_params
+                    )
+                    != get_effective_params_for_file_format(
+                        self.file_format, self.file_format_params
+                    )
+                )
                 or (old.edit_template != self.edit_template)
                 or (old.new_base != self.new_base)
                 or changed_template
@@ -1275,6 +1284,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             if changed_setup:
                 old.commit_pending("changed setup", None)
+                # Committing pending changes can advance HEAD and persists the
+                # revision without updating this component instance. Fetch the
+                # value directly to preserve the pre-save settings snapshot.
+                self.local_revision = Component.objects.values_list(
+                    "local_revision", flat=True
+                ).get(pk=self.pk)
                 if old.key_filter != self.key_filter:
                     self.drop_key_filter_cache()
 
@@ -2092,7 +2107,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         progress = get_task_progress(task)
         return (progress, cache.get(f"task-log-{task.id}", []))
 
-    def in_progress(self):
+    def in_progress(self) -> bool:
         return (
             not settings.CELERY_TASK_ALWAYS_EAGER
             and self.background_task is not None
@@ -2337,7 +2352,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         expression = "".join(result)
         return re.compile(f"^{expression}$")
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         parent = self.category or self.project
         return (*parent.get_url_path(), self.slug)
 
@@ -2345,7 +2360,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Return absolute URL for widgets."""
         return f"{self.project.get_widgets_url()}?component={self.pk}"
 
-    def get_share_url(self):
+    def get_share_url(self) -> str:
         """Return absolute shareable URL."""
         return self.project.get_share_url()
 
@@ -2896,7 +2911,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         with self.repository.lock:
             self.repository.configure_branch(self.branch)
 
-    def uses_changed_files(self, changed):
+    def uses_changed_files(self, changed) -> bool:
         """Detect whether list of changed files matches configuration."""
         for filename in [self.template, self.intermediate, self.new_base]:
             if filename and filename in changed:
@@ -3833,7 +3848,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.create_translations(request=request, force=True)
         return True
 
-    def get_repo_link_url(self):
+    def get_repo_link_url(self) -> str:
         return f"weblate://{'/'.join(self.get_url_path())}"
 
     @cached_property
@@ -3870,6 +3885,30 @@ class Component(  # ruff: ignore[too-many-public-methods]
             translation = translation.component.source_translation
         return translation
 
+    @staticmethod
+    def preload_commit_workflows(translations: list[Translation]) -> None:
+        from weblate.trans.models.project import (  # ruff: ignore[import-outside-top-level]
+            CommitPolicyChoices,
+        )
+
+        by_project: dict[int, list[Translation]] = defaultdict(list)
+        for translation in translations:
+            by_project[translation.component.project_id].append(translation)
+
+        for project_translations in by_project.values():
+            project = project_translations[0].component.project
+            if project.commit_policy != CommitPolicyChoices.APPROVED_ONLY:
+                continue
+            languages = {
+                translation.language_id: project.project_languages[translation.language]
+                for translation in project_translations
+            }
+            project.project_languages.preload_workflow_settings(languages.values())
+            for translation in project_translations:
+                translation.__dict__["workflow_settings"] = languages[
+                    translation.language_id
+                ].workflow_settings
+
     @perform_on_link
     def commit_pending(
         self, reason: str, user: User | None, skip_push: bool = False
@@ -3891,7 +3930,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         translations = sorted(
             Translation.objects.filter(pk__in=pending_translation_ids)
             .distinct()
-            .prefetch_related("component"),
+            .prefetch_related("component__project", "language"),
             key=lambda translation: not translation.is_source,
         )
         components = {}
@@ -3903,13 +3942,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if not translations:
             return True
 
+        translations = [
+            self.reuse_component_for_translation(translation, reuse_source=True)
+            for translation in translations
+        ]
+        # Populate the actual instances used below, including reused source translations.
+        # Per-translation policy checks can then use enable_review without querying
+        # workflow settings once for every language.
+        self.preload_commit_workflows(translations)
+
         # Commit pending changes
         with self.track_local_head_change():
             for translation in translations:
                 self.repository.lock.reacquire()
-                translation = self.reuse_component_for_translation(
-                    translation, reuse_source=True
-                )
                 component = translation.component
                 if component.pk in skipped:
                     # We already failed at this component
@@ -5282,7 +5327,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Validate new language choices."""
         # Validate if new base is configured or language adding is set
         if (
-            not self.new_base and self.effective_new_lang != "add"
+            not self.new_base and self.effective_new_lang not in {"add", "existing"}
         ) or not self.file_format:
             return
         # File is valid or no file is needed
@@ -6155,11 +6200,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
             pass
         return self.count_repo_outgoing
 
-    def needs_commit(self):
+    def needs_commit(self) -> bool:
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def repo_needs_merge(self):
+    def repo_needs_merge(self) -> bool:
         """Check for unmerged commits from remote repository."""
         return self.count_repo_missing > 0
 
@@ -6378,25 +6423,52 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def is_multivalue(self):
         return self.file_format_cls.has_multiple_strings
 
-    def can_add_new_language(self, user: User | None, fast: bool = False):
+    def get_new_language_action(
+        self,
+        user: User | None,
+        language: Language | None = None,
+        *,
+        existing_language_ids: set[int] | None = None,
+    ) -> str:
+        """Resolve creation policy, optionally using a bulk operation's snapshot."""
+        mode = self.effective_new_lang
+        # Preserve the existing CLI/add-on and component administrator exceptions.
+        if (
+            mode == "add"
+            or user is None
+            or (user.is_bot and user.username.startswith("addon:"))
+            or user.has_perm("component.edit", self)
+        ):
+            return "add"
+        if mode != "existing":
+            return mode
+        # Without a selected language, report general creation capability.
+        if language is None:
+            return "add"
+        if existing_language_ids is None:
+            existing_language_ids = self.project.get_existing_target_language_ids()
+        return "add" if language.pk in existing_language_ids else "contact"
+
+    def can_add_new_language(
+        self,
+        user: User | None,
+        fast: bool = False,
+        *,
+        language: Language | None = None,
+        existing_language_ids: set[int] | None = None,
+    ):
         """
         Check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
         is valid new base.
         """
-        # Consistency and possibly other add-ons
-        if user is not None and user.is_bot and user.username.startswith("addon:"):
-            user = None
-        # The user is None in case of consistency or cli invocation
-        # The component.edit permission is intentional here as it allows overriding
-        # of new_lang configuration for admins and add languages even if adding
-        # for users is not configured.
         self.new_lang_error_message = gettext("Could not add new translation file.")
         if (
-            self.effective_new_lang != "add"
-            and user is not None
-            and not user.has_perm("component.edit", self)
+            self.get_new_language_action(
+                user, language, existing_language_ids=existing_language_ids
+            )
+            != "add"
         ):
             self.new_lang_error_message = gettext(
                 "You do not have permissions to add new translation file."
@@ -6453,6 +6525,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         send_signal: bool = True,
         create_translations: bool = True,
         show_messages: bool = True,
+        *,
+        existing_language_ids: set[int] | None = None,
     ) -> Translation | None:
         """Create new language file."""
 
@@ -6460,7 +6534,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if show_messages:
                 messages.error(request, message)
 
-        if not self.can_add_new_language(request.user if request else None):
+        if not self.can_add_new_language(
+            request.user if request else None,
+            language=language,
+            existing_language_ids=existing_language_ids,
+        ):
             fail_message(cast("str", self.new_lang_error_message))
             return None
 

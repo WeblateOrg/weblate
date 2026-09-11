@@ -4,6 +4,9 @@
 
 """Test for Git manipulation views."""
 
+from __future__ import annotations
+
+from typing import Never
 from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
@@ -54,10 +57,10 @@ class GitNoChangeProjectTest(ViewTestCase):
         obj = getattr(self, self.TEST_TYPE)
         return reverse(prefix, kwargs={"path": obj.get_url_path()})
 
-    def get_expected_redirect(self):
+    def get_expected_redirect(self) -> str:
         return f"{getattr(self, f'{self.TEST_TYPE}_url')}#repository"
 
-    def get_expected_redirect_progress(self):
+    def get_expected_redirect_progress(self) -> str:
         obj = getattr(self, self.TEST_TYPE)
         return f"{reverse('show_progress', kwargs={'path': obj.get_url_path()})}?info=1"
 
@@ -204,8 +207,130 @@ class GitNoChangeProjectTest(ViewTestCase):
             response = self.client.get(self.get_test_url("git_status"))
         self.assertContains(response, "Repository status")
 
+    def test_status_push_configuration(self) -> None:
+        for push, needs_push_url, can_push in (
+            ("", True, False),
+            (self.component.repo, True, True),
+            ("", False, True),
+        ):
+            with self.subTest(push=push, needs_push_url=needs_push_url):
+                Component.objects.filter(pk=self.component.pk).update(
+                    push=push, push_branch=""
+                )
+                with patch.object(
+                    self.component.repository_class, "needs_push_url", needs_push_url
+                ):
+                    response = self.client.get(self.get_test_url("git_status"))
+                self.assertEqual(response.context["can_push"], can_push)
+                if can_push:
+                    self.assertContains(
+                        response,
+                        '<button type="button" class="float-end btn btn-primary '
+                        f'link-post" data-href="{self.get_test_url("push")}">Push</button>',
+                        html=True,
+                    )
+                    self.assertNotContains(response, 'id="push-disabled-reason"')
+                else:
+                    self.assertContains(
+                        response,
+                        '<button type="button" class="float-end btn btn-primary" '
+                        'disabled aria-describedby="push-disabled-reason">Push</button>',
+                        html=True,
+                    )
+                    self.assertContains(
+                        response,
+                        "Pushing is disabled because no repository push URL is configured.",
+                    )
+
+    def test_status_repository_configuration_link(self) -> None:
+        response = self.client.get(self.get_test_url("git_status"))
+        settings_url = reverse(
+            "settings", kwargs={"path": self.component.get_url_path()}
+        )
+        self.assertContains(
+            response,
+            f'<a class="btn btn-primary" href="{settings_url}#vcs">'
+            "Edit repository configuration</a>",
+            html=True,
+        )
+
 
 class RepositoryPermissionScopeTest(ViewTestCase):
+    def test_status_repository_configuration_link_permissions(self) -> None:
+        self.user.groups.clear()
+        self.grant_permission("vcs.view", project=self.project)
+        self.grant_permission("vcs.push", project=self.project)
+        for obj in (self.project, self.component, self.translation):
+            with self.subTest(obj=obj):
+                response = self.client.get(
+                    reverse("git_status", kwargs={"path": obj.get_url_path()})
+                )
+                self.assertContains(response, "Repository status")
+                self.assertNotContains(response, "Edit repository configuration")
+
+    def test_status_linked_repository_configuration(self) -> None:
+        linked = self.create_link_existing()
+        self.user.groups.clear()
+        self.grant_permission("vcs.view", project=self.project)
+        self.grant_permission("vcs.push", project=self.project)
+        self.grant_permission("component.edit", component=self.component)
+        settings_url = reverse(
+            "settings", kwargs={"path": self.component.get_url_path()}
+        )
+        linked_settings_url = reverse(
+            "settings", kwargs={"path": linked.get_url_path()}
+        )
+        for obj in (self.project, linked):
+            with self.subTest(obj=obj):
+                response = self.client.get(
+                    reverse("git_status", kwargs={"path": obj.get_url_path()})
+                )
+                self.assertContains(response, f'href="{settings_url}#vcs"', count=1)
+                self.assertNotContains(response, f'href="{linked_settings_url}#vcs"')
+
+    def test_status_cross_project_repository_configuration(self) -> None:
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(project=other_project)
+        self.user.groups.clear()
+        self.grant_permission("vcs.view", project=self.project)
+        self.grant_permission("vcs.view", project=other_project)
+        self.grant_permission("vcs.push", project=self.project)
+        self.grant_permission("vcs.push", project=other_project)
+        self.grant_permission("component.edit", component=linked)
+        settings_url = reverse(
+            "settings", kwargs={"path": self.component.get_url_path()}
+        )
+        linked_settings_url = reverse(
+            "settings", kwargs={"path": linked.get_url_path()}
+        )
+        status_url = reverse(
+            "git_status", kwargs={"path": other_project.get_url_path()}
+        )
+
+        response = self.client.get(status_url)
+        self.assertContains(response, "Repository status")
+        self.assertEqual(list(response.context["repositories"]), [linked])
+        self.assertNotContains(response, "Edit repository configuration")
+        self.assertNotContains(response, f'href="{linked_settings_url}#vcs"')
+
+        self.grant_permission("component.edit", component=self.component)
+        response = self.client.get(status_url)
+        self.assertContains(response, f'href="{settings_url}#vcs"', count=1)
+        self.assertNotContains(response, f'href="{linked_settings_url}#vcs"')
+
+    def test_status_mixed_push_configuration(self) -> None:
+        independent = self.create_po(project=self.project, name="Independent")
+        Component.objects.filter(pk=self.component.pk).update(push="")
+        Component.objects.filter(pk=independent.pk).update(push=independent.repo)
+        self.user.groups.clear()
+        self.grant_permission("vcs.view", project=self.project)
+        self.grant_permission("vcs.push", project=self.project)
+        response = self.client.get(
+            reverse("git_status", kwargs={"path": self.project.get_url_path()})
+        )
+        self.assertTrue(response.context["can_push"])
+        self.assertNotContains(response, 'id="push-disabled-reason"')
+
     def grant_permission(
         self,
         permission: str,
@@ -614,7 +739,7 @@ class RepositoryOperationQueueTest(ViewTestCase):
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_operation_is_not_reused_before_publication(self) -> None:
-        def fail_publication(**kwargs):
+        def fail_publication(**kwargs) -> Never:
             with self.assertRaises(RepositoryOperationConflictError):
                 queue_repository_operation(self.component, "pull", self.user)
             msg = "broker failure"

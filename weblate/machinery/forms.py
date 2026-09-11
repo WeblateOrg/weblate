@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import json
 import re
-from urllib.parse import urlsplit
 
 from django import forms
 from django.conf import settings
@@ -459,12 +458,6 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         required=False,
     )
 
-    def clean_url(self) -> str:
-        url = self.cleaned_data["url"]
-        if urlsplit(url).path.rstrip("/").endswith("/v1"):
-            raise ValidationError(gettext("DeepL API v1 is no longer supported."))
-        return url
-
 
 class LLMBasicMachineryForm(BaseMachineryForm):
     base_url = WeblateServiceURLField(
@@ -740,30 +733,12 @@ class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
     # Current models are ordered from cheapest to most expensive. Previously offered
     # legacy models remain available until retirement for configuration compatibility.
     MODEL_CHOICES = (
-        (
-            "claude-haiku-4-5",
-            pgettext_lazy("Anthropic model selection", "Claude Haiku 4.5"),
-        ),
-        (
-            "claude-sonnet-5",
-            pgettext_lazy("Anthropic model selection", "Claude Sonnet 5"),
-        ),
-        (
-            "claude-opus-5",
-            pgettext_lazy("Anthropic model selection", "Claude Opus 5"),
-        ),
-        (
-            "claude-fable-5-1",
-            pgettext_lazy("Anthropic model selection", "Claude Fable 5.1"),
-        ),
-        (
-            "claude-opus-4-8",
-            pgettext_lazy("Anthropic model selection", "Claude Opus 4.8"),
-        ),
-        (
-            "claude-fable-5",
-            pgettext_lazy("Anthropic model selection", "Claude Fable 5"),
-        ),
+        ("claude-haiku-4-5", "Claude Haiku 4.5"),
+        ("claude-sonnet-5", "Claude Sonnet 5"),
+        ("claude-opus-5", "Claude Opus 5"),
+        ("claude-fable-5-1", "Claude Fable 5.1"),
+        ("claude-opus-4-8", "Claude Opus 4.8"),
+        ("claude-fable-5", "Claude Fable 5"),
         ("custom", pgettext_lazy("Anthropic model selection", "Custom model")),
     )
     base_url = WeblateServiceURLField(

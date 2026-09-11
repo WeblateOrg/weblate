@@ -79,7 +79,7 @@ class OllamaTranslation(BaseLLMTranslation):
         return urljoin(self.settings["base_url"], self.end_point)
 
     @staticmethod
-    def parse_chat_response(response_data) -> str:
+    def parse_chat_response(response_data: object) -> str:
         if not isinstance(response_data, dict):
             msg = "Invalid service response: expected a JSON object."
             raise MachineTranslationError(msg)

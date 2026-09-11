@@ -2,10 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.db import migrations
 
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
-def backfill_change_workspace(apps, schema_editor) -> None:
+
+def backfill_change_workspace(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Change = apps.get_model("trans", "Change")
     Project = apps.get_model("trans", "Project")
 

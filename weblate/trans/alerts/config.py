@@ -491,6 +491,51 @@ class MonolingualGlossary(BaseAlert):
 
 
 @register
+class GlossaryStringManagementDisabled(BaseAlert):
+    verbose = gettext_lazy("Glossary string management is disabled")
+    severity = AlertSeverity.WARNING
+    dismissible = True
+    doc_page = "user/glossary"
+    doc_anchor = "glossary-terminology"
+
+    @classmethod
+    def get_url(cls, component: Component) -> str:
+        return (
+            reverse("settings", kwargs={"path": component.get_url_path()})
+            + "#translation"
+        )
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        component = self.instance.component
+        result.update(
+            local_glossary=component.repo == "local:",
+            can_configure=self.can_user_act(user, component),
+            configure_url=self.get_url(component),
+        )
+        return result
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {
+            "details": details,
+            "repo": component.repo,
+            "source_language": component.source_language_id,
+        }
+
+    @staticmethod
+    def check_component(component: Component) -> bool:
+        if not component.is_glossary or component.manage_units:
+            return False
+        if component.repo == "local:":
+            return True
+        return any(
+            "terminology" in source.all_flags
+            for source in component.source_translation.unit_set.iterator()
+        )
+
+
+@register
 class UnusedGlossaryLanguage(MultiAlert):
     verbose = gettext_lazy("Unused glossary language.")
     doc_page = "user/glossary"

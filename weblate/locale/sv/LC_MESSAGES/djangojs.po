@@ -8,14 +8,15 @@
 # Kristoffer Grundström <swedishsailfishosuser@tutanota.com>, 2026.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2026.
 # goeran <goeran@uddeborg.se>, 2026.
+# Daniel Nylander <yeagersthlm@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "javascript/\n"
-"POT-Creation-Date: 2026-08-28 00:07-0500\n"
-"PO-Revision-Date: 2026-07-30 21:02+0000\n"
-"Last-Translator: goeran <goeran@uddeborg.se>\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"PO-Revision-Date: 2026-09-10 18:34+0000\n"
+"Last-Translator: Daniel Nylander <yeagersthlm@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "javascript/sv/>\n"
 "Language: sv\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 msgid "Unsaved changes!"
 msgstr "Osparade ändringar!"
@@ -68,18 +69,6 @@ msgstr "Tryck Cmd+I och sedan %s för att avvisa detta."
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "Tryck Ctrl+I och sedan %s för att avvisa detta."
 
-msgid "Clone to translation"
-msgstr "Klona till översättning"
-
-msgid "Accept"
-msgstr "Acceptera"
-
-msgid "Accept and approve"
-msgstr "Acceptera och godkänn"
-
-msgid "Delete entry"
-msgstr "Ta bort post"
-
 msgid "No results found"
 msgstr "Inga resultat hittades"
 
@@ -89,6 +78,11 @@ msgid_plural "%s matching strings"
 msgstr[0] "%s matchande sträng"
 msgstr[1] "%s matchande strängar"
 
+msgid ""
+"Your previous search results are no longer available. Refresh results to "
+"continue."
+msgstr ""
+
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "Det finns osparade ändringar, är du säker att du vill överge dessa?"
 
@@ -97,14 +91,14 @@ msgstr "Säkerhetstoken saknas. Ladda om sidan."
 
 #, javascript-format
 msgid "Loading suggestion count for %s"
-msgstr ""
+msgstr "Läser in antalet förslag för %s"
 
 msgid "Bulk accept cancelled."
-msgstr ""
+msgstr "Massgodkännande avbröts."
 
 #, javascript-format
 msgid "Scheduling bulk accept for %s"
-msgstr ""
+msgstr "Schemalägger massgodkännande för %s"
 
 msgid "Unknown error"
 msgstr "Okänt fel"
@@ -119,18 +113,23 @@ msgstr "Ogiltigt server-svar"
 msgid "Server error (%s)"
 msgstr "Server-fel (%s)"
 
-#, javascript-format
-msgid "There are no pending suggestions from %s in this translation."
-msgstr ""
+#, fuzzy
+#| msgid "There are no pending suggestions from %s in this translation."
+msgid "There are no pending suggestions from %(username)s in %(translation)s."
+msgstr "Det finns inga väntande förslag från %s i denna översättning."
 
-#, javascript-format
-msgid "This will accept %s suggestion from %s in this translation."
-msgid_plural "This will accept %s suggestions from %s in this translation."
-msgstr[0] ""
-msgstr[1] ""
+#, fuzzy
+#| msgid "This will accept %s suggestion from %s in this translation."
+#| msgid_plural "This will accept %s suggestions from %s in this translation."
+msgid ""
+"This will accept %(count)s suggestion from %(username)s in %(translation)s."
+msgid_plural ""
+"This will accept %(count)s suggestions from %(username)s in %(translation)s."
+msgstr[0] "Detta kommer att acceptera %s förslag i denna översättning."
+msgstr[1] "Detta kommer att acceptera %s förslag i denna översättning."
 
 msgid "Accept all suggestions?"
-msgstr ""
+msgstr "Acceptera alla förslag?"
 
 msgid "Close"
 msgstr "Stäng"
@@ -139,12 +138,10 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 msgid "Accept suggestions"
-msgstr ""
+msgstr "Acceptera förslag"
 
-#, fuzzy
-#| msgid "Accept and approve"
 msgid "Accept and approve suggestions"
-msgstr "Acceptera och godkänn"
+msgstr "Acceptera och godkänn förslag"
 
 #, javascript-format
 msgid "Error: %s"
@@ -251,17 +248,13 @@ msgid "Last year"
 msgstr "Förra året"
 
 msgid "Select date range"
-msgstr ""
+msgstr "Välj datumintervall"
 
-#, fuzzy
-#| msgid "This month"
 msgid "Previous month"
-msgstr "Denna månad"
+msgstr "Föregående månad"
 
-#, fuzzy
-#| msgid "Last month"
 msgid "Next month"
-msgstr "Senaste månad"
+msgstr "Nästa månad"
 
 msgid "Clear"
 msgstr "Rensa"
@@ -273,18 +266,20 @@ msgid "Custom"
 msgstr "Anpassad"
 
 msgid "Add a flag…"
-msgstr ""
+msgstr "Lägg till en flagga…"
 
 #, javascript-format
 msgid ""
 "No matching flag found for \"%s\"; press Enter to add it as a custom flag."
 msgstr ""
+"Ingen matchande flagga hittades för \\\"%s\\\"; tryck på Retur för att lägga "
+"till den som en egen flagga."
 
 msgid "Image Pasted!"
 msgstr "Bild inklistrad!"
 
 msgid "Press Ctrl+V or Command+V to paste an image."
-msgstr ""
+msgstr "Tryck på Ctrl+V eller Kommando+V för att klistra in en bild."
 
 msgid "No image found in clipboard"
 msgstr "Ingen bild hittades i urklipp"
@@ -292,47 +287,58 @@ msgstr "Ingen bild hittades i urklipp"
 msgid ""
 "A pull or merge request will be created from a branch in the repository."
 msgstr ""
+"En pull- eller merge-begäran kommer att skapas från en gren i förrådet."
 
 msgid ""
 "A push URL is set but no push branch is given. Set a push branch that "
 "differs from the translated branch."
 msgstr ""
+"En push-URL är angiven men ingen push-gren har angetts. Ange en push-gren "
+"som skiljer sig från den översatta grenen."
 
 msgid ""
 "The push branch must differ from the translated branch when creating a pull "
 "or merge request."
 msgstr ""
+"Push-grenen måste skilja sig från den översatta grenen när en pull- eller "
+"merge-begäran skapas."
 
 msgid "A pull or merge request will be created from a fork of the repository."
 msgstr ""
+"En pull- eller merge-begäran kommer att skapas från en fork av förrådet."
 
 #, javascript-format
 msgid ""
 "A pull or merge request will be created from the “%s” branch in the "
 "repository."
 msgstr ""
+"En pull- eller merge-begäran kommer att skapas från grenen \\\"%s\\\" i "
+"förrådet."
 
 #, javascript-format
 msgid ""
 "Changes will be sent as a Gerrit review request targeting the “%s” branch."
 msgstr ""
+"Ändringar skickas som en Gerrit-granskningsbegäran till grenen \\\"%s\\\"."
 
 msgid "Changes will be sent as a Gerrit review request."
-msgstr ""
+msgstr "Ändringar skickas som en Gerrit-granskningsbegäran."
 
 msgid ""
 "Changes will not be pushed automatically. You can still push them manually "
 "from the repository maintenance."
 msgstr ""
+"Ändringar skickas inte automatiskt. Du kan fortfarande skicka dem manuellt "
+"från förrådsunderhållet."
 
 #, javascript-format
 msgid ""
 "Changes will be pushed directly to the “%s” branch in the push repository."
-msgstr ""
+msgstr "Ändringar skickas direkt till grenen \\\"%s\\\" i push-förrådet."
 
 msgid ""
 "Changes will be pushed directly to the default branch of the push repository."
-msgstr ""
+msgstr "Ändringar skickas direkt till standardgrenen i push-förrådet."
 
 msgid "Text copied to clipboard."
 msgstr "Text kopierad till urklipp."
@@ -341,7 +347,7 @@ msgid "Error copying to clipboard."
 msgstr "Fel vid kopiering till urklipp."
 
 msgid "Some source strings could not be assigned."
-msgstr ""
+msgstr "Vissa källsträngar kunde inte tilldelas."
 
 msgid "Error loading search results!"
 msgstr "Fel vid inläsning av sökresultat!"
@@ -408,16 +414,26 @@ msgid_plural "%s minutes ago"
 msgstr[0] "%s minut sedan"
 msgstr[1] "%s minuter sedan"
 
-#, fuzzy
-#| msgid "a hour ago"
 msgid "an hour ago"
-msgstr "för 1 timme sedan"
+msgstr "för en timme sedan"
 
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s timme sedan"
 msgstr[1] "%s timmar sedan"
+
+#~ msgid "Clone to translation"
+#~ msgstr "Klona till översättning"
+
+#~ msgid "Accept"
+#~ msgstr "Acceptera"
+
+#~ msgid "Accept and approve"
+#~ msgstr "Acceptera och godkänn"
+
+#~ msgid "Delete entry"
+#~ msgstr "Ta bort post"
 
 #~ msgid "Something went wrong!"
 #~ msgstr "Någonting gick fel!"

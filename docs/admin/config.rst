@@ -257,6 +257,17 @@ AUTO_UPDATE
 
 Updates all repositories on a daily basis.
 
+Every hour, Weblate queues updates for repositories whose component ID modulo 24
+matches the current UTC hour. This distributes updates throughout the day. For
+example, component ID ``25`` is selected during the hour from 01:00 to 01:59 UTC.
+Linked components use the schedule of the component that owns their shared
+repository.
+
+The assigned hour determines when updates are queued, not when they finish.
+Execution can be delayed by queued tasks or repository operations. Restarting
+Celery does not change the assigned hour. This setting does not provide a
+configurable update time window.
+
 .. hint::
 
     Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.
@@ -270,13 +281,15 @@ The options are:
 ``"none"``
     No daily updates.
 ``"remote"`` also ``False``
-    Only update remotes.
+    Fetch remote changes without merging them into the working copy. This is the
+    default; ``False`` does not disable daily updates.
 ``"full"`` also ``True``
-    Update remotes and merge working copy.
+    Fetch remote changes and merge them into the working copy.
 
 .. note::
 
-    This requires that :ref:`celery` is working, and will take effect after it is restarted.
+    Automatic updates require that :ref:`celery` is working. Restart Celery after
+    changing this setting for the new value to take effect.
 
 .. setting:: AVATAR_URL_PREFIX
 
@@ -2167,6 +2180,69 @@ The default setting is:
         (50, 86400),
     ]
 
+
+.. setting:: API_RATELIMIT_ANON
+
+API_RATELIMIT_ANON
+------------------
+
+.. versionadded:: 2026.10
+
+Default anonymous :ref:`API rate limit <api-rate>`. Defaults to ``"100/day"``.
+Rates use a request count and a period of seconds, minutes, hours, or days, for
+example ``"100/hour"``. A zero count rejects every request covered by this
+throttle; ``None`` disables this throttle. Anonymous requests without an IP
+override are also subject to :setting:`API_RATELIMIT_USER`.
+
+.. setting:: API_RATELIMIT_USER
+
+API_RATELIMIT_USER
+------------------
+
+.. versionadded:: 2026.10
+
+Default authenticated :ref:`API rate limit <api-rate>`. Defaults to
+``"5000/hour"``. Uses the same rate syntax as :setting:`API_RATELIMIT_ANON`.
+Authenticated requests are counted per user; anonymous requests are counted
+per client IP. Set ``None`` to disable this throttle.
+
+.. setting:: API_RATELIMIT_USER_OVERRIDES
+
+API_RATELIMIT_USER_OVERRIDES
+----------------------------
+
+.. versionadded:: 2026.10
+
+Mapping of exact usernames to API rate limits. Defaults to an empty dictionary.
+Override rates require a positive request count, or ``None`` for an exemption.
+These rules take precedence over :setting:`API_RATELIMIT_IP_OVERRIDES`.
+
+.. code-block:: python
+
+    API_RATELIMIT_USER_OVERRIDES = {"automation": "20000/hour"}
+
+.. setting:: API_RATELIMIT_IP_OVERRIDES
+
+API_RATELIMIT_IP_OVERRIDES
+--------------------------
+
+.. versionadded:: 2026.10
+
+Mapping of IPv4 or IPv6 addresses and CIDR networks to API rate limits. Defaults
+to an empty dictionary. The most specific matching network applies to both
+anonymous and authenticated requests, unless a username override matches.
+CIDRs must specify network addresses; duplicate normalized networks are rejected.
+Override rates require a positive request count, or ``None`` for an exemption.
+
+.. code-block:: python
+
+    API_RATELIMIT_IP_OVERRIDES = {
+        "192.0.2.42": None,
+        "198.51.100.0/24": "10000/hour",
+        "2001:db8::/48": "10000/hour",
+    }
+
+See :ref:`api-rate` for counting behavior and trusted proxy requirements.
 
 .. setting:: RATELIMIT_ATTEMPTS
 

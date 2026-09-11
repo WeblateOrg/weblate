@@ -80,7 +80,7 @@ def get_auth_keys() -> set[str]:
     return set(get_auth_backends().keys())
 
 
-def is_django_permission(permission: str):
+def is_django_permission(permission: str) -> bool:
     """
     Check whether permission looks is a Django one.
 

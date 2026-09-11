@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import django.contrib.sitemaps.views
+import django.http
 import django.views.i18n
 import django.views.static
 from django.conf import settings
@@ -16,10 +17,7 @@ from django.utils.module_loading import import_string
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularRedocView,
-)
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView
 
 import weblate.accounts.urls
 import weblate.accounts.views
@@ -73,9 +71,24 @@ handler403 = weblate.trans.views.error.denied
 handler404 = weblate.trans.views.error.not_found
 handler500 = weblate.trans.views.error.server_error
 
+STATIC_ICON_REDIRECTS = {
+    "192": "weblate-192.png",
+    "512": "weblate-512.png",
+}
 
-def redirect_static(_request, filename: str, **kwargs):
-    stable_url = f"{settings.STATIC_URL.rstrip('/')}/{filename % kwargs}"
+
+def redirect_static(
+    _request: django.http.HttpRequest | None,
+    filename: str,
+    *,
+    size: str | None = None,
+) -> django.http.HttpResponsePermanentRedirect:
+    if size is not None:
+        try:
+            filename = STATIC_ICON_REDIRECTS[size]
+        except KeyError as error:
+            raise django.http.Http404 from error
+    stable_url = f"{settings.STATIC_URL.rstrip('/')}/{filename}"
     return redirect(stable_url, permanent=True)
 
 
@@ -543,6 +556,11 @@ real_patterns = [
         name="unlock",
     ),
     # Screenshots
+    path(
+        "js/unit/<int:unit_id>/screenshots/",
+        weblate.screenshots.views.select_screenshot,
+        name="screenshot-select",
+    ),
     path(
         "screenshots/<object_path:path>/",
         weblate.screenshots.views.ScreenshotList.as_view(),
@@ -1024,6 +1042,11 @@ real_patterns = [
     path("stats/", weblate.trans.views.about.StatsView.as_view(), name="stats"),
     # User pages
     path("user/", weblate.accounts.views.UserList.as_view(), name="user_list"),
+    path(
+        "user/<name:user>/notifications/",
+        weblate.accounts.views.UserNotifications.as_view(),
+        name="user_notifications",
+    ),
     path(
         "user/<name:user>/", weblate.accounts.views.UserPage.as_view(), name="user_page"
     ),
