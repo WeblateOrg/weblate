@@ -4072,7 +4072,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertNotContains(response, self.component.full_slug)
         self.assertNotContains(response, linked.full_slug)
 
-    def test_repo_operation_filters_inaccessible_repositories(self) -> None:
+    def test_repo_operation_accepts_owner_with_inaccessible_links(self) -> None:
         independent = self.create_po(project=self.project, name="Independent")
         glossary = self.project.component_set.get(slug="glossary")
         other_project = self.create_project(name="Other", slug="other")
@@ -4103,17 +4103,24 @@ class ProjectAPITest(APIBaseTest):
             response.data,
             {
                 "result": True,
-                "included_components": [glossary.full_slug, independent.full_slug],
-                "skipped_components": [self.component.full_slug],
+                "included_components": [
+                    glossary.full_slug,
+                    independent.full_slug,
+                    self.component.full_slug,
+                ],
+                "skipped_components": [],
                 "permission_blockers": [],
             },
         )
-        self.assertEqual(reset.call_count, 2)
+        self.assertEqual(reset.call_count, 3)
         self.assertEqual(
-            {call.args[0] for call in reset.call_args_list}, {glossary, independent}
+            {call.args[0] for call in reset.call_args_list},
+            {glossary, independent, self.component},
         )
 
     def test_repo_operation_denied_without_accessible_repository(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
         glossary = self.project.component_set.get(slug="glossary")
         glossary.restricted = True
         glossary.save(update_fields=["restricted"])
@@ -7572,7 +7579,39 @@ class ComponentAPITest(APIBaseTest):
         self.assertTrue(response.data["result"])
         do_update.assert_called_once()
 
-    def test_linked_repo_operation_requires_all_component_permissions(self) -> None:
+    def test_project_token_repository_authority_follows_owner(self) -> None:
+        other_project = self.create_project(
+            name="Other", slug="other", access_control=Project.ACCESS_PRIVATE
+        )
+        linked = self.create_link_existing(project=other_project)
+        self.user = User.objects.create(username="bot-repository-scope", is_bot=True)
+        self.grant_perm_to_user(
+            "vcs.update", group_name="Token repository scope", project=other_project
+        )
+        with patch.object(Component, "do_update", return_value=True) as update:
+            self.do_request(
+                "api:component-repository",
+                {"project__slug": other_project.slug, "slug": linked.slug},
+                method="post",
+                code=403,
+                request={"operation": "pull"},
+            )
+        update.assert_not_called()
+
+        group = Group.objects.get(name="Token repository scope")
+        group.projects.set([self.project])
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_project(other_project))
+        with patch.object(Component, "do_update", return_value=True) as update:
+            self.do_request(
+                "api:component-repository",
+                self.component_kwargs,
+                method="post",
+                request={"operation": "pull"},
+            )
+        update.assert_called_once()
+
+    def test_linked_repo_operation_requires_owner_permission(self) -> None:
         linked_component = self.create_link_existing(
             name="Linked repository operation",
             slug="linked-repository-operation",
@@ -7607,6 +7646,7 @@ class ComponentAPITest(APIBaseTest):
             )
         do_update.assert_not_called()
 
+        self.user.groups.remove(Group.objects.get(name=child_group_name))
         self.grant_perm_to_user(
             "vcs.update",
             group_name="Linked source repository access",
