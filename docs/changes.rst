@@ -5,6 +5,8 @@ Weblate 2026.9.1
 
 .. rubric:: New features
 
+* DeepL automatic suggestions can include a rephrased version of an existing translation via the DeepL Write API (Pro plans and supported languages only). See :ref:`mt-deepl-rephrase`.
+
 .. rubric:: Improvements
 
 .. rubric:: Security fixes
@@ -33,7 +35,6 @@ Weblate 2026.9
 * :ref:`Repository maintenance actions <repository-maintenance>` now run as background tasks, avoiding request and proxy timeouts. Project-wide maintenance remains available for authorized repositories and lists components skipped because of linked-component permissions. The :http:post:`repository API </api/projects/(string:project)/repository/>` supports the same behavior using ``background: true``.
 * :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
 * Added :ref:`vcs_params` to configure repository behavior per component, including force pushing, opting out of pull requests, and GitHub pull request automerge.
-* DeepL automatic suggestions can include a rephrased version of an existing translation via the DeepL Write API (Pro plans and supported languages only).
 * Added :ref:`code-hosting-github-app-migrate` for migrating existing Git and GitHub components to the Weblate GitHub App integration.
 * Added a :guilabel:`Visible columns in lists` preference to choose which statistics columns are shown in project, component, and language lists. See :ref:`profile-preferences`.
 
