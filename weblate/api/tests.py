@@ -15583,6 +15583,27 @@ class AddonAPITest(APIBaseTest):
             request=request,
         )
 
+    def test_generate_component_configuration(self) -> None:
+        configuration = {
+            "scope": "component",
+            "filename": "locales.json",
+            "template": "{{ translations|json }}",
+        }
+        self.create_addon(name="weblate.generate.generate", configuration=configuration)
+        self.assertEqual(self.component.addon_set.get().configuration, configuration)
+
+    def test_generate_component_invalid_template(self) -> None:
+        self.create_addon(
+            name="weblate.generate.generate",
+            code=400,
+            configuration={
+                "scope": "component",
+                "filename": "{{ language_code }}.json",
+                "template": "{{ translations|json }}",
+            },
+        )
+        self.assertFalse(self.component.addon_set.exists())
+
     def test_create(self) -> None:
         # Not authenticated user
         response = self.create_addon(code=403, superuser=False)
