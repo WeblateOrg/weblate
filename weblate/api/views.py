@@ -130,7 +130,6 @@ from weblate.api.serializers import (
     TranslationCreateSerializer,
     TranslationSerializer,
     UnitScreenshotAssociationSerializer,
-    UnitScreenshotsSerializer,
     UnitSerializer,
     UnitWriteSerializer,
     UploadRequestSerializer,
@@ -4194,15 +4193,32 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return Response(serializer.data)
 
     @extend_schema(
+        description="List screenshots associated with a unit.",
+        methods=["get"],
+        responses=ScreenshotSerializer(many=True),
+    )
+    @extend_schema(
         description="Associate screenshot with unit.",
         methods=["post"],
         request=UnitScreenshotAssociationSerializer,
-        responses=UnitScreenshotsSerializer,
+        responses=ScreenshotSerializer,
     )
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["get", "post"])
     @transaction.atomic
     def screenshots(self, request: Request, **kwargs):
         unit = self.get_object()
+
+        if request.method == "GET":
+            queryset = (
+                Screenshot.objects.filter_access(request.user)
+                .filter(units=unit)
+                .order_by("id")
+            )
+            page = self.paginate_queryset(queryset)
+            serializer = ScreenshotSerializer(
+                page, many=True, context={"request": request}
+            )
+            return self.get_paginated_response(serializer.data)
 
         if not request.user.has_perm("screenshot.edit", unit.translation):
             raise PermissionDenied
@@ -4224,11 +4240,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         # when the association already exists (for example on a client retry).
         if not screenshot.units.filter(pk=unit.pk).exists():
             screenshot.add_unit(unit, user=request.user)
-            # get_object() uses prefetch_api(), which may have already
-            # cached an (now stale) empty "screenshots" relation; drop it so
-            # the response reflects the association we just created.
-            unit.refresh_from_db()
-        serializer = UnitScreenshotsSerializer(unit, context={"request": request})
+        serializer = ScreenshotSerializer(screenshot, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
 

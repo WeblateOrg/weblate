@@ -13119,8 +13119,13 @@ class UnitAPITest(APIBaseTest):
         )
         shot.add_unit(unit)
         response = self.client.get(reverse("api:unit-detail", kwargs={"pk": unit.pk}))
-        self.assertEqual(len(response.data["screenshots"]), 1)
-        self.assertIn(str(shot.pk), response.data["screenshots"][0])
+        self.assertIn(str(unit.pk), response.data["screenshots_url"])
+
+        response = self.client.get(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk})
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertIn(str(shot.pk), response.data["results"][0]["url"])
 
     def test_unit_add_screenshot_denied(self) -> None:
         unit = self.component.source_translation.unit_set.all()[0]
@@ -13170,7 +13175,7 @@ class UnitAPITest(APIBaseTest):
             {"screenshot_id": shot.pk},
         )
         self.assertEqual(response.status_code, 200)
-        self.assertIn(str(shot.pk), response.data["screenshots"][0])
+        self.assertIn(str(shot.pk), response.data["url"])
         added_changes = Change.objects.filter(
             action=ActionEvents.SCREENSHOT_ADDED,
             screenshot=shot,
