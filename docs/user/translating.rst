@@ -2,6 +2,7 @@ Translating using Weblate
 =========================
 
 Thank you for your interest in translating with Weblate!
+If you are new here, follow :ref:`translator-start` for a guided first contribution.
 
 Generally, there are two most used modes of translation:
 
