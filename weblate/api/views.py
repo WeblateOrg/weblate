@@ -4191,6 +4191,57 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         )
         return Response(serializer.data)
 
+    @extend_schema(description="Associate screenshot with unit.", methods=["post"])
+    @action(detail=True, methods=["post"])
+    @transaction.atomic
+    def screenshots(self, request: Request, **kwargs):
+        unit = self.get_object()
+
+        if not request.user.has_perm("screenshot.edit", unit.translation):
+            raise PermissionDenied
+
+        if "screenshot_id" not in request.data:
+            raise ValidationError({"screenshot_id": "This field is required."})
+
+        field_name = "screenshot_id"
+        try:
+            screenshot = Screenshot.objects.filter_access(request.user).get(
+                translation=unit.translation, pk=int(request.data[field_name])
+            )
+        except (TypeError, ValueError) as error:
+            raise invalid_integer_error(field_name) from error
+        except Screenshot.DoesNotExist as error:
+            raise not_found_validation_error(field_name, "Screenshot") from error
+
+        screenshot.add_unit(unit, user=request.user)
+        serializer = UnitSerializer(unit, context={"request": request})
+
+        return Response(serializer.data, status=HTTP_200_OK)
+
+    @extend_schema(
+        description="Remove screenshot association with unit.",
+        methods=["delete"],
+    )
+    @action(
+        detail=True,
+        methods=["delete"],
+        url_path="screenshots/(?P<screenshot_id>[0-9]+)",
+    )
+    def delete_screenshots(self, request: Request, pk, screenshot_id):
+        unit = self.get_object()
+        if not request.user.has_perm("screenshot.edit", unit.translation):
+            raise PermissionDenied
+
+        try:
+            screenshot = Screenshot.objects.filter_access(request.user).get(
+                translation=unit.translation, pk=screenshot_id
+            )
+        except Screenshot.DoesNotExist as error:
+            msg = "Screenshot"
+            raise not_found_http404(msg) from error
+        screenshot.remove_unit(unit, user=request.user)
+        return Response(status=HTTP_204_NO_CONTENT)
+
     @extend_schema(
         description="Add a comment to the unit.",
         methods=["post"],
