@@ -850,9 +850,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def checks_lock(self):
         return WeblateLock(
             scope="project:checks",
+            timeout=30,
             key=self.pk,
             slug=self.slug,
-            timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
             origin=self.full_slug,
         )
 

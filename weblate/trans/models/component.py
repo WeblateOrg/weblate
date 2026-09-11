@@ -1878,9 +1878,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # updates should rely on row locks, and check refreshes use checks_lock.
         return WeblateLock(
             scope="component:update",
+            timeout=5,
             key=self.pk,
             slug=self.slug,
-            timeout=5,
             origin=self.full_slug,
         )
 
@@ -1888,9 +1888,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def checks_lock(self):
         return WeblateLock(
             scope="component:checks",
+            timeout=5,
             key=self.pk,
             slug=self.slug,
-            timeout=5,
             origin=self.full_slug,
         )
 
@@ -3954,7 +3954,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Commit pending changes
         with self.track_local_head_change():
             for translation in translations:
-                self.repository.lock.reacquire()
+                translation = self.reuse_component_for_translation(
+                    translation, reuse_source=True
+                )
                 component = translation.component
                 if component.pk in skipped:
                     # We already failed at this component
@@ -4772,15 +4774,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
-    def refresh_lock(self) -> None:
-        """Refresh the lock to avoid expiry in long operations."""
-        if self.linked_component and self.linked_component.lock.is_locked:
-            self.linked_component.lock.reacquire()
-        if self.repository.lock.is_locked:
-            self.repository.lock.reacquire()
-        if self.lock.is_locked:
-            self.lock.reacquire()
-
     def _create_translations(  # ruff: ignore[complex-structure, too-many-statements]
         self,
         *,
@@ -4855,8 +4848,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 c.translation_set.count() for c in self.linked_children
             )
         for pos, path in enumerate(matches):
-            self.refresh_lock()
-
             if not self._sources_prefetched and path != source_file:
                 self.preload_sources()
             with transaction.atomic():
