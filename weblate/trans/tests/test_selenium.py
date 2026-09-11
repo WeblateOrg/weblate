@@ -44,8 +44,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.expected_conditions import (
     element_to_be_clickable,
+    invisibility_of_element_located,
     presence_of_element_located,
     staleness_of,
+    text_to_be_present_in_element,
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
@@ -3278,6 +3280,98 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             presence_of_element_located((By.CSS_SELECTOR, ".zen-unit"))
         )
         self.screenshot("zen-mode.png")
+
+    def test_translator_onboarding(self) -> None:
+        """A translator selects languages, saves a translation, and suggests an edit."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Getting started", slug="getting-started")
+        component = fixture.create_po(project=project, name="Application")
+        translation = component.translation_set.get(language_code="cs")
+        user = self.do_login()
+        team = Group.objects.create(name="Onboarding translators")
+        team.projects.add(project)
+        team.roles.add(Role.objects.get(name="Translate"))
+        team.languages.add(translation.language)
+        user.groups.set([team])
+        user.profile.languages.clear()
+        user.profile.secondary_languages.clear()
+
+        self.click(htmlid="user-dropdown")
+        with self.wait_for_page_load():
+            self.click(htmlid="settings-button")
+        for field, language, code in (
+            ("languages", "Czech", "cs"),
+            ("secondary_languages", "German", "de"),
+        ):
+            control = self.driver.find_element(By.ID, f"id_{field}-ts-control")
+            control.click()
+            control.send_keys(language)
+            language_id = Language.objects.get(code=code).pk
+            option_selector = f"#id_{field}-ts-dropdown [data-value='{language_id}']"
+            # The option can already be visible before the throttled search
+            # runs. Wait for its highlight so no pending search can reopen the
+            # dropdown after we select the language and leave the field.
+            WebDriverWait(self.driver, 10).until(
+                text_to_be_present_in_element(
+                    (By.CSS_SELECTOR, f"{option_selector} .highlight"), language
+                )
+            )
+            option = WebDriverWait(self.driver, 10).until(
+                element_to_be_clickable((By.CSS_SELECTOR, option_selector))
+            )
+            self.click(option)
+            control.send_keys(Keys.ESCAPE, Keys.TAB)
+            WebDriverWait(self.driver, 10).until(
+                invisibility_of_element_located((By.ID, f"id_{field}-ts-dropdown"))
+            )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, '#languages input[type="submit"]'
+                )
+            )
+        self.assertEqual(
+            list(user.profile.languages.values_list("code", flat=True)), ["cs"]
+        )
+        self.assertEqual(
+            list(user.profile.secondary_languages.values_list("code", flat=True)),
+            ["de"],
+        )
+        self.screenshot("onboarding-languages.png")
+
+        self.open_translation(component=component.name, project=project)
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(By.PARTIAL_LINK_TEXT, "Untranslated strings")
+            )
+        editor = self.driver.find_element(
+            By.CSS_SELECTOR, ".translation-form .translation-editor"
+        )
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(editor.get_attribute("id"), f"id_{unit.checksum}_0")
+        editor.send_keys("Ahoj, světe!\n")
+        self.screenshot("onboarding-translation.png")
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element(By.NAME, "save"))
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Ahoj, světe!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        editor = self.driver.find_element(
+            By.CSS_SELECTOR, ".translation-form .translation-editor"
+        )
+        editor.clear()
+        editor.send_keys("Zdravíme svět!\n")
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element(By.NAME, "suggest"))
+        self.assertTrue(
+            unit.suggestion_set.filter(user=user, target="Zdravíme svět!\n").exists()
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Ahoj, světe!\n")
 
     def test_profile_dashboard(self) -> None:
         """Test profile and dashboard screenshots."""
