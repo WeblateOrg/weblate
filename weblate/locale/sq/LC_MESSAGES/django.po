@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
 "PO-Revision-Date: 2026-07-31 08:23+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -327,6 +327,25 @@ msgstr ""
 
 msgid "Enter the code from the app"
 msgstr "Jepni kodin prej aplikacionit"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Project, category, component, or translation path"
+msgstr "Krejt përbërësit tani janë të hapur për përditësime përkthimesh."
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Enter a valid language code."
+msgid "Enter a valid object path."
+msgstr "Jepni një kod të vlefshëm gjuhe."
+
+msgid "The target does not exist or you cannot access it."
+msgstr ""
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -871,6 +890,62 @@ msgstr "Përdor emër llogarie"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Ju lutemi, jepni një adresë email për parashtrim përkthimesh."
 
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscription."
+msgstr "S’u gjetën vargje me përputhje."
+
+#, fuzzy
+#| msgid "Inactive users can not be assigned to teams."
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Përdoruesi joaktiv s’mund t’u caktohet ekipeve."
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The user cannot access this target."
+msgstr "Vargu burim s’mund të përpunohet."
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is not blocked on this project."
+msgid "The user is not watching this project."
+msgstr "Përdoruesi s’është bllokuar te ky projekt."
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation comment has been deleted."
+msgid "The project or component subscriptions apply to other targets."
+msgstr "Komenti i përkthimit është fshirë."
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
 msgid "No notification"
 msgstr "Pa njoftime"
 
@@ -885,6 +960,25 @@ msgstr "Përmbledhje javore"
 
 msgid "Monthly digest"
 msgstr "Përmbledhje mujore"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watch"
+msgid "Watched"
+msgstr "Vëzhgoje"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "Projekte të administruar"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Component"
+msgstr "Përbërës"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -958,6 +1052,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "U përkthyen përbërës"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "U shtua koment"
@@ -966,6 +1065,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "U shtuan komente"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "U përmendët te një koment"
@@ -973,6 +1075,11 @@ msgstr "U përmendët te një koment"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "U përmendët në ca komente"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -1027,6 +1134,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "U krijuan përbërës të rinj përkthimi"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "U botua lajmërim"
@@ -1034,6 +1146,11 @@ msgstr "U botua lajmërim"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "U botuan lajmërime"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1191,6 +1308,11 @@ msgstr "Kontakt"
 msgid "Hosting"
 msgstr "Strehim"
 
+#, fuzzy
+#| msgid "Add workspace"
+msgid "Invalid trial plan."
+msgstr "Shtoni hapësirë pune"
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1208,6 +1330,11 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Provë falas"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification diagnostics for %(user)s"
+msgstr "Heshtoji njoftimet për %(object)s"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -1365,6 +1492,13 @@ msgstr "Aplikacioni i mirëfilltësimit u hoq."
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "Aplikacioni i mirëfilltësimeve %s u regjistrua."
+
+#, fuzzy
+#| msgid "The invitation link is no longer valid."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "Lidhja e ftesës s’është më e vlefshme."
 
 #, fuzzy
 #| msgid "If it was you, reset your password to regain access to your account."
@@ -2867,9 +3001,6 @@ msgstr "Rikontrollo krejt kartelat e përkthimeve te depoja Weblate"
 msgid "Please provide a suggestion"
 msgstr "Përkthimet Weblate"
 
-msgid "Translation text too long!"
-msgstr "Tekst përkthimi shumë i gjatë!"
-
 #, fuzzy
 #| msgid "Number of plurals"
 msgid "Number of plurals does not match"
@@ -2877,6 +3008,9 @@ msgstr "Numër shumësash"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Sugjerimi juaj është i ngjashëm me përkthimin e tanishëm!"
+
+msgid "Translation text too long!"
+msgstr "Tekst përkthimi shumë i gjatë!"
 
 msgid "Your suggestion already exists!"
 msgstr "Sugjerimi juaj ekziston tashmë!"
@@ -2949,14 +3083,8 @@ msgstr "S’keni leje të miratoni vargje."
 msgid "This string seems to already exist."
 msgstr "Duket se ekziston tashmë ky varg."
 
-msgid "Project"
-msgstr "Projekt"
-
 msgid "Category"
 msgstr "Kategori"
-
-msgid "Component"
-msgstr "Përbërës"
 
 msgid "User"
 msgstr "Përdorues"
@@ -3047,8 +3175,11 @@ msgid "Manage project access"
 msgstr "Të administroni hyrje te projekti"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Të shkarkojë raporte"
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage repository"
+msgid "Manage reports"
+msgstr "Të administrojë depo"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4036,9 +4167,13 @@ msgstr ""
 msgid "Non‑standard characters in Kabyle"
 msgstr "Shenja jostandarde në Kabil"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
+#| "instead of ε)."
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 "Përdo shenja Latine të standardizuara Kabile (p.sh. ɣ në vend se të γ të "
 "greqishtes; ɛ në vend të ε)."
@@ -4095,7 +4230,9 @@ msgstr "Origjinali dhe përkthimi s’mbarojnë që të dy me shumëpikësh."
 msgid "Mismatched \\n"
 msgstr "Mospërputhje \\n"
 
-msgid "Number of \\n literals in translation does not match source."
+#, fuzzy, python-brace-format
+#| msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "Numri i \\n te përkthimi s’përputhet me atë të burimit."
 
 msgid "Mismatching line breaks"
@@ -5023,9 +5160,13 @@ msgstr "Vargu është përdorur si shumës, por nuk përdoren forma shumësi."
 msgid "Ellipsis"
 msgstr "Shumëpikësh"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "The string uses three dots ``(...)`` instead of an ellipsis character "
+#| "``(…)``."
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr ""
 "Vargu përdor tre pika ``(...)`` në vend të shenjës shumëpikësh ``(…)``."
 
@@ -5096,6 +5237,11 @@ msgstr ""
 
 msgid "Font"
 msgstr "Shkronja"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Font has to be in the same project as the font group."
+msgstr "Kategoria mëmë duhet të jetë në të njëjtin projekt!"
 
 msgid "Unsupported file format."
 msgstr "Format kartele i pambuluar."
@@ -5812,7 +5958,8 @@ msgstr "Rregulla Privatësie"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "Ju lutemi, lexoni dokumentin vijues Terma dhe Kushte të Përgjithshme:"
 
-msgid "Please also read the Privacy Policy:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 
 msgid "Submit"
@@ -5831,6 +5978,32 @@ msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
+msgstr ""
+"Kjo faqet bazohet te Terma dhe Kushtet të Përgjithshme dhe Rregulla "
+"Privatësie, që t’i kuptoni duhet prapëseprapë të lexoni dokumentet "
+"origjinale:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"Kjo faqet bazohet te Terma dhe Kushtet të Përgjithshme dhe Rregulla "
+"Privatësie, që t’i kuptoni duhet prapëseprapë të lexoni dokumentet "
+"origjinale:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
 msgstr ""
 "Kjo faqet bazohet te Terma dhe Kushtet të Përgjithshme dhe Rregulla "
 "Privatësie, që t’i kuptoni duhet prapëseprapë të lexoni dokumentet "
@@ -6161,9 +6334,6 @@ msgstr ""
 "Parapëlqe LLM të brezit pasues, në vend se modelin klasik të përkthimit nga "
 "makina."
 
-msgid "DeepL API v1 is no longer supported."
-msgstr ""
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr "Model LLM"
@@ -6297,45 +6467,6 @@ msgstr "Model Ollama"
 
 msgid "Name of the model described in Ollama catalogue."
 msgstr "Emër i modelit i përshkruar në katalog Ollama."
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr "Claude Haiku 4.5"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (E rekomanduar)"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr "Claude Opus 4.5"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr "Claude Haiku 4.5"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
 
 msgctxt "Anthropic model selection"
 msgid "Custom model"
@@ -7095,7 +7226,6 @@ msgstr "Ju lutemi, ndreqni gabimet te formulari i regjistrimeve."
 msgid "Verify new e-mail address"
 msgstr "Verifikoni adresë të re email"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Regjistrohuni"
 
@@ -7150,6 +7280,150 @@ msgstr "Harruat fjalëkalimin tuaj?"
 
 msgid "Register new account"
 msgstr "Regjistroni llogari të re"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification diagnostics"
+msgstr "Rregullime njoftimesh"
+
+msgid "Diagnostics"
+msgstr "Diagnostikime"
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "View notification"
+msgid "Check notifications"
+msgstr "Shihni njoftim"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification eligibility for %(target)s"
+msgstr "Heshtoji njoftimet për %(object)s"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+msgid "Notification"
+msgstr "Njoftim"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Inherited project settings"
+msgstr "Të përpunojë rregullime projekti"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Component exceptions"
+msgstr "Sinjalizime përbërësish"
+
+msgid "One-time"
+msgstr "Një herësh"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Overridden subscriptions"
+msgstr "Pajtime provë"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse all components"
+msgid "Inspect example components:"
+msgstr "Shfletoni krejt përbërësit"
+
+#, fuzzy
+#| msgid "View components"
+msgid "Inspect components:"
+msgstr "Shihni përbërës"
+
+#, fuzzy
+#| msgctxt "No known user"
+#| msgid "None"
+msgid "None"
+msgstr "Asnjë"
+
+#, fuzzy
+#| msgid "You do not have permissions to add new translation file."
+msgid "No accessible components or translations in this target."
+msgstr "S’keni leje të shtoni kartelë përkthimi të ri."
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscriptions in this scope."
+msgstr "S’u gjetën vargje me përputhje."
+
+#, fuzzy, python-format
+#| msgid "Browse %(count)s project"
+#| msgid_plural "Browse all %(count)s projects"
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "Shfletoni %(count)s projekt"
+msgstr[1] "Shfletoni %(count)s projekte"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "Projekte të mbikëqyrur"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification languages"
+msgstr "Rregullime njoftimesh"
+
+#, fuzzy, python-format
+#| msgid "Failed to find matching language!"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "S’u arrit të gjendej gjuhë me përputhje!"
+msgstr[1] "S’u arrit të gjendej gjuhë me përputhje!"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Subscriptions"
+msgstr "Pajtime provë"
+
+msgid "Frequency"
+msgstr "Shpeshti"
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "No subscriptions."
+msgstr "Pajtime provë"
 
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
@@ -7212,6 +7486,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Ruaje"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Open notification diagnostics"
+msgstr "Rregullime njoftimesh"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7663,7 +7947,12 @@ msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "Prova juaj do të zgjasë 14 ditë."
 msgstr[1] "Prova juaj do të zgjasë 14 ditë."
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, fuzzy, python-format
+#| msgid ""
+#| "Your trial will run the 640k plan, but you can choose any plan later."
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 "Prova juaj do të bëhet me planin 640k, por më vonë mund të zgjidhni cilindo "
 "plan."
@@ -7764,15 +8053,6 @@ msgstr "Identitet"
 
 msgid "User ID"
 msgstr "ID Përdoruesi"
-
-msgid "Notification"
-msgstr "Njoftim"
-
-msgid "Frequency"
-msgstr "Shpeshti"
-
-msgid "One-time"
-msgstr "Një herësh"
 
 msgid "Members"
 msgstr "Anëtarë"
@@ -8641,6 +8921,9 @@ msgstr "Veprime"
 msgid "Search and replace"
 msgstr "Kërkoni dhe zëvendësoni"
 
+msgid "Post announcement"
+msgstr "Njoftim postimi"
+
 msgid "Organize or remove"
 msgstr "Sistemojeni ose hiqeni"
 
@@ -8659,6 +8942,18 @@ msgstr "Zbatoje"
 #| msgid "Browse all components"
 msgid "Browse components"
 msgstr "Shfletoni krejt përbërësit"
+
+#, fuzzy
+#| msgid ""
+#| "The message is shown for all translations in this project language, until "
+#| "its given expiry, or permanently until it is deleted."
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
+"Mesazhi shfaqet për krejt përkthimet në këtë gjuhë projekti, deri në "
+"skadimin e tij, ose përgjithmonë, deri sa të fshihet."
 
 msgid "Announcements"
 msgstr "Lajmërime"
@@ -8683,9 +8978,6 @@ msgstr "Përkthim në masë i automatizuar"
 
 msgid "Add new category"
 msgstr "Shtoni kategori të re"
-
-msgid "Post announcement"
-msgstr "Njoftim postimi"
 
 msgid "Browse all category changes"
 msgstr "Shfletoni krejt ndryshimet e kategorive"
@@ -8751,9 +9043,6 @@ msgstr "Ndërprite përditësimin"
 
 msgid "Continue after completion"
 msgstr "Vazhdoni pas plotësimi"
-
-msgid "Diagnostics"
-msgstr "Diagnostikime"
 
 #, fuzzy
 #| msgid "Error"
@@ -9247,6 +9536,9 @@ msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "(%(count)s që mungon në degën push)"
 msgstr[1] "(%(count)s që mungojnë në degën push)"
 
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
@@ -9475,6 +9767,11 @@ msgstr "Depo për %(component)s"
 msgid "Repository details"
 msgstr "Hollësi depoje"
 
+#, fuzzy
+#| msgid "Discovery configuration"
+msgid "Edit repository configuration"
+msgstr "Formësim Zbulimi"
+
 msgid "Repository changes"
 msgstr "Ndryshime në depo"
 
@@ -9515,6 +9812,10 @@ msgstr ""
 
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Hiqi përkthimit shenjën si “Lyp përpunim” dhe parashtroje."
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -9600,6 +9901,11 @@ msgstr ""
 
 msgid "Please see a documentation for more info."
 msgstr "Ju lutemi, për më tepër hollësi, shihni një dokumentim."
+
+#, fuzzy
+#| msgid "Translation Info"
+msgid "Translation workflow"
+msgstr "Të dhëna Përkthimi"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -9911,11 +10217,6 @@ msgstr "Përbërësi %(component)s u kyç"
 msgid "Component %(component)s was unlocked"
 msgstr "Përbërësi %(component)s u shkyç"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
-"Shënim: Kjo përmbledhje është cunguar, ngaqë ka më tepër se 100 njoftime."
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -10170,6 +10471,14 @@ msgstr "Ripohoni heqjen e llogarisë"
 
 msgid "Confirm invitation"
 msgstr "Ripohoni ftesën"
+
+#, fuzzy
+#| msgid ""
+#| "Note: This digest has been truncated as there were over 100 notifications."
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr ""
+"Shënim: Kjo përmbledhje është cunguar, ngaqë ka më tepër se 100 njoftime."
 
 msgid "Source string description"
 msgstr "Përshkrim vargu burim"
@@ -10903,6 +11212,11 @@ msgstr ""
 "Mirëmbajtësit e projektit njoftohen për këtë kërkesë, e cila i bën ta "
 "shtojnë dorazi gjuhën."
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr "S’e gjeni gjuhën tuaj te lista më sipër?"
 
@@ -11234,6 +11548,42 @@ msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Mund të ndryshoni menjëherë gjendjen e krejt vargjeve që përputhen me një "
 "lloj të caktuar."
+
+msgid "Translation quality filter"
+msgstr "Filtër cilësie përkthimesh"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr "Te kartela e përkthimit shkruhen vetëm përkthime të miratuara."
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr ""
+"Përkthimet me shenjë se lypin përpunim, nuk shkruhen te kartela e përkthimit."
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Configure language workflow"
+msgstr "Kartelë njëgjuhëshe gjuhe bazë"
+
+#, fuzzy
+#| msgid "Translation quality filter"
+msgid "Configure translation quality filter"
+msgstr "Filtër cilësie përkthimesh"
 
 msgid "View details"
 msgstr "Shihni hollësitë"
@@ -11877,6 +12227,11 @@ msgstr "Vargje të përkthyer në një gjuhë"
 msgid "Query"
 msgstr "Kërkesë"
 
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh results"
+msgstr "Depo"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -11961,6 +12316,37 @@ msgstr "Ende s’ka të prodhuar kode rimarrjesh."
 #| msgid "Repository initialization"
 msgid "Report history pagination"
 msgstr "Gatitje depoje"
+
+#, fuzzy
+#| msgid "There are no glossaries defined for this language."
+msgid "Reviews are enabled for this language."
+msgstr "S’ka fjalorthë të përkufizuar për këtë gjuhë."
+
+#, fuzzy
+#| msgid "There are no glossaries defined for this language."
+msgid "Reviews are disabled for this language."
+msgstr "S’ka fjalorthë të përkufizuar për këtë gjuhë."
+
+#, fuzzy, python-format
+#| msgid "Review strings"
+msgid "Review setting: %(origin)s."
+msgstr "Të shqyrtojë vargje"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+#, fuzzy
+#| msgid "Customize translation workflow for this language"
+msgid "Learn how to customize translation workflows."
+msgstr "Përshtatni rrjedhe pune përkthimi për këtë gjuhë"
+
+#, fuzzy
+#| msgid "Manage translation memory"
+msgid "Configure translation workflow"
+msgstr "Të administrojë kujtesë përkthimesh"
 
 #, python-format
 msgid ""
@@ -12055,8 +12441,9 @@ msgstr "Votë pro"
 msgid "Vote against"
 msgstr "Votë kundër"
 
-#, python-format
-msgid "Accept all suggestions from %(username)s"
+#, fuzzy, python-format
+#| msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "Prano krejt sugjerimet nga %(username)s"
 
 msgid "Accept"
@@ -12577,6 +12964,24 @@ msgid ""
 "requests."
 msgstr ""
 
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+
 msgid "This component is set up incorrectly."
 msgstr "Ky përbërës s’është ujdisur saktë."
 
@@ -12821,19 +13226,15 @@ msgstr "Shkarkoni ndryshimet më të reja si CSV"
 msgid "Follow using RSS"
 msgstr "Ndiqeni duke përdorur RSS"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "Prej kontrolli versionesh"
 
-#. Translators: Create a component from existing component
 msgid "From an existing component"
 msgstr "Prej një përbërësi ekzistues"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "Degë shtesë"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "Ngarkoni kartela përkthimesh"
 
@@ -12841,7 +13242,6 @@ msgstr "Ngarkoni kartela përkthimesh"
 msgid "Translate document"
 msgstr "Përktheni dokument"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "Nisjani nga hiçi"
 
@@ -13230,6 +13630,11 @@ msgstr "Hape nën mënyrën Zen"
 msgid "Configure editor"
 msgstr "Formësoni përpunuesin"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr "Permalidhja u kopjua në të papastër."
 
@@ -13349,14 +13754,28 @@ msgstr "Zbatoje përkthimin e përzgjedhur te vargu i tanishëm"
 msgid "Browse all string changes"
 msgstr "Shfletoni krejt ndryshimet e vargjeve"
 
-msgid "Suggested change"
-msgstr "Ndryshimi i sugjeruar"
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "Search translation memory"
+msgstr "Kujtesë përkthimesh e përbashkët"
 
-msgid "Origin"
-msgstr "Origjinë"
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching machine translations found."
+msgstr "S’u gjetën vargje me përputhje."
 
-msgid "Similarity"
-msgstr "Ngjashmëri"
+#, fuzzy
+#| msgid "Delete comment"
+msgid "Delete entry"
+msgstr "Të fshijë komentin"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
+msgstr "Burim"
+
+msgid "Context:"
+msgstr "Kontekst:"
 
 msgid "Remove selected translation memory entries"
 msgstr "Hiq zërat e përzgjedhur të kujtesës së përkthimeve"
@@ -13418,9 +13837,6 @@ msgstr "Ky varg qe përkthyer automatikisht duke përdorur %(author)s."
 #, python-format
 msgid "This string was translated automatically by %(author)s."
 msgstr "Ky varg qe përkthyer automatikisht nga %(author)s."
-
-msgid "Translation quality filter"
-msgstr "Filtër cilësie përkthimesh"
 
 msgid "Add term to glossary"
 msgstr "Shtoni termin në fjalorth"
@@ -15028,6 +15444,11 @@ msgstr "Përbërësi duket i papërdorur."
 msgid "Glossary using monolingual files."
 msgstr "Fjalorth që përdor kartela njëgjuhëshe."
 
+#, fuzzy
+#| msgid "Source string editing is disabled."
+msgid "Glossary string management is disabled"
+msgstr "Përpunimi i vargjeve burim është i çaktivizuar."
+
 msgid "Unused glossary language."
 msgstr "Gjuhë fjalorthi e papërdorur."
 
@@ -15401,9 +15822,6 @@ msgstr "Kontroll versioni"
 
 msgid "State"
 msgstr "Gjendje"
-
-msgid "All"
-msgstr ""
 
 msgid "Severity"
 msgstr "Rëndësi"
@@ -15839,6 +16257,13 @@ msgstr "Përkthim alternativ"
 msgid "The string you wanted to translate is no longer available."
 msgstr "Vargu që donit të përktheni s’është më i passhëm."
 
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr "Vargu që donit të përktheni s’është më i passhëm."
+
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -15919,30 +16344,41 @@ msgstr "S’u gjet dot vargu i përzier."
 msgid "Could not find the reverted change."
 msgstr "S’u gjet dot ndryshimi i prapësuar."
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Enter a source component ID."
+msgstr "Përbërës i kufizuar"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"Jepni identifikuesin e një përbërësi për t’u përdorur si burim, mbajeni të "
-"zbrazët për të përdorur krejt përbërësit në projektin aktual."
 
 msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
+"Leave blank to use eligible components from each target component's project."
 msgstr ""
-"Jepni identifikues projekti dhe përbërësi, ose ID përbërësi, për t’u "
-"përdorur si burim, mbajeni të zbrazët për të përdorur krejt përbërësit në "
-"hapësirën aktuale të punës."
 
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr ""
-"Aktivizoni kontribut te kujtesë e përbashkët përkthimesh për projektin, që "
-"të mund të hyni te përbërës të tjerë."
+#, fuzzy
+#| msgid "All components in current workspace"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "Krejt përbërësit në hapësirën e tanishme të punës"
 
 msgid "Automatic translation mode"
 msgstr "Mënyrë përkthim i automatizuar"
+
+msgid "Add as suggestion"
+msgstr "Shtoje si sugjerim"
+
+msgid "Add as translation"
+msgstr "Shtoje si përkthim"
+
+msgid "Add as \"Needing edit\""
+msgstr "Shtoje si “Lyp përpunim”"
+
+msgid "Add as approved translation"
+msgstr "Shtoje si përkthim të miratuar"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -15966,23 +16402,30 @@ msgstr "Motorë përkthimi nga makina"
 msgid "Score threshold"
 msgstr "Prag vlerësimi"
 
-msgid "All components in current workspace"
+#, fuzzy
+#| msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "Krejt përbërësit në hapësirën e tanishme të punës"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "All eligible components in current project"
 msgstr "Krejt përbërësit në projektin e tanishëm"
 
-msgid "Add as suggestion"
-msgstr "Shtoje si sugjerim"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Eligible components from each target component's project"
+msgstr "Krejt përbërësit në projektin e tanishëm"
 
-msgid "Add as translation"
-msgstr "Shtoje si përkthim"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
 
-msgid "Add as \"Needing edit\""
-msgstr "Shtoje si “Lyp përpunim”"
-
-msgid "Add as approved translation"
-msgstr "Shtoje si përkthim të miratuar"
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "You can also enter a project/component path."
+msgstr "Jepni ID përbërësi, ose identifikues projekti/përbërësi."
 
 msgid "Component not found!"
 msgstr "S’u gjet përbërës!"
@@ -16166,6 +16609,11 @@ msgstr "Përcaktojeni formësimin dorazi"
 
 msgid "The category does not belong to the selected project."
 msgstr "Kategoria s’i përket projektit të përzgjedhur."
+
+#, fuzzy
+#| msgid "You do not have permission to change project access control."
+msgid "You do not have permission to change project access settings."
+msgstr "S’keni leje të ndryshoni kontroll hyrjesh në projekt."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -16417,6 +16865,10 @@ msgstr "Shpjer te URL udhëzimesh përkthimi"
 msgid "Create new language file"
 msgstr "Krijoni kartelë gjuhe të re"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "Çaktivizo shtim përkthimesh të reja"
@@ -16473,6 +16925,16 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Public"
+msgid "Public sharing"
+msgstr "Publik"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17714,7 +18176,11 @@ msgid ""
 msgstr ""
 "Përkthimet me shenjë se lypin përpunim, nuk shkruhen te kartela e përkthimit."
 
-msgid "Only approved translations are written to the translation file."
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr "Te kartela e përkthimit shkruhen vetëm përkthime të miratuara."
 
 msgid "Could not accept suggestion!"
@@ -18035,6 +18501,44 @@ msgstr[1] "Këtu s’janë përkthyer %(count)s vargje."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Marrë nga projekti %s."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Project settings"
+msgstr "Të përpunojë rregullime projekti"
+
+#, fuzzy
+#| msgid "Reset customization"
+msgid "Site-wide language customization"
+msgstr "Hiqe përshtatjen"
+
+#, fuzzy
+#| msgid "Project language to remove"
+msgid "Project-language customization"
+msgstr "Gjuhë projekti për t’u hequr"
+
+msgid "Only approved translations are written to the translation file."
+msgstr "Te kartela e përkthimit shkruhen vetëm përkthime të miratuara."
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr ""
+"Përkthimet me shenjë se lypin përpunim, nuk shkruhen te kartela e përkthimit."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Configure source reviews"
+msgstr "Aktivizo shqyrtime burimi"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configure translation reviews"
+msgstr "Spastro kartela përkthimi"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -18383,6 +18887,11 @@ msgstr[0] ""
 "Përkthimi u ruajt, megjithatë ka një dështim të ri kontrolli: {checks}"
 msgstr[1] ""
 "Përkthimi u ruajt, megjithatë ka disa dështime të reja kontrolli: {checks}"
+
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
 
 msgid "Your suggestion is empty!"
 msgstr "Sugjerimi juaj është i zbrazët!"
@@ -20085,14 +20594,25 @@ msgstr "Shkronja faqeje"
 msgid "Header font"
 msgstr "Shkronja titulli"
 
-msgid "Navigation color (Light, Dark)"
-msgstr "Ngjyrë lëvizjeje (E çelët, E errët)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header color (Light, Dark)"
+msgstr "Ngjyrë kalimi kursori përsipër (E çelët, E errët)"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr "Ngjyrë teksti lëvizjeje (E çelët, E errët)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
+msgstr "Ngjyrë kalimi kursori përsipër (E çelët, E errët)"
 
-msgid "Focus color (Light, Dark)"
+#, fuzzy
+#| msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
 msgstr "Ngjyrë fokusi (E çelët, E errët)"
+
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header accent color (Light, Dark)"
+msgstr "Ngjyrë kalimi kursori përsipër (E çelët, E errët)"
 
 msgid "Hover color (Light, Dark)"
 msgstr "Ngjyrë kalimi kursori përsipër (E çelët, E errët)"
@@ -20200,7 +20720,6 @@ msgstr "Radhitja e objekteve është e çaktivizuar"
 msgid "Return to Weblate"
 msgstr "Kthehuni te Weblate-i"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr "Dokumentim shpejtësie importimi"
 
@@ -20390,6 +20909,85 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "Burimi u hoq."
+
+#~ msgid "Download reports"
+#~ msgstr "Të shkarkojë raporte"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Haiku 4.5"
+#~ msgstr "Claude Haiku 4.5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Sonnet 4.5 (Recommended)"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Sonnet 5"
+#~ msgstr "Claude Sonnet 4.5 (E rekomanduar)"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Opus 4.5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 5"
+#~ msgstr "Claude Opus 4.5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Haiku 4.5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5.1"
+#~ msgstr "Claude Haiku 4.5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Opus 4.5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 4.8"
+#~ msgstr "Claude Opus 4.5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Haiku 4.5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5"
+#~ msgstr "Claude Haiku 4.5"
+
+#~ msgid "Suggested change"
+#~ msgstr "Ndryshimi i sugjeruar"
+
+#~ msgid "Origin"
+#~ msgstr "Origjinë"
+
+#~ msgid "Similarity"
+#~ msgstr "Ngjashmëri"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr ""
+#~ "Jepni identifikuesin e një përbërësi për t’u përdorur si burim, mbajeni "
+#~ "të zbrazët për të përdorur krejt përbërësit në projektin aktual."
+
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "Jepni identifikues projekti dhe përbërësi, ose ID përbërësi, për t’u "
+#~ "përdorur si burim, mbajeni të zbrazët për të përdorur krejt përbërësit në "
+#~ "hapësirën aktuale të punës."
+
+#~ msgid ""
+#~ "Turn on contribution to shared translation memory for the project to get "
+#~ "access to additional components."
+#~ msgstr ""
+#~ "Aktivizoni kontribut te kujtesë e përbashkët përkthimesh për projektin, "
+#~ "që të mund të hyni te përbërës të tjerë."
+
+#~ msgid "Navigation color (Light, Dark)"
+#~ msgstr "Ngjyrë lëvizjeje (E çelët, E errët)"
+
+#~ msgid "Navigation text color (Light, Dark)"
+#~ msgstr "Ngjyrë teksti lëvizjeje (E çelët, E errët)"
 
 #~ msgid ""
 #~ "The regular expression must define named groups for component and "
@@ -20779,9 +21377,6 @@ msgstr "Burimi u hoq."
 
 #~ msgid "View all alerts"
 #~ msgstr "Shihini krejt sinjalizimet"
-
-#~ msgid "Component alerts"
-#~ msgstr "Sinjalizime përbërësish"
 
 #~ msgid "Automatically recognize"
 #~ msgstr "Njih automatikisht"
@@ -21715,11 +22310,6 @@ msgstr "Burimi u hoq."
 #~ msgid "Could not find matching project!"
 #~ msgstr "S’u arrit të gjendej projekt me përputhje!"
 
-#, fuzzy
-#~| msgid "Failed to find matching language!"
-#~ msgid "Could not find matching language!"
-#~ msgstr "S’u arrit të gjendej gjuhë me përputhje!"
-
 #~ msgid "XLIFF with gettext extensions"
 #~ msgstr "XLIFF me zgjerime gettext"
 
@@ -22388,9 +22978,6 @@ msgstr "Burimi u hoq."
 #~ msgid "Export glossary"
 #~ msgstr "Eksportoni fjalorth"
 
-#~ msgid "There are no glossaries defined for this language."
-#~ msgstr "S’ka fjalorthë të përkufizuar për këtë gjuhë."
-
 #~ msgid "Failed to change a context!"
 #~ msgstr "S’u arrit të ndryshohej një kontekst!"
 
@@ -22507,11 +23094,6 @@ msgstr "Burimi u hoq."
 #~ msgid "last for 14 days."
 #~ msgstr "30 ditët e fundit"
 
-#, fuzzy
-#~| msgid "Public"
-#~ msgid "Public email"
-#~ msgstr "Publik"
-
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL e depos së kodit burim, për shembull, Git ose Mercurial."
 
@@ -22556,9 +23138,6 @@ msgstr "Burimi u hoq."
 
 #~ msgid "Trailing semicolon"
 #~ msgstr "Pikë-presje në fund"
-
-#~ msgid "Watch"
-#~ msgstr "Vëzhgoje"
 
 #~ msgid "Open Graph image"
 #~ msgstr "Figurë Open Graph"
@@ -22672,9 +23251,6 @@ msgstr "Burimi u hoq."
 #~ msgid "Insufficient privileges for editing template."
 #~ msgstr "Privilegje të pamjaftueshme për ruajtje përkthimesh."
 
-#~ msgid "Context:"
-#~ msgstr "Kontekst:"
-
 #~ msgid "Translation memory for the whole platform"
 #~ msgstr "Kujtesë përkthimesh për krejt platformën"
 
@@ -22731,9 +23307,6 @@ msgstr "Burimi u hoq."
 #~ msgstr ""
 #~ "Kur është e çaktivizuar, URL-të do të shndërrohen në lidhje dhe çfarëdo "
 #~ "elementi markup do të paraprihet."
-
-#~ msgid "Administered projects"
-#~ msgstr "Projekte të administruar"
 
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "Shtoni grupe (në krejt platformën)"
