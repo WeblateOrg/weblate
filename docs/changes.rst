@@ -7,6 +7,7 @@ Weblate 2026.10
 
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can generate component-wide locale lists with native language names, text direction, and translation statistics.
 
+* Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
 * Added an inherited :ref:`language creation policy <workflow-language-restrictions>` allowing existing project target languages while requesting maintainer approval for new languages.
 * Added configurable per-user and IP/network :ref:`API rate limits and exemptions <api-rate>`, including Docker configuration.
 
@@ -45,6 +46,7 @@ Weblate 2026.10
 
 .. rubric:: Upgrading
 
+* Existing :ref:`contributor comments add-ons <addon-weblate.gettext.authors>` are migrated to component file format parameters. Remove the obsolete add-on from custom :setting:`WEBLATE_ADDONS` and :setting:`DEFAULT_ADDONS` settings; inherited add-on behavior no longer applies to new components.
 * There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.api`` should be added.
 * In non-Docker settings, remove the ``anon_throttle`` and ``user_throttle`` arguments from ``get_drf_settings`` and assign those rates to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Migrate any custom ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"]`` or ``["user"]`` values to these settings as well. Existing Docker rate-limit environment variables continue to work.
 

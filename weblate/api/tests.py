@@ -8483,6 +8483,46 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data["name"], "New Name")
         self.assertEqual(response.data["file_format_params"]["po_line_wrap"], -1)
 
+    def test_contributor_comments_parameter(self) -> None:
+        for value, status in (
+            ("none", 200),
+            ("gettext", 200),
+            ("spdx", 200),
+            ("invalid", 400),
+        ):
+            with self.subTest(value=value):
+                response = self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method="patch",
+                    superuser=True,
+                    code=status,
+                    format="json",
+                    request={"file_format_params": {"po_contributor_comments": value}},
+                )
+                if status == 200:
+                    self.assertEqual(
+                        response.data["file_format_params"]["po_contributor_comments"],
+                        value,
+                    )
+        self.component.refresh_from_db()
+        self.assertEqual(
+            self.component.file_format_params["po_contributor_comments"], "spdx"
+        )
+
+    def test_contributor_comments_parameter_permission(self) -> None:
+        original = self.component.file_format_params.copy()
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=403,
+            format="json",
+            request={"file_format_params": {"po_contributor_comments": "spdx"}},
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.file_format_params, original)
+
     def test_patch_linked_component_keeps_local_repository_setting_drift(self) -> None:
         self.component.push_on_commit = True
         self.component.commit_pending_age = 12
@@ -16169,7 +16209,7 @@ class AddonAPITest(APIBaseTest):
         )
 
     def test_trigger_requires_manual_event(self) -> None:
-        response = self.create_addon(name="weblate.gettext.authors")
+        response = self.create_addon(name="weblate.gettext.msgmerge")
 
         trigger = self.do_request(
             "api:addon-trigger",

@@ -13,7 +13,6 @@ DEFAULT_WEBLATE_ADDONS: tuple[str, ...] = (
     "weblate.addons.gettext.MesonAddon",
     "weblate.addons.gettext.DjangoAddon",
     "weblate.addons.gettext.SphinxAddon",
-    "weblate.addons.gettext.GettextAuthorComments",
     "weblate.addons.cleanup.CleanupAddon",
     "weblate.addons.cleanup.RemoveBlankAddon",
     "weblate.addons.cleanup.ResetAddon",
