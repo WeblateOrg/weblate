@@ -37,6 +37,7 @@ Weblate 2026.10
 
 .. rubric:: Upgrading
 
+* There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.api`` should be added.
 * In non-Docker settings, remove the ``anon_throttle`` and ``user_throttle`` arguments from ``get_drf_settings`` and assign those rates to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Migrate any custom ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"]`` or ``["user"]`` values to these settings as well. Existing Docker rate-limit environment variables continue to work.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
