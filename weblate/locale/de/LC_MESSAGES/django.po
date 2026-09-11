@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-10 22:51-0500\n"
-"PO-Revision-Date: 2026-09-11 08:21+0000\n"
+"PO-Revision-Date: 2026-09-11 19:55+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -934,33 +934,31 @@ msgstr ""
 "Diese Sprache gehört nicht zu den Benachrichtigungssprachen des Benutzers."
 
 msgid "This notification ignores watched-project subscriptions."
-msgstr ""
+msgstr "Diese Benachrichtigung ignoriert Abonnements für beobachtete Projekte."
 
-#, fuzzy
-#| msgid "User is not blocked on this project."
 msgid "The user is not watching this project."
-msgstr "Benutzer ist in diesem Projekt nicht gesperrt."
+msgstr "Der Benutzer beobachtet dieses Projekt nicht."
 
 msgid "No administered-project subscription matches this target."
-msgstr ""
+msgstr "Kein Abonnement für verwaltete Projekte entspricht diesem Ziel."
 
-#, fuzzy
-#| msgid "Project or component visibility was changed."
 msgid "The project or component subscriptions apply to other targets."
-msgstr "Projekt- oder Komponentensichtbarkeit wurde geändert."
+msgstr "Die Projekt- oder Komponenten-Abonnements gelten für andere Ziele."
 
 msgid "Disabled by the effective subscription."
-msgstr ""
+msgstr "Durch das geltende Abonnement deaktiviert."
 
 msgid "Eligible when the notification’s event conditions are met."
 msgstr ""
+"Berechtigt, wenn die Ereignisbedingungen der Benachrichtigung erfüllt sind."
 
 msgid "Requires a corresponding event on this target."
-msgstr ""
+msgstr "Erfordert ein entsprechendes Ereignis auf diesem Ziel."
 
 #, python-format
 msgid "Instant delivery can be suppressed by: %(notification)s."
 msgstr ""
+"Die sofortige Zustellung kann unterdrückt werden durch: %(notification)s."
 
 msgid ""
 "Language-specific events require one of the user’s notification languages."
@@ -972,6 +970,8 @@ msgid ""
 "This scope is too large to check. Choose a smaller category, a component, or "
 "a translation."
 msgstr ""
+"Dieser Bereich ist zu groß, um ihn zu überprüfen. Wählen Sie eine kleinere "
+"Kategorie, Komponente oder Übersetzung aus."
 
 msgid "No notification"
 msgstr "Keine Benachrichtigung"
@@ -991,15 +991,11 @@ msgstr "Monatliche Zusammenfassung"
 msgid "All"
 msgstr "Alle"
 
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Watched"
-msgstr "Geänderte Anzahl \\n"
+msgstr "Beobachtet"
 
-#, fuzzy
-#| msgid "Administered projects"
 msgid "Administered"
-msgstr "Verwaltete Projekte"
+msgstr "Verwaltet"
 
 msgid "Project"
 msgstr "Projekt"
@@ -1083,6 +1079,8 @@ msgid ""
 "Source-string comments ignore notification languages; other comments require "
 "a matching language."
 msgstr ""
+"Kommentare zu Ausgangszeichenketten ignorieren die "
+"Benachrichtigungssprachen; andere Kommentare erfordern eine passende Sprache."
 
 msgctxt "Notification name"
 msgid "Comment was added"
@@ -1093,7 +1091,7 @@ msgid "Comments were added"
 msgstr "Kommentare wurden hinzugefügt"
 
 msgid "The comment must mention this user."
-msgstr ""
+msgstr "Der Kommentar muss diesen Benutzer erwähnen."
 
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
@@ -1107,6 +1105,8 @@ msgid ""
 "The user must have contributed to the string or previously participated in "
 "its discussion."
 msgstr ""
+"Der Benutzer muss zur Zeichenkette beigetragen oder sich zuvor an ihrer "
+"Diskussion beteiligt haben."
 
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
@@ -1160,6 +1160,9 @@ msgid ""
 "The announcement must enable notifications. If it specifies a language, that "
 "language must match the user’s notification languages."
 msgstr ""
+"Die Mitteilung muss Benachrichtigungen aktivieren. Wenn darin eine Sprache "
+"angegeben ist, muss diese Sprache mit den Benachrichtigungssprachen des "
+"Benutzers übereinstimmen."
 
 msgctxt "Notification name"
 msgid "Announcement was published"
@@ -1173,6 +1176,9 @@ msgid ""
 "The alert must be at least a warning and the user must be able to act on it. "
 "Linked-component and project-wide alerts can be deduplicated."
 msgstr ""
+"Die Meldung muss mindestens eine Warnung sein, und der Benutzer muss darauf "
+"reagieren können. Meldungen zu verknüpften Komponenten und projektweite "
+"Meldungen können dedupliziert werden."
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1334,10 +1340,8 @@ msgstr "Kontakt"
 msgid "Hosting"
 msgstr "Hosting"
 
-#, fuzzy
-#| msgid "Invalid workspace."
 msgid "Invalid trial plan."
-msgstr "Ungültiger Arbeitsbereich."
+msgstr "Ungültiges Testpaket."
 
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
@@ -1357,10 +1361,9 @@ msgstr ""
 msgid "Gratis trial"
 msgstr "Kostenlos testen"
 
-#, fuzzy, python-format
-#| msgid "Mute notifications for %(object)s"
+#, python-format
 msgid "Notification diagnostics for %(user)s"
-msgstr "Benachrichtigungen für %(object)s stummschalten"
+msgstr "Benachrichtigungsdiagnose für %(user)s"
 
 msgid "This user can not be edited."
 msgstr "Dieser Benutzer kann nicht bearbeitet werden."
@@ -1526,16 +1529,12 @@ msgstr "Die Authentifizierungs-App wurde entfernt."
 msgid "The authentication app %s was registered."
 msgstr "Die Authentifizierungs-App %s wurde registriert."
 
-#, fuzzy
-#| msgid ""
-#| "The GitHub App registration link is no longer valid. Start the "
-#| "registration again."
 msgid ""
 "This authentication app registration is no longer valid. Start a new "
 "registration."
 msgstr ""
-"Der GitHub-App-Einladungslink ist nicht mehr gültig. Bitte starten Sie die "
-"Registrierung erneut."
+"Die Registrierung dieser Authentifizierungs-App ist nicht mehr gültig. "
+"Starten Sie eine neue Registrierung."
 
 msgid ""
 "Too many failed authentication attempts. Please reset your password to "
@@ -3182,11 +3181,8 @@ msgid "Manage project access"
 msgstr "Projektzugriff verwalten"
 
 #. Translators: Permission name
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "Manage reports"
-msgstr "Repository verwalten"
+msgstr "Berichte verwalten"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4193,16 +4189,13 @@ msgstr ""
 msgid "Non‑standard characters in Kabyle"
 msgstr "Nicht standardisierte Zeichen in Kabyle"
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-#| "instead of ε)."
+#, python-brace-format
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
 "Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
-"Verwenden von standardisierten lateinischen Kabyle-Zeichen (z. B. ɣ statt "
-"griechischem γ; ɛ statt ε)."
+"Standardisierte lateinische Kabyle-Zeichen verwenden (z. B. {latin_gamma} "
+"statt griechischem {greek_gamma}; {latin_epsilon} statt {greek_epsilon})."
 
 msgid "Trailing space"
 msgstr "Leerzeichen am Ende"
@@ -4268,11 +4261,10 @@ msgstr ""
 msgid "Mismatched \\n"
 msgstr "Unterschiedliche Menge \\n"
 
-#, fuzzy, python-brace-format
-#| msgid "Number of \\n literals in translation does not match source."
+#, python-brace-format
 msgid "Number of {newline} literals in translation does not match source."
 msgstr ""
-"Anzahl der \\n-Symbole in der Übersetzung passt nicht zur "
+"Anzahl der {newline}-Symbole in der Übersetzung passt nicht zur "
 "Ausgangszeichenkette."
 
 msgid "Mismatching line breaks"
@@ -5200,16 +5192,13 @@ msgstr ""
 msgid "Ellipsis"
 msgstr "Auslassungspunkte"
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The string uses three dots ``(...)`` instead of an ellipsis character "
-#| "``(…)``."
+#, python-brace-format
 msgid ""
 "The string uses three dots {dots} instead of an ellipsis character "
 "{ellipsis}."
 msgstr ""
-"Die Zeichenkette verwendet drei Punkte ``(...)`` anstelle der "
-"Auslassungspunkte ``(…)``."
+"Die Zeichenkette verwendet drei Punkte {dots} anstelle der Auslassungspunkte "
+"{ellipsis}."
 
 msgid "Source string length"
 msgstr "Länge der Ausgangszeichenkette"
@@ -7335,10 +7324,8 @@ msgstr "Passwort vergessen?"
 msgid "Register new account"
 msgstr "Neues Konto registrieren"
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification diagnostics"
-msgstr "Benachrichtigungseinstellungen"
+msgstr "Benachrichtigungsdiagnose"
 
 msgid "Diagnostics"
 msgstr "Diagnose"
@@ -7522,10 +7509,8 @@ msgid ""
 "what can prevent notification delivery."
 msgstr ""
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Open notification diagnostics"
-msgstr "Benachrichtigungseinstellungen"
+msgstr "Benachrichtigungsdiagnose öffnen"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7976,15 +7961,13 @@ msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "Ihre Testphase dauert %(days)s Tag."
 msgstr[1] "Ihre Testphase dauert %(days)s Tage."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Your trial will run the 640k plan, but you can choose any plan later."
+#, python-format
 msgid ""
 "Your trial will run the %(trial_plan)s plan, but you can choose any plan "
 "later."
 msgstr ""
-"Ihre Testphase läuft mit dem 640k-Paket, Sie können jedoch später ein "
-"beliebiges Paket auswählen."
+"Ihre Testphase läuft mit dem %(trial_plan)s-Paket, Sie können jedoch später "
+"ein beliebiges Paket auswählen."
 
 msgid "No credit card is needed, but you can set the payment method anytime."
 msgstr ""
@@ -12534,7 +12517,7 @@ msgid "Could not find any such user."
 msgstr "Dieser Benutzer konnte nicht gefunden werden."
 
 msgid "Watching"
-msgstr "Beobachtet"
+msgstr "Wird beobachtet"
 
 #, python-format
 msgid "Unwatch project %(project)s"
