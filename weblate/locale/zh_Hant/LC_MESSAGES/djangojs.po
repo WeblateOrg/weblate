@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "javascript/\n"
-"POT-Creation-Date: 2026-09-03 21:17-0500\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
 "PO-Revision-Date: 2026-08-24 13:17+0000\n"
 "Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -71,18 +71,6 @@ msgstr "請按下 Cmd+I 再按 %s 以略過它。"
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "請按下 Ctrl+I 再按 %s 以略過它。"
 
-msgid "Clone to translation"
-msgstr "複製翻譯"
-
-msgid "Accept"
-msgstr "接受"
-
-msgid "Accept and approve"
-msgstr "接受並核可"
-
-msgid "Delete entry"
-msgstr "刪除條目"
-
 msgid "No results found"
 msgstr "找不到結果"
 
@@ -90,6 +78,11 @@ msgstr "找不到結果"
 msgid "%s matching string"
 msgid_plural "%s matching strings"
 msgstr[0] "%s 個符合的字串"
+
+msgid ""
+"Your previous search results are no longer available. Refresh results to "
+"continue."
+msgstr ""
 
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "修改尚未儲存，您確定要離開嗎？"
@@ -121,13 +114,18 @@ msgstr "伺服器回應無效"
 msgid "Server error (%s)"
 msgstr "伺服器錯誤 (%s)"
 
-#, javascript-format
-msgid "There are no pending suggestions from %s in this translation."
+#, fuzzy
+#| msgid "There are no pending suggestions from %s in this translation."
+msgid "There are no pending suggestions from %(username)s in %(translation)s."
 msgstr "此翻譯中沒有來自 %s 的待處理建議。"
 
-#, javascript-format
-msgid "This will accept %s suggestion from %s in this translation."
-msgid_plural "This will accept %s suggestions from %s in this translation."
+#, fuzzy
+#| msgid "This will accept %s suggestion from %s in this translation."
+#| msgid_plural "This will accept %s suggestions from %s in this translation."
+msgid ""
+"This will accept %(count)s suggestion from %(username)s in %(translation)s."
+msgid_plural ""
+"This will accept %(count)s suggestions from %(username)s in %(translation)s."
 msgstr[0] "這會接受 %s 個來自 %s、適用於此翻譯的建議。"
 
 msgid "Accept all suggestions?"
@@ -407,6 +405,18 @@ msgstr "1 小時前"
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s 小時前"
+
+#~ msgid "Clone to translation"
+#~ msgstr "複製翻譯"
+
+#~ msgid "Accept"
+#~ msgstr "接受"
+
+#~ msgid "Accept and approve"
+#~ msgstr "接受並核可"
+
+#~ msgid "Delete entry"
+#~ msgstr "刪除條目"
 
 #~ msgid "Something went wrong!"
 #~ msgstr "發生錯誤！"
