@@ -3143,6 +3143,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     @http_mock.activate
     def test_rephrase_dismisses_unchanged_target(self) -> None:
+        cache.clear()
         existing_target = "Hallo Welt!"
         rephrase_same_as_target = {
             "improvements": [
@@ -3153,7 +3154,8 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
                 }
             ]
         }
-        machine = self.get_machine()
+        machine = self.MACHINE_CLS(self.get_configuration())
+        machine.delete_cache()
         self.mock_languages()
         self.mock_clean_translate_response()
         self.mock_rephrase_response(response=rephrase_same_as_target)
@@ -3165,6 +3167,27 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             machine=machine,
             unit_args={"target": existing_target},
         )
+        rephrase_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/write/rephrase")
+        ]
+        self.assertEqual(len(rephrase_calls), 1)
+
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_TRANSLATED,
+            1,
+            machine=machine,
+            unit_args={"target": existing_target},
+        )
+        rephrase_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/write/rephrase")
+        ]
+        self.assertEqual(len(rephrase_calls), 1)
+        cache.clear()
 
     @http_mock.activate
     def test_rephrase_skips_untranslated(self) -> None:
@@ -3379,6 +3402,269 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
         self.assertEqual(len(translation[0]), 2)
         self.assertEqual(translation[0][1]["text"], "Hallo Welt!")
+
+    @http_mock.activate
+    def test_rephrase_updates_on_cache_hit_after_target_edit(self) -> None:
+        """MT cache stays source-keyed; rephrase always uses the current target."""
+        cache.clear()
+        machine = self.MACHINE_CLS(self.get_configuration())
+        machine.delete_cache()
+        self.mock_languages()
+        self.mock_clean_translate_response()
+
+        def rephrase_callback(request: httpx2.Request):
+            payload = load_request_json(request)
+            text = cast("list[str]", payload["text"])[0]
+            return httpx2.Response(
+                200,
+                headers={},
+                text=json.dumps(
+                    {
+                        "improvements": [
+                            {
+                                "text": f"rephrased:{text}",
+                                "detected_source_language": "de",
+                                "target_language": "de",
+                            }
+                        ]
+                    }
+                ),
+            )
+
+        self.mock_rephrase_response(callback=rephrase_callback)
+
+        first = self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_TRANSLATED,
+            2,
+            machine=machine,
+            unit_args={"target": "Hallo du"},
+        )
+        self.assertEqual(
+            [item["text"] for item in first[0]],
+            ["Hallo", "rephrased:Hallo du"],
+        )
+
+        translate_calls_after_first = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/translate")
+        ]
+        self.assertEqual(len(translate_calls_after_first), 1)
+
+        second = self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_TRANSLATED,
+            2,
+            machine=machine,
+            unit_args={"target": "Hallo ihr"},
+        )
+        self.assertEqual(
+            [item["text"] for item in second[0]],
+            ["Hallo", "rephrased:Hallo ihr"],
+        )
+
+        translate_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/translate")
+        ]
+        rephrase_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/write/rephrase")
+        ]
+        self.assertEqual(len(translate_calls), 1)
+        self.assertEqual(len(rephrase_calls), 2)
+        cache.clear()
+
+    @http_mock.activate
+    def test_rephrase_distinct_for_same_source_different_targets(self) -> None:
+        """Units sharing a source string get rephrases of their own targets."""
+        cache.clear()
+        machine = self.MACHINE_CLS(self.get_configuration())
+        machine.delete_cache()
+        self.mock_languages()
+        self.mock_clean_translate_response()
+
+        def rephrase_callback(request: httpx2.Request):
+            payload = load_request_json(request)
+            text = cast("list[str]", payload["text"])[0]
+            return httpx2.Response(
+                200,
+                headers={},
+                text=json.dumps(
+                    {
+                        "improvements": [
+                            {
+                                "text": f"rephrased:{text}",
+                                "detected_source_language": "de",
+                                "target_language": "de",
+                            }
+                        ]
+                    }
+                ),
+            )
+
+        self.mock_rephrase_response(callback=rephrase_callback)
+
+        first = machine.translate(
+            make_unit(
+                code=self.SUPPORTED,
+                source=self.SOURCE_TRANSLATED,
+                target="Okay",
+                id_hash=1,
+            )
+        )
+        second = machine.translate(
+            make_unit(
+                code=self.SUPPORTED,
+                source=self.SOURCE_TRANSLATED,
+                target="In Ordnung",
+                id_hash=2,
+            )
+        )
+
+        self.assertEqual(
+            [item["text"] for item in first[0]],
+            ["Hallo", "rephrased:Okay"],
+        )
+        self.assertEqual(
+            [item["text"] for item in second[0]],
+            ["Hallo", "rephrased:In Ordnung"],
+        )
+
+        translate_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/translate")
+        ]
+        rephrase_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/write/rephrase")
+        ]
+        self.assertEqual(len(translate_calls), 1)
+        self.assertEqual(len(rephrase_calls), 2)
+
+        http_mock.reset()
+        third = machine.translate(
+            make_unit(
+                code=self.SUPPORTED,
+                source=self.SOURCE_TRANSLATED,
+                target="Okay",
+                id_hash=1,
+            )
+        )
+        fourth = machine.translate(
+            make_unit(
+                code=self.SUPPORTED,
+                source=self.SOURCE_TRANSLATED,
+                target="In Ordnung",
+                id_hash=2,
+            )
+        )
+        self.assertEqual(
+            [item["text"] for item in third[0]],
+            ["Hallo", "rephrased:Okay"],
+        )
+        self.assertEqual(
+            [item["text"] for item in fourth[0]],
+            ["Hallo", "rephrased:In Ordnung"],
+        )
+        rephrase_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/write/rephrase")
+        ]
+        self.assertEqual(len(rephrase_calls), 0)
+        cache.clear()
+
+    @http_mock.activate
+    def test_rephrase_cache_hit_same_target(self) -> None:
+        """Rephrase is cached per write language and target text."""
+        cache.clear()
+        machine = self.MACHINE_CLS(self.get_configuration())
+        machine.delete_cache()
+        self.mock_languages()
+        self.mock_clean_translate_response()
+        self.mock_rephrase_response()
+
+        first = self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_TRANSLATED,
+            2,
+            machine=machine,
+            unit_args={"target": "Hallo du"},
+        )
+        self.assertEqual(first[0][1]["text"], "Hallo Welt!")
+
+        translate_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/translate")
+        ]
+        rephrase_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/write/rephrase")
+        ]
+        self.assertEqual(len(translate_calls), 1)
+        self.assertEqual(len(rephrase_calls), 1)
+
+        second = self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_TRANSLATED,
+            2,
+            machine=machine,
+            unit_args={"target": "Hallo du"},
+        )
+        self.assertEqual(second[0][1]["text"], "Hallo Welt!")
+        translate_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/translate")
+        ]
+        rephrase_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/write/rephrase")
+        ]
+        self.assertEqual(len(translate_calls), 1)
+        self.assertEqual(len(rephrase_calls), 1)
+        cache.clear()
+
+    @http_mock.activate
+    def test_rephrase_cache_disabled(self) -> None:
+        cache.clear()
+        machine = self.MACHINE_CLS(self.get_configuration())
+        machine.delete_cache()
+        machine.cache_translations = False
+        self.mock_languages()
+        self.mock_clean_translate_response()
+        self.mock_rephrase_response()
+
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_TRANSLATED,
+            2,
+            machine=machine,
+            unit_args={"target": "Hallo du"},
+        )
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_TRANSLATED,
+            2,
+            machine=machine,
+            unit_args={"target": "Hallo du"},
+        )
+        rephrase_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/write/rephrase")
+        ]
+        self.assertEqual(len(rephrase_calls), 2)
+        cache.clear()
 
 
 class LibreTranslateTranslationTest(BaseMachineTranslationTest):

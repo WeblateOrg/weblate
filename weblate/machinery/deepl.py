@@ -35,6 +35,7 @@ if TYPE_CHECKING:
     from .base import (
         DownloadMultipleTranslations,
     )
+    from .types import TranslationResultDict
 
 
 CACHE_EXPIRATION = 24 * 3600
@@ -141,7 +142,6 @@ class DeepLTranslation(
 
     @property
     def is_pro_api(self) -> bool:
-        """DeepL Write is available on Pro API hosts only."""
         return urlsplit(self.api_base_url).hostname != "api-free.deepl.com"
 
     def get_write_languages(self) -> set[str]:
@@ -277,8 +277,7 @@ class DeepLTranslation(
             self.get_api_url("v2", "translate"),
             json=params,
         )
-        result = self._parse_translations(texts, response.json())
-        return self._append_rephrase_suggestions(result, sources, target_language)
+        return self._parse_translations(texts, response.json())
 
     async def adownload_multiple_translations(
         self,
@@ -297,9 +296,35 @@ class DeepLTranslation(
             self.get_api_url("v2", "translate"),
             json=params,
         )
-        result = self._parse_translations(texts, response.json())
+        return self._parse_translations(texts, response.json())
+
+    def _translate_sources(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> list[list[TranslationResultDict]]:
+        results = super()._translate_sources(
+            source_language, target_language, sources, user, threshold
+        )
+        return self._append_rephrase_suggestions(results, sources, target_language)
+
+    async def _atranslate_sources(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> list[list[TranslationResultDict]]:
+        """Async translate with rephrases applied after cache lookup."""
+        results = await super()._atranslate_sources(
+            source_language, target_language, sources, user, threshold
+        )
         return await self._aappend_rephrase_suggestions(
-            result, sources, target_language
+            results, sources, target_language
         )
 
     def _prepare_translation_request(
@@ -354,18 +379,19 @@ class DeepLTranslation(
         self,
         sources: list[tuple[str, Unit | None]],
         target_language: str,
-    ) -> tuple[str, list[tuple[str, str]]] | None:
+    ) -> tuple[str, list[tuple[int, str, str]]] | None:
         """
         Collect existing targets eligible for DeepL Write rephrasing.
 
-        Returns write language code and list of (source_text, target_text), or None.
+        Returns write language code and list of
+        (source_index, source_text, target_text), or None.
         """
         if not self.is_pro_api:
             return None
 
-        candidates: list[tuple[str, str]] = []
+        candidates: list[tuple[int, str, str]] = []
         seen: dict[int, int] = {}
-        for source_text, unit in sources:
+        for index, (source_text, unit) in enumerate(sources):
             if unit is None or not unit.translated or unit.readonly:
                 continue
             targets = unit.get_target_plurals()
@@ -376,7 +402,7 @@ class DeepLTranslation(
             target_text = targets[occurrence]
             if not target_text:
                 continue
-            candidates.append((source_text, target_text))
+            candidates.append((index, source_text, target_text))
 
         if not candidates:
             return None
@@ -400,6 +426,113 @@ class DeepLTranslation(
         )
         return [item["text"] for item in response.json()["improvements"]]
 
+    def get_rephrase_cache_key(self, write_lang: str, target_text: str) -> str:
+        return self.get_cache_key("rephrase", parts=(write_lang,), text=target_text)
+
+    def _store_rephrase_cache_value(
+        self, write_lang: str, target_text: str, improved: str
+    ) -> str:
+        stored = "" if not improved or improved == target_text else improved
+        if self.cache_translations:
+            cache.set(
+                self.get_rephrase_cache_key(write_lang, target_text),
+                stored,
+                self.cache_expiry,
+            )
+        return stored
+
+    async def _astore_rephrase_cache_value(
+        self, write_lang: str, target_text: str, improved: str
+    ) -> str:
+        stored = "" if not improved or improved == target_text else improved
+        if self.cache_translations:
+            await cache.aset(
+                self.get_rephrase_cache_key(write_lang, target_text),
+                stored,
+                self.cache_expiry,
+            )
+        return stored
+
+    def _resolve_rephrased_texts(
+        self,
+        write_lang: str,
+        candidates: list[tuple[int, str, str]],
+    ) -> list[str]:
+        rephrased_texts: list[str | None] = [None] * len(candidates)
+        misses: list[tuple[int, str]] = []
+
+        for candidate_index, (_index, _source, target_text) in enumerate(candidates):
+            if self.cache_translations:
+                cached = cache.get(self.get_rephrase_cache_key(write_lang, target_text))
+                if cached is not None:
+                    rephrased_texts[candidate_index] = cached
+                    continue
+            misses.append((candidate_index, target_text))
+
+        if misses:
+            unique_targets: list[str] = []
+            target_to_download_index: dict[str, int] = {}
+            for _candidate_index, target_text in misses:
+                if target_text not in target_to_download_index:
+                    target_to_download_index[target_text] = len(unique_targets)
+                    unique_targets.append(target_text)
+
+            downloaded = self.download_rephrased_translations(
+                unique_targets, write_lang
+            )
+            downloaded_by_target = {
+                target: downloaded[index]
+                for target, index in target_to_download_index.items()
+            }
+            for candidate_index, target_text in misses:
+                rephrased_texts[candidate_index] = self._store_rephrase_cache_value(
+                    write_lang, target_text, downloaded_by_target[target_text]
+                )
+
+        return [text or "" for text in rephrased_texts]
+
+    async def _aresolve_rephrased_texts(
+        self,
+        write_lang: str,
+        candidates: list[tuple[int, str, str]],
+    ) -> list[str]:
+        rephrased_texts: list[str | None] = [None] * len(candidates)
+        misses: list[tuple[int, str]] = []
+
+        for candidate_index, (_index, _source, target_text) in enumerate(candidates):
+            if self.cache_translations:
+                cached = await cache.aget(
+                    self.get_rephrase_cache_key(write_lang, target_text)
+                )
+                if cached is not None:
+                    rephrased_texts[candidate_index] = cached
+                    continue
+            misses.append((candidate_index, target_text))
+
+        if misses:
+            unique_targets: list[str] = []
+            target_to_download_index: dict[str, int] = {}
+            for _candidate_index, target_text in misses:
+                if target_text not in target_to_download_index:
+                    target_to_download_index[target_text] = len(unique_targets)
+                    unique_targets.append(target_text)
+
+            downloaded = await self.adownload_rephrased_translations(
+                unique_targets, write_lang
+            )
+            downloaded_by_target = {
+                target: downloaded[index]
+                for target, index in target_to_download_index.items()
+            }
+            for candidate_index, target_text in misses:
+                rephrased_texts[
+                    candidate_index
+                ] = await self._astore_rephrase_cache_value(
+                    write_lang, target_text, downloaded_by_target[target_text]
+                )
+
+        return [text or "" for text in rephrased_texts]
+
     async def adownload_rephrased_translations(
         self, texts: list[str], write_lang: str
     ) -> list[str]:
@@ -416,71 +549,73 @@ class DeepLTranslation(
 
     def _merge_rephrase_results(
         self,
-        result: DownloadMultipleTranslations,
-        candidates: list[tuple[str, str]],
+        results: list[list[TranslationResultDict]],
+        candidates: list[tuple[int, str, str]],
         improved_texts: list[str],
-    ) -> DownloadMultipleTranslations:
-        for (source_text, target_text), improved in zip(
+    ) -> list[list[TranslationResultDict]]:
+        for (index, source_text, target_text), improved in zip(
             candidates, improved_texts, strict=True
         ):
             if not improved or improved == target_text:
                 continue
-            existing = {item["text"] for item in result.get(source_text, [])}
+            existing = {item["text"] for item in results[index]}
             if improved in existing:
                 continue
-            result.setdefault(source_text, []).append(
+            original_source = source_text
+            if results[index]:
+                original_source = results[index][0].get("original_source", source_text)
+            results[index].append(
                 {
                     "text": improved,
                     "quality": self.max_score,
                     "service": self.name,
                     "source": source_text,
+                    "original_source": original_source,
                 }
             )
-        return result
+        return results
 
     def _append_rephrase_suggestions(
         self,
-        result: DownloadMultipleTranslations,
+        results: list[list[TranslationResultDict]],
         sources: list[tuple[str, Unit | None]],
         target_language: str,
-    ) -> DownloadMultipleTranslations:
+    ) -> list[list[TranslationResultDict]]:
         """Optionally append rephrased existing translations for supported targets."""
         try:
             prepared = self._collect_rephrase_candidates(sources, target_language)
             if prepared is None:
-                return result
+                return results
             write_lang, candidates = prepared
-            improved_texts = self.download_rephrased_translations(
-                [target for _source, target in candidates], write_lang
-            )
+            improved_texts = self._resolve_rephrased_texts(write_lang, candidates)
         except Exception:
             self.log_handled_error("Could not rephrase translations")
-            return result
-        return self._merge_rephrase_results(result, candidates, improved_texts)
+            return results
+        return self._merge_rephrase_results(results, candidates, improved_texts)
 
     async def _aappend_rephrase_suggestions(
         self,
-        result: DownloadMultipleTranslations,
+        results: list[list[TranslationResultDict]],
         sources: list[tuple[str, Unit | None]],
         target_language: str,
-    ) -> DownloadMultipleTranslations:
+    ) -> list[list[TranslationResultDict]]:
         """Async variant of rephrase suggestion append."""
         try:
             prepared = await sync_to_async(self._collect_rephrase_candidates)(
                 sources, target_language
             )
             if prepared is None:
-                return result
+                return results
             write_lang, candidates = prepared
-            improved_texts = await self.adownload_rephrased_translations(
-                [target for _source, target in candidates], write_lang
+            improved_texts = await self._aresolve_rephrased_texts(
+                write_lang, candidates
             )
         except Exception:
             await sync_to_async(self.log_handled_error)(
                 "Could not rephrase translations"
             )
-            return result
-        return self._merge_rephrase_results(result, candidates, improved_texts)
+            return results
+        return self._merge_rephrase_results(results, candidates, improved_texts)
 
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
