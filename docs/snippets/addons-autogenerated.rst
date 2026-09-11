@@ -1164,6 +1164,8 @@ Update POT file (Meson)
                 |                       |                          |    * - ``omit``                                                                                                                                                                      |
                 |                       |                          |      - Do not extract locations                                                                                                                                                      |
                 +-----------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``data_dirs``         | ITS data directories     | Newline-separated repository-relative directories containing an its subdirectory, for example po for po/its. Earlier directories override later directories and bundled rules.       |
+                +-----------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``comment_mode``      | Code comments            | Choose whether xgettext should extract no comments, all comments, or only comments marked with a specific tag.                                                                       |
                 |                       |                          |                                                                                                                                                                                      |
                 |                       |                          | .. list-table:: Available choices:                                                                                                                                                   |
@@ -1421,6 +1423,8 @@ Update POT file (xgettext)
                 |                       |                          |    * - ``omit``                                                                                                                                                                                  |
                 |                       |                          |      - Do not extract locations                                                                                                                                                                  |
                 +-----------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``data_dirs``         | ITS data directories     | Newline-separated repository-relative directories containing an its subdirectory, for example po for po/its. Earlier directories override later directories and bundled rules.                   |
+                +-----------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``comment_mode``      | Code comments            | Choose whether xgettext should extract no comments, all comments, or only comments marked with a specific tag.                                                                                   |
                 |                       |                          |                                                                                                                                                                                                  |
                 |                       |                          | .. list-table:: Available choices:                                                                                                                                                               |
@@ -1511,6 +1515,58 @@ an intermediate file list. Configure source patterns for simple layouts, or use
 manifest mode when the project maintains a plain file list. If a build-system
 manifest contains transformations or prefixes that are not file paths, convert
 it to plain repository-relative paths before using it as :file:`POTFILES`.
+
+Mixed source formats and ITS rules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Leave :guilabel:`xgettext language` blank to extract messages from different
+formats into the same POT. Include all inputs in the source patterns or
+:file:`POTFILES`, for example:
+
+.. code-block:: text
+
+   common/messages.py
+   qt/application.desktop
+   qt/application.policy
+   data/application.metainfo.xml
+
+Desktop entries use the native :program:`xgettext` parser. Weblate bundles ITS
+rules for Polkit policies, AppStream/MetaInfo, GSettings, GTK Builder, and Shared
+MIME Info. These rules are included in the Weblate package, including Docker
+installations; no additional system packages are required for these formats.
+The :ref:`addon-weblate.gettext.meson` add-on uses the same rules.
+
+Extraction follows upstream gettext and ITS behavior. In particular, desktop
+extraction includes keys such as ``Name``, ``GenericName``, and ``Comment``;
+Polkit rules select ``description`` and ``message`` elements without filtering
+by ``gettext-domain``. Use untranslated policy sources: upstream Polkit rules
+also select elements carrying ``xml:lang``.
+
+For custom XML formats or overrides, configure :guilabel:`ITS data directories`.
+Enter one repository-relative directory per line, in priority order. Each must
+contain an :file:`its/` subdirectory with ``.loc`` locating rules and ``.its``
+extraction rules. For example, enter ``po`` for :file:`po/its/example.loc` and
+:file:`po/its/example.its`, or ``.`` for :file:`its/` at the repository root.
+In API add-on configuration, use a list: ``"data_dirs": ["po", "data"]``.
+
+Earlier directories take precedence over later ones, followed by Weblate's
+bundled rules and gettext's system rules. The directories are passed through
+``GETTEXTDATADIRS``. Configure them explicitly even when using Meson; Weblate
+does not read ``data_dirs`` from :file:`meson.build` or inherit an administrator's
+``GETTEXTDATADIRS`` environment variable.
+
+Rule directories and files must stay inside the repository and must not be
+symbolic links. A locating rule's ``target`` must name an existing ``.its`` file
+in the same directory. DTDs, entity declarations, and external rule references
+are not supported. Weblate validates project-local rules before extraction and
+reports invalid rules as add-on errors. Changes, additions, or deletions in the
+configured :file:`its/` directories trigger extraction even when source files
+have not changed.
+
+.. seealso::
+
+   `GNU gettext ITS rules <https://www.gnu.org/software/gettext/manual/html_node/ITS-Rules.html>`_
+   and `locating rules <https://www.gnu.org/software/gettext/manual/html_node/Locating-Rules.html>`_.
 
 .. AUTOGENERATED START: weblate.git.squash
 .. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
