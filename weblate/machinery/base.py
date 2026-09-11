@@ -1651,14 +1651,38 @@ class RephraseMachineTranslationMixin(MachineTranslation):
 
         return None
 
+    def delete_cache(self) -> None:
+        super().delete_cache()
+        version_key = self.get_rephrase_cache_version_key()
+        try:
+            cache.incr(version_key)
+        except ValueError:
+            cache.set(version_key, 1, self.cache_expiry)
+
+    def get_rephrase_cache_version_key(self) -> str:
+        return self.get_cache_key("rephrase-version")
+
+    def get_rephrase_cache_version(self) -> int:
+        version = cache.get(self.get_rephrase_cache_version_key())
+        return int(version) if version else 0
+
     def get_rephrase_cache_key(self, write_lang: str, target_text: str) -> str:
-        return self.get_cache_key("rephrase", parts=(write_lang,), text=target_text)
+        return self.get_cache_key(
+            "rephrase",
+            parts=(self.get_rephrase_cache_version(), write_lang),
+            text=target_text,
+        )
+
+    def _usable_rephrase(self, target_text: str, improved: str) -> str:
+        if not improved or improved == target_text:
+            return ""
+        return improved
 
     def _store_rephrase_cache_value(
         self, write_lang: str, target_text: str, improved: str
     ) -> str:
-        stored = "" if not improved or improved == target_text else improved
-        if self.cache_translations:
+        stored = self._usable_rephrase(target_text, improved)
+        if self.cache_translations and stored:
             cache.set(
                 self.get_rephrase_cache_key(write_lang, target_text),
                 stored,
@@ -1669,14 +1693,43 @@ class RephraseMachineTranslationMixin(MachineTranslation):
     async def _astore_rephrase_cache_value(
         self, write_lang: str, target_text: str, improved: str
     ) -> str:
-        stored = "" if not improved or improved == target_text else improved
-        if self.cache_translations:
+        stored = self._usable_rephrase(target_text, improved)
+        if self.cache_translations and stored:
             await cache.aset(
                 self.get_rephrase_cache_key(write_lang, target_text),
                 stored,
                 self.cache_expiry,
             )
         return stored
+
+    def _download_unique_rephrases(
+        self, unique_targets: list[str], write_lang: str
+    ) -> dict[str, str]:
+        downloaded_by_target: dict[str, str] = {}
+        for start in range(0, len(unique_targets), self.batch_size):
+            batch = unique_targets[start : start + self.batch_size]
+            downloaded = self.download_rephrased_translations(batch, write_lang)
+            downloaded_by_target.update(zip(batch, downloaded, strict=True))
+        return downloaded_by_target
+
+    async def _adownload_unique_rephrases(
+        self, unique_targets: list[str], write_lang: str
+    ) -> dict[str, str]:
+        downloaded_by_target: dict[str, str] = {}
+        for start in range(0, len(unique_targets), self.batch_size):
+            batch = unique_targets[start : start + self.batch_size]
+            downloaded = await self.adownload_rephrased_translations(batch, write_lang)
+            downloaded_by_target.update(zip(batch, downloaded, strict=True))
+        return downloaded_by_target
+
+    def _unique_rephrase_targets(self, misses: list[tuple[int, str]]) -> list[str]:
+        unique_targets: list[str] = []
+        seen_targets: set[str] = set()
+        for _candidate_index, target_text in misses:
+            if target_text not in seen_targets:
+                seen_targets.add(target_text)
+                unique_targets.append(target_text)
+        return unique_targets
 
     def _resolve_rephrased_texts(
         self,
@@ -1695,20 +1748,9 @@ class RephraseMachineTranslationMixin(MachineTranslation):
             misses.append((candidate_index, target_text))
 
         if misses:
-            unique_targets: list[str] = []
-            target_to_download_index: dict[str, int] = {}
-            for _candidate_index, target_text in misses:
-                if target_text not in target_to_download_index:
-                    target_to_download_index[target_text] = len(unique_targets)
-                    unique_targets.append(target_text)
-
-            downloaded = self.download_rephrased_translations(
-                unique_targets, write_lang
+            downloaded_by_target = self._download_unique_rephrases(
+                self._unique_rephrase_targets(misses), write_lang
             )
-            downloaded_by_target = {
-                target: downloaded[index]
-                for target, index in target_to_download_index.items()
-            }
             for candidate_index, target_text in misses:
                 rephrased_texts[candidate_index] = self._store_rephrase_cache_value(
                     write_lang, target_text, downloaded_by_target[target_text]
@@ -1735,20 +1777,9 @@ class RephraseMachineTranslationMixin(MachineTranslation):
             misses.append((candidate_index, target_text))
 
         if misses:
-            unique_targets: list[str] = []
-            target_to_download_index: dict[str, int] = {}
-            for _candidate_index, target_text in misses:
-                if target_text not in target_to_download_index:
-                    target_to_download_index[target_text] = len(unique_targets)
-                    unique_targets.append(target_text)
-
-            downloaded = await self.adownload_rephrased_translations(
-                unique_targets, write_lang
+            downloaded_by_target = await self._adownload_unique_rephrases(
+                self._unique_rephrase_targets(misses), write_lang
             )
-            downloaded_by_target = {
-                target: downloaded[index]
-                for target, index in target_to_download_index.items()
-            }
             for candidate_index, target_text in misses:
                 rephrased_texts[
                     candidate_index
