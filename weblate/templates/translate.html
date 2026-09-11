@@ -6,11 +6,13 @@
   <script defer src="{% static 'editor/base.js' %}"></script>
   <script defer src="{% static 'editor/full.js' %}"></script>
   <script defer src="{% static 'js/screenshots/clipboard-paste.js' %}"></script>
+  <script defer src="{% static 'js/screenshots/select.js' %}"></script>
   {# Bulk accept suggestions feature #}
   <script defer src="{% static 'js/bulk-accept-suggestions.js' %}"></script>
 {% endblock extra_script %}
 
 {% block extra_styles %}
+  <link rel="stylesheet" href="{% static 'styles/screenshot-select.css' %}" />
   {# Bulk accept suggestions feature #}
   <link rel="stylesheet" href="{% static 'styles/bulk-accept.css' %}" />
 {% endblock extra_styles %}
@@ -43,6 +45,7 @@
   {% perm 'source.edit' unit.translation as user_can_edit_source %}
   {% perm 'meta:unit.flag' unit.translation as user_can_edit_flags %}
   {% perm 'screenshot.add' unit.translation as user_can_add_screenshot %}
+  {% perm 'screenshot.edit' unit.translation.component as user_can_edit_screenshot %}
   {% perm 'comment.add' unit.translation as user_can_add_comment %}
   {% perm 'unit.add' unit.translation as user_can_add_unit %}
 
@@ -846,7 +849,7 @@
           </div>
         {% endif %}
 
-        {% if screenshots or user_can_add_screenshot %}
+        {% if screenshots or user_can_add_screenshot or user_can_edit_screenshot %}
           <div class="card string-info">
             <div class="card-header">
               <h4 class="card-title">
@@ -862,12 +865,20 @@
                   <em>{% translate "No screenshot currently associated." %}</em>
                 {% endfor %}
               </div>
-              {% if user_can_add_screenshot %}
+              {% if user_can_add_screenshot or user_can_edit_screenshot %}
                 <div class="list-group-item card-footer-links d-flex flex-wrap justify-content-between gap-2">
-                  <a class="btn btn-link green"
-                     href="#"
-                     data-bs-toggle="modal"
-                     data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
+                  {% if user_can_edit_screenshot %}
+                    <button type="button"
+                            class="btn btn-link green"
+                            data-bs-toggle="modal"
+                            data-bs-target="#select-screenshot-modal">{% icon "plus-circle.svg" %} {% translate "Add existing screenshot" %}</button>
+                  {% endif %}
+                  {% if user_can_add_screenshot %}
+                    <a class="btn btn-link green"
+                       href="#"
+                       data-bs-toggle="modal"
+                       data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Upload screenshot" %}</a>
+                  {% endif %}
                   <a class="btn btn-link green"
                      id="edit-screenshot"
                      href="{% url 'screenshots' path=unit.translation.component.get_url_path %}">{% icon "pencil.svg" %} {% translate "Manage screenshots" %}</a>
@@ -1150,6 +1161,37 @@
     </form>
   {% endif %}
 
+  {% if user_can_edit_screenshot %}
+    <div class="modal fade"
+         id="select-screenshot-modal"
+         tabindex="-1"
+         aria-labelledby="select-screenshot-title"
+         aria-hidden="true"
+         data-url="{% url 'screenshot-select' unit_id=unit.pk %}">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="select-screenshot-title">{% translate "Add existing screenshot" %}</h4>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{% translate 'Close' %}"></button>
+          </div>
+          <div class="modal-body">
+            <p role="status" id="screenshot-picker-status"></p>
+            <div id="screenshot-picker-content"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit"
+                    form="screenshot-picker-selection"
+                    class="btn btn-primary"
+                    id="screenshot-picker-add"
+                    disabled>{% translate "Add screenshot" %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
   {% if screenshot_form %}
     <form action="{% url 'screenshots' path=unit.translation.component.get_url_path %}"
           method="post"
