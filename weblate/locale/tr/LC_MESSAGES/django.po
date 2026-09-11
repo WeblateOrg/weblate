@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
 "PO-Revision-Date: 2026-07-31 08:23+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -336,6 +336,25 @@ msgstr ""
 
 msgid "Enter the code from the app"
 msgstr "Uygulamadaki kodu yazın"
+
+#, fuzzy
+#| msgid "Subproject is now open for translation updates."
+msgid "Project, category, component, or translation path"
+msgstr "Alt proje artık çeviri güncellemeleri için açık."
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid language chosen!"
+msgid "Enter a valid object path."
+msgstr "Geçersiz dil seçimi!"
+
+msgid "The target does not exist or you cannot access it."
+msgstr ""
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -876,6 +895,62 @@ msgstr "Hesap e-posta adresi kullanılsın"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Çeviri gönderebilmek için lütfen bir e-posta adresi belirtin."
 
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscription."
+msgstr "Eşleşen herhangi bir dizge bulunamadı."
+
+#, fuzzy
+#| msgid "Inactive users can not be assigned to teams."
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Etkin olmayan kullanıcılar takımlara atanamaz."
+
+#, fuzzy
+#| msgid "This user can not be edited."
+msgid "The user cannot access this target."
+msgstr "Bu kullanıcı düzenlenemez."
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is not blocked on this project."
+msgid "The user is not watching this project."
+msgstr "Kullanıcı bu projede engellenmmemiş."
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project access control has been changed."
+msgid "The project or component subscriptions apply to other targets."
+msgstr "Proje erişim kontrolü değiştirildi."
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
 msgid "No notification"
 msgstr "Herhangi bir bildirim yok"
 
@@ -890,6 +965,23 @@ msgstr "Haftalık özet"
 
 msgid "Monthly digest"
 msgstr "Aylık özet"
+
+msgid "All"
+msgstr ""
+
+msgid "Watched"
+msgstr "İzlenen"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "Yönetilen projeler"
+
+msgid "Project"
+msgstr "Proje"
+
+msgid "Component"
+msgstr "Bileşen"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -963,6 +1055,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "Bileşen çevirileri tamamlandı"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Yorum eklendi"
@@ -971,6 +1068,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Yorumlar eklendi"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Bir yorumda anıldınız"
@@ -978,6 +1078,11 @@ msgstr "Bir yorumda anıldınız"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Bazı yorumlarda anıldınız"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
@@ -1027,6 +1132,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "Yeni çeviri bileşenleri eklendi"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Duyuru yayınlandı"
@@ -1034,6 +1144,11 @@ msgstr "Duyuru yayınlandı"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Duyurular yayınlandı"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1186,6 +1301,11 @@ msgstr "İletişim"
 msgid "Hosting"
 msgstr "Barındırma"
 
+#, fuzzy
+#| msgid "Manage users"
+msgid "Invalid trial plan."
+msgstr "Kullanıcıları yönetme"
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1202,6 +1322,11 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Bedava deneme"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification diagnostics for %(user)s"
+msgstr "%(object)s için bildirimleri sustur"
 
 msgid "This user can not be edited."
 msgstr "Bu kullanıcı düzenlenemez."
@@ -1352,6 +1477,13 @@ msgstr "Kimlik doğrulama uygulaması kaldırıldı."
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "%s kimlik doğrulama uygulaması kaydedildi."
+
+#, fuzzy
+#| msgid "The invitation link is no longer valid."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "Davet bağlantısı artık geçerli değil."
 
 #, fuzzy
 #| msgid "If it was you, reset your password to regain access to your account."
@@ -2839,9 +2971,6 @@ msgstr "Weblate deposundaki tüm çeviri dosyalarını yeniden tarar"
 msgid "Please provide a suggestion"
 msgstr "Eski önerileri kaldır"
 
-msgid "Translation text too long!"
-msgstr "Çeviri metni çok uzun!"
-
 #, fuzzy
 #| msgid "Number of plurals"
 msgid "Number of plurals does not match"
@@ -2849,6 +2978,9 @@ msgstr "Çoğul sayısı"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Öneriniz geçerli çeviriye benziyor!"
+
+msgid "Translation text too long!"
+msgstr "Çeviri metni çok uzun!"
 
 msgid "Your suggestion already exists!"
 msgstr "Öneriniz zaten var!"
@@ -2930,14 +3062,8 @@ msgstr "Önerileri kabul etme izniniz yok."
 msgid "This string seems to already exist."
 msgstr "Bu dizge zaten var gibi görünüyor."
 
-msgid "Project"
-msgstr "Proje"
-
 msgid "Category"
 msgstr "Kategori"
-
-msgid "Component"
-msgstr "Bileşen"
 
 msgid "User"
 msgstr "Kullanıcı"
@@ -3028,8 +3154,11 @@ msgid "Manage project access"
 msgstr "Proje erişimini yönetme"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Raporları indirme"
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage repository"
+msgid "Manage reports"
+msgstr "Depoları yönetme"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4022,9 +4151,13 @@ msgstr "Kaynağın ve çevirinin ikisi de aynı sayıda boşlukla başlamıyor."
 msgid "Non‑standard characters in Kabyle"
 msgstr "Kabyle dilinde standart olmayan karakterler var"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
+#| "instead of ε)."
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 "Standartlaştırılmış Latin Kabyle karakterlerini kullanın (Yunanca γ yerine "
 "ɣ; ε yerine ɛ gibi)."
@@ -4080,7 +4213,9 @@ msgstr "Kaynağın ve çevirinin ikisi de üç nokta karakteri ile bitmiyor."
 msgid "Mismatched \\n"
 msgstr "\\n farklı"
 
-msgid "Number of \\n literals in translation does not match source."
+#, fuzzy, python-brace-format
+#| msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "Çevirideki \\n karakteri sayısı kaynak ile aynı değil."
 
 msgid "Mismatching line breaks"
@@ -5052,9 +5187,13 @@ msgstr "Dizge çoğul olarak kullanılmış. Ancak çoğul biçimler kullanılma
 msgid "Ellipsis"
 msgstr "Üç nokta"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "The string uses three dots ``(...)`` instead of an ellipsis character "
+#| "``(…)``."
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr ""
 "Dizge, üç nokta karakteri ``(…)`` yerine üç ayrı nokta ``(...)`` kullanıyor."
 
@@ -5124,6 +5263,11 @@ msgstr ""
 
 msgid "Font"
 msgstr "Yazı tipi"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Font has to be in the same project as the font group."
+msgstr "Üst kategori aynı projede olmalıdır!"
 
 msgid "Unsupported file format."
 msgstr "Dosya biçimi desteklenmiyor."
@@ -5849,7 +5993,8 @@ msgstr "Gizlilik ilkesi"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "Lütfen aşağıdaki genel hüküm ve koşullar metnini okuyun:"
 
-msgid "Please also read the Privacy Policy:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 
 msgid "Submit"
@@ -5872,6 +6017,30 @@ msgstr ""
 "Bu sayfa genel hüküm ve koşullar ile gizlilik ilkesi metinlerinden "
 "oluşturulmuştur. Yine de bu metinleri tam olarak değerlendirmek için özgün "
 "belgeleri okumalısınız:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"Bu sayfa genel hüküm ve koşullar ile gizlilik ilkesi metinlerinden "
+"oluşturulmuştur. Yine de bu metinleri tam olarak değerlendirmek için özgün "
+"belgeleri okumalısınız:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the Terms of Service, you should still read the "
+#| "original document to fully understand them."
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
+msgstr ""
+"Bu sayfa Hizmet Şartları'nı temel alır, yine de onları tam olarak anlamak "
+"için özgün belgeyi okumalısınız."
 
 msgid "Cookies are used on this site for the following:"
 msgstr "Bu sitedeki tanımlama bilgileri şunlar için kullanılır:"
@@ -6200,9 +6369,6 @@ msgstr "Yeni nesil model kullanılsın"
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr "Klasik makine çevirisi modeli yerine yeni nesil LLM kullanın."
 
-msgid "DeepL API v1 is no longer supported."
-msgstr ""
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr "LLM modeli"
@@ -6354,45 +6520,6 @@ msgstr "Ollama modeli"
 
 msgid "Name of the model described in Ollama catalogue."
 msgstr "Ollama kataloğunda açıklanan modelin adı."
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr "Claude Haiku 4.5"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (önerilir)"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr "Claude Opus 4.5"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr "Claude Haiku 4.5"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
 
 msgctxt "Anthropic model selection"
 msgid "Custom model"
@@ -7188,7 +7315,6 @@ msgstr "Lütfen kayıt formundaki hataları düzeltin."
 msgid "Verify new e-mail address"
 msgstr "Yeni e-posta adresini doğrula"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Hesap aç"
 
@@ -7241,6 +7367,150 @@ msgstr "Parolanızı mı unuttunuz?"
 
 msgid "Register new account"
 msgstr "Yeni hesap açın"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification diagnostics"
+msgstr "Bildirim ayarları"
+
+msgid "Diagnostics"
+msgstr ""
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "View notification"
+msgid "Check notifications"
+msgstr "Bildirimi görüntüle"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification eligibility for %(target)s"
+msgstr "%(object)s için bildirimleri sustur"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+msgid "Notification"
+msgstr "Bildirim"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Inherited project settings"
+msgstr "Proje ayarlarını düzenleme"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Component exceptions"
+msgstr "Bileşen uyarıları"
+
+msgid "One-time"
+msgstr "Bir kerelik"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Overridden subscriptions"
+msgstr "Deneme abonelikleri"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse all components"
+msgid "Inspect example components:"
+msgstr "Tüm bileşenlere göz at"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Inspect components:"
+msgstr "Diğer bileşenler"
+
+#, fuzzy
+#| msgctxt "No known user"
+#| msgid "None"
+msgid "None"
+msgstr "Bilinmiyor"
+
+#, fuzzy
+#| msgid "You do not have permissions to add new translation file."
+msgid "No accessible components or translations in this target."
+msgstr "Yeni çeviri dosyası eklemeye izniniz yok."
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscriptions in this scope."
+msgstr "Eşleşen herhangi bir dizge bulunamadı."
+
+#, fuzzy, python-format
+#| msgid "Browse %(count)s project"
+#| msgid_plural "Browse all %(count)s projects"
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "%(count)s projeye göz at"
+msgstr[1] "%(count)s projenin tümüne göz at"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "İzlenen projeler"
+
+#, fuzzy
+#| msgid "Notification on new language request"
+msgid "Notification languages"
+msgstr "Yeni dil isteğinde bildirim"
+
+#, fuzzy, python-format
+#| msgid "Failed to find matching language!"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "Eşleşen bir dil bulunamadı!"
+msgstr[1] "Eşleşen bir dil bulunamadı!"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Subscriptions"
+msgstr "Deneme abonelikleri"
+
+msgid "Frequency"
+msgstr "Sıklık"
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "No subscriptions."
+msgstr "Deneme abonelikleri"
 
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
@@ -7297,6 +7567,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Kaydet"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Open notification diagnostics"
+msgstr "Bildirim ayarları"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7739,7 +8019,12 @@ msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "Deneme süreniz 14 gün sürecek."
 msgstr[1] "Deneme süreniz 14 gün sürecek."
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, fuzzy, python-format
+#| msgid ""
+#| "Your trial will run the 640k plan, but you can choose any plan later."
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 "Deneme sürenizde 640k tarifesini kullanabileceksiniz. Daha sonra istediğiniz "
 "bir tarifeye geçebilirsiniz."
@@ -7840,15 +8125,6 @@ msgstr "Kimlik"
 
 msgid "User ID"
 msgstr "Kullanıcı kimliği"
-
-msgid "Notification"
-msgstr "Bildirim"
-
-msgid "Frequency"
-msgstr "Sıklık"
-
-msgid "One-time"
-msgstr "Bir kerelik"
 
 msgid "Members"
 msgstr "Üyeler"
@@ -8727,6 +9003,9 @@ msgstr "İşlemler"
 msgid "Search and replace"
 msgstr "Ara ve değiştir"
 
+msgid "Post announcement"
+msgstr "Duyuru gönder"
+
 msgid "Organize or remove"
 msgstr "Düzenle ya da sil"
 
@@ -8745,6 +9024,18 @@ msgstr "Uygula"
 #| msgid "Browse all components"
 msgid "Browse components"
 msgstr "Tüm bileşenlere göz at"
+
+#, fuzzy
+#| msgid ""
+#| "The message is shown for all translations within the project, until its "
+#| "given expiry, or permanently until it is deleted."
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
+"İleti, süresi doluncaya ya da silinene kadar kalıcı olarak proje içindeki "
+"tüm çeviriler için görüntülenir."
 
 msgid "Announcements"
 msgstr "Duyurular"
@@ -8769,9 +9060,6 @@ msgstr "Toplu kendiliğinden çeviri"
 
 msgid "Add new category"
 msgstr "Yeni kategori ekle"
-
-msgid "Post announcement"
-msgstr "Duyuru gönder"
 
 #, fuzzy
 #| msgid "Browse all repository changes"
@@ -8841,9 +9129,6 @@ msgstr "Güncellemeyi iptal et"
 
 msgid "Continue after completion"
 msgstr "Tamamlandıktan sonra ilerle"
-
-msgid "Diagnostics"
-msgstr ""
 
 #, fuzzy
 #| msgid "Error"
@@ -9331,6 +9616,9 @@ msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "(itme dalında %(count)s eksik)"
 msgstr[1] "(itme dalında %(count)s eksik)"
 
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
@@ -9559,6 +9847,11 @@ msgstr "%(component)s deposu"
 msgid "Repository details"
 msgstr "Depo ayrıntıları"
 
+#, fuzzy
+#| msgid "Discovery configuration"
+msgid "Edit repository configuration"
+msgstr "Keşif yapılandırması"
+
 msgid "Repository changes"
 msgstr "Depo değişiklikleri"
 
@@ -9599,6 +9892,10 @@ msgstr ""
 
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Çeviriden Düzenlenmesi gerekli imini kaldırır ve gönderir."
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -9681,6 +9978,11 @@ msgstr "Çoğul kurallarının değiştirilmesi istenilen etkiyi yaratmayabilir.
 
 msgid "Please see a documentation for more info."
 msgstr "Lütfen ayrıntılı bilgi almak için belgelere bakın."
+
+#, fuzzy
+#| msgid "Translation Info"
+msgid "Translation workflow"
+msgstr "Çeviri bilgileri"
 
 #, fuzzy
 #| msgid ""
@@ -9986,10 +10288,6 @@ msgstr "%(component)s bileşeni kilitlendi"
 msgid "Component %(component)s was unlocked"
 msgstr "%(component)s bileşeninin kilidi açıldı"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr "Not: 100 üzerinde bildirim olduğu için bu özet kısaltıldı."
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -10244,6 +10542,13 @@ msgstr "Hesap silme işlemini onayla"
 
 msgid "Confirm invitation"
 msgstr "Daveti kabul et"
+
+#, fuzzy
+#| msgid ""
+#| "Note: This digest has been truncated as there were over 100 notifications."
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr "Not: 100 üzerinde bildirim olduğu için bu özet kısaltıldı."
 
 msgid "Source string description"
 msgstr "Kaynak dizge açıklaması"
@@ -10991,6 +11296,11 @@ msgstr ""
 "Proje sorumluları bu istek ile ilgili bilgilendirilir ve dili el ile "
 "eklemeleri istenir."
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr "Yukarıdaki listede dilinizi bulamıyor musunuz?"
 
@@ -11352,6 +11662,42 @@ msgstr ""
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Verilen türle eşleşen tüm dizgelerin durumunu bir kerede değiştirebilirsiniz."
+
+msgid "Translation quality filter"
+msgstr "Çeviri kalitesi süzgeci"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr "Yalnızca onaylanmış çeviriler çeviri dosyasına yazılır."
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr ""
+"Düzenlenmesi gerekli olarak imlenmiş çeviriler çeviri dosyasına yazılmaz."
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Configure language workflow"
+msgstr "Tek dilli temel dil dosyası"
+
+#, fuzzy
+#| msgid "Translation quality filter"
+msgid "Configure translation quality filter"
+msgstr "Çeviri kalitesi süzgeci"
 
 msgid "View details"
 msgstr "Ayrıntıları görüntüle"
@@ -11996,6 +12342,11 @@ msgid "Query"
 msgstr "Sorgu"
 
 #, fuzzy
+#| msgid "Repositories"
+msgid "Refresh results"
+msgstr "Depolar"
+
+#, fuzzy
 #| msgid ""
 #| "You don't have permission to view reports for all users, only your "
 #| "contributions will be listed."
@@ -12078,6 +12429,37 @@ msgstr "Henüz kurtarma kodları oluşturulmamış."
 #| msgid "Repository initialization"
 msgid "Report history pagination"
 msgstr "Depo hazırlığı"
+
+#, fuzzy
+#| msgid "There are no glossaries defined for this language."
+msgid "Reviews are enabled for this language."
+msgstr "Bu dil için tanımlanmış bir sözlük yok."
+
+#, fuzzy
+#| msgid "There are no glossaries defined for this language."
+msgid "Reviews are disabled for this language."
+msgstr "Bu dil için tanımlanmış bir sözlük yok."
+
+#, fuzzy, python-format
+#| msgid "Review strings"
+msgid "Review setting: %(origin)s."
+msgstr "Dizgeleri onaylama"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+#, fuzzy
+#| msgid "Customize translation workflow for this language"
+msgid "Learn how to customize translation workflows."
+msgstr "Bu dilin çeviri iş akışını özelleştir"
+
+#, fuzzy
+#| msgid "Your translation is foo"
+msgid "Configure translation workflow"
+msgstr "Çeviriniz foo"
 
 #, fuzzy, python-format
 #| msgid ""
@@ -12179,8 +12561,9 @@ msgstr "Oy verilen"
 msgid "Vote against"
 msgstr "Karşı oy verilen"
 
-#, python-format
-msgid "Accept all suggestions from %(username)s"
+#, fuzzy, python-format
+#| msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "%(username)s tarafından gönderilen tüm öneriler kabul edilsin"
 
 msgid "Accept"
@@ -12700,6 +13083,24 @@ msgid ""
 "requests."
 msgstr ""
 
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+
 msgid "This component is set up incorrectly."
 msgstr "Bu bileşen yanlış ayarlanmış."
 
@@ -12944,19 +13345,15 @@ msgstr "Son değişiklikleri CSV olarak indir"
 msgid "Follow using RSS"
 msgstr "RSS kullanarak izle"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "Sürüm denetiminden"
 
-#. Translators: Create a component from existing component
 msgid "From an existing component"
 msgstr "Var olan bir bileşenden"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "Ek dal"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "Çeviri dosyalarını yükleyerek"
 
@@ -12964,7 +13361,6 @@ msgstr "Çeviri dosyalarını yükleyerek"
 msgid "Translate document"
 msgstr "Belgeyi çevirerek"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "Sıfırdan başlayarak"
 
@@ -13356,6 +13752,11 @@ msgstr "Zen kipinde aç"
 msgid "Configure editor"
 msgstr "Düzenleyiciyi yapılandır"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr "Kalıcı bağlantı panoya kopyalandı."
 
@@ -13475,14 +13876,28 @@ msgstr "Seçilmiş çeviriyi geçerli dizgeye uygula"
 msgid "Browse all string changes"
 msgstr "Tüm dizge değişikliklerine göz at"
 
-msgid "Suggested change"
-msgstr "Önerilen değişiklik"
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "Search translation memory"
+msgstr "Paylaşılan çeviri belleği"
 
-msgid "Origin"
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching machine translations found."
+msgstr "Eşleşen herhangi bir dizge bulunamadı."
+
+#, fuzzy
+#| msgid "Delete comment"
+msgid "Delete entry"
+msgstr "Yorum silme"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
 msgstr "Kaynak"
 
-msgid "Similarity"
-msgstr "Benzerlik"
+msgid "Context:"
+msgstr "Bağlam:"
 
 msgid "Remove selected translation memory entries"
 msgstr "Seçilmiş çeviri belleği kayıtlarını kaldır"
@@ -13543,9 +13958,6 @@ msgstr "Bu dizge %(author)s ile kendiliğinden çevrilmiş."
 #, python-format
 msgid "This string was translated automatically by %(author)s."
 msgstr "Bu dizge %(author)s tarafından kendiliğinden çevrilmiş."
-
-msgid "Translation quality filter"
-msgstr "Çeviri kalitesi süzgeci"
 
 msgid "Add term to glossary"
 msgstr "Sözlüğe terim ekle"
@@ -15176,6 +15588,11 @@ msgid "Glossary using monolingual files."
 msgstr "Sözlük tek dilli dosyalar kullanıyor."
 
 #, fuzzy
+#| msgid "Source string editing is disabled."
+msgid "Glossary string management is disabled"
+msgstr "Kaynak dizge düzenlemesini kapatılmış."
+
+#, fuzzy
 #| msgid "Used languages"
 msgid "Unused glossary language."
 msgstr "Kullanılan diller"
@@ -15571,9 +15988,6 @@ msgstr "Sürüm denetimi"
 
 msgid "State"
 msgstr "Durum"
-
-msgid "All"
-msgstr ""
 
 msgid "Severity"
 msgstr "Önem düzeyi"
@@ -16038,6 +16452,13 @@ msgstr "Alternatif çeviri"
 msgid "The string you wanted to translate is no longer available."
 msgstr "Çevirmek istediğiniz dizge artık kullanılmıyor."
 
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr "Çevirmek istediğiniz dizge artık kullanılmıyor."
+
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -16116,33 +16537,41 @@ msgstr "Birleştirilmiş dizge bulunamadı."
 msgid "Could not find the reverted change."
 msgstr "Geri alınmış bir değişiklik bulunamadı."
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Enter a source component ID."
+msgstr "Kısıtlanmış bileşen"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"Kaynak olarak kullanılacak bir bileşenin adres son ekini yazın. Geçerli "
-"projedeki tüm bileşenlerin kullanılması için boş bırakın."
+
+msgid ""
+"Leave blank to use eligible components from each target component's project."
+msgstr ""
 
 #, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
-msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
-msgstr ""
-"Kaynak olarak kullanılacak bir bileşenin adres son ekini yazın. Geçerli "
-"projedeki tüm bileşenlerin kullanılması için boş bırakın."
-
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr ""
-"Ek bileşenlere erişebilmesi için projenin paylaşılan çeviri belleğine "
-"katkıda bulunma özelliğini açar."
+#| msgid "All components in current project"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "Geçerli projedeki tüm bileşenler"
 
 msgid "Automatic translation mode"
 msgstr "Kendiliğinden çeviri kipi"
+
+msgid "Add as suggestion"
+msgstr "Öneri olarak ekle"
+
+msgid "Add as translation"
+msgstr "Çeviri olarak ekle"
+
+msgid "Add as \"Needing edit\""
+msgstr "\"Düzenlenmesi gerekli\" olarak ekle"
+
+msgid "Add as approved translation"
+msgstr "Onaylanmış çeviri olarak eklensin"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -16168,23 +16597,26 @@ msgstr "Skor eşiği"
 
 #, fuzzy
 #| msgid "All components in current project"
-msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "Geçerli projedeki tüm bileşenler"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "All eligible components in current project"
 msgstr "Geçerli projedeki tüm bileşenler"
 
-msgid "Add as suggestion"
-msgstr "Öneri olarak ekle"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Eligible components from each target component's project"
+msgstr "Geçerli projedeki tüm bileşenler"
 
-msgid "Add as translation"
-msgstr "Çeviri olarak ekle"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
 
-msgid "Add as \"Needing edit\""
-msgstr "\"Düzenlenmesi gerekli\" olarak ekle"
-
-msgid "Add as approved translation"
-msgstr "Onaylanmış çeviri olarak eklensin"
+msgid "You can also enter a project/component path."
+msgstr ""
 
 msgid "Component not found!"
 msgstr "Bileşen bulunamadı!"
@@ -16385,6 +16817,11 @@ msgstr "Yapılandırmayı el ile belirtin"
 
 msgid "The category does not belong to the selected project."
 msgstr "Kategori seçilmiş projeye ait değil."
+
+#, fuzzy
+#| msgid "You do not have permission to change project access control."
+msgid "You do not have permission to change project access settings."
+msgstr "Proje erişim denetimini değiştirme izniniz yok."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -16634,6 +17071,10 @@ msgstr "Çeviri yönergesi adresi görüntülensin"
 msgid "Create new language file"
 msgstr "Yeni dil dosyası oluşturulsun"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "Yeni çeviriler eklenemesin"
@@ -16689,6 +17130,16 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Public email"
+msgid "Public sharing"
+msgstr "Herkese açık e-posta"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17973,7 +18424,11 @@ msgid ""
 msgstr ""
 "Düzenlenmesi gerekli olarak imlenmiş çeviriler çeviri dosyasına yazılmaz."
 
-msgid "Only approved translations are written to the translation file."
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr "Yalnızca onaylanmış çeviriler çeviri dosyasına yazılır."
 
 msgid "Could not accept suggestion!"
@@ -18309,6 +18764,44 @@ msgstr[1] "%(count)s dizge burada çevrilmiyor."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "%s projesinden paylaşıldı."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Project settings"
+msgstr "Proje ayarlarını düzenleme"
+
+#, fuzzy
+#| msgid "Reset customization"
+msgid "Site-wide language customization"
+msgstr "Özelleştirmeyi sıfırla"
+
+#, fuzzy
+#| msgid "Project language to remove"
+msgid "Project-language customization"
+msgstr "Silinecek proje dili"
+
+msgid "Only approved translations are written to the translation file."
+msgstr "Yalnızca onaylanmış çeviriler çeviri dosyasına yazılır."
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr ""
+"Düzenlenmesi gerekli olarak imlenmiş çeviriler çeviri dosyasına yazılmaz."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Configure source reviews"
+msgstr "Kaynak onaylama kullanılsın"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configure translation reviews"
+msgstr "Çeviri dosyalarını temizleme"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -18669,6 +19162,11 @@ msgid_plural ""
 "{checks}"
 msgstr[0] "Çeviri kaydedildi. Ancak yeni bir denetim hatası var: {checks}"
 msgstr[1] "Çeviri kaydedildi. Ancak yeni denetim hataları var: {checks}"
+
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
 
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
@@ -20387,14 +20885,25 @@ msgstr "Sayfa yazı tipi"
 msgid "Header font"
 msgstr "Üst bilgi yazı tipi"
 
-msgid "Navigation color (Light, Dark)"
-msgstr "Gezinme rengi (Açık, Koyu)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header color (Light, Dark)"
+msgstr "Üzerine gelme rengi (Açık, Koyu)"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr "Gezinme yazı rengi (Açık, Koyu)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
+msgstr "Üzerine gelme rengi (Açık, Koyu)"
 
-msgid "Focus color (Light, Dark)"
+#, fuzzy
+#| msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
 msgstr "Odak rengi (Açık, Koyu)"
+
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header accent color (Light, Dark)"
+msgstr "Üzerine gelme rengi (Açık, Koyu)"
 
 msgid "Hover color (Light, Dark)"
 msgstr "Üzerine gelme rengi (Açık, Koyu)"
@@ -20502,7 +21011,6 @@ msgstr "Nesne listemesi kapalı"
 msgid "Return to Weblate"
 msgstr "Weblate panosuna dön"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr "Hızlı belgeleri içe aktar"
 
@@ -20710,6 +21218,88 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "Kaynak silindi."
+
+#~ msgid "Download reports"
+#~ msgstr "Raporları indirme"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Haiku 4.5"
+#~ msgstr "Claude Haiku 4.5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Sonnet 4.5 (Recommended)"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Sonnet 5"
+#~ msgstr "Claude Sonnet 4.5 (önerilir)"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Opus 4.5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 5"
+#~ msgstr "Claude Opus 4.5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Haiku 4.5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5.1"
+#~ msgstr "Claude Haiku 4.5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Opus 4.5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 4.8"
+#~ msgstr "Claude Opus 4.5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Haiku 4.5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5"
+#~ msgstr "Claude Haiku 4.5"
+
+#~ msgid "Suggested change"
+#~ msgstr "Önerilen değişiklik"
+
+#~ msgid "Origin"
+#~ msgstr "Kaynak"
+
+#~ msgid "Similarity"
+#~ msgstr "Benzerlik"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr ""
+#~ "Kaynak olarak kullanılacak bir bileşenin adres son ekini yazın. Geçerli "
+#~ "projedeki tüm bileşenlerin kullanılması için boş bırakın."
+
+#, fuzzy
+#~| msgid ""
+#~| "Enter slug of a component to use as source, keep blank to use all "
+#~| "components in the current project."
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "Kaynak olarak kullanılacak bir bileşenin adres son ekini yazın. Geçerli "
+#~ "projedeki tüm bileşenlerin kullanılması için boş bırakın."
+
+#~ msgid ""
+#~ "Turn on contribution to shared translation memory for the project to get "
+#~ "access to additional components."
+#~ msgstr ""
+#~ "Ek bileşenlere erişebilmesi için projenin paylaşılan çeviri belleğine "
+#~ "katkıda bulunma özelliğini açar."
+
+#~ msgid "Navigation color (Light, Dark)"
+#~ msgstr "Gezinme rengi (Açık, Koyu)"
+
+#~ msgid "Navigation text color (Light, Dark)"
+#~ msgstr "Gezinme yazı rengi (Açık, Koyu)"
 
 #~ msgid ""
 #~ "The regular expression must define named groups for component and "
@@ -21109,9 +21699,6 @@ msgstr "Kaynak silindi."
 
 #~ msgid "View all alerts"
 #~ msgstr "Tüm uyarıları görüntüle"
-
-#~ msgid "Component alerts"
-#~ msgstr "Bileşen uyarıları"
 
 #~ msgid "Automatically recognize"
 #~ msgstr "Kendiliğinden tanı"
@@ -22049,11 +22636,6 @@ msgstr "Kaynak silindi."
 #~ msgid "Could not find matching project!"
 #~ msgstr "Eşleşen bir proje bulunamadı!"
 
-#, fuzzy
-#~| msgid "Failed to find matching language!"
-#~ msgid "Could not find matching language!"
-#~ msgstr "Eşleşen bir dil bulunamadı!"
-
 #~ msgid "XLIFF with gettext extensions"
 #~ msgstr "Gettext uzantılı XLIFF"
 
@@ -22745,9 +23327,6 @@ msgstr "Kaynak silindi."
 #~ msgid "Export glossary"
 #~ msgstr "Sözlüğü dışa aktar"
 
-#~ msgid "There are no glossaries defined for this language."
-#~ msgstr "Bu dil için tanımlanmış bir sözlük yok."
-
 #~ msgid "Failed to change a context!"
 #~ msgstr "Bir bağlamı değiştirme başarısız oldu!"
 
@@ -22877,9 +23456,6 @@ msgstr "Kaynak silindi."
 
 #~ msgid "run the Enterprise plan."
 #~ msgstr "Kurumsal planı çalıştıracak."
-
-#~ msgid "Public email"
-#~ msgstr "Herkese açık e-posta"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "Kaynak kod deposunun URL'si, örneğin Git veya Mercurial."
@@ -23031,9 +23607,6 @@ msgstr "Kaynak silindi."
 #~ msgid "Insufficient privileges for editing template."
 #~ msgstr "Şablonu düzenlemek için yetersiz yetkiler."
 
-#~ msgid "Context:"
-#~ msgstr "Bağlam:"
-
 #~ msgid "Translation memory for the whole platform"
 #~ msgstr "Tüm platform için çeviri belleği"
 
@@ -23089,9 +23662,6 @@ msgstr "Kaynak silindi."
 #~ msgstr ""
 #~ "Kapatıldığında, URL'ler bağlantılara dönüştürülür ve her biçimlendirmeden "
 #~ "kaçınılacak."
-
-#~ msgid "Administered projects"
-#~ msgstr "Yönetilen projeler"
 
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "Grup ekle (tüm platformda)"
@@ -23886,9 +24456,6 @@ msgstr "Kaynak silindi."
 #~ msgid "Notification on merge failure"
 #~ msgstr "Birleştirme hatasında bildirim"
 
-#~ msgid "Notification on new language request"
-#~ msgstr "Yeni dil isteğinde bildirim"
-
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "
 #~ "projects."
@@ -24367,13 +24934,6 @@ msgstr "Kaynak silindi."
 
 #~ msgid "Summary of languages"
 #~ msgstr "Dillerin özeti"
-
-#~ msgid ""
-#~ "This page is based on the Terms of Service, you should still read the "
-#~ "original document to fully understand them."
-#~ msgstr ""
-#~ "Bu sayfa Hizmet Şartları'nı temel alır, yine de onları tam olarak anlamak "
-#~ "için özgün belgeyi okumalısınız."
 
 #~ msgid "Indexing offloading processing"
 #~ msgstr "İndeksleme boşaltımı işleniyor"
@@ -25792,9 +26352,6 @@ msgstr "Kaynak silindi."
 #~ msgid "Git repository with Weblate translations:"
 #~ msgstr "Weblate çevirilerinin olduğu Git havuzu:"
 
-#~ msgid "Watched"
-#~ msgstr "İzlenen"
-
 #, fuzzy
 #~| msgid "Invalid link to a Weblate project, can not link to self!"
 #~ msgid ""
@@ -25911,9 +26468,6 @@ msgstr "Kaynak silindi."
 
 #~ msgid "Git push URL"
 #~ msgstr "Git yollama URL'si"
-
-#~ msgid "Subproject is now open for translation updates."
-#~ msgstr "Alt proje artık çeviri güncellemeleri için açık."
 
 #~ msgid ""
 #~ "Please note that you have to complete the registration from this computer "

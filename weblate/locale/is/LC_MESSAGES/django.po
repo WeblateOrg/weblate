@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
 "PO-Revision-Date: 2026-07-31 08:24+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -327,6 +327,25 @@ msgstr ""
 
 msgid "Enter the code from the app"
 msgstr "Settu inn kóðann úr forritinu"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Project, category, component, or translation path"
+msgstr "Allir þýðingarhlutar eru núna opnir fyrir uppfærslum á þýðingum."
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Aliased language codes"
+msgid "Enter a valid object path."
+msgstr "Samheiti tungumálakóða"
+
+msgid "The target does not exist or you cannot access it."
+msgstr ""
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -883,6 +902,60 @@ msgstr "Nota tölvupóstfang notandans"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Gefðu upp tölvupóstfang til að senda inn þýðingar."
 
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscription."
+msgstr "Engir samsvarandi strengir fundust."
+
+#, fuzzy
+#| msgid "Terminate recurring payment"
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Hætta endurtekinni greiðslu"
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The user cannot access this target."
+msgstr "Ekki er hægt að breyta upprunastreng."
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The user is not watching this project."
+msgstr "Notandinn hefur verið útilokaður í þessu verkefni."
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+msgid "The project or component subscriptions apply to other targets."
+msgstr ""
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
 msgid "No notification"
 msgstr "Engin tilkynning"
 
@@ -897,6 +970,25 @@ msgstr "Vikuleg samantekt"
 
 msgid "Monthly digest"
 msgstr "Mánaðarleg samantekt"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watch"
+msgid "Watched"
+msgstr "Vakta"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administered"
+msgstr "Kerfisstjórnun"
+
+msgid "Project"
+msgstr "Verkefni"
+
+msgid "Component"
+msgstr "Þýðingarhluti"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -996,6 +1088,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "Þýðingarhluti var þýddur"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Athugasemd var bætt við"
@@ -1007,6 +1104,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Athugasemd var bætt við"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Minnst var á þig í athugasemd"
@@ -1017,6 +1117,11 @@ msgstr "Minnst var á þig í athugasemd"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Minnst var á þig í athugasemd"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -1087,6 +1192,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "Nýr þýðingarhluti var útbúinn"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Tilkynning var birt"
@@ -1097,6 +1207,11 @@ msgstr "Tilkynning var birt"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Tilkynning var birt"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1258,6 +1373,11 @@ msgstr "Hafa samband"
 msgid "Hosting"
 msgstr "Hýsing"
 
+#, fuzzy
+#| msgid "Manage users"
+msgid "Invalid trial plan."
+msgstr "Sýsla með notendur"
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1274,6 +1394,11 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Ókeypis prufuáskrift"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification diagnostics for %(user)s"
+msgstr "Þagga niður í tilkynningum fyrir %(object)s"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -1438,6 +1563,13 @@ msgstr "Auðkenningarforritið var fjarlægt."
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "Auðkenningarforritið %s var skráð."
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "Skráningarhlekkurinn hefur verið ógildur."
 
 #, fuzzy
 #| msgid ""
@@ -2978,9 +3110,6 @@ msgstr "Endurlesa allar þýðingaskrár í Weblate-gagnasafninu"
 msgid "Please provide a suggestion"
 msgstr "Eyða tillögu"
 
-msgid "Translation text too long!"
-msgstr "Þýðingartexti er of langur!"
-
 #, fuzzy
 #| msgid "Number of plurals"
 msgid "Number of plurals does not match"
@@ -2988,6 +3117,9 @@ msgstr "Fjöldi fleirtölumynda"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Tillagan þín er svipuð fyrirliggjandi þýðingu!"
+
+msgid "Translation text too long!"
+msgstr "Þýðingartexti er of langur!"
 
 msgid "Your suggestion already exists!"
 msgstr "Tillagan þín er þegar til staðar!"
@@ -3073,14 +3205,8 @@ msgstr "Þú hefur ekki heimild til að samþykkja tillögur!"
 msgid "This string seems to already exist."
 msgstr "Þessi strengur virðist vera þegar til staðar."
 
-msgid "Project"
-msgstr "Verkefni"
-
 msgid "Category"
 msgstr "Flokkur"
-
-msgid "Component"
-msgstr "Þýðingarhluti"
 
 msgid "User"
 msgstr "Notandi"
@@ -3171,8 +3297,11 @@ msgid "Manage project access"
 msgstr "Sýsla með aðgang að verkefni"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Sækja skýrslur"
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage repository"
+msgid "Manage reports"
+msgstr "Sýsla með gagnasafn"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4209,9 +4338,10 @@ msgstr "Frumtexti og þýðing byrja ekki bæði á sama fjölda bila."
 msgid "Non‑standard characters in Kabyle"
 msgstr ""
 
+#, python-brace-format
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 
 msgid "Trailing space"
@@ -4265,7 +4395,9 @@ msgstr "Frumtexti og þýðing enda ekki bæði á úrfellingarmerki."
 msgid "Mismatched \\n"
 msgstr "Ósamræmi í \\n"
 
-msgid "Number of \\n literals in translation does not match source."
+#, fuzzy, python-brace-format
+#| msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "Fjöldi \\nlesgilda í þýðingu samsvarar ekki frumtexta."
 
 msgid "Mismatching line breaks"
@@ -5181,12 +5313,12 @@ msgstr "Strengurinn er notaður sem fleirtala en er ekki að nota fleirtöluform
 msgid "Ellipsis"
 msgstr "Úrfellingarmerki (ellipsis)"
 
-#, fuzzy
+#, fuzzy, python-brace-format
 #| msgid ""
 #| "The string uses three dots (...) instead of an ellipsis character (…)."
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr "Strengurinn notar þrjá punkta (...) í stað úrfellingamerkis (…)."
 
 msgid "Source string length"
@@ -5254,6 +5386,9 @@ msgstr ""
 
 msgid "Font"
 msgstr "Letur"
+
+msgid "Font has to be in the same project as the font group."
+msgstr ""
 
 msgid "Unsupported file format."
 msgstr "Óstutt skráasnið."
@@ -5994,7 +6129,8 @@ msgstr "Persónuverndarstefna"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "Lestu vel almennu þjónustuskilmálana:"
 
-msgid "Please also read the Privacy Policy:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 
 msgid "Submit"
@@ -6013,6 +6149,32 @@ msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
+msgstr ""
+"Þessi síða er byggð á síðunum 'Almennir þjónustuskilmálar og kvaðir' og "
+"'Meðferð persónuupplýsinga', þú ættir samt að lesa upprunalegu skjölin til "
+"að skilja þetta til fulls:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"Þessi síða er byggð á síðunum 'Almennir þjónustuskilmálar og kvaðir' og "
+"'Meðferð persónuupplýsinga', þú ættir samt að lesa upprunalegu skjölin til "
+"að skilja þetta til fulls:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
 msgstr ""
 "Þessi síða er byggð á síðunum 'Almennir þjónustuskilmálar og kvaðir' og "
 "'Meðferð persónuupplýsinga', þú ættir samt að lesa upprunalegu skjölin til "
@@ -6326,9 +6488,6 @@ msgstr ""
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
 
-msgid "DeepL API v1 is no longer supported."
-msgstr ""
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr ""
@@ -6466,30 +6625,6 @@ msgid "Ollama model"
 msgstr ""
 
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
 msgstr ""
 
 #, fuzzy
@@ -7254,7 +7389,6 @@ msgstr "Leiðréttu villur í skráningarforminu."
 msgid "Verify new e-mail address"
 msgstr "Sannreyna nýja tölvupóstfangið"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Nýskrá"
 
@@ -7306,6 +7440,150 @@ msgstr "Gleymdirðu lykilorðinu?"
 
 msgid "Register new account"
 msgstr "Skrá nýjan aðgang"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification diagnostics"
+msgstr "Stillingar á tilkynningum"
+
+msgid "Diagnostics"
+msgstr ""
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "View notification"
+msgid "Check notifications"
+msgstr "Skoða tilkynningu"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification eligibility for %(target)s"
+msgstr "Þagga niður í tilkynningum fyrir %(object)s"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+msgid "Notification"
+msgstr "Tilkynning"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Inherited project settings"
+msgstr "Breyta stillingum verkefnis"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Component exceptions"
+msgstr "Aðvaranir í þýðingarhlutum"
+
+msgid "One-time"
+msgstr "Eitt skipti"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Overridden subscriptions"
+msgstr "Prufuáskriftir"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse all components"
+msgid "Inspect example components:"
+msgstr "Skoða alla þýðingarhluta"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Inspect components:"
+msgstr "Aðrir þýðingarhlutar"
+
+#, fuzzy
+#| msgctxt "No known user"
+#| msgid "None"
+msgid "None"
+msgstr "Ekkert"
+
+#, fuzzy
+#| msgid "You do not have permissions to add new translation file."
+msgid "No accessible components or translations in this target."
+msgstr "Þú hefur ekki heimild til að bæta við nýrri þýðingaskrá."
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscriptions in this scope."
+msgstr "Engir samsvarandi strengir fundust."
+
+#, fuzzy, python-format
+#| msgid "Browse %(count)s project"
+#| msgid_plural "Browse all %(count)s projects"
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "Skoða %(count)s verkefni"
+msgstr[1] "Skoða öll %(count)s verkefni"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "Vöktuð verkefni"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification languages"
+msgstr "Stillingar á tilkynningum"
+
+#, fuzzy, python-format
+#| msgid "Failed to find matching language!"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "Mistókst að finna samsvarandi tungumál!"
+msgstr[1] "Mistókst að finna samsvarandi tungumál!"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Subscriptions"
+msgstr "Prufuáskriftir"
+
+msgid "Frequency"
+msgstr "Tíðni"
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "No subscriptions."
+msgstr "Prufuáskriftir"
 
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
@@ -7365,6 +7643,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Vista"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Open notification diagnostics"
+msgstr "Stillingar á tilkynningum"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7806,7 +8094,12 @@ msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "Prufuaðgangurinn þinn mun vara í 14 daga."
 msgstr[1] "Prufuaðgangurinn þinn mun vara í 14 daga."
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, fuzzy, python-format
+#| msgid ""
+#| "Your trial will run the 640k plan, but you can choose any plan later."
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 "Prufuaðgangurinn þinn mun keyra eins og 640k-áskrift, en þú getur valið "
 "hverkyns áskrift síðar."
@@ -7908,15 +8201,6 @@ msgstr "Auðkenni"
 
 msgid "User ID"
 msgstr "Notandaauðkenni"
-
-msgid "Notification"
-msgstr "Tilkynning"
-
-msgid "Frequency"
-msgstr "Tíðni"
-
-msgid "One-time"
-msgstr "Eitt skipti"
 
 msgid "Members"
 msgstr "Meðlimir"
@@ -8775,6 +9059,9 @@ msgstr "Aðgerðir"
 msgid "Search and replace"
 msgstr "Leita og skipta út"
 
+msgid "Post announcement"
+msgstr "Senda inn tilkynningu"
+
 msgid "Organize or remove"
 msgstr "Skipuleggja eða fjarlægja"
 
@@ -8793,6 +9080,12 @@ msgstr "Virkja"
 #| msgid "Browse all components"
 msgid "Browse components"
 msgstr "Skoða alla þýðingarhluta"
+
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
 
 msgid "Announcements"
 msgstr "Tilkynningar"
@@ -8819,9 +9112,6 @@ msgstr "Sjálfvirk þýðing"
 
 msgid "Add new category"
 msgstr "Bæta við nýjum flokki"
-
-msgid "Post announcement"
-msgstr "Senda inn tilkynningu"
 
 #, fuzzy
 #| msgid "Browse all repository changes"
@@ -8885,9 +9175,6 @@ msgstr "Hætta uppfærslunni"
 
 msgid "Continue after completion"
 msgstr "Halda áfram eftir að þetta klárast"
-
-msgid "Diagnostics"
-msgstr ""
 
 #, fuzzy
 #| msgid "Error"
@@ -9355,6 +9642,9 @@ msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "(%(count)s vantar í ýtigreinina)"
 msgstr[1] "(%(count)s vantar í ýtigreinina)"
 
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
@@ -9568,6 +9858,11 @@ msgstr "Gagnasafn fyrir %(component)s"
 msgid "Repository details"
 msgstr "Nánar um gagnasafn"
 
+#, fuzzy
+#| msgid "Good configuration"
+msgid "Edit repository configuration"
+msgstr "Uppsetning í lagi"
+
 msgid "Repository changes"
 msgstr "Breytingar í gagnasafni"
 
@@ -9606,6 +9901,10 @@ msgstr ""
 
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Afmerkja þýðingu merkta sem \"Þarfnast breytinga\" og senda hana inn."
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -9680,6 +9979,11 @@ msgstr "Breytingar á fleirtölureglum geta haft óæskilegar afleiðingar."
 
 msgid "Please see a documentation for more info."
 msgstr "Skoðaðu leiðbeiningarnar til að vita meira."
+
+#, fuzzy
+#| msgid "Translation Info"
+msgid "Translation workflow"
+msgstr "Upplýsingar um þýðingu"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -9967,10 +10271,6 @@ msgstr "Þýðingarhluta %(component)s var læst"
 msgid "Component %(component)s was unlocked"
 msgstr "Þýðingarhluta %(component)s var aflæst"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -10214,6 +10514,10 @@ msgstr "Staðfesta fjarlægingu aðgangs"
 
 msgid "Confirm invitation"
 msgstr "Staðfesta boð"
+
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr ""
 
 msgid "Source string description"
 msgstr "Lýsing á upprunastreng"
@@ -10946,6 +11250,11 @@ msgstr ""
 "Umsjónarmönnum verkefnisins hefur verið gert viðvart um þessa beiðni, og "
 "munu þeir þurfa að bæta tungumálinu við handvirkt."
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr "Finnurðu ekki tungumálið þitt í listanum hér fyrir ofan?"
 
@@ -11269,6 +11578,39 @@ msgstr ""
 
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
+
+msgid "Translation quality filter"
+msgstr "Gæðasía þýðinga"
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr "Samþykkti þýðingu í %(translation)s"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Configure language workflow"
+msgstr "Eins-tungumáls grunntungumálsskrá"
+
+#, fuzzy
+#| msgid "Translation quality filter"
+msgid "Configure translation quality filter"
+msgstr "Gæðasía þýðinga"
 
 msgid "View details"
 msgstr "Skoða nánar"
@@ -11893,6 +12235,11 @@ msgstr "Þýddir strengir í tilteknu tungumáli"
 msgid "Query"
 msgstr "Fyrirspurn"
 
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh results"
+msgstr "Gagnasöfn"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -11968,6 +12315,35 @@ msgstr "Engir endurheimtukóðar útbúnir ennþá."
 #| msgid "Repository initialization"
 msgid "Report history pagination"
 msgstr "Frumstilling gagnasafns"
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Reviews are enabled for this language."
+msgstr "Skoða allar breytingar fyrir þetta tungumál"
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Reviews are disabled for this language."
+msgstr "Skoða allar breytingar fyrir þetta tungumál"
+
+#, fuzzy, python-format
+#| msgid "Review strings"
+msgid "Review setting: %(origin)s."
+msgstr "Yfirfara strengi"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+msgid "Learn how to customize translation workflows."
+msgstr ""
+
+#, fuzzy
+#| msgid "No translation found."
+msgid "Configure translation workflow"
+msgstr "Engin þýðing fannst."
 
 #, python-format
 msgid ""
@@ -12056,7 +12432,7 @@ msgstr "Greiða atkvæði gegn"
 
 #, fuzzy, python-format
 #| msgid "Accepted invitation from {username}."
-msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "Samþykkti boð frá {username}."
 
 msgid "Accept"
@@ -12535,6 +12911,24 @@ msgid ""
 "requests."
 msgstr ""
 
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+
 msgid "This component is set up incorrectly."
 msgstr "Þessi þýðingarhluti er ekki rétt uppsettur."
 
@@ -12761,19 +13155,15 @@ msgstr "Sækja nýjustu breytingar sem CSV"
 msgid "Follow using RSS"
 msgstr "Fylgjast með í gegnum RSS"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "Úr útgáfustýringu"
 
-#. Translators: Create a component from existing component
 msgid "From an existing component"
 msgstr "Úr fyrirliggjandi þýðingarhluta"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "Viðbótargrein"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "Senda inn þýðingaskrár"
 
@@ -12781,7 +13171,6 @@ msgstr "Senda inn þýðingaskrár"
 msgid "Translate document"
 msgstr "Þýða skjal"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "Byrja frá grunni"
 
@@ -13134,6 +13523,11 @@ msgstr "Opna í Zen-ham"
 msgid "Configure editor"
 msgstr "Stilla þýðingaritil"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr "Varanlegur tengill afritaður á klippispjald."
 
@@ -13254,14 +13648,30 @@ msgstr "Beita valinni þýðingu á fyrirliggjandi þýðingastreng"
 msgid "Browse all string changes"
 msgstr "Skoða allar breytingar á strengjum"
 
-msgid "Suggested change"
-msgstr "Breyting sem stungið er upp á"
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "Search translation memory"
+msgstr "Sameiginlegt þýðingaminni"
 
-msgid "Origin"
-msgstr "Uppruni"
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching machine translations found."
+msgstr "Engir samsvarandi strengir fundust."
 
-msgid "Similarity"
-msgstr "Líkindi"
+#, fuzzy
+#| msgid "Delete comment"
+msgid "Delete entry"
+msgstr "Eyða athugasemd"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
+msgstr "Frumtexti"
+
+#, fuzzy
+#| msgid "Context"
+msgid "Context:"
+msgstr "Samhengi"
 
 #, fuzzy
 #| msgid "Confirm deleting all translation memory entries"
@@ -13329,9 +13739,6 @@ msgstr "Þessi strengur hefur verið þýddur áður."
 #| msgid "This string has been translated in the past."
 msgid "This string was translated automatically by %(author)s."
 msgstr "Þessi strengur hefur verið þýddur áður."
-
-msgid "Translation quality filter"
-msgstr "Gæðasía þýðinga"
 
 msgid "Add term to glossary"
 msgstr "Bæta hugtaki í orðasafn"
@@ -14968,6 +15375,11 @@ msgid "Glossary using monolingual files."
 msgstr "Orðasafn notar eins-tungumáls skrár."
 
 #, fuzzy
+#| msgid "Source string editing is disabled."
+msgid "Glossary string management is disabled"
+msgstr "Breytingar á upprunastreng eru óvirkar."
+
+#, fuzzy
 #| msgid "Used languages"
 msgid "Unused glossary language."
 msgstr "Notuð tungumál"
@@ -15370,9 +15782,6 @@ msgstr "Útgáfustýring"
 
 msgid "State"
 msgstr "Staða"
-
-msgid "All"
-msgstr ""
 
 msgid "Severity"
 msgstr "Alvarleiki"
@@ -15822,6 +16231,13 @@ msgstr "Önnur þýðing"
 msgid "The string you wanted to translate is no longer available."
 msgstr "Strengurinn sem þú ætlaðir að þýða er ekki lengur aðgengilegur."
 
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr "Strengurinn sem þú ætlaðir að þýða er ekki lengur aðgengilegur."
+
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -15904,31 +16320,41 @@ msgstr "Gat ekki fundið sameinuðu strengina."
 msgid "Could not find the reverted change."
 msgstr "Gat ekki fundið afturkölluðu breytinguna."
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Enter a source component ID."
+msgstr "Takmarkaður þýðingarhluti"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"Settu inn slóðarbút (slug) þýðingarhluta til þess að nota sem uppruna, "
-"skildu eftir autt til þess að nota alla þýðingarhluta í virka verkefninu."
+
+msgid ""
+"Leave blank to use eligible components from each target component's project."
+msgstr ""
 
 #, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
-msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
-msgstr ""
-"Settu inn slóðarbút (slug) þýðingarhluta til þess að nota sem uppruna, "
-"skildu eftir autt til þess að nota alla þýðingarhluta í virka verkefninu."
-
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr ""
+#| msgid "All components in current project"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "Allir þýðingarhlutar í þessu verkefni"
 
 msgid "Automatic translation mode"
 msgstr "Sjálfvirkur þýðingarhamur"
+
+msgid "Add as suggestion"
+msgstr "Bæta við sem tillögu"
+
+msgid "Add as translation"
+msgstr "Bæta við sem þýðingu"
+
+msgid "Add as \"Needing edit\""
+msgstr "Bæta við sem \"Þarfnast breytinga\""
+
+msgid "Add as approved translation"
+msgstr "Bæta við sem samþykktri þýðingu"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -15954,23 +16380,26 @@ msgstr ""
 
 #, fuzzy
 #| msgid "All components in current project"
-msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "Allir þýðingarhlutar í þessu verkefni"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "All eligible components in current project"
 msgstr "Allir þýðingarhlutar í þessu verkefni"
 
-msgid "Add as suggestion"
-msgstr "Bæta við sem tillögu"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Eligible components from each target component's project"
+msgstr "Allir þýðingarhlutar í þessu verkefni"
 
-msgid "Add as translation"
-msgstr "Bæta við sem þýðingu"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
 
-msgid "Add as \"Needing edit\""
-msgstr "Bæta við sem \"Þarfnast breytinga\""
-
-msgid "Add as approved translation"
-msgstr "Bæta við sem samþykktri þýðingu"
+msgid "You can also enter a project/component path."
+msgstr ""
 
 msgid "Component not found!"
 msgstr "Þýðingarhluti fannst ekki!"
@@ -16177,6 +16606,11 @@ msgstr ""
 #| msgid "Category does not belong to this project."
 msgid "The category does not belong to the selected project."
 msgstr "Flokkur tilheyrir ekki þessu verkefni."
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to change project access settings."
+msgstr "Þú hefur ekki heimild til að samþykkja tillögur!"
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -16402,6 +16836,10 @@ msgstr ""
 msgid "Create new language file"
 msgstr "Búa til nýja tungumálsskrá"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "Gera óvirkt að bæta við nýjum þýðingum"
@@ -16456,6 +16894,16 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Public"
+msgid "Public sharing"
+msgstr "Opinbert"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17607,7 +18055,9 @@ msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
 
 #, fuzzy
 #| msgid "Approved translation in %(translation)s"
-msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr "Samþykkti þýðingu í %(translation)s"
 
 msgid "Could not accept suggestion!"
@@ -17951,6 +18401,43 @@ msgstr[1] "%(count)s strengir eru ekki þýddir hér."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Deilt úr %s verkefninu."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Project settings"
+msgstr "Breyta stillingum verkefnis"
+
+#, fuzzy
+#| msgid "Reset customization"
+msgid "Site-wide language customization"
+msgstr "Frumstilla sérsníðingu"
+
+#, fuzzy
+#| msgid "Project language to remove"
+msgid "Project-language customization"
+msgstr "Tungumál verkefnis sem á að fjarlægja"
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid "Only approved translations are written to the translation file."
+msgstr "Samþykkti þýðingu í %(translation)s"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr "Þvingar ritun allra strengja inn í þýðingaskrárnar."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Configure source reviews"
+msgstr "Virkja yfirferð/prófarkalestur upprunastrengja"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configure translation reviews"
+msgstr "Taka til í þýðingaskrám"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -18308,6 +18795,11 @@ msgstr[0] ""
 msgstr[1] ""
 "Þýðingin hefur verið vistuð, hilsvegar féll hún á einhverjum nýlegum "
 "prófunum: {0}"
+
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
 
 msgid "Your suggestion is empty!"
 msgstr "Tillagan þín er auð!"
@@ -20025,14 +20517,25 @@ msgstr "Letur á síðu"
 msgid "Header font"
 msgstr "Leturgerð á haus"
 
-msgid "Navigation color (Light, Dark)"
-msgstr "Litur leiðsagnar (Ljóst, Dökkt)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header color (Light, Dark)"
+msgstr "Litur við yfirsvif (ljóst, dökkt)"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr "Litur leiðsagnartexta (Ljóst, Dökkt)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
+msgstr "Litur við yfirsvif (ljóst, dökkt)"
 
-msgid "Focus color (Light, Dark)"
+#, fuzzy
+#| msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
 msgstr "Litur á virku (ljóst, dökkt)"
+
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header accent color (Light, Dark)"
+msgstr "Litur við yfirsvif (ljóst, dökkt)"
 
 msgid "Hover color (Light, Dark)"
 msgstr "Litur við yfirsvif (ljóst, dökkt)"
@@ -20135,7 +20638,6 @@ msgstr ""
 msgid "Return to Weblate"
 msgstr "Til baka í Weblate"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr ""
 
@@ -20331,6 +20833,42 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "Frummyndin hefur verið fjarlægð."
+
+#~ msgid "Download reports"
+#~ msgstr "Sækja skýrslur"
+
+#~ msgid "Suggested change"
+#~ msgstr "Breyting sem stungið er upp á"
+
+#~ msgid "Origin"
+#~ msgstr "Uppruni"
+
+#~ msgid "Similarity"
+#~ msgstr "Líkindi"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr ""
+#~ "Settu inn slóðarbút (slug) þýðingarhluta til þess að nota sem uppruna, "
+#~ "skildu eftir autt til þess að nota alla þýðingarhluta í virka verkefninu."
+
+#, fuzzy
+#~| msgid ""
+#~| "Enter slug of a component to use as source, keep blank to use all "
+#~| "components in the current project."
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "Settu inn slóðarbút (slug) þýðingarhluta til þess að nota sem uppruna, "
+#~ "skildu eftir autt til þess að nota alla þýðingarhluta í virka verkefninu."
+
+#~ msgid "Navigation color (Light, Dark)"
+#~ msgstr "Litur leiðsagnar (Ljóst, Dökkt)"
+
+#~ msgid "Navigation text color (Light, Dark)"
+#~ msgstr "Litur leiðsagnartexta (Ljóst, Dökkt)"
 
 #, fuzzy
 #~| msgid "Regular expression which is used to match component slug."
@@ -20655,9 +21193,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 
 #~ msgid "View all alerts"
 #~ msgstr "Skoða allar aðvaranir"
-
-#~ msgid "Component alerts"
-#~ msgstr "Aðvaranir í þýðingarhlutum"
 
 #~ msgid "Automatically recognize"
 #~ msgstr "Þekkja sjálfvirkt"
@@ -21480,11 +22015,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 #~ msgid "Could not find matching project!"
 #~ msgstr "Mistókst að finna samsvarandi verkefni!"
 
-#, fuzzy
-#~| msgid "Failed to find matching language!"
-#~ msgid "Could not find matching language!"
-#~ msgstr "Mistókst að finna samsvarandi tungumál!"
-
 #~ msgid "XLIFF with gettext extensions"
 #~ msgstr "XLIFF með gettext-viðaukum"
 
@@ -22022,11 +22552,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 #~ msgid "last for 14 days."
 #~ msgstr "Síðustu 30 daga"
 
-#, fuzzy
-#~| msgid "Public"
-#~ msgid "Public email"
-#~ msgstr "Opinbert"
-
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "Vefslóð fyrir gagnasafn með grunnkóða, til dæmis Git eða Mercurial."
 
@@ -22035,9 +22560,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 
 #~ msgid "Avatar"
 #~ msgstr "Auðkennismynd"
-
-#~ msgid "Watch"
-#~ msgstr "Vakta"
 
 #, fuzzy
 #~| msgid "Manage users"

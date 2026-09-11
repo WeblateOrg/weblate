@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os.path
 import tempfile
 from difflib import get_close_matches
@@ -17,7 +19,7 @@ from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import connection
-from django.test import SimpleTestCase
+from django.test import Client, SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -25,7 +27,8 @@ from lxml import html
 from PIL import Image
 from rest_framework.test import APITestCase
 
-from weblate.auth.models import Group
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import (
@@ -37,7 +40,7 @@ from weblate.screenshots.views import (
     ocr_get_strings,
 )
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Project
+from weblate.trans.models import Change, Component, Project, Translation
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
@@ -1859,3 +1862,176 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             ).count(),
             0,
         )
+
+
+class ScreenshotSelectTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.make_manager()
+        self.unit = self.get_unit()
+        self.url = reverse("screenshot-select", kwargs={"unit_id": self.unit.pk})
+        self.source_screenshot = Screenshot.objects.create(
+            name="Source preview", translation=self.unit.source_unit.translation
+        )
+        self.target_screenshot = Screenshot.objects.create(
+            name="Target preview", translation=self.unit.translation
+        )
+
+    def test_candidates(self) -> None:
+        other = self.component.translation_set.exclude(
+            pk__in=[self.unit.translation_id, self.unit.source_unit.translation_id]
+        ).first()
+        assert other is not None
+        Screenshot.objects.create(name="Other language preview", translation=other)
+        response = self.client.get(self.url)
+        self.assertContains(response, "Source preview")
+        self.assertContains(response, "Target preview")
+        self.assertNotContains(response, "Other language preview")
+        self.source_screenshot.add_unit(self.unit.source_unit, user=self.user)
+        self.target_screenshot.add_unit(self.unit, user=self.user)
+        response = self.client.get(self.url)
+        self.assertNotContains(response, "Source preview")
+        self.assertNotContains(response, "Target preview")
+        self.assertContains(response, "No matching screenshots available.")
+
+    def test_search_and_pagination(self) -> None:
+        Screenshot.objects.bulk_create(
+            Screenshot(name=f"Preview {index:02}", translation=self.unit.translation)
+            for index in range(49)
+        )
+        response = self.client.get(self.url, {"q": "Preview", "page": "2"})
+        self.assertEqual(response.context["page_obj"].paginator.count, 51)
+        self.assertEqual(len(response.context["page_obj"]), 3)
+        response = self.client.get(self.url, {"q": 'name:"Target preview"'})
+        self.assertContains(response, "Target preview")
+        self.assertNotContains(response, "Source preview")
+        response = self.client.get(self.url, {"q": "language:cs"})
+        self.assertEqual(
+            list(response.context["page_obj"]),
+            list(
+                Screenshot.objects.filter(name__startswith="Preview").order_by(
+                    "name", "pk"
+                )[:48]
+            ),
+        )
+
+    def test_invalid_search(self) -> None:
+        response = self.client.get(self.url, {"q": "state:translated"})
+        self.assertFalse(response.context["search_form"].is_valid())
+        self.assertContains(response, 'class="errorlist"')
+
+    def test_add_and_retry(self) -> None:
+        for screenshot, target in (
+            (self.source_screenshot, self.unit.source_unit),
+            (self.target_screenshot, self.unit),
+        ):
+            with self.subTest(language=screenshot.translation.language_code):
+                for _ in range(2):
+                    response = self.client.post(self.url, {"screenshot": screenshot.pk})
+                    self.assertEqual(response.json(), {"success": True})
+                self.assertEqual(list(screenshot.units.all()), [target])
+                change = screenshot.change_set.get(action=ActionEvents.SCREENSHOT_ADDED)
+                self.assertEqual(change.unit, target)
+                self.assertEqual(change.user, self.user)
+
+    def test_source_editor(self) -> None:
+        url = reverse("screenshot-select", kwargs={"unit_id": self.unit.source_unit.pk})
+        response = self.client.get(url)
+        self.assertContains(response, "Source preview")
+        self.assertNotContains(response, "Target preview")
+        response = self.client.post(url, {"screenshot": self.source_screenshot.pk})
+        self.assertEqual(response.json(), {"success": True})
+        self.assertEqual(
+            list(self.source_screenshot.units.all()), [self.unit.source_unit]
+        )
+
+    def test_invalid_selection(self) -> None:
+        other = self.component.translation_set.exclude(
+            pk__in=[self.unit.translation_id, self.unit.source_unit.translation_id]
+        ).first()
+        assert other is not None
+        screenshot = Screenshot.objects.create(name="Other language", translation=other)
+        for value in ("", "invalid", -1, screenshot.pk):
+            with self.subTest(value=value):
+                response = self.client.post(self.url, {"screenshot": value})
+                self.assertEqual(response.status_code, 400)
+                self.assertIn("error", response.json())
+        self.assertFalse(screenshot.units.exists())
+        self.assertFalse(
+            Change.objects.filter(action=ActionEvents.SCREENSHOT_ADDED).exists()
+        )
+
+    def test_other_component(self) -> None:
+        other = Component(
+            name="Other component",
+            slug="other",
+            project=self.project,
+            source_language=self.component.source_language,
+        )
+        Component.objects.bulk_create([other])
+        translation = Translation(
+            component=other,
+            language=self.unit.translation.language,
+            plural=self.unit.translation.plural,
+        )
+        Translation.objects.bulk_create([translation])
+        screenshot = Screenshot(name="Other component preview", translation=translation)
+        Screenshot.objects.bulk_create([screenshot])
+        response = self.client.get(self.url)
+        self.assertNotContains(response, "Other component preview")
+        response = self.client.post(self.url, {"screenshot": screenshot.pk})
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(screenshot.units.exists())
+
+    def test_permissions(self) -> None:
+        self.user.groups.remove(Group.objects.get(name="Managers"))
+        self.project.remove_user(self.user)
+        for method in (self.client.get, self.client.post):
+            response = method(self.url, {"screenshot": self.source_screenshot.pk})
+            self.assertEqual(response.status_code, 403)
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        for method in (self.client.get, self.client.post):
+            response = method(self.url, {"screenshot": self.source_screenshot.pk})
+            self.assertEqual(response.status_code, 404)
+        self.client.logout()
+        for method in (self.client.get, self.client.post):
+            response = method(self.url)
+            self.assertEqual(response.status_code, 302)
+        self.assertFalse(self.source_screenshot.units.exists())
+
+    def test_csrf_and_methods(self) -> None:
+        client = Client(enforce_csrf_checks=True)
+        client.force_login(self.user)
+        response = client.post(self.url, {"screenshot": self.source_screenshot.pk})
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(self.client.put(self.url).status_code, 405)
+        self.assertFalse(self.source_screenshot.units.exists())
+
+    def test_editor_permissions(self) -> None:
+        self.user.groups.clear()
+        self.project.remove_user(self.user)
+        group = Group.objects.create(
+            name="Screenshot picker", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        role = Role.objects.create(name="Screenshot picker")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        for permission, existing, upload in (
+            ("screenshot.edit", True, False),
+            ("screenshot.add", False, True),
+        ):
+            with self.subTest(permission=permission):
+                role.permissions.set([Permission.objects.get(codename=permission)])
+                response = self.client.get(self.unit.get_absolute_url(), follow=True)
+                self.assertEqual(response.status_code, 200)
+                document = html.fromstring(response.content)
+                self.assertEqual(
+                    bool(document.xpath('//*[@id="select-screenshot-modal"]')), existing
+                )
+                self.assertEqual(
+                    bool(document.xpath('//*[@id="add-screenshot-form"]')), upload
+                )
+                response = self.client.get(self.url)
+                self.assertEqual(response.status_code, 200 if existing else 403)

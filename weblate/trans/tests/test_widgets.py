@@ -36,6 +36,7 @@ from weblate.trans.widgets import (
     OpenGraphWidget,
     PNGBadgeWidget,
 )
+from weblate.utils.forms import QueryField, SearchField
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.xml import parse_xml
 
@@ -47,6 +48,9 @@ class EngageTaskObject(TranslationChecklistMixin):
     def __init__(self, stats, enable_review: bool = True) -> None:
         self.stats = stats
         self.enable_review = enable_review
+        self.is_readonly = False
+        self.is_source = False
+        self.project = SimpleNamespace(label_set=SimpleNamespace(order=list))
 
     def get_translate_url(self) -> str:
         return "/translate/"
@@ -86,6 +90,88 @@ class EngageTaskChecklistTest(SimpleTestCase):
         tasks = self.get_engage_tasks(enable_review=True)
 
         self.assertEqual(tasks, [])
+
+
+class FilterPresentationTest(SimpleTestCase):
+    def test_search_matches_status_overview(self) -> None:
+        stats = SimpleNamespace(
+            **{
+                f"{key}{suffix}": 1
+                for key in FILTERS.id_query
+                for suffix in ("", "_words", "_chars")
+            }
+        )
+        for review in (False, True):
+            with self.subTest(review=review):
+                obj = EngageTaskObject(stats, enable_review=review)
+                overview = cast("Any", obj).list_translation_checks
+                choices = SearchField("q").get_search_query_choices(
+                    SimpleNamespace(fields={"q": QueryField()})
+                )
+                self.assertEqual(choices[0][:3], ("all", "All strings", ""))
+                queries = {choice[2] for choice in choices}
+                shared = [entry for entry in overview if entry[0] in queries]
+                overview_queries = {entry[0] for entry in shared}
+                self.assertEqual(
+                    [
+                        (choice[2], choice[3])
+                        for choice in choices
+                        if choice[2] in overview_queries
+                    ],
+                    [(entry[0], entry[3]) for entry in shared],
+                )
+                self.assertEqual(
+                    next(
+                        entry[3] for entry in overview if entry[0] == "state:read-only"
+                    ),
+                    "primary" if review else "success",
+                )
+                self.assertEqual("state:approved" in overview_queries, review)
+
+    def test_status_visibility_and_label_order(self) -> None:
+        label_name = "label:Example"
+        stats = SimpleNamespace(
+            **{
+                f"{key}{suffix}": 1
+                for key in (*FILTERS.id_query, label_name)
+                for suffix in ("", "_words", "_chars")
+            }
+        )
+        for readonly, source in ((True, False), (False, True)):
+            with self.subTest(readonly=readonly, source=source):
+                obj = EngageTaskObject(stats)
+                obj.is_readonly = readonly
+                obj.is_source = source
+                obj.project.label_set.order = lambda: [
+                    SimpleNamespace(name="Example", color="blue")
+                ]
+                overview = cast("Any", obj).list_translation_checks
+                queries = [entry[0] for entry in overview]
+                self.assertEqual("state:>=translated" in queries, not readonly)
+                self.assertEqual(
+                    "has:check AND state:>=translated" in queries, not source
+                )
+                self.assertEqual(queries[-2:], ['label:"Example"', "NOT has:label"])
+                self.assertEqual(overview[-2][3], "label label-blue")
+
+    def test_empty_statuses_remain_searchable(self) -> None:
+        obj = EngageTaskObject(
+            SimpleNamespace(
+                **{
+                    f"{key}{suffix}": 0
+                    for key in FILTERS.id_query
+                    for suffix in ("", "_words", "_chars")
+                }
+            )
+        )
+        self.assertEqual(len(cast("Any", obj).list_translation_checks), 1)
+        choices = SearchField("q").get_search_query_choices(
+            SimpleNamespace(fields={"q": QueryField()})
+        )
+        self.assertIn("nottranslated", [choice[0] for choice in choices])
+        self.assertEqual(
+            next(choice[3] for choice in choices if choice[0] == "context"), ""
+        )
 
 
 class WidgetsTest(FixtureTestCase):

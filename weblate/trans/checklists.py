@@ -60,28 +60,26 @@ class TranslationChecklistMixin:
     @cached_property
     def list_translation_checks(self: TranslationProtocol) -> TranslationChecklist:
         """Return list of failing checks on current translation."""
-        result = TranslationChecklist()
+        result = TranslationChecklist(enable_review=self.enable_review)
 
         # All strings
         result.add(self.stats, "all", "")
 
-        result.add_if(
-            self.stats, "readonly", "primary" if self.enable_review else "success"
-        )
+        result.add_if(self.stats, "readonly", "")
 
         if not self.is_readonly:
             if self.enable_review:
-                result.add_if(self.stats, "approved", "primary")
+                result.add_if(self.stats, "approved", "")
 
             # Count of translated strings
-            result.add_if(self.stats, "translated", "success")
+            result.add_if(self.stats, "translated", "")
 
             # To approve
             if self.enable_review:
-                result.add_if(self.stats, "unapproved", "success")
+                result.add_if(self.stats, "unapproved", "")
 
                 # Approved with suggestions
-                result.add_if(self.stats, "approved_suggestions", "primary")
+                result.add_if(self.stats, "approved_suggestions", "")
 
             # Unfinished strings
             result.add_if(self.stats, "todo", "")
@@ -127,11 +125,19 @@ class TranslationChecklistMixin:
             if has_label:
                 result.add_if(self.stats, "unlabeled", "")
 
+        result.sort(
+            key=lambda item: FILTERS.get_filter_order(result.filter_ids[item[0]])
+        )
         return result
 
 
 class TranslationChecklist(UserList):
     """Simple list wrapper for translation checklist."""
+
+    def __init__(self, *, enable_review: bool = False) -> None:
+        super().__init__()
+        self.enable_review = enable_review
+        self.filter_ids: dict[str, str] = {}
 
     def add_if(self, stats, name, level) -> bool:
         """Add to list if there are matches."""
@@ -142,6 +148,9 @@ class TranslationChecklist(UserList):
 
     def add(self, stats, name, level) -> None:
         """Add item to the list."""
+        self.filter_ids[FILTERS.get_filter_query(name)] = name
+        if not name.startswith("label:"):
+            level = FILTERS.get_filter_color(name, enable_review=self.enable_review)
         self.append(
             (
                 FILTERS.get_filter_query(name),

@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
 "PO-Revision-Date: 2026-07-31 08:23+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -343,6 +343,25 @@ msgstr ""
 
 msgid "Enter the code from the app"
 msgstr "Introdu codul din aplicație"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Project, category, component, or translation path"
+msgstr "Toate componentele sunt acum deschise pentru actualizări de traducere."
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Aliased language codes"
+msgid "Enter a valid object path."
+msgstr "Coduri lingvistice alipite"
+
+msgid "The target does not exist or you cannot access it."
+msgstr ""
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -923,6 +942,62 @@ msgstr "Folosește numele de utilizator"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Privilegii insuficiente pentru salvarea traducerilor."
 
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscription."
+msgstr "Nu s-au găsit șiruri care să se potrivească."
+
+#, fuzzy
+#| msgid "Terminate recurring payment"
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Încetare plată recurentă"
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The user cannot access this target."
+msgstr "Șirul sursă nu poate fi editat."
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The user is not watching this project."
+msgstr "Utilizatorul a fost blocat în acest proiect."
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your password has been changed."
+msgid "The project or component subscriptions apply to other targets."
+msgstr "Parola dvs. a fost schimbată."
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
 msgid "No notification"
 msgstr "Fără notificări"
 
@@ -937,6 +1012,25 @@ msgstr "Sinteză săptămânală"
 
 msgid "Monthly digest"
 msgstr "Sinteză lunară"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watching"
+msgid "Watched"
+msgstr "Urmăresc"
+
+#, fuzzy
+#| msgid "Subscribed projects"
+msgid "Administered"
+msgstr "Proiecte abonate"
+
+msgid "Project"
+msgstr "Proiect"
+
+msgid "Component"
+msgstr "Componentă"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -1044,6 +1138,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "Importă ca tradus"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Comentariul a fost adăugat"
@@ -1055,6 +1154,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Comentariul a fost adăugat"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Ai fost menționat într-un comentariu"
@@ -1065,6 +1167,11 @@ msgstr "Ai fost menționat într-un comentariu"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Ai fost menționat într-un comentariu"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -1135,6 +1242,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "A fost creată o nouă componentă de traducere"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Anunțul a fost publicat"
@@ -1145,6 +1257,11 @@ msgstr "Anunțul a fost publicat"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Anunțul a fost publicat"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1312,6 +1429,11 @@ msgstr "Contact"
 msgid "Hosting"
 msgstr "Găzduire"
 
+#, fuzzy
+#| msgid "Manage users"
+msgid "Invalid trial plan."
+msgstr "Gestionare utilizatori"
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1329,6 +1451,11 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Probă gratuită"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification diagnostics for %(user)s"
+msgstr "Dezactivează notificările pentru %(object)s"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -1508,6 +1635,13 @@ msgstr "Invitația utilizatorului a fost eliminată."
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "Aplicația de autentificare %s a fost înregistrată."
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "Legătura de înregistrare a fost invalidată."
 
 #, fuzzy
 #| msgid ""
@@ -3120,9 +3254,6 @@ msgstr "Rescanează toate fișierele de traducere din depozitarul Weblate"
 msgid "Please provide a suggestion"
 msgstr "Notificare la orice traducere"
 
-msgid "Translation text too long!"
-msgstr "Textul traducerii este prea lung!"
-
 #, fuzzy
 #| msgid "Number of plurals"
 msgid "Number of plurals does not match"
@@ -3132,6 +3263,9 @@ msgstr "Numărul de plurale"
 #| msgid "Memory will be then populated with the current translations."
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Memoria va fi apoi completată cu traducerile curente."
+
+msgid "Translation text too long!"
+msgstr "Textul traducerii este prea lung!"
 
 msgid "Your suggestion already exists!"
 msgstr "Sugestia ta există deja!"
@@ -3218,14 +3352,8 @@ msgstr "Nu ai privilegiul de a accepta sugestii!"
 msgid "This string seems to already exist."
 msgstr "Acest șir pare să existe deja."
 
-msgid "Project"
-msgstr "Proiect"
-
 msgid "Category"
 msgstr "Categorie"
-
-msgid "Component"
-msgstr "Componentă"
 
 msgid "User"
 msgstr "Utilizator"
@@ -3319,8 +3447,11 @@ msgid "Manage project access"
 msgstr "Gestionare acces proiect"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Descărcare rapoarte"
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage repository"
+msgid "Manage reports"
+msgstr "Gestionează depozitar"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4424,9 +4555,10 @@ msgstr "Sursa și traducerea nu încep cu același număr de spații"
 msgid "Non‑standard characters in Kabyle"
 msgstr ""
 
+#, python-brace-format
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 
 msgid "Trailing space"
@@ -4498,9 +4630,9 @@ msgstr "Sursa și traducerea nu se termină cu o elipsă"
 msgid "Mismatched \\n"
 msgstr "Nepotrivit \\n"
 
-#, fuzzy
+#, fuzzy, python-brace-format
 #| msgid "Number of \\n literals in translation does not match source"
-msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "Numărul de linii noi \\n din traducere nu corespunde sursei"
 
 msgid "Mismatching line breaks"
@@ -5643,12 +5775,12 @@ msgstr "Șirul este folosit ca plural, dar nu se folosesc forme de plural"
 msgid "Ellipsis"
 msgstr "Elipsă"
 
-#, fuzzy
+#, fuzzy, python-brace-format
 #| msgid ""
 #| "The string uses three dots (...) instead of an ellipsis character (…)"
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr ""
 "Șirul de caractere utilizează trei puncte (...) în loc de un caracter de "
 "elipsă (...)"
@@ -5726,6 +5858,11 @@ msgstr ""
 
 msgid "Font"
 msgstr "Font"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Font has to be in the same project as the font group."
+msgstr "Categoria părinte trebuie să fie în același proiect!"
 
 msgid "Unsupported file format."
 msgstr "Format de fișier neacceptat."
@@ -6481,7 +6618,8 @@ msgstr "Politica de confidențialitate"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "Te rugăm să citești următorul document privind Termenii serviciului:"
 
-msgid "Please also read the Privacy Policy:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 
 msgid "Submit"
@@ -6504,6 +6642,30 @@ msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
+msgstr ""
+"Această pagină se bazează pe Termenii serviciului și pe Politica de "
+"confidențialitate, dar trebuie să citești documentele originale pentru a le "
+"înțelege pe deplin:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the Terms of Service and the Privacy Policy, you "
+#| "should still read the original documents to fully understand them:"
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"Această pagină se bazează pe Termenii serviciului și pe Politica de "
+"confidențialitate, dar trebuie să citești documentele originale pentru a le "
+"înțelege pe deplin:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the Terms of Service and the Privacy Policy, you "
+#| "should still read the original documents to fully understand them:"
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
 msgstr ""
 "Această pagină se bazează pe Termenii serviciului și pe Politica de "
 "confidențialitate, dar trebuie să citești documentele originale pentru a le "
@@ -6838,9 +7000,6 @@ msgstr ""
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
 
-msgid "DeepL API v1 is no longer supported."
-msgstr ""
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr ""
@@ -6990,30 +7149,6 @@ msgid "Ollama model"
 msgstr ""
 
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
 msgstr ""
 
 #, fuzzy
@@ -7872,7 +8007,6 @@ msgstr "Te rugăm să remediezi erorile din formularul de înregistrare."
 msgid "Verify new e-mail address"
 msgstr "Verifică adresa de e-mail nouă"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Înregistrare"
 
@@ -7931,6 +8065,155 @@ msgstr "Ai uitat parola?"
 
 msgid "Register new account"
 msgstr "Înregistrare cont nou"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification diagnostics"
+msgstr "Setări notificare"
+
+msgid "Diagnostics"
+msgstr ""
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "View notification"
+msgid "Check notifications"
+msgstr "Vezi notificare"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification eligibility for %(target)s"
+msgstr "Dezactivează notificările pentru %(object)s"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notifications"
+msgid "Notification"
+msgstr "Notificări"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Inherited project settings"
+msgstr "Editare setări proiect"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Component exceptions"
+msgstr "Alerte componentă"
+
+msgid "One-time"
+msgstr "O dată"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Overridden subscriptions"
+msgstr "Abonamente de probă"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse all components"
+msgid "Inspect example components:"
+msgstr "Răsfoiește toate componentele"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Inspect components:"
+msgstr "Alte componente"
+
+#, fuzzy
+#| msgctxt "No known user"
+#| msgid "None"
+msgid "None"
+msgstr "Nespecificat"
+
+#, fuzzy
+#| msgid "You do not have permissions to add new translation file."
+msgid "No accessible components or translations in this target."
+msgstr "Nu ai permisiunea de a adăuga un nou fișier de traducere."
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscriptions in this scope."
+msgstr "Nu s-au găsit șiruri care să se potrivească."
+
+#, fuzzy, python-format
+#| msgid "Browse %(count)s project"
+#| msgid_plural "Browse all %(count)s projects"
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "Răsfoiește %(count)s proiect"
+msgstr[1] "Răsfoiește %(count)s proiecte"
+msgstr[2] "Răsfoiește %(count)s de proiecte"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "Proiecte urmărite"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification languages"
+msgstr "Setări notificare"
+
+#, fuzzy, python-format
+#| msgid "Failed to find matching language!"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "Nu a reușit să găsească limba corespunzătoare!"
+msgstr[1] "Nu a reușit să găsească limba corespunzătoare!"
+msgstr[2] "Nu a reușit să găsească limba corespunzătoare!"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Subscriptions"
+msgstr "Abonamente de probă"
+
+msgid "Frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "No subscriptions."
+msgstr "Abonamente de probă"
 
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
@@ -7992,6 +8275,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Salvează"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Open notification diagnostics"
+msgstr "Setări notificare"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -8459,11 +8752,13 @@ msgstr[0] "Proba ta va dura 14 zile."
 msgstr[1] "Proba ta va dura 14 zile."
 msgstr[2] "Proba ta va dura 14 zile."
 
-#, fuzzy
+#, fuzzy, python-format
 #| msgid ""
 #| "Your trial will run the Enterprise plan, but you can choose any plan "
 #| "later."
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 "Probă ta va rula pe planul Întreprindere, dar poți alege orice plan ulterior."
 
@@ -8572,17 +8867,6 @@ msgstr "Identitate"
 
 msgid "User ID"
 msgstr "ID utilizator"
-
-#, fuzzy
-#| msgid "Notifications"
-msgid "Notification"
-msgstr "Notificări"
-
-msgid "Frequency"
-msgstr ""
-
-msgid "One-time"
-msgstr "O dată"
 
 msgid "Members"
 msgstr "Membri"
@@ -9530,6 +9814,9 @@ msgstr "Operațiuni"
 msgid "Search and replace"
 msgstr "Caută și înlocuiește"
 
+msgid "Post announcement"
+msgstr "Publică anunț"
+
 msgid "Organize or remove"
 msgstr "Organizează sau elimină"
 
@@ -9548,6 +9835,18 @@ msgstr "Aplică"
 #| msgid "Browse all components"
 msgid "Browse components"
 msgstr "Răsfoiește toate componentele"
+
+#, fuzzy
+#| msgid ""
+#| "The message is shown for all translations within the project, until its "
+#| "given expiry, or permanently until it is deleted."
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
+"Mesajul este afișat pentru toate traducerile din cadrul proiectului, până la "
+"expirarea acestuia sau permanent până când este șters."
 
 msgid "Announcements"
 msgstr "Anunțuri"
@@ -9574,9 +9873,6 @@ msgstr "Traducere automată"
 
 msgid "Add new category"
 msgstr "Adaugă categorie nouă"
-
-msgid "Post announcement"
-msgstr "Publică anunț"
 
 #, fuzzy
 #| msgid "Browse all string changes"
@@ -9649,9 +9945,6 @@ msgstr "Anulează actualizarea"
 #| msgid "Return to the component after completion"
 msgid "Continue after completion"
 msgstr "Înapoi la componentă după finalizare"
-
-msgid "Diagnostics"
-msgstr ""
 
 #, fuzzy
 #| msgid "Error"
@@ -10178,6 +10471,9 @@ msgstr[0] "%(count)s comitere lipsă"
 msgstr[1] "%(count)s comiteri lipsă"
 msgstr[2] "%(count)s de comiteri lipsă"
 
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
@@ -10421,6 +10717,11 @@ msgstr "Depozitar pentru %(component)s"
 msgid "Repository details"
 msgstr "Detalii depozitar"
 
+#, fuzzy
+#| msgid "Good configuration"
+msgid "Edit repository configuration"
+msgstr "Configurație bună"
+
 msgid "Repository changes"
 msgstr "Modificări depozitar"
 
@@ -10469,6 +10770,10 @@ msgstr ""
 #| msgid "Add as translation needing edit"
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Adaugă ca traducere care necesită editare"
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -10565,6 +10870,11 @@ msgstr "Modificarea regulilor pluralului ar putea să nu aibă efectul dorit."
 
 msgid "Please see a documentation for more info."
 msgstr "Te rugăm să consulți o documentație pentru mai multe informații."
+
+#, fuzzy
+#| msgid "Translation Info"
+msgid "Translation workflow"
+msgstr "Informații traducere"
 
 #, fuzzy
 #| msgid ""
@@ -10884,10 +11194,6 @@ msgstr "Componenta %(component)s a fost blocată"
 msgid "Component %(component)s was unlocked"
 msgstr "Componenta %(component)s a fost deblocată"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -11158,6 +11464,10 @@ msgstr "Confirmă ștergerea contului"
 
 msgid "Confirm invitation"
 msgstr "Confirmă invitație"
+
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr ""
 
 msgid "Source string description"
 msgstr "Descriere șir sursă"
@@ -11947,6 +12257,11 @@ msgstr ""
 "Responsabilii de proiect sunt notificați cu privire la această cerere, ceea "
 "ce îi determină să adauge manual limba respectivă."
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr "Nu-ți găsești limba în lista de mai sus?"
 
@@ -12316,6 +12631,41 @@ msgstr ""
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Poți schimba deodată starea tuturor șirurilor care corespund tipului dat."
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Translation quality filter"
+msgstr "Fișier de traducere"
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr "Traducere aprobată în %(translation)s"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr "Forțează scrierea tuturor traducerilor în fișierele de traducere."
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Configure language workflow"
+msgstr "Fișier de limbă de bază monolingvă"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Configure translation quality filter"
+msgstr "Fișier de traducere"
 
 msgid "View details"
 msgstr "Vezi detalii"
@@ -12997,6 +13347,11 @@ msgid "Query"
 msgstr "Înterogare"
 
 #, fuzzy
+#| msgid "Repositories"
+msgid "Refresh results"
+msgstr "Depozitare"
+
+#, fuzzy
 #| msgid ""
 #| "You don't have permission to view reports for all users, only your "
 #| "contributions will be listed."
@@ -13077,6 +13432,37 @@ msgstr "În prezent, nu există copii de rezervă."
 #| msgid "Repository initialization"
 msgid "Report history pagination"
 msgstr "Inițializare depozitar"
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Reviews are enabled for this language."
+msgstr "Răsfoiește toate modificările pentru această limbă"
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Reviews are disabled for this language."
+msgstr "Răsfoiește toate modificările pentru această limbă"
+
+#, fuzzy, python-format
+#| msgid "Review strings"
+msgid "Review setting: %(origin)s."
+msgstr "Revizuire șiruri"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+#, fuzzy
+#| msgid "Customize translation workflow for this language"
+msgid "Learn how to customize translation workflows."
+msgstr "Personalizează fluxul de lucru de traducere pentru această limbă"
+
+#, fuzzy
+#| msgid "No translation found."
+msgid "Configure translation workflow"
+msgstr "Nu s-a găsit nicio traducere."
 
 #, python-format
 msgid ""
@@ -13172,7 +13558,7 @@ msgstr "Votează împotriva"
 
 #, fuzzy, python-format
 #| msgid "Accepted invitation from {username}."
-msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "Invitație de la {username} acceptată."
 
 msgid "Accept"
@@ -13702,6 +14088,24 @@ msgid ""
 "requests."
 msgstr ""
 
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+
 msgid "This component is set up incorrectly."
 msgstr "Această componentă este configurată incorect."
 
@@ -13961,21 +14365,17 @@ msgstr "Descarcă cele mai recente modificări ca CSV"
 msgid "Follow using RSS"
 msgstr "Urmărește folosind RSS"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "Din controlul versiunii"
 
-#. Translators: Create a component from existing component
 #, fuzzy
 #| msgid "From existing component"
 msgid "From an existing component"
 msgstr "Din componentă existentă"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "Ramură suplimentară"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "Încarcă fișiere de traducere"
 
@@ -13983,7 +14383,6 @@ msgstr "Încarcă fișiere de traducere"
 msgid "Translate document"
 msgstr "Tradu document"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "Începe de la zero"
 
@@ -14382,6 +14781,11 @@ msgstr "Deschide în modul Zen"
 msgid "Configure editor"
 msgstr "Configurează editor"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr "Legătură permanentă copiată în clipboard."
 
@@ -14506,14 +14910,30 @@ msgstr "Aplică traducerea selectată la șirul curent"
 msgid "Browse all string changes"
 msgstr "Răsfoiește toate modificările șirului"
 
-msgid "Suggested change"
-msgstr "Modificare sugerată"
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "Search translation memory"
+msgstr "Memorie de traducere partajată"
 
-msgid "Origin"
-msgstr "Origine"
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching machine translations found."
+msgstr "Nu s-au găsit șiruri care să se potrivească."
 
-msgid "Similarity"
-msgstr "Similaritate"
+#, fuzzy
+#| msgid "Delete comment"
+msgid "Delete entry"
+msgstr "Ștergere comentariu"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
+msgstr "Sursă"
+
+#, fuzzy
+#| msgid "Contact"
+msgid "Context:"
+msgstr "Contact"
 
 #, fuzzy
 #| msgid "Confirm deleting all translation memory entries"
@@ -14589,11 +15009,6 @@ msgstr "Acest șir a fost tradus în trecut"
 #| msgid "This string has been translated in the past"
 msgid "This string was translated automatically by %(author)s."
 msgstr "Acest șir a fost tradus în trecut"
-
-#, fuzzy
-#| msgid "Translation file"
-msgid "Translation quality filter"
-msgstr "Fișier de traducere"
 
 msgid "Add term to glossary"
 msgstr "Adaugă termen la glosar"
@@ -16296,6 +16711,11 @@ msgid "Glossary using monolingual files."
 msgstr "Traducerea utilizează fișiere monolingve."
 
 #, fuzzy
+#| msgid "Source string editing is disabled."
+msgid "Glossary string management is disabled"
+msgstr "Editarea șirului sursă este dezactivată."
+
+#, fuzzy
 #| msgid "Secondary languages"
 msgid "Unused glossary language."
 msgstr "Limbi secundare"
@@ -16722,9 +17142,6 @@ msgstr "Control versiune"
 
 msgid "State"
 msgstr "Stat"
-
-msgid "All"
-msgstr ""
 
 #, fuzzy
 #| msgid "Security"
@@ -17215,6 +17632,13 @@ msgstr "Traducere alternativă"
 msgid "The string you wanted to translate is no longer available."
 msgstr "Șirul pe care ai vrut să îl traduci nu mai este disponibil."
 
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr "Șirul pe care ai vrut să îl traduci nu mai este disponibil."
+
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -17297,35 +17721,41 @@ msgstr "Nu s-a putut găsi șirul îmbinat."
 msgid "Could not find the reverted change."
 msgstr "Nu s-a putut găsi modificarea anulată."
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Enter a source component ID."
+msgstr "Componentă restricționată"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"Introdu descriptorul unei componente care urmează să fie utilizată ca sursă, "
-"păstrează spațiul gol pentru a utiliza toate componentele din proiectul "
-"curent."
+
+msgid ""
+"Leave blank to use eligible components from each target component's project."
+msgstr ""
 
 #, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
-msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
-msgstr ""
-"Introdu descriptorul unei componente care urmează să fie utilizată ca sursă, "
-"păstrează spațiul gol pentru a utiliza toate componentele din proiectul "
-"curent."
-
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr ""
-"Activează contribuția la memoria de traducere partajată pentru proiect "
-"pentru a avea acces la componente suplimentare."
+#| msgid "All components in current project"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "Toate componentele din proiectul curent"
 
 msgid "Automatic translation mode"
 msgstr "Mod traducere automată"
+
+msgid "Add as suggestion"
+msgstr "Adaugă ca sugestie"
+
+msgid "Add as translation"
+msgstr "Adaugă ca traducere"
+
+msgid "Add as \"Needing edit\""
+msgstr "Adaugă ca „Necesită editare”"
+
+msgid "Add as approved translation"
+msgstr "Adaugă ca traducere aprobată"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -17351,23 +17781,26 @@ msgstr "Prag de punctaj"
 
 #, fuzzy
 #| msgid "All components in current project"
-msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "Toate componentele din proiectul curent"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "All eligible components in current project"
 msgstr "Toate componentele din proiectul curent"
 
-msgid "Add as suggestion"
-msgstr "Adaugă ca sugestie"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Eligible components from each target component's project"
+msgstr "Toate componentele din proiectul curent"
 
-msgid "Add as translation"
-msgstr "Adaugă ca traducere"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
 
-msgid "Add as \"Needing edit\""
-msgstr "Adaugă ca „Necesită editare”"
-
-msgid "Add as approved translation"
-msgstr "Adaugă ca traducere aprobată"
+msgid "You can also enter a project/component path."
+msgstr ""
 
 msgid "Component not found!"
 msgstr "Componenta nu a fost găsită!"
@@ -17575,6 +18008,11 @@ msgstr "Specifică manual configurația"
 #| msgid "Category does not belong to this project."
 msgid "The category does not belong to the selected project."
 msgstr "Categoria nu aparține acestui proiect."
+
+#, fuzzy
+#| msgid "You do not have permission to change project access control."
+msgid "You do not have permission to change project access settings."
+msgstr "Nu ai permisiunea de a modifica controlul accesului la proiect."
 
 #, fuzzy
 #| msgid ""
@@ -17836,6 +18274,10 @@ msgstr "Indică URL-ul către instrucțiunile de traducere"
 msgid "Create new language file"
 msgstr "Crearea unui nou fișier de limbă"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "Dezactivează adăugarea de traduceri noi"
@@ -17901,6 +18343,16 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Public sharing"
+msgstr "Adresa ta de e-mail"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -19200,7 +19652,9 @@ msgstr "Forțează scrierea tuturor traducerilor în fișierele de traducere."
 
 #, fuzzy
 #| msgid "Approved translation in %(translation)s"
-msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr "Traducere aprobată în %(translation)s"
 
 msgid "Could not accept suggestion!"
@@ -19567,6 +20021,43 @@ msgstr[2] "%(count)s de șiruri nu sunt traduse aici."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Partajat din proiectul %s."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Project settings"
+msgstr "Editare setări proiect"
+
+#, fuzzy
+#| msgid "Reset customization"
+msgid "Site-wide language customization"
+msgstr "Resetează personalizare"
+
+#, fuzzy
+#| msgid "Project language to remove"
+msgid "Project-language customization"
+msgstr "Limba proiectului pentru eliminare"
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid "Only approved translations are written to the translation file."
+msgstr "Traducere aprobată în %(translation)s"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr "Forțează scrierea tuturor traducerilor în fișierele de traducere."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Configure source reviews"
+msgstr "Activează revizuiri sursă"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configure translation reviews"
+msgstr "Curăță fișierele de traducere"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -19957,6 +20448,11 @@ msgstr[1] ""
 msgstr[2] ""
 "Traducerea a fost salvată, dar există unele verificări care au eșuat recent: "
 "{0}"
+
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
 
 msgid "Your suggestion is empty!"
 msgstr "Sugestia ta este goală!"
@@ -21749,16 +22245,25 @@ msgstr "Font pagină"
 msgid "Header font"
 msgstr "Font antet"
 
-msgid "Navigation color (Light, Dark)"
-msgstr ""
+#, fuzzy
+#| msgid "Hover color"
+msgid "Header color (Light, Dark)"
+msgstr "Culoare trecere peste"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr ""
+#, fuzzy
+#| msgid "Hover color"
+msgid "Header text color (Light, Dark)"
+msgstr "Culoare trecere peste"
 
 #, fuzzy
 #| msgid "Focus color"
-msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
 msgstr "Culoare focalizare"
+
+#, fuzzy
+#| msgid "Hover color"
+msgid "Header accent color (Light, Dark)"
+msgstr "Culoare trecere peste"
 
 #, fuzzy
 #| msgid "Hover color"
@@ -21870,7 +22375,6 @@ msgstr "Listarea obiectelor dezactivată"
 msgid "Return to Weblate"
 msgstr "Înapoi la Weblate"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr "Documentație viteză de import"
 
@@ -22084,6 +22588,45 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "Sursa a fost eliminată."
+
+#~ msgid "Download reports"
+#~ msgstr "Descărcare rapoarte"
+
+#~ msgid "Suggested change"
+#~ msgstr "Modificare sugerată"
+
+#~ msgid "Origin"
+#~ msgstr "Origine"
+
+#~ msgid "Similarity"
+#~ msgstr "Similaritate"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr ""
+#~ "Introdu descriptorul unei componente care urmează să fie utilizată ca "
+#~ "sursă, păstrează spațiul gol pentru a utiliza toate componentele din "
+#~ "proiectul curent."
+
+#, fuzzy
+#~| msgid ""
+#~| "Enter slug of a component to use as source, keep blank to use all "
+#~| "components in the current project."
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "Introdu descriptorul unei componente care urmează să fie utilizată ca "
+#~ "sursă, păstrează spațiul gol pentru a utiliza toate componentele din "
+#~ "proiectul curent."
+
+#~ msgid ""
+#~ "Turn on contribution to shared translation memory for the project to get "
+#~ "access to additional components."
+#~ msgstr ""
+#~ "Activează contribuția la memoria de traducere partajată pentru proiect "
+#~ "pentru a avea acces la componente suplimentare."
 
 #, fuzzy
 #~| msgid "The regular expression can not match an empty string."
@@ -22464,9 +23007,6 @@ msgstr "Sursa a fost eliminată."
 
 #~ msgid "View all alerts"
 #~ msgstr "Vezi toate alertele"
-
-#~ msgid "Component alerts"
-#~ msgstr "Alerte componentă"
 
 #~ msgid "Automatically recognize"
 #~ msgstr "Recunoaștere automată"
@@ -23438,11 +23978,6 @@ msgstr "Sursa a fost eliminată."
 #~ msgid "Could not find matching project!"
 #~ msgstr "Nu a reușit să găsească proiectul corespunzător!"
 
-#, fuzzy
-#~| msgid "Failed to find matching language!"
-#~ msgid "Could not find matching language!"
-#~ msgstr "Nu a reușit să găsească limba corespunzătoare!"
-
 #~ msgid "XLIFF with gettext extensions"
 #~ msgstr "XLIFF cu extensii gettext"
 
@@ -24093,11 +24628,6 @@ msgstr "Sursa a fost eliminată."
 #~ msgid "Machinery"
 #~ msgstr "machame"
 
-#, fuzzy
-#~| msgid "Your e-mail"
-#~ msgid "Public email"
-#~ msgstr "Adresa ta de e-mail"
-
 #~ msgid ""
 #~ "Path of files to translate, use * instead of language code, for example: "
 #~ "po/*.po or locale/*/LC_MESSAGES/django.po."
@@ -24157,11 +24687,6 @@ msgstr "Sursa a fost eliminată."
 #~ msgstr[2] "Notificare la orice traducere"
 
 #, fuzzy
-#~| msgid "Contact"
-#~ msgid "Context:"
-#~ msgstr "Contact"
-
-#, fuzzy
 #~| msgid "Translation status"
 #~ msgid "Translation memory for the whole platform"
 #~ msgstr "Status traducere"
@@ -24170,11 +24695,6 @@ msgstr "Sursa a fost eliminată."
 #~| msgid "Secondary languages"
 #~ msgid "Number of entries on the whole platform"
 #~ msgstr "Limbi secundare"
-
-#, fuzzy
-#~| msgid "Subscribed projects"
-#~ msgid "Administered projects"
-#~ msgstr "Proiecte abonate"
 
 #, fuzzy
 #~| msgid "Translation status"

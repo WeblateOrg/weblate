@@ -316,9 +316,16 @@ class SearchField(Field):
             "approved",
             "unapproved",
         ]
+        if not form.fields[self.fields[0]].required:
+            filter_keys.insert(0, "all")
         result = [
-            (key, FILTERS.get_filter_name(key), FILTERS.get_filter_query(key))
-            for key in filter_keys
+            (
+                key,
+                FILTERS.get_filter_name(key),
+                FILTERS.get_filter_query(key),
+                FILTERS.get_filter_color(key),
+            )
+            for key in sorted(filter_keys, key=FILTERS.get_filter_order)
         ]
         user: User | None = getattr(form, "user", None)
         if user is not None and user.is_authenticated:
@@ -328,11 +335,13 @@ class SearchField(Field):
                         "comments_by_me",
                         gettext_lazy("Strings with comments by me"),
                         f'comment_author:="{user.username}"',
+                        "",
                     ),
                     (
                         "source_comments_by_me",
                         gettext_lazy("Strings with source comments by me"),
                         f'source_comment_author:="{user.username}"',
+                        "",
                     ),
                 )
             )

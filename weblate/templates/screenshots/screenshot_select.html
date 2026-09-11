@@ -1,0 +1,59 @@
+{% load i18n icons %}
+
+<form id="screenshot-picker-search" class="mb-3">
+  <label for="{{ search_form.q.id_for_label }}">{{ search_form.q.label }}</label>
+  <div class="input-group search-group m-0">
+    {{ search_form.q }}
+    <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
+  </div>
+  {{ search_form.q.errors }}
+</form>
+<form id="screenshot-picker-selection" method="post">
+  {% csrf_token %}
+  <fieldset>
+    <legend class="h5">{% translate "Select a screenshot" %}</legend>
+    <p>{% translate "Source-language screenshots are shown for every translation of this string. Other screenshots are shown only for their language." %}</p>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+      {% for screenshot in page_obj %}
+        <div class="col">
+          <label class="card screenshot-choice border-2 h-100 p-2 fw-normal"
+                 for="screenshot-choice-{{ screenshot.pk }}">
+            <img class="img-fluid"
+                 src="{{ screenshot.get_view_url }}"
+                 alt="{{ screenshot.name }}"
+                 loading="lazy" />
+            <span class="mt-2 fw-semibold text-break">
+              <input type="radio"
+                     name="screenshot"
+                     value="{{ screenshot.pk }}"
+                     id="screenshot-choice-{{ screenshot.pk }}"
+                     class="visually-hidden"
+                     required />
+              {{ screenshot.name }}
+            </span>
+            <span class="text-body-secondary">{{ screenshot.translation.language }}</span>
+            <span class="screenshot-selected d-flex align-items-center gap-1 small fw-semibold mt-2"
+                  aria-hidden="true">{% icon "check.svg" %} {% translate "Selected" %}</span>
+          </label>
+        </div>
+      {% empty %}
+        <p>{% translate "No matching screenshots available." %}</p>
+      {% endfor %}
+    </div>
+  </fieldset>
+</form>
+{% if page_obj.has_other_pages %}
+  <nav class="mt-3" aria-label="{% translate 'Screenshot pages' %}">
+    {% if page_obj.has_previous %}
+      <button type="button"
+              class="btn btn-outline-primary"
+              data-page="{{ page_obj.previous_page_number }}">{% translate "Previous" %}</button>
+    {% endif %}
+    <span>{% blocktranslate with current=page_obj.number total=page_obj.paginator.num_pages %}Page {{ current }} of {{ total }}{% endblocktranslate %}</span>
+    {% if page_obj.has_next %}
+      <button type="button"
+              class="btn btn-outline-primary"
+              data-page="{{ page_obj.next_page_number }}">{% translate "Next" %}</button>
+    {% endif %}
+  </nav>
+{% endif %}
