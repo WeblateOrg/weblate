@@ -26,7 +26,8 @@ if TYPE_CHECKING:
 
 
 def get_check_search_urls(path_object, check_id: str) -> dict[str, str]:
-    """Build search URLs jumping straight to units failing a given check.
+    """
+    Build search URLs jumping straight to units failing a given check.
 
     Lets a checks-overview cell link directly into the unit search
     (scoped to path_object, or site-wide when None) instead of requiring a
@@ -135,9 +136,7 @@ class CheckList(PathViewMixin, ListView):
                     },
                 )
             if not hasattr(item, "search_urls"):
-                item.search_urls = get_check_search_urls(
-                    item, self.check_obj.check_id
-                )
+                item.search_urls = get_check_search_urls(item, self.check_obj.check_id)
         return result
 
     def get_queryset(self):
