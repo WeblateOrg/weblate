@@ -660,6 +660,7 @@ def try_linkify_filename(
     unit: Unit,
     user: User | None,
     link_class: str = "",
+    is_translation: bool = False,
 ):
     """
     Attempt to convert `text` to a repo link to `filename:line`.
@@ -672,7 +673,11 @@ def try_linkify_filename(
         link = text
     elif user:
         link = unit.translation.component.get_repoweb_link(
-            filename, line, user.profile.editor_link, user=user
+            filename,
+            line,
+            user.profile.editor_link,
+            user=user,
+            is_translation=is_translation,
         )
     if link:
         return format_html(SOURCE_LINK, link, text, link_class)
