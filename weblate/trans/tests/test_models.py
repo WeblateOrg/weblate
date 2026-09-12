@@ -1598,7 +1598,7 @@ class UnitTest(ModelTestCase):
             unit.suggestion_set.exists(),
             unit.pending_changes.exists(),
         )
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(6):
             unit = Unit.objects.filter(pk=unit.pk).prefetch_api().get()
 
         with self.assertNumQueries(0):
@@ -1612,7 +1612,6 @@ class UnitTest(ModelTestCase):
                 expected,
             )
             list(unit.labels.all())
-            list(unit.screenshots.all())
 
     def test_newlines(self) -> None:
         user = create_test_user()

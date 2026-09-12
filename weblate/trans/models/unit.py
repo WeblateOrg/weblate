@@ -325,7 +325,6 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         """Prefetch relations used by the unit API serializer."""
         return self.prefetch_related(
             "labels",
-            "screenshots",
             models.Prefetch(
                 "check_set",
                 queryset=Check.objects.filter(dismissed=False).only("unit_id"),

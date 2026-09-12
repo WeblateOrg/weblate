@@ -4212,6 +4212,10 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             queryset = (
                 Screenshot.objects.filter_access(request.user)
                 .filter(units=unit)
+                .select_related(
+                    "translation__component__project", "translation__language"
+                )
+                .prefetch_related("units")
                 .order_by("id")
             )
             page = self.paginate_queryset(queryset)
@@ -4223,18 +4227,25 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if not request.user.has_perm("screenshot.edit", unit.translation):
             raise PermissionDenied
 
-        if "screenshot_id" not in request.data:
-            raise ValidationError({"screenshot_id": "This field is required."})
+        # Validate through the serializer (not a manual int() coercion) so a
+        # non-integral value such as 5.7 is rejected instead of silently
+        # truncated to 5.
+        request_serializer = UnitScreenshotAssociationSerializer(data=request.data)
+        request_serializer.is_valid(raise_exception=True)
+        screenshot_id = request_serializer.validated_data["screenshot_id"]
 
-        field_name = "screenshot_id"
         try:
-            screenshot = Screenshot.objects.filter_access(request.user).get(
-                translation=unit.translation, pk=int(request.data[field_name])
+            # select_for_update() serializes concurrent requests for the same
+            # screenshot, so two racing POSTs can't both observe "not yet
+            # associated" and both record a SCREENSHOT_ADDED change.
+            screenshot = (
+                Screenshot.objects.filter_access(request.user)
+                .select_for_update(of=("self",))
+                .get(translation=unit.translation, pk=screenshot_id)
             )
-        except (TypeError, ValueError) as error:
-            raise invalid_integer_error(field_name) from error
         except Screenshot.DoesNotExist as error:
-            raise not_found_validation_error(field_name, "Screenshot") from error
+            msg = "screenshot_id"
+            raise not_found_validation_error(msg, "Screenshot") from error
 
         # Idempotent: avoid creating a duplicate SCREENSHOT_ADDED change entry
         # when the association already exists (for example on a client retry).
@@ -4253,14 +4264,19 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         methods=["delete"],
         url_path="screenshots/(?P<screenshot_id>[0-9]+)",
     )
+    @transaction.atomic
     def delete_screenshots(self, request: Request, pk, screenshot_id):
         unit = self.get_object()
         if not request.user.has_perm("screenshot.edit", unit.translation):
             raise PermissionDenied
 
         try:
-            screenshot = Screenshot.objects.filter_access(request.user).get(
-                translation=unit.translation, pk=screenshot_id
+            # select_for_update() serializes concurrent requests for the same
+            # screenshot; see the screenshots() action above.
+            screenshot = (
+                Screenshot.objects.filter_access(request.user)
+                .select_for_update(of=("self",))
+                .get(translation=unit.translation, pk=screenshot_id)
             )
         except Screenshot.DoesNotExist as error:
             msg = "Screenshot"
