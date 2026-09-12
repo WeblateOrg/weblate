@@ -2873,6 +2873,10 @@ and XLIFF.
 
        The ``last_updated`` attribute is now exposed.
 
+    .. versionchanged:: 2026.10
+
+       The ``screenshots_url`` attribute is now exposed.
+
     Returns information about the translation unit.
 
     :param id: Unit ID
@@ -2903,6 +2907,7 @@ and XLIFF.
     :>json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
     :>json string web_url: URL where the unit can be edited
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+    :>json string screenshots_url: URL to list and manage associated screenshots; see :http:get:`/api/units/(int:id)/screenshots/`
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
     :>json timestamp last_updated: last string update
@@ -2949,6 +2954,45 @@ and XLIFF.
    .. versionadded:: 5.11
 
    Returns a list of all target translation units for the given source translation unit.
+
+.. http:get:: /api/units/(int:id)/screenshots/
+
+   .. versionadded:: 2026.10
+
+   Returns a paginated list of screenshots associated with the unit.
+
+   :param id: Unit ID
+   :type id: int
+
+   .. seealso::
+
+       Screenshot object attributes are documented at :http:get:`/api/screenshots/(int:id)/`.
+
+.. http:post:: /api/units/(int:id)/screenshots/
+
+   .. versionadded:: 2026.10
+
+   Associate screenshot with unit.
+
+   :param id: Unit ID
+   :type id: int
+   :form string screenshot_id: Screenshot ID; the screenshot must belong to the
+       same component and language as the unit
+
+   .. seealso::
+
+       Returns the associated screenshot; see :http:get:`/api/screenshots/(int:id)/`.
+
+.. http:delete:: /api/units/(int:id)/screenshots/(int:screenshot_id)
+
+   .. versionadded:: 2026.10
+
+   Remove screenshot association with unit.
+
+   :param id: Unit ID
+   :type id: int
+   :param screenshot_id: Screenshot ID
+   :type screenshot_id: int
 
 .. http:post:: /api/units/(int:id)/comments/
 

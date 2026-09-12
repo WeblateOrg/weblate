@@ -129,6 +129,7 @@ from weblate.api.serializers import (
     TaskSerializer,
     TranslationCreateSerializer,
     TranslationSerializer,
+    UnitScreenshotAssociationSerializer,
     UnitSerializer,
     UnitWriteSerializer,
     UploadRequestSerializer,
@@ -4190,6 +4191,104 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             translation_units, many=True, context={"request": request}
         )
         return Response(serializer.data)
+
+    @extend_schema(
+        description="List screenshots associated with a unit.",
+        methods=["get"],
+        responses=ScreenshotSerializer(many=True),
+    )
+    @extend_schema(
+        description="Associate screenshot with unit.",
+        methods=["post"],
+        request=UnitScreenshotAssociationSerializer,
+        responses=ScreenshotSerializer,
+    )
+    @action(detail=True, methods=["get", "post"])
+    @transaction.atomic
+    def screenshots(self, request: Request, **kwargs):
+        unit = self.get_object()
+
+        if request.method == "GET":
+            queryset = (
+                Screenshot.objects.filter_access(request.user)
+                .filter(units=unit)
+                .select_related(
+                    "translation__component__project", "translation__language"
+                )
+                .prefetch_related("units")
+                .order_by("id")
+            )
+            page = self.paginate_queryset(queryset)
+            serializer = ScreenshotSerializer(
+                page, many=True, context={"request": request}
+            )
+            return self.get_paginated_response(serializer.data)
+
+        if not request.user.has_perm("screenshot.edit", unit.translation):
+            raise PermissionDenied
+
+        # Validate through the serializer (not a manual int() coercion) so a
+        # non-integral value such as 5.7 is rejected instead of silently
+        # truncated to 5.
+        request_serializer = UnitScreenshotAssociationSerializer(data=request.data)
+        request_serializer.is_valid(raise_exception=True)
+        screenshot_id = request_serializer.validated_data["screenshot_id"]
+
+        try:
+            # select_for_update() serializes concurrent requests for the same
+            # screenshot, so two racing POSTs can't both observe "not yet
+            # associated" and both record a SCREENSHOT_ADDED change.
+            screenshot = (
+                Screenshot.objects.filter_access(request.user)
+                .select_for_update(of=("self",))
+                .get(translation=unit.translation, pk=screenshot_id)
+            )
+        except Screenshot.DoesNotExist as error:
+            msg = "screenshot_id"
+            raise not_found_validation_error(msg, "Screenshot") from error
+
+        # Idempotent: avoid creating a duplicate SCREENSHOT_ADDED change entry
+        # when the association already exists (for example on a client retry).
+        if not screenshot.units.filter(pk=unit.pk).exists():
+            screenshot.add_unit(unit, user=request.user)
+        serializer = ScreenshotSerializer(screenshot, context={"request": request})
+
+        return Response(serializer.data, status=HTTP_200_OK)
+
+    @extend_schema(
+        description="Remove screenshot association with unit.",
+        methods=["delete"],
+    )
+    @action(
+        detail=True,
+        methods=["delete"],
+        url_path="screenshots/(?P<screenshot_id>[0-9]+)",
+    )
+    @transaction.atomic
+    def delete_screenshots(self, request: Request, pk, screenshot_id):
+        unit = self.get_object()
+        if not request.user.has_perm("screenshot.edit", unit.translation):
+            raise PermissionDenied
+
+        try:
+            # select_for_update() serializes concurrent requests for the same
+            # screenshot; see the screenshots() action above.
+            screenshot = (
+                Screenshot.objects.filter_access(request.user)
+                .select_for_update(of=("self",))
+                .get(translation=unit.translation, pk=screenshot_id)
+            )
+        except Screenshot.DoesNotExist as error:
+            msg = "Screenshot"
+            raise not_found_http404(msg) from error
+
+        # Idempotent: only record SCREENSHOT_REMOVED when the unit was
+        # actually associated, avoiding a false audit trail entry for a
+        # no-op removal.
+        if not screenshot.units.filter(pk=unit.pk).exists():
+            return Response(status=HTTP_204_NO_CONTENT)
+        screenshot.remove_unit(unit, user=request.user)
+        return Response(status=HTTP_204_NO_CONTENT)
 
     @extend_schema(
         description="Add a comment to the unit.",

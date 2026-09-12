@@ -13152,6 +13152,162 @@ class UnitAPITest(APIBaseTest):
         self.assertIn("language_code", response.data)
         self.assertEqual(response.data["source"], ["Hello, world!\n"])
 
+    def test_unit_screenshots(self) -> None:
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        shot.add_unit(unit)
+        response = self.client.get(reverse("api:unit-detail", kwargs={"pk": unit.pk}))
+        self.assertIn(str(unit.pk), response.data["screenshots_url"])
+
+        response = self.client.get(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk})
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertIn(str(shot.pk), response.data["results"][0]["url"])
+
+    def test_unit_add_screenshot_denied(self) -> None:
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        response = self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": shot.pk},
+        )
+        self.assertEqual(response.status_code, 401)
+
+    def test_unit_add_screenshot_invalid(self) -> None:
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        response = self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": -1},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "Screenshot not found.", status_code=400)
+
+    def test_unit_add_screenshot_mismatched_translation(self) -> None:
+        """Adding a screenshot from another translation must be rejected."""
+        self.authenticate(True)
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        response = self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": shot.pk},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(shot.units.count(), 0)
+
+    def test_unit_add_screenshot(self) -> None:
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        response = self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": shot.pk},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(str(shot.pk), response.data["url"])
+        added_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            screenshot=shot,
+            unit=unit,
+        )
+        self.assertEqual(added_changes.count(), 1)
+        self.assertEqual(added_changes[0].user, self.user)
+
+    def test_unit_delete_screenshot(self) -> None:
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        self.client.post(
+            reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+            {"screenshot_id": shot.pk},
+        )
+        response = self.client.delete(
+            reverse(
+                "api:unit-delete-screenshots",
+                kwargs={"pk": unit.pk, "screenshot_id": 100000},
+            ),
+        )
+        self.assertEqual(response.status_code, 404)
+        response = self.client.delete(
+            reverse(
+                "api:unit-delete-screenshots",
+                kwargs={"pk": unit.pk, "screenshot_id": shot.pk},
+            ),
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(shot.units.count(), 0)
+        removed_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            screenshot=shot,
+            unit=unit,
+        )
+        self.assertEqual(removed_changes.count(), 1)
+
+    def test_unit_add_screenshot_idempotent(self) -> None:
+        """
+        Adding an already-associated screenshot must be a no-op.
+
+        A retried POST for an already-associated screenshot must not
+        create a duplicate SCREENSHOT_ADDED audit entry.
+        """
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        for _ in range(2):
+            response = self.client.post(
+                reverse("api:unit-screenshots", kwargs={"pk": unit.pk}),
+                {"screenshot_id": shot.pk},
+            )
+            self.assertEqual(response.status_code, 200)
+        self.assertEqual(shot.units.count(), 1)
+        added_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            screenshot=shot,
+            unit=unit,
+        )
+        self.assertEqual(added_changes.count(), 1)
+
+    def test_unit_delete_screenshot_noop_no_audit(self) -> None:
+        """
+        Removing a non-associated screenshot must be a no-op.
+
+        Deleting a screenshot that is not associated with the unit must
+        not create a false SCREENSHOT_REMOVED audit entry.
+        """
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        response = self.client.delete(
+            reverse(
+                "api:unit-delete-screenshots",
+                kwargs={"pk": unit.pk, "screenshot_id": shot.pk},
+            ),
+        )
+        self.assertEqual(response.status_code, 204)
+        removed_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            screenshot=shot,
+            unit=unit,
+        )
+        self.assertEqual(removed_changes.count(), 0)
+
     def test_get_plural_unit(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="cs", source__startswith="Orangutan has "

@@ -22,6 +22,7 @@ Weblate 2026.10
 * The :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` can create approved strings, falling back to translated strings when reviews are disabled for the target language.
 * Whitespace characters are now rendered consistently in the source string display and the translation editor, and different kinds of whitespace are now distinguishable from each other.
 * History :guilabel:`View details` and :guilabel:`Revert` actions are larger, more widely spaced, and show a hover and focus background.
+* The units API now links to a unit's associated screenshots and supports listing, assigning, and removing them via :http:get:`/api/units/(int:id)/screenshots/`.
 * Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
 * Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
 * Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use the same layout as suggestions, and it now shows the :ref:`translation memory <translation-memory>` context of each match.

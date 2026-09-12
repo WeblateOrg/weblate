@@ -3634,6 +3634,9 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     source_unit: serializers.HyperlinkedRelatedField[Unit] = (
         serializers.HyperlinkedRelatedField(read_only=True, view_name="api:unit-detail")
     )
+    screenshots_url: serializers.HyperlinkedIdentityField = (
+        serializers.HyperlinkedIdentityField(view_name="api:unit-screenshots")
+    )
     source = PluralField()
     target = PluralField()
     timestamp = serializers.DateTimeField(read_only=True)
@@ -3666,6 +3669,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "has_failing_check",
             "num_words",
             "source_unit",
+            "screenshots_url",
             "priority",
             "id",
             "web_url",
@@ -3680,6 +3684,12 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:unit-detail"},
         }
+
+
+class UnitScreenshotAssociationSerializer(serializers.Serializer):
+    """Request body for associating a screenshot with a unit."""
+
+    screenshot_id = serializers.IntegerField()
 
 
 class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
