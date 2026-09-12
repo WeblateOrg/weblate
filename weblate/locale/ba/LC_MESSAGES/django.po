@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
-"PO-Revision-Date: 2026-07-25 07:18+0000\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"PO-Revision-Date: 2026-09-11 04:05+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Bashkir <https://hosted.weblate.org/projects/weblate/"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -330,6 +330,25 @@ msgstr ""
 
 msgid "Enter the code from the app"
 msgstr "Ҡушымтанан кодты яҙығыҙ"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Project, category, component, or translation path"
+msgstr "Бөтә компоненттар ҙа хәҙер тәржемә яңыртыуҙары өсөн асыҡ."
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Aliased language codes"
+msgid "Enter a valid object path."
+msgstr "Псевдонимлы тел кодтары"
+
+msgid "The target does not exist or you cannot access it."
+msgstr ""
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -895,6 +914,60 @@ msgstr "Аккаунттың e-mail адресын ҡулланырға"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Зинһар, тәржемәләрҙе ебәреү өсөн e-mail адресын күрһәтегеҙ."
 
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscription."
+msgstr "Тап килгән юлдар табылманы."
+
+#, fuzzy
+#| msgid "Terminate recurring payment"
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Даими түләүҙе туҡтатырға"
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The user cannot access this target."
+msgstr "Сығанаҡ юлды үҙгәртеп булмай."
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The user is not watching this project."
+msgstr "Ҡулланыусы был проектта бикләнде."
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+msgid "The project or component subscriptions apply to other targets."
+msgstr ""
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
 msgid "No notification"
 msgstr "Хәбәрнамә юҡ"
 
@@ -909,6 +982,25 @@ msgstr "Аҙналыҡ йыйынтыҡ"
 
 msgid "Monthly digest"
 msgstr "Айлыҡ йыйынтыҡ"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watching"
+msgid "Watched"
+msgstr "Күҙәтеү"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administered"
+msgstr "Администрация"
+
+msgid "Project"
+msgstr "Проект"
+
+msgid "Component"
+msgstr "Компонент"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -1008,6 +1100,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "Компонент тәржемә ителде"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Комментарий өҫтәлде"
@@ -1019,6 +1116,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Комментарий өҫтәлде"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Һеҙҙе комментарийҙа телгә алдылар"
@@ -1029,6 +1129,11 @@ msgstr "Һеҙҙе комментарийҙа телгә алдылар"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Һеҙҙе комментарийҙа телгә алдылар"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -1099,6 +1204,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "Яңы тәржемә компоненты булдырылды"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Иғлан баҫтырылды"
@@ -1109,6 +1219,11 @@ msgstr "Иғлан баҫтырылды"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Иғлан баҫтырылды"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1268,6 +1383,11 @@ msgstr "Бәйләнеш"
 msgid "Hosting"
 msgstr "Хостинг"
 
+#, fuzzy
+#| msgid "Manage users"
+msgid "Invalid trial plan."
+msgstr "Ҡулланыусылар менән идара итергә"
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1284,6 +1404,11 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Бушлай һынау"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification diagnostics for %(user)s"
+msgstr "%(object)s өсөн хәbәрнамәләрҙе һүндерергә"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -1453,6 +1578,13 @@ msgstr "Аутентификация ҡушымтаһы юйылды."
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "%s аутентификация ҡушымтаһы теркәлде."
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "Теркәлеү һылтанмаһы ғәмәлдән сығарылған."
 
 #, fuzzy
 #| msgid ""
@@ -3030,9 +3162,6 @@ msgstr "Weblate репозиторийындағы бөтә тәржемә фа�
 msgid "Please provide a suggestion"
 msgstr "Тәҡдимде юйырға"
 
-msgid "Translation text too long!"
-msgstr "Тәржемә тексы бигерәк оҙон!"
-
 #, fuzzy
 #| msgid "Number of plurals"
 msgid "Number of plurals does not match"
@@ -3040,6 +3169,9 @@ msgstr "Күплек формалары һаны"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Һеҙҙең тәҡдим хәҙерге тәржемәгә оҡшаш!"
+
+msgid "Translation text too long!"
+msgstr "Тәржемә тексы бигерәк оҙон!"
 
 msgid "Your suggestion already exists!"
 msgstr "Һеҙҙең тәҡдим бар инде!"
@@ -3124,14 +3256,8 @@ msgstr "Тәҡдимдәрҙе ҡабул итергә хоҡуғығыҙ юҡ!"
 msgid "This string seems to already exist."
 msgstr "Был юл бар инде, шикелле."
 
-msgid "Project"
-msgstr "Проект"
-
 msgid "Category"
 msgstr "Категория"
-
-msgid "Component"
-msgstr "Компонент"
 
 msgid "User"
 msgstr "Ҡулланыусы"
@@ -3222,8 +3348,11 @@ msgid "Manage project access"
 msgstr "Проектҡа инеү менән идара итергә"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Отчеттарҙы күсереп алырға"
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage repository"
+msgid "Manage reports"
+msgstr "Репозиторий менән идара итеү"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4257,9 +4386,13 @@ msgstr "Сығанаҡ һәм тәржемә икеһе лә бер үк һан�
 msgid "Non‑standard characters in Kabyle"
 msgstr "Кабил телендә стандарт булмаған символдар"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
+#| "instead of ε)."
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 "Стандартлаштырылған латин кабил символдарҙын ҡулланығыҙ (мәҫәлән, грек γ "
 "урынына ɣ; ε урынына ɛ)."
@@ -4315,7 +4448,9 @@ msgstr "Сығанаҡ һәм тәржемә икеһе лә күп нөктә �
 msgid "Mismatched \\n"
 msgstr "Тап килмәгән \\n"
 
-msgid "Number of \\n literals in translation does not match source."
+#, fuzzy, python-brace-format
+#| msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "Тәржемәләге \\n литералдарының һаны сығанаҡтағы менән тап килмәй."
 
 msgid "Mismatching line breaks"
@@ -5345,12 +5480,12 @@ msgstr "Юл күплек формаһында ҡулланыла, ләкин к
 msgid "Ellipsis"
 msgstr "Күп нөктә"
 
-#, fuzzy
+#, fuzzy, python-brace-format
 #| msgid ""
 #| "The string uses three dots (...) instead of an ellipsis character (…)."
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr "Юлда күп нөктә символы (… ) урынына өс нөктә (...) ҡулланыла."
 
 msgid "Source string length"
@@ -5422,6 +5557,11 @@ msgstr ""
 
 msgid "Font"
 msgstr "Шрифт"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Font has to be in the same project as the font group."
+msgstr "Ата-категория шул уҡ проектта булырға тейеш!"
 
 msgid "Unsupported file format."
 msgstr "Хупланмаған файл форматы."
@@ -6162,7 +6302,8 @@ msgstr "Хосусилыҡ сәйәсәте"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "Зинһар, түбәндәге Дөйөм ҡағиҙәләр һәм шарттар документын уҡып сығығыҙ:"
 
-msgid "Please also read the Privacy Policy:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 
 msgid "Submit"
@@ -6181,6 +6322,32 @@ msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
+msgstr ""
+"Был бит Дөйөм ҡағиҙәләр һәм шарттарға һәм Хосусилыҡ сәйәсәтенә нигеҙләнгән, "
+"уларҙы тулыһынса аңлау өсөн барыбер оригинал документтарҙы уҡып сығырға "
+"кәрәк:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"Был бит Дөйөм ҡағиҙәләр һәм шарттарға һәм Хосусилыҡ сәйәсәтенә нигеҙләнгән, "
+"уларҙы тулыһынса аңлау өсөн барыбер оригинал документтарҙы уҡып сығырға "
+"кәрәк:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
 msgstr ""
 "Был бит Дөйөм ҡағиҙәләр һәм шарттарға һәм Хосусилыҡ сәйәсәтенә нигеҙләнгән, "
 "уларҙы тулыһынса аңлау өсөн барыбер оригинал документтарҙы уҡып сығырға "
@@ -6507,9 +6674,6 @@ msgstr ""
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
 
-msgid "DeepL API v1 is no longer supported."
-msgstr ""
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr ""
@@ -6657,30 +6821,6 @@ msgid "Ollama model"
 msgstr ""
 
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
 msgstr ""
 
 #, fuzzy
@@ -7493,7 +7633,6 @@ msgstr "Зинһар, теркәлеү формаһындағы хаталарҙ
 msgid "Verify new e-mail address"
 msgstr "Яңы e-mail адресын раҫларға"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Теркәлергә"
 
@@ -7548,6 +7687,148 @@ msgstr "Паролегеҙҙе оноттоғоҙмо?"
 
 msgid "Register new account"
 msgstr "Яңы аккаунт теркәргә"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification diagnostics"
+msgstr "Хәбәрнамә көйләүҙәре"
+
+msgid "Diagnostics"
+msgstr ""
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "View notification"
+msgid "Check notifications"
+msgstr "Хәбәрнамәне ҡарарға"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification eligibility for %(target)s"
+msgstr "%(object)s өсөн хәbәрнамәләрҙе һүндерергә"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+msgid "Notification"
+msgstr "Хәбәрнамә"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Inherited project settings"
+msgstr "Проект көйләүҙәрен үҙгәртергә"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Component exceptions"
+msgstr "Компонент иҫкәртеүҙәре"
+
+msgid "One-time"
+msgstr "Бер тапҡырлыҡ"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Overridden subscriptions"
+msgstr "Һынау яҙылыуҙары"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse all components"
+msgid "Inspect example components:"
+msgstr "Бөтә компоненттарҙы ҡарарға"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Inspect components:"
+msgstr "Башҡа компоненттар"
+
+msgid "None"
+msgstr "Юҡ"
+
+#, fuzzy
+#| msgid "You do not have permissions to add new translation file."
+msgid "No accessible components or translations in this target."
+msgstr "Яңы тәржемә файлын өҫтәргә хоҡуҡтарығыҙ юҡ."
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscriptions in this scope."
+msgstr "Тап килгән юлдар табылманы."
+
+#, fuzzy, python-format
+#| msgid "Browse %(count)s project"
+#| msgid_plural "Browse all %(count)s projects"
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "%(count)s проектты ҡарарға"
+msgstr[1] "Бөтә %(count)s проектты ҡарарға"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "Күҙәтелгән проекттар"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification languages"
+msgstr "Хәбәрнамә көйләүҙәре"
+
+#, fuzzy, python-format
+#| msgid "%(count)s change"
+#| msgid_plural "%(count)s changes"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "%(count)s үҙгәреш"
+msgstr[1] "%(count)s үҙгәреш"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Subscriptions"
+msgstr "Һынау яҙылыуҙары"
+
+msgid "Frequency"
+msgstr "Йышлыҡ"
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "No subscriptions."
+msgstr "Һынау яҙылыуҙары"
 
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
@@ -7604,6 +7885,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Һаҡларға"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Open notification diagnostics"
+msgstr "Хәбәрнамә көйләүҙәре"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -8042,7 +8333,12 @@ msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "Һынау осоро 14 көн дауам итәсәк."
 msgstr[1] "Һынау осоро 14 көн дауам итәсәк."
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, fuzzy, python-format
+#| msgid ""
+#| "Your trial will run the 640k plan, but you can choose any plan later."
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 "Һынау осоронда 640 меңлек план эшләйәсәк, ләкин һуңынан теләһә ниндәй планды "
 "һайлай алаһығыҙ."
@@ -8145,15 +8441,6 @@ msgstr "Шәхес"
 
 msgid "User ID"
 msgstr "Ҡулланыусы ID-һы"
-
-msgid "Notification"
-msgstr "Хәбәрнамә"
-
-msgid "Frequency"
-msgstr "Йышлыҡ"
-
-msgid "One-time"
-msgstr "Бер тапҡырлыҡ"
 
 msgid "Members"
 msgstr "Ағзалар"
@@ -9041,6 +9328,9 @@ msgstr "Теркәлеү"
 msgid "Search and replace"
 msgstr "Эҙләргә һәм алмаштырырға"
 
+msgid "Post announcement"
+msgstr "Иғлан яҙырға"
+
 msgid "Organize or remove"
 msgstr "Ойошторорға йәки юйырға"
 
@@ -9059,6 +9349,18 @@ msgstr "Ҡулланырға"
 #| msgid "Browse all components"
 msgid "Browse components"
 msgstr "Бөтә компоненттарҙы ҡарарға"
+
+#, fuzzy
+#| msgid ""
+#| "The message is shown for all translations within the project, until its "
+#| "given expiry, or permanently until it is deleted."
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
+"Хәбәр проект эсендәге бөтә тәржемәләр өсөн, бирелгән ваҡыты сыҡҡансы, йәки "
+"юйылғанға тиклем даими күрһәтелә."
 
 msgid "Announcements"
 msgstr "Иғландар"
@@ -9085,9 +9387,6 @@ msgstr "Автоматик тәржемә"
 
 msgid "Add new category"
 msgstr "Яңы категория өҫтәргә"
-
-msgid "Post announcement"
-msgstr "Иғлан яҙырға"
 
 #, fuzzy
 #| msgid "Browse all string changes"
@@ -9157,9 +9456,6 @@ msgstr "Яңыртыуҙы туҡтатырға"
 
 msgid "Continue after completion"
 msgstr "Тамамланғас дауам итергә"
-
-msgid "Diagnostics"
-msgstr ""
 
 #, fuzzy
 #| msgid "Error"
@@ -9649,6 +9945,9 @@ msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "(push-ботаҡта %(count)s етмәй)"
 msgstr[1] "(push-ботаҡта %(count)s етмәй)"
 
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
@@ -9886,6 +10185,11 @@ msgstr "%(component)s өсөн репозиторий"
 msgid "Repository details"
 msgstr "Репозиторий ентеклелектәре"
 
+#, fuzzy
+#| msgid "Good configuration"
+msgid "Edit repository configuration"
+msgstr "Яҡшы көйләү"
+
 msgid "Repository changes"
 msgstr "Репозиторий үҙгәрештәре"
 
@@ -9930,6 +10234,10 @@ msgstr ""
 
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Тәржемәнең 'Мөхәррирләргә кәрәк' билдәһен алып, уны ебәрергә."
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -10006,6 +10314,11 @@ msgstr "Күплек ҡағиҙәләрен үҙгәртеү көтөлгән һ
 
 msgid "Please see a documentation for more info."
 msgstr "Тулыраҡ мәғлүмәт өсөн документацияны ҡарағыҙ."
+
+#, fuzzy
+#| msgid "Translation Info"
+msgid "Translation workflow"
+msgstr "Тәржемә мәғлүмәте"
 
 #, fuzzy
 #| msgid ""
@@ -10310,10 +10623,6 @@ msgstr "%(component)s компоненты бикләнде"
 msgid "Component %(component)s was unlocked"
 msgstr "%(component)s компоненты асылды"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr "Иҫкәрмә: Был йыйынтыҡ 100-ҙән ашыу хәбәрнамә булғанға ҡыҫҡартылды."
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -10573,6 +10882,13 @@ msgstr "Аккаунтты юйыуҙы раҫларға"
 
 msgid "Confirm invitation"
 msgstr "Саҡырыуҙы раҫларға"
+
+#, fuzzy
+#| msgid ""
+#| "Note: This digest has been truncated as there were over 100 notifications."
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr "Иҫкәрмә: Был йыйынтыҡ 100-ҙән ашыу хәбәрнамә булғанға ҡыҫҡартылды."
 
 msgid "Source string description"
 msgstr "Сығанаҡ юл тасуирламаһы"
@@ -11336,6 +11652,11 @@ msgstr ""
 "Проект хужалары был һорау тураһында хәбәр аласаҡ, был уларҙы телде ҡулдан "
 "өҫтәргә этәрәсәк."
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr "Өҫтәге исемлектә үҙ телегеҙҙе таба алмайһығыҙмы?"
 
@@ -11694,6 +12015,41 @@ msgstr ""
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Күрһәтелгән төргә тап килгән бөтә юлдарҙың торошон бер юлы үҙгәртә алаһығыҙ."
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Translation quality filter"
+msgstr "Тәржемә файлы"
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr "%(translation)s проектында раҫланған тәржемә"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr "Бөтә юлдарҙы тәржемә файлдарына көсләп яҙҙыра."
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Configure language workflow"
+msgstr "Бер телле нигеҙ тел файлы"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Configure translation quality filter"
+msgstr "Тәржемә файлы"
 
 msgid "View details"
 msgstr "Ентеклерәк ҡарарға"
@@ -12351,6 +12707,11 @@ msgid "Query"
 msgstr "Һорау"
 
 #, fuzzy
+#| msgid "Repositories"
+msgid "Refresh results"
+msgstr "Репозиторийҙар"
+
+#, fuzzy
 #| msgid ""
 #| "You don't have permission to view reports for all users, only your "
 #| "contributions will be listed."
@@ -12431,6 +12792,38 @@ msgstr "Әлегә тергеҙеү кодтары булдырылмаған."
 #| msgid "Repository initialization"
 msgid "Report history pagination"
 msgstr "Репозиторийҙы башлау"
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Reviews are enabled for this language."
+msgstr "Был тел өсөн бөтә үҙгәрештәрҙе ҡарарға"
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Reviews are disabled for this language."
+msgstr "Был тел өсөн бөтә үҙгәрештәрҙе ҡарарға"
+
+#, fuzzy, python-format
+#| msgid "Review strings"
+msgid "Review setting: %(origin)s."
+msgstr "Юлдарҙы ҡарап сығырға"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+#, fuzzy
+#| msgid "Customize translation workflow for this language"
+msgid "Learn how to customize translation workflows."
+msgstr "Был тел өсөн тәржемә эш ағымын көйләргә"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Your translation received a comment"
+msgid "Configure translation workflow"
+msgstr "Һеҙҙең тәржемәгә комментарий килде"
 
 #, fuzzy, python-format
 #| msgid ""
@@ -12536,7 +12929,7 @@ msgstr "Ҡаршы тауыш бирергә"
 
 #, fuzzy, python-format
 #| msgid "Accepted invitation from {username}."
-msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "{username} саҡырыуы ҡабул ителде."
 
 msgid "Accept"
@@ -13058,6 +13451,24 @@ msgid ""
 "requests."
 msgstr ""
 
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+
 msgid "This component is set up incorrectly."
 msgstr "Был компонент дөрөҫ көйләнмәгән."
 
@@ -13304,21 +13715,17 @@ msgstr "Һуңғы үҙгәрештәрҙе CSV итеп күсереп алыр
 msgid "Follow using RSS"
 msgstr "RSS аша күҙәтергә"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "Версиялар менән идара итеүҙән"
 
-#. Translators: Create a component from existing component
 #, fuzzy
 #| msgid "From existing component"
 msgid "From an existing component"
 msgstr "Булған компоненттан"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "Өҫтәмә ботаҡ"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "Тәржемә файлдарын тейәргә"
 
@@ -13326,7 +13733,6 @@ msgstr "Тәржемә файлдарын тейәргә"
 msgid "Translate document"
 msgstr "Документты тәржемә итергә"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "Нульдән башларға"
 
@@ -13718,6 +14124,11 @@ msgstr "Дзен режимында асырға"
 msgid "Configure editor"
 msgstr "Мөхәррирҙе көйләргә"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr "Даими һылтанма алмашыу буферына күсерелде."
 
@@ -13837,14 +14248,28 @@ msgstr "Һайланған тәржемәне ағымдағы юлға ҡулл
 msgid "Browse all string changes"
 msgstr "Бөтә юл үҙгәрештәрен ҡарарға"
 
-msgid "Suggested change"
-msgstr "Тәҡдим ителгән үҙгәреш"
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "Search translation memory"
+msgstr "Уртаҡ тәржемә хәтере"
 
-msgid "Origin"
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching machine translations found."
+msgstr "Тап килгән юлдар табылманы."
+
+msgid "Delete entry"
+msgstr "Яҙманы юйырға"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
 msgstr "Сығанаҡ"
 
-msgid "Similarity"
-msgstr "Оҡшашлыҡ"
+#, fuzzy
+#| msgid "Context"
+msgid "Context:"
+msgstr "Контекст"
 
 #, fuzzy
 #| msgid "Confirm deleting all translation memory entries"
@@ -13912,11 +14337,6 @@ msgstr "Был юл элек тәржемә ителгән булған."
 #| msgid "This string has been translated in the past."
 msgid "This string was translated automatically by %(author)s."
 msgstr "Был юл элек тәржемә ителгән булған."
-
-#, fuzzy
-#| msgid "Translation file"
-msgid "Translation quality filter"
-msgstr "Тәржемә файлы"
 
 msgid "Add term to glossary"
 msgstr "Терминды глоссарийға өҫтәргә"
@@ -15581,6 +16001,11 @@ msgid "Glossary using monolingual files."
 msgstr "Глоссарий бер телле файлдарҙы ҡуллана."
 
 #, fuzzy
+#| msgid "Source string editing is disabled."
+msgid "Glossary string management is disabled"
+msgstr "Сығанаҡ юлды үҙгәртеү һүндерелгән."
+
+#, fuzzy
 #| msgid "Secondary language"
 msgid "Unused glossary language."
 msgstr "Икенсел тел"
@@ -15993,9 +16418,6 @@ msgstr "Версиялар менән идара итеү"
 #| msgid "Status"
 msgid "State"
 msgstr "Статус"
-
-msgid "All"
-msgstr ""
 
 msgid "Severity"
 msgstr "Ҡәтғилек"
@@ -16464,6 +16886,13 @@ msgstr "Альтернатив тәржемә"
 msgid "The string you wanted to translate is no longer available."
 msgstr "Һеҙ тәржемә итергә теләгән юл башҡа юҡ."
 
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr "Һеҙ тәржемә итергә теләгән юл башҡа юҡ."
+
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -16542,33 +16971,41 @@ msgstr "Берләштерелгән юлды табып булманы."
 msgid "Could not find the reverted change."
 msgstr "Кире ҡайтарылған үҙгәреште табып булманы."
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Enter a source component ID."
+msgstr "Сикләнгән компонент"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"Сығанаҡ итеп ҡулланыу өсөн компоненттың слагын яҙығыҙ, ағымдағы проекттағы "
-"бөтә компоненттарҙы ҡулланыу өсөн буш ҡалдырығыҙ."
+
+msgid ""
+"Leave blank to use eligible components from each target component's project."
+msgstr ""
 
 #, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
-msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
-msgstr ""
-"Сығанаҡ итеп ҡулланыу өсөн компоненттың слагын яҙығыҙ, ағымдағы проекттағы "
-"бөтә компоненттарҙы ҡулланыу өсөн буш ҡалдырығыҙ."
-
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr ""
-"Өҫтәмә компоненттарға инеү өсөн проект өсөн уртаҡ тәржемә хәтеренә өлөш "
-"индереүҙе ҡабыҙығыҙ."
+#| msgid "All components in current project"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "Ағымдағы проекттағы бөтә компоненттар"
 
 msgid "Automatic translation mode"
 msgstr "Автоматик тәржемә режимы"
+
+msgid "Add as suggestion"
+msgstr "Тәҡдим итеп өҫтәргә"
+
+msgid "Add as translation"
+msgstr "Тәржемә итеп өҫтәргә"
+
+msgid "Add as \"Needing edit\""
+msgstr "\"Мөхәррирләргә кәрәк\" итеп өҫтәргә"
+
+msgid "Add as approved translation"
+msgstr "Раҫланған тәржемә итеп өҫтәргә"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -16594,23 +17031,26 @@ msgstr "Баһа сиге"
 
 #, fuzzy
 #| msgid "All components in current project"
-msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "Ағымдағы проекттағы бөтә компоненттар"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "All eligible components in current project"
 msgstr "Ағымдағы проекттағы бөтә компоненттар"
 
-msgid "Add as suggestion"
-msgstr "Тәҡдим итеп өҫтәргә"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Eligible components from each target component's project"
+msgstr "Ағымдағы проекттағы бөтә компоненттар"
 
-msgid "Add as translation"
-msgstr "Тәржемә итеп өҫтәргә"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
 
-msgid "Add as \"Needing edit\""
-msgstr "\"Мөхәррирләргә кәрәк\" итеп өҫтәргә"
-
-msgid "Add as approved translation"
-msgstr "Раҫланған тәржемә итеп өҫтәргә"
+msgid "You can also enter a project/component path."
+msgstr ""
 
 msgid "Component not found!"
 msgstr "Компонент табылманы!"
@@ -16814,6 +17254,11 @@ msgstr "Көйләүҙәрҙе ҡулдан күрһәтегеҙ"
 #| msgid "Category does not belong to this project."
 msgid "The category does not belong to the selected project."
 msgstr "Категория был проектҡа ҡарамай."
+
+#, fuzzy
+#| msgid "You do not have permission to change project access control."
+msgid "You do not have permission to change project access settings."
+msgstr "Проектҡа инеү менән идара итеүҙе үҙгәртергә хоҡуғығыҙ юҡ."
 
 #, fuzzy
 #| msgid ""
@@ -17052,6 +17497,10 @@ msgstr "Тәржемә инструкцияларының URL-ына күрһә�
 msgid "Create new language file"
 msgstr "Яңы тел файлы булдырырға"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "Яңы тәржемәләр өҫтәүҙе һүндерергә"
@@ -17107,6 +17556,16 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Public e-mail"
+msgid "Public sharing"
+msgstr "Асыҡ e-mail"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -18352,7 +18811,9 @@ msgstr "Бөтә юлдарҙы тәржемә файлдарына көсләп
 
 #, fuzzy
 #| msgid "Approved translation in %(translation)s"
-msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr "%(translation)s проектында раҫланған тәржемә"
 
 msgid "Could not accept suggestion!"
@@ -18694,6 +19155,43 @@ msgstr[1] "%(count)s юл бында тәржемә ителмәй."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "%s проектынан уртаҡлаштырылған."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Project settings"
+msgstr "Проект көйләүҙәрен үҙгәртергә"
+
+#, fuzzy
+#| msgid "Reset customization"
+msgid "Site-wide language customization"
+msgstr "Көйләүҙәрҙе кире алырға"
+
+#, fuzzy
+#| msgid "Project language to remove"
+msgid "Project-language customization"
+msgstr "Юйыласаҡ проект теле"
+
+#, fuzzy
+#| msgid "Approved translation in %(translation)s"
+msgid "Only approved translations are written to the translation file."
+msgstr "%(translation)s проектында раҫланған тәржемә"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr "Бөтә юлдарҙы тәржемә файлдарына көсләп яҙҙыра."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Configure source reviews"
+msgstr "Сығанаҡты тикшереүҙе ҡабыҙырға"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configure translation reviews"
+msgstr "Тәржемә файлдарын таҙартыу"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -19053,6 +19551,11 @@ msgid_plural ""
 "{checks}"
 msgstr[0] "Тәржемә һаҡланды, әммә ҡайһы бер яңы уңышһыҙ тикшереүҙәр бар: {0}"
 msgstr[1] "Тәржемә һаҡланды, әммә ҡайһы бер яңы уңышһыҙ тикшереүҙәр бар: {0}"
+
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
 
 msgid "Your suggestion is empty!"
 msgstr "Һеҙҙең тәҡдим буш!"
@@ -20797,14 +21300,25 @@ msgstr "Бит шрифты"
 msgid "Header font"
 msgstr "Башлыҡ шрифты"
 
-msgid "Navigation color (Light, Dark)"
-msgstr "Навигация төҫө (Яҡты, Ҡараңғы)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header color (Light, Dark)"
+msgstr "Курсорҙы ҡуйғандағы төҫ (Яҡты, Ҡараңғы)"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr "Навигация тексының төҫө (Яҡты, Ҡараңғы)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
+msgstr "Курсорҙы ҡуйғандағы төҫ (Яҡты, Ҡараңғы)"
 
-msgid "Focus color (Light, Dark)"
+#, fuzzy
+#| msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
 msgstr "Фокус төҫө (Яҡты, Ҡараңғы)"
+
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header accent color (Light, Dark)"
+msgstr "Курсорҙы ҡуйғандағы төҫ (Яҡты, Ҡараңғы)"
 
 msgid "Hover color (Light, Dark)"
 msgstr "Курсорҙы ҡуйғандағы төҫ (Яҡты, Ҡараңғы)"
@@ -20912,7 +21426,6 @@ msgstr "Объекттар исемлеге һүндерелгән"
 msgid "Return to Weblate"
 msgstr "Weblate-ҡа кире ҡайтырға"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr "Импорт тиҙлеге документацияһы"
 
@@ -21121,6 +21634,49 @@ msgstr ""
 #| msgid "Source has been removed."
 msgid "The workspace has been removed."
 msgstr "Сығанаҡ юйылды."
+
+#~ msgid "Download reports"
+#~ msgstr "Отчеттарҙы күсереп алырға"
+
+#~ msgid "Suggested change"
+#~ msgstr "Тәҡдим ителгән үҙгәреш"
+
+#~ msgid "Origin"
+#~ msgstr "Сығанаҡ"
+
+#~ msgid "Similarity"
+#~ msgstr "Оҡшашлыҡ"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr ""
+#~ "Сығанаҡ итеп ҡулланыу өсөн компоненттың слагын яҙығыҙ, ағымдағы "
+#~ "проекттағы бөтә компоненттарҙы ҡулланыу өсөн буш ҡалдырығыҙ."
+
+#, fuzzy
+#~| msgid ""
+#~| "Enter slug of a component to use as source, keep blank to use all "
+#~| "components in the current project."
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "Сығанаҡ итеп ҡулланыу өсөн компоненттың слагын яҙығыҙ, ағымдағы "
+#~ "проекттағы бөтә компоненттарҙы ҡулланыу өсөн буш ҡалдырығыҙ."
+
+#~ msgid ""
+#~ "Turn on contribution to shared translation memory for the project to get "
+#~ "access to additional components."
+#~ msgstr ""
+#~ "Өҫтәмә компоненттарға инеү өсөн проект өсөн уртаҡ тәржемә хәтеренә өлөш "
+#~ "индереүҙе ҡабыҙығыҙ."
+
+#~ msgid "Navigation color (Light, Dark)"
+#~ msgstr "Навигация төҫө (Яҡты, Ҡараңғы)"
+
+#~ msgid "Navigation text color (Light, Dark)"
+#~ msgstr "Навигация тексының төҫө (Яҡты, Ҡараңғы)"
 
 #, fuzzy
 #~| msgid "The regular expression can not match an empty string."
@@ -21501,9 +22057,6 @@ msgstr "Сығанаҡ юйылды."
 
 #~ msgid "View all alerts"
 #~ msgstr "Бөтә иҫкәртеүҙәрҙе ҡарарға"
-
-#~ msgid "Component alerts"
-#~ msgstr "Компонент иҫкәртеүҙәре"
 
 #~ msgid "Automatically recognize"
 #~ msgstr "Автоматик танырға"

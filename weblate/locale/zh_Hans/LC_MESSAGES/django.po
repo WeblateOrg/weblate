@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
 "PO-Revision-Date: 2026-09-05 05:51+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
@@ -318,6 +318,27 @@ msgstr "恢复代码只能使用一次，记得把用过的代码标记为失效
 
 msgid "Enter the code from the app"
 msgstr "输入应用程序中的代码"
+
+#, fuzzy
+#| msgid "Subproject is now open for translation updates."
+msgid "Project, category, component, or translation path"
+msgstr "已开放子项目的翻译更新。"
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Enter a valid GitHub host."
+msgid "Enter a valid object path."
+msgstr "输入有效的 GitHub 主机。"
+
+#, fuzzy
+#| msgid "The requested resource was not found or is not accessible."
+msgid "The target does not exist or you cannot access it."
+msgstr "所请求的资源未找到或不可访问。"
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -826,6 +847,64 @@ msgstr "使用账户名"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "请提供用于提交译文的电子邮件地址。"
 
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscription."
+msgstr "未找到匹配的字符串。"
+
+#, fuzzy
+#| msgid "Inactive users can not be assigned to teams."
+msgid "Inactive users and bots do not receive notifications."
+msgstr "无法分派不活跃用户到团队。"
+
+#, fuzzy
+#| msgid "This user can not be edited."
+msgid "The user cannot access this target."
+msgstr "该用户无法被编辑。"
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is not blocked on this project."
+msgid "The user is not watching this project."
+msgstr "用户未在此项目中被拦截。"
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project or component visibility was changed."
+msgid "The project or component subscriptions apply to other targets."
+msgstr "更改了项目或部件可见性。"
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language-specific instructions contain unknown language code \"%s\"."
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr "特定语言命令包含未知语言代码“%s”。"
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
 msgid "No notification"
 msgstr "不通知"
 
@@ -840,6 +919,23 @@ msgstr "每周摘要"
 
 msgid "Monthly digest"
 msgstr "每月摘要"
+
+msgid "All"
+msgstr "全部"
+
+msgid "Watched"
+msgstr "已关注"
+
+#, fuzzy
+#| msgid "Administered projects"
+msgid "Administered"
+msgstr "管理的项目"
+
+msgid "Project"
+msgstr "项目"
+
+msgid "Component"
+msgstr "部件"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -913,6 +1009,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "组件已翻译"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "添加了评论"
@@ -921,6 +1022,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "添加了评论"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "有评论提及了你"
@@ -928,6 +1032,11 @@ msgstr "有评论提及了你"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "一些评论提到了你"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
@@ -977,6 +1086,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "创建了新的翻译部件"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "发布了公告"
@@ -984,6 +1098,11 @@ msgstr "发布了公告"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "发布了公告"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1127,6 +1246,11 @@ msgstr "联系"
 msgid "Hosting"
 msgstr "托管"
 
+#, fuzzy
+#| msgid "Invalid workspace."
+msgid "Invalid trial plan."
+msgstr "无效的工作区。"
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1141,6 +1265,11 @@ msgstr "您的试用期现在已经开始了；创建您的翻译项目，并开
 
 msgid "Gratis trial"
 msgstr "免费试用"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification diagnostics for %(user)s"
+msgstr "将 %(object)s 的通知静音"
 
 msgid "This user can not be edited."
 msgstr "该用户无法被编辑。"
@@ -1280,6 +1409,15 @@ msgstr "身份验证应用已移除。"
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "身份验证应用 %s 已注册。"
+
+#, fuzzy
+#| msgid ""
+#| "The GitHub App registration link is no longer valid. Start the "
+#| "registration again."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "GitHub 应用注册链接不再有效。请再次启动注册。"
 
 msgid ""
 "Too many failed authentication attempts. Please reset your password to "
@@ -1908,8 +2046,8 @@ msgid ""
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 "留空直接匹配翻译文件。设置好后，发现匹配单语言基文件或新的基文件并将此模板用"
-"作文件掩码。包含一个语言通配符和 {{ component }}，比如 locale/*/{{ "
-"component }}.po 或 docs/{{ component }}_*.md。"
+"作文件掩码。包含一个语言通配符和 {{ component }}，比如 locale/*/"
+"{{ component }}.po 或 docs/{{ component }}_*.md。"
 
 msgid "Language filter"
 msgstr "语言筛选"
@@ -2586,14 +2724,14 @@ msgstr "重新扫描 Weblate 仓库中的所有翻译文件"
 msgid "Please provide a suggestion"
 msgstr "请提供一个建议"
 
-msgid "Translation text too long!"
-msgstr "译文文本太长！"
-
 msgid "Number of plurals does not match"
 msgstr "复数个数不匹配"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "您的建议与当前的翻译相似！"
+
+msgid "Translation text too long!"
+msgstr "译文文本太长！"
 
 msgid "Your suggestion already exists!"
 msgstr "您的建议已存在！"
@@ -2659,14 +2797,8 @@ msgstr "没有批准字符串的权限。"
 msgid "This string seems to already exist."
 msgstr "此字符串似乎已存在。"
 
-msgid "Project"
-msgstr "项目"
-
 msgid "Category"
 msgstr "类别"
-
-msgid "Component"
-msgstr "部件"
 
 msgid "User"
 msgstr "用户"
@@ -2757,8 +2889,11 @@ msgid "Manage project access"
 msgstr "管理项目访问权"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "下载报告"
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage repository"
+msgid "Manage reports"
+msgstr "管理仓库"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -3687,9 +3822,13 @@ msgstr "原文与译文的开头空格数量不一致。"
 msgid "Non‑standard characters in Kabyle"
 msgstr "卡拜尔语中的非标准字符"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
+#| "instead of ε)."
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr "使用标准化的拉丁卡拜尔字符（例如：用 ɣ 代替希腊字母 γ，用 ɛ 代替 ε）。"
 
 msgid "Trailing space"
@@ -3743,7 +3882,9 @@ msgstr "原文与译文没有都以省略号结尾。"
 msgid "Mismatched \\n"
 msgstr "不匹配的 \\n"
 
-msgid "Number of \\n literals in translation does not match source."
+#, fuzzy, python-brace-format
+#| msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "译文的 \\n 个数与原文不匹配。"
 
 msgid "Mismatching line breaks"
@@ -4609,9 +4750,13 @@ msgstr "这条字符串应该用作复数，但未使用其复数形式。"
 msgid "Ellipsis"
 msgstr "省略号"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "The string uses three dots ``(...)`` instead of an ellipsis character "
+#| "``(…)``."
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr "这条字符串使用三个句点 ``(...)`` 代替了省略号 ``(…)``。"
 
 msgid "Source string length"
@@ -4677,6 +4822,11 @@ msgstr "使用默认字体，除非每个语言重写匹配。"
 
 msgid "Font"
 msgstr "字体"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Font has to be in the same project as the font group."
+msgstr "主类别必须在同一项目中！"
 
 msgid "Unsupported file format."
 msgstr "不支持的文件格式。"
@@ -5364,7 +5514,9 @@ msgstr "隐私政策"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "请阅读以下一般条款文档："
 
-msgid "Please also read the Privacy Policy:"
+#, fuzzy, python-format
+#| msgid "Please also read the Privacy Policy:"
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr "另请阅读隐私政策："
 
 msgid "Submit"
@@ -5385,6 +5537,26 @@ msgid ""
 "them:"
 msgstr ""
 "本页面基于一般条款和条件以及隐私政策，您仍应阅读原始文档以充分了解其内容："
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"本页面基于一般条款和条件以及隐私政策，您仍应阅读原始文档以充分了解其内容："
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the Terms of Service, you should still read the "
+#| "original document to fully understand them."
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
+msgstr "本页面基于 服务条款，您仍需阅读原始文本以完全了解其内容。"
 
 msgid "Cookies are used on this site for the following:"
 msgstr "本网站使用 Cookie 用于以下用途："
@@ -5673,9 +5845,6 @@ msgstr "使用下一代模型"
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr "优先选择下一代 LLM 而非经典机器翻译模型。"
 
-msgid "DeepL API v1 is no longer supported."
-msgstr "不再支持 DeepL API v1。"
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr "大语言模型"
@@ -5806,30 +5975,6 @@ msgstr "Ollama 模型"
 
 msgid "Name of the model described in Ollama catalogue."
 msgstr "Olllama 目录中描述的模型名称。"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr "Claude Haiku 4.5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr "Claude Opus 5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr "Claude Fable 5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.8"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
-msgstr "Claude Fable 5"
 
 msgctxt "Anthropic model selection"
 msgid "Custom model"
@@ -6514,7 +6659,6 @@ msgstr "请更正注册表单中的错误。"
 msgid "Verify new e-mail address"
 msgstr "验证新电子邮件地址"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "注册"
 
@@ -6564,6 +6708,147 @@ msgstr "忘记密码？"
 
 msgid "Register new account"
 msgstr "注册新账户"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification diagnostics"
+msgstr "通知设置"
+
+msgid "Diagnostics"
+msgstr "诊断信息"
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "View notification"
+msgid "Check notifications"
+msgstr "查看通知"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification eligibility for %(target)s"
+msgstr "将 %(object)s 的通知静音"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+msgid "Notification"
+msgstr "通知"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Inherited project settings"
+msgstr "编辑项目设置"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Component exceptions"
+msgstr "部件警报"
+
+msgid "One-time"
+msgstr "一次性"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Overridden subscriptions"
+msgstr "试用订阅"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse all components"
+msgid "Inspect example components:"
+msgstr "浏览所有部件"
+
+#, fuzzy
+#| msgid "Skipped components:"
+msgid "Inspect components:"
+msgstr "跳过的部件:"
+
+#, fuzzy
+#| msgctxt "No known user"
+#| msgid "None"
+msgid "None"
+msgstr "无"
+
+#, fuzzy
+#| msgid "You do not have permission to save translations in this project."
+msgid "No accessible components or translations in this target."
+msgstr "你无权在这个项目中保存译文。"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscriptions in this scope."
+msgstr "未找到匹配的字符串。"
+
+#, fuzzy, python-format
+#| msgid "%(count)s more affected project."
+#| msgid_plural "%(count)s more affected projects."
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "另外 %(count)s 个受影响的项目。"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "已关注项目"
+
+#, fuzzy
+#| msgid "Notification on new language request"
+msgid "Notification languages"
+msgstr "有新的语言请求时通知"
+
+#, fuzzy, python-format
+#| msgid "Could not find matching language!"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "无法找到匹配的语言！"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Subscriptions"
+msgstr "试用订阅"
+
+msgid "Frequency"
+msgstr "频率"
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "No subscriptions."
+msgstr "试用订阅"
 
 msgid "Please enable the password authentication to secure your account."
 msgstr "请启用密码验证以保护您的账户安全。"
@@ -6616,6 +6901,16 @@ msgstr "向要翻译的项目发送请求来添加缺失的语言。"
 
 msgid "Save"
 msgstr "保存"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Open notification diagnostics"
+msgstr "通知设置"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7015,7 +7310,12 @@ msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "您的试用期将持续 %(days)s 天。"
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, fuzzy, python-format
+#| msgid ""
+#| "Your trial will run the 640k plan, but you can choose any plan later."
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr "您的试用期将运行 640k 套餐，但之后您可以选择任何套餐。"
 
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -7107,15 +7407,6 @@ msgstr "身份"
 
 msgid "User ID"
 msgstr "用户 ID"
-
-msgid "Notification"
-msgstr "通知"
-
-msgid "Frequency"
-msgstr "频率"
-
-msgid "One-time"
-msgstr "一次性"
 
 msgid "Members"
 msgstr "成员"
@@ -7920,6 +8211,9 @@ msgstr "操作"
 msgid "Search and replace"
 msgstr "搜索并替换"
 
+msgid "Post announcement"
+msgstr "发布公告"
+
 msgid "Organize or remove"
 msgstr "组织或删除"
 
@@ -7934,6 +8228,17 @@ msgstr "应用"
 
 msgid "Browse components"
 msgstr "浏览部件"
+
+#, fuzzy
+#| msgid ""
+#| "The message is shown for all translations in this project language, until "
+#| "its given expiry, or permanently until it is deleted."
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
+"这个项目语言中的所有翻译都会显示该消息，直至到期日，或永久显示直到它被删除。"
 
 msgid "Announcements"
 msgstr "公告"
@@ -7958,9 +8263,6 @@ msgstr "批量自动翻译"
 
 msgid "Add new category"
 msgstr "添加新类别"
-
-msgid "Post announcement"
-msgstr "发布公告"
 
 msgid "Browse all category changes"
 msgstr "浏览所有分类更改"
@@ -8018,9 +8320,6 @@ msgstr "中止更新"
 
 msgid "Continue after completion"
 msgstr "完成后继续"
-
-msgid "Diagnostics"
-msgstr "诊断信息"
 
 msgid "error"
 msgid_plural "errors"
@@ -8447,6 +8746,9 @@ msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "（推送分支中缺少了 %(count)s 个提交）"
 
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
@@ -8619,6 +8921,11 @@ msgstr "%(component)s 的仓库"
 msgid "Repository details"
 msgstr "仓库详细信息"
 
+#, fuzzy
+#| msgid "Discovery configuration"
+msgid "Edit repository configuration"
+msgstr "发现配置"
+
 msgid "Repository changes"
 msgstr "仓库变更"
 
@@ -8657,6 +8964,10 @@ msgstr "提交当前表单；这等同于在翻译时按下“保存并继续”
 
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "取消译文“需要编辑”的标记并提交它。"
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -8735,6 +9046,11 @@ msgstr "更改复数规则可能不会产生期望的效果。"
 
 msgid "Please see a documentation for more info."
 msgstr "更多信息请见文档。"
+
+#, fuzzy
+#| msgid "Translation Info"
+msgid "Translation workflow"
+msgstr "翻译信息"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -9015,10 +9331,6 @@ msgstr "%(component)s 部件被锁定"
 msgid "Component %(component)s was unlocked"
 msgstr "%(component)s 部件已解锁"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr "注意：由于有超过 100 个通知，本摘要已截断。"
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -9253,6 +9565,13 @@ msgstr "确认账户删除"
 
 msgid "Confirm invitation"
 msgstr "确认邀请"
+
+#, fuzzy
+#| msgid ""
+#| "Note: This digest has been truncated as there were over 100 notifications."
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr "注意：由于有超过 100 个通知，本摘要已截断。"
 
 msgid "Source string description"
 msgstr "源字符串描述"
@@ -9907,6 +10226,11 @@ msgid ""
 "language manually."
 msgstr "项目维护人员会收到此请求的通知，提示他们手动添加语言。"
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr "在上面的列表中找不到您的语言？"
 
@@ -10195,6 +10519,41 @@ msgstr "这可能是由于你的一些账单过期未付或超过限额。"
 
 msgid "You can change the state of all strings matching given type at once."
 msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。"
+
+msgid "Translation quality filter"
+msgstr "翻译质量筛选器"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr "仅已核准的译文才会写入翻译文件。"
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr "标记为需要编辑的译文不会写入翻译文件。"
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Configure language workflow"
+msgstr "单语言译文模版语言文件"
+
+#, fuzzy
+#| msgid "Translation quality filter"
+msgid "Configure translation quality filter"
+msgstr "翻译质量筛选器"
 
 msgid "View details"
 msgstr "查看详细信息"
@@ -10787,6 +11146,11 @@ msgstr "在某种语言中已翻译的字符串"
 msgid "Query"
 msgstr "查询"
 
+#, fuzzy
+#| msgid "Refresh repositories"
+msgid "Refresh results"
+msgstr "刷线仓库"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -10845,6 +11209,37 @@ msgstr "尚未生成报告。"
 
 msgid "Report history pagination"
 msgstr "报告历史分页"
+
+#, fuzzy
+#| msgid "There are no glossaries defined for this language."
+msgid "Reviews are enabled for this language."
+msgstr "此语言为定义任何概览。"
+
+#, fuzzy
+#| msgid "There are no glossaries defined for this language."
+msgid "Reviews are disabled for this language."
+msgstr "此语言为定义任何概览。"
+
+#, fuzzy, python-format
+#| msgid "Review strings"
+msgid "Review setting: %(origin)s."
+msgstr "审校字符串"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+#, fuzzy
+#| msgid "Customize translation workflow for this language"
+msgid "Learn how to customize translation workflows."
+msgstr "自定义这种语言的翻译工作流程"
+
+#, fuzzy
+#| msgid "Your translation is foo"
+msgid "Configure translation workflow"
+msgstr "Your translation is foo"
 
 #, python-format
 msgid ""
@@ -10931,8 +11326,9 @@ msgstr "赞同"
 msgid "Vote against"
 msgstr "反对"
 
-#, python-format
-msgid "Accept all suggestions from %(username)s"
+#, fuzzy, python-format
+#| msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "接受来自 %(username)s 的所有建议"
 
 msgid "Accept"
@@ -11410,6 +11806,24 @@ msgid ""
 "requests."
 msgstr "这个部件可以使用 Weblate GitHub 应用进行仓库访问和拉取请求。"
 
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+
 msgid "This component is set up incorrectly."
 msgstr "此部件设置不正确。"
 
@@ -11614,19 +12028,15 @@ msgstr "以 CSV 格式下载最新变化"
 msgid "Follow using RSS"
 msgstr "订阅 RSS"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "从版本控制"
 
-#. Translators: Create a component from existing component
 msgid "From an existing component"
 msgstr "从现有部件"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "其他分支"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "上传翻译文件"
 
@@ -11634,7 +12044,6 @@ msgstr "上传翻译文件"
 msgid "Translate document"
 msgstr "翻译文档"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "从头开始"
 
@@ -11976,6 +12385,11 @@ msgstr "在极简模式下打开"
 msgid "Configure editor"
 msgstr "配置编辑器"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr "永久链接已复制到剪贴板。"
 
@@ -12089,14 +12503,28 @@ msgstr "将选中的译文应用到当前字符串"
 msgid "Browse all string changes"
 msgstr "浏览字符串所有的变化"
 
-msgid "Suggested change"
-msgstr "建议的更改"
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "Search translation memory"
+msgstr "共享翻译记忆库"
 
-msgid "Origin"
-msgstr "来源"
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching machine translations found."
+msgstr "未找到匹配的字符串。"
 
-msgid "Similarity"
-msgstr "匹配度"
+#, fuzzy
+#| msgid "Delete comment"
+msgid "Delete entry"
+msgstr "删除评论"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
+msgstr "原文"
+
+msgid "Context:"
+msgstr "上下文："
 
 msgid "Remove selected translation memory entries"
 msgstr "移除选定的翻译记忆库条目"
@@ -12153,9 +12581,6 @@ msgstr "这条字符串用 %(author)s 自动翻译。"
 #, python-format
 msgid "This string was translated automatically by %(author)s."
 msgstr "这条字符串由 %(author)s 自动翻译。"
-
-msgid "Translation quality filter"
-msgstr "翻译质量筛选器"
 
 msgid "Add term to glossary"
 msgstr "向术语表添加术语"
@@ -12415,7 +12840,8 @@ msgstr "将该 GitHub 应用连接到所列出的账户并在迁移前授予它�
 msgid ""
 "A workspace owner needs to connect the GitHub App and grant access to these "
 "repositories before they can be migrated."
-msgstr "工作区所有者需要连接该 GitHub 应用并在这些仓库能被迁移前授予对它们的访问权。"
+msgstr ""
+"工作区所有者需要连接该 GitHub 应用并在这些仓库能被迁移前授予对它们的访问权。"
 
 msgid "Migration status"
 msgstr "迁移状态"
@@ -13485,6 +13911,11 @@ msgstr "该部件似乎未使用。"
 msgid "Glossary using monolingual files."
 msgstr "使用单语言文件的术语表。"
 
+#, fuzzy
+#| msgid "Source string editing is disabled."
+msgid "Glossary string management is disabled"
+msgstr "源字符串编辑被禁止。"
+
 msgid "Unused glossary language."
 msgstr "未使用的术语表语言。"
 
@@ -13796,9 +14227,6 @@ msgstr "版本控制"
 msgid "State"
 msgstr "状态"
 
-msgid "All"
-msgstr "全部"
-
 msgid "Severity"
 msgstr "严重程度"
 
@@ -13837,8 +14265,8 @@ msgid ""
 "Multiple base or new base files render to the same file mask %(mask)s "
 "(%(existing)s and %(new)s)."
 msgstr ""
-"多个基文件或新新的基文件渲染到相同的文件掩码 %(mask)s（%(existing)s 和 %(new)"
-"s）。"
+"多个基文件或新新的基文件渲染到相同的文件掩码 %(mask)s（%(existing)s 和 "
+"%(new)s）。"
 
 msgid "File mask matches the main component."
 msgstr "文件掩码匹配主部件。"
@@ -14208,6 +14636,13 @@ msgstr "替代译文"
 msgid "The string you wanted to translate is no longer available."
 msgstr "您想要翻译的字符串现在已不可用。"
 
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr "您想要翻译的字符串现在已不可用。"
+
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -14280,24 +14715,41 @@ msgstr "找不到合并的字符串。"
 msgid "Could not find the reverted change."
 msgstr "找不到还原的更改。"
 
-msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
-msgstr "输入要用作来源的部件的标识符，留空则使用当前项目中的所有部件。"
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Enter a source component ID."
+msgstr "受限部件"
 
+#, python-brace-format
 msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"输入项目和部件标识串或部件 ID 来用作原文，留空来使用当前工作区中的所有部件。"
 
 msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr "为项目打开对共享翻译记忆库的贡献，以访问其他部件。"
+"Leave blank to use eligible components from each target component's project."
+msgstr ""
+
+#, fuzzy
+#| msgid "All components in current workspace"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "当前工作区中的所有部件"
 
 msgid "Automatic translation mode"
 msgstr "自动翻译模式"
+
+msgid "Add as suggestion"
+msgstr "添加为建议"
+
+msgid "Add as translation"
+msgstr "添加为译文"
+
+msgid "Add as \"Needing edit\""
+msgstr "添加为“需要编辑”"
+
+msgid "Add as approved translation"
+msgstr "添加为已核准的译文"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -14319,23 +14771,30 @@ msgstr "机器翻译引擎"
 msgid "Score threshold"
 msgstr "匹配分数阈值"
 
-msgid "All components in current workspace"
+#, fuzzy
+#| msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "当前工作区中的所有部件"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "All eligible components in current project"
 msgstr "当前项目的所有部件"
 
-msgid "Add as suggestion"
-msgstr "添加为建议"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Eligible components from each target component's project"
+msgstr "当前项目的所有部件"
 
-msgid "Add as translation"
-msgstr "添加为译文"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
 
-msgid "Add as \"Needing edit\""
-msgstr "添加为“需要编辑”"
-
-msgid "Add as approved translation"
-msgstr "添加为已核准的译文"
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "You can also enter a project/component path."
+msgstr "输入部件 ID 或项目/部件标识串。"
 
 msgid "Component not found!"
 msgstr "未找到部件！"
@@ -14508,6 +14967,11 @@ msgstr "手动设定配置"
 
 msgid "The category does not belong to the selected project."
 msgstr "类别不属于所选项目。"
+
+#, fuzzy
+#| msgid "You do not have permission to change project access control."
+msgid "You do not have permission to change project access settings."
+msgstr "您没有更改项目访问控制的权限。"
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -14732,6 +15196,10 @@ msgstr "指向翻译指引 URL"
 msgid "Create new language file"
 msgstr "为新语言创建翻译文档"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "禁用添加新语种"
@@ -14785,6 +15253,16 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr "跳过了 %(component)s 部件因其链接的仓库不可用。"
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Public"
+msgid "Public sharing"
+msgstr "公开的"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -15825,7 +16303,11 @@ msgid ""
 "file."
 msgstr "标记为需要编辑的译文不会写入翻译文件。"
 
-msgid "Only approved translations are written to the translation file."
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr "仅已核准的译文才会写入翻译文件。"
 
 msgid "Could not accept suggestion!"
@@ -16112,6 +16594,43 @@ msgstr[0] "这里有 %(count)s 条未翻译的字符串。"
 #, python-format
 msgid "Shared from the %s project."
 msgstr "从 %s 项目共享。"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Project settings"
+msgstr "编辑项目设置"
+
+#, fuzzy
+#| msgid "Reset customization"
+msgid "Site-wide language customization"
+msgstr "重置自定义"
+
+#, fuzzy
+#| msgid "Project language to remove"
+msgid "Project-language customization"
+msgstr "要删除的项目语言"
+
+msgid "Only approved translations are written to the translation file."
+msgstr "仅已核准的译文才会写入翻译文件。"
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr "标记为需要编辑的译文不会写入翻译文件。"
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Configure source reviews"
+msgstr "启用原文审核"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configure translation reviews"
+msgstr "清理翻译文件"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -16409,6 +16928,11 @@ msgid_plural ""
 "The translation has been saved, however there are some newly failing checks: "
 "{checks}"
 msgstr[0] "译文已保存，但是有部分新的未通过的检查：{checks}"
+
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
 
 msgid "Your suggestion is empty!"
 msgstr "您没有提建议！"
@@ -17735,8 +18259,8 @@ msgid ""
 "Removed connected GitHub account %(target)s and uninstalled the Weblate "
 "GitHub App from GitHub."
 msgstr ""
-"删除了已连接的 GitHub 账户 %(target)s 并从 GitHub 卸载了 Weblate GitHub 应用"
-"。"
+"删除了已连接的 GitHub 账户 %(target)s 并从 GitHub 卸载了 Weblate GitHub 应"
+"用。"
 
 #, python-format
 msgid ""
@@ -17904,14 +18428,25 @@ msgstr "页面字体"
 msgid "Header font"
 msgstr "页眉字体"
 
-msgid "Navigation color (Light, Dark)"
-msgstr "导航色（浅色、深色）"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header color (Light, Dark)"
+msgstr "悬停色（浅色、深色）"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr "导航文本色（浅色、深色）"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
+msgstr "悬停色（浅色、深色）"
 
-msgid "Focus color (Light, Dark)"
+#, fuzzy
+#| msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
 msgstr "聚焦色（浅色、深色）"
+
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header accent color (Light, Dark)"
+msgstr "悬停色（浅色、深色）"
 
 msgid "Hover color (Light, Dark)"
 msgstr "悬停色（浅色、深色）"
@@ -18006,7 +18541,6 @@ msgstr "对象列出功能已关闭"
 msgid "Return to Weblate"
 msgstr "回到 Weblate"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr "提高导入速度的文档"
 
@@ -18151,6 +18685,68 @@ msgstr "仍在使用该工作区，无法删除它。"
 
 msgid "The workspace has been removed."
 msgstr "删除了工作区。"
+
+#~ msgid "Download reports"
+#~ msgstr "下载报告"
+
+#~ msgid "DeepL API v1 is no longer supported."
+#~ msgstr "不再支持 DeepL API v1。"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Haiku 4.5"
+#~ msgstr "Claude Haiku 4.5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Sonnet 5"
+#~ msgstr "Claude Sonnet 5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 5"
+#~ msgstr "Claude Opus 5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5.1"
+#~ msgstr "Claude Fable 5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 4.8"
+#~ msgstr "Claude Opus 4.8"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5"
+#~ msgstr "Claude Fable 5"
+
+#~ msgid "Suggested change"
+#~ msgstr "建议的更改"
+
+#~ msgid "Origin"
+#~ msgstr "来源"
+
+#~ msgid "Similarity"
+#~ msgstr "匹配度"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr "输入要用作来源的部件的标识符，留空则使用当前项目中的所有部件。"
+
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "输入项目和部件标识串或部件 ID 来用作原文，留空来使用当前工作区中的所有部"
+#~ "件。"
+
+#~ msgid ""
+#~ "Turn on contribution to shared translation memory for the project to get "
+#~ "access to additional components."
+#~ msgstr "为项目打开对共享翻译记忆库的贡献，以访问其他部件。"
+
+#~ msgid "Navigation color (Light, Dark)"
+#~ msgstr "导航色（浅色、深色）"
+
+#~ msgid "Navigation text color (Light, Dark)"
+#~ msgstr "导航文本色（浅色、深色）"
 
 #~ msgid ""
 #~ "The regular expression must define named groups for component and "
@@ -18532,9 +19128,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "View all alerts"
 #~ msgstr "查看所有警报"
-
-#~ msgid "Component alerts"
-#~ msgstr "部件警报"
 
 #~ msgid "Automatically recognize"
 #~ msgstr "自动识别"
@@ -19413,9 +20006,6 @@ msgstr "删除了工作区。"
 #~ msgid "Could not find matching project!"
 #~ msgstr "无法找到匹配的项目！"
 
-#~ msgid "Could not find matching language!"
-#~ msgstr "无法找到匹配的语言！"
-
 #~ msgid "XLIFF with gettext extensions"
 #~ msgstr "带有 gettext 扩展的 XLIFF"
 
@@ -20052,9 +20642,6 @@ msgstr "删除了工作区。"
 #~ msgid "Export glossary"
 #~ msgstr "导出词汇表"
 
-#~ msgid "There are no glossaries defined for this language."
-#~ msgstr "此语言为定义任何概览。"
-
 #~ msgid "Failed to change a context!"
 #~ msgstr "更改上下文失败！"
 
@@ -20178,11 +20765,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "last for 14 days."
 #~ msgstr "持续 14天"
-
-#, fuzzy
-#~| msgid "Public"
-#~ msgid "Public email"
-#~ msgstr "公开的"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "代码库的公开网址，例如 Git 或 Mercurial 代码库。"
@@ -20342,9 +20924,6 @@ msgstr "删除了工作区。"
 #~ msgid "Insufficient privileges for editing template."
 #~ msgstr "保存翻译的权限不足。"
 
-#~ msgid "Context:"
-#~ msgstr "上下文："
-
 #~ msgid "Translation memory for the whole platform"
 #~ msgstr "整个平台的翻译记忆库"
 
@@ -20384,9 +20963,6 @@ msgstr "删除了工作区。"
 #~ "When turned off, URLs will be converted to links and any markup will be "
 #~ "escaped."
 #~ msgstr "当关闭时，URLs 会被转换为链接，任何标记将被转义。"
-
-#~ msgid "Administered projects"
-#~ msgstr "管理的项目"
 
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "添加小组 （在这个平台）"
@@ -21160,9 +21736,6 @@ msgstr "删除了工作区。"
 #~ msgid "Notification on merge failure"
 #~ msgstr "在合并失败时通知"
 
-#~ msgid "Notification on new language request"
-#~ msgstr "有新的语言请求时通知"
-
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "
 #~ "projects."
@@ -21612,11 +22185,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Summary of languages"
 #~ msgstr "语言摘要"
-
-#~ msgid ""
-#~ "This page is based on the Terms of Service, you should still read the "
-#~ "original document to fully understand them."
-#~ msgstr "本页面基于 服务条款，您仍需阅读原始文本以完全了解其内容。"
 
 #~ msgid "Indexing offloading processing"
 #~ msgstr "正在索引卸载处理"
@@ -23031,9 +23599,6 @@ msgstr "删除了工作区。"
 #~ msgid "Git repository with Weblate translations:"
 #~ msgstr "Weblate 翻译所在的 Git 代码库："
 
-#~ msgid "Watched"
-#~ msgstr "已关注"
-
 #, fuzzy
 #~| msgid "Invalid link to a Weblate project, can not link to self!"
 #~ msgid ""
@@ -23152,9 +23717,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Git push URL"
 #~ msgstr "Git 推送地址"
-
-#~ msgid "Subproject is now open for translation updates."
-#~ msgstr "已开放子项目的翻译更新。"
 
 #~ msgid "+1 vote"
 #~ msgstr "+1 票"
