@@ -15,6 +15,7 @@ Weblate 2026.10
 * Improved :ref:`repository maintenance <repository-maintenance>` with disabled push controls when push configuration is missing and direct links to component VCS settings.
 * The :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` can create approved strings, falling back to translated strings when reviews are disabled for the target language.
 * Whitespace characters are now rendered consistently in the source string display and the translation editor, and different kinds of whitespace are now distinguishable from each other.
+* Added a :ref:`font-monospace <custom-checks>` flag to display a string in the translation editor using a monospace font, useful for aligning command-line or terminal output.
 * History :guilabel:`View details` and :guilabel:`Revert` actions are larger, more widely spaced, and show a hover and focus background.
 * Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
 * Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
