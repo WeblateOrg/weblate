@@ -51,7 +51,7 @@ file with (what is most often the) English strings.
 
     * :doc:`tt:formats/json`
     * :ref:`updating-target-files`
-    * :ref:`addon-weblate.json.customize`
+    * :ref:`formats._file_format_params`
     * :ref:`addon-weblate.cleanup.generic`
 
 Example files
