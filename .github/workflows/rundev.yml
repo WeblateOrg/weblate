@@ -39,7 +39,7 @@ jobs:
     - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
       with:
         enable-cache: false
-        version: 0.12.10
+        version: 0.12.13
     - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
     - run: ./rundev.sh start
     - run: ./rundev.sh wait
