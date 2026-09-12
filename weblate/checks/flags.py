@@ -125,6 +125,7 @@ PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
 PLAIN_FLAGS["terminology"] = gettext_lazy("Terminology")
 PLAIN_FLAGS["ignore-all-checks"] = gettext_lazy("Ignore all checks")
 PLAIN_FLAGS["case-insensitive"] = gettext_lazy("Use case insensitive placeholders")
+PLAIN_FLAGS["font-monospace"] = gettext_lazy("Monospace font")
 PLAIN_FLAGS.update(
     {handler.auto_flag: handler.name for handler in AUTO_FLAG_HANDLERS.values()}
 )
@@ -480,6 +481,7 @@ _FLAG_CATEGORIES: dict[str, StrOrPromise] = {
     "forbidden": FLAG_CATEGORY_BEHAVIOR,
     "terminology": FLAG_CATEGORY_BEHAVIOR,
     "case-insensitive": FLAG_CATEGORY_BEHAVIOR,
+    "font-monospace": FLAG_CATEGORY_BEHAVIOR,
     "strict-same": FLAG_CATEGORY_BEHAVIOR,
     "strict-format": FLAG_CATEGORY_BEHAVIOR,
     "ignore-all-checks": FLAG_CATEGORY_BEHAVIOR,
