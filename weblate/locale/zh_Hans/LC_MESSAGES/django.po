@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-10 22:51-0500\n"
-"PO-Revision-Date: 2026-09-12 06:02+0000\n"
+"PO-Revision-Date: 2026-09-12 06:37+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -4718,14 +4718,11 @@ msgstr "这条字符串应该用作复数，但未使用其复数形式。"
 msgid "Ellipsis"
 msgstr "省略号"
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The string uses three dots ``(...)`` instead of an ellipsis character "
-#| "``(…)``."
+#, python-brace-format
 msgid ""
 "The string uses three dots {dots} instead of an ellipsis character "
 "{ellipsis}."
-msgstr "这条字符串使用三个句点 ``(...)`` 代替了省略号 ``(…)``。"
+msgstr "这条字符串使用三个句点 {dots} 而不是省略号 {ellipsis}。"
 
 msgid "Source string length"
 msgstr "源字符串长度"
@@ -4791,10 +4788,8 @@ msgstr "使用默认字体，除非每个语言重写匹配。"
 msgid "Font"
 msgstr "字体"
 
-#, fuzzy
-#| msgid "Parent category has to be in the same project!"
 msgid "Font has to be in the same project as the font group."
-msgstr "主类别必须在同一项目中！"
+msgstr "字体必须和字体群组在同一个项目中。"
 
 msgid "Unsupported file format."
 msgstr "不支持的文件格式。"
@@ -5482,10 +5477,9 @@ msgstr "隐私政策"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "请阅读以下一般条款文档："
 
-#, fuzzy, python-format
-#| msgid "Please also read the Privacy Policy:"
+#, python-format
 msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr "另请阅读隐私政策："
+msgstr "另请阅读 <a href=\"%(privacy_url)s\">隐私政策</a>。"
 
 msgid "Submit"
 msgstr "提交"
@@ -5506,25 +5500,15 @@ msgid ""
 msgstr ""
 "本页面基于一般条款和条件以及隐私政策，您仍应阅读原始文档以充分了解其内容："
 
-#, fuzzy
-#| msgid ""
-#| "This page is based on the General Terms and Conditions and the Privacy "
-#| "Policy, you should still read the original documents to fully understand "
-#| "them:"
 msgid ""
 "This page is based on the General Terms and Conditions, you should still "
 "read the original document to fully understand it:"
-msgstr ""
-"本页面基于一般条款和条件以及隐私政策，您仍应阅读原始文档以充分了解其内容："
+msgstr "本页面基于一般条款，您仍应阅读原始文档以充分了解其内容："
 
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service, you should still read the "
-#| "original document to fully understand them."
 msgid ""
 "This page is based on the Privacy Policy, you should still read the original "
 "document to fully understand it:"
-msgstr "本页面基于 服务条款，您仍需阅读原始文本以完全了解其内容。"
+msgstr "本页面基于隐私政策，您仍需阅读原始文本以完全了解其内容。"
 
 msgid "Cookies are used on this site for the following:"
 msgstr "本网站使用 Cookie 用于以下用途："
@@ -6677,10 +6661,8 @@ msgstr "忘记密码？"
 msgid "Register new account"
 msgstr "注册新账户"
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification diagnostics"
-msgstr "通知设置"
+msgstr "通知诊断"
 
 msgid "Diagnostics"
 msgstr "诊断信息"
@@ -6691,15 +6673,12 @@ msgid ""
 "details, digest content, and delivery rate limits can also affect delivery."
 msgstr ""
 
-#, fuzzy
-#| msgid "View notification"
 msgid "Check notifications"
-msgstr "查看通知"
+msgstr "检查通知"
 
-#, fuzzy, python-format
-#| msgid "Mute notifications for %(object)s"
+#, python-format
 msgid "Notification eligibility for %(target)s"
-msgstr "将 %(object)s 的通知静音"
+msgstr "%(target)s 的通知资格"
 
 msgid ""
 "Inherited project settings are shown once, alongside differences across "
@@ -6710,18 +6689,14 @@ msgstr ""
 msgid "Notification"
 msgstr "通知"
 
-#, fuzzy
-#| msgid "Edit project settings"
 msgid "Inherited project settings"
-msgstr "编辑项目设置"
+msgstr "继承的项目设置"
 
 msgid "Settings and eligibility"
 msgstr ""
 
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Component exceptions"
-msgstr "部件警报"
+msgstr "部件异常"
 
 msgid "One-time"
 msgstr "一次性"
@@ -6731,10 +6706,8 @@ msgid ""
 "exceptions."
 msgstr ""
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Overridden subscriptions"
-msgstr "试用订阅"
+msgstr "失效的订阅"
 
 #, python-format
 msgid "Different settings in %(count)s component."
@@ -6751,69 +6724,50 @@ msgid ""
 "project’s subscriptions."
 msgstr ""
 
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Inspect example components:"
-msgstr "浏览所有部件"
+msgstr "检视示例部件："
 
-#, fuzzy
-#| msgid "Skipped components:"
 msgid "Inspect components:"
-msgstr "跳过的部件:"
+msgstr "检视部件："
 
 msgid "None"
 msgstr "无"
 
-#, fuzzy
-#| msgid "You do not have permission to save translations in this project."
 msgid "No accessible components or translations in this target."
-msgstr "你无权在这个项目中保存译文。"
+msgstr "此目标中没有可访问的部件或翻译。"
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching subscriptions in this scope."
-msgstr "未找到匹配的字符串。"
+msgstr "此作用域中没有匹配的订阅。"
 
-#, fuzzy, python-format
-#| msgid "%(count)s more affected project."
-#| msgid_plural "%(count)s more affected projects."
+#, python-format
 msgid "%(count)s watched project."
 msgid_plural "%(count)s watched projects."
-msgstr[0] "另外 %(count)s 个受影响的项目。"
+msgstr[0] "%(count)s 个已关注的项目。"
 
-#, fuzzy
-#| msgid "Watched projects"
 msgid "No watched projects."
-msgstr "已关注项目"
+msgstr "无已关注项目。"
 
-#, fuzzy
-#| msgid "Notification on new language request"
 msgid "Notification languages"
-msgstr "有新的语言请求时通知"
+msgstr "通知语言"
 
-#, fuzzy, python-format
-#| msgid "Could not find matching language!"
+#, python-format
 msgid "%(count)s notification language."
 msgid_plural "%(count)s notification languages."
-msgstr[0] "无法找到匹配的语言！"
+msgstr[0] "%(count)s 种通知语言。"
 
 msgid ""
 "No notification languages selected. Language-filtered notifications will not "
 "be sent."
 msgstr ""
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Subscriptions"
-msgstr "试用订阅"
+msgstr "订阅"
 
 msgid "Frequency"
 msgstr "频率"
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "No subscriptions."
-msgstr "试用订阅"
+msgstr "无订阅."
 
 msgid "Please enable the password authentication to secure your account."
 msgstr "请启用密码验证以保护您的账户安全。"
@@ -6872,10 +6826,8 @@ msgid ""
 "what can prevent notification delivery."
 msgstr ""
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Open notification diagnostics"
-msgstr "通知设置"
+msgstr "打开通知诊断"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7275,13 +7227,11 @@ msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "您的试用期将持续 %(days)s 天。"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Your trial will run the 640k plan, but you can choose any plan later."
+#, python-format
 msgid ""
 "Your trial will run the %(trial_plan)s plan, but you can choose any plan "
 "later."
-msgstr "您的试用期将运行 640k 套餐，但之后您可以选择任何套餐。"
+msgstr "您的试用将运行 %(trial_plan)s 套餐，但之后您可以选择任何套餐。"
 
 msgid "No credit card is needed, but you can set the payment method anytime."
 msgstr "不需要信用卡，但您可以在任何时间设置付款方式。"
@@ -8194,16 +8144,13 @@ msgstr "应用"
 msgid "Browse components"
 msgstr "浏览部件"
 
-#, fuzzy
-#| msgid ""
-#| "The message is shown for all translations in this project language, until "
-#| "its given expiry, or permanently until it is deleted."
 msgid ""
 "The message is shown for all translations in this language within the "
 "category and its subcategories, until its given expiry, or permanently until "
 "it is deleted."
 msgstr ""
-"这个项目语言中的所有翻译都会显示该消息，直至到期日，或永久显示直到它被删除。"
+"在这则消息给定的到期日前，该类别及其子类别内这种语言的全部翻译都将显示它；或"
+"者将永久显示直到其被删除。"
 
 msgid "Announcements"
 msgstr "公告"
@@ -8886,10 +8833,8 @@ msgstr "%(component)s 的仓库"
 msgid "Repository details"
 msgstr "仓库详细信息"
 
-#, fuzzy
-#| msgid "Discovery configuration"
 msgid "Edit repository configuration"
-msgstr "发现配置"
+msgstr "编辑仓库配置"
 
 msgid "Repository changes"
 msgstr "仓库变更"
@@ -9012,10 +8957,8 @@ msgstr "更改复数规则可能不会产生期望的效果。"
 msgid "Please see a documentation for more info."
 msgstr "更多信息请见文档。"
 
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Translation workflow"
-msgstr "翻译信息"
+msgstr "翻译工作流"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -9531,12 +9474,9 @@ msgstr "确认账户删除"
 msgid "Confirm invitation"
 msgstr "确认邀请"
 
-#, fuzzy
-#| msgid ""
-#| "Note: This digest has been truncated as there were over 100 notifications."
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
-msgstr "注意：由于有超过 100 个通知，本摘要已截断。"
+msgstr "注意：由于超过 100 个条目，未显示本通知全部内容。"
 
 msgid "Source string description"
 msgstr "源字符串描述"
@@ -10488,21 +10428,15 @@ msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。
 msgid "Translation quality filter"
 msgstr "翻译质量筛选器"
 
-#, fuzzy
-#| msgid "Only approved translations are written to the translation file."
 msgid ""
 "Approval is required before this translation can be written to the "
 "translation file."
-msgstr "仅已核准的译文才会写入翻译文件。"
+msgstr "必须批准此翻译才能将它写入翻译文件。"
 
-#, fuzzy
-#| msgid ""
-#| "Translations marked as needing editing are not written to the translation "
-#| "file."
 msgid ""
 "Resolve this translation’s needs-editing state before it can be written to "
 "the translation file."
-msgstr "标记为需要编辑的译文不会写入翻译文件。"
+msgstr "必须解决此翻译的需要编辑状态才能将它写入翻译文件。"
 
 #, python-format
 msgid ""
@@ -10510,15 +10444,11 @@ msgid ""
 "controls which translations are written to files."
 msgstr ""
 
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Configure language workflow"
-msgstr "单语言译文模版语言文件"
+msgstr "配置语言工作流"
 
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Configure translation quality filter"
-msgstr "翻译质量筛选器"
+msgstr "配置翻译质量筛选器"
 
 msgid "View details"
 msgstr "查看详细信息"
@@ -11111,10 +11041,8 @@ msgstr "在某种语言中已翻译的字符串"
 msgid "Query"
 msgstr "查询"
 
-#, fuzzy
-#| msgid "Refresh repositories"
 msgid "Refresh results"
-msgstr "刷线仓库"
+msgstr "刷新结果"
 
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
@@ -11175,20 +11103,15 @@ msgstr "尚未生成报告。"
 msgid "Report history pagination"
 msgstr "报告历史分页"
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are enabled for this language."
-msgstr "此语言为定义任何概览。"
+msgstr "此语言启用了检查。"
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are disabled for this language."
-msgstr "此语言为定义任何概览。"
+msgstr "此语言禁用了检查。"
 
-#, fuzzy, python-format
-#| msgid "Review strings"
+#, python-format
 msgid "Review setting: %(origin)s."
-msgstr "审校字符串"
+msgstr "检查字符串：%(origin)s."
 
 #, python-format
 msgid ""
@@ -11196,15 +11119,11 @@ msgid ""
 "language</a>."
 msgstr ""
 
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Learn how to customize translation workflows."
-msgstr "自定义这种语言的翻译工作流程"
+msgstr "了解如何自定义翻译工作流。"
 
-#, fuzzy
-#| msgid "Your translation is foo"
 msgid "Configure translation workflow"
-msgstr "Your translation is foo"
+msgstr "配置翻译工作流"
 
 #, python-format
 msgid ""
@@ -11291,10 +11210,9 @@ msgstr "赞同"
 msgid "Vote against"
 msgstr "反对"
 
-#, fuzzy, python-format
-#| msgid "Accept all suggestions from %(username)s"
+#, python-format
 msgid "Accept all suggestions from %(username)s in %(translation)s"
-msgstr "接受来自 %(username)s 的所有建议"
+msgstr "接受 %(translation)s 中来自 %(username)s 的全部建议"
 
 msgid "Accept"
 msgstr "接受"
@@ -12468,23 +12386,17 @@ msgstr "将选中的译文应用到当前字符串"
 msgid "Browse all string changes"
 msgstr "浏览字符串所有的变化"
 
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid "Search translation memory"
-msgstr "共享翻译记忆库"
+msgstr "搜索翻译记忆库"
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching machine translations found."
-msgstr "未找到匹配的字符串。"
+msgstr "未找到匹配的机器翻译。"
 
 msgid "Delete entry"
 msgstr "删除条目"
 
-#, fuzzy
-#| msgid "Source"
 msgid "Source:"
-msgstr "原文"
+msgstr "原文："
 
 msgid "Context:"
 msgstr "上下文："
@@ -13874,10 +13786,8 @@ msgstr "该部件似乎未使用。"
 msgid "Glossary using monolingual files."
 msgstr "使用单语言文件的术语表。"
 
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
-msgstr "源字符串编辑被禁止。"
+msgstr "禁用了术语表字符串管理"
 
 msgid "Unused glossary language."
 msgstr "未使用的术语表语言。"
@@ -14599,12 +14509,10 @@ msgstr "替代译文"
 msgid "The string you wanted to translate is no longer available."
 msgstr "您想要翻译的字符串现在已不可用。"
 
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available."
 msgid ""
 "The string you wanted to translate could not be identified. Please reopen it "
 "and try again."
-msgstr "您想要翻译的字符串现在已不可用。"
+msgstr "无法识别你想翻译的字符串。请重新打开它并重试。"
 
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
@@ -14678,10 +14586,8 @@ msgstr "找不到合并的字符串。"
 msgid "Could not find the reverted change."
 msgstr "找不到还原的更改。"
 
-#, fuzzy
-#| msgid "Restricted component"
 msgid "Enter a source component ID."
-msgstr "受限部件"
+msgstr "输入原文部件 ID."
 
 #, python-brace-format
 msgid ""
@@ -14694,10 +14600,8 @@ msgid ""
 "Leave blank to use eligible components from each target component's project."
 msgstr ""
 
-#, fuzzy
-#| msgid "All components in current workspace"
 msgid "Leave blank to use eligible components in the current workspace."
-msgstr "当前工作区中的所有部件"
+msgstr "留空在当前工作区中使用合格部件。"
 
 msgid "Automatic translation mode"
 msgstr "自动翻译模式"
@@ -14734,30 +14638,22 @@ msgstr "机器翻译引擎"
 msgid "Score threshold"
 msgstr "匹配分数阈值"
 
-#, fuzzy
-#| msgid "All components in current workspace"
 msgid "All eligible components in current workspace"
-msgstr "当前工作区中的所有部件"
+msgstr "当前工作区中的所有合格部件"
 
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All eligible components in current project"
-msgstr "当前项目的所有部件"
+msgstr "当前项目的所有合格部件"
 
-#, fuzzy
-#| msgid "All components in current project"
 msgid "Eligible components from each target component's project"
-msgstr "当前项目的所有部件"
+msgstr "来自每个目标部件项目的合格部件"
 
 msgid ""
 "You can also enter a component slug from the current project or a project/"
 "component path."
 msgstr ""
 
-#, fuzzy
-#| msgid "Enter component ID or project/component slug."
 msgid "You can also enter a project/component path."
-msgstr "输入部件 ID 或项目/部件标识串。"
+msgstr "也可输入项目/部件路径。"
 
 msgid "Component not found!"
 msgstr "未找到部件！"
@@ -14931,10 +14827,8 @@ msgstr "手动设定配置"
 msgid "The category does not belong to the selected project."
 msgstr "类别不属于所选项目。"
 
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change project access settings."
-msgstr "您没有更改项目访问控制的权限。"
+msgstr "您无权更改项目访问设置。"
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -16264,12 +16158,10 @@ msgid ""
 "file."
 msgstr "标记为需要编辑的译文不会写入翻译文件。"
 
-#, fuzzy
-#| msgid "Only approved translations are written to the translation file."
 msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
-msgstr "仅已核准的译文才会写入翻译文件。"
+msgstr "对于启用了检查的语言，仅已核准的译文才会写入翻译文件。"
 
 msgid "Could not accept suggestion!"
 msgstr "无法接受建议！"
@@ -16556,15 +16448,11 @@ msgstr[0] "这里有 %(count)s 条未翻译的字符串。"
 msgid "Shared from the %s project."
 msgstr "从 %s 项目共享。"
 
-#, fuzzy
-#| msgid "Edit project settings"
 msgid "Project settings"
-msgstr "编辑项目设置"
+msgstr "项目设置"
 
-#, fuzzy
-#| msgid "Reset customization"
 msgid "Site-wide language customization"
-msgstr "重置自定义"
+msgstr "全站语言自定义"
 
 msgid "Project-language customization"
 msgstr "项目语言定制"
