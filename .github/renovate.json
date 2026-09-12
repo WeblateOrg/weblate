@@ -77,6 +77,33 @@
         "custom.unicode-public"
       ],
       "extractVersion": "^(?<version>\\d+\\.\\d+\\.\\d+)/?$"
+    },
+    {
+      "description": "Group bundled ITS rule updates",
+      "matchFileNames": [
+        "scripts/update-gettext-rules.py"
+      ],
+      "groupName": "gettext ITS rules"
+    },
+    {
+      "description": "Keep GTK ITS rules on the GTK 3 stable series",
+      "matchFileNames": [
+        "scripts/update-gettext-rules.py"
+      ],
+      "matchPackageNames": [
+        "GNOME/gtk"
+      ],
+      "allowedVersions": "/^3\\.24\\.\\d+$/"
+    },
+    {
+      "description": "Use stable GLib ITS releases (even minor versions)",
+      "matchFileNames": [
+        "scripts/update-gettext-rules.py"
+      ],
+      "matchPackageNames": [
+        "GNOME/glib"
+      ],
+      "allowedVersions": "/^2\\.\\d*[02468]\\.\\d+$/"
     }
   ],
   "customManagers": [
@@ -152,6 +179,17 @@
       "packageNameTemplate": "https://github.com/Homebrew/homebrew-core",
       "datasourceTemplate": "git-refs",
       "autoReplaceStringTemplate": "{{{indentation}}}# renovate-homebrew-core\n{{{indentation}}}HOMEBREW_CORE_REF: {{{newDigest}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Update pinned upstream ITS rule releases",
+      "managerFilePatterns": [
+        "/^scripts\\/update-gettext-rules\\.py$/"
+      ],
+      "matchStrings": [
+        "# renovate-its: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: registryUrl=(?<registryUrl>\\S+))?\\r?\\n[A-Z_]+_VERSION = \"(?<currentValue>[^\"]+)\""
+      ],
+      "versioningTemplate": "semver-coerced"
     }
   ],
   "customDatasources": {

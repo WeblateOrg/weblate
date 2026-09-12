@@ -5,7 +5,10 @@ repos:
   rev: v6.0.0
   hooks:
   - id: trailing-whitespace
+    # Preserve imported license texts and copyright notices verbatim.
+    exclude: ^LICENSES/
   - id: end-of-file-fixer
+    exclude: ^LICENSES/
   - id: check-yaml
   - id: check-xml
   - id: check-toml
@@ -13,6 +16,7 @@ repos:
   - id: check-json
   - id: mixed-line-ending
     args: [--fix=lf]
+    exclude: ^LICENSES/
   - id: pretty-format-json
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
@@ -74,12 +78,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.5.12
+  rev: v2.5.13
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.5.12'
+    - '@biomejs/biome@2.5.13'
     language: node
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: '0.26'
@@ -208,7 +212,7 @@ repos:
     env:
       KINGFISHER_VERSION: v2.1.0
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.2.66
+  rev: v0.2.73
   hooks:
   - id: rumdl
   - id: rumdl-fmt

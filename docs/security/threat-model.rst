@@ -189,7 +189,7 @@ repository state, background tasks, outbound requests, and rendered UI.
      - Permission-checked browser and API repository actions become queued work
        carrying the initiating user and affected repository scope. The worker
        reacquires the datastore reservation and rechecks the user's current VCS
-       permission across the current linked-component scope before mutation.
+       permission on the current repository owner before mutation.
        The broker, datastore, and workers are trusted parts of the same Weblate
        instance. *(maintainer)*
    * - Webhook sender to Weblate
@@ -619,13 +619,15 @@ Security properties Weblate provides
        component.
        Linking a repository extends this trust to administrators of every
        linked component for the complete shared checkout. Permissions for
-       explicit VCS actions cover every component sharing an affected
-       repository, including linked components in other projects. Project-wide
+       explicit VCS actions are checked on the repository-owning component.
+       Linking accepts this owner's authority over the complete shared checkout;
+       permissions on downstream linked components neither grant nor veto
+       explicit VCS authority. Project-wide
        VCS actions omit repositories where this permission check fails; they do
        not partially operate on an individual shared checkout. Explicit VCS
        actions queued from the browser or API retain the initiating user,
        serialize access to the affected repositories, and recheck that user's
-       permission against the current linked-component scope in the worker
+       permission on the current repository owner in the worker
        before mutation. Weblate's normal background commit and push of
        authorized translation changes does not require the editor to have
        these VCS permissions. The ``reports.view`` permission authorizes all
@@ -690,8 +692,9 @@ Security properties Weblate provides
        access to project content or APIs. Repository content
        deliberately shared through linked components follows the linked
        repository trust boundary. Project repository permission diagnostics
-       expose the paths of linked components that prevent an operation, but do
-       not expose their content or repository status. Custom add-ons list only
+       identify accessible repository owners where an operation requires
+       permission, but do not expose inaccessible component identities or
+       blocked repository content or status. Custom add-ons list only
        non-sensitive fields as public configuration; unlisted values are
        redacted from public change history.
      - Cross-project data leak not covered by the documented generic webhook

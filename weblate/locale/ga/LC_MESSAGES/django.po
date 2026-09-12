@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
-"PO-Revision-Date: 2026-09-04 03:43+0000\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"PO-Revision-Date: 2026-09-11 04:05+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
 "6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 2026.9\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -335,6 +335,29 @@ msgstr ""
 
 msgid "Enter the code from the app"
 msgstr "Cuir isteach an cód as an aip"
+
+#, fuzzy
+#| msgid "All components are now open for translation updates."
+msgid "Project, category, component, or translation path"
+msgstr ""
+"Tá na comhpháirteanna uile oscailte anois le haghaidh nuashonruithe "
+"aistriúcháin."
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Enter a valid GitHub host."
+msgid "Enter a valid object path."
+msgstr "Cuir isteach óstach GitHub bailí."
+
+#, fuzzy
+#| msgid "The requested resource was not found or is not accessible."
+msgid "The target does not exist or you cannot access it."
+msgstr "Níor aimsíodh an acmhainn iarrtha nó níl rochtain uirthi."
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -888,6 +911,64 @@ msgstr "Úsáid ainm an chuntais"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Tabhair seoladh r-phoist le do thoil chun aistriúcháin a chur isteach."
 
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscription."
+msgstr "Níor aimsíodh aon teaghráin mheaitseála."
+
+#, fuzzy
+#| msgid "Inactive users can not be assigned to teams."
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Ní féidir úsáideoirí neamhghníomhacha a shannadh do fhoirne."
+
+#, fuzzy
+#| msgid "This user can not be edited."
+msgid "The user cannot access this target."
+msgstr "Ní féidir an t-úsáideoir seo a chur in eagar."
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "User is not blocked on this project."
+msgid "The user is not watching this project."
+msgstr "Níl an t-úsáideoir blocáilte ar an tionscadal seo."
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project or component visibility was changed."
+msgid "The project or component subscriptions apply to other targets."
+msgstr "Athraíodh infheictheacht an tionscadail nó an chomhpháirte."
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language-specific instructions contain unknown language code \"%s\"."
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr "Tá cód teanga anaithnid \"%s\" i dtreoracha teanga-shonracha."
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
 msgid "No notification"
 msgstr "Fógra ar bith"
 
@@ -902,6 +983,25 @@ msgstr "Achoimre na seachtaine"
 
 msgid "Monthly digest"
 msgstr "Achoimre míosúil"
+
+msgid "All"
+msgstr "Gach"
+
+#, fuzzy
+#| msgid "Watching"
+msgid "Watched"
+msgstr "Ag faire"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Administered"
+msgstr "Riarachán"
+
+msgid "Project"
+msgstr "Tionscadal"
+
+msgid "Component"
+msgstr "Comhpháirt"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -975,6 +1075,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "Aistríodh comhpháirteanna"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Cuireadh trácht leis"
@@ -983,6 +1088,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Cuireadh tuairimí leis"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Luadh thú i dtrácht"
@@ -990,6 +1098,11 @@ msgstr "Luadh thú i dtrácht"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Luadh thú i roinnt tuairimí"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
@@ -1039,6 +1152,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "Cruthaíodh comhpháirteanna aistriúcháin nua"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Foilsíodh fógra"
@@ -1046,6 +1164,11 @@ msgstr "Foilsíodh fógra"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Foilsíodh fógraí"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1220,6 +1343,11 @@ msgstr "Teagmháil"
 msgid "Hosting"
 msgstr "Óstáil"
 
+#, fuzzy
+#| msgid "Invalid workspace."
+msgid "Invalid trial plan."
+msgstr "Spás oibre neamhbhailí."
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1237,6 +1365,11 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Tástáil saor in aisce"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification diagnostics for %(user)s"
+msgstr "Balbhaigh fógraí le haghaidh %(object)s"
 
 msgid "This user can not be edited."
 msgstr "Ní féidir an t-úsáideoir seo a chur in eagar."
@@ -1395,6 +1528,16 @@ msgstr "Baineadh an aip fíordheimhnithe."
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "Cláraíodh an aip fíordheimhnithe %s."
+
+#, fuzzy
+#| msgid ""
+#| "The GitHub App registration link is no longer valid. Start the "
+#| "registration again."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr ""
+"Níl nasc clárúcháin Aip GitHub bailí a thuilleadh. Tosaigh an clárú arís."
 
 #, fuzzy
 #| msgid "If it was you, reset your password to regain access to your account."
@@ -2846,14 +2989,14 @@ msgstr "Athscan gach comhad aistriúcháin sa stór Weblate"
 msgid "Please provide a suggestion"
 msgstr "Tabhair moladh le do thoil"
 
-msgid "Translation text too long!"
-msgstr "Téacs aistriúcháin rófhada!"
-
 msgid "Number of plurals does not match"
 msgstr "Ní hionann líon na n-iolraí"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Tá do mholadh cosúil leis an aistriúchán reatha!"
+
+msgid "Translation text too long!"
+msgstr "Téacs aistriúcháin rófhada!"
 
 msgid "Your suggestion already exists!"
 msgstr "Tá do mholadh ann cheana féin!"
@@ -2928,14 +3071,8 @@ msgstr "Níl cead agat teaghráin a cheadú."
 msgid "This string seems to already exist."
 msgstr "Is cosúil go bhfuil an teaghrán seo ann cheana féin."
 
-msgid "Project"
-msgstr "Tionscadal"
-
 msgid "Category"
 msgstr "Catagóir"
-
-msgid "Component"
-msgstr "Comhpháirt"
 
 msgid "User"
 msgstr "Úsáideoir"
@@ -3026,8 +3163,11 @@ msgid "Manage project access"
 msgstr "Mionathraigh rochtain an tionscadail"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Íoslódáil tuairiscí"
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage repository"
+msgid "Manage reports"
+msgstr "Bainistigh stór"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4017,9 +4157,13 @@ msgstr ""
 msgid "Non‑standard characters in Kabyle"
 msgstr "Carachtair neamhchaighdeánacha i gCabile"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
+#| "instead of ε)."
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 "Bain úsáid as carachtair chaighdeánaithe Laidine Kabyle (e.g. \\u0263 in "
 "ionad na Gréigise \\u03b3; \\u025b in ionad \\u03b5)."
@@ -4079,7 +4223,9 @@ msgstr "Ní chríochnaíonn an fhoinse agus an t-aistriúchán araon le hailipsi
 msgid "Mismatched \\n"
 msgstr "Mímheaitseáilte \\n"
 
-msgid "Number of \\n literals in translation does not match source."
+#, fuzzy, python-brace-format
+#| msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr ""
 "Ní mheaitseálann líon na litreach \\n san aistriúchán leis an bhfoinse."
 
@@ -5007,9 +5153,13 @@ msgstr "Úsáidtear an teaghrán mar iolra, ach ní úsáidtear foirmeacha iolra
 msgid "Ellipsis"
 msgstr "Éilips"
 
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "The string uses three dots ``(...)`` instead of an ellipsis character "
+#| "``(…)``."
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr ""
 "Úsáideann an teaghrán trí phointe ``(...)`` in ionad carachtair eilipsis "
 "``(…)``."
@@ -5082,6 +5232,11 @@ msgstr ""
 
 msgid "Font"
 msgstr "Cló"
+
+#, fuzzy
+#| msgid "Parent category has to be in the same project!"
+msgid "Font has to be in the same project as the font group."
+msgstr "Caithfidh an chatagóir tuismitheora a bheith sa tionscadal céanna!"
 
 msgid "Unsupported file format."
 msgstr "Formáid comhaid nach dtacaítear léi."
@@ -5791,7 +5946,9 @@ msgstr ""
 "Léigh an doiciméad Téarmaí agus Coinníollacha Ginearálta seo a leanas le do "
 "thoil:"
 
-msgid "Please also read the Privacy Policy:"
+#, fuzzy, python-format
+#| msgid "Please also read the Privacy Policy:"
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr "Léigh an Polasaí Príobháideachais freisin:"
 
 msgid "Submit"
@@ -5810,6 +5967,32 @@ msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
+msgstr ""
+"Tá an leathanach seo bunaithe ar na Téarmaí agus Coinníollacha Ginearálta "
+"agus ar an bPolasaí Príobháideachta, ba cheart duit na bundoiciméid a léamh "
+"go fóill chun iad a thuiscint go hiomlán:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"Tá an leathanach seo bunaithe ar na Téarmaí agus Coinníollacha Ginearálta "
+"agus ar an bPolasaí Príobháideachta, ba cheart duit na bundoiciméid a léamh "
+"go fóill chun iad a thuiscint go hiomlán:"
+
+#, fuzzy
+#| msgid ""
+#| "This page is based on the General Terms and Conditions and the Privacy "
+#| "Policy, you should still read the original documents to fully understand "
+#| "them:"
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
 msgstr ""
 "Tá an leathanach seo bunaithe ar na Téarmaí agus Coinníollacha Ginearálta "
 "agus ar an bPolasaí Príobháideachta, ba cheart duit na bundoiciméid a léamh "
@@ -6131,9 +6314,6 @@ msgstr ""
 "Is fearr LLM den chéad ghlúin eile seachas an tsamhail aistriúcháin meaisín "
 "clasaiceach."
 
-msgid "DeepL API v1 is no longer supported."
-msgstr "Ní thacaítear le DeepL API v1 a thuilleadh."
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr "Samhail LLM"
@@ -6271,36 +6451,6 @@ msgstr "Samhail Ollama"
 
 msgid "Name of the model described in Ollama catalogue."
 msgstr "Ainm an mhúnla a bhfuil cur síos air i gcatalóg Ollama."
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr "Claude Haiku 4.5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 5"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.8"
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr "Claude Opus 4.8"
-
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Fable 5"
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr "Claude Fable 5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.8"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
-msgstr "Claude Fable 5"
 
 msgctxt "Anthropic model selection"
 msgid "Custom model"
@@ -7071,7 +7221,6 @@ msgstr "Ceartaigh earráidí san fhoirm chlárúcháin."
 msgid "Verify new e-mail address"
 msgstr "Fíoraigh seoladh ríomhphoist nua"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Clár"
 
@@ -7127,6 +7276,157 @@ msgstr "Ar rinne tú dearmad ar do Phásfhocail?"
 
 msgid "Register new account"
 msgstr "Cláraigh cuntas nua"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification diagnostics"
+msgstr "Socruithe fógra"
+
+msgid "Diagnostics"
+msgstr "Diagnóisic"
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "View notification"
+msgid "Check notifications"
+msgstr "Féach ar fhógra"
+
+#, fuzzy, python-format
+#| msgid "Mute notifications for %(object)s"
+msgid "Notification eligibility for %(target)s"
+msgstr "Balbhaigh fógraí le haghaidh %(object)s"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+msgid "Notification"
+msgstr "Fógra"
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Inherited project settings"
+msgstr "Athraigh socruithe an tionscadail"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component alerts"
+msgid "Component exceptions"
+msgstr "Foláirimh Comhpháirte"
+
+msgid "One-time"
+msgstr "Aon uaire"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Overridden subscriptions"
+msgstr "Síntiúis trialacha"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse all components"
+msgid "Inspect example components:"
+msgstr "Brabhsáil na comhpháirteanna go léir"
+
+#, fuzzy
+#| msgid "Skipped components:"
+msgid "Inspect components:"
+msgstr "Comhpháirteanna scipeáilte:"
+
+msgid "None"
+msgstr "Dada"
+
+#, fuzzy
+#| msgid "You do not have permission to save translations in this project."
+msgid "No accessible components or translations in this target."
+msgstr "Níl cead agat aistriúcháin a shábháil sa tionscadal seo."
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching subscriptions in this scope."
+msgstr "Níor aimsíodh aon teaghráin mheaitseála."
+
+#, fuzzy, python-format
+#| msgid "%(count)s more affected project."
+#| msgid_plural "%(count)s more affected projects."
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "%(count)s tionscadal eile buailte."
+msgstr[1] "%(count)s tionscadal eile atá buailte."
+msgstr[2] "%(count)s tionscadal eile atá buailte."
+msgstr[3] "%(count)s tionscadal eile atá buailte."
+msgstr[4] "%(count)s tionscadal eile atá buailte."
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "Féachadh ar thionscadail"
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Notification languages"
+msgstr "Socruithe fógra"
+
+#, fuzzy, python-format
+#| msgid "%(count)s change"
+#| msgid_plural "%(count)s changes"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "%(count)s athrú"
+msgstr[1] "%(count)s athruithe"
+msgstr[2] "%(count)s athruithe"
+msgstr[3] "%(count)s athruithe"
+msgstr[4] "%(count)s athruithe"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "Subscriptions"
+msgstr "Síntiúis trialacha"
+
+msgid "Frequency"
+msgstr "Minicíocht"
+
+#, fuzzy
+#| msgid "Trial subscriptions"
+msgid "No subscriptions."
+msgstr "Síntiúis trialacha"
 
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
@@ -7186,6 +7486,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Sábháil"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification settings"
+msgid "Open notification diagnostics"
+msgstr "Socruithe fógra"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7640,7 +7950,12 @@ msgstr[2] "Mairfidh do thriail %(days)s lá."
 msgstr[3] "Mairfidh do thriail %(days)s lá."
 msgstr[4] "Mairfidh do thriail %(days)s lá."
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, fuzzy, python-format
+#| msgid ""
+#| "Your trial will run the 640k plan, but you can choose any plan later."
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 "Rithfidh do thriail an plean 640k, ach is féidir leat plean ar bith a roghnú "
 "níos déanaí."
@@ -7756,15 +8071,6 @@ msgstr "Féiniúlacht"
 
 msgid "User ID"
 msgstr "ID Úsáideora"
-
-msgid "Notification"
-msgstr "Fógra"
-
-msgid "Frequency"
-msgstr "Minicíocht"
-
-msgid "One-time"
-msgstr "Aon uaire"
 
 msgid "Members"
 msgstr "Baill"
@@ -8700,6 +9006,9 @@ msgstr "Oibríochtaí"
 msgid "Search and replace"
 msgstr "Cuardaigh agus ionadaigh"
 
+msgid "Post announcement"
+msgstr "Post fógra"
+
 msgid "Organize or remove"
 msgstr "Eagraigh nó bain"
 
@@ -8714,6 +9023,18 @@ msgstr "Cuir iarratas isteach"
 
 msgid "Browse components"
 msgstr "Brabhsáil comhpháirteanna"
+
+#, fuzzy
+#| msgid ""
+#| "The message is shown for all translations in this project language, until "
+#| "its given expiry, or permanently until it is deleted."
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
+"Taispeántar an teachtaireacht do gach aistriúchán sa teanga tionscadail seo, "
+"go dtí an dáta éaga tugtha, nó go buan go dtí go scriostar í."
 
 msgid "Announcements"
 msgstr "Fógraí"
@@ -8738,9 +9059,6 @@ msgstr "Aistriúchán uathoibríoch baisce"
 
 msgid "Add new category"
 msgstr "Cuir catagóir nua leis"
-
-msgid "Post announcement"
-msgstr "Post fógra"
 
 msgid "Browse all category changes"
 msgstr "Brabhsáil gach athrú catagóire"
@@ -8804,9 +9122,6 @@ msgstr "Tobscoir an nuashonrú"
 
 msgid "Continue after completion"
 msgstr "Lean ar aghaidh tar éis críochnú"
-
-msgid "Diagnostics"
-msgstr "Diagnóisic"
 
 msgid "error"
 msgid_plural "errors"
@@ -9338,6 +9653,9 @@ msgstr[2] "(%(count)s tiomantais in easnamh sa bhrú-bhrainse)"
 msgstr[3] "(%(count)s tiomantais in easnamh sa bhrú-bhrainse)"
 msgstr[4] "(%(count)s tiomantais in easnamh sa bhrú-bhrainse)"
 
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
@@ -9557,6 +9875,11 @@ msgstr "Stór le haghaidh %(component)s"
 msgid "Repository details"
 msgstr "Sonraí an taisclainne"
 
+#, fuzzy
+#| msgid "Discovery configuration"
+msgid "Edit repository configuration"
+msgstr "Cumraíocht fionnachtana"
+
 msgid "Repository changes"
 msgstr "Athruithe ar stór"
 
@@ -9601,6 +9924,10 @@ msgid "Unmark translation as Needing edit and submit it."
 msgstr ""
 "Dímharcáil an t-aistriúchán mar Teastaíonn eagarthóireacht uaidh agus cuir "
 "isteach é."
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -9687,6 +10014,11 @@ msgstr "Seans nach mbeadh éifeacht inmhianaithe ag athrú rialacha iolra."
 
 msgid "Please see a documentation for more info."
 msgstr "Féach doiciméad le haghaidh tuilleadh eolais."
+
+#, fuzzy
+#| msgid "Translation Info"
+msgid "Translation workflow"
+msgstr "Eolas Aistriúcháin"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -10001,10 +10333,6 @@ msgstr "Glasáladh comhpháirt %(component)s"
 msgid "Component %(component)s was unlocked"
 msgstr "Díghlasáladh comhpháirt %(component)s"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr "Nóta: Gearradh an achoimre seo mar go raibh breis is 100 fógra ann."
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -10262,6 +10590,13 @@ msgstr "Deimhnigh baint an chuntais"
 
 msgid "Confirm invitation"
 msgstr "Deimhnigh cuireadh"
+
+#, fuzzy
+#| msgid ""
+#| "Note: This digest has been truncated as there were over 100 notifications."
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr "Nóta: Gearradh an achoimre seo mar go raibh breis is 100 fógra ann."
 
 msgid "Source string description"
 msgstr "Cur síos ar an teaghrán foinse"
@@ -11015,6 +11350,11 @@ msgstr ""
 "Cuirtear an t-iarratas seo in iúl do chothabhálaithe an tionscadail, ag "
 "spreagadh dóibh an teanga a chur leis de láimh."
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr "Nach bhfuil tú in ann do theanga a aimsiú sa liosta thuas?"
 
@@ -11343,6 +11683,44 @@ msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Is féidir leat staid gach teaghráin a mheaitseálann an cineál tugtha a athrú "
 "láithreach."
+
+msgid "Translation quality filter"
+msgstr "Scagaire cáilíochta aistriúcháin"
+
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr ""
+"Ní scríobhtar ach aistriúcháin cheadaithe chuig an gcomhad aistriúcháin."
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr ""
+"Ní scríobhtar aistriúcháin atá marcáilte mar aistriúcháin a bhfuil gá iad a "
+"chur in eagar chuig an gcomhad aistriúcháin."
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "Configure language workflow"
+msgstr "Comhad aonteangach bunteanga"
+
+#, fuzzy
+#| msgid "Translation quality filter"
+msgid "Configure translation quality filter"
+msgstr "Scagaire cáilíochta aistriúcháin"
 
 msgid "View details"
 msgstr "Féach ar na sonraí"
@@ -12002,6 +12380,11 @@ msgstr "Teaghráin aistrithe i dteanga áirithe"
 msgid "Query"
 msgstr "Cheist"
 
+#, fuzzy
+#| msgid "Refresh repositories"
+msgid "Refresh results"
+msgstr "Athnuachan na stórtha"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -12070,6 +12453,37 @@ msgstr "Níl aon tuarascálacha ginte go fóill."
 
 msgid "Report history pagination"
 msgstr "Leathanachú staire tuairiscithe"
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Reviews are enabled for this language."
+msgstr "Brabhsáil gach athrú don teanga seo"
+
+#, fuzzy
+#| msgid "Browse all changes for this language"
+msgid "Reviews are disabled for this language."
+msgstr "Brabhsáil gach athrú don teanga seo"
+
+#, fuzzy, python-format
+#| msgid "Review strings"
+msgid "Review setting: %(origin)s."
+msgstr "Teaghráin athbhreithnithe"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+#, fuzzy
+#| msgid "Customize translation workflow for this language"
+msgid "Learn how to customize translation workflows."
+msgstr "Saincheap sreabhadh oibre aistriúcháin don teanga seo"
+
+#, fuzzy
+#| msgid "Your translation is foo"
+msgid "Configure translation workflow"
+msgstr "Is foo do aistriúchán"
 
 #, python-format
 msgid ""
@@ -12167,8 +12581,9 @@ msgstr "Vóta ar son"
 msgid "Vote against"
 msgstr "Vóta i gcoinne"
 
-#, python-format
-msgid "Accept all suggestions from %(username)s"
+#, fuzzy, python-format
+#| msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "Glac le gach moladh ó %(username)s"
 
 msgid "Accept"
@@ -12722,6 +13137,24 @@ msgid ""
 "requests."
 msgstr ""
 
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+
 msgid "This component is set up incorrectly."
 msgstr "Tá an chomhpháirt seo socraithe go mícheart."
 
@@ -12982,19 +13415,15 @@ msgstr "Íoslódáil na hathruithe is déanaí mar CSV"
 msgid "Follow using RSS"
 msgstr "Lean ag baint úsáide as RSS"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "Ó rialú leagan"
 
-#. Translators: Create a component from existing component
 msgid "From an existing component"
 msgstr "Ó chomhpháirt atá ann cheana féin"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "Brainse breise"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "Uaslódáil comhaid aistriúcháin"
 
@@ -13002,7 +13431,6 @@ msgstr "Uaslódáil comhaid aistriúcháin"
 msgid "Translate document"
 msgstr "Aistrigh doiciméad"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "Tosaigh ón tús"
 
@@ -13418,6 +13846,11 @@ msgstr "Oscail i mód Zen"
 msgid "Configure editor"
 msgstr "Cumraigh eagarthóir"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr "Cóipeáladh Permalink chuig an ngearrthaisce."
 
@@ -13554,14 +13987,28 @@ msgstr "Cuir an t-aistriúchán roghnaithe i bhfeidhm ar an teaghrán reatha"
 msgid "Browse all string changes"
 msgstr "Brabhsáil gach athrú teaghrán"
 
-msgid "Suggested change"
-msgstr "Athrú molta"
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "Search translation memory"
+msgstr "Cuimhne aistriúcháin roinnte"
 
-msgid "Origin"
-msgstr "Bunús"
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No matching machine translations found."
+msgstr "Níor aimsíodh aon teaghráin mheaitseála."
 
-msgid "Similarity"
-msgstr "Cosúlacht"
+msgid "Delete entry"
+msgstr "Scrios iontráil"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
+msgstr "Foinse"
+
+#, fuzzy
+#| msgid "Context"
+msgid "Context:"
+msgstr "Comhthéacs"
 
 msgid "Remove selected translation memory entries"
 msgstr "Bain na hiontrálacha cuimhne aistriúcháin roghnaithe"
@@ -13633,9 +14080,6 @@ msgstr ""
 #, python-format
 msgid "This string was translated automatically by %(author)s."
 msgstr "Aistríodh an teaghrán seo go huathoibríoch ag %(author)s."
-
-msgid "Translation quality filter"
-msgstr "Scagaire cáilíochta aistriúcháin"
 
 msgid "Add term to glossary"
 msgstr "Cuir téarma leis an ngluais"
@@ -15066,6 +15510,11 @@ msgstr "Dealraíonn sé nach bhfuil an chomhpháirt in úsáid."
 msgid "Glossary using monolingual files."
 msgstr "Gluais ag baint úsáide as comhaid aonteangacha."
 
+#, fuzzy
+#| msgid "Source string editing is disabled."
+msgid "Glossary string management is disabled"
+msgstr "Tá eagarthóireacht teaghrán foinse díchumasaithe."
+
 msgid "Unused glossary language."
 msgstr "Teanga ghluaisne neamhúsáidte."
 
@@ -15397,9 +15846,6 @@ msgstr "Rialú leagan"
 
 msgid "State"
 msgstr "Stát"
-
-msgid "All"
-msgstr "Gach"
 
 msgid "Severity"
 msgstr "Déine"
@@ -15857,6 +16303,13 @@ msgstr "Aistriúchán malartach"
 msgid "The string you wanted to translate is no longer available."
 msgstr "Níl an teaghrán a bhí tú ag iarraidh a aistriú ar fáil a thuilleadh."
 
+#, fuzzy
+#| msgid "The string you wanted to translate is no longer available."
+msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr "Níl an teaghrán a bhí tú ag iarraidh a aistriú ar fáil a thuilleadh."
+
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -15937,29 +16390,41 @@ msgstr "Níorbh fhéidir an teaghrán cumaiscthe a aimsiú."
 msgid "Could not find the reverted change."
 msgstr "Níorbh fhéidir an t-athrú ar ais a aimsiú."
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Enter a source component ID."
+msgstr "Comhpháirt srianta"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"Cuir isteach sluga comhpháirte le húsáid mar fhoinse, coinnigh bán chun gach "
-"comhpháirt sa tionscadal reatha a úsáid."
 
 msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
+"Leave blank to use eligible components from each target component's project."
 msgstr ""
-"Cuir isteach sluga tionscadail agus comhpháirte nó ID comhpháirte le húsáid "
-"mar fhoinse, coinnigh bán chun gach comhpháirt sa spás oibre reatha a úsáid."
 
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr ""
-"Cuir an ranníocaíocht chuig cuimhne aistriúcháin roinnte ar siúl don "
-"tionscadal chun rochtain a fháil ar chomhpháirteanna breise."
+#, fuzzy
+#| msgid "All components in current workspace"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "Gach comhpháirt sa spás oibre reatha"
 
 msgid "Automatic translation mode"
 msgstr "Modh aistriúcháin uathoibríoch"
+
+msgid "Add as suggestion"
+msgstr "Cuir leis mar mholadh"
+
+msgid "Add as translation"
+msgstr "Cuir leis mar aistriúchán"
+
+msgid "Add as \"Needing edit\""
+msgstr "Cuir leis mar \"Eagarthóireacht de dhíth\""
+
+msgid "Add as approved translation"
+msgstr "Cuir leis mar aistriúchán ceadaithe"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -15983,23 +16448,30 @@ msgstr "Innill aistriúcháin meaisín"
 msgid "Score threshold"
 msgstr "Tairseach scóir"
 
-msgid "All components in current workspace"
+#, fuzzy
+#| msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "Gach comhpháirt sa spás oibre reatha"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "All eligible components in current project"
 msgstr "Na comhpháirteanna uile sa tionscadal reatha"
 
-msgid "Add as suggestion"
-msgstr "Cuir leis mar mholadh"
+#, fuzzy
+#| msgid "All components in current project"
+msgid "Eligible components from each target component's project"
+msgstr "Na comhpháirteanna uile sa tionscadal reatha"
 
-msgid "Add as translation"
-msgstr "Cuir leis mar aistriúchán"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
 
-msgid "Add as \"Needing edit\""
-msgstr "Cuir leis mar \"Eagarthóireacht de dhíth\""
-
-msgid "Add as approved translation"
-msgstr "Cuir leis mar aistriúchán ceadaithe"
+#, fuzzy
+#| msgid "Enter component ID or project/component slug."
+msgid "You can also enter a project/component path."
+msgstr "Cuir isteach aitheantóir comhpháirte nó sluga tionscadail/comhpháirte."
 
 msgid "Component not found!"
 msgstr "Comhpháirt gan aimsiú!"
@@ -16184,6 +16656,11 @@ msgstr "Sonraigh cumraíocht de láimh"
 
 msgid "The category does not belong to the selected project."
 msgstr "Ní bhaineann an chatagóir leis an tionscadal roghnaithe."
+
+#, fuzzy
+#| msgid "You do not have permission to change project access control."
+msgid "You do not have permission to change project access settings."
+msgstr "Níl cead agat rialú rochtana tionscadail a athrú."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -16439,6 +16916,10 @@ msgstr "Pointe ar threoracha aistriúcháin URL"
 msgid "Create new language file"
 msgstr "Cruthaigh comhad teanga nua"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "Díchumasaigh aistriúcháin nua a chur leis"
@@ -16500,6 +16981,16 @@ msgid ""
 msgstr ""
 "Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
 "fáil."
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Public e-mail"
+msgid "Public sharing"
+msgstr "R-phost poiblí"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17831,7 +18322,11 @@ msgstr ""
 "Ní scríobhtar aistriúcháin atá marcáilte mar aistriúcháin a bhfuil gá iad a "
 "chur in eagar chuig an gcomhad aistriúcháin."
 
-msgid "Only approved translations are written to the translation file."
+#, fuzzy
+#| msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr ""
 "Ní scríobhtar ach aistriúcháin cheadaithe chuig an gcomhad aistriúcháin."
 
@@ -18172,6 +18667,44 @@ msgstr[4] "Níl teaghráin %(count)s á aistriú anseo."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Roinnte ón tionscadal %s."
+
+#, fuzzy
+#| msgid "Edit project settings"
+msgid "Project settings"
+msgstr "Athraigh socruithe an tionscadail"
+
+#, fuzzy
+#| msgid "Reset customization"
+msgid "Site-wide language customization"
+msgstr "Athshocraigh saincheaptha"
+
+msgid "Project-language customization"
+msgstr "Saincheapadh tionscadail-teanga"
+
+msgid "Only approved translations are written to the translation file."
+msgstr ""
+"Ní scríobhtar ach aistriúcháin cheadaithe chuig an gcomhad aistriúcháin."
+
+#, fuzzy
+#| msgid ""
+#| "Translations marked as needing editing are not written to the translation "
+#| "file."
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr ""
+"Ní scríobhtar aistriúcháin atá marcáilte mar aistriúcháin a bhfuil gá iad a "
+"chur in eagar chuig an gcomhad aistriúcháin."
+
+#, fuzzy
+#| msgid "Enable source reviews"
+msgid "Configure source reviews"
+msgstr "Cumasaigh léirmheasanna foinse"
+
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Configure translation reviews"
+msgstr "Glanadh comhaid aistriúcháin"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -18567,6 +19100,11 @@ msgstr[3] ""
 msgstr[4] ""
 "Tá an t-aistriúchán sábháilte, ach tá roinnt seiceálacha teipthe ann le "
 "déanaí: {checks}"
+
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
 
 msgid "Your suggestion is empty!"
 msgstr "Tá do mholadh folamh!"
@@ -20254,14 +20792,25 @@ msgstr "Cló leathanaigh"
 msgid "Header font"
 msgstr "Cló ceanntásc"
 
-msgid "Navigation color (Light, Dark)"
-msgstr "Dath loingseoireachta (Solas, Dorcha)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header color (Light, Dark)"
+msgstr "Dath hover (Solas, Dorcha)"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr "Dath an téacs nascleanúna (Solas, Dorcha)"
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
+msgstr "Dath hover (Solas, Dorcha)"
 
-msgid "Focus color (Light, Dark)"
+#, fuzzy
+#| msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
 msgstr "Dath fócasach (Solas, Dorcha)"
+
+#, fuzzy
+#| msgid "Hover color (Light, Dark)"
+msgid "Header accent color (Light, Dark)"
+msgstr "Dath hover (Solas, Dorcha)"
 
 msgid "Hover color (Light, Dark)"
 msgstr "Dath hover (Solas, Dorcha)"
@@ -20358,7 +20907,6 @@ msgstr "Tá liostú réad múchta"
 msgid "Return to Weblate"
 msgstr "Fill ar Weblate"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr "Doiciméadú luas a allmhairiú"
 
@@ -20528,6 +21076,79 @@ msgstr "Ní féidir an spás oibre a bhaint mar go bhfuil sé fós in úsáid."
 
 msgid "The workspace has been removed."
 msgstr "Baineadh an spás oibre."
+
+#~ msgid "Download reports"
+#~ msgstr "Íoslódáil tuairiscí"
+
+#~ msgid "DeepL API v1 is no longer supported."
+#~ msgstr "Ní thacaítear le DeepL API v1 a thuilleadh."
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Haiku 4.5"
+#~ msgstr "Claude Haiku 4.5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Sonnet 5"
+#~ msgstr "Claude Sonnet 5"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Opus 4.8"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 5"
+#~ msgstr "Claude Opus 4.8"
+
+#, fuzzy
+#~| msgctxt "Anthropic model selection"
+#~| msgid "Claude Fable 5"
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5.1"
+#~ msgstr "Claude Fable 5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 4.8"
+#~ msgstr "Claude Opus 4.8"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5"
+#~ msgstr "Claude Fable 5"
+
+#~ msgid "Suggested change"
+#~ msgstr "Athrú molta"
+
+#~ msgid "Origin"
+#~ msgstr "Bunús"
+
+#~ msgid "Similarity"
+#~ msgstr "Cosúlacht"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr ""
+#~ "Cuir isteach sluga comhpháirte le húsáid mar fhoinse, coinnigh bán chun "
+#~ "gach comhpháirt sa tionscadal reatha a úsáid."
+
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "Cuir isteach sluga tionscadail agus comhpháirte nó ID comhpháirte le "
+#~ "húsáid mar fhoinse, coinnigh bán chun gach comhpháirt sa spás oibre "
+#~ "reatha a úsáid."
+
+#~ msgid ""
+#~ "Turn on contribution to shared translation memory for the project to get "
+#~ "access to additional components."
+#~ msgstr ""
+#~ "Cuir an ranníocaíocht chuig cuimhne aistriúcháin roinnte ar siúl don "
+#~ "tionscadal chun rochtain a fháil ar chomhpháirteanna breise."
+
+#~ msgid "Navigation color (Light, Dark)"
+#~ msgstr "Dath loingseoireachta (Solas, Dorcha)"
+
+#~ msgid "Navigation text color (Light, Dark)"
+#~ msgstr "Dath an téacs nascleanúna (Solas, Dorcha)"
 
 #~ msgid ""
 #~ "The regular expression must define named groups for component and "
@@ -20960,9 +21581,6 @@ msgstr "Baineadh an spás oibre."
 
 #~ msgid "View all alerts"
 #~ msgstr "Féach ar gach foláireamh"
-
-#~ msgid "Component alerts"
-#~ msgstr "Foláirimh Comhpháirte"
 
 #~ msgid "Automatically recognize"
 #~ msgstr "Aithin go huathoibríoch"

@@ -169,7 +169,6 @@ function insertAtCaret(element, myValue) {
   element.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: global helper used by editor/base.js and editor/full.js
 function replaceValue(element, myValue) {
   element.value = myValue;
   element.dispatchEvent(new Event("input", { bubbles: true }));
@@ -1921,18 +1920,20 @@ onReady(() => {
       }
 
       if (group.classList.contains("query-field")) {
+        const textarea = group.querySelector("textarea[name=q]");
         if (
           document.querySelector(".search-toolbar") === null &&
           link.closest(".result-page-form") !== null
         ) {
-          const textarea = group.querySelector("textarea[name=q]");
-          textarea.value = link.dataset.field ?? "";
-          textarea.dispatchEvent(new Event("change", { bubbles: true }));
+          replaceValue(textarea, link.dataset.field ?? "");
           const form = link.closest("form");
           form.querySelectorAll("input[name=offset]").forEach((input) => {
             input.disabled = true;
           });
           form.submit();
+        } else if (link.dataset.filter === "all") {
+          replaceValue(textarea, "");
+          textarea.focus();
         } else {
           insertAtCaret(
             group.querySelector("textarea[name=q]"),
@@ -1941,7 +1942,7 @@ onReady(() => {
         }
       }
       const dropdownToggle = link
-        .closest(".dropdown, .btn-group")
+        .closest(".dropdown, .btn-group, .query-field")
         ?.querySelector('[data-bs-toggle="dropdown"]');
       if (dropdownToggle) {
         bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();

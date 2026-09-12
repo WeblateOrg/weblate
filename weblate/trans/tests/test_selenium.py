@@ -1322,6 +1322,108 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         unit.refresh_from_db()
         self.assertEqual(unit.get_target_plurals(), drafts)
 
+    def test_all_strings_filter(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Search filters", slug="search-filters")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        self.do_login(superuser=True)
+        search_url = f"{self.live_server_url}{reverse('search', kwargs={'path': translation.get_url_path()})}"
+        with self.wait_for_page_load():
+            self.driver.get(search_url)
+        query_input = self.driver.find_element(By.ID, "id_q")
+        query_input.send_keys("state:empty")
+        self.click(htmlid="query-dropdown")
+        option = self.driver.find_element(By.CSS_SELECTOR, '[data-filter="all"]')
+        option.send_keys(Keys.ENTER)
+        self.assertEqual(query_input.get_attribute("value"), "")
+        self.assertEqual(self.driver.current_url, search_url)
+        self.assertEqual(self.driver.switch_to.active_element, query_input)
+        self.assertEqual(
+            self.driver.find_element(By.ID, "query-dropdown").get_attribute(
+                "aria-expanded"
+            ),
+            "false",
+        )
+        original_dark_mode = self.driver.execute_script(
+            "return matchMedia('(prefers-color-scheme: dark)').matches;"
+        )
+        try:
+            for theme in ("light", "dark"):
+                self.driver.execute_cdp_cmd(
+                    "Emulation.setEmulatedMedia",
+                    {"features": [{"name": "prefers-color-scheme", "value": theme}]},
+                )
+                for width in (1280, 480):
+                    self.driver.set_window_size(width, 900)
+                    self.click(htmlid="query-dropdown")
+                    marker = self.driver.find_element(
+                        By.CSS_SELECTOR, '[data-filter="translated"] .filter-marker'
+                    )
+                    self.assertTrue(marker.is_displayed())
+                    self.assertEqual(marker.get_attribute("aria-hidden"), "true")
+                    self.screenshot_viewport(
+                        f"search-filters-{theme}-{width}.png", width, 900
+                    )
+                    self.driver.find_element(
+                        By.CSS_SELECTOR, '[data-filter="all"]'
+                    ).send_keys(Keys.ESCAPE)
+                self.driver.set_window_size(1280, 900)
+        finally:
+            self.driver.execute_cdp_cmd("Emulation.setEmulatedMedia", {"features": []})
+        self.assertEqual(
+            self.driver.execute_script(
+                "return matchMedia('(prefers-color-scheme: dark)').matches;"
+            ),
+            original_dark_mode,
+        )
+        # Ordinary filters still insert at the cursor in the query builder.
+        query_input.send_keys("state:empty")
+        self.click(htmlid="query-dropdown")
+        self.driver.find_element(By.CSS_SELECTOR, '[data-filter="suggestions"]').click()
+        self.assertEqual(
+            query_input.get_attribute("value"), "state:empty has:suggestion "
+        )
+        self.click(htmlid="query-dropdown")
+        self.driver.find_element(By.CSS_SELECTOR, '[data-filter="all"]').click()
+        with self.wait_for_page_load():
+            query_input.submit()
+        self.assertEqual(
+            self.driver.find_element(By.ID, "id_q").get_attribute("value"), ""
+        )
+
+        # Results and the editor apply the empty query immediately.
+        for url in (
+            search_url,
+            f"{self.live_server_url}{translation.get_translate_url()}",
+        ):
+            with self.subTest(url=url):
+                with self.wait_for_page_load():
+                    self.driver.get(
+                        f"{url}?{urlencode({'q': 'state:<translated', 'sort_by': 'source', 'offset': 2})}"
+                    )
+                self.click(htmlid="query-dropdown")
+                with self.wait_for_page_load():
+                    self.driver.find_element(
+                        By.CSS_SELECTOR, '[data-filter="all"]'
+                    ).send_keys(Keys.ENTER)
+                self.assertEqual(
+                    self.driver.find_element(By.ID, "id_q").get_attribute("value"), ""
+                )
+                self.assertEqual(
+                    self.driver.find_element(By.NAME, "sort_by").get_attribute("value"),
+                    "source",
+                )
+                self.assertNotIn("offset=2", self.driver.current_url)
+                if url != search_url:
+                    count = (
+                        self.driver.find_element(By.CSS_SELECTOR, ".position-input")
+                        .text.split("/")[-1]
+                        .strip()
+                    )
+                    self.assertEqual(int(count), translation.unit_set.count())
+
     def test_translation_search_refresh(self) -> None:
         """Refresh and query Enter replace results; navigation preserves them."""
         fixture = RepoTestMixin()
@@ -2286,6 +2388,106 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains("#screenshots-add", "Repository path to screenshot")
         self.screenshot("screenshot-filemask-repository-filename.png")
 
+    def test_select_existing_screenshot(self) -> None:
+        project = self.create_component()
+        self.do_login(superuser=True)
+        unit = Unit.objects.filter(
+            translation__component__project=project,
+            translation__component__slug="django",
+            translation__language__code="cs",
+        ).first()
+        assert unit is not None
+        screenshot = Screenshot.objects.create(
+            name="Source strings", translation=unit.source_unit.translation
+        )
+        translated_screenshot = Screenshot.objects.create(
+            name="Translated strings", translation=unit.translation
+        )
+        for image in (screenshot, translated_screenshot):
+            with open(get_test_file("screenshot.png"), "rb") as handle:
+                image.image.save("picker.png", File(handle))
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        editor_url = self.driver.current_url
+        trigger = self.driver.find_element(
+            By.CSS_SELECTOR, '[data-bs-target="#select-screenshot-modal"]'
+        )
+        trigger.send_keys(Keys.ENTER)
+        search = WebDriverWait(self.driver, 10).until(
+            element_to_be_clickable((By.ID, "screenshot-picker-q"))
+        )
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: driver.switch_to.active_element == search
+        )
+        search_button = self.driver.find_element(
+            By.CSS_SELECTOR, "#screenshot-picker-search button"
+        )
+        self.assertEqual(search.rect["y"], search_button.rect["y"])
+        self.assertEqual(search.size["height"], search_button.size["height"])
+        self.screenshot_viewport("screenshot-picker.png", 1200)
+        search.send_keys("strings", Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(staleness_of(search))
+        radio = WebDriverWait(self.driver, 10).until(
+            element_to_be_clickable((By.ID, f"screenshot-choice-{screenshot.pk}"))
+        )
+        card = radio.find_element(By.XPATH, "ancestor::label")
+        selected_status = card.find_element(By.CLASS_NAME, "screenshot-selected")
+        initial_border = card.value_of_css_property("border-top-color")
+        self.assertFalse(selected_status.is_displayed())
+        self.assertEqual(radio.size, {"height": 1, "width": 1})
+        # Tab from search through its submit button to the radio group.
+        self.driver.switch_to.active_element.send_keys(Keys.TAB, Keys.TAB)
+        self.assertEqual(self.driver.switch_to.active_element, radio)
+        self.assertEqual(card.value_of_css_property("outline-style"), "solid")
+        radio.send_keys(Keys.SPACE)
+        self.assertTrue(selected_status.is_displayed())
+        self.assertNotEqual(
+            card.value_of_css_property("border-top-color"), initial_border
+        )
+        other_radio = self.driver.find_element(
+            By.ID, f"screenshot-choice-{translated_screenshot.pk}"
+        )
+        other_radio.find_element(By.XPATH, "ancestor::label").click()
+        self.assertTrue(other_radio.is_selected())
+        self.assertFalse(radio.is_selected())
+        self.assertFalse(selected_status.is_displayed())
+        other_radio.send_keys(Keys.ARROW_LEFT)
+        self.assertTrue(radio.is_selected())
+        self.assertTrue(selected_status.is_displayed())
+        self.screenshot_viewport("screenshot-picker-selected.png", 1200)
+        add = self.driver.find_element(By.ID, "screenshot-picker-add")
+        self.assertTrue(add.is_enabled())
+        with self.wait_for_page_load():
+            add.send_keys(Keys.ENTER)
+        self.assertEqual(self.driver.current_url, editor_url)
+        self.assertTrue(screenshot.units.filter(pk=unit.source_unit.pk).exists())
+        self.assertFalse(translated_screenshot.units.exists())
+        self.screenshot_viewport("screenshot-picker-associated.png", 1200)
+        trigger = self.driver.find_element(
+            By.CSS_SELECTOR, '[data-bs-target="#select-screenshot-modal"]'
+        )
+        trigger.send_keys(Keys.ENTER)
+        search = WebDriverWait(self.driver, 10).until(
+            element_to_be_clickable((By.ID, "screenshot-picker-q"))
+        )
+        self.assertEqual(
+            self.driver.find_elements(By.ID, f"screenshot-choice-{screenshot.pk}"), []
+        )
+        self.assert_text_contains("#screenshot-picker-content", "Translated strings")
+        search.clear()
+        search.send_keys("unmatched screenshot", Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(staleness_of(search))
+        search = WebDriverWait(self.driver, 10).until(
+            element_to_be_clickable((By.ID, "screenshot-picker-q"))
+        )
+        self.assert_text_contains(
+            "#screenshot-picker-content", "No matching screenshots available."
+        )
+        search.send_keys(Keys.ESCAPE)
+        WebDriverWait(self.driver, 5).until(
+            lambda driver: driver.switch_to.active_element == trigger
+        )
+
     def test_screenshot_clipboard_paste(self) -> None:
         """Test uploading a screenshot pasted from the clipboard."""
         project = self.create_component()
@@ -2299,7 +2501,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
-        self.click("Add screenshot")
+        self.click("Upload screenshot")
         modal = WebDriverWait(self.driver, 5).until(
             element_to_be_clickable((By.ID, "add-screenshot-form"))
         )

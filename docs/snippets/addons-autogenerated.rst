@@ -866,13 +866,21 @@ Statistics generator
 --------------------
 
 :Add-on ID: ``weblate.generate.generate``
-:Configuration: +--------------+---------------------------+--+
-                | ``filename`` | Name of generated file    |  |
-                +--------------+---------------------------+--+
-                | ``template`` | Content of generated file |  |
-                +--------------+---------------------------+--+
+:Configuration: +--------------+---------------------------+------------------------------------+
+                | ``scope``    | Output scope              | .. list-table:: Available choices: |
+                |              |                           |    :width: 100%                    |
+                |              |                           |                                    |
+                |              |                           |    * - ``translation``             |
+                |              |                           |      - One file per translation    |
+                |              |                           |    * - ``component``               |
+                |              |                           |      - One file per component      |
+                +--------------+---------------------------+------------------------------------+
+                | ``filename`` | Name of generated file    |                                    |
+                +--------------+---------------------------+------------------------------------+
+                | ``template`` | Content of generated file |                                    |
+                +--------------+---------------------------+------------------------------------+
 
-:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-pre-commit`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, :ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-post-remove`, :ref:`addon-event-repository-pre-commit`
 
 Generates a file containing detailed info about the translation status.
 
@@ -895,6 +903,72 @@ Content
          "last_changed": "{{ stats.last_changed }}",
          "last_author": "{{ stats.last_author }}",
       }
+
+
+Component-wide output
+~~~~~~~~~~~~~~~~~~~~~
+
+Set :guilabel:`Output scope` to :guilabel:`One file per component` to maintain
+one locale list or statistics file for the entire component. The default,
+:guilabel:`One file per translation`, preserves existing configurations.
+
+Component output is generated on installation and configuration changes. It is
+updated when translations are committed, languages are added or removed, and
+component files are reloaded. Language metadata changes are included on the
+next such update or when the add-on is reconfigured. Unchanged output does not
+create a new commit.
+
+Both modes support component and project variables in filenames and content.
+In component mode, the content additionally receives ``translations``, ordered
+by repository language code. Each item provides:
+
+* ``language_code``: the language code used in the repository.
+* ``language_name``: the English language name.
+* ``language_native_name``: the name translated into its own language using
+  Weblate's catalogs, with an English fallback when unavailable.
+* ``language_direction``: ``ltr`` or ``rtl``.
+* ``filename`` and ``url``: the translation filename and Weblate URL.
+* ``is_source``: whether this is the component's source translation.
+* ``stats``: the same statistics available in translation mode.
+
+The source translation is included. Templates can exclude it using
+``{% if not item.is_source %}``. Statistics use Weblate's completion semantics.
+Custom language names are retained; there is no external locale-data lookup.
+
+For example, generate :file:`locales.json` for a website:
+
+.. code-block:: django
+
+   [
+   {% for item in translations %}
+     {
+       "code": {{ item.language_code|json }},
+       "file": {{ item.filename|json }},
+       "name": {{ item.language_native_name|json }},
+       "dir": {{ item.language_direction|json }}
+     }{% if not forloop.last %},{% endif %}
+   {% endfor %}
+   ]
+
+Or generate :file:`languages.py` for an application:
+
+.. code-block:: django
+
+   names = {
+   {% for item in translations %}
+       {{ item.language_code|python }}: {{ item.language_native_name|python }},
+   {% endfor %}
+   }
+   completeness = {
+   {% for item in translations %}
+       {{ item.language_code|python }}: {{ item.stats.translated_percent|python }},
+   {% endfor %}
+   }
+
+The ``json`` and ``python`` filters serialize complete values, including string
+quotes and escaping. Do not add quotes around their output. They also support
+lists and dictionaries; ``{{ translations|json }}`` exports all available data.
+Dates and times are serialized as ISO-formatted strings.
 
 
 .. seealso::
@@ -1164,6 +1238,8 @@ Update POT file (Meson)
                 |                       |                          |    * - ``omit``                                                                                                                                                                      |
                 |                       |                          |      - Do not extract locations                                                                                                                                                      |
                 +-----------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``data_dirs``         | ITS data directories     | Newline-separated repository-relative directories containing an its subdirectory, for example po for po/its. Earlier directories override later directories and bundled rules.       |
+                +-----------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``comment_mode``      | Code comments            | Choose whether xgettext should extract no comments, all comments, or only comments marked with a specific tag.                                                                       |
                 |                       |                          |                                                                                                                                                                                      |
                 |                       |                          | .. list-table:: Available choices:                                                                                                                                                   |
@@ -1421,6 +1497,8 @@ Update POT file (xgettext)
                 |                       |                          |    * - ``omit``                                                                                                                                                                                  |
                 |                       |                          |      - Do not extract locations                                                                                                                                                                  |
                 +-----------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``data_dirs``         | ITS data directories     | Newline-separated repository-relative directories containing an its subdirectory, for example po for po/its. Earlier directories override later directories and bundled rules.                   |
+                +-----------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``comment_mode``      | Code comments            | Choose whether xgettext should extract no comments, all comments, or only comments marked with a specific tag.                                                                                   |
                 |                       |                          |                                                                                                                                                                                                  |
                 |                       |                          | .. list-table:: Available choices:                                                                                                                                                               |
@@ -1511,6 +1589,58 @@ an intermediate file list. Configure source patterns for simple layouts, or use
 manifest mode when the project maintains a plain file list. If a build-system
 manifest contains transformations or prefixes that are not file paths, convert
 it to plain repository-relative paths before using it as :file:`POTFILES`.
+
+Mixed source formats and ITS rules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Leave :guilabel:`xgettext language` blank to extract messages from different
+formats into the same POT. Include all inputs in the source patterns or
+:file:`POTFILES`, for example:
+
+.. code-block:: text
+
+   common/messages.py
+   qt/application.desktop
+   qt/application.policy
+   data/application.metainfo.xml
+
+Desktop entries use the native :program:`xgettext` parser. Weblate bundles ITS
+rules for Polkit policies, AppStream/MetaInfo, GSettings, GTK Builder, and Shared
+MIME Info. These rules are included in the Weblate package, including Docker
+installations; no additional system packages are required for these formats.
+The :ref:`addon-weblate.gettext.meson` add-on uses the same rules.
+
+Extraction follows upstream gettext and ITS behavior. In particular, desktop
+extraction includes keys such as ``Name``, ``GenericName``, and ``Comment``;
+Polkit rules select ``description`` and ``message`` elements without filtering
+by ``gettext-domain``. Use untranslated policy sources: upstream Polkit rules
+also select elements carrying ``xml:lang``.
+
+For custom XML formats or overrides, configure :guilabel:`ITS data directories`.
+Enter one repository-relative directory per line, in priority order. Each must
+contain an :file:`its/` subdirectory with ``.loc`` locating rules and ``.its``
+extraction rules. For example, enter ``po`` for :file:`po/its/example.loc` and
+:file:`po/its/example.its`, or ``.`` for :file:`its/` at the repository root.
+In API add-on configuration, use a list: ``"data_dirs": ["po", "data"]``.
+
+Earlier directories take precedence over later ones, followed by Weblate's
+bundled rules and gettext's system rules. The directories are passed through
+``GETTEXTDATADIRS``. Configure them explicitly even when using Meson; Weblate
+does not read ``data_dirs`` from :file:`meson.build` or inherit an administrator's
+``GETTEXTDATADIRS`` environment variable.
+
+Rule directories and files must stay inside the repository and must not be
+symbolic links. A locating rule's ``target`` must name an existing ``.its`` file
+in the same directory. DTDs, entity declarations, and external rule references
+are not supported. Weblate validates project-local rules before extraction and
+reports invalid rules as add-on errors. Changes, additions, or deletions in the
+configured :file:`its/` directories trigger extraction even when source files
+have not changed.
+
+.. seealso::
+
+   `GNU gettext ITS rules <https://www.gnu.org/software/gettext/manual/html_node/ITS-Rules.html>`_
+   and `locating rules <https://www.gnu.org/software/gettext/manual/html_node/Locating-Rules.html>`_.
 
 .. AUTOGENERATED START: weblate.git.squash
 .. This section is automatically generated by `./manage.py list_addons`. Do not edit manually.
