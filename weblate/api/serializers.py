@@ -2700,8 +2700,20 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
 
 class NotificationSerializer(serializers.ModelSerializer[Subscription]):
-    project = ProjectSerializer(read_only=True)
-    component = ComponentSerializer(read_only=True)
+    project = MultiFieldHyperlinkedIdentityField(
+        view_name="api:project-detail",
+        lookup_field=("project__slug",),
+        strip_parts=1,
+        read_only=True,
+        allow_null=True,
+    )
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("component__project__slug", "component__slug"),
+        strip_parts=1,
+        read_only=True,
+        allow_null=True,
+    )
 
     class Meta:
         model = Subscription

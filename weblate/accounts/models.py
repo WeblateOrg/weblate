@@ -8,6 +8,7 @@ import datetime
 import logging
 import re
 from datetime import timedelta
+from functools import partial
 from ipaddress import IPv6Network, ip_network
 from typing import TYPE_CHECKING, Any, ClassVar, Literal
 from urllib.parse import urlparse
@@ -19,10 +20,10 @@ from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.signing import TimestampSigner
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models
+from django.db import models, transaction
 from django.db.models import F, Q
 from django.db.models.functions import Upper
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -48,7 +49,7 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.accounts.tasks import notify_auditlog
-from weblate.auth.models import User
+from weblate.auth.models import TeamMembership, User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
 from weblate.trans.models import Change, ComponentList, Translation
@@ -213,6 +214,21 @@ class SubscriptionQuerySet(models.QuerySet["Subscription", "Subscription"]):
     def prefetch(self):
         return self.prefetch_related("component", "project")
 
+    def filter_access(self, user: User):
+        """Filter subscriptions to targets accessible to a user."""
+        # Avoid circular imports during model initialization.
+        from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+            Component,
+        )
+
+        components = Component.objects.using(self.db).filter_access(user)
+        projects = user.allowed_projects.using(self.db)
+        return self.filter(
+            Q(component__in=components)
+            | Q(component__isnull=True, project__in=projects)
+            | Q(component__isnull=True, project__isnull=True)
+        )
+
 
 class Subscription(models.Model):
     SIGNATURE_MAX_AGE: ClassVar[int] = 24 * 3600
@@ -270,6 +286,28 @@ class Subscription(models.Model):
         )
 
         return f"{reverse('unsubscribe')}?{urlencode({'i': self.get_signed_id()})}"
+
+
+def cleanup_inaccessible_subscriptions(user_id: int) -> None:
+    """Remove scoped subscriptions whose targets are no longer accessible."""
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return
+
+    subscriptions = user.subscription_set.filter(
+        Q(project__isnull=False) | Q(component__isnull=False)
+    )
+    accessible = subscriptions.filter_access(user)
+    subscriptions.exclude(pk__in=accessible).delete()
+
+
+@receiver(post_delete, sender=TeamMembership)
+def cleanup_subscriptions_after_membership_delete(
+    sender, instance: TeamMembership, **kwargs
+) -> None:
+    """Recheck scoped subscriptions after the complete membership transaction."""
+    transaction.on_commit(partial(cleanup_inaccessible_subscriptions, instance.user_id))
 
 
 EXTERNAL_CREATE_ACTIVITY = "external-create"
