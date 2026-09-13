@@ -92,6 +92,7 @@ from weblate.trans.util import (
     get_string,
     join_plural,
     rich_to_xliff_string,
+    split_plural,
     xliff_string_to_rich,
 )
 from weblate.utils.commands import get_clean_env
@@ -3360,84 +3361,104 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
 
 
 class TBXUnit[U: tbxunit, F: "TBXFormat"](TTKitUnit[U, F]):
-    def _is_usage_node(self, node: etree.Element) -> bool:
-        return (
-            self.unit.namespaced("descrip") == node.tag
-            and node.get("type") == "Usage note"
-        )
+    @classmethod
+    def calculate_id_hash(cls, has_template: bool, source: str, context: str) -> int:
+        # Preserve the identity used before alternatives were exposed.
+        return super().calculate_id_hash(has_template, split_plural(source)[0], context)
+
+    @cached_property
+    def source(self):
+        terms = self.unit.get_source_terms()
+        return get_string([term.text for term in terms]) if terms else super().source
+
+    @cached_property
+    def target(self):
+        terms = self.unit.get_target_terms()
+        return get_string([term.text for term in terms]) if terms else super().target
+
+    @property
+    def tbx_terms(self):
+        from dataclasses import asdict  # ruff: ignore[import-outside-top-level]
+
+        return {
+            "source": [
+                dict(asdict(term), notes=[asdict(note) for note in term.notes])
+                for term in self.unit.get_source_terms()
+            ],
+            "target": [
+                dict(asdict(term), notes=[asdict(note) for note in term.notes])
+                for term in self.unit.get_target_terms()
+            ],
+        }
+
+    def _display_notes(self, *, source=False):
+        terms = self.unit.get_source_terms() if source else self.unit.get_target_terms()
+        if len(terms) == 1:
+            return terms[0].notes
+        return self.unit.get_common_notes(source=source)
 
     @cached_property
     def notes(self):
-        """Return notes or notes from units."""
-        notes = []
-        for origin in ["pos", "developer"]:
-            note = self.unit.getnotes(origin)
-            if note:
-                notes.append(note)
-
-        # ruff: ignore[private-member-access]
-        for node in self.unit._getnotenodes(origin="definition"):
-            if self._is_usage_node(node):
-                # ruff: ignore[private-member-access]
-                notes.append(self.unit._getnodetext(node))
-                break
-
-        return "\n".join(notes)
+        return "\n".join(
+            dict.fromkeys(
+                note.text
+                for note in self._display_notes(source=True)
+                if note.origin in {"pos", "developer"} or note.category == "Usage note"
+            )
+        )
 
     @cached_property
     def context(self):
         return self.unit.xmlelement.get("id") or ""
 
+    def set_target(self, target: str | list[str]) -> None:
+        self.unit.set_target_terms([target] if isinstance(target, str) else target)
+        self._invalidate_target()
+        self.__dict__.pop("source", None)
+
+    def is_translated(self) -> bool:
+        return any(split_plural(self.target))
+
     def set_explanation(self, explanation: str) -> None:
-        if explanation or self.explanation:
-            self.unit.addnote(explanation, origin="translator", position="replace")
+        if explanation != self.explanation:
+            self.unit.set_common_note(explanation)
         self.__dict__.pop("explanation", None)
 
     @cached_property
     def explanation(self) -> str:
-        return self.unit.getnotes("translator")
+        notes = [
+            note for note in self.unit.get_common_notes() if note.origin == "translator"
+        ]
+        local_notes = [note for note in notes if note.scope != "concept"]
+        return "\n".join(dict.fromkeys(note.text for note in local_notes or notes))
 
     def set_source_explanation(self, explanation: str) -> None:
-        if explanation or self.source_explanation:
-            self.unit.addnote(explanation, origin="definition", position="replace")
+        if explanation != self.source_explanation:
+            self.unit.set_common_note(explanation, source=True)
         self.__dict__.pop("source_explanation", None)
 
     @cached_property
     def source_explanation(self) -> str:
-        seen_notes = set()
-        notes = []
-        # ruff: ignore[private-member-access]
-        for node in self.unit._getnotenodes(origin="definition"):
-            # ruff: ignore[private-member-access]
-            if self._is_usage_node(node) or self.unit._is_translation_needed_node(node):
-                continue
-            # ruff: ignore[private-member-access]
-            note = self.unit._getnodetext(node)
-            if note not in seen_notes:
-                notes.append(note)
-                seen_notes.add(note)
-
-        return "\n".join(notes)
+        return "\n".join(
+            dict.fromkeys(
+                note.text
+                for note in self.unit.get_common_notes(source=True)
+                if note.origin == "definition" and note.category != "Usage note"
+            )
+        )
 
     @cached_property
     def flags(self):
         flags = super().flags
-
-        # ruff: ignore[private-member-access]
-        for node in self.unit._getnotenodes(origin="pos"):
-            # each tig in the two langsets in the termEntry can have the
-            # <termNote type="administrativeStatus">, consider forbidden
-            # if either of the two is forbidden/obsolete
-            # ruff: ignore[private-member-access]
-            if self.unit._is_administrative_status_term_node(node):
-                # ruff: ignore[private-member-access]
-                if self.unit._getnodetext(node).strip().lower() in {
-                    "forbidden",
-                    "obsolete",
-                }:
-                    flags.merge("forbidden")
-                break
-
+        if self.is_readonly():
+            flags.merge("read-only")
+        for terms in (self.unit.get_source_terms(), self.unit.get_target_terms()):
+            if terms and all(
+                (term.administrative_status or "").strip().lower()
+                in {"forbidden", "obsolete"}
+                for term in terms
+            ):
+                flags.merge("forbidden")
         return flags
 
 
@@ -3445,6 +3466,7 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("TermBase eXchange file")
     format_id = "tbx"
+    has_multiple_strings = True
     loader = tbxfile  # type: ignore[assignment]
     autoload: tuple[str, ...] = ("*.tbx",)
     empty_file_template = """<?xml version="1.0"?>
@@ -3464,12 +3486,28 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
 </martif>"""
     unit_class = TBXUnit  # type: ignore[assignment]
     create_empty_bilingual: bool = True
+    can_add_plural_units = True
     use_settarget = True
     monolingual = False
     supports_explanation: bool = True
     supports_descriptions = True
     supports_flags = True
     supports_context = True
+
+    @classmethod
+    def supports_remove_duplicate_units(cls) -> bool:
+        # Each multivalue concept still corresponds to one removable XML node.
+        return cls.can_delete_unit
+
+    def create_unit(self, key, source, target=None):
+        sources = [source] if isinstance(source, str) else source
+        targets = [target] if isinstance(target, str) else target or []
+        unit = self.construct_unit(sources[0] if sources else "")
+        if key:
+            unit.setid(key)
+        unit.set_source_terms(sources, self.source_language)
+        unit.set_target_terms(targets, self.language_code)
+        return unit
 
     def __init__(
         self,

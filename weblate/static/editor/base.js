@@ -420,5 +420,6 @@ WLT.Editor = (() => {
 
   return {
     Base: EditorBase,
+    insertEditor,
   };
 })();

@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 from django.utils import timezone
 
-from weblate.glossary.models import get_glossary_terms
+from weblate.glossary.models import get_glossary_terms, iter_glossary_alternatives
 
 from .base import (
     MACHINERY_DEFAULT_THRESHOLD,
@@ -199,7 +199,11 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def get_highlights(self, text, unit):
         result = list(super().get_highlights(text, unit))
 
-        for term in get_glossary_terms(unit, include_variants=False):
+        for term in iter_glossary_alternatives(
+            get_glossary_terms(unit, include_variants=False)
+        ):
+            if "forbidden" in term.all_flags or not term.target:
+                continue
             for start, end in term.glossary_positions:
                 glossary_highlight = (start, end, text[start:end], term)
                 handled = False

@@ -1,0 +1,59 @@
+{% load i18n icons translations %}
+
+<tr>
+  <td class="source">
+    {% for note in item.glossary_notes.source %}<div>{{ note }}</div>{% endfor %}
+    {% for term in item.glossary_sources %}
+      <div lang="{{ item.translation.component.source_language.code }}"
+           dir="{{ item.translation.component.source_language.direction }}"
+           class="bidi-isolate">{{ term.text }}</div>
+      {% if term.administrative_status %}<small>{{ term.administrative_status }}</small>{% endif %}
+      {% for note in term.notes %}
+        {% if note.scope == "term" %}<div>{{ note.text }}</div>{% endif %}
+      {% endfor %}
+    {% endfor %}
+  </td>
+  <td colspan="3">
+    {% if item.fuzzy %}
+      <div>{% translate "This translation needs editing." %}</div>
+    {% endif %}
+    {% for note in item.glossary_notes.target %}<div>{{ note }}</div>{% endfor %}
+    {% for term in item.glossary_targets %}
+      <div>
+        <button type="button"
+                class="btn btn-link glossary-copy"
+                data-glossary-text="{{ term.text }}"
+                aria-label="{% translate 'Copy word into translation' %}: {{ term.text }}"
+                {% if term.forbidden %}disabled{% endif %}>
+          <span lang="{{ item.glossary_target_language.code }}"
+                dir="{{ item.glossary_target_language.direction }}"
+                class="bidi-isolate">{{ term.text }}</span>
+        </button>
+        {% if term.forbidden %}
+          <span>{% translate "This translation is forbidden." %}</span>
+        {% endif %}
+        {% if "read-only" in item.all_flags %}
+          <span>{% translate "This term should not be translated." %}</span>
+        {% endif %}
+        {% if term.administrative_status %}<small>{{ term.administrative_status }}</small>{% endif %}
+        {% for note in term.notes %}
+          {% if note.scope == "term" %}<div>{{ note.text }}</div>{% endif %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </td>
+</tr>
+<tr>
+  <td colspan="4">
+    <div class="d-flex justify-content-between align-items-center">
+      {% include "snippets/glossary-badge.html" with glossary=item.translation %}
+      <a href="{{ item.get_absolute_url }}"
+         class="btn btn-link btn-xs"
+         title="{% translate 'Edit glossary term' %}">{% icon "pencil.svg" %}</a>
+    </div>
+    {% for note in item.glossary_notes.concept %}<div>{{ note }}</div>{% endfor %}
+    {% if item.glossary_note %}<div>{{ item.glossary_note }}</div>{% endif %}
+    {% if not item.is_source and item.explanation %}<div>{{ item.explanation|markdown }}</div>{% endif %}
+    {% if item.source_unit.explanation %}<div>{{ item.source_unit.explanation|markdown }}</div>{% endif %}
+  </td>
+</tr>

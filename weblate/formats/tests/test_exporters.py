@@ -292,7 +292,7 @@ class XliffExporterTest(PoXliffExporterTest):
 
 class TBXExporterTest(ExporterTestMixin, BaseTestCase):
     _class = TBXExporter
-    _has_context = False
+    _has_context = True
 
     def check_plurals(self, result) -> None:
         # Doesn't support plurals
@@ -315,6 +315,7 @@ class TBXExporterTest(ExporterTestMixin, BaseTestCase):
             translation=translation,
             id_hash=-1,
             pk=-1,
+            explanation="Source definition",
             source="hello",
             target="hello",
             state=STATE_TRANSLATED,
