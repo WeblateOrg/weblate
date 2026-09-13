@@ -398,6 +398,26 @@ The translation context can optionally be specified to improve translations qual
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 Glossary integration is not available with API v1.
 
+.. _mt-deepl-rephrase:
+
+Rephrasing existing translations
+--------------------------------
+
+When a string is already translated, Weblate can send the stored target text to the
+DeepL Write API ``/v2/write/rephrase`` endpoint and show the improved text as an
+additional machine translation suggestion.
+
+This requires a DeepL API Pro subscription using ``https://api.deepl.com/``.
+Rephrasing is skipped when using the free API endpoint.
+
+Only languages supported by the DeepL Write API are eligible.
+Strings that contain placeholders or other highlighted markup are not rephrased
+yet, because the Write API accepts plain text only.
+Rephrase suggestions use a slightly lower score than DeepL translations so
+automatic translation keeps preferring the translate result.
+Successful rephrases are cached; this still performs an extra API request on
+cache miss and may increase API usage and billing.
+
 .. seealso::
 
    * `DeepL translator <https://www.deepl.com/translator>`_

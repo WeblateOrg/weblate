@@ -1589,6 +1589,376 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
         return re.escape(text)
 
 
+class RephraseMachineTranslationMixin(MachineTranslation):
+    """Mixin for machine translation services that can rephrase existing targets."""
+
+    @property
+    def rephrase_score(self) -> int:
+        # kept below translation max_score so MT gets precedence over rephrase
+        return max(0, self.max_score - 1)
+
+    def is_rephrase_enabled(self) -> bool:
+        return True
+
+    def get_rephrase_target_language(self, target_language: str) -> str | None:
+        """Map a translate target language code to the rephrase API form."""
+        raise NotImplementedError
+
+    def download_rephrased_translations(
+        self, texts: list[str], write_lang: str
+    ) -> list[str]:
+        """Improve existing translations using the service rephrase API."""
+        raise NotImplementedError
+
+    async def adownload_rephrased_translations(
+        self, texts: list[str], write_lang: str
+    ) -> list[str]:
+        """Async variant of rephrase download."""
+        raise NotImplementedError
+
+    def _translate_sources(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> list[list[TranslationResultDict]]:
+        results = super()._translate_sources(
+            source_language, target_language, sources, user, threshold
+        )
+        return self._append_rephrase_suggestions(results, sources, target_language)
+
+    async def _atranslate_sources(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> list[list[TranslationResultDict]]:
+        results = await super()._atranslate_sources(
+            source_language, target_language, sources, user, threshold
+        )
+        return await self._aappend_rephrase_suggestions(
+            results, sources, target_language
+        )
+
+    def _collect_rephrase_candidates(
+        self,
+        sources: list[tuple[str, Unit | None]],
+        target_language: str,
+    ) -> tuple[str, list[tuple[int, str, str, str, dict[str, str]]]] | None:
+        """
+        Collect existing targets eligible for rephrasing.
+
+        Returns write language code and list of
+        (source_index, source_text, target_text, cleaned_target, replacements),
+        or None.
+
+        Occurrences are counted over the full ``sources`` list (after MT cache
+        hits), so a cached first plural does not reset the target form index.
+        """
+        if not self.is_rephrase_enabled():
+            return None
+
+        candidates: list[tuple[int, str, str, str, dict[str, str]]] = []
+        seen: dict[int, int] = {}
+        for index, (source_text, unit) in enumerate(sources):
+            if unit is None or not unit.translated or unit.readonly:
+                continue
+            targets = unit.get_target_plurals()
+            occurrence = seen.get(id(unit), 0)
+            seen[id(unit)] = occurrence + 1
+            if occurrence >= len(targets):
+                continue
+            target_text = targets[occurrence]
+            if not target_text:
+                continue
+            # Temporary: DeepL Write accepts plain text only (no tag_handling).
+            # Skip targets with placeholders/markup instead of reusing translate
+            # XML cleanup (<x id="…">), which Write may mangle.
+            if any(self.get_highlights(target_text, unit)):
+                continue
+            candidates.append((index, source_text, target_text, target_text, {}))
+
+        if not candidates:
+            return None
+
+        if write_lang := self.get_rephrase_target_language(target_language):
+            return write_lang, candidates
+
+        return None
+
+    def delete_cache(self) -> None:
+        super().delete_cache()
+        version_key = self.get_rephrase_cache_version_key()
+        try:
+            cache.incr(version_key)
+        except ValueError:
+            cache.set(version_key, 1, self.cache_expiry)
+
+    def get_rephrase_cache_version_key(self) -> str:
+        return self.get_cache_key("rephrase-version")
+
+    def get_rephrase_cache_version(self) -> int:
+        version = cache.get(self.get_rephrase_cache_version_key())
+        return int(version) if version else 0
+
+    def get_rephrase_cache_key(self, write_lang: str, target_text: str) -> str:
+        return self.get_cache_key(
+            "rephrase",
+            parts=(self.get_rephrase_cache_version(), write_lang),
+            text=target_text,
+        )
+
+    def _usable_rephrase(self, target_text: str, improved: str) -> str:
+        if not improved or improved == target_text:
+            return ""
+        return improved
+
+    def _store_rephrase_cache_value(
+        self, write_lang: str, target_text: str, improved: str
+    ) -> str:
+        stored = self._usable_rephrase(target_text, improved)
+        if self.cache_translations and stored:
+            cache.set(
+                self.get_rephrase_cache_key(write_lang, target_text),
+                stored,
+                self.cache_expiry,
+            )
+        return stored
+
+    async def _astore_rephrase_cache_value(
+        self, write_lang: str, target_text: str, improved: str
+    ) -> str:
+        stored = self._usable_rephrase(target_text, improved)
+        if self.cache_translations and stored:
+            await cache.aset(
+                self.get_rephrase_cache_key(write_lang, target_text),
+                stored,
+                self.cache_expiry,
+            )
+        return stored
+
+    def _download_unique_rephrases(
+        self, unique_targets: list[str], write_lang: str
+    ) -> dict[str, str]:
+        downloaded_by_target: dict[str, str] = {}
+        for start in range(0, len(unique_targets), self.batch_size):
+            batch = unique_targets[start : start + self.batch_size]
+            downloaded = self.download_rephrased_translations(batch, write_lang)
+            downloaded_by_target.update(zip(batch, downloaded, strict=True))
+        return downloaded_by_target
+
+    async def _adownload_unique_rephrases(
+        self, unique_targets: list[str], write_lang: str
+    ) -> dict[str, str]:
+        downloaded_by_target: dict[str, str] = {}
+        for start in range(0, len(unique_targets), self.batch_size):
+            batch = unique_targets[start : start + self.batch_size]
+            downloaded = await self.adownload_rephrased_translations(batch, write_lang)
+            downloaded_by_target.update(zip(batch, downloaded, strict=True))
+        return downloaded_by_target
+
+    def _unique_rephrase_targets(
+        self, misses: list[tuple[int, str, str, dict[str, str]]]
+    ) -> list[str]:
+        unique_targets: list[str] = []
+        seen_targets: set[str] = set()
+        for _candidate_index, _target_text, cleaned_target, _replacements in misses:
+            if cleaned_target not in seen_targets:
+                seen_targets.add(cleaned_target)
+                unique_targets.append(cleaned_target)
+        return unique_targets
+
+    def _finalize_rephrase(
+        self,
+        write_lang: str,
+        target_text: str,
+        cleaned_target: str,
+        replacements: dict[str, str],
+        downloaded_by_cleaned: dict[str, str],
+    ) -> str:
+        improved = downloaded_by_cleaned[cleaned_target]
+        if replacements:
+            improved = self.uncleanup_text(replacements, improved)
+        return self._store_rephrase_cache_value(write_lang, target_text, improved)
+
+    async def _afinalize_rephrase(
+        self,
+        write_lang: str,
+        target_text: str,
+        cleaned_target: str,
+        replacements: dict[str, str],
+        downloaded_by_cleaned: dict[str, str],
+    ) -> str:
+        improved = downloaded_by_cleaned[cleaned_target]
+        if replacements:
+            improved = self.uncleanup_text(replacements, improved)
+        return await self._astore_rephrase_cache_value(
+            write_lang, target_text, improved
+        )
+
+    def _resolve_rephrased_texts(
+        self,
+        write_lang: str,
+        candidates: list[tuple[int, str, str, str, dict[str, str]]],
+    ) -> list[str]:
+        rephrased_texts: list[str | None] = [None] * len(candidates)
+        misses: list[tuple[int, str, str, dict[str, str]]] = []
+
+        for candidate_index, (
+            _index,
+            _source,
+            target_text,
+            cleaned_target,
+            replacements,
+        ) in enumerate(candidates):
+            if self.cache_translations:
+                cached = cache.get(self.get_rephrase_cache_key(write_lang, target_text))
+                if cached is not None:
+                    rephrased_texts[candidate_index] = cached
+                    continue
+            misses.append((candidate_index, target_text, cleaned_target, replacements))
+
+        if misses:
+            downloaded_by_cleaned = self._download_unique_rephrases(
+                self._unique_rephrase_targets(misses), write_lang
+            )
+            for (
+                candidate_index,
+                target_text,
+                cleaned_target,
+                replacements,
+            ) in misses:
+                rephrased_texts[candidate_index] = self._finalize_rephrase(
+                    write_lang,
+                    target_text,
+                    cleaned_target,
+                    replacements,
+                    downloaded_by_cleaned,
+                )
+
+        return [text or "" for text in rephrased_texts]
+
+    async def _aresolve_rephrased_texts(
+        self,
+        write_lang: str,
+        candidates: list[tuple[int, str, str, str, dict[str, str]]],
+    ) -> list[str]:
+        rephrased_texts: list[str | None] = [None] * len(candidates)
+        misses: list[tuple[int, str, str, dict[str, str]]] = []
+
+        for candidate_index, (
+            _index,
+            _source,
+            target_text,
+            cleaned_target,
+            replacements,
+        ) in enumerate(candidates):
+            if self.cache_translations:
+                cached = await cache.aget(
+                    self.get_rephrase_cache_key(write_lang, target_text)
+                )
+                if cached is not None:
+                    rephrased_texts[candidate_index] = cached
+                    continue
+            misses.append((candidate_index, target_text, cleaned_target, replacements))
+
+        if misses:
+            downloaded_by_cleaned = await self._adownload_unique_rephrases(
+                self._unique_rephrase_targets(misses), write_lang
+            )
+            for (
+                candidate_index,
+                target_text,
+                cleaned_target,
+                replacements,
+            ) in misses:
+                rephrased_texts[candidate_index] = await self._afinalize_rephrase(
+                    write_lang,
+                    target_text,
+                    cleaned_target,
+                    replacements,
+                    downloaded_by_cleaned,
+                )
+
+        return [text or "" for text in rephrased_texts]
+
+    def _merge_rephrase_results(
+        self,
+        results: list[list[TranslationResultDict]],
+        candidates: list[tuple[int, str, str, str, dict[str, str]]],
+        improved_texts: list[str],
+    ) -> list[list[TranslationResultDict]]:
+        for (
+            index,
+            source_text,
+            target_text,
+            _cleaned_target,
+            _replacements,
+        ), improved in zip(candidates, improved_texts, strict=True):
+            if not improved or improved == target_text:
+                continue
+            existing = {item["text"] for item in results[index]}
+            if improved in existing:
+                continue
+            original_source = source_text
+            if results[index]:
+                original_source = results[index][0].get("original_source", source_text)
+            results[index].append(
+                {
+                    "text": improved,
+                    "quality": self.rephrase_score,
+                    "service": self.name,
+                    "source": source_text,
+                    "original_source": original_source,
+                }
+            )
+        return results
+
+    def _append_rephrase_suggestions(
+        self,
+        results: list[list[TranslationResultDict]],
+        sources: list[tuple[str, Unit | None]],
+        target_language: str,
+    ) -> list[list[TranslationResultDict]]:
+        """Optionally append rephrased existing translations for supported targets."""
+        try:
+            prepared = self._collect_rephrase_candidates(sources, target_language)
+            if prepared is None:
+                return results
+            write_lang, candidates = prepared
+            improved_texts = self._resolve_rephrased_texts(write_lang, candidates)
+        except Exception:
+            self.log_handled_error("Could not rephrase translations")
+            return results
+        return self._merge_rephrase_results(results, candidates, improved_texts)
+
+    async def _aappend_rephrase_suggestions(
+        self,
+        results: list[list[TranslationResultDict]],
+        sources: list[tuple[str, Unit | None]],
+        target_language: str,
+    ) -> list[list[TranslationResultDict]]:
+        """Async variant of rephrase suggestion append."""
+        try:
+            prepared = await sync_to_async(self._collect_rephrase_candidates)(
+                sources, target_language
+            )
+            if prepared is None:
+                return results
+            write_lang, candidates = prepared
+            improved_texts = await self._aresolve_rephrased_texts(
+                write_lang, candidates
+            )
+        except Exception:
+            self.log_handled_error("Could not rephrase translations")
+            return results
+        return self._merge_rephrase_results(results, candidates, improved_texts)
+
+
 class ResponseStatusMachineTranslation(MachineTranslation):
     def check_failure(self, response: httpx2.Response) -> None:
         try:
