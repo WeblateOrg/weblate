@@ -1,12 +1,18 @@
 {% load i18n otp_webauthn %}
 
+<p class="help-block">
+  {% translate "Use a device where your passkey is available, or connect your registered security key. Your passkey might not be available on a new computer or in a different browser." %}
+</p>
+
 <span id="passkey-verification-placeholder"></span>
 
 <template id="passkey-verification-available-template">
   <button type="button" class="btn btn-primary btn-full" id="passkey-verification-button">
-    {% translate "Sign in using the security key" %}
+    {% translate "Sign in using a passkey or security key" %}
   </button>
-  <div id="passkey-verification-status-message"></div>
+  <div id="passkey-verification-status-message"
+       data-not-allowed-message="{% translate 'Passkey or security key verification could not be completed. The request may have timed out or been canceled, or your credential may be unavailable on this device. Try again or use another verification method if available.' %}">
+  </div>
 </template>
 
 <template id="passkey-verification-unavailable-template">

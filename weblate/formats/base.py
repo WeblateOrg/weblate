@@ -633,6 +633,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         """Update store header if available."""
         return
 
+    def update_contributor(self, author: str) -> bool:
+        """Update contributor comments, returning whether the store needs saving."""
+        return False
+
     @staticmethod
     def save_atomic(
         filename: str,

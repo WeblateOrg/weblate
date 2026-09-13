@@ -402,7 +402,7 @@ def check_permission(
 def get_repository_permission_components(
     obj: Translation | Component | Project,
 ) -> list[Component]:
-    """Return all components affected by repository operations on an object."""
+    """Return the owners authorizing repository operations on an object."""
     cache_key = "_repository_permission_components"
     cached = obj.__dict__.get(cache_key)
     if cached is not None:
@@ -428,9 +428,7 @@ def get_repository_permission_components(
         raise TypeError(msg)
 
     components = list(
-        Component.objects.filter(
-            Q(pk__in=owner_ids) | Q(linked_component_id__in=owner_ids)
-        )
+        Component.objects.filter(pk__in=owner_ids)
         .select_related("project")
         .only(
             "id",
@@ -463,18 +461,11 @@ def get_project_repository_scopes(
 
     owner_ids = set(project_components_by_owner)
     components = list(
-        Component.objects.filter(
-            Q(pk__in=owner_ids) | Q(linked_component_id__in=owner_ids)
-        ).prefetch(alerts=False)
+        Component.objects.filter(Q(pk__in=owner_ids) | Q(project=project)).prefetch(
+            alerts=False
+        )
     )
     components_by_id = {component.pk: component for component in components}
-    permission_components_by_owner: dict[int, list[Component]] = {
-        owner_id: [] for owner_id in owner_ids
-    }
-    for component in components:
-        owner_id = component.linked_component_id or component.pk
-        permission_components_by_owner[owner_id].append(component)
-
     scopes = tuple(
         ProjectRepositoryScope(
             repository=components_by_id[
@@ -485,7 +476,7 @@ def get_project_repository_scopes(
             project_components=tuple(
                 components_by_id[component_id] for component_id in project_component_ids
             ),
-            permission_components=tuple(permission_components_by_owner[owner_id]),
+            permission_components=(components_by_id[owner_id],),
         )
         for owner_id, project_component_ids in project_components_by_owner.items()
     )
@@ -509,7 +500,7 @@ def check_repository_permission(
     permission: str,
     obj: PermissionObject,
 ) -> bool:
-    """Check permission on every component sharing an affected repository."""
+    """Check permission on the owner of each affected repository."""
     if user.is_superuser:
         return True
     if not isinstance(obj, Translation | Component | Project):
@@ -518,9 +509,6 @@ def check_repository_permission(
         return bool(
             get_project_repository_selection(user, obj, (permission,)).repositories
         )
-    permission_obj = obj.component if isinstance(obj, Translation) else obj
-    if not check_permission(user, permission, permission_obj):
-        return False
     return _check_repository_permission(
         user, permission, get_repository_permission_components(obj)
     )
@@ -1335,18 +1323,21 @@ def check_repository_status(
                 user, obj, REPOSITORY_PERMISSIONS
             ).repositories
         )
-    permission_obj = obj.component if isinstance(obj, Translation) else obj
-    allowed_permissions = tuple(
-        repository_permission
-        for repository_permission in REPOSITORY_PERMISSIONS
-        if check_permission(user, repository_permission, permission_obj)
-    )
-    if not allowed_permissions:
-        return False
-    components = get_repository_permission_components(obj)
     return any(
-        _check_repository_permission(user, repository_permission, components)
-        for repository_permission in allowed_permissions
+        check_repository_permission(user, repository_permission, obj)
+        for repository_permission in REPOSITORY_PERMISSIONS
+    )
+
+
+@register_perm("meta:vcs.maintenance")
+def check_repository_maintenance(
+    user: User, permission: str, obj: Translation | Component | Project
+) -> bool:
+    """Allow local repository managers to see owner permission guidance."""
+    permission_obj = obj.component if isinstance(obj, Translation) else obj
+    return bool(check_repository_status(user, permission, obj)) or any(
+        check_permission(user, repository_permission, permission_obj)
+        for repository_permission in REPOSITORY_PERMISSIONS
     )
 
 

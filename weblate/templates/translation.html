@@ -3,7 +3,7 @@
 {% load crispy_forms_tags humanize i18n metrics permissions translations %}
 
 {% block nav_pills %}
-  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'meta:vcs.maintenance' object as user_can_see_repository_status %}
   {% perm 'upload.overwrite' object as user_can_overwrite_translation %}
   {% perm 'upload.perform' object as user_can_upload_translation %}
   {% perm 'unit.add' object as user_can_add_unit %}
@@ -173,7 +173,7 @@
 
   {% include "snippets/component/state.html" with object=object.component %}
 
-  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'meta:vcs.maintenance' object as user_can_see_repository_status %}
   {% perm 'upload.overwrite' object as user_can_overwrite_translation %}
   {% perm 'upload.perform' object as user_can_upload_translation %}
   {% perm 'unit.add' object as user_can_add_unit %}

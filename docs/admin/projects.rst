@@ -1538,6 +1538,11 @@ The following variables are available in the component templates:
 ``{{ addon_name }}``
     Name of currently executed add-on, available only in the add-on commit message.
 
+The :ref:`Statistics generator <addon-weblate.generate.generate>` additionally
+supports a collection of languages and their statistics in component mode.
+Use the ``json`` or ``python`` filter to serialize template values into JSON or
+Python literals, including the necessary quoting and escaping.
+
 The following variables are available in the repository browser or editor templates:
 
 ``{{branch}}``

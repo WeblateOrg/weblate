@@ -181,7 +181,10 @@ class Command(DocGeneratorCommand):
             events = ", ".join(
                 f":ref:`{event_link(event)}`" for event in sorted_events(obj.events)
             )
-            if POST_CONFIGURE_EVENTS & set(obj.events):
+            if (
+                POST_CONFIGURE_EVENTS & set(obj.events)
+                and AddonEvent.EVENT_INSTALL not in obj.events
+            ):
                 events = f":ref:`addon-event-add-on-installation`, {events}"
             addon_lines.extend(
                 [

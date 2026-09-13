@@ -4,6 +4,14 @@
 
 <p>{% translate "You can use Django templates markup in both filename and content, for example:" %}</p>
 
+<p>{% translate "In component mode, loop over translations to access each language’s metadata and statistics. Use the json or python filter to serialize values in generated files." %}</p>
+
+<pre>{% verbatim %}{% for item in translations %}
+{{ item.language_code }}: {{ item.stats.translated_percent }}
+{% endfor %}{% endverbatim %}</pre>
+
+<p>{% translate "The translation variables below are available directly in translation mode, or on each item in component mode. Component and project variables are available in both modes." %}</p>
+
 <dl>
   <dt>
     <code>

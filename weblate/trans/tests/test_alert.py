@@ -430,7 +430,8 @@ class AlertTest(ViewTestCase):
                 "process_occurrences",
                 side_effect=AssertionError("MultiAlert was constructed"),
             ),
-            self.assertNumQueries(11),
+            # Includes loading the owner for repository alert permissions.
+            self.assertNumQueries(12),
         ):
             context = get_diagnostics_context(
                 QueryDict("diagnostic_actionable=on"),

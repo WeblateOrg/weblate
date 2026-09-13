@@ -46,7 +46,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-09-11 05:51+0200\n"
-"PO-Revision-Date: 2026-09-10 10:10+0000\n"
+"PO-Revision-Date: 2026-09-12 05:47+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -56,7 +56,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 msgid "Access control"
@@ -1609,10 +1609,8 @@ msgid ""
 "Shown within the category, including all its components and translations."
 msgstr "在类别中显示，包括其所有的部件和翻译。"
 
-#, fuzzy
-#| msgid "Project and language specified"
 msgid "Category and language specified"
-msgstr "明确了项目和语言"
+msgstr "明确了类别和语言"
 
 msgid ""
 "Shown on the category-language page and for translations in that language "
@@ -4758,10 +4756,8 @@ msgstr ""
 msgid "``\"full\"`` also ``True``"
 msgstr "``\"full\"`` 也是 ``True``"
 
-#, fuzzy
-#| msgid "Update remotes and merge working copy."
 msgid "Fetch remote changes and merge them into the working copy."
-msgstr "更新远程，并合并工作副本。"
+msgstr "获取远程更改并将它们合并入工作副本。"
 
 msgid ""
 "Automatic updates require that :ref:`celery` is working. Restart Celery "
@@ -7526,16 +7522,9 @@ msgstr ":ref:`Forgejo 通知 <code-hosting-forgejo-notifications>`"
 msgid ":ref:`Gitee notifications <code-hosting-gitee-notifications>`"
 msgstr ":ref:`Gitee 通知 <code-hosting-gitee-notifications>`"
 
-#, fuzzy
-#| msgid "Automatically updating repositories nightly"
 msgid "Automatically updating repositories daily"
-msgstr "每晚自动更新仓库"
+msgstr "每日自动更新仓库"
 
-#, fuzzy
-#| msgid ""
-#| "Weblate automatically fetches remote repositories nightly to improve "
-#| "performance when merging changes later. You can optionally turn this into "
-#| "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgid ""
 "By default, Weblate automatically fetches remote repositories daily to "
 "improve performance when merging changes later. Updates are distributed "
@@ -7543,8 +7532,9 @@ msgid ""
 "remote changes into the working copy. See :setting:`AUTO_UPDATE` for "
 "scheduling details and other update modes."
 msgstr ""
-"Weblate 在后面合并更改时，每晚自动获取远程仓库来提高性能。可以选择将其同样转"
-"换为进行每晚合并，通过允许 :setting:`AUTO_UPDATE`。"
+"Weblate 稍后合并更改时，每日默认自动获取远程仓库来提高性能。更新全天分发。设"
+"置 :setting:`AUTO_UPDATE` 为 ``\"full\"`` 会将远程更改也合并入工作副本。时间"
+"安排详情和其他更新模式见 :setting:`AUTO_UPDATE`。"
 
 msgid ""
 "Each translation component can have a push URL set up (see :ref:`component-"
@@ -9613,17 +9603,13 @@ msgstr ""
 "如果你的内存有限，你或许会想要减少 Weblate 进程数。使用以下命令可以在单进程中"
 "执行所有 Celery 任务："
 
-#, fuzzy
-#| msgid ""
-#| "An installation using Docker can be configured to use a single-process "
-#| "Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`."
 msgid ""
 "An installation using Docker can be configured to use a single-process "
 "Celery setup by setting ``CELERY_WORKER_MODE=single``. "
 "See :envvar:`CELERY_WORKER_MODE`."
 msgstr ""
-"通过设置 :envvar:`CELERY_SINGLE_PROCESS`，可使用 Docker 的安装配置为使用单进"
-"程 Celery 设置。"
+"通过设置 ``CELERY_WORKER_MODE=single`` 可使用 Docker 的安装配置为使用单进程 "
+"Celery 设置。见 :envvar:`CELERY_WORKER_MODE`。"
 
 msgid "This will have a noticeable performance impact on Weblate."
 msgstr "这会对 Weblate 性能产生显著影响。"
@@ -10285,17 +10271,13 @@ msgid ""
 msgstr ""
 "在你有很多 CPU 核心并且碰到内存用尽问题情况下，尝试减少 工作进程的数量："
 
-#, fuzzy
-#| msgid "You can also fine-tune individual worker categories:"
 msgid "You can fine-tune the combined worker:"
-msgstr "您还可以微调单个工作进程类别："
+msgstr "你可以调整合并的 worker："
 
-#, fuzzy
-#| msgid "You can also fine-tune individual worker categories:"
 msgid ""
 "Alternatively, use the split mode to run and fine-tune individual worker "
 "categories:"
-msgstr "您还可以微调单个工作进程类别："
+msgstr "也可以使用分割模式来运行并调整单个 worker 类别："
 
 msgid ""
 "The prefetch multiplier controls how many tasks each worker execution slot "
@@ -10309,13 +10291,9 @@ msgstr ""
 "示例中，通知工作进程（Notification worker）将其设为 4，因为其短耗时任务能从预"
 "缓冲中获益。请仅在评估过队列延迟和工作进程内存占用后再调高该值。"
 
-#, fuzzy
-#| msgid ""
-#| "Memory usage can be further reduced by running only a single Celery "
-#| "process:"
 msgid ""
 "Memory usage can be further reduced by running Celery in a single process:"
-msgstr "只运行单个 Celery 进程可进一步减少内存使用："
+msgstr "通过在单一进程中运行 Celery 可以进一步降低内存使用："
 
 msgid "Scaling horizontally"
 msgstr "横向扩展"
@@ -10348,10 +10326,8 @@ msgstr ""
 "<https://github.com/WeblateOrg/docker-compose/blob/main/docker-compose-"
 "split.yml>`__。"
 
-#, fuzzy
-#| msgid "Sample configuration to start Granian"
 msgid "Startup configuration warnings"
-msgstr "启动 Granian 的配置示例"
+msgstr "启动配置警报"
 
 msgid ""
 "The Docker container records actionable configuration warnings from startup "
@@ -10906,17 +10882,13 @@ msgstr ""
 "你可以为任何速率限制器的作用域设置配置。要做到这一点，请在 :ref:`rate-limit` "
 "中描述的任何设置中添加 ``WEBLATE_`` 前缀。"
 
-#, fuzzy
-#| msgid ""
-#| "Configures API rate limiting. Defaults to ``100/day`` for anonymous and "
-#| "``5000/hour`` for authenticated users."
 msgid ""
 "Configures :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. "
 "Defaults to ``100/day`` for anonymous and ``5000/hour`` for authenticated "
 "users."
 msgstr ""
-"配置 API 速率限制。默认值如下：匿名用户 ``100/day``，已验证身份用户 ``5000/"
-"hour``。"
+"配置 :setting:`API_RATELIMIT_ANON` 和 :setting:`API_RATELIMIT_USER`，默认值："
+"匿名用户 ``100/day`` ，已认证身份用户 ``5000/hour`` 。"
 
 msgid ""
 "JSON mappings configuring :setting:`API_RATELIMIT_USER_OVERRIDES` "
@@ -10925,10 +10897,8 @@ msgid ""
 "throttling."
 msgstr ""
 
-#, fuzzy
-#| msgid "Basic setup using :file:`docker-compose.override.yml`:"
 msgid "For example, in :file:`compose.override.yaml`:"
-msgstr "使用 :file:`docker-compose.override.yml` 的基础设置："
+msgstr "比如，在 :file:`compose.override.yaml` 中："
 
 msgid ""
 "Username rules take precedence over IP rules. See :ref:`api-rate` for "
@@ -11717,20 +11687,16 @@ msgstr ""
 "容器中运行的工作者进程的基本数量。如果没有设置，它将在容器启动时根据可用的CPU"
 "核数自动确定。"
 
-#, fuzzy
-#| msgid ""
-#| "It is used to "
-#| "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, "
-#| "and :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-"
-#| "tune."
 msgid ""
 "It is used to "
 "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_COMBINED_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`WEB_WORKERS`, "
 "and :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune."
 msgstr ""
-"它被用来确"
-"定 :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS` "
-"和 :envvar:`WEB_BLOCKING_THREADS`。你可以使用这些设置来微调。"
+"它被用来确定 :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_COMBINED_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, "
+":envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, "
+":envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`WEB_WORKERS`, 和 "
+":envvar:`WEB_BLOCKING_THREADS`。你可以使用这些设置来调整。"
 
 msgid ""
 "Selects how Celery workers are run in the container. Supported modes are:"
@@ -11768,14 +11734,6 @@ msgstr ""
 msgid ":doc:`Celery worker options <celery:reference/celery.bin.worker>`"
 msgstr ":doc:`Celery 工作进程选项 <celery:reference/celery.bin.worker>`"
 
-#, fuzzy
-#| msgid ""
-#| "These variables allow you to adjust Celery worker options. It can be "
-#| "useful to adjust concurrency (``--concurrency 16``), prefetching (``--"
-#| "prefetch-multiplier 4``), or use different pool implementation (``--"
-#| "pool=gevent``). Command-line options take precedence over corresponding "
-#| "Celery settings, allowing each worker category to use a different "
-#| "prefetch multiplier."
 msgid ""
 "These variables allow you to adjust Celery worker options in "
 "``CELERY_WORKER_MODE=split``. It can be useful to adjust concurrency (``--"
@@ -11786,20 +11744,19 @@ msgid ""
 "in ``combined`` or ``single`` mode, the container logs a startup warning "
 "that it is ignored."
 msgstr ""
-"这些变量允许您调整 Celery 工作进程选项。它可以用于调整并发性(``--concurrency "
-"16``)，预取 (``--prefetch-multiplier 4``), 或使用不同的池实现（``--"
-"pool=gevent``）。命令行优先级高于相应的 Celery 设置，允许每个 worker 类别使用"
-"不同的预取倍数。"
+"这些变量允许您调整 ``CELERY_WORKER_MODE=split`` 中的 Celery 工作进程选项。它"
+"可以用于调整并发性(``--concurrency 16``)，预取 (``--prefetch-multiplier 4``)"
+", 或使用不同的池实现（``--pool=gevent``）。命令行优先级高于相应的 Celery 设置"
+"，允许每个 worker 类别使用不同的预取倍数。这些变量中的任何一个被设为 "
+"``combined`` or ``single`` 时，该容器记录一个被忽略的启动警报。"
 
 msgid ""
 "By default, the number of concurrent workers is based "
 "on :envvar:`WEBLATE_WORKERS`."
 msgstr "默认情况下，并发工作者的数量是基于 :envvar:`WEBLATE_WORKERS`。"
 
-#, fuzzy
-#| msgid "Configures the secret used by Django for cookie signing."
 msgid "Configures the Celery beat scheduler in all worker modes."
-msgstr "配置 Django 用于 cookie 签名的密钥。"
+msgstr "配置所有 worker 模式中的 Celery beat 任务计划程序。"
 
 msgid "Configures the worker used by ``CELERY_WORKER_MODE=single``."
 msgstr ""
@@ -11880,10 +11837,8 @@ msgstr "翻译记忆库 Celery 工作进程。"
 msgid "Notifications Celery worker."
 msgstr "通知 Celery 工作进程。"
 
-#, fuzzy
-#| msgid "Single-process Celery setup"
 msgid "Single-process Celery worker for all task queues."
-msgstr "单进程 Celery 设置"
+msgstr "所有任务队列均使用单进程 Celery worker。"
 
 msgid "Automatic translation Celery worker."
 msgstr "自动翻译 Celery 工作进程。"
@@ -12422,18 +12377,13 @@ msgid ""
 "using:"
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "There are individual services for each Celery queue (see :ref:`celery` "
-#| "for details). You can stop processing some tasks by stopping the "
-#| "appropriate worker:"
 msgid ""
 "The ``split`` mode runs an individual service for each Celery queue "
 "(see :ref:`celery` for details). In this mode, you can stop processing some "
 "tasks by stopping the appropriate worker:"
 msgstr ""
-"每个 Celery 队列有单独服务（详见 :ref:`celery`）。你可以停止相应的 工作进程来"
-"停止处理某些任务："
+"``split`` 模式为每个 Celery 队列运行单独服务（详见 :ref:`celery`）。此模式下"
+"，你可以停止相应的 工作进程来停止处理某些任务："
 
 msgid "Installing on Kubernetes"
 msgstr "在 Kubernetes 上安装"
@@ -15328,10 +15278,8 @@ msgstr "配置每个项目的访问控制，请参阅 :ref:`acl` 以获取更多
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr "可以通过 :setting:`DEFAULT_ACCESS_CONTROL` 更改默认值。"
 
-#, fuzzy
-#| msgid "Publishing target"
 msgid "Public sharing"
-msgstr "发布目标"
+msgstr "公开分享"
 
 msgid ""
 "Allow anonymous access to the project's engage pages and rendered status "
@@ -18009,17 +17957,12 @@ msgstr ""
 "这个 API 请求限制了速率；对于匿名用户默认配置限制为每天 100 个请求，对于身份"
 "认证的用户限制为每小时 5000 个请求。"
 
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured "
-#| "using :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-#| "and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 "Configure the default limits in :file:`settings.py` "
 "using :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`."
 msgstr ""
-"在 Docker 容器中可使用 :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-"和 :envvar:`WEBLATE_API_RATELIMIT_USER` 对此进行配置。"
+"用 :setting:`API_RATELIMIT_ANON` 和 :setting:`API_RATELIMIT_USER` 配置 "
+":file:`settings.py` 中的默认限制。"
 
 msgid ""
 "In the Docker container this can be configured "
@@ -18059,19 +18002,15 @@ msgid ""
 "Exempting a shared proxy address can exempt all clients using that proxy."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured "
-#| "using :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-#| "and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 "In Docker, configure the equivalent JSON mappings "
 "using :envvar:`WEBLATE_API_RATELIMIT_USER_OVERRIDES` "
 "and :envvar:`WEBLATE_API_RATELIMIT_IP_OVERRIDES`. Use JSON ``null`` for "
 "exemptions."
 msgstr ""
-"在 Docker 容器中可使用 :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-"和 :envvar:`WEBLATE_API_RATELIMIT_USER` 对此进行配置。"
+"在 Docker 中，用 :envvar:`WEBLATE_API_RATELIMIT_USER_OVERRIDES` 和 "
+":envvar:`WEBLATE_API_RATELIMIT_IP_OVERRIDES` 配置对等的 JSON 映射。例外使用 "
+"JSON ``null`` 。"
 
 msgid "The status of rate limiting is reported in following headers:"
 msgstr "速率限制在后面的标头中报告："
@@ -18275,10 +18214,8 @@ msgstr ""
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
-#, fuzzy
-#| msgid "Weblate 2026.9.1"
 msgid "Weblate 2026.10"
-msgstr "Weblate 2026.9.1"
+msgstr "Weblate 2026.10"
 
 msgid "*Not yet released.*"
 msgstr "*尚未发布。*"
@@ -18316,18 +18253,13 @@ msgid ""
 "to component VCS settings."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "You can use :ref:`addon-weblate.autotranslate.autotranslate` add-on to "
-#| "automate translating of newly added strings which are already translated "
-#| "in another component."
 msgid ""
 "The :ref:`automatic translation add-on <addon-"
 "weblate.autotranslate.autotranslate>` can create approved strings, falling "
 "back to translated strings when reviews are disabled for the target language."
 msgstr ""
-"您可以使用 :ref:`addon-weblate.autotranslate.autotranslate` 附加部件来自动翻"
-"译已经在另一个部件中已翻译的新添加的字符串。"
+":ref:`自动翻译附加组件 <addon-weblate.autotranslate.autotranslate>` 可创建已"
+"批准的字符串，当目标语言禁用审核时退回已翻译的字符串。"
 
 msgid ""
 "Whitespace characters are now rendered consistently in the source string "
@@ -18418,24 +18350,18 @@ msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 msgid "Contributors"
 msgstr "贡献者"
 
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "173?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/172?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/173?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/172?closed=1>"
+"`__。"
 
 msgid "Weblate 2026.9.1"
 msgstr "Weblate 2026.9.1"
 
-#, fuzzy
-#| msgid "*Released on September 5th 2025.*"
 msgid "*Released on September 8th 2026.*"
-msgstr "*发布于 2025 年 9 月 5 日。*"
+msgstr "*发布于 2026 年 9 月 8 日。*"
 
 msgid ""
 "Added per-user :ref:`notification diagnostics <notifications>` for users and "
@@ -20416,10 +20342,8 @@ msgstr ""
 "Michal Čihař, Gersona, Karen Konou, Spyder, mmustafasenoglu, Kartik Ohri, "
 "Shweta Singh"
 
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
 msgid "Michal Čihař, Karen Konou, Shweta Singh, michael\\-smt"
-msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
+msgstr "Michal Čihař, Karen Konou, Shweta Singh, michael\\-smt"
 
 msgid ""
 "ℂ𝕠𝕠𝕠𝕝 \\(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞\\/ℂ𝕠𝕠𝕠𝕝\\), Ldm Public, hoanghuy309, Vaclovas Intas \\"
@@ -20427,10 +20351,8 @@ msgid ""
 "Shahrabani, Любомир Василев, Fjuro, Andrei Stepanov, Arif Budiman, Watchman89"
 msgstr ""
 
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, michael-smt"
 msgid "Michal Čihař, Shweta Singh, michael\\-smt"
-msgstr "Michal Čihař, Gersona, michael-smt"
+msgstr "Michal Čihař, Shweta Singh, michael\\-smt"
 
 msgid ""
 "Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
@@ -34179,19 +34101,12 @@ msgid ""
 "fresh application data."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "The script also accepts some parameters, to execute tests, run it with "
-#| "the ``test`` parameter and then specify any :djadmin:`django:test` "
-#| "parameters, for example running only tests in the ``weblate.machine`` "
-#| "module:"
 msgid ""
 "To execute tests, run the script with the ``test`` parameter and pytest "
 "arguments, for example running only tests in the ``weblate.machine`` module:"
 msgstr ""
-"脚本还接受一些参数，要执行测试，以 ``test`` 参数来运行，然后指定任"
-"意 :djadmin:`django:test` 参数，例如，只在 ``weblate.machine`` 模块中运行测"
-"试："
+"要执行测试，带 ``test`` 参数和 pytest 变量运行此脚本，比如只在 "
+"``weblate.machine`` 中运行测试："
 
 msgid ""
 "The command automatically starts and bootstraps the :ref:`development "
@@ -34201,10 +34116,8 @@ msgid ""
 "refreshes dependencies and test assets before running pytest."
 msgstr ""
 
-#, fuzzy
-#| msgid "To display the logs:"
 msgid "To display application logs:"
-msgstr "展示日志："
+msgstr "要展示程序日志："
 
 msgid "To stop only the application profile, retaining its data:"
 msgstr ""
@@ -37509,10 +37422,8 @@ msgstr ""
 msgid "Frequently Asked Questions"
 msgstr "常见问题"
 
-#, fuzzy
-#| msgid "Number of languages user can translate"
 msgid "How do I restrict which languages can be translated?"
-msgstr "用户能够翻译的语言数量"
+msgstr "如何限制哪些语言可被翻译？"
 
 msgid ""
 "To prevent users from starting new translations across a project, open the "
@@ -41008,10 +40919,8 @@ msgid ""
 "reference and date."
 msgstr ""
 
-#, fuzzy
-#| msgid "Incident categories"
 msgid "Incident reporting"
-msgstr "事件类别"
+msgstr "事件报告"
 
 msgid ""
 "This runbook helps the Weblate team handle product-security reports and "
@@ -41240,10 +41149,8 @@ msgid ""
 "obligation has been fulfilled."
 msgstr ""
 
-#, fuzzy
-#| msgid "Warn users on profile upgrade."
 msgid "Warn users and follow up"
-msgstr "在个人资料升级时警告用户。"
+msgstr "警告用户和后续事项"
 
 msgid ""
 "Send protective advice without waiting for a fix or full technical "
@@ -41266,10 +41173,8 @@ msgid ""
 "handed over with an owner and due date."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation checks"
 msgid "Preparation checklist"
-msgstr "译文检查"
+msgstr "准备清单"
 
 msgid ""
 "These are setup tasks to complete and record privately. Publishing this "
@@ -41548,10 +41453,8 @@ msgid ""
 "needed while continuing investigation and reporting preparation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Pagure notifications"
 msgid "Personal-data breach notifications"
-msgstr "Pagure 通知"
+msgstr "个人数据泄露通知"
 
 msgid ""
 "The incident handler determines whether Weblate acts as controller or "
@@ -41738,14 +41641,10 @@ msgstr "恢复后至少 72 小时持续监控日志和系统行为。"
 msgid "Post-incident review"
 msgstr "事件后的调查"
 
-#, fuzzy
-#| msgid ""
-#| "**Timeline:** Hold a review meeting within **5 business days** of "
-#| "incident closure."
 msgid ""
 "**Timeline:** Hold a short team review within **5 business days** of "
 "incident closure."
-msgstr "**时间线：** 在事件结束的 **5 个营业日** 内举行一次回顾会议。"
+msgstr "**时间线：** 在事件结束的 **5 个营业日** 内举行简短的团队回顾。"
 
 msgid "Compile a full incident timeline and actions taken."
 msgstr "编译完整的事件时间线和采取的行动。"
@@ -41940,11 +41839,6 @@ msgstr ""
 "weblate.org/.well-known/openpgpkey/hu/t5s8ztdbon8yzntexy6oz5y48etqsnbb?"
 "l=security>`_."
 
-#, fuzzy
-#| msgid ""
-#| "Weblate depends on third-party components for many things. In case you "
-#| "find a vulnerability affecting one of those components in general, please "
-#| "report it directly to the respective project."
 msgid ""
 "Weblate depends on third-party components for many things. In case you find "
 "a vulnerability affecting one of those components in general, please report "
@@ -41953,7 +41847,8 @@ msgid ""
 "private channels above."
 msgstr ""
 "Weblate 在很多事情上依赖于第三方部件。如果你发现一个影响这些部件的漏洞，请直"
-"接报告给相应的项目。"
+"接报告给相应的项目。如果它也影响已发布的 Weblate 工件或 Weblate 部署，请将该"
+"影响通过上方的私下渠道将该影响报告给 Weblate。"
 
 msgid "Some of these are:"
 msgstr "这些中的一些是："
@@ -42003,21 +41898,15 @@ msgstr ""
 msgid "Vulnerability disclosure policy"
 msgstr "漏洞披露政策"
 
-#, fuzzy
-#| msgid ""
-#| "For Weblate product vulnerabilities, within 30 days following a release "
-#| "containing a vulnerability fix, a security advisory is published at "
-#| "https://github.com/WeblateOrg/weblate/security/advisories. The advisory "
-#| "is available immediately with a release when possible."
 msgid ""
 "Weblate publishes a security advisory alongside a release containing a "
 "vulnerability fix at https://github.com/WeblateOrg/weblate/security/"
 "advisories. Advisories identify affected versions, impact, severity, and "
 "steps users can take to remediate the vulnerability."
 msgstr ""
-"对于 Weblate 产品漏洞，发行包含漏洞修复版本后 30 天内，安全通告会被发布在 "
-"https://github.com/WeblateOrg/weblate/security/advisories。如可能，公告会在版"
-"本发布后马上可用。"
+"Weblate 在 https://github.com/WeblateOrg/weblate/security/advisories 发布安全"
+"公告以及包含漏洞修复的版本。公告确认受影响的版本、影响、严重性以及用户可采取"
+"的缓解漏洞的步骤。"
 
 msgid ""
 "Technical details may be delayed when publishing them would create greater "
@@ -42026,10 +41915,8 @@ msgid ""
 "not delay authority reports or protective advice users need."
 msgstr ""
 
-#, fuzzy
-#| msgid "Activity reports"
 msgid "Authority reporting"
-msgstr "活动报告"
+msgstr "政府部门报告"
 
 msgid ""
 "Weblate adopts the following reporting timelines as a voluntary policy "
@@ -42039,26 +41926,20 @@ msgid ""
 "incidents affecting Weblate-operated services also follow this baseline."
 msgstr ""
 
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
 msgstr "报告"
 
 msgid "Deadline"
 msgstr ""
 
-#, fuzzy
-#| msgid "Warning"
 msgid "Early warning"
-msgstr "警告"
+msgstr "早期预警"
 
 msgid "Without undue delay, within 24 hours of awareness."
 msgstr ""
 
-#, fuzzy
-#| msgid "Gitea notifications"
 msgid "Main notification"
-msgstr "Gitea 通知"
+msgstr "主通知"
 
 msgid "Without undue delay, within 72 hours of awareness."
 msgstr ""
@@ -42098,10 +41979,8 @@ msgid ""
 "see :doc:`incident-reporting`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Gitea notifications"
 msgid "User notifications"
-msgstr "Gitea 通知"
+msgstr "用户通知"
 
 msgid ""
 "Weblate informs impacted users of active exploitation or severe security "
@@ -43921,16 +43800,14 @@ msgid ""
 "Production deployments restrict this to instance hostnames. *(maintainer)*"
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`, "
-#| "and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 msgid ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`API_RATELIMIT_USER_OVERRIDES`, :setting:`API_RATELIMIT_IP_OVERRIDES`, :setting:`RATELIMIT_ATTEMPTS`, "
 "and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 msgstr ""
-":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`,"
-"和 ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
+":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
+":setting:`API_RATELIMIT_USER_OVERRIDES`, "
+":setting:`API_RATELIMIT_IP_OVERRIDES`, :setting:`RATELIMIT_ATTEMPTS` 以及 "
+"``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 
 msgid ""
 "Rate limits are configurable. *(documented)* (source: :doc:`/api`, :doc:`/"
@@ -44126,16 +44003,12 @@ msgid ""
 "*(documented)* (source: :doc:`/user/translating`, :doc:`/admin/access`)"
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Grant project edit permission only to trusted project administrators. "
-#| "*(documented)* (source: :doc:`/admin/access`)"
 msgid ""
 "Review workflows and permission assignment for project-specific content "
 "integrity. *(documented)* (source: :doc:`/workflows`, :doc:`/admin/access`)"
 msgstr ""
-"仅授予信任的项目管理员编辑项目的权限 *(有文档信息)* (来源：:doc:`/admin/"
-"access`)"
+"审核工作流和权限分配确保项目内容完整性。 *(有文档信息)* (来源： :doc:`/"
+"workflows`, :doc:`/admin/access`)"
 
 msgid "Webhook endpoints"
 msgstr "Webhook 端点"
@@ -46329,10 +46202,8 @@ msgstr "添加为译文"
 msgid "Add as \"Needing edit\""
 msgstr "添加为“需要编辑”"
 
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Add as approved translation"
-msgstr "添加为译文"
+msgstr "添加为已核准的译文"
 
 msgid "Query"
 msgstr "查询"
@@ -49801,14 +49672,10 @@ msgstr "译文最大长度"
 msgid "Translation should not exceed given length."
 msgstr "译文不应超过给定长度。"
 
-#, fuzzy
-#| msgid ""
-#| "Checks that translations are of acceptable length to fit available space. "
-#| "This only checks for the length of translation characters."
 msgid ""
 "Checks that translations are of acceptable length to fit available space. "
 "This only checks the amount of translation characters."
-msgstr "检查翻译的长度是否符合可用空间的要求。这只会检查翻译字符的长度。"
+msgstr "检查翻译的长度是否符合可用空间的要求。这只检查翻译字符数。"
 
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
@@ -49824,18 +49691,13 @@ msgid ""
 "configured ``max-length`` is used directly."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "This check looks at number of chars, what might not be the best metric "
-#| "when using proportional fonts to render the text. The :ref:`check-max-"
-#| "size` check does check actual rendering of the text."
 msgid ""
 "This check looks at number of characters, which might not be the best metric "
 "when using proportional fonts to render the text. The :ref:`check-max-size` "
 "check does check actual rendering of the text."
 msgstr ""
-"这个检查看的是字符数，当使用比例字体来渲染文本时，这可能不是最好的衡量标"
-"准。:ref:`check-max-size` 检查会检查文本的实际渲染。"
+"这个检查看的是字符数，使用比例字体来渲染文本时，这可能不是最好的衡量标准"
+"。:ref:`check-max-size` 检查会检查文本的实际渲染。"
 
 msgid ""
 "The ``replacements:`` flag might be also useful to expand placeables before "
@@ -49919,10 +49781,8 @@ msgstr ""
 msgid "Mismatched \\\\n"
 msgstr "不匹配的 \\\\n"
 
-#, fuzzy
-#| msgid "Number of \\\\n literals in translation does not match source."
 msgid "Number of ``\\n`` literals in translation does not match source."
-msgstr "译文中的 \\\\n 个数与原文不匹配。"
+msgstr "译文中的 ``\\n`` 个数与原文不匹配。"
 
 msgid ""
 "Usually escaped newlines are important for formatting program output. Check "
@@ -50114,14 +49974,12 @@ msgstr ""
 msgid "Non‑standard characters in Kabyle"
 msgstr "卡拜尔语中的非标准字符"
 
-#, fuzzy
-#| msgid ""
-#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-#| "instead of ε)."
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ``ɣ`` instead of Greek ``γ``; "
 "``ɛ`` instead of ``ε``)."
-msgstr "使用标准化的拉丁卡拜尔字符（例如：用 ɣ 代替希腊字母 γ，用 ɛ 代替 ε）。"
+msgstr ""
+"使用标准化的拉丁卡拜尔字符（例如 ``ɣ`` 而非希腊字母 ``γ`` ; ``ɛ`` 而非 ``ε`` "
+"）。"
 
 msgid ""
 "Checks that Kabyle translations use correct Kabyle letters and not similar "
@@ -50484,13 +50342,9 @@ msgstr "原文检查可以帮助开发者提高源字符串的质量。"
 msgid "Ellipsis"
 msgstr "省略号"
 
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots ``(...)`` instead of an ellipsis character "
-#| "``(…)``."
 msgid ""
 "The string uses three dots ``...`` instead of an ellipsis character ``…``."
-msgstr "这条字符串使用三个句点 ``(...)`` 代替了省略号 ``(…)``。"
+msgstr "这条字符串使用三个句点 ``...`` 而非省略号 ``…`` 。"
 
 msgid "source strings"
 msgstr "源字符串"
@@ -51359,8 +51213,6 @@ msgstr ""
 msgid "Service ID"
 msgstr "服务 ID"
 
-#, fuzzy
-#| msgid "Maximal score"
 msgid "Maximum score"
 msgstr "最高分"
 
@@ -51689,13 +51541,10 @@ msgstr ""
 "`DeepL 翻译上下文的文档 <https://developers.deepl.com/docs/learning-how-tos/"
 "examples-and-guides/how-to-use-context-parameter>`_。"
 
-#, fuzzy
-#| msgid ""
-#| "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
 msgid ""
 "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`. "
 "Glossary integration is not available with API v1."
-msgstr "服务自动使用 :ref:`glossary`，见 :ref:`glossary-mt`。"
+msgstr "服务自动使用 :ref:`glossary`，见 :ref:`glossary-mt`。API v1 没有术语表集成。"
 
 msgid "`DeepL translator <https://www.deepl.com/translator>`_"
 msgstr "`DeepL 翻译器 <https://www.deepl.com/translator>`_"
@@ -52429,10 +52278,8 @@ msgstr "编辑项目设置"
 msgid "Manage project access"
 msgstr "管理项目访问权"
 
-#, fuzzy
-#| msgid "Manage roles"
 msgid "Manage reports"
-msgstr "管理角色"
+msgstr "管理举报"
 
 msgid ":guilabel:`Workspace administration`"
 msgstr ":guilabel:`工作区管理`"
@@ -52689,10 +52536,8 @@ msgstr ":guilabel:`编辑项目设置`"
 msgid ":guilabel:`Manage project access`"
 msgstr ":guilabel:`管理项目访问`"
 
-#, fuzzy
-#| msgid ":guilabel:`Manage repository`"
 msgid ":guilabel:`Manage reports`"
-msgstr ":guilabel:`管理仓库`"
+msgstr ":guilabel:`管理举报`"
 
 msgid ":guilabel:`Add screenshot`"
 msgstr ":guilabel:`添加屏幕截图`"
@@ -54137,10 +53982,8 @@ msgstr ""
 msgid "Searching"
 msgstr "搜索"
 
-#, fuzzy
-#| msgid "Variants while translating"
 msgid "Results while translating"
-msgstr "翻译时的变体"
+msgstr "翻译时的结果"
 
 msgid ""
 "The translation editor keeps the current search results while you translate. "
@@ -55144,21 +54987,15 @@ msgstr ":kbd:`Cmd+Shift+Enter`"
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "取消译文“需要编辑”的标记并提交它。"
 
-#, fuzzy
-#| msgid ":kbd:`Ctrl+Enter` or"
 msgid ":kbd:`Ctrl+Alt+Enter` or"
-msgstr ":kbd:`Ctrl+Enter` 或"
+msgstr ":kbd:`Ctrl+Alt+Enter` 或"
 
-#, fuzzy
-#| msgid ":kbd:`Cmd+Enter`"
 msgid ":kbd:`Cmd+Alt+Enter`"
-msgstr ":kbd:`Cmd+Enter`"
+msgstr ":kbd:`Cmd+Alt+Enter`"
 
-#, fuzzy
-#| msgid "Approve translations in a review."
 msgid ""
 "Approve the translation and save and continue. Only available to reviewers."
-msgstr "在审核中批准译文。"
+msgstr "批准该翻译并保存和继续。进队审核者可用。"
 
 msgid ":kbd:`Alt+Enter` or"
 msgstr ":kbd:`Alt+Enter` 或"
@@ -55471,20 +55308,13 @@ msgid ""
 "between equally matching candidates."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "When using other components as the source, Weblate applies translations "
-#| "only when plural forms are compatible. If the source component uses "
-#| "different plural rules, pluralized strings are skipped and Weblate shows "
-#| "a warning, while single-form strings are still translated."
 msgid ""
 "Weblate applies translations only when plural forms are compatible. If the "
 "source component uses different plural rules, pluralized strings are skipped "
 "and Weblate shows a warning, while single-form strings are still translated."
 msgstr ""
-"使用其他部件作为原文时，Weblate 只在复数形式兼容时应用翻译。如果源部件使用不"
-"同的复数形式，复数化的字符串被跳过，Weblate 会显示警告，而单数形式字符串仍被"
-"翻译。"
+"Weblate 只在复数形式兼容时应用翻译。如果源部件使用不同的复数形式，复数化的字"
+"符串被跳过，Weblate 会显示警告，而单数形式字符串仍被翻译。"
 
 msgid "You can also choose which strings are to be auto-translated."
 msgstr "您还可以选择要自动翻译的字符串。"
@@ -57151,10 +56981,8 @@ msgid ""
 "glossary language synchronization <glossary-language-sync>`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Limit which translation files Weblate discovers"
 msgid "Limit which translation files Weblate discovers or creates"
-msgstr "限制 Weblate 发现哪些翻译文件"
+msgstr "限制 Weblate 发现或创建哪些翻译文件"
 
 msgid ""
 "Configure :ref:`component-language_regex` on each component. For example, "
@@ -57456,10 +57284,8 @@ msgid ""
 "review permission for that language."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation workflows"
 msgid "Machine translation and LLM workflows"
-msgstr "翻译工作流"
+msgstr "机器翻译和 LLM 工作流"
 
 msgid ""
 "Machine translation services, including large language model (LLM) services, "
@@ -57485,10 +57311,8 @@ msgid ""
 "strings`."
 msgstr ""
 
-#, fuzzy
-#| msgid "machine translation services"
 msgid "Human translation assisted by services"
-msgstr "机器翻译服务"
+msgstr "服务辅助的人工翻译"
 
 msgid ""
 "Use this workflow when translators should choose when to use machine "
@@ -57503,41 +57327,29 @@ msgid ""
 "translation add-on and can be combined with :ref:`reviews`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Improved translation locking handling."
 msgid "Service translation with human editing"
-msgstr "改进了翻译锁定处理。"
+msgstr "含人工编辑的服务翻译"
 
 msgid ""
 "Use this workflow to fill translations automatically and let humans improve "
 "them directly."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Added guided adding of translation components with automatic detection of "
-#| "translation files."
 msgid ""
 "Select :guilabel:`Add as translation` as the automatic translation mode."
-msgstr "添加了带有翻译文件自动检测的翻译部件添加向导。"
+msgstr "将 :guilabel:`添加为翻译` 选为自动翻译模式。"
 
-#, fuzzy
-#| msgid ""
-#| "With :ref:`project-translation_review` enabled, cleanup happens when the "
-#| "translation is approved."
 msgid ""
 "Turn off :ref:`project-translation_review` and allow translators to edit "
 "directly, as in the direct translation workflow."
-msgstr "启用 :ref:`project-translation_review` 时，清理在批准翻译时发生。"
+msgstr ""
+"打开 :ref:`project-translation_review` 并允许译者直接编辑，和直接翻译工作流中"
+"一样。"
 
-#, fuzzy
-#| msgid ""
-#| "The :ref:`project-commit_policy` determines which translation states are "
-#| "stored in the file."
 msgid ""
 "Set :ref:`project-commit_policy` to :guilabel:`Commit all translations "
 "regardless of quality`."
-msgstr "新增 :ref:`project-commit_policy` 确定在文件中保存哪些翻译状态。"
+msgstr "设置 :ref:`project-commit_policy` 为 :guilabel:`不管质量如何提交所有翻译`。"
 
 msgid ""
 "The service output becomes a translation that humans can edit in the usual "
@@ -57552,20 +57364,16 @@ msgid ""
 "commit_policy` to :guilabel:`Skip translations marked as needing editing`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Suggestion accepted"
 msgid "Service suggestions with human acceptance"
-msgstr "接受了建议"
+msgstr "含人工接受的服务建议"
 
 msgid ""
 "Use this workflow when humans should check service output before it becomes "
 "a translation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Fixed suggestions from automatic translation."
 msgid "Select :guilabel:`Add as suggestion` as the automatic translation mode."
-msgstr "修复了来自自动翻译的建议。"
+msgstr "将 :guilabel:`添加为建议` 选为自动翻译模式。"
 
 msgid ""
 "Turn on :ref:`component-enable_suggestions`, turn off :ref:`component-"
@@ -57586,35 +57394,25 @@ msgid ""
 "the :ref:`dedicated review workflow <reviews>`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Starting translation into a new language"
 msgid "Service translation with review and a quality gateway"
-msgstr "开始翻译到一种新语言"
+msgstr "含审核和质量门槛的服务翻译"
 
 msgid ""
 "Use this workflow when humans should edit machine translations in Weblate, "
 "but only reviewer-approved translations should reach the repository."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "The default values for :ref:`project-translation_review` "
-#| "and :ref:`project-source_review` can be configured in settings."
 msgid ""
 "Turn on :ref:`project-translation_review` and assign translators and "
 "reviewers as described in :ref:`reviews`."
 msgstr ""
-"可以在设置中配置 :ref:`project-translation_review` 和 :ref:`project-"
-"source_review` 的默认值。"
+"打开 :ref:`project-translation_review` 并按 :ref:`reviews` 所述分配译员和审核"
+"者。"
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`project-commit_policy` could miss some changes in certain "
-#| "situations."
 msgid ""
 "Set :ref:`project-commit_policy` to :guilabel:`Only include approved "
 "translations`."
-msgstr ":ref:`project-commit_policy` 某些情形下可能丢失一些更改。"
+msgstr "设置 :ref:`project-commit_policy` 为 :guilabel:`只包含已批准的翻译`。"
 
 msgid ""
 "Generated translations appear as :guilabel:`Waiting for review`. Translators "
@@ -57631,10 +57429,8 @@ msgid ""
 "any :ref:`workflow customization <workflow-customization>` overrides."
 msgstr ""
 
-#, fuzzy
-#| msgid "Removing existing translations"
 msgid "Reusing existing translations"
-msgstr "移除现有译文"
+msgstr "重用现有翻译"
 
 msgid ""
 "Use existing translations to bootstrap a new language or component, then "

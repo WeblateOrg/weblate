@@ -1215,8 +1215,8 @@ Projects
     status use :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
     Repository status includes repositories where the user has a VCS permission
-    on every component sharing that repository. Repositories blocked by linked
-    components in other projects are omitted and reported separately.
+    on the component owning that repository. Repositories whose owners do not
+    grant this permission are omitted and reported separately.
 
     :param project: Project URL slug
     :type project: string
@@ -1246,8 +1246,8 @@ Projects
     Performs given operation on the VCS repository.
 
     Repository operations process repositories where the user has the requested
-    VCS permission on every component sharing that repository. Repositories
-    blocked by linked components in other projects are skipped. The request is
+    VCS permission on the component owning that repository. Repositories
+    whose owners do not grant this permission are skipped. The request is
     denied when no repository is eligible for the operation.
 
     :param project: Project URL slug
@@ -2144,8 +2144,8 @@ Components
     The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
 
     Repository status requires component-wide permission on the component that
-    owns the repository and every component linked to it, including components
-    in other projects.
+    owns the repository, including when accessing it through a linked component
+    in another project.
 
     :param project: Project URL slug
     :type project: string
@@ -2165,8 +2165,8 @@ Components
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
     Repository operations require component-wide permission on the component
-    that owns the repository and every component linked to it, including
-    components in other projects.
+    that owns the repository, including when accessing it through a linked
+    component in another project.
 
     :param project: Project URL slug
     :type project: string
@@ -2705,8 +2705,8 @@ Translations
     The response is same as for :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
     Repository status requires component-wide permission on the component that
-    owns the repository and every component linked to it, including components
-    in other projects. A permission limited to the requested language is not
+    owns the repository, including when accessing it through a linked component
+    in another project. A permission limited to the requested language is not
     sufficient.
 
     :param project: Project URL slug
@@ -2723,8 +2723,8 @@ Translations
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
     Repository operations require component-wide permission on the component
-    that owns the repository and every component linked to it, including
-    components in other projects. A permission limited to the requested
+    that owns the repository, including when accessing it through a linked
+    component in another project. A permission limited to the requested
     language is not sufficient.
 
     :param project: Project URL slug
@@ -3285,6 +3285,12 @@ Add-ons
 .. http:post:: /api/components/(string:project)/(string:component)/addons/
 
     Creates a new add-on.
+
+    The xgettext and Meson extraction add-ons accept ``data_dirs`` in
+    ``configuration`` as an ordered list of repository-relative ITS data
+    directories, for example ``{"data_dirs": ["po"]}``. Each directory must
+    contain an :file:`its/` subdirectory. See
+    :ref:`addon-weblate.gettext.xgettext` for supported formats and validation.
 
     :param string project_slug: Project slug
     :param string component_slug: Component slug
