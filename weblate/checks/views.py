@@ -37,7 +37,7 @@ def get_check_search_urls(path_object, check_id: str) -> dict[str, str]:
     if path_object is not None:
         kwargs["path"] = path_object.get_url_path()
     base = reverse("search", kwargs=kwargs)
-    url_id = f"check:{check_id}"
+    url_id = f"check:={check_id}"
     return {
         "total": f"{base}?q={url_id} OR dismissed_{url_id}",
         "dismissed": f"{base}?q=dismissed_{url_id}",

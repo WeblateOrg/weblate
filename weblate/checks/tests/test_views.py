@@ -210,13 +210,13 @@ class ChecksViewTest(FixtureTestCase):
 
     def test_check_totals_link_to_search(self) -> None:
         """Totals on the checks overview should link straight into unit search."""
-        same_search_url = reverse("search") + "?q=check:same OR dismissed_check:same"
+        same_search_url = reverse("search") + "?q=check:=same OR dismissed_check:=same"
         response = self.client.get(reverse("checks"))
         self.assertContains(response, same_search_url)
 
         project_search_url = (
             reverse("search", kwargs={"path": self.project.get_url_path()})
-            + "?q=check:same OR dismissed_check:same"
+            + "?q=check:=same OR dismissed_check:=same"
         )
         response = self.client.get(
             reverse("checks", kwargs={"path": self.project.get_url_path()})
@@ -228,7 +228,7 @@ class ChecksViewTest(FixtureTestCase):
                 "search",
                 kwargs={"path": self.component.get_url_path()},
             )
-            + "?q=check:same"
+            + "?q=check:=same"
         )
         response = self.client.get(
             reverse(
