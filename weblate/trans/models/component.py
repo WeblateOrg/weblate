@@ -637,6 +637,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
         validators=[validate_repoweb],
         blank=True,
     )
+    repoweb_translations = models.CharField(
+        verbose_name=gettext_lazy("Repository browser for translations"),
+        max_length=200,
+        help_text=gettext_lazy(
+            "Link to repository browser for translation files, use {{branch}} for "
+            "branch, {{filename}} and {{line}} as filename and line placeholders. "
+            "If left empty, the Repository browser above will be used. "
+            "You might want to strip leading directory by using {{filename|parentdir}}."
+        ),
+        validators=[validate_repoweb],
+        blank=True,
+    )
     git_export = models.CharField(
         verbose_name=gettext_lazy("Exported repository URL"),
         max_length=60 + PROJECT_NAME_LENGTH + COMPONENT_NAME_LENGTH,
@@ -2490,6 +2502,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         line: str,
         template: str | None = None,
         user: User | None = None,
+        is_translation: bool = False,
     ):
         """
         Generate link to source code browser for given file and line.
@@ -2498,7 +2511,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         here.
         """
         if not template:
-            if self.repoweb:
+            if is_translation and self.repoweb_translations:
+                template = self.repoweb_translations
+            elif self.repoweb:
                 template = self.repoweb
             elif user and user.has_perm("vcs.view", self):
                 template = getattr(
@@ -2508,7 +2523,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 )()
         if self.linked_component is not None:
             return self.linked_component.get_repoweb_link(
-                filename, line, template, user=user or self.acting_user
+                filename,
+                line,
+                template,
+                user=user or self.acting_user,
+                is_translation=is_translation,
             )
         if not template:
             if filename.startswith("https://"):

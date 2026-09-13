@@ -1507,6 +1507,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
                 "1",
                 unit,
                 user,
+                is_translation=True,
             ),
         },
     )
