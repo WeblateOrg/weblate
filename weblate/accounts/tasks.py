@@ -84,6 +84,30 @@ def cleanup_social_auth() -> None:
 
 
 @app.task(trail=False)
+def cleanup_inaccessible_subscriptions(
+    user_ids: list[int], using: str = "default"
+) -> None:
+    """Remove scoped subscriptions whose targets are no longer accessible."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.models import Subscription
+    from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
+        NotificationScope,
+    )
+    from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+
+    for user in User.objects.using(using).filter(pk__in=user_ids).iterator():
+        subscriptions = Subscription.objects.using(using).filter(
+            models.Q(user=user),
+            scope__in=(
+                NotificationScope.SCOPE_PROJECT,
+                NotificationScope.SCOPE_COMPONENT,
+            ),
+        )
+        accessible = subscriptions.filter_access(user)
+        subscriptions.exclude(pk__in=accessible).delete()
+
+
+@app.task(trail=False)
 def cleanup_totp_enrollments() -> None:
     """Remove abandoned enrollments without racing device confirmation."""
     # ruff: ignore[import-outside-top-level]
