@@ -15,10 +15,12 @@ from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Component
+    from weblate.trans.models import Translation
 
 
 class LabelTest(FixtureTestCase):
@@ -168,6 +170,71 @@ class LabelTest(FixtureTestCase):
         translation = self.get_translation()
         with self.assertRaises(AttributeError):
             getattr(translation.stats, "label:Test label")
+
+    def test_delete_assigned_refreshes_totals(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Labels", slug="labels"
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.category = category
+            self.component.save(update_fields=["category"])
+        translation = self.get_translation()
+        unit = self.get_unit().source_unit
+        for lazy in (False, True):
+            with self.subTest(lazy=lazy), override_settings(STATS_LAZY=lazy):
+                label = self.project.label_set.create(name="Deleted", color="red")
+                with self.captureOnCommitCallbacks(execute=True):
+                    unit.labels.add(label)
+                scopes: tuple[
+                    Translation
+                    | Component
+                    | Project
+                    | ProjectLanguage
+                    | CategoryLanguage,
+                    ...,
+                ] = (
+                    self.get_translation(),
+                    Component.objects.get(pk=self.component.pk),
+                    Project.objects.get(pk=self.project.pk),
+                    ProjectLanguage(self.project, translation.language),
+                    CategoryLanguage(category, translation.language),
+                )
+                before = [
+                    tuple(
+                        getattr(scope.stats, key)
+                        for key in ("unlabeled", "unlabeled_words", "unlabeled_chars")
+                    )
+                    for scope in scopes
+                ]
+                for detail_scope in (scopes[0], *scopes[3:]):
+                    for suffix in ("", "_words", "_chars"):
+                        self.assertGreater(
+                            getattr(detail_scope.stats, f"label:Deleted{suffix}"), 0
+                        )
+
+                with self.captureOnCommitCallbacks(execute=True):
+                    label.delete()
+
+                for scope, previous in zip(scopes, before, strict=True):
+                    scope.stats.force_load()
+                    multiplier = (
+                        self.component.translation_set.count()
+                        if isinstance(scope, (Component, Project))
+                        else 1
+                    )
+                    for key, old, delta in zip(
+                        ("unlabeled", "unlabeled_words", "unlabeled_chars"),
+                        previous,
+                        (1, unit.num_words, len(unit.source)),
+                        strict=True,
+                    ):
+                        self.assertEqual(
+                            getattr(scope.stats, key), old + delta * multiplier
+                        )
+                for detail_scope in (scopes[0], *scopes[3:]):
+                    for suffix in ("", "_words", "_chars"):
+                        with self.assertRaises(AttributeError):
+                            getattr(detail_scope.stats, f"label:Deleted{suffix}")
 
     def test_label_multiple_changes(self) -> None:
         """Test that adding multiple labels creates multiple change events."""

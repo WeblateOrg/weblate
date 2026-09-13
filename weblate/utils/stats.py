@@ -334,8 +334,8 @@ class BaseStats:
 
     def force_load(self) -> None:
         """Enforced loading of stats."""
-        self._data = self.load()
-        self._loaded = True
+        self.clear()
+        self.set_data(self.load())
 
     def aggregate_get(self, name: str) -> StatItem:
         """
@@ -982,6 +982,10 @@ class AggregatingStats(BaseStats):
     basic_keys = SOURCE_KEYS
     sum_source_keys = True
 
+    def clear(self) -> None:
+        super().clear()
+        self.__dict__.pop("aggregated_stats", None)
+
     def get_child_objects(self) -> Iterable[Model]:
         raise NotImplementedError
 
@@ -1544,9 +1548,7 @@ class CategoryLanguageStats(ChecklistStats):
             category=self.category
         ).values_list("component_id", flat=True)
         return self.language.translation_set.filter(
-            Q(component__category__category__category=self.category)
-            | Q(component__category__category=self.category)
-            | Q(component__category=self.category)
+            Q(component__category=self.category)
             | Q(component__pk__in=shared_component_ids)
         ).only("id", "language")
 
