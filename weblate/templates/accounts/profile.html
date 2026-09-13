@@ -131,19 +131,18 @@
 
             <ul class="nav nav-pills">
               {% for form in notification_forms %}
-                <li class="nav-item">
+                <li class="nav-item d-flex align-items-center">
                   <a class="nav-link{% if form.is_active %} active{% endif %}"
                      data-bs-toggle="tab"
                      data-bs-target="#{{ form.prefix }}"
                      role="tab"
-                     href="#">
-                    {{ form.get_name }}
-                    {% if form.removable %}
-                      <button type="button"
-                              class="btn-close"
-                              title="{% translate "Remove this notification setting" %}"></button>
-                    {% endif %}
-                  </a>
+                     href="#">{{ form.get_name }}</a>
+                  {% if form.removable %}
+                    <button type="button"
+                            class="btn-close"
+                            aria-label="{% translate "Remove this notification setting" %}"
+                            title="{% translate "Remove this notification setting" %}"></button>
+                  {% endif %}
                 </li>
               {% endfor %}
             </ul>
