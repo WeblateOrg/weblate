@@ -995,7 +995,18 @@ class TranslationTest(RepoTestCase):
             self.fail("Expected at least one unit")
         label = component.project.label_set.create(name="Detail", color="red")
         for lazy in (False, True):
-            with self.subTest(lazy=lazy), override_settings(STATS_LAZY=lazy):
+            # Czech must be calculated last so its timestamp matches the component's.
+            # Reusing stale aggregate children would then skip parent invalidation.
+            with (
+                self.subTest(lazy=lazy),
+                override_settings(STATS_LAZY=lazy),
+                patch(
+                    "weblate.utils.stats.ComponentStats.get_child_objects",
+                    side_effect=lambda: component.translation_set.order_by(
+                        "-language_code"
+                    ),
+                ),
+            ):
                 with self.captureOnCommitCallbacks(execute=True):
                     Check.objects.filter(unit__translation=translation).delete()
                     Check.objects.create(unit=unit, name="same", dismissed=False)
@@ -1020,6 +1031,10 @@ class TranslationTest(RepoTestCase):
                 with self.captureOnCommitCallbacks(execute=True):
                     Check.objects.filter(unit=unit, name="same").delete()
                     unit.source_unit.labels.remove(label)
+                for scope in scopes:
+                    scope.stats.force_load()
+                    self.assertEqual(getattr(scope.stats, "check:same"), 0)
+                    self.assertEqual(getattr(scope.stats, "label:Detail"), 0)
                 for scope in (
                     ProjectLanguage(component.project, translation.language),
                     CategoryLanguage(category, translation.language),
