@@ -20,7 +20,8 @@ from django.db import IntegrityError, connection
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
 
-from weblate.auth.models import User
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.checks.tasks import finalize_component_checks
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -578,6 +579,39 @@ class TasksTest(ComponentTestCase):
                 "task-id",
             )
 
+        cleanup.assert_not_called()
+
+    def test_repository_operation_rechecks_owner_after_link_added(self) -> None:
+        self.user.groups.clear()
+        role = Role.objects.create(name="Repository owner reset")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Repository owner reset", language_selection=SELECTION_ALL
+        )
+        group.components.add(self.component)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("vcs.reset", self.component))
+
+        other_project = self.create_project(name="Other", slug="other")
+        self.create_link_existing(project=other_project)
+        task = Mock()
+        with patch.object(Component, "do_cleanup", return_value=True) as cleanup:
+            result = execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
+        self.assertTrue(result["result"])
+        cleanup.assert_called_once()
+
+        self.user.groups.remove(group)
+        with (
+            patch.object(Component, "do_cleanup") as cleanup,
+            self.assertRaises(PermissionDenied),
+        ):
+            execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
         cleanup.assert_not_called()
 
     def test_repository_operation_rejects_changed_repository_link(self) -> None:

@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import ast
 import base64
 import contextlib
 import importlib
@@ -38,7 +39,7 @@ from django.core.management.commands.makemessages import (
 )
 from django.core.management.utils import find_command
 from django.db import connection
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase, TestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -75,7 +76,7 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
-from weblate.trans.tests.utils import TEST_DATA, get_optional_path
+from weblate.trans.tests.utils import TEST_DATA, RepoTestMixin, get_optional_path
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -142,7 +143,6 @@ from .gettext import (
     DJANGO_EXTRACT_RUNNER,
     DjangoAddon,
     GenerateMoAddon,
-    GettextAuthorComments,
     MesonAddon,
     MsgmergeAddon,
     SphinxAddon,
@@ -801,7 +801,14 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         addon = self.build_fake_addon(BaseAddon, component)
         translation = SimpleNamespace(component=component)
 
-        self.assertIsNone(addon.render_repo_filename("stats/cs.json", translation))
+        for scope in ({"translation": translation}, {"component": component}):
+            with (
+                self.subTest(scope=next(iter(scope))),
+                patch(
+                    "weblate.addons.base.render_template", return_value="stats/cs.json"
+                ),
+            ):
+                self.assertIsNone(addon.render_repo_filename("stats/cs.json", **scope))
         self.assertFalse(outside_target.exists())
 
     def test_render_repo_filename_rejects_symlinked_parent_outside_repository(
@@ -820,7 +827,17 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         addon = self.build_fake_addon(BaseAddon, component)
         translation = SimpleNamespace(component=component)
 
-        self.assertIsNone(addon.render_repo_filename("stats/new/cs.json", translation))
+        for scope in ({"translation": translation}, {"component": component}):
+            with (
+                self.subTest(scope=next(iter(scope))),
+                patch(
+                    "weblate.addons.base.render_template",
+                    return_value="stats/new/cs.json",
+                ),
+            ):
+                self.assertIsNone(
+                    addon.render_repo_filename("stats/new/cs.json", **scope)
+                )
         self.assertFalse((Path(outside_dir) / "new").exists())
 
     def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
@@ -3205,7 +3222,7 @@ class GettextAddonTest(ViewTestCase):
             "Thank you for using Weblate!",
         )
 
-        def run_process(component: Component, command: list[str]) -> str:
+        def run_process(component: Component, command: list[str], **kwargs) -> str:
             template.write_text(template_content, encoding="utf-8")
             return ""
 
@@ -3240,7 +3257,7 @@ class GettextAddonTest(ViewTestCase):
             "Thank you for using Weblate!",
         )
 
-        def run_process(component: Component, command: list[str]) -> str:
+        def run_process(component: Component, command: list[str], **kwargs) -> str:
             template.write_text(template_content, encoding="utf-8")
             return ""
 
@@ -4842,7 +4859,7 @@ msgstr ""
             "Thank you for using Weblate!",
         )
 
-        def run_process(component: Component, command: list[str]) -> str:
+        def run_process(component: Component, command: list[str], **kwargs) -> str:
             template.write_text(template_content, encoding="utf-8")
             return ""
 
@@ -4963,6 +4980,145 @@ msgstr ""
         self.assertIn("stats/cs.json", commit)
         self.assertIn('"translated": 25', commit)
 
+    def test_generate_translation_scope_skips_component_events(self) -> None:
+        addon = GenerateFileAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "filename": "stats/{{ language_code }}.json",
+                "template": "{{ stats.translated_percent }}",
+            },
+        )
+        translation = self.get_translation()
+        for event, method, scope in (
+            (AddonEvent.EVENT_COMPONENT_UPDATE, "component_update", self.component),
+            (AddonEvent.EVENT_POST_ADD, "post_add", translation),
+            (AddonEvent.EVENT_POST_REMOVE, "post_remove", translation),
+        ):
+            with self.subTest(event=event):
+                handle_addon_event(
+                    event,
+                    method,
+                    (scope,),
+                    component=self.component,
+                    addon_queryset=[addon.instance],
+                )
+                activity = AddonActivityLog.objects.filter(addon=addon.instance).latest(
+                    "pk"
+                )
+                self.assertEqual(activity.status, AddonActivityLog.Status.SKIPPED)
+                self.assertEqual(
+                    activity.details["reason"], AddonActivityLogReason.NOT_APPLICABLE
+                )
+        self.assertFalse((Path(self.component.full_path) / "stats").exists())
+
+    def test_generate_component(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            addon = GenerateFileAddon.create(
+                component=self.component,
+                configuration={
+                    "scope": "component",
+                    "filename": "locales.json",
+                    "template": "{{ translations|json }}",
+                },
+            )
+        output = Path(self.component.full_path) / "locales.json"
+        rows = json.loads(output.read_text())
+        codes = [row["language_code"] for row in rows]
+        self.assertEqual(codes, sorted(codes))
+        czech = next(row for row in rows if row["language_code"] == "cs")
+        self.assertEqual(czech["language_name"], "Czech")
+        self.assertEqual(czech["language_native_name"], "Čeština")
+        self.assertEqual(czech["language_direction"], "ltr")
+        self.assertEqual(czech["stats"]["translated_percent"], 0)
+        self.assertTrue(any(row["is_source"] for row in rows))
+        revision = self.component.repository.last_revision
+        addon.component_update(self.component)
+        self.assertEqual(self.component.repository.last_revision, revision)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+        rows = json.loads(output.read_text())
+        self.assertEqual(
+            next(row for row in rows if row["language_code"] == "cs")["stats"][
+                "translated_percent"
+            ],
+            25,
+        )
+        self.assertIn(
+            "locales.json",
+            self.component.repository.show(self.component.repository.last_revision),
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            translation = self.component.add_new_language(
+                Language.objects.get(code="sk"), None
+            )
+        self.assertIsNotNone(translation)
+        self.assertIn(
+            "sk", [row["language_code"] for row in json.loads(output.read_text())]
+        )
+        self.get_translation().remove(self.user)
+        self.assertNotIn(
+            "cs", [row["language_code"] for row in json.loads(output.read_text())]
+        )
+        self.assertIn(
+            "locales.json",
+            self.component.repository.show(self.component.repository.last_revision),
+        )
+
+    def test_generate_component_python(self) -> None:
+        GenerateFileAddon.create(
+            component=self.component,
+            configuration={
+                "scope": "component",
+                "filename": "languages.py",
+                "template": "names = {\n{% for item in translations %}{{ item.language_code|python }}: {{ item.language_native_name|python }},\n{% endfor %}}\n",
+            },
+        )
+        output = (Path(self.component.full_path) / "languages.py").read_text()
+        statement = ast.parse(output).body[0]
+        self.assertIsInstance(statement, ast.Assign)
+        names = ast.literal_eval(cast("ast.Assign", statement).value)
+        self.assertEqual(names["cs"], "Čeština")
+
+    def test_generate_component_reconfigure(self) -> None:
+        addon = GenerateFileAddon.create(
+            component=self.component,
+            configuration={
+                "scope": "component",
+                "filename": "locales.json",
+                "template": "{{ translations|json }}",
+            },
+        )
+        addon.instance.configuration["template"] = (
+            "{% for item in translations %}{% if not item.is_source %}{{ item.language_code }}\n{% endif %}{% endfor %}"
+        )
+        addon.instance.save()
+        addon.post_configure_run()
+        output = Path(self.component.full_path) / "locales.json"
+        self.assertEqual(output.read_text().splitlines(), ["cs", "de", "it"])
+
+    def test_generate_component_metadata_refresh(self) -> None:
+        addon = GenerateFileAddon.create(
+            component=self.component,
+            configuration={
+                "scope": "component",
+                "filename": "locales.json",
+                "template": "{{ translations|json }}",
+            },
+        )
+        language = self.get_translation().language
+        language.name = "Custom language"
+        language.direction = "rtl"
+        language.save()
+        addon.component_update(self.component)
+        rows = json.loads((Path(self.component.full_path) / "locales.json").read_text())
+        row = next(row for row in rows if row["language_code"] == "cs")
+        self.assertEqual(row["language_native_name"], "Custom language")
+        self.assertEqual(row["language_direction"], "rtl")
+
     def test_generate_rejects_broken_leaf_symlink(self) -> None:
         if not hasattr(os, "symlink"):
             self.skipTest("symlinks are not supported")
@@ -5000,17 +5156,43 @@ msgstr ""
             activity.details["reason"], AddonActivityLogReason.INVALID_OUTPUT
         )
 
-    def test_gettext_comment(self) -> None:
+    def test_generate_component_rejects_broken_leaf_symlink(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
         translation = self.get_translation()
-        self.assertTrue(
-            GettextAuthorComments.can_install(component=translation.component)
+        translation.addon_commit_files = []
+        output = Path(self.component.full_path) / "stats" / "cs.json"
+        outside_dir = tempfile.mkdtemp()
+        outside_target = Path(outside_dir) / "cs.json"
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        output.parent.mkdir(parents=True)
+        output.symlink_to(outside_target)
+        addon = GenerateFileAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "scope": "component",
+                "filename": "stats/cs.json",
+                "template": "{{ translations|json }}",
+            },
         )
-        addon = GettextAuthorComments.create(component=translation.component)
-        addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>", True)
-        content = get_optional_path(translation.get_filename()).read_text(
-            encoding="utf-8"
+
+        handle_addon_event(
+            AddonEvent.EVENT_INSTALL,
+            "post_install",
+            (self.component, True),
+            component=self.component,
+            addon_queryset=[addon.instance],
         )
-        self.assertIn("Stojan Jakotyc", content)
+
+        self.assertEqual(translation.addon_commit_files, [])
+        self.assertFalse(outside_target.exists())
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        self.assertEqual(activity.status, AddonActivityLog.Status.ERROR)
+        self.assertEqual(
+            activity.details["reason"], AddonActivityLogReason.INVALID_OUTPUT
+        )
 
     def test_pseudolocale(self) -> None:
         self.assertTrue(PseudolocaleAddon.can_install(component=self.component))
@@ -5112,6 +5294,32 @@ msgstr ""
 
         self.assertEqual(fetch_strings.call_count, 1)
         self.assertEqual(fetch_strings.call_args.args[0].pk, source_translation.pk)
+
+
+class GenerateComponentTransactionTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    def test_generate_component_repository_update(self) -> None:
+        component = self.create_component()
+        GenerateFileAddon.create(
+            component=component,
+            configuration={
+                "scope": "component",
+                "filename": "locales.json",
+                "template": "{{ translations|json }}",
+            },
+        )
+        translation = component.translation_set.get(language_code="cs")
+        filename = Path(get_optional_path(translation.get_filename()))
+        with filename.open("a", encoding="utf-8") as handle:
+            handle.write('\nmsgid "Added upstream"\nmsgstr ""\n')
+        component.create_translations_immediate(force=True)
+        rows = json.loads((Path(component.full_path) / "locales.json").read_text())
+        self.assertEqual(
+            next(row for row in rows if row["language_code"] == "cs")["stats"]["all"], 5
+        )
 
 
 class AppStoreAddonTest(ComponentTestCase):
@@ -5405,7 +5613,7 @@ class ViewTests(ViewTestCase):
     def test_addon_logs(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
         addon = self.component.addon_set.all()[0]
@@ -5456,7 +5664,7 @@ class ViewTests(ViewTestCase):
         self.assertContains(response, "Uninstall")
 
     def test_non_daily_addon_has_no_manual_run_button(self) -> None:
-        GettextAuthorComments.create(component=self.component, run=False)
+        MsgmergeAddon.create(component=self.component, run=False)
 
         addon = self.component.addon_set.get()
         response = self.client.get(addon.get_absolute_url())
@@ -5534,7 +5742,7 @@ class ViewTests(ViewTestCase):
     def test_addon_logs_without_authentication(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
         addon = self.component.addon_set.all()[0]
@@ -5546,7 +5754,7 @@ class ViewTests(ViewTestCase):
     def test_add_simple(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
@@ -5560,16 +5768,16 @@ class ViewTests(ViewTestCase):
 
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
 
         self.assertContains(response, "Installed 2 add-ons")
         self.assertContains(response, "weblate.addon.nonexisting")
-        self.assertContains(response, "Contributors in comment")
+        self.assertContains(response, "Update PO files to match POT (msgmerge)")
         self.assertTrue(
             Addon.objects.filter(
-                component=self.component, name="weblate.gettext.authors"
+                component=self.component, name="weblate.gettext.msgmerge"
             ).exists()
         )
 
@@ -6018,7 +6226,7 @@ class CommandTest(ComponentTestCase):
             "install_addon",
             "--all",
             "--addon",
-            "weblate.gettext.authors",
+            "weblate.gettext.msgmerge",
             stdout=output,
             stderr=output,
         )
@@ -8857,6 +9065,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
         self.assertEqual(
             form.serialize_form(),
             {
+                "scope": "translation",
                 "filename": "stats-{{ language_code }}.txt",
                 "template": "{{ language_code }}",
             },
@@ -8875,6 +9084,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
         self.assertEqual(
             addon.configuration,
             {
+                "scope": "translation",
                 "filename": "stats-{{ language_code }}.txt",
                 "template": "{{ language_code }}",
             },

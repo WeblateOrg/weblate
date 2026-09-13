@@ -503,17 +503,21 @@ the following rules:
   those languages. Project-wide, component-wide and global permissions from that
   team are not granted for that member.
 
-- The VCS permissions to commit, push, reset, and update are evaluated for the
-  whole repository. A member needs component-wide permission on the component
-  owning the repository and every component linked to it. This also applies
-  when linked components are in other projects. A per-member language limit
-  therefore cannot grant these permissions.
+- The VCS permissions to commit, push, reset, and update are evaluated on the
+  component that owns the repository. A member needs component-wide permission
+  on that owner, even when starting an operation from a linked component in
+  another project. Permissions on linked components neither grant this authority
+  nor restrict the owner's authorized users. A per-member language limit cannot
+  grant these permissions.
 
-  Project-wide repository status and operations filter repositories using this
-  rule. Repositories for which the member lacks permission on any linked
-  component are listed separately and are not inspected or changed. An
-  operation is denied when none of the project's repositories are available to
-  it.
+  Linking a component accepts the owner's authority over the shared checkout.
+  Repository operations affect the whole checkout and its linked components.
+  They do not grant access to otherwise inaccessible component pages.
+
+  Project-wide repository status and operations include repositories for which
+  the member has permission on the owner. Other repositories are listed
+  separately and are not inspected or changed. An operation is denied when none
+  of the project's repositories are available to it.
 
 - The :guilabel:`Manage reports` permission applies to the complete selected
   report scope. It grants access to report data from restricted components and,
