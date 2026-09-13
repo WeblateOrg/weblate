@@ -1039,6 +1039,9 @@ class BackupsTest(ViewTestCase):
         }
         component.screenshot_filemask = "screenshots/*.png"
         component.key_filter = "^keep"
+        component.repoweb_translations = (
+            "https://example.com/translations/{{filename}}#L{{line}}"
+        )
         component.save(
             update_fields=[
                 "hide_glossary_matches",
@@ -1046,6 +1049,7 @@ class BackupsTest(ViewTestCase):
                 "file_format_params",
                 "screenshot_filemask",
                 "key_filter",
+                "repoweb_translations",
             ]
         )
 
@@ -1070,6 +1074,10 @@ class BackupsTest(ViewTestCase):
         )
         self.assertEqual(component_data["screenshot_filemask"], "screenshots/*.png")
         self.assertEqual(component_data["key_filter"], "^keep")
+        self.assertEqual(
+            component_data["repoweb_translations"],
+            "https://example.com/translations/{{filename}}#L{{line}}",
+        )
 
         restore = ProjectBackup(backup.filename)
         restore.validate()
@@ -1091,6 +1099,10 @@ class BackupsTest(ViewTestCase):
         )
         self.assertEqual(restored_component.screenshot_filemask, "screenshots/*.png")
         self.assertEqual(restored_component.key_filter, "^keep")
+        self.assertEqual(
+            restored_component.repoweb_translations,
+            "https://example.com/translations/{{filename}}#L{{line}}",
+        )
 
     def test_backup_team_members_prefetches_limit_languages(self) -> None:
         team = Group.objects.create(name="Prefetch team", defining_project=self.project)

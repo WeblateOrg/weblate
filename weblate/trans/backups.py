@@ -122,6 +122,7 @@ COMPONENT_BACKUP_FIELDS = (
     "contribute_project_tm",
     "file_format_params",
     "vcs_params",
+    "repoweb_translations",
     "screenshot_filemask",
     "key_filter",
     "secondary_language",
