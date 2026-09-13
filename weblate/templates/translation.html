@@ -285,7 +285,7 @@
                     {% translate "Singular" %}
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="new-unit-form-type" id="show-plural" value="plural">
+                    <input type="radio" name="new-unit-form-type" value="plural">
                     {% translate "Plural" %}
                   </label>
                 {% endif %}
@@ -310,7 +310,7 @@
                   {% csrf_token %}
                   {{ new_unit_plural_form|crispy }}
                   <label class="radio-inline">
-                    <input type="radio" name="new-unit-form-type" id="show-singular" value="singular">
+                    <input type="radio" name="new-unit-form-type" value="singular">
                     {% translate "Singular" %}
                   </label>
                   <label class="radio-inline">
