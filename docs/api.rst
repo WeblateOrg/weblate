@@ -541,6 +541,8 @@ Users
 
     :param username: User's username
     :type username: string
+    :>json string project: Link to the project, or ``null`` for other scopes
+    :>json string component: Link to the component, or ``null`` for other scopes
 
 .. http:post:: /api/users/(str:username)/notifications/
 
@@ -560,6 +562,8 @@ Users
     :type username: string
     :param subscription_id: ID of notification registered
     :type subscription_id: int
+    :>json string project: Link to the project, or ``null`` for other scopes
+    :>json string component: Link to the component, or ``null`` for other scopes
 
 .. http:put:: /api/users/(str:username)/notifications/(int:subscription_id)/
 
