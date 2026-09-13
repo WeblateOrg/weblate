@@ -24,7 +24,13 @@ from weblate.fonts.render import (
 )
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.filter import FILTERS
-from weblate.trans.models import Project, Translation
+from weblate.trans.models import (
+    Category,
+    Component,
+    ComponentLink,
+    Project,
+    Translation,
+)
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
 from weblate.trans.widgets import (
@@ -32,13 +38,16 @@ from weblate.trans.widgets import (
     PNG_BADGE_FONT_SIZE,
     WIDGET_FONT,
     MatrixMultiLanguageWidget,
+    MultiLanguageWidget,
     NormalWidget,
     OpenGraphWidget,
     PNGBadgeWidget,
 )
 from weblate.utils.forms import QueryField, SearchField
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
+from weblate.utils.stats import CategoryLanguage
 from weblate.utils.xml import parse_xml
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
@@ -434,6 +443,17 @@ class WidgetsTest(FixtureTestCase):
 
 
 class PublicSharingTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.category = Category(
+            name="Widget category", slug="widget-category", project=self.project
+        )
+        Category.objects.bulk_create([self.category])
+        self.component.category = self.category
+        Component.objects.filter(pk=self.component.pk).update(
+            category=self.component.category
+        )
+
     def get_sharing_urls(self) -> list[str]:
         return [
             reverse("engage", kwargs={"path": self.project.get_url_path()}),
@@ -468,6 +488,22 @@ class PublicSharingTest(FixtureTestCase):
                     "extension": "svg",
                 },
             ),
+        ] + [
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": path,
+                    "widget": "svg",
+                    "color": "badge",
+                    "extension": "svg",
+                },
+            )
+            for path in (
+                self.category.get_url_path(),
+                CategoryLanguage(
+                    self.category, self.translation.language
+                ).get_url_path(),
+            )
         ]
 
     def set_project_access(self, access_control: int, public_sharing: bool) -> None:
@@ -600,6 +636,27 @@ class WidgetsMeta(type):
 
 
 class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
+    def setUp(self) -> None:
+        super().setUp()
+        self.workspace = Workspace.objects.create(name="Widget workspace")
+        self.project.workspace = self.workspace
+        Project.objects.filter(pk=self.project.pk).update(workspace=self.workspace)
+        self.category = Category(
+            name="Widget category", slug="widget-category", project=self.project
+        )
+        Category.objects.bulk_create([self.category])
+        self.child_category = Category(
+            name="Child category",
+            slug="child-category",
+            project=self.project,
+            category=self.category,
+        )
+        Category.objects.bulk_create([self.child_category])
+        self.component.category = self.child_category
+        Component.objects.filter(pk=self.component.pk).update(
+            category=self.component.category
+        )
+
     def assert_widget(self, widget: str, response: ClientResponse) -> None:
         if "svg" in WIDGETS[widget].content_type:
             self.assert_svg(response)
@@ -607,19 +664,220 @@ class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
             self.assert_png(response)
 
     def perform_test(self, widget: str, color: str) -> None:
+        for obj in (
+            self.workspace,
+            self.project,
+            self.category,
+            self.child_category,
+            CategoryLanguage(self.child_category, self.translation.language),
+        ):
+            with self.subTest(path=obj.get_url_path()):
+                response = self.client.get(
+                    reverse(
+                        "widget-image",
+                        kwargs={
+                            "path": obj.get_url_path(),
+                            "widget": widget,
+                            "color": color,
+                            "extension": WIDGETS[widget].extension,
+                        },
+                    ),
+                    {"native": 1},
+                )
+                self.assert_widget(widget, response)
+                self.assertEqual(response["Content-Type"], WIDGETS[widget].content_type)
+                self.assertIn("max-age=3600", response["Cache-Control"])
+
+    def test_category_language_statistics(self) -> None:
+        obj = CategoryLanguage(self.child_category, self.translation.language)
+        widget = WIDGETS["svg"](self.child_category, "badge", obj.language)
+        self.assertEqual(widget.stats.all, self.translation.stats.all)
+        self.assertEqual(widget.stats.translated, self.translation.stats.translated)
+        self.assertLess(widget.stats.all, self.project.stats.all)
         response = self.client.get(
             reverse(
                 "widget-image",
                 kwargs={
-                    "path": self.project.get_url_path(),
-                    "widget": widget,
-                    "color": color,
-                    "extension": WIDGETS[widget].extension,
+                    "path": obj.get_url_path(),
+                    "widget": "svg",
+                    "color": "badge",
+                    "extension": "svg",
                 },
-            )
+            ),
+            {"native": 1},
+        )
+        self.assert_svg(response)
+        self.assertContains(response, widget.get_percent_text())
+
+    def test_category_language_charts(self) -> None:
+        language = self.translation.language
+        for name in ("multi", "horizontal", "matrix"):
+            with self.subTest(widget=name):
+                widget = WIDGETS[name](self.category, "auto", language)
+                assert isinstance(widget, MultiLanguageWidget)
+                self.assertEqual(
+                    [stats.language for stats in widget.get_language_stats()],
+                    [language],
+                )
+                self.assertEqual(
+                    widget.get_language_url(language),
+                    "http://example.com"
+                    + CategoryLanguage(self.category, language).get_absolute_url(),
+                )
+
+    def test_category_language_count(self) -> None:
+        response = self.client.get(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": CategoryLanguage(
+                        self.category, self.translation.language
+                    ).get_url_path(),
+                    "widget": "language",
+                    "color": WIDGETS["language"].colors[0],
+                    "extension": "svg",
+                },
+            ),
+            {"native": 1},
+        )
+        self.assert_svg(response)
+        self.assertContains(response, "<title>language 1</title>")
+
+    def test_category_open_graph_title(self) -> None:
+        widget = OpenGraphWidget(self.category, "graph")
+        self.assertEqual(
+            widget.get_title_parts(self.category.name),
+            ("Category ", self.category.name, ""),
         )
 
-        self.assert_widget(widget, response)
+    def test_workspace_open_graph_title(self) -> None:
+        widget = OpenGraphWidget(self.workspace, "graph")
+        self.assertEqual(
+            widget.get_title_parts(self.workspace.name),
+            ("Workspace ", self.workspace.name, ""),
+        )
+
+    def test_category_page_badge(self) -> None:
+        response = self.client.get(self.child_category.get_absolute_url())
+        widget_url = reverse(
+            "widget-image",
+            kwargs={
+                "path": self.child_category.get_url_path(),
+                "widget": "svg",
+                "color": "badge",
+                "extension": "svg",
+            },
+        )
+        self.assertContains(response, f'src="{widget_url}?native=1"')
+
+
+class WorkspaceWidgetsTest(FixtureTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.workspace = Workspace.objects.create(name="Widget workspace")
+        self.project.workspace = self.workspace
+        Project.objects.filter(pk=self.project.pk).update(workspace=self.workspace)
+        self.widget_url = reverse(
+            "widget-image",
+            kwargs={
+                "path": self.workspace.get_url_path(),
+                "widget": "svg",
+                "color": "badge",
+                "extension": "svg",
+            },
+        )
+
+    def test_public_workspace_widget(self) -> None:
+        self.client.logout()
+        self.assert_svg(self.client.get(self.widget_url))
+
+    def test_private_workspace_widget_requires_access(self) -> None:
+        self.client.logout()
+        for public_sharing in (False, True):
+            with self.subTest(public_sharing=public_sharing):
+                self.project.access_control = Project.ACCESS_PRIVATE
+                self.project.public_sharing = public_sharing
+                self.project.save(update_fields=["access_control", "public_sharing"])
+                self.assertEqual(self.client.get(self.widget_url).status_code, 404)
+
+    def test_private_workspace_widget_authorized(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.assert_svg(self.client.get(self.widget_url))
+
+    def test_empty_workspace_widget_requires_access(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(workspace=None)
+        self.client.logout()
+        self.assertEqual(self.client.get(self.widget_url).status_code, 404)
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.login(username=self.user.username, password="testpassword")
+        session = self.client.session
+        session.pop("redirect_to_donate", None)
+        session.save()
+        self.assert_svg(self.client.get(self.widget_url))
+
+    def test_workspace_language_statistics_and_links(self) -> None:
+        widget = WIDGETS["matrix"](self.workspace, "auto")
+        assert isinstance(widget, MultiLanguageWidget)
+        language_stats = widget.get_language_stats()
+        self.assertEqual(len(language_stats), self.component.translation_set.count())
+        for stats in language_stats:
+            with self.subTest(language=stats.language.code):
+                translation = self.component.translation_set.get(
+                    language=stats.language
+                )
+                self.assertEqual(stats.all, translation.stats.all)
+                self.assertEqual(stats.translated, translation.stats.translated)
+                expected_url = reverse(
+                    "search",
+                    kwargs={"path": self.workspace.get_url_path()},
+                    query={"q": f"language:{stats.language.code}"},
+                )
+                self.assertEqual(
+                    widget.get_language_url(stats.language),
+                    f"http://example.com{expected_url}",
+                )
+
+    def test_workspace_language_statistics_refresh(self) -> None:
+        language = self.translation.language
+        previous = next(
+            stats
+            for stats in self.workspace.stats.get_language_stats()
+            if stats.language == language
+        ).translated
+        unit = self.translation.unit_set.filter(state=STATE_EMPTY).first()
+        assert unit is not None
+        unit.state = STATE_TRANSLATED
+        unit.target = "Translated"
+        with self.captureOnCommitCallbacks(execute=True):
+            unit.save()
+            unit.invalidate_related_cache()
+        current = next(
+            stats
+            for stats in self.workspace.stats.get_language_stats()
+            if stats.language == language
+        ).translated
+        self.assertEqual(current, previous + 1)
+
+    def test_workspace_languages_include_linked_components(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(workspace=None)
+        self.assertEqual(self.workspace.stats.get_language_stats(), [])
+        project = Project.objects.create(
+            name="Linked project",
+            slug="linked-project",
+            web="https://example.com/",
+            workspace=self.workspace,
+        )
+        ComponentLink.objects.create(project=project, component=self.component)
+        language_stats = self.workspace.stats.get_language_stats()
+        self.assertEqual(len(language_stats), self.component.translation_set.count())
+        for stats in language_stats:
+            translation = self.component.translation_set.get(language=stats.language)
+            self.assertEqual(stats.all, translation.stats.all)
+            self.assertEqual(stats.translated, translation.stats.translated)
 
 
 class MatrixWidgetTest(FixtureTestCase):

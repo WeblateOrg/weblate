@@ -57,7 +57,8 @@
   </li>
 
   <a class="ms-auto">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+         alt="" />
   </a>
 {% endblock breadcrumbs %}
 

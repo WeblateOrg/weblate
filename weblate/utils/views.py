@@ -418,6 +418,8 @@ def parse_path_for_public_sharing(
     types: tuple[type[Model | BaseURLMixin] | None, ...],
 ):
     """Parse a path using ACL unless its project permits public sharing."""
+    if path and tuple(path[:2]) == ("-", "workspace"):
+        return parse_path(request, path, types)
     if path and path[0] != "-":
         is_publicly_shared = Project.objects.filter(
             Q(access_control__in=(Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED))
