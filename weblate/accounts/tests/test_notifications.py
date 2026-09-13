@@ -369,6 +369,11 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(2, "[Weblate] Repository operation in Test/Test")
 
     def test_notify_parse_error(self) -> None:
+        self.component.repoweb = "https://source.example.com/{{filename}}#L{{line}}"
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}#L{{line}}"
+        )
+        self.component.save(update_fields=["repoweb", "repoweb_translations"])
         change = self.create_with_callbacks(
             self.get_translation().change_set,
             details={"error_message": "Failed merge", "filename": "test/file.po"},
@@ -379,6 +384,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            'href="https://translations.example.com/test/file.po#L1"',
+            get_html_content(mail.outbox[0]),
+        )
 
         # Add project owner
         self.component.project.add_user(self.anotheruser, "Administration")
@@ -386,6 +395,24 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(3, "[Weblate] Parse error in Test/Test")
+
+    def test_notify_source_parse_error(self) -> None:
+        self.component.repoweb = "https://source.example.com/{{filename}}#L{{line}}"
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}#L{{line}}"
+        )
+        self.component.save(update_fields=["repoweb", "repoweb_translations"])
+        self.create_with_callbacks(
+            self.component.source_translation.change_set,
+            details={"error_message": "Failed merge", "filename": "test/file.po"},
+            action=ActionEvents.PARSE_ERROR,
+        )
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            'href="https://source.example.com/test/file.po#L1"',
+            get_html_content(mail.outbox[0]),
+        )
 
     def test_notify_new_string(self) -> None:
         unit = self.get_unit()
