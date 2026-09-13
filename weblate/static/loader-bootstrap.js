@@ -2241,10 +2241,10 @@ onReady(() => {
 
   /* Notifications removal */
   document
-    .querySelectorAll(".nav-pills > li > a > button.btn-close")
+    .querySelectorAll(".nav-pills > li > button.btn-close")
     .forEach((button) => {
       button.addEventListener("click", (_e) => {
-        const link = button.parentElement;
+        const link = button.parentElement.querySelector("a[data-bs-target]");
         document
           .querySelectorAll(`${link.getAttribute("data-bs-target")} select`)
           .forEach((select) => {
@@ -2253,10 +2253,11 @@ onReady(() => {
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
         /* Activate watched tab */
         const watched = document.querySelector(
-          'a[data-bs-target="#notifications__1"',
+          'a[data-bs-target="#notifications__1"]',
         );
         bootstrap.Tab.getOrCreateInstance(watched).show();
         link.parentElement.remove();
+        watched.focus();
         addAlert(
           gettext(
             "Notification settings removed, please do not forget to save the changes.",
