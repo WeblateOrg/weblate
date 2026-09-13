@@ -74,6 +74,8 @@ jobs:
       run: ./ci/prepare-database
     - name: Migrate database
       run: uv run --frozen ./manage.py migrate --noinput --traceback
+    - name: Test documentation extensions
+      run: uv run --frozen pytest --no-cov docs/_ext
     - run: make -C docs update-docs
 
     - name: Prepare maintenance patch
