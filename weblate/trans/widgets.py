@@ -25,13 +25,15 @@ from django.utils.translation import (
 
 from weblate.fonts.utils import render_size
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.util import sort_unicode, translation_percent
 from weblate.utils import messages
 from weblate.utils.formatting import number_format
 from weblate.utils.icons import find_static_file
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import (
+    CategoryLanguage,
+    CategoryLanguageStats,
     GlobalStats,
     ProjectLanguage,
     ProjectLanguageStats,
@@ -39,6 +41,7 @@ from weblate.utils.stats import (
     get_non_glossary_stats,
 )
 from weblate.utils.views import get_percent_color
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
@@ -369,6 +372,12 @@ class OpenGraphWidget(NormalWidget):
         elif isinstance(self.obj, Project):
             # Translators: Text on OpenGraph image
             template = gettext("Project {}")
+        elif isinstance(self.obj, Category):
+            # Translators: Text on OpenGraph image
+            template = gettext("Category {}")
+        elif isinstance(self.obj, Workspace):
+            # Translators: Text on OpenGraph image
+            template = gettext("Workspace {}")
         else:
             # Translators: Text on OpenGraph image
             template = gettext("Component {}")
@@ -592,7 +601,9 @@ class MultiLanguageWidget(SVGWidget):
     }
 
     def get_language_stats(self) -> list[BaseStats]:
-        if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
+        if isinstance(
+            self.stats, (CategoryLanguageStats, ProjectLanguageStats, TranslationStats)
+        ):
             return [self.stats]
         if isinstance(self.obj, ProjectLanguage):
             return [self.obj.stats]
@@ -610,6 +621,16 @@ class MultiLanguageWidget(SVGWidget):
             )
         if self.obj is None:
             return get_site_url(language.get_absolute_url())
+        if isinstance(self.obj, Category):
+            return get_site_url(CategoryLanguage(self.obj, language).get_absolute_url())
+        if isinstance(self.obj, Workspace):
+            return get_site_url(
+                reverse(
+                    "search",
+                    kwargs={"path": self.obj.get_url_path()},
+                    query={"q": f"language:{language.code}"},
+                )
+            )
         project_language = ProjectLanguage(self.obj, language)
         return get_site_url(project_language.get_absolute_url())
 
@@ -884,7 +905,9 @@ class LanguageBadgeWidget(BaseSVGBadgeWidget):
             threshold = 0
 
         languages: list[BaseStats]
-        if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
+        if isinstance(
+            self.stats, (CategoryLanguageStats, ProjectLanguageStats, TranslationStats)
+        ):
             languages = [self.stats]
         elif isinstance(self.obj, (ProjectLanguage, Language)):
             languages = [self.obj.stats]
