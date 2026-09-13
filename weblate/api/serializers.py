@@ -43,6 +43,7 @@ from weblate.accounts.models import (
     Subscription,
     validate_listing_columns,
 )
+from weblate.accounts.notifications import NotificationScope
 from weblate.accounts.utils import get_all_user_mails
 from weblate.addons.base import is_public_addon_change_details
 from weblate.addons.models import ADDONS, Addon
@@ -2700,8 +2701,47 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
 
 class NotificationSerializer(serializers.ModelSerializer[Subscription]):
-    project = ProjectSerializer(read_only=True)
-    component = ComponentSerializer(read_only=True)
+    project = MultiFieldHyperlinkedIdentityField(
+        view_name="api:project-detail",
+        lookup_field=("project__slug",),
+        strip_parts=1,
+        read_only=True,
+        allow_null=True,
+    )
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("component__project__slug", "component__slug"),
+        strip_parts=1,
+        read_only=True,
+        allow_null=True,
+    )
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        scope = attrs.get(
+            "scope",
+            self.instance.scope if self.instance else NotificationScope.SCOPE_ALL,
+        )
+        if self.instance is not None and scope != self.instance.scope:
+            raise serializers.ValidationError(
+                {"scope": "Changing notification scope is not supported."}
+            )
+        if self.instance is None and scope in {
+            NotificationScope.SCOPE_PROJECT,
+            NotificationScope.SCOPE_COMPONENT,
+        }:
+            raise serializers.ValidationError(
+                {"scope": "Scoped notifications require an existing target."}
+            )
+        return attrs
+
+    def to_representation(self, instance):
+        result = super().to_representation(instance)
+        if instance.scope != NotificationScope.SCOPE_PROJECT:
+            result["project"] = None
+        if instance.scope != NotificationScope.SCOPE_COMPONENT:
+            result["component"] = None
+        return result
 
     class Meta:
         model = Subscription

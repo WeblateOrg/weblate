@@ -1029,6 +1029,8 @@ class TranslationTest(RepoTestCase):
 
     def test_commit_grouping(self) -> None:
         component = self.create_component()
+        component.file_format_params = {"po_contributor_comments": "spdx"}
+        component.save(update_fields=["file_format_params"])
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
         start_rev = component.repository.last_revision
@@ -1055,6 +1057,23 @@ class TranslationTest(RepoTestCase):
         self.assertNotEqual(start_rev, component.repository.last_revision)
         self.assertEqual(component.repository.count_outgoing(), count)
         self.assertEqual(translation.count_pending_units, 0)
+
+        notes = translation.store.store.header().getnotes("translator")
+        self.assertGreaterEqual(notes.count("SPDX-FileCopyrightText:"), count)
+        for unit in [units[2], units[3]]:
+            self.assertIn(f"User {unit.pk} <{unit.pk}@example.com>", notes)
+
+    def test_contributor_comments_direct_commit(self) -> None:
+        component = self.create_component()
+        component.file_format_params = {"po_contributor_comments": "spdx"}
+        component.save(update_fields=["file_format_params"])
+        translation = component.translation_set.get(language_code="cs")
+        user = create_test_user()
+        translation.git_commit(user, "Jane <jane@example.com>")
+        notes = translation.store.store.header().getnotes("translator")
+        self.assertIn("SPDX-FileCopyrightText:", notes)
+        self.assertIn("Jane <jane@example.com>", notes)
+        self.assertEqual(translation.revision, translation.get_git_blob_hash())
 
     def test_group_changes_by_author(self) -> None:
         component = self.create_component()

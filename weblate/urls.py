@@ -557,6 +557,11 @@ real_patterns = [
     ),
     # Screenshots
     path(
+        "js/unit/<int:unit_id>/screenshots/",
+        weblate.screenshots.views.select_screenshot,
+        name="screenshot-select",
+    ),
+    path(
         "screenshots/<object_path:path>/",
         weblate.screenshots.views.ScreenshotList.as_view(),
         name="screenshots",

@@ -220,6 +220,14 @@ The :guilabel:`Repository maintenance` view shows repository status for a
 project, component, or translation and lets privileged users run maintenance
 operations from the user interface.
 
+For shared repositories, permissions are checked on the component that owns
+the repository, even when the operation is started from a linked component.
+Users with repository permissions only on a linked component can open this view
+to see which permissions they need on the owner. Restrictions identify the
+owning component when it is accessible; otherwise, ask your project
+administrator to coordinate access with the repository owner. See
+:doc:`/admin/access` for permission scope.
+
 The same actions can also be triggered using :ref:`api` or, for the supported
 subset, :ref:`wlc`.
 

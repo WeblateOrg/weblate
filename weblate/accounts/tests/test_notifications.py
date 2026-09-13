@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from copy import deepcopy
 from datetime import timedelta
+from email import policy
+from email.parser import BytesParser
 from types import SimpleNamespace
 from typing import Never, Protocol, cast
 from unittest.mock import patch
@@ -16,6 +18,7 @@ from django.conf import settings
 from django.core import mail
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.db.models import Manager, Model
+from django.template.loader import render_to_string
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -60,6 +63,7 @@ from weblate.trans.tests.test_views import (
     ViewTestCase,
 )
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.icons import load_icon
 from weblate.utils.site import get_site_url
 from weblate.utils.version import USER_AGENT
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
@@ -1928,6 +1932,79 @@ class SubscriptionTest(FixtureComponentTestCase):
 
 
 class SendMailsTest(SimpleTestCase):
+    @override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+    def test_inline_images(self) -> None:
+        subject = "Překlad změněn"
+        body = render_to_string(
+            "mail/base.html", {"subject": subject, "LANGUAGE_CODE": "cs"}
+        )
+        headers = {
+            "Auto-Submitted": "auto-generated",
+            "List-Unsubscribe": "<https://example.com/unsubscribe>",
+        }
+        send_mails(
+            [
+                {
+                    "address": address,
+                    "subject": subject,
+                    "body": body,
+                    "headers": headers,
+                }
+                for address in ("first@example.com", "second@example.com")
+            ]
+        )
+        self.assertEqual(len(mail.outbox), 2)
+        previous_ids: set[str] = set()
+        for address, outgoing in zip(
+            ("first@example.com", "second@example.com"), mail.outbox, strict=True
+        ):
+            serialized = outgoing.message(policy=policy.SMTP).as_bytes()
+            message = BytesParser(policy=policy.default).parsebytes(serialized)
+            self.assertEqual(
+                message["Subject"], settings.EMAIL_SUBJECT_PREFIX + subject
+            )
+            self.assertEqual(message["To"], address)
+            for name, value in headers.items():
+                self.assertEqual(message[name], value)
+            self.assertEqual(message.get_content_type(), "multipart/alternative")
+            plain, related = message.iter_parts()
+            self.assertEqual(plain.get_content_type(), "text/plain")
+            self.assertIn(subject, plain.get_content())
+            self.assertEqual(related.get_content_type(), "multipart/related")
+            self.assertEqual(related.get_param("type"), "text/html")
+            html, *images = related.iter_parts()
+            self.assertEqual(html.get_content_type(), "text/html")
+            self.assertIn(subject, html.get_content())
+            self.assertEqual(len(images), 2)
+            content_ids = set()
+            for name, image in zip(
+                ("email-logo.png", "email-logo-footer.png"), images, strict=True
+            ):
+                self.assertEqual(image.get_content_type(), "image/png")
+                self.assertEqual(image.get_content_disposition(), "inline")
+                self.assertEqual(image.get_filename(), name)
+                self.assertEqual(image["Content-Transfer-Encoding"], "base64")
+                self.assertEqual(
+                    image.get_payload(decode=True), load_icon(name, auto_prefix=False)
+                )
+                cid = image["Content-ID"]
+                self.assertTrue(cid.startswith("<") and cid.endswith(">"))
+                self.assertIn(f"cid:{cid[1:-1]}", html.get_content())
+                self.assertNotIn(f"cid:{name}@cid.weblate.org", html.get_content())
+                content_ids.add(cid)
+            self.assertEqual(len(content_ids), 2)
+            self.assertTrue(content_ids.isdisjoint(previous_ids))
+            previous_ids.update(content_ids)
+            repeated = outgoing.message(policy=policy.SMTP)
+            self.assertEqual(
+                [part.get_content_type() for part in repeated.walk()],
+                [part.get_content_type() for part in message.walk()],
+            )
+            self.assertEqual(
+                {part["Content-ID"] for part in repeated.walk() if part["Content-ID"]},
+                content_ids,
+            )
+
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",
         EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",

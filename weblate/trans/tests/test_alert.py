@@ -32,6 +32,7 @@ from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, MultiAlert
+from weblate.trans.alerts.files import DuplicateString
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.alerts.vcs import RepositoryErrorAlert, UpdateFailure
 from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
@@ -40,6 +41,7 @@ from weblate.trans.models import (
     Component,
     ComponentLink,
     Project,
+    Translation,
     Unit,
 )
 from weblate.trans.models.alert import Alert
@@ -55,6 +57,8 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from unittest.mock import Mock
+
+    from weblate.auth.models import User
 
 
 class WebsiteAlertSettingTest(ViewTestCase):
@@ -426,7 +430,8 @@ class AlertTest(ViewTestCase):
                 "process_occurrences",
                 side_effect=AssertionError("MultiAlert was constructed"),
             ),
-            self.assertNumQueries(11),
+            # Includes loading the owner for repository alert permissions.
+            self.assertNumQueries(12),
         ):
             context = get_diagnostics_context(
                 QueryDict("diagnostic_actionable=on"),
@@ -589,6 +594,91 @@ class AlertTest(ViewTestCase):
                 "BrokenProjectURL",
             },
         )
+
+    def test_duplicate_cleanup_groups(self) -> None:
+        component = self._create_component(
+            "po", "po/*.po", name="Grouped", project=self.project
+        )
+        translations = list(
+            component.translation_set.exclude(filename="").order_by("pk")[:2]
+        )
+        self.assertEqual(len(translations), 2)
+        first, second = [translation.unit_set.first() for translation in translations]
+        self.assertIsNotNone(first)
+        self.assertIsNotNone(second)
+        assert first is not None
+        assert second is not None
+        occurrences = [
+            {"unit_pk": first.pk, "language_code": first.translation.language.code},
+            {"unit_pk": second.pk, "language_code": second.translation.language.code},
+            {"unit_pk": first.pk, "language_code": first.translation.language.code},
+            {"unit_pk": -1, "language_code": "cs", "source": "Missing unit source"},
+        ]
+        component.add_alert("DuplicateString", occurrences=occurrences)
+        instance = component.alert_set.get(name="DuplicateString")
+        all_translations = {translation.pk for translation in translations}
+        for supported, allowed in (
+            (True, all_translations),
+            (True, {translations[0].pk}),
+            (False, all_translations),
+            (True, set()),
+        ):
+            with (
+                self.subTest(supported=supported, allowed=allowed),
+                patch.object(
+                    Translation,
+                    "supports_remove_duplicate_units",
+                    return_value=supported,
+                ),
+                translation_override("en"),
+            ):
+                user = SimpleNamespace(
+                    has_perm=lambda permission, obj, allowed=allowed: (
+                        permission == "vcs.reset" and obj.pk in allowed
+                    )
+                )
+                alert = DuplicateString(instance, instance.details["occurrences"])
+                rendered = render_to_string(
+                    "trans/alert/duplicatestring.html",
+                    alert.get_context(cast("User", user)),
+                )
+                rows = (
+                    rendered.split("<tbody>")[1].split("</tbody>")[0].split("<tr>")[1:]
+                )
+                self.assertEqual(len(rows), 3)
+                for row, translation, unit, count in zip(
+                    rows, translations, (first, second), (2, 1), strict=False
+                ):
+                    self.assertIn(translation.filename, row)
+                    self.assertIn(str(translation.language), row)
+                    self.assertEqual(
+                        row.count(f'href="{unit.get_absolute_url()}"'), count
+                    )
+                    cleanup_url = reverse(
+                        "remove_duplicate_units",
+                        kwargs={"path": translation.get_url_path()},
+                    )
+                    if supported and translation.pk in allowed:
+                        self.assertIn(f'data-href="{cleanup_url}"', row)
+                        self.assertIn(
+                            f'aria-label="Remove duplicate strings from {translation.language} ({translation.filename})"',
+                            row,
+                        )
+                        self.assertEqual(
+                            row.count('class="btn btn-danger link-post"'), 1
+                        )
+                    else:
+                        self.assertNotIn("link-post", row)
+                self.assertIn("Missing unit source", rows[2])
+                self.assertNotIn("link-post", rows[2])
+
+    def test_duplicate_cleanup_missing_filename(self) -> None:
+        instance = self.component.alert_set.get(name="DuplicateString")
+        alert = DuplicateString(instance, instance.details["occurrences"])
+        alert.occurrences[0]["unit"].translation.filename = ""
+        group = alert.get_analysis()["translation_groups"][0]
+        self.assertFalse(group["can_cleanup"])
+        self.assertEqual(len(group["occurrences"]), 1)
 
     def test_unused_enforced(self) -> None:
         self.assertEqual(

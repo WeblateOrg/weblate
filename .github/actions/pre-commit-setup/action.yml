@@ -49,5 +49,5 @@ runs:
       python-version: '3.14'
   - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4   # v10.1.0
     with:
-      version: 0.12.10
+      version: 0.12.13
       save-cache: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}

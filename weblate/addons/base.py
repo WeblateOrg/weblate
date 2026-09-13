@@ -874,12 +874,22 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         return True
 
     def render_repo_filename(
-        self, template: str, translation: Translation
+        self,
+        template: str,
+        translation: Translation | None = None,
+        *,
+        component: Component | None = None,
     ) -> str | None:
-        component = translation.component
+        if translation is not None:
+            component = translation.component
+        if component is None:
+            msg = "A translation or component is required"
+            raise ValueError(msg)
 
         # Render the template
-        filename = render_template(template, translation=translation)
+        filename = render_template(
+            template, translation=translation, component=component
+        )
 
         # Validate filename (not absolute or linking to parent dir)
         try:

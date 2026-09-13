@@ -1218,6 +1218,319 @@ class UserAPITest(APIBaseTest):
             code=403,
         )
 
+    def test_scoped_notification_urls_and_access(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        project_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        component_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="LockNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+        )
+        subscriptions = {item["id"]: item for item in response.data["results"]}
+        self.assertEqual(
+            subscriptions[project_subscription.id]["project"],
+            "http://example.com/api/projects/test/",
+        )
+        self.assertIsNone(subscriptions[project_subscription.id]["component"])
+        self.assertEqual(
+            subscriptions[component_subscription.id]["component"],
+            "http://example.com/api/components/test/test/",
+        )
+        self.assertIsNone(subscriptions[component_subscription.id]["project"])
+
+        self.project.remove_user(self.user)
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+        )
+        self.assertNotIn(
+            project_subscription.id,
+            {item["id"] for item in response.data["results"]},
+        )
+        self.assertNotIn(
+            component_subscription.id,
+            {item["id"] for item in response.data["results"]},
+        )
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": project_subscription.id,
+            },
+            code=404,
+        )
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": project_subscription.id,
+            },
+            method="patch",
+            request={"frequency": NotificationFrequency.FREQ_DAILY},
+            code=404,
+        )
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": project_subscription.id,
+            },
+            method="delete",
+            code=204,
+        )
+        self.assertFalse(
+            Subscription.objects.filter(pk=project_subscription.pk).exists()
+        )
+
+    def test_notification_api_uses_requester_scope_access(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        target = User.objects.create_user("notification-target", "target@example.com")
+        subscription = target.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.grant_perm_to_user("user.edit", group_name="User managers")
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": target.username},
+        )
+        self.assertNotIn(
+            subscription.id, {item["id"] for item in response.data["results"]}
+        )
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": target.username,
+                "subscription_id": subscription.id,
+            },
+            code=404,
+        )
+
+        self.grant_perm_to_user(
+            "unit.edit", group_name="Project viewers", project=self.project
+        )
+        self.user.clear_permissions_cache()
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": target.username,
+                "subscription_id": subscription.id,
+            },
+        )
+        self.assertEqual(
+            response.data["project"], "http://example.com/api/projects/test/"
+        )
+
+    def test_notification_api_rejects_scope_change(self) -> None:
+        self.user.subscription_set.get_or_create(
+            scope=NotificationScope.SCOPE_ALL,
+            project=None,
+            component=None,
+            notification="RepositoryNotification",
+            defaults={"frequency": NotificationFrequency.FREQ_INSTANT},
+        )
+        subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": subscription.id,
+            },
+            method="patch",
+            request={"scope": NotificationScope.SCOPE_ALL},
+            code=400,
+        )
+
+        subscription.refresh_from_db()
+        self.assertEqual(subscription.scope, NotificationScope.SCOPE_PROJECT)
+        self.assertEqual(subscription.project_id, self.project.pk)
+
+    def test_team_removal_preserves_global_subscription_with_stale_target(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.project.remove_user(self.user)
+
+        self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": subscription.id,
+            },
+            method="patch",
+            request={"scope": NotificationScope.SCOPE_PROJECT},
+            code=400,
+        )
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": subscription.id,
+            },
+        )
+        self.assertIsNone(response.data["project"])
+
+    def test_team_removal_cleans_inaccessible_subscriptions(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        project_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        component_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="LockNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        unscoped_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            notification="LicenseNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.user.remove_team(
+                None, self.project.defined_groups.get(name="Translate")
+            )
+
+        self.assertFalse(
+            Subscription.objects.filter(
+                pk__in=(project_subscription.pk, component_subscription.pk)
+            ).exists()
+        )
+        self.assertTrue(
+            Subscription.objects.filter(pk=unscoped_subscription.pk).exists()
+        )
+
+    def test_bulk_team_removal_batches_subscription_cleanup(self) -> None:
+        group = Group.objects.create(name="Bulk removal")
+        other_user = User.objects.create_user("bulk-removal", "bulk@example.com")
+        self.user.add_team(None, group)
+        other_user.add_team(None, group)
+
+        with (
+            patch(
+                "weblate.accounts.models.cleanup_inaccessible_subscriptions.delay"
+            ) as cleanup,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            TeamMembership.objects.filter(group=group).delete()
+
+        cleanup.assert_called_once()
+        self.assertEqual(cleanup.call_args.args[0], [self.user.pk, other_user.pk])
+
+    def test_team_removal_preserves_still_accessible_subscriptions(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.grant_perm_to_user("unit.edit", group_name="Site project access")
+        site_group = Group.objects.get(name="Site project access")
+        site_group.project_selection = SELECTION_ALL
+        site_group.save(update_fields=["project_selection"])
+        self.user.clear_permissions_cache()
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.project.remove_user(self.user)
+
+        self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
+
+    def test_team_removal_cleans_restricted_component_subscription(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.project.add_user(self.user, "Translate")
+        project_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        component_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="LockNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.grant_perm_to_user(
+            "unit.edit", group_name="Project-only access", project=self.project
+        )
+        self.user.clear_permissions_cache()
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.project.remove_user(self.user)
+
+        self.assertTrue(
+            Subscription.objects.filter(pk=project_subscription.pk).exists()
+        )
+        self.assertFalse(
+            Subscription.objects.filter(pk=component_subscription.pk).exists()
+        )
+
+    def test_team_swap_preserves_subscription(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        with self.captureOnCommitCallbacks(execute=True), transaction.atomic():
+            self.user.remove_team(
+                None, self.project.defined_groups.get(name="Translate")
+            )
+            self.user.add_team(
+                None, self.project.defined_groups.get(name="Administration")
+            )
+
+        self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
+
     def test_statistics(self) -> None:
         user = User.objects.filter(is_active=True)[0]
         request = self.do_request(
@@ -4072,7 +4385,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertNotContains(response, self.component.full_slug)
         self.assertNotContains(response, linked.full_slug)
 
-    def test_repo_operation_filters_inaccessible_repositories(self) -> None:
+    def test_repo_operation_accepts_owner_with_inaccessible_links(self) -> None:
         independent = self.create_po(project=self.project, name="Independent")
         glossary = self.project.component_set.get(slug="glossary")
         other_project = self.create_project(name="Other", slug="other")
@@ -4103,17 +4416,24 @@ class ProjectAPITest(APIBaseTest):
             response.data,
             {
                 "result": True,
-                "included_components": [glossary.full_slug, independent.full_slug],
-                "skipped_components": [self.component.full_slug],
+                "included_components": [
+                    glossary.full_slug,
+                    independent.full_slug,
+                    self.component.full_slug,
+                ],
+                "skipped_components": [],
                 "permission_blockers": [],
             },
         )
-        self.assertEqual(reset.call_count, 2)
+        self.assertEqual(reset.call_count, 3)
         self.assertEqual(
-            {call.args[0] for call in reset.call_args_list}, {glossary, independent}
+            {call.args[0] for call in reset.call_args_list},
+            {glossary, independent, self.component},
         )
 
     def test_repo_operation_denied_without_accessible_repository(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
         glossary = self.project.component_set.get(slug="glossary")
         glossary.restricted = True
         glossary.save(update_fields=["restricted"])
@@ -7572,7 +7892,39 @@ class ComponentAPITest(APIBaseTest):
         self.assertTrue(response.data["result"])
         do_update.assert_called_once()
 
-    def test_linked_repo_operation_requires_all_component_permissions(self) -> None:
+    def test_project_token_repository_authority_follows_owner(self) -> None:
+        other_project = self.create_project(
+            name="Other", slug="other", access_control=Project.ACCESS_PRIVATE
+        )
+        linked = self.create_link_existing(project=other_project)
+        self.user = User.objects.create(username="bot-repository-scope", is_bot=True)
+        self.grant_perm_to_user(
+            "vcs.update", group_name="Token repository scope", project=other_project
+        )
+        with patch.object(Component, "do_update", return_value=True) as update:
+            self.do_request(
+                "api:component-repository",
+                {"project__slug": other_project.slug, "slug": linked.slug},
+                method="post",
+                code=403,
+                request={"operation": "pull"},
+            )
+        update.assert_not_called()
+
+        group = Group.objects.get(name="Token repository scope")
+        group.projects.set([self.project])
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_project(other_project))
+        with patch.object(Component, "do_update", return_value=True) as update:
+            self.do_request(
+                "api:component-repository",
+                self.component_kwargs,
+                method="post",
+                request={"operation": "pull"},
+            )
+        update.assert_called_once()
+
+    def test_linked_repo_operation_requires_owner_permission(self) -> None:
         linked_component = self.create_link_existing(
             name="Linked repository operation",
             slug="linked-repository-operation",
@@ -7607,6 +7959,7 @@ class ComponentAPITest(APIBaseTest):
             )
         do_update.assert_not_called()
 
+        self.user.groups.remove(Group.objects.get(name=child_group_name))
         self.grant_perm_to_user(
             "vcs.update",
             group_name="Linked source repository access",
@@ -8442,6 +8795,46 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "New Name")
         self.assertEqual(response.data["file_format_params"]["po_line_wrap"], -1)
+
+    def test_contributor_comments_parameter(self) -> None:
+        for value, status in (
+            ("none", 200),
+            ("gettext", 200),
+            ("spdx", 200),
+            ("invalid", 400),
+        ):
+            with self.subTest(value=value):
+                response = self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method="patch",
+                    superuser=True,
+                    code=status,
+                    format="json",
+                    request={"file_format_params": {"po_contributor_comments": value}},
+                )
+                if status == 200:
+                    self.assertEqual(
+                        response.data["file_format_params"]["po_contributor_comments"],
+                        value,
+                    )
+        self.component.refresh_from_db()
+        self.assertEqual(
+            self.component.file_format_params["po_contributor_comments"], "spdx"
+        )
+
+    def test_contributor_comments_parameter_permission(self) -> None:
+        original = self.component.file_format_params.copy()
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=403,
+            format="json",
+            request={"file_format_params": {"po_contributor_comments": "spdx"}},
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.file_format_params, original)
 
     def test_patch_linked_component_keeps_local_repository_setting_drift(self) -> None:
         self.component.push_on_commit = True
@@ -15543,6 +15936,27 @@ class AddonAPITest(APIBaseTest):
             request=request,
         )
 
+    def test_generate_component_configuration(self) -> None:
+        configuration = {
+            "scope": "component",
+            "filename": "locales.json",
+            "template": "{{ translations|json }}",
+        }
+        self.create_addon(name="weblate.generate.generate", configuration=configuration)
+        self.assertEqual(self.component.addon_set.get().configuration, configuration)
+
+    def test_generate_component_invalid_template(self) -> None:
+        self.create_addon(
+            name="weblate.generate.generate",
+            code=400,
+            configuration={
+                "scope": "component",
+                "filename": "{{ language_code }}.json",
+                "template": "{{ translations|json }}",
+            },
+        )
+        self.assertFalse(self.component.addon_set.exists())
+
     def test_create(self) -> None:
         # Not authenticated user
         response = self.create_addon(code=403, superuser=False)
@@ -15955,6 +16369,53 @@ class AddonAPITest(APIBaseTest):
         self.assertNotIn("_install_msgmerge", addon.configuration)
         self.assertEqual(addon.configuration["source_patterns"], ["src/*.py"])
 
+    def test_gettext_data_dirs_configuration(self) -> None:
+        rules = Path(self.component.full_path) / "po" / "its"
+        rules.mkdir(parents=True, exist_ok=True)
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"source_patterns": ["*.py"], "interval": "weekly"},
+        ).instance
+        with patch("weblate.addons.base.BaseAddon.post_configure"):
+            response = self.do_request(
+                "api:addon-detail",
+                kwargs={"pk": addon.pk},
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={
+                    "configuration": {
+                        "data_dirs": ["po"],
+                        "interval": "weekly",
+                        "source_patterns": ["*.py"],
+                    }
+                },
+            )
+        self.assertEqual(response.data["configuration"]["data_dirs"], ["po"])
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration["data_dirs"], ["po"])
+        for value in (["../outside"], ["missing"], [1]):
+            with self.subTest(value=value):
+                self.do_request(
+                    "api:addon-detail",
+                    kwargs={"pk": addon.pk},
+                    method="patch",
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request={
+                        "configuration": {
+                            "data_dirs": value,
+                            "interval": "weekly",
+                            "source_patterns": ["*.py"],
+                        }
+                    },
+                )
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration["data_dirs"], ["po"])
+
     def test_edit_preserves_omitted_optional_configuration(self) -> None:
         addon = GitSquashAddon.create(
             component=self.component,
@@ -16061,7 +16522,7 @@ class AddonAPITest(APIBaseTest):
         )
 
     def test_trigger_requires_manual_event(self) -> None:
-        response = self.create_addon(name="weblate.gettext.authors")
+        response = self.create_addon(name="weblate.gettext.msgmerge")
 
         trigger = self.do_request(
             "api:addon-trigger",

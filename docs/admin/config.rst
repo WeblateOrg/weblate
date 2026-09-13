@@ -3006,7 +3006,6 @@ example:
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
         "weblate.addons.gettext.MsgmergeAddon",
-        "weblate.addons.gettext.GettextAuthorComments",
         "weblate.addons.cleanup.CleanupAddon",
         "weblate.addons.consistency.LanguageConsistencyAddon",
         "weblate.addons.discovery.DiscoveryAddon",

@@ -161,6 +161,17 @@ if [ "$alert_lifecycle_migrate" -eq 0 ]; then
     check
 fi
 
+# Exercise scoped migration on older releases and site-wide migration on 2026.8+.
+semver_compare "5.13" "<=" "$1" && semver_compare "$1" "<" "2026.10"
+contributor_comments_migrate=$?
+if [ "$contributor_comments_migrate" -eq 0 ]; then
+    if semver_compare "2026.8" "<=" "$1"; then
+        export CONTRIBUTOR_TEST_SITEWIDE=1
+    fi
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-contributor-comments.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -244,5 +255,10 @@ fi
 
 if [ "$alert_lifecycle_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-alerts.py"
+    check
+fi
+
+if [ "$contributor_comments_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-contributor-comments.py"
     check
 fi

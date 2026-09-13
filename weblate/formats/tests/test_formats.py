@@ -1323,6 +1323,41 @@ class PoFormatPreviousSourceTest(SimpleTestCase):
         self.assertNotIn("#|", str(unit.unit))
 
 
+class ContributorCommentsTest(SimpleTestCase):
+    def test_modes(self) -> None:
+        for format_class in (PoFormat, PoMonoFormat):
+            for mode in ("none", "gettext", "spdx"):
+                with self.subTest(format_class=format_class, mode=mode):
+                    store = format_class(
+                        BytesIO(b'msgid ""\nmsgstr "MIME-Version: 1.0\\n"\n'),
+                        file_format_params={
+                            "po_contributor_comments": mode,
+                            "po_set_last_translator": False,
+                        },
+                    )
+                    self.assertEqual(
+                        store.update_contributor("Jane <jane@example.com>"),
+                        mode != "none",
+                    )
+                    notes = store.store.header().getnotes("translator")
+                    self.assertEqual("Jane" in notes, mode != "none")
+                    self.assertEqual("SPDX-FileCopyrightText:" in notes, mode == "spdx")
+                    self.assertNotIn("Last-Translator", store.store.parseheader())
+
+    def test_disabled_by_default(self) -> None:
+        store = PoFormat(BytesIO(b'msgid ""\nmsgstr "MIME-Version: 1.0\\n"\n'))
+        self.assertFalse(store.update_contributor("Jane <jane@example.com>"))
+
+    def test_anonymous(self) -> None:
+        store = PoFormat(
+            BytesIO(b'msgid ""\nmsgstr "MIME-Version: 1.0\\n"\n'),
+            file_format_params={"po_contributor_comments": "spdx"},
+        )
+        before = bytes(store.store)
+        self.assertFalse(store.update_contributor("Anonymous <noreply@weblate.org>"))
+        self.assertEqual(bytes(store.store), before)
+
+
 class PoFormatTest(BaseFormatTest):
     format_class = PoFormat
     EDIT_OFFSET = 1

@@ -386,8 +386,8 @@ Explanation
     Further clarification can be provided in Weblate via :ref:`additional-explanation`.
 Screenshots
     Screenshots can be uploaded directly from this panel using
-    :guilabel:`Add screenshot`, or managed elsewhere in Weblate to better
-    inform translators of where and how the string is used. Source-language
+    :guilabel:`Upload screenshot`, or linked using :guilabel:`Add existing screenshot`
+    to show where and how the string is used. Source-language
     screenshots are shown for every translation of the string, while
     translation-specific screenshots are shown only for that translation; see
     :ref:`screenshots`.
@@ -410,6 +410,38 @@ Project
     to the string in the version control system repository the project uses.
 
 If you want direct links, the translation format has to support it.
+
+.. _add-existing-screenshot:
+
+Adding an existing screenshot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To link a screenshot that has already been uploaded, open the string in the
+translation editor:
+
+1. In the :guilabel:`Screenshots` panel, choose :guilabel:`Add existing screenshot`.
+2. Browse the thumbnails, or enter a query in :guilabel:`Search screenshots` and
+   choose :guilabel:`Search`. Use :guilabel:`Previous` and :guilabel:`Next` to
+   browse additional results.
+3. Select a screenshot by clicking its card. The card is highlighted and marked
+   :guilabel:`Selected`. To select with a keyboard, press :kbd:`Tab` to reach
+   the cards, use the arrow keys to move between them, and press :kbd:`Space`
+   to select a card.
+4. Choose :guilabel:`Add screenshot`. The editor reloads on the same string and
+   displays the associated screenshot in the :guilabel:`Screenshots` panel.
+
+.. image:: /screenshots/screenshot-picker-selected.webp
+   :alt: Screenshot picker with a highlighted card marked Selected.
+
+The picker shows screenshots from the current component in the source language
+or the current translation language. A source-language screenshot is linked to
+the source string and shown for every translation. A translation-language
+screenshot is shown only for that language. Screenshots already linked to the
+string are excluded from the picker.
+
+This action requires the :guilabel:`Edit screenshot` permission. To upload a new
+image, use :guilabel:`Upload screenshot` instead. Use :guilabel:`Manage screenshots`
+for the full :ref:`screenshot management interface <screenshots>`.
 
 Translation history
 +++++++++++++++++++

@@ -45,6 +45,23 @@ or remove components.
 Obsolete add-ons
 ++++++++++++++++
 
+.. _addon-weblate.gettext.authors:
+
+Contributors in comment
+-----------------------
+
+.. versionremoved:: 2026.10 Replaced by :ref:`gettext-contributor-comments`.
+
+Existing installations of ``weblate.gettext.authors`` are migrated to the
+``gettext`` value of the ``po_contributor_comments`` file format parameter for
+each affected PO component. This includes components covered by category-,
+project-, and site-wide installations. New components default to disabled unless
+their file format parameters are copied from another component.
+
+Remove ``weblate.addons.gettext.GettextAuthorComments`` from custom
+:setting:`WEBLATE_ADDONS` lists and ``weblate.gettext.authors`` entries from
+:setting:`DEFAULT_ADDONS`. Configure :ref:`gettext-contributor-comments` instead.
+
 .. _addon-weblate.xml.customize:
 
 Customize XML output

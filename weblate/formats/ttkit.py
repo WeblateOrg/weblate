@@ -81,6 +81,7 @@ from weblate.lang.models import Plural
 from weblate.trans.exceptions import is_expected_parse_error
 from weblate.trans.file_format_params import (
     CSVFormulaEscaping,
+    GettextContributorComments,
     GettextLastTranslator,
     GettextRemoveObsolete,
     GettextXGenerator,
@@ -1846,6 +1847,16 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
     supports_flags = True
     supports_remove_obsolete_units = True
     additional_states = (STATE_FUZZY,)
+
+    def update_contributor(self, author: str) -> bool:
+        mode = GettextContributorComments.get_value(self.file_format_params)
+        if mode == "none" or "noreply@weblate.org" in author:
+            return False
+        name, separator, email = author.partition("<")
+        self.store.updatecontributor(
+            name.strip(), email.rstrip(">") if separator else None, spdx=mode == "spdx"
+        )
+        return True
 
     def add_unit(self, unit: TranslationUnit) -> None:
         self.store.require_index()

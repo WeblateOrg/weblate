@@ -13,6 +13,8 @@ from typing import TYPE_CHECKING, ClassVar, cast
 import httpx2
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
+from django.db import transaction
 from django.db.models import Count
 from django.http import FileResponse, JsonResponse, QueryDict
 from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
@@ -22,7 +24,7 @@ from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import cache_control
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
 
@@ -31,6 +33,8 @@ from weblate.screenshots.forms import (
     ScreenshotEditForm,
     ScreenshotForm,
     ScreenshotListSearchForm,
+    ScreenshotSelectForm,
+    ScreenshotSelectSearchForm,
     SearchForm,
 )
 from weblate.screenshots.models import Screenshot
@@ -851,4 +855,65 @@ def get_sources(request: AuthenticatedHttpRequest, pk):
         request,
         "screenshots/screenshot_sources_body.html",
         {"object": obj, "search_query": ""},
+    )
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def select_screenshot(request: AuthenticatedHttpRequest, unit_id: int) -> HttpResponse:
+    unit = get_object_or_404(
+        Unit.objects.filter_access(request.user).select_related(
+            "translation__component__project"
+        ),
+        pk=unit_id,
+    )
+    component = unit.translation.component
+    request.user.check_access_component(component)
+    if not request.user.has_perm("screenshot.edit", component):
+        raise PermissionDenied
+    source_unit = unit.source_unit
+    screenshots = Screenshot.objects.filter_access(request.user).filter(
+        translation_id__in={unit.translation_id, source_unit.translation_id}
+    )
+    if request.method == "POST":
+        form = ScreenshotSelectForm(screenshots, request.POST)
+        if not form.is_valid():
+            return JsonResponse(
+                {"error": gettext("Select a valid screenshot.")}, status=400
+            )
+        screenshot = form.cleaned_data["screenshot"]
+        target = (
+            source_unit
+            if screenshot.translation_id == source_unit.translation_id
+            else unit
+        )
+        # Serialize submissions so retries do not duplicate change events.
+        with transaction.atomic():
+            screenshot = Screenshot.objects.select_for_update().get(pk=screenshot.pk)
+            if not screenshot.units.filter(pk=target.pk).exists():
+                screenshot.add_unit(target, user=request.user)
+        return JsonResponse({"success": True})
+
+    search_form = ScreenshotSelectSearchForm(
+        request.GET, auto_id="screenshot-picker-%s"
+    )
+    screenshots = screenshots.exclude(units__in={unit.pk, source_unit.pk})
+    if search_form.is_valid():
+        if query := search_form.cleaned_data["q"]:
+            filters, annotations = parse_query(
+                query,
+                parser="screenshot",
+                project=component.project,
+                component=component,
+            )
+            screenshots = screenshots.annotate(**annotations).filter(filters).distinct()
+    else:
+        screenshots = screenshots.none()
+    page = Paginator(
+        screenshots.select_related("translation__language").order_by("name", "pk"), 48
+    ).get_page(request.GET.get("page"))
+    return render(
+        request,
+        "screenshots/screenshot_select.html",
+        {"search_form": search_form, "page_obj": page},
     )

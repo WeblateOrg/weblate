@@ -453,6 +453,16 @@ class TSParamsTest(BaseFileFormatsTest):
 
 
 class GettextParamsTest(BaseFileFormatsTest):
+    def test_contributor_comments(self) -> None:
+        self.update_component_file_params(po_contributor_comments="spdx")
+        self.assertEqual(
+            self.component.file_format_params["po_contributor_comments"], "spdx"
+        )
+        self.update_component_file_params(po_contributor_comments="none")
+        self.assertEqual(
+            self.component.file_format_params["po_contributor_comments"], "none"
+        )
+
     def create_component(self) -> Component:
         return self.create_po_new_base(new_lang="add")
 

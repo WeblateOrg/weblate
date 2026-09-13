@@ -2,6 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+import ast
+import json
+from datetime import UTC, datetime
+
 from django.test import SimpleTestCase
 from django.utils.translation import override
 
@@ -44,4 +50,24 @@ class RenderTest(SimpleTestCase):
                 "{{ value|parentdir|parentdir }}", value="foo/bar/weblate/test.po"
             ),
             "weblate/test.po",
+        )
+
+    def test_serialization(self) -> None:
+        value = {"name": 'Čeština "quoted" \n \\', "enabled": True, "missing": None}
+        self.assertEqual(
+            json.loads(render_template("{{ value|json }}", value=value)), value
+        )
+        self.assertEqual(
+            ast.literal_eval(render_template("{{ value|python }}", value=value)), value
+        )
+
+    def test_serialization_datetime(self) -> None:
+        value = {"last_change": datetime(2026, 1, 1, tzinfo=UTC)}
+        expected = {"last_change": "2026-01-01T00:00:00Z"}
+        self.assertEqual(
+            json.loads(render_template("{{ value|json }}", value=value)), expected
+        )
+        self.assertEqual(
+            ast.literal_eval(render_template("{{ value|python }}", value=value)),
+            expected,
         )

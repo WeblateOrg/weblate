@@ -4,10 +4,10 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, NotRequired, TypedDict, cast
 
 from django.db.models import F, Prefetch, Q
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy, override, to_language
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import (
@@ -21,12 +21,14 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Translation
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
+from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     STATE_EMPTY,
     STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import prefetch_stats
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -38,6 +40,7 @@ if TYPE_CHECKING:
 class GenerateFileAddonConfiguration(TypedDict):
     filename: str
     template: str
+    scope: NotRequired[str]
 
 
 class GenerateFileAddon(
@@ -46,6 +49,9 @@ class GenerateFileAddon(
     events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
         AddonEvent.EVENT_INSTALL,
+        AddonEvent.EVENT_POST_ADD,
+        AddonEvent.EVENT_POST_REMOVE,
+        AddonEvent.EVENT_COMPONENT_UPDATE,
     }
     name = "weblate.generate.generate"
     verbose = gettext_lazy("Statistics generator")
@@ -55,6 +61,80 @@ class GenerateFileAddon(
     settings_form = GenerateForm
     multiple = True
     icon = "poll.svg"
+
+    def normalize_configuration(
+        self, configuration: GenerateFileAddonConfiguration
+    ) -> GenerateFileAddonConfiguration:
+        return {"scope": "translation", **configuration}
+
+    def generate_component(self, component: Component) -> str | None:
+        configuration = self.configuration
+        filename = self.render_repo_filename(
+            configuration["filename"], component=component
+        )
+        if filename is None:
+            return None
+        translations = []
+        for translation in prefetch_stats(
+            component.translation_set.select_related("language").order_by(
+                "language_code"
+            )
+        ):
+            language = translation.language
+            with override(to_language(language.code)):
+                native_name = language.get_localized_name()
+            translations.append(
+                {
+                    "language_code": translation.language_code,
+                    "language_name": language.get_name(),
+                    "language_native_name": native_name,
+                    "language_direction": language.direction,
+                    "filename": translation.filename,
+                    "url": get_site_url(translation.get_absolute_url()),
+                    "is_source": translation.is_source,
+                    "stats": translation.stats.get_data(),
+                }
+            )
+        content = render_template(
+            configuration["template"], component=component, translations=translations
+        )
+        self.write_repo_file(filename, content)
+        return filename
+
+    def sync_component(self, component: Component) -> AddonEventOutcome | None:
+        if self.configuration["scope"] != "component":
+            return AddonEventOutcome.skipped(AddonActivityLogReason.NOT_APPLICABLE)
+        with component.repository.lock:
+            filename = self.generate_component(component)
+            if filename is None:
+                return AddonEventOutcome.error(AddonActivityLogReason.INVALID_OUTPUT)
+            self.commit_and_push(component, files=[filename])
+        return None
+
+    def component_update(
+        self, component: Component, activity_log_id: int | None = None
+    ) -> AddonEventOutcome | None:
+        return self.sync_component(component)
+
+    def sync_translation(self, translation: Translation) -> AddonEventOutcome | None:
+        if self.configuration["scope"] != "component":
+            return AddonEventOutcome.skipped(AddonActivityLogReason.NOT_APPLICABLE)
+        with translation.component.repository.lock:
+            filename = self.generate_component(translation.component)
+            if filename is None:
+                return AddonEventOutcome.error(AddonActivityLogReason.INVALID_OUTPUT)
+            translation.addon_commit_files.append(filename)
+        return None
+
+    def post_add(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> AddonEventOutcome | None:
+        return self.sync_translation(translation)
+
+    def post_remove(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> AddonEventOutcome | None:
+        return self.sync_translation(translation)
 
     @classmethod
     def can_install(
@@ -77,6 +157,8 @@ class GenerateFileAddon(
         store_hash: bool,
         activity_log_id: int | None = None,
     ) -> AddonEventOutcome | None:
+        if self.configuration["scope"] == "component":
+            return self.sync_translation(translation)
         configuration = self.configuration
         filename = self.render_repo_filename(configuration["filename"], translation)
         if not filename:
@@ -95,6 +177,8 @@ class GenerateFileAddon(
         store_hash: bool,
         activity_log_id: int | None = None,
     ) -> AddonEventOutcome | None:
+        if self.configuration["scope"] == "component":
+            return self.sync_component(component)
         result = None
         for translation in component.translation_set.exclude(
             language_id=cast("int", component.source_language_id)
