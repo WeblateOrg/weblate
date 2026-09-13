@@ -1592,6 +1592,11 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
 class RephraseMachineTranslationMixin(MachineTranslation):
     """Mixin for machine translation services that can rephrase existing targets."""
 
+    @property
+    def rephrase_score(self) -> int:
+        # kept below translation max_score so MT gets precedence over rephrase
+        return max(0, self.max_score - 1)
+
     def is_rephrase_enabled(self) -> bool:
         return True
 
@@ -1670,12 +1675,12 @@ class RephraseMachineTranslationMixin(MachineTranslation):
             target_text = targets[occurrence]
             if not target_text:
                 continue
-            cleaned_target, replacements = self.cleanup_text(target_text, unit)
-            if not cleaned_target:
+            # Temporary: DeepL Write accepts plain text only (no tag_handling).
+            # Skip targets with placeholders/markup instead of reusing translate
+            # XML cleanup (<x id="…">), which Write may mangle.
+            if any(self.get_highlights(target_text, unit)):
                 continue
-            candidates.append(
-                (index, source_text, target_text, cleaned_target, replacements)
-            )
+            candidates.append((index, source_text, target_text, target_text, {}))
 
         if not candidates:
             return None
@@ -1775,9 +1780,9 @@ class RephraseMachineTranslationMixin(MachineTranslation):
         replacements: dict[str, str],
         downloaded_by_cleaned: dict[str, str],
     ) -> str:
-        improved = self.uncleanup_text(
-            replacements, downloaded_by_cleaned[cleaned_target]
-        )
+        improved = downloaded_by_cleaned[cleaned_target]
+        if replacements:
+            improved = self.uncleanup_text(replacements, improved)
         return self._store_rephrase_cache_value(write_lang, target_text, improved)
 
     async def _afinalize_rephrase(
@@ -1788,9 +1793,9 @@ class RephraseMachineTranslationMixin(MachineTranslation):
         replacements: dict[str, str],
         downloaded_by_cleaned: dict[str, str],
     ) -> str:
-        improved = self.uncleanup_text(
-            replacements, downloaded_by_cleaned[cleaned_target]
-        )
+        improved = downloaded_by_cleaned[cleaned_target]
+        if replacements:
+            improved = self.uncleanup_text(replacements, improved)
         return await self._astore_rephrase_cache_value(
             write_lang, target_text, improved
         )
@@ -1905,7 +1910,7 @@ class RephraseMachineTranslationMixin(MachineTranslation):
             results[index].append(
                 {
                     "text": improved,
-                    "quality": self.max_score,
+                    "quality": self.rephrase_score,
                     "service": self.name,
                     "source": source_text,
                     "original_source": original_source,

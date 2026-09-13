@@ -19,7 +19,6 @@ from .base import (
     GlossaryAlreadyExistsError,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
-    MachineTranslationError,
     RephraseMachineTranslationMixin,
     XMLMachineTranslationMixin,
 )
@@ -189,33 +188,12 @@ class DeepLTranslation(
         Returns None when Write does not support the language.
         """
         code = self.strip_formality_suffix(target_language)
-        write_languages = self.get_write_languages()
-        write_by_casefold = {lang.casefold(): lang for lang in write_languages}
-
-        mapped = self.write_language_map.get(code.upper())
-        candidates = []
-        if mapped is not None:
-            candidates.append(mapped)
-        candidates.extend(
-            [
-                code,
-                code.lower(),
-            ]
-        )
-        # en-us vs EN-US style normalization for regional codes
-        if "-" in code:
-            base, region = code.split("-", 1)
-            candidates.extend(
-                [
-                    f"{base.lower()}-{region.upper()}",
-                    f"{base.lower()}-{region.capitalize()}",
-                    f"{base.lower()}-{region.lower()}",
-                ]
-            )
-
-        for candidate in candidates:
-            if candidate in write_languages:
-                return candidate
+        write_by_casefold = {
+            lang.casefold(): lang for lang in self.get_write_languages()
+        }
+        for candidate in (self.write_language_map.get(code.upper()), code):
+            if candidate is None:
+                continue
             matched = write_by_casefold.get(candidate.casefold())
             if matched is not None:
                 return matched
