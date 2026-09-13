@@ -2455,37 +2455,23 @@ onReady(() => {
             });
         };
         const selected = this.value;
-        if (selected === "singular") {
-          document
-            .querySelectorAll("input[name='new-unit-form-type']")
-            .forEach((input) => {
-              input.removeAttribute("checked");
-            });
-          const showSingular = document.querySelector(
-            "#new-singular #show-singular",
-          );
-          if (showSingular !== null) {
-            showSingular.checked = true;
-          }
-          setContextValue("#new-singular", "#new-plural");
-          transferTextareaInputs("#new-plural", "#new-singular");
-          document.querySelector("#new-plural")?.classList.add("hidden");
-          document.querySelector("#new-singular")?.classList.remove("hidden");
-        } else if (selected === "plural") {
-          document
-            .querySelectorAll("input[name='new-unit-form-type']")
-            .forEach((input) => {
-              input.removeAttribute("checked");
-            });
-          const showPlural = document.querySelector("#new-plural #show-plural");
-          if (showPlural !== null) {
-            showPlural.checked = true;
-          }
-          setContextValue("#new-plural", "#new-singular");
-          transferTextareaInputs("#new-singular", "#new-plural");
-          document.querySelector("#new-singular")?.classList.add("hidden");
-          document.querySelector("#new-plural")?.classList.remove("hidden");
+        if (selected !== "singular" && selected !== "plural") {
+          return;
         }
+        const previous = selected === "singular" ? "plural" : "singular";
+        document
+          .querySelectorAll("input[name='new-unit-form-type']")
+          .forEach((input) => {
+            input.removeAttribute("checked");
+          });
+        const selectedInput = document.getElementById(`show-${selected}`);
+        if (selectedInput !== null) {
+          selectedInput.checked = true;
+        }
+        setContextValue(`#new-${selected}`, `#new-${previous}`);
+        transferTextareaInputs(`#new-${previous}`, `#new-${selected}`);
+        document.getElementById(`new-${previous}`)?.classList.add("hidden");
+        document.getElementById(`new-${selected}`)?.classList.remove("hidden");
       });
     });
 
