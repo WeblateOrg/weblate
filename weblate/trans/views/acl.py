@@ -127,6 +127,7 @@ def schedule_contribution_cleanup(
 
 @require_POST
 @login_required
+@transaction.atomic
 def set_groups(request: AuthenticatedHttpRequest, project):
     """Change group assignment for a user."""
     obj, form = check_user_form(

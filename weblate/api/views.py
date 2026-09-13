@@ -1332,7 +1332,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 serializer.save(user=obj)
                 return Response(serializer.data, status=HTTP_201_CREATED)
         self.perm_check(request, obj, allow_self=True)
-        queryset = obj.subscription_set.order_by("id")
+        queryset = obj.subscription_set.filter_access(request.user).order_by("id")
         page = self.paginate_queryset(queryset)
         serializer = NotificationSerializer(
             page, many=True, context={"request": request}
@@ -1367,24 +1367,28 @@ class UserViewSet(viewsets.ModelViewSet):
     ):
         obj = self.get_object()
 
+        if request.method == "GET":
+            self.perm_check(request, obj, allow_self=True)
+        else:
+            self.perm_check(request, obj, allow_self=True, protect_internal=True)
+
         try:
-            subscription = obj.subscription_set.get(id=subscription_id)
+            subscription = obj.subscription_set.filter_access(request.user).get(
+                id=subscription_id
+            )
         except Subscription.DoesNotExist as error:
             msg = "Subscription"
             raise not_found_http404(msg) from error
 
         if request.method == "DELETE":
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             subscription.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
         if request.method == "GET":
-            self.perm_check(request, obj, allow_self=True)
             serializer = NotificationSerializer(
                 subscription, context={"request": request}
             )
         else:
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             serializer = NotificationSerializer(
                 subscription,
                 data=request.data,
