@@ -3,7 +3,7 @@
 <div class="container-fluid container-gapped">
   {% for comment in comments %}
     <div class="row history-row" id="comments__{{ comment.pk }}">
-      <div id="comment-section" class="col-md-3 history-event">
+      <div class="col-md-3 history-event comment-section">
         <strong>{{ comment.get_user_display }}</strong>
         <p class="text-muted">
           {% if comment.resolved %}
@@ -50,7 +50,7 @@
           {% endif %}
         </div>
       {% endif %}
-      <div id="comment-section" class="col-md-9 history-data">
+      <div class="col-md-9 history-data comment-section">
         <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}"
              lang="{{ comment.unit.translation.language.code }}"
              dir="{{ comment.unit.translation.language.direction }}">
