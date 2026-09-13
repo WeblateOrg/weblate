@@ -34577,12 +34577,16 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         project:
-          allOf:
-          - $ref: '#/components/schemas/Project'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
         component:
-          allOf:
-          - $ref: '#/components/schemas/Component'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
       required:
       - component
@@ -36006,12 +36010,16 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         project:
-          allOf:
-          - $ref: '#/components/schemas/Project'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
         component:
-          allOf:
-          - $ref: '#/components/schemas/Component'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
     PatchedProject:
       type: object
