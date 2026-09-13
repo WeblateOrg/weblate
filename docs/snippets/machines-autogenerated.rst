@@ -411,6 +411,10 @@ This requires a DeepL API Pro subscription using ``https://api.deepl.com/``.
 Rephrasing is skipped when using the free API endpoint.
 
 Only languages supported by the DeepL Write API are eligible.
+Strings that contain placeholders or other highlighted markup are not rephrased
+yet, because the Write API accepts plain text only.
+Rephrase suggestions use a slightly lower score than DeepL translations so
+automatic translation keeps preferring the translate result.
 Successful rephrases are cached; this still performs an extra API request on
 cache miss and may increase API usage and billing.
 
