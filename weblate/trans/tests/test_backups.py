@@ -122,22 +122,12 @@ class BackupSettingCoverageTest(SimpleTestCase):
             ),
             # Component hierarchy is represented by the backup object graph;
             # generated and internal repository revisions are not settings.
-            # repoweb_translations is intentionally excluded from backup for
-            # now: the installed weblate_schemas package doesn't yet
-            # recognize the field, so including it breaks schema validation
-            # on backup/restore. Revisit once weblate_schemas ships it.
             (
                 Component,
                 ComponentSettingsForm,
                 backup.component_schema["properties"]["component"],
                 COMPONENT_BACKUP_FIELDS,
-                {
-                    "project",
-                    "category",
-                    "git_export",
-                    "processed_revision",
-                    "repoweb_translations",
-                },
+                {"project", "category", "git_export", "processed_revision"},
             ),
         )
         for model, form, schema, extra_fields, excluded_fields in backup_settings:
