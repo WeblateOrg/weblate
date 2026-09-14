@@ -82,7 +82,7 @@ def migrate_xliff_whitespace_handling(
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0103_project_public_sharing"),
+        ("trans", "0105_contributor_comments"),
     ]
 
     operations = [
