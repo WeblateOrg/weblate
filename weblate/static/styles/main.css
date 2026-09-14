@@ -2764,7 +2764,11 @@ tbody.warning {
 table.table-simple tbody#glossary-terms {
   table-layout: fixed;
   width: 100%;
-  vertical-align: middle;
+  vertical-align: top;
+}
+
+table.table-simple tbody#glossary-terms > tr.glossary-striped > td {
+  --bs-table-bg-type: var(--bs-table-striped-bg);
 }
 
 table.table-simple tbody#glossary-terms td {
@@ -2773,6 +2777,47 @@ table.table-simple tbody#glossary-terms td {
 }
 table.table-simple tbody#glossary-terms .alert-info {
   margin-bottom: 0px;
+}
+
+#glossary-terms .glossary-copy {
+  padding: 0;
+  min-height: 24px;
+  font: inherit;
+  text-align: start;
+}
+
+#glossary-terms .glossary-explanation {
+  border-inline-start: 2px solid var(--bs-border-color);
+  padding-inline-start: 0.5rem;
+  color: var(--bs-secondary-color);
+  font-size: 0.875em;
+}
+
+#glossary-terms .glossary-explanation p:last-child {
+  margin-bottom: 0;
+}
+
+.glossary-table-container {
+  container-type: inline-size;
+}
+
+#glossary-terms .glossary-compact-badge,
+#glossary-terms .glossary-details:not(.glossary-has-details) {
+  display: none;
+}
+
+@container (max-width: 350px) {
+  #glossary-terms .glossary-badge-cell {
+    display: none;
+  }
+
+  #glossary-terms .glossary-compact-badge {
+    display: block;
+  }
+
+  #glossary-terms .glossary-details:not(.glossary-has-details) {
+    display: table-row;
+  }
 }
 
 /* Editor styles when it has changes */

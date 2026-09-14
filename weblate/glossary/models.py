@@ -15,10 +15,12 @@ import ahocorasick_rs
 from django.core.cache import cache
 from django.db.models import Prefetch, Q
 
+from weblate.checks.flags import Flags
 from weblate.trans.models.unit import Unit
 from weblate.trans.util import split_plural
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.terminology import term_forbidden, term_records
 from weblate.utils.tracing import start_span
 from weblate.utils.unicodechars import CONTROLCHARS
 
@@ -26,6 +28,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
 
     from weblate.trans.models import Project, Translation
+    from weblate.utils.terminology import TermRecord
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
 NON_WORD_RE = re.compile(r"\W")
@@ -270,7 +273,9 @@ def fetch_glossary_terms(  # ruff: ignore[complex-structure]
             # Prepare term lookup
             glossary_lookup: dict[str, list[Unit]] = defaultdict(list)
             for match in glossary_units:
-                for alias in dict.fromkeys(split_plural(match.source.lower())):
+                for alias in dict.fromkeys(
+                    record["text"].lower() for record in glossary_source_records(match)
+                ):
                     glossary_lookup[alias].append(match)
 
             # Inject matches back to the units
@@ -300,16 +305,77 @@ def fetch_glossary_terms(  # ruff: ignore[complex-structure]
                             item.glossary_positions = tuple(glossary_positions)
                             result[item.pk] = item
 
+                for item in result.values():
+                    prepare_glossary_alternatives(item)
                 # Store sorted results in a unit cache
                 unit.glossary_terms = sorted(
                     result.values(), key=lambda x: x.glossary_sort_key
                 )
 
 
-def iter_glossary_alternatives(units):
-    """Adapt concept alternatives for scalar glossary consumers and copy actions."""
+def glossary_source_records(unit: Unit) -> list[TermRecord]:
+    """Use shared TBX source alternatives even before sibling files are reparsed."""
+    if unit.details.get("tbx_terms") and unit.source_unit_id:
+        return term_records(unit.source_unit, source=True)
+    return term_records(unit, source=True)
+
+
+def prepare_glossary_alternatives(unit):
+    """Prepare a single concept row with independently selectable alternatives."""
+    sources = glossary_source_records(unit)
+    matched = getattr(unit, "matched_sources", None)
+    if matched is not None:
+        sources = [record for record in sources if record["text"].lower() in matched]
+    # Shared notes occur on every term record; render them once at their scope.
+    unit.glossary_notes = {"concept": [], "source": [], "target": []}
+    term_note_lines = {
+        line
+        for record in sources
+        for note in record.get("notes", [])
+        if note.get("scope", "term") == "term"
+        for line in note["text"].splitlines()
+    }
+    unit.glossary_note = "\n".join(
+        line for line in unit.note.splitlines() if line not in term_note_lines
+    )
+    common_notes = {unit.glossary_note, unit.explanation, unit.source_unit.explanation}
+    for side in ("source", "target"):
+        records = (
+            glossary_source_records(unit) if side == "source" else term_records(unit)
+        )
+        for record in records:
+            for note in record.get("notes", []):
+                scope = note.get("scope", "term")
+                if scope == "term":
+                    continue
+                notes = unit.glossary_notes["concept" if scope == "concept" else side]
+                already_rendered = any(
+                    f"\n{note['text']}\n" in f"\n{text}\n" for text in common_notes
+                )
+                if note["text"] not in notes and not already_rendered:
+                    notes.append(note["text"])
+    unit.glossary_sources = sources
+    readonly = "read-only" in unit.all_flags
+    unit.glossary_target_language = (
+        unit.translation.component.source_language
+        if readonly
+        else unit.translation.language
+    )
+    targets = sources if readonly else term_records(unit)
+    forbidden = "forbidden" in unit.all_flags or all(
+        term_forbidden(record) for record in sources
+    )
+    unit.glossary_targets = [
+        dict(record, forbidden=forbidden or term_forbidden(record))
+        for record in targets
+        if record["text"]
+    ]
+
+
+def iter_glossary_alternatives(units, *, allow_readonly_aliases: bool = False):
+    """Expand concepts, preserving DNT text unless checking interchangeable aliases."""
     for unit in units:
-        if not unit.is_multivalue:
+        if not unit.details.get("tbx_terms") and not unit.is_multivalue:
             from weblate.lang.models import PluralMapper  # ruff: ignore[import-outside-top-level]
 
             sources = unit.get_source_plurals()
@@ -340,17 +406,32 @@ def iter_glossary_alternatives(units):
                 item.source, item.target = source, target
                 yield item
             continue
-        sources = unit.get_source_plurals()
-        if unit.matched_sources is not None:
+        sources = glossary_source_records(unit)
+        matched = getattr(unit, "matched_sources", None)
+        if matched is not None:
             sources = [
-                source for source in sources if source.lower() in unit.matched_sources
+                record for record in sources if record["text"].lower() in matched
             ]
         readonly = "read-only" in unit.all_flags
-        targets = unit.get_source_plurals() if readonly else unit.get_target_plurals()
+        targets = glossary_source_records(unit) if readonly else term_records(unit)
         for source in sources:
-            for target in targets:
+            for target in (
+                [source] if readonly and not allow_readonly_aliases else targets
+            ):
                 item = copy(unit)
-                item.source, item.target = source, target
+                item.source = source["text"]
+                item.target = target["text"]
+                item.all_flags = Flags(unit.all_flags)
+                if term_forbidden(source) or term_forbidden(target):
+                    item.all_flags.merge("forbidden")
+                records = [source] if readonly else [source, target]
+                notes = [
+                    note["text"]
+                    for record in records
+                    for note in record.get("notes", [])
+                    if note.get("text")
+                ]
+                item.note = "\n".join(dict.fromkeys(filter(None, [unit.note, *notes])))
                 yield item
 
 

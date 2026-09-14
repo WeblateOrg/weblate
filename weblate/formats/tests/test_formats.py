@@ -3639,7 +3639,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(
             unit.source_explanation, "An internal code identifier not to be localized."
         )
-        self.assertEqual(unit.flags, Flags())
+        self.assertEqual(unit.flags, Flags("read-only"))
         self.assertEqual(unit.is_readonly(), True)
 
         unit, _ = storage.find_unit("e003", "combo box")

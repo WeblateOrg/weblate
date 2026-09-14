@@ -3658,6 +3658,7 @@ class UnitFlatLabelsSerializer(UnitLabelsSerializer):
 
 
 class UnitSerializer(serializers.ModelSerializer[Unit]):
+    tbx_terms = serializers.DictField(read_only=True)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
         view_name="api:translation-detail",
@@ -3684,6 +3685,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     class Meta:
         model = Unit
         fields = (
+            "tbx_terms",
             "translation",
             "language_code",
             "source",

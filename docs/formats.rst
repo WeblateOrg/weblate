@@ -161,7 +161,7 @@ supported by the format.
 Multivalue formats
 ++++++++++++++++++
 
-Multivalue formats, such as :ref:`multivalue-csv`, store independent
+Multivalue formats, such as :ref:`multivalue-csv` and :ref:`tbx`, store independent
 source and target alternatives within one string. These alternatives have no
 one-to-one pairing, and their counts do not follow grammatical plural rules.
 
@@ -177,7 +177,8 @@ source alternatives produce the same correction.
 source alternative independently. Automatic machine translation supports strings
 with one source alternative and at most one target alternative; it skips strings
 with multiple alternatives to preserve them. Machinery glossaries can use all
-alternatives.
+alternatives. Automatic :ref:`translation-memory` contributions skip strings
+with multiple alternatives.
 
 LLM translation services use only strings with one source alternative and one
 target alternative as examples of previous translations. They omit existing

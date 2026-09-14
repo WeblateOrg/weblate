@@ -153,7 +153,7 @@ class WeblateTranslation(InternalMachineTranslation):
             )
         )
         return (
-            base.filter(source__trgm_search=text)
+            base.filter(Q(source__trgm_search=text) | exact_source)
             .annotate(
                 short_query_rank=Case(
                     When(exact_source, then=Value(0)),

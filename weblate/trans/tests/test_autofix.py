@@ -41,7 +41,7 @@ class AutoFixTest(TestCase):
                 ["aplikace\u200b", "program"],
             ),
         )
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             for fix, sources, targets in cases:
                 for source_order in (sources, sources[::-1]):
                     with self.subTest(
@@ -54,7 +54,7 @@ class AutoFixTest(TestCase):
                         )
 
     def test_multivalue_unambiguous_autofixes(self) -> None:
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             for sources in ([" app "], [" app ", " application "]):
                 with self.subTest(file_format=file_format, sources=sources):
                     unit = make_unit(source=sources)
@@ -67,7 +67,7 @@ class AutoFixTest(TestCase):
                     )
 
     def test_multivalue_source_independent_autofixes(self) -> None:
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             with self.subTest(file_format=file_format):
                 unit = make_unit(source=[" app ", "application"])
                 unit.translation.component.file_format = file_format
