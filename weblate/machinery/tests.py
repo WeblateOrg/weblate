@@ -4033,8 +4033,8 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         improved = machine._resolve_rephrased_texts(  # ruff: ignore[private-member-access]
             "de",
             [
-                (0, "Hello, world!", "Hallo du", "Hallo du", {}),
-                (1, "Hello, worlds!", "Hallo ihr", "Hallo ihr", {}),
+                (0, "Hello, world!", "Hallo du"),
+                (1, "Hello, worlds!", "Hallo ihr"),
             ],
         )
         self.assertEqual(rephrase_payloads, [["Hallo du"], ["Hallo ihr"]])
@@ -4137,9 +4137,29 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(translation[1][1]["text"], "Improved Katzen")
 
     @http_mock.activate
-    def test_rephrase_skips_targets_with_placeholders(self) -> None:
-        """Write is plain text only; skip targets with format placeholders for now."""
+    def test_rephrase_sends_raw_target_with_placeholders(self) -> None:
+        """Write is plain text only; send the stored target without XML cleanup."""
         existing_target = "Hallo, %s!"
+
+        def rephrase_callback(request: httpx2.Request):
+            payload = load_request_json(request)
+            self.assertEqual(payload["text"], [existing_target])
+            return httpx2.Response(
+                200,
+                headers={},
+                text=json.dumps(
+                    {
+                        "improvements": [
+                            {
+                                "text": "Hallo, %s Welt!",
+                                "detected_source_language": "de",
+                                "target_language": "de",
+                            }
+                        ]
+                    }
+                ),
+            )
+
         unit = make_unit(
             code=self.SUPPORTED,
             source=self.SOURCE_TRANSLATED,
@@ -4149,16 +4169,13 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         machine = self.get_machine()
         self.mock_languages()
         self.mock_clean_translate_response()
-        self.mock_rephrase_response()
+        self.mock_rephrase_response(callback=rephrase_callback)
 
         translation = machine.translate(unit)
-        self.assertEqual([item["text"] for item in translation[0]], ["Hallo"])
-        rephrase_calls = [
-            call
-            for call in http_mock.calls
-            if self._request_url(call).endswith("/v2/write/rephrase")
-        ]
-        self.assertEqual(len(rephrase_calls), 0)
+        self.assertEqual(
+            [item["text"] for item in translation[0]],
+            ["Hallo", "Hallo, %s Welt!"],
+        )
 
     def test_rephrase_mixin_requires_mro_before_batch(self) -> None:
         with self.assertRaises(TypeError):

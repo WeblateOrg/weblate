@@ -181,24 +181,6 @@ class DeepLTranslation(
             return language.removesuffix("@INFORMAL")
         return language
 
-    def get_write_target_language(self, target_language: str) -> str | None:
-        """
-        Map a DeepL translate target language code to Write API form.
-
-        Returns None when Write does not support the language.
-        """
-        code = self.strip_formality_suffix(target_language)
-        write_by_casefold = {
-            lang.casefold(): lang for lang in self.get_write_languages()
-        }
-        for candidate in (self.write_language_map.get(code.upper()), code):
-            if candidate is None:
-                continue
-            matched = write_by_casefold.get(candidate.casefold())
-            if matched is not None:
-                return matched
-        return None
-
     def get_error_message(self, exc):
         if isinstance(exc, httpx2.HTTPStatusError):
             try:
@@ -317,7 +299,22 @@ class DeepLTranslation(
         return self.is_pro_api
 
     def get_rephrase_target_language(self, target_language: str) -> str | None:
-        return self.get_write_target_language(target_language)
+        """
+        Map a DeepL translate target language code to Write API form.
+
+        Returns None when Write does not support the language.
+        """
+        code = self.strip_formality_suffix(target_language)
+        write_by_casefold = {
+            lang.casefold(): lang for lang in self.get_write_languages()
+        }
+        for candidate in (self.write_language_map.get(code.upper()), code):
+            if candidate is None:
+                continue
+            matched = write_by_casefold.get(candidate.casefold())
+            if matched is not None:
+                return matched
+        return None
 
     def _prepare_translation_request(
         self,
