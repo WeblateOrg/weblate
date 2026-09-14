@@ -35,6 +35,7 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* :ref:`mt-anthropic` machine translation now preserves the path component of a custom base URL, so API gateways which serve the messages endpoint below a path prefix are reachable.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces.
 * Fixed double-counted statistics in nested :ref:`categories <category>` and stale statistics after deleting :ref:`labels`.
 * Fixed MIME nesting of inline branding images in :ref:`notification e-mails <notifications>` and reduced their size without changing image quality.
