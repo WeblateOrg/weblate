@@ -159,7 +159,6 @@ class VCSConfig(AppConfig):
             scope="vcs:setup",
             key=0,
             slug="",
-            timeout=120,
         )
         with lockfile:
             try:
