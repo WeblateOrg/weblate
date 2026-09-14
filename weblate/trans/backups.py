@@ -168,7 +168,12 @@ LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING: dict[
         "gwt",
         {"gwt_encoding": "iso-8859-1"},
     ),
-    "plainxliff": ("xliff", {"xliff_placeables": "plain"}),
+    "apple-xliff": ("apple-xliff", {"xml_whitespace_handling": "standard"}),
+    "plainxliff": (
+        "xliff",
+        {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+    ),
+    "poxliff": ("poxliff", {"xml_whitespace_handling": "standard"}),
     "properties": (
         "properties",
         {"properties_encoding": "iso-8859-1"},
@@ -189,13 +194,22 @@ LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING: dict[
         "strings",
         {"strings_encoding": "utf-8"},
     ),
-    "xliff": ("xliff", {"xliff_placeables": "placeables"}),
-    "xliff2": ("xliff2", {"xliff_placeables": "plain"}),
+    "xliff": (
+        "xliff",
+        {"xliff_placeables": "placeables", "xml_whitespace_handling": "standard"},
+    ),
+    "xliff2": (
+        "xliff2",
+        {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+    ),
     "xwiki-page-properties": (
         "xwiki-page-properties",
         {"properties_encoding": "utf-8"},
     ),
-    "xliff2-placeables": ("xliff2", {"xliff_placeables": "placeables"}),
+    "xliff2-placeables": (
+        "xliff2",
+        {"xliff_placeables": "placeables", "xml_whitespace_handling": "standard"},
+    ),
 }
 
 
