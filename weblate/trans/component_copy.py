@@ -8,7 +8,7 @@ import os
 import shutil
 from typing import TYPE_CHECKING, cast
 
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 
 from weblate.addons.models import Addon
 from weblate.trans.autotranslate import BatchAutoTranslate
@@ -85,9 +85,14 @@ def copy_component_addons(
     for addon in addons:
         if component.addon_set.filter(name=addon.name).exists():
             continue
-        if not addon.addon.can_install(component=component):
+        if not addon.addon.can_install(
+            component=component
+        ) or not addon.addon.api_available(component):
             continue
-        addon.addon.create(component=component, configuration=addon.configuration)
+        try:
+            addon.addon.create(component=component, configuration=addon.configuration)
+        except ValidationError as error:
+            component.log_warning("could not copy addon %s: %s", addon.name, error)
 
 
 def replace_component_checkout(

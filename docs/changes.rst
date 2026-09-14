@@ -5,6 +5,8 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added support for :ref:`component-mounted add-on APIs <component-addon-api>`.
+
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can generate component-wide locale lists with native language names, text direction, and translation statistics.
 
 * Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.

@@ -31,6 +31,7 @@ PROBLEMATIC_AUTODOC_TYPES = {
     "Translation",
     "TranslationFormat",
     "Unit",
+    "URLPattern",
     "User",
 }
 

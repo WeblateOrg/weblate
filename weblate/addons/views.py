@@ -7,7 +7,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import redirect
@@ -275,6 +275,7 @@ class AddonList(PathViewMixin, ListView):
                     component=component, category=category, project=project
                 )
                 and (x.multiple or x.name not in installed)
+                and x.api_available(component)
             ),
             key=lambda x: x.name,
         )
@@ -309,9 +310,13 @@ class AddonList(PathViewMixin, ListView):
         if addon is None:
             return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
         installed = {x.addon_name for x in self.get_queryset()}
-        if not addon.can_install(
-            component=obj_component, category=obj_category, project=obj_project
-        ) or (name in installed and not addon.multiple):
+        if (
+            not addon.can_install(
+                component=obj_component, category=obj_category, project=obj_project
+            )
+            or (name in installed and not addon.multiple)
+            or not addon.api_available(obj_component)
+        ):
             return self.redirect_list(
                 gettext("Add-on cannot be installed: ”%s”") % name
             )
@@ -324,16 +329,22 @@ class AddonList(PathViewMixin, ListView):
             data=request.POST if "form" in request.POST else None,
         )
         if form is None:
-            addon.create(
-                component=obj_component,
-                category=obj_category,
-                project=obj_project,
-                acting_user=request.user,
-            )
+            try:
+                addon.create(
+                    component=obj_component,
+                    category=obj_category,
+                    project=obj_project,
+                    acting_user=request.user,
+                )
+            except ValidationError as error:
+                return self.redirect_list(" ".join(error.messages))
             return self.redirect_list()
 
         if "form" in request.POST and form.is_valid():
-            instance = form.save()
+            try:
+                instance = form.save()
+            except ValidationError as error:
+                return self.redirect_list(" ".join(error.messages))
             if addon.stay_on_create:
                 messages.info(
                     self.request,
