@@ -201,7 +201,10 @@ class AlertTest(ViewTestCase):
 
         assert isinstance(result, dict)
         self.assertEqual(result["error"], "translation browser failure")
-        self.assertTrue(result["link"].startswith("https://translations.example.com/"))
+        self.assertEqual(
+            result["link"],
+            "https://translations.example.com/po-duplicates/de.dpo",
+        )
         self.assertEqual(mocked_uri_error.call_count, 2)
 
     @patch(
@@ -220,7 +223,10 @@ class AlertTest(ViewTestCase):
 
         assert isinstance(result, dict)
         self.assertEqual(result["error"], "translation browser failure")
-        self.assertTrue(result["link"].startswith("https://translations.example.com/"))
+        self.assertEqual(
+            result["link"],
+            "https://translations.example.com/po-duplicates/de.dpo",
+        )
         mocked_uri_error.assert_called_once()
 
     def test_alert_class_metadata_does_not_initialize_alert_object(self) -> None:
