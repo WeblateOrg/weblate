@@ -291,8 +291,9 @@ textarea[name="explanation"] {
   min-height: 3em;
 }
 
-textarea.font-monospace {
-  font-family: monospace;
+.editor-wrap > textarea.font-monospace,
+.editor-wrap > .highlighted-output.font-monospace {
+  font-family: var(--bs-font-monospace);
 }
 
 textarea#id_comment {
