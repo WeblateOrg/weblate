@@ -189,6 +189,19 @@ def _apply_xml_whitespace_policy(
     unit._default_xml_space = default_xml_space  # ruff: ignore[private-member-access]
 
 
+def _xliff_unit_tree(
+    unit: TranslateToolkitXliffUnit,
+) -> list[TranslateToolkitXliffUnit]:
+    return [unit, *getattr(unit, "units", [])]
+
+
+def _xml_space_preserve_by_id(unit: TranslateToolkitXliffUnit) -> dict[int, bool]:
+    return {
+        id(node): getXMLspace(node.xmlelement) == "preserve"
+        for node in _xliff_unit_tree(unit)
+    }
+
+
 class CSVMetadataError(ValueError):
     """Invalid Weblate CSV metadata."""
 
@@ -1100,7 +1113,7 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "BaseXliffFormat"](TTKitUnit[U,
         self._invalidate_target()
         if isinstance(target, list):
             target = multistring(target)
-        had_preserve = getXMLspace(self.unit.xmlelement) == "preserve"
+        had_preserve_by_id = _xml_space_preserve_by_id(self.unit)
         if self.template is not None:
             if self.parent.is_template:
                 # Use source for monolingual files if editing template
@@ -1116,7 +1129,7 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "BaseXliffFormat"](TTKitUnit[U,
                 "str",
                 XMLWhitespaceHandling.get_value(self.parent.file_format_params),
             ),
-            had_preserve=had_preserve,
+            had_preserve_by_id=had_preserve_by_id,
         )
 
     def apply_xml_whitespace_policy_to_unit_tree(
@@ -1124,11 +1137,18 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "BaseXliffFormat"](TTKitUnit[U,
         unit: TranslateToolkitXliffUnit,
         policy: str,
         *,
-        had_preserve: bool | None = None,
+        had_preserve_by_id: dict[int, bool] | None = None,
     ) -> None:
-        _apply_xml_whitespace_policy(unit, policy, had_preserve=had_preserve)
-        for child in getattr(unit, "units", []):
-            _apply_xml_whitespace_policy(child, policy, had_preserve=had_preserve)
+        for node in _xliff_unit_tree(unit):
+            _apply_xml_whitespace_policy(
+                node,
+                policy,
+                had_preserve=(
+                    None
+                    if had_preserve_by_id is None
+                    else had_preserve_by_id.get(id(node))
+                ),
+            )
 
     @cached_property
     def source(self):
@@ -1194,7 +1214,7 @@ class RichXliffUnit(XliffUnit):
                     xmlnode.getparent().remove(xmlnode)
             return
         converted: list[StringElem] | list[str]
-        had_preserve = getXMLspace(self.unit.xmlelement) == "preserve"
+        had_preserve_by_id = _xml_space_preserve_by_id(self.unit)
         try:
             converted = xliff_string_to_rich(target)
         except (XMLSyntaxError, TypeError, KeyError):
@@ -1215,7 +1235,7 @@ class RichXliffUnit(XliffUnit):
                 "str",
                 XMLWhitespaceHandling.get_value(self.parent.file_format_params),
             ),
-            had_preserve=had_preserve,
+            had_preserve_by_id=had_preserve_by_id,
         )
 
 
@@ -2327,15 +2347,6 @@ class Xliff2Format(XliffFormat):
     }
     empty_file_template = None
     monolingual = False
-
-    @classmethod
-    def get_unit_class_variant(
-        cls, file_format_params: FileFormatParams | None = None
-    ) -> str | None:
-        # Preserve historical plain behavior when the param was never set.
-        if file_format_params is None or "xliff_placeables" not in file_format_params:
-            return "plain"
-        return cast("str", XliffPlaceables.get_value(file_format_params))
 
     @staticmethod
     def extension() -> str:

@@ -22,7 +22,8 @@ controlled by the ``xliff_placeables`` :ref:`file_format_params`:
 
 * :guilabel:`Plain text` — escape XML elements in the content (the historical
   default for existing XLIFF 2.0 components).
-* :guilabel:`Placeables` — preserve placeables and other XML elements.
+* :guilabel:`Placeables` — preserve placeables and other XML elements (the
+  default for new components). Tags then appear as placeholders in the editor.
 
 .. seealso::
 

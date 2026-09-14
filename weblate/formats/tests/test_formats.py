@@ -2301,7 +2301,11 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
             RichXliffUnit,
         )
         self.assertIs(XliffFormat.get_unit_class(), RichXliffUnit)
-        self.assertIs(Xliff2Format.get_unit_class(), XliffUnit)
+        self.assertIs(Xliff2Format.get_unit_class(), RichXliffUnit)
+        self.assertIs(
+            Xliff2Format.get_unit_class({"xliff_placeables": "plain"}),
+            XliffUnit,
+        )
         self.assertIs(
             Xliff2Format.get_unit_class({"xliff_placeables": "placeables"}),
             RichXliffUnit,
@@ -2538,12 +2542,12 @@ class AppleXliffFormatTest(XliffFormatTest):
     MATCH = 'target-language="cs"'
 
 
-class RichXliffFormatTest(XliffFormatTest):
+class XliffWithPlaceablesTest(XliffFormatTest):
     FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"xliff_placeables": "placeables"}
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100, xml-text"
 
 
-class XliffIdFormatTest(RichXliffFormatTest):
+class XliffIdFormatTest(XliffWithPlaceablesTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = "hello"
@@ -2641,6 +2645,49 @@ class PoXliffFormatTest(XMLMixin, BaseFormatTest):
 
         self.assertEqual(plural.source, Plural.SOURCE_CLDR)
         self.assertEqual(plural.number, 3)
+
+    def test_whitespace_standard_keeps_plural_child_preserve(self) -> None:
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1" version="1.1">
+  <file original="cs.po" source-language="en" datatype="plaintext">
+    <body>
+      <group restype="x-gettext-plurals" id="1">
+        <trans-unit xml:space="preserve" id="1[0]">
+          <source>one banana
+</source>
+          <target>singular banana
+</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="1[1]">
+          <source>many bananas
+</source>
+          <target>plural bananas
+</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, "plural-space.xlf")
+        Path(testfile).write_bytes(content)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "standard"):
+            storage = self.parse_file(testfile)
+            unit = next(u for u in storage.all_units if getattr(u.unit, "units", None))
+            unit.set_target(["singular  banana  \n", "plural  bananas  \n"])
+            storage.save()
+
+        saved = Path(testfile).read_text(encoding="utf-8")
+        self.assertRegex(
+            saved,
+            r"<trans-unit(?=[^>]*id=\"1\[0\]\")(?=[^>]*xml:space=\"preserve\")",
+        )
+        self.assertRegex(
+            saved,
+            r"<trans-unit(?=[^>]*id=\"1\[1\]\")(?=[^>]*xml:space=\"preserve\")",
+        )
+        self.assertNotRegex(saved, r"<group[^>]*xml:space=")
 
 
 class PoXliffPoHeaderFormatTest(PoXliffFormatTest):
@@ -3978,7 +4025,7 @@ class Xliff2FormatTestCase(BaseFormatTest):
         self.assertIn(b'xml:space="default"', newdata)
 
 
-class RichXliff2FormatTestCase(Xliff2FormatTestCase):
+class Xliff2WithPlaceablesTestCase(Xliff2FormatTestCase):
     FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"xliff_placeables": "placeables"}
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "xml-text"
 
