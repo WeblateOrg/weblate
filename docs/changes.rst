@@ -37,6 +37,7 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* Improved :ref:`SSH repository connections <ssh-repos>` for hosts with unreachable addresses by staggering IPv4 and IPv6 connection attempts and reporting failed addresses and the destination port.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces.
 * Fixed double-counted statistics in nested :ref:`categories <category>` and stale statistics after deleting :ref:`labels`.
 * Fixed MIME nesting of inline branding images in :ref:`notification e-mails <notifications>` and reduced their size without changing image quality.
