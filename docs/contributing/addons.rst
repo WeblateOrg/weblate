@@ -95,3 +95,25 @@ registrations must rebuild their URL configuration and clear Django's URL caches
 The existing ``/api/addons/<id>/`` management API remains available.
 Its read-only ``api_name`` and ``api_url`` fields reflect the enabled provider's
 current declaration. Both are null when the provider is disabled or incompatible.
+
+
+Testing Kotlin SDK resources
+----------------------------
+
+The :file:`.github/workflows/android.yml` workflow runs AAPT2 validation and
+instrumentation tests on Android API 30 and 36 in separate jobs from the Python
+test suite. Test reports and generated resources are uploaded as workflow
+artifacts, including when tests fail.
+
+Run ``python -m unittest weblate.kotlin_sdk.test_arsc`` to exercise the binary
+writer. Set ``AAPT2`` to an AAPT2 executable to additionally validate generated
+tables with Android's parser.
+
+The instrumentation harness in :file:`ci/android-arsc` verifies runtime resource
+overrides, locale selection, plurals, styled text, replacement, and fallback.
+With the Weblate environment installed, generate its assets using
+``PYTHONPATH=. uv run --frozen --only-group android python ci/android-arsc/generate-fixtures.py``.
+Then run
+``gradle -p ci/android-arsc connectedDebugAndroidTest`` using Gradle 8.7, JDK 17,
+and Android SDK platform 35. Run against both an API 30 device/emulator and a
+current supported Android version before release.

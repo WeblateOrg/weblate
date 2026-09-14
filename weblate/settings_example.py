@@ -439,6 +439,7 @@ ROOT_URLCONF = "weblate.urls"
 INSTALLED_APPS = [
     # Weblate apps on top to override Django locales and templates
     "weblate.addons",
+    "weblate.kotlin_sdk",
     "weblate.api",
     "weblate.auth",
     "weblate.checks",
