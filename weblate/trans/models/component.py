@@ -1848,13 +1848,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
                     continue
 
-            if not addon.can_install(component=component):
+            if not addon.can_install(component=component) or not addon.api_available(
+                component
+            ):
                 component.log_warning("could not enable addon %s, not compatible", name)
                 continue
 
             component.log_info("enabling addon %s", name)
             # Running is disabled now, it is triggered in after_save
-            addon.create(component=component, run=False, configuration=configuration)
+            try:
+                addon.create(
+                    component=component, run=False, configuration=configuration
+                )
+            except ValidationError as error:
+                component.log_warning("could not enable addon %s: %s", name, error)
 
     def create_glossary(self) -> None:
         project = self.project
