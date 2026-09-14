@@ -78,7 +78,7 @@ class OllamaTranslation(BaseLLMTranslation):
     def get_chat_url(self) -> str:
         # Join with a relative endpoint so custom gateway path prefixes survive.
         return urljoin(
-            f'{self.settings["base_url"].rstrip("/")}/',
+            f"{self.settings['base_url'].rstrip('/')}/",
             self.end_point.lstrip("/"),
         )
 
