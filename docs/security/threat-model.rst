@@ -185,6 +185,15 @@ repository state, background tasks, outbound requests, and rendered UI.
    * - Client browser/API client to Weblate
      - Untrusted or authenticated requests become permission-checked
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
+   * - Weblate to public CDN storage and clients
+     - Enabling CDN publication deliberately moves selected translations and
+       public build identifiers and resource mappings outside
+       project access controls, including translations from private components.
+       Removing published origin files cannot revoke cached or downloaded copies.
+       Preparation files in the CDN filesystem remain non-public only when the
+       origin excludes the reserved staging directory as required by
+       :ref:`cdn-server-security`.
+       *(documented)* (source: :ref:`addon-weblate.cdn.kotlin`)
    * - Weblate request process to repository Celery worker
      - Permission-checked browser and API repository actions become queued work
        carrying the initiating user and affected repository scope. The worker
@@ -679,7 +688,9 @@ Security properties Weblate provides
      - Command injection or arbitrary code execution as the Weblate user.
      - Security-critical.
    * - Private project data other than documented generic webhook matching
-       diagnostics and metadata published through :ref:`project-public_sharing`,
+       diagnostics, metadata published through :ref:`project-public_sharing`,
+       and translations, build identifiers, and resource mappings explicitly
+       published through CDN add-ons,
        user data, credentials, tokens, SSH keys, and 2FA secrets are not
        disclosed to actors lacking permission. *(documented)* (source:
        :doc:`/admin/access`, :doc:`/security/privacy-compliance`, :doc:`/vcs`)
@@ -696,9 +707,15 @@ Security properties Weblate provides
        permission, but do not expose inaccessible component identities or
        blocked repository content or status. Custom add-ons list only
        non-sensitive fields as public configuration; unlisted values are
-       redacted from public change history.
+       redacted from public change history. Installing the
+       :ref:`addon-weblate.cdn.kotlin` add-on explicitly publishes translations,
+       application package names and version codes, and the names and submitted
+       IDs of published resources
+       from that component to unauthenticated CDN clients, including for private
+       projects. CDN storage and cached client copies are outside project access
+       controls; removing origin files cannot revoke previously downloaded copies.
      - Cross-project data leak not covered by the documented generic webhook
-       diagnostics, public-sharing metadata, or linked-repository trust
+       diagnostics, public-sharing metadata, explicit CDN publication, or linked-repository trust
        boundary, credential exposure, or unauthorized export.
      - Security-critical.
    * - Backup import rejects archives exceeding documented upload, member,

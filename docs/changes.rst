@@ -7,6 +7,8 @@ Weblate 2026.10
 
 * Added support for :ref:`component-mounted add-on APIs <component-addon-api>`.
 
+* Added :ref:`addon-weblate.cdn.kotlin` with build registration, runtime Android translations, and configurable version retention.
+
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can generate component-wide locale lists with native language names, text direction, and translation statistics.
 
 * Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
@@ -61,6 +63,7 @@ Weblate 2026.10
 
 * Existing :ref:`contributor comments add-ons <addon-weblate.gettext.authors>` are migrated to component file format parameters. Remove the obsolete add-on from custom :setting:`WEBLATE_ADDONS` and :setting:`DEFAULT_ADDONS` settings; inherited add-on behavior no longer applies to new components.
 * There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.api`` should be added.
+* Add ``weblate.kotlin_sdk`` to :setting:`django:INSTALLED_APPS` before running database migrations. The official Docker image includes it automatically. This app provides :ref:`addon-weblate.cdn.kotlin`; installing the app does not enable CDN publication on any component.
 * In non-Docker settings, remove the ``anon_throttle`` and ``user_throttle`` arguments from ``get_drf_settings`` and assign those rates to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Migrate any custom ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"]`` or ``["user"]`` values to these settings as well. Existing Docker rate-limit environment variables continue to work.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

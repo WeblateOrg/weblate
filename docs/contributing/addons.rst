@@ -95,3 +95,16 @@ registrations must rebuild their URL configuration and clear Django's URL caches
 The existing ``/api/addons/<id>/`` management API remains available.
 Its read-only ``api_name`` and ``api_url`` fields reflect the enabled provider's
 current declaration. Both are null when the provider is disabled or incompatible.
+
+
+Testing Kotlin SDK resources
+----------------------------
+
+Run ``uv run pytest weblate/kotlin_sdk/tests.py`` with the
+:doc:`test environment <tests>` configured to test resource extraction,
+preparation, and publication, including the Kotlin SDK API.
+
+Binary writer tests, AAPT2 validation, and Android instrumentation tests are
+maintained in `arsc-writer <https://github.com/WeblateOrg/arsc-writer>`_. See its
+`development guide <https://arsc-writer.readthedocs.io/en/latest/development.html>`_
+for instructions.

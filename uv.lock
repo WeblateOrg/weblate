@@ -190,6 +190,18 @@ wheels = [
 ]
 
 [[package]]
+name = "arsc-writer"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "lxml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ab/ec/9a81f048061f6e56eecd84b92504a3a26c2643e50081e5dce6851cf8aac0/arsc_writer-0.1.0.tar.gz", hash = "sha256:3904ce1f5f6046554072a655d6de0bd617740153713efa0e737e950131e92f1a", size = 25627, upload-time = "2026-09-16T06:06:13.013Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6b/35/2eedbed6bd25e6e79348339bbe7bd44b46aeb4a66a91f23b7af1af3619d9/arsc_writer-0.1.0-py3-none-any.whl", hash = "sha256:acc9e69f78c468e2d4633e1f76a83d56b9b8d0fdc9aa4212e38116dca3418f87", size = 14714, upload-time = "2026-09-16T06:06:11.97Z" },
+]
+
+[[package]]
 name = "asgiref"
 version = "3.12.1"
 source = { registry = "https://pypi.org/simple" }
@@ -5872,6 +5884,7 @@ dependencies = [
     { name = "altcha" },
     { name = "argon2-cffi" },
     { name = "argon2-cffi-bindings" },
+    { name = "arsc-writer" },
     { name = "borgbackup" },
     { name = "celery", extra = ["redis"] },
     { name = "certifi" },
@@ -6164,6 +6177,7 @@ requires-dist = [
     { name = "altcha", specifier = "==2.1.0" },
     { name = "argon2-cffi", specifier = "==25.1.0" },
     { name = "argon2-cffi-bindings", specifier = "==26.1.0" },
+    { name = "arsc-writer", specifier = "==0.1.0" },
     { name = "borgbackup", specifier = "==1.4.5" },
     { name = "boto3", marker = "extra == 'amazon'", specifier = "==1.43.93" },
     { name = "celery", extras = ["redis"], specifier = "==5.6.3" },

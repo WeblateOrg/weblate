@@ -21,11 +21,7 @@ class WeblateSchemaGenerator(SchemaGenerator):
 
     def _get_paths_and_endpoints(self):
         paths = super()._get_paths_and_endpoints()
-        return [
-            (path, path_regex, method, view)
-            for path, path_regex, method, view in paths
-            if self._should_include_path(path)
-        ]
+        return [item for item in paths if self._should_include_path(item[0])]
 
 
 class WeblateAutoSchema(AutoSchema):
