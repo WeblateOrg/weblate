@@ -1659,7 +1659,7 @@ class RephraseMachineTranslationMixin(MachineTranslation):
         Occurrences are counted over the full ``sources`` list (after MT cache
         hits), so a cached first plural does not reset the target form index.
         """
-        if not self.is_rephrase_enabled():
+        if not self.is_rephrase_enabled() or self.is_rephrase_rate_limited():
             return None
 
         candidates: list[tuple[int, str, str]] = []
@@ -1687,11 +1687,26 @@ class RephraseMachineTranslationMixin(MachineTranslation):
 
     def delete_cache(self) -> None:
         super().delete_cache()
+        cache.delete(self.get_rephrase_rate_limit_cache_key())
         version_key = self.get_rephrase_cache_version_key()
         try:
             cache.incr(version_key)
         except ValueError:
             cache.set(version_key, 1, self.cache_expiry)
+
+    def get_rephrase_rate_limit_cache_key(self) -> str:
+        return self.get_cache_key("rephrase-rate-limit")
+
+    def is_rephrase_rate_limited(self) -> bool:
+        return bool(cache.get(self.get_rephrase_rate_limit_cache_key()))
+
+    def set_rephrase_rate_limit(self) -> None:
+        cache.set(self.get_rephrase_rate_limit_cache_key(), True, 1800)
+
+    def _handle_rephrase_error(self, exc: Exception) -> None:
+        if self.is_rate_limit_error(exc) or isinstance(exc, httpx2.TimeoutException):
+            self.set_rephrase_rate_limit()
+        self.log_handled_error("Could not rephrase translations")
 
     def get_rephrase_cache_version_key(self) -> str:
         return self.get_cache_key("rephrase-version")
@@ -1896,8 +1911,8 @@ class RephraseMachineTranslationMixin(MachineTranslation):
                 return results
             write_lang, candidates = prepared
             improved_texts = self._resolve_rephrased_texts(write_lang, candidates)
-        except Exception:
-            self.log_handled_error("Could not rephrase translations")
+        except Exception as exc:
+            self._handle_rephrase_error(exc)
             return results
         return self._merge_rephrase_results(results, candidates, improved_texts)
 
@@ -1918,8 +1933,8 @@ class RephraseMachineTranslationMixin(MachineTranslation):
             improved_texts = await self._aresolve_rephrased_texts(
                 write_lang, candidates
             )
-        except Exception:
-            self.log_handled_error("Could not rephrase translations")
+        except Exception as exc:
+            self._handle_rephrase_error(exc)
             return results
         return self._merge_rephrase_results(results, candidates, improved_texts)
 

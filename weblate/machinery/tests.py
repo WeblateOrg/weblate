@@ -4177,6 +4177,46 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             ["Hallo", "Hallo, %s Welt!"],
         )
 
+    @http_mock.activate
+    def test_rephrase_backs_off_after_rate_limit(self) -> None:
+        machine = self.get_machine()
+        self.mock_languages()
+        self.mock_clean_translate_response()
+        self.mock_write_languages()
+        http_mock.register(
+            "POST",
+            "https://api.deepl.com/v2/write/rephrase",
+            status_code=429,
+        )
+
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_TRANSLATED,
+            1,
+            machine=machine,
+            unit_args={"target": "Hallo du"},
+        )
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_TRANSLATED,
+            1,
+            machine=machine,
+            unit_args={"target": "Hallo du"},
+        )
+
+        translate_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/translate")
+        ]
+        rephrase_calls = [
+            call
+            for call in http_mock.calls
+            if self._request_url(call).endswith("/v2/write/rephrase")
+        ]
+        self.assertEqual(len(translate_calls), 2)
+        self.assertEqual(len(rephrase_calls), 1)
+
     def test_rephrase_mixin_requires_mro_before_batch(self) -> None:
         with self.assertRaises(TypeError):
 
