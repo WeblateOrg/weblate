@@ -129,13 +129,24 @@ class BackupSettingCoverageTest(SimpleTestCase):
                 ComponentSettingsForm,
                 backup.component_schema["properties"]["component"],
                 COMPONENT_BACKUP_FIELDS,
-                {"project", "category", "git_export", "processed_revision"},
+                # repoweb_translations is a real, editable model field but
+                # intentionally not yet backed up (see pending_fields below)
+                # -- it must be excluded here too, since this set feeds the
+                # editable_fields-vs-backup_fields check, a different
+                # assertion than the form-fields one pending_fields guards.
+                {
+                    "project",
+                    "category",
+                    "git_export",
+                    "processed_revision",
+                    "repoweb_translations",
+                },
                 # repoweb_translations is exposed in the settings form (it's
                 # a real, usable setting) but intentionally NOT yet backed
                 # up: the installed weblate_schemas package doesn't
                 # recognize the field, so including it in backup/restore
                 # breaks schema validation for every project export, not
-                # just this one field. Remove from here once
+                # just this one field. Remove from both sets above once
                 # weblate_schemas ships a release with the field and it's
                 # added back to COMPONENT_BACKUP_FIELDS.
                 {"repoweb_translations"},
