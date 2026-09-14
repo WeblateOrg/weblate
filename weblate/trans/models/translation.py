@@ -1460,6 +1460,8 @@ class Translation(
             template = self.component.effective_commit_message
         with repository.lock:
             # Pre commit hook
+            if self.filename and self.store.update_contributor(author):
+                self.store.save()
             vcs_pre_commit.send(
                 sender=self.__class__,
                 translation=self,

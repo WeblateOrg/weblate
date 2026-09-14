@@ -998,6 +998,11 @@ Point to translation instructions URL
 Create new language file
     User can select language and Weblate automatically creates the file for it
     and translation can begin.
+Create existing project languages; contact maintainers for new languages
+    Users can create translations for languages already used as target languages
+    in another non-glossary component in the project. Other languages are requested
+    from maintainers, who approve them by creating the first target translation.
+    See :ref:`workflow-language-restrictions` for eligibility and API behavior.
 Disable adding new translations
     There will be no option for user to start new translation.
 
@@ -1515,6 +1520,11 @@ The following variables are available in the component templates:
     Author of current commit, available only in the commit scope.
 ``{{ addon_name }}``
     Name of currently executed add-on, available only in the add-on commit message.
+
+The :ref:`Statistics generator <addon-weblate.generate.generate>` additionally
+supports a collection of languages and their statistics in component mode.
+Use the ``json`` or ``python`` filter to serialize template values into JSON or
+Python literals, including the necessary quoting and escaping.
 
 The following variables are available in the repository browser or editor templates:
 

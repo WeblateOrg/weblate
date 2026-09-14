@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Weblate / Application: Javascript\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
 "\n"
-"POT-Creation-Date: 2026-09-03 21:17-0500\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,77 +15,61 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Weblate 2026.9\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 #: weblate/static/editor/base.js:112
 msgid "Unsaved changes!"
 msgstr ""
 
-#: weblate/static/editor/base.js:185
+#: weblate/static/editor/base.js:191
 msgid "Please select target plural by clicking."
 msgstr ""
 
-#: weblate/static/editor/base.js:285
+#: weblate/static/editor/base.js:298
 msgid "You have unsaved changes. Are you sure you want to skip?"
 msgstr ""
 
-#: weblate/static/editor/base.js:334
+#: weblate/static/editor/base.js:350
 #, javascript-format
 msgid "Cmd+%s"
 msgstr ""
 
-#: weblate/static/editor/base.js:336
+#: weblate/static/editor/base.js:352
 #, javascript-format
 msgid "Ctrl+%s"
 msgstr ""
 
-#: weblate/static/editor/full.js:368
+#: weblate/static/editor/full.js:433
 msgid "Translation memory entry removed."
 msgstr ""
 
-#: weblate/static/editor/full.js:401
+#: weblate/static/editor/full.js:484
 msgid "The request for machine translation has failed:"
 msgstr ""
 
-#: weblate/static/editor/full.js:411
+#: weblate/static/editor/full.js:494
 #, javascript-format
 msgid "The request for machine translation using %s has failed:"
 msgstr ""
 
-#: weblate/static/editor/full.js:441
+#: weblate/static/editor/full.js:524
 #, javascript-format
 msgid "Cmd+M then %s"
 msgstr ""
 
-#: weblate/static/editor/full.js:443
+#: weblate/static/editor/full.js:526
 #, javascript-format
 msgid "Ctrl+M then %s"
 msgstr ""
 
-#: weblate/static/editor/full.js:610
+#: weblate/static/editor/full.js:686
 #, javascript-format
 msgid "Press Cmd+I then %s to dismiss this."
 msgstr ""
 
-#: weblate/static/editor/full.js:615
+#: weblate/static/editor/full.js:691
 #, javascript-format
 msgid "Press Ctrl+I then %s to dismiss this."
-msgstr ""
-
-#: weblate/static/editor/full.js:817
-msgid "Clone to translation"
-msgstr ""
-
-#: weblate/static/editor/full.js:819
-msgid "Accept"
-msgstr ""
-
-#: weblate/static/editor/full.js:827
-msgid "Accept and approve"
-msgstr ""
-
-#: weblate/static/editor/full.js:838
-msgid "Delete entry"
 msgstr ""
 
 #: weblate/static/editor/tools/search.js:71
@@ -99,7 +83,13 @@ msgid_plural "%s matching strings"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/editor/zen.js:135
+#: weblate/static/editor/zen.js:43
+msgid ""
+"Your previous search results are no longer available. Refresh results to "
+"continue."
+msgstr ""
+
+#: weblate/static/editor/zen.js:149
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr ""
 
@@ -112,67 +102,67 @@ msgstr ""
 msgid "Loading suggestion count for %s"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:55
+#: weblate/static/js/bulk-accept-suggestions.js:56
 msgid "Bulk accept cancelled."
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:60
+#: weblate/static/js/bulk-accept-suggestions.js:61
 #, javascript-format
 msgid "Scheduling bulk accept for %s"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:75
+#: weblate/static/js/bulk-accept-suggestions.js:76
 msgid "Unknown error"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:80
+#: weblate/static/js/bulk-accept-suggestions.js:81
 msgid "Network error"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:108
-#: weblate/static/js/bulk-accept-suggestions.js:126
+#: weblate/static/js/bulk-accept-suggestions.js:109
+#: weblate/static/js/bulk-accept-suggestions.js:127
 msgid "Invalid server response"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:117
+#: weblate/static/js/bulk-accept-suggestions.js:118
 #, javascript-format
 msgid "Server error (%s)"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:140
-#, javascript-format
-msgid "There are no pending suggestions from %s in this translation."
+#: weblate/static/js/bulk-accept-suggestions.js:141
+msgid "There are no pending suggestions from %(username)s in %(translation)s."
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:149
-#, javascript-format
-msgid "This will accept %s suggestion from %s in this translation."
-msgid_plural "This will accept %s suggestions from %s in this translation."
+#: weblate/static/js/bulk-accept-suggestions.js:151
+msgid ""
+"This will accept %(count)s suggestion from %(username)s in %(translation)s."
+msgid_plural ""
+"This will accept %(count)s suggestions from %(username)s in %(translation)s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:212
+#: weblate/static/js/bulk-accept-suggestions.js:215
 msgid "Accept all suggestions?"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:218
+#: weblate/static/js/bulk-accept-suggestions.js:221
 #: weblate/static/loader-bootstrap.js:101
 msgid "Close"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:230
+#: weblate/static/js/bulk-accept-suggestions.js:233
 msgid "Cancel"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:235
+#: weblate/static/js/bulk-accept-suggestions.js:238
 msgid "Accept suggestions"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:240
+#: weblate/static/js/bulk-accept-suggestions.js:243
 msgid "Accept and approve suggestions"
 msgstr ""
 
-#: weblate/static/js/bulk-accept-suggestions.js:258
+#: weblate/static/js/bulk-accept-suggestions.js:261
 #, javascript-format
 msgid "Error: %s"
 msgstr ""
@@ -430,79 +420,79 @@ msgstr ""
 msgid "Sort this column"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:857
+#: weblate/static/loader-bootstrap.js:874
 msgid "Error while loading page:"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:1282
+#: weblate/static/loader-bootstrap.js:1299
 msgid "Please press Ctrl+C to copy."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:1325
-#: weblate/static/loader-bootstrap.js:1411
+#: weblate/static/loader-bootstrap.js:1342
+#: weblate/static/loader-bootstrap.js:1428
 msgid "Search…"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:1536
+#: weblate/static/loader-bootstrap.js:1553
 msgid "Loading…"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:1562
+#: weblate/static/loader-bootstrap.js:1579
 msgid "Error while loading form:"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2049
+#: weblate/static/loader-bootstrap.js:2074
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2236
+#: weblate/static/loader-bootstrap.js:2261
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2508
+#: weblate/static/loader-bootstrap.js:2533
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2514
+#: weblate/static/loader-bootstrap.js:2539
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
 "account."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2520
+#: weblate/static/loader-bootstrap.js:2545
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2607
+#: weblate/static/loader-bootstrap.js:2632
 msgid "just now"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2612
+#: weblate/static/loader-bootstrap.js:2637
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/loader-bootstrap.js:2618
+#: weblate/static/loader-bootstrap.js:2643
 msgid "a minute ago"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2621
+#: weblate/static/loader-bootstrap.js:2646
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/static/loader-bootstrap.js:2628
+#: weblate/static/loader-bootstrap.js:2653
 msgid "an hour ago"
 msgstr ""
 
-#: weblate/static/loader-bootstrap.js:2630
+#: weblate/static/loader-bootstrap.js:2655
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"

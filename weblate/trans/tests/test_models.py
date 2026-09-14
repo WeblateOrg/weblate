@@ -995,7 +995,18 @@ class TranslationTest(RepoTestCase):
             self.fail("Expected at least one unit")
         label = component.project.label_set.create(name="Detail", color="red")
         for lazy in (False, True):
-            with self.subTest(lazy=lazy), override_settings(STATS_LAZY=lazy):
+            # Czech must be calculated last so its timestamp matches the component's.
+            # Reusing stale aggregate children would then skip parent invalidation.
+            with (
+                self.subTest(lazy=lazy),
+                override_settings(STATS_LAZY=lazy),
+                patch(
+                    "weblate.utils.stats.ComponentStats.get_child_objects",
+                    side_effect=lambda: component.translation_set.order_by(
+                        "-language_code"
+                    ),
+                ),
+            ):
                 with self.captureOnCommitCallbacks(execute=True):
                     Check.objects.filter(unit__translation=translation).delete()
                     Check.objects.create(unit=unit, name="same", dismissed=False)
@@ -1020,6 +1031,10 @@ class TranslationTest(RepoTestCase):
                 with self.captureOnCommitCallbacks(execute=True):
                     Check.objects.filter(unit=unit, name="same").delete()
                     unit.source_unit.labels.remove(label)
+                for scope in scopes:
+                    scope.stats.force_load()
+                    self.assertEqual(getattr(scope.stats, "check:same"), 0)
+                    self.assertEqual(getattr(scope.stats, "label:Detail"), 0)
                 for scope in (
                     ProjectLanguage(component.project, translation.language),
                     CategoryLanguage(category, translation.language),
@@ -1029,6 +1044,8 @@ class TranslationTest(RepoTestCase):
 
     def test_commit_grouping(self) -> None:
         component = self.create_component()
+        component.file_format_params = {"po_contributor_comments": "spdx"}
+        component.save(update_fields=["file_format_params"])
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
         start_rev = component.repository.last_revision
@@ -1055,6 +1072,23 @@ class TranslationTest(RepoTestCase):
         self.assertNotEqual(start_rev, component.repository.last_revision)
         self.assertEqual(component.repository.count_outgoing(), count)
         self.assertEqual(translation.count_pending_units, 0)
+
+        notes = translation.store.store.header().getnotes("translator")
+        self.assertGreaterEqual(notes.count("SPDX-FileCopyrightText:"), count)
+        for unit in [units[2], units[3]]:
+            self.assertIn(f"User {unit.pk} <{unit.pk}@example.com>", notes)
+
+    def test_contributor_comments_direct_commit(self) -> None:
+        component = self.create_component()
+        component.file_format_params = {"po_contributor_comments": "spdx"}
+        component.save(update_fields=["file_format_params"])
+        translation = component.translation_set.get(language_code="cs")
+        user = create_test_user()
+        translation.git_commit(user, "Jane <jane@example.com>")
+        notes = translation.store.store.header().getnotes("translator")
+        self.assertIn("SPDX-FileCopyrightText:", notes)
+        self.assertIn("Jane <jane@example.com>", notes)
+        self.assertEqual(translation.revision, translation.get_git_blob_hash())
 
     def test_group_changes_by_author(self) -> None:
         component = self.create_component()
@@ -1568,7 +1602,7 @@ class SourceUnitTest(ModelTestCase):
     def test_check_flags(self) -> None:
         """Setting of Source check_flags changes checks for related units."""
         self.assertEqual(Check.objects.count(), 3)
-        check = Check.objects.all()[0]
+        check = Check.objects.filter(name="same")[0]
         unit = check.unit
         # reload component to clear stats cache
         self.component = unit.translation.component

@@ -4,11 +4,12 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, NamedTuple
 
 from django import template
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.humanize.templatetags.humanize import intcomma
+from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
@@ -67,6 +68,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     from django import forms
+    from django.core.paginator import Page
     from django.db.models import QuerySet
     from django.template.context import Context
     from django.utils.safestring import SafeString
@@ -811,6 +813,12 @@ def hash_text(name: str) -> str:
     return hash_to_checksum(siphash("Weblate URL hash", name.encode()))
 
 
+@register.filter
+def toggle_sort(column: str, current: str | None) -> str:
+    """Reverse an ascending column, or select a column in ascending order."""
+    return f"-{column}" if current == column else column
+
+
 @register.simple_tag
 def sort_choices():
     return SORT_CHOICES.items()
@@ -824,6 +832,17 @@ def render_alert(context: Context, alert: Alert) -> str:
 @register.simple_tag
 def get_message_kind(tags) -> str:
     return get_message_kind_impl(tags)
+
+
+@register.simple_tag(takes_context=True)
+def get_embed_unit_query(context: Context) -> QueryDict:
+    """Select search filters or fallback sorting for embedded unit links."""
+    if context.get("include_search") and (params := context.get("query_params")):
+        return params
+    params = QueryDict(mutable=True)
+    if sort_query := context.get("sort_query"):
+        params["sort_by"] = sort_query
+    return params
 
 
 @register.simple_tag
@@ -1119,6 +1138,25 @@ def format_headers(value: dict[str, str]) -> str:
     return format_html_join(mark_safe("<br>"), "<b>{}</b>: {}", value.items())
 
 
+class PaginationQuery(NamedTuple):
+    params: QueryDict
+    items: list[tuple[str, list[str]]]
+
+
+@register.simple_tag(takes_context=True)
+def get_pagination_query(context: Context, page: Page) -> PaginationQuery:
+    """Share effective filters and sorting between pagination links and forms."""
+    params = context.get("query_params")
+    if params is None:
+        request = context.get("request")
+        params = request.GET if request is not None else QueryDict()
+    params = params.copy()
+    if sort_by := getattr(page.paginator, "sort_by", None):
+        params["sort_by"] = sort_by
+    # Resolve lists in Python so a query parameter named "lists" cannot shadow it.
+    return PaginationQuery(params, list(params.lists()))
+
+
 @register.inclusion_tag("snippets/last-changes-content.html")
 def format_last_changes_content(
     last_changes: Iterable[Change],
@@ -1171,8 +1209,8 @@ def format_last_changes_content(
         "changes_with_context": processed_changes,
         "in_email": in_email,
         "debug": debug,
-        "search_url": search_url,
-        "offset": offset,
+        "query_params": QueryDict(search_url or ""),
+        "offset": offset if search_url else None,
         "translate_url": translate_url,
     }
 

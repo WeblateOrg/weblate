@@ -137,6 +137,11 @@ String search supports the shared query syntax above.
 
 When no field is defined, the lookup happens on source, target, and context strings.
 
+Select :guilabel:`All strings` at the top of the :guilabel:`Filters` menu to
+clear the query within the current search scope. If the form does not submit
+automatically, submit it to show all strings. Shared filters follow the order
+and status colors used in the strings status overview.
+
 .. image:: /screenshots/search.webp
 
 Simple search

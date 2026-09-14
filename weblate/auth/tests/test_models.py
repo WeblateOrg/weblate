@@ -340,7 +340,7 @@ class ModelTest(FixtureComponentTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
-    def test_repository_permissions_cover_linked_components(self) -> None:
+    def test_repository_permissions_require_owner(self) -> None:
         linked = self.create_link_existing(
             name="Repository permission child",
             slug="repository-permission-child",
@@ -363,17 +363,19 @@ class ModelTest(FixtureComponentTestCase):
                 self.assertFalse(self.user.has_perm(permission, self.component))
                 self.assertFalse(self.user.has_perm(permission, self.translation))
         self.assertFalse(self.user.has_perm("meta:vcs.status", linked))
+        self.assertTrue(self.user.has_perm("meta:vcs.maintenance", linked))
 
         owner_group = Group.objects.create(
             name="Repository owner", language_selection=SELECTION_ALL
         )
         owner_group.components.add(self.component)
         owner_group.roles.add(role)
+        self.user.groups.remove(child_group)
         self.user.groups.add(owner_group)
         self.user.clear_permissions_cache()
 
         for permission in permissions:
-            with self.subTest(permission=permission, scope="complete"):
+            with self.subTest(permission=permission, scope="owner-only"):
                 self.assertTrue(self.user.has_perm(permission, linked))
                 self.assertTrue(self.user.has_perm(permission, self.component))
                 self.assertTrue(self.user.has_perm(permission, self.translation))
@@ -453,6 +455,16 @@ class ModelTest(FixtureComponentTestCase):
             slug="cross-project-repository-child",
             project=other_project,
         )
+        for index in range(2):
+            self.create_link_existing(
+                name=f"Internal repository child {index}",
+                slug=f"internal-repository-child-{index}",
+            )
+        self.create_link_existing(
+            name="Second cross-project child",
+            slug="second-cross-project-child",
+            project=other_project,
+        )
         role = Role.objects.create(name="Project repository permission")
         role.permissions.add(Permission.objects.get(codename="vcs.reset"))
         self.group.roles.add(role)
@@ -462,16 +474,18 @@ class ModelTest(FixtureComponentTestCase):
         self.assertTrue(self.user.has_perm("vcs.reset", self.project))
         self.assertTrue(self.user.has_perm("meta:vcs.status", self.project))
         self.assertTrue(self.user.has_perm("vcs.reset", independent))
-        self.assertFalse(self.user.has_perm("vcs.reset", self.component))
-        self.assertFalse(self.user.has_perm("vcs.reset", linked))
+        self.assertTrue(self.user.has_perm("vcs.reset", self.component))
+        self.assertTrue(self.user.has_perm("vcs.reset", linked))
 
         selection = auth_permissions.get_project_repository_selection(
             self.user, self.project, ("vcs.reset",)
         )
-        self.assertEqual(selection.repositories, (independent,))
-        self.assertEqual(selection.included_components, (independent,))
-        self.assertEqual(selection.skipped_components, (self.component,))
-        self.assertEqual(selection.permission_blockers, (linked,))
+        self.assertEqual(selection.repositories, (independent, self.component))
+        self.assertEqual(
+            set(selection.included_components), set(self.project.component_set.all())
+        )
+        self.assertEqual(selection.skipped_components, ())
+        self.assertEqual(selection.permission_blockers, ())
 
         child_group = Group.objects.create(
             name="Cross-project repository permission",
@@ -490,6 +504,35 @@ class ModelTest(FixtureComponentTestCase):
             self.user, self.project, ("vcs.reset",)
         )
         self.assertEqual(selection.repositories, (independent, self.component))
+
+    def test_repository_permission_preserves_owner_restrictions(self) -> None:
+        linked = self.create_link_existing(name="Owner restrictions")
+        self.group.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(self.group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("vcs.reset", linked))
+
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        linked.__dict__.pop("_repository_permission_components", None)
+        self.assertFalse(self.user.has_perm("vcs.reset", linked))
+        self.component.restricted = False
+        self.component.save(update_fields=["restricted"])
+
+        membership = TeamMembership.objects.get(user=self.user, group=self.group)
+        membership.limit_languages.add(Language.objects.get(code="cs"))
+        self.user.clear_permissions_cache()
+        linked.__dict__.pop("_repository_permission_components", None)
+        self.assertFalse(self.user.has_perm("vcs.reset", linked))
+        membership.limit_languages.clear()
+        self.user.clear_permissions_cache()
+
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["enforced_2fa"])
+        linked.__dict__.pop("_repository_permission_components", None)
+        self.assertFalse(self.user.has_perm("vcs.reset", linked))
+        self.user.is_superuser = True
+        self.assertTrue(self.user.has_perm("vcs.reset", linked))
 
     def test_componentlist(self) -> None:
         # Add user to group of power users

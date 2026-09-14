@@ -8,7 +8,7 @@ import importlib
 import json
 import os
 from contextlib import contextmanager
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from io import StringIO
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
@@ -21,6 +21,7 @@ import httpx2
 from django.apps import apps
 from django.conf import settings
 from django.core import mail
+from django.core.cache import cache
 from django.core.checks import Critical
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -31,10 +32,13 @@ from django.test.utils import CaptureQueriesContext, modify_settings, override_s
 from django.urls import reverse
 from django.utils import timezone
 from django_celery_beat.models import IntervalSchedule, PeriodicTask, PeriodicTasks
+from lxml import html
 
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import Group, Invitation, Permission, Role
 from weblate.memory.models import Memory, MemoryScope, MemoryScopeMigrationState
+from weblate.metrics.models import Metric
+from weblate.metrics.wrapper import MetricsWrapper
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Announcement, Change, Project
 from weblate.trans.tests.test_views import ViewTestCase
@@ -865,8 +869,24 @@ class ManagementAccessControlTest(ViewTestCase):
             "--wl-progress-approved-color: #988470",
             "--wl-progress-bg: #010203",
             "--wl-progress-bg: #040506",
+            "--bs-navbar-brand-hover-color: #158068",
+            "--bs-navbar-brand-hover-color: #25303b",
+            "--bs-navbar-hover-color: #158068",
+            "--bs-navbar-hover-color: #25303b",
+            "--bs-nav-pills-link-active-bg: #144d3f",
+            "--bs-nav-pills-link-active-bg: #0a3d2f",
+            "--wl-hover-color: #144d3f",
+            "--wl-hover-color: #0a3d2f",
         ):
             self.assertIn(value, css)
+
+        for value in (
+            "--bs-navbar-hover-color: #144d3f",
+            "--bs-navbar-hover-color: #0a3d2f",
+            "--bs-nav-pills-link-active-bg: #158068",
+            "--bs-nav-pills-link-active-bg: #25303b",
+        ):
+            self.assertNotIn(value, css)
 
     def test_tools_without_announcement_permission(self) -> None:
         self.grant_global_permissions("management.use")
@@ -1176,7 +1196,19 @@ class AdminTest(ViewTestCase):
             set(response.context["object_list"]),
             set(workspaces[:50]),
         )
-        self.assertContains(response, "sort_by=-translated&amp;q=localization")
+        document = html.fromstring(response.content)
+        self.assertIn(
+            {
+                "q": ["localization"],
+                "sort_by": ["-translated"],
+                "page": ["1"],
+                "limit": ["50"],
+            },
+            [
+                parse_qs(urlparse(href).query)
+                for href in document.xpath("//th//a/@href")
+            ],
+        )
         self.assertEqual(
             response.context["object_list"].paginator.sort_by,
             "translated",
@@ -1211,7 +1243,7 @@ class AdminTest(ViewTestCase):
         self.assertNotContains(response, "Documentation workspace")
         self.assertEqual(list(response.context["object_list"]), [workspace])
         self.assertEqual(response.context["search_query"], "local")
-        self.assertEqual(response.context["query_string"], "q=local")
+        self.assertEqual(response.context["query_params"].urlencode(), "q=local")
 
         response = self.client.get(reverse("manage-workspaces"), {"q": "missing"})
 
@@ -2354,6 +2386,110 @@ class AdminTest(ViewTestCase):
         )
         self.assertNotIn("discoverable", refresh_body)
         self.assertNotIn("public_projects", refresh_body)
+
+    @http_mock.activate
+    def test_support_refresh_activity(self) -> None:
+        http_mock.register(
+            "POST",
+            get_support_url(),
+            text=json.dumps(
+                {
+                    "name": "community",
+                    "backup_repository": "",
+                    "expiry": timezone.now(),
+                    "in_limits": True,
+                    "has_subscription": False,
+                    "limits": {},
+                },
+                cls=DjangoJSONEncoder,
+            ),
+        )
+        months = [
+            date(2024 + offset // 12, offset % 12 + 1, 1) for offset in range(8, 32)
+        ]
+        for available_months in (months, [months[0], months[-1]], []):
+            cache.clear()
+            Metric.objects.filter(scope=Metric.SCOPE_GLOBAL).delete()
+            Metric.objects.bulk_create(
+                [
+                    Metric(
+                        scope=Metric.SCOPE_GLOBAL,
+                        relation=0,
+                        date=month,
+                        changes=index,
+                    )
+                    for index, month in enumerate(available_months)
+                ]
+            )
+            changes_by_month = {
+                month: index for index, month in enumerate(available_months)
+            }
+            expected = [
+                {
+                    "year": month.year,
+                    "month": month.month,
+                    "changes": changes_by_month.get(month, 0),
+                }
+                for month in months
+            ]
+            if available_months:
+                Metric.objects.create(
+                    scope=Metric.SCOPE_GLOBAL,
+                    relation=0,
+                    date=available_months[-1].replace(day=15),
+                    changes=42,
+                )
+                expected[-1]["changes"] += 42
+            # Neither out-of-window data nor other scopes/relations contribute.
+            for metric_date, scope, relation, secondary in (
+                (date(2024, 8, 31), Metric.SCOPE_GLOBAL, 0, 0),
+                (date(2026, 9, 1), Metric.SCOPE_GLOBAL, 0, 0),
+                (date(2026, 10, 1), Metric.SCOPE_GLOBAL, 0, 0),
+                (date(2026, 8, 20), Metric.SCOPE_PROJECT, self.project.pk, 0),
+                (date(2026, 8, 20), Metric.SCOPE_GLOBAL, 1, 0),
+                (date(2026, 8, 20), Metric.SCOPE_GLOBAL, 0, 1),
+            ):
+                Metric.objects.update_or_create(
+                    scope=scope,
+                    relation=relation,
+                    secondary=secondary,
+                    date=metric_date,
+                    defaults={"changes": 1000},
+                )
+            for status in (
+                SupportStatus(secret="secret-123", has_subscription=True),
+                SupportStatus(secret="secret-123", discoverable=True),
+                SupportStatus(
+                    secret="secret-123", has_subscription=True, enabled=False
+                ),
+            ):
+                with (
+                    self.subTest(
+                        months=len(available_months),
+                        subscribed=status.has_subscription,
+                        discoverable=status.discoverable,
+                        enabled=status.enabled,
+                    ),
+                    patch(
+                        "weblate.wladmin.models.timezone.now",
+                        return_value=datetime(2026, 9, 10, tzinfo=UTC),
+                    ),
+                ):
+                    # The statistics chart and support refresh share the cache.
+                    chart = MetricsWrapper(
+                        None, Metric.SCOPE_GLOBAL, 0
+                    ).monthly_activity
+                    self.assertEqual(len(chart), 12)
+                    with CaptureQueriesContext(connection) as queries:
+                        status.refresh()
+                    self.assertFalse(
+                        any(
+                            '"metrics_metric"' in query["sql"]
+                            for query in queries.captured_queries
+                        )
+                    )
+                    body = parse_qs(get_response_call_body(-1))
+                    self.assertEqual(json.loads(body["activity"][0]), expected)
 
     @http_mock.activate
     def test_support_refresh_includes_discoverable_projects(self) -> None:

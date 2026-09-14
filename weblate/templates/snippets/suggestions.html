@@ -49,13 +49,14 @@
                 {# Bulk accept suggestions feature #}
                 {% if suggestion.user and not suggestion.user.is_anonymous %}
                   {% ifchanged suggestion.user.username %}
+                    {% blocktranslate with username=suggestion.user.username translation=suggestion.unit.translation asvar bulk_accept_label %}Accept all suggestions from {{ username }} in {{ translation }}{% endblocktranslate %}
                     <button type="button"
                             class="aa-accept-all-btn btn btn-link green"
                             data-username="{{ suggestion.user.username }}"
+                            data-translation-name="{{ suggestion.unit.translation }}"
                             data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}"
-                            title="{% blocktranslate with username=suggestion.user.username %}Accept all suggestions from {{ username }}{% endblocktranslate %}">
-                      {% icon "account-check.svg" %}
-                    </button>
+                            title="{{ bulk_accept_label }}"
+                            aria-label="{{ bulk_accept_label }}">{% icon "account-check.svg" %}</button>
                   {% endifchanged %}
                 {% endif %}
                 <button type="submit"

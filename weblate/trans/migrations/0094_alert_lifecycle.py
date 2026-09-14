@@ -11,42 +11,226 @@ from django.conf import settings
 from django.db import migrations, models
 from django.utils import timezone
 
+from weblate.utils.hash import calculate_json_fingerprint
+
 if TYPE_CHECKING:
     from django.db.backends.base.schema import BaseDatabaseSchemaEditor
     from django.db.migrations.state import StateApps
 
 
-def backfill_dismissals(alerts) -> None:
-    # Import the current model because historical migration models do not expose
-    # the component helpers used by alert-specific dismissal contexts.
-    # ruff: ignore[import-outside-top-level]
-    from weblate.trans.alerts.registry import get_alert_class
-    from weblate.trans.models.component import (  # ruff: ignore[import-outside-top-level]
-        Component,
+# Keep these contexts local to the migration: runtime alert classes and model
+# helpers can start querying fields which do not exist at this migration state.
+def get_addon_names(apps: StateApps, component, database: str) -> list[str]:
+    Addon = apps.get_model("addons", "Addon")
+    category_ids = []
+    category = component.category
+    while category is not None:
+        category_ids.append(category.pk)
+        category = category.category
+    query = (
+        models.Q(component_id=component.pk)
+        | models.Q(project_id=component.project_id)
+        | models.Q(category_id__in=category_ids)
+        | models.Q(component__isnull=True, category__isnull=True, project__isnull=True)
+    )
+    if component.linked_component_id:
+        query |= models.Q(component_id=component.linked_component_id, repo_scope=True)
+    return sorted(
+        Addon.objects.using(database).filter(query).values_list("name", flat=True)
     )
 
+
+def get_unit_context(apps: StateApps, component, name: str, database: str) -> dict:
+    context: dict = {}
+    Unit = apps.get_model("trans", "Unit")
+    units = (
+        Unit.objects.using(database)
+        .filter(
+            translation__component_id=component.pk,
+            translation__language_id=component.source_language_id,
+        )
+        .order_by("pk")
+    )
+    if name == "MissingScreenshots":
+        context["units_without_screenshots"] = list(
+            units.filter(screenshots__isnull=True).values_list("pk", flat=True)
+        )
+    else:
+        context["check_flags"] = component.check_flags
+        if name == "MissingTranslationFlags":
+            context["flags"] = list(
+                units.exclude(extra_flags="").values_list("pk", "extra_flags")
+            )
+        else:
+            context["units"] = list(
+                units.filter(source__contains="<a ").values_list("pk", "extra_flags")
+            )
+    return context
+
+
+def get_addon_error_context(details: dict) -> dict:
+    context = {"details": details}
+    occurrences = details.get("occurrences")
+    if isinstance(occurrences, list):
+        context["details"] = {
+            **details,
+            "occurrences": [
+                {key: value for key, value in occurrence.items() if key != "addon_id"}
+                if isinstance(occurrence, dict)
+                else occurrence
+                for occurrence in occurrences
+            ],
+        }
+    return context
+
+
+def get_repository_error_context(details: dict) -> dict:
+    context: dict = {}
+    # This formatter does not access the database.
+    from weblate.vcs.base import format_stored_repository_error  # ruff: ignore[import-outside-top-level]
+
+    context["details"] = {
+        key: value
+        for key, value in details.items()
+        if key not in {"diagnoses", "error"}
+    }
+    if error := details.get("error"):
+        context["details"]["error"] = format_stored_repository_error(error).replace(
+            "repository URL", "..."
+        )
+    return context
+
+
+def get_dismissal_context(
+    apps: StateApps, component, name: str, details: dict, database: str
+) -> dict:
+    context: dict = {"details": details}
+    match name:
+        case "MissingRepositoryHook":
+            context["repo"] = component.repo
+        case "MissingPushURL":
+            context.update(repo=component.repo, push=component.push)
+        case "MissingTranslationInstructions":
+            context.update(
+                access_control=component.project.access_control,
+                instructions=component.project.instructions,
+            )
+        case "BrokenProjectURL":
+            context["web"] = component.project.web
+        case "MonolingualGlossary":
+            context["template"] = component.template
+        case "GlossaryStringManagementDisabled":
+            context.update(
+                repo=component.repo, source_language=component.source_language_id
+            )
+        case "RepositoryChanges":
+            context.update(
+                branch=component.branch,
+                local_revision=component.local_revision,
+                repo=component.repo,
+            )
+        case "GitHubAppMigration":
+            context.update(
+                repo=component.repo,
+                vcs=component.vcs,
+                workspace=str(component.project.workspace_id or ""),
+            )
+        case "MissingScreenshots" | "MissingTranslationFlags" | "MissingSafeHTMLFlag":
+            context.update(get_unit_context(apps, component, name, database))
+        case "UnusedScreenshot":
+            Screenshot = apps.get_model("screenshots", "Screenshot")
+            context["screenshots"] = list(
+                Screenshot.objects.using(database)
+                .filter(translation__component_id=component.pk, units__isnull=True)
+                .order_by("pk")
+                .values_list("pk", flat=True)
+            )
+        case "AmbiguousLanguage":
+            Translation = apps.get_model("trans", "Translation")
+            context["languages"] = list(
+                Translation.objects.using(database)
+                .filter(component_id=component.pk, language__code__in=("ku", "kur"))
+                .order_by("language__code")
+                .values_list("language__code", flat=True)
+            )
+        case (
+            "RecommendedLanguageConsistencyAddon"
+            | "RecommendedLinguasAddon"
+            | "RecommendedConfigureAddon"
+            | "RecommendedCleanupAddon"
+            | "RecommendedGenerateMoAddon"
+            | "RecommendedXgettextAddon"
+            | "RecommendedMesonAddon"
+            | "RecommendedDjangoAddon"
+            | "RecommendedSphinxAddon"
+            | "ExtractPotMissingMsgmerge"
+        ):
+            addons = get_addon_names(apps, component, database)
+            if name == "ExtractPotMissingMsgmerge":
+                addons = [
+                    addon
+                    for addon in addons
+                    if addon
+                    in {
+                        "weblate.gettext.xgettext",
+                        "weblate.gettext.meson",
+                        "weblate.gettext.django",
+                        "weblate.gettext.sphinx",
+                        "weblate.gettext.msgmerge",
+                    }
+                ]
+            else:
+                context["new_base"] = component.new_base
+            context.update(addons=addons, file_format=component.file_format)
+        case (
+            "AddonScriptError"
+            | "CDNAddonError"
+            | "MsgmergeAddonError"
+            | "ExtractPotAddonError"
+        ):
+            context.update(get_addon_error_context(details))
+        case (
+            "MergeFailure"
+            | "RepositoryOperationFailure"
+            | "PushFailure"
+            | "UpdateFailure"
+            | "AutomergeFailure"
+        ):
+            context.update(get_repository_error_context(details))
+    return context
+
+
+def backfill_dismissals(apps: StateApps, alerts) -> None:
+    Component = apps.get_model("trans", "Component")
     dismissed_at = timezone.now()
     components = Component.objects.using(alerts.db).in_bulk(
         alerts.values_list("component_id", flat=True).distinct()
     )
     for alert in alerts.iterator():
+        context = get_dismissal_context(
+            apps, components[alert.component_id], alert.name, alert.details, alerts.db
+        )
         alert.dismissed_at = dismissed_at
-        alert.dismissal_fingerprint = get_alert_class(
-            alert.name
-        ).get_dismissal_fingerprint(components[alert.component_id], alert.details)
-        alert.save(update_fields=("dismissed_at", "dismissal_fingerprint"))
+        alert.dismissal_fingerprint = calculate_json_fingerprint(context)
+        alert.save(
+            using=alerts.db, update_fields=("dismissed_at", "dismissal_fingerprint")
+        )
 
 
 def backfill_dismissed_at(
     apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
 ) -> None:
     Alert = apps.get_model("trans", "Alert")
-    backfill_dismissals(Alert.objects.filter(dismissed=True))
+    backfill_dismissals(
+        apps, Alert.objects.using(schema_editor.connection.alias).filter(dismissed=True)
+    )
 
 
 def restore_dismissed(apps: StateApps, schema_editor: BaseDatabaseSchemaEditor) -> None:
     Alert = apps.get_model("trans", "Alert")
-    Alert.objects.filter(dismissed_at__isnull=False).update(dismissed=True)
+    Alert.objects.using(schema_editor.connection.alias).filter(
+        dismissed_at__isnull=False
+    ).update(dismissed=True)
 
 
 class Migration(migrations.Migration):

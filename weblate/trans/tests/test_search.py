@@ -4,6 +4,8 @@
 
 """Test for search views."""
 
+from __future__ import annotations
+
 import re
 from types import SimpleNamespace
 from unittest.mock import ANY, patch
@@ -18,6 +20,7 @@ from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
+from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import (
     Change,
     Comment,
@@ -28,6 +31,7 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.forms import SearchField
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -294,6 +298,21 @@ class SearchViewTest(ViewTestCase):
 
         self.assertEqual(self.get_search_result_count('comment_author:="testuser"'), 1)
         self.assertEqual(self.get_search_result_count("has:comment"), 1)
+
+    def test_mass_action_filters_require_a_query(self) -> None:
+        for form in (
+            AutoForm(self.component, user=self.user),
+            BulkEditForm(self.user, self.translation),
+        ):
+            with self.subTest(form=type(form).__name__):
+                choices = SearchField("q").get_search_query_choices(form)
+                self.assertNotIn("all", [choice[0] for choice in choices])
+                self.assertTrue(all(choice[2] for choice in choices))
+                self.assertIn("translated", [choice[0] for choice in choices])
+                # Use the bound field's requirement, including runtime overrides.
+                form.fields["q"].required = False
+                choices = SearchField("q").get_search_query_choices(form)
+                self.assertEqual(choices[0][:3], ("all", "All strings", ""))
 
     def test_search_filter_dropdown_includes_comments_by_me(self) -> None:
         response = self.client.get(

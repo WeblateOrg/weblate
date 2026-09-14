@@ -442,6 +442,7 @@ class SearchRecoveryTest(ViewTestCase):
         self.assertEqual(response.context["filter_pos"], 1)
         self.assertEqual(response.context["filter_count"], len(ids) - 1)
         self.assertNotContains(response, self.recovery_message)
+        self.assertTrue(response.redirect_chain[-1][0].startswith("?"))
         self.assertNotIn("refresh=", response.redirect_chain[-1][0])
         response = self.client.get(
             self.url, {"q": self.query, "sort_by": "source", "offset": "1"}

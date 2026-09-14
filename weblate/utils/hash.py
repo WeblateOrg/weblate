@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+import json
+from hashlib import sha256
 from typing import TYPE_CHECKING, Any
 
 from siphashc import siphash
@@ -54,3 +56,14 @@ def checksum_to_hash(checksum: str) -> int:
 def hash_to_checksum(id_hash: int) -> str:
     """Convert id_hash (signed 64-bit int) to unsigned hex."""
     return format(id_hash + 2**63, "016x")
+
+
+def calculate_json_fingerprint(context: dict[str, Any]) -> str:
+    """
+    Hash a JSON context, preserving the format used by stored alert dismissals.
+
+    Historical migrations use this helper too. Keep its serialization stable
+    and independent of models or database access.
+    """
+    serialized = json.dumps(context, sort_keys=True, separators=(",", ":"), default=str)
+    return sha256(serialized.encode()).hexdigest()

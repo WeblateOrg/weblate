@@ -325,9 +325,16 @@ def translation_prefetch_tasks(translations):
 def prefetch_glossary_terms(components) -> None:
     if not components:
         return
-    lookup = {component.glossary_sources_key: component for component in components}
+    lookup = {}
+    for component in components:
+        lookup[component.glossary_sources_key] = (component, "glossary_sources")
+        lookup[f"{component.glossary_sources_key}-index"] = (
+            component,
+            "glossary_source_index",
+        )
     for item, value in cache.get_many(lookup.keys()).items():
-        lookup[item].__dict__["glossary_sources"] = value
+        component, attribute = lookup[item]
+        component.__dict__[attribute] = value
 
 
 class ComponentQuerySet(models.QuerySet["Component", "Component"]):
@@ -5091,7 +5098,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @cached_property
     def glossary_sources_key(self) -> str:
-        return f"component-glossary-{self.pk}"
+        return f"component-glossary-v2-{self.pk}"
+
+    @cached_property
+    def glossary_source_index(self):
+        from weblate.glossary.models import get_glossary_source_index  # ruff: ignore[import-outside-top-level]
+
+        key = f"{self.glossary_sources_key}-index"
+        result = cache.get(key)
+        if result is None:
+            result = get_glossary_source_index(self)
+            cache.set(key, result, 24 * 3600)
+        return result
 
     @cached_property
     def glossary_sources(self):
@@ -5107,7 +5125,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def invalidate_glossary_cache(self) -> None:
         if not self.is_glossary:
             return
-        cache.delete(self.glossary_sources_key)
+        cache.delete_many(
+            [self.glossary_sources_key, f"{self.glossary_sources_key}-index"]
+        )
+        self.__dict__.pop("glossary_source_index", None)
         self.project.invalidate_glossary_cache()
         for project in self.cached_links:
             project.invalidate_glossary_cache()
@@ -5327,7 +5348,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Validate new language choices."""
         # Validate if new base is configured or language adding is set
         if (
-            not self.new_base and self.effective_new_lang != "add"
+            not self.new_base and self.effective_new_lang not in {"add", "existing"}
         ) or not self.file_format:
             return
         # File is valid or no file is needed
@@ -6423,25 +6444,52 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def is_multivalue(self):
         return self.file_format_cls.has_multiple_strings
 
-    def can_add_new_language(self, user: User | None, fast: bool = False):
+    def get_new_language_action(
+        self,
+        user: User | None,
+        language: Language | None = None,
+        *,
+        existing_language_ids: set[int] | None = None,
+    ) -> str:
+        """Resolve creation policy, optionally using a bulk operation's snapshot."""
+        mode = self.effective_new_lang
+        # Preserve the existing CLI/add-on and component administrator exceptions.
+        if (
+            mode == "add"
+            or user is None
+            or (user.is_bot and user.username.startswith("addon:"))
+            or user.has_perm("component.edit", self)
+        ):
+            return "add"
+        if mode != "existing":
+            return mode
+        # Without a selected language, report general creation capability.
+        if language is None:
+            return "add"
+        if existing_language_ids is None:
+            existing_language_ids = self.project.get_existing_target_language_ids()
+        return "add" if language.pk in existing_language_ids else "contact"
+
+    def can_add_new_language(
+        self,
+        user: User | None,
+        fast: bool = False,
+        *,
+        language: Language | None = None,
+        existing_language_ids: set[int] | None = None,
+    ):
         """
         Check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
         is valid new base.
         """
-        # Consistency and possibly other add-ons
-        if user is not None and user.is_bot and user.username.startswith("addon:"):
-            user = None
-        # The user is None in case of consistency or cli invocation
-        # The component.edit permission is intentional here as it allows overriding
-        # of new_lang configuration for admins and add languages even if adding
-        # for users is not configured.
         self.new_lang_error_message = gettext("Could not add new translation file.")
         if (
-            self.effective_new_lang != "add"
-            and user is not None
-            and not user.has_perm("component.edit", self)
+            self.get_new_language_action(
+                user, language, existing_language_ids=existing_language_ids
+            )
+            != "add"
         ):
             self.new_lang_error_message = gettext(
                 "You do not have permissions to add new translation file."
@@ -6498,6 +6546,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         send_signal: bool = True,
         create_translations: bool = True,
         show_messages: bool = True,
+        *,
+        existing_language_ids: set[int] | None = None,
     ) -> Translation | None:
         """Create new language file."""
 
@@ -6505,7 +6555,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if show_messages:
                 messages.error(request, message)
 
-        if not self.can_add_new_language(request.user if request else None):
+        if not self.can_add_new_language(
+            request.user if request else None,
+            language=language,
+            existing_language_ids=existing_language_ids,
+        ):
             fail_message(cast("str", self.new_lang_error_message))
             return None
 

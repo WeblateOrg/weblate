@@ -6,11 +6,13 @@
   <script defer src="{% static 'editor/base.js' %}"></script>
   <script defer src="{% static 'editor/full.js' %}"></script>
   <script defer src="{% static 'js/screenshots/clipboard-paste.js' %}"></script>
+  <script defer src="{% static 'js/screenshots/select.js' %}"></script>
   {# Bulk accept suggestions feature #}
   <script defer src="{% static 'js/bulk-accept-suggestions.js' %}"></script>
 {% endblock extra_script %}
 
 {% block extra_styles %}
+  <link rel="stylesheet" href="{% static 'styles/screenshot-select.css' %}" />
   {# Bulk accept suggestions feature #}
   <link rel="stylesheet" href="{% static 'styles/bulk-accept.css' %}" />
 {% endblock extra_styles %}
@@ -23,7 +25,8 @@
     <a href="{{ object.get_translate_url }}">{% translate "Translate" %}</a>
   </li>
   <a class="ms-auto float-end" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+         alt="{% translate "Translation status widgets" %}" />
   </a>
 {% endblock breadcrumbs %}
 
@@ -43,11 +46,12 @@
   {% perm 'source.edit' unit.translation as user_can_edit_source %}
   {% perm 'meta:unit.flag' unit.translation as user_can_edit_flags %}
   {% perm 'screenshot.add' unit.translation as user_can_add_screenshot %}
+  {% perm 'screenshot.edit' unit.translation.component as user_can_edit_screenshot %}
   {% perm 'comment.add' unit.translation as user_can_add_comment %}
   {% perm 'unit.add' unit.translation as user_can_add_unit %}
 
   <div class="btn-group float-end btn-group-settings" role="group">
-    <a href="{% url 'zen' path=object.get_url_path %}?offset={{ offset }}&amp;{{ search_url }}"
+    <a href="{% url 'zen' path=object.get_url_path %}{% querystring query_params offset=offset %}"
        data-params="{{ search_url }}"
        title="{% translate "Open in Zen mode" %}"
        class="btn btn-link">{% icon "flash.svg" %} {% translate "Zen" %}</a>
@@ -407,7 +411,7 @@
                 <p class="help-block">{% translate "Showing only subset of the strings as there were too many matches." %}</p>
               {% endif %}
               <form method="post"
-                    action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;unit_id={{ unit.pk }}">
+                    action="{{ unit.translation.get_translate_url }}{% querystring query_params offset=offset checksum=unit.checksum unit_id=unit.pk %}">
                 {% csrf_token %}
                 <table class="table table-sm">
                   <thead>
@@ -504,32 +508,78 @@
 
           {% if user_can_use_machinery %}
             <div class="tab-pane" id="machinery">
-              <form class="form-inline"
-                    id="memory-search"
-                    action="{% url 'js-memory' unit_id=unit.id %}">
+              <form id="memory-search" action="{% url 'js-memory' unit_id=unit.id %}">
                 {% csrf_token %}
-                <div class="form-group">
-                  <label for="memory-search-input">{% translate "Translation memory" %}</label>
-                  <input type="text" class="form-control" id="memory-search-input" name="q">
+                <label class="visually-hidden"
+                       for="memory-search-input">{% translate "Search translation memory" %}</label>
+                <div class="input-group search-group machinery-search">
+                  <input type="text"
+                         class="form-control"
+                         id="memory-search-input"
+                         name="q"
+                         placeholder="{% translate "Search translation memory" %}">
+                  <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
                 </div>
-                <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
               </form>
-              <table class="table table-compact table-striped">
-                <thead>
-                  <tr>
-                    <th>{% translate "Translation" %}</th>
-                    <th>{% translate "Suggested change" %}</th>
-                    <th>{% translate "Source" %}</th>
-                    <th>{% translate "Origin" %}</th>
-                    <th>{% translate "Similarity" %}</th>
-                    <th colspan="2">
-                      {% loading_icon "machinery" %}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody id="machinery-translations">
-                </tbody>
-              </table>
+              <div class="machinery-header" role="status" aria-live="polite">
+                {% loading_icon "machinery" %}
+                <p id="machinery-empty" hidden>
+                  <em>{% translate "No matching machine translations found." %}</em>
+                </p>
+              </div>
+              <div class="container-fluid container-gapped" id="machinery-translations"></div>
+              <template id="machinery-actions">
+                <div class="btn-float">
+                  <button type="button"
+                          class="btn btn-link green js-copy-machinery"
+                          title="{% translate "Clone to translation" %}"
+                          aria-label="{% translate "Clone to translation" %}">{% icon "clone.svg" %}</button>
+                  <button type="button"
+                          class="btn btn-link green js-copy-save-machinery"
+                          title="{% translate "Accept" %}"
+                          aria-label="{% translate "Accept" %}">{% icon "check.svg" %}</button>
+                  <button type="button"
+                          class="btn btn-link green js-copy-approve-save-machinery"
+                          title="{% translate "Accept and approve" %}"
+                          aria-label="{% translate "Accept and approve" %}">{% icon "check-all.svg" %}</button>
+                  <button type="button"
+                          class="btn btn-link red js-delete-machinery"
+                          data-bs-toggle="modal"
+                          data-bs-target="#delete-url-modal"
+                          title="{% translate "Delete entry" %}"
+                          aria-label="{% translate "Delete entry" %}">{% icon "delete.svg" %}</button>
+                </div>
+              </template>
+              <template id="machinery-row">
+                <div class="row history-row machinery-row">
+                  <div class="col-sm-2 history-event">
+                    <span class="machinery-number"></span>
+                  </div>
+                  <div class="col-sm-10 history-data">
+                    <div class="comment-content">
+                      <div class="list-group">
+                        <div class="list-group-item">
+                          <div class="list-group-item-text machinery-text machinery-target bidi-isolate"></div>
+                        </div>
+                      </div>
+                      <p class="help-block">{% translate "Suggested change:" %}</p>
+                      <div class="list-group">
+                        <div class="list-group-item">
+                          <div class="list-group-item-text machinery-text machinery-diff"></div>
+                        </div>
+                      </div>
+                      <p class="help-block">{% translate "Source:" %}</p>
+                      <div class="list-group">
+                        <div class="list-group-item">
+                          <div class="list-group-item-text machinery-text machinery-source"></div>
+                        </div>
+                      </div>
+                      <p class="help-block machinery-context-label" hidden>{% translate "Context:" %}</p>
+                      <div class="list-group machinery-context" hidden></div>
+                    </div>
+                  </div>
+                </div>
+              </template>
               <form action="" method="post" class="delete-url-form">
                 {% csrf_token %}
                 <input type="hidden" name="user" value="{{ user.username }}" />
@@ -800,7 +850,7 @@
           </div>
         {% endif %}
 
-        {% if screenshots or user_can_add_screenshot %}
+        {% if screenshots or user_can_add_screenshot or user_can_edit_screenshot %}
           <div class="card string-info">
             <div class="card-header">
               <h4 class="card-title">
@@ -816,12 +866,20 @@
                   <em>{% translate "No screenshot currently associated." %}</em>
                 {% endfor %}
               </div>
-              {% if user_can_add_screenshot %}
+              {% if user_can_add_screenshot or user_can_edit_screenshot %}
                 <div class="list-group-item card-footer-links d-flex flex-wrap justify-content-between gap-2">
-                  <a class="btn btn-link green"
-                     href="#"
-                     data-bs-toggle="modal"
-                     data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
+                  {% if user_can_edit_screenshot %}
+                    <button type="button"
+                            class="btn btn-link green"
+                            data-bs-toggle="modal"
+                            data-bs-target="#select-screenshot-modal">{% icon "plus-circle.svg" %} {% translate "Add existing screenshot" %}</button>
+                  {% endif %}
+                  {% if user_can_add_screenshot %}
+                    <a class="btn btn-link green"
+                       href="#"
+                       data-bs-toggle="modal"
+                       data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Upload screenshot" %}</a>
+                  {% endif %}
                   <a class="btn btn-link green"
                      id="edit-screenshot"
                      href="{% url 'screenshots' path=unit.translation.component.get_url_path %}">{% icon "pencil.svg" %} {% translate "Manage screenshots" %}</a>
@@ -1104,6 +1162,37 @@
     </form>
   {% endif %}
 
+  {% if user_can_edit_screenshot %}
+    <div class="modal fade"
+         id="select-screenshot-modal"
+         tabindex="-1"
+         aria-labelledby="select-screenshot-title"
+         aria-hidden="true"
+         data-url="{% url 'screenshot-select' unit_id=unit.pk %}">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="select-screenshot-title">{% translate "Add existing screenshot" %}</h4>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{% translate 'Close' %}"></button>
+          </div>
+          <div class="modal-body">
+            <p role="status" id="screenshot-picker-status"></p>
+            <div id="screenshot-picker-content"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit"
+                    form="screenshot-picker-selection"
+                    class="btn btn-primary"
+                    id="screenshot-picker-add"
+                    disabled>{% translate "Add screenshot" %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
   {% if screenshot_form %}
     <form action="{% url 'screenshots' path=unit.translation.component.get_url_path %}"
           method="post"

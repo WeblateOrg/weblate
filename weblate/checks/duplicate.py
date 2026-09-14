@@ -42,8 +42,27 @@ class DuplicateCheck(TargetCheck):
     version_added = "4.1"
 
     def should_skip(self, unit: Unit) -> bool:
-        # Ignore the check for Toki Pona which often uses repeating words
-        if unit.translation.language.is_base({"tok"}):
+        # These languages productively repeat words for grammatical meaning.
+        if unit.translation.language.is_base(
+            {
+                "as",  # Assamese
+                "bn",  # Bengali
+                "gu",  # Gujarati
+                "hi",  # Hindi
+                "kn",  # Kannada
+                "ml",  # Malayalam
+                "mr",  # Marathi
+                "ne",  # Nepali
+                "or",  # Odia
+                "pa",  # Punjabi
+                "sd",  # Sindhi
+                "si",  # Sinhala
+                "ta",  # Tamil
+                "te",  # Telugu; codespell:ignore
+                "tok",  # Toki Pona
+                "ur",  # Urdu
+            }
+        ):
             return True
         return super().should_skip(unit)
 

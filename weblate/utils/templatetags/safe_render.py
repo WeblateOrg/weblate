@@ -4,9 +4,11 @@
 
 from __future__ import annotations
 
+import json
 import os.path
 
 from django import template
+from django.core.serializers.json import DjangoJSONEncoder
 from django.template.defaulttags import do_for, do_if
 
 register = template.Library()
@@ -34,3 +36,15 @@ def parentdir(value: str) -> str:
 
 register.tag("if")(do_if)
 register.tag("for")(do_for)
+
+
+@register.filter(name="json")
+def json_literal(value: object) -> str:
+    """Serialize template data as a JSON literal."""
+    return json.dumps(value, ensure_ascii=False, cls=DjangoJSONEncoder)
+
+
+@register.filter(name="python")
+def python_literal(value: object) -> str:
+    """Serialize plain template data as a Python literal."""
+    return repr(json.loads(json_literal(value)))

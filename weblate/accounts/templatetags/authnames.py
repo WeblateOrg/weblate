@@ -55,7 +55,7 @@ SOCIALS: dict[str, dict[str, StrOrPromise]] = {
 }
 
 SECOND_FACTORS: dict[DeviceType, StrOrPromise] = {
-    "webauthn": gettext_lazy("Use security key (WebAuthn)"),
+    "webauthn": gettext_lazy("Use a passkey or security key (WebAuthn)"),
     "totp": gettext_lazy("Use authentication app (TOTP)"),
     "recovery": gettext_lazy("Use recovery codes"),
 }

@@ -12,11 +12,19 @@
       <span class="search-label">{% translate "Filters" %}</span>
     </button>
     <ul class="dropdown-menu shadow">
-      {% for _, name, query in custom_filter_list %}
+      {% for key, name, query, color in custom_filter_list %}
         <li>
-          <a class="dropdown-item"
-             href="#"
-             data-field="{{ query }}"><span class="title">{{ name }}</span> • <code>{{ query }}</code></a>
+          <a class="dropdown-item" href="#" data-filter="{{ key }}" data-field="{{ query }}">
+            <span class="legend filter-marker" aria-hidden="true">
+              <span class="progress">
+                {% if color %}
+                  <span class="progress-bar{% if color != "primary" %} progress-bar-{{ color }}{% endif %}"></span>
+                {% endif %}
+              </span>
+            </span>
+            <span class="title">{{ name }}</span>
+            {% if query %}• <code>{{ query }}</code>{% endif %}
+          </a>
         </li>
       {% endfor %}
     </ul>

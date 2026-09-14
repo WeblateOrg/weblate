@@ -1028,7 +1028,7 @@ class ComponentTest(RepoTestCase):
         """Setting of check_flags changes checks for related units."""
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
-        check = Check.objects.all()[0]
+        check = Check.objects.filter(name="same")[0]
         component.check_flags = f"ignore-{check.name}"
         with self.captureOnCommitCallbacks(execute=True):
             component.save()
@@ -1038,7 +1038,7 @@ class ComponentTest(RepoTestCase):
         """Moving to category changes checks inherited by related units."""
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
-        check = Check.objects.all()[0]
+        check = Check.objects.filter(name="same")[0]
         category = component.project.category_set.create(
             name="Checks", slug="checks", check_flags=f"ignore-{check.name}"
         )

@@ -1227,12 +1227,35 @@ Generic settings
 
    .. versionadded:: 4.11
 
-   Configures API rate limiting. Defaults to ``100/day`` for anonymous and
+   Configures :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`.
+   Defaults to ``100/day`` for anonymous and
    ``5000/hour`` for authenticated users.
 
    .. seealso::
 
       :ref:`api-rate`
+
+.. envvar:: WEBLATE_API_RATELIMIT_USER_OVERRIDES
+.. envvar:: WEBLATE_API_RATELIMIT_IP_OVERRIDES
+
+   .. versionadded:: 2026.10
+
+   JSON mappings configuring :setting:`API_RATELIMIT_USER_OVERRIDES` and
+   :setting:`API_RATELIMIT_IP_OVERRIDES`. Both default to empty objects.
+   Use JSON ``null`` to exempt a user, IP address, or network from API throttling.
+
+   For example, in :file:`compose.override.yaml`:
+
+   .. code-block:: yaml
+
+      services:
+        weblate:
+          environment:
+            WEBLATE_API_RATELIMIT_USER_OVERRIDES: '{"automation":"20000/hour"}'
+            WEBLATE_API_RATELIMIT_IP_OVERRIDES: '{"192.0.2.42":null,"198.51.100.0/24":"10000/hour"}'
+
+   Username rules take precedence over IP rules. See :ref:`api-rate` for
+   counting behavior and proxy configuration requirements.
 
 .. envvar:: WEBLATE_ENABLE_HOOKS
 
