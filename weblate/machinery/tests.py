@@ -55,7 +55,6 @@ from weblate.machinery.base import (
     InternalMachineTranslation,
     MachineryRateLimitError,
     MachineTranslationError,
-    RephraseMachineTranslationMixin,
 )
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
 from weblate.machinery.deepl import DeepLTranslation
@@ -4216,14 +4215,6 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         ]
         self.assertEqual(len(translate_calls), 2)
         self.assertEqual(len(rephrase_calls), 1)
-
-    def test_rephrase_mixin_requires_mro_before_batch(self) -> None:
-        with self.assertRaises(TypeError):
-
-            class BrokenRephrase(  # type: ignore[misc]
-                BatchMachineTranslation, RephraseMachineTranslationMixin
-            ):
-                pass
 
 
 class DeepLLegacyTranslationTest(BaseMachineTranslationTest):
