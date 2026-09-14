@@ -195,6 +195,8 @@
                 {% endif %}
               {% endif %}
 
+              {% include "snippets/tbx-terms.html" %}
+
               <!-- edit form -->
               {% crispy form %}
             </div>
@@ -808,7 +810,7 @@
               </h4>
             </div>
             <div class="list-group">
-              <div class="list-group-item">
+              <div class="list-group-item glossary-table-container">
                 <table class="table table-sm table-simple">
                   <thead>
                     <tr>

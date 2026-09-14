@@ -44,7 +44,8 @@ class GlossaryCheck(TargetCheck):
         permitted = set()
         boundary = r"\b" if unit.translation.language.uses_whitespace() else ""
         for term in iter_glossary_alternatives(
-            get_glossary_terms(unit, include_variants=False)
+            get_glossary_terms(unit, include_variants=False),
+            allow_readonly_aliases=True,
         ):
             term_source = term.source
             flags = term.all_flags

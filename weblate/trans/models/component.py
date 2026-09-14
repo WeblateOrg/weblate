@@ -9,6 +9,7 @@ import re
 import time
 from collections import defaultdict
 from contextlib import contextmanager, nullcontext, suppress
+from copy import deepcopy
 from dataclasses import dataclass
 from glob import glob
 from itertools import chain
@@ -2261,6 +2262,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 location=attributes["location"],
                 explanation=attributes["source_explanation"],
                 flags=attributes["flags"].format(),
+                details={
+                    "tbx_terms": {
+                        side: deepcopy(attributes["tbx_terms"]["source"])
+                        for side in ("source", "target")
+                    },
+                    "tbx_flags": attributes["tbx_flags"],
+                }
+                if attributes["tbx_terms"] is not None
+                else {},
                 num_words=count_words(attributes["source"], self.source_language),
                 state=STATE_TRANSLATED
                 if self.template and self.edit_template
@@ -4811,6 +4821,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # Store the revision as add-ons might update it later
         current_revision = self.local_revision
+        if version := self.file_format_cls.parse_version:
+            current_revision = f"{current_revision}:{version}"
 
         if (
             self.processed_revision == current_revision
