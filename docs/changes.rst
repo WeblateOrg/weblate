@@ -32,9 +32,12 @@ Weblate 2026.10
 .. rubric:: Security fixes
 
 * Prevented component ZIP imports from overwriting version control metadata on case-insensitive filesystems.
+* Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API.
 
 .. rubric:: Bug fixes
 
+* Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces.
+* Fixed double-counted statistics in nested :ref:`categories <category>` and stale statistics after deleting :ref:`labels`.
 * Fixed MIME nesting of inline branding images in :ref:`notification e-mails <notifications>` and reduced their size without changing image quality.
 * Fixed false positives from the :ref:`consecutive duplicated words check <check-duplicate>` in South Asian languages with grammatical word repetition.
 * Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` failing when the warning directory is missing or inaccessible.
@@ -44,6 +47,7 @@ Weblate 2026.10
 
 * API throttles now read :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` directly; ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` is no longer used by Weblate's throttle classes.
 * :ref:`API authentication <api-generic>` now rejects unsupported authentication schemes, such as Basic, with HTTP 401, including when a valid browser session is present.
+* Notification subscription API responses now expose ``project`` and ``component`` as nullable URL strings instead of nested objects.
 
 .. rubric:: Upgrading
 

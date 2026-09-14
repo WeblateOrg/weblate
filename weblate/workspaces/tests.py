@@ -99,6 +99,16 @@ class WorkspaceViewTest(BaseTestCase):
 
         self.assertContains(response, visible.name)
         self.assertNotContains(response, hidden.name, status_code=200)
+        widget_url = reverse(
+            "widget-image",
+            kwargs={
+                "path": workspace.get_url_path(),
+                "widget": "open",
+                "color": "graph",
+                "extension": "png",
+            },
+        )
+        self.assertContains(response, f'content="http://example.com{widget_url}"')
 
     def test_my_workspaces_lists_only_explicit_assignments(self) -> None:
         user = create_test_user()
