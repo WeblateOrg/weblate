@@ -8253,6 +8253,14 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
 
+    def test_base_url_path_is_preserved(self) -> None:
+        machine = self.MACHINE_CLS(
+            {**self.CONFIGURATION, "base_url": "http://localhost:11434/ollama"}
+        )
+        self.assertEqual(
+            machine.get_chat_url(), "http://localhost:11434/ollama/api/chat"
+        )
+
     def mock_error(self) -> None:
         http_mock.register(
             "POST",
