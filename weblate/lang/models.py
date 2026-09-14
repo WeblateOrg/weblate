@@ -1563,6 +1563,8 @@ class PluralMapper:
             source_strings = other_unit.get_target_plurals()
         else:
             source_strings = unit.get_source_plurals()
+        if unit.has_multiple_values(source_strings, unit.get_target_plurals()):
+            return source_strings
         if self.same_plurals or len(source_strings) == 1:
             strings_to_translate = source_strings
         elif self.target_plural.number == 1:

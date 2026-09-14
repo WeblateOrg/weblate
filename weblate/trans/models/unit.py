@@ -791,6 +791,7 @@ class Unit(models.Model, LoggerMixin):
         self.plural_map: list[str] = []
         # Data for glossary integration
         self.glossary_terms: list[Unit] | None = None
+        self.matched_sources: tuple[str, ...] | None = None
         self.glossary_positions: tuple[tuple[int, int], ...] = ()
         # Project backup integration
         self.import_data: dict[str, Any] = {}
@@ -1631,6 +1632,19 @@ class Unit(models.Model, LoggerMixin):
     def is_plural(self) -> bool:
         """Check whether message is plural."""
         return is_plural(self.source) or is_plural(self.target)
+
+    @property
+    def is_multivalue(self) -> bool:
+        """Whether the current string contains independent alternatives."""
+        return self.has_multiple_values(
+            split_plural(self.source), split_plural(self.target)
+        )
+
+    def has_multiple_values(self, sources: list[str], targets: list[str]) -> bool:
+        """Check actual or proposed values for independent alternatives."""
+        return self.translation.component.is_multivalue and (
+            len(sources) > 1 or len(targets) > 1
+        )
 
     @cached_property
     def is_source(self) -> bool:

@@ -13,10 +13,10 @@ from typing import TYPE_CHECKING, cast
 
 import ahocorasick_rs
 from django.core.cache import cache
-from django.db.models import Prefetch, Q, Value
-from django.db.models.functions import MD5, Lower
+from django.db.models import Prefetch, Q
 
 from weblate.trans.models.unit import Unit
+from weblate.trans.util import split_plural
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.tracing import start_span
@@ -52,13 +52,19 @@ def cleanup_glossary_term(text: str) -> str:
     return PROHIBITED_INITIAL_CHARS_RE.sub("", text).strip()
 
 
+def get_glossary_source_index(component):
+    result = defaultdict(list)
+    for pk, source in component.source_translation.unit_set.filter(
+        state__gte=STATE_TRANSLATED
+    ).values_list("pk", "source"):
+        for alias in dict.fromkeys(split_plural(source.lower())):
+            if alias:
+                result[alias].append(pk)
+    return dict(result)
+
+
 def get_glossary_sources(component):
-    # Fetch list of terms defined in a translation
-    return list(
-        component.source_translation.unit_set.filter(state__gte=STATE_TRANSLATED)
-        .values_list(Lower("source"), flat=True)
-        .distinct()
-    )
+    return list(component.glossary_source_index)
 
 
 def clear_glossary_automaton_cache(project_id: int | None = None) -> None:
@@ -233,9 +239,15 @@ def fetch_glossary_terms(  # ruff: ignore[complex-structure]
                     ),
                 )
 
+            source_ids = {
+                pk
+                for glossary in project.glossaries
+                for term in terms
+                for pk in glossary.glossary_source_index.get(term, ())
+            }
             glossary_units = list(
                 base_units.filter(
-                    Q(source__lower__md5__in=[MD5(Value(term)) for term in terms]),
+                    Q(source_unit_id__in=source_ids) | Q(pk__in=source_ids)
                 )
             )
 
@@ -258,7 +270,8 @@ def fetch_glossary_terms(  # ruff: ignore[complex-structure]
             # Prepare term lookup
             glossary_lookup: dict[str, list[Unit]] = defaultdict(list)
             for match in glossary_units:
-                glossary_lookup[match.source.lower()].append(match)
+                for alias in dict.fromkeys(split_plural(match.source.lower())):
+                    glossary_lookup[alias].append(match)
 
             # Inject matches back to the units
             for i, unit in enumerate(translation_units[translation_id]):
@@ -270,9 +283,18 @@ def fetch_glossary_terms(  # ruff: ignore[complex-structure]
                         continue
 
                     for match in matches:
-                        item = copy(match)
-                        item.glossary_positions = tuple(glossary_positions)
-                        result[item.pk] = item
+                        item = result.setdefault(match.pk, copy(match))
+                        item.glossary_positions = tuple(
+                            sorted(
+                                set(
+                                    getattr(item, "glossary_positions", ())
+                                    + tuple(glossary_positions)
+                                )
+                            )
+                        )
+                        item.matched_sources = tuple(
+                            dict.fromkeys((*(item.matched_sources or ()), term))
+                        )
                         for variant in glossary_variants[match.pk].values():
                             item = copy(variant)
                             item.glossary_positions = tuple(glossary_positions)
@@ -282,6 +304,54 @@ def fetch_glossary_terms(  # ruff: ignore[complex-structure]
                 unit.glossary_terms = sorted(
                     result.values(), key=lambda x: x.glossary_sort_key
                 )
+
+
+def iter_glossary_alternatives(units):
+    """Adapt concept alternatives for scalar glossary consumers and copy actions."""
+    for unit in units:
+        if not unit.is_multivalue:
+            from weblate.lang.models import PluralMapper  # ruff: ignore[import-outside-top-level]
+
+            sources = unit.get_source_plurals()
+            targets = unit.get_target_plurals()
+            if "read-only" in unit.all_flags:
+                pairs = [(source, source) for source in sources]
+            elif len(sources) == 1 and len(targets) == 1:
+                pairs = [(sources[0], targets[0])]
+            else:
+                source_plural = unit.translation.component.source_language.plural
+                target_plural = unit.translation.plural
+                if (
+                    len(sources) == source_plural.number
+                    and len(targets) == target_plural.number
+                ):
+                    pairs = PluralMapper(source_plural, target_plural).zip(
+                        sources, targets, unit
+                    )
+                else:
+                    pairs = [(sources[-1], target) for target in targets]
+            for source, target in pairs:
+                if (
+                    unit.matched_sources is not None
+                    and source.lower() not in unit.matched_sources
+                ):
+                    continue
+                item = copy(unit)
+                item.source, item.target = source, target
+                yield item
+            continue
+        sources = unit.get_source_plurals()
+        if unit.matched_sources is not None:
+            sources = [
+                source for source in sources if source.lower() in unit.matched_sources
+            ]
+        readonly = "read-only" in unit.all_flags
+        targets = unit.get_source_plurals() if readonly else unit.get_target_plurals()
+        for source in sources:
+            for target in targets:
+                item = copy(unit)
+                item.source, item.target = source, target
+                yield item
 
 
 def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
@@ -324,7 +394,7 @@ def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
         )
 
     included = set()
-    for unit in units:
+    for unit in iter_glossary_alternatives(units):
         # Skip forbidden term
         if "forbidden" in unit.all_flags:
             continue

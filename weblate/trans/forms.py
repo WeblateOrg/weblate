@@ -602,7 +602,7 @@ class PluralTextarea(forms.Textarea):
     def value_from_datadict(self, data, files, name):
         """Return processed plurals as a list."""
         ret = []
-        for idx in range(10):
+        for idx in range(len(data)):
             fieldname = f"{name}_{idx:d}"
             if fieldname not in data:
                 break
