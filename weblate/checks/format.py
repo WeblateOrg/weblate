@@ -13,7 +13,7 @@ from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.checks.base import Highlight, SourceCheck, TargetCheck
+from weblate.checks.base import Highlight, SourceCheck, TargetCheck, merge_diagnostics
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
@@ -398,6 +398,17 @@ class BaseFormatCheck(TargetCheck):
     def check_generator(
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> Iterable[Literal[False] | MissingExtraDict]:
+        if unit.has_multiple_values(sources, targets):
+            for target in targets:
+                failures = [
+                    self.check_format(source, target, False, unit) for source in sources
+                ]
+                if failures and all(failures):
+                    yield merge_diagnostics(failure for failure in failures if failure)
+                else:
+                    yield False
+            return
+
         # Special case languages with single plural form
         if len(sources) > 1 and len(targets) == 1:
             yield self.check_format(sources[1], targets[0], False, unit)

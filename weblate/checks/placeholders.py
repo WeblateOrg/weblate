@@ -118,6 +118,21 @@ class PlaceholderCheck(TargetCheckParametrized):
     def check_target_params(  # type: ignore[override]
         self, sources: list[str], targets: list[str], unit: Unit, value
     ) -> Literal[False] | dict[str, Any]:
+        if unit.has_multiple_values(sources, targets):
+            missing: set[str] = set()
+            extra: set[str] = set()
+            for target in targets:
+                failures = [
+                    self.check_target_params([source], [target], unit, value)
+                    for source in sources
+                ]
+                if failures and all(failures):
+                    for failure in failures:
+                        if failure:
+                            missing.update(failure["missing"])
+                            extra.update(failure["extra"])
+            return {"missing": missing, "extra": extra} if missing or extra else False
+
         expected = self.get_match_set(value, sources[0], unit)
         if expected is None:
             return False
