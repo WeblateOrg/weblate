@@ -56,7 +56,14 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Announcement, Change, Comment, Project, Suggestion
+from weblate.trans.models import (
+    Announcement,
+    Change,
+    Comment,
+    Project,
+    Suggestion,
+    Translation,
+)
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
     RegistrationTestMixin,
@@ -368,24 +375,42 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Check mail
         self.validate_notifications(2, "[Weblate] Repository operation in Test/Test")
 
-    def test_notify_parse_error(self) -> None:
+    def configure_repository_browsers(self) -> None:
         self.component.repoweb = "https://source.example.com/{{filename}}#L{{line}}"
         self.component.repoweb_translations = (
             "https://translations.example.com/{{filename}}#L{{line}}"
         )
         self.component.save(update_fields=["repoweb", "repoweb_translations"])
-        change = self.create_with_callbacks(
-            self.get_translation().change_set,
-            details={"error_message": "Failed merge", "filename": "test/file.po"},
-            action=ActionEvents.PARSE_ERROR,
+
+    def trigger_parse_error(
+        self,
+        translation: Translation | None = None,
+        filename: str | None = None,
+    ) -> Change:
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.handle_parse_error(
+                ValueError("Failed parse"),
+                translation=translation,
+                filename=filename,
+                reraise=False,
+            )
+        return self.component.change_set.filter(action=ActionEvents.PARSE_ERROR).latest(
+            "pk"
         )
-        self.assertIn("test/file.po", change.get_details_display())
-        self.assertIn("Failed merge", change.get_details_display())
+
+    def test_notify_parse_error(self) -> None:
+        self.configure_repository_browsers()
+        translation = self.get_translation()
+        change = self.trigger_parse_error(translation=translation)
+        self.assertEqual(change.translation, translation)
+        self.assertEqual(change.details["filename"], translation.filename)
+        self.assertIn(translation.filename, change.get_details_display())
+        self.assertIn("Failed parse", change.get_details_display())
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(
-            'href="https://translations.example.com/test/file.po#L1"',
+            f'href="https://translations.example.com/{translation.filename}#L1"',
             get_html_content(mail.outbox[0]),
         )
 
@@ -397,20 +422,44 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(3, "[Weblate] Parse error in Test/Test")
 
     def test_notify_source_parse_error(self) -> None:
-        self.component.repoweb = "https://source.example.com/{{filename}}#L{{line}}"
-        self.component.repoweb_translations = (
-            "https://translations.example.com/{{filename}}#L{{line}}"
-        )
-        self.component.save(update_fields=["repoweb", "repoweb_translations"])
-        self.create_with_callbacks(
-            self.component.source_translation.change_set,
-            details={"error_message": "Failed merge", "filename": "test/file.po"},
-            action=ActionEvents.PARSE_ERROR,
-        )
+        self.configure_repository_browsers()
+        translation = self.component.source_translation
+        change = self.trigger_parse_error(translation=translation)
+        self.assertEqual(change.translation, translation)
+        self.assertEqual(change.details["filename"], translation.filename)
 
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(
-            'href="https://source.example.com/test/file.po#L1"',
+            f'href="https://source.example.com/{translation.filename}#L1"',
+            get_html_content(mail.outbox[0]),
+        )
+
+    def test_notify_intermediate_parse_error(self) -> None:
+        self.configure_repository_browsers()
+        self.component.intermediate = "intermediate/dev.json"
+        self.component.save(update_fields=["intermediate"])
+        change = self.trigger_parse_error(filename=self.component.intermediate)
+        self.assertIsNone(change.translation)
+        self.assertEqual(change.details["filename"], self.component.intermediate)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            'href="https://translations.example.com/intermediate/dev.json#L1"',
+            get_html_content(mail.outbox[0]),
+        )
+
+    def test_notify_template_parse_error(self) -> None:
+        self.configure_repository_browsers()
+        self.component.intermediate = "intermediate/dev.json"
+        self.component.template = "intermediate/en.json"
+        self.component.save(update_fields=["intermediate", "template"])
+        change = self.trigger_parse_error(filename=self.component.template)
+        self.assertIsNone(change.translation)
+        self.assertEqual(change.details["filename"], self.component.template)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            'href="https://source.example.com/intermediate/en.json#L1"',
             get_html_content(mail.outbox[0]),
         )
 
