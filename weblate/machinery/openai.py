@@ -4,8 +4,6 @@
 
 from __future__ import annotations
 
-from typing import ClassVar
-from urllib.parse import quote
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import quote, urljoin
 
@@ -28,7 +26,7 @@ class BaseOpenAITranslation(BaseLLMTranslation):
 
     def get_chat_completions_url(self) -> str:
         raise NotImplementedError
-        
+
     @staticmethod
     def join_api_url(base_url: str, path: str) -> str:
         return urljoin(f"{base_url.rstrip('/')}/", path)

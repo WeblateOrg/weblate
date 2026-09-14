@@ -4,9 +4,7 @@
 
 from __future__ import annotations
 
-from typing import ClassVar
 from typing import TYPE_CHECKING, ClassVar
-from urllib.parse import urljoin
 
 from .base import MachineryRateLimitError, MachineTranslationError
 from .forms import AnthropicMachineryForm
