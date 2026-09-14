@@ -35,6 +35,7 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* :ref:`mt-anthropic` machine translation now preserves the path component of a custom base URL, so API gateways which serve the messages endpoint below a path prefix are reachable.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces.
 * Fixed double-counted statistics in nested :ref:`categories <category>` and stale statistics after deleting :ref:`labels`.
 * Fixed MIME nesting of inline branding images in :ref:`notification e-mails <notifications>` and reduced their size without changing image quality.
@@ -279,7 +280,6 @@ Weblate 2026.8
 .. rubric:: Bug fixes
 
 * :ref:`Disabling password authentication <site-wide-user-management>` from site-wide user management now regenerates the user's personal API key by default.
-* :ref:`mt-anthropic` machine translation now preserves the path component of a custom base URL, so API gateways which serve the messages endpoint below a path prefix are reachable.
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
 * URLs containing backslashes are now rejected as invalid.
