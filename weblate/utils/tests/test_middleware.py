@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -14,6 +15,9 @@ from django.test.utils import override_settings
 
 from weblate.middleware import CSPBuilder, ProxyMiddleware
 
+if TYPE_CHECKING:
+    from collections.abc import Awaitable
+
 MOCK_RESPONSE_TEXT = "mock response text"
 
 
@@ -22,7 +26,9 @@ class ProxyTest(TestCase):
         self.assertEqual(request.META["REMOTE_ADDR"], "1.2.3.4")
         return HttpResponse(MOCK_RESPONSE_TEXT)
 
-    def assert_response(self, response):
+    def assert_response(
+        self, response: HttpResponseBase | Awaitable[HttpResponseBase]
+    ) -> None:
         assert isinstance(response, HttpResponse)
         self.assertEqual(response.text, MOCK_RESPONSE_TEXT)
 
@@ -105,6 +111,21 @@ class CSPBuilderTest(TestCase):
         self.assertIn("sentry.io", builder.directives["script-src"])
         self.assertIn("o123.ingest.sentry.io", builder.directives["connect-src"])
         self.assertIn("sentry.io", builder.directives["connect-src"])
+        self.assertNotIn("'unsafe-inline'", builder.directives["script-src"])
+
+    @override_settings(
+        SENTRY_DSN="https://public@o123.ingest.de.sentry.io/456",
+    )
+    def test_sentry_de_error_allows_redirected_script(self) -> None:
+        request = self.factory.get("/")
+        request.resolver_match = None
+
+        builder = CSPBuilder(request, HttpResponse(status=500))
+
+        for directive in ("script-src", "connect-src"):
+            self.assertIn("o123.ingest.de.sentry.io", builder.directives[directive])
+            self.assertIn("de.sentry.io", builder.directives[directive])
+            self.assertIn("sentry.io", builder.directives[directive])
         self.assertNotIn("'unsafe-inline'", builder.directives["script-src"])
 
     @override_settings(STATIC_URL="https://cdn.example.test/static/")

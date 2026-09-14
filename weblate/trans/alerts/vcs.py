@@ -6,9 +6,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import (
     AlertCategory,
     AlertSeverity,
@@ -16,22 +16,45 @@ from weblate.trans.alerts.base import (
     ErrorAlert,
 )
 from weblate.trans.alerts.registry import register
-from weblate.trans.hooks.matching import (
-    HOOK_MATCH_EXACT,
-    HOOK_MATCH_FALLBACK,
-    repo_matches_exact_repos,
-)
+from weblate.utils.docs import get_doc_url
 from weblate.vcs.base import (
+    GITHUB_FORKING_DISABLED_MESSAGE,
     RepositoryDiagnosis,
     RepositoryDiagnosisCode,
+    RepositoryErrorCode,
     RepositoryStructuredError,
     format_stored_repository_error,
     get_repository_error_diagnoses,
 )
+from weblate.vcs.params import GitForcePush, MergeRequestAutomerge
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models.component import Component
+
+
+REPOSITORY_URL_INVALID_ERRORS: frozenset[RepositoryErrorCode] = frozenset(
+    {
+        "repository_url_invalid",
+        "repository_url_parse_invalid",
+        "repository_url_parse_failed",
+    }
+)
+REPOSITORY_URL_PRIVATE_ERRORS: frozenset[RepositoryErrorCode] = frozenset(
+    {
+        "repository_url_backend_unsupported",
+        "repository_url_host_not_allowed",
+        "repository_url_private_target",
+    }
+)
+REPOSITORY_URL_RESOLUTION_ERRORS: frozenset[RepositoryErrorCode] = frozenset(
+    {
+        "repository_ssh_destination_unresolved",
+        "repository_ssh_destination_unresolved_with_error",
+        "repository_url_unresolved",
+        "repository_url_unresolved_with_error",
+    }
+)
 
 
 def normalize_repository_error_fingerprint(error: str) -> str:
@@ -51,6 +74,75 @@ class RepositoryAlert(BaseAlert):
             user.has_perm(permission, component)
             for permission in cls.repository_permissions
         )
+
+
+@register
+class GitHubAppMigration(RepositoryAlert):
+    verbose = gettext_lazy(
+        "This component can be migrated to the Weblate GitHub App integration."
+    )
+    severity = AlertSeverity.INFO
+    dismissible = True
+    doc_page = "admin/code-hosting"
+    doc_anchor = "code-hosting-github-app-migrate"
+
+    @classmethod
+    def get_url(cls, component: Component) -> str:
+        if component.project.workspace_id is None:
+            return ""
+        return reverse(
+            "github-app-migration",
+            kwargs={"workspace_id": component.project.workspace_id},
+        )
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {
+            "details": details,
+            "repo": component.repo,
+            "vcs": component.vcs,
+            "workspace": str(component.project.workspace_id or ""),
+        }
+
+    @classmethod
+    def check_component(cls, component: Component) -> bool:
+        # Imports stay local because alerts are loaded while Django initializes
+        # the VCS registry and model modules.
+        from weblate.vcs.github import (  # ruff: ignore[import-outside-top-level]
+            GITHUB_APP_MIGRATABLE_VCS,
+            get_github_repository_identity,
+            github_app_is_configured,
+        )
+
+        if (
+            component.vcs not in GITHUB_APP_MIGRATABLE_VCS
+            or component.project.workspace_id is None
+        ):
+            return False
+        identity = get_github_repository_identity(component.repo)
+        return identity is not None and github_app_is_configured(identity[0])
+
+    @classmethod
+    def get_user_url(cls, user: User, component: Component) -> str:
+        # Imports stay local because alerts are loaded while Django initializes
+        # the VCS registry and model modules.
+        from weblate.vcs.permissions import (  # ruff: ignore[import-outside-top-level]
+            user_can_migrate_to_github_app,
+        )
+
+        # The migration view is workspace-scoped, so offering the link on the
+        # weaker component.edit permission behind can_user_act() would send some
+        # users to a page they cannot open.
+        return (
+            cls.get_url(component)
+            if user_can_migrate_to_github_app(user, component.project.workspace_id)
+            else ""
+        )
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        result["migration_url"] = self.get_user_url(user, self.instance.component)
+        return result
 
 
 class RepositoryErrorAlert(ErrorAlert):
@@ -90,9 +182,43 @@ class RepositoryErrorAlert(ErrorAlert):
                 return diagnosis.get("params", {})
         return None
 
+    @property
+    def error_code(self) -> RepositoryErrorCode | None:
+        if isinstance(self.stored_error, dict):
+            return self.stored_error["code"]
+        return None
+
+    @property
+    def is_repository_url_error(self) -> bool:
+        return self.error_code is not None and self.error_code.startswith(
+            ("repository_redirect", "repository_ssh_destination_", "repository_url_")
+        )
+
+    def get_instance_documentation_url(self, user: User | None = None) -> str:
+        if self.is_repository_url_error:
+            return get_doc_url("vcs", "vcs-repository-url-troubleshooting", user=user)
+        return super().get_instance_documentation_url(user)
+
     def get_analysis(self) -> dict[str, Any]:
+        error_code = self.error_code
         return {
             "redirect": self.has_diagnosis("repository_redirect"),
+            "git_lfs_missing_objects": self.has_diagnosis("git_lfs_missing_objects"),
+            "repository_url_failure": self.is_repository_url_error,
+            "repository_url_backend_unsupported": (
+                error_code == "repository_url_backend_unsupported"
+            ),
+            "repository_url_invalid": error_code in REPOSITORY_URL_INVALID_ERRORS,
+            "repository_url_private": error_code in REPOSITORY_URL_PRIVATE_ERRORS,
+            "repository_url_redirect": (
+                error_code is not None and error_code.startswith("repository_redirect")
+            ),
+            "repository_url_resolution": (
+                error_code in REPOSITORY_URL_RESOLUTION_ERRORS
+            ),
+            "repository_url_scheme": (
+                error_code == "repository_url_scheme_not_allowed"
+            ),
         }
 
     @classmethod
@@ -119,70 +245,6 @@ class RepositoryErrorAlert(ErrorAlert):
             user.has_perm(permission, component)
             for permission in cls.repository_permissions
         )
-
-
-@register
-class InexactHookMatch(BaseAlert):
-    # Translators: Name of an alert
-    verbose = gettext_lazy("Repository hook matched inexactly.")
-    category = AlertCategory.VCS
-    severity = AlertSeverity.WARNING
-    dismissible = True
-    doc_page = "admin/continuous"
-    doc_anchor = "update-vcs"
-
-    @classmethod
-    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
-        return {"details": details, "repo": component.repo}
-
-    def __init__(
-        self,
-        instance,
-        service_long_name: str = "",
-        repo_url: str = "",
-        branch: str = "",
-        full_name: str = "",
-    ) -> None:
-        super().__init__(instance)
-        self.service_long_name = service_long_name
-        self.repo_url = repo_url
-        self.branch = branch
-        self.full_name = full_name
-
-    @staticmethod
-    def get_change_details(change) -> dict[str, str]:
-        details = change.details
-        return {
-            "service_long_name": str(details.get("service_long_name") or ""),
-            "repo_url": str(details.get("repo_url") or ""),
-            "branch": str(details.get("branch") or ""),
-            "full_name": str(details.get("full_name") or ""),
-        }
-
-    @classmethod
-    def check_component(cls, component: Component) -> bool | dict | None:
-        change = (
-            component.change_set.filter(action=ActionEvents.HOOK)
-            .order_by("-id")
-            .first()
-        )
-        if change is None:
-            return False
-
-        if change.details.get("match_method") == HOOK_MATCH_EXACT:
-            return False
-        if change.details.get("match_method") == HOOK_MATCH_FALLBACK:
-            return cls.get_change_details(change)
-
-        repos = change.details.get("repos")
-        if (
-            isinstance(repos, list)
-            and all(isinstance(repo, str) for repo in repos)
-            and repo_matches_exact_repos(component.repo, repos)
-        ):
-            return False
-
-        return cls.get_change_details(change)
 
 
 @register
@@ -256,6 +318,10 @@ class BaseGitFailure(RepositoryErrorAlert):
         repo_suggestion = None
         force_push_suggestion = False
         component = self.instance.component
+        github_forking_disabled = component.vcs == "github" and (
+            self.has_diagnosis("github_forking_disabled")
+            or GITHUB_FORKING_DISABLED_MESSAGE in self.error
+        )
         host_key_mismatch = self.has_diagnosis("ssh_host_key_mismatch")
         host_key = self.has_diagnosis("ssh_host_key_unverified")
         host_key_message = None
@@ -277,6 +343,7 @@ class BaseGitFailure(RepositoryErrorAlert):
                 component.vcs == "git"
                 and component.merge_style == "rebase"
                 and bool(component.push_branch)
+                and not GitForcePush.get_value(component.vcs_params)
             )
 
         return {
@@ -298,6 +365,7 @@ class BaseGitFailure(RepositoryErrorAlert):
                 if github_pull_request_params
                 else None
             ),
+            "github_forking_disabled": github_forking_disabled,
         }
 
 
@@ -306,6 +374,19 @@ class PushFailure(BaseGitFailure):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not push the repository.")
     repository_permissions = ("vcs.push", "vcs.reset")
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        component = self.instance.component
+        analysis = result["analysis"]
+        if analysis["github_forking_disabled"] and GitHubAppMigration.check_component(
+            component
+        ):
+            analysis["github_app_migration_available"] = True
+            result["github_app_migration_url"] = GitHubAppMigration.get_user_url(
+                user, component
+            )
+        return result
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
@@ -322,6 +403,31 @@ class UpdateFailure(BaseGitFailure):
     doc_page = "admin/projects"
     doc_anchor = "component-repo"
     repository_permissions = ("vcs.update", "vcs.reset")
+
+
+@register
+class AutomergeFailure(RepositoryErrorAlert):
+    """
+    Automatic merging of a pull request failed.
+
+    Raised after the changes and the pull request have already landed, so this
+    never fails the push itself; it only tells the user that the opt-in
+    convenience did not apply.
+    """
+
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not merge the pull request automatically.")
+    category = AlertCategory.VCS
+    link_wide = True
+    doc_page = "vcs"
+    doc_anchor = "vcs_params"
+    repository_permissions = ("vcs.push",)
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        if not MergeRequestAutomerge.get_value(component.vcs_params):
+            return False
+        return None
 
 
 @register

@@ -183,7 +183,18 @@ class SortedChoiceWidget(forms.widgets.ChoiceWidget):
 
     def optgroups(self, name, value, attrs=None):
         groups = super().optgroups(name, value, attrs)
-        return sort_unicode(groups, lambda val: str(val[1][0]["label"]))
+        # Keep the empty choice first, sorting could move it in the middle of
+        # the list, making it hard to discover with searchable widgets.
+        empty_groups = []
+        other_groups = []
+        for group in groups:
+            if group[1] and not str(group[1][0]["value"]):
+                empty_groups.append(group)
+            else:
+                other_groups.append(group)
+        return empty_groups + sort_unicode(
+            other_groups, lambda val: str(val[1][0]["label"])
+        )
 
 
 class SortedSelect(SortedChoiceWidget, forms.Select):
@@ -210,6 +221,10 @@ class SearchableSelect(forms.Select):
             existing.append("searchable-select")
         attrs["class"] = " ".join(existing)
         super().__init__(attrs, choices)
+
+
+class SortedSearchableSelect(SortedChoiceWidget, SearchableSelect):
+    """Wrapper class to sort choices and provide client side search."""
 
 
 class ContextDiv(Div):
@@ -301,9 +316,16 @@ class SearchField(Field):
             "approved",
             "unapproved",
         ]
+        if not form.fields[self.fields[0]].required:
+            filter_keys.insert(0, "all")
         result = [
-            (key, FILTERS.get_filter_name(key), FILTERS.get_filter_query(key))
-            for key in filter_keys
+            (
+                key,
+                FILTERS.get_filter_name(key),
+                FILTERS.get_filter_query(key),
+                FILTERS.get_filter_color(key),
+            )
+            for key in sorted(filter_keys, key=FILTERS.get_filter_order)
         ]
         user: User | None = getattr(form, "user", None)
         if user is not None and user.is_authenticated:
@@ -313,11 +335,13 @@ class SearchField(Field):
                         "comments_by_me",
                         gettext_lazy("Strings with comments by me"),
                         f'comment_author:="{user.username}"',
+                        "",
                     ),
                     (
                         "source_comments_by_me",
                         gettext_lazy("Strings with source comments by me"),
                         f'source_comment_author:="{user.username}"',
+                        "",
                     ),
                 )
             )

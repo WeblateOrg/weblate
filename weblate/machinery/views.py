@@ -27,8 +27,8 @@ from weblate.machinery.base import (
     MachineTranslationError,
 )
 from weblate.machinery.models import MACHINERY
+from weblate.trans.formatting import format_language_string
 from weblate.trans.models import Project, Unit
-from weblate.trans.templatetags.translations import format_language_string
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
 from weblate.wladmin.views import MENU as MANAGE_MENU
@@ -97,7 +97,7 @@ class MachineryConfiguration:
         self.is_configured = is_configured
 
     @property
-    def is_enabled(self):
+    def is_enabled(self) -> bool:
         return self.configuration is not None
 
     @property
@@ -117,7 +117,7 @@ class MachineryConfiguration:
         return self.machinery.get_doc_anchor()
 
     @property
-    def has_settings(self):
+    def has_settings(self) -> bool:
         return self.machinery.settings_form is not None
 
     def get_absolute_url(self) -> str:
@@ -510,7 +510,7 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
         except Exception as error:
-            report_error("Machinery failed", project=component.project)
+            report_error("Machinery failed", project=component.project, exception=error)
             response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
     if response["responseStatus"] != 200:

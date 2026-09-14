@@ -4,21 +4,40 @@
 
 import importlib
 from datetime import timedelta
+from unittest.mock import MagicMock, patch
 
 from django.apps import apps
 from django.utils import timezone
 
-from weblate.metrics.models import Metric
-from weblate.metrics.tasks import cleanup_metrics, collect_metrics
+from weblate.metrics.models import (
+    Metric,
+    get_change_metric_data,
+    get_language_change_metric_data,
+)
+from weblate.metrics.tasks import (
+    METRIC_COLLECTION_TASKS,
+    cleanup_metrics,
+    collect_metrics,
+)
 from weblate.metrics.wrapper import MetricsWrapper
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, ComponentLink, Project
 from weblate.trans.models.change import Change
 from weblate.trans.tests.test_views import FixtureComponentTestCase
+from weblate.trans.tests.utils import create_another_user
 from weblate.workspaces.models import Workspace
 
 
 class MetricTestCase(FixtureComponentTestCase):
+    def test_collect_schedules_scope_tasks(self) -> None:
+        tasks = [MagicMock() for task in METRIC_COLLECTION_TASKS]
+        with patch("weblate.metrics.tasks.METRIC_COLLECTION_TASKS", tasks):
+            collect_metrics()
+
+        date_value = timezone.now().date().isoformat()
+        for task in tasks:
+            task.delay.assert_called_once_with(date_value)
+
     def test_collect(self) -> None:
         category = Category.objects.create(
             project=self.project, name="Metrics", slug="metrics"
@@ -112,6 +131,43 @@ class MetricTestCase(FixtureComponentTestCase):
     def test_collect_global(self) -> None:
         Metric.objects.collect_global()
         self.assertNotEqual(Metric.objects.count(), 0)
+
+    def test_collect_uses_requested_date(self) -> None:
+        collection_date = timezone.now().date() - timedelta(days=5)
+
+        metric = Metric.objects.collect_component(self.component, collection_date)
+
+        self.assertEqual(metric.date, collection_date)
+
+    def test_change_metric_aggregates(self) -> None:
+        Change.objects.all().delete()
+        collection_date = timezone.now().date()
+        old_user = create_another_user("-old-metric")
+        yesterday = self.translation.change_set.create(
+            action=ActionEvents.CHANGE, user=self.user
+        )
+        old = self.translation.change_set.create(
+            action=ActionEvents.CHANGE, user=old_user
+        )
+        Change.objects.filter(pk=yesterday.pk).update(
+            timestamp=timezone.now() - timedelta(days=1)
+        )
+        Change.objects.filter(pk=old.pk).update(
+            timestamp=timezone.now() - timedelta(days=45)
+        )
+
+        with self.assertNumQueries(2):
+            data = get_change_metric_data(
+                self.component.change_set.all(), collection_date
+            )
+        with self.assertNumQueries(2):
+            language_data = get_language_change_metric_data(
+                self.component.change_set.all(), collection_date
+            )[self.translation.language_id]
+
+        expected = {"changes": 1, "contributors": 1, "contributors_total": 2}
+        self.assertEqual(data, expected)
+        self.assertEqual(language_data, expected)
 
     def test_collect_workspace(self) -> None:
         workspace = Workspace.objects.create(name="Metrics workspace")

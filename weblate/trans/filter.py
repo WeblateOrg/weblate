@@ -18,6 +18,46 @@ if TYPE_CHECKING:
 
 class FilterRegistry:
     @cached_property
+    def status_order(self) -> tuple[str, ...]:
+        return (
+            "all",
+            "readonly",
+            "approved",
+            "translated",
+            "unapproved",
+            "approved_suggestions",
+            "todo",
+            "nottranslated",
+            "fuzzy",
+            "suggestions",
+            "nosuggestions",
+            "allchecks",
+            "translated_checks",
+            "dismissed_checks",
+            *(CHECKS[check].url_id for check in CHECKS),
+            "comments",
+            "unlabeled",
+        )
+
+    @cached_property
+    def status_ranks(self) -> dict[str, int]:
+        return {name: index for index, name in enumerate(self.status_order)}
+
+    def get_filter_order(self, name: str) -> int:
+        if name.startswith("label:"):
+            name = "unlabeled"
+        return self.status_ranks.get(name, len(self.status_order))
+
+    def get_filter_color(self, name: str, *, enable_review: bool = False) -> str:
+        if name in {"approved", "approved_suggestions"}:
+            return "primary"
+        if name == "readonly":
+            return "primary" if enable_review else "success"
+        if name in {"translated", "unapproved"}:
+            return "success"
+        return ""
+
+    @cached_property
     def full_list(self):
         result: list[tuple[str, StrOrPromise, str]] = [
             ("all", gettext_lazy("All strings"), ""),

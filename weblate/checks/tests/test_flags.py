@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.utils.translation import override
@@ -243,7 +245,8 @@ class FlagTest(SimpleTestCase):
         )
 
     def test_replacements(
-        self, text='replacements:{COLOR-GREY}:"":{COLOR-GARNET}:"":{VARIABLE-01}:99'
+        self,
+        text: str = 'replacements:{COLOR-GREY}:"":{COLOR-GARNET}:"":{VARIABLE-01}:99',
     ) -> None:
         flags = Flags(text)
         self.assertEqual(

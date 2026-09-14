@@ -99,6 +99,44 @@
           "title": "Version control system",
           "type": "string"
         },
+        "vcs_params": {
+          "$id": "#root/component/vcs_params",
+          "title": "Version control parameters",
+          "type": "object",
+          "additionalProperties": false,
+          "default": {},
+          "properties": {
+            "git_force_push": {
+              "$id": "#root/component/vcs_params/git_force_push",
+              "title": "Force push",
+              "type": "boolean",
+              "default": false
+            },
+            "create_merge_request": {
+              "$id": "#root/component/vcs_params/create_merge_request",
+              "title": "Create merge requests",
+              "type": "boolean",
+              "default": true
+            },
+            "merge_request_automerge": {
+              "$id": "#root/component/vcs_params/merge_request_automerge",
+              "title": "Merge pull requests automatically",
+              "type": "boolean",
+              "default": false
+            },
+            "merge_request_merge_method": {
+              "$id": "#root/component/vcs_params/merge_request_merge_method",
+              "title": "Merge method",
+              "type": "string",
+              "enum": [
+                "merge",
+                "squash",
+                "rebase"
+              ],
+              "default": "merge"
+            }
+          }
+        },
         "repo": {
           "$id": "#root/component/repo",
           "title": "Source code repository",
@@ -144,6 +182,12 @@
           "title": "File mask",
           "type": "string"
         },
+        "screenshot_filemask": {
+          "$id": "#root/component/screenshot_filemask",
+          "title": "Screenshot file mask",
+          "type": "string",
+          "default": ""
+        },
         "template": {
           "$id": "#root/component/template",
           "title": "Monolingual base language file",
@@ -169,15 +213,40 @@
           "title": "File format",
           "type": "string"
         },
+        "file_format_params": {
+          "$id": "#root/component/file_format_params",
+          "title": "File format parameters",
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "integer",
+              "boolean"
+            ]
+          },
+          "default": {}
+        },
         "locked": {
           "$id": "#root/component/locked",
           "title": "Locked",
           "type": "boolean"
         },
+        "hide_glossary_matches": {
+          "$id": "#root/component/hide_glossary_matches",
+          "title": "Do not show glossary matches",
+          "type": "boolean",
+          "default": false
+        },
         "allow_translation_propagation": {
           "$id": "#root/component/allow_translation_propagation",
           "title": "Allow translation propagation",
           "type": "boolean"
+        },
+        "contribute_project_tm": {
+          "$id": "#root/component/contribute_project_tm",
+          "title": "Contribute to project translation memory",
+          "type": "boolean",
+          "default": true
         },
         "enable_suggestions": {
           "$id": "#root/component/enable_suggestions",
@@ -269,6 +338,12 @@
         "inherit_secondary_language": {
           "$id": "#root/component/inherit_secondary_language",
           "title": "Inherit secondary language",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_enforced_checks": {
+          "$id": "#root/component/inherit_enforced_checks",
+          "title": "Inherit enforced checks",
           "type": "boolean",
           "default": false
         },
@@ -377,6 +452,12 @@
           "$id": "#root/component/language_regex",
           "title": "Language filter",
           "type": "string"
+        },
+        "key_filter": {
+          "$id": "#root/component/key_filter",
+          "title": "Key filter",
+          "type": "string",
+          "default": ""
         },
         "variant_regex": {
           "$id": "#root/component/variant_regex",

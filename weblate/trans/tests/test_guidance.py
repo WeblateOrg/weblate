@@ -4,9 +4,12 @@
 
 """Test for component guidance alerts."""
 
+from __future__ import annotations
+
 import os
 import shutil
 from pathlib import Path
+from typing import TYPE_CHECKING
 from unittest.mock import Mock, patch
 
 from django.core.exceptions import ValidationError
@@ -44,6 +47,9 @@ from weblate.trans.templatetags.translations import component_alerts
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.docs import get_doc_url
 
+if TYPE_CHECKING:
+    from weblate.trans.models import Component
+
 
 class RecommendedGenerateMoAddonTest(SimpleTestCase):
     def test_recommendation_ignores_invalid_translation_file(self) -> None:
@@ -68,7 +74,7 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         shutil.copytree(self.git_base_repo_path, path)
         return path
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_new_base(new_lang="add")
 
     def test_xgettext_recommendation(self) -> None:
@@ -632,11 +638,65 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
 
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "One screenshot has no string assigned to it.")
+        self.assertContains(response, f'href="{screenshot.get_absolute_url()}"')
 
         screenshot.units.add(self.component.source_translation.unit_set.first())
 
         self.assertFalse(
             self.component.alert_set.filter(name=UnusedScreenshot.__name__).exists()
+        )
+
+    def test_unassigned_screenshot_legacy_alert_links_to_screenshot(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Unassigned screenshot",
+            image="screenshots/test.png",
+            translation=self.component.source_translation,
+        )
+        alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
+        alert.details = {"unassigned": 1}
+        alert.save(update_fields=["details"])
+
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertContains(response, f'href="{screenshot.get_absolute_url()}"')
+
+    def test_unassigned_screenshot_keeps_legacy_dismissal(self) -> None:
+        Screenshot.objects.create(
+            name="Unassigned screenshot",
+            image="screenshots/test.png",
+            translation=self.component.source_translation,
+        )
+        alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
+        alert.details = {"unassigned": 1}
+        alert.save(update_fields=["details"])
+        self.assertTrue(alert.dismiss(self.user))
+
+        update_alerts(self.component, {UnusedScreenshot.__name__})
+        alert.refresh_from_db()
+
+        self.assertTrue(alert.is_dismissed)
+
+    def test_multiple_unassigned_screenshots_link_to_filtered_list(self) -> None:
+        Screenshot.objects.create(
+            name="First unassigned screenshot",
+            image="screenshots/test.png",
+            translation=self.component.source_translation,
+        )
+        Screenshot.objects.create(
+            name="Second unassigned screenshot",
+            image="screenshots/test-2.png",
+            translation=self.component.source_translation,
+        )
+        alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
+
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertEqual(alert.details, {"unassigned": 2})
+        self.assertContains(response, "2 screenshots have no string assigned to them.")
+        self.assertContains(
+            response,
+            f"{reverse('screenshots', kwargs={'path': self.component.get_url_path()})}"
+            "?q=NOT%20has%3Astring",
         )
 
     def test_addon_guidance_removed_when_addon_is_added(self) -> None:

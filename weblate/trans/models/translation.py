@@ -17,7 +17,9 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import DatabaseError, IntegrityError, models, transaction
-from django.db.models import F, Q
+from django.db.models import F, OuterRef, Q, Subquery, Value
+from django.db.models.functions import Coalesce
+from django.db.models.signals import post_save
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -48,7 +50,7 @@ from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion, SuggestionAddResult
-from weblate.trans.models.unit import Unit
+from weblate.trans.models.unit import UNIT_METADATA_UPDATE_FIELDS, Unit
 from weblate.trans.signals import (
     component_post_update,
     translation_post_remove,
@@ -62,7 +64,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.errors import log_handled_exception, report_error
+from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.regex import regex_match
 from weblate.utils.render import render_template
@@ -312,6 +314,27 @@ class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
         """
         return self.exclude(language=F("component__source_language"))
 
+    def with_review(self) -> TranslationQuerySet:
+        """Return translations whose effective workflow enables reviews."""
+        from weblate.trans.models.workflow import (  # ruff: ignore[import-outside-top-level]
+            WorkflowSetting,
+        )
+
+        workflow = WorkflowSetting.objects.filter(
+            Q(project=None) | Q(project=OuterRef("component__project_id")),
+            language=OuterRef("language_id"),
+        ).order_by(F("project").desc(nulls_last=True))
+        source = Q(language=F("component__source_language"))
+        return self.alias(
+            workflow_review=Coalesce(
+                Subquery(workflow.values("translation_review")[:1]), Value(True)
+            )
+        ).filter(
+            (source & Q(component__project__source_review=True))
+            | (~source & Q(component__project__translation_review=True)),
+            workflow_review=True,
+        )
+
 
 class Translation(
     models.Model,
@@ -406,7 +429,7 @@ class Translation(
         return Flags(self.component.all_flags, self.check_flags)
 
     @cached_property
-    def is_readonly(self):
+    def is_readonly(self) -> bool:
         return "read-only" in self.all_flags
 
     def parse_check_flags(self) -> Flags:
@@ -460,14 +483,14 @@ class Translation(
                 % {"file": self.filename, "error": str(error)}
             ) from error
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         return (*self.component.get_url_path(), self.language.code)
 
     def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""
         return f"{self.component.project.get_widgets_url()}?lang={self.language.code}&component={self.component.pk}"
 
-    def get_share_url(self):
+    def get_share_url(self) -> str:
         """Return absolute URL usable for sharing."""
         return get_site_url(
             reverse(
@@ -476,7 +499,7 @@ class Translation(
             )
         )
 
-    def get_translate_url(self):
+    def get_translate_url(self) -> str:
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
     def get_filename(self) -> str | None:
@@ -588,6 +611,7 @@ class Translation(
         }
         updated: dict[int, Unit] = {}
         duplicates: list[Unit] = []
+        metadata_updates: dict[int, Unit] = {}
 
         # Process based on intermediate store if available
         if self.component.intermediate:
@@ -687,7 +711,31 @@ class Translation(
                 op="unit.update_from_unit",
                 name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
             ):
-                newunit.update_from_unit(user=user, author=author)
+                newunit.update_from_unit(
+                    user=user,
+                    author=author,
+                    metadata_updates=metadata_updates,
+                )
+
+        if metadata_updates:
+            metadata_timestamp = timezone.now()
+            for unit in metadata_updates.values():
+                unit.last_updated = metadata_timestamp
+            Unit.objects.bulk_update(
+                metadata_updates.values(),
+                UNIT_METADATA_UPDATE_FIELDS,
+                batch_size=500,
+            )
+            update_fields = frozenset(UNIT_METADATA_UPDATE_FIELDS)
+            for unit in metadata_updates.values():
+                post_save.send(
+                    sender=Unit,
+                    instance=unit,
+                    created=False,
+                    raw=False,
+                    using=unit._state.db,  # ruff: ignore[private-member-access]
+                    update_fields=update_fields,
+                )
 
         # Trigger duplicate alerts
         for newunit in duplicates:
@@ -1079,10 +1127,9 @@ class Translation(
             self, apply_filters=True
         )
         pending_changes_count = pending_changes_qs.count()
-        report_error(
+        report_message(
             "Attempted to commit translation without filename",
             project=self.component.project,
-            message=True,
             extra_log=f"translation={self.full_slug}, pending_changes={pending_changes_count}",
         )
         pending_changes = list(pending_changes_qs.values_list("unit_id", flat=True))
@@ -1317,7 +1364,11 @@ class Translation(
                 ),
             )
             return
-        report_error("Could not update unit", project=self.component.project)
+        report_error(
+            "Could not update unit",
+            project=self.component.project,
+            exception=error,
+        )
 
     def _store_failed_unit_update(
         self, unit: Unit, pending_change: PendingUnitChange, error: Exception
@@ -1372,7 +1423,7 @@ class Translation(
         qs = PendingUnitChange.objects.for_translation(self, apply_filters=True)
         return qs.distinct("unit_id").count()
 
-    def needs_commit(self):
+    def needs_commit(self) -> bool:
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
@@ -1409,6 +1460,8 @@ class Translation(
             template = self.component.effective_commit_message
         with repository.lock:
             # Pre commit hook
+            if self.filename and self.store.update_contributor(author):
+                self.store.save()
             vcs_pre_commit.send(
                 sender=self.__class__,
                 translation=self,

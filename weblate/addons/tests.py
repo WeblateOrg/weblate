@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import ast
 import base64
 import contextlib
 import importlib
@@ -15,12 +16,13 @@ import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
+from collections import UserDict
 from copy import deepcopy
 from datetime import timedelta
 from io import StringIO
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, Never, TypedDict, cast
 from unittest.mock import MagicMock, patch
 
 import fedora_messaging.api
@@ -37,7 +39,7 @@ from django.core.management.commands.makemessages import (
 )
 from django.core.management.utils import find_command
 from django.db import connection
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase, TestCase, TransactionTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -49,6 +51,7 @@ from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 from weblate_schemas.messages import WeblateV1Message
 
 from weblate.addons.forms import (
+    AutoAddonForm,
     FedoraMessagingAddonForm,
     MesonExtractPotForm,
     SphinxExtractPotForm,
@@ -70,13 +73,15 @@ from weblate.trans.models import (
     Translation,
     Unit,
     Vote,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
-from weblate.trans.tests.utils import get_optional_path
+from weblate.trans.tests.utils import TEST_DATA, RepoTestMixin, get_optional_path
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
+    STATE_APPROVED,
     STATE_EMPTY,
     STATE_NEEDS_REWRITING,
     STATE_READONLY,
@@ -88,6 +93,7 @@ from weblate.vcs.base import Repository, RepositoryError
 
 from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
 from .base import (
+    ADDON_CHANGE_DETAILS_SCHEMA,
     CHANGE_EVENT_FILTER_ALL,
     CHANGE_EVENT_FILTER_CONTENT,
     CHANGE_EVENT_FILTER_CUSTOM,
@@ -102,7 +108,7 @@ from .defaults import (
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
-from .discovery import DiscoveryAddon
+from .discovery import DISCOVERY_LIMIT_ERROR, DiscoveryAddon
 from .events import AddonActivityLogReason, AddonEvent, AddonEventOutcome
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
@@ -137,7 +143,6 @@ from .gettext import (
     DJANGO_EXTRACT_RUNNER,
     DjangoAddon,
     GenerateMoAddon,
-    GettextAuthorComments,
     MesonAddon,
     MsgmergeAddon,
     SphinxAddon,
@@ -170,6 +175,8 @@ from .tasks import (
 from .webhooks import MessageNotDeliveredError, SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
+    from unittest.mock import Mock
+
     from weblate.trans.models import (
         Project,
     )
@@ -351,6 +358,50 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.addon_set.count(), 1)
 
+    def test_addon_change_history_redacts_credentials(self) -> None:
+        configuration = {
+            "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+            "events": [],
+            "secret": "first-secret",
+            "webhook_url": "https://example.com/private-hook",
+        }
+        addon = WebhookAddon.create(
+            component=self.component,
+            configuration=configuration,
+            run=False,
+        ).instance
+
+        created = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
+        self.assertEqual(created.details["schema"], ADDON_CHANGE_DETAILS_SCHEMA)
+        self.assertEqual(
+            created.details["configuration"],
+            {
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "events": [],
+                "secret": None,
+                "webhook_url": None,
+            },
+        )
+        self.assertEqual(created.details["redacted_fields"], ["secret", "webhook_url"])
+
+        addon.configuration["secret"] = "rotated-secret"
+        addon.save()
+
+        changed = self.component.change_set.get(action=ActionEvents.ADDON_CHANGE)
+        self.assertEqual(changed.details["changed_fields"], ["secret"])
+        self.assertIn("<code>secret</code> (redacted)", changed.get_details_display())
+        self.assertNotIn("first-secret", str(changed.details))
+        self.assertNotIn("rotated-secret", str(changed.details))
+
+        addon.delete()
+
+        removed = self.component.change_set.get(action=ActionEvents.ADDON_REMOVE)
+        self.assertEqual(
+            removed.details["changed_fields"],
+            ["event_filter", "events", "secret", "webhook_url"],
+        )
+        self.assertNotIn("rotated-secret", str(removed.details))
+
     def test_create_category_addon(self) -> None:
         category = self.create_category(self.project)
         self.component.category = category
@@ -486,7 +537,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         self.assertTrue(addon.instance.can_run_manually)
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_schedule_manual_run(self, mocked_delay) -> None:
+    def test_schedule_manual_run(self, mocked_delay: Mock) -> None:
         addon = ManualResultAddon.create(component=self.component, run=False)
 
         addon.instance.schedule_manual_run()
@@ -750,7 +801,14 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         addon = self.build_fake_addon(BaseAddon, component)
         translation = SimpleNamespace(component=component)
 
-        self.assertIsNone(addon.render_repo_filename("stats/cs.json", translation))
+        for scope in ({"translation": translation}, {"component": component}):
+            with (
+                self.subTest(scope=next(iter(scope))),
+                patch(
+                    "weblate.addons.base.render_template", return_value="stats/cs.json"
+                ),
+            ):
+                self.assertIsNone(addon.render_repo_filename("stats/cs.json", **scope))
         self.assertFalse(outside_target.exists())
 
     def test_render_repo_filename_rejects_symlinked_parent_outside_repository(
@@ -769,7 +827,17 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
         addon = self.build_fake_addon(BaseAddon, component)
         translation = SimpleNamespace(component=component)
 
-        self.assertIsNone(addon.render_repo_filename("stats/new/cs.json", translation))
+        for scope in ({"translation": translation}, {"component": component}):
+            with (
+                self.subTest(scope=next(iter(scope))),
+                patch(
+                    "weblate.addons.base.render_template",
+                    return_value="stats/new/cs.json",
+                ),
+            ):
+                self.assertIsNone(
+                    addon.render_repo_filename("stats/new/cs.json", **scope)
+                )
         self.assertFalse((Path(outside_dir) / "new").exists())
 
     def test_meson_form_rejects_gettext_symlink_outside_repository(self) -> None:
@@ -859,7 +927,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
 
         component.repository.resolve_symlinks = resolve_symlinks
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -929,7 +997,7 @@ class GettextRepositoryPathValidationTest(SimpleTestCase):
 
         component.repository.resolve_symlinks = resolve_symlinks
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -1330,7 +1398,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["comment_mode"], "off")
         self.assertEqual(form.cleaned_data["comment_tag"], "")
         self.assertEqual(form.cleaned_data["checks"], [])
-        self.assertEqual(form.cleaned_data["keyword"], "")
+        self.assertEqual(form.cleaned_data["keyword"], [])
         self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_xgettext_form_accepts_blank_language(self) -> None:
@@ -1405,7 +1473,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             form.cleaned_data["checks"], ["ellipsis-unicode", "bullet-unicode"]
         )
-        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["keyword"], ["tr"])
         self.assertEqual(form.cleaned_data["location_mode"], "keep")
 
     def test_xgettext_form_keyword_exclusive(self) -> None:
@@ -1427,7 +1495,7 @@ class GettextAddonTest(ViewTestCase):
         )
         assert form is not None
         self.assertTrue(form.is_valid(), form.errors)
-        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["keyword"], ["tr"])
         self.assertTrue(form.cleaned_data["keyword_exclusive"])
 
         # keyword_exclusive=True without a keyword is invalid.
@@ -1449,6 +1517,74 @@ class GettextAddonTest(ViewTestCase):
         assert form is not None
         self.assertFalse(form.is_valid())
         self.assertIn("keyword_exclusive", form.errors)
+
+    def test_xgettext_form_multiple_keywords(self) -> None:
+        # Multiple newline-separated keywords are accepted.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": "tr\nN_\nC_:1c,2",
+                "keyword_exclusive": True,
+            },
+        )
+        assert form is not None
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["keyword"], ["tr", "N_", "C_:1c,2"])
+
+        # Serialized form round-trips the keyword list.
+        self.assertEqual(form.serialize_form()["keyword"], ["tr", "N_", "C_:1c,2"])
+
+    def test_xgettext_form_keyword_list_roundtrip(self) -> None:
+        # A stored keyword list is rendered as newline-separated text.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": ["tr", "N_"],
+                "keyword_exclusive": False,
+            },
+        )
+        assert form is not None
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["keyword"], ["tr", "N_"])
+        self.assertEqual(form["keyword"].value(), "tr\nN_")
+
+    def test_xgettext_form_rejects_non_string_keyword_entries(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": ["tr", 1],
+                "keyword_exclusive": False,
+            },
+        )
+        assert form is not None
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["keyword"], ["Keyword entries have to be strings."]
+        )
 
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
@@ -1636,7 +1772,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             form.serialize_form()["checks"], ["ellipsis-unicode", "quote-unicode"]
         )
-        self.assertEqual(form.serialize_form()["keyword"], "tr")
+        self.assertEqual(form.serialize_form()["keyword"], ["tr"])
         self.assertEqual(form.serialize_form()["location_mode"], "omit")
 
     def test_django_form(self) -> None:
@@ -1885,16 +2021,7 @@ class GettextAddonTest(ViewTestCase):
             sphinx_build.write_text("", encoding="utf-8")
             sphinx_build.chmod(0o755)
 
-            with (
-                patch(
-                    "weblate.utils.commands.find_command",
-                    side_effect=lambda command, path=None: shutil.which(
-                        command,
-                        path=None if path is None else os.pathsep.join(path),
-                    ),
-                ),
-                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
-            ):
+            with patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)):
                 self.assertTrue(SphinxAddon.can_install(component=self.component))
 
     def test_sphinx_can_install_uses_symlinked_runtime_venv_bin(self) -> None:
@@ -1916,16 +2043,7 @@ class GettextAddonTest(ViewTestCase):
             sphinx_build.write_text("", encoding="utf-8")
             sphinx_build.chmod(0o755)
 
-            with (
-                patch(
-                    "weblate.utils.commands.find_command",
-                    side_effect=lambda command, path=None: shutil.which(
-                        command,
-                        path=None if path is None else os.pathsep.join(path),
-                    ),
-                ),
-                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
-            ):
+            with patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)):
                 self.assertTrue(SphinxAddon.can_install(component=self.component))
 
     def test_sphinx_can_install_ignores_relative_runtime_executable(self) -> None:
@@ -1935,7 +2053,7 @@ class GettextAddonTest(ViewTestCase):
         (docs_dir / "conf.py").write_text("", encoding="utf-8")
 
         with (
-            patch("weblate.utils.commands.find_command", return_value=None),
+            patch("weblate.utils.commands.which", return_value=None),
             patch("weblate.utils.commands.sys.executable", "python"),
         ):
             self.assertFalse(SphinxAddon.can_install(component=self.component))
@@ -2352,6 +2470,71 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--check=bullet-unicode", command)
         self.assertIn("--keyword=tr", command)
 
+    def test_xgettext_uses_multiple_keywords(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "keyword": ["tr", "N_"],
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--keyword=tr", command)
+        self.assertIn("--keyword=N_", command)
+        self.assertEqual(
+            [arg for arg in command if arg.startswith("--keyword=")],
+            ["--keyword=tr", "--keyword=N_"],
+        )
+        # Multiple keywords with exclusivity disabled must not emit bare --keyword.
+        self.assertNotIn("--keyword", command)
+
+    def test_xgettext_uses_multiple_exclusive_keywords(self) -> None:
+        source = Path(self.component.full_path) / "src" / "Main.java"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Java",
+                "source_patterns": ["src/*.java"],
+                "keyword": ["tr", "N_"],
+                "keyword_exclusive": True,
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # Bare --keyword must appear once, before the named keywords.
+        bare_idx = command.index("--keyword")
+        named_indices = [command.index(f"--keyword={kw}") for kw in ("tr", "N_")]
+        self.assertLess(bare_idx, min(named_indices))
+        self.assertEqual(
+            [arg for arg in command if arg.startswith("--keyword=")],
+            ["--keyword=tr", "--keyword=N_"],
+        )
+
     def test_xgettext_uses_exclusive_keywords(self) -> None:
         source = Path(self.component.full_path) / "src" / "Main.java"
         source.parent.mkdir(parents=True, exist_ok=True)
@@ -2413,6 +2596,65 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--keyword=tr", command)
         # Bare --keyword must NOT be present when exclusivity is disabled.
         self.assertNotIn("--keyword", command)
+
+    def test_xgettext_keyword_string_backward_compatibility(self) -> None:
+        """Keyword stored as string (old format) should work after migration to list."""
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\n', encoding="utf-8")
+        # Simulate old configuration where keyword was stored as a string
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "keyword": "tr",  # String format (old)
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--keyword=tr", command)
+
+    def test_xgettext_multiple_keywords_string_backward_compatibility(self) -> None:
+        """Multiple newline-separated keywords stored as string (old format) should work."""
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
+        # Simulate old configuration with newline-separated keywords
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "keyword": "tr\nN_",  # Newline-separated string format (old)
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--keyword=tr", command)
+        self.assertIn("--keyword=N_", command)
+        self.assertEqual(
+            [arg for arg in command if arg.startswith("--keyword=")],
+            ["--keyword=tr", "--keyword=N_"],
+        )
 
     def test_xgettext_no_keyword_emits_no_keyword_args(self) -> None:
         """When no keyword is set, no --keyword args at all should appear."""
@@ -2980,7 +3222,7 @@ class GettextAddonTest(ViewTestCase):
             "Thank you for using Weblate!",
         )
 
-        def run_process(component: Component, command: list[str]) -> str:
+        def run_process(component: Component, command: list[str], **kwargs) -> str:
             template.write_text(template_content, encoding="utf-8")
             return ""
 
@@ -3015,7 +3257,7 @@ class GettextAddonTest(ViewTestCase):
             "Thank you for using Weblate!",
         )
 
-        def run_process(component: Component, command: list[str]) -> str:
+        def run_process(component: Component, command: list[str], **kwargs) -> str:
             template.write_text(template_content, encoding="utf-8")
             return ""
 
@@ -3185,7 +3427,7 @@ class GettextAddonTest(ViewTestCase):
 
         revision_before = self.component.repository.last_revision
 
-        def run_process(component, command, env=None, cwd=None, extra_path=None):
+        def run_process(component, command, env=None, cwd=None, extra_path=None) -> str:
             template = Path(component.full_path) / "po" / "hello.pot"
             template.parent.mkdir(parents=True, exist_ok=True)
             template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
@@ -3220,7 +3462,7 @@ class GettextAddonTest(ViewTestCase):
         )
         revision_before = self.component.repository.last_revision
 
-        def run_process(component, command, env=None, cwd=None, extra_path=None):
+        def run_process(component, command, env=None, cwd=None, extra_path=None) -> str:
             template = Path(component.full_path) / "po" / "hello.pot"
             template.parent.mkdir(parents=True, exist_ok=True)
             template.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
@@ -3488,7 +3730,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3526,7 +3768,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3559,7 +3801,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3590,7 +3832,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3623,7 +3865,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3656,7 +3898,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3692,7 +3934,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3723,7 +3965,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
             locale_dir.mkdir(parents=True, exist_ok=True)
             (locale_dir / "django.pot").write_text(
@@ -3919,7 +4161,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -3976,7 +4218,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4008,7 +4250,7 @@ msgstr ""
             configuration={"interval": "weekly", "normalize_header": False},
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4040,7 +4282,7 @@ msgstr ""
             },
         )
 
-        def run_process(component, command, env=None, cwd=None):
+        def run_process(component, command, env=None, cwd=None) -> str:
             build_dir = Path(command[-1])
             build_dir.mkdir(parents=True, exist_ok=True)
             (build_dir / "docs.pot").write_text(
@@ -4617,7 +4859,7 @@ msgstr ""
             "Thank you for using Weblate!",
         )
 
-        def run_process(component: Component, command: list[str]) -> str:
+        def run_process(component: Component, command: list[str], **kwargs) -> str:
             template.write_text(template_content, encoding="utf-8")
             return ""
 
@@ -4701,16 +4943,14 @@ msgstr ""
         self.component.new_base = "locale/django.pot"
         self.component.save(update_fields=["new_base"])
 
-        def fake_find_command(name, path=None):
+        def fake_which(name, path=None) -> str | None:
             if name == "xgettext":
                 return "/usr/bin/xgettext"
             if name == "msguniq":
                 return None
             return "/usr/bin/other"
 
-        with patch(
-            "weblate.utils.commands.find_command", side_effect=fake_find_command
-        ):
+        with patch("weblate.utils.commands.which", side_effect=fake_which):
             self.assertFalse(DjangoAddon.can_install(component=self.component))
 
     def test_generate(self) -> None:
@@ -4739,6 +4979,145 @@ msgstr ""
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("stats/cs.json", commit)
         self.assertIn('"translated": 25', commit)
+
+    def test_generate_translation_scope_skips_component_events(self) -> None:
+        addon = GenerateFileAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "filename": "stats/{{ language_code }}.json",
+                "template": "{{ stats.translated_percent }}",
+            },
+        )
+        translation = self.get_translation()
+        for event, method, scope in (
+            (AddonEvent.EVENT_COMPONENT_UPDATE, "component_update", self.component),
+            (AddonEvent.EVENT_POST_ADD, "post_add", translation),
+            (AddonEvent.EVENT_POST_REMOVE, "post_remove", translation),
+        ):
+            with self.subTest(event=event):
+                handle_addon_event(
+                    event,
+                    method,
+                    (scope,),
+                    component=self.component,
+                    addon_queryset=[addon.instance],
+                )
+                activity = AddonActivityLog.objects.filter(addon=addon.instance).latest(
+                    "pk"
+                )
+                self.assertEqual(activity.status, AddonActivityLog.Status.SKIPPED)
+                self.assertEqual(
+                    activity.details["reason"], AddonActivityLogReason.NOT_APPLICABLE
+                )
+        self.assertFalse((Path(self.component.full_path) / "stats").exists())
+
+    def test_generate_component(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            addon = GenerateFileAddon.create(
+                component=self.component,
+                configuration={
+                    "scope": "component",
+                    "filename": "locales.json",
+                    "template": "{{ translations|json }}",
+                },
+            )
+        output = Path(self.component.full_path) / "locales.json"
+        rows = json.loads(output.read_text())
+        codes = [row["language_code"] for row in rows]
+        self.assertEqual(codes, sorted(codes))
+        czech = next(row for row in rows if row["language_code"] == "cs")
+        self.assertEqual(czech["language_name"], "Czech")
+        self.assertEqual(czech["language_native_name"], "Čeština")
+        self.assertEqual(czech["language_direction"], "ltr")
+        self.assertEqual(czech["stats"]["translated_percent"], 0)
+        self.assertTrue(any(row["is_source"] for row in rows))
+        revision = self.component.repository.last_revision
+        addon.component_update(self.component)
+        self.assertEqual(self.component.repository.last_revision, revision)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+        rows = json.loads(output.read_text())
+        self.assertEqual(
+            next(row for row in rows if row["language_code"] == "cs")["stats"][
+                "translated_percent"
+            ],
+            25,
+        )
+        self.assertIn(
+            "locales.json",
+            self.component.repository.show(self.component.repository.last_revision),
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            translation = self.component.add_new_language(
+                Language.objects.get(code="sk"), None
+            )
+        self.assertIsNotNone(translation)
+        self.assertIn(
+            "sk", [row["language_code"] for row in json.loads(output.read_text())]
+        )
+        self.get_translation().remove(self.user)
+        self.assertNotIn(
+            "cs", [row["language_code"] for row in json.loads(output.read_text())]
+        )
+        self.assertIn(
+            "locales.json",
+            self.component.repository.show(self.component.repository.last_revision),
+        )
+
+    def test_generate_component_python(self) -> None:
+        GenerateFileAddon.create(
+            component=self.component,
+            configuration={
+                "scope": "component",
+                "filename": "languages.py",
+                "template": "names = {\n{% for item in translations %}{{ item.language_code|python }}: {{ item.language_native_name|python }},\n{% endfor %}}\n",
+            },
+        )
+        output = (Path(self.component.full_path) / "languages.py").read_text()
+        statement = ast.parse(output).body[0]
+        self.assertIsInstance(statement, ast.Assign)
+        names = ast.literal_eval(cast("ast.Assign", statement).value)
+        self.assertEqual(names["cs"], "Čeština")
+
+    def test_generate_component_reconfigure(self) -> None:
+        addon = GenerateFileAddon.create(
+            component=self.component,
+            configuration={
+                "scope": "component",
+                "filename": "locales.json",
+                "template": "{{ translations|json }}",
+            },
+        )
+        addon.instance.configuration["template"] = (
+            "{% for item in translations %}{% if not item.is_source %}{{ item.language_code }}\n{% endif %}{% endfor %}"
+        )
+        addon.instance.save()
+        addon.post_configure_run()
+        output = Path(self.component.full_path) / "locales.json"
+        self.assertEqual(output.read_text().splitlines(), ["cs", "de", "it"])
+
+    def test_generate_component_metadata_refresh(self) -> None:
+        addon = GenerateFileAddon.create(
+            component=self.component,
+            configuration={
+                "scope": "component",
+                "filename": "locales.json",
+                "template": "{{ translations|json }}",
+            },
+        )
+        language = self.get_translation().language
+        language.name = "Custom language"
+        language.direction = "rtl"
+        language.save()
+        addon.component_update(self.component)
+        rows = json.loads((Path(self.component.full_path) / "locales.json").read_text())
+        row = next(row for row in rows if row["language_code"] == "cs")
+        self.assertEqual(row["language_native_name"], "Custom language")
+        self.assertEqual(row["language_direction"], "rtl")
 
     def test_generate_rejects_broken_leaf_symlink(self) -> None:
         if not hasattr(os, "symlink"):
@@ -4777,17 +5156,43 @@ msgstr ""
             activity.details["reason"], AddonActivityLogReason.INVALID_OUTPUT
         )
 
-    def test_gettext_comment(self) -> None:
+    def test_generate_component_rejects_broken_leaf_symlink(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
         translation = self.get_translation()
-        self.assertTrue(
-            GettextAuthorComments.can_install(component=translation.component)
+        translation.addon_commit_files = []
+        output = Path(self.component.full_path) / "stats" / "cs.json"
+        outside_dir = tempfile.mkdtemp()
+        outside_target = Path(outside_dir) / "cs.json"
+        self.addCleanup(shutil.rmtree, outside_dir, True)
+        output.parent.mkdir(parents=True)
+        output.symlink_to(outside_target)
+        addon = GenerateFileAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "scope": "component",
+                "filename": "stats/cs.json",
+                "template": "{{ translations|json }}",
+            },
         )
-        addon = GettextAuthorComments.create(component=translation.component)
-        addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>", True)
-        content = get_optional_path(translation.get_filename()).read_text(
-            encoding="utf-8"
+
+        handle_addon_event(
+            AddonEvent.EVENT_INSTALL,
+            "post_install",
+            (self.component, True),
+            component=self.component,
+            addon_queryset=[addon.instance],
         )
-        self.assertIn("Stojan Jakotyc", content)
+
+        self.assertEqual(translation.addon_commit_files, [])
+        self.assertFalse(outside_target.exists())
+        activity = AddonActivityLog.objects.get(addon=addon.instance)
+        self.assertEqual(activity.status, AddonActivityLog.Status.ERROR)
+        self.assertEqual(
+            activity.details["reason"], AddonActivityLogReason.INVALID_OUTPUT
+        )
 
     def test_pseudolocale(self) -> None:
         self.assertTrue(PseudolocaleAddon.can_install(component=self.component))
@@ -4889,6 +5294,32 @@ msgstr ""
 
         self.assertEqual(fetch_strings.call_count, 1)
         self.assertEqual(fetch_strings.call_args.args[0].pk, source_translation.pk)
+
+
+class GenerateComponentTransactionTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    def test_generate_component_repository_update(self) -> None:
+        component = self.create_component()
+        GenerateFileAddon.create(
+            component=component,
+            configuration={
+                "scope": "component",
+                "filename": "locales.json",
+                "template": "{{ translations|json }}",
+            },
+        )
+        translation = component.translation_set.get(language_code="cs")
+        filename = Path(get_optional_path(translation.get_filename()))
+        with filename.open("a", encoding="utf-8") as handle:
+            handle.write('\nmsgid "Added upstream"\nmsgstr ""\n')
+        component.create_translations_immediate(force=True)
+        rows = json.loads((Path(component.full_path) / "locales.json").read_text())
+        self.assertEqual(
+            next(row for row in rows if row["language_code"] == "cs")["stats"]["all"], 5
+        )
 
 
 class AppStoreAddonTest(ComponentTestCase):
@@ -5182,7 +5613,7 @@ class ViewTests(ViewTestCase):
     def test_addon_logs(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
         addon = self.component.addon_set.all()[0]
@@ -5233,7 +5664,7 @@ class ViewTests(ViewTestCase):
         self.assertContains(response, "Uninstall")
 
     def test_non_daily_addon_has_no_manual_run_button(self) -> None:
-        GettextAuthorComments.create(component=self.component, run=False)
+        MsgmergeAddon.create(component=self.component, run=False)
 
         addon = self.component.addon_set.get()
         response = self.client.get(addon.get_absolute_url())
@@ -5241,7 +5672,7 @@ class ViewTests(ViewTestCase):
         self.assertNotContains(response, "Run now")
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_manual_run(self, mocked_delay) -> None:
+    def test_manual_run(self, mocked_delay: Mock) -> None:
         addon = XgettextAddon.create(
             component=self.component,
             run=False,
@@ -5311,7 +5742,7 @@ class ViewTests(ViewTestCase):
     def test_addon_logs_without_authentication(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
         addon = self.component.addon_set.all()[0]
@@ -5323,7 +5754,7 @@ class ViewTests(ViewTestCase):
     def test_add_simple(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
@@ -5337,16 +5768,16 @@ class ViewTests(ViewTestCase):
 
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
 
         self.assertContains(response, "Installed 2 add-ons")
         self.assertContains(response, "weblate.addon.nonexisting")
-        self.assertContains(response, "Contributors in comment")
+        self.assertContains(response, "Update PO files to match POT (msgmerge)")
         self.assertTrue(
             Addon.objects.filter(
-                component=self.component, name="weblate.gettext.authors"
+                component=self.component, name="weblate.gettext.msgmerge"
             ).exists()
         )
 
@@ -5769,8 +6200,7 @@ class CommandTest(ComponentTestCase):
         self.assertIn("msgmerge", generated)
         self.assertNotIn("Guided preset", generated)
         self.assertIn(
-            "Enter slug of a component to use as source, keep blank to use all "
-            "components in the current project.",
+            str(AutoAddonForm.base_fields["component"].help_text),
             generated,
         )
         # Hidden fields such as DiscoveryForm.confirm (HiddenInput) should not be documented
@@ -5796,7 +6226,7 @@ class CommandTest(ComponentTestCase):
             "install_addon",
             "--all",
             "--addon",
-            "weblate.gettext.authors",
+            "weblate.gettext.msgmerge",
             stdout=output,
             stderr=output,
         )
@@ -5924,6 +6354,28 @@ class CommandTest(ComponentTestCase):
 
 
 class DiscoveryTest(ViewTestCase):
+    def test_limit_failure_is_reported(self) -> None:
+        addon = DiscoveryAddon.create(
+            component=self.component,
+            configuration={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ component|title }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "remove": True,
+            },
+        )
+        discovery = MagicMock()
+        discovery.limit_exceeded = True
+        with patch.object(addon, "get_discovery", return_value=discovery):
+            outcome = addon.post_update(self.component, "", False, [])
+
+        self.assertEqual(
+            outcome,
+            AddonEventOutcome.error(result=DISCOVERY_LIMIT_ERROR),
+        )
+
     def test_creation(self) -> None:
         link = self.component.get_repo_link_url()
         self.assertEqual(Component.objects.filter(repo=link).count(), 0)
@@ -6155,6 +6607,218 @@ class DiscoveryTest(ViewTestCase):
             form.errors["name_template"],
             ["This template must include {{ component }}."],
         )
+
+    def test_form_match_help_text(self) -> None:
+        form = DiscoveryAddon.get_add_form(self.user, component=self.component)
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        help_text = str(form.fields["match"].help_text)
+        self.assertEqual(
+            help_text,
+            "The regular expression must define a named group for component. "
+            "Also define a named group for language when matching translation files. "
+            "When the file mask is set, omit language and match the "
+            "monolingual base or new base file instead.",
+        )
+
+    def test_form_filemask_template_requires_new_base(self) -> None:
+        data = {
+            "file_format": "po",
+            "match": r"locale/(?P<component>[^/]+)\.pot",
+            "name_template": "{{ component }}",
+            "language_regex": "^[^.]+$",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "filemask_template": "locale/{{ component }}.po",
+            "remove": False,
+            "confirm": True,
+        }
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data=data,
+        )
+        self.assertIsNotNone(form)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["new_base_template"],
+            [
+                "Define the base file for new translations when creating components from a template."
+            ],
+        )
+        self.assertEqual(
+            form.errors["filemask_template"],
+            ["The file mask must include a language wildcard (*)."],
+        )
+
+    def test_form_classic_mode_requires_language_group(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "filemask_template": "",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["match"],
+            [
+                (
+                    'Regular expression is missing named group "language", '
+                    "the simplest way to define it is (?P<language>.*)."
+                ),
+            ],
+        )
+
+    def test_form_whitespace_filemask_template_uses_classic_mode(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "filemask_template": "   ",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["match"],
+            [
+                (
+                    'Regular expression is missing named group "language", '
+                    "the simplest way to define it is (?P<language>.*)."
+                ),
+            ],
+        )
+
+    def test_form_create_from_template_requires_wildcard(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "filemask_template": "locale/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["filemask_template"],
+            ["The file mask must include a language wildcard (*)."],
+        )
+
+    def test_form_create_from_template_rejects_language_group(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<language>[^/]+)/(?P<component>[^/]+)\.po",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "filemask_template": "locale/*/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form, "Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["match"],
+            [
+                "Omit the language named group when creating components from a monolingual base or new base file."
+            ],
+        )
+
+    def test_form_create_from_template_rejects_unknown_match_groups(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}.{{ extension }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "filemask_template": "locale/*/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form, "Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.errors["name_template"])
+
+    def test_form_create_from_template_accepts_valid_configuration(self) -> None:
+        pot_dir = Path(self.component.full_path) / "locale"
+        pot_dir.mkdir(exist_ok=True)
+        shutil.copy(
+            os.path.join(TEST_DATA, "hello.pot"),
+            pot_dir / "hello.pot",
+        )
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "filemask_template": "locale/*/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form, "Expected discovery form to be created")
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.cleaned_data["filemask_template"],
+            "locale/*/{{ component }}.po",
+        )
+        serialized = form.serialize_form()
+        self.assertEqual(
+            serialized["filemask_template"],
+            "locale/*/{{ component }}.po",
+        )
+        self.assertNotIn("create_from_template", serialized)
 
     def test_ui_presets_are_not_part_of_form_configuration(self) -> None:
         form = DiscoveryAddon.get_add_form(
@@ -6469,6 +7133,11 @@ class DiscoveryTest(ViewTestCase):
         self.assertEqual(split_android["values"]["file_format"], "aresource")
         self.assertIn("file_format", filename_language["values"])
         self.assertEqual(filename_language["values"]["file_format"], "")
+
+    def test_discovery_ui_presets_clear_filemask_template(self) -> None:
+        presets = DiscoveryForm.get_builtin_ui_presets()
+        for preset in presets:
+            self.assertEqual(preset["values"]["filemask_template"], "")
 
 
 class ScriptsTest(TestAddonMixin, ComponentTestCase):
@@ -7288,6 +7957,106 @@ class FedoraMessagingAMQPUrlMigrationTest(TestCase):
         )
 
 
+class AddonChangeDetailsMigrationTest(TestCase):
+    def test_sensitive_addon_details_are_scrubbed(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0098_scrub_addon_change_details"
+        )
+        webhook_changes = [
+            Change.objects.create(
+                action=action,
+                target=WebhookAddon.name,
+                details={
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [str(ActionEvents.NEW)],
+                    "secret": "private-secret",
+                    "webhook_url": "https://example.com/private-hook",
+                },
+            )
+            for action in (
+                ActionEvents.ADDON_CREATE,
+                ActionEvents.ADDON_CHANGE,
+                ActionEvents.ADDON_REMOVE,
+            )
+        ]
+        slack_change = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target=SlackWebhookAddon.name,
+            details={
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "webhook_url": "https://example.com/private-hook",
+            },
+        )
+        fedora_change = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target=FedoraMessagingAddon.name,
+            details={
+                "amqp_url": "amqps://user:password@example.com/%2F",  # kingfisher:ignore
+                "ca_cert": "private-ca",
+                "client_cert": "private-certificate",
+                "client_key": "private-key",
+                "topic_prefix": "weblate",
+            },
+        )
+        other_change = Change.objects.create(
+            action=ActionEvents.CHANGE,
+            target=WebhookAddon.name,
+            details={"key": "value"},
+        )
+        schema_editor = SimpleNamespace(connection=SimpleNamespace(alias="default"))
+
+        migration.scrub_addon_change_details(apps, schema_editor)
+
+        for stored_change in webhook_changes:
+            stored_change.refresh_from_db()
+            self.assertEqual(
+                stored_change.details,
+                {
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [str(ActionEvents.NEW)],
+                    "secret": None,
+                    "webhook_url": None,
+                },
+            )
+        slack_change.refresh_from_db()
+        self.assertEqual(
+            slack_change.details,
+            {
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "webhook_url": None,
+            },
+        )
+        fedora_change.refresh_from_db()
+        self.assertEqual(
+            fedora_change.details,
+            {
+                "amqp_url": None,
+                "ca_cert": None,
+                "client_cert": None,
+                "client_key": None,
+                "topic_prefix": "weblate",
+            },
+        )
+        other_change.refresh_from_db()
+        self.assertEqual(other_change.details, {"key": "value"})
+
+    def test_unknown_addon_details_are_unchanged(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0098_scrub_addon_change_details"
+        )
+        change_object = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target="example.unknown.addon",
+            details={"path": "private-path"},
+        )
+        schema_editor = SimpleNamespace(connection=SimpleNamespace(alias="default"))
+
+        migration.scrub_addon_change_details(apps, schema_editor)
+
+        change_object.refresh_from_db()
+        self.assertEqual(change_object.details, {"path": "private-path"})
+
+
 class TestRemoval(ComponentTestCase):
     def install(
         self,
@@ -7455,6 +8224,93 @@ class TestRemoval(ComponentTestCase):
 
 
 class AutoTranslateAddonTest(ComponentTestCase):
+    def test_approved_mode_configuration(self) -> None:
+        configuration = {
+            "component": "",
+            "q": "state:<translated",
+            "auto_source": "others",
+            "engines": [],
+            "threshold": 80,
+            "mode": "approved",
+        }
+        for review_enabled in (False, True):
+            self.project.translation_review = review_enabled
+            self.project.save(update_fields=["translation_review"])
+            for scope in ("component", "project", "site"):
+                addon = AutoTranslateAddon(
+                    Addon(
+                        component=self.component if scope == "component" else None,
+                        project=self.project if scope == "project" else None,
+                    )
+                )
+                for user in (None, self.user):
+                    with self.subTest(review=review_enabled, scope=scope, user=user):
+                        form = AutoAddonForm(user, addon, data=configuration)
+                        self.assertTrue(form.is_valid(), form.errors)
+                        self.assertEqual(form.serialize_form()["mode"], "approved")
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_approved_mode_uses_effective_review_settings(self) -> None:
+        target = self.create_po(
+            name="Target",
+            slug="target",
+            project=self.project,
+            allow_translation_propagation=False,
+        )
+        translation = target.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        source_unit = self.component.translation_set.get(
+            language_code="cs"
+        ).unit_set.get(source=unit.source)
+        source_unit.translate(self.user, "Ahoj svete!\n", STATE_TRANSLATED)
+        addon = AutoTranslateAddon.create(
+            project=self.project,
+            run=False,
+            configuration={
+                "component": self.component.pk,
+                "q": "state:empty",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "approved",
+            },
+        )
+
+        for project_review, language_review, expected_state in (
+            (True, None, STATE_APPROVED),
+            (True, False, STATE_TRANSLATED),
+            (True, True, STATE_APPROVED),
+            (False, True, STATE_TRANSLATED),
+            (True, True, STATE_APPROVED),
+        ):
+            with self.subTest(project=project_review, language=language_review):
+                self.project.translation_review = project_review
+                self.project.save(update_fields=["translation_review"])
+                if language_review is not None:
+                    WorkflowSetting.objects.update_or_create(
+                        project=self.project,
+                        language=translation.language,
+                        defaults={"translation_review": language_review},
+                    )
+                for user_id in (None, self.user.pk):
+                    with self.subTest(user_id=user_id):
+                        Unit.objects.filter(pk=unit.pk).update(
+                            target="", state=STATE_EMPTY
+                        )
+                        with self.captureOnCommitCallbacks(execute=True):
+                            if user_id is None:
+                                addon.component_update(target)
+                            else:
+                                addon.trigger_autotranslate(
+                                    translation_id=translation.pk,
+                                    unit_ids=[unit.pk],
+                                    user_id=user_id,
+                                )
+                        unit.refresh_from_db()
+                        self.assertEqual(unit.target, source_unit.target)
+                        self.assertEqual(unit.state, expected_state)
+                        self.assertEqual(addon.get_configuration()["mode"], "approved")
+
     def test_auto(self) -> None:
         self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(
@@ -7962,6 +8818,67 @@ class AddonConfigurationUnitTest(SimpleTestCase):
 
         self.assertEqual(addon.get_configuration(), {"count": 0})
 
+    def test_public_configuration_is_fail_closed(self) -> None:
+        addon = TypedConfigAddon(Addon(configuration={"count": "5"}))
+
+        self.assertEqual(addon.get_public_configuration(), {"count": None})
+
+    def test_webhook_public_configuration_preserves_safe_fields(self) -> None:
+        addon = WebhookAddon(
+            Addon(
+                configuration={
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [],
+                    "secret": "private-secret",
+                    "webhook_url": "https://example.com/private-hook",
+                }
+            )
+        )
+
+        self.assertEqual(
+            addon.get_public_configuration(),
+            {
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "events": [],
+                "secret": None,
+                "webhook_url": None,
+            },
+        )
+
+    def test_fedora_public_configuration_redacts_credentials(self) -> None:
+        addon = FedoraMessagingAddon(
+            Addon(
+                configuration={
+                    "amqp_url": "amqps://user:password@example.com/%2F",  # kingfisher:ignore
+                    "ca_cert": "private-ca",
+                    "client_cert": "private-certificate",
+                    "client_key": "private-key",
+                    "connection_attempts": 3,
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [],
+                    "publish_timeout": 30,
+                    "retry_delay": 5,
+                    "topic_prefix": "weblate",
+                }
+            )
+        )
+
+        self.assertEqual(
+            addon.get_public_configuration(),
+            {
+                "amqp_url": None,
+                "ca_cert": None,
+                "client_cert": None,
+                "client_key": None,
+                "connection_attempts": 3,
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "events": [],
+                "publish_timeout": 30,
+                "retry_delay": 5,
+                "topic_prefix": "weblate",
+            },
+        )
+
     def test_trigger_autotranslate_normalizes_blank_component_for_translation_task(
         self,
     ) -> None:
@@ -8148,6 +9065,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
         self.assertEqual(
             form.serialize_form(),
             {
+                "scope": "translation",
                 "filename": "stats-{{ language_code }}.txt",
                 "template": "{{ language_code }}",
             },
@@ -8166,6 +9084,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
         self.assertEqual(
             addon.configuration,
             {
+                "scope": "translation",
                 "filename": "stats-{{ language_code }}.txt",
                 "template": "{{ language_code }}",
             },
@@ -9862,6 +10781,43 @@ class FedoraMessagingPEMBlockTest(SimpleTestCase):
             )
 
 
+class FedoraMessagingRuntimeValidationTest(SimpleTestCase):
+    def test_cached_configuration_still_validates_amqp_url(self) -> None:
+        class FakeMessagingConfig(UserDict[str, object]):
+            loaded = True
+
+            def _validate(self) -> None:
+                msg = "configuration fast path should return"
+                raise AssertionError(msg)
+
+        config = FakeMessagingConfig(
+            {
+                "amqp_url": "amqp://broker.example?connection_attempts=1&retry_delay=2",
+                "consumer_config": {"weblate_cert_hash": "cert-hash"},
+            }
+        )
+
+        with (
+            patch("weblate.addons.fedora_messaging.siphash", return_value="cert-hash"),
+            patch("fedora_messaging.config.conf", config),
+            patch(
+                "weblate.addons.fedora_messaging.validate_fedora_messaging_url"
+            ) as validate_fedora_messaging_url,
+            patch.object(
+                FedoraMessagingAddon, "validate_tls_credentials"
+            ) as validate_tls_credentials,
+        ):
+            FedoraMessagingAddon.configure_fedora_messaging(
+                amqp_url="amqp://broker.example",
+                ca_cert=None,
+                client_key=None,
+                client_cert=None,
+            )
+
+        validate_fedora_messaging_url.assert_called_once_with("amqp://broker.example")
+        validate_tls_credentials.assert_not_called()
+
+
 class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     WEBHOOK_CLS = FedoraMessagingAddon
     # Not really used
@@ -9876,6 +10832,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.url_validation_patcher = patch(
+            "weblate.addons.fedora_messaging.validate_fedora_messaging_url"
+        )
+        self.validate_fedora_messaging_url = self.url_validation_patcher.start()
         self.patcher = patch("fedora_messaging.api._twisted_publish_wrapper")
         self.mock_class = self.patcher.start()
         self.prepare_service_patcher = patch.object(
@@ -9890,6 +10850,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         del self.mock_class
         self.patcher.stop()
         del self.patcher
+        del self.validate_fedora_messaging_url
+        self.url_validation_patcher.stop()
+        del self.url_validation_patcher
         super().tearDown()
 
     def count_requests(self) -> int:
@@ -9928,7 +10891,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             )
         )
 
-    def test_topic(self):
+    def test_topic(self) -> None:
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_topic(change))
 
@@ -10007,11 +10970,11 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "org.fedoraproject.weblate.test",
         )
 
-    def test_body(self):
+    def test_body(self) -> None:
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_body(change))
 
-    def test_headers(self):
+    def test_headers(self) -> None:
         for change in Change.objects.all():
             self.assertIsNotNone(FedoraMessagingAddon.get_change_headers(change))
 
@@ -10063,20 +11026,20 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         locked = False
         lock = MagicMock()
 
-        def enter_lock():
+        def enter_lock() -> None:
             nonlocal locked
 
             locked = True
 
-        def exit_lock(*_args):
+        def exit_lock(*_args) -> None:
             nonlocal locked
 
             locked = False
 
-        def configure_fedora_messaging(**_kwargs):
+        def configure_fedora_messaging(**_kwargs) -> None:
             self.assertTrue(locked)
 
-        def publish_message(*_args, **_kwargs):
+        def publish_message(*_args, **_kwargs) -> None:
             self.assertTrue(locked)
 
         lock.__enter__.side_effect = enter_lock
@@ -10122,28 +11085,28 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             "Publishing timed out after waiting 30 seconds."
         )
 
-        def enter_lock():
+        def enter_lock() -> None:
             nonlocal locked
 
             locked = True
 
-        def exit_lock(*_args):
+        def exit_lock(*_args) -> None:
             nonlocal locked
 
             locked = False
 
-        def prepare_service(**_kwargs):
+        def prepare_service(**_kwargs) -> None:
             self.assertTrue(locked)
 
-        def publish(*_args, **_kwargs):
+        def publish(*_args, **_kwargs) -> Never:
             self.assertTrue(locked)
             raise error
 
-        def reset_service():
+        def reset_service() -> bool:
             self.assertTrue(locked)
             return True
 
-        def report_error(*_args, **_kwargs):
+        def report_error(*_args, **_kwargs) -> None:
             self.assertTrue(locked)
 
         lock.__enter__.side_effect = enter_lock
@@ -10502,6 +11465,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
@@ -10531,6 +11495,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=True,
@@ -10544,14 +11509,13 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             self.assertNotIn("-----BEGIN PRIVATE KEY-----", str(value))
 
     def test_missing_publisher_is_reported_and_resets_service(self) -> None:
+        error = AttributeError("'NoneType' object has no attribute 'publish'")
         with (
             patch.object(fedora_messaging.api, "_twisted_service", object()),
             patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
             patch(
                 "fedora_messaging.api.publish",
-                side_effect=AttributeError(
-                    "'NoneType' object has no attribute 'publish'"
-                ),
+                side_effect=error,
             ),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
             self.assertRaisesMessage(
@@ -10565,19 +11529,19 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
         )
 
     def test_broker_rejection_is_reported(self) -> None:
+        error = fedora_messaging_exceptions.PublishForbidden("permission denied")
         with (
             patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
             patch(
                 "fedora_messaging.api.publish",
-                side_effect=fedora_messaging_exceptions.PublishForbidden(
-                    "permission denied"
-                ),
+                side_effect=error,
             ),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
             self.assertRaisesMessage(
@@ -10590,6 +11554,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
@@ -10677,7 +11642,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         original_loaded = messaging_config.loaded
         original_config = deepcopy(messaging_config.copy())
 
-        def restore_config():
+        def restore_config() -> None:
             messaging_config.loaded = True
             messaging_config.clear()
             messaging_config.update(original_config)

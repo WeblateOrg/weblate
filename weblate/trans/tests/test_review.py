@@ -4,6 +4,8 @@
 
 """Tests for review workflow."""
 
+from __future__ import annotations
+
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.state import STATE_APPROVED
 
@@ -20,7 +22,7 @@ class ReviewTest(FixtureTestCase):
         unit.state = STATE_APPROVED
         unit.save()
 
-    def check_result(self, fail) -> None:
+    def check_result(self, fail: bool) -> None:
         unit = self.get_unit()
         if fail:
             self.assertTrue(unit.approved)
@@ -35,7 +37,7 @@ class ReviewTest(FixtureTestCase):
         unit = self.get_unit()
         self.assertTrue(unit.approved)
 
-    def test_edit_approved(self, fail=True) -> None:
+    def test_edit_approved(self, fail: bool = True) -> None:
         self.approve()
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.check_result(fail)
@@ -44,7 +46,7 @@ class ReviewTest(FixtureTestCase):
         self.make_manager()
         self.test_edit_approved(False)
 
-    def test_suggest(self, fail=True) -> None:
+    def test_suggest(self, fail: bool = True) -> None:
         self.approve()
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", suggest="yes")
 

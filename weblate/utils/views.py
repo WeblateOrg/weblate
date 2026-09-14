@@ -19,6 +19,7 @@ from zipfile import ZipFile
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import EmptyPage, Paginator
+from django.db.models import Q
 from django.http import (
     FileResponse,
     Http404,
@@ -27,7 +28,7 @@ from django.http import (
 )
 from django.shortcuts import aget_object_or_404, get_object_or_404
 from django.utils.cache import get_conditional_response
-from django.utils.http import http_date
+from django.utils.http import content_disposition_header, http_date
 from django.utils.translation import activate, gettext, gettext_lazy, pgettext_lazy
 from django.views.decorators.gzip import gzip_page
 from django.views.generic.base import View
@@ -64,7 +65,7 @@ class UnsupportedPathObjectError(Http404):
 
 def key_name(instance):
     # ruff: ignore[import-outside-top-level]
-    from weblate.trans.templatetags.translations import get_breadcrumbs
+    from weblate.trans.formatting import get_breadcrumbs
 
     return "/".join(
         str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
@@ -89,6 +90,10 @@ def key_unreviewed(instance):
     if stats.has_review:
         return stats.waiting_review
     return 0
+
+
+def key_total(instance):
+    return instance.stats.all
 
 
 def key_untranslated(instance):
@@ -124,6 +129,7 @@ SORT_KEYS = {
     "approved": key_approved,
     "translated": key_translated,
     "unreviewed": key_unreviewed,
+    "total": key_total,
     "untranslated": key_untranslated,
     "untranslated_words": key_untranslated_words,
     "untranslated_chars": key_untranslated_chars,
@@ -148,7 +154,7 @@ def get_percent_color(percent) -> str:
     return "#cc3d20"
 
 
-def get_page_limit(request: AuthenticatedHttpRequest, default: int) -> tuple[int, int]:
+def get_page_limit(request: HttpRequest, default: int) -> tuple[int, int]:
     """Return page and limit as integers."""
     try:
         limit = int(request.GET.get("limit", default))
@@ -404,6 +410,25 @@ def parse_path(
 
     check_type(Unit)
     return get_object_or_404(translation.unit_set, pk=int(unitid))
+
+
+def parse_path_for_public_sharing(
+    request: AuthenticatedHttpRequest,
+    path: list[str] | tuple[str, ...] | None,
+    types: tuple[type[Model | BaseURLMixin] | None, ...],
+):
+    """Parse a path using ACL unless its project permits public sharing."""
+    if path and tuple(path[:2]) == ("-", "workspace"):
+        return parse_path(request, path, types)
+    if path and path[0] != "-":
+        is_publicly_shared = Project.objects.filter(
+            Q(access_control__in=(Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED))
+            | Q(public_sharing=True),
+            slug=path[0],
+        ).exists()
+        if not is_publicly_shared:
+            return parse_path(request, path, types)
+    return parse_path(None, path, types)
 
 
 async def _workspace_can_view(
@@ -820,7 +845,9 @@ def zip_download(
         if extra:
             for filename, content in extra.items():
                 zipfile.writestr(filename, content)
-    response["Content-Disposition"] = f'attachment; filename="{name}.zip"'
+    response["Content-Disposition"] = content_disposition_header(
+        as_attachment=True, filename=f"{name}.zip"
+    )
     return response
 
 
@@ -907,7 +934,9 @@ def download_translation_file(
         filename = f"{project_slug}-{component_slug}-{language_code}{extension}"
 
         # Fill in response headers
-        response["Content-Disposition"] = f"attachment; filename={filename}"
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=filename
+        )
 
     # Last-Modified timestamp
     if last_changed := translation.stats.last_changed:

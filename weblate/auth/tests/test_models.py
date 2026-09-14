@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from secrets import token_hex
+from typing import Never
 from unittest.mock import patch
 
 from django.conf import settings
@@ -337,6 +340,200 @@ class ModelTest(FixtureComponentTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
+    def test_repository_permissions_require_owner(self) -> None:
+        linked = self.create_link_existing(
+            name="Repository permission child",
+            slug="repository-permission-child",
+        )
+        permissions = ("vcs.commit", "vcs.push", "vcs.reset", "vcs.update")
+        role = Role.objects.create(name="Repository permissions")
+        role.permissions.add(*Permission.objects.filter(codename__in=permissions))
+
+        child_group = Group.objects.create(
+            name="Repository child", language_selection=SELECTION_ALL
+        )
+        child_group.components.add(linked)
+        child_group.roles.add(role)
+        self.user.groups.add(child_group)
+        self.user.clear_permissions_cache()
+
+        for permission in permissions:
+            with self.subTest(permission=permission, scope="child-only"):
+                self.assertFalse(self.user.has_perm(permission, linked))
+                self.assertFalse(self.user.has_perm(permission, self.component))
+                self.assertFalse(self.user.has_perm(permission, self.translation))
+        self.assertFalse(self.user.has_perm("meta:vcs.status", linked))
+        self.assertTrue(self.user.has_perm("meta:vcs.maintenance", linked))
+
+        owner_group = Group.objects.create(
+            name="Repository owner", language_selection=SELECTION_ALL
+        )
+        owner_group.components.add(self.component)
+        owner_group.roles.add(role)
+        self.user.groups.remove(child_group)
+        self.user.groups.add(owner_group)
+        self.user.clear_permissions_cache()
+
+        for permission in permissions:
+            with self.subTest(permission=permission, scope="owner-only"):
+                self.assertTrue(self.user.has_perm(permission, linked))
+                self.assertTrue(self.user.has_perm(permission, self.component))
+                self.assertTrue(self.user.has_perm(permission, self.translation))
+        self.assertTrue(self.user.has_perm("meta:vcs.status", linked))
+
+    def test_repository_permission_scope_query_is_cached(self) -> None:
+        linked_components = [
+            self.create_link_existing(
+                name=f"Repository query child {index}",
+                slug=f"repository-query-child-{index}",
+                filemask=f"repository-query-{index}/*.po",
+            )
+            for index in range(10)
+        ]
+        role = Role.objects.create(name="Repository query permissions")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Repository query components", language_selection=SELECTION_ALL
+        )
+        group.components.add(self.component, *linked_components)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        _ = self.user.profile
+        _ = self.user.component_permissions
+
+        component = self.component.__class__.objects.select_related("project").get(
+            pk=self.component.pk
+        )
+        with self.assertNumQueries(1):
+            self.assertTrue(self.user.has_perm("vcs.reset", component))
+        with self.assertNumQueries(0):
+            self.assertTrue(self.user.has_perm("vcs.reset", component))
+
+    def test_project_repository_permission_accepts_complete_component_scope(
+        self,
+    ) -> None:
+        linked = self.create_link_existing(
+            name="Repository component scope child",
+            slug="repository-component-scope-child",
+        )
+        role = Role.objects.create(name="Repository component scope permission")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Repository component scope", language_selection=SELECTION_ALL
+        )
+        group.components.add(self.component, linked)
+        group.roles.add(role)
+        self.user.groups.clear()
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(
+            auth_permissions.check_permission(self.user, "vcs.reset", self.project)
+        )
+        self.assertTrue(self.user.has_perm("vcs.reset", self.project))
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.project))
+
+        selection = auth_permissions.get_project_repository_selection(
+            self.user, self.project, ("vcs.reset",)
+        )
+        self.assertEqual(selection.repositories, (self.component,))
+        self.assertEqual(
+            selection.included_components,
+            tuple(sorted((self.component, linked), key=lambda item: item.full_slug)),
+        )
+
+    def test_project_repository_permission_covers_cross_project_links(self) -> None:
+        independent = self.create_po(project=self.project, name="Independent")
+        other_project = Project.objects.create(
+            name="Repository child project",
+            slug="repository-child-project",
+            web="https://example.com/child",
+        )
+        linked = self.create_link_existing(
+            name="Cross-project repository child",
+            slug="cross-project-repository-child",
+            project=other_project,
+        )
+        for index in range(2):
+            self.create_link_existing(
+                name=f"Internal repository child {index}",
+                slug=f"internal-repository-child-{index}",
+            )
+        self.create_link_existing(
+            name="Second cross-project child",
+            slug="second-cross-project-child",
+            project=other_project,
+        )
+        role = Role.objects.create(name="Project repository permission")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        self.group.roles.add(role)
+        self.user.groups.add(self.group)
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.user.has_perm("vcs.reset", self.project))
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.project))
+        self.assertTrue(self.user.has_perm("vcs.reset", independent))
+        self.assertTrue(self.user.has_perm("vcs.reset", self.component))
+        self.assertTrue(self.user.has_perm("vcs.reset", linked))
+
+        selection = auth_permissions.get_project_repository_selection(
+            self.user, self.project, ("vcs.reset",)
+        )
+        self.assertEqual(selection.repositories, (independent, self.component))
+        self.assertEqual(
+            set(selection.included_components), set(self.project.component_set.all())
+        )
+        self.assertEqual(selection.skipped_components, ())
+        self.assertEqual(selection.permission_blockers, ())
+
+        child_group = Group.objects.create(
+            name="Cross-project repository permission",
+            language_selection=SELECTION_ALL,
+        )
+        child_group.components.add(linked)
+        child_group.roles.add(role)
+        self.user.groups.add(child_group)
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.user.has_perm("vcs.reset", self.project))
+        self.assertTrue(self.user.has_perm("vcs.reset", self.component))
+        self.assertTrue(self.user.has_perm("vcs.reset", linked))
+
+        selection = auth_permissions.get_project_repository_selection(
+            self.user, self.project, ("vcs.reset",)
+        )
+        self.assertEqual(selection.repositories, (independent, self.component))
+
+    def test_repository_permission_preserves_owner_restrictions(self) -> None:
+        linked = self.create_link_existing(name="Owner restrictions")
+        self.group.roles.add(Role.objects.get(name="Administration"))
+        self.user.groups.add(self.group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("vcs.reset", linked))
+
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        linked.__dict__.pop("_repository_permission_components", None)
+        self.assertFalse(self.user.has_perm("vcs.reset", linked))
+        self.component.restricted = False
+        self.component.save(update_fields=["restricted"])
+
+        membership = TeamMembership.objects.get(user=self.user, group=self.group)
+        membership.limit_languages.add(Language.objects.get(code="cs"))
+        self.user.clear_permissions_cache()
+        linked.__dict__.pop("_repository_permission_components", None)
+        self.assertFalse(self.user.has_perm("vcs.reset", linked))
+        membership.limit_languages.clear()
+        self.user.clear_permissions_cache()
+
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["enforced_2fa"])
+        linked.__dict__.pop("_repository_permission_components", None)
+        self.assertFalse(self.user.has_perm("vcs.reset", linked))
+        self.user.is_superuser = True
+        self.assertTrue(self.user.has_perm("vcs.reset", linked))
+
     def test_componentlist(self) -> None:
         # Add user to group of power users
         self.user.groups.add(self.group)
@@ -375,6 +572,43 @@ class ModelTest(FixtureComponentTestCase):
         self.group.languages.add(Language.objects.get(code="cs"))
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
+
+    def test_all_languages_keeps_manual_selection(self) -> None:
+        # Add user to group with German language only
+        self.user.groups.add(self.group)
+        self.group.language_selection = SELECTION_MANUAL
+        self.group.save()
+        self.group.roles.add(Role.objects.get(name="Power user"))
+        self.group.languages.set(Language.objects.filter(code="de"), clear=True)
+
+        # Czech translation is not covered by the manual selection
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("unit.edit", self.translation))
+
+        # Switching to all languages grants access and keeps the selection
+        self.group.language_selection = SELECTION_ALL
+        self.group.save()
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.edit", self.translation))
+        self.assertEqual(
+            list(self.group.languages.values_list("code", flat=True)), ["de"]
+        )
+
+        # Switching back restores the manual restriction
+        self.group.language_selection = SELECTION_MANUAL
+        self.group.save()
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("unit.edit", self.translation))
+
+    def test_all_projects_selection_clears_projects(self) -> None:
+        # Unlike languages, the projects assignment is cleared as it is
+        # queried directly, for example by UserQuerySet.having_perm
+        group = Group.objects.create(
+            name="All projects clearing", project_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.save()
+        self.assertFalse(group.projects.exists())
 
     def test_membership_limit_languages(self) -> None:
         self.user.groups.add(self.group)
@@ -535,11 +769,11 @@ class ModelTest(FixtureComponentTestCase):
             self.user.has_perm("translation.auto", CategoryLanguage(category, german))
         )
 
-        def fail_translation_set(_obj):
+        def fail_translation_set(_obj) -> Never:
             msg = "Permission checks should not materialize translations"
             raise AssertionError(msg)
 
-        def fail_component_scope(_obj):
+        def fail_component_scope(_obj) -> Never:
             msg = "Unrestricted project permissions should not check components"
             raise AssertionError(msg)
 

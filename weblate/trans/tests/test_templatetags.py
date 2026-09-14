@@ -19,14 +19,14 @@ from django.utils.html import format_html
 from weblate.auth.models import User
 from weblate.checks.flags import Flags
 from weblate.lang.models import Language
+from weblate.trans.formatting import format_translation
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.templatetags.translations import (
     PRIORITY_ICONS,
-    format_translation,
     get_location_links,
     indicate_alerts,
     naturaltime,
-    render_documentation_icon,
+    register,
     same_naturaltime,
     translation_progress_render,
 )
@@ -34,6 +34,27 @@ from weblate.trans.templatetags.upload_methods import get_upload_method_help
 from weblate.trans.tests.factories import make_language, make_unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.utils.files import FileUploadMethod
+from weblate.utils.formatting import render_documentation_icon
+
+
+class ExtractedHelperRegistrationTest(SimpleTestCase):
+    def test_helpers_remain_registered(self) -> None:
+        self.assertLessEqual(
+            {
+                "format_language_string",
+                "format_source_string",
+                "format_unit_source",
+                "format_unit_target",
+                "get_glossary_badge",
+                "unit_state_class",
+                "unit_state_title",
+            },
+            register.tags.keys(),
+        )
+        self.assertLessEqual(
+            {"format_json", "number_format"},
+            register.filters.keys(),
+        )
 
 
 class NaturalTimeTest(SimpleTestCase):
@@ -971,8 +992,68 @@ glosář [glossary]">glossary</span>
             """
             Hello
             <span class="hlspace">
-                <span class="space-space" title="NO-BREAK SPACE">
+                <span class="space-nbsp" title="NO-BREAK SPACE">
                     \u00a0
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u202fworld"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-narrow-nbsp" title="NARROW NO-BREAK SPACE">
+                    \u202f
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u2007world"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-nbsp" title="FIGURE SPACE">
+                    \u2007
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u2009world"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-thin" title="THIN SPACE">
+                    \u2009
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u200aworld"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-space" title="HAIR SPACE">
+                    \u200a
                 </span>
             </span>
             world
@@ -1177,7 +1258,9 @@ class DiffTestCase(SimpleTestCase):
 
 class FormatterNestingTestCase(SimpleTestCase):
     class GlossaryTerm:
-        def __init__(self, source: str, target: str, positions: list[tuple[int, int]]):
+        def __init__(
+            self, source: str, target: str, positions: list[tuple[int, int]]
+        ) -> None:
             self.source = source
             self.target = target
             self.glossary_positions = positions
@@ -1354,7 +1437,7 @@ class UploadMethodsHelpTestCase(SimpleTestCase):
 
 
 class ProgressTestCase(SimpleTestCase):
-    def test_review(self):
+    def test_review(self) -> None:
         self.assertHTMLEqual(
             """
 <div class="progress-stacked" title="Needs attention">
@@ -1367,7 +1450,7 @@ class ProgressTestCase(SimpleTestCase):
             str(translation_progress_render(60, 0, 0, 60, True)),
         )
 
-    def test_review_checks(self):
+    def test_review_checks(self) -> None:
         self.assertHTMLEqual(
             """
 <div class="progress-stacked" title="Needs attention">
@@ -1376,7 +1459,7 @@ class ProgressTestCase(SimpleTestCase):
             str(translation_progress_render(60, 0, 0, 0, True)),
         )
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         self.assertHTMLEqual(
             """
 <div class="progress-stacked" title="Needs attention">

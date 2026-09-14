@@ -33,7 +33,7 @@ class FontTestMixin:
     project: Project
     user: User
 
-    def add_font(self):
+    def add_font(self) -> Font:
         with FONT.open("rb") as handle:
             fontfile = FONT_STORAGE.save(FONT_NAME, handle)
         return Font.objects.create(font=fontfile, project=self.project, user=self.user)

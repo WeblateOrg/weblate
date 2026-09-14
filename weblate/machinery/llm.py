@@ -33,10 +33,12 @@ from weblate.machinery.base import (
 )
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash, hash_to_checksum
+from weblate.utils.requests import JSON_RESPONSE_ERRORS
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.translation import pgettext_noop
 
 if TYPE_CHECKING:
+    import httpx2
     from django_stubs_ext import StrOrPromise
 
     from weblate.checks.base import Highlight, HighlightKind
@@ -287,7 +289,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return text
 
     def format_prompt_part(self, name: Literal["style", "persona"]) -> str:
-        return self.format_prompt_text(self.settings[name])
+        return self.format_prompt_text(self.settings.get(name, ""))
 
     def format_language_instructions(self, target_language: str) -> str:
         text = self.format_prompt_text(self._get_language_instructions(target_language))
@@ -312,6 +314,16 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
     async def aget_model(self) -> str:
         return await sync_to_async(self.get_model, thread_sensitive=False)()
+
+    @staticmethod
+    def parse_json_response(
+        response: httpx2.Response, description: str = "service response"
+    ) -> JSONValue:
+        try:
+            return response.json()
+        except JSON_RESPONSE_ERRORS as error:
+            msg = f"Could not parse {description} as JSON."
+            raise MachineTranslationError(msg) from error
 
     def get_traced_model(self) -> str:
         model = self.get_model()

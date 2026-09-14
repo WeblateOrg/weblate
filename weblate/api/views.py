@@ -14,7 +14,6 @@ from urllib.parse import unquote
 
 from celery.result import AsyncResult
 from django.conf import settings
-from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import (
@@ -29,6 +28,7 @@ from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
 from drf_spectacular.types import OpenApiTypes
@@ -41,6 +41,7 @@ from drf_spectacular.utils import (
     inline_serializer,
 )
 from drf_standardized_errors.handler import ExceptionHandler
+from drf_standardized_errors.openapi_serializers import ErrorResponse403Serializer
 from rest_framework import parsers, serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import APIException, ValidationError
@@ -55,6 +56,8 @@ from rest_framework.status import (
     HTTP_202_ACCEPTED,
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
+    HTTP_403_FORBIDDEN,
+    HTTP_409_CONFLICT,
     HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
@@ -65,10 +68,13 @@ from rest_framework.viewsets import ViewSet
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
+from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_data
 from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    AutoTranslateRequestSerializer,
+    AutoTranslateResponseSerializer,
     BackupSerializer,
     BasicUserSerializer,
     BilingualSourceUnitSerializer,
@@ -81,6 +87,7 @@ from weblate.api.serializers import (
     ComponentListSerializer,
     ComponentSerializer,
     ComponentTranslationSerializer,
+    ErrorResponse423Serializer,
     FullUserSerializer,
     GroupSerializer,
     LabelSerializer,
@@ -132,6 +139,12 @@ from weblate.api.serializers import (
     get_reverse_kwargs,
 )
 from weblate.auth.models import Group, Role, TeamMembership, User
+from weblate.auth.permissions import (
+    REPOSITORY_PERMISSIONS,
+    ProjectRepositorySelection,
+    filter_accessible_repository_components,
+    get_project_repository_selection,
+)
 from weblate.auth.results import PermissionResult
 from weblate.auth.utils import validate_team_assignable_user
 from weblate.formats.models import EXPORTERS
@@ -139,7 +152,7 @@ from weblate.lang.forms import validate_language_code
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import validate_service_configuration
-from weblate.memory.models import Memory, MemoryScope
+from weblate.memory.models import Memory, MemoryQuerySet, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate, check_auto_translate_permission
@@ -167,6 +180,14 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
 from weblate.trans.models.translation import Translation, TranslationQuerySet
+from weblate.trans.repository import (
+    RepositoryOperation,
+    RepositoryOperationConflictError,
+    can_access_repository_operation_task,
+    get_repository_components,
+    queue_repository_operation,
+    reserve_repository_operation,
+)
 from weblate.trans.tasks import (
     category_removal,
     component_removal,
@@ -185,6 +206,7 @@ from weblate.utils.celery import (
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.messages import store_task_completion_message
 from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.similarity import Comparer
 from weblate.utils.state import (
@@ -196,13 +218,10 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import (
-    GlobalStats,
     ProjectLanguage,
     iter_prefetch_stats,
     prefetch_stats,
 )
-from weblate.utils.version import GIT_VERSION
-from weblate.utils.version_display import show_metrics_version
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.workspaces.models import Workspace
 
@@ -509,6 +528,16 @@ REPO_OPERATIONS: dict[str, tuple[str, str, tuple, dict, bool]] = {
     "file-scan": ("vcs.reset", "do_file_scan", (), {}, True),
 }
 
+REPOSITORY_OPERATION_RESPONSES = {
+    HTTP_200_OK: RepositoryOperationSerializer,
+    HTTP_202_ACCEPTED: RepositoryOperationSerializer,
+    HTTP_423_LOCKED: PolymorphicProxySerializer(
+        component_name="RepositoryOperationConflict",
+        serializers=[RepositoryOperationSerializer, ErrorResponse423Serializer],
+        resource_type_field_name=None,
+    ),
+}
+
 DOC_TEXT = """
 <p>See <a href="{0}">the Weblate's Web API documentation</a> for detailed
 description of the API.</p>
@@ -663,34 +692,153 @@ class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
 
     @staticmethod
-    def get_repository_permission_obj(
-        obj: Project | Component | Translation, *, component_scope: bool
-    ) -> Project | Component | Translation:
-        component = obj.component if isinstance(obj, Translation) else obj
-        if (
-            isinstance(component, Component)
-            and component.linked_component_id is not None
-        ):
-            linked_component = component.linked_component
-            if linked_component is None:
-                msg = "Linked component ID exists without a linked component"
-                raise RuntimeError(msg)
-            return linked_component
-        return component if component_scope else obj
+    def get_repository_scope_data(
+        user,
+        selection: ProjectRepositorySelection,
+    ) -> dict[str, list[str]]:
+        return {
+            "included_components": [
+                component.full_slug
+                for component in filter_accessible_repository_components(
+                    user, selection.included_components
+                )
+            ],
+            "skipped_components": [
+                component.full_slug
+                for component in filter_accessible_repository_components(
+                    user, selection.skipped_components
+                )
+            ],
+            "permission_blockers": [
+                component.full_slug
+                for component in filter_accessible_repository_components(
+                    user, selection.permission_blockers
+                )
+            ],
+        }
 
-    @transaction.atomic
     def repository_operation(self, request: Request, obj, operation: str):
         permission, method, args, kwargs, takes_request = REPO_OPERATIONS[operation]
+        user = get_request_user(request)
 
-        permission_obj = self.get_repository_permission_obj(obj, component_scope=True)
-        if not request.user.has_perm(permission, permission_obj):
+        if not user.has_perm(permission, obj):
             raise PermissionDenied
 
-        obj.acting_user = request.user
+        selection = None
+        repository_components = None
+        if isinstance(obj, Project):
+            selection = get_project_repository_selection(user, obj, (permission,))
+            if not selection.repositories:
+                raise PermissionDenied
+            repository_components = selection.repositories
+            kwargs = {**kwargs, "repo_components": repository_components}
 
-        if takes_request:
-            return getattr(obj, method)(*args, request, **kwargs)
-        return getattr(obj, method)(*args, request.user, **kwargs)
+        repositories, _display_components = get_repository_components(
+            obj, repository_components
+        )
+
+        obj.acting_user = user
+        with (
+            reserve_repository_operation(
+                [component.pk for component in repositories],
+                cast("RepositoryOperation", operation),
+            ) as release_reservation,
+            transaction.atomic(),
+        ):
+            # Register this before repository operations add their follow-ups.
+            # Django runs on-commit callbacks in registration order, so the
+            # reservation covers the commit but not the follow-up tasks.
+            transaction.on_commit(release_reservation)
+            if takes_request:
+                result = getattr(obj, method)(*args, request, **kwargs)
+            else:
+                result = getattr(obj, method)(*args, user, **kwargs)
+        data = {"result": result}
+        if selection is not None:
+            data.update(self.get_repository_scope_data(user, selection))
+        return data
+
+    @staticmethod
+    def repository_operation_conflict_response(
+        request: Request,
+        user: User,
+        error: RepositoryOperationConflictError,
+        scope_data: dict,
+    ) -> Response:
+        data = {
+            "detail": "Another repository operation is already in progress.",
+            **scope_data,
+        }
+        if error.task_id and can_access_repository_operation_task(user, error.task_id):
+            data["task_url"] = reverse(
+                "api:task-detail",
+                kwargs={"pk": error.task_id},
+                request=request,
+            )
+        return Response(data, status=HTTP_423_LOCKED)
+
+    def queue_repository_operation(
+        self,
+        request: Request,
+        obj: Project | Component | Translation,
+        operation: RepositoryOperation,
+    ) -> Response:
+        permission = REPO_OPERATIONS[operation][0]
+        user = get_request_user(request)
+        if not user.has_perm(permission, obj):
+            raise PermissionDenied
+        if (
+            operation == "commit"
+            and isinstance(obj, Translation)
+            and not obj.needs_commit()
+        ):
+            return Response({"result": False})
+
+        selection = None
+        repository_components = None
+        if isinstance(obj, Project):
+            selection = get_project_repository_selection(user, obj, (permission,))
+            if not selection.repositories:
+                raise PermissionDenied
+            repository_components = selection.repositories
+
+        scope_data = (
+            self.get_repository_scope_data(user, selection)
+            if selection is not None
+            else {}
+        )
+        try:
+            queued = queue_repository_operation(
+                obj,
+                operation,
+                user,
+                repository_components=repository_components,
+            )
+        except RepositoryOperationConflictError as error:
+            return self.repository_operation_conflict_response(
+                request, user, error, scope_data
+            )
+
+        if queued.successful is not None:
+            return Response({"result": queued.successful, **scope_data})
+
+        detail = (
+            "This repository operation is already queued."
+            if queued.reused
+            else "Repository operation has been queued."
+        )
+        return Response(
+            {
+                "detail": detail,
+                "task_url": reverse(
+                    "api:task-detail",
+                    kwargs={"pk": queued.task_id},
+                    request=request,
+                ),
+                **scope_data,
+            },
+            status=HTTP_202_ACCEPTED,
+        )
 
     @extend_schema(
         description="Return information about VCS repository status.",
@@ -700,7 +848,7 @@ class WeblateViewSet(DownloadViewSet):
     @extend_schema(
         description="Perform given operation on the VCS repository.",
         methods=["post"],
-        responses=RepositoryOperationSerializer,
+        responses=REPOSITORY_OPERATION_RESPONSES,
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
@@ -711,12 +859,25 @@ class WeblateViewSet(DownloadViewSet):
         if request.method == "POST":
             request_serializer = RepoRequestSerializer(data=request.data)
             request_serializer.is_valid(raise_exception=True)
+            operation = request_serializer.validated_data["operation"]
 
-            data = {
-                "result": self.repository_operation(
-                    request, obj, request_serializer.validated_data["operation"]
+            if request_serializer.validated_data["background"]:
+                return self.queue_repository_operation(request, obj, operation)
+
+            try:
+                data = self.repository_operation(request, obj, operation)
+            except RepositoryOperationConflictError as error:
+                user = get_request_user(request)
+                scope_data = {}
+                if isinstance(obj, Project):
+                    permission = REPO_OPERATIONS[operation][0]
+                    selection = get_project_repository_selection(
+                        user, obj, (permission,)
+                    )
+                    scope_data = self.get_repository_scope_data(user, selection)
+                return self.repository_operation_conflict_response(
+                    request, user, error, scope_data
                 )
-            }
 
             storage = get_messages(request)
             if storage:
@@ -724,15 +885,35 @@ class WeblateViewSet(DownloadViewSet):
 
             return Response(data)
 
-        permission_obj = self.get_repository_permission_obj(obj, component_scope=False)
-        if not request.user.has_perm("meta:vcs.status", permission_obj):
+        if not request.user.has_perm("meta:vcs.status", obj):
             raise PermissionDenied
 
-        data = {
-            "needs_commit": obj.needs_commit(),
-            "needs_merge": obj.repo_needs_merge(),
-            "needs_push": obj.repo_needs_push(),
-        }
+        component_ids = None
+        if isinstance(obj, Project):
+            user = get_request_user(request)
+            selection = get_project_repository_selection(
+                user, obj, REPOSITORY_PERMISSIONS
+            )
+            repo_components = selection.repositories
+            component_ids = {
+                component.pk for component in selection.included_components
+            }
+            pending_units = PendingUnitChange.objects.detailed_count(
+                obj, component_ids=component_ids
+            )
+            data = {
+                "needs_commit": bool(pending_units["total"]),
+                "needs_merge": obj.repo_needs_merge(repo_components=repo_components),
+                "needs_push": obj.repo_needs_push(repo_components=repo_components),
+                **self.get_repository_scope_data(user, selection),
+            }
+        else:
+            data = {
+                "needs_commit": obj.needs_commit(),
+                "needs_merge": obj.repo_needs_merge(),
+                "needs_push": obj.repo_needs_push(),
+            }
+            pending_units = PendingUnitChange.objects.detailed_count(obj)
 
         if isinstance(obj, Project):
             data["url"] = reverse(
@@ -776,7 +957,7 @@ class WeblateViewSet(DownloadViewSet):
             data["outgoing_commits"] = component.count_repo_outgoing
             data["missing_commits"] = component.count_repo_missing
 
-        data["pending_units"] = PendingUnitChange.objects.detailed_count(obj)
+        data["pending_units"] = pending_units
 
         response_serializer = RepositorySerializer(data)
         return Response(response_serializer.data)
@@ -913,6 +1094,30 @@ class MemoryLookupResultData(TypedDict):
     match: MemoryLookupMatchData | None
 
 
+def get_delete_memory_option(request: Request) -> bool:
+    """Parse the optional translation-memory cleanup flag for delete requests."""
+    boolean_field = serializers.BooleanField()
+    body_value = query_value = None
+    request_data = request.data
+    if not isinstance(request_data, Mapping):
+        raise ValidationError({"delete_memory": "Expected an object."})
+    if "delete_memory" in request_data:
+        body_value = boolean_field.run_validation(request_data["delete_memory"])
+    if "delete_memory" in request.query_params:
+        query_value = boolean_field.run_validation(
+            request.query_params["delete_memory"]
+        )
+    if body_value is not None and query_value is not None and body_value != query_value:
+        raise ValidationError(
+            {
+                "delete_memory": (
+                    "Conflicting values were supplied in the request body and query."
+                )
+            }
+        )
+    return body_value if body_value is not None else query_value or False
+
+
 @extend_schema_view(
     retrieve=extend_schema(
         description="Return information about users.",
@@ -993,6 +1198,7 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             queryset = self.get_queryset()
 
+        queryset = queryset.filter_search_access(user)
         queryset = self.filter_queryset(queryset)
 
         page = self.paginate_queryset(queryset)
@@ -1126,7 +1332,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 serializer.save(user=obj)
                 return Response(serializer.data, status=HTTP_201_CREATED)
         self.perm_check(request, obj, allow_self=True)
-        queryset = obj.subscription_set.order_by("id")
+        queryset = obj.subscription_set.filter_access(request.user).order_by("id")
         page = self.paginate_queryset(queryset)
         serializer = NotificationSerializer(
             page, many=True, context={"request": request}
@@ -1161,24 +1367,29 @@ class UserViewSet(viewsets.ModelViewSet):
     ):
         obj = self.get_object()
 
+        if request.method == "GET":
+            self.perm_check(request, obj, allow_self=True)
+        else:
+            self.perm_check(request, obj, allow_self=True, protect_internal=True)
+
+        queryset = obj.subscription_set
+        if request.method != "DELETE":
+            queryset = queryset.filter_access(request.user)
         try:
-            subscription = obj.subscription_set.get(id=subscription_id)
+            subscription = queryset.get(id=subscription_id)
         except Subscription.DoesNotExist as error:
             msg = "Subscription"
             raise not_found_http404(msg) from error
 
         if request.method == "DELETE":
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             subscription.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
         if request.method == "GET":
-            self.perm_check(request, obj, allow_self=True)
             serializer = NotificationSerializer(
                 subscription, context={"request": request}
             )
         else:
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             serializer = NotificationSerializer(
                 subscription,
                 data=request.data,
@@ -1624,7 +1835,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         validate_api_team_assignable_user(user, "user_id")
         group.admins.add(user)
         user.add_team(cast("AuthenticatedHttpRequest", request), group)
-        return Response({"Administration rights granted."}, status=HTTP_200_OK)
+        return Response(
+            {"detail": "Administration rights granted."}, status=HTTP_200_OK
+        )
 
     @extend_schema(description="Delete a user from group admins.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
@@ -1691,7 +1904,7 @@ def validate_report_scope_access(user, scope) -> None:
     if scope is None:
         return
     if isinstance(scope, Workspace):
-        allowed = scope.can_view(user)
+        allowed = scope.can_view(user) or user.has_perm("reports.view", scope)
     elif isinstance(scope, Project):
         allowed = user.allowed_projects.filter(pk=scope.pk).exists()
     elif isinstance(scope, Category):
@@ -1740,7 +1953,10 @@ class ReportsMixin(APIViewSetMixin):
     )
     @extend_schema(
         methods=["post"],
-        description="Schedule report generation using the endpoint object as scope.",
+        description=(
+            "Schedule report generation using the endpoint object as the complete "
+            "report scope."
+        ),
         request=ScopedReportCreateSerializer,
         responses={HTTP_202_ACCEPTED: REPORT_TASK_RESPONSE_SERIALIZER},
     )
@@ -1906,6 +2122,18 @@ class AnnouncementsMixin(APIViewSetMixin):
     retrieve=extend_schema(description="Return information about a project."),
     partial_update=extend_schema(description="Edit a project by a PATCH request."),
     reports=extend_schema(description="List or create reports scoped to a project."),
+    destroy=extend_schema(
+        description="Delete a project.",
+        responses={
+            HTTP_202_ACCEPTED: inline_serializer(
+                "ProjectDeleteResponseSerializer",
+                fields={
+                    "detail": serializers.CharField(),
+                    "task_url": serializers.URLField(),
+                },
+            )
+        },
+    ),
 )
 class ProjectViewSet(
     WeblateViewSet,
@@ -1961,7 +2189,7 @@ class ProjectViewSet(
     @extend_schema(
         description="Perform given operation on the VCS repository.",
         methods=["post"],
-        responses=RepositoryOperationSerializer,
+        responses=REPOSITORY_OPERATION_RESPONSES,
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
@@ -2005,13 +2233,13 @@ class ProjectViewSet(
                     msg = "Component serializer did not produce an instance"
                     raise RuntimeError(msg)
                 component.post_create(self.request.user, origin="api")
-                return Response(
-                    serializer.data,
-                    status=HTTP_201_CREATED,
-                    headers={
-                        "Location": str(serializer.data[api_settings.URL_FIELD_NAME])
-                    },
-                )
+
+            data = serializer.data
+            return Response(
+                data,
+                status=HTTP_201_CREATED,
+                headers={"Location": str(data[api_settings.URL_FIELD_NAME])},
+            )
 
         queryset = (
             obj.component_set.filter_access(self.request.user)
@@ -2282,8 +2510,15 @@ class ProjectViewSet(
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
         instance.acting_user = request.user
-        project_removal.delay(instance.pk, request.user.pk)
-        return Response(status=HTTP_204_NO_CONTENT)
+        task = project_removal.delay(instance.pk, request.user.pk)
+        store_task_metadata(task.id, user_id=request.user.id)
+        return Response(
+            {
+                "detail": "Project deletion scheduled.",
+                "task_url": reverse("api:task-detail", kwargs={"pk": task.id}),
+            },
+            status=HTTP_202_ACCEPTED,
+        )
 
     @extend_schema(
         description="Download all translation files in the project.",
@@ -2463,7 +2698,7 @@ class ProjectViewSet(
                 {
                     "message": f"Services installed: {', '.join(valid_configurations.keys())}"
                 },
-                status=HTTP_201_CREATED,
+                status=HTTP_200_OK,
             )
 
         # GET method
@@ -2630,6 +2865,24 @@ class ProjectViewSet(
         description="Return information about translation component."
     ),
     partial_update=extend_schema(description="Edit a component by a PATCH request."),
+    destroy=extend_schema(
+        description="Delete a component.",
+        parameters=[
+            OpenApiParameter(
+                "delete_memory",
+                type=OpenApiTypes.BOOL,
+                location=OpenApiParameter.QUERY,
+                description=(
+                    "Also delete project, workspace, and shared translation memory "
+                    "created from the component."
+                ),
+            )
+        ],
+        request=inline_serializer(
+            name="ComponentDeleteRequest",
+            fields={"delete_memory": serializers.BooleanField(required=False)},
+        ),
+    ),
 )
 class ComponentViewSet(
     MultipleFieldViewSet,
@@ -2689,7 +2942,7 @@ class ComponentViewSet(
     @extend_schema(
         description="Perform given operation on the VCS repository.",
         methods=["post"],
-        responses=RepositoryOperationSerializer,
+        responses=REPOSITORY_OPERATION_RESPONSES,
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
@@ -2807,6 +3060,15 @@ class ComponentViewSet(
             except Language.DoesNotExist as error:
                 message = f"Could not add {language_code!r}!"
                 raise ValidationError({"language_code": message}) from error
+
+            if obj.get_new_language_action(request.user, language) != "add":
+                self.permission_denied(
+                    request,
+                    "This language requires maintainer approval. "
+                    "Request it using the web interface.",
+                )
+            if not obj.can_add_new_language(request.user, language=language):
+                self.permission_denied(request, message=obj.new_lang_error_message)
 
             if source_components:
                 auto_permission = check_auto_translate_permission(
@@ -2953,7 +3215,9 @@ class ComponentViewSet(
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
         instance.acting_user = request.user
-        component_removal.delay(instance.pk, request.user.pk)
+        component_removal.delay(
+            instance.pk, request.user.pk, get_delete_memory_option(request)
+        )
         return Response(status=HTTP_204_NO_CONTENT)
 
     def add_link(self, request: Request, instance: Component):
@@ -3098,8 +3362,23 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         if user.is_superuser or user.has_perm("memory.manage"):
             return [scope.id for scope in scopes]
 
+        component_scoped_ids = {
+            scope.id
+            for scope in scopes
+            if scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_WORKSPACE}
+        }
+        accessible_project_or_workspace_scope_ids = set(
+            MemoryScope.objects.filter(id__in=component_scoped_ids)
+            .filter(MemoryQuerySet.get_component_access_query(user))
+            .values_list("id", flat=True)
+        )
         result = []
         for scope in scopes:
+            if (
+                scope.id in component_scoped_ids
+                and scope.id not in accessible_project_or_workspace_scope_ids
+            ):
+                continue
             if scope.user_id == user.id:
                 result.append(scope.id)
             elif scope.project_id:
@@ -3161,6 +3440,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             project = get_object_or_404(project_queryset, slug=project_slug)
             return Memory.objects.filter_type(
                 user=user,
+                access_user=user,
                 project=project,
                 use_shared=project.use_shared_tm,
                 from_file=True,
@@ -3334,7 +3614,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     @extend_schema(
         description="Perform given operation on the VCS repository.",
         methods=["post"],
-        responses=RepositoryOperationSerializer,
+        responses=REPOSITORY_OPERATION_RESPONSES,
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
@@ -3606,7 +3886,12 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Trigger automatic translation.", methods=["post"])
+    @extend_schema(
+        description="Trigger automatic translation.",
+        methods=["post"],
+        request=AutoTranslateRequestSerializer,
+        responses={HTTP_200_OK: AutoTranslateResponseSerializer},
+    )
     @action(detail=True, methods=["post"])
     def autotranslate(self, request: Request, **kwargs):
         translation = self.get_object()
@@ -3863,7 +4148,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
         # Handle translate
         if do_translate:
-            unit.translate(user, new_target, new_state)
+            try:
+                unit.translate(user, new_target, new_state)
+            except Unit.DoesNotExist as error:
+                # The unit can be removed by a concurrent component update between
+                # the initial lookup and the locking re-fetch in Unit.translate()
+                msg = "Unit was removed while processing the request"
+                raise Http404(msg) from error
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a translation unit."""
@@ -3964,8 +4255,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         user = request.user
 
         if request.method == "POST":
-            if not user.has_perm("suggestion.add", unit):
-                self.permission_denied(request)
+            suggestion_permission = user.has_perm("suggestion.add", unit)
+            if not suggestion_permission:
+                self.permission_denied(
+                    request, getattr(suggestion_permission, "reason", None)
+                )
 
             serializer = SuggestionSerializer(
                 data=request.data,
@@ -4057,11 +4351,16 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         serializer.is_valid(raise_exception=True)
         approve = serializer.validated_data["approve"]
 
-        if not user.has_perm("suggestion.accept", unit):
-            self.permission_denied(request)
+        accept_permission = user.has_perm("suggestion.accept", unit)
+        if not accept_permission:
+            self.permission_denied(request, getattr(accept_permission, "reason", None))
 
-        if approve and not user.has_perm("unit.review", unit):
-            self.permission_denied(request)
+        if approve:
+            review_permission = user.has_perm("unit.review", unit)
+            if not review_permission:
+                self.permission_denied(
+                    request, getattr(review_permission, "reason", None)
+                )
 
         suggestion.accept(
             request,
@@ -4081,8 +4380,9 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         unit = suggestion.unit
         user = request.user
 
-        if not user.has_perm("suggestion.vote", unit):
-            self.permission_denied(request)
+        vote_permission = user.has_perm("suggestion.vote", unit)
+        if not vote_permission:
+            self.permission_denied(request, getattr(vote_permission, "reason", None))
 
         serializer = SuggestionVoteRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -4397,7 +4697,27 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
-@extend_schema_view(list=extend_schema(description="List available categories."))
+@extend_schema_view(
+    list=extend_schema(description="List available categories."),
+    destroy=extend_schema(
+        description="Delete a category.",
+        parameters=[
+            OpenApiParameter(
+                "delete_memory",
+                type=OpenApiTypes.BOOL,
+                location=OpenApiParameter.QUERY,
+                description=(
+                    "Also delete project, workspace, and shared translation memory "
+                    "created from components in the category."
+                ),
+            )
+        ],
+        request=inline_serializer(
+            name="CategoryDeleteRequest",
+            fields={"delete_memory": serializers.BooleanField(required=False)},
+        ),
+    ),
+)
 class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
     """Category API."""
 
@@ -4426,7 +4746,9 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         """Delete category."""
         instance = self.get_object()
         self.perm_check(request, instance)
-        category_removal.delay(instance.pk, request.user.pk)
+        category_removal.delay(
+            instance.pk, request.user.pk, get_delete_memory_option(request)
+        )
         return Response(status=HTTP_204_NO_CONTENT)
 
     def perform_create(self, serializer) -> None:
@@ -4467,21 +4789,6 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         serializer = StatisticsSerializer(obj, context={"request": request})
 
         return Response(serializer.data)
-
-
-OPENMETRICS_METRIC_HELP = (
-    ("units", "Number of translation units."),
-    ("units_translated", "Number of translated translation units."),
-    ("users", "Number of users."),
-    ("changes", "Number of recorded changes."),
-    ("projects", "Number of projects."),
-    ("components", "Number of components."),
-    ("translations", "Number of translations."),
-    ("languages", "Number of configured languages."),
-    ("checks", "Number of triggered quality checks."),
-    ("configuration_errors", "Number of active configuration errors."),
-    ("suggestions", "Number of pending suggestions."),
-)
 
 
 def get_project_metrics_data(
@@ -4617,31 +4924,6 @@ def get_project_openmetrics_data(
     return result
 
 
-def get_openmetrics_data(data: Mapping[str, object]) -> list[OpenMetricsMetric]:
-    result = [
-        OpenMetricsMetric(
-            name=name,
-            help_text=help_text,
-            metric_type="gauge",
-            samples=(OpenMetricsSample(value=cast("int", data[name]), labels={}),),
-        )
-        for name, help_text in OPENMETRICS_METRIC_HELP
-    ]
-    queues = cast("Mapping[str, int]", data["celery_queues"])
-    result.append(
-        OpenMetricsMetric(
-            name="celery_queues",
-            help_text="Number of tasks in each Celery queue.",
-            metric_type="gauge",
-            samples=tuple(
-                OpenMetricsSample(value=value, labels={"queue": queue})
-                for queue, value in queues.items()
-            ),
-        )
-    )
-    return result
-
-
 class Metrics(APIView):
     """Metrics view for monitoring."""
 
@@ -4652,27 +4934,10 @@ class Metrics(APIView):
     # pylint: disable-next=redefined-builtin
     def get(self, request: Request, format=None):  # ruff: ignore[builtin-argument-shadowing]
         """Return server metrics."""
-        stats = GlobalStats()
-        serializer = self.serializer_class(stats)
-        data = dict(serializer.data)
+        data = get_server_metrics_data()
         if request.accepted_renderer.format == "openmetrics":
-            metrics = get_openmetrics_data(data)
-            if show_metrics_version(settings.VERSION_DISPLAY):
-                metrics.append(
-                    OpenMetricsMetric(
-                        name="weblate_info",
-                        help_text="Weblate build information.",
-                        metric_type="gauge",
-                        samples=(
-                            OpenMetricsSample(
-                                value=1,
-                                labels={"version": GIT_VERSION},
-                            ),
-                        ),
-                    )
-                )
             return Response(
-                metrics,
+                get_server_openmetrics_data(data),
                 content_type=OpenMetricsRenderer.response_content_type,
             )
         return Response(data)
@@ -4731,13 +4996,16 @@ class Search(APIView):
                 for component in components.search(query).order()[:5]
             )
             if user.is_authenticated:
+                user_queryset = User.objects.filter_search_access(user)
                 results.extend(
                     {
-                        "url": user.get_absolute_url(),
-                        "name": user.username,
+                        "url": search_user.get_absolute_url(),
+                        "name": search_user.username,
                         "category": gettext("User"),
                     }
-                    for user in User.objects.search(query, parser="plain").order()[:5]
+                    for search_user in user_queryset.search(
+                        query, parser="plain"
+                    ).order()[:5]
                 )
             results.extend(
                 {
@@ -4758,7 +5026,10 @@ class Search(APIView):
         parameters=REPORT_LIST_FILTER_PARAMETERS,
     ),
     create=extend_schema(
-        description="Schedule generation of a stored report.",
+        description=(
+            "Schedule generation of a stored report. The reports.view permission "
+            "authorizes the complete selected scope."
+        ),
         request=ReportCreateSerializer,
         responses={HTTP_202_ACCEPTED: REPORT_TASK_RESPONSE_SERIALIZER},
     ),
@@ -4816,8 +5087,8 @@ class ReportViewSet(viewsets.ModelViewSet):
         report = self.get_object()
         response = render_report_data(report, style)
         extension = "json" if style == "json" else style
-        response["Content-Disposition"] = (
-            f'attachment; filename="report-{report.pk}.{extension}"'
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=f"report-{report.pk}.{extension}"
         )
         return response
 
@@ -4849,11 +5120,12 @@ class ReportViewSet(viewsets.ModelViewSet):
 class TasksViewSet(ViewSet):
     # Task-related data is handled and queried to Celery.
     # There is no Django model associated with tasks.
+    permission_classes = (IsAuthenticated,)
     serializer_class = TaskSerializer
 
     def get_task(
         self, request, pk, permission: str | None = None
-    ) -> tuple[AsyncResult, Component | None]:
+    ) -> tuple[AsyncResult, Component | None, dict]:
         obj: Model
         component: Component | None
         user = cast("User", request.user)
@@ -4865,6 +5137,30 @@ class TasksViewSet(ViewSet):
             )
             obj = translation
             component = translation.component
+        elif component_ids := metadata.get("component_ids"):
+            unique_component_ids = set(component_ids)
+            existing_component_ids = set(
+                Component.objects.filter(pk__in=unique_component_ids).values_list(
+                    "pk", flat=True
+                )
+            )
+            components = list(
+                Component.objects.filter_access(user)
+                .filter(pk__in=existing_component_ids)
+                .order_by("pk")
+            )
+            if len(components) != len(existing_component_ids) or (
+                existing_component_ids != unique_component_ids
+                and metadata.get("user_id") != user.pk
+            ):
+                msg = "Invalid task"
+                raise Http404(msg)
+            if components:
+                component = components[0]
+                obj = component
+            else:
+                component = None
+                obj = user
         elif component_id := metadata.get("component_id"):
             component = get_object_or_404(
                 Component.objects.filter_access(user), pk=component_id
@@ -4889,34 +5185,7 @@ class TasksViewSet(ViewSet):
         elif component is not None and not user.can_access_component(component):
             raise PermissionDenied
 
-        return task, component
-
-    @staticmethod
-    def store_completion_message(request: Request, task: AsyncResult) -> None:
-        """Store an explicitly opted-in task completion message in the session."""
-        result = task.result
-        if not isinstance(result, dict):
-            return
-
-        completion_message = result.get("completion_message")
-        if not isinstance(completion_message, dict):
-            return
-
-        text = completion_message.get("text")
-        if not text:
-            return
-
-        session_key = f"task-completion-message-{task.id}"
-        if request.session.get(session_key):
-            return
-
-        level = {
-            "error": messages.ERROR,
-            "info": messages.INFO,
-            "warning": messages.WARNING,
-        }.get(completion_message.get("level"), messages.SUCCESS)
-        messages.add_message(request, level, str(text))
-        request.session[session_key] = True
+        return task, component, metadata
 
     @extend_schema(
         description="Return information about a task",
@@ -4924,23 +5193,42 @@ class TasksViewSet(ViewSet):
         responses=TaskSerializer,
     )
     def retrieve(self, request: Request, pk=None):
-        task, _component = self.get_task(request, pk)
+        task, component, metadata = self.get_task(request, pk)
         result = task.result
         if task.ready():
-            self.store_completion_message(request, task)
+            store_task_completion_message(request, task)
         serializer = self.serializer_class(
             {
                 "completed": task.ready(),
                 "progress": get_task_progress(task),
                 "result": str(result) if isinstance(result, Exception) else result,
                 "log": "\n".join(cache.get(f"task-log-{task.id}", [])),
+                "cancellable": metadata.get("cancellable", component is not None),
             }
         )
         return Response(serializer.data)
 
-    @extend_schema(description="Cancel a running task.", methods=["delete"])
+    @extend_schema(
+        description="Cancel a running task.",
+        methods=["delete"],
+        responses={
+            HTTP_204_NO_CONTENT: None,
+            HTTP_403_FORBIDDEN: OpenApiResponse(
+                response=ErrorResponse403Serializer,
+                description="The authenticated user does not have permission for this operation.",
+            ),
+            HTTP_409_CONFLICT: OpenApiResponse(
+                description="This task cannot be cancelled.",
+            ),
+        },
+    )
     def destroy(self, request: Request, pk=None):
-        task, component = self.get_task(request, pk, "component.edit")
+        task, component, metadata = self.get_task(request, pk, "component.edit")
+        if not metadata.get("cancellable", True):
+            return Response(
+                {"detail": "This task cannot be cancelled."},
+                status=HTTP_409_CONFLICT,
+            )
         if not task.ready() and component is not None:
             task.revoke(terminate=True)
             # Unlink task from component

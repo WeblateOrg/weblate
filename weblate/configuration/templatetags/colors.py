@@ -4,6 +4,8 @@
 
 """Convert colors between formats."""
 
+from __future__ import annotations
+
 from django import template
 
 register = template.Library()
@@ -14,3 +16,22 @@ def hex_to_rgb(value):
     return ", ".join(
         map(str, tuple(int(value.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4)))
     )
+
+
+@register.filter
+def darken(value, amount=0.6) -> str:
+    """Return a darker shade of the given hex color."""
+    channels = (int(value.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
+    r, g, b = (min(255, max(0, round(channel * amount))) for channel in channels)
+    return f"#{r:02x}{g:02x}{b:02x}"
+
+
+@register.filter
+def lighten(value, amount=0.4) -> str:
+    """Return a lighter shade of the given hex color."""
+    channels = (int(value.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
+    r, g, b = (
+        min(255, max(0, round(channel + (255 - channel) * amount)))
+        for channel in channels
+    )
+    return f"#{r:02x}{g:02x}{b:02x}"

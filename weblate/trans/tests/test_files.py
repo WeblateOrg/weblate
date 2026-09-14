@@ -774,21 +774,21 @@ class ImportMoPoTest(ImportTest):
 
     test_file = TEST_MO
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po()
 
 
 class ImportJoomlaTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_joomla()
 
 
 class ImportCSVTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_csv_mono()
 
     def test_import_source(self) -> None:
@@ -816,35 +816,35 @@ class ImportCSVTest(ImportTest):
 class ImportJSONTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_json()
 
 
 class ImportJSONMonoTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_json_mono()
 
 
 class ImportPHPMonoTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_php_mono()
 
 
 class StringsImportTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_iphone()
 
 
 class RubyPluralImportText(ImportBaseTest):
     test_file = TEST_RUBY
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_ruby_yaml()
 
     def test_import_plural(self) -> None:
@@ -913,7 +913,7 @@ pt_br:
 
 
 class AndroidImportTest(ViewTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_android()
 
     def test_import(self) -> None:
@@ -1048,11 +1048,11 @@ class ExportTest(ViewTestCase):
     target = "Nazdar svete!\n"
     test_match_1: str | bytes = "Weblate Hello World 2016"
     test_match_2: str | bytes = "Nazdar svete!"
-    test_header = "attachment; filename=test-test-cs.po"
+    test_header = 'attachment; filename="test-test-cs.po"'
     test_source = "Orangutan has %d banana"
     test_source_plural = "Orangutan has %d bananas"
 
-    def create_component(self):
+    def create_component(self) -> Component:
         # Needs to create PO file to have language pack option
         return self.create_po()
 
@@ -1131,14 +1131,14 @@ class ExportTest(ViewTestCase):
         response = self.export_format("xlsx")
         self.assert_excel(response)
         self.assertEqual(
-            response["Content-Disposition"], "attachment; filename=test-test-cs.xlsx"
+            response["Content-Disposition"], 'attachment; filename="test-test-cs.xlsx"'
         )
 
     def test_export_xlsx_empty(self) -> None:
         response = self.export_format("xlsx", q="check:inconsistent")
         self.assert_excel(response)
         self.assertEqual(
-            response["Content-Disposition"], "attachment; filename=test-test-cs.xlsx"
+            response["Content-Disposition"], 'attachment; filename="test-test-cs.xlsx"'
         )
 
     def test_export_invalid(self) -> None:
@@ -1151,11 +1151,11 @@ class ExportMultifileTest(ExportTest):
     target = "Weblate - průběžná lokalizace"
     test_match_1 = b"PK\001\002"
     test_match_2 = b"PK\005\006"
-    test_header = "attachment; filename=test-test-cs.zip"
+    test_header = 'attachment; filename="test-test-cs.zip"'
     test_source = "https://www.youtube.com/watch?v=IVlXt6QdgdA"
     test_source_plural = "https://www.youtube.com/watch?v=IVlXt6QdgdA"
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_appstore()
 
 
@@ -1300,7 +1300,7 @@ class ImportAddTest(ImportBaseTest):
         request = self.get_request()
         store = object()
 
-        def handle_add_upload(*args, **kwargs):
+        def handle_add_upload(*args, **kwargs) -> tuple[int, int, int, int]:
             self.assertTrue(translation.component.lock.is_locked)
             return (0, 0, 0, 0)
 
@@ -1555,7 +1555,7 @@ UPLOAD_CSV = """
 
 
 class ImportExportAddTest(ViewTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_json_mono()
 
     def test_notchanged(self) -> None:

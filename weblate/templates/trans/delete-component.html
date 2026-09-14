@@ -4,6 +4,10 @@
   {% blocktranslate %}This action cannot be undone. This will permanently delete the {{ object }} component and all related content.{% endblocktranslate %}
 </p>
 
+<p class="alert alert-warning">
+  {% translate "If this action removes restricted components, retained translation memory from them will become available according to the project and workspace translation memory access rules unless you also delete it." %}
+</p>
+
 {% with components=object.component_set.prefetch.order %}
   {% if components %}
     <p>{% translate "The following translation components will be removed:" %}</p>

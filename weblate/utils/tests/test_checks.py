@@ -4,14 +4,17 @@
 
 from __future__ import annotations
 
+import os
 import time
 from pathlib import Path
+from typing import TYPE_CHECKING
 from unittest.mock import Mock, patch
 from weakref import WeakSet
 
 import httpx2
 from django.conf import settings
 from django.core.cache import cache
+from django.core.checks import Warning as DjangoWarning
 from django.db import DatabaseError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -23,13 +26,30 @@ from weblate.utils.apps import (
     check_data_writable,
     check_database,
     check_database_size,
+    check_docker_startup_warnings,
     check_errors,
+    check_filesystem_latency,
     check_settings,
     check_version,
 )
 from weblate.utils.celery import is_celery_queue_long
 from weblate.utils.classloader import ClassLoader
+from weblate.utils.docker import (
+    DOCKER_CONTAINER_ENV,
+    DOCKER_WARNING_DIRECTORY,
+    DOCKER_WARNING_MAX_AGE,
+    DOCKER_WARNING_MAX_SIZE,
+)
+from weblate.utils.filesystem import (
+    FILESYSTEM_LATENCY_PREFIX,
+    filesystem_latency_snapshot,
+    get_filesystem_latencies,
+    measure_filesystem_latency,
+)
 from weblate.utils.unittest import tempdir_setting
+
+if TYPE_CHECKING:
+    from unittest.mock import MagicMock
 
 
 class CeleryQueueTest(SimpleTestCase):
@@ -37,7 +57,7 @@ class CeleryQueueTest(SimpleTestCase):
     databases = {"default"}
 
     @staticmethod
-    def set_cache(value) -> None:
+    def set_cache(value: object) -> None:
         cache.set("celery_queue_stats", value)
 
     def test_empty(self) -> None:
@@ -171,13 +191,259 @@ class DataWritableCheckTestCase(SimpleTestCase):
         self.assertEqual(self.get_cache_probes(), [])
 
 
+class FilesystemLatencyTestCase(SimpleTestCase):
+    @tempdir_setting("DATA_DIR")
+    def test_measure_filesystem_latency(self) -> None:
+        timestamps: list[int] = []
+        current = 0
+        for duration in range(1, 26):
+            timestamps.extend((current, current + duration * 1_000_000))
+            current += (duration + 1) * 1_000_000
+
+        lookups: list[Path] = []
+
+        def missing(path: Path) -> None:
+            lookups.append(path)
+            raise FileNotFoundError
+
+        with (
+            patch("weblate.utils.filesystem.monotonic_ns", side_effect=timestamps),
+            patch(
+                "pathlib.Path.lstat",
+                autospec=True,
+                side_effect=missing,
+            ),
+        ):
+            latency = measure_filesystem_latency(Path(settings.DATA_DIR))
+
+        self.assertEqual(latency, 13.0)
+        self.assertEqual(len(lookups), 25)
+        self.assertEqual(len({path.name for path in lookups}), 25)
+        self.assertTrue(
+            all(path.name.startswith(FILESYSTEM_LATENCY_PREFIX) for path in lookups)
+        )
+
+    @tempdir_setting("DATA_DIR")
+    @patch(
+        "pathlib.Path.lstat",
+        autospec=True,
+        side_effect=PermissionError,
+    )
+    def test_measure_filesystem_latency_error(self, lstat_mock: MagicMock) -> None:
+        self.assertIsNone(measure_filesystem_latency(Path(settings.DATA_DIR)))
+        lstat_mock.assert_called_once()
+
+    @patch(
+        "weblate.utils.filesystem.measure_filesystem_latencies",
+        return_value={"DATA_DIR": 1.0, "CACHE_DIR": 2.0},
+    )
+    def test_filesystem_latency_snapshot(self, measure_mock: Mock) -> None:
+        with filesystem_latency_snapshot() as snapshot:
+            self.assertIs(get_filesystem_latencies(), snapshot)
+            self.assertIs(get_filesystem_latencies(), snapshot)
+
+        self.assertEqual(snapshot, {"DATA_DIR": 1.0, "CACHE_DIR": 2.0})
+        measure_mock.assert_called_once_with()
+
+    @patch(
+        "weblate.utils.apps.get_filesystem_latency_paths",
+        return_value={
+            "DATA_DIR": Path("/data/vcs"),
+            "CACHE_DIR": Path("/cache"),
+        },
+    )
+    @patch(
+        "weblate.utils.apps.get_filesystem_latencies",
+        return_value={"DATA_DIR": 10.0, "CACHE_DIR": None},
+    )
+    def test_filesystem_latency_acceptable(
+        self, latency_mock: Mock, paths_mock: Mock
+    ) -> None:
+        self.assertEqual(
+            list(check_filesystem_latency(app_configs=None, databases=None)), []
+        )
+        latency_mock.assert_called_once_with()
+        paths_mock.assert_called_once_with()
+
+    @patch(
+        "weblate.utils.apps.get_filesystem_latency_paths",
+        return_value={
+            "DATA_DIR": Path("/data/vcs"),
+            "CACHE_DIR": Path("/cache"),
+        },
+    )
+    @patch(
+        "weblate.utils.apps.get_filesystem_latencies",
+        return_value={"DATA_DIR": 10.1, "CACHE_DIR": 20.0},
+    )
+    def test_filesystem_latency_slow(
+        self, latency_mock: Mock, paths_mock: Mock
+    ) -> None:
+        errors = list(check_filesystem_latency(app_configs=None, databases=None))
+
+        self.assertEqual(len(errors), 2)
+        self.assertTrue(all(isinstance(error, DjangoWarning) for error in errors))
+        self.assertTrue(all(error.id == "weblate.W048" for error in errors))
+        self.assertIn("/data/vcs", errors[0].msg)
+        self.assertIn("10.1 milliseconds", errors[0].msg)
+        self.assertIn("DATA_DIR", errors[0].msg)
+        self.assertIn("/cache", errors[1].msg)
+        self.assertIn("20 milliseconds", errors[1].msg)
+        self.assertIn("CACHE_DIR", errors[1].msg)
+        latency_mock.assert_called_once_with()
+        paths_mock.assert_called_once_with()
+
+
+class DockerStartupWarningsCheckTestCase(SimpleTestCase):
+    @tempdir_setting("DATA_DIR")
+    def test_missing_directory(self) -> None:
+        with patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(errors, [])
+
+    @tempdir_setting("DATA_DIR")
+    def test_directory_listing_error(self) -> None:
+        for error in (FileNotFoundError, PermissionError):
+            with (
+                self.subTest(error=error),
+                patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}),
+                patch("weblate.utils.docker.Path.iterdir", side_effect=error),
+            ):
+                errors = list(
+                    check_docker_startup_warnings(app_configs=None, databases=None)
+                )
+
+                self.assertEqual(errors, [])
+
+    def create_report(
+        self,
+        name: str,
+        warnings: str,
+        *,
+        hostname: str = "container-1",
+        service: str = "web",
+        age: float = 0,
+    ) -> Path:
+        report = Path(settings.DATA_DIR) / DOCKER_WARNING_DIRECTORY / name
+        report.mkdir(parents=True)
+        (report / "hostname").write_text(hostname, encoding="utf-8")
+        (report / "service").write_text(service, encoding="utf-8")
+        (report / "warnings").write_text(warnings, encoding="utf-8")
+        heartbeat = report / "heartbeat"
+        heartbeat.touch()
+        if age:
+            timestamp = time.time() - age
+            os.utime(heartbeat, (timestamp, timestamp))
+        return report
+
+    @tempdir_setting("DATA_DIR")
+    def test_disabled_outside_docker(self) -> None:
+        self.create_report("report", "Ignored configuration")
+
+        with patch.dict(os.environ, clear=True):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(errors, [])
+
+    @tempdir_setting("DATA_DIR")
+    def test_active_warnings(self) -> None:
+        self.create_report("first", "First warning\nShared warning")
+        self.create_report(
+            "second",
+            "Shared warning",
+            hostname="container-2",
+            service="celery-notify",
+        )
+
+        with patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(len(errors), 2)
+        self.assertTrue(all(isinstance(error, DjangoWarning) for error in errors))
+        self.assertTrue(all(error.id == "weblate.W049" for error in errors))
+        self.assertEqual(
+            errors[0].msg,
+            "Docker startup warning from container-1 (web): First warning",
+        )
+        self.assertIn("container-1 (web)", errors[1].msg)
+        self.assertIn("container-2 (celery-notify)", errors[1].msg)
+        self.assertEqual(errors[1].msg.count("Shared warning"), 1)
+
+    @tempdir_setting("DATA_DIR")
+    def test_inactive_warnings(self) -> None:
+        self.create_report(
+            "stale",
+            "Stale warning",
+            age=DOCKER_WARNING_MAX_AGE + 1,
+        )
+        self.create_report("empty", "")
+
+        with patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(errors, [])
+
+    @tempdir_setting("DATA_DIR")
+    def test_stale_reports_do_not_hide_active_report(self) -> None:
+        stale = self.create_report(
+            "stale",
+            "Stale warning",
+            age=DOCKER_WARNING_MAX_AGE + 1,
+        )
+        active = self.create_report("active", "Active warning")
+
+        with (
+            patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}),
+            patch("weblate.utils.docker.DOCKER_WARNING_MAX_REPORTS", 1),
+            patch(
+                "weblate.utils.docker.Path.iterdir",
+                return_value=iter((stale, active)),
+            ),
+        ):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(len(errors), 1)
+        self.assertIn("Active warning", errors[0].msg)
+
+    @tempdir_setting("DATA_DIR")
+    def test_unsafe_warning_files(self) -> None:
+        oversized = self.create_report("oversized", "")
+        (oversized / "warnings").write_text(
+            "x" * (DOCKER_WARNING_MAX_SIZE + 1), encoding="utf-8"
+        )
+        symlinked = self.create_report("symlinked", "")
+        target = Path(settings.DATA_DIR) / "warning-target"
+        target.write_text("Symlink warning", encoding="utf-8")
+        warning_file = symlinked / "warnings"
+        warning_file.unlink()
+        warning_file.symlink_to(target)
+
+        with patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(errors, [])
+
+
 class DatabaseSizeCheckTestCase(SimpleTestCase):
     @patch("weblate.utils.apps.get_database_size", return_value=123456)
     @patch("weblate.utils.apps.connections")
     def test_database_size_available(
         self,
-        connections_mock,
-        database_size_mock,
+        connections_mock: Mock,
+        database_size_mock: Mock,
     ) -> None:
         connections_mock.__getitem__.return_value.vendor = "postgresql"
 
@@ -189,7 +455,7 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
     @patch("weblate.utils.apps.get_database_size", return_value=None)
     @patch("weblate.utils.apps.connections")
     def test_database_size_unavailable(
-        self, connections_mock, database_size_mock
+        self, connections_mock: Mock, database_size_mock: Mock
     ) -> None:
         connections_mock.__getitem__.return_value.vendor = "postgresql"
 
@@ -201,7 +467,7 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
     @patch("weblate.utils.apps.get_database_size")
     @patch("weblate.utils.apps.connections")
     def test_database_size_non_postgresql(
-        self, connections_mock, database_size_mock
+        self, connections_mock: Mock, database_size_mock: Mock
     ) -> None:
         connections_mock.__getitem__.return_value.vendor = "sqlite"
 
@@ -214,7 +480,7 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
 class DatabaseStatisticsCheckTestCase(SimpleTestCase):
     @patch("weblate.utils.apps.measure_database_latency", return_value=1)
     @patch("weblate.utils.apps.get_invalid_database_statistics", return_value=[])
-    def test_valid_statistics(self, statistics_mock, latency_mock) -> None:
+    def test_valid_statistics(self, statistics_mock: Mock, latency_mock: Mock) -> None:
         errors = list(check_database(app_configs=None, databases=None))
 
         self.assertFalse(any(error.id == "weblate.C047" for error in errors))
@@ -226,7 +492,9 @@ class DatabaseStatisticsCheckTestCase(SimpleTestCase):
         "weblate.utils.apps.get_invalid_database_statistics",
         return_value=["public.trans_unit"],
     )
-    def test_invalid_statistics(self, statistics_mock, latency_mock) -> None:
+    def test_invalid_statistics(
+        self, statistics_mock: Mock, latency_mock: Mock
+    ) -> None:
         errors = list(check_database(app_configs=None, databases=None))
 
         error = next(error for error in errors if error.id == "weblate.C047")
@@ -240,7 +508,9 @@ class DatabaseStatisticsCheckTestCase(SimpleTestCase):
         "weblate.utils.apps.get_invalid_database_statistics",
         side_effect=DatabaseError("catalog query failed"),
     )
-    def test_statistics_database_error(self, statistics_mock, latency_mock) -> None:
+    def test_statistics_database_error(
+        self, statistics_mock: Mock, latency_mock: Mock
+    ) -> None:
         errors = list(check_database(app_configs=None, databases=None))
 
         error = next(error for error in errors if error.id == "weblate.C037")
@@ -280,7 +550,7 @@ class VersionCheckTestCase(SimpleTestCase):
         "weblate.utils.apps.get_latest_version",
         side_effect=httpx2.ConnectError("PyPI unavailable"),
     )
-    def test_http_error_is_ignored(self, get_latest_version) -> None:
+    def test_http_error_is_ignored(self, get_latest_version: Mock) -> None:
         errors = list(check_version(app_configs=None, databases=None))
 
         self.assertEqual(errors, [])

@@ -18,6 +18,8 @@ from weblate.utils.state import STATE_TRANSLATED
 from .base import InternalMachineTranslation
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
+
     from .base import DownloadTranslations
 
 
@@ -36,8 +38,8 @@ class WeblateTranslation(InternalMachineTranslation):
         source_language,
         target_language,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = 10,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

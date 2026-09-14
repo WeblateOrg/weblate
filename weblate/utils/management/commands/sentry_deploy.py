@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import httpx2
 from django.conf import settings
 from django.core.management.base import CommandError
@@ -15,7 +17,7 @@ TAGS_API = "https://api.github.com/repos/WeblateOrg/weblate/git/ref/tags/{}"
 class Command(BaseCommand):
     help = "records a release on Sentry"
 
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: object, **options: object) -> None:
         if weblate.utils.version.GIT_REVISION:
             # Get release from Git
             version = ref = weblate.utils.version.GIT_REVISION

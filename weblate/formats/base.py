@@ -14,6 +14,7 @@ from typing import IO, TYPE_CHECKING, Any, ClassVar, cast, overload
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext
 from pyparsing import ParseException
 from translate.misc.multistring import multistring
@@ -333,11 +334,11 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
         """Check whether unit is translated."""
         return self.has_translation()
 
-    def is_approved(self, fallback=False) -> bool:
+    def is_approved(self, fallback: bool = False) -> bool:
         """Check whether unit is approved."""
         return fallback
 
-    def is_fuzzy(self, fallback=False) -> bool:
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         """Check whether unit needs edit."""
         return fallback
 
@@ -427,7 +428,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         return cls.supports_plural
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.format_id
 
     def __init__(
@@ -631,6 +632,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     def update_header(self, file_format_params: FileFormatParams, **kwargs) -> None:
         """Update store header if available."""
         return
+
+    def update_contributor(self, author: str) -> bool:
+        """Update contributor comments, returning whether the store needs saving."""
+        return False
 
     @staticmethod
     def save_atomic(
@@ -1155,7 +1160,7 @@ class BaseExporter:
         return multistring([self.string_filter(plural) for plural in plurals])
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.name
 
     def get_storage(self):
@@ -1267,7 +1272,9 @@ class BaseExporter:
         filename = self.get_filename(filetemplate)
 
         response = HttpResponse(content_type=f"{self.content_type}; charset=utf-8")
-        response["Content-Disposition"] = f"attachment; filename={filename}"
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=filename
+        )
 
         # Save to response
         response.write(self.serialize())

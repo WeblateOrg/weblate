@@ -82,7 +82,7 @@ def strip_string(msg: str) -> str:
     return TEMPLATE_RE.sub("", stripped)
 
 
-def test_word(word, extra_ignore):
+def test_word(word: str, extra_ignore: set[str]) -> bool:
     """Test whether word should be ignored."""
     return (
         len(word) <= 2
@@ -187,7 +187,7 @@ class SameCheck(TargetCheck):
             )
         )
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # One letter things are usually labels or decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False

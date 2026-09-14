@@ -12,17 +12,18 @@ from django.template.loader import render_to_string
 from django.utils.html import escape, format_html
 from django.utils.translation import gettext, gettext_lazy, npgettext, pgettext
 
+from weblate.addons.base import is_public_addon_change_details
 from weblate.addons.models import ADDONS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.registry import get_alert_class
-from weblate.trans.models.change import COMPONENT_ORIGINS
-from weblate.trans.models.project import Project
-from weblate.trans.templatetags.translations import (
+from weblate.trans.formatting import (
     format_language_string,
     format_unit_source,
     format_unit_target,
 )
+from weblate.trans.models.change import COMPONENT_ORIGINS
+from weblate.trans.models.project import Project
 from weblate.utils.files import FileUploadMethod, get_upload_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.markdown import render_markdown
@@ -150,9 +151,32 @@ class RenderAddon(BaseDetailsRenderStrategy):
 
     def render_details(self, change: Change) -> StrOrPromise:
         try:
-            return ADDONS[change.target].name
+            addon_name = ADDONS[change.target].name
         except KeyError:
-            return change.target
+            addon_name = change.target
+
+        if not is_public_addon_change_details(change.details):
+            return addon_name
+        changed_fields = change.details["changed_fields"]
+        if not changed_fields:
+            return addon_name
+        redacted_fields = set(change.details["redacted_fields"])
+        fields = format_html_join_comma(
+            "<code>{}</code>{}",
+            (
+                (
+                    field,
+                    f" ({gettext('redacted')})" if field in redacted_fields else "",
+                )
+                for field in changed_fields
+            ),
+        )
+        return format_html(
+            "{}<br>{}: {}",
+            addon_name,
+            gettext("Changed settings"),
+            fields,
+        )
 
 
 @register_details_display_strategy

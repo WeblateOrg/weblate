@@ -36,6 +36,14 @@ class HgRepository(Repository):
 
     metadata_dir_name: ClassVar[str] = ".hg"
 
+    BACKUP_METADATA_FILES: ClassVar[frozenset[str]] = frozenset(
+        {"bookmarks", "bookmarks.current", "branch", "dirstate", "requires"}
+    )
+    BACKUP_STORE_FILES: ClassVar[frozenset[str]] = frozenset(
+        {"bookmarks", "fncache", "obsstore", "phaseroots", "requires"}
+    )
+    BACKUP_STORE_DIRS: ClassVar[frozenset[str]] = frozenset({"data", "dh", "meta"})
+
     _cmd: ClassVar[str] = "rhg" if which("rhg") is not None else "hg"
     _cmd_last_revision: ClassVar[list[str]] = [
         "log",
@@ -54,8 +62,6 @@ class HgRepository(Repository):
         ".",
     ]
     _cmd_list_changed_files: ClassVar[list[str]] = ["status", "--rev"]
-    _version: ClassVar[str | None] = None
-
     name: ClassVar[StrOrPromise] = "Mercurial"
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to the upstream Mercurial repository."
@@ -73,9 +79,24 @@ class HgRepository(Repository):
             return match[1]
         return errormessage
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
         """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, ".hg", "requires"))
+
+    @classmethod
+    def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:
+        """Return whether Mercurial metadata can be restored from a backup."""
+        if not parts:
+            return False
+        if len(parts) == 1:
+            return parts[0] in cls.BACKUP_METADATA_FILES
+        if parts[0] != "store":
+            return False
+        if len(parts) == 2:
+            return parts[1] in cls.BACKUP_STORE_FILES or parts[1].startswith(
+                ("00changelog.", "00manifest.")
+            )
+        return parts[1] in cls.BACKUP_STORE_DIRS
 
     @classmethod
     def create_blank_repository(cls, path: str) -> None:
@@ -306,7 +327,7 @@ class HgRepository(Repository):
         return bool(self.log_revisions(".::remote(.) - ."))
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         output = cls._popen(["version", "-q"], merge_err=False)
         matches = VERSION_RE.match(output)
@@ -396,13 +417,13 @@ class HgRepository(Repository):
 
         self.branch = branch
 
-    def on_branch(self, branch) -> bool:
+    def on_branch(self, branch: str) -> bool:
         return (
             branch
             == self.execute(["branch"], remote_op="none", merge_err=False).strip()
         )
 
-    def configure_branch(self, branch) -> None:
+    def configure_branch(self, branch: str) -> None:
         """Configure repository branch."""
         if not self.on_branch(branch):
             self.execute(["update", "--", branch], remote_op="none")
@@ -423,7 +444,7 @@ class HgRepository(Repository):
             merge_err=False,
         ).strip()
 
-    def push(self, branch) -> None:
+    def push(self, branch: str) -> None:
         """Push given branch to remote repository."""
         try:
             self.execute(["push", f"--branch={self.branch}"], remote_op="push")

@@ -22,6 +22,29 @@
   }
 
   /*
+   * Quote character left open at the end of the string, null when it ends
+   * outside of quotes. A comma is a flag separator only outside of quotes.
+   */
+  function openQuoteChar(value) {
+    let quoteChar = null;
+    let escaped = false;
+    for (const ch of value) {
+      if (escaped) {
+        escaped = false;
+      } else if (ch === "\\") {
+        escaped = true;
+      } else if (ch === '"' || ch === "'") {
+        if (quoteChar === null) {
+          quoteChar = ch;
+        } else if (quoteChar === ch) {
+          quoteChar = null;
+        }
+      }
+    }
+    return quoteChar;
+  }
+
+  /*
    * Split a flag-text string into individual flag tokens
    */
   function parseFlagInputValue(value) {
@@ -202,7 +225,182 @@
         this.refreshOptions(true);
         return;
       }
-      return origAddItem.call(this, value, silent);
+      const before = this.items.length;
+      const result = origAddItem.call(this, value, silent);
+      if (this.items.length !== before && this.inputValue().length) {
+        this.setTextboxValue();
+        this.refreshOptions(this.isFocused);
+      }
+      return result;
+    };
+
+    /* Typing a comma inside a quoted value keeps it as part of the flag
+     * instead of starting a new one. */
+    const origKeyPress = ts.onKeyPress;
+    ts.onKeyPress = function (e) {
+      if (e.key === ",") {
+        const caret = this.control_input?.selectionStart;
+        const typed = this.control_input?.value || "";
+        const before =
+          typeof caret === "number" ? typed.slice(0, caret) : typed;
+        if (openQuoteChar(before) !== null) {
+          return;
+        }
+      }
+      origKeyPress.call(this, e);
+    };
+
+    /* Split pasted text the same way the flags are parsed, so that commas
+     * inside quotes do not split a flag in half. */
+    ts.onPaste = function (e) {
+      if (this.isInputHidden || this.isLocked) {
+        e.preventDefault();
+        return;
+      }
+      /* Wait for the pasted text to appear in the text box */
+      setTimeout(() => {
+        const flags = parseFlagInputValue(this.inputValue());
+        if (flags.length < 2) {
+          return;
+        }
+        for (const flag of flags) {
+          if (this.options[flag]) {
+            this.addItem(flag);
+          } else {
+            this.createItem(flag);
+          }
+        }
+      }, 0);
+    };
+
+    let editedIndex = null;
+
+    function restoreEditedPosition(value, item) {
+      const index = editedIndex;
+      editedIndex = null;
+      if (index === null) {
+        return;
+      }
+      const from = ts.items.indexOf(value);
+      if (from === -1 || from === index) {
+        return;
+      }
+      ts.items.splice(from, 1);
+      ts.items.splice(index, 0, value);
+      const siblings = ts.controlChildren().filter((child) => child !== item);
+      ts.control.insertBefore(item, siblings[index] || ts.control_input);
+    }
+
+    ts.on("item_add", restoreEditedPosition);
+    ts.on("blur", () => {
+      editedIndex = null;
+    });
+
+    const origCreateItem = ts.createItem;
+    ts.createItem = function (...args) {
+      const before = this.items.length;
+      const result = origCreateItem.apply(this, args);
+      if (this.items.length === before) {
+        editedIndex = null;
+      }
+      return result;
+    };
+
+    /* Turn an already added flag back into editable text. */
+    function editItem(item) {
+      if (!item || ts.isLocked) {
+        return false;
+      }
+      const value = item.dataset.value;
+      if (typeof value === "undefined") {
+        return false;
+      }
+      if (ts.inputValue().length) {
+        ts.createItem();
+      }
+      /* After createItem(), which may have shifted this item */
+      const index = ts.controlChildren().indexOf(item);
+      ts.clearActiveItems();
+      ts.removeItem(item);
+      ts.inputState();
+      ts.setTextboxValue(value);
+      ts.focus();
+      ts.refreshOptions(true);
+      editedIndex = index === -1 ? null : index;
+      return true;
+    }
+
+    function activeItemsInOrder() {
+      return ts
+        .controlChildren()
+        .filter((item) => item.classList.contains("active"));
+    }
+
+    /* Clicking a flag opens it for editing */
+    const origItemSelect = ts.onItemSelect;
+    ts.onItemSelect = function (evt, item) {
+      if (evt && !evt.shiftKey && !evt.ctrlKey && !evt.metaKey) {
+        if (editItem(item)) {
+          return true;
+        }
+      }
+      return origItemSelect.call(this, evt, item);
+    };
+
+    const origKeyDown = ts.onKeyDown;
+    ts.onKeyDown = function (e) {
+      /* Enter or F2 reopens the selected flag for editing */
+      if (
+        (e.key === "Enter" || e.key === "F2") &&
+        this.activeItems.length === 1 &&
+        editItem(this.activeItems[0])
+      ) {
+        e.preventDefault();
+        return;
+      }
+      /* Ctrl - C to copy flags */
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        !e.shiftKey &&
+        e.key?.toLowerCase() === "c" &&
+        this.activeItems.length
+      ) {
+        e.preventDefault();
+        copyToClipboard(
+          activeItemsInOrder()
+            .map((item) => item.dataset.value)
+            .join(", "),
+        );
+        return;
+      }
+      origKeyDown.call(this, e);
+    };
+
+    /* Keyboard navigation for flags */
+    ts.moveCaret = (direction) => {
+      const items = ts.controlChildren();
+      if (!items.length) {
+        return;
+      }
+      const active = activeItemsInOrder();
+      let next;
+      if (!active.length) {
+        if (direction > 0) {
+          return;
+        }
+        next = items.length - 1;
+      } else {
+        const anchor = direction < 0 ? active[0] : active[active.length - 1];
+        next = items.indexOf(anchor) + direction;
+        if (next < 0) {
+          next = 0;
+        }
+      }
+      ts.clearActiveItems();
+      if (next < items.length) {
+        ts.setActiveItemClass(items[next]);
+      }
+      ts.inputState();
     };
 
     loadFlagChoices(choicesUrl).then((choices) => {

@@ -26,7 +26,7 @@ List of built-in roles
        * :guilabel:`Edit translation memory`
        * :guilabel:`Edit project settings`
        * :guilabel:`Manage project access`
-       * :guilabel:`Download reports`
+       * :guilabel:`Manage reports`
        * :guilabel:`Add screenshot`
        * :guilabel:`Delete screenshot`
        * :guilabel:`Edit screenshot`
@@ -196,7 +196,7 @@ List of built-in roles
        * :guilabel:`View upstream repository location`
 
    * - `Workspace administration`
-     - * :guilabel:`Download reports`
+     - * :guilabel:`Manage reports`
        * :guilabel:`Add projects to workspace`
        * :guilabel:`Edit workspace settings`
        * :guilabel:`Manage workspace access`

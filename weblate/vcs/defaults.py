@@ -15,7 +15,6 @@ DEFAULT_VCS_BACKENDS: tuple[str, ...] = (
     "weblate.vcs.git.GitLabRepository",
     "weblate.vcs.git.PagureRepository",
     "weblate.vcs.git.LocalRepository",
-    "weblate.vcs.git.GitForcePushRepository",
     "weblate.vcs.git.BitbucketServerRepository",
     "weblate.vcs.git.BitbucketCloudRepository",
     "weblate.vcs.mercurial.HgRepository",
@@ -26,6 +25,7 @@ DEFAULT_VCS_API_DELAY = 10
 DEFAULT_VCS_API_TIMEOUT = 10
 DEFAULT_VCS_ALLOW_SCHEMES: frozenset[str] = frozenset({"https", "ssh"})
 DEFAULT_VCS_ALLOW_HOSTS: frozenset[str] = frozenset()
+DEFAULT_VCS_PRIVATE_ALLOWLIST: tuple[str, ...] = ()
 DEFAULT_VCS_RESTRICT_PRIVATE = True
 DEFAULT_SSH_EXTRA_ARGS = ""
 

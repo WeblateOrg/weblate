@@ -31,7 +31,7 @@ def check_backups(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.wladmin.models import BackupService
@@ -47,22 +47,20 @@ def check_backups(
             )
         )
     for service in BackupService.objects.filter(enabled=True):
-        try:
-            last_obj = service.last_logs[0]
-        except IndexError:
-            last_event = "error"
+        current_error = service.current_error
+        if current_error is not None:
+            last_log = current_error.log
+        elif not service.has_repository_logs:
             last_log = "backup was never triggered"
         else:
-            last_event = last_obj.event
-            last_log = last_obj.log
-        if last_event == "error":
-            errors.append(
-                weblate_check(
-                    "weblate.C029",
-                    f"There was error while performing backups: {last_log}",
-                )
+            continue
+        errors.append(
+            weblate_check(
+                "weblate.C029",
+                f"There was error while performing backups: {last_log}",
             )
-            break
+        )
+        break
 
     return errors
 
@@ -72,7 +70,7 @@ def check_support(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.wladmin.models import SupportStatus

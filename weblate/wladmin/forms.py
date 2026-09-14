@@ -122,20 +122,33 @@ class AppearanceForm(forms.Form):
     brand_font = FontField(label=gettext_lazy("Header font"), required=False)
 
     header_color = ThemeColorField(
-        label=gettext_lazy("Navigation color (Light, Dark)"), initial="#2a3744,#1a2634"
+        label=gettext_lazy("Header color (Light, Dark)"), initial="#2a3744,#1a2634"
     )
     header_text_color = ThemeColorField(
-        label=gettext_lazy("Navigation text color (Light, Dark)"),
+        label=gettext_lazy("Header text color (Light, Dark)"),
         initial="#bfc3c7,#e0e3e7",
     )
     navi_color = ThemeColorField(
-        label=gettext_lazy("Navigation color (Light, Dark)"), initial="#107a62,#0f9375"
+        label=gettext_lazy("Accent color (Light, Dark)"), initial="#107a62,#0f9375"
     )
     focus_color = ThemeColorField(
-        label=gettext_lazy("Focus color (Light, Dark)"), initial="#158068,#25303b"
+        label=gettext_lazy("Header accent color (Light, Dark)"),
+        initial="#158068,#25303b",
     )
     hover_color = ThemeColorField(
         label=gettext_lazy("Hover color (Light, Dark)"), initial="#144d3f,#0a3d2f"
+    )
+    link_color = ThemeColorField(
+        label=gettext_lazy("Link and button color (Light, Dark)"),
+        initial="#107a62,#6cf8d8",
+    )
+    progress_color = ThemeColorField(
+        label=gettext_lazy("Progress bar color (Light, Dark)"),
+        initial="#107a62,#1c8f75",
+    )
+    progress_background_color = ThemeColorField(
+        label=gettext_lazy("Progress bar background color (Light, Dark)"),
+        initial="#e9ecef,#343a40",
     )
 
     hide_footer = forms.BooleanField(

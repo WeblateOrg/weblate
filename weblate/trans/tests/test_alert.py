@@ -4,15 +4,18 @@
 
 """Test for alerts."""
 
+from __future__ import annotations
+
 import importlib
 import os
 import tempfile
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
+from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.http import QueryDict
@@ -29,6 +32,7 @@ from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, MultiAlert
+from weblate.trans.alerts.files import DuplicateString
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.alerts.vcs import RepositoryErrorAlert, UpdateFailure
 from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
@@ -37,13 +41,24 @@ from weblate.trans.models import (
     Component,
     ComponentLink,
     Project,
+    Translation,
     Unit,
 )
 from weblate.trans.models.alert import Alert
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.vcs.base import RepositoryError, RepositoryInternalError
-from weblate.vcs.models import VCS_REGISTRY
+from weblate.utils.docs import get_doc_url
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositoryInternalError,
+    RepositoryStructuredError,
+)
+from weblate.vcs.github import GitHubAppCredentials
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from unittest.mock import Mock
+
+    from weblate.auth.models import User
 
 
 class WebsiteAlertSettingTest(ViewTestCase):
@@ -54,7 +69,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
 
     @override_settings(WEBSITE_ALERTS_ENABLED=False)
     @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
-    def test_website_alerts_disabled(self, mocked_get_uri_error) -> None:
+    def test_website_alerts_disabled(self, mocked_get_uri_error: Mock) -> None:
         """Test that website alerts are not created when setting is False."""
         self.project.web = "https://example.com/project"
         update_alerts(self.component, {"BrokenProjectURL"})
@@ -65,7 +80,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch("weblate.trans.alerts.config.get_uri_error", return_value="unreachable")
-    def test_website_alerts_enabled(self, mocked_get_uri_error) -> None:
+    def test_website_alerts_enabled(self, mocked_get_uri_error: Mock) -> None:
         """Test that website alerts are created when setting is True."""
         self.project.web = "https://example.com/project"
         update_alerts(self.component, {"BrokenProjectURL"})
@@ -79,7 +94,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
     @patch("weblate.trans.alerts.config.get_uri_error")
     def test_website_alert_uses_validator_error_without_fetch(
-        self, mocked_get_uri_error
+        self, mocked_get_uri_error: Mock
     ) -> None:
         self.project.web = "https://localhost/project"
 
@@ -101,7 +116,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
     )
     @patch("weblate.trans.alerts.config.get_uri_error")
     def test_website_alert_uses_runtime_validation_without_fetch(
-        self, mocked_get_uri_error, mocked_validate_request_url
+        self, mocked_get_uri_error: Mock, mocked_validate_request_url: Mock
     ) -> None:
         self.project.web = "https://public.example/project"
 
@@ -126,7 +141,7 @@ class WebsiteAlertSettingTest(ViewTestCase):
     @patch("weblate.trans.alerts.config.get_uri_error", return_value=None)
     @patch("weblate.trans.alerts.config.validate_request_url")
     def test_website_alert_respects_project_allowlist(
-        self, mocked_validate_request_url, mocked_get_uri_error
+        self, mocked_validate_request_url: Mock, mocked_get_uri_error: Mock
     ) -> None:
         self.project.web = "https://localhost/project"
 
@@ -172,6 +187,20 @@ class AlertTest(ViewTestCase):
         return self.client.get(
             reverse("js-diagnostics", kwargs={"path": obj.get_url_path()}), data
         )
+
+    def test_alert_class_metadata_does_not_initialize_alert_object(self) -> None:
+        details = {"occurrences": [{"language_code": "cs"}]}
+        self.component.add_alert("UnusedGlossaryLanguage", **details)
+        alert = self.component.alert_set.get(name="UnusedGlossaryLanguage")
+
+        self.assertNotIn("alert_class", alert.__dict__)
+        alert_class = alert.alert_class
+
+        self.assertIn("alert_class", alert.__dict__)
+        self.assertIs(alert.alert_class, alert_class)
+        self.assertEqual(alert.category, "configuration")
+        self.assertNotIn("obj", alert.__dict__)
+        self.assertEqual(alert.details, details)
 
     def test_project_diagnostics_loads_lazily_for_authenticated_users(self) -> None:
         with patch("weblate.trans.views.js.get_diagnostics_context") as get_diagnostics:
@@ -401,7 +430,8 @@ class AlertTest(ViewTestCase):
                 "process_occurrences",
                 side_effect=AssertionError("MultiAlert was constructed"),
             ),
-            self.assertNumQueries(11),
+            # Includes loading the owner for repository alert permissions.
+            self.assertNumQueries(12),
         ):
             context = get_diagnostics_context(
                 QueryDict("diagnostic_actionable=on"),
@@ -564,6 +594,91 @@ class AlertTest(ViewTestCase):
                 "BrokenProjectURL",
             },
         )
+
+    def test_duplicate_cleanup_groups(self) -> None:
+        component = self._create_component(
+            "po", "po/*.po", name="Grouped", project=self.project
+        )
+        translations = list(
+            component.translation_set.exclude(filename="").order_by("pk")[:2]
+        )
+        self.assertEqual(len(translations), 2)
+        first, second = [translation.unit_set.first() for translation in translations]
+        self.assertIsNotNone(first)
+        self.assertIsNotNone(second)
+        assert first is not None
+        assert second is not None
+        occurrences = [
+            {"unit_pk": first.pk, "language_code": first.translation.language.code},
+            {"unit_pk": second.pk, "language_code": second.translation.language.code},
+            {"unit_pk": first.pk, "language_code": first.translation.language.code},
+            {"unit_pk": -1, "language_code": "cs", "source": "Missing unit source"},
+        ]
+        component.add_alert("DuplicateString", occurrences=occurrences)
+        instance = component.alert_set.get(name="DuplicateString")
+        all_translations = {translation.pk for translation in translations}
+        for supported, allowed in (
+            (True, all_translations),
+            (True, {translations[0].pk}),
+            (False, all_translations),
+            (True, set()),
+        ):
+            with (
+                self.subTest(supported=supported, allowed=allowed),
+                patch.object(
+                    Translation,
+                    "supports_remove_duplicate_units",
+                    return_value=supported,
+                ),
+                translation_override("en"),
+            ):
+                user = SimpleNamespace(
+                    has_perm=lambda permission, obj, allowed=allowed: (
+                        permission == "vcs.reset" and obj.pk in allowed
+                    )
+                )
+                alert = DuplicateString(instance, instance.details["occurrences"])
+                rendered = render_to_string(
+                    "trans/alert/duplicatestring.html",
+                    alert.get_context(cast("User", user)),
+                )
+                rows = (
+                    rendered.split("<tbody>")[1].split("</tbody>")[0].split("<tr>")[1:]
+                )
+                self.assertEqual(len(rows), 3)
+                for row, translation, unit, count in zip(
+                    rows, translations, (first, second), (2, 1), strict=False
+                ):
+                    self.assertIn(translation.filename, row)
+                    self.assertIn(str(translation.language), row)
+                    self.assertEqual(
+                        row.count(f'href="{unit.get_absolute_url()}"'), count
+                    )
+                    cleanup_url = reverse(
+                        "remove_duplicate_units",
+                        kwargs={"path": translation.get_url_path()},
+                    )
+                    if supported and translation.pk in allowed:
+                        self.assertIn(f'data-href="{cleanup_url}"', row)
+                        self.assertIn(
+                            f'aria-label="Remove duplicate strings from {translation.language} ({translation.filename})"',
+                            row,
+                        )
+                        self.assertEqual(
+                            row.count('class="btn btn-danger link-post"'), 1
+                        )
+                    else:
+                        self.assertNotIn("link-post", row)
+                self.assertIn("Missing unit source", rows[2])
+                self.assertNotIn("link-post", rows[2])
+
+    def test_duplicate_cleanup_missing_filename(self) -> None:
+        instance = self.component.alert_set.get(name="DuplicateString")
+        alert = DuplicateString(instance, instance.details["occurrences"])
+        alert.occurrences[0]["unit"].translation.filename = ""
+        group = alert.get_analysis()["translation_groups"][0]
+        self.assertFalse(group["can_cleanup"])
+        self.assertEqual(len(group["occurrences"]), 1)
 
     def test_unused_enforced(self) -> None:
         self.assertEqual(
@@ -851,6 +966,49 @@ class AlertTest(ViewTestCase):
             ).exists()
         )
 
+    def test_repository_url_failures_use_troubleshooting_documentation(self) -> None:
+        expected = get_doc_url(
+            "vcs", "vcs-repository-url-troubleshooting", user=self.user
+        )
+
+        for alert_name in ("MergeFailure", "UpdateFailure", "PushFailure"):
+            with self.subTest(alert_name=alert_name):
+                self.component.add_alert(
+                    alert_name,
+                    error={
+                        "code": "repository_url_backend_unsupported",
+                        "retcode": 0,
+                    },
+                    diagnoses=[],
+                )
+                alert = self.component.alert_set.get(name=alert_name)
+
+                self.assertEqual(alert.get_documentation_url(self.user), expected)
+
+                alert.delete()
+
+    def test_repository_failures_keep_operation_documentation(self) -> None:
+        expected = {
+            "MergeFailure": get_doc_url("faq", "merge", user=self.user),
+            "UpdateFailure": get_doc_url(
+                "admin/projects", "component-repo", user=self.user
+            ),
+            "PushFailure": "",
+        }
+
+        for alert_name, documentation_url in expected.items():
+            with self.subTest(alert_name=alert_name):
+                self.component.add_alert(
+                    alert_name, error="Repository operation failed", diagnoses=[]
+                )
+                alert = self.component.alert_set.get(name=alert_name)
+
+                self.assertEqual(
+                    alert.get_documentation_url(self.user), documentation_url
+                )
+
+                alert.delete()
+
     def test_repository_error_is_stored_structured_and_rendered_for_user(
         self,
     ) -> None:
@@ -904,7 +1062,9 @@ class AlertTest(ViewTestCase):
         self.component.add_alert("BrokenProjectURL", error="failure")
         alert = self.component.alert_set.get(name="BrokenProjectURL")
 
-        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        migration.backfill_dismissals(
+            apps, self.component.alert_set.filter(pk=alert.pk)
+        )
         self.component.add_alert("BrokenProjectURL", error="failure")
 
         alert.refresh_from_db()
@@ -939,7 +1099,9 @@ class AlertTest(ViewTestCase):
         self.component.add_alert("MsgmergeAddonError", occurrences=[occurrence])
         alert = self.component.alert_set.get(name="MsgmergeAddonError")
 
-        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        migration.backfill_dismissals(
+            apps, self.component.alert_set.filter(pk=alert.pk)
+        )
         self.component.add_alert(
             "MsgmergeAddonError",
             occurrences=[{**occurrence, "addon_id": "123"}],
@@ -985,31 +1147,6 @@ class AlertTest(ViewTestCase):
             ).exists()
         )
 
-    def test_inexact_hook_match_reopens_on_repository_change(self) -> None:
-        details = {
-            "service_long_name": "Gitea",
-            "repo_url": "https://example.com/owner/repo",
-            "branch": "main",
-            "full_name": "owner/repo",
-        }
-        self.component.repo = "https://example.com/first/repo.git"
-        self.component.save(update_fields=["repo"])
-        self.component.add_alert("InexactHookMatch", **details)
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-        self.assertTrue(alert.dismiss(self.user))
-
-        self.component.repo = "https://example.com/different/repo.git"
-        self.component.save(update_fields=["repo"])
-        self.component.add_alert("InexactHookMatch", **details)
-
-        alert.refresh_from_db()
-        self.assertIsNone(alert.dismissed_at)
-        self.assertTrue(
-            self.component.change_set.filter(
-                action=ActionEvents.ALERT_REOPENED, alert=alert
-            ).exists()
-        )
-
     def test_existing_alert_updates_last_seen(self) -> None:
         self.component.add_alert("MissingLicense")
         alert = self.component.alert_set.get(name="MissingLicense")
@@ -1021,104 +1158,34 @@ class AlertTest(ViewTestCase):
         alert.refresh_from_db()
         self.assertGreater(alert.updated, old_updated)
 
-    def test_inexact_hook_match_alert_exact_history(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-            },
+    def test_automerge_failure_alert(self) -> None:
+        self.component.vcs_params = {"merge_request_automerge": True}
+        self.component.save(update_fields=["vcs_params"])
+        self.component.handle_automerge_failure(
+            "GitHub API request failed while merging a pull request (405): "
+            "Auto-merge is not allowed for this repository"
         )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
-
-    def test_inexact_hook_match_alert_inferred_history(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://other.example.com/owner/repo",
-                "repos": ["https://other.example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-        self.assertEqual(alert.severity, AlertSeverity.WARNING)
-        self.assertEqual(alert.details["service_long_name"], "Gitea")
-        self.assertEqual(alert.details["full_name"], "owner/repo")
-
-    def test_inexact_hook_match_alert_configure_link(self) -> None:
-        self.component.add_alert(
-            "InexactHookMatch",
-            service_long_name="Gitea",
-            repo_url="https://example.com/owner/repo",
-            branch="main",
-            full_name="owner/repo",
-        )
-        alert = self.component.alert_set.get(name="InexactHookMatch")
+        alert = self.component.alert_set.get(name="AutomergeFailure")
 
         rendered = alert.render(self.user)
-        self.assertNotIn("Configure component", rendered)
+        self.assertIn("Auto-merge is not allowed", rendered)
+        self.assertIn("could not merge it automatically", rendered)
 
-        self.user.is_superuser = True
-        self.user.save()
-
-        rendered = alert.render(self.user)
-        self.assertIn("Configure component", rendered)
-        self.assertIn(reverse("settings", kwargs=self.kw_component), rendered)
-
-    def test_inexact_hook_match_alert_explicit_match_method(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-                "match_method": "fallback",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertTrue(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
-
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-                "match_method": "exact",
-            },
-        )
-        update_alerts(self.component, {"InexactHookMatch"})
-
+        # Reporting a later success clears it
+        self.component.handle_automerge_success()
         self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
+            self.component.alert_set.filter(name="AutomergeFailure").exists()
         )
+
+    def test_automerge_failure_alert_cleared_when_turned_off(self) -> None:
+        self.component.vcs_params = {"merge_request_automerge": True}
+        self.component.save(update_fields=["vcs_params"])
+        self.component.handle_automerge_failure("boom")
+        self.assertIn("AutomergeFailure", self.get_problem_alert_names())
+
+        self.component.vcs_params = {}
+        self.component.save(update_fields=["vcs_params"])
+        self.assertNotIn("AutomergeFailure", self.get_problem_alert_names())
 
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
@@ -1260,6 +1327,168 @@ class AlertQueryPrefetchTest(ViewTestCase):
         self.assertEqual(len(alert_maps), 2)
 
 
+class GitHubAppMigrationAlertTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.workspace = Workspace.objects.create(name="Migration alert")
+        self.project.workspace = self.workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="123",
+            app_slug="weblate",
+            private_key="test",
+            client_id="client",
+            client_secret="secret",
+            webhook_secret="webhook",
+        )
+
+    def get_forking_disabled_alert(
+        self, repo: str = "https://github.com/test-org/repo1.git"
+    ) -> Alert:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo=repo,
+        )
+        self.component.refresh_from_db()
+        self.component.add_alert(
+            "PushFailure",
+            error={
+                "code": "repository_fork_failed_with_error",
+                "retcode": 0,
+                "params": {
+                    "hostname": "api.github.com",
+                    "error": "The repository exists, but forking is disabled.",
+                },
+            },
+            diagnoses=[{"code": "repository_permission"}],
+        )
+        return self.component.alert_set.get(name="PushFailure")
+
+    def test_migration_alert_lifecycle(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+
+        update_alerts(self.component, {"GitHubAppMigration"})
+
+        alert = self.component.alert_set.get(name="GitHubAppMigration")
+        self.assertEqual(alert.severity, AlertSeverity.INFO)
+        self.assertTrue(alert.obj.dismissible)
+        self.assertEqual(
+            alert.obj.get_url(self.component),
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            ),
+        )
+
+        self.component.vcs = "github-app"
+        update_alerts(self.component, {"GitHubAppMigration"})
+        self.assertFalse(
+            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+        )
+
+    def test_migration_alert_requires_workspace_and_configured_host(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.example.com/WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+
+        update_alerts(self.component, {"GitHubAppMigration"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+        )
+
+    def test_migration_alert_link_needs_workspace_access(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+        update_alerts(self.component, {"GitHubAppMigration"})
+        alert = self.component.alert_set.get(name="GitHubAppMigration")
+
+        # Editing the component is not enough; the migration view is scoped to
+        # the workspace.
+        role = Role.objects.create(name="Component editor")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Component editors")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.anotheruser.groups.add(group)
+        self.assertTrue(
+            self.anotheruser.has_perm("component.edit", self.component),
+        )
+        self.assertEqual(alert.obj.get_context(self.anotheruser)["migration_url"], "")
+
+        self.make_manager()
+        self.assertEqual(
+            alert.obj.get_context(self.user)["migration_url"],
+            alert.obj.get_url(self.component),
+        )
+
+    def test_forking_disabled_push_failure_suggests_app_migration(self) -> None:
+        alert = self.get_forking_disabled_alert()
+
+        rendered = alert.render(self.user)
+        self.assertIn(
+            "Ensure the Weblate GitHub App is connected to this workspace", rendered
+        )
+        self.assertIn(
+            "Ask a workspace owner to complete the GitHub App setup and migration",
+            rendered,
+        )
+        self.assertNotIn("Migrate to GitHub App</a>", rendered)
+
+        self.make_manager()
+
+        context = alert.obj.get_context(self.user)
+        self.assertTrue(context["analysis"]["github_app_migration_available"])
+        self.assertEqual(
+            context["github_app_migration_url"],
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            ),
+        )
+        rendered = alert.render(self.user)
+        self.assertIn("Migrate to GitHub App</a>", rendered)
+        self.assertNotIn("Ask a workspace owner", rendered)
+
+    def test_forking_disabled_hint_requires_configured_app_host(self) -> None:
+        alert = self.get_forking_disabled_alert(
+            "https://github.example.com/test-org/repo1.git"
+        )
+
+        context = alert.obj.get_context(self.user)
+        self.assertTrue(context["analysis"]["github_forking_disabled"])
+        self.assertNotIn("github_app_migration_available", context["analysis"])
+        self.assertNotIn("GitHub App", alert.render(self.user))
+
+    def test_other_push_failure_does_not_suggest_migration(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.com/test-org/repo1.git",
+        )
+        self.component.refresh_from_db()
+        self.component.add_alert(
+            "PushFailure",
+            error="Push denied to user",
+            diagnoses=[{"code": "repository_permission"}],
+        )
+        alert = self.component.alert_set.get(name="PushFailure")
+
+        context = alert.obj.get_context(self.user)
+        self.assertFalse(context["analysis"]["github_forking_disabled"])
+        self.assertNotIn("github_app_migration_available", context["analysis"])
+        self.assertNotIn("GitHub App", alert.render(self.user))
+
+
 @override_settings(
     GITHUB_CREDENTIALS={
         "api.github.com": {
@@ -1269,23 +1498,8 @@ class AlertQueryPrefetchTest(ViewTestCase):
     }
 )
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
-    @staticmethod
-    def clear_vcs_registry_cache() -> None:
-        VCS_REGISTRY.clear_cache()
-
     def create_component(self):
         return self.create_po()
-
-    @classmethod
-    def setUpTestData(cls) -> None:
-        super().setUpTestData()
-
-        cls.clear_vcs_registry_cache()
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.clear_vcs_registry_cache()
-        super().tearDownClass()
 
     def create_conflicting_component(self, **kwargs) -> Component:
         name = kwargs.pop("name", "Test2")
@@ -1813,6 +2027,98 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
         self.assertIn("permanent HTTP redirect", rendered)
         self.assertNotIn(raw_error, rendered)
 
+    def test_merge_url_failure_shows_url_guidance(self) -> None:
+        error = (
+            "This VCS backend cannot safely connect to this URL while private "
+            "address restrictions are enabled."
+        )
+        rendered = self.render_failure_alert(
+            "trans/alert/mergefailure.html",
+            set(),
+            analysis={
+                "repository_url_backend_unsupported": True,
+                "repository_url_failure": True,
+            },
+            error=error,
+        )
+
+        self.assertIn(error, rendered)
+        self.assertIn("cannot enforce private-address restrictions", rendered)
+        self.assertIn("VCS_ALLOW_HOSTS", rendered)
+        self.assertNotIn("Git HTTPS or SSH", rendered)
+        self.assertNotIn("Check the FAQ for info on how to resolve this", rendered)
+        self.assertNotIn("alert might disappear for the temporary issues", rendered)
+
+    def test_repository_url_failure_guidance(self) -> None:
+        cases = (
+            ("repository_url_private", "destination is not permitted"),
+            ("repository_url_invalid", "repository URL is not valid"),
+            ("repository_url_scheme", "protocol which is not permitted"),
+            ("repository_url_resolution", "could not resolve"),
+            ("repository_url_redirect", "redirect could not be safely followed"),
+        )
+
+        for analysis_key, expected in cases:
+            with self.subTest(analysis_key=analysis_key):
+                rendered = render_to_string(
+                    "trans/alert/common-repo.html",
+                    {"analysis": {analysis_key: True}},
+                )
+
+                self.assertIn(expected, rendered)
+
+    def test_repository_url_error_codes_are_classified(self) -> None:
+        cases: tuple[tuple[RepositoryStructuredError, str], ...] = (
+            (
+                {"code": "repository_url_backend_unsupported", "retcode": 0},
+                "repository_url_private",
+            ),
+            (
+                {"code": "repository_url_private_target", "retcode": 0},
+                "repository_url_private",
+            ),
+            (
+                {"code": "repository_url_parse_invalid", "retcode": 0},
+                "repository_url_invalid",
+            ),
+            (
+                {
+                    "code": "repository_url_scheme_not_allowed",
+                    "retcode": 0,
+                    "params": {"scheme": "file"},
+                },
+                "repository_url_scheme",
+            ),
+            (
+                {"code": "repository_url_unresolved", "retcode": 0},
+                "repository_url_resolution",
+            ),
+            (
+                {"code": "repository_ssh_destination_unresolved", "retcode": 0},
+                "repository_url_resolution",
+            ),
+            (
+                {"code": "repository_redirect_insecure", "retcode": 0},
+                "repository_url_redirect",
+            ),
+        )
+        expected_doc_url = get_doc_url("vcs", "vcs-repository-url-troubleshooting")
+
+        for error, analysis_key in cases:
+            with self.subTest(error_code=error["code"]):
+                alert = RepositoryErrorAlert(
+                    cast("Alert", SimpleNamespace(component=SimpleNamespace())),
+                    error,
+                    diagnoses=[],
+                )
+                analysis = alert.get_analysis()
+
+                self.assertTrue(analysis["repository_url_failure"])
+                self.assertTrue(analysis[analysis_key])
+                self.assertEqual(
+                    alert.get_instance_documentation_url(), expected_doc_url
+                )
+
     def test_repository_redirect_errors_are_classified(self) -> None:
         errors = (
             "The repository URL permanently redirects to a canonical URL.",
@@ -2028,6 +2334,41 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
             )
 
         self.assertIn("n’a pas été trouvé. Veuillez vérifier", rendered)
+
+    def test_git_lfs_diagnosis_links_documentation(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        instance = cast("Alert", SimpleNamespace(component=component))
+        alerts = (
+            UpdateFailure(
+                instance,
+                "remote rejected the push",
+                diagnoses=[{"code": "git_lfs_missing_objects"}],
+            ),
+            UpdateFailure(
+                instance,
+                "remote: GitLab: LFS objects are missing.",
+            ),
+        )
+
+        for alert in alerts:
+            with self.subTest(diagnoses=alert.diagnoses):
+                rendered = render_to_string(
+                    "trans/alert/common-repo.html",
+                    {"analysis": alert.get_analysis()},
+                )
+
+                self.assertIn(
+                    "Weblate does not download or upload Git LFS objects", rendered
+                )
+                self.assertIn("vcs.html#git-lfs", rendered)
 
     def test_github_pull_request_diagnosis_renders_username(self) -> None:
         rendered = render_to_string(

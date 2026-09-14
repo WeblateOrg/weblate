@@ -37,7 +37,7 @@ def check_gpg(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     get_gpg_public_key()
     template = "{}: {}"
@@ -52,11 +52,12 @@ def check_vcs(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.vcs.models import VCS_REGISTRY
 
+    VCS_REGISTRY.exists()
     message = "Failure in loading VCS module for {}: {}"
     return [
         weblate_check(
@@ -69,11 +70,45 @@ def check_vcs(
 
 
 @register(deploy=True)
+def check_vcs_versions(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs: object,
+) -> Iterable[CheckMessage]:
+    # ruff: ignore[import-outside-top-level]
+    from weblate.vcs.models import VCS_REGISTRY
+
+    errors: dict[str, str | Exception] = {}
+    for vcs in VCS_REGISTRY.get_unfiltered_data().values():
+        if not vcs.is_available():
+            continue
+        try:
+            version = vcs.get_version()
+            supported = vcs.is_supported()
+        except Exception as error:
+            errors[str(vcs.name)] = error
+        else:
+            if not supported:
+                errors[str(vcs.name)] = f"Outdated version: {version}"
+
+    message = "Failure in loading VCS module for {}: {}"
+    return [
+        weblate_check(
+            f"weblate.W033.{key}",
+            message.format(key, str(value).strip()),
+            DjangoWarning,
+        )
+        for key, value in errors.items()
+    ]
+
+
+@register(deploy=True)
 def check_git(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     template = "Failure in configuring Git: {}"
     return [
@@ -87,7 +122,7 @@ def check_vcs_credentials(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.vcs.models import VCS_REGISTRY
@@ -108,7 +143,7 @@ class VCSConfig(AppConfig):
         super().ready()
         post_migrate.connect(self.post_migrate, sender=self)
 
-    def post_migrate(self, sender: AppConfig, **kwargs) -> None:
+    def post_migrate(self, sender: AppConfig, **kwargs: object) -> None:
         cleanup_legacy_wrapper_dirs()
         cleanup_stale_wrapper_dirs()
         ensure_ssh_key()
@@ -131,12 +166,12 @@ class VCSConfig(AppConfig):
                 GitRepository.global_setup()
             except RepositoryError as error:
                 GIT_ERRORS.append(str(error))
-            if SubversionRepository.is_supported():
+            if SubversionRepository.is_available():
                 try:
                     SubversionRepository.global_setup()
                 except RepositoryError as error:
                     GIT_ERRORS.append(str(error))
-            if HgRepository.is_supported():
+            if HgRepository.is_available():
                 try:
                     HgRepository.global_setup()
                 except RepositoryError as error:

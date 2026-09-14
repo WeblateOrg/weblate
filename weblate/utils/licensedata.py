@@ -298,12 +298,6 @@ LICENSES = (
         False,
     ),
     (
-        "atc-game",
-        "atc Game License",
-        "https://spdx.org/licenses/atc-game.html",
-        False,
-    ),
-    (
         "AAL",
         "Attribution Assurance License",
         "https://spdx.org/licenses/AAL.html",
@@ -403,12 +397,6 @@ LICENSES = (
         "Brian-Gladman-3-Clause",
         "Brian Gladman 3-Clause License",
         "https://spdx.org/licenses/Brian-Gladman-3-Clause.html",
-        False,
-    ),
-    (
-        "Brian-Gladman-3-Clause-no-conversion",
-        "Brian Gladman 3-Clause License (no conversion clause)",
-        "https://spdx.org/licenses/Brian-Gladman-3-Clause-no-conversion.html",
         False,
     ),
     (
@@ -622,12 +610,6 @@ LICENSES = (
         False,
     ),
     (
-        "Bugroff",
-        "Bugroff License",
-        "https://spdx.org/licenses/Bugroff.html",
-        False,
-    ),
-    (
         "BUSL-1.1",
         "Business Source License 1.1",
         "https://spdx.org/licenses/BUSL-1.1.html",
@@ -811,7 +793,7 @@ LICENSES = (
         "CDDL-1.1",
         "Common Development and Distribution License 1.1",
         "https://spdx.org/licenses/CDDL-1.1.html",
-        True,
+        False,
     ),
     (
         "CDL-1.0",
@@ -1045,12 +1027,6 @@ LICENSES = (
         "CC-BY-NC-3.0-DE",
         "Creative Commons Attribution Non Commercial 3.0 Germany",
         "https://spdx.org/licenses/CC-BY-NC-3.0-DE.html",
-        False,
-    ),
-    (
-        "CC-BY-NC-3.0-IGO",
-        "Creative Commons Attribution Non Commercial 3.0 IGO",
-        "https://spdx.org/licenses/CC-BY-NC-3.0-IGO.html",
         False,
     ),
     (
@@ -2200,12 +2176,6 @@ LICENSES = (
         False,
     ),
     (
-        "Informatica",
-        "Informatica License",
-        "https://spdx.org/licenses/Informatica.html",
-        False,
-    ),
-    (
         "Inner-Net-2.0",
         "Inner Net License v2.0",
         "https://spdx.org/licenses/Inner-Net-2.0.html",
@@ -2749,12 +2719,6 @@ LICENSES = (
         "Mup",
         "Mup License",
         "https://spdx.org/licenses/Mup.html",
-        False,
-    ),
-    (
-        "MVT-1.1",
-        "MVT License 1.1",
-        "https://spdx.org/licenses/MVT-1.1.html",
         False,
     ),
     (

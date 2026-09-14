@@ -13,7 +13,8 @@
     <a href="{% url 'browse' path=object.get_url_path %}">{% translate "Browse" %}</a>
   </li>
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+         alt="{% translate "Translation status widgets" %}" />
   </a>
 {% endblock breadcrumbs %}
 
@@ -29,7 +30,8 @@
 
   {% perm 'unit.add' object as user_can_add_unit %}
   {% if user_can_add_unit %}
-    <a class="btn btn-link green float-end" href="{{ object.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ object.component.get_add_label }}</a>
+    <a class="btn btn-link green float-end"
+       href="{{ object.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ object.component.get_add_label }}</a>
   {% endif %}
 
   <form method="get" class="result-page-form">

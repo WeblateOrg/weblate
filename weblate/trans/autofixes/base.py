@@ -11,6 +11,7 @@ from weblate.utils.classloader import ClassLoaderProtocol
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+    from weblate.checks.base import BaseCheck
     from weblate.trans.models import Unit
 
 
@@ -23,11 +24,11 @@ class AutoFix(ClassLoaderProtocol):
     def name(self) -> StrOrPromise:
         return self.fix_id
 
-    def get_identifier(self):
+    def get_identifier(self) -> str:
         return self.fix_id
 
     @staticmethod
-    def get_related_checks():
+    def get_related_checks() -> list[BaseCheck]:
         return []
 
     def fix_single_target(

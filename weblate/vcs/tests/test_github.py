@@ -29,7 +29,7 @@ from weblate.vcs.tests.utils import generate_private_key, sign_webhook_payload
 
 
 class TestGithubAppHookUtils(TestCase):
-    def test_validate_private_key(self):
+    def test_validate_private_key(self) -> None:
         private_key = generate_private_key()
 
         result = validate_private_key(private_key)
@@ -46,7 +46,7 @@ class TestGithubAppHookUtils(TestCase):
                 "-----BEGIN CERTIFICATE-----\nMIIB\n-----END CERTIFICATE-----"
             )
 
-    def test_generate_jwt(self):
+    def test_generate_jwt(self) -> None:
         private_key = generate_private_key()
 
         token = generate_jwt("12345", private_key)
@@ -62,7 +62,7 @@ class TestGithubAppHookUtils(TestCase):
         header = pyjwt.get_unverified_header(token)
         self.assertEqual(header["alg"], "RS256")
 
-    def test_get_github_api_base(self):
+    def test_get_github_api_base(self) -> None:
         self.assertEqual(get_github_api_base("github.com"), "https://api.github.com")
 
         self.assertEqual(
@@ -81,7 +81,7 @@ class TestGithubAppHookUtils(TestCase):
         defaults.update(overrides)
         return GitHubAppCredentials.objects.create(hostname=hostname, **defaults)
 
-    def test_create_app_credentials(self):
+    def test_create_app_credentials(self) -> None:
         self.create_app_credentials(hostname="github.example.com")
         config = get_github_app_settings()
         self.assertIsNotNone(config)
@@ -91,14 +91,14 @@ class TestGithubAppHookUtils(TestCase):
         self.assertEqual(config.hostname, "github.example.com")
         self.assertTrue(github_app_is_configured())
 
-    def test_github_app_install_url(self):
+    def test_github_app_install_url(self) -> None:
         self.create_app_credentials(hostname="github.com")
         self.assertEqual(
             get_github_app_install_url("signed-state"),
             "https://github.com/apps/weblate-app/installations/select_target?state=signed-state",
         )
 
-    def test_github_app_multiple_hosts_require_explicit_selection(self):
+    def test_github_app_multiple_hosts_require_explicit_selection(self) -> None:
         # ``api.github.com`` is normalized to ``github.com`` on save.
         self.create_app_credentials(hostname="api.github.com")
         self.create_app_credentials(
@@ -129,7 +129,7 @@ class TestGithubAppHookUtils(TestCase):
             "https://github.example.com/github-apps/weblate-enterprise-app/installations/select_target?state=signed-state",
         )
 
-    def test_git_auth_environment(self):
+    def test_git_auth_environment(self) -> None:
         environment = get_github_git_auth_environment("x-access-token", "ghs_test")
         self.assertEqual(environment["GIT_CONFIG_COUNT"], "1")
         self.assertEqual(environment["GIT_CONFIG_KEY_0"], "http.extraHeader")
@@ -145,7 +145,7 @@ class TestGithubAppHookUtils(TestCase):
             "x-access-token:ghs_test",
         )
 
-    def test_verify_webhook_signature(self):
+    def test_verify_webhook_signature(self) -> None:
         payload = b'{"action": "push"}'
         self.assertTrue(
             verify_webhook_signature(payload, sign_webhook_payload(payload, "s"), "s")
@@ -159,7 +159,7 @@ class TestGithubAppHookUtils(TestCase):
 
         self.assertFalse(verify_webhook_signature(b"t", "", "s"))
 
-    def test_github_app_is_configured(self):
+    def test_github_app_is_configured(self) -> None:
         self.assertEqual(get_github_app_configurations(), {})
         self.assertFalse(github_app_is_configured())
 

@@ -17,11 +17,7 @@ from django.urls import reverse
 from rest_framework.exceptions import ParseError
 
 from weblate.trans.actions import ActionEvents
-from weblate.trans.hooks.fallback import (
-    fallback_repository_evidence,
-    repo_matches_fallback_evidence,
-    validate_full_name,
-)
+from weblate.trans.hooks.repository import validate_full_name
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.hooks import (
     HOOK_HANDLERS,
@@ -1404,13 +1400,9 @@ class HooksViewTest(ViewTestCase):
 
         # Check change details display
         change = self.component.change_set.filter(action=ActionEvents.HOOK).get()
-        self.assertEqual(change.details["match_method"], "exact")
         self.assertIn("GitHub", change.get_details_display())
         self.assertIn("http://github.com/defunkt/github", change.get_details_display())
         self.assertIn("main", change.get_details_display())
-        self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
 
     @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_new(self) -> None:
@@ -1473,7 +1465,8 @@ class HooksViewTest(ViewTestCase):
         self.assertContains(response, "Update triggered")
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_forgejo_test_delivery_no_fallback_match(self) -> None:
+    def test_hook_forgejo_test_delivery_no_match(self) -> None:
+        # fallback match removed in 2026.9
         self.component.repo = "https://example.com/forgejo/webhooks.git"
         self.component.save()
         response = self.client.post(
@@ -1488,7 +1481,7 @@ class HooksViewTest(ViewTestCase):
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_gitea_host_bound_fallback_match(self) -> None:
+    def test_hook_gitea_ssh_user_mismatch_requires_exact_url(self) -> None:
         self.component.repo = "ssh://git@git.example.com/gitea/webhooks.git"
         self.component.save()
         payload = json.loads(GITEA_PAYLOAD)
@@ -1503,31 +1496,30 @@ class HooksViewTest(ViewTestCase):
             reverse("webhook", kwargs={"service": "gitea"}),
             {"payload": json.dumps(payload)},
         )
-        self.assertContains(response, "Update triggered")
-        self.assertTrue(
-            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
         )
-        change = self.component.change_set.filter(action=ActionEvents.HOOK).get()
-        self.assertEqual(change.details["match_method"], "fallback")
-        self.assertTrue(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
+        self.assertFalse(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
         )
 
         self.component.repo = "https://git.example.com/gitea/webhooks.git"
         self.component.save()
+        change_count = self.component.change_set.filter(
+            action=ActionEvents.HOOK
+        ).count()
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitea"}),
             {"payload": json.dumps(payload)},
         )
         self.assertContains(response, "Update triggered")
-        change = self.component.change_set.filter(action=ActionEvents.HOOK).latest("id")
-        self.assertEqual(change.details["match_method"], "exact")
-        self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
+        self.assertEqual(
+            change_count + 1,
+            self.component.change_set.filter(action=ActionEvents.HOOK).count(),
         )
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_gitea_spoofed_full_name_different_host_no_fallback(self) -> None:
+    def test_hook_gitea_spoofed_full_name_different_host_no_match(self) -> None:
         self.component.repo = "ssh://git@git.example.com/victim-private/frontend.git"
         self.component.save()
         payload = json.loads(GITEA_PAYLOAD)
@@ -2333,112 +2325,6 @@ class GiteaLikeRepoVariantsTest(SimpleTestCase):
                 "http://[::1",
                 "ssh://[::1",
             ],
-        )
-
-
-class FallbackRepositoryEvidenceTest(SimpleTestCase):
-    """Test host/path evidence for repository suffix fallback."""
-
-    def test_fallback_repository_evidence(self) -> None:
-        self.assertEqual(
-            fallback_repository_evidence(
-                [
-                    "https://example.com/owner/repo",
-                    "git@example.com:owner/repo.git",
-                ],
-                "owner/repo",
-            ),
-            frozenset({("example.com", None, "owner/repo")}),
-        )
-
-    def test_fallback_repository_evidence_requires_matching_path(self) -> None:
-        self.assertEqual(
-            fallback_repository_evidence(
-                ["https://example.com/attacker/repo"], "owner/repo"
-            ),
-            frozenset(),
-        )
-
-    def test_fallback_repository_evidence_skips_loopback_and_malformed(self) -> None:
-        self.assertEqual(
-            fallback_repository_evidence(
-                [
-                    "http://[::1",
-                    "http://localhost:3000/owner/repo",
-                    "ssh://git@127.0.0.1/owner/repo",
-                ],
-                "owner/repo",
-            ),
-            frozenset(),
-        )
-
-    def test_repo_matches_fallback_evidence(self) -> None:
-        evidence = fallback_repository_evidence(
-            ["https://example.com/owner/repo.git"], "owner/repo"
-        )
-
-        self.assertTrue(
-            repo_matches_fallback_evidence(
-                "ssh://git@example.com/owner/repo.git", evidence
-            )
-        )
-        self.assertTrue(
-            repo_matches_fallback_evidence(
-                "https://user:password@example.com/owner/repo/", evidence
-            )
-        )
-        self.assertFalse(
-            repo_matches_fallback_evidence(
-                "ssh://git@other.example.com/owner/repo.git", evidence
-            )
-        )
-        self.assertFalse(
-            repo_matches_fallback_evidence(
-                "ssh://git@example.com/other/repo.git", evidence
-            )
-        )
-
-    def test_repo_matches_fallback_evidence_non_default_port(self) -> None:
-        evidence = fallback_repository_evidence(
-            ["https://example.com:8443/owner/repo.git"], "owner/repo"
-        )
-
-        self.assertTrue(
-            repo_matches_fallback_evidence(
-                "ssh://git@example.com:8443/owner/repo.git", evidence
-            )
-        )
-        self.assertFalse(
-            repo_matches_fallback_evidence(
-                "ssh://git@example.com/owner/repo.git", evidence
-            )
-        )
-
-    def test_repo_matches_fallback_evidence_default_port(self) -> None:
-        evidence = fallback_repository_evidence(
-            ["https://example.com:443/owner/repo.git"], "owner/repo"
-        )
-
-        self.assertTrue(
-            repo_matches_fallback_evidence(
-                "ssh://git@example.com/owner/repo.git", evidence
-            )
-        )
-
-    def test_repo_matches_fallback_evidence_hg_wrapper(self) -> None:
-        evidence = fallback_repository_evidence(
-            ["https://bitbucket.org/team/repo"], "team/repo"
-        )
-
-        self.assertTrue(
-            repo_matches_fallback_evidence(
-                "hg::https://user:password@bitbucket.org/team/repo", evidence
-            )
-        )
-        self.assertTrue(
-            repo_matches_fallback_evidence(
-                "hg::ssh://hg@bitbucket.org/team/repo", evidence
-            )
         )
 
 

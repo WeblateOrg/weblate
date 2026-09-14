@@ -4,9 +4,7 @@
 
 from __future__ import annotations
 
-import json
 from collections import defaultdict
-from hashlib import sha256
 from typing import TYPE_CHECKING, Any
 
 from django.db import models
@@ -14,6 +12,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy
 
 from weblate.utils.docs import get_doc_url
+from weblate.utils.hash import calculate_json_fingerprint
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
@@ -70,6 +69,10 @@ class BaseAlert:
             return cls.get_doc_url(component, user)
         return get_doc_url(cls.doc_page, cls.doc_anchor, user=user)
 
+    def get_instance_documentation_url(self, user: User | None = None) -> str:
+        """Return documentation matching this alert instance."""
+        return self.get_documentation_url(self.instance.component, user)
+
     @classmethod
     def is_relevant(cls, component) -> bool:  # ruff: ignore[unused-class-method-argument]
         return True
@@ -112,10 +115,7 @@ class BaseAlert:
     @classmethod
     def get_dismissal_fingerprint(cls, component, details: dict[str, Any]) -> str:
         context = cls.get_dismissal_context(component, details)
-        serialized = json.dumps(
-            context, sort_keys=True, separators=(",", ":"), default=str
-        )
-        return sha256(serialized.encode()).hexdigest()
+        return calculate_json_fingerprint(context)
 
     @classmethod
     def can_user_act_for(cls, user: User, component, _details: dict[str, Any]) -> bool:

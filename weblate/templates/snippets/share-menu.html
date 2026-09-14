@@ -1,6 +1,6 @@
 {% load i18n %}
 
-{% if enable_sharing %}
+{% if enable_sharing and project.is_publicly_shared %}
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Community" %}</a>
     <ul class="dropdown-menu shadow">

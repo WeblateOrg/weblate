@@ -2,17 +2,21 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import csv
+import json
 import operator
 import os
 import tempfile
 import zipfile
-from contextlib import nullcontext
+from contextlib import contextmanager, nullcontext
 from copy import copy
 from datetime import UTC, date, datetime, timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 import yaml
@@ -22,30 +26,44 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db import DatabaseError
+from django.db import DatabaseError, transaction
 from django.db.models import Q
 from django.templatetags.static import static
+from django.test import SimpleTestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
+from drf_spectacular.validation import validate_schema
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
-from weblate.accounts.models import Profile, Subscription, VerifiedEmail
+from weblate.accounts.models import (
+    MAX_LISTING_COLUMNS,
+    Profile,
+    Subscription,
+    VerifiedEmail,
+)
 from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.addons.base import build_addon_change_details
 from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
 from weblate.addons.git import GitSquashAddon
 from weblate.addons.models import Addon
-from weblate.api.docs import DOCS_OPENAPI_ALL_VCS_CHOICES_ENV, METRICS_PATHS
+from weblate.api.docs import (
+    DOCS_OPENAPI_ALL_VCS_CHOICES_ENV,
+    VCS_ENUM_SCHEMA_NAME,
+    document_all_static_vcs_choices,
+)
 from weblate.api.serializers import (
+    CategorySerializer,
     CommentSerializer,
     ComponentSerializer,
     MemoryLookupRequestSerializer,
     MonolingualUnitSerializer,
+    ProjectSerializer,
     RepoOperations,
 )
 from weblate.api.views import MemoryFilter, MemoryViewSet
@@ -60,6 +78,7 @@ from weblate.auth.models import (
     User,
     UserBlock,
 )
+from weblate.auth.permissions import get_project_repository_selection
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
@@ -70,6 +89,11 @@ from weblate.trans.component_copy import (
     replace_component_checkout,
 )
 from weblate.trans.exceptions import FailedCommitError, FileParseError
+from weblate.trans.forms import (
+    CategorySettingsForm,
+    ComponentSettingsForm,
+    ProjectSettingsForm,
+)
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -77,6 +101,7 @@ from weblate.trans.models import (
     Component,
     ComponentLink,
     ComponentList,
+    PendingUnitChange,
     Project,
     Suggestion,
     Translation,
@@ -84,6 +109,10 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
+from weblate.trans.repository import (
+    QueuedRepositoryOperation,
+    RepositoryOperationConflictError,
+)
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     clear_users_cache,
@@ -92,7 +121,10 @@ from weblate.trans.tests.utils import (
     get_test_file,
 )
 from weblate.trans.util import join_plural
-from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
+from weblate.trans.validators import (
+    SUGGESTION_REJECTION_REASON_LENGTH,
+    get_translation_text_max_length,
+)
 from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -101,6 +133,7 @@ from weblate.utils.state import (
     STATE_EMPTY,
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 from weblate.utils.tests import http_mock
@@ -108,8 +141,11 @@ from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
 from weblate.vcs.github import GitHubInstallation
-from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from unittest.mock import Mock
+
 
 TEST_PO = get_test_file("cs.po")
 TEST_POT = get_test_file("hello-charset.pot")
@@ -117,6 +153,92 @@ TEST_DOC = get_test_file("cs.html")
 TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
+
+
+class SettingsAPIFieldsTest(APITestCase):
+    def test_settings_fields_are_exposed_in_api(self) -> None:
+        for form_class, serializer_class in (
+            (ComponentSettingsForm, ComponentSerializer),
+            (ProjectSettingsForm, ProjectSerializer),
+            (CategorySettingsForm, CategorySerializer),
+        ):
+            with self.subTest(form=form_class.__name__):
+                self.assertLessEqual(
+                    set(form_class.Meta.fields), set(serializer_class.Meta.fields)
+                )
+
+
+class AuthenticationAPITest(APITestCase):
+    user: User
+
+    @classmethod
+    def setUpTestData(cls) -> None:
+        super().setUpTestData()
+        cls.user = User.objects.create_user("apiauth", "apiauth@example.org", "x")
+
+    def test_unsupported_scheme(self) -> None:
+        for signed_in in (False, True):
+            if signed_in:
+                self.client.force_login(self.user)
+            for header in (
+                "Basic dXNlcjpwYXNzd29yZA==",
+                "bAsIc dXNlcjpwYXNzd29yZA==",
+                "Basic",
+                "Digest credentials",
+                "Unknown credentials",
+                "Unknown",
+            ):
+                with self.subTest(signed_in=signed_in, header=header):
+                    self.client.credentials(HTTP_AUTHORIZATION=header)
+                    response = self.client.get(reverse("api:api-root"))
+                    self.assertEqual(response.status_code, 401)
+                    self.assertEqual(response["WWW-Authenticate"], "Token")
+                    self.assertEqual(
+                        response.data["errors"][0]["detail"],
+                        "Unsupported authentication scheme. Use Token or Bearer.",
+                    )
+                    self.assertEqual(
+                        response.data["errors"][0]["code"], "authentication_failed"
+                    )
+
+    def test_token_schemes(self) -> None:
+        for scheme in ("Token", "Bearer", "tOkEn", "bEaReR"):
+            with self.subTest(scheme=scheme):
+                self.client.credentials(
+                    HTTP_AUTHORIZATION=f"{scheme} {self.user.auth_token.key}"
+                )
+                response = self.client.get(reverse("api:api-root"))
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.wsgi_request.user, self.user)
+
+    def test_invalid_token(self) -> None:
+        for scheme in ("Token", "Bearer"):
+            for credentials in ("", "invalid", "invalid extra"):
+                with self.subTest(scheme=scheme, credentials=credentials):
+                    self.client.credentials(
+                        HTTP_AUTHORIZATION=f"{scheme} {credentials}"
+                    )
+                    response = self.client.get(reverse("api:api-root"))
+                    self.assertEqual(response.status_code, 401)
+                    self.assertEqual(response["WWW-Authenticate"], "Token")
+
+    def test_without_scheme(self) -> None:
+        for signed_in in (False, True):
+            if signed_in:
+                self.client.force_login(self.user)
+            for header in (None, "", " \t "):
+                with self.subTest(signed_in=signed_in, header=header):
+                    if header is None:
+                        self.client.credentials()
+                    else:
+                        self.client.credentials(HTTP_AUTHORIZATION=header)
+                    response = self.client.get(reverse("api:api-root"))
+                    self.assertEqual(response.status_code, 200)
+                    user = response.wsgi_request.user
+                    if signed_in:
+                        self.assertEqual(user, self.user)
+                    else:
+                        self.assertFalse(user.is_authenticated)
 
 
 class APIBaseTest(APITestCase, RepoTestMixin):
@@ -526,6 +648,60 @@ class UserAPITest(APIBaseTest):
         # Short search should return no results
         response = self.client.get(reverse("api:user-list"), {"username": "a"})
         self.assertEqual(response.data["count"], 0)
+
+    def test_filter_bot_user(self) -> None:
+        """Unprivileged searches do not list bot users."""
+        active_bot = User.objects.create(
+            username="bot-private-project-active",
+            full_name="Active project token",
+            is_active=True,
+            is_bot=True,
+        )
+        User.objects.create(
+            username="bot-private-project-expired",
+            full_name="Expired project token",
+            is_active=False,
+            is_bot=True,
+        )
+
+        self.authenticate(False)
+        response = self.client.get(
+            reverse("api:user-list"), {"username": "bot-private-project"}
+        )
+        self.assertEqual(response.data["count"], 0)
+
+        # Exact user lookup remains available with the limited serializer.
+        response = self.client.get(
+            reverse("api:user-detail", kwargs={"username": active_bot.username})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["username"], active_bot.username)
+
+        for permission in ("user.view", "user.edit"):
+            with self.subTest(permission=permission):
+                self.user.groups.set([self.group])
+                self.user.clear_permissions_cache()
+                self.grant_perm_to_user(
+                    permission, group_name=f"Bot search {permission}"
+                )
+                response = self.client.get(
+                    reverse("api:user-list"),
+                    {"username": "bot-private-project"},
+                )
+                self.assertEqual(response.data["count"], 2)
+
+    def test_filter_own_bot_user(self) -> None:
+        """An unprivileged bot can find its own account."""
+        self.user.is_bot = True
+        self.user.save(update_fields=["is_bot"])
+        self.authenticate(False)
+
+        response = self.client.get(
+            reverse("api:user-list"), {"username": self.user.username}
+        )
+
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["username"], self.user.username)
 
     def test_create(self) -> None:
         self.do_request("api:user-list", method="post", code=403)
@@ -1042,6 +1218,319 @@ class UserAPITest(APIBaseTest):
             code=403,
         )
 
+    def test_scoped_notification_urls_and_access(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        project_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        component_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="LockNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+        )
+        subscriptions = {item["id"]: item for item in response.data["results"]}
+        self.assertEqual(
+            subscriptions[project_subscription.id]["project"],
+            "http://example.com/api/projects/test/",
+        )
+        self.assertIsNone(subscriptions[project_subscription.id]["component"])
+        self.assertEqual(
+            subscriptions[component_subscription.id]["component"],
+            "http://example.com/api/components/test/test/",
+        )
+        self.assertIsNone(subscriptions[component_subscription.id]["project"])
+
+        self.project.remove_user(self.user)
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+        )
+        self.assertNotIn(
+            project_subscription.id,
+            {item["id"] for item in response.data["results"]},
+        )
+        self.assertNotIn(
+            component_subscription.id,
+            {item["id"] for item in response.data["results"]},
+        )
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": project_subscription.id,
+            },
+            code=404,
+        )
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": project_subscription.id,
+            },
+            method="patch",
+            request={"frequency": NotificationFrequency.FREQ_DAILY},
+            code=404,
+        )
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": project_subscription.id,
+            },
+            method="delete",
+            code=204,
+        )
+        self.assertFalse(
+            Subscription.objects.filter(pk=project_subscription.pk).exists()
+        )
+
+    def test_notification_api_uses_requester_scope_access(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        target = User.objects.create_user("notification-target", "target@example.com")
+        subscription = target.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.grant_perm_to_user("user.edit", group_name="User managers")
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": target.username},
+        )
+        self.assertNotIn(
+            subscription.id, {item["id"] for item in response.data["results"]}
+        )
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": target.username,
+                "subscription_id": subscription.id,
+            },
+            code=404,
+        )
+
+        self.grant_perm_to_user(
+            "unit.edit", group_name="Project viewers", project=self.project
+        )
+        self.user.clear_permissions_cache()
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": target.username,
+                "subscription_id": subscription.id,
+            },
+        )
+        self.assertEqual(
+            response.data["project"], "http://example.com/api/projects/test/"
+        )
+
+    def test_notification_api_rejects_scope_change(self) -> None:
+        self.user.subscription_set.get_or_create(
+            scope=NotificationScope.SCOPE_ALL,
+            project=None,
+            component=None,
+            notification="RepositoryNotification",
+            defaults={"frequency": NotificationFrequency.FREQ_INSTANT},
+        )
+        subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": subscription.id,
+            },
+            method="patch",
+            request={"scope": NotificationScope.SCOPE_ALL},
+            code=400,
+        )
+
+        subscription.refresh_from_db()
+        self.assertEqual(subscription.scope, NotificationScope.SCOPE_PROJECT)
+        self.assertEqual(subscription.project_id, self.project.pk)
+
+    def test_team_removal_preserves_global_subscription_with_stale_target(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.project.remove_user(self.user)
+
+        self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": subscription.id,
+            },
+            method="patch",
+            request={"scope": NotificationScope.SCOPE_PROJECT},
+            code=400,
+        )
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": self.user.username,
+                "subscription_id": subscription.id,
+            },
+        )
+        self.assertIsNone(response.data["project"])
+
+    def test_team_removal_cleans_inaccessible_subscriptions(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        project_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        component_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="LockNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        unscoped_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            notification="LicenseNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.user.remove_team(
+                None, self.project.defined_groups.get(name="Translate")
+            )
+
+        self.assertFalse(
+            Subscription.objects.filter(
+                pk__in=(project_subscription.pk, component_subscription.pk)
+            ).exists()
+        )
+        self.assertTrue(
+            Subscription.objects.filter(pk=unscoped_subscription.pk).exists()
+        )
+
+    def test_bulk_team_removal_batches_subscription_cleanup(self) -> None:
+        group = Group.objects.create(name="Bulk removal")
+        other_user = User.objects.create_user("bulk-removal", "bulk@example.com")
+        self.user.add_team(None, group)
+        other_user.add_team(None, group)
+
+        with (
+            patch(
+                "weblate.accounts.models.cleanup_inaccessible_subscriptions.delay"
+            ) as cleanup,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            TeamMembership.objects.filter(group=group).delete()
+
+        cleanup.assert_called_once()
+        self.assertEqual(cleanup.call_args.args[0], [self.user.pk, other_user.pk])
+
+    def test_team_removal_preserves_still_accessible_subscriptions(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.grant_perm_to_user("unit.edit", group_name="Site project access")
+        site_group = Group.objects.get(name="Site project access")
+        site_group.project_selection = SELECTION_ALL
+        site_group.save(update_fields=["project_selection"])
+        self.user.clear_permissions_cache()
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.project.remove_user(self.user)
+
+        self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
+
+    def test_team_removal_cleans_restricted_component_subscription(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.project.add_user(self.user, "Translate")
+        project_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        component_subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="LockNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.grant_perm_to_user(
+            "unit.edit", group_name="Project-only access", project=self.project
+        )
+        self.user.clear_permissions_cache()
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.project.remove_user(self.user)
+
+        self.assertTrue(
+            Subscription.objects.filter(pk=project_subscription.pk).exists()
+        )
+        self.assertFalse(
+            Subscription.objects.filter(pk=component_subscription.pk).exists()
+        )
+
+    def test_team_swap_preserves_subscription(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user, "Translate")
+        subscription = self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.project,
+            notification="RepositoryNotification",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+
+        with self.captureOnCommitCallbacks(execute=True), transaction.atomic():
+            self.user.remove_team(
+                None, self.project.defined_groups.get(name="Translate")
+            )
+            self.user.add_team(
+                None, self.project.defined_groups.get(name="Administration")
+            )
+
+        self.assertTrue(Subscription.objects.filter(pk=subscription.pk).exists())
+
     def test_statistics(self) -> None:
         user = User.objects.filter(is_active=True)[0]
         request = self.do_request(
@@ -1532,6 +2021,7 @@ class UserAPITest(APIBaseTest):
                     "nearby_strings": 5,
                     "special_chars": "\xa0",
                     "wide_tables": True,
+                    "listing_columns": ["total", "untranslated", "checks"],
                 }
             },
         )
@@ -1540,6 +2030,9 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(self.user.profile.location, "Prague")
         self.assertEqual(self.user.profile.nearby_strings, 5)
         self.assertTrue(self.user.profile.wide_tables)
+        self.assertEqual(
+            self.user.profile.listing_columns, ["total", "untranslated", "checks"]
+        )
         self.assertEqual(
             list(self.user.profile.languages.values_list("code", flat=True)),
             [cs_language.code],
@@ -1711,6 +2204,27 @@ class UserAPITest(APIBaseTest):
         )
         other_user.profile.refresh_from_db()
         self.assertEqual(other_user.profile.theme, "dark")
+
+    def test_patch_profile_rejects_invalid_listing_columns(self) -> None:
+        original_listing_columns = self.user.profile.listing_columns
+        invalid_values = (
+            ["comments", "comments"],
+            ["comments"] * (MAX_LISTING_COLUMNS + 1),
+        )
+
+        for value in invalid_values:
+            with self.subTest(value=value):
+                self.do_request(
+                    "api:user-detail",
+                    kwargs={"username": self.user.username},
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"profile": {"listing_columns": value}},
+                )
+
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.listing_columns, original_listing_columns)
 
     def test_patch_profile_emails(self) -> None:
         self.do_request(
@@ -2689,7 +3203,7 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             request={"user_id": self.user.id},
         )
-        self.assertIn("Administration rights granted.", response.data)
+        self.assertEqual(response.data["detail"], "Administration rights granted.")
 
         # Invalid user ID
         response = self.do_request(
@@ -2764,7 +3278,7 @@ class GroupAPITest(APIBaseTest):
             superuser=False,
             request={"user_id": user.id},
         )
-        self.assertIn("Administration rights granted.", response.data)
+        self.assertEqual(response.data["detail"], "Administration rights granted.")
 
     def test_revoke_admin(self) -> None:
         group = Group.objects.create(name="Test Group")
@@ -3282,11 +3796,11 @@ class ComponentCopyTest(APITestCase):
             def order_by(self, *_args):
                 return self
 
-            def values_list(self, *_args):
+            def values_list(self, *_args) -> list[tuple[int, str, str, str, int, int]]:
                 return [
-                    (1, "Hello", "first", 10, 1),
-                    (2, "Hello", "second", 20, 1),
-                    (1, "Hello", "later", 30, 1),
+                    (1, "Hello", "", "first", 10, 1),
+                    (2, "Hello", "", "second", 20, 1),
+                    (1, "Hello", "", "later", 30, 1),
                 ]
 
         class EmptyComponents:
@@ -3308,7 +3822,9 @@ class ComponentCopyTest(APITestCase):
         ):
             translations = auto.collect_other_translations(FilteredSources(), [1, 2])
 
-        self.assertEqual(translations, {"Hello": ["first"]})
+        self.assertEqual(
+            translations, ({("Hello", ""): ["first"]}, {"Hello": ["first"]})
+        )
 
 
 class RoleAPITest(APIBaseTest):
@@ -3499,6 +4015,20 @@ class ProjectAPITest(APIBaseTest):
             response.data["metrics_url"],
             "http://example.com/api/projects/test/metrics/",
         )
+        self.assertEqual(response.data["access_control"], self.project.access_control)
+        self.assertFalse(response.data["public_sharing"])
+        self.assertEqual(response.data["use_shared_tm"], self.project.use_shared_tm)
+        self.assertEqual(
+            response.data["contribute_shared_tm"], self.project.contribute_shared_tm
+        )
+        self.assertEqual(
+            response.data["use_workspace_tm"], self.project.use_workspace_tm
+        )
+        self.assertEqual(
+            response.data["contribute_workspace_tm"],
+            self.project.contribute_workspace_tm,
+        )
+        self.assertEqual(response.data["autoclean_tm"], self.project.autoclean_tm)
 
     def test_repo_ops(self) -> None:
         for operation in RepoOperations.values:
@@ -3518,6 +4048,198 @@ class ProjectAPITest(APIBaseTest):
                 superuser=True,
                 request={"operation": operation},
             )
+
+    def test_repo_operation_can_be_queued(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with patch(
+            "weblate.api.views.queue_repository_operation",
+            return_value=QueuedRepositoryOperation(task_id),
+        ) as queue_operation:
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=202,
+                request={"operation": "pull", "background": True},
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "detail": "Repository operation has been queued.",
+                "task_url": f"http://example.com/api/tasks/{task_id}/",
+                "included_components": sorted(
+                    component.full_slug
+                    for component in self.project.component_set.all()
+                ),
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+        selection = get_project_repository_selection(
+            self.user, self.project, ("vcs.update",)
+        )
+        queue_operation.assert_called_once_with(
+            self.project,
+            "pull",
+            self.user,
+            repository_components=selection.repositories,
+        )
+
+    def test_eager_repo_operation_returns_result(self) -> None:
+        with patch(
+            "weblate.api.views.queue_repository_operation",
+            return_value=QueuedRepositoryOperation("task-id", successful=False),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "pull", "background": True},
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data,
+            {
+                "result": False,
+                "included_components": sorted(
+                    component.full_slug
+                    for component in self.project.component_set.all()
+                ),
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+
+    def test_synchronous_repo_operation_releases_before_followups(self) -> None:
+        events = []
+
+        @contextmanager
+        def reserve(*args, **kwargs):
+            events.append("reserved")
+
+            def release() -> None:
+                events.append("released")
+
+            try:
+                yield release
+            finally:
+                events.append("reservation context exited")
+
+        def update(*args, **kwargs) -> bool:
+            transaction.on_commit(lambda: events.append("follow-up"))
+            return True
+
+        with (
+            self.captureOnCommitCallbacks(execute=True),
+            patch("weblate.api.views.reserve_repository_operation", reserve),
+            patch.object(Project, "do_update", update),
+        ):
+            self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "pull"},
+            )
+
+        self.assertEqual(
+            events,
+            [
+                "reserved",
+                "reservation context exited",
+                "released",
+                "follow-up",
+            ],
+        )
+
+    def test_repo_operation_queue_conflict(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with (
+            patch(
+                "weblate.api.views.queue_repository_operation",
+                side_effect=RepositoryOperationConflictError(task_id),
+            ),
+            patch(
+                "weblate.api.views.can_access_repository_operation_task",
+                return_value=True,
+            ),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=423,
+                request={"operation": "push", "background": True},
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "detail": "Another repository operation is already in progress.",
+                "task_url": f"http://example.com/api/tasks/{task_id}/",
+                "included_components": sorted(
+                    component.full_slug
+                    for component in self.project.component_set.all()
+                ),
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+
+    def test_repo_operation_conflict_hides_inaccessible_task(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with (
+            patch(
+                "weblate.api.views.queue_repository_operation",
+                side_effect=RepositoryOperationConflictError(task_id),
+            ),
+            patch(
+                "weblate.api.views.can_access_repository_operation_task",
+                return_value=False,
+            ),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=423,
+                request={"operation": "push", "background": True},
+            )
+
+        self.assertNotIn("task_url", response.data)
+
+    def test_synchronous_repo_operation_honors_reservation(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with (
+            patch(
+                "weblate.api.views.reserve_repository_operation",
+                side_effect=RepositoryOperationConflictError(task_id),
+            ),
+            patch(
+                "weblate.api.views.can_access_repository_operation_task",
+                return_value=False,
+            ),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=423,
+                request={"operation": "pull"},
+            )
+
+        self.assertEqual(
+            response.data["detail"],
+            "Another repository operation is already in progress.",
+        )
+        self.assertNotIn("task_url", response.data)
 
     def test_repo_file_sync_returns_true(self) -> None:
         with patch.object(Component, "queue_background_task", return_value=None):
@@ -3619,8 +4341,123 @@ class ProjectAPITest(APIBaseTest):
                     "eligible_for_commit": 0,
                 },
             },
-            skip={"url"},
+            skip={
+                "url",
+                "included_components",
+                "skipped_components",
+                "permission_blockers",
+            },
         )
+
+    def test_repo_status_filters_inaccessible_repositories(self) -> None:
+        independent = self.create_po(project=self.project, name="Independent")
+        glossary = self.project.component_set.get(slug="glossary")
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        linked.restricted = True
+        linked.save(update_fields=["restricted"])
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.grant_perm_to_user(
+            "vcs.reset",
+            group_name="Project repository scope",
+            project=self.project,
+        )
+        unit = Unit.objects.filter(translation__component=self.component).first()
+        if unit is None:
+            self.fail("Expected a unit in the blocked component.")
+        PendingUnitChange.objects.create(unit=unit, author=self.user)
+
+        response = self.do_request("api:project-repository", self.project_kwargs)
+
+        self.assertFalse(response.data["needs_commit"])
+        self.assertEqual(response.data["pending_units"]["total"], 0)
+        self.assertEqual(
+            response.data["included_components"],
+            [glossary.full_slug, independent.full_slug],
+        )
+        self.assertEqual(response.data["skipped_components"], [])
+        self.assertEqual(response.data["permission_blockers"], [])
+        self.assertNotContains(response, self.component.full_slug)
+        self.assertNotContains(response, linked.full_slug)
+
+    def test_repo_operation_accepts_owner_with_inaccessible_links(self) -> None:
+        independent = self.create_po(project=self.project, name="Independent")
+        glossary = self.project.component_set.get(slug="glossary")
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        linked.restricted = True
+        linked.save(update_fields=["restricted"])
+        self.grant_perm_to_user(
+            "vcs.reset",
+            group_name="Project repository scope",
+            project=self.project,
+        )
+
+        with patch.object(
+            Component, "do_reset", autospec=True, return_value=True
+        ) as reset:
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                request={"operation": "reset"},
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "result": True,
+                "included_components": [
+                    glossary.full_slug,
+                    independent.full_slug,
+                    self.component.full_slug,
+                ],
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+        self.assertEqual(reset.call_count, 3)
+        self.assertEqual(
+            {call.args[0] for call in reset.call_args_list},
+            {glossary, independent, self.component},
+        )
+
+    def test_repo_operation_denied_without_accessible_repository(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        glossary = self.project.component_set.get(slug="glossary")
+        glossary.restricted = True
+        glossary.save(update_fields=["restricted"])
+        other_project = self.create_project(name="Other", slug="other")
+        self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        self.grant_perm_to_user(
+            "vcs.reset",
+            group_name="Project repository scope",
+            project=self.project,
+        )
+
+        with patch.object(Component, "do_reset", autospec=True) as reset:
+            self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                request={"operation": "reset"},
+                code=403,
+            )
+        reset.assert_not_called()
 
     def test_components(self) -> None:
         request = self.do_request("api:project-components", self.project_kwargs)
@@ -3629,6 +4466,27 @@ class ProjectAPITest(APIBaseTest):
     def test_changes(self) -> None:
         request = self.do_request("api:project-changes", self.project_kwargs)
         self.assertEqual(request.data["count"], 35)
+
+    def test_changes_with_multi_alert(self) -> None:
+        translation = self.component.translation_set.get(language__code="cs")
+        occurrences = [
+            {
+                "language_code": translation.language_code,
+                "translation_pk": translation.pk,
+            }
+        ]
+        self.component.add_alert("UnusedGlossaryLanguage", occurrences=occurrences)
+
+        response = self.do_request("api:project-changes", self.project_kwargs)
+        data = response.json()
+        alert_change = next(
+            change
+            for change in data["results"]
+            if change["alert"] is not None
+            and change["alert"]["name"] == "UnusedGlossaryLanguage"
+        )
+
+        self.assertEqual(alert_change["alert"]["details"]["occurrences"], occurrences)
 
     def test_changes_skip_restricted_component_changes(self) -> None:
         secret = "SECRET-RESTRICTED-STRING-XYZZY"
@@ -3935,13 +4793,15 @@ class ProjectAPITest(APIBaseTest):
         self.do_request(
             "api:project-detail", self.project_kwargs, method="delete", code=403
         )
-        self.do_request(
+        response = self.do_request(
             "api:project-detail",
             self.project_kwargs,
             method="delete",
             superuser=True,
-            code=204,
+            code=202,
         )
+        self.assertEqual(response.data["detail"], "Project deletion scheduled.")
+        self.assertIn("task_url", response.data)
         self.assertEqual(Project.objects.count(), 0)
 
     def test_create(self) -> None:
@@ -4977,6 +5837,349 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["slug"], "new-slug")
 
+    def test_patch_translation_memory_settings(self) -> None:
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "use_shared_tm": False,
+                "contribute_shared_tm": False,
+                "use_workspace_tm": True,
+                "contribute_workspace_tm": True,
+                "autoclean_tm": not self.project.autoclean_tm,
+            },
+        )
+
+        self.project.refresh_from_db()
+        self.assertFalse(response.data["use_shared_tm"])
+        self.assertFalse(response.data["contribute_shared_tm"])
+        self.assertTrue(response.data["use_workspace_tm"])
+        self.assertTrue(response.data["contribute_workspace_tm"])
+        self.assertEqual(response.data["autoclean_tm"], self.project.autoclean_tm)
+        self.assertFalse(self.project.use_shared_tm)
+        self.assertFalse(self.project.contribute_shared_tm)
+        self.assertTrue(self.project.use_workspace_tm)
+        self.assertTrue(self.project.contribute_workspace_tm)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_patch_translation_memory_settings_offer_hosting(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            use_shared_tm=True,
+            contribute_shared_tm=False,
+            use_workspace_tm=False,
+            contribute_workspace_tm=True,
+        )
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"use_workspace_tm": True, "contribute_workspace_tm": False},
+        )
+
+        self.project.refresh_from_db()
+        self.assertTrue(response.data["use_shared_tm"])
+        self.assertTrue(response.data["contribute_shared_tm"])
+        self.assertTrue(response.data["use_workspace_tm"])
+        self.assertTrue(response.data["contribute_workspace_tm"])
+        self.assertTrue(self.project.contribute_shared_tm)
+        self.assertTrue(self.project.contribute_workspace_tm)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_create_translation_memory_settings_offer_hosting(self) -> None:
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Hosted TM project",
+                "slug": "hosted-tm-project",
+                "web": "https://weblate.org/",
+                "use_shared_tm": False,
+                "contribute_shared_tm": True,
+                "use_workspace_tm": True,
+                "contribute_workspace_tm": False,
+            },
+        )
+
+        self.assertFalse(response.data["use_shared_tm"])
+        self.assertFalse(response.data["contribute_shared_tm"])
+        self.assertTrue(response.data["use_workspace_tm"])
+        self.assertTrue(response.data["contribute_workspace_tm"])
+
+    def test_patch_access_control(self) -> None:
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"access_control": Project.ACCESS_PRIVATE},
+        )
+
+        self.project.refresh_from_db()
+        self.assertEqual(response.data["access_control"], Project.ACCESS_PRIVATE)
+        self.assertEqual(self.project.access_control, Project.ACCESS_PRIVATE)
+
+    def test_patch_public_sharing(self) -> None:
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"public_sharing": True},
+        )
+
+        self.project.refresh_from_db()
+        self.assertTrue(response.data["public_sharing"])
+        self.assertTrue(self.project.public_sharing)
+
+    def test_patch_public_sharing_requires_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"public_sharing": True},
+        )
+
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.public_sharing)
+
+    def test_patch_unchanged_public_sharing_without_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"public_sharing": False},
+        )
+
+        self.assertFalse(response.data["public_sharing"])
+
+    def test_patch_access_control_requires_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"access_control": Project.ACCESS_PRIVATE},
+        )
+
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PUBLIC)
+
+    @override_settings(LICENSE_REQUIRED=True)
+    def test_patch_access_control_requires_component_licenses(self) -> None:
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"access_control": Project.ACCESS_PROTECTED},
+        )
+
+        self.project.component_set.update(license="MIT", inherit_license=False)
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"access_control": Project.ACCESS_PROTECTED},
+        )
+        self.assertEqual(response.data["access_control"], Project.ACCESS_PROTECTED)
+
+    @override_settings(LICENSE_REQUIRED=True)
+    def test_patch_access_control_uses_category_license_inheritance(self) -> None:
+        parent = self.project.category_set.create(
+            name="Parent category",
+            slug="parent-category",
+            license="",
+            inherit_license=False,
+        )
+        child = self.project.category_set.create(
+            name="Child category",
+            slug="child-category",
+            category=parent,
+            inherit_license=True,
+        )
+        self.project.component_set.update(
+            category=child, license="", inherit_license=True
+        )
+
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"access_control": Project.ACCESS_PROTECTED},
+        )
+
+        parent.license = "MIT"
+        parent.save(update_fields=["license"])
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"access_control": Project.ACCESS_PROTECTED},
+        )
+        self.assertEqual(response.data["access_control"], Project.ACCESS_PROTECTED)
+
+    @override_settings(LICENSE_REQUIRED=True)
+    def test_patch_access_control_uses_target_workspace_license(self) -> None:
+        workspace = Workspace.objects.create(name="Licensed workspace", license="MIT")
+        self.project.component_set.update(license="", inherit_license=True)
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "workspace": str(workspace.pk),
+                "inherit_license": True,
+                "access_control": Project.ACCESS_PROTECTED,
+            },
+        )
+
+        self.assertEqual(response.data["access_control"], Project.ACCESS_PROTECTED)
+        self.assertEqual(response.data["workspace"], workspace.pk)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_patch_access_control_rejects_custom_on_hosting(self) -> None:
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"access_control": Project.ACCESS_CUSTOM},
+        )
+
+    def test_create_access_control_omitted(self) -> None:
+        self.grant_perm_to_user("project.add")
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            format="json",
+            request={
+                "name": "Default ACL project",
+                "slug": "default-acl-project",
+                "web": "https://weblate.org/",
+            },
+        )
+        self.assertEqual(
+            response.data["access_control"], settings.DEFAULT_ACCESS_CONTROL
+        )
+
+    def test_create_public_sharing(self) -> None:
+        self.grant_perm_to_user("project.add")
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            format="json",
+            request={
+                "name": "Shared project",
+                "slug": "shared-project",
+                "web": "https://weblate.org/",
+                "public_sharing": True,
+            },
+        )
+
+        self.assertTrue(response.data["public_sharing"])
+        self.assertTrue(Project.objects.get(slug="shared-project").public_sharing)
+
+    def test_create_access_control_requires_superuser(self) -> None:
+        self.grant_perm_to_user("project.add")
+        self.do_request(
+            "api:project-list",
+            method="post",
+            code=400,
+            format="json",
+            request={
+                "name": "Private ACL project",
+                "slug": "private-acl-project",
+                "web": "https://weblate.org/",
+                "access_control": Project.ACCESS_PRIVATE,
+            },
+        )
+        self.assertFalse(Project.objects.filter(slug="private-acl-project").exists())
+
+    def test_create_access_control_rejects_billing_conflict(self) -> None:
+        with modify_settings(INSTALLED_APPS={"prepend": "weblate.billing"}):
+            billing = create_test_billing(self.user, invoice=False)
+            self.do_request(
+                "api:project-list",
+                method="post",
+                code=400,
+                format="json",
+                request={
+                    "name": "Billing ACL conflict",
+                    "slug": "billing-acl-conflict",
+                    "web": "https://weblate.org/",
+                    "workspace": str(billing.workspace.pk),
+                    "access_control": Project.ACCESS_PUBLIC,
+                },
+            )
+        self.assertFalse(Project.objects.filter(slug="billing-acl-conflict").exists())
+
+    def test_patch_existing_language_policy(self) -> None:
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=403,
+            request={"new_lang": "existing"},
+        )
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            request={"new_lang": "existing"},
+        )
+        self.assertEqual(response.data["effective_new_lang"], "existing")
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.new_lang, "existing")
+
     def test_patch_inherited_setting_disables_inheritance(self) -> None:
         workspace = Workspace.objects.create(
             name="API workspace", commit_message="Workspace commit"
@@ -5730,6 +6933,56 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="api-project", project__slug="test")
         self.assertEqual(component.file_format_params["po_line_wrap"], -1)
 
+    def test_create_component_with_vcs_params(self) -> None:
+        payload: dict[str, object] = {
+            "name": "API project",
+            "slug": "api-project",
+            "repo": self.format_local_path(self.git_repo_path),
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "push": "https://username:password@github.com/example/push.git",
+            "new_lang": "none",
+        }
+
+        # attempt create with non-existing parameter
+        payload["vcs_params"] = {"unknown_param_name": True}
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
+        # attempt create with parameter not applicable to the selected VCS
+        payload["vcs_params"] = {"merge_request_automerge": True}
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
+        # create with valid params
+        payload["vcs_params"] = {"git_force_push": True}
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+        self.assertEqual(response.data["vcs_params"], {"git_force_push": True})
+        component = Component.objects.get(slug="api-project", project__slug="test")
+        self.assertIs(component.vcs_params["git_force_push"], True)
+
     def test_download_private_project_translations(self) -> None:
         project = self.component.project
         project.access_control = Project.ACCESS_PRIVATE
@@ -5982,7 +7235,7 @@ class ProjectAPITest(APIBaseTest):
 
     @patch("weblate.api.views.ComponentSlugFilter")
     def test_download_project_translations_language_path_filter_invalid(
-        self, filter_class
+        self, filter_class: Mock
     ) -> None:
         filter_instance = filter_class.return_value
         filter_instance.is_valid.return_value = False
@@ -6274,7 +7527,7 @@ class ProjectAPITest(APIBaseTest):
             "api:project-machinery-settings",
             self.project_kwargs,
             method="put",
-            code=201,
+            code=200,
             superuser=True,
             request=new_config,
             format="json",
@@ -6354,12 +7607,12 @@ class ProjectAPITest(APIBaseTest):
         task_url = response.data["task_url"]
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "SUCCESS"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return True
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -6457,6 +7710,34 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["slug"], "test")
         self.assertEqual(response.data["project"]["slug"], "test")
+        self.assertEqual(
+            response.data["hide_glossary_matches"],
+            self.component.hide_glossary_matches,
+        )
+        self.assertEqual(
+            response.data["contribute_project_tm"],
+            self.component.contribute_project_tm,
+        )
+
+    def test_patch_component_translation_settings(self) -> None:
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "hide_glossary_matches": True,
+                "contribute_project_tm": False,
+            },
+        )
+
+        self.component.refresh_from_db()
+        self.assertTrue(response.data["hide_glossary_matches"])
+        self.assertFalse(response.data["contribute_project_tm"])
+        self.assertTrue(self.component.hide_glossary_matches)
+        self.assertFalse(self.component.contribute_project_tm)
 
     def test_get_component_exposes_vcs_view_fields(self) -> None:
         Component.objects.filter(pk=self.component.pk).update(
@@ -6473,12 +7754,33 @@ class ComponentAPITest(APIBaseTest):
             response.data["repoweb"], "https://example.com/src/{{filename}}#L{{line}}"
         )
 
+    def test_anonymous_component_hides_empty_password_credentials(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="https://repo-secret:@git.example/owner/repo",
+            push="https://push-secret:@git.example/owner/repo",
+        )
+
+        detail = self.client.get(
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+        )
+        listing = self.client.get(reverse("api:component-list"))
+        listed = next(
+            item for item in listing.data["results"] if item["slug"] == "test"
+        )
+
+        for data in (detail.data, listed):
+            self.assertEqual(data["repo"], "https://git.example/owner/repo")
+            self.assertEqual(data["push"], "https://git.example/owner/repo")
+            self.assertNotIn("repo-secret", str(data))
+            self.assertNotIn("push-secret", str(data))
+
     def test_get_component_hides_vcs_view_fields_without_permission(self) -> None:
         private_component = self.create_acl()
         Component.objects.filter(pk=self.component.pk).update(
             git_export="https://example.com/export.git",
             push_branch="translations",
             repoweb="https://example.com/src/{{filename}}#L{{line}}",
+            vcs_params={"git_force_push": True},
             repo=private_component.get_repo_link_url(),
             linked_component=private_component,
         )
@@ -6492,14 +7794,17 @@ class ComponentAPITest(APIBaseTest):
         self.assertIsNone(response.data["git_export"])
         self.assertIsNone(response.data["push_branch"])
         self.assertIsNone(response.data["repoweb"])
+        self.assertIsNone(response.data["vcs_params"])
         self.assertIsNone(response.data["linked_component"])
 
     def test_get_component_uses_effective_linked_repository_settings(self) -> None:
         self.component.push_on_commit = True
         self.component.commit_pending_age = 12
         self.component.auto_lock_error = False
+        self.component.vcs_params = {"git_force_push": True}
         self.component.save(
             update_fields=[
+                "vcs_params",
                 "push_on_commit",
                 "commit_pending_age",
                 "auto_lock_error",
@@ -6511,8 +7816,10 @@ class ComponentAPITest(APIBaseTest):
         linked_component.push_on_commit = False
         linked_component.commit_pending_age = 1
         linked_component.auto_lock_error = True
+        linked_component.vcs_params = {"git_force_push": False}
         linked_component.save(
             update_fields=[
+                "vcs_params",
                 "push_on_commit",
                 "commit_pending_age",
                 "auto_lock_error",
@@ -6529,6 +7836,7 @@ class ComponentAPITest(APIBaseTest):
             )
         )
 
+        self.assertEqual(response.data["vcs_params"], {"git_force_push": True})
         self.assertEqual(response.data["push_on_commit"], True)
         self.assertEqual(response.data["commit_pending_age"], 12)
         self.assertEqual(response.data["auto_lock_error"], False)
@@ -6584,7 +7892,39 @@ class ComponentAPITest(APIBaseTest):
         self.assertTrue(response.data["result"])
         do_update.assert_called_once()
 
-    def test_linked_repo_operation_requires_source_permission(self) -> None:
+    def test_project_token_repository_authority_follows_owner(self) -> None:
+        other_project = self.create_project(
+            name="Other", slug="other", access_control=Project.ACCESS_PRIVATE
+        )
+        linked = self.create_link_existing(project=other_project)
+        self.user = User.objects.create(username="bot-repository-scope", is_bot=True)
+        self.grant_perm_to_user(
+            "vcs.update", group_name="Token repository scope", project=other_project
+        )
+        with patch.object(Component, "do_update", return_value=True) as update:
+            self.do_request(
+                "api:component-repository",
+                {"project__slug": other_project.slug, "slug": linked.slug},
+                method="post",
+                code=403,
+                request={"operation": "pull"},
+            )
+        update.assert_not_called()
+
+        group = Group.objects.get(name="Token repository scope")
+        group.projects.set([self.project])
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_project(other_project))
+        with patch.object(Component, "do_update", return_value=True) as update:
+            self.do_request(
+                "api:component-repository",
+                self.component_kwargs,
+                method="post",
+                request={"operation": "pull"},
+            )
+        update.assert_called_once()
+
+    def test_linked_repo_operation_requires_owner_permission(self) -> None:
         linked_component = self.create_link_existing(
             name="Linked repository operation",
             slug="linked-repository-operation",
@@ -6602,7 +7942,7 @@ class ComponentAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
-        self.assertTrue(self.user.has_perm("vcs.update", linked_component))
+        self.assertFalse(self.user.has_perm("vcs.update", linked_component))
         self.assertFalse(self.user.has_perm("vcs.update", self.component))
         self.do_request(
             "api:component-repository",
@@ -6626,7 +7966,7 @@ class ComponentAPITest(APIBaseTest):
             component=self.component,
         )
         self.user.clear_permissions_cache()
-        self.assertFalse(self.user.has_perm("vcs.update", linked_component))
+        self.assertTrue(self.user.has_perm("vcs.update", linked_component))
         self.assertTrue(self.user.has_perm("vcs.update", self.component))
         self.do_request(
             "api:component-repository",
@@ -7115,6 +8455,9 @@ class ComponentAPITest(APIBaseTest):
 
         billing = create_test_billing(self.user)
         billing.add_project(self.project)
+        self.project.use_shared_tm = False
+        self.project.contribute_shared_tm = False
+        self.project.save(update_fields=["use_shared_tm", "contribute_shared_tm"])
         self.do_request(
             "api:component-detail",
             self.component_kwargs,
@@ -7453,6 +8796,46 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data["name"], "New Name")
         self.assertEqual(response.data["file_format_params"]["po_line_wrap"], -1)
 
+    def test_contributor_comments_parameter(self) -> None:
+        for value, status in (
+            ("none", 200),
+            ("gettext", 200),
+            ("spdx", 200),
+            ("invalid", 400),
+        ):
+            with self.subTest(value=value):
+                response = self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method="patch",
+                    superuser=True,
+                    code=status,
+                    format="json",
+                    request={"file_format_params": {"po_contributor_comments": value}},
+                )
+                if status == 200:
+                    self.assertEqual(
+                        response.data["file_format_params"]["po_contributor_comments"],
+                        value,
+                    )
+        self.component.refresh_from_db()
+        self.assertEqual(
+            self.component.file_format_params["po_contributor_comments"], "spdx"
+        )
+
+    def test_contributor_comments_parameter_permission(self) -> None:
+        original = self.component.file_format_params.copy()
+        self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            code=403,
+            format="json",
+            request={"file_format_params": {"po_contributor_comments": "spdx"}},
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.file_format_params, original)
+
     def test_patch_linked_component_keeps_local_repository_setting_drift(self) -> None:
         self.component.push_on_commit = True
         self.component.commit_pending_age = 12
@@ -7670,6 +9053,52 @@ class ComponentAPITest(APIBaseTest):
             code=204,
         )
         self.assertEqual(Component.objects.count(), 1)
+
+    def test_delete_component_memory_option_in_body(self) -> None:
+        with patch("weblate.api.views.component_removal.delay") as mocked_removal:
+            self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="delete",
+                superuser=True,
+                code=204,
+                format="json",
+                request={"delete_memory": True},
+            )
+
+        mocked_removal.assert_called_once_with(self.component.pk, self.user.pk, True)
+
+    def test_delete_component_memory_option_in_query(self) -> None:
+        url = (
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+            + "?delete_memory=true"
+        )
+        with patch("weblate.api.views.component_removal.delay") as mocked_removal:
+            self.do_request(
+                url,
+                method="delete",
+                superuser=True,
+                code=204,
+            )
+
+        mocked_removal.assert_called_once_with(self.component.pk, self.user.pk, True)
+
+    def test_delete_component_memory_option_conflict(self) -> None:
+        url = (
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+            + "?delete_memory=true"
+        )
+        with patch("weblate.api.views.component_removal.delay") as mocked_removal:
+            self.do_request(
+                url,
+                method="delete",
+                superuser=True,
+                code=400,
+                format="json",
+                request={"delete_memory": False},
+            )
+
+        mocked_removal.assert_not_called()
 
     def test_create_component_from_component_id(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
@@ -8327,6 +9756,47 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "fa"},
         )
 
+    def test_create_translation_existing_policy(self) -> None:
+        self.component.new_lang = "existing"
+        self.component.inherit_new_lang = False
+        self.component.new_base = "po/hello.pot"
+        self.component.save()
+        response = self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "fa"},
+        )
+        self.assertIn(
+            "requires maintainer approval", response.data["errors"][0]["detail"]
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language_code="fa").exists()
+        )
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.REQUESTED_LANGUAGE
+            ).exists()
+        )
+        self.grant_perm_to_user("translation.add_more", project=self.project)
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=403,
+            request={"language_code": "fa"},
+        )
+        source = self.create_po_new_base(name="other", project=self.project)
+        source.add_new_language(Language.objects.get(code="fa"), None)
+        self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={"language_code": "fa"},
+        )
+
     def test_create_translation_existing(self) -> None:
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
@@ -8519,7 +9989,8 @@ class ComponentAPITest(APIBaseTest):
 
         self.assertEqual(
             response.data["errors"][0]["detail"],
-            "Direct editing is restricted for this language. Add a suggestion instead.",
+            "Only privileged users can edit strings directly in this language because "
+            "of its translation workflow. Add a suggestion instead.",
         )
         perform.assert_not_called()
         self.assertFalse(target.translation_set.filter(language_code="fa").exists())
@@ -9307,12 +10778,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -9325,19 +10796,40 @@ class TasksAPITest(APIBaseTest):
 
         self.assertEqual(
             response.data,
-            {"completed": False, "progress": 0, "result": None, "log": ""},
+            {
+                "completed": False,
+                "progress": 0,
+                "result": None,
+                "log": "",
+                "cancellable": True,
+            },
+        )
+
+    def test_retrieve_requires_authentication(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.id, "translation_id": None},
+            3600,
+        )
+
+        self.do_request(
+            "api:task-detail",
+            kwargs={"pk": self.task_id},
+            method="get",
+            authenticated=False,
+            code=401,
         )
 
     def test_retrieve_uses_cached_user_metadata(self) -> None:
         cache.set(get_task_metadata_key(self.task_id), {"user_id": self.user.id}, 3600)
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -9350,7 +10842,97 @@ class TasksAPITest(APIBaseTest):
 
         self.assertEqual(
             response.data,
-            {"completed": False, "progress": 0, "result": None, "log": ""},
+            {
+                "completed": False,
+                "progress": 0,
+                "result": None,
+                "log": "",
+                "cancellable": False,
+            },
+        )
+
+    def test_retrieve_repository_task_after_tracked_component_deleted(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_ids": [self.component.id, self.component.id + 1_000_000],
+                "user_id": self.user.id,
+                "cancellable": False,
+            },
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id) -> None:
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self) -> bool:
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+
+        self.assertFalse(response.data["completed"])
+        self.assertFalse(response.data["cancellable"])
+
+    def test_destroy_rejects_non_cancellable_task(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_ids": [self.component.id],
+                "cancellable": False,
+            },
+            3600,
+        )
+
+        class DummyAsyncResult:
+            latest = None
+
+            def __init__(self, task_id) -> None:
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+                self.revoked = False
+                DummyAsyncResult.latest = self
+
+            def ready(self) -> bool:
+                return False
+
+            def revoke(self, *args, **kwargs) -> None:
+                self.revoked = True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="delete",
+                superuser=True,
+                code=409,
+            )
+
+        self.assertEqual(response.data, {"detail": "This task cannot be cancelled."})
+        assert DummyAsyncResult.latest is not None
+        self.assertFalse(DummyAsyncResult.latest.revoked)
+
+    def test_retrieve_rejects_other_user_metadata(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"user_id": self.user.id + 1},
+            3600,
+        )
+
+        self.do_request(
+            "api:task-detail",
+            kwargs={"pk": self.task_id},
+            method="get",
+            code=404,
         )
 
     def test_retrieve_stores_opt_in_completion_message(self) -> None:
@@ -9361,7 +10943,7 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = {
                     "message": "Task completed.",
@@ -9373,7 +10955,7 @@ class TasksAPITest(APIBaseTest):
                 }
                 self.state = "SUCCESS"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return True
 
         self.client.credentials()
@@ -9411,7 +10993,7 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = {
                     "message": "Task completed.",
@@ -9419,7 +11001,7 @@ class TasksAPITest(APIBaseTest):
                 }
                 self.state = "SUCCESS"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return True
 
         self.client.credentials()
@@ -9439,14 +11021,14 @@ class TasksAPITest(APIBaseTest):
         class DummyAsyncResult:
             latest = None
 
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.revoked = False
                 self.state = "PENDING"
                 DummyAsyncResult.latest = self
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
             def revoke(self, *args, **kwargs) -> None:
@@ -9472,12 +11054,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -9500,12 +11082,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -9526,12 +11108,12 @@ class TasksAPITest(APIBaseTest):
         )
 
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -9544,12 +11126,12 @@ class TasksAPITest(APIBaseTest):
 
     def test_retrieve_requires_cached_metadata(self) -> None:
         class DummyAsyncResult:
-            def __init__(self, task_id):
+            def __init__(self, task_id) -> None:
                 self.id = task_id
                 self.result = None
                 self.state = "PENDING"
 
-            def ready(self):
+            def ready(self) -> bool:
                 return False
 
         with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
@@ -9616,6 +11198,21 @@ class MemoryAPITest(APIBaseTest):
         if source_project is not None:
             memory.scope_source_project_id = source_project.id
         memory.save()
+        try:
+            component = Component.objects.get_by_path(origin)
+        except Component.DoesNotExist:
+            component = None
+        if component is not None:
+            memory.scopes.filter(
+                scope__in=(
+                    MemoryScope.SCOPE_PROJECT,
+                    MemoryScope.SCOPE_SHARED,
+                    MemoryScope.SCOPE_USER,
+                    MemoryScope.SCOPE_WORKSPACE,
+                )
+            ).update(
+                source_component=component,
+            )
         return memory
 
     def test_memory_lookup_request_serializer_preserves_whitespace(self) -> None:
@@ -9897,6 +11494,64 @@ class MemoryAPITest(APIBaseTest):
             compacted.scopes.filter(scope=MemoryScope.SCOPE_PROJECT).exists()
         )
         self.assertTrue(MemoryScope.objects.filter(pk=shared_scope.pk).exists())
+
+    def test_delete_unattributed_project_memory(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        self.authenticate()
+        memory = self.create_memory(
+            source="Delete unattributed project memory",
+            target="Smazat neprirazeny zaznam projektu",
+            project=self.component.project,
+            origin="old-project/removed-component",
+        )
+        self.assertIsNone(memory.scopes.get().source_component_id)
+
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": memory.pk},
+            method="delete",
+            code=204,
+        )
+
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+
+    def test_delete_preserves_hidden_restricted_scope_from_compacted_entry(
+        self,
+    ) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        self.user.clear_permissions_cache()
+        self.authenticate()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="API compacted hidden automatic scope",
+            target="API skryty automaticky rozsah",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        hidden_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.component.project,
+            source_component=self.component,
+        )
+        visible_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT_FILE,
+            project=self.component.project,
+        )
+
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": memory.pk},
+            method="delete",
+            code=204,
+        )
+
+        self.assertTrue(MemoryScope.objects.filter(pk=hidden_scope.pk).exists())
+        self.assertFalse(MemoryScope.objects.filter(pk=visible_scope.pk).exists())
 
     def test_delete_workspace_scope_requires_source_project_permission(self) -> None:
         workspace = Workspace.objects.create(
@@ -10318,36 +11973,42 @@ class MemoryAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data["errors"][0]["attr"], "exact")
 
-    def test_get_exact_matches_uses_distinct_on_source(self) -> None:
-        first = self.create_memory(
+    def test_get_exact_matches_prefers_active_then_lowest_id(self) -> None:
+        pending = self.create_memory(
             source="Shared exact source",
-            target="Prvni shoda",
+            target="Pending match",
             project=self.component.project,
             origin=self.component.full_slug,
         )
-        second = self.create_memory(
+        pending.status = Memory.STATUS_PENDING
+        pending.save(update_fields=["status"])
+        first_active = self.create_memory(
+            source="Shared exact source",
+            target="First active match",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        self.create_memory(
+            source="Shared exact source",
+            target="Second active match",
+            project=self.component.project,
+            origin=self.component.full_slug,
+        )
+        other = self.create_memory(
             source="Another exact source",
-            target="Druha shoda",
+            target="Another match",
             project=self.component.project,
             origin=self.component.full_slug,
         )
-        queryset = self.mock_queryset()
-        filtered_queryset = self.mock_queryset()
-        ordered_queryset = self.mock_queryset()
-        distinct_queryset = self.mock_queryset()
-        distinct_queryset.__iter__.return_value = iter([first, second])
-        queryset.filter.return_value = filtered_queryset
-        filtered_queryset.order_by.return_value = ordered_queryset
-        ordered_queryset.distinct.return_value = distinct_queryset
 
         view = MemoryViewSet()
         matches = view.get_exact_matches(
-            queryset, ["Shared exact source", "Another exact source"]
+            Memory.objects.all(), ["Shared exact source", "Another exact source"]
         )
 
-        filtered_queryset.order_by.assert_called_once_with("source", "-status", "id")
-        ordered_queryset.distinct.assert_called_once_with("source")
-        self.assertEqual(matches, {first.source: first, second.source: second})
+        self.assertEqual(
+            matches, {first_active.source: first_active, other.source: other}
+        )
 
     def test_lookup_delegates_fuzzy_matching_to_queryset(self) -> None:
         source_language = Language.objects.get(code="en")
@@ -11071,13 +12732,13 @@ class TranslationAPITest(APIBaseTest):
 
         translation = self.component.translation_set.get(language_code="cs")
         for permission in permissions:
-            self.assertTrue(self.user.has_perm(permission, translation))
+            self.assertFalse(self.user.has_perm(permission, translation))
             self.assertFalse(self.user.has_perm(permission, self.component))
 
         self.do_request(
             "api:translation-repository",
             self.translation_kwargs,
-            code=200,
+            code=403,
         )
         for operation in RepoOperations.values:
             self.do_request(
@@ -11087,6 +12748,33 @@ class TranslationAPITest(APIBaseTest):
                 code=403,
                 request={"operation": operation},
             )
+
+    def test_background_commit_preserves_translation_noop(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        PendingUnitChange.objects.filter(unit__translation=translation).delete()
+        other_translation = (
+            self.component.translation_set.exclude(pk=translation.pk)
+            .exclude(filename="")
+            .first()
+        )
+        assert other_translation is not None
+        unit = other_translation.unit_set.first()
+        assert unit is not None
+        PendingUnitChange.objects.create(unit=unit, author=self.user)
+        self.assertFalse(translation.needs_commit())
+        self.assertTrue(self.component.needs_commit())
+
+        with patch("weblate.api.views.queue_repository_operation") as queue:
+            response = self.do_request(
+                "api:translation-repository",
+                self.translation_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "commit", "background": True},
+            )
+
+        self.assertEqual(response.data, {"result": False})
+        queue.assert_not_called()
 
     def test_repo_status(self) -> None:
         response = self.do_request(
@@ -11898,6 +13586,50 @@ class UnitAPITest(APIBaseTest):
         unit = Unit.objects.get(pk=unit.pk)
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.target, "Test translation\n")
+
+    def test_translate_unit_too_long(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        original_target = unit.target
+        target = "x" * (get_translation_text_max_length(unit) + 1)
+
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "20", "target": target},
+        )
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Translation text too long!"
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "target")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original_target)
+
+    def test_translate_unit_deleted_mid_request(self) -> None:
+        """Unit removed between get_object() and the locking re-fetch."""
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+
+        def delete_unit(self) -> None:
+            Unit.objects.filter(pk=unit.pk).delete()
+
+        # invalidate_checks_cache() runs at the top of Unit.translate(),
+        # before the select_for_update() re-fetch
+        with patch.object(
+            Unit, "invalidate_checks_cache", autospec=True, side_effect=delete_unit
+        ):
+            self.do_request(
+                "api:unit-detail",
+                kwargs={"pk": unit.pk},
+                method="patch",
+                code=404,
+                request={"state": "20", "target": "Test translation"},
+            )
 
     def test_translate_unit_whitespace(self) -> None:
         unit = Unit.objects.get(
@@ -12776,7 +14508,7 @@ class SuggestionAPITest(APIBaseTest):
 
     def test_add_suggestion_too_long(self) -> None:
         unit = self._get_unit()
-        max_length = 10 * (unit.get_max_length() + 100)
+        max_length = get_translation_text_max_length(unit)
         response = self._add_suggestion(unit, "x" * (max_length + 1), code=400)
         self.assertEqual(
             response.data["errors"][0]["detail"], "Translation text too long!"
@@ -12819,6 +14551,46 @@ class SuggestionAPITest(APIBaseTest):
             method="post",
             code=404,
         )
+
+    def test_add_suggestion_disabled_by_workflow(self) -> None:
+        unit = self._get_unit()
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            enable_suggestions=False,
+        )
+
+        response = self._add_suggestion(unit, "Navrh", code=403)
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Suggestions are turned off for this language. Ask a project administrator "
+            "to enable them.",
+        )
+        self.assertFalse(unit.suggestion_set.exists())
+
+    def test_add_suggestion_readonly(self) -> None:
+        unit = self._get_unit()
+        original_state = unit.state
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_READONLY)
+
+        response = self._add_suggestion(unit, "Navrh", code=403)
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "The string is read-only."
+        )
+        self.assertFalse(unit.suggestion_set.exists())
+
+        Unit.objects.filter(pk=unit.pk).update(state=original_state)
+        unit.translation.check_flags = "read-only"
+        unit.translation.save(update_fields=["check_flags"])
+
+        response = self._add_suggestion(unit, "Navrh", code=403)
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "The translation is read-only."
+        )
+        self.assertFalse(unit.suggestion_set.exists())
 
     def test_list_unit_suggestions(self) -> None:
         unit = self._get_unit()
@@ -12950,12 +14722,16 @@ class SuggestionAPITest(APIBaseTest):
         response = self._add_suggestion(unit, "Navrh")
         suggestion_id = response.data["id"]
         # missing unit.review permission
-        self.do_request(
+        response = self.do_request(
             "api:suggestion-accept",
             kwargs={"pk": suggestion_id},
             method="post",
             request={"approve": True},
             code=403,
+        )
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Translation reviews are turned off.",
         )
 
         # missing suggestion.accept permission
@@ -12968,6 +14744,30 @@ class SuggestionAPITest(APIBaseTest):
             code=403,
             authenticated=False,
         )
+
+    def test_accept_suggestion_restricted_by_workflow(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            restrict_direct_editing=True,
+        )
+
+        response = self.do_request(
+            "api:suggestion-accept",
+            kwargs={"pk": suggestion_id},
+            method="post",
+            code=403,
+        )
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Only privileged users can edit strings directly in this language because "
+            "of its translation workflow. Add a suggestion instead.",
+        )
+        self.assertTrue(Suggestion.objects.filter(pk=suggestion_id).exists())
 
     def test_accept_suggestion_approve(self) -> None:
         unit = self._get_unit()
@@ -13033,12 +14833,15 @@ class SuggestionAPITest(APIBaseTest):
         )
 
         # Voting disabled on translation.
-        self.do_request(
+        response = self.do_request(
             "api:suggestion-vote",
             kwargs={"pk": suggestion.pk},
             method="post",
             request={"value": 1},
             code=403,
+        )
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Suggestion voting is disabled."
         )
 
         self.component.suggestion_voting = True
@@ -13549,19 +15352,68 @@ class ChangeAPITest(APIBaseTest):
         )
         self.assertIn("translation", response.data)
 
+    def test_addon_configuration_details(self) -> None:
+        details = build_addon_change_details(
+            {
+                "events": [ActionEvents.NEW],
+                "secret": "rotated-secret",
+                "webhook_url": "https://example.com/private-hook",
+            },
+            {
+                "events": [ActionEvents.NEW],
+                "secret": "previous-secret",
+                "webhook_url": "https://example.com/private-hook",
+            },
+            frozenset({"events"}),
+        )
+        change = self.component.change_set.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target="weblate.webhook.webhook",
+            details=details,
+        )
+
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+
+        self.assertEqual(response.data["details"], details)
+        self.assertEqual(response.data["details"]["changed_fields"], ["secret"])
+        self.assertIsNone(response.data["details"]["configuration"]["secret"])
+
+    def test_legacy_addon_configuration_details_are_hidden(self) -> None:
+        change = self.component.change_set.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target="weblate.webhook.webhook",
+            details={
+                "secret": "private-secret",
+                "webhook_url": "https://example.com/private-hook",
+            },
+        )
+
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+        self.assertEqual(response.data["details"], {})
+
+        self.authenticate()
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+        self.assertEqual(response.data["details"], {})
+
     def test_alert_metadata(self) -> None:
-        self.component.add_alert("InexactHookMatch", repo_url="first")
-        alert = self.component.alert_set.get(name="InexactHookMatch")
+        self.component.add_alert("BrokenBrowserURL", link="http://a", error="first")
+        alert = self.component.alert_set.get(name="BrokenBrowserURL")
         alert.dismiss(self.user, "Handled elsewhere")
         change = self.component.change_set.get(
             action=ActionEvents.ALERT_DISMISSED, alert=alert
         )
 
         other_user = User.objects.create_user("other_user", "other@example.com")
-        self.component.add_alert("InexactHookMatch", repo_url="second")
+        self.component.add_alert("BrokenBrowserURL", link="http://b", error="second")
         alert.refresh_from_db()
         alert.dismiss(other_user, "New dismissal")
-        self.component.delete_alert("InexactHookMatch")
+        self.component.delete_alert("BrokenBrowserURL")
 
         response = self.client.get(
             reverse("api:change-detail", kwargs={"pk": change.pk})
@@ -13579,12 +15431,13 @@ class ChangeAPITest(APIBaseTest):
             reverse("api:change-detail", kwargs={"pk": change.pk})
         )
 
-        self.assertEqual(response.data["alert"]["category"], "vcs")
-        self.assertEqual(response.data["alert"]["severity"], 50)
-        self.assertEqual(response.data["alert"]["details"]["repo_url"], "first")
+        self.assertEqual(response.data["alert"]["category"], "configuration")
+        self.assertEqual(response.data["alert"]["severity"], 100)
+        self.assertEqual(response.data["alert"]["details"]["link"], "http://a")
+        self.assertEqual(response.data["alert"]["details"]["error"], "first")
         self.assertEqual(
-            response.data["details"]["alert_snapshot"]["details"]["repo_url"],
-            "first",
+            response.data["details"]["alert_snapshot"]["details"]["link"],
+            "http://a",
         )
         self.assertEqual(
             datetime.fromisoformat(response.data["alert"]["dismissed_at"]),
@@ -13645,7 +15498,7 @@ class MetricsAPITest(APIBaseTest):
         "weblate.utils.celery.get_queue_stats",
         return_value={'queue"\\\n': 7},
     )
-    def test_metrics_openmetrics_escapes_labels(self, mock_queues) -> None:
+    def test_metrics_openmetrics_escapes_labels(self, mock_queues: Mock) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
         mock_queues.assert_called_once_with()
@@ -13746,6 +15599,22 @@ class SearchAPITest(APIBaseTest):
                 },
             ],
         )
+
+    def test_bot_visibility(self) -> None:
+        bot = User.objects.create(
+            username="bot-confidential-project-audit-token",
+            full_name="Confidential audit token",
+            is_bot=True,
+        )
+
+        response = self.do_request("api:search", request={"q": "confidential-project"})
+        self.assertFalse(
+            any(result["name"] == bot.username for result in response.data)
+        )
+
+        self.grant_perm_to_user("user.view")
+        response = self.do_request("api:search", request={"q": "confidential-project"})
+        self.assertTrue(any(result["name"] == bot.username for result in response.data))
 
     def test_language(self) -> None:
         response = self.client.get(reverse("api:search"), {"q": "czech"})
@@ -14067,6 +15936,27 @@ class AddonAPITest(APIBaseTest):
             request=request,
         )
 
+    def test_generate_component_configuration(self) -> None:
+        configuration = {
+            "scope": "component",
+            "filename": "locales.json",
+            "template": "{{ translations|json }}",
+        }
+        self.create_addon(name="weblate.generate.generate", configuration=configuration)
+        self.assertEqual(self.component.addon_set.get().configuration, configuration)
+
+    def test_generate_component_invalid_template(self) -> None:
+        self.create_addon(
+            name="weblate.generate.generate",
+            code=400,
+            configuration={
+                "scope": "component",
+                "filename": "{{ language_code }}.json",
+                "template": "{{ translations|json }}",
+            },
+        )
+        self.assertFalse(self.component.addon_set.exists())
+
     def test_create(self) -> None:
         # Not authenticated user
         response = self.create_addon(code=403, superuser=False)
@@ -14316,6 +16206,44 @@ class AddonAPITest(APIBaseTest):
             name="weblate.gettext.mo", configuration={"path": "{{var}}"}, code=400
         )
 
+    def test_configuration_rejects_non_string_keyword_entries(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        response = self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": addon.pk},
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "configuration": {
+                    "interval": "weekly",
+                    "normalize_header": False,
+                    "update_po_files": False,
+                    "input_mode": "patterns",
+                    "language": "Python",
+                    "source_patterns": "src/*.py",
+                    "potfiles_path": "",
+                    "keyword": ["tr", 1],
+                }
+            },
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "configuration")
+        self.assertIn(
+            "Keyword entries have to be strings.",
+            response.data["errors"][0]["detail"],
+        )
+
     def test_discover(self) -> None:
         initial = {
             "file_format": "po",
@@ -14441,6 +16369,53 @@ class AddonAPITest(APIBaseTest):
         self.assertNotIn("_install_msgmerge", addon.configuration)
         self.assertEqual(addon.configuration["source_patterns"], ["src/*.py"])
 
+    def test_gettext_data_dirs_configuration(self) -> None:
+        rules = Path(self.component.full_path) / "po" / "its"
+        rules.mkdir(parents=True, exist_ok=True)
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"source_patterns": ["*.py"], "interval": "weekly"},
+        ).instance
+        with patch("weblate.addons.base.BaseAddon.post_configure"):
+            response = self.do_request(
+                "api:addon-detail",
+                kwargs={"pk": addon.pk},
+                method="patch",
+                superuser=True,
+                code=200,
+                format="json",
+                request={
+                    "configuration": {
+                        "data_dirs": ["po"],
+                        "interval": "weekly",
+                        "source_patterns": ["*.py"],
+                    }
+                },
+            )
+        self.assertEqual(response.data["configuration"]["data_dirs"], ["po"])
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration["data_dirs"], ["po"])
+        for value in (["../outside"], ["missing"], [1]):
+            with self.subTest(value=value):
+                self.do_request(
+                    "api:addon-detail",
+                    kwargs={"pk": addon.pk},
+                    method="patch",
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request={
+                        "configuration": {
+                            "data_dirs": value,
+                            "interval": "weekly",
+                            "source_patterns": ["*.py"],
+                        }
+                    },
+                )
+        addon.refresh_from_db()
+        self.assertEqual(addon.configuration["data_dirs"], ["po"])
+
     def test_edit_preserves_omitted_optional_configuration(self) -> None:
         addon = GitSquashAddon.create(
             component=self.component,
@@ -14512,7 +16487,7 @@ class AddonAPITest(APIBaseTest):
         )
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_trigger_project_addon(self, mocked_delay) -> None:
+    def test_trigger_project_addon(self, mocked_delay: Mock) -> None:
         self.project.add_user(self.user, "Administration")
         addon = XgettextAddon.create(
             component=self.component,
@@ -14547,7 +16522,7 @@ class AddonAPITest(APIBaseTest):
         )
 
     def test_trigger_requires_manual_event(self) -> None:
-        response = self.create_addon(name="weblate.gettext.authors")
+        response = self.create_addon(name="weblate.gettext.msgmerge")
 
         trigger = self.do_request(
             "api:addon-trigger",
@@ -14576,7 +16551,7 @@ class AddonAPITest(APIBaseTest):
         )
 
     @patch("weblate.addons.tasks.run_addon_manually.delay_on_commit")
-    def test_trigger_category_addon(self, mocked_delay) -> None:
+    def test_trigger_category_addon(self, mocked_delay: Mock) -> None:
         category = Category.objects.create(
             name="API category",
             slug="api-category",
@@ -14746,6 +16721,43 @@ class CategoryAPITest(APIBaseTest):
         )
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
+
+    def test_delete_memory_option_in_body(self) -> None:
+        response = self.api_create_category()
+        with patch("weblate.api.views.category_removal.delay") as mocked_removal:
+            self.do_request(
+                response.data["url"],
+                method="delete",
+                superuser=True,
+                code=204,
+                format="json",
+                request={"delete_memory": True},
+            )
+
+        mocked_removal.assert_called_once_with(response.data["id"], self.user.pk, True)
+
+    def test_delete_memory_option_in_query(self) -> None:
+        response = self.api_create_category()
+        url = f"{response.data['url']}?delete_memory=true"
+        with patch("weblate.api.views.category_removal.delay") as mocked_removal:
+            self.do_request(url, method="delete", superuser=True, code=204)
+
+        mocked_removal.assert_called_once_with(response.data["id"], self.user.pk, True)
+
+    def test_delete_memory_option_conflict(self) -> None:
+        response = self.api_create_category()
+        url = f"{response.data['url']}?delete_memory=true"
+        with patch("weblate.api.views.category_removal.delay") as mocked_removal:
+            self.do_request(
+                url,
+                method="delete",
+                superuser=True,
+                code=400,
+                format="json",
+                request={"delete_memory": False},
+            )
+
+        mocked_removal.assert_not_called()
 
     def test_rename(self) -> None:
         response = self.api_create_category()
@@ -16153,576 +18165,49 @@ class AnnouncementAPITest(APIBaseTest):
         )
 
 
+class OpenAPIConfigurationTest(SimpleTestCase):
+    def test_static_vcs_choices_require_opt_in(self) -> None:
+        for value in (None, "0", "1"):
+            with self.subTest(value=value), patch.dict(os.environ):
+                if value is None:
+                    os.environ.pop(DOCS_OPENAPI_ALL_VCS_CHOICES_ENV, None)
+                else:
+                    os.environ[DOCS_OPENAPI_ALL_VCS_CHOICES_ENV] = value
+                vcs_schema = {"enum": ["available"], "description": "Original"}
+                schema = {"components": {"schemas": {VCS_ENUM_SCHEMA_NAME: vcs_schema}}}
+                choices = [("available", "Available"), ("unavailable", "Unavailable")]
+                with patch(
+                    "weblate.vcs.models.VCS_REGISTRY.get_unfiltered_choices",
+                    return_value=choices,
+                ) as get_choices:
+                    result = document_all_static_vcs_choices(schema, None, None, True)
+                self.assertIs(result, schema)
+                if value == "1":
+                    get_choices.assert_called_once_with()
+                    self.assertEqual(
+                        vcs_schema["enum"], [key for key, _label in choices]
+                    )
+                else:
+                    get_choices.assert_not_called()
+                    self.assertEqual(
+                        vcs_schema, {"enum": ["available"], "description": "Original"}
+                    )
+
+
 class OpenAPITest(APIBaseTest):
-    def get_schema(self) -> dict:
-        response = self.do_request("api-schema")
-        return yaml.safe_load(response.content)
-
     def test_view(self) -> None:
-        response = self.do_request(
-            "api-schema",
-        )
-        schema = yaml.safe_load(response.content)
-        # Ensure schema includes the language-specific project download parameter
-        self.assertIn("language_code", response.content.decode())
-        self.assertEqual(
-            schema["info"]["x-logo"]["url"], f"{settings.STATIC_URL}weblate.svg"
-        )
-
-    def test_language_code_pattern(self) -> None:
-        schema = self.get_schema()
-        expected_pattern = r"^[A-Za-z0-9]+(?:[-_@][A-Za-z0-9]+)*$"
-        for schema_name in ("Language", "PatchedLanguage"):
-            with self.subTest(schema_name=schema_name):
-                self.assertEqual(
-                    schema["components"]["schemas"][schema_name]["properties"]["code"][
-                        "pattern"
-                    ],
-                    expected_pattern,
-                )
-
-    def test_metrics_version_is_optional(self) -> None:
-        schema = self.get_schema()
-        required = schema["components"]["schemas"]["Metrics"]["required"]
-        self.assertNotIn("version", required)
-
-    def test_vcs_enum_schema_matches_runtime_choices(self) -> None:
-        schema = self.get_schema()
-        schemas = schema["components"]["schemas"]
-        vcs_schema = schemas["VcsEnum"]
-        field_description = schemas["Component"]["properties"]["vcs"]["description"]
-        severity_description = schemas["Announcement"]["properties"]["severity"][
-            "description"
-        ]
-        enum = vcs_schema["enum"]
-        expected = [value for value, _label in VCS_REGISTRY.get_choices()]
-
-        self.assertEqual(enum, expected)
-        self.assertNotIn("github", enum)
-        self.assertIn("* `git` - Git", vcs_schema["description"])
-        self.assertEqual(
-            field_description,
-            "Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.",
-        )
-        self.assertNotIn("* `git`", field_description)
-        self.assertEqual(
-            severity_description,
-            "Severity defines color used for the message.",
-        )
-        self.assertIn("* `info` - Info", schemas["SeverityEnum"]["description"])
-        self.assertEqual(schemas["AlertSeverityEnum"]["enum"], [10, 50, 100])
-        self.assertNotIn("* `info`", severity_description)
-
-    def test_change_action_schema_matches_runtime_choices(self) -> None:
-        schema = self.get_schema()
-        action_schema = schema["components"]["schemas"]["ActionEnum"]
-        action_parameter = next(
-            parameter
-            for parameter in schema["paths"]["/api/changes/"]["get"]["parameters"]
-            if parameter["name"] == "action"
-        )
-
-        self.assertEqual(
-            action_parameter["schema"],
-            {
-                "type": "array",
-                "items": {"$ref": "#/components/schemas/ActionEnum"},
-            },
-        )
-        self.assertTrue(action_parameter["explode"])
-        self.assertEqual(action_parameter["style"], "form")
-        self.assertEqual(action_schema["enum"], [event.value for event in ActionEvents])
-        self.assertIn(
-            "* `6` - **Automatically translated:** A translation was added or changed",
-            action_schema["description"],
-        )
-        self.assertIn(
-            "Automatic translation, uploads, and bulk edits do not emit this event.",
-            action_schema["description"],
-        )
-
-    def test_path_and_response_descriptions_match_runtime_behavior(self) -> None:
-        schema = self.get_schema()
-
-        for path in (
-            "/api/addons/{id}/",
-            "/api/categories/{id}/",
-            "/api/changes/{id}/",
-            "/api/groups/{id}/",
-            "/api/memory/{id}/",
-            "/api/roles/{id}/",
-            "/api/screenshots/{id}/",
-            "/api/units/{id}/",
+        for accept, content_type, parse in (
+            (None, "application/vnd.oai.openapi", yaml.safe_load),
+            ("application/json", "application/json", json.loads),
         ):
-            with self.subTest(path=path):
-                parameter = next(
-                    item
-                    for item in schema["paths"][path]["get"]["parameters"]
-                    if item["name"] == "id"
+            with self.subTest(accept=accept):
+                response = self.do_request(
+                    "api-schema", headers={"Accept": accept} if accept else None
                 )
-                self.assertEqual(parameter["schema"]["type"], "integer")
-
-        nested_parameter = next(
-            item
-            for item in schema["paths"]["/api/groups/{id}/components/{component_id}/"][
-                "delete"
-            ]["parameters"]
-            if item["name"] == "component_id"
-        )
-        self.assertEqual(nested_parameter["schema"]["type"], "integer")
-
-        task = schema["paths"]["/api/tasks/{id}/"]
-        task_parameter = next(
-            item for item in task["get"]["parameters"] if item["name"] == "id"
-        )
-        self.assertEqual(task_parameter["schema"]["type"], "string")
-        self.assertEqual(task["delete"]["description"], "Cancel a running task.")
-        self.assertEqual(
-            schema["paths"]["/api/changes/"]["get"]["responses"]["400"]["description"],
-            "The request was invalid or could not be parsed.",
-        )
-
-    def test_static_vcs_enum_schema_includes_all_configured_choices(self) -> None:
-        with patch.dict(os.environ, {DOCS_OPENAPI_ALL_VCS_CHOICES_ENV: "1"}):
-            schema = self.get_schema()
-
-        schemas = schema["components"]["schemas"]
-        vcs_schema = schemas["VcsEnum"]
-        field_description = schemas["Component"]["properties"]["vcs"]["description"]
-        enum = vcs_schema["enum"]
-        expected = [value for value, _label in VCS_REGISTRY.get_unfiltered_choices()]
-
-        self.assertEqual(enum, expected)
-        self.assertIn("github", enum)
-        self.assertIn("* `github` - GitHub pull request", vcs_schema["description"])
-        self.assertNotIn("* `git`", field_description)
-        self.assertNotIn("* `github`", field_description)
-
-    def test_user_groups_schema_includes_language_limits(self) -> None:
-        schema = self.get_schema()
-        operations = schema["paths"]["/api/users/{username}/groups/"]
-        request_schema = operations["post"]["requestBody"]["content"][
-            "application/json"
-        ]["schema"]
-        self.assertEqual(
-            request_schema, {"$ref": "#/components/schemas/UserGroupRequest"}
-        )
-        response_schema = operations["post"]["responses"]["200"]["content"][
-            "application/json"
-        ]["schema"]
-        self.assertEqual(response_schema, {"$ref": "#/components/schemas/FullUser"})
-
-        properties = schema["components"]["schemas"]["UserGroupRequest"]["properties"]
-        self.assertIn("limit_language_codes", properties)
-        limit_schema = properties["limit_language_codes"]
-        self.assertEqual(limit_schema["type"], "array")
-        self.assertEqual(limit_schema["items"], {"type": "string"})
-        self.assertNotIn(
-            "group_id",
-            {parameter["name"] for parameter in operations["delete"]["parameters"]},
-        )
-        delete_request_schema = operations["delete"]["requestBody"]["content"][
-            "application/json"
-        ]["schema"]
-        self.assertEqual(
-            delete_request_schema,
-            {"$ref": "#/components/schemas/UserGroupDeleteRequest"},
-        )
-
-    def test_addon_trigger_schema_matches_runtime_behavior(self) -> None:
-        schema = self.get_schema()
-        operation = schema["paths"]["/api/addons/{id}/trigger/"]["post"]
-
-        self.assertNotIn("requestBody", operation)
-        self.assertNotIn("200", operation["responses"])
-        self.assertIn("202", operation["responses"])
-
-        response_schema = operation["responses"]["202"]["content"]["application/json"][
-            "schema"
-        ]
-        self.assertEqual(
-            response_schema, {"$ref": "#/components/schemas/AddonTriggerResponse"}
-        )
-        self.assertEqual(
-            schema["components"]["schemas"]["AddonTriggerResponse"]["required"],
-            ["detail", "logs_url", "url"],
-        )
-
-    @patch("weblate.utils.version.VERSION", "5.17.1")
-    def test_view_uses_latest_docs_links(self) -> None:
-        response = self.do_request("api-schema")
-        content = response.content.decode()
-        self.assertIn("/latest/contributing/license.html", content)
-        self.assertIn("/latest/index.html", content)
-        self.assertNotIn("/weblate-5.17.1/index.html", content)
-
-    def test_action_statistics_schema_matches_runtime_behavior(self) -> None:
-        schema = self.get_schema()
-
-        self.assertEqual(
-            schema["paths"]["/api/projects/{slug}/statistics/"]["get"]["responses"][
-                "200"
-            ]["content"]["application/json"]["schema"],
-            {"$ref": "#/components/schemas/Statistics"},
-        )
-        self.assertEqual(
-            schema["paths"]["/api/projects/{slug}/languages/"]["get"]["responses"][
-                "200"
-            ]["content"]["application/json"]["schema"],
-            {
-                "type": "array",
-                "items": {"$ref": "#/components/schemas/Statistics"},
-            },
-        )
-        self.assertEqual(
-            schema["paths"]["/api/components/{project__slug}/{slug}/statistics/"][
-                "get"
-            ]["responses"]["200"]["content"]["application/json"]["schema"],
-            {"$ref": "#/components/schemas/PaginatedStatisticsList"},
-        )
-        self.assertEqual(
-            schema["components"]["schemas"]["PaginatedStatisticsList"]["properties"][
-                "results"
-            ],
-            {
-                "type": "array",
-                "items": {"$ref": "#/components/schemas/Statistics"},
-            },
-        )
-        self.assertEqual(
-            schema["paths"]["/api/users/{username}/statistics/"]["get"]["responses"][
-                "200"
-            ]["content"]["application/json"]["schema"],
-            {"$ref": "#/components/schemas/UserStatistics"},
-        )
-        statistics_properties = schema["components"]["schemas"]["Statistics"][
-            "properties"
-        ]
-        self.assertIn("total", statistics_properties)
-        self.assertIn("translated", statistics_properties)
-        self.assertIn("comments", statistics_properties)
-        self.assertIn("readonly_chars_percent", statistics_properties)
-
-    def test_translation_units_create_schema_matches_runtime_behavior(self) -> None:
-        schema = self.get_schema()
-        operation = schema["paths"][
-            "/api/translations/{component__project__slug}/{component__slug}/{language__code}/units/"
-        ]["post"]
-
-        request_schema = {"$ref": "#/components/schemas/NewUnitRequest"}
-        self.assertEqual(
-            operation["requestBody"]["content"],
-            {"application/json": {"schema": request_schema}},
-        )
-
-        new_unit_request = schema["components"]["schemas"]["NewUnitRequest"]
-        self.assertEqual(
-            new_unit_request["oneOf"],
-            [
-                {"$ref": "#/components/schemas/MonolingualUnit"},
-                {"$ref": "#/components/schemas/BilingualUnit"},
-                {"$ref": "#/components/schemas/BilingualSourceUnit"},
-            ],
-        )
-        self.assertNotEqual(
-            request_schema, {"$ref": "#/components/schemas/Translation"}
-        )
-
-    def test_string_state_enum_schema_names_are_stable(self) -> None:
-        schema = self.get_schema()
-        schemas = schema["components"]["schemas"]
-
-        self.assertIn("StringStateEnum", schemas)
-        self.assertIn("NewUnitStateEnum", schemas)
-        self.assertNotIn("StateFd1Enum", schemas)
-        self.assertNotIn("State180Enum", schemas)
-
-        self.assertEqual(
-            schemas["MonolingualUnit"]["properties"]["state"],
-            {"$ref": "#/components/schemas/NewUnitStateEnum"},
-        )
-        self.assertEqual(
-            schemas["UnitWrite"]["properties"]["state"]["allOf"],
-            [{"$ref": "#/components/schemas/StringStateEnum"}],
-        )
-
-    def test_error_response_schemas_are_shared(self) -> None:
-        schema = self.get_schema()
-        schemas = schema["components"]["schemas"]
-
-        self.assertIn("ErrorResponse400", schemas)
-        self.assertFalse(
-            any(
-                name.startswith("Api") and ("Error" in name or "Validation" in name)
-                for name in schemas
-            )
-        )
-
-        response_content = schema["paths"]["/api/projects/"]["post"]["responses"][
-            "400"
-        ]["content"]
-        expected_schema = {"$ref": "#/components/schemas/ErrorResponse400"}
-        self.assertEqual(
-            response_content["application/json"]["schema"], expected_schema
-        )
-        self.assertNotIn("text/csv", response_content)
-
-        code_schema = schemas["Error400"]["properties"]["code"]
-        self.assertEqual(code_schema["type"], "string")
-        self.assertNotIn("enum", code_schema)
-        self.assertIn("required", code_schema["examples"])
-        self.assertIn("parse_error", code_schema["examples"])
-
-    def test_license_schema_is_plain_string(self) -> None:
-        schema = self.get_schema()
-        schemas = schema["components"]["schemas"]
-
-        self.assertNotIn("LicenseEnum", schemas)
-
-        for schema_name in ("Component", "ProjectComponent", "PatchedComponent"):
-            license_schema = schemas[schema_name]["properties"]["license"]
-            self.assertEqual(license_schema["type"], "string")
-            self.assertEqual(license_schema["maxLength"], 150)
-            self.assertNotIn("enum", license_schema)
-            self.assertNotIn("oneOf", license_schema)
-            self.assertIn("MIT", license_schema["examples"])
-            self.assertIn("GPL-3.0-or-later", license_schema["examples"])
-            self.assertIn("proprietary", license_schema["examples"])
-
-    def test_duplicate_small_schemas_are_reused(self) -> None:
-        schema = self.get_schema()
-        schemas = schema["components"]["schemas"]
-
-        self.assertNotIn("UnitLabels", schemas)
-        self.assertNotIn("UnitFlatLabels", schemas)
-        self.assertEqual(
-            schemas["Unit"]["properties"]["labels"]["items"],
-            {"$ref": "#/components/schemas/Label"},
-        )
-        self.assertEqual(
-            schemas["UnitWrite"]["properties"]["labels"]["items"],
-            {"type": "integer"},
-        )
-
-        self.assertIn("MessageResponse", schemas)
-        self.assertNotIn("patch_200_Message_response_serializer", schemas)
-        self.assertNotIn("post_201_Message_response_serializer", schemas)
-        self.assertNotIn("put_200_Message_response_serializer", schemas)
-
-    def test_schema_media_types_are_trimmed(self) -> None:
-        schema = self.get_schema()
-
-        for path, path_item in schema["paths"].items():
-            for method, operation in path_item.items():
-                if method not in {"delete", "get", "patch", "post", "put"}:
-                    continue
-
-                if path not in METRICS_PATHS:
-                    self.assertFalse(
-                        any(
-                            parameter["name"] == "format" and parameter["in"] == "query"
-                            for parameter in operation.get("parameters", ())
-                        ),
-                        f"{method.upper()} {path} should not expose format query",
-                    )
-
-                if "requestBody" not in operation:
-                    self.assertNotIn(
-                        "415",
-                        operation.get("responses", {}),
-                        f"{method.upper()} {path} should not expose 415",
-                    )
-
-                for status_code, response in operation.get("responses", {}).items():
-                    content = response.get("content", {})
-                    if (
-                        path in METRICS_PATHS
-                        and method == "get"
-                        and status_code == "200"
-                    ):
-                        self.assertEqual(
-                            content["text/csv"]["schema"], {"type": "string"}
-                        )
-                        self.assertEqual(
-                            content["application/openmetrics-text"]["schema"],
-                            {"type": "string"},
-                        )
-                        continue
-
-                    self.assertNotIn("text/csv", content)
-                    self.assertNotIn("application/openmetrics-text", content)
-
-        self.assertEqual(
-            schema["paths"]["/api/projects/{slug}/components/"]["post"]["requestBody"][
-                "content"
-            ].keys(),
-            {"application/json", "multipart/form-data"},
-        )
-
-    def test_search_and_task_schema_matches_runtime_behavior(self) -> None:
-        schema = self.get_schema()
-
-        search = schema["paths"]["/api/search/"]["get"]
-        self.assertEqual(search["operationId"], "api_search_retrieve")
-        self.assertIn(
-            {
-                "in": "query",
-                "name": "q",
-                "schema": {"type": "string"},
-                "description": "Search query.",
-            },
-            search["parameters"],
-        )
-        self.assertEqual(
-            search["responses"]["200"]["content"]["application/json"]["schema"],
-            {
-                "type": "array",
-                "items": {"$ref": "#/components/schemas/SearchResult"},
-            },
-        )
-        self.assertEqual(
-            schema["components"]["schemas"]["SearchResult"]["required"],
-            ["category", "name", "url"],
-        )
-
-        task = schema["paths"]["/api/tasks/{id}/"]["get"]
-        self.assertEqual(
-            task["responses"]["200"]["content"]["application/json"]["schema"],
-            {"$ref": "#/components/schemas/Task"},
-        )
-        task_schema = schema["components"]["schemas"]["Task"]
-        self.assertEqual(
-            task_schema["required"], ["completed", "log", "progress", "result"]
-        )
-        self.assertEqual(
-            task_schema["properties"]["completed"],
-            {"type": "boolean"},
-        )
-        self.assertEqual(
-            task_schema["properties"]["progress"],
-            {"type": "integer", "maximum": 100, "minimum": 0},
-        )
-        self.assertEqual(task_schema["properties"]["log"], {"type": "string"})
-        self.assertEqual(
-            task_schema["properties"]["result"]["oneOf"].count({"type": "null"}), 1
-        )
-
-    def test_action_nested_list_schema_matches_runtime_behavior(self) -> None:
-        schema = self.get_schema()
-
-        self.assertEqual(
-            schema["paths"]["/api/projects/{slug}/components/"]["get"]["responses"][
-                "200"
-            ]["content"]["application/json"]["schema"],
-            {"$ref": "#/components/schemas/PaginatedProjectComponentList"},
-        )
-        self.assertNotIn(
-            "project",
-            schema["components"]["schemas"]["ProjectComponent"]["properties"],
-        )
-        self.assertEqual(
-            schema["paths"]["/api/components/{project__slug}/{slug}/translations/"][
-                "get"
-            ]["responses"]["200"]["content"]["application/json"]["schema"],
-            {"$ref": "#/components/schemas/PaginatedComponentTranslationList"},
-        )
-        self.assertNotIn(
-            "component",
-            schema["components"]["schemas"]["ComponentTranslation"]["properties"],
-        )
-
-    def test_action_repository_and_lock_schema_matches_runtime_behavior(self) -> None:
-        schema = self.get_schema()
-
-        project_repository = schema["paths"]["/api/projects/{slug}/repository/"]
-        self.assertEqual(
-            project_repository["get"]["responses"]["200"]["content"][
-                "application/json"
-            ]["schema"],
-            {"$ref": "#/components/schemas/Repository"},
-        )
-        self.assertEqual(
-            project_repository["post"]["requestBody"]["content"]["application/json"][
-                "schema"
-            ],
-            {"$ref": "#/components/schemas/RepoRequest"},
-        )
-        self.assertEqual(
-            project_repository["post"]["responses"]["200"]["content"][
-                "application/json"
-            ]["schema"],
-            {"$ref": "#/components/schemas/RepositoryOperation"},
-        )
-        component_lock = schema["paths"]["/api/components/{project__slug}/{slug}/lock/"]
-        self.assertEqual(
-            component_lock["get"]["responses"]["200"]["content"]["application/json"][
-                "schema"
-            ],
-            {"$ref": "#/components/schemas/Lock"},
-        )
-        self.assertEqual(
-            component_lock["post"]["responses"]["200"]["content"]["application/json"][
-                "schema"
-            ],
-            {"$ref": "#/components/schemas/Lock"},
-        )
-        self.assertEqual(
-            schema["paths"]["/api/projects/{slug}/lock/"]["post"]["responses"]["200"][
-                "content"
-            ]["application/json"]["schema"],
-            {"$ref": "#/components/schemas/ProjectLock"},
-        )
-
-    def test_file_action_schema_matches_runtime_behavior(self) -> None:
-        schema = self.get_schema()
-
-        translation_file = schema["paths"][
-            "/api/translations/{component__project__slug}/{component__slug}/{language__code}/file/"
-        ]
-        self.assertEqual(
-            translation_file["get"]["responses"]["200"]["content"][
-                "application/octet-stream"
-            ]["schema"],
-            {"type": "string", "format": "binary"},
-        )
-        self.assertEqual(
-            translation_file["post"]["responses"]["200"]["content"]["application/json"][
-                "schema"
-            ],
-            {"$ref": "#/components/schemas/UploadResult"},
-        )
-        self.assertEqual(
-            translation_file["post"]["requestBody"]["content"]["multipart/form-data"][
-                "schema"
-            ],
-            {"$ref": "#/components/schemas/UploadRequest"},
-        )
-        self.assertEqual(
-            set(translation_file["post"]["requestBody"]["content"]),
-            {"multipart/form-data"},
-        )
-
-        screenshot_file = schema["paths"]["/api/screenshots/{id}/file/"]
-        self.assertEqual(
-            screenshot_file["get"]["responses"]["200"]["content"][
-                "application/octet-stream"
-            ]["schema"],
-            {"type": "string", "format": "binary"},
-        )
-        self.assertEqual(
-            screenshot_file["post"]["responses"]["200"]["content"]["application/json"][
-                "schema"
-            ],
-            {"$ref": "#/components/schemas/BooleanResult"},
-        )
-        self.assertEqual(
-            screenshot_file["post"]["requestBody"]["content"],
-            {
-                "multipart/form-data": {
-                    "schema": {"$ref": "#/components/schemas/ScreenshotFile"}
-                }
-            },
-        )
+                self.assertEqual(
+                    response["Content-Type"].split(";", 1)[0], content_type
+                )
+                validate_schema(parse(response.content))
 
     def test_redoc(self) -> None:
         response = self.do_request("redoc")

@@ -28,14 +28,14 @@
       <td>{{ item.name }}</td>
       <td>{{ item.examples }}</td>
       </tr>
-  {% endfor %}
+    {% endfor %}
   {% else %}
     <td colspan="2"></td>
     </tr>
-{% endif %}
-<tr>
-  <th>{% translate "Plural formula" %}</th>
-  <td colspan="2" class="full-cell">
-    <code>{{ plural.formula }}</code>
-  </td>
-</tr>
+  {% endif %}
+  <tr>
+    <th>{% translate "Plural formula" %}</th>
+    <td colspan="2" class="full-cell">
+      <code>{{ plural.formula }}</code>
+    </td>
+  </tr>

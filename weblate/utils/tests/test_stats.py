@@ -41,6 +41,22 @@ class StubObject:
 
 
 class StatsPrefetchTest(SimpleTestCase):
+    def test_aggregate_outdated_stats(self) -> None:
+        stats = StubStats(1)
+        stats.set_data({"all": 1})
+
+        for key in (
+            "unapproved",
+            "unapproved_chars",
+            "unapproved_words",
+            "recent_changes",
+            "monthly_changes",
+            "total_changes",
+            "stats_timestamp",
+        ):
+            with self.subTest(key=key):
+                self.assertEqual(stats.aggregate_get(key), 0)
+
     def test_prefetch_is_bounded_and_preserves_order(self) -> None:
         count = 2 * STATS_PREFETCH_CHUNK_SIZE + 1
         objects = [StubObject(identifier) for identifier in range(count)]

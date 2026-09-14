@@ -21,6 +21,9 @@ from weblate.formats.helpers import CONTROLCHARS_TRANS
 from weblate.trans.autofixes.base import AutoFix
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from weblate.checks.base import BaseCheck
     from weblate.trans.models import Unit
 
 
@@ -31,7 +34,7 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
     name = gettext_lazy("Trailing ellipsis")
 
     @staticmethod
-    def get_related_checks():
+    def get_related_checks() -> list[BaseCheck]:
         return [EndEllipsisCheck()]
 
     def fix_single_target(
@@ -49,7 +52,7 @@ class RemoveZeroSpace(AutoFix):
     name = gettext_lazy("Zero-width space")
 
     @staticmethod
-    def get_related_checks():
+    def get_related_checks() -> list[BaseCheck]:
         return [ZeroWidthSpaceCheck()]
 
     def fix_single_target(
@@ -101,7 +104,7 @@ class PunctuationSpacing(AutoFix):
     name = gettext_lazy("Punctuation spacing")
 
     @staticmethod
-    def get_related_checks():
+    def get_related_checks() -> list[BaseCheck]:
         return [PunctuationSpacingCheck()]
 
     def fix_single_target(
@@ -119,10 +122,10 @@ class PunctuationSpacing(AutoFix):
                 (highlight.start, highlight.end) for highlight in highlights
             )
 
-            def make_replacer(replacement_char: str):
+            def make_replacer(replacement_char: str) -> Callable[[re.Match[str]], str]:
                 highlight_index = 0
 
-                def replacer(matchobj: re.Match) -> str:
+                def replacer(matchobj: re.Match[str]) -> str:
                     nonlocal highlight_index
                     pos = matchobj.start(2)
                     while (

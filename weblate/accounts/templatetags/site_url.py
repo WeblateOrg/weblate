@@ -4,6 +4,8 @@
 
 """Convert any links in HTML to absolute."""
 
+from __future__ import annotations
+
 from io import StringIO
 from typing import TYPE_CHECKING
 
@@ -21,7 +23,7 @@ register = template.Library()
 
 
 @register.filter
-def add_site_url(content):
+def add_site_url(content: str) -> SafeString:
     """Automatically add site URL to any relative links or images."""
     parser = etree.HTMLParser(collect_ids=False)
     tree = etree.parse(StringIO(f"<html><body>{content}</body></html>"), parser)

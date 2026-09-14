@@ -118,6 +118,24 @@ function addAlert(message, kind = "danger", delay = 3000) {
   }).show();
 }
 
+function copyToClipboard(text, successMessage, failureMessage) {
+  const success = successMessage || gettext("Text copied to clipboard.");
+  const failure = failureMessage || gettext("Error copying to clipboard.");
+  try {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        addAlert(success, "info");
+      },
+      () => {
+        addAlert(failure, "danger");
+      },
+    );
+  } catch (error) {
+    addAlert(failure, "danger");
+    console.log(error);
+  }
+}
+
 // Need `bubbles` because some event listeners (like this
 // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
 // ) are attached to the parent elements.
@@ -151,7 +169,6 @@ function insertAtCaret(element, myValue) {
   element.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: global helper used by editor/base.js and editor/full.js
 function replaceValue(element, myValue) {
   element.value = myValue;
   element.dispatchEvent(new Event("input", { bubbles: true }));
@@ -595,6 +612,15 @@ function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
+  Prism.util.encode = function encode(tokens) {
+    if (tokens instanceof Prism.Token) {
+      return new Prism.Token(tokens.type, encode(tokens.content), tokens.alias);
+    }
+    if (Array.isArray(tokens)) {
+      return tokens.map(encode);
+    }
+    return tokens.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  };
   root.querySelectorAll("textarea[name='q']").forEach((input) => {
     const parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
@@ -604,7 +630,13 @@ function initHighlight(root) {
     input.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         if (!event.repeat) {
-          event.target.form.requestSubmit();
+          const form = event.target.form;
+          const refresh = form.querySelector('button[name="refresh"]');
+          if (refresh !== null) {
+            form.requestSubmit(refresh);
+          } else {
+            form.requestSubmit();
+          }
         }
         event.preventDefault();
       }
@@ -711,25 +743,38 @@ function initHighlight(root) {
         ].join(""),
       );
       const newlineRegex = /\n/;
-      const nonBreakingSpaceRegex = /\u00A0/;
+      const nonBreakingSpaceRegex = /\u00A0+/;
+      const nbspToken = {
+        pattern: nonBreakingSpaceRegex,
+        alias: "hlspace",
+        inside: {
+          "space-nbsp": /\u00A0/,
+        },
+      };
       const extension = {
         hlspace: {
           pattern: whitespaceRegex,
           lookbehind: true,
+          inside: {
+            "space-tab": /\t/,
+            "space-nbsp": /\u2007/,
+            "space-thin": /\u2009/,
+            "space-narrow-nbsp": /\u202F/,
+            "space-space":
+              /[ \u00AD\u1680\u2000-\u2006\u2008\u200A\u205F\u3000]/,
+          },
         },
         newline: {
           pattern: newlineRegex,
         },
-        nbsp: {
-          pattern: nonBreakingSpaceRegex,
-        },
+        nbsp: nbspToken,
       };
       if (placeables) {
         extension.placeable = new RegExp(placeables);
       }
       const nestedTokens = {
         newline: { pattern: newlineRegex },
-        nbsp: { pattern: nonBreakingSpaceRegex },
+        nbsp: nbspToken,
       };
       if (placeables) {
         nestedTokens.placeable = {
@@ -770,18 +815,7 @@ function initHighlight(root) {
       languageMode = extension;
     }
     const syncContent = () => {
-      /*
-       * Prism turns non-breaking spaces into regular spaces when generating
-       * markup. Restore them.
-       */
-      highlight.innerHTML = Prism.highlight(
-        editor.value,
-        languageMode,
-        mode,
-      ).replaceAll(
-        '<span class="token nbsp"> </span>',
-        '<span class="token nbsp">\u00A0</span>',
-      );
+      highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
     };
     syncContent();
     editor.addEventListener("input", syncContent);
@@ -937,6 +971,19 @@ onReady(() => {
       document.querySelectorAll(".selectable-row").forEach((row) => {
         row.classList.remove("active");
       });
+    });
+  });
+
+  /* Activate a tab from outside the navigation */
+  document.querySelectorAll("[data-tab-target]").forEach((element) => {
+    element.addEventListener("click", (e) => {
+      e.preventDefault();
+      const trigger = document.querySelector(
+        `.nav [data-bs-toggle=tab][data-bs-target="${element.getAttribute("data-tab-target")}"]`,
+      );
+      if (trigger !== null) {
+        bootstrap.Tab.getOrCreateInstance(trigger).show();
+      }
     });
   });
 
@@ -1245,24 +1292,11 @@ onReady(() => {
       return;
     }
     e.preventDefault();
-    try {
-      navigator.clipboard
-        .writeText(element.getAttribute("data-clipboard-value"))
-        .then(
-          () => {
-            const text =
-              element.getAttribute("data-clipboard-message") ||
-              gettext("Text copied to clipboard.");
-            addAlert(text, "info");
-          },
-          () => {
-            addAlert(gettext("Please press Ctrl+C to copy."), "danger");
-          },
-        );
-    } catch (error) {
-      addAlert(gettext("Error copying to clipboard."), "danger");
-      console.log(error);
-    }
+    copyToClipboard(
+      element.getAttribute("data-clipboard-value"),
+      element.getAttribute("data-clipboard-message"),
+      gettext("Please press Ctrl+C to copy."),
+    );
   });
 
   /* Auto translate source select */
@@ -1310,6 +1344,9 @@ onReady(() => {
         create: false,
         allowEmptyOption: true,
       };
+      if (el.dataset.maxOptions === "none") {
+        options.maxOptions = null;
+      }
       new TomSelect(el, options);
     });
   };
@@ -1337,6 +1374,44 @@ onReady(() => {
       };
       el.addEventListener("change", updateLimitField);
       updateLimitField();
+    });
+  };
+
+  const initializeTeamSelectionControls = (root = document) => {
+    /* Checkbox disabling its target field while checked */
+    findElements(root, "input[data-team-selection-toggle]").forEach((el) => {
+      if (el.dataset.teamSelectionInitialized === "true") {
+        return;
+      }
+      el.dataset.teamSelectionInitialized = "true";
+      const target = document.getElementById(el.dataset.teamSelectionToggle);
+      if (!target) {
+        return;
+      }
+      const updateTarget = () => {
+        setControlDisabled(target, el.checked);
+      };
+      el.addEventListener("change", updateTarget);
+      updateTarget();
+    });
+    /* Select enabling each mapped field only for the listed values */
+    findElements(root, "select[data-team-selection-map]").forEach((el) => {
+      if (el.dataset.teamSelectionInitialized === "true") {
+        return;
+      }
+      el.dataset.teamSelectionInitialized = "true";
+      const targets = JSON.parse(el.dataset.teamSelectionMap);
+      const updateTargets = () => {
+        const value = Number.parseInt(el.value, 10);
+        Object.entries(targets).forEach(([targetId, values]) => {
+          const target = document.getElementById(targetId);
+          if (target) {
+            setControlDisabled(target, !values.includes(value));
+          }
+        });
+      };
+      el.addEventListener("change", updateTargets);
+      updateTargets();
     });
   };
 
@@ -1441,6 +1516,7 @@ onReady(() => {
   });
 
   initializeProjectMembershipControls();
+  initializeTeamSelectionControls();
 
   const projectUserGroupsModal = document.getElementById(
     "project-user-groups-modal",
@@ -1756,6 +1832,14 @@ onReady(() => {
   const positionInputEditableInput = document.getElementById(
     "position-input-editable-input",
   );
+  positionInputEditableInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (!event.repeat) {
+        event.target.form.requestSubmit();
+      }
+    }
+  });
   const clickedOutsideEditableInput = (event) => {
     // Check if clicked outside of the input and the editable input
     if (
@@ -1836,18 +1920,20 @@ onReady(() => {
       }
 
       if (group.classList.contains("query-field")) {
+        const textarea = group.querySelector("textarea[name=q]");
         if (
           document.querySelector(".search-toolbar") === null &&
           link.closest(".result-page-form") !== null
         ) {
-          const textarea = group.querySelector("textarea[name=q]");
-          textarea.value = link.dataset.field ?? "";
-          textarea.dispatchEvent(new Event("change", { bubbles: true }));
+          replaceValue(textarea, link.dataset.field ?? "");
           const form = link.closest("form");
           form.querySelectorAll("input[name=offset]").forEach((input) => {
             input.disabled = true;
           });
           form.submit();
+        } else if (link.dataset.filter === "all") {
+          replaceValue(textarea, "");
+          textarea.focus();
         } else {
           insertAtCaret(
             group.querySelector("textarea[name=q]"),
@@ -1856,7 +1942,7 @@ onReady(() => {
         }
       }
       const dropdownToggle = link
-        .closest(".dropdown, .btn-group")
+        .closest(".dropdown, .btn-group, .query-field")
         ?.querySelector('[data-bs-toggle="dropdown"]');
       if (dropdownToggle) {
         bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();
@@ -2403,6 +2489,23 @@ onReady(() => {
       });
     });
 
+  /* Clarify browser verification failures using the page's translated guidance. */
+  document.addEventListener("otp_webauthn.verification_failed", (event) => {
+    if (
+      event.target.id !== "passkey-verification-button" ||
+      event.detail?.fromAutofill ||
+      event.detail?.error?.name !== "NotAllowedError"
+    ) {
+      return;
+    }
+    const status = document.getElementById(
+      "passkey-verification-status-message",
+    );
+    if (status?.dataset.notAllowedMessage) {
+      status.textContent = status.dataset.notAllowedMessage;
+    }
+  });
+
   /* WebAuthn registration completion in profile */
   document.addEventListener("otp_webauthn.register_complete", (event) => {
     const id = event.detail.id;
@@ -2460,30 +2563,40 @@ onReady(() => {
     gettext("See https://en.wikipedia.org/wiki/Self-XSS for more information."),
   );
 
-  /* Display relevant file_format_params field in Component forms */
+  /* Display only the scoped parameters matching the selected value in Component
+     forms: file format parameters follow the file format select, version
+     control parameters follow the VCS one. */
   const form_auto_ids = ["id", "id_scratchcreate"];
-  const file_format_params_fields_ids = form_auto_ids.map((id) => {
-    return `#div_${id}_file_format_params`;
-  });
+  const scoped_param_groups = [
+    {
+      selector: "file_format",
+      field: "file_format_params",
+      paramClass: "file-format-param",
+      scopeAttribute: "fileformats",
+    },
+    {
+      selector: "vcs",
+      field: "vcs_params",
+      paramClass: "vcs-param",
+      scopeAttribute: "vcses",
+    },
+  ];
 
-  function displayRelevantFileFormatParams(form, selectedFileFormat) {
+  function displayRelevantScopedParams(group, form, selectedScope) {
     if (form === null) {
       return;
     }
-    if (selectedFileFormat) {
-      file_format_params_fields_ids.forEach((fieldId) => {
-        show(form.querySelector(fieldId));
-      });
-      let displayFieldLabel = false;
-      form.querySelectorAll(".file-format-param").forEach((param) => {
-        const fileFormats = param
-          .querySelector(".file-format-param-field")
-          ?.getAttribute("fileformats")
+    const fieldIds = form_auto_ids.map((id) => `#div_${id}_${group.field}`);
+    let displayFieldLabel = false;
+    if (selectedScope) {
+      form.querySelectorAll(`.${group.paramClass}`).forEach((param) => {
+        const scopes = param
+          .querySelector(`.${group.paramClass}-field`)
+          ?.getAttribute(group.scopeAttribute)
           ?.split(" ");
         if (
-          fileFormats &&
-          (fileFormats.includes(selectedFileFormat) ||
-            fileFormats.includes("*"))
+          scopes &&
+          (scopes.includes(selectedScope) || scopes.includes("*"))
         ) {
           show(param);
           displayFieldLabel = true;
@@ -2491,38 +2604,32 @@ onReady(() => {
           hide(param);
         }
       });
-      // hide the field if no matching file format parameter is visible
-      file_format_params_fields_ids.forEach((fieldId) => {
-        const field = form.querySelector(fieldId);
-        if (displayFieldLabel) {
-          show(field);
-        } else {
-          hide(field);
-        }
-      });
-    } else {
-      file_format_params_fields_ids.forEach((fieldId) => {
-        hide(form.querySelector(fieldId));
-      });
     }
+    // hide the whole field when no parameter applies to the selected scope
+    fieldIds.forEach((fieldId) => {
+      const field = form.querySelector(fieldId);
+      if (displayFieldLabel) {
+        show(field);
+      } else {
+        hide(field);
+      }
+    });
   }
 
-  form_auto_ids
-    .map((id) => {
-      return `#${id}_file_format`;
-    })
-    .forEach((fieldSelector) => {
-      const field = document.querySelector(fieldSelector);
+  scoped_param_groups.forEach((group) => {
+    form_auto_ids.forEach((id) => {
+      const field = document.querySelector(`#${id}_${group.selector}`);
       if (field === null) {
         return;
       }
-      const fileFormatForm = field.closest("form");
-      displayRelevantFileFormatParams(fileFormatForm, field.value);
+      const scopedForm = field.closest("form");
+      displayRelevantScopedParams(group, scopedForm, field.value);
 
       field.addEventListener("change", function () {
-        displayRelevantFileFormatParams(fileFormatForm, this.value);
+        displayRelevantScopedParams(group, scopedForm, this.value);
       });
     });
+  });
 
   document.querySelector("#string-add")?.addEventListener("click", (_e) => {
     const tab = document.querySelector("[data-bs-target='#new'");

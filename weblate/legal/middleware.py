@@ -48,8 +48,8 @@ class RequireTOSMiddleware(MiddlewareMixin):
             messages.info(
                 request,
                 gettext(
-                    "We have an updated version of the General Terms and Conditions document, "
-                    "please read it and confirm that you agree with it."
+                    "We have updated our legal documents; please read them and confirm "
+                    "that you agree with them."
                 ),
             )
             return redirect(

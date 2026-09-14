@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 @partial
 def tos_confirm(strategy, backend, user: User | None, current_partial, **kwargs):
-    """Ensure the user has accepted the current terms of service for social login."""
+    """Ensure the user has accepted the current legal documents for social login."""
     if not user:
         msg = "Missing user"
         raise ValueError(msg)

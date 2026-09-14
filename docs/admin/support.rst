@@ -28,6 +28,16 @@ Info sent to the Weblate
 * The version you are running
 * Tallies of projects, components, languages, source strings, and users
 * The public SSH key of your instance
+* Monthly activity summaries from the instance statistics for the last 24 completed
+  months, used to monitor subscription activity and rank
+  servers in Discover Weblate. Months without stored metrics are reported as zero.
+
+Monthly activity uses the same cached summaries as the instance statistics page
+at :file:`/stats/`. These are trend indicators grouped by metric collection
+month. Each daily metric counts the preceding day's changes, so the September
+summary covers changes from August 31 through September 29. This keeps completed
+monthly summaries independent of the collection job on the first day of the
+following month. Use :doc:`/devel/reporting` for reports over exact date ranges.
 
 Additionally, if you turn on :ref:`discover-weblate`:
 

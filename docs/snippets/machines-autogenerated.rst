@@ -9,7 +9,7 @@ Alibaba
 .. versionadded:: 5.3
 
 :Service ID: ``alibaba``
-:Maximal score: 80
+:Maximum score: 80
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -47,7 +47,7 @@ Anthropic
 .. versionadded:: 5.16
 
 :Service ID: ``anthropic``
-:Maximal score: 90
+:Maximum score: 90
 :Advanced features: * :ref:`glossary-mt`
                     * :ref:`llm-translation-context`
 :Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -66,6 +66,10 @@ Anthropic
                 |                           |                                | ``claude-haiku-4-5`` -- Claude Haiku 4.5                                                                                  |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``claude-sonnet-5`` -- Claude Sonnet 5                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``claude-opus-5`` -- Claude Opus 5                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``claude-fable-5-1`` -- Claude Fable 5.1                                                                                  |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``claude-opus-4-8`` -- Claude Opus 4.8                                                                                    |
                 |                           |                                |                                                                                                                           |
@@ -95,6 +99,9 @@ The Anthropic API provides access to the Claude family of models, which are
 known for their strong reasoning and language capabilities. You need an API key
 from Anthropic to use this service.
 
+The model choices favor current generally available Claude models. Previously
+offered models remain selectable while Anthropic continues to support them.
+
 Use persona and style fields to further fine-tune translations. These will be
 used in a prompt for Claude and allow you to change the style of the
 translations.
@@ -117,7 +124,7 @@ Apertium APy
 ------------
 
 :Service ID: ``apertium-apy``
-:Maximal score: 88
+:Maximum score: 88
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -154,7 +161,7 @@ Amazon Translate
 ----------------
 
 :Service ID: ``aws``
-:Maximal score: 88
+:Maximum score: 88
 :Advanced features: * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
@@ -222,7 +229,7 @@ Azure OpenAI
 .. versionadded:: 5.8
 
 :Service ID: ``azure-openai``
-:Maximal score: 90
+:Maximum score: 90
 :Advanced features: * :ref:`glossary-mt`
                     * :ref:`llm-translation-context`
 :Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -269,7 +276,7 @@ Baidu
 -----
 
 :Service ID: ``baidu``
-:Maximal score: 90
+:Maximum score: 90
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -306,7 +313,7 @@ CyrTranslit
 .. versionadded:: 5.7
 
 :Service ID: ``cyrtranslit``
-:Maximal score: 100
+:Maximum score: 100
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -339,7 +346,7 @@ DeepL
 -----
 
 :Service ID: ``deepl``
-:Maximal score: 91
+:Maximum score: 91
 :Advanced features: * :ref:`placeables-mt`
                     * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------+-------------------------------------------------------------------------------------+
@@ -370,10 +377,12 @@ You need to purchase :guilabel:`DeepL API` subscription.
 
 API URL to use with the DeepL service. Configure the base endpoint without an API
 version; Weblate selects the appropriate DeepL API version for each request.
+For a legacy subscription requiring API v1, configure
+``https://api.deepl.com/v1/`` instead.
 
-.. versionchanged:: 2026.7
+.. versionchanged:: 2026.9.1
 
-   DeepL API v1 is no longer supported.
+   Support for explicitly configured DeepL API v1 endpoints has been restored.
 
 ``https://api.deepl.com/`` (default in Weblate)
     Is meant for API usage on the paid plan, and the subscription is usage-based.
@@ -387,6 +396,7 @@ The translation context can optionally be specified to improve translations qual
 `DeepL translation context documentation <https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter>`_.
 
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+Glossary integration is not available with API v1.
 
 .. seealso::
 
@@ -403,7 +413,7 @@ Glosbe
 ------
 
 :Service ID: ``glosbe``
-:Maximal score: 90
+:Maximum score: 90
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -437,7 +447,7 @@ Google Cloud Translation Basic
 ------------------------------
 
 :Service ID: ``google-translate``
-:Maximal score: 90
+:Maximum score: 90
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -471,7 +481,7 @@ Google Cloud Translation Advanced
 ---------------------------------
 
 :Service ID: ``google-translate-api-v3``
-:Maximal score: 90
+:Maximum score: 90
 :Advanced features: * :ref:`placeables-mt`
                     * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
@@ -550,7 +560,7 @@ LibreTranslate
 .. versionadded:: 4.7.1
 
 :Service ID: ``libretranslate``
-:Maximal score: 89
+:Maximum score: 89
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -596,7 +606,7 @@ LTEngine
 .. versionadded:: 5.17.1
 
 :Service ID: ``ltengine``
-:Maximal score: 89
+:Maximum score: 89
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -629,7 +639,7 @@ Azure AI Translator
 -------------------
 
 :Service ID: ``microsoft-translator``
-:Maximal score: 90
+:Maximum score: 90
 :Advanced features: * :ref:`placeables-mt`
                     * :ref:`glossary-mt`
 :Configuration: +---------------------+-------------------------------+---------------------------------------------------------------------------+
@@ -720,7 +730,7 @@ Mistral
 .. versionadded:: 2026.7
 
 :Service ID: ``mistral``
-:Maximal score: 90
+:Maximum score: 90
 :Advanced features: * :ref:`glossary-mt`
                     * :ref:`llm-translation-context`
 :Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -738,13 +748,13 @@ Mistral
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``auto`` -- Automatic selection                                                                                           |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``ministral-3b-latest`` -- Ministral 3 3B                                                                                 |
-                |                           |                                |                                                                                                                           |
-                |                           |                                | ``ministral-8b-latest`` -- Ministral 3 8B                                                                                 |
-                |                           |                                |                                                                                                                           |
                 |                           |                                | ``mistral-small-latest`` -- Mistral Small 4                                                                               |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``ministral-14b-latest`` -- Ministral 3 14B                                                                               |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``ministral-8b-latest`` -- Ministral 3 8B                                                                                 |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``ministral-3b-latest`` -- Ministral 3 3B                                                                                 |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``mistral-large-latest`` -- Mistral Large 3                                                                               |
                 |                           |                                |                                                                                                                           |
@@ -765,6 +775,14 @@ Mistral
 
 
 .. AUTOGENERATED END: mistral
+
+Automatic and predefined model selection queries the service model-listing
+endpoint. Automatic selection prefers general-purpose models that balance
+translation quality, response time, and price, trying other available models in
+the displayed order. Choose :guilabel:`Custom model` when using a compatible
+gateway that does not provide model discovery; Weblate sends the configured
+model identifier directly to the chat endpoint.
+
 .. AUTOGENERATED START: modernmt
 .. This section is automatically generated by `./manage.py list_machinery`. Do not edit manually.
 
@@ -776,7 +794,7 @@ ModernMT
 .. versionadded:: 4.2
 
 :Service ID: ``modernmt``
-:Maximal score: 90
+:Maximum score: 90
 :Advanced features: * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------+-----------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                    |
@@ -813,7 +831,7 @@ MyMemory
 --------
 
 :Service ID: ``mymemory``
-:Maximal score: 100
+:Maximum score: 100
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -854,7 +872,7 @@ Netease Sight
 -------------
 
 :Service ID: ``netease-sight``
-:Maximal score: 90
+:Maximum score: 90
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -892,7 +910,7 @@ Ollama
 .. versionadded:: 5.15
 
 :Service ID: ``ollama``
-:Maximal score: 90
+:Maximum score: 90
 :Advanced features: * :ref:`glossary-mt`
                     * :ref:`llm-translation-context`
 :Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -950,7 +968,7 @@ OpenAI
 .. versionadded:: 5.3
 
 :Service ID: ``openai``
-:Maximal score: 90
+:Maximum score: 90
 :Advanced features: * :ref:`glossary-mt`
                     * :ref:`llm-translation-context`
 :Configuration: +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -968,25 +986,41 @@ OpenAI
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``auto`` -- Automatic selection                                                                                           |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5-nano`` -- GPT-5 nano                                                                                              |
-                |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5.4-nano`` -- GPT-5.4 nano                                                                                          |
-                |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5-mini`` -- GPT-5 mini                                                                                              |
+                |                           |                                | ``gpt-5.6-luna`` -- GPT-5.6 Luna                                                                                          |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``gpt-5.4-mini`` -- GPT-5.4 mini                                                                                          |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5.6-luna`` -- GPT-5.6 Luna                                                                                          |
+                |                           |                                | ``gpt-5-mini`` -- GPT-5 mini                                                                                              |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5`` -- GPT-5                                                                                                        |
+                |                           |                                | ``gpt-5.4-nano`` -- GPT-5.4 nano                                                                                          |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5.4`` -- GPT-5.4                                                                                                    |
+                |                           |                                | ``gpt-5-nano`` -- GPT-5 nano                                                                                              |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``gpt-5.6-terra`` -- GPT-5.6 Terra                                                                                        |
                 |                           |                                |                                                                                                                           |
-                |                           |                                | ``gpt-5.5`` -- GPT-5.5                                                                                                    |
+                |                           |                                | ``gpt-5.4`` -- GPT-5.4                                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5`` -- GPT-5                                                                                                        |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``gpt-5.6`` -- GPT-5.6 Sol                                                                                                |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-5.5`` -- GPT-5.5                                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4.1-mini`` -- GPT-4.1 mini                                                                                          |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4o-mini`` -- GPT-4o mini                                                                                            |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4.1-nano`` -- GPT-4.1 nano                                                                                          |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4.1`` -- GPT-4.1                                                                                                    |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4o`` -- GPT-4o                                                                                                      |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4-turbo`` -- GPT-4 Turbo                                                                                            |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-4`` -- GPT-4                                                                                                        |
+                |                           |                                |                                                                                                                           |
+                |                           |                                | ``gpt-3.5-turbo`` -- GPT-3.5 Turbo                                                                                        |
                 |                           |                                |                                                                                                                           |
                 |                           |                                | ``custom`` -- Custom model                                                                                                |
                 +---------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -1009,6 +1043,13 @@ Performs translation using `OpenAI`_.
 The OpenAI API is powered by a diverse set of models with different
 capabilities and price points. Automatic selection chooses the best model
 available, but you might want to choose a specific model that matches your needs.
+
+Automatic and predefined model selection queries the service model-listing
+endpoint. Automatic selection prefers current general-purpose models that
+balance translation quality, response time, and price, using older GPT models
+only as compatibility fallbacks. Choose :guilabel:`Custom model` when using an
+OpenAI-compatible gateway that does not provide model discovery; Weblate sends
+the configured model identifier directly to the chat completions endpoint.
 
 Use persona and style fields to further fine-tune translations. These will be
 used in a prompt for OpenAI and allow you to change the style of the
@@ -1036,7 +1077,7 @@ SAP Translation Hub
 -------------------
 
 :Service ID: ``sap-translation-hub``
-:Maximal score: 100
+:Maximum score: 100
 :Configuration: +---------------------+----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection  | Available choices:                                                                                                                              |
                 |                     |                            |                                                                                                                                                 |
@@ -1092,7 +1133,7 @@ Systran
 -------
 
 :Service ID: ``systran``
-:Maximal score: 90
+:Maximum score: 90
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -1121,7 +1162,7 @@ tmserver
 --------
 
 :Service ID: ``tmserver``
-:Maximal score: 100
+:Maximum score: 100
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -1156,7 +1197,7 @@ Weblate
 -------
 
 :Service ID: ``weblate``
-:Maximal score: 100
+:Maximum score: 100
 :Configuration: `This service has no configuration.`
 
 .. AUTOGENERATED END: weblate
@@ -1175,7 +1216,7 @@ Weblate Translation Memory
 --------------------------
 
 :Service ID: ``weblate-translation-memory``
-:Maximal score: 100
+:Maximum score: 100
 :Configuration: `This service has no configuration.`
 
 .. AUTOGENERATED END: weblate-translation-memory
@@ -1199,7 +1240,7 @@ Yandex
 ------
 
 :Service ID: ``yandex``
-:Maximal score: 90
+:Maximum score: 90
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -1235,7 +1276,7 @@ Yandex v2
 .. versionadded:: 5.1
 
 :Service ID: ``yandex-v2``
-:Maximal score: 90
+:Maximum score: 90
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -1268,7 +1309,7 @@ Youdao Zhiyun
 -------------
 
 :Service ID: ``youdao-zhiyun``
-:Maximal score: 90
+:Maximum score: 90
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |

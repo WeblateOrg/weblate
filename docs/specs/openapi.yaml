@@ -1718,8 +1718,14 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_categories_destroy
-      description: Delete category.
+      description: Delete a category.
       parameters:
+      - in: query
+        name: delete_memory
+        schema:
+          type: boolean
+        description: Also delete project, workspace, and shared translation memory
+          created from components in the category.
       - in: path
         name: id
         schema:
@@ -1816,6 +1822,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
@@ -1852,6 +1872,11 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryDeleteRequest'
   /api/categories/{id}/announcements/:
     get:
       operationId: api_categories_announcements_list
@@ -2463,7 +2488,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_categories_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      description: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: id
@@ -5141,6 +5167,12 @@ paths:
       operationId: api_components_destroy
       description: Delete a component.
       parameters:
+      - in: query
+        name: delete_memory
+        schema:
+          type: boolean
+        description: Also delete project, workspace, and shared translation memory
+          created from the component.
       - in: path
         name: project__slug
         schema:
@@ -5245,6 +5277,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
@@ -5281,6 +5327,11 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComponentDeleteRequest'
   /api/components/{project__slug}/{slug}/addons/:
     post:
       operationId: api_components_addons_create
@@ -7562,7 +7613,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      description: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: project__slug
@@ -7999,12 +8051,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -8046,6 +8092,18 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/components/{project__slug}/{slug}/screenshots/:
     get:
       operationId: api_components_screenshots_list
@@ -14238,8 +14296,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: An unexpected server error occurred.
-        '204':
-          description: No response body
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectDeleteResponse'
+          description: The request was accepted for asynchronous processing.
   /api/projects/{slug}/addons/:
     post:
       operationId: api_projects_addons_create
@@ -19204,12 +19266,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -19251,6 +19307,18 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/projects/{slug}/statistics/:
     get:
       operationId: api_projects_statistics_retrieve
@@ -19575,7 +19643,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_reports_create
-      description: Schedule generation of a stored report.
+      description: Schedule generation of a stored report. The reports.view permission
+        authorizes the complete selected scope.
       tags:
       - reports
       requestBody:
@@ -24251,7 +24320,6 @@ paths:
       - tokenAuth: []
       - bearerAuth: []
       - cookieAuth: []
-      - {}
       responses:
         '400':
           content:
@@ -24280,20 +24348,6 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -24427,20 +24481,6 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -24519,6 +24559,22 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: The authenticated user does not have permission for this operation.
+        '409':
+          description: This task cannot be cancelled.
   /api/translations/:
     get:
       operationId: api_translations_list
@@ -25523,7 +25579,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/AutoTranslateRequest'
         required: true
       security:
       - tokenAuth: []
@@ -25665,7 +25721,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/AutoTranslateResponse'
           description: Successful response.
           headers:
             X-RateLimit-Limit:
@@ -26644,12 +26700,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -26691,6 +26741,18 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/statistics/:
     get:
       operationId: api_translations_statistics_retrieve
@@ -31522,6 +31584,18 @@ components:
       description: Number of seconds until the rate-limit window resets
       required: true
   schemas:
+    AccessControlEnum:
+      enum:
+      - 0
+      - 1
+      - 100
+      - 200
+      type: integer
+      description: |-
+        * `0` - Public
+        * `1` - Protected
+        * `100` - Private
+        * `200` - Custom
     ActionEnum:
       enum:
       - 0
@@ -31867,6 +31941,60 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    AutoSourceEnum:
+      enum:
+      - others
+      - mt
+      type: string
+      description: |-
+        * `others` - Other translation components
+        * `mt` - Machine translation
+    AutoTranslateRequest:
+      type: object
+      description: Request body for the autotranslate action.
+      properties:
+        mode:
+          allOf:
+          - $ref: '#/components/schemas/ModeEnum'
+          title: Automatic translation mode
+        q:
+          type: string
+          title: Query
+          description: Please note that translating all strings will discard all existing
+            translations.
+        auto_source:
+          allOf:
+          - $ref: '#/components/schemas/AutoSourceEnum'
+          title: Source of automated translations
+        component:
+          type: string
+          description: Enter a source component ID. With 30 or more eligible source
+            components, a project/component path is also accepted. In that case, component
+            and project operations also accept a component slug from the target project.
+            Leave blank to use eligible components from each target component's project.
+        engines:
+          type: array
+          items:
+            type: string
+          title: Machine translation engines
+        threshold:
+          type: integer
+          maximum: 100
+          minimum: 1
+          title: Score threshold
+      required:
+      - auto_source
+      - mode
+      - q
+      - threshold
+    AutoTranslateResponse:
+      type: object
+      description: Response body for the autotranslate action.
+      properties:
+        details:
+          type: string
+      required:
+      - details
     Backup:
       type: object
       properties:
@@ -32446,6 +32574,8 @@ components:
           description: Version control system to use to access your repository containing
             translations. You can also choose additional integration with third party
             providers to submit pull/merge requests.
+        vcs_params:
+          title: Version control parameters
         repo:
           type: string
           maxLength: 300
@@ -32729,6 +32859,15 @@ components:
           type: boolean
           description: Whether translation updates in other components will cause
             automatic translation in this one
+        hide_glossary_matches:
+          type: boolean
+          title: Do not show glossary matches
+          description: Hides the glossary panel in the translation editor.
+        contribute_project_tm:
+          type: boolean
+          title: Contribute to project translation memory
+          description: Allow this component's translations to be added to the project-level
+            translation memory.
         manage_units:
           type: boolean
           title: Manage strings
@@ -34083,12 +34222,67 @@ components:
           type: string
           title: Plural formula
         type:
-          type: integer
+          allOf:
+          - $ref: '#/components/schemas/LanguagePluralTypeEnum'
           readOnly: true
           title: Plural type
       required:
       - id
       - type
+    LanguagePluralTypeEnum:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 11
+      - 4
+      - 14
+      - 6
+      - 13
+      - 5
+      - 7
+      - 8
+      - 9
+      - 10
+      - 12
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 666
+      type: integer
+      description: |-
+        * `0` - None
+        * `1` - One/other
+        * `2` - One/few/other
+        * `3` - Arabic languages
+        * `11` - Zero/one/other
+        * `4` - One/two/other
+        * `14` - One/other/two
+        * `6` - One/two/few/other
+        * `13` - Other/one/two/few
+        * `5` - One/two/three/other
+        * `7` - One/other/zero
+        * `8` - One/few/many/other
+        * `9` - Two/other
+        * `10` - One/two/few/many/other
+        * `12` - Zero/one/two/few/many/other
+        * `15` - Zero/other
+        * `16` - Zero/one/few/other
+        * `17` - Zero/one/two/few/other
+        * `18` - Zero/one/two/other
+        * `19` - Zero/one/few/many/other
+        * `20` - One/many/other
+        * `21` - Zero/one/many/other
+        * `22` - One/few/many
+        * `23` - One/zero/few/other
+        * `666` - Unknown
     LanguageSelectionEnum:
       enum:
       - 0
@@ -34106,6 +34300,26 @@ components:
         * `` - None
         * `totp` - TOTP
         * `webauthn` - WebAuthn
+    ListingColumnsEnum:
+      enum:
+      - total
+      - untranslated
+      - untranslated_words
+      - untranslated_chars
+      - nottranslated
+      - checks
+      - suggestions
+      - comments
+      type: string
+      description: |-
+        * `total` - Total strings
+        * `untranslated` - Unfinished strings
+        * `untranslated_words` - Unfinished words
+        * `untranslated_chars` - Unfinished characters
+        * `nottranslated` - Untranslated strings
+        * `checks` - Checks
+        * `suggestions` - Suggestions
+        * `comments` - Comments
     Lock:
       type: object
       properties:
@@ -34283,6 +34497,18 @@ components:
       - units
       - units_translated
       - users
+    ModeEnum:
+      enum:
+      - suggest
+      - translate
+      - fuzzy
+      - approved
+      type: string
+      description: |-
+        * `suggest` - Add as suggestion
+        * `translate` - Add as translation
+        * `fuzzy` - Add as "Needing edit"
+        * `approved` - Add as approved translation
     MonolingualUnit:
       type: object
       properties:
@@ -34302,12 +34528,14 @@ components:
       - contact
       - url
       - add
+      - existing
       - none
       type: string
       description: |-
         * `contact` - Contact maintainers
         * `url` - Point to translation instructions URL
         * `add` - Create new language file
+        * `existing` - Create existing project languages; contact maintainers for new languages
         * `none` - Disable adding new translations
     NewUnitRequest:
       oneOf:
@@ -34349,12 +34577,16 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         project:
-          allOf:
-          - $ref: '#/components/schemas/Project'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
         component:
-          allOf:
-          - $ref: '#/components/schemas/Component'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
       required:
       - component
@@ -35207,6 +35439,8 @@ components:
           description: Version control system to use to access your repository containing
             translations. You can also choose additional integration with third party
             providers to submit pull/merge requests.
+        vcs_params:
+          title: Version control parameters
         repo:
           type: string
           maxLength: 300
@@ -35490,6 +35724,15 @@ components:
           type: boolean
           description: Whether translation updates in other components will cause
             automatic translation in this one
+        hide_glossary_matches:
+          type: boolean
+          title: Do not show glossary matches
+          description: Hides the glossary panel in the translation editor.
+        contribute_project_tm:
+          type: boolean
+          title: Contribute to project translation memory
+          description: Allow this component's translations to be added to the project-level
+            translation memory.
         manage_units:
           type: boolean
           title: Manage strings
@@ -35767,12 +36010,16 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         project:
-          allOf:
-          - $ref: '#/components/schemas/Project'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
         component:
-          allOf:
-          - $ref: '#/components/schemas/Component'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
     PatchedProject:
       type: object
@@ -35884,6 +36131,39 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        access_control:
+          allOf:
+          - $ref: '#/components/schemas/AccessControlEnum'
+          description: How to restrict access to this project is detailed in the documentation.
+          minimum: -2147483648
+          maximum: 2147483647
+        public_sharing:
+          type: boolean
+          description: Allows anonymous access to the engage pages and status widgets
+            for Private and Custom projects.
+        use_shared_tm:
+          type: boolean
+          title: Use shared translation memory
+          description: Uses the pool of shared translations between projects.
+        contribute_shared_tm:
+          type: boolean
+          title: Contribute to shared translation memory
+          description: Contributes to the pool of shared translations between projects.
+        use_workspace_tm:
+          type: boolean
+          title: Use workspace translation memory
+          description: Uses the pool of shared translations between projects in the
+            workspace.
+        contribute_workspace_tm:
+          type: boolean
+          title: Contribute to workspace translation memory
+          description: Contributes translations to the pool shared between projects
+            in the workspace.
+        autoclean_tm:
+          type: boolean
+          title: Autoclean translation memory
+          description: Automatically removes outdated and obsolete entries from translation
+            memory.
         license:
           title: Translation license
           type: string
@@ -36288,6 +36568,15 @@ components:
           title: Show all columns in lists using horizontal scrolling
           description: Instead of hiding columns on narrow screens, keep all columns
             and scroll the table horizontally.
+        listing_columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListingColumnsEnum'
+          title: Visible columns in lists
+          description: Choose which statistics columns are shown in project, component,
+            and language lists.
+          uniqueItems: true
+          maxItems: 8
         editor_link:
           type: string
           description: Enter a custom URL to be used as link to the source code. You
@@ -36498,6 +36787,15 @@ components:
           title: Show all columns in lists using horizontal scrolling
           description: Instead of hiding columns on narrow screens, keep all columns
             and scroll the table horizontally.
+        listing_columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListingColumnsEnum'
+          title: Visible columns in lists
+          description: Choose which statistics columns are shown in project, component,
+            and language lists.
+          uniqueItems: true
+          maxItems: 8
         editor_link:
           type: string
           description: Enter a custom URL to be used as link to the source code. You
@@ -36762,6 +37060,39 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        access_control:
+          allOf:
+          - $ref: '#/components/schemas/AccessControlEnum'
+          description: How to restrict access to this project is detailed in the documentation.
+          minimum: -2147483648
+          maximum: 2147483647
+        public_sharing:
+          type: boolean
+          description: Allows anonymous access to the engage pages and status widgets
+            for Private and Custom projects.
+        use_shared_tm:
+          type: boolean
+          title: Use shared translation memory
+          description: Uses the pool of shared translations between projects.
+        contribute_shared_tm:
+          type: boolean
+          title: Contribute to shared translation memory
+          description: Contributes to the pool of shared translations between projects.
+        use_workspace_tm:
+          type: boolean
+          title: Use workspace translation memory
+          description: Uses the pool of shared translations between projects in the
+            workspace.
+        contribute_workspace_tm:
+          type: boolean
+          title: Contribute to workspace translation memory
+          description: Contributes translations to the pool shared between projects
+            in the workspace.
+        autoclean_tm:
+          type: boolean
+          title: Autoclean translation memory
+          description: Automatically removes outdated and obsolete entries from translation
+            memory.
         license:
           title: Translation license
           type: string
@@ -36979,6 +37310,8 @@ components:
           description: Version control system to use to access your repository containing
             translations. You can also choose additional integration with third party
             providers to submit pull/merge requests.
+        vcs_params:
+          title: Version control parameters
         repo:
           type: string
           maxLength: 300
@@ -37262,6 +37595,15 @@ components:
           type: boolean
           description: Whether translation updates in other components will cause
             automatic translation in this one
+        hide_glossary_matches:
+          type: boolean
+          title: Do not show glossary matches
+          description: Hides the glossary panel in the translation editor.
+        contribute_project_tm:
+          type: boolean
+          title: Contribute to project translation memory
+          description: Allow this component's translations to be added to the project-level
+            translation memory.
         manage_units:
           type: boolean
           title: Manage strings
@@ -37403,6 +37745,17 @@ components:
       - translations_url
       - url
       - web_url
+    ProjectDeleteResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     ProjectLock:
       type: object
       properties:
@@ -37436,6 +37789,9 @@ components:
       properties:
         operation:
           $ref: '#/components/schemas/OperationEnum'
+        background:
+          type: boolean
+          default: false
       required:
       - operation
     Report:
@@ -37697,6 +38053,21 @@ components:
         needs_push:
           type: boolean
           description: Whether the repository has commits that need to be pushed.
+        included_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components included in the status.
+        skipped_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components skipped from the status.
+        permission_blockers:
+          type: array
+          items:
+            type: string
+          description: Full paths of components preventing access to skipped repositories.
         url:
           type: string
           description: URL to the repository API endpoint.
@@ -37751,8 +38122,28 @@ components:
           type: boolean
         detail:
           type: string
-      required:
-      - result
+        included_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components included in the operation.
+        skipped_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components skipped by the operation.
+        permission_blockers:
+          type: array
+          items:
+            type: string
+          description: Full paths of components preventing access to skipped repositories.
+        task_url:
+          type: string
+          format: uri
+    RepositoryOperationConflict:
+      oneOf:
+      - $ref: '#/components/schemas/RepositoryOperation'
+      - $ref: '#/components/schemas/ErrorResponse423'
     ResultEnum:
       enum:
       - voted
@@ -38236,7 +38627,10 @@ components:
           - type: 'null'
         log:
           type: string
+        cancellable:
+          type: boolean
       required:
+      - cancellable
       - completed
       - log
       - progress
@@ -38766,7 +39160,6 @@ components:
       - bitbucketserver
       - gerrit
       - git
-      - git-force-push
       - gitea
       - github
       - github-app
@@ -38782,7 +39175,6 @@ components:
         * `bitbucketserver` - Bitbucket Data Center pull request
         * `gerrit` - Gerrit
         * `git` - Git
-        * `git-force-push` - Git with force push
         * `gitea` - Gitea pull request
         * `github` - GitHub pull request
         * `github-app` - GitHub (via Weblate GitHub app)
@@ -38806,6 +39198,16 @@ components:
           type: integer
       required:
       - group_id
+    ComponentDeleteRequest:
+      type: object
+      properties:
+        delete_memory:
+          type: boolean
+    CategoryDeleteRequest:
+      type: object
+      properties:
+        delete_memory:
+          type: boolean
   securitySchemes:
     bearerAuth:
       type: apiKey

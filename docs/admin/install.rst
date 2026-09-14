@@ -211,7 +211,8 @@ Django REST Framework
 
      * - ``amazon``
        - | :pypi:`boto3`
-       - :ref:`mt-aws`
+         | :pypi:`django-ses`
+       - :ref:`mt-aws`, AWS SES e-mail backend
 
      * - ``asgi``
        - | :pypi:`granian`
@@ -573,6 +574,16 @@ Client IP address
    :setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER`
    and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container).
 
+   The reverse proxy which connects to Weblate must overwrite the configured
+   header or append a verified peer address at the position selected by
+   :setting:`IP_PROXY_OFFSET`. Do not select a client-supplied address, and do
+   not expose the application server through a path which bypasses the trusted
+   proxy.
+
+   When using ``X-Forwarded-For`` with the Docker container, configure
+   :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES` with the reverse proxies allowed
+   to supply client addresses.
+
    .. hint::
 
       This configuration cannot be turned on by default, because it would allow IP
@@ -637,6 +648,7 @@ Client protocol
    * :setting:`IP_PROXY_OFFSET`
    * :setting:`django:SECURE_PROXY_SSL_HEADER`
    * :envvar:`WEBLATE_IP_PROXY_HEADER`
+   * :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES`
    * :envvar:`WEBLATE_IP_PROXY_OFFSET`
 
 .. _http-proxy:
@@ -1371,6 +1383,15 @@ Configuration for uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` in the sourc
 .. literalinclude:: ../../weblate/examples/weblate.uwsgi.ini
     :language: ini
 
+Set ``py-executable`` to the absolute path of :file:`bin/python` inside the
+environment configured by ``virtualenv``. Weblate uses Python's
+``sys.executable`` to launch helper processes, including the SSH connection
+proxy used for Git repositories. uWSGI can otherwise set this value to its own
+executable, causing repository operations to fail with an error such as
+``/usr/bin/uwsgi-core: invalid option -- 'I'``. Setting ``virtualenv`` alone does
+not ensure that ``sys.executable`` points to Python. Restart uWSGI after updating
+the configuration.
+
 .. seealso::
 
     :doc:`django:howto/deployment/wsgi/uwsgi`
@@ -1568,7 +1589,21 @@ command-line:
 
 .. code-block:: sh
 
-   celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup
+   celery --app=weblate.utils worker --beat \
+       --queues=celery,notify,memory,translate,backup \
+       --prefetch-multiplier=1
+
+Running all queues in one prefork worker shares the initial application memory
+between its child processes while retaining parallel task execution. Celery
+determines the concurrency from the number of available CPUs by default; use
+``--concurrency`` to adjust it for your workload and available memory.
+
+To reduce startup memory usage, Celery workers do not repeat the Django system
+checks. The Weblate container runs the more comprehensive
+:command:`weblate check --deploy` automatically during container startup. For
+other installation methods, run the command after installation, upgrades, or
+configuration changes. The checks are also available in the
+:ref:`management interface <manage-performance>`.
 
 .. note::
 
@@ -1671,7 +1706,9 @@ Weblate processes. All Celery tasks can be executed in a single process using:
 
    celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup --pool=solo
 
-An installation using Docker can be configured to use a single-process Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`.
+An installation using Docker can be configured to use a single-process Celery
+setup by setting ``CELERY_WORKER_MODE=single``. See
+:envvar:`CELERY_WORKER_MODE`.
 
 .. warning::
 
@@ -1685,7 +1722,9 @@ Monitoring Weblate
 Weblate provides the ``/healthz/`` URL to be used in simple health checks, for example
 using Kubernetes. The Docker container has built-in health check using this URL.
 
-For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API endpoint.
+For monitoring metrics of Weblate you can use the :http:get:`/api/metrics/` API
+endpoint. Monitoring tools running locally can retrieve the same metrics using
+the :wladmin:`metrics` command.
 
 .. seealso::
 

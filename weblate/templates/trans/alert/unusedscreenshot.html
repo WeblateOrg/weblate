@@ -4,5 +4,10 @@
   {% blocktranslate count count=unassigned %}One screenshot has no string assigned to it.{% plural %}{{ count }} screenshots have no string assigned to them.{% endblocktranslate %}
 </p>
 
+{% if screenshot_id %}
+  {% url "screenshot" pk=screenshot_id as screenshot_url %}
+{% else %}
+  {% url "screenshots" path=component.get_url_path as screenshot_url %}
+{% endif %}
 <a class="btn btn-primary"
-   href="{% url 'screenshots' path=component.get_url_path %}">{% translate "Manage screenshots" %}</a>
+   href="{{ screenshot_url }}{% if not screenshot_id %}?q={{ "NOT has:string"|urlencode }}{% endif %}">{% translate "Manage screenshots" %}</a>

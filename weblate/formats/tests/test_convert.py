@@ -547,7 +547,7 @@ class OpenDocumentFormatTest(ConvertFormatTest):
             )
         ).decode()
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertEqual(
             self.extract_document(newdata),
             self.extract_document(testdata),
@@ -581,7 +581,7 @@ class IDMLFormatTest(ConvertFormatTest):
         document.updateheader(pot_creation_date="")
         return bytes(document).decode()
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertEqual(
             self.extract_document(newdata),
             self.extract_document(testdata),

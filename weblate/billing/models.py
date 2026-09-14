@@ -153,8 +153,45 @@ class Plan(models.Model):
         return round(self.yearly_price * settings.VAT_RATE, 2)
 
     @property
-    def is_free(self):
+    def is_free(self) -> bool:
         return self.price == 0 and self.yearly_price == 0
+
+
+def get_plan_log_details(plan: Plan) -> dict[str, int | str]:
+    """Return stable plan details for the billing log."""
+    return {"id": plan.pk, "name": plan.name}
+
+
+def get_plan_change_log_details(
+    old_plan: Plan, new_plan: Plan
+) -> dict[str, dict[str, int | str]]:
+    """Return old and new plan details for the billing log."""
+    return {
+        "old_plan": get_plan_log_details(old_plan),
+        "new_plan": get_plan_log_details(new_plan),
+    }
+
+
+def get_payment_log_details(
+    payment_id: object,
+    plan: Plan,
+    period: str,
+    *,
+    automatic: bool,
+    outcome: str,
+    reason: str = "",
+) -> dict[str, object]:
+    """Return non-sensitive payment details for the billing log."""
+    result: dict[str, object] = {
+        "payment_id": str(payment_id),
+        "plan": get_plan_log_details(plan),
+        "period": period,
+        "automatic": automatic,
+        "outcome": outcome,
+    }
+    if reason:
+        result["reason"] = " ".join(str(reason).split())[:200]
+    return result
 
 
 class BillingManager(models.Manager["Billing"]):
@@ -221,6 +258,9 @@ class Billing(models.Model):
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
     STATE_TERMINATED = 3
+
+    if TYPE_CHECKING:
+        ordered_invoices: list[Invoice]
 
     EXPIRING_STATES: ClassVar[set[int]] = {STATE_TRIAL}
     ACTIVE_STATES: ClassVar[set[int]] = {STATE_ACTIVE, STATE_TRIAL}
@@ -546,11 +586,11 @@ class Billing(models.Model):
         return format_html_join_comma("{}", list_to_tuples(self.all_projects))
 
     @property
-    def is_trial(self):
+    def is_trial(self) -> bool:
         return self.state == Billing.STATE_TRIAL
 
     @property
-    def is_terminated(self):
+    def is_terminated(self) -> bool:
         return self.state == Billing.STATE_TERMINATED
 
     @property
@@ -625,7 +665,7 @@ class Billing(models.Model):
                 if isinstance(value, cached_property):
                     self.__dict__.pop(key, None)
 
-    def check_in_limits(self, plan=None):
+    def check_in_limits(self, plan=None) -> bool:
         if plan is None:
             plan = self.plan
         return (
@@ -653,6 +693,9 @@ class Billing(models.Model):
         return sum(p.stats.all for p in self.all_projects)
 
     def get_last_invoice_object(self):
+        prefetched_invoices = getattr(self, "ordered_invoices", None)
+        if prefetched_invoices is not None:
+            return prefetched_invoices[0]
         return self.invoice_set.order_by("-start")[0]
 
     @admin.display(description=gettext_lazy("Last invoice"))
@@ -668,7 +711,7 @@ class Billing(models.Model):
         description=gettext_lazy("In display limits"),
         boolean=True,
     )
-    def in_display_limits(self, plan=None):
+    def in_display_limits(self, plan=None) -> bool:
         if plan is None:
             plan = self.plan
         return (
@@ -750,7 +793,7 @@ class Billing(models.Model):
                 for component in project.component_set.iterator():
                     component.add_alert("BillingLimit")
 
-    def is_active(self):
+    def is_active(self) -> bool:
         return self.state in Billing.ACTIVE_STATES
 
     def get_notify_users(self):
@@ -1000,9 +1043,11 @@ class Billing(models.Model):
             )
             if project.access_control:
                 yield LibreCheck(False, gettext("Only public projects are allowed"))
-        components = Component.objects.filter(
-            project__in=self.all_projects
-        ).select_related("project")
+        components = (
+            Component.objects.filter(project__in=self.all_projects)
+            .defer_huge()
+            .select_related("project")
+        )
         if include_alerts:
             components = components.prefetch_related(
                 Prefetch(
@@ -1140,7 +1185,7 @@ class Invoice(models.Model):
         return f"{self.start} - {self.end}: {self.billing if self.billing_id else None}"
 
     @cached_property
-    def is_legacy(self):
+    def is_legacy(self) -> bool:
         return len(self.ref) <= 6
 
     @cached_property
@@ -1213,6 +1258,9 @@ class BillingEvent(models.IntegerChoices):
     INACTIVE_RECURRING_SCHEDULED = 16, "Scheduled recurring payment disablement"
     INACTIVE_RECURRING_CLEARED = 17, "Cleared recurring payment disablement"
     PLAN_CHANGED = 18, "Billing plan changed"
+    PAYMENT_INITIATED = 19, "Payment initiated"
+    PAYMENT_REJECTED = 20, "Payment rejected"
+    MERGED = 21, "Billing merged"
 
 
 class BillingLogQuerySet(models.QuerySet["BillingLog", "BillingLog"]):
@@ -1251,13 +1299,76 @@ class BillingLog(models.Model):
             plan = plan.get("name")
         return str(plan) if plan else ""
 
-    def get_details_display(self) -> StrOrPromise:
+    def get_period_display(self) -> StrOrPromise:
+        period = self.details.get("period")
+        if period == "m":
+            return gettext("monthly")
+        if period == "y":
+            return gettext("yearly")
+        return str(period) if period else gettext("unknown period")
+
+    def get_plan_change_display(self) -> StrOrPromise | None:
         old_plan = self.get_plan_detail_name("old_plan")
         new_plan = self.get_plan_detail_name("new_plan")
         if old_plan and new_plan:
             return format_html(
                 gettext('Changed from "{}" to "{}".'), old_plan, new_plan
             )
+        return None
+
+    def get_payment_display(self) -> StrOrPromise | None:
+        payment_id = self.details.get("payment_id")
+        plan = self.get_plan_detail_name("plan")
+        if not payment_id or not plan:
+            return None
+        period = self.get_period_display()
+        if self.event == BillingEvent.PAYMENT_INITIATED:
+            return format_html(
+                gettext('Payment "{}" initiated for "{}" ({}).'),
+                payment_id,
+                plan,
+                period,
+            )
+        if self.event == BillingEvent.PAYMENT_REJECTED:
+            reason = self.details.get("reason")
+            if reason:
+                return format_html(
+                    gettext('Payment "{}" for "{}" ({}) was rejected: {}.'),
+                    payment_id,
+                    plan,
+                    period,
+                    reason,
+                )
+            return format_html(
+                gettext('Payment "{}" for "{}" ({}) was rejected.'),
+                payment_id,
+                plan,
+                period,
+            )
+        if self.event == BillingEvent.PAYMENT:
+            if self.details.get("automatic"):
+                template = gettext('Automatic payment "{}" received for "{}" ({}).')
+            else:
+                template = gettext('Payment "{}" received for "{}" ({}).')
+            return format_html(template, payment_id, plan, period)
+        return None
+
+    def get_details_display(self) -> StrOrPromise:
+        payment = self.get_payment_display()
+        plan_change = self.get_plan_change_display()
+        if payment and plan_change:
+            return format_html("{} {}", payment, plan_change)
+        if payment:
+            return payment
+        if plan_change:
+            return plan_change
+        if self.event == BillingEvent.MERGED:
+            source = self.get_plan_detail_name("source_billing")
+            target = self.get_plan_detail_name("target_billing")
+            if source and target:
+                return format_html(
+                    gettext('Merged billing "{}" into "{}".'), source, target
+                )
         return self.summary
 
 

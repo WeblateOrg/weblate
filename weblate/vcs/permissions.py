@@ -9,11 +9,34 @@ from typing import TYPE_CHECKING
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from uuid import UUID
+
     from weblate.auth.models import User
     from weblate.auth.results import PermissionResult
+    from weblate.workspaces.models import WorkspaceQuerySet
 
 
-def github_app_installation_workspaces(user: User):
+def managed_workspaces(user: User) -> WorkspaceQuerySet:
+    """Return workspaces the user can manage."""
+    return (
+        Workspace.objects.filter(projects__in=user.managed_projects)
+        | user.workspaces_with_perm("workspace.edit")
+    ).distinct()
+
+
+def user_can_migrate_to_github_app(user: User, workspace_id: UUID | str | None) -> bool:
+    """
+    Return whether the user may open the GitHub App migration for a workspace.
+
+    Kept next to the queryset backing the view so that the alert offering the
+    migration link never points at a workspace the user cannot manage.
+    """
+    if workspace_id is None:
+        return False
+    return managed_workspaces(user).filter(pk=workspace_id).exists()
+
+
+def github_app_installation_workspaces(user: User) -> WorkspaceQuerySet:
     """Return workspaces where the user can connect GitHub accounts."""
     if user.has_perm("management.use"):
         return Workspace.objects.order()

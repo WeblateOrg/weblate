@@ -1057,7 +1057,7 @@ class Language(models.Model, CacheKeyMixin):
     def get_absolute_url(self) -> str:
         return reverse("show_language", kwargs={"lang": self.code})
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         return ("-", "-", self.code)
 
     def get_name(self):
@@ -1081,7 +1081,7 @@ class Language(models.Model, CacheKeyMixin):
         return "ltr"
 
     @property
-    def show_language_code(self):
+    def show_language_code(self) -> bool:
         return self.code not in data.NO_CODE_LANGUAGES
 
     def get_html(self):

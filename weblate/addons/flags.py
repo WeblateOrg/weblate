@@ -160,7 +160,7 @@ class TargetRepoUpdateAddon(BaseAddon):
     )
 
     def unit_post_sync(
-        self, unit: Unit, changed_attr: str, **kwargs
+        self, unit: Unit, changed_attr: str, **kwargs: object
     ) -> AddonEventOutcome | None:
         if changed_attr == "target":
             unit.state = STATE_NEEDS_REWRITING

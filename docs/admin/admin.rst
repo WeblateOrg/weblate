@@ -49,8 +49,9 @@ Weblate. This is useful when debugging reverse proxy configuration, see
 :guilabel:`System encoding` should list ``UTF-8`` encoding in all processes.
 This needs to be configured in your system, see :ref:`production-encoding`.
 
-:guilabel:`Connectivity` shows latencies to the database, cache, and Celery.
-This might be useful to diagnose connectivity issues.
+:guilabel:`Connectivity` shows latencies to the database, cache, Celery, and
+the filesystems used for data and cache directories. This might be useful to
+diagnose connectivity and storage performance issues.
 
 .. image:: /screenshots/performance-report.webp
 

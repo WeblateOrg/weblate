@@ -773,6 +773,10 @@ VCS_API_TIMEOUT = get_env_int(
 VCS_ALLOW_HOSTS = set(
     get_env_list("WEBLATE_VCS_ALLOW_HOSTS", list(vcs_defaults.DEFAULT_VCS_ALLOW_HOSTS))
 )
+VCS_PRIVATE_ALLOWLIST = get_env_list(
+    "WEBLATE_VCS_PRIVATE_ALLOWLIST",
+    list(vcs_defaults.DEFAULT_VCS_PRIVATE_ALLOWLIST),
+)
 VCS_ALLOW_SCHEMES = set(
     get_env_list(
         "WEBLATE_VCS_ALLOW_SCHEMES", list(vcs_defaults.DEFAULT_VCS_ALLOW_SCHEMES)
@@ -900,6 +904,7 @@ INSTALLED_APPS = [
     "customize",
     # Weblate apps on top to override Django locales and templates
     "weblate.addons",
+    "weblate.api",
     "weblate.auth",
     "weblate.checks",
     "weblate_fonts",
@@ -1042,7 +1047,7 @@ LOGGING: dict = {
         "django.request": {
             "handlers": [*DEFAULT_LOG],
             "level": "ERROR",
-            "propagate": True,
+            "propagate": False,
         },
         "django.server": {
             "handlers": ["django.server"],
@@ -1054,35 +1059,42 @@ LOGGING: dict = {
             "handlers": [*DEFAULT_LOG],
             # Toggle to DEBUG to log all database queries
             "level": get_env_str("WEBLATE_LOGLEVEL_DATABASE", "CRITICAL"),
+            "propagate": False,
         },
         "weblate": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Logging VCS operations
         "weblate.vcs": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Python Social Auth
         "social": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Django Authentication Using LDAP
         "django_auth_ldap": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # SAML IdP
         "djangosaml2idp": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Fedora messaging
         "fedora_messaging": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
     },
 }
@@ -1359,11 +1371,11 @@ SESSION_ENGINE = get_env_str(
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # REST framework settings for API
-REST_FRAMEWORK = get_drf_settings(
-    require_login=REQUIRE_LOGIN,
-    anon_throttle=get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", "100/day"),
-    user_throttle=get_env_ratelimit("WEBLATE_API_RATELIMIT_USER", "5000/hour"),
-)
+API_RATELIMIT_ANON = get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", "100/day")
+API_RATELIMIT_USER = get_env_ratelimit("WEBLATE_API_RATELIMIT_USER", "5000/hour")
+API_RATELIMIT_USER_OVERRIDES = get_env_json("WEBLATE_API_RATELIMIT_USER_OVERRIDES", {})
+API_RATELIMIT_IP_OVERRIDES = get_env_json("WEBLATE_API_RATELIMIT_IP_OVERRIDES", {})
+REST_FRAMEWORK = get_drf_settings(require_login=REQUIRE_LOGIN)
 DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
 SPECTACULAR_SETTINGS = get_spectacular_settings(
     INSTALLED_APPS,
@@ -1403,6 +1415,26 @@ EMAIL_BACKEND = get_env_str(
     required=True,
 )
 
+# AWS SES e-mail backend (django-ses)
+# Enable by setting WEBLATE_EMAIL_BACKEND=django_ses.SESBackend.
+# AWS credentials are read from the standard boto3 chain
+# (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY env vars, IAM role, etc.).
+if EMAIL_BACKEND == "django_ses.SESBackend":
+    INSTALLED_APPS.append("django_ses")
+    if _ses_region := get_env_str("WEBLATE_AWS_SES_REGION_NAME"):
+        AWS_SES_REGION_NAME = _ses_region
+    # Load the explicit endpoint override independently of the region variable
+    # so that a VPC or custom endpoint works even when the region comes from
+    # AWS_DEFAULT_REGION or an AWS profile rather than WEBLATE_AWS_SES_REGION_NAME.
+    # Fall back to deriving the standard regional endpoint when only the region
+    # variable is set.
+    if _ses_endpoint := get_env_str("WEBLATE_AWS_SES_REGION_ENDPOINT"):
+        AWS_SES_REGION_ENDPOINT = _ses_endpoint
+    elif _ses_region:
+        AWS_SES_REGION_ENDPOINT = f"email.{_ses_region}.amazonaws.com"
+    # Opt in to the newer SES v2 sending API (SendEmail instead of SendRawEmail).
+    USE_SES_V2 = get_env_bool("WEBLATE_USE_SES_V2")
+
 # Silence some of the Django system checks
 SILENCED_SYSTEM_CHECKS = [
     # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
@@ -1431,7 +1463,7 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_RETRY = True
 
 # Celery settings, it is not recommended to change these
-CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000 if DEBUG else 250000
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_TASK_ROUTES = {

@@ -10,11 +10,12 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 from django.utils import feedgenerator
+from django.utils.http import content_disposition_header
 from django.utils.translation import activate, get_language, gettext, pgettext
 from django.views.generic.list import ListView
 
@@ -104,9 +105,9 @@ class ChangesView(PathViewMixin, ListView):
         context["title"] = self.get_title()
         context["changes_rss"] = self.get_changes_url("changes-rss")
 
+        context["query_params"] = QueryDict()
         if self.changes_form.is_valid():
-            context["query_string"] = self.changes_form.urlencode()
-            context["search_items"] = self.changes_form.items()
+            context["query_params"] = QueryDict(self.changes_form.urlencode())
             if period := self.changes_form.cleaned_data.get("period"):
                 self.changes_form.fields["period"].widget.attrs["data-start-date"] = (
                     period["start_date"].strftime("%m/%d/%Y")
@@ -243,7 +244,9 @@ class ChangesCSVView(ChangesView):
         activate("en")
 
         response = HttpResponse(content_type="text/csv; charset=utf-8")
-        response["Content-Disposition"] = "attachment; filename=changes.csv"
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename="changes.csv"
+        )
 
         writer = csv.writer(response)
 

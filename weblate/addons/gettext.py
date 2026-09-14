@@ -20,7 +20,7 @@ from django.core.exceptions import ValidationError
 from django.core.management.utils import is_ignored_path
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy, override
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon
 from weblate.addons.events import (
@@ -36,6 +36,12 @@ from weblate.addons.forms import (
     MesonExtractPotForm,
     SphinxExtractPotForm,
     XgettextExtractPotForm,
+)
+from weblate.addons.gettext_rules import (
+    GETTEXT_DATA_DIR,
+    get_bundled_rules_fingerprint,
+    resolve_data_dirs,
+    validate_data_dirs,
 )
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
@@ -577,7 +583,7 @@ class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
         return args
 
     def ensure_msgmerge_addon(self) -> bool:
-        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
         install_msgmerge = self.instance.configuration.get("_install_msgmerge", False)
         if not install_msgmerge:
@@ -1061,6 +1067,24 @@ class XgettextAddon(ExtractPotBaseAddon):
             component=component, category=category, project=project
         )
 
+    def get_data_dirs(self) -> list[str]:
+        return validate_data_dirs(self.instance.configuration.get("data_dirs", []))
+
+    def get_configuration_signature(self) -> str:
+        return json.dumps(
+            [
+                super().get_configuration_signature(),
+                get_bundled_rules_fingerprint(GETTEXT_DATA_DIR),
+            ]
+        )
+
+    def has_rule_changes(self, changed_files: list[str]) -> bool:
+        return any(
+            PurePosixPath(path).is_relative_to(PurePosixPath(name) / "its")
+            for name in self.get_data_dirs()
+            for path in changed_files
+        )
+
     def get_source_patterns(self) -> list[str]:
         return self.instance.configuration.get("source_patterns", [])
 
@@ -1103,8 +1127,11 @@ class XgettextAddon(ExtractPotBaseAddon):
             return [str(check) for check in checks]
         return []
 
-    def get_keyword(self) -> str:
-        return str(self.instance.configuration.get("keyword", ""))
+    def get_keywords(self) -> list[str]:
+        keyword = self.instance.configuration.get("keyword", "")
+        if isinstance(keyword, str):
+            return [line.strip() for line in keyword.splitlines() if line.strip()]
+        return list(keyword)
 
     def get_keyword_exclusive(self) -> bool:
         return bool(self.instance.configuration.get("keyword_exclusive", False))
@@ -1117,10 +1144,11 @@ class XgettextAddon(ExtractPotBaseAddon):
         elif comment_mode == "tagged" and (comment_tag := self.get_comment_tag()):
             result.append(f"--add-comments={comment_tag}")
         result.extend(f"--check={name}" for name in self.get_checks())
-        if keyword := self.get_keyword():
+        keywords = self.get_keywords()
+        if keywords:
             if self.get_keyword_exclusive():
                 result.append("--keyword")
-            result.append(f"--keyword={keyword}")
+            result.extend(f"--keyword={keyword}" for keyword in keywords)
         return result
 
     def get_extra_xgettext_args(self, component: Component) -> list[str]:
@@ -1318,6 +1346,11 @@ class XgettextAddon(ExtractPotBaseAddon):
         if self.get_component_state(component).get("_force_run"):
             self._relevant_changes_cache[cache_key] = True
             return True
+        try:
+            resolve_data_dirs(Path(component.full_path), self.get_data_dirs())
+        except (ValidationError, OSError):
+            self._relevant_changes_cache[cache_key] = True
+            return True
         if component.alert_set.filter(name=self.alert).exists():
             self._relevant_changes_cache[cache_key] = True
             return True
@@ -1361,6 +1394,7 @@ class XgettextAddon(ExtractPotBaseAddon):
                 for pattern in self.get_source_patterns()
                 for path in changed
             )
+        result = result or self.has_rule_changes(changed)
         self._relevant_changes_cache[cache_key] = result
         return result
 
@@ -1416,6 +1450,22 @@ class XgettextAddon(ExtractPotBaseAddon):
         if not self.has_relevant_changes(component, previous_head, changed_files):
             return False
 
+        try:
+            with override("en"):
+                data_dirs = resolve_data_dirs(
+                    Path(component.full_path), self.get_data_dirs()
+                )
+        except (ValidationError, OSError) as error:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "xgettext",
+                    "output": "",
+                    "error": str(error),
+                }
+            )
+            return False
+
         template = self.get_template_filename(component)
         if template is None:
             self.alerts.append(
@@ -1457,6 +1507,11 @@ class XgettextAddon(ExtractPotBaseAddon):
                     "--",
                     *files,
                 ],
+                env={
+                    "GETTEXTDATADIRS": os.pathsep.join(
+                        str(path) for path in [*data_dirs, GETTEXT_DATA_DIR]
+                    )
+                },
             )
             is None
         ):
@@ -2062,38 +2117,3 @@ class SphinxAddon(ExtractPotBaseAddon):
         except ValueError:
             return location
         return f"{relative.as_posix()}:{line_part}"
-
-
-class GettextAuthorComments(GettextBaseAddon):
-    events: ClassVar[set[AddonEvent]] = {
-        AddonEvent.EVENT_PRE_COMMIT,
-    }
-    name = "weblate.gettext.authors"
-    verbose = gettext_lazy("Contributors in comment")
-    description = gettext_lazy(
-        "Updates the comment part of the PO file header to include contributor names "
-        "and years of contributions."
-    )
-
-    def pre_commit(
-        self,
-        translation: Translation,
-        author: str,
-        store_hash: bool,
-        activity_log_id: int | None = None,
-    ) -> AddonEventOutcome | None:
-        if "noreply@weblate.org" in author:
-            return AddonEventOutcome.skipped(AddonActivityLogReason.NOT_APPLICABLE)
-        if "<" in author:
-            name, email = author.split("<")
-            name = name.strip()
-            email = email.rstrip(">")
-        else:
-            name = author
-            email = None
-
-        translation.store.store.updatecontributor(name, email)
-        translation.store.save()
-        if store_hash:
-            translation.store_hash()
-        return None

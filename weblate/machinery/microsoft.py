@@ -22,6 +22,9 @@ from .forms import MicrosoftMachineryForm
 if TYPE_CHECKING:
     from datetime import datetime
 
+    import httpx2
+
+    from weblate.auth.models import User
     from weblate.checks.base import Highlight
     from weblate.trans.models import Unit
 
@@ -82,7 +85,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def get_url(self, suffix) -> str:
         return f"https://{self.settings['base_url']}/{suffix}"
 
-    def is_token_expired(self):
+    def is_token_expired(self) -> bool:
         """Check whether token is about to expire."""
         return self._token_expiry is None or self._token_expiry <= timezone.now()
 
@@ -114,7 +117,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             code = f"{lang}-{country}"
         return code
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = "utf-8-sig"
         super().check_failure(response)
@@ -150,11 +153,11 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

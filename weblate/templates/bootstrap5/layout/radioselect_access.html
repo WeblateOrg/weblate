@@ -14,7 +14,7 @@
 
   <div class="controls {% if "disabled" in flat_attrs %}access-control-disabled{% endif %} {{ field_class }}"
        {% if flat_attrs %}{{ flat_attrs|safe }}{% endif %}>
-    {% include 'bootstrap5/layout/field_errors_block.html' %}
+    {% include "bootstrap5/layout/field_errors_block.html" %}
     <div class="row">
       {% for choice in field.field.choices %}
         {% with choice_str=choice.0|stringformat:"s" %}
@@ -68,19 +68,19 @@
         {% endwith %}
         </label>
         </div>
-    {% endfor %}
-  </div>
-  {% if "disabled" in flat_attrs %}
-    <div>
-      <p>
-        {% translate "You do not have permission to change project access control." %}
-        {% if has_billing %}
-          <a href="{% url 'billing' %}">{% translate "Check your billing status" %}</a>
-        {% endif %}
-      </p>
+      {% endfor %}
     </div>
-  {% endif %}
+    {% if "disabled" in flat_attrs %}
+      <div>
+        <p>
+          {% translate "You do not have permission to change project access control." %}
+          {% if has_billing %}
+            <a href="{% url 'billing' %}">{% translate "Check your billing status" %}</a>
+          {% endif %}
+        </p>
+      </div>
+    {% endif %}
 
-</div>
+  </div>
 
 </div>
