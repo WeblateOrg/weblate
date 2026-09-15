@@ -21,6 +21,8 @@ if TYPE_CHECKING:
 
 SUGGESTION_REJECTION_REASON_LENGTH = 200
 DEFAULT_TRANSLATION_MAX_LENGTH = 10000
+MAX_TRANSLATION_ALTERNATIVES = 100
+MAX_TRANSLATION_TOTAL_LENGTH = 100000
 
 
 def get_translation_text_max_length(unit: Unit) -> int:
@@ -37,7 +39,11 @@ def get_translation_text_max_length(unit: Unit) -> int:
 def validate_translation_text_length(unit: Unit, target: list[str]) -> None:
     """Validate translation text length for a unit."""
     max_length = get_translation_text_max_length(unit)
-    if any(len(text) > max_length for text in target):
+    is_oversized_multivalue = unit.translation.component.is_multivalue and (
+        len(target) > MAX_TRANSLATION_ALTERNATIVES
+        or sum(map(len, target)) > MAX_TRANSLATION_TOTAL_LENGTH
+    )
+    if is_oversized_multivalue or any(len(text) > max_length for text in target):
         raise ValidationError(gettext("Translation text too long!"))
 
 
