@@ -1302,7 +1302,7 @@ class GithubAppRepository(GithubRepository):
             raise RepositoryInternalError(0, "github_app_workspace_required")
         return self.component.project.workspace
 
-    def push(self, branch: str, *, force: bool | None = None) -> None:
+    def push(self, branch: str, *, force: bool | None = None) -> str | None:
         # Translations must not push onto the pull branch — there's no fork
         # to absorb them. Substitute a dedicated weblate-* branch on the
         # source repo when no explicit push branch is configured (or when
