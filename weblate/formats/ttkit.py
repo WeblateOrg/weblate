@@ -3497,7 +3497,7 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("TermBase eXchange file")
     format_id = "tbx"
-    parse_version = 1
+    parse_version = 2
     has_multiple_strings = True
     loader = tbxfile  # type: ignore[assignment]
     autoload: tuple[str, ...] = ("*.tbx",)
