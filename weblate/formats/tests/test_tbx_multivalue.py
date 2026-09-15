@@ -125,6 +125,8 @@ class TBXMultivalueTest(SimpleTestCase):
         self.assertEqual(len(metadata["source"]), 100)
         self.assertEqual(sum(len(term["notes"]) for term in metadata["source"]), 1)
         self.assertLess(len(dumps(metadata)), len(data) * 2)
+        reconciled = reconcile_terms(metadata["source"], ["term-99"])
+        self.assertEqual(reconciled[0]["notes"], metadata["source"][0]["notes"])
 
     def test_edit_and_reserialize(self) -> None:
         storage = self.parse()

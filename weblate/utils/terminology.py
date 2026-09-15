@@ -34,6 +34,18 @@ class TermRecord(TypedDict):
 
 def reconcile_terms(records: list[TermRecord], texts: list[str]) -> list[TermRecord]:
     """Use the same occurrence/text matching as the TBX writer."""
+    shared_notes: list[TermNote] = []
+    shared_note_keys: set[tuple[str, str | None, str | None, str]] = set()
+    for record in records:
+        for note in record.get("notes", []):
+            scope = note.get("scope", "term")
+            if scope == "term":
+                continue
+            key = (scope, note.get("origin"), note.get("category"), note["text"])
+            if key not in shared_note_keys:
+                shared_note_keys.add(key)
+                shared_notes.append(deepcopy(note))
+
     matches = match_term_indices([record["text"] for record in records], texts)
     result: list[TermRecord] = []
     for text, index in zip(texts, matches, strict=True):
@@ -48,7 +60,12 @@ def reconcile_terms(records: list[TermRecord], texts: list[str]) -> list[TermRec
             }
         )
         record["text"] = text
+        record["notes"] = [
+            note for note in record["notes"] if note.get("scope", "term") == "term"
+        ]
         result.append(record)
+    if result:
+        result[0]["notes"].extend(shared_notes)
     return result
 
 
