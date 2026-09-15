@@ -713,6 +713,9 @@ function initHighlight(root) {
     if (editor.disabled) {
       highlight.classList.add("disabled");
     }
+    if (editor.classList.contains("font-monospace")) {
+      highlight.classList.add("font-monospace");
+    }
     highlight.setAttribute("role", "status");
     if (editor.hasAttribute("dir")) {
       highlight.setAttribute("dir", editor.getAttribute("dir"));

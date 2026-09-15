@@ -545,6 +545,8 @@ class PluralTextarea(forms.Textarea):
 
         # Need to add extra class
         attrs["class"] = "translation-editor form-control highlight-editor"
+        if "font-monospace" in unit.all_flags:
+            attrs["class"] += " font-monospace"
         attrs["lang"] = lang.code
         attrs["dir"] = lang.direction
         attrs["rows"] = 3
