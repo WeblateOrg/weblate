@@ -7730,20 +7730,49 @@ class ComponentAPITest(APIBaseTest):
             request={
                 "hide_glossary_matches": True,
                 "contribute_project_tm": False,
+                "repoweb_translations": (
+                    "https://example.com/translations/{{filename}}#L{{line}}"
+                ),
             },
         )
 
         self.component.refresh_from_db()
         self.assertTrue(response.data["hide_glossary_matches"])
         self.assertFalse(response.data["contribute_project_tm"])
+        self.assertEqual(
+            response.data["repoweb_translations"],
+            "https://example.com/translations/{{filename}}#L{{line}}",
+        )
         self.assertTrue(self.component.hide_glossary_matches)
         self.assertFalse(self.component.contribute_project_tm)
+        self.assertEqual(
+            self.component.repoweb_translations,
+            "https://example.com/translations/{{filename}}#L{{line}}",
+        )
+
+    def test_patch_component_repoweb_translations_validation(self) -> None:
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"repoweb_translations": "javascript:alert(1)"},
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "repoweb_translations")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.repoweb_translations, "")
 
     def test_get_component_exposes_vcs_view_fields(self) -> None:
         Component.objects.filter(pk=self.component.pk).update(
             git_export="https://example.com/export.git",
             push_branch="translations",
             repoweb="https://example.com/src/{{filename}}#L{{line}}",
+            repoweb_translations=(
+                "https://example.com/translations/{{filename}}#L{{line}}"
+            ),
         )
         response = self.client.get(
             reverse("api:component-detail", kwargs=self.component_kwargs)
@@ -7752,6 +7781,10 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data["push_branch"], "translations")
         self.assertEqual(
             response.data["repoweb"], "https://example.com/src/{{filename}}#L{{line}}"
+        )
+        self.assertEqual(
+            response.data["repoweb_translations"],
+            "https://example.com/translations/{{filename}}#L{{line}}",
         )
 
     def test_anonymous_component_hides_empty_password_credentials(self) -> None:
@@ -7780,6 +7813,9 @@ class ComponentAPITest(APIBaseTest):
             git_export="https://example.com/export.git",
             push_branch="translations",
             repoweb="https://example.com/src/{{filename}}#L{{line}}",
+            repoweb_translations=(
+                "https://example.com/translations/{{filename}}#L{{line}}"
+            ),
             vcs_params={"git_force_push": True},
             repo=private_component.get_repo_link_url(),
             linked_component=private_component,
@@ -7794,6 +7830,7 @@ class ComponentAPITest(APIBaseTest):
         self.assertIsNone(response.data["git_export"])
         self.assertIsNone(response.data["push_branch"])
         self.assertIsNone(response.data["repoweb"])
+        self.assertIsNone(response.data["repoweb_translations"])
         self.assertIsNone(response.data["vcs_params"])
         self.assertIsNone(response.data["linked_component"])
 

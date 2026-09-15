@@ -5,6 +5,7 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added a separate :ref:`repository browser URL <component-repoweb-translations>` for translation files.
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can generate component-wide locale lists with native language names, text direction, and translation statistics.
 
 * Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
