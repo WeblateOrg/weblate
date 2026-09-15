@@ -3382,17 +3382,44 @@ class TBXUnit[U: tbxunit, F: "TBXFormat"](TTKitUnit[U, F]):
 
     @property
     def tbx_terms(self):
-        from dataclasses import asdict  # ruff: ignore[import-outside-top-level]
+        from dataclasses import asdict, fields  # ruff: ignore[import-outside-top-level]
+
+        concept_notes: set[tuple[tuple[str, Any], ...]] = set()
+
+        def serialize_terms(terms):
+            language_notes: set[tuple[tuple[str, Any], ...]] = set()
+            result = []
+            for term in terms:
+                notes = []
+                for note in term.notes:
+                    serialized = asdict(note)
+                    scope = serialized.get("scope", "term")
+                    if scope == "concept":
+                        seen = concept_notes
+                    elif scope == "language":
+                        seen = language_notes
+                    else:
+                        notes.append(serialized)
+                        continue
+                    key = tuple(serialized.items())
+                    if key not in seen:
+                        seen.add(key)
+                        notes.append(serialized)
+                result.append(
+                    {
+                        **{
+                            field.name: getattr(term, field.name)
+                            for field in fields(term)
+                            if field.name != "notes"
+                        },
+                        "notes": notes,
+                    }
+                )
+            return result
 
         return {
-            "source": [
-                dict(asdict(term), notes=[asdict(note) for note in term.notes])
-                for term in self.unit.get_source_terms()
-            ],
-            "target": [
-                dict(asdict(term), notes=[asdict(note) for note in term.notes])
-                for term in self.unit.get_target_terms()
-            ],
+            "source": serialize_terms(self.unit.get_source_terms()),
+            "target": serialize_terms(self.unit.get_target_terms()),
         }
 
     def _display_notes(self, *, source=False):
@@ -3470,7 +3497,7 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("TermBase eXchange file")
     format_id = "tbx"
-    parse_version = 1
+    parse_version = 2
     has_multiple_strings = True
     loader = tbxfile  # type: ignore[assignment]
     autoload: tuple[str, ...] = ("*.tbx",)
