@@ -32,16 +32,25 @@ class TermRecord(TypedDict):
     forbidden: NotRequired[bool]
 
 
+def _note_key(note: TermNote) -> tuple[str, str | None, str | None, str]:
+    return (
+        note.get("scope", "term"),
+        note.get("origin"),
+        note.get("category"),
+        note["text"],
+    )
+
+
 def reconcile_terms(records: list[TermRecord], texts: list[str]) -> list[TermRecord]:
     """Use the same occurrence/text matching as the TBX writer."""
     shared_notes: list[TermNote] = []
     shared_note_keys: set[tuple[str, str | None, str | None, str]] = set()
-    for record in records:
-        for note in record.get("notes", []):
+    for original_record in records:
+        for note in original_record.get("notes", []):
             scope = note.get("scope", "term")
             if scope == "term":
                 continue
-            key = (scope, note.get("origin"), note.get("category"), note["text"])
+            key = _note_key(note)
             if key not in shared_note_keys:
                 shared_note_keys.add(key)
                 shared_notes.append(deepcopy(note))
@@ -60,12 +69,28 @@ def reconcile_terms(records: list[TermRecord], texts: list[str]) -> list[TermRec
             }
         )
         record["text"] = text
-        record["notes"] = [
-            note for note in record["notes"] if note.get("scope", "term") == "term"
-        ]
         result.append(record)
     if result:
-        result[0]["notes"].extend(shared_notes)
+        first_notes: list[TermNote] = []
+        first_shared_note_keys: set[tuple[str, str | None, str | None, str]] = set()
+        for note in result[0]["notes"]:
+            scope = note.get("scope", "term")
+            if scope == "term":
+                first_notes.append(note)
+                continue
+            key = _note_key(note)
+            if key not in first_shared_note_keys:
+                first_shared_note_keys.add(key)
+                first_notes.append(note)
+        for note in shared_notes:
+            key = _note_key(note)
+            if key not in first_shared_note_keys:
+                first_notes.append(note)
+        result[0]["notes"] = first_notes
+        for record in result[1:]:
+            record["notes"] = [
+                note for note in record["notes"] if note.get("scope", "term") == "term"
+            ]
     return result
 
 

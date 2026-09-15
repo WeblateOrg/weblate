@@ -3384,10 +3384,10 @@ class TBXUnit[U: tbxunit, F: "TBXFormat"](TTKitUnit[U, F]):
     def tbx_terms(self):
         from dataclasses import asdict, fields  # ruff: ignore[import-outside-top-level]
 
-        concept_notes = set()
+        concept_notes: set[tuple[tuple[str, Any], ...]] = set()
 
         def serialize_terms(terms):
-            language_notes = set()
+            language_notes: set[tuple[tuple[str, Any], ...]] = set()
             result = []
             for term in terms:
                 notes = []
