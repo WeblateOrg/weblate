@@ -71,7 +71,7 @@ from weblate.trans.util import (
     sanitize_backend_error_message,
     split_plural,
 )
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import validate_check_flags, validate_multivalue_size
 from weblate.utils import messages
 from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.html import format_html_join_comma
@@ -2995,6 +2995,12 @@ class Translation(
         component = self.component
         if isinstance(source, str):
             source = [source]
+        validate_multivalue_size(component.is_multivalue, source)
+        if target is not None:
+            validate_multivalue_size(
+                component.is_multivalue,
+                [target] if isinstance(target, str) else target,
+            )
         if (
             len(source) > 1
             and not component.file_format_cls.supports_adding_plural_units()

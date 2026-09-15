@@ -838,7 +838,11 @@ class TranslationForm(UnitForm):
 
         fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
 
-        validate_translation_text_length(unit, self.cleaned_data["target"])
+        validate_translation_text_length(
+            unit,
+            self.cleaned_data["target"],
+            add_alternative="add_alternative" in self.data,
+        )
         if self.user.has_perm(
             "unit.review", unit.translation
         ) and self.cleaned_data.get("review"):

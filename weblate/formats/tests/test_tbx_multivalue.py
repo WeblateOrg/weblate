@@ -12,6 +12,7 @@ from itertools import starmap
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.test import RequestFactory, SimpleTestCase
 from lxml import etree
@@ -41,6 +42,7 @@ from weblate.trans.models import PendingUnitChange, Unit
 from weblate.trans.tests.factories import make_unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.util import join_plural
+from weblate.trans.validators import MAX_TRANSLATION_ALTERNATIVES
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.terminology import reconcile_terms
@@ -531,6 +533,14 @@ class TBXIntegrationTest(RepoTestCase):
         self.sync()
         self.assertEqual(self.unit.get_target_plurals(), texts)
         self.assertEqual(self.unit.tbx_terms["target"][1:], original_records[1:])
+
+    def test_new_unit_rejects_too_many_alternatives(self) -> None:
+        alternatives = ["term"] * (MAX_TRANSLATION_ALTERNATIVES + 1)
+
+        with self.assertRaisesMessage(ValidationError, "Translation text too long!"):
+            self.translation.validate_new_unit_data(
+                "new-concept", alternatives, alternatives
+            )
 
     def test_alias_refresh_matches_sibling_language(self) -> None:
         self.component.is_glossary = True

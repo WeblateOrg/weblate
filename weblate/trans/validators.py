@@ -25,6 +25,15 @@ MAX_TRANSLATION_ALTERNATIVES = 100
 MAX_TRANSLATION_TOTAL_LENGTH = 100000
 
 
+def validate_multivalue_size(is_multivalue: bool, value: list[str]) -> None:
+    """Validate the cardinality and aggregate size of multivalue text."""
+    if is_multivalue and (
+        len(value) > MAX_TRANSLATION_ALTERNATIVES
+        or sum(map(len, value)) > MAX_TRANSLATION_TOTAL_LENGTH
+    ):
+        raise ValidationError(gettext("Translation text too long!"))
+
+
 def get_translation_text_max_length(unit: Unit) -> int:
     """Return maximum accepted translation text length for a unit."""
     # Add extra margin to allow XML tags which might be ignored for length checks.
@@ -36,14 +45,15 @@ def get_translation_text_max_length(unit: Unit) -> int:
     return 10 * (max_length + 100)
 
 
-def validate_translation_text_length(unit: Unit, target: list[str]) -> None:
+def validate_translation_text_length(
+    unit: Unit, target: list[str], *, add_alternative: bool = False
+) -> None:
     """Validate translation text length for a unit."""
     max_length = get_translation_text_max_length(unit)
-    is_oversized_multivalue = unit.translation.component.is_multivalue and (
-        len(target) > MAX_TRANSLATION_ALTERNATIVES
-        or sum(map(len, target)) > MAX_TRANSLATION_TOTAL_LENGTH
-    )
-    if is_oversized_multivalue or any(len(text) > max_length for text in target):
+    if add_alternative:
+        target = [*target, ""]
+    validate_multivalue_size(unit.translation.component.is_multivalue, target)
+    if any(len(text) > max_length for text in target):
         raise ValidationError(gettext("Translation text too long!"))
 
 
