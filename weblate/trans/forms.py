@@ -93,6 +93,7 @@ from weblate.trans.models import (
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import (
+    MAX_TRANSLATION_ALTERNATIVES,
     validate_check_flags,
     validate_translation_text_length,
 )
@@ -602,7 +603,9 @@ class PluralTextarea(forms.Textarea):
     def value_from_datadict(self, data, files, name):
         """Return processed plurals as a list."""
         ret = []
-        for idx in range(len(data)):
+        # Read one extra value so that validation rejects oversized submissions
+        # instead of silently discarding their remaining alternatives.
+        for idx in range(MAX_TRANSLATION_ALTERNATIVES + 1):
             fieldname = f"{name}_{idx:d}"
             if fieldname not in data:
                 break
@@ -835,7 +838,11 @@ class TranslationForm(UnitForm):
 
         fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
 
-        validate_translation_text_length(unit, self.cleaned_data["target"])
+        validate_translation_text_length(
+            unit,
+            self.cleaned_data["target"],
+            add_alternative="add_alternative" in self.data,
+        )
         if self.user.has_perm(
             "unit.review", unit.translation
         ) and self.cleaned_data.get("review"):

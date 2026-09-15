@@ -36,6 +36,7 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Limited the number and aggregate size of alternatives accepted by the translation editor.
 * Prevented component ZIP imports from overwriting version control metadata on case-insensitive filesystems.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API.
 
