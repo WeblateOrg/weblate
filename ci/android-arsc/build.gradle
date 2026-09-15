@@ -1,0 +1,22 @@
+// Copyright © Michal Čihař <michal@weblate.org>
+// SPDX-License-Identifier: GPL-3.0-or-later
+plugins {
+    id 'com.android.application' version '8.6.1'
+}
+android {
+    namespace 'org.weblate.arsctest'
+    compileSdk 35
+    // The resource merger strips XML public IDs; pin the fixture IDs at link time.
+    androidResources {
+        additionalParameters += ['--stable-ids', file('resource-ids.txt').absolutePath]
+    }
+    defaultConfig {
+        applicationId 'org.weblate.arsctest'
+        minSdk 30
+        targetSdk 35
+        testInstrumentationRunner 'android.test.InstrumentationTestRunner'
+    }
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+    sourceSets.androidTest.assets.srcDir 'build/generated/assets'
+}
