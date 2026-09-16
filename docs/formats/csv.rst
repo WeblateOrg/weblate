@@ -50,6 +50,9 @@ Multivalue CSV file
 
 This variant of the CSV files allows storing multiple translations per string.
 
+See :ref:`format-multivalue` for how alternatives are handled by quality checks,
+automatic fixes, and machine translation.
+
 Example files
 +++++++++++++
 

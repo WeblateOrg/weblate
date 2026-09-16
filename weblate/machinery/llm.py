@@ -24,6 +24,7 @@ from weblate.glossary.models import (
     cleanup_glossary_term,
     fetch_glossary_terms,
     get_glossary_terms,
+    iter_glossary_alternatives,
 )
 from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.base import (
@@ -563,8 +564,10 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def _get_glossary_entries(cls, units: list[Unit]) -> list[LLMGlossaryEntry]:
         result: list[LLMGlossaryEntry] = []
         included: set[str] = set()
-        for term in chain.from_iterable(
-            get_glossary_terms(unit, include_variants=False) for unit in units
+        for term in iter_glossary_alternatives(
+            chain.from_iterable(
+                get_glossary_terms(unit, include_variants=False) for unit in units
+            )
         ):
             entry = cls._get_glossary_entry(term)
             if entry is None:
@@ -725,6 +728,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
         source_occurrence: int = 0,
     ) -> LLMPluralContext | None:
         plural_map = getattr(unit, "plural_map", ())
+        if unit.is_multivalue or unit.has_multiple_values(list(plural_map), []):
+            return None
         source_plurals = unit.get_source_plurals()
         if not (
             getattr(unit, "is_plural", False)
@@ -1041,6 +1046,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 unit is not None
                 and unit.translated
                 and not unit.readonly
+                and not unit.is_multivalue
                 and all(unit.get_target_plurals())
             ):
                 # TODO: probably should use plural mapper here
@@ -1148,12 +1154,14 @@ class BaseLLMTranslation(BatchMachineTranslation):
             )
             if not source_plurals:
                 continue
+            target_plurals = unit.get_target_plurals()
+            if unit.has_multiple_values(source_plurals, target_plurals):
+                # Independent alternatives cannot provide paired translation examples.
+                continue
             previous_plural_map = unit.plural_map
             unit.plural_map = source_plurals
             try:
-                for source, target in zip(
-                    source_plurals, unit.get_target_plurals(), strict=False
-                ):
+                for source, target in zip(source_plurals, target_plurals, strict=False):
                     if not source or not target:
                         continue
                     cleaned_source, _replacements = self.cleanup_text(source, unit)

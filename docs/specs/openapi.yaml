@@ -5508,6 +5508,342 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+  /api/components/{project__slug}/{slug}/addons/kotlin-sdk/builds/:
+    post:
+      operationId: api_components_addons_kotlin_sdk_builds_create
+      description: |-
+        The Kotlin SDK API is in beta. No compatibility is guaranteed until the final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and generated resource formats may change without backward compatibility.
+
+        Register resource IDs from a final Android build for the Kotlin SDK CDN add-on. Send application/json using an API token with component.edit permission. Keep the token in the build environment, never in the application.
+
+        The request limit is 5 MiB and 100000 resources combined across strings and plurals, with at least one resource required. Names must match [a-zA-Z_][a-zA-Z0-9_.]*. IDs must belong to app package 0x7f, with one nonzero type ID per resource kind and distinct type IDs for strings and plurals. The same name may appear in both maps with different IDs. Duplicate IDs, invalid names, unknown fields, and unsupported schema versions are rejected with 400.
+
+        Returns 202 for a new registration, 200 for identical existing metadata, or 409 for conflicting metadata or aggregate storage capacity. Publication is asynchronous: poll status_url; manifest_url need not exist yet. Repeat uploads do not extend retention or reactivate retained retired records.
+
+        Add-on configuration maximum_versions defaults to 20 (range 1-100), and maximum_age defaults to 365 days (range 1-730), measured from first registration. Limits apply across all package names. One additional unpublished replacement is allowed. New registrations can retire older unpublished replacements, but published builds are retired for the version limit only after a replacement is published. Failed replacements preserve existing publications; maximum-age expiry still applies independently. Expiry is enforced on registration, publication, and daily cleanup. Hourly maintenance retires publications when the component becomes incompatible; the normal artifact retention window still applies. Retirement immediately clears metadata. Lightweight retired records are deleted on cleanup after 24 hours and successful manifest removal; their identifiers can then be registered again. Failed or interrupted manifest removals are retried hourly. Until removal succeeds, the retired record and its artifact references are retained to prevent path reuse. Mapping immutability is guaranteed only while a registration is retained. The add-on accepts at most 1000 total registration records, including retired records. Metadata is bounded by the per-upload size limit and maximum retained version count plus one replacement, without a separate byte quota. Superseded artifacts are deleted on cleanup after a fixed 24-hour window. Cache manifests for at most one hour (Cache-Control: public, max-age=3600). Translation updates and retirements can take up to one hour to reach clients; use Cache-Control: no-cache when immediate revalidation is preferred. All artifact files, including superseded and incomplete publication output, count towards hard limits of 5 GiB and 10000 files per add-on. The larger artifact allowance accommodates translated text and multiple locales; it does not guarantee capacity for every locale or build combination. A publication exceeding either limit fails before writing new artifacts and preserves the previous manifest. Shared artifacts count only once. The window and storage limits are not configurable. Artifacts are compiled one locale at a time and staged on disk. Per-locale compilation rejects resources whose conservative encoded text and styling estimate exceeds 64 MiB. Preparation uses a separate fixed temporary-storage limit of 5 GiB per publication job, for staged ARSC output, shared by versions with identical resource mappings. Before enabling the add-on, configure the CDN origin to deny access to the .kotlin-sdk-staging directory under LOCALIZE_CDN_PATH; it contains unpublished preparation files. The manifest becomes visible only after its publication intent is committed. Failed or interrupted manifest writes are retried by subsequent publication jobs; artifacts for both old and pending manifests remain protected until replacement succeeds. Registration capacity errors reject new registrations without evicting active builds; identical retries remain accepted. Uninstalling attempts to remove origin files immediately; failed or interrupted removals are retried hourly. Files may remain publicly accessible until cleanup succeeds. Removal does not revoke copies already cached or downloaded by clients.
+
+        Builds receive current component translations matched by resource name and type. Source text and formatting argument compatibility with older builds is the maintainer's responsibility. Strings, plurals, and Android styled text are supported; arrays and resource references are not generated. Untranslated, read-only, and incomplete plural entries are omitted so bundled resources remain available. Unsupported styling fails publication without replacing the previous manifest. CDN output is public, even for private components. Manifests expose packageName and versionCode; ARSC files expose published resource names and their submitted IDs alongside translated text. Do not treat the uploaded mapping as confidential. Access to registration and status endpoints remains permission-controlled.
+
+        Requires the Kotlin SDK CDN add-on (`weblate.cdn.kotlin`) installed directly on the component and `component.edit` permission.
+      parameters:
+      - in: path
+        name: project__slug
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - components
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuildMetadata'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildStatus'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildStatus'
+          description: The request was accepted for asynchronous processing.
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildConflict'
+          description: ''
+  /api/components/{project__slug}/{slug}/addons/kotlin-sdk/builds/{package}/{version}/:
+    get:
+      operationId: api_components_addons_kotlin_sdk_builds_retrieve
+      description: |-
+        The Kotlin SDK API is in beta. No compatibility is guaranteed until the final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and generated resource formats may change without backward compatibility.
+
+        Get the publication state and CDN manifest URL for a registered package/version. Requires component.edit permission. Missing installations or registrations return 404. States are pending, published, failed, and retired. A failed replacement may still have a previous successful manifest. Retired versions remain queryable but their manifests are removed; repeat uploads do not reactivate them. Maximum build age and retained version count are configured on the add-on. Retired metadata is cleared immediately and its lightweight registration record is deleted on cleanup after 24 hours and successful manifest removal. Failed removals are retried hourly; the registration and referenced artifacts are retained until removal succeeds. Superseded artifacts have a fixed 24-hour window, subject to the aggregate artifact storage limits documented on registration.
+
+        Requires the Kotlin SDK CDN add-on (`weblate.cdn.kotlin`) installed directly on the component and `component.edit` permission.
+      parameters:
+      - in: path
+        name: package
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: project__slug
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: version
+        schema:
+          type: integer
+        required: true
+      tags:
+      - components
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildStatus'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/components/{project__slug}/{slug}/announcements/:
     get:
       operationId: api_components_announcements_list
@@ -31820,7 +32156,25 @@ components:
           type: string
           format: uri
           readOnly: true
+        api_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Current API name declared by the enabled, compatible provider.
+            Null when no API is available.
+          pattern: ^[-a-zA-Z0-9_]+$
+        api_url:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Component-mounted API base URL, including any encoded category
+            path. Null when the provider is disabled, incompatible, or does not declare
+            an API.
       required:
+      - api_name
+      - api_url
       - component
       - id
       - name
@@ -32072,6 +32426,97 @@ components:
           type: boolean
       required:
       - result
+    BuildConflict:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: The package and version have a different resource mapping,
+            or the add-on has reached its limit of 1000 registration records. Retry
+            new registrations after retired records are cleaned up. Identical retries
+            remain accepted.
+      required:
+      - detail
+    BuildMetadata:
+      type: object
+      properties:
+        schemaVersion:
+          type: integer
+          maximum: 1
+          minimum: 1
+          default: 1
+          description: Metadata format version. Only version 1 is supported.
+        packageName:
+          type: string
+          description: Android application package name from the final installed build.
+            Leading or trailing whitespace is rejected.
+          maxLength: 127
+          pattern: ^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)+$
+        versionCode:
+          type: integer
+          maximum: 2100000000
+          minimum: 1
+          description: Android version code. Together with packageName, identifies
+            an immutable resource mapping.
+        strings:
+          type: object
+          additionalProperties:
+            type: string
+            pattern: ^0x[0-9a-fA-F]{8}$
+          description: 'String resource names mapped to final resource IDs, for example
+            {"welcome": "0x7f090003"}. Defaults to an empty object. Translated values
+            come from Weblate.'
+        plurals:
+          type: object
+          additionalProperties:
+            type: string
+            pattern: ^0x[0-9a-fA-F]{8}$
+          description: 'Plural resource names mapped to final resource IDs, for example
+            {"count": "0x7f080004"}. Defaults to an empty object. Quantities and translated
+            values come from Weblate, not this mapping.'
+      required:
+      - packageName
+      - versionCode
+    BuildStatus:
+      type: object
+      properties:
+        packageName:
+          type: string
+          description: Registered Android application package name.
+        versionCode:
+          type: integer
+          description: Registered Android version code.
+        status:
+          type: string
+          description: 'Publication state: pending, published, failed, or retired.
+            A failed replacement can still have a previous successful manifest. Retired
+            versions do not reactivate on repeat uploads.'
+        error:
+          type: string
+          description: Publication error details, or an empty string when there is
+            no error.
+        manifest_url:
+          type: string
+          format: uri
+          description: Public CDN manifest URL. Publication is asynchronous, so this
+            URL may initially return 404. Retired manifests are removed. The JSON
+            manifest contains schemaVersion (1), packageName, versionCode, and locales
+            keyed by Weblate language code. Each locale contains url (relative to
+            this manifest URL), sha256, and size (bytes) for an immutable ARSC artifact.
+            Revalidate manifests, verify artifact size and hash, and preserve bundled
+            resources on download failure.
+        status_url:
+          type: string
+          format: uri
+          description: Authenticated GET endpoint for polling this registration's
+            publication state.
+      required:
+      - error
+      - manifest_url
+      - packageName
+      - status
+      - status_url
+      - versionCode
     Category:
       type: object
       properties:
@@ -35211,6 +35656,22 @@ components:
           type: string
           format: uri
           readOnly: true
+        api_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Current API name declared by the enabled, compatible provider.
+            Null when no API is available.
+          pattern: ^[-a-zA-Z0-9_]+$
+        api_url:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Component-mounted API base URL, including any encoded category
+            path. Null when the provider is disabled, incompatible, or does not declare
+            an API.
     PatchedCategory:
       type: object
       properties:
@@ -38816,6 +39277,10 @@ components:
     Unit:
       type: object
       properties:
+        tbx_terms:
+          type: object
+          additionalProperties: {}
+          readOnly: true
         translation:
           type: string
           format: uri
@@ -38940,6 +39405,7 @@ components:
       - source
       - source_unit
       - target
+      - tbx_terms
       - timestamp
       - translated
       - translation

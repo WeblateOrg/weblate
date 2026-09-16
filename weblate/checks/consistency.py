@@ -67,6 +67,8 @@ class SamePluralsCheck(TargetCheck):
     def check_target_unit(
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> bool:
+        if unit.has_multiple_values(sources, targets):
+            return False
         # Is this plural?
         if len(sources) == 1 or len(targets) == 1:
             return False

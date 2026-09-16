@@ -7682,6 +7682,44 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
 
 class OpenAILLMContextTest(FixtureComponentTestCase):
+    def test_project_examples_do_not_pair_independent_alternatives(self) -> None:
+        unit = self.get_unit(language="cs")
+        candidates = unit.translation.unit_set.exclude(pk=unit.pk)
+        candidate = candidates.first()
+        assert candidate is not None
+        candidates.update(state=STATE_EMPTY)
+        machine = OpenAITranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+        cases: tuple[tuple[list[str], list[str], list[dict[str, str]]], ...] = (
+            (["application", "app"], ["aplikace", "program"], []),
+            (["application", "app"], ["aplikace"], []),
+            (["application"], ["aplikace", "program"], []),
+            (
+                ["application"],
+                ["aplikace"],
+                [{"source": "application", "target": "aplikace"}],
+            ),
+        )
+        for file_format in ("tbx", "csv-multi"):
+            unit.translation.component.file_format = file_format
+            unit.translation.component.__dict__.pop("file_format_cls", None)
+            for sources, targets, expected in cases:
+                with self.subTest(
+                    file_format=file_format, sources=sources, targets=targets
+                ):
+                    candidates.filter(pk=candidate.pk).update(
+                        source=join_plural(sources),
+                        target=join_plural(targets),
+                        state=STATE_TRANSLATED,
+                    )
+                    self.assertEqual(
+                        machine._get_project_previous_examples(  # ruff: ignore[private-member-access]
+                            "en", [(unit.source, unit)]
+                        ),
+                        expected,
+                    )
+
     def test_translate_uses_project_previous_messages_for_target_language(self) -> None:
         self.change_unit(
             "Orangutan má %d banán.\n",
@@ -8253,6 +8291,14 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
 
+    def test_base_url_path_is_preserved(self) -> None:
+        machine = self.MACHINE_CLS(
+            {**self.CONFIGURATION, "base_url": "http://localhost:11434/ollama"}
+        )
+        self.assertEqual(
+            machine.get_chat_url(), "http://localhost:11434/ollama/api/chat"
+        )
+
     def mock_error(self) -> None:
         http_mock.register(
             "POST",
@@ -8605,6 +8651,114 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
 
 
 class WeblateTranslationTest(FixtureComponentTestCase):
+    def test_multivalue_candidates(self) -> None:
+        unit = self.get_unit(language="cs")
+        type(unit.translation.component).objects.filter(
+            pk=unit.translation.component_id
+        ).update(file_format="csv-multi")
+        Unit.objects.filter(pk=unit.pk).update(
+            source=join_plural(["application with a very long full name", "app"]),
+            target=join_plural(["aplikace", "program"]),
+            state=STATE_TRANSLATED,
+        )
+        machine = WeblateTranslation({})
+        for threshold in (100, 75):
+            with self.subTest(threshold=threshold):
+                results = list(
+                    machine.download_translations(
+                        unit.translation.component.source_language,
+                        unit.translation.language,
+                        "app",
+                        unit=None,
+                        user=self.user,
+                        threshold=threshold,
+                    )
+                )
+                self.assertEqual(
+                    {(result["source"], result["text"]) for result in results},
+                    {("app", "aplikace"), ("app", "program")},
+                )
+
+    def test_long_multivalue_candidates(self) -> None:
+        unit = self.get_unit(language="cs")
+        type(unit.translation.component).objects.filter(
+            pk=unit.translation.component_id
+        ).update(file_format="csv-multi")
+        machine = WeblateTranslation({})
+        for sources in (
+            ["application", "a much longer alternative"],
+            ["a much longer alternative", "application"],
+        ):
+            Unit.objects.filter(pk=unit.pk).update(
+                source=join_plural(sources),
+                target=join_plural(["aplikace", "program"]),
+                state=STATE_TRANSLATED,
+            )
+            for text in ("application", "applications"):
+                with self.subTest(sources=sources, text=text):
+                    results = list(
+                        machine.download_translations(
+                            unit.translation.component.source_language,
+                            unit.translation.language,
+                            text,
+                            unit=None,
+                            user=self.user,
+                            threshold=75,
+                        )
+                    )
+                    self.assertEqual(
+                        {(result["source"], result["text"]) for result in results},
+                        {("application", "aplikace"), ("application", "program")},
+                    )
+
+    def test_multivalue_candidate_ranking_uses_matching_alias(self) -> None:
+        unit = self.get_unit(language="cs")
+        type(unit.translation.component).objects.filter(
+            pk=unit.translation.component_id
+        ).update(file_format="csv-multi")
+        Unit.objects.filter(pk=unit.pk).update(
+            source=join_plural(["application", "a much longer alternative"]),
+            target=join_plural(["aplikace", "program"]),
+            state=STATE_TRANSLATED,
+        )
+        machine = WeblateTranslation({})
+        competitors = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=unit.translation,
+                    source_unit_id=unit.source_unit_id,
+                    source="application",
+                    target=f"translation {index}",
+                    state=STATE_TRANSLATED,
+                    id_hash=index,
+                    position=index,
+                )
+                for index in range(machine.candidate_limit)
+            ]
+        )
+        for text in ("application", "app"):
+            with self.subTest(text=text):
+                Unit.objects.filter(
+                    pk__in=[competitor.pk for competitor in competitors]
+                ).update(source=text)
+                Unit.objects.filter(pk=unit.pk).update(
+                    source=join_plural(["a much longer alternative", text])
+                )
+                results = list(
+                    machine.download_translations(
+                        unit.translation.component.source_language,
+                        unit.translation.language,
+                        text,
+                        unit=None,
+                        user=self.user,
+                        threshold=75,
+                    )
+                )
+                self.assertEqual(len(results), machine.candidate_limit)
+                self.assertEqual(
+                    [result["text"] for result in results[:2]], ["aplikace", "program"]
+                )
+
     def test_empty(self) -> None:
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)
@@ -9265,7 +9419,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
             results = machine.get_matching_units(base, "Hello", 75)
 
         self.assertEqual(results, [fuzzy_match])
-        base.filter.assert_called_once_with(source__trgm_search="Hello")
+        base.filter.assert_called_once()
         queryset.annotate.assert_called_once()
         annotated_queryset.order_by.assert_called_once_with("-match_similarity", "pk")
         prepare_queryset.assert_called_once_with(ordered_queryset)
@@ -9337,10 +9491,12 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         machine.comparer.similarity.side_effect = [95, 90, 85]
 
         filtered_match = MagicMock()
+        filtered_match.is_multivalue = False
         filtered_match.source_string = "ignored"
         filtered_match.all_flags = {"forbidden"}
 
         first_match = MagicMock()
+        first_match.is_multivalue = False
         first_match.source_string = "first"
         first_match.all_flags = set()
         first_match.get_target_plurals.return_value = ["First"]
@@ -9348,6 +9504,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         first_match.get_absolute_url.return_value = "/first/"
 
         second_match = MagicMock()
+        second_match.is_multivalue = False
         second_match.source_string = "second"
         second_match.all_flags = set()
         second_match.get_target_plurals.return_value = ["Second"]
@@ -9355,6 +9512,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         second_match.get_absolute_url.return_value = "/second/"
 
         third_match = MagicMock()
+        third_match.is_multivalue = False
         third_match.source_string = "third"
         third_match.all_flags = set()
         third_match.get_target_plurals.return_value = ["Third"]

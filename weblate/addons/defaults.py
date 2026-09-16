@@ -35,6 +35,7 @@ DEFAULT_WEBLATE_ADDONS: tuple[str, ...] = (
     "weblate.addons.resx.ResxUpdateAddon",
     "weblate.addons.cdn.CDNJSAddon",
     "weblate.addons.cdn.CDNFilesAddon",
+    "weblate.kotlin_sdk.addons.KotlinSDKAddon",
     "weblate.addons.webhooks.WebhookAddon",
     "weblate.addons.webhooks.SlackWebhookAddon",
     "weblate.addons.fedora_messaging.FedoraMessagingAddon",
