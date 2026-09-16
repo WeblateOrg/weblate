@@ -319,6 +319,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There are changes in :file:`settings_example.py`, most notably the new ``STORAGES`` configuration and removal of the ``COMPRESS_*`` settings; please adjust your settings accordingly.
 * Running :program:`weblate compress` is no longer necessary; :program:`weblate collectstatic --noinput` now prepares versioned static assets without clearing the static storage.
+* NumPy is now a required dependency; review the updated :ref:`hardware requirements <hardware>` before upgrading.
 
 .. rubric:: Contributors
 
