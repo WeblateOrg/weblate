@@ -954,7 +954,7 @@ class AutoLoadTest(SimpleTestCase):
     def test_xliff(self) -> None:
         self.single_test(TEST_XLIFF, XliffFormat)
 
-    def test_xliff_conversion_upload_uses_plain_placeables(self) -> None:
+    def do_test_xliff_conversion_upload(self, filename: str):
         content = (
             '<?xml version="1.0" encoding="UTF-8"?>'
             '<xliff version="1.1">'
@@ -965,18 +965,28 @@ class AutoLoadTest(SimpleTestCase):
             "</trans-unit></body></file></xliff>"
         ).encode()
 
-        conversion_store = try_load("test.xliff", content, JSONFormat, None)
-        self.assertIsInstance(conversion_store, XliffFormat)
-        self.assertIsInstance(conversion_store.content_units[0], XliffUnit)
-        self.assertEqual(
-            conversion_store.content_units[0].source, "Source & translation"
-        )
-
-        native_store = try_load("test.xliff", content, XliffFormat, None)
+        native_store = try_load(filename, content, XliffFormat, None)
         self.assertIsInstance(native_store.content_units[0], RichXliffUnit)
         self.assertEqual(
             native_store.content_units[0].source, "Source &amp; translation"
         )
+        conversion_store = try_load(filename, content, JSONFormat, None)
+        self.assertIsInstance(conversion_store, XliffFormat)
+        return conversion_store
+
+    def test_xliff_conversion_upload_with_plain_placeables(self) -> None:
+        conversion_store = self.do_test_xliff_conversion_upload("test.xliff")
+        self.assertIsInstance(conversion_store.content_units[0], XliffUnit)
+        unit = conversion_store.content_units[0]
+        self.assertEqual(unit.source, "Source & translation")
+        self.assertNotIn("xml-text", unit.flags)
+
+    def test_xliff_conversion_upload_with_placeables(self) -> None:
+        conversion_store = self.do_test_xliff_conversion_upload("test.mxliff")
+        self.assertIsInstance(conversion_store.content_units[0], RichXliffUnit)
+        unit = conversion_store.content_units[0]
+        self.assertEqual(unit.source, "Source &amp; translation")
+        self.assertIn("xml-text", unit.flags)
 
     def test_resx(self) -> None:
         self.single_test(TEST_RESX, RESXFormat)

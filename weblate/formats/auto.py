@@ -86,6 +86,7 @@ XLIFF_PLACEABLE_FORMATS = frozenset({"xliff", "xliff2"})
 
 
 def params_for_detected_format(
+    filename: str,
     file_format: type[TranslationFormat],
     original_format: type[TranslationFormat] | None,
     file_format_params: FileFormatParams | None,
@@ -101,7 +102,11 @@ def params_for_detected_format(
         file_format.format_id in XLIFF_PLACEABLE_FORMATS
         and getattr(original_format, "format_id", None) not in XLIFF_PLACEABLE_FORMATS
     ):
-        return {**(file_format_params or {}), "xliff_placeables": "plain"}
+        extension = os.path.splitext(filename)[1]
+        placeables_value = (
+            "placeables" if extension in {".sdlxliff", ".mxliff"} else "plain"
+        )
+        return {**(file_format_params or {}), "xliff_placeables": placeables_value}
     return file_format_params
 
 
@@ -129,7 +134,7 @@ def try_load(
 
     for file_format in formats_iter(filename, original_format):
         file_format_params = params_for_detected_format(
-            file_format, original_format, file_format_params
+            filename, file_format, original_format, file_format_params
         )
         for kwargs, validate in params_iter(file_format, template_store, is_template):
             handle = NamedBytesIO(filename, content)
