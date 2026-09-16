@@ -770,9 +770,11 @@ class PunctuationSpacingCheckTest(CheckTestCase):
             flags="md-text",
         )
         fixup = self.check.get_fixup(unit)
-        self.assertIsNotNone(fixup)
+        assert fixup is not None
         result = unit.target
-        for _kind, pattern, replacement, _flags in fixup:
+        for item in fixup:
+            assert item[0] == "regex"
+            _kind, pattern, replacement, _flags = item
             result = regex.sub(pattern, replacement.replace("$", "\\"), result)
         self.assertEqual(result, "Lire\u00a0: [docs](https://example.com)")
 
