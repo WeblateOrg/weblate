@@ -9,7 +9,7 @@ from __future__ import annotations
 import csv
 import json
 from copy import deepcopy
-from io import StringIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import patch
@@ -18,7 +18,12 @@ from django.db import transaction
 from django.urls import reverse
 from lxml import etree
 
-from weblate.glossary.models import get_glossary_terms, get_glossary_tsv
+from weblate.formats.ttkit import TBXFormat, TBXUnit
+from weblate.glossary.models import (
+    get_glossary_terms,
+    get_glossary_tsv,
+    get_glossary_tuples,
+)
 from weblate.glossary.tasks import (
     cleanup_stale_glossaries,
     get_stale_glossary_translations,
@@ -31,6 +36,7 @@ from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.trans.util import join_plural
 from weblate.utils.hash import calculate_hash
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
@@ -264,6 +270,130 @@ class GlossaryTest(ViewTestCase):
             self.glossary.unit_set.filter(target="podpůrná vrstva").exists()
         )
 
+    def test_import_tbx_source_alternatives(self) -> None:
+        content = b"""<martif type="TBX"><text><body><termEntry id="multi-source" weblate-flags="max-length:50">
+<descrip type="Translation needed">No</descrip><descrip type="definition">A program.</descrip><note from="custom">Concept note</note>
+<langSet xml:lang="en"><tig id="source-full"><term>application</term></tig><tig id="source-short"><term>app</term></tig></langSet>
+<langSet xml:lang="cs"><note from="translator">Language note</note><tig id="target-full"><term>aplikace</term><termNote type="administrativeStatus">forbidden</termNote><note from="custom">Term note</note></tig><tig id="target-short"><term>program</term><termNote type="administrativeStatus">forbidden</termNote></tig></langSet>
+</termEntry></body></text></martif>"""
+        expected: TBXUnit = TBXFormat(
+            BytesIO(content), source_language="en", language_code="cs"
+        ).content_units[0]
+        with BytesIO(content) as handle:
+            handle.name = "alternatives.tbx"
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
+                {"file": handle, "method": "add"},
+            )
+        self.assertRedirects(response, self.glossary.get_absolute_url())
+        unit = self.glossary.unit_set.get(context="multi-source")
+        self.assertEqual(unit.get_source_plurals(), ["application", "app"])
+        self.assertEqual(unit.get_target_plurals(), ["aplikace", "program"])
+        self.glossary.commit_pending("test", self.user)
+        self.glossary.drop_store_cache()
+        stored, _ = self.glossary.store.find_unit(unit.context, unit.source)
+        self.assertEqual(stored.source, unit.source)
+        self.assertEqual(stored.target, unit.target)
+        self.assertEqual(unit.tbx_terms, expected.tbx_terms)
+        self.assertEqual(stored.tbx_terms, expected.tbx_terms)
+        self.assertIn("forbidden", unit.all_flags)
+        self.assertIn("forbidden", stored.flags)
+        self.assertIn("read-only", unit.all_flags)
+        self.assertTrue(stored.is_readonly())
+        self.assertEqual(stored.flags.get_value("max-length"), 50)
+
+    def test_import_tbx_duplicate_source_alternatives(self) -> None:
+        content = b"""<martif type="TBX"><text><body>
+<termEntry><langSet xml:lang="en"><tig><term>application</term></tig><tig><term>app</term></tig></langSet><langSet xml:lang="cs"><tig><term>aplikace</term></tig></langSet></termEntry>
+<termEntry><langSet xml:lang="en"><tig><term>application</term></tig><tig><term>program</term></tig></langSet><langSet xml:lang="cs"><tig><term>program</term></tig></langSet></termEntry>
+<termEntry id="distinct"><langSet xml:lang="en"><tig><term>application</term></tig><tig><term>tool</term></tig></langSet><langSet xml:lang="cs"><tig><term>nastroj</term></tig></langSet></termEntry>
+</body></text></martif>"""
+        count = self.glossary.unit_set.count()
+        with BytesIO(content) as handle:
+            handle.name = "duplicates.tbx"
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
+                {"file": handle, "method": "add"},
+            )
+        self.assertRedirects(response, self.glossary.get_absolute_url())
+        self.assertEqual(self.glossary.unit_set.count(), count + 2)
+        unit = self.glossary.unit_set.get(source=join_plural(["application", "app"]))
+        self.assertEqual(unit.target, "aplikace")
+        self.assertEqual(
+            self.glossary.unit_set.get(context="distinct").target, "nastroj"
+        )
+        self.glossary.commit_pending("test", self.user)
+        self.glossary.drop_store_cache()
+        stored, _ = self.glossary.store.find_unit(unit.context, unit.source)
+        self.assertEqual(stored.source, unit.source)
+        self.assertEqual(stored.target, unit.target)
+
+    def test_import_tbx_updates_existing_source_metadata(self) -> None:
+        source_translation = self.glossary_component.source_translation
+        other_translation = self.glossary_component.translation_set.exclude(
+            pk__in=[source_translation.pk, self.glossary.pk]
+        ).first()
+        assert other_translation is not None
+        other_translation.add_unit(
+            None, "shared", "application", "application", author=self.user
+        )
+        self.glossary_component.unload_sources()
+        content = b"""<martif type="TBX"><text><body><termEntry id="shared" weblate-flags="max-length:50">
+<note from="custom">Concept note</note>
+<langSet xml:lang="en"><tig id="full"><term>application</term></tig><tig id="short"><term>app</term><termNote type="administrativeStatus">obsolete</termNote><note from="custom">Alias note</note></tig></langSet>
+<langSet xml:lang="cs"><tig><term>aplikace</term></tig></langSet>
+</termEntry></body></text></martif>"""
+        parsed: TBXUnit = TBXFormat(
+            BytesIO(content), source_language="en", language_code="cs"
+        ).content_units[0]
+        with BytesIO(content) as handle:
+            handle.name = "shared.tbx"
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
+                {"file": handle, "method": "add"},
+            )
+        self.assertRedirects(response, self.glossary.get_absolute_url())
+        source = source_translation.unit_set.get(context="shared")
+        self.assertEqual(source.get_source_plurals(), ["application", "app"])
+        self.assertEqual(source.tbx_terms["source"], parsed.tbx_terms["source"])
+        self.assertEqual(source.tbx_terms["target"], parsed.tbx_terms["source"])
+        self.assertEqual(source.details["tbx_flags"], parsed.tbx_flags)
+        self.assertEqual(source.note, parsed.notes)
+
+    def test_import_tbx_empty_dnt(self) -> None:
+        content = b"""<martif type="TBX"><text><body><termEntry id="empty-dnt">
+<descrip type="Translation needed">No</descrip>
+<langSet xml:lang="en"><tig><term>Brand</term></tig></langSet>
+</termEntry></body></text></martif>"""
+        with BytesIO(content) as handle:
+            handle.name = "dnt.tbx"
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
+                {"file": handle, "method": "add"},
+            )
+        self.assertRedirects(response, self.glossary.get_absolute_url())
+        unit = self.glossary.unit_set.get(context="empty-dnt")
+        self.assertFalse(unit.target)
+        self.assertTrue(unit.readonly)
+        self.assertEqual(unit.state, STATE_READONLY)
+
+    def test_create_source_alternatives(self) -> None:
+        sources = ["application", "app"]
+        targets = ["aplikace", "program"]
+        self.glossary.validate_new_unit_data("multi-source", sources, targets)
+        unit = self.glossary.add_unit(
+            None, "multi-source", sources, targets, author=self.user
+        )
+        assert unit is not None
+        self.glossary.commit_pending("test", self.user)
+        self.glossary.drop_store_cache()
+        unit.refresh_from_db()
+        self.assertEqual(unit.get_source_plurals(), sources)
+        self.assertEqual(unit.get_target_plurals(), targets)
+        stored, _ = self.glossary.store.find_unit(unit.context, unit.source)
+        self.assertEqual(stored.source, unit.source)
+        self.assertEqual(stored.target, unit.target)
+
     def test_import_csv(self) -> None:
         # Import file
         response = self.import_file(TEST_CSV)
@@ -295,6 +425,26 @@ class GlossaryTest(ViewTestCase):
 
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 164)
+
+    def test_multivalue_alias_lookup(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term(
+                join_plural(["salutation", "hello"]), join_plural(["ahoj", "nazdar"])
+            )
+        unit = self.get_unit("Hello, world!\n")
+        matches = get_glossary_terms(unit)
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(matches[0].matched_sources, ("hello",))
+        self.assertEqual(
+            [term["text"] for term in matches[0].glossary_targets], ["ahoj", "nazdar"]
+        )
+        self.assertEqual(list(get_glossary_tuples(matches)), [("hello", "ahoj")])
+        unit.source = "A salutation: hello"
+        unit.glossary_terms = None
+        matches = get_glossary_terms(unit)
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(set(matches[0].matched_sources or ()), {"salutation", "hello"})
+        self.assertEqual(len(matches[0].glossary_positions), 2)
 
     def test_get_terms(self) -> None:
         with self.captureOnCommitCallbacks(execute=True):

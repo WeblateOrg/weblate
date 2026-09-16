@@ -17,6 +17,28 @@ TBX is an XML format for the exchange of terminology data.
 
 .. include:: /snippets/format-features/tbx-features.rst
 
+Term alternatives
++++++++++++++++++
+
+Each TBX concept is one string with independent lists of source and target
+alternatives. Weblate reads every direct ``<tig>`` in the selected languages;
+IDs are optional and do not pair alternatives across languages. All source
+alternatives can match in the glossary, and each permitted target can be copied
+separately. Term statuses and notes are displayed with their alternatives.
+
+See :ref:`format-multivalue` for how alternatives are handled by quality checks,
+automatic fixes, and machine translation.
+
+When editing alternatives, unchanged text is matched first, including duplicate
+occurrences. Remaining alternatives reuse unmatched terms in their original
+order, retaining IDs and metadata. Renaming and deleting alternatives together
+can therefore associate a renamed term with the first unmatched term's metadata.
+New alternatives are created without IDs. Term metadata is read-only in Weblate.
+
+A missing target language does not remove a concept whose source exists. DNT
+terms can use the matching source alternative without creating a translation.
+Language codes still need to match the component configuration.
+
 Explanations
 ++++++++++++
 
@@ -25,6 +47,19 @@ Weblate loads and saves explanation from TBX files to be displayed in :ref:`glos
 * Translation explanation is stored as ``<note from="translator"></note>`` tag.
 * Source string explanation is stored as ``<descrip></descrip>`` tag.
 * Source string description is stored as ``<descrip type="Usage note"></descrip>`` tag.
+
+Concept notes are shared. Language notes are read only for the selected language,
+and term notes belong to their own alternative. Editing a target explanation does
+not overwrite notes in other languages.
+
+TBX components offer native and generated TBX downloads. Conversion to formats
+that use grammatical plurals is unavailable because those formats cannot preserve
+independent source and target alternatives.
+
+Generated TBX downloads preserve represented flags, explanations, alternative IDs,
+statuses, and note scopes. Weblate flags use the same ``weblate-flags`` attribute
+as native TBX storage. Native file editing also preserves unrecognized XML and
+unselected languages; generated exports contain the selected language pair.
 
 Glossary flags and read-only metadata
 +++++++++++++++++++++++++++++++++++++
@@ -48,6 +83,9 @@ language.
 Avoid naming a TBX translation file with the same language code as the
 component source language, because the source language already exists in
 Weblate and the file can be detected as a duplicate language.
+
+The Add upload method preserves alternative IDs, statuses, and scoped notes
+when importing TBX into a TBX glossary.
 
 .. seealso::
 

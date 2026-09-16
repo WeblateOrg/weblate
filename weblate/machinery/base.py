@@ -1238,8 +1238,6 @@ class BatchMachineTranslation(DocVersionsMixin):
         except UnsupportedLanguageError:
             return
 
-        self.account_usage(translation.component.project, delta=len(units))
-
         source_plural = source_language.plural
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
@@ -1247,6 +1245,22 @@ class BatchMachineTranslation(DocVersionsMixin):
         if not translating_from_source:
             alternate_units = plural_mapper.get_other_units(units, source_language)
         plural_mapper.map_units(units, alternate_units)
+
+        if translation.component.is_multivalue:
+            # Independent alternatives have no one-to-one source/target mapping.
+            # Keep existing alternatives until automatic translation can merge them.
+            units = [
+                unit
+                for unit in units
+                if unit.plural_map
+                and not unit.has_multiple_values(
+                    unit.plural_map, unit.get_target_plurals()
+                )
+            ]
+            if not units:
+                return
+
+        self.account_usage(translation.component.project, delta=len(units))
 
         # Fetch source from other units
         sources: list[tuple[str, Unit | None]] = [
