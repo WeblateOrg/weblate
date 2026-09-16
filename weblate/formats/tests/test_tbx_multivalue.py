@@ -325,7 +325,9 @@ class TBXMultivalueTest(SimpleTestCase):
             self.assertFalse(check.check_single("app", "appli", unit))
             self.assertEqual(check.check_single("app", "logiciel", unit), {"app"})
             self.assertEqual(check.check_single("app", "missing", unit), {"app"})
-        term.all_flags = Flags("read-only")
+        term.extra_flags = "read-only"
+        # Drop the value cached while running the check above
+        del term.untranslatable
         self.assertEqual(list(get_glossary_tuples([term])), [("app", "app")])
 
     def test_glossary_check_prefers_permitted_duplicate(self) -> None:
@@ -621,7 +623,10 @@ class TBXIntegrationTest(RepoTestCase):
         self.unit.translation = self.translation
         for readonly in (False, True):
             with self.subTest(readonly=readonly):
-                self.unit.all_flags = Flags("read-only" if readonly else "")
+                self.unit.extra_flags = "read-only" if readonly else ""
+                if readonly:
+                    # Drop the value cached by the previous iteration
+                    del self.unit.untranslatable
                 prepare_glossary_alternatives(self.unit)
                 rendered = lxml_html.fromstring(
                     render_to_string(

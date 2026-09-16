@@ -2689,6 +2689,31 @@ class Unit(models.Model, LoggerMixin):
     def all_flags(self) -> Flags:
         return self.get_all_flags()
 
+    @cached_property
+    def untranslatable(self) -> bool:
+        """
+        Whether the string itself carries the read-only flag.
+
+        Unlike checking :attr:`all_flags`, this ignores the flag inherited from
+        the translation or component, which only means the strings cannot be
+        edited there (for example source strings of a bilingual file).
+        Glossaries use this to tell untranslatable terms apart.
+        """
+        # Validate flags from the unit to avoid crash
+        try:
+            unit_flags = Flags(self.flags)
+        except ParseException:
+            unit_flags = None
+
+        return "read-only" in Flags(
+            # Apply unit flags from the file format
+            unit_flags,
+            # The source_unit is None before saving the object for the first time
+            getattr(self.source_unit, "extra_flags", ""),
+            # This unit flag overrides
+            self.extra_flags,
+        )
+
     def get_unit_flags(self) -> Flags:
         return FlagsValidator(self.extra_flags)
 

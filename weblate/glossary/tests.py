@@ -15,7 +15,9 @@ from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.db import transaction
+from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.translation import override as translation_override
 from lxml import etree
 
 from weblate.formats.ttkit import TBXFormat, TBXUnit
@@ -176,7 +178,7 @@ class GlossaryTest(ViewTestCase):
                 params,
             )
 
-    def add_term(self, source, target, context="") -> None:
+    def add_term(self, source, target, context="", extra_flags="") -> None:
         id_hash = calculate_hash(source, context)
         source_unit = self.glossary_component.source_translation.unit_set.create(
             source=source,
@@ -185,6 +187,7 @@ class GlossaryTest(ViewTestCase):
             id_hash=id_hash,
             position=1,
             state=STATE_TRANSLATED,
+            extra_flags=extra_flags,
         )
         self.glossary.unit_set.create(
             source=source,
@@ -495,6 +498,44 @@ class GlossaryTest(ViewTestCase):
                 ("thank you for using Weblate", ((0, 27),)),
             },
         )
+
+    def test_untranslatable_term_label(self) -> None:
+        """Only terms flagged read-only are labelled, also in the source language."""
+        with translation_override("en"):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.add_term("hello", "ahoj")
+                self.add_term("world", "svět", extra_flags="read-only")
+            label = "This term should not be translated."
+
+            # Source strings of a bilingual glossary inherit read-only from the
+            # translation, which must not make every term untranslatable.
+            source_glossary = self.glossary_component.source_translation
+            self.assertTrue(source_glossary.is_readonly)
+            plain = source_glossary.unit_set.get(source="hello")
+            flagged = source_glossary.unit_set.get(source="world")
+            self.assertIn("read-only", plain.all_flags)
+            self.assertFalse(plain.untranslatable)
+            self.assertTrue(flagged.untranslatable)
+
+            source_unit = self.get_unit(language=self.component.source_language.code)
+            for term, expected in ((plain, False), (flagged, True)):
+                rendered = render_to_string(
+                    "snippets/glossary-row.html",
+                    {"item": term, "unit": source_unit, "glossary_row_class": ""},
+                )
+                self.assertEqual(label in rendered, expected)
+
+            for language in ("cs", self.component.source_language.code):
+                with self.subTest(language=language):
+                    unit = self.get_unit(language=language)
+                    response = self.client.get(
+                        unit.translation.get_translate_url(),
+                        {"checksum": unit.checksum},
+                    )
+                    self.assertContains(
+                        response, "ahoj" if language == "cs" else "hello"
+                    )
+                    self.assertContains(response, label, count=1)
 
     def test_substrings(self) -> None:
         self.add_term("reach", "dojet")
