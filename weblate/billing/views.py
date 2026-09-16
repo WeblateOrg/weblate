@@ -93,7 +93,7 @@ def merge_workspace_access(billing: Billing, other: Billing) -> None:
 
 
 @login_required
-def download_invoice(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
+def download_invoice(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
     """Download invoice PDF."""
     invoice = get_object_or_404(Invoice, pk=pk)
 
@@ -155,7 +155,7 @@ def handle_termination(request: AuthenticatedHttpRequest, billing: Billing) -> N
     billing.billinglog_set.create(event=BillingEvent.TERMINATED, user=request.user)
 
 
-def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
+def handle_post(request: AuthenticatedHttpRequest, billing: Billing) -> None:
     if "extend" in request.POST and request.user.has_perm("billing.manage"):
         now = timezone.now()
         if billing.is_trial:
@@ -272,7 +272,7 @@ def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 
 @login_required
-def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
+def merge(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
     if not request.user.has_perm("billing.manage"):
         raise PermissionDenied
 
@@ -346,7 +346,7 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
 
 
 @login_required
-def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
+def detail(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
     billing = get_object_or_404(
         Billing.objects.select_related("plan", "workspace"), pk=pk
     )

@@ -4,6 +4,8 @@
 
 """Test for categories."""
 
+from __future__ import annotations
+
 import os
 import pathlib
 from contextlib import ExitStack
@@ -19,7 +21,7 @@ from weblate.trans.models import Category, Component, ComponentLink, Project
 from weblate.trans.removal import RemovalBatch
 from weblate.trans.tasks import category_removal
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import CategoryLanguage, GlobalStats
 
 
 class CategoriesTest(ViewTestCase):
@@ -607,6 +609,38 @@ class CategoriesTest(ViewTestCase):
         self.assertEqual(child.stats.all, 0)
         self.assertEqual(parent.stats.all, 0)
         self.assertEqual(parent.stats.get_single_language_stats(language).all, 0)
+
+    def test_nested_category_language_totals(self) -> None:
+        parent = Category.objects.create(
+            project=self.project, name="Parent", slug="parent"
+        )
+        child = Category.objects.create(
+            project=self.project, category=parent, name="Child", slug="child"
+        )
+        grandchild = Category.objects.create(
+            project=self.project, category=child, name="Grandchild", slug="grandchild"
+        )
+        Component.objects.filter(pk=self.component.pk).update(category=grandchild)
+        translation = self.get_translation()
+        shared_project = Project.objects.create(name="Shared", slug="shared")
+        shared = self.create_po(project=shared_project, name="Shared", slug="shared")
+        ComponentLink.objects.create(
+            component=shared, project=self.project, category=child
+        )
+        shared_translation = shared.translation_set.get(language=translation.language)
+
+        for category, translations in (
+            (grandchild, (translation,)),
+            (child, (translation, shared_translation)),
+            (parent, (translation, shared_translation)),
+        ):
+            with self.subTest(category=category.slug):
+                stats = CategoryLanguage(category, translation.language).stats
+                for key in ("all", "all_words", "all_chars", "check:same"):
+                    self.assertEqual(
+                        getattr(stats, key),
+                        sum(getattr(item.stats, key) for item in translations),
+                    )
 
     def test_component_category_move_updates_warm_stats(self) -> None:
         old_category = Category.objects.create(

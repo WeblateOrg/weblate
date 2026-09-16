@@ -184,7 +184,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         )
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.name.lower().replace(" ", "-")
 
     @classmethod
@@ -432,7 +432,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         cache.set(self.languages_cache, languages, 3600 * 48)
         return languages
 
-    def is_supported(self, source_language, target_language):
+    def is_supported(self, source_language, target_language) -> bool:
         """Check whether given language combination is supported."""
         return (
             target_language in self.supported_languages
@@ -1101,10 +1101,35 @@ class BatchMachineTranslation(DocVersionsMixin):
         if self.is_rate_limit_error(exc):
             self.set_rate_limit()
 
-        self.report_error("Could not fetch translations", exception=exc)
         if isinstance(exc, MachineTranslationError):
+            self.report_error("Could not fetch translations", exception=exc)
             raise exc
-        raise MachineTranslationError(self.get_error_message(exc)) from exc
+
+        original_message = str(exc)
+        fallback = f"{exc.__class__.__name__}: {original_message}"
+        try:
+            error_message = self.get_error_message(exc)
+        except Exception:
+            # Provider response parsing must not hide the original failure.
+            error_message = fallback
+        if not isinstance(error_message, str) or not error_message.strip():
+            error_message = fallback
+
+        extra_log = error_message.removeprefix(f"{exc.__class__.__name__}: ")
+        extra_log = extra_log.removeprefix(original_message).strip(" :\r\n\t")
+        extra_log = extra_log[:200]
+        if extra_log in original_message:
+            extra_log = ""
+        response = getattr(exc, "response", None)
+        if isinstance(response, httpx2.Response) and not self.can_display_error_detail(
+            response
+        ):
+            extra_log = ""
+
+        self.report_error(
+            "Could not fetch translations", exception=exc, extra_log=extra_log or None
+        )
+        raise MachineTranslationError(error_message) from exc
 
     def _apply_downloaded_translations(
         self,
@@ -1213,8 +1238,6 @@ class BatchMachineTranslation(DocVersionsMixin):
         except UnsupportedLanguageError:
             return
 
-        self.account_usage(translation.component.project, delta=len(units))
-
         source_plural = source_language.plural
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
@@ -1222,6 +1245,22 @@ class BatchMachineTranslation(DocVersionsMixin):
         if not translating_from_source:
             alternate_units = plural_mapper.get_other_units(units, source_language)
         plural_mapper.map_units(units, alternate_units)
+
+        if translation.component.is_multivalue:
+            # Independent alternatives have no one-to-one source/target mapping.
+            # Keep existing alternatives until automatic translation can merge them.
+            units = [
+                unit
+                for unit in units
+                if unit.plural_map
+                and not unit.has_multiple_values(
+                    unit.plural_map, unit.get_target_plurals()
+                )
+            ]
+            if not units:
+                return
+
+        self.account_usage(translation.component.project, delta=len(units))
 
         # Fetch source from other units
         sources: list[tuple[str, Unit | None]] = [

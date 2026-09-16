@@ -76,10 +76,14 @@ class OllamaTranslation(BaseLLMTranslation):
         }
 
     def get_chat_url(self) -> str:
-        return urljoin(self.settings["base_url"], self.end_point)
+        # Join with a relative endpoint so custom gateway path prefixes survive.
+        return urljoin(
+            f"{self.settings['base_url'].rstrip('/')}/",
+            self.end_point.lstrip("/"),
+        )
 
     @staticmethod
-    def parse_chat_response(response_data) -> str:
+    def parse_chat_response(response_data: object) -> str:
         if not isinstance(response_data, dict):
             msg = "Invalid service response: expected a JSON object."
             raise MachineTranslationError(msg)

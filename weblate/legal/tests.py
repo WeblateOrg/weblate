@@ -4,6 +4,10 @@
 
 """Test for legal stuff."""
 
+from __future__ import annotations
+
+from itertools import product
+
 from django.http import HttpRequest
 from django.test import TestCase
 from django.test.utils import modify_settings, override_settings
@@ -68,6 +72,75 @@ class LegalTest(TestCase, RegistrationTestMixin):
         self.assertNotContains(response, reverse("legal:terms"))
         self.assertNotContains(response, reverse("legal:privacy"))
 
+    def test_document_introduction(self) -> None:
+        cases = (
+            (
+                ("terms", "privacy"),
+                (
+                    "This page is based on the General Terms and Conditions and the "
+                    "Privacy Policy, you should still read the original documents "
+                    "to fully understand them:"
+                ),
+            ),
+            (
+                ("terms",),
+                (
+                    "This page is based on the General Terms and Conditions, you "
+                    "should still read the original document to fully understand it:"
+                ),
+            ),
+            (
+                ("privacy",),
+                (
+                    "This page is based on the Privacy Policy, you should still read "
+                    "the original document to fully understand it:"
+                ),
+            ),
+            ((), None),
+        )
+        for page, external, (documents, introduction) in product(
+            ("index", "cookies"), (False, True), cases
+        ):
+            with (
+                self.subTest(page=page, external=external, documents=documents),
+                override_settings(
+                    LEGAL_HIDDEN_DOCUMENTS=tuple(
+                        document
+                        for document in ("terms", "privacy")
+                        if external or document not in documents
+                    ),
+                    LEGAL_URL=(
+                        "https://example.com/terms/"
+                        if external and "terms" in documents
+                        else None
+                    ),
+                    PRIVACY_URL=(
+                        "https://example.com/privacy/"
+                        if external and "privacy" in documents
+                        else None
+                    ),
+                ),
+            ):
+                response = self.client.get(reverse(f"legal:{page}"))
+                if introduction:
+                    self.assertContains(
+                        response, f"<p>{introduction}</p>", count=1, html=True
+                    )
+                else:
+                    self.assertNotContains(response, "This page is based on")
+                for document in ("terms", "privacy"):
+                    internal_url = reverse(f"legal:{document}")
+                    external_url = f"https://example.com/{document}/"
+                    if document in documents:
+                        self.assertContains(
+                            response,
+                            f'href="{external_url if external else internal_url}"',
+                        )
+                    if external or document not in documents:
+                        self.assertNotContains(response, f'href="{internal_url}"')
+                    if not external or document not in documents:
+                        self.assertNotContains(response, f'href="{external_url}"')
+
     def test_contracts(self) -> None:
         response = self.client.get(reverse("legal:contracts"))
         self.assertContains(response, "Subcontractors")
@@ -100,8 +173,13 @@ class LegalTest(TestCase, RegistrationTestMixin):
             "You have to agree to the General Terms and Conditions and the Privacy Policy",
             count=1,
         )
-        self.assertContains(response, "Please also read the Privacy Policy")
-        self.assertContains(response, reverse("legal:privacy"))
+        self.assertContains(
+            response,
+            "<p>Please also read the "
+            f'<a href="{reverse("legal:privacy")}">Privacy Policy</a>.</p>',
+            count=1,
+            html=True,
+        )
 
     @override_settings(
         LEGAL_HIDDEN_DOCUMENTS=("terms", "privacy"),
@@ -150,7 +228,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
             response,
             "I agree with the General Terms and Conditions and the Privacy Policy",
         )
-        self.assertNotContains(response, "Please also read the Privacy Policy")
+        self.assertNotContains(response, "Please also read the")
 
     @override_settings(LEGAL_HIDDEN_DOCUMENTS=("terms",), LEGAL_URL=None)
     def test_confirm_without_external_terms(self) -> None:

@@ -6,8 +6,6 @@
     Priority of the string. Higher priority strings are presented first for translation.
     The default priority is 100, the higher priority a string has, the earlier it is
     offered for translation.
-``max-length:N``
-    Limit the maximal length for a string to N characters, see :ref:`check-max-length`.
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
 ``font-family:NAME``
@@ -18,6 +16,12 @@
     Define font-size for rendering checks, see :ref:`fonts`.
 ``font-spacing:SPACING``
     Define letter spacing for rendering checks, see :ref:`fonts`.
+``font-monospace``
+    Display the string in the translation editor using a monospace font.
+    Unlike the ``font-family``/``font-size``/``font-weight``/``font-spacing``
+    flags, this does not affect rendering checks and never loads an uploaded
+    font; it only switches the editor to the browser's built-in monospace
+    font stack.
 ``icu-flags:FLAGS``
     Define flags for customizing the behavior of the :ref:`check-icu-message-format` quality check.
 ``icu-tag-prefix:PREFIX``

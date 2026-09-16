@@ -1103,7 +1103,7 @@ class User(AbstractBaseUser):
             msg = "Access denied"
             raise Http404(msg)
 
-    def can_access_component(self, component):
+    def can_access_component(self, component) -> bool:
         """Check access to given component."""
         if self.is_superuser:
             return True

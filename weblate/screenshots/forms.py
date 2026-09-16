@@ -2,8 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import io
-from typing import Any, ClassVar, NoReturn, cast
+from typing import TYPE_CHECKING, Any, ClassVar, NoReturn, cast
 from urllib.parse import unquote, urlsplit
 
 import httpx2
@@ -21,6 +23,9 @@ from weblate.trans.forms import QueryField
 from weblate.utils.forms import AssetImageField, SortedSelect
 from weblate.utils.requests import open_restricted_asset_url
 from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
 
 
 class ScreenshotImageValidationMixin(BaseForm):
@@ -253,3 +258,22 @@ class ScreenshotListSearchForm(forms.Form):
 
     def urlencode(self):
         return urlencode(self.items())
+
+
+class ScreenshotSelectSearchForm(forms.Form):
+    q = QueryField(
+        parser="screenshot",
+        required=False,
+        label=gettext_lazy("Search screenshots"),
+        widget=forms.SearchInput(attrs={"class": "form-control"}),
+    )
+
+
+class ScreenshotSelectForm(forms.Form):
+    screenshot = forms.ModelChoiceField(
+        queryset=Screenshot.objects.none(), label=gettext_lazy("Screenshot")
+    )
+
+    def __init__(self, screenshots: QuerySet[Screenshot], *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        cast("forms.ModelChoiceField", self.fields["screenshot"]).queryset = screenshots

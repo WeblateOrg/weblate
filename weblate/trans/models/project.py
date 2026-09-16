@@ -49,7 +49,7 @@ from weblate.utils.render import (
     validate_render_component,
 )
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
+from weblate.utils.stats import ProjectLanguage, ProjectStats
 from weblate.utils.validators import (
     WeblateURLValidator,
     validate_language_aliases,
@@ -71,7 +71,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Alert, Category
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
-    from weblate.trans.models.translation import TranslationQuerySet
     from weblate.workspaces.models import Workspace
 
 
@@ -597,7 +596,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         self.stats = ProjectStats(self)
         self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
-        self.label_cleanups: TranslationQuerySet | None = None
+        self.label_cleanups: set[int] = set()
         self.languages_cache: dict[str, Language] = {}
         self.billing_original_workspace_id = self.__dict__.get(
             "workspace_id", models.DEFERRED
@@ -1485,29 +1484,50 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.translation import Translation
 
-        translations = Translation.objects.filter(unit__source_unit__labels=label)
-        if self.label_cleanups is None:
-            self.label_cleanups = translations
-        else:
-            self.label_cleanups |= translations
-        prefetch_stats(self.label_cleanups)
+        self.label_cleanups.update(
+            Translation.objects.filter(unit__source_unit__labels=label).values_list(
+                "pk", flat=True
+            )
+        )
 
-    def cleanup_label_stats(self, name: str) -> None:
-        if self.label_cleanups is not None:
-            for translation in self.label_cleanups:
-                translation.stats.remove_stats(f"label:{name}")
+    def cleanup_label_stats(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import update_translation_stats
+
+        if self.label_cleanups:
+            update_translation_stats.delay(sorted(self.label_cleanups))
+            self.label_cleanups.clear()
+
+    def get_existing_target_language_ids(self) -> set[int]:
+        """Languages qualifying for the existing-project-language creation policy."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.translation import Translation
+
+        translations = Translation.objects.filter(
+            component__is_glossary=False
+        ).exclude_source()
+        own = translations.filter(component__project=self).values_list(
+            "language_id", flat=True
+        )
+        shared = translations.filter(component__links=self).values_list(
+            "language_id", flat=True
+        )
+        return set(own.union(shared))
 
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
-        """Return a queryset of components within the project that the given user is allowed to add new languages to."""
+        """Return owned components available for language creation or requests."""
         filter_ = Q(is_glossary=True)
         check_effective_new_lang = not user.has_perm("project.edit", self)
         if check_effective_new_lang:
             filter_ |= get_disabled_component_new_language_filter()
 
-        def filter_callback(qs: ComponentQuerySet) -> ComponentQuerySet:
-            return qs.exclude(filter_)
-
-        return self.get_child_components_access(user, filter_callback)
+        return (
+            self.component_set.defer_huge()
+            .filter_access(user)
+            .exclude(filter_)
+            .prefetch()
+            .order()
+        )
 
     def needs_license(self, access_control: int | None = None) -> bool:
         """
@@ -1624,6 +1644,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             )
         if self.commit_policy == CommitPolicyChoices.APPROVED_ONLY:
             return gettext(
-                "Only approved translations are written to the translation file."
+                "For languages with reviews enabled, only approved translations "
+                "are written to the translation file."
             )
         return ""

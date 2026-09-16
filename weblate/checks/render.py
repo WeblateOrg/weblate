@@ -20,6 +20,7 @@ from weblate.utils.hash import calculate_hash
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.checks.models import Check
     from weblate.trans.models import Unit
 
 IMAGE = (
@@ -121,7 +122,7 @@ class MaxSizeCheck(TargetCheckParametrized):
             return unit.get_source_plurals()
         return unit.get_target_plurals()
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         url = reverse(
             "render-check",
             kwargs={"check_id": self.check_id, "unit_id": check_obj.unit_id},

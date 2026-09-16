@@ -2,12 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import time
 from contextlib import contextmanager, nullcontext
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 from unittest.mock import ANY, Mock, patch
 
 from celery.exceptions import Retry
@@ -17,7 +20,8 @@ from django.db import IntegrityError, connection
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
 
-from weblate.auth.models import User
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.checks.tasks import finalize_component_checks
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -71,8 +75,22 @@ from weblate.utils.tasks import (
 )
 from weblate.utils.version import GIT_VERSION
 
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
 
 class CleanupTest(ComponentTestCase):
+    def test_cleanup_suggestions_batches_query(self) -> None:
+        suggestions = Mock()
+        suggestions.iterator.return_value = ()
+
+        with patch.object(
+            Suggestion.objects, "prefetch_related", return_value=suggestions
+        ):
+            cleanup_suggestions()
+
+        suggestions.iterator.assert_called_once_with(chunk_size=100)
+
     def test_cleanup_suggestions_case_sensitive(self) -> None:
         request = self.get_request()
         unit = self.get_unit()
@@ -360,7 +378,7 @@ class TasksTest(ComponentTestCase):
         original_push_if_needed = Component.push_if_needed
 
         @contextmanager
-        def reservation(*args, **kwargs):
+        def reservation(*args, **kwargs) -> Iterator[None]:
             events.append("reserve")
             try:
                 yield
@@ -393,7 +411,7 @@ class TasksTest(ComponentTestCase):
         lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
 
         @contextmanager
-        def reservation(*args, **kwargs):
+        def reservation(*args, **kwargs) -> Iterator[None]:
             events.append("reserve")
             try:
                 yield
@@ -563,6 +581,39 @@ class TasksTest(ComponentTestCase):
 
         cleanup.assert_not_called()
 
+    def test_repository_operation_rechecks_owner_after_link_added(self) -> None:
+        self.user.groups.clear()
+        role = Role.objects.create(name="Repository owner reset")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Repository owner reset", language_selection=SELECTION_ALL
+        )
+        group.components.add(self.component)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("vcs.reset", self.component))
+
+        other_project = self.create_project(name="Other", slug="other")
+        self.create_link_existing(project=other_project)
+        task = Mock()
+        with patch.object(Component, "do_cleanup", return_value=True) as cleanup:
+            result = execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
+        self.assertTrue(result["result"])
+        cleanup.assert_called_once()
+
+        self.user.groups.remove(group)
+        with (
+            patch.object(Component, "do_cleanup") as cleanup,
+            self.assertRaises(PermissionDenied),
+        ):
+            execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
+        cleanup.assert_not_called()
+
     def test_repository_operation_rejects_changed_repository_link(self) -> None:
         repository = self.create_po(project=self.project, name="Other repository")
         Component.objects.filter(pk=self.component.pk).update(
@@ -588,7 +639,7 @@ class TasksTest(ComponentTestCase):
     def test_repository_operation_preserves_failure_message(self) -> None:
         task = SimpleNamespace(update_state=Mock())
 
-        def cleanup(component, request):
+        def cleanup(component, request) -> bool:
             messages.error(request, "Specific repository failure.")
             return False
 
@@ -812,7 +863,7 @@ class TasksTest(ComponentTestCase):
         calls: list[int] = []
         lock_timeout = WeblateLockTimeoutError("locked", lock=second.lock)
 
-        def cleanup(component, request):
+        def cleanup(component, request) -> bool:
             calls.append(component.pk)
             if component == self.component:
                 messages.error(request, "Earlier repository failure.")
@@ -1035,7 +1086,7 @@ class TasksTest(ComponentTestCase):
         events: list[str] = []
 
         @contextmanager
-        def reservation(*args, **kwargs):
+        def reservation(*args, **kwargs) -> Iterator[None]:
             events.append("reserve")
             try:
                 yield
@@ -1272,7 +1323,9 @@ class TasksTest(ComponentTestCase):
         self.assertIsNone(cache.get(self.component.commit_task_reschedule_key))
 
     @patch("weblate.trans.tasks.perform_commit")
-    def test_commit_pending_with_ineligible_changes(self, mock_perform_commit) -> None:
+    def test_commit_pending_with_ineligible_changes(
+        self, mock_perform_commit: Mock
+    ) -> None:
         """Test that perform_commit is not called when all changes are ineligible."""
         mock_perform_commit.delay.return_value.id = "commit-task-id"
         self.project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING

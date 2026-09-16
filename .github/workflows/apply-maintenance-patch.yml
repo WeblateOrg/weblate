@@ -13,6 +13,7 @@ on: # zizmor: ignore[dangerous-triggers]
     - jsonschema update
     - unicodechars update
     - cjk regexp update
+    - ITS rules update
     - Documentation
     - licenses update
     branches:
@@ -117,6 +118,11 @@ jobs:
             message="chore: update CJK regexp data"
             pr_branch="create-pull-request/cjk-regexp-update"
             allowed_pattern='^weblate/trans/util\.py$'
+            ;;
+          "ITS rules update")
+            message="chore: update gettext ITS rules"
+            pr_branch="create-pull-request/its-rules-update"
+            allowed_pattern='^weblate/addons/extractors/gettext/(README\.md|its/(polkit|metainfo|gschema|gtkbuilder|shared-mime-info)\.(its|loc))$'
             ;;
           "Documentation")
             message="docs: Documentation snippets update"

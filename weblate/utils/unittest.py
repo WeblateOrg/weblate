@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import tempfile
 
@@ -13,7 +15,7 @@ from weblate.utils.files import remove_tree
 # Lowercase name to be consistent with Django
 # ruff: ignore[invalid-class-name]
 class tempdir_setting(override_settings):
-    def __init__(self, setting) -> None:
+    def __init__(self, setting: str) -> None:
         kwargs = {setting: None}
         super().__init__(**kwargs)
         self._tempdir: str | None = None

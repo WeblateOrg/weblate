@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
@@ -11,6 +13,7 @@ from pathlib import Path
 from threading import Barrier
 from time import time
 from types import SimpleNamespace
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 
 from django.conf import settings
@@ -36,6 +39,10 @@ from weblate.vcs.ssh import (
     ssh_file,
     ssh_wrapper_path,
 )
+
+if TYPE_CHECKING:
+    from unittest.mock import Mock
+
 
 TEST_HOSTS = get_test_file("known_hosts")
 
@@ -325,7 +332,9 @@ class SSHTest(TestCase):
         )
 
     @patch("weblate.vcs.ssh.subprocess.run")
-    def test_add_host_key_separates_hostname_from_options(self, mocked_run) -> None:
+    def test_add_host_key_separates_hostname_from_options(
+        self, mocked_run: Mock
+    ) -> None:
         mocked_run.return_value.stdout = ""
         mocked_run.return_value.stderr = ""
 

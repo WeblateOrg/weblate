@@ -530,7 +530,7 @@ class WeblateURLValidator(URLValidator):
         "https",
     ]
 
-    def __call__(self, value: str | None) -> None:
+    def __call__(self, value: str | None):
         super().__call__(value)
         if value and confusables.is_dangerous(value):
             raise ValidationError(
@@ -1075,7 +1075,7 @@ def validate_repo_url(url: str) -> None:
 
 @deconstructible
 class DomainOrIPValidator:
-    def __call__(self, value: str):
+    def __call__(self, value: str) -> None:
         try:
             validate_ipv46_address(value)
         except ValidationError:

@@ -4,7 +4,10 @@
 
 """Tests for data exports."""
 
+from __future__ import annotations
+
 from json import JSONDecodeError
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from asgiref.sync import async_to_sync
@@ -26,6 +29,9 @@ from weblate.utils.version_display import (
     VERSION_DISPLAY_SOFT,
 )
 from weblate.vcs.ssh import ensure_ssh_key
+
+if TYPE_CHECKING:
+    from unittest.mock import Mock
 
 
 class BasicViewTest(FixtureTestCase):
@@ -49,7 +55,7 @@ class BasicViewTest(FixtureTestCase):
 
     @override_settings(SENTRY_DSN="https://public@example.com/1")
     @patch("weblate.trans.views.error.last_event_id", return_value="event-id")
-    def test_sentry_feedback(self, _last_event_id) -> None:
+    def test_sentry_feedback(self, _last_event_id: Mock) -> None:
         request = self.client.get(
             reverse("about"), headers={"accept": "text/html"}
         ).wsgi_request
@@ -145,7 +151,7 @@ class BasicViewTest(FixtureTestCase):
             "backup_repository": "",
         },
     )
-    def test_context_processor_without_user(self, _mocked_support_status) -> None:
+    def test_context_processor_without_user(self, _mocked_support_status: Mock) -> None:
         request = RequestFactory().get("/")
         context = weblate_context(request)
         self.assertIn("show_version_details", context)

@@ -45,6 +45,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
 
     from django.forms.boundfield import BoundField
+    from django.urls.resolvers import URLPattern
     from django_stubs_ext import StrOrPromise
 
     from weblate.addons.forms import BaseAddonForm
@@ -158,6 +159,23 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     events: ClassVar[set[AddonEvent]] = set()
     settings_form: type[BaseAddonForm[StoredConfigurationT, Self]] | None = None
     name = ""
+    api_name: str | None = None
+
+    @classmethod
+    def get_api_urls(cls) -> tuple[URLPattern, ...]:
+        """Return named Django URL patterns for this provider's API."""
+        return ()
+
+    @classmethod
+    def api_available(cls, component: Component | None) -> bool:
+        if not cls.api_name:
+            return True
+        return (
+            component is not None
+            and not cls.repo_scope
+            and not component.addon_set.filter(name=cls.name).exists()
+        )
+
     compat: ClassVar[CompatDict] = {}
     multiple = False
     verbose: StrOrPromise = "Base add-on"
@@ -874,12 +892,22 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         return True
 
     def render_repo_filename(
-        self, template: str, translation: Translation
+        self,
+        template: str,
+        translation: Translation | None = None,
+        *,
+        component: Component | None = None,
     ) -> str | None:
-        component = translation.component
+        if translation is not None:
+            component = translation.component
+        if component is None:
+            msg = "A translation or component is required"
+            raise ValueError(msg)
 
         # Render the template
-        filename = render_template(template, translation=translation)
+        filename = render_template(
+            template, translation=translation, component=component
+        )
 
         # Validate filename (not absolute or linking to parent dir)
         try:

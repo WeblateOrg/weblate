@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -14,6 +15,9 @@ from django.test.utils import override_settings
 
 from weblate.middleware import CSPBuilder, ProxyMiddleware
 
+if TYPE_CHECKING:
+    from collections.abc import Awaitable
+
 MOCK_RESPONSE_TEXT = "mock response text"
 
 
@@ -22,7 +26,9 @@ class ProxyTest(TestCase):
         self.assertEqual(request.META["REMOTE_ADDR"], "1.2.3.4")
         return HttpResponse(MOCK_RESPONSE_TEXT)
 
-    def assert_response(self, response):
+    def assert_response(
+        self, response: HttpResponseBase | Awaitable[HttpResponseBase]
+    ) -> None:
         assert isinstance(response, HttpResponse)
         self.assertEqual(response.text, MOCK_RESPONSE_TEXT)
 

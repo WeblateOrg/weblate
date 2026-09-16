@@ -92,7 +92,7 @@ LEGACY_REPOSITORY_LOCK_MAX_RETRIES = 3
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
-    from celery import Task
+    from celery import Celery, Task
 
     from weblate.trans.models.change import RevertUserEditsResult
     from weblate.workspaces.models import Workspace
@@ -873,7 +873,7 @@ def cleanup_suggestions() -> None:
     # Process suggestions
     anonymous_user = get_anonymous()
     suggestions = Suggestion.objects.prefetch_related("unit")
-    for suggestion in suggestions:
+    for suggestion in suggestions.iterator(chunk_size=100):
         with transaction.atomic():
             # Remove suggestions with same text as real translation
             if (
@@ -1891,7 +1891,7 @@ def cleanup_project_backup_download() -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
     sender.add_periodic_task(3600, update_remotes.s(), name="update-remotes")
     sender.add_periodic_task(3600, cleanup_repos.s(), name="cleanup-repos")

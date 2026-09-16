@@ -146,7 +146,8 @@
   {% path_object_breadcrumbs path_object %}
 
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+         alt="{% translate "Translation status widgets" %}" />
   </a>
 {% endblock breadcrumbs %}
 
@@ -167,6 +168,12 @@
     </div>
 
     <div class="tab-pane" id="information">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Translation workflow" %}</h4>
+        </div>
+        <div class="card-body">{% include "snippets/review-workflow.html" with workflow_translation=object %}</div>
+      </div>
       {% show_info project=project language=language stats=language_stats metrics=object|metrics show_full_language=False %}
     </div>
 

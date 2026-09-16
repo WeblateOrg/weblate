@@ -359,9 +359,7 @@ def label_pre_delete(sender, instance: Label, **kwargs) -> None:
 @receiver(post_delete, sender=Label)
 def label_post_delete(sender, instance, **kwargs) -> None:
     """Invalidate label stats on its deletion."""
-    transaction.on_commit(
-        partial(instance.project.cleanup_label_stats, name=instance.name)
-    )
+    transaction.on_commit(instance.project.cleanup_label_stats)
 
 
 @receiver(user_pre_delete)

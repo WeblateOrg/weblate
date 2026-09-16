@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.management.base import CommandError
@@ -14,6 +15,10 @@ from django.utils.text import get_text_list
 
 from weblate.addons.extractors.django.constants import DJANGO_IGNORE_PATTERNS
 from weblate.utils.management.commands.makemessages import Command as BaseCommand
+
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
+    from django.core.management.commands.makemessages import TranslatableFile
 
 
 class Command(BaseCommand):
@@ -36,7 +41,7 @@ class Command(BaseCommand):
 
     EXTRA_IGNORE_PATTERNS = DJANGO_IGNORE_PATTERNS
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: CommandParser) -> None:
         """
         Register only the internal CLI supported by this extractor.
 
@@ -55,7 +60,7 @@ class Command(BaseCommand):
         parser.add_argument("--no-wrap", action="store_true")
         parser.add_argument("--no-location", action="store_true")
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         self.domain = options["domain"]
         self.verbosity = options["verbosity"]
         self.symlinks = False
@@ -102,7 +107,7 @@ class Command(BaseCommand):
 
         self.build_potfiles()
 
-    def find_files(self, root):
+    def find_files(self, root: str) -> list[TranslatableFile]:
         if root == "." and self.source_prefix not in {"", "."}:
             root = os.path.join(".", self.source_prefix)
         return super().find_files(root)

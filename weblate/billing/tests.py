@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import importlib
 import os.path
 from datetime import timedelta
@@ -186,7 +188,7 @@ class BillingTest(BaseTestCase):
         )
 
     @staticmethod
-    def set_alert_timestamp(component, name, timestamp):
+    def set_alert_timestamp(component, name, timestamp) -> None:
         component.add_alert(name)
         component.alert_set.filter(name=name).update(timestamp=timestamp)
 

@@ -13,7 +13,8 @@
     <a href="{% url 'browse' path=object.get_url_path %}">{% translate "Browse" %}</a>
   </li>
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+         alt="{% translate "Translation status widgets" %}" />
   </a>
 {% endblock breadcrumbs %}
 

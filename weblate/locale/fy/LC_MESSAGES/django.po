@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
-"PO-Revision-Date: 2026-07-25 07:17+0000\n"
+"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Frisian <https://hosted.weblate.org/projects/weblate/"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -339,6 +339,25 @@ msgid ""
 msgstr ""
 
 msgid "Enter the code from the app"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Project, category, component, or translation path"
+msgstr "Tersetting"
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language"
+msgid "Enter a valid object path."
+msgstr "Taal"
+
+msgid "The target does not exist or you cannot access it."
 msgstr ""
 
 #. Translators: Audit log entry
@@ -941,6 +960,62 @@ msgid "Please provide an e-mail address for submitting translations."
 msgstr "Nije oersetting yn %(translation)s"
 
 #, fuzzy
+#| msgid "Machine translation"
+msgid "No matching subscription."
+msgstr "Masjineoersetting"
+
+#, fuzzy
+#| msgid "Translation instructions"
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Oersettingsynstruksjes"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "The user cannot access this target."
+msgstr "Boarnewiziging"
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "The user is not watching this project."
+msgstr "Projekten"
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "The project or component subscriptions apply to other targets."
+msgstr "Oersettingslisinsje"
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
+#, fuzzy
 #| msgid "Action"
 msgid "No notification"
 msgstr "Aksje"
@@ -958,6 +1033,25 @@ msgstr ""
 
 msgid "Monthly digest"
 msgstr ""
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Watched"
+msgstr "Projekten"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Administered"
+msgstr "Projekten"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Component"
+msgstr "Underdiel"
 
 #, fuzzy
 #| msgid "Merge style"
@@ -1067,6 +1161,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "oerset"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 #, fuzzy
 #| msgid "Comments"
 msgctxt "Notification name"
@@ -1079,6 +1178,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Opmerkings"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 #, fuzzy
 #| msgid "New comment"
 msgctxt "Notification name"
@@ -1090,6 +1192,11 @@ msgstr "Nije opmerking"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Nije opmerking"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation license"
@@ -1163,6 +1270,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "Oare oersettings"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr ""
@@ -1172,6 +1284,11 @@ msgstr ""
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Nije opmerking"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 #, fuzzy
 #| msgid "Other components"
@@ -1342,6 +1459,11 @@ msgstr "Kntakt"
 msgid "Hosting"
 msgstr ""
 
+#, fuzzy
+#| msgid "Projects"
+msgid "Invalid trial plan."
+msgstr "Projekten"
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1354,6 +1476,11 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Other components"
+msgid "Notification diagnostics for %(user)s"
+msgstr "Oare ûnderdielen"
 
 #, fuzzy
 #| msgid "Source change"
@@ -1527,6 +1654,13 @@ msgstr "Oersettingslisinsje"
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "Oersettingslisinsje"
 
 msgid ""
 "Too many failed authentication attempts. Please reset your password to "
@@ -3057,17 +3191,17 @@ msgid "Please provide a suggestion"
 msgstr "Oare oersettings"
 
 #, fuzzy
-#| msgid "Translation status"
-msgid "Translation text too long!"
-msgstr "Oersetstatus"
-
-#, fuzzy
 #| msgid "Translation license"
 msgid "Number of plurals does not match"
 msgstr "Oersettingslisinsje"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation text too long!"
+msgstr "Oersetstatus"
 
 #, fuzzy
 #| msgid "Translation file"
@@ -3158,14 +3292,8 @@ msgstr "Nije oersetting yn %(translation)s"
 msgid "This string seems to already exist."
 msgstr "Oersettingstriem"
 
-msgid "Project"
-msgstr "Projekt"
-
 msgid "Category"
 msgstr ""
-
-msgid "Component"
-msgstr "Underdiel"
 
 msgid "User"
 msgstr "Brûker"
@@ -3291,9 +3419,9 @@ msgstr "Projekten"
 
 #. Translators: Permission name
 #, fuzzy
-#| msgid "Download"
-msgid "Download reports"
-msgstr "Download"
+#| msgid "Merge style"
+msgid "Manage reports"
+msgstr "Berjochtstyl"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4491,9 +4619,10 @@ msgstr "Oersettingslisinsje"
 msgid "Non‑standard characters in Kabyle"
 msgstr ""
 
+#, python-brace-format
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 
 msgid "Trailing space"
@@ -4575,9 +4704,9 @@ msgstr "Oersettingslisinsje"
 msgid "Mismatched \\n"
 msgstr ""
 
-#, fuzzy
+#, fuzzy, python-brace-format
 #| msgid "Translation license"
-msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "Oersettingslisinsje"
 
 msgid "Mismatching line breaks"
@@ -5675,9 +5804,10 @@ msgstr ""
 msgid "Ellipsis"
 msgstr ""
 
+#, python-brace-format
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr ""
 
 #, fuzzy
@@ -5758,6 +5888,9 @@ msgid "Default font is used unless per language override matches."
 msgstr ""
 
 msgid "Font"
+msgstr ""
+
+msgid "Font has to be in the same project as the font group."
 msgstr ""
 
 msgid "Unsupported file format."
@@ -6599,7 +6732,8 @@ msgstr ""
 msgid "Please read the following General Terms and Conditions document:"
 msgstr ""
 
-msgid "Please also read the Privacy Policy:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 
 msgid "Submit"
@@ -6618,6 +6752,16 @@ msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
+msgstr ""
+
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
 msgstr ""
 
 msgid "Cookies are used on this site for the following:"
@@ -6967,9 +7111,6 @@ msgstr ""
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
 
-msgid "DeepL API v1 is no longer supported."
-msgstr ""
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr ""
@@ -7118,30 +7259,6 @@ msgid "Ollama model"
 msgstr ""
 
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
 msgstr ""
 
 #, fuzzy
@@ -7935,7 +8052,6 @@ msgstr ""
 msgid "Verify new e-mail address"
 msgstr "Brûkersnamme of e-mail"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Registrearje"
 
@@ -7999,6 +8115,149 @@ msgstr "Nij wachtwurd"
 msgid "Register new account"
 msgstr "Registrearje"
 
+#, fuzzy
+#| msgid "Action"
+msgid "Notification diagnostics"
+msgstr "Aksje"
+
+msgid "Diagnostics"
+msgstr ""
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Check notifications"
+msgstr "Aksje"
+
+#, fuzzy, python-format
+#| msgid "Other components"
+msgid "Notification eligibility for %(target)s"
+msgstr "Oare ûnderdielen"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Notification"
+msgstr "Aksje"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Inherited project settings"
+msgstr "Boarnewiziging"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "Component exceptions"
+msgstr "Underdielen"
+
+msgid "One-time"
+msgstr ""
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Overridden subscriptions"
+msgstr "Jo oersettings"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "Inspect example components:"
+msgstr "Underdielen"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Inspect components:"
+msgstr "Oare ûnderdielen"
+
+msgid "None"
+msgstr "Gjin"
+
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid "No accessible components or translations in this target."
+msgstr "Nije oersetting yn %(translation)s"
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "No matching subscriptions in this scope."
+msgstr "Masjineoersetting"
+
+#, fuzzy, python-format
+#| msgid "%(count)s vote"
+#| msgid_plural "%(count)s votes"
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "%(count)s stim"
+msgstr[1] "%(count)s stimmen"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "No watched projects."
+msgstr "Projekten"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Notification languages"
+msgstr "Aksje"
+
+#, fuzzy, python-format
+#| msgid "New translation"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "Nije oersetting"
+msgstr[1] "Nije oersetting"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Subscriptions"
+msgstr "Jo oersettings"
+
+msgid "Frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "No subscriptions."
+msgstr "Jo oersettings"
+
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
 
@@ -8054,6 +8313,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Bewarje"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Open notification diagnostics"
+msgstr "Aksje"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -8500,7 +8769,10 @@ msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "Jo e-mail"
 msgstr[1] "Jo e-mail"
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, python-format
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -8619,17 +8891,6 @@ msgid "Identity"
 msgstr "Identiteit"
 
 msgid "User ID"
-msgstr ""
-
-#, fuzzy
-#| msgid "Action"
-msgid "Notification"
-msgstr "Aksje"
-
-msgid "Frequency"
-msgstr ""
-
-msgid "One-time"
 msgstr ""
 
 msgid "Members"
@@ -9607,6 +9868,11 @@ msgid "Search and replace"
 msgstr ""
 
 #, fuzzy
+#| msgid "New comment"
+msgid "Post announcement"
+msgstr "Nije opmerking"
+
+#, fuzzy
 #| msgid "Translation license"
 msgid "Organize or remove"
 msgstr "Oersettingslisinsje"
@@ -9628,6 +9894,12 @@ msgstr ""
 #| msgid "Components"
 msgid "Browse components"
 msgstr "Underdielen"
+
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
 
 msgid "Announcements"
 msgstr ""
@@ -9666,11 +9938,6 @@ msgstr "Masjineoersetting"
 #| msgid "Nahuatl languages"
 msgid "Add new category"
 msgstr "Nahuatl talen"
-
-#, fuzzy
-#| msgid "New comment"
-msgid "Post announcement"
-msgstr "Nije opmerking"
 
 #, fuzzy
 #| msgid "Other translations"
@@ -9745,9 +10012,6 @@ msgstr ""
 #| msgid "Other components"
 msgid "Continue after completion"
 msgstr "Oare ûnderdielen"
-
-msgid "Diagnostics"
-msgstr ""
 
 #, fuzzy
 #| msgid "Server Error"
@@ -10246,6 +10510,9 @@ msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "%(count)s stim"
 msgstr[1] "%(count)s stimmen"
 
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+
 #, fuzzy, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
@@ -10463,6 +10730,11 @@ msgid "Repository details"
 msgstr ""
 
 #, fuzzy
+#| msgid "Other translations"
+msgid "Edit repository configuration"
+msgstr "Oare oersettings"
+
+#, fuzzy
 #| msgid "Source change"
 msgid "Repository changes"
 msgstr "Boarnewiziging"
@@ -10512,6 +10784,10 @@ msgstr ""
 #| msgid "New translation"
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Nije oersetting"
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -10604,6 +10880,11 @@ msgstr ""
 
 msgid "Please see a documentation for more info."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation instructions"
+msgid "Translation workflow"
+msgstr "Oersettingsynstruksjes"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -10925,10 +11206,6 @@ msgstr "Underdiel"
 msgid "Component %(component)s was unlocked"
 msgstr "Underdiel"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -11196,6 +11473,10 @@ msgstr ""
 #| msgid "User registration"
 msgid "Confirm invitation"
 msgstr "Brûkersregistraasje"
+
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr ""
 
 #, fuzzy
 #| msgid "Source change"
@@ -12031,6 +12312,11 @@ msgid ""
 "language manually."
 msgstr ""
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr ""
 
@@ -12388,6 +12674,41 @@ msgstr ""
 
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Translation quality filter"
+msgstr "Oersettingstriem"
+
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr "Nije oersetting yn %(translation)s"
+
+#, fuzzy
+#| msgid "Merge style"
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr "Berjochtstyl"
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Configure language workflow"
+msgstr "Boarnewiziging"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Configure translation quality filter"
+msgstr "Oersettingstriem"
 
 msgid "View details"
 msgstr ""
@@ -13147,6 +13468,11 @@ msgstr "Oersetstatus"
 msgid "Query"
 msgstr "Query"
 
+#, fuzzy
+#| msgid "Merge style"
+msgid "Refresh results"
+msgstr "Berjochtstyl"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -13223,6 +13549,37 @@ msgstr "Oersettingslisinsje"
 #| msgid "Other translations"
 msgid "Report history pagination"
 msgstr "Oare oersettings"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Reviews are enabled for this language."
+msgstr "Boarnewiziging"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Reviews are disabled for this language."
+msgstr "Boarnewiziging"
+
+#, fuzzy, python-format
+#| msgid "Status"
+msgid "Review setting: %(origin)s."
+msgstr "Status"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+#, fuzzy
+#| msgid "New translation"
+msgid "Learn how to customize translation workflows."
+msgstr "Nije oersetting"
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Configure translation workflow"
+msgstr "Masjineoersetting"
 
 #, python-format
 msgid ""
@@ -13317,7 +13674,7 @@ msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Other translations"
-msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "Oare oersettings"
 
 msgid "Accept"
@@ -13820,6 +14177,24 @@ msgid ""
 "requests."
 msgstr ""
 
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+
 msgid "This component is set up incorrectly."
 msgstr ""
 
@@ -14051,23 +14426,19 @@ msgstr "Oare oersettings"
 msgid "Follow using RSS"
 msgstr ""
 
-#. Translators: Create a component from version control
 #, fuzzy
 #| msgid "Version control"
 msgid "From version control"
 msgstr "Ferzjebehear"
 
-#. Translators: Create a component from existing component
 #, fuzzy
 #| msgid "Components"
 msgid "From an existing component"
 msgstr "Underdielen"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr ""
 
-#. Translators: Create a component using ZIP upload
 #, fuzzy
 #| msgid "New translation"
 msgid "Upload translations files"
@@ -14079,7 +14450,6 @@ msgstr "Nije oersetting"
 msgid "Translate document"
 msgstr "oerset"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr ""
 
@@ -14466,6 +14836,11 @@ msgstr ""
 msgid "Configure editor"
 msgstr "Wachtwurd wizigjen"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr ""
 
@@ -14630,15 +15005,29 @@ msgid "Browse all string changes"
 msgstr "Oare oersettings"
 
 #, fuzzy
-#| msgid "Source change"
-msgid "Suggested change"
-msgstr "Boarnewiziging"
+#| msgid "Machine translation"
+msgid "Search translation memory"
+msgstr "Masjineoersetting"
 
-msgid "Origin"
-msgstr ""
+#, fuzzy
+#| msgid "Machine translation"
+msgid "No matching machine translations found."
+msgstr "Masjineoersetting"
 
-msgid "Similarity"
-msgstr ""
+#, fuzzy
+#| msgid "New comment"
+msgid "Delete entry"
+msgstr "Nije opmerking"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
+msgstr "Boarne"
+
+#, fuzzy
+#| msgid "Context"
+msgid "Context:"
+msgstr "Kontekst"
 
 #, fuzzy
 #| msgid "Other translations"
@@ -14713,11 +15102,6 @@ msgstr "oerset"
 #| msgid "translated"
 msgid "This string was translated automatically by %(author)s."
 msgstr "oerset"
-
-#, fuzzy
-#| msgid "Translation file"
-msgid "Translation quality filter"
-msgstr "Oersettingstriem"
 
 #, fuzzy
 #| msgid "Glossary"
@@ -16491,6 +16875,11 @@ msgid "Glossary using monolingual files."
 msgstr "Oersettingslisinsje"
 
 #, fuzzy
+#| msgid "Source change"
+msgid "Glossary string management is disabled"
+msgstr "Boarnewiziging"
+
+#, fuzzy
 #| msgid "Songhai languages"
 msgid "Unused glossary language."
 msgstr "Songhai talen"
@@ -16912,9 +17301,6 @@ msgstr "Ferzjebehear"
 
 msgid "State"
 msgstr "Status"
-
-msgid "All"
-msgstr ""
 
 msgid "Severity"
 msgstr ""
@@ -17412,6 +17798,11 @@ msgid "The string you wanted to translate is no longer available."
 msgstr ""
 
 msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr ""
+
+msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
@@ -17509,25 +17900,51 @@ msgstr "Berjochtstyl"
 msgid "Could not find the reverted change."
 msgstr "Nije oersetting"
 
+#, fuzzy
+#| msgid "Other components"
+msgid "Enter a source component ID."
+msgstr "Oare ûnderdielen"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
 
 msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
+"Leave blank to use eligible components from each target component's project."
 msgstr ""
 
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr ""
+#, fuzzy
+#| msgid "Translation license"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "Oersettingslisinsje"
 
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Automatic translation mode"
 msgstr "Masjineoersetting"
+
+#, fuzzy
+#| msgid "Other translations"
+msgid "Add as suggestion"
+msgstr "Oare oersettings"
+
+#, fuzzy
+#| msgid "New translation"
+msgid "Add as translation"
+msgstr "Nije oersetting"
+
+#, fuzzy
+#| msgid "translated"
+msgid "Add as \"Needing edit\""
+msgstr "oerset"
+
+#, fuzzy
+#| msgid "New translation"
+msgid "Add as approved translation"
+msgstr "Nije oersetting"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -17557,31 +17974,24 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translation license"
-msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "Oersettingslisinsje"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "Translation license"
+msgid "All eligible components in current project"
+msgstr "Oersettingslisinsje"
+
+msgid "Eligible components from each target component's project"
 msgstr ""
 
-#, fuzzy
-#| msgid "Other translations"
-msgid "Add as suggestion"
-msgstr "Oare oersettings"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
 
-#, fuzzy
-#| msgid "New translation"
-msgid "Add as translation"
-msgstr "Nije oersetting"
-
-#, fuzzy
-#| msgid "translated"
-msgid "Add as \"Needing edit\""
-msgstr "oerset"
-
-#, fuzzy
-#| msgid "New translation"
-msgid "Add as approved translation"
-msgstr "Nije oersetting"
+msgid "You can also enter a project/component path."
+msgstr ""
 
 #, fuzzy
 #| msgid "Project Information"
@@ -17820,6 +18230,11 @@ msgstr ""
 #| msgid "Projects"
 msgid "The category does not belong to the selected project."
 msgstr "Projekten"
+
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid "You do not have permission to change project access settings."
+msgstr "Nije oersetting yn %(translation)s"
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -18100,6 +18515,10 @@ msgstr ""
 msgid "Create new language file"
 msgstr "Nahuatl talen"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 #, fuzzy
 #| msgid "New translation"
@@ -18159,6 +18578,16 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your e-mail"
+msgid "Public sharing"
+msgstr "Jo e-mail"
 
 #, fuzzy
 #| msgid "Translation file"
@@ -19387,7 +19816,9 @@ msgstr "Berjochtstyl"
 
 #, fuzzy
 #| msgid "New translation in %(translation)s"
-msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr "Nije oersetting yn %(translation)s"
 
 #, fuzzy
@@ -19752,6 +20183,43 @@ msgstr[1] "Oare oersettings"
 msgid "Shared from the %s project."
 msgstr "Projekten"
 
+#, fuzzy
+#| msgid "Source change"
+msgid "Project settings"
+msgstr "Boarnewiziging"
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Site-wide language customization"
+msgstr "Administraasje"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Project-language customization"
+msgstr "Projektnamme"
+
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid "Only approved translations are written to the translation file."
+msgstr "Nije oersetting yn %(translation)s"
+
+#, fuzzy
+#| msgid "Merge style"
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr "Berjochtstyl"
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Configure source reviews"
+msgstr "Oersjoch"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Configure translation reviews"
+msgstr "Oersettingstriem"
+
 #, fuzzy, python-format
 #| msgid "New translation"
 msgid "Completed translation with %(count)s string"
@@ -20110,6 +20578,11 @@ msgid_plural ""
 "{checks}"
 msgstr[0] "Oersettingslisinsje"
 msgstr[1] "Oersettingslisinsje"
+
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
 
 msgid "Your suggestion is empty!"
 msgstr ""
@@ -21917,13 +22390,16 @@ msgstr "Side net fûn"
 msgid "Header font"
 msgstr "Underdielen"
 
-msgid "Navigation color (Light, Dark)"
+msgid "Header color (Light, Dark)"
 msgstr ""
 
-msgid "Navigation text color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
 msgstr ""
 
-msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
+msgstr ""
+
+msgid "Header accent color (Light, Dark)"
 msgstr ""
 
 msgid "Hover color (Light, Dark)"
@@ -22029,7 +22505,6 @@ msgstr ""
 msgid "Return to Weblate"
 msgstr "Oer Weblate"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 #, fuzzy
 #| msgid "Documentation"
 msgid "Import speed documentation"
@@ -22220,6 +22695,16 @@ msgstr ""
 #| msgid "Translation license"
 msgid "The workspace has been removed."
 msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#~| msgid "Download"
+#~ msgid "Download reports"
+#~ msgstr "Download"
+
+#, fuzzy
+#~| msgid "Source change"
+#~ msgid "Suggested change"
+#~ msgstr "Boarnewiziging"
 
 #, fuzzy
 #~| msgid "Translation file"
@@ -23029,11 +23514,6 @@ msgstr "Oersettingslisinsje"
 #~ msgstr "Nije oersetting"
 
 #, fuzzy
-#~| msgid "New translation"
-#~ msgid "Could not find matching language!"
-#~ msgstr "Nije oersetting"
-
-#, fuzzy
 #~| msgid "Other translations"
 #~ msgid "XLIFF with gettext extensions"
 #~ msgstr "Oare oersettings"
@@ -23389,11 +23869,6 @@ msgstr "Oersettingslisinsje"
 #~ msgstr "Machame"
 
 #, fuzzy
-#~| msgid "Your e-mail"
-#~ msgid "Public email"
-#~ msgstr "Jo e-mail"
-
-#, fuzzy
 #~| msgid "Tatar"
 #~ msgid "Avatar"
 #~ msgstr "Tataarsk"
@@ -23460,11 +23935,6 @@ msgstr "Oersettingslisinsje"
 #~ msgstr[1] "Oare oersettings"
 
 #, fuzzy
-#~| msgid "Context"
-#~ msgid "Context:"
-#~ msgstr "Kontekst"
-
-#, fuzzy
 #~| msgid "Translation status"
 #~ msgid "Translation memory for the whole platform"
 #~ msgstr "Oersetstatus"
@@ -23483,11 +23953,6 @@ msgstr "Oersettingslisinsje"
 #~| msgid "%(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 #~ msgid "%(filter_name)s (%(filter_count)s)"
 #~ msgstr "%(filter_name)s (%(filter_pos)s / %(filter_count)s)"
-
-#, fuzzy
-#~| msgid "Projects"
-#~ msgid "Administered projects"
-#~ msgstr "Projekten"
 
 #, fuzzy
 #~| msgid "Version control system"

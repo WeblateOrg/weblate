@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.test.utils import override_settings
 from django.urls import reverse
 
@@ -13,7 +15,7 @@ from weblate.trans.models import Project
 
 class FontViewTest(FontTestCase):
     @property
-    def fonts_url(self):
+    def fonts_url(self) -> str:
         return reverse("fonts", kwargs=self.kw_project)
 
     def test_noperm(self) -> None:

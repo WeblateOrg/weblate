@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal
 
 from appconf import AppConf
+from django.core.exceptions import ValidationError
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
 from django.db.models import Q
@@ -271,11 +272,41 @@ class Addon(models.Model):
         super().__init__(*args, **kwargs)
         self.acting_user = acting_user
 
+    @transaction.atomic
     # pylint: disable-next=arguments-differ
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+    ) -> None:
+        if update_fields is not None:
+            update_fields = frozenset(update_fields)
+        if (
+            not self._state.adding
+            and not force_insert
+            and update_fields is not None
+            and update_fields <= {"state"}
+        ):
+            super().save(
+                force_insert=force_insert,
+                force_update=force_update,
+                using=using,
+                update_fields=update_fields,
+            )
+            return
         cls = self.addon_class
+        if cls.api_name is not None:
+            component_id = self.component_id
+            if component_id is None or cls.repo_scope:
+                msg = gettext("API add-ons must be installed directly on a component.")
+                raise ValidationError(msg)
+            # Serialize installation checks even when no add-on row exists yet.
+            Component.objects.select_for_update().get(pk=component_id)
+            if (
+                Addon.objects.filter(component_id=component_id, name=self.name)
+                .exclude(pk=self.pk)
+                .exists()
+            ):
+                msg = gettext("This add-on is already installed on this component.")
+                raise ValidationError(msg, code="addon_already_installed")
         self.repo_scope = cls.repo_scope
 
         # Reallocate to repository
@@ -345,6 +376,32 @@ class Addon(models.Model):
             Event.objects.get_or_create(addon=self, event=event)
         self.event_set.exclude(event__in=events).delete()
 
+    @property
+    def api_name(self) -> str | None:
+        provider = ADDONS.get(self.name)
+        if (
+            provider is None
+            or self.component is None
+            or not provider.can_process(component=self.component)
+        ):
+            return None
+        return provider.api_name
+
+    @property
+    def api_url(self) -> str | None:
+        component = self.component
+        api_name = self.api_name
+        if not api_name or component is None:
+            return None
+        base = reverse(
+            "api:component-detail",
+            kwargs={
+                "project__slug": component.project.slug,
+                "slug": "%2F".join(component.get_url_path()[1:]),
+            },
+        )
+        return f"{base}addons/{api_name}/"
+
     @cached_property
     def addon_class(self) -> type[BaseAddon]:
         return ADDONS[self.name]
@@ -389,7 +446,7 @@ class Addon(models.Model):
 
         run_addon_manually.delay_on_commit(self.pk)
 
-    def _drop_addons_cache(self):
+    def _drop_addons_cache(self) -> None:
         if self.component:
             self.component.drop_addons_cache()
 

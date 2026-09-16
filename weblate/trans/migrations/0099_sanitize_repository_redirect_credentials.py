@@ -4,9 +4,15 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
 from django.db import migrations
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
 
 COMPONENT_SETTING_CHANGE = 96
 BATCH_SIZE = 1000
@@ -24,7 +30,9 @@ def cleanup_repo_url(url: str) -> str:
     return url
 
 
-def sanitize_repository_redirect_credentials(apps, schema_editor) -> None:
+def sanitize_repository_redirect_credentials(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Change = apps.get_model("trans", "Change")
     database_alias = schema_editor.connection.alias
     queryset = (

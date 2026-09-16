@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from typing import TYPE_CHECKING
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -24,6 +25,9 @@ from fuzzing.findings_reporter import (
     report_findings,
     write_github_step_summary,
 )
+
+if TYPE_CHECKING:
+    from unittest.mock import Mock
 
 
 class FuzzingFindingsReporterTest(TestCase):
@@ -636,7 +640,9 @@ class FuzzingFindingsReporterTest(TestCase):
         self.assertIn(b'"message": "test"', envelope)
 
     @patch("fuzzing.findings_reporter.send_sentry_event")
-    def test_report_findings_sends_sentry_events(self, send_sentry_event_mock) -> None:
+    def test_report_findings_sends_sentry_events(
+        self, send_sentry_event_mock: Mock
+    ) -> None:
         config = ReportConfig(
             dsn="https://public@example.invalid/1",
             mode="batch",
@@ -669,7 +675,7 @@ class FuzzingFindingsReporterTest(TestCase):
 
     @patch("fuzzing.findings_reporter.send_sentry_event")
     def test_report_findings_ignores_sentry_transport_errors(
-        self, send_sentry_event_mock
+        self, send_sentry_event_mock: Mock
     ) -> None:
         config = ReportConfig(
             dsn="https://public@example.invalid/1",

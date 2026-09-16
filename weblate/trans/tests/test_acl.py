@@ -4,6 +4,8 @@
 
 """Test for ACL management."""
 
+from __future__ import annotations
+
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
@@ -1380,7 +1382,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertRedirects(response, f"{self.access_url}#teams")
         self.assertFalse(Group.objects.filter(pk=group.pk).exists())
 
-    def create_test_group(self):
+    def create_test_group(self) -> Group:
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
             reverse("create-project-group", kwargs=self.kw_project),

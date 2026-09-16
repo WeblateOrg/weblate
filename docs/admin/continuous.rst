@@ -220,6 +220,14 @@ The :guilabel:`Repository maintenance` view shows repository status for a
 project, component, or translation and lets privileged users run maintenance
 operations from the user interface.
 
+For shared repositories, permissions are checked on the component that owns
+the repository, even when the operation is started from a linked component.
+Users with repository permissions only on a linked component can open this view
+to see which permissions they need on the owner. Restrictions identify the
+owning component when it is accessible; otherwise, ask your project
+administrator to coordinate access with the repository owner. See
+:doc:`/admin/access` for permission scope.
+
 The same actions can also be triggered using :ref:`api` or, for the supported
 subset, :ref:`wlc`.
 
@@ -412,12 +420,16 @@ and webhook setup is documented in :doc:`/admin/code-hosting`.
    * :ref:`Forgejo notifications <code-hosting-forgejo-notifications>`
    * :ref:`Gitee notifications <code-hosting-gitee-notifications>`
 
-Automatically updating repositories nightly
-+++++++++++++++++++++++++++++++++++++++++++
+.. _automatically-updating-repositories-nightly:
 
-Weblate automatically fetches remote repositories nightly to improve
-performance when merging changes later. You can optionally turn this into doing
-nightly merges as well, by enabling :setting:`AUTO_UPDATE`.
+Automatically updating repositories daily
++++++++++++++++++++++++++++++++++++++++++
+
+By default, Weblate automatically fetches remote repositories daily to improve
+performance when merging changes later. Updates are distributed throughout the
+day. Set :setting:`AUTO_UPDATE` to ``"full"`` to also merge remote changes into
+the working copy. See :setting:`AUTO_UPDATE` for scheduling details and other
+update modes.
 
 .. _push-changes:
 

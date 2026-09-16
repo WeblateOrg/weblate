@@ -38,6 +38,7 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.views import log_handled_auth_failure
 from weblate.auth.models import Group, Permission, Role, User
+from weblate.billing.defines import TRIAL_PLAN_SLUG
 from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -225,7 +226,7 @@ class ViewTest(RepoTestCase):
     @override_settings(OFFER_HOSTING=True)
     def test_libre(self) -> None:
         """Test for hosting form with enabled hosting."""
-        self.get_user()
+        user = self.get_user()
         self.client.login(username="testuser", password="testpassword")
 
         Plan.objects.create(price=0, slug="libre", name="Libre")
@@ -236,6 +237,8 @@ class ViewTest(RepoTestCase):
         # Creating a trial
         response = self.client.post(reverse("trial"), {"plan": "libre"}, follow=True)
         self.assertContains(response, "Create project")
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
+        self.assertEqual(billing.plan.slug, "libre")
 
     @override_settings(OFFER_HOSTING=False)
     def test_trial_disabled(self) -> None:
@@ -249,7 +252,7 @@ class ViewTest(RepoTestCase):
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_trial(self) -> None:
         """Test for trial form with disabled hosting."""
-        Plan.objects.create(price=1, slug="640k")
+        Plan.objects.create(price=1, slug=TRIAL_PLAN_SLUG)
         user = self.get_user()
         self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("trial"))
@@ -258,10 +261,37 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, "Create project")
         billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
         self.assertTrue(billing.is_trial)
+        self.assertEqual(billing.plan.slug, TRIAL_PLAN_SLUG)
 
         # Repeated attempt should fail
         response = self.client.get(reverse("trial"))
         self.assertRedirects(response, f"{reverse('contact')}?t=trial")
+
+    @override_settings(OFFER_HOSTING=True)
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_trial_plan_validation(self) -> None:
+        Plan.objects.create(name="Trial", price=1, slug=TRIAL_PLAN_SLUG)
+        Plan.objects.create(name="Larger", price=2, slug="10M")
+        user = self.get_user()
+        self.client.login(username=user.username, password="testpassword")
+        billing_count = Billing.objects.count()
+        workspace_count = Workspace.objects.count()
+
+        for plan in ("10M", "missing"):
+            with self.subTest(plan=plan):
+                reset_rate_limit("trial", user=user)
+                response = self.client.post(reverse("trial"), {"plan": plan})
+                self.assertEqual(response.status_code, 400)
+                self.assertContains(response, "Invalid trial plan.", status_code=400)
+                self.assertEqual(Billing.objects.count(), billing_count)
+                self.assertEqual(Workspace.objects.count(), workspace_count)
+                self.assertFalse(user.auditlog_set.filter(activity="trial").exists())
+
+        reset_rate_limit("trial", user=user)
+        response = self.client.post(reverse("trial"), {"plan": TRIAL_PLAN_SLUG})
+        self.assertEqual(response.status_code, 302)
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
+        self.assertEqual(billing.plan.slug, TRIAL_PLAN_SLUG)
 
     def test_contact_subject(self) -> None:
         # With set subject
@@ -667,7 +697,7 @@ class ViewTest(RepoTestCase):
         )
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
-    def test_login_ratelimit(self, login=False) -> None:
+    def test_login_ratelimit(self, login: bool = False) -> None:
         if login:
             self.test_login()
             user = User.objects.get(username="testuser")

@@ -38,7 +38,7 @@ from django.utils import timezone
 from django.utils.html import format_html, format_html_join
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-from django.utils.text import normalize_newlines, slugify
+from django.utils.text import format_lazy, normalize_newlines, slugify
 from django.utils.translation import get_language, gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
@@ -93,6 +93,7 @@ from weblate.trans.models import (
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import (
+    MAX_TRANSLATION_ALTERNATIVES,
     validate_check_flags,
     validate_translation_text_length,
 )
@@ -397,6 +398,7 @@ class PluralTextarea(forms.Textarea):
     """Text-area extension which possibly handles plurals."""
 
     profile: Profile
+    unit: Unit
 
     def __init__(self, *args, **kwargs) -> None:
         self.is_source_plural: Literal[True] | None = None
@@ -514,7 +516,7 @@ class PluralTextarea(forms.Textarea):
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
-        unit = value
+        unit = self.unit if isinstance(value, list) else value
         translation = unit.translation
         lang_label = lang = translation.language
         if self.is_source_plural:
@@ -523,6 +525,10 @@ class PluralTextarea(forms.Textarea):
         else:
             plurals = unit.get_source_plurals()
             values = unit.get_target_plurals()
+        if isinstance(value, list):
+            values = [
+                value[idx] if idx < len(value) else "" for idx in range(len(values))
+            ]
         if "zen-mode" in self.attrs:
             lang_label = format_html(
                 '<a class="language" href="{}" tabindex="-1">{}</a>',
@@ -540,6 +546,8 @@ class PluralTextarea(forms.Textarea):
 
         # Need to add extra class
         attrs["class"] = "translation-editor form-control highlight-editor"
+        if "font-monospace" in unit.all_flags:
+            attrs["class"] += " font-monospace"
         attrs["lang"] = lang.code
         attrs["dir"] = lang.direction
         attrs["rows"] = 3
@@ -597,7 +605,9 @@ class PluralTextarea(forms.Textarea):
     def value_from_datadict(self, data, files, name):
         """Return processed plurals as a list."""
         ret = []
-        for idx in range(10):
+        # Read one extra value so that validation rejects oversized submissions
+        # instead of silently discarding their remaining alternatives.
+        for idx in range(MAX_TRANSLATION_ALTERNATIVES + 1):
             fieldname = f"{name}_{idx:d}"
             if fieldname not in data:
                 break
@@ -631,10 +641,12 @@ class PluralField(forms.CharField):
 class ChecksumForm(forms.Form):
     """Form for handling checksum IDs for translation."""
 
+    unit_id = forms.IntegerField(required=False, min_value=1, widget=forms.HiddenInput)
     checksum = ChecksumField(required=True)
 
-    def __init__(self, unit_set, *args, **kwargs) -> None:
+    def __init__(self, unit_set, *args, require_unique: bool = False, **kwargs) -> None:
         self.unit_set = unit_set
+        self.require_unique = require_unique
         super().__init__(*args, **kwargs)
 
     def clean_checksum(self) -> str | None:
@@ -643,14 +655,24 @@ class ChecksumForm(forms.Form):
             return None
 
         unit_set = self.unit_set
+        if unit_id := self.cleaned_data.get("unit_id"):
+            unit_set = unit_set.filter(pk=unit_id)
 
         checksum = self.cleaned_data["checksum"]
-        try:
-            self.cleaned_data["unit"] = unit_set.filter(id_hash=checksum)[0]
-        except (Unit.DoesNotExist, IndexError) as error:
+        units = list(
+            unit_set.filter(id_hash=checksum)[: 2 if self.require_unique else 1]
+        )
+        if not units:
             raise ValidationError(
                 gettext("The string you wanted to translate is no longer available.")
-            ) from error
+            )
+        if len(units) > 1:
+            raise ValidationError(
+                gettext(
+                    "The string you wanted to translate could not be identified. Please reopen it and try again."
+                )
+            )
+        self.cleaned_data["unit"] = units[0]
         return checksum
 
 
@@ -676,6 +698,7 @@ class FuzzyField(forms.BooleanField):
 class TranslationForm(UnitForm):
     """Form used for translation of single string."""
 
+    unit_id = forms.IntegerField(required=False, min_value=1, widget=forms.HiddenInput)
     checksum = ChecksumField(required=True)
     contentsum = ChecksumField(required=True)
     translationsum = ChecksumField(required=True)
@@ -705,6 +728,7 @@ class TranslationForm(UnitForm):
         translation = unit.translation
         component = translation.component
         kwargs["initial"] = {
+            "unit_id": unit.pk,
             "checksum": unit.checksum,
             "contentsum": hash_to_checksum(unit.content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
@@ -755,6 +779,7 @@ class TranslationForm(UnitForm):
         self.user_can_edit = user_can_edit
         self.user = user
         self.fields["target"].widget.profile = user.profile
+        self.fields["target"].widget.unit = unit
         # Avoid failing validation on untranslated string
         if args:
             self.fields["review"].choices.append((STATE_EMPTY, ""))
@@ -765,6 +790,7 @@ class TranslationForm(UnitForm):
         self.helper.layout = Layout(
             Field("target"),
             Field("fuzzy"),
+            Field("unit_id"),
             Field("checksum"),
             Field("contentsum"),
             Field("translationsum"),
@@ -782,11 +808,6 @@ class TranslationForm(UnitForm):
                 self.fields["explanation"].label = gettext("Translation explanation")
         else:
             self.fields["explanation"].widget = forms.HiddenInput()
-
-        if component.project.commit_policy:
-            commit_policy = f" {component.project.get_commit_policy_description()}"
-            self.fields["review"].help_text += commit_policy
-            self.fields["fuzzy"].help_text += commit_policy
 
     def clean(self) -> None:
         super().clean()
@@ -819,7 +840,11 @@ class TranslationForm(UnitForm):
 
         fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
 
-        validate_translation_text_length(unit, self.cleaned_data["target"])
+        validate_translation_text_length(
+            unit,
+            self.cleaned_data["target"],
+            add_alternative="add_alternative" in self.data,
+        )
         if self.user.has_perm(
             "unit.review", unit.translation
         ) and self.cleaned_data.get("review"):
@@ -1177,21 +1202,31 @@ class RevertForm(UnitForm):
 class AutoForm(forms.Form):
     """Automatic translation form."""
 
-    COMPONENT_SLUG_HELP_TEXT = gettext_lazy(
-        "Enter slug of a component to use as source, keep blank to use all "
-        "components in the current project."
+    COMPONENT_CHOICE_LIMIT = 30
+    COMPONENT_ID_HELP_TEXT = gettext_lazy("Enter a source component ID.")
+    COMPONENT_ALTERNATIVES_HELP_TEXT = format_lazy(
+        gettext_lazy(
+            "With {count} or more eligible source components, a project/component path "
+            "is also accepted. In that case, component and project operations also "
+            "accept a component slug from the target project."
+        ),
+        count=COMPONENT_CHOICE_LIMIT,
     )
-    COMPONENT_WORKSPACE_SLUG_HELP_TEXT = gettext_lazy(
-        "Enter project and component slug or component ID to use as source, "
-        "keep blank to use all components in the current workspace."
+    COMPONENT_PROJECT_HELP_TEXT = gettext_lazy(
+        "Leave blank to use eligible components from each target component's project."
     )
-    COMPONENT_SELECT_HELP_TEXT = gettext_lazy(
-        "Turn on contribution to shared translation memory for the project to "
-        "get access to additional components."
+    COMPONENT_WORKSPACE_HELP_TEXT = gettext_lazy(
+        "Leave blank to use eligible components in the current workspace."
     )
 
     mode = forms.ChoiceField(
         label=gettext_lazy("Automatic translation mode"),
+        choices=[
+            ("suggest", gettext_lazy("Add as suggestion")),
+            ("translate", gettext_lazy("Add as translation")),
+            ("fuzzy", gettext_lazy('Add as "Needing edit"')),
+            ("approved", gettext_lazy("Add as approved translation")),
+        ],
         initial="suggest",
     )
     q = QueryField(
@@ -1214,7 +1249,12 @@ class AutoForm(forms.Form):
     component = forms.ChoiceField(
         label=gettext_lazy("Component"),
         required=False,
-        help_text=COMPONENT_SLUG_HELP_TEXT,
+        help_text=format_lazy(
+            "{} {} {}",
+            COMPONENT_ID_HELP_TEXT,
+            COMPONENT_ALTERNATIVES_HELP_TEXT,
+            COMPONENT_PROJECT_HELP_TEXT,
+        ),
         initial="",
     )
     engines = forms.MultipleChoiceField(
@@ -1275,32 +1315,48 @@ class AutoForm(forms.Form):
             self.components = Component.objects.all()
             machinery_settings = Setting.objects.get_settings_dict(SettingCategory.MT)
 
+        if isinstance(obj, Workspace):
+            scope_help = self.COMPONENT_WORKSPACE_HELP_TEXT
+            all_components_label = gettext(
+                "All eligible components in current workspace"
+            )
+        else:
+            scope_help = self.COMPONENT_PROJECT_HELP_TEXT
+            all_components_label = (
+                gettext("All eligible components in current project")
+                if self.project is not None
+                else gettext("Eligible components from each target component's project")
+            )
+
         # Fetching first few entries is faster than doing a count query on possibly
         # thousands of components
-        if len(self.components.values_list("id")[:30]) == 30:
-            # Do not show choices when too many
-            help_text = (
-                self.COMPONENT_WORKSPACE_SLUG_HELP_TEXT
-                if isinstance(obj, Workspace)
-                else self.fields["component"].help_text
+        if (
+            len(self.components.values_list("id")[: self.COMPONENT_CHOICE_LIMIT])
+            == self.COMPONENT_CHOICE_LIMIT
+        ):
+            # Bare slugs require a project; IDs and paths work in every scope.
+            input_help = (
+                gettext(
+                    "You can also enter a component slug from the current project "
+                    "or a project/component path."
+                )
+                if self.project is not None
+                else gettext("You can also enter a project/component path.")
             )
             self.fields["component"] = forms.CharField(
                 required=False,
                 label=gettext("Component"),
-                help_text=help_text,
+                help_text=format_lazy(
+                    "{} {} {}", self.COMPONENT_ID_HELP_TEXT, input_help, scope_help
+                ),
             )
         else:
             choices = [
                 (s.id, str(s))
                 for s in self.components.order_project().prefetch_related("project")
             ]
-
-            if isinstance(obj, Workspace):
-                all_components_label = gettext("All components in current workspace")
-            else:
-                all_components_label = gettext("All components in current project")
             self.fields["component"].choices = [("", all_components_label), *choices]
-            self.fields["component"].help_text = self.COMPONENT_SELECT_HELP_TEXT
+            self.fields["component"].help_text = scope_help
 
         engines = sorted(
             (
@@ -1320,14 +1376,12 @@ class AutoForm(forms.Form):
         if "q" not in self.initial:
             self.initial["q"] = "state:<translated"
 
-        choices = [
-            ("suggest", gettext("Add as suggestion")),
-            ("translate", gettext("Add as translation")),
-            ("fuzzy", gettext('Add as "Needing edit"')),
-        ]
-        if user is not None and (user.has_perm("unit.review", obj) or obj is None):
-            choices.append(("approved", gettext("Add as approved translation")))
-        self.fields["mode"].choices = choices
+        if user is None or not (user.has_perm("unit.review", obj) or obj is None):
+            self.fields["mode"].choices = [
+                choice
+                for choice in self.fields["mode"].choices
+                if choice[0] != "approved"
+            ]
 
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
