@@ -14,6 +14,7 @@ Weblate 2026.10
 .. rubric:: Improvements
 
 * Added a thumbnail picker to associate existing :ref:`screenshots <add-existing-screenshot>` with a string from the translation editor.
+* Strings assigned to a :ref:`screenshot <screenshots>` are appended to the end of the list while editing, and removing one no longer reloads the page.
 * :ref:`Repository maintenance <repository-maintenance>` now checks permissions on the repository-owning component and explains where missing permissions are required.
 
 * :ref:`Automatic translation <auto-translation>` using other components now prefers translations with matching source text and context.
