@@ -5,10 +5,10 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
+* Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
 * Added support for :ref:`component-mounted add-on APIs <component-addon-api>`.
-
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can generate component-wide locale lists with native language names, text direction, and translation statistics.
-
 * Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
 * Added an inherited :ref:`language creation policy <workflow-language-restrictions>` allowing existing project target languages while requesting maintainer approval for new languages.
 * Added configurable per-user and IP/network :ref:`API rate limits and exemptions <api-rate>`, including Docker configuration.
@@ -16,7 +16,6 @@ Weblate 2026.10
 .. rubric:: Improvements
 
 * Improved checks, automatic fixes, glossary matching, and machine translation for :ref:`independent alternatives in multivalue formats <format-multivalue>`.
-
 * Added a thumbnail picker to associate existing :ref:`screenshots <add-existing-screenshot>` with a string from the translation editor.
 * :ref:`Repository maintenance <repository-maintenance>` now checks permissions on the repository-owning component and explains where missing permissions are required.
 
@@ -42,6 +41,7 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
 * Improved :ref:`SSH repository connections <ssh-repos>` for hosts with unreachable addresses by staggering IPv4 and IPv6 connection attempts and reporting failed addresses and the destination port.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces.
 * Fixed double-counted statistics in nested :ref:`categories <category>` and stale statistics after deleting :ref:`labels`.
@@ -52,6 +52,7 @@ Weblate 2026.10
 
 .. rubric:: Compatibility
 
+* The former ``plainxliff`` and ``xliff2-placeables`` file formats are migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the ``xliff_placeables`` :ref:`file_format_params`.
 * API throttles now read :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` directly; ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` is no longer used by Weblate's throttle classes.
 * :ref:`API authentication <api-generic>` now rejects unsupported authentication schemes, such as Basic, with HTTP 401, including when a valid browser session is present.
 * Notification subscription API responses now expose ``project`` and ``component`` as nullable URL strings instead of nested objects.
