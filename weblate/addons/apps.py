@@ -9,3 +9,8 @@ class AddonsConfig(AppConfig):
     name = "weblate.addons"
     label = "addons"
     verbose_name = "Add-ons"
+
+    def ready(self) -> None:
+        from weblate.addons.api import api_providers  # ruff: ignore[import-outside-top-level]
+
+        api_providers()

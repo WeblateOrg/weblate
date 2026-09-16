@@ -1614,6 +1614,19 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(unit.get_absolute_url())
         self.assertContains(response, "Hello, world!")
 
+    def test_font_monospace_flag(self) -> None:
+        unit = self.get_unit()
+        response = self.client.get(unit.get_absolute_url())
+        self.assertNotContains(response, "font-monospace")
+
+        source = unit.source_unit
+        source.extra_flags = "font-monospace"
+        source.save()
+
+        unit = self.get_unit()
+        response = self.client.get(unit.get_absolute_url())
+        self.assertContains(response, "font-monospace")
+
     def test_view_component_list(self) -> None:
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
         clist.components.add(self.component)

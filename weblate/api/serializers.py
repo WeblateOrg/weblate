@@ -3661,6 +3661,7 @@ class UnitFlatLabelsSerializer(UnitLabelsSerializer):
 
 
 class UnitSerializer(serializers.ModelSerializer[Unit]):
+    tbx_terms = serializers.DictField(read_only=True)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
         view_name="api:translation-detail",
@@ -3687,6 +3688,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     class Meta:
         model = Unit
         fields = (
+            "tbx_terms",
             "translation",
             "language_code",
             "source",
@@ -4235,6 +4237,22 @@ class ProjectComponentSerializer(ComponentSerializer):
 
 
 class AddonSerializer(serializers.ModelSerializer[Addon]):
+    api_name = serializers.SlugField(
+        read_only=True,
+        allow_null=True,
+        help_text="Current API name declared by the enabled, compatible provider. Null when no API is available.",
+    )
+    api_url = serializers.SerializerMethodField(
+        help_text="Component-mounted API base URL, including any encoded category path. Null when the provider is disabled, incompatible, or does not declare an API.",
+    )
+
+    def get_api_url(self, obj: Addon) -> str | None:
+        url = obj.api_url
+        if url is None:
+            return None
+        request = self.context.get("request")
+        return request.build_absolute_uri(url) if request else url
+
     component = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
         lookup_field=("component__project__slug", "component__slug"),
@@ -4259,6 +4277,8 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             "id",
             "configuration",
             "url",
+            "api_name",
+            "api_url",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:addon-detail"}
@@ -4353,7 +4373,10 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
 
     def create(self, validated_data):
         validated_data["acting_user"] = self.context["request"].user
-        return super().create(validated_data)
+        try:
+            return super().create(validated_data)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError({"name": error.messages}) from error
 
     def save(self, **kwargs):
         result = super().save(**kwargs)
