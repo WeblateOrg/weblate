@@ -49,7 +49,7 @@ from weblate.utils.render import (
     validate_render_component,
 )
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
+from weblate.utils.stats import ProjectLanguage, ProjectStats
 from weblate.utils.validators import (
     WeblateURLValidator,
     validate_language_aliases,
@@ -71,7 +71,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Alert, Category
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
-    from weblate.trans.models.translation import TranslationQuerySet
     from weblate.workspaces.models import Workspace
 
 
@@ -597,7 +596,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         self.stats = ProjectStats(self)
         self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
-        self.label_cleanups: TranslationQuerySet | None = None
+        self.label_cleanups: set[int] = set()
         self.languages_cache: dict[str, Language] = {}
         self.billing_original_workspace_id = self.__dict__.get(
             "workspace_id", models.DEFERRED
@@ -1485,17 +1484,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.translation import Translation
 
-        translations = Translation.objects.filter(unit__source_unit__labels=label)
-        if self.label_cleanups is None:
-            self.label_cleanups = translations
-        else:
-            self.label_cleanups |= translations
-        prefetch_stats(self.label_cleanups)
+        self.label_cleanups.update(
+            Translation.objects.filter(unit__source_unit__labels=label).values_list(
+                "pk", flat=True
+            )
+        )
 
-    def cleanup_label_stats(self, name: str) -> None:
-        if self.label_cleanups is not None:
-            for translation in self.label_cleanups:
-                translation.stats.remove_stats(f"label:{name}")
+    def cleanup_label_stats(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import update_translation_stats
+
+        if self.label_cleanups:
+            update_translation_stats.delay(sorted(self.label_cleanups))
+            self.label_cleanups.clear()
 
     def get_existing_target_language_ids(self) -> set[int]:
         """Languages qualifying for the existing-project-language creation policy."""

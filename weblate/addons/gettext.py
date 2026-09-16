@@ -2117,38 +2117,3 @@ class SphinxAddon(ExtractPotBaseAddon):
         except ValueError:
             return location
         return f"{relative.as_posix()}:{line_part}"
-
-
-class GettextAuthorComments(GettextBaseAddon):
-    events: ClassVar[set[AddonEvent]] = {
-        AddonEvent.EVENT_PRE_COMMIT,
-    }
-    name = "weblate.gettext.authors"
-    verbose = gettext_lazy("Contributors in comment")
-    description = gettext_lazy(
-        "Updates the comment part of the PO file header to include contributor names "
-        "and years of contributions."
-    )
-
-    def pre_commit(
-        self,
-        translation: Translation,
-        author: str,
-        store_hash: bool,
-        activity_log_id: int | None = None,
-    ) -> AddonEventOutcome | None:
-        if "noreply@weblate.org" in author:
-            return AddonEventOutcome.skipped(AddonActivityLogReason.NOT_APPLICABLE)
-        if "<" in author:
-            name, email = author.split("<")
-            name = name.strip()
-            email = email.rstrip(">")
-        else:
-            name = author
-            email = None
-
-        translation.store.store.updatecontributor(name, email)
-        translation.store.save()
-        if store_hash:
-            translation.store_hash()
-        return None

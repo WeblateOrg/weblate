@@ -713,6 +713,9 @@ function initHighlight(root) {
     if (editor.disabled) {
       highlight.classList.add("disabled");
     }
+    if (editor.classList.contains("font-monospace")) {
+      highlight.classList.add("font-monospace");
+    }
     highlight.setAttribute("role", "status");
     if (editor.hasAttribute("dir")) {
       highlight.setAttribute("dir", editor.getAttribute("dir"));
@@ -2241,10 +2244,10 @@ onReady(() => {
 
   /* Notifications removal */
   document
-    .querySelectorAll(".nav-pills > li > a > button.btn-close")
+    .querySelectorAll(".nav-pills > li > button.btn-close")
     .forEach((button) => {
       button.addEventListener("click", (_e) => {
-        const link = button.parentElement;
+        const link = button.parentElement.querySelector("a[data-bs-target]");
         document
           .querySelectorAll(`${link.getAttribute("data-bs-target")} select`)
           .forEach((select) => {
@@ -2253,10 +2256,11 @@ onReady(() => {
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
         /* Activate watched tab */
         const watched = document.querySelector(
-          'a[data-bs-target="#notifications__1"',
+          'a[data-bs-target="#notifications__1"]',
         );
         bootstrap.Tab.getOrCreateInstance(watched).show();
         link.parentElement.remove();
+        watched.focus();
         addAlert(
           gettext(
             "Notification settings removed, please do not forget to save the changes.",
@@ -2455,39 +2459,42 @@ onReady(() => {
             });
         };
         const selected = this.value;
-        if (selected === "singular") {
-          document
-            .querySelectorAll("input[name='new-unit-form-type']")
-            .forEach((input) => {
-              input.removeAttribute("checked");
-            });
-          const showSingular = document.querySelector(
-            "#new-singular #show-singular",
-          );
-          if (showSingular !== null) {
-            showSingular.checked = true;
-          }
-          setContextValue("#new-singular", "#new-plural");
-          transferTextareaInputs("#new-plural", "#new-singular");
-          document.querySelector("#new-plural")?.classList.add("hidden");
-          document.querySelector("#new-singular")?.classList.remove("hidden");
-        } else if (selected === "plural") {
-          document
-            .querySelectorAll("input[name='new-unit-form-type']")
-            .forEach((input) => {
-              input.removeAttribute("checked");
-            });
-          const showPlural = document.querySelector("#new-plural #show-plural");
-          if (showPlural !== null) {
-            showPlural.checked = true;
-          }
-          setContextValue("#new-plural", "#new-singular");
-          transferTextareaInputs("#new-singular", "#new-plural");
-          document.querySelector("#new-singular")?.classList.add("hidden");
-          document.querySelector("#new-plural")?.classList.remove("hidden");
+        if (selected !== "singular" && selected !== "plural") {
+          return;
         }
+        const previous = selected === "singular" ? "plural" : "singular";
+        document
+          .querySelectorAll("input[name='new-unit-form-type']")
+          .forEach((input) => {
+            input.removeAttribute("checked");
+          });
+        const selectedInput = document.getElementById(`show-${selected}`);
+        if (selectedInput !== null) {
+          selectedInput.checked = true;
+        }
+        setContextValue(`#new-${selected}`, `#new-${previous}`);
+        transferTextareaInputs(`#new-${previous}`, `#new-${selected}`);
+        document.getElementById(`new-${previous}`)?.classList.add("hidden");
+        document.getElementById(`new-${selected}`)?.classList.remove("hidden");
       });
     });
+
+  /* Clarify browser verification failures using the page's translated guidance. */
+  document.addEventListener("otp_webauthn.verification_failed", (event) => {
+    if (
+      event.target.id !== "passkey-verification-button" ||
+      event.detail?.fromAutofill ||
+      event.detail?.error?.name !== "NotAllowedError"
+    ) {
+      return;
+    }
+    const status = document.getElementById(
+      "passkey-verification-status-message",
+    );
+    if (status?.dataset.notAllowedMessage) {
+      status.textContent = status.dataset.notAllowedMessage;
+    }
+  });
 
   /* WebAuthn registration completion in profile */
   document.addEventListener("otp_webauthn.register_complete", (event) => {

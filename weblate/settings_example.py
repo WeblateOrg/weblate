@@ -439,6 +439,7 @@ ROOT_URLCONF = "weblate.urls"
 INSTALLED_APPS = [
     # Weblate apps on top to override Django locales and templates
     "weblate.addons",
+    "weblate.kotlin_sdk",
     "weblate.api",
     "weblate.auth",
     "weblate.checks",
@@ -853,7 +854,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.addons.gettext.MesonAddon",
 #     "weblate.addons.gettext.DjangoAddon",
 #     "weblate.addons.gettext.SphinxAddon",
-#     "weblate.addons.gettext.GettextAuthorComments",
 #     "weblate.addons.cleanup.CleanupAddon",
 #     "weblate.addons.cleanup.RemoveBlankAddon",
 #     "weblate.addons.cleanup.ResetAddon",

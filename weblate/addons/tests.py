@@ -143,7 +143,6 @@ from .gettext import (
     DJANGO_EXTRACT_RUNNER,
     DjangoAddon,
     GenerateMoAddon,
-    GettextAuthorComments,
     MesonAddon,
     MsgmergeAddon,
     SphinxAddon,
@@ -5195,18 +5194,6 @@ msgstr ""
             activity.details["reason"], AddonActivityLogReason.INVALID_OUTPUT
         )
 
-    def test_gettext_comment(self) -> None:
-        translation = self.get_translation()
-        self.assertTrue(
-            GettextAuthorComments.can_install(component=translation.component)
-        )
-        addon = GettextAuthorComments.create(component=translation.component)
-        addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>", True)
-        content = get_optional_path(translation.get_filename()).read_text(
-            encoding="utf-8"
-        )
-        self.assertIn("Stojan Jakotyc", content)
-
     def test_pseudolocale(self) -> None:
         self.assertTrue(PseudolocaleAddon.can_install(component=self.component))
         PseudolocaleAddon.create(
@@ -5626,7 +5613,7 @@ class ViewTests(ViewTestCase):
     def test_addon_logs(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
         addon = self.component.addon_set.all()[0]
@@ -5677,7 +5664,7 @@ class ViewTests(ViewTestCase):
         self.assertContains(response, "Uninstall")
 
     def test_non_daily_addon_has_no_manual_run_button(self) -> None:
-        GettextAuthorComments.create(component=self.component, run=False)
+        MsgmergeAddon.create(component=self.component, run=False)
 
         addon = self.component.addon_set.get()
         response = self.client.get(addon.get_absolute_url())
@@ -5755,7 +5742,7 @@ class ViewTests(ViewTestCase):
     def test_addon_logs_without_authentication(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
         addon = self.component.addon_set.all()[0]
@@ -5767,7 +5754,7 @@ class ViewTests(ViewTestCase):
     def test_add_simple(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
@@ -5781,16 +5768,16 @@ class ViewTests(ViewTestCase):
 
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
-            {"name": "weblate.gettext.authors"},
+            {"name": "weblate.gettext.msgmerge"},
             follow=True,
         )
 
         self.assertContains(response, "Installed 2 add-ons")
         self.assertContains(response, "weblate.addon.nonexisting")
-        self.assertContains(response, "Contributors in comment")
+        self.assertContains(response, "Update PO files to match POT (msgmerge)")
         self.assertTrue(
             Addon.objects.filter(
-                component=self.component, name="weblate.gettext.authors"
+                component=self.component, name="weblate.gettext.msgmerge"
             ).exists()
         )
 
@@ -6239,7 +6226,7 @@ class CommandTest(ComponentTestCase):
             "install_addon",
             "--all",
             "--addon",
-            "weblate.gettext.authors",
+            "weblate.gettext.msgmerge",
             stdout=output,
             stderr=output,
         )

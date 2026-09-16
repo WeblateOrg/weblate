@@ -123,6 +123,8 @@ def get_unit_memory_update(
     component: Component | None = None,
     project: Project | None = None,
 ) -> MemoryUpdatePayload | None:
+    if unit.is_multivalue:
+        return None
     if component is None:
         component = unit.translation.component
     if project is None:

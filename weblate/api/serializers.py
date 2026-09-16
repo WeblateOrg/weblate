@@ -43,6 +43,7 @@ from weblate.accounts.models import (
     Subscription,
     validate_listing_columns,
 )
+from weblate.accounts.notifications import NotificationScope
 from weblate.accounts.utils import get_all_user_mails
 from weblate.addons.base import is_public_addon_change_details
 from weblate.addons.models import ADDONS, Addon
@@ -2700,8 +2701,47 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
 
 class NotificationSerializer(serializers.ModelSerializer[Subscription]):
-    project = ProjectSerializer(read_only=True)
-    component = ComponentSerializer(read_only=True)
+    project = MultiFieldHyperlinkedIdentityField(
+        view_name="api:project-detail",
+        lookup_field=("project__slug",),
+        strip_parts=1,
+        read_only=True,
+        allow_null=True,
+    )
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("component__project__slug", "component__slug"),
+        strip_parts=1,
+        read_only=True,
+        allow_null=True,
+    )
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        scope = attrs.get(
+            "scope",
+            self.instance.scope if self.instance else NotificationScope.SCOPE_ALL,
+        )
+        if self.instance is not None and scope != self.instance.scope:
+            raise serializers.ValidationError(
+                {"scope": "Changing notification scope is not supported."}
+            )
+        if self.instance is None and scope in {
+            NotificationScope.SCOPE_PROJECT,
+            NotificationScope.SCOPE_COMPONENT,
+        }:
+            raise serializers.ValidationError(
+                {"scope": "Scoped notifications require an existing target."}
+            )
+        return attrs
+
+    def to_representation(self, instance):
+        result = super().to_representation(instance)
+        if instance.scope != NotificationScope.SCOPE_PROJECT:
+            result["project"] = None
+        if instance.scope != NotificationScope.SCOPE_COMPONENT:
+            result["component"] = None
+        return result
 
     class Meta:
         model = Subscription
@@ -3618,6 +3658,7 @@ class UnitFlatLabelsSerializer(UnitLabelsSerializer):
 
 
 class UnitSerializer(serializers.ModelSerializer[Unit]):
+    tbx_terms = serializers.DictField(read_only=True)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
         view_name="api:translation-detail",
@@ -3647,6 +3688,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     class Meta:
         model = Unit
         fields = (
+            "tbx_terms",
             "translation",
             "language_code",
             "source",
@@ -4202,6 +4244,22 @@ class ProjectComponentSerializer(ComponentSerializer):
 
 
 class AddonSerializer(serializers.ModelSerializer[Addon]):
+    api_name = serializers.SlugField(
+        read_only=True,
+        allow_null=True,
+        help_text="Current API name declared by the enabled, compatible provider. Null when no API is available.",
+    )
+    api_url = serializers.SerializerMethodField(
+        help_text="Component-mounted API base URL, including any encoded category path. Null when the provider is disabled, incompatible, or does not declare an API.",
+    )
+
+    def get_api_url(self, obj: Addon) -> str | None:
+        url = obj.api_url
+        if url is None:
+            return None
+        request = self.context.get("request")
+        return request.build_absolute_uri(url) if request else url
+
     component = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
         lookup_field=("component__project__slug", "component__slug"),
@@ -4226,6 +4284,8 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             "id",
             "configuration",
             "url",
+            "api_name",
+            "api_url",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:addon-detail"}
@@ -4320,7 +4380,10 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
 
     def create(self, validated_data):
         validated_data["acting_user"] = self.context["request"].user
-        return super().create(validated_data)
+        try:
+            return super().create(validated_data)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError({"name": error.messages}) from error
 
     def save(self, **kwargs):
         result = super().save(**kwargs)

@@ -17,13 +17,13 @@ from lxml import etree
 # renovate-its: datasource=github-tags depName=polkit-org/polkit
 POLKIT_VERSION = "127"
 # renovate-its: datasource=github-tags depName=ximion/appstream
-APPSTREAM_VERSION = "v1.0.5"
+APPSTREAM_VERSION = "v1.2.0"
 # renovate-its: datasource=github-tags depName=GNOME/glib
-GLIB_VERSION = "2.84.4"
+GLIB_VERSION = "2.90.0"
 # renovate-its: datasource=github-tags depName=GNOME/gtk
-GTK_VERSION = "3.24.49"
+GTK_VERSION = "3.24.52"
 # renovate-its: datasource=gitlab-tags depName=xdg/shared-mime-info registryUrl=https://gitlab.freedesktop.org
-SHARED_MIME_INFO_VERSION = "2.4"
+SHARED_MIME_INFO_VERSION = "2.5.1"
 
 OUTPUT_DIR = Path(__file__).resolve().parents[1] / "weblate/addons/extractors/gettext"
 START_MARKER = "<!-- BEGIN GENERATED ITS SOURCES -->"

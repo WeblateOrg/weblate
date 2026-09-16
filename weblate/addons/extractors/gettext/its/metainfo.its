@@ -23,7 +23,9 @@
                      translate="yes"/>
 
   <its:withinTextRule withinText="yes" selector="/component//description//em   |
-                                                 /component//description//code"/>
+                                                 /component//description//code |
+                                                 /releases/release/description//em |
+                                                 /releases/release/description//code"/>
 
   <its:translateRule selector="/component/name[@translate = 'no']"
                      translate="no"/>

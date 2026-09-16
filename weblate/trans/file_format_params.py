@@ -45,6 +45,7 @@ class FileFormatParams(TypedDict, total=False):
     po_set_last_translator: bool
     po_set_x_generator: bool
     po_report_msgid_bugs_to: bool
+    po_contributor_comments: Literal["none", "gettext", "spdx"]
     yaml_indent: int
     yaml_line_wrap: int
     yaml_line_break: str
@@ -82,6 +83,7 @@ FileFormatParamKey = Literal[
     "po_set_last_translator",
     "po_set_x_generator",
     "po_report_msgid_bugs_to",
+    "po_contributor_comments",
     "yaml_indent",
     "yaml_line_wrap",
     "yaml_line_break",
@@ -355,6 +357,24 @@ class GettextPoLineWrap(BaseFileFormatParam):
 
 class BaseGettextFormatParam(BaseFileFormatParam):
     file_formats: Sequence[str] = ("po",)
+
+
+@register_file_format_param
+class GettextContributorComments(BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
+    name = "po_contributor_comments"
+    label = gettext_lazy("Contributor comments")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("none", gettext_lazy("Disabled")),
+        ("gettext", gettext_lazy("Gettext")),
+        ("spdx", gettext_lazy("SPDX")),
+    ]
+    default = "none"
+    help_text = gettext_lazy(
+        "Add contributor names and years to header comments. SPDX also converts "
+        "existing recognized contributor comments to SPDX-FileCopyrightText entries."
+    )
 
 
 @register_file_format_param
