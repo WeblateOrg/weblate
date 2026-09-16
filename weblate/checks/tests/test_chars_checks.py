@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import regex
 from django.template import Context, Template
 from django.test import SimpleTestCase
 
@@ -760,6 +761,20 @@ class PunctuationSpacingCheckTest(CheckTestCase):
             ),
             "fr",
         )
+
+    def test_fixup_markdown_url(self) -> None:
+        unit = make_unit(
+            source="Read: [docs](https://example.com)",
+            target="Lire: [docs](https://example.com)",
+            code="fr",
+            flags="md-text",
+        )
+        fixup = self.check.get_fixup(unit)
+        self.assertIsNotNone(fixup)
+        result = unit.target
+        for _kind, pattern, replacement, _flags in fixup:
+            result = regex.sub(pattern, replacement.replace("$", "\\"), result)
+        self.assertEqual(result, "Lire\u00a0: [docs](https://example.com)")
 
 
 class KabyleCharactersCheckTest(CheckTestCase):
