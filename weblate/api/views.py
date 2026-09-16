@@ -1200,6 +1200,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         queryset = queryset.filter_search_access(user)
         queryset = self.filter_queryset(queryset)
+        queryset = self.order_by_contributions(queryset)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -1208,6 +1209,25 @@ class UserViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    def order_by_contributions(self, queryset):
+        """Rank contributors to the given unit first in user listings."""
+        if "unit" not in self.request.GET:
+            return queryset
+        try:
+            unit = Unit.objects.filter_access(self.request.user).get(
+                pk=self.request.GET["unit"]
+            )
+        except (Unit.DoesNotExist, ValueError):
+            return queryset
+        return queryset.annotate(
+            contributed_unit=Exists(
+                Change.objects.filter(user=OuterRef("pk"), unit=unit)
+            ),
+            contributed_translation=Exists(
+                Change.objects.filter(user=OuterRef("pk"), translation=unit.translation)
+            ),
+        ).order_by("-contributed_unit", "-contributed_translation", "id")
 
     def perm_check(
         self,
