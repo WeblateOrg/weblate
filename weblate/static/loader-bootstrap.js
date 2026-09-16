@@ -355,8 +355,7 @@ async function screenshotRemoveAssignedSource(form) {
     let data = {};
     try {
       data = await response.json();
-    } catch (_error) {
-    }
+    } catch (_error) {}
     if (!response.ok || data.status !== true) {
       throw new Error(data.error || response.statusText);
     }
