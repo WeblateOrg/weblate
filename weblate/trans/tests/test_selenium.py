@@ -85,7 +85,9 @@ from weblate.trans.tests.utils import (
     require_github,
     social_core_override_settings,
 )
+from weblate.trans.views.about import FALLBACK_STATS, DonateView
 from weblate.trans.widgets import WIDGETS
+from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
@@ -1050,6 +1052,44 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         submit_button = self.driver.switch_to.active_element
         self.assertEqual(submit_button.get_attribute("type"), "submit")
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
+
+    def test_support_page_navigation(self) -> None:
+        """Keep the purchase offer and its exit accessible on narrow screens."""
+        cache.delete(SUPPORT_STATUS_CACHE_KEY)
+        self.do_login(superuser=True)
+        with (
+            patch.object(DonateView, "get_stats", return_value=FALLBACK_STATS),
+            self.wait_for_page_load(),
+        ):
+            self.driver.get(f"{self.live_server_url}{reverse('donate')}")
+
+        for width in (1200, 390):
+            with self.subTest(width=width):
+                self.driver.set_window_size(width, 844)
+                self.assertTrue(
+                    self.driver.execute_script(
+                        "return document.documentElement.scrollWidth <= window.innerWidth"
+                    )
+                )
+                purchase = self.driver.find_element(By.LINK_TEXT, "Purchase support")
+                self.driver.execute_script("arguments[0].focus()", purchase)
+                purchase.send_keys(Keys.TAB)
+                self.assertEqual(
+                    self.driver.switch_to.active_element.text, "Continue to Weblate"
+                )
+                self.driver.switch_to.active_element.send_keys(Keys.TAB)
+                self.assertEqual(
+                    self.driver.switch_to.active_element.text,
+                    "Already purchased? Link your support package",
+                )
+
+        self.screenshot_viewport("support-mobile.png", 390, 844)
+        continuation = self.driver.find_element(By.LINK_TEXT, "Continue to Weblate")
+        with self.wait_for_page_load():
+            continuation.send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.current_url, f"{self.live_server_url}{reverse('home')}"
+        )
 
     def test_slug_autofill(self) -> None:
         """Check that base JavaScript initializes slug autogeneration."""

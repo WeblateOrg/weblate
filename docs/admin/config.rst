@@ -2736,8 +2736,14 @@ SUPPORT_STATUS_CHECK
 
 .. versionadded:: 5.5
 
-Disables semiannual support status check and redirecting superusers upon login
-to the donation page in case there is no active support subscription.
+Defaults to ``True``. When enabled, superusers without integrated support are
+redirected after login to a page offering professional support, at most once
+every 180 days per account. The reminder starts once the installation has a
+change older than 14 days and waits for an HTML page navigation. A
+:guilabel:`Continue to Weblate` action returns to the intended page.
+
+Set this to ``False`` to disable the redirect. This does not hide support or
+donation links elsewhere in the interface.
 
 .. hint::
 

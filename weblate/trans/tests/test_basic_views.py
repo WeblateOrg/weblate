@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 from json import JSONDecodeError
 from typing import TYPE_CHECKING
 from unittest.mock import patch
@@ -16,9 +17,12 @@ from django.templatetags.static import static
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils import timezone
 
+from weblate.accounts.models import AuditLog, post_login_handler
 from weblate.auth.models import User
 from weblate.trans.context_processors import weblate_context
+from weblate.trans.models import Change
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.about import FALLBACK_STATS, AboutView, DonateView
 from weblate.trans.views.error import server_error
@@ -29,6 +33,7 @@ from weblate.utils.version_display import (
     VERSION_DISPLAY_SOFT,
 )
 from weblate.vcs.ssh import ensure_ssh_key
+from weblate.wladmin.models import SupportStatus
 
 if TYPE_CHECKING:
     from unittest.mock import Mock
@@ -38,6 +43,7 @@ class BasicViewTest(FixtureTestCase):
     def test_about(self) -> None:
         response = self.client.get(reverse("about"))
         self.assertContains(response, "translate-toolkit")
+        self.assertContains(response, "Explore support options at weblate.org.")
 
     @override_settings(GOOGLE_ANALYTICS_ID="UA-123")
     def test_google_analytics(self) -> None:
@@ -118,6 +124,123 @@ class BasicViewTest(FixtureTestCase):
     def test_donate(self) -> None:
         response = self.client.get(reverse("donate"))
         self.assertContains(response, "Support Weblate")
+
+    @patch.object(DonateView, "get_stats", return_value=FALLBACK_STATS)
+    def test_support_offers_for_different_audiences(self, _stats: Mock) -> None:
+        donation_heading = "Support Weblate development"
+        support_heading = "Using Weblate in your organization?"
+        response = self.client.get(reverse("donate"))
+        content = response.content.decode()
+        self.assertLess(content.index(donation_heading), content.index(support_heading))
+        self.assertNotContains(response, "Already purchased? Link your support package")
+
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        response = self.client.get(reverse("donate"))
+        content = response.content.decode()
+        self.assertLess(content.index(support_heading), content.index(donation_heading))
+        self.assertContains(response, "Already purchased? Link your support package")
+
+        SupportStatus.objects.create(name="basic", enabled=True)
+        cache.clear()
+        response = self.client.get(reverse("donate"))
+        self.assertContains(response, "Welcome and thank you for supporting Weblate")
+        self.assertNotContains(response, "Purchase support")
+        self.assertNotContains(response, "Already purchased? Link your support package")
+
+    @patch.object(DonateView, "get_stats", return_value=FALLBACK_STATS)
+    def test_support_return_destination(self, _stats: Mock) -> None:
+        destination = f"{reverse('about')}?view=details&language=cs"
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        session = self.client.session
+        session["redirect_to_donate"] = True
+        session.save()
+        response = self.client.get(
+            destination, headers={"accept": "text/html"}, follow=True
+        )
+        self.assertRedirects(response, reverse("donate"))
+        self.assertEqual(response.context["support_return_url"], destination)
+        self.assertContains(
+            response, 'href="' + destination.replace("&", "&amp;") + '"'
+        )
+        self.assertNotIn("support_return_url", self.client.session)
+        self.assertEqual(self.user.auditlog_set.filter(activity="donate").count(), 1)
+        response = self.client.get(destination, headers={"accept": "text/html"})
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(reverse("donate"))
+        self.assertEqual(response.context["support_return_url"], reverse("home"))
+
+    @patch.object(DonateView, "get_stats", return_value=FALLBACK_STATS)
+    def test_support_return_rejects_unsafe_destinations(self, _stats: Mock) -> None:
+        for destination in (
+            "https://example.org/",
+            "//example.org/",
+            "/\\example.org/",
+            "javascript:alert(1)",
+            "https://[invalid/",
+            f"{reverse('donate')}?again=1",
+        ):
+            with self.subTest(destination=destination):
+                session = self.client.session
+                session["support_return_url"] = destination
+                session.save()
+                response = self.client.get(reverse("donate"))
+                self.assertEqual(
+                    response.context["support_return_url"], reverse("home")
+                )
+
+    def test_logout_has_optional_donation_only(self) -> None:
+        response = self.client.post(reverse("logout"))
+        self.assertContains(response, "Donate to Weblate development")
+        self.assertNotContains(response, "Purchase support")
+        self.assertNotContains(response, "Purchase a support package")
+
+    @override_settings(SUPPORT_STATUS_CHECK=True)
+    @patch(
+        "weblate.accounts.models.get_support_status",
+        return_value={"has_support": False},
+    )
+    def test_support_reminder_eligibility(self, support_status: Mock) -> None:
+        request = self.get_request()
+        request.session = {}
+        # Start with a new installation, then make its existing changes old enough.
+        Change.objects.update(timestamp=timezone.now())
+        self.user.is_superuser = True
+        post_login_handler(None, request, self.user)
+        self.assertNotIn("redirect_to_donate", request.session)
+        Change.objects.update(timestamp=timezone.now() - timedelta(days=15))
+
+        with override_settings(SUPPORT_STATUS_CHECK=False):
+            post_login_handler(None, request, self.user)
+        self.assertNotIn("redirect_to_donate", request.session)
+
+        self.user.is_superuser = False
+        post_login_handler(None, request, self.user)
+        self.assertNotIn("redirect_to_donate", request.session)
+
+        self.user.is_superuser = True
+        support_status.return_value = {"has_support": True}
+        post_login_handler(None, request, self.user)
+        self.assertNotIn("redirect_to_donate", request.session)
+
+        support_status.return_value = {"has_support": False}
+        post_login_handler(None, request, self.user)
+        self.assertTrue(request.session.pop("redirect_to_donate"))
+
+        audit = AuditLog.objects.create(self.user, request, "donate")
+        post_login_handler(None, request, self.user)
+        self.assertNotIn("redirect_to_donate", request.session)
+
+        self.anotheruser.is_superuser = True
+        post_login_handler(None, request, self.anotheruser)
+        self.assertTrue(request.session.pop("redirect_to_donate"))
+
+        AuditLog.objects.filter(pk=audit.pk).update(
+            timestamp=timezone.now() - timedelta(days=181)
+        )
+        post_login_handler(None, request, self.user)
+        self.assertTrue(request.session["redirect_to_donate"])
 
     def test_donate_falls_back_on_malformed_github_json(self) -> None:
         errors = (

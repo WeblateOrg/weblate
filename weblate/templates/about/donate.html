@@ -13,21 +13,26 @@
 
 {% block content %}
 
-  <div class="engage container">
+  <div class="engage container pt-4">
 
-    <h1>
-      {% blocktranslate %}Help <strong>Weblate</strong> keep thriving{% endblocktranslate %}
-    </h1>
+    <h1>{% translate "Support Weblate" %}</h1>
 
-    <h2>
-      {% if support_status.has_support %}
-        <strong>{% translate "Welcome and thank you for supporting Weblate" %}</strong>
-      {% else %}
-        <strong>{% translate "Welcome and thank you for choosing Weblate" %}</strong>
-      {% endif %}
-      —
-      {% translate "the privacy-respecting localization platform committed to open-source values." %}
-    </h2>
+    {% if support_status.has_support %}
+      <p>{% translate "Welcome and thank you for supporting Weblate" %}</p>
+      {% include "snippets/donate.html" %}
+    {% elif user.is_superuser %}
+      {% include "snippets/support.html" %}
+      {% include "snippets/donate.html" %}
+    {% else %}
+      {% include "snippets/donate.html" %}
+      {% include "snippets/support.html" %}
+    {% endif %}
+
+    {% if support_status.has_support or not user.is_superuser %}
+      <p>
+        <a href="{{ support_return_url }}" class="btn btn-outline-primary">{% translate "Continue to Weblate" %}</a>
+      </p>
+    {% endif %}
 
     <div class="row bignumbers">
       <div class="col-md-4">
@@ -49,8 +54,6 @@
         </p>
       </div>
     </div>
-
-    {% include "snippets/donate.html" %}
 
   </div>
 {% endblock content %}
