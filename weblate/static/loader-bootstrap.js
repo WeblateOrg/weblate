@@ -341,7 +341,7 @@ async function screenshotRefreshAssignedSources(addedPks = []) {
 }
 
 async function screenshotRemoveAssignedSource(form) {
-  const row = form.closest("tr");
+  const unitId = form.closest("tr")?.dataset.unitId;
   const button = form.querySelector("button[type=submit]");
   if (button !== null) {
     button.disabled = true;
@@ -356,14 +356,17 @@ async function screenshotRemoveAssignedSource(form) {
     try {
       data = await response.json();
     } catch (_error) {}
-    if (!response.ok || data.status !== true) {
-      throw new Error(data.error || response.statusText);
+    if (response.redirected || !response.ok || data.status !== true) {
+      throw new Error(
+        data.error || gettext("Could not remove the source string."),
+      );
     }
-    // Remove just this row, keeping the remaining ones in place.
-    row?.remove();
     const body = document.querySelector(
       "#sources-listing tbody.unit-listing-body",
     );
+    if (body !== null && unitId !== undefined) {
+      body.querySelector(`tr[data-unit-id="${unitId}"]`)?.remove();
+    }
     if (body !== null && body.querySelector("tr[data-unit-id]") === null) {
       // Let the server render the empty listing placeholder.
       await screenshotRefreshAssignedSources();
