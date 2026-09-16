@@ -39,6 +39,7 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Prevented project API tokens from inheriting permissions through automatic team assignments.
 * Limited the number and aggregate size of alternatives accepted by the translation editor.
 * Prevented component ZIP imports from overwriting version control metadata on case-insensitive filesystems.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API.
@@ -56,6 +57,7 @@ Weblate 2026.10
 
 .. rubric:: Compatibility
 
+* Existing :ref:`project API tokens <api-tokens>` lose permissions from non-project teams during upgrade. Assign any required permissions using project-specific teams.
 * API throttles now read :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` directly; ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` is no longer used by Weblate's throttle classes.
 * :ref:`API authentication <api-generic>` now rejects unsupported authentication schemes, such as Basic, with HTTP 401, including when a valid browser session is present.
 * Notification subscription API responses now expose ``project`` and ``component`` as nullable URL strings instead of nested objects.

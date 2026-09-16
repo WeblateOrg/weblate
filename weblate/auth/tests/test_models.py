@@ -58,6 +58,7 @@ class InternalBotEmailTest(TestCase):
         self.assertFalse(user.is_active)
         self.assertEqual(user.username, "mt:addon")
         self.assertEqual(user.email, "noreply-mt-addon@weblate.org")
+        self.assertFalse(user.groups.exists())
 
     @override_settings(INTERNAL_BOT_EMAIL_TEMPLATE="weblate-{scope}-{name}@example.com")
     def test_get_or_create_bot_custom_email_template(self) -> None:
