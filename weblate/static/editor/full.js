@@ -59,10 +59,14 @@
       if (!raw) {
         return;
       }
-      for (const pluralForm of raw.plural_forms) {
-        const area = this.translationArea[pluralForm];
-        if (area) {
-          replaceValue(area, raw.text);
+      if (raw.multivalue) {
+        WLT.Editor.insertEditor(raw.text, row, true);
+      } else {
+        for (const pluralForm of raw.plural_forms) {
+          const area = this.translationArea[pluralForm];
+          if (area) {
+            replaceValue(area, raw.text);
+          }
         }
       }
       mark(this.translationForm);
@@ -719,6 +723,13 @@
   };
 
   FullEditor.prototype.initGlossary = function () {
+    delegate(this.editors, "click", ".glossary-copy", (e) => {
+      const button = e.target.closest(".glossary-copy");
+      if (!button.disabled) {
+        WLT.Editor.insertEditor(button.dataset.glossaryText, button);
+      }
+    });
+
     /* Copy from glossary */
     delegate(this.editors, "click", ".glossary-embed", (e) => {
       const currentTarget = e.target.closest(".glossary-embed");

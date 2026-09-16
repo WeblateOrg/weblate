@@ -38,7 +38,7 @@ class SameCheckTest(CheckTestCase):
         self.assertTrue(self.check.should_skip(unit))
 
     def test_multivalue_matches_any_source(self) -> None:
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             for sources in (["application", "app"], ["app", "application"]):
                 for targets in (["application"], ["app"], ["aplikace", "app"]):
                     with self.subTest(
@@ -51,7 +51,7 @@ class SameCheckTest(CheckTestCase):
                         self.assertTrue(self.check.check_target(sources, targets, unit))
 
     def test_multivalue_unchanged_exemptions(self) -> None:
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             for targets, flags in (
                 (["aplikace", "program"], ""),
                 (["alarm"], ""),

@@ -168,7 +168,7 @@ class MultivalueTest(SimpleTestCase):
                     self.assertEqual("translation" in payload, expected)
 
     def test_same_plurals_excludes_independent_alternatives(self) -> None:
-        for file_format in ("csv-multi", "po"):
+        for file_format in ("tbx", "csv-multi", "po"):
             with self.subTest(file_format=file_format):
                 sources = ["application", "app"]
                 targets = ["aplikace", "aplikace"]
@@ -180,7 +180,7 @@ class MultivalueTest(SimpleTestCase):
                 )
 
     def test_microsoft_rebases_alternative_glossary_positions(self) -> None:
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             with self.subTest(file_format=file_format):
                 edited = make_unit(source=["application", "app and app", "apple"])
                 edited.translation.component.file_format = file_format
@@ -205,7 +205,7 @@ class MultivalueTest(SimpleTestCase):
                     self.assertFalse(list(machine.get_highlights("apple", edited)))
 
     def test_unit_multivalue_detection(self) -> None:
-        for file_format in ("po", "csv-multi"):
+        for file_format in ("po", "tbx", "csv-multi"):
             with self.subTest(file_format=file_format):
                 unit = make_unit(source="application", target="aplikace")
                 unit.translation.component.file_format = file_format
@@ -231,7 +231,7 @@ class MultivalueTest(SimpleTestCase):
                 self.assertFalse(unit.is_multivalue)
 
     def test_format_checks_match_independent_alternatives(self) -> None:
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             for check, flags in (
                 (CFormatCheck(), "c-format"),
                 (PlaceholderCheck(), "placeholders:%s:%d"),
@@ -266,7 +266,7 @@ class MultivalueTest(SimpleTestCase):
         unit = make_unit(
             source=sources, target=targets, flags="c-format,placeholders:%s"
         )
-        unit.translation.component.file_format = "csv-multi"
+        unit.translation.component.file_format = "tbx"
         results = list(CFormatCheck().check_generator(sources, targets, unit))
         self.assertFalse(results[0])
         self.assertEqual(results[1], {"missing": ["s"], "extra": []})
@@ -288,7 +288,7 @@ class MultivalueTest(SimpleTestCase):
         self.assertEqual(list(get_glossary_tuples([unit])), [("cars", "auta")])
 
     def test_single_term_machinery_in_multivalue_formats(self) -> None:
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             for code in ("cs", "ko"):
                 for target in ("", "existing"):
                     with self.subTest(
@@ -329,7 +329,7 @@ class MultivalueTest(SimpleTestCase):
                         self.assertFalse(multiple_sources.machinery)
 
     def test_multivalue_machinery_maps_alternatives_independently(self) -> None:
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             for code in ("cs", "ko"):
                 with self.subTest(file_format=file_format, code=code):
                     unit = make_unit(source=["application", "app"], code=code)

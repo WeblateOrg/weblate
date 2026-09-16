@@ -31820,7 +31820,25 @@ components:
           type: string
           format: uri
           readOnly: true
+        api_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Current API name declared by the enabled, compatible provider.
+            Null when no API is available.
+          pattern: ^[-a-zA-Z0-9_]+$
+        api_url:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Component-mounted API base URL, including any encoded category
+            path. Null when the provider is disabled, incompatible, or does not declare
+            an API.
       required:
+      - api_name
+      - api_url
       - component
       - id
       - name
@@ -35207,6 +35225,22 @@ components:
           type: string
           format: uri
           readOnly: true
+        api_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Current API name declared by the enabled, compatible provider.
+            Null when no API is available.
+          pattern: ^[-a-zA-Z0-9_]+$
+        api_url:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Component-mounted API base URL, including any encoded category
+            path. Null when the provider is disabled, incompatible, or does not declare
+            an API.
     PatchedCategory:
       type: object
       properties:
@@ -38812,6 +38846,10 @@ components:
     Unit:
       type: object
       properties:
+        tbx_terms:
+          type: object
+          additionalProperties: {}
+          readOnly: true
         translation:
           type: string
           format: uri
@@ -38936,6 +38974,7 @@ components:
       - source
       - source_unit
       - target
+      - tbx_terms
       - timestamp
       - translated
       - translation

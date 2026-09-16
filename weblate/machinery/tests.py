@@ -7701,7 +7701,7 @@ class OpenAILLMContextTest(FixtureComponentTestCase):
                 [{"source": "application", "target": "aplikace"}],
             ),
         )
-        for file_format in ("csv-multi",):
+        for file_format in ("tbx", "csv-multi"):
             unit.translation.component.file_format = file_format
             unit.translation.component.__dict__.pop("file_format_cls", None)
             for sources, targets, expected in cases:

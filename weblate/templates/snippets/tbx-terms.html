@@ -1,0 +1,33 @@
+{% load i18n translations %}
+
+{% tbx_term_information unit as information %}
+{% if information.terms %}
+  <details class="mb-3">
+    <summary>{% translate "Term information from the translation file" %}</summary>
+    {% for note in information.notes.concept %}<p>{{ note }}</p>{% endfor %}
+    {% for side, terms in information.terms.items %}
+      {% if terms %}
+        {% if side == "source" %}
+          <strong>{% translate "Source terms" %}</strong>
+          {% for note in information.notes.source %}<p>{{ note }}</p>{% endfor %}
+        {% else %}
+          <strong>{% translate "Target terms" %}</strong>
+          {% for note in information.notes.target %}<p>{{ note }}</p>{% endfor %}
+        {% endif %}
+        <ul>
+          {% for term in terms %}
+            <li>
+              {{ term.text }}
+              {% if term.administrative_status %}
+                <span class="badge text-bg-secondary">{{ term.administrative_status }}</span>
+              {% endif %}
+              {% for note in term.notes %}
+                <div>{{ note.text }}</div>
+              {% endfor %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+  </details>
+{% endif %}
