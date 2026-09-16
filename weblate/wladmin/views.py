@@ -116,6 +116,7 @@ from weblate.workspaces.views import WorkspaceListBase
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
+    from django.forms import ModelForm
     from django.http.request import QueryDict
     from django_stubs_ext import StrOrPromise
 
@@ -1097,7 +1098,7 @@ class WorkspaceCreateView(CreateView):
         return super().dispatch(request, *args, **kwargs)
 
     @transaction.atomic
-    def form_valid(self, form: WorkspaceCreateForm) -> HttpResponse:
+    def form_valid(self, form: ModelForm[Workspace]) -> HttpResponse:
         self.object = form.save(commit=False)
         self.object.acting_user = self.request.user
         self.object.save()
