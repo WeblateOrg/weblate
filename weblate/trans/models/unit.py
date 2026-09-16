@@ -2650,18 +2650,17 @@ class Unit(models.Model, LoggerMixin):
 
         return saved
 
-    def get_all_flags(self, override: Flags | str | None = None) -> Flags:
-        """Return union of own and component flags."""
+    def get_own_flag_sources(
+        self, override: Flags | str | None = None
+    ) -> tuple[Flags | str | None, ...]:
+        """Return flag sources belonging to the string itself, in overriding order."""
         # Validate flags from the unit to avoid crash
         try:
             unit_flags = Flags(override or self.flags)
         except ParseException:
             unit_flags = None
 
-        # Ordering is important here as that defines overriding
-        return Flags(
-            # Base on translation + component flags
-            self.translation.all_flags,
+        return (
             # Apply unit flags from the file format
             unit_flags,
             # The source_unit is None before saving the object for the first time
@@ -2670,9 +2669,30 @@ class Unit(models.Model, LoggerMixin):
             self.extra_flags,
         )
 
+    def get_all_flags(self, override: Flags | str | None = None) -> Flags:
+        """Return union of own and component flags."""
+        # Ordering is important here as that defines overriding
+        return Flags(
+            # Base on translation + component flags
+            self.translation.all_flags,
+            *self.get_own_flag_sources(override),
+        )
+
     @cached_property
     def all_flags(self) -> Flags:
         return self.get_all_flags()
+
+    @cached_property
+    def untranslatable(self) -> bool:
+        """
+        Whether the string itself carries the read-only flag.
+
+        Unlike checking :attr:`all_flags`, this ignores the flag inherited from
+        the translation or component, which only means the strings cannot be
+        edited there (for example source strings of a bilingual file).
+        Glossaries use this to tell untranslatable terms apart.
+        """
+        return "read-only" in Flags(*self.get_own_flag_sources())
 
     def get_unit_flags(self) -> Flags:
         return Flags(self.extra_flags)
