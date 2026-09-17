@@ -2106,9 +2106,12 @@ onReady(() => {
       data: {
         keys: ["full_name"],
         src: async (query) => {
-          const response = await fetch(
-            `/api/users/?username=${encodeURIComponent(query)}&is_active=1`,
-          );
+          let url = `/api/users/?username=${encodeURIComponent(query)}&is_active=1`;
+          const unitId = editor.closest("#comment-form")?.dataset.unitId;
+          if (unitId) {
+            url += `&unit=${encodeURIComponent(unitId)}`;
+          }
+          const response = await fetch(url);
           const data = await response.json();
           return data.results.map((user) => ({
             username: user.username,
@@ -2711,148 +2714,5 @@ onReady(() => {
 
     // Filter initial state
     updateTarget();
-  });
-});
-
-/* Mention autocomplete in comment forms */
-document.querySelectorAll("#comment-form textarea").forEach((commentInput) => {
-  const form = commentInput.closest("form");
-  const unitId = form?.dataset.unitId;
-  if (!unitId) {
-    return;
-  }
-
-  const dropdown = document.createElement("div");
-  dropdown.className = "autoComplete dropdown-menu";
-  dropdown.style.display = "none";
-  dropdown.style.position = "absolute";
-  dropdown.style.zIndex = "1050";
-  document.body.appendChild(dropdown);
-
-  let items = [];
-  let selected = -1;
-  let queryStart = -1;
-  let queryTimer = null;
-
-  function close() {
-    dropdown.style.display = "none";
-    items = [];
-    selected = -1;
-  }
-
-  function caretPosition() {
-    const mirror = document.createElement("div");
-    const computed = getComputedStyle(commentInput);
-    mirror.style.cssText = `position:absolute;visibility:hidden;white-space:pre-wrap;word-wrap:break-word;overflow:hidden;font:${computed.font};padding:${computed.padding};border:${computed.border};width:${commentInput.offsetWidth}px;`;
-    mirror.textContent = commentInput.value.slice(0, queryStart);
-    const marker = document.createElement("span");
-    marker.textContent = "@";
-    mirror.appendChild(marker);
-    document.body.appendChild(mirror);
-    const inputRect = commentInput.getBoundingClientRect();
-    const mirrorRect = mirror.getBoundingClientRect();
-    const markerRect = marker.getBoundingClientRect();
-    const top =
-      inputRect.top +
-      window.scrollY +
-      (markerRect.top - mirrorRect.top) +
-      Number.parseInt(computed.lineHeight, 10);
-    const left =
-      inputRect.left + window.scrollX + (markerRect.left - mirrorRect.left);
-    mirror.remove();
-    return { top, left };
-  }
-
-  function render() {
-    dropdown.textContent = "";
-    items.forEach((user, index) => {
-      const item = document.createElement("a");
-      item.className = `dropdown-item${index === selected ? " autoComplete_selected" : ""}`;
-      item.textContent = user.full_name
-        ? `${user.full_name} (@${user.username})`
-        : `@${user.username}`;
-      item.addEventListener("mousedown", (event) => {
-        event.preventDefault();
-        select(index);
-      });
-      dropdown.appendChild(item);
-    });
-    const { top, left } = caretPosition();
-    dropdown.style.top = `${top}px`;
-    dropdown.style.left = `${left}px`;
-    dropdown.style.display = "block";
-  }
-
-  function select(index) {
-    const user = items[index];
-    if (!user) {
-      return;
-    }
-    const caret = commentInput.selectionStart;
-    commentInput.value =
-      commentInput.value.slice(0, queryStart) +
-      `@${user.username} ` +
-      commentInput.value.slice(caret);
-    const pos = queryStart + user.username.length + 2;
-    commentInput.setSelectionRange(pos, pos);
-    commentInput.focus();
-    close();
-  }
-
-  async function update() {
-    const caret = commentInput.selectionStart;
-    const match = /(?:^|\s)@([\p{L}\p{N}_.-]*)$/u.exec(
-      commentInput.value.slice(0, caret),
-    );
-    if (!match) {
-      close();
-      return;
-    }
-    const query = match[1];
-    queryStart = caret - query.length;
-    try {
-      const source = await fetch(
-        `/api/users/?username=${encodeURIComponent(query)}&unit=${encodeURIComponent(unitId)}`,
-      );
-      const data = await source.json();
-      items = (data.results || []).slice(0, 8);
-    } catch {
-      items = [];
-    }
-    selected = -1;
-    if (!items.length) {
-      close();
-      return;
-    }
-    render();
-  }
-
-  commentInput.addEventListener("input", () => {
-    clearTimeout(queryTimer);
-    queryTimer = setTimeout(update, 300);
-  });
-  commentInput.addEventListener("keydown", (event) => {
-    if (dropdown.style.display !== "block") {
-      return;
-    }
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      selected = (selected + 1) % items.length;
-      render();
-    } else if (event.key === "ArrowUp") {
-      event.preventDefault();
-      selected = (selected - 1 + items.length) % items.length;
-      render();
-    } else if (event.key === "Enter" || event.key === "Tab") {
-      if (selected >= 0) {
-        event.preventDefault();
-        select(selected);
-      }
-    } else if (event.key === "Escape") {
-      close();
-    }
-  });
-  commentInput.addEventListener("blur", () => {
-    setTimeout(close, 150);
   });
 });
