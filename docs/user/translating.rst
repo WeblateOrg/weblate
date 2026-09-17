@@ -444,6 +444,8 @@ This action requires the :guilabel:`Edit screenshot` permission. To upload a new
 image, use :guilabel:`Upload screenshot` instead. Use :guilabel:`Manage screenshots`
 for the full :ref:`screenshot management interface <screenshots>`.
 
+.. _translation-history:
+
 Translation history
 +++++++++++++++++++
 
@@ -451,6 +453,16 @@ Every change is by default (unless turned-off in component settings) saved in
 the database, and can be reverted.
 Optionally, translations can also be reverted
 in the underlying version control system.
+
+In the changes browser, use :guilabel:`Older` and :guilabel:`Newer` to browse
+history, or :guilabel:`Latest` to return to the newest matching changes.
+:guilabel:`Jump to date` starts with the latest changes on or before the selected
+date. You can then browse in either direction, keeping your search filters.
+Use :guilabel:`Date range` to restrict results to a particular period.
+
+CSV downloads and RSS feeds use the search filters, not your browsing position
+or jump date. CSV downloads contain up to 2,000 matching changes, and RSS feeds
+contain the latest 10. Old numbered page links open the latest matching changes.
 
 Translated string length
 ++++++++++++++++++++++++

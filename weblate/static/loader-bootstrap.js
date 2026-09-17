@@ -1894,6 +1894,48 @@ onReady(() => {
     });
   });
 
+  /* Edit the history date inline without the numeric offset editor. */
+  document.querySelectorAll(".change-date-position").forEach((position) => {
+    const toggle = position.querySelector(".change-date-toggle");
+    const form = position.querySelector(".change-date-form");
+    const input = form.querySelector('input[type="date"]');
+    const hasErrors = form.dataset.hasErrors === "true";
+    const close = () => {
+      if (hasErrors) {
+        return;
+      }
+      form.hidden = true;
+      toggle.hidden = false;
+      toggle.setAttribute("aria-expanded", "false");
+    };
+    if (!hasErrors) {
+      close();
+    }
+    toggle.addEventListener("click", () => {
+      toggle.hidden = true;
+      form.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+      input.focus();
+    });
+    form.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !hasErrors) {
+        event.preventDefault();
+        close();
+        toggle.focus();
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        if (!event.repeat) {
+          form.requestSubmit();
+        }
+      }
+    });
+    document.addEventListener("click", (event) => {
+      if (!position.contains(event.target)) {
+        close();
+      }
+    });
+  });
+
   /* Advanced search */
   document.querySelectorAll(".search-group li a").forEach((link) => {
     link.addEventListener("click", (event) => {
@@ -2423,9 +2465,11 @@ onReady(() => {
   });
 
   /* Date range picker for period inputs */
-  document.querySelectorAll("input[name='period']").forEach((input) => {
-    new DateRangePicker(input);
-  });
+  document
+    .querySelectorAll("input[name='period']:not([type='hidden'])")
+    .forEach((input) => {
+      new DateRangePicker(input);
+    });
 
   /* Singular or plural new unit switcher */
   const setContextValue = (toSelector, fromSelector) => {
