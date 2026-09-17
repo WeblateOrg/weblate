@@ -9,7 +9,7 @@ import json
 import re
 from collections import defaultdict
 from collections.abc import Mapping, MutableMapping, Sequence
-from datetime import datetime
+from datetime import datetime, timedelta
 from itertools import chain
 from secrets import token_hex
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Protocol, TypedDict, cast
@@ -4548,6 +4548,35 @@ class AnnouncementForm(forms.ModelForm):
             "expiry": WeblateDateInput(),
             "message": MarkdownTextarea,
         }
+
+
+class ChangesDateForm(forms.Form):
+    date = forms.DateField(
+        label=gettext_lazy("Jump to date"),
+        required=False,
+        widget=WeblateDateInput(
+            attrs={"class": "form-control page-link w-auto rounded-0"}
+        ),
+        input_formats=["%Y-%m-%d"],
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.today = timezone.localdate()
+        self.fields["date"].widget.attrs["max"] = self.today.isoformat()
+
+    def clean_date(self) -> datetime | None:
+        value = self.cleaned_data["date"]
+        if value is None:
+            return None
+        if value > self.today:
+            raise ValidationError(gettext("The date cannot be in the future."))
+        try:
+            return from_current_timezone(
+                datetime.combine(value + timedelta(days=1), datetime.min.time())
+            )
+        except (OverflowError, ValueError) as error:
+            raise ValidationError(gettext("Invalid date!")) from error
 
 
 class ChangesForm(forms.Form):

@@ -4248,8 +4248,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             f"{self.live_server_url}{reverse('changes')}?{urlencode({'period': period})}"
         )
 
-        period_input = self.driver.find_element(By.NAME, "period")
-        picker = self.driver.find_element(By.CSS_SELECTOR, ".datepicker")
+        period_input = self.driver.find_element(By.ID, "id_period")
+        pickers = self.driver.find_elements(By.CSS_SELECTOR, ".datepicker")
+        self.assertEqual(len(pickers), 1)
+        picker = pickers[0]
 
         self.assertEqual(picker.value_of_css_property("display"), "none")
 
@@ -4304,7 +4306,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         title = self.driver.find_element(By.CSS_SELECTOR, ".datepicker-cal-title")
         self.assertNotEqual(title.text, initial_title)
 
-        # Click on the page body outside the picker
-        self.driver.find_element(By.TAG_NAME, "label").click()
+        # Click the search heading outside the picker.
+        self.click(self.driver.find_element(By.CSS_SELECTOR, "form .card-header"))
 
         self.assertEqual(picker.value_of_css_property("display"), "none")
