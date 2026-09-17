@@ -1939,7 +1939,6 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise UpdateError(" ".join(cmd), error) from error
         except subprocess.CalledProcessError as error:
             error_output = error.output + error.stderr
-            report_error("Failed msgmerge")
             raise UpdateError(
                 " ".join(cmd), cleanup_error_message(error_output)
             ) from error
