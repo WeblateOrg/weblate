@@ -23,6 +23,7 @@ from django.conf import settings
 from django.core import mail
 from django.core.cache import cache
 from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
 from django.db import transaction
@@ -94,6 +95,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats, ProjectLanguage
+from weblate.vcs.git import LocalRepository
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.workspaces.models import Workspace
@@ -3281,27 +3283,110 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.screenshot("zen-mode.png")
 
-    def test_translator_onboarding(self) -> None:
-        """A translator selects languages, saves a translation, and suggests an edit."""
-        fixture = RepoTestMixin()
-        fixture.clone_test_repos()
-        project = Project.objects.create(name="Getting started", slug="getting-started")
-        component = fixture.create_po(project=project, name="Application")
-        translation = component.translation_set.get(language_code="cs")
-        user = self.do_login()
-        team = Group.objects.create(name="Onboarding translators")
+    def create_translation_quality_scene(self, user: User) -> Unit:
+        """Show translation context, terminology, and a real placeholder warning."""
+        project = Project.objects.create(name="Orbit", slug="orbit")
+        remove_tree(project.full_path, ignore_errors=True)
+        self.addCleanup(remove_tree, project.full_path, True)
+        LocalRepository.from_files(
+            os.path.join(project.full_path, "billing"),
+            {"fr.po": Path(get_test_file("translation-quality.po")).read_bytes()},
+        )
+        component = project.scratch_create_component(
+            "Billing",
+            "billing",
+            Language.objects.get(code="en"),
+            "po",
+            new_base="fr.po",
+            new_lang="add",
+        )
+        # Secondary-language choices only include languages used by the site.
+        self.assertIsNotNone(
+            component.add_new_language(Language.objects.get(code="de"), None),
+            component.new_lang_error_message,
+        )
+        language = Language.objects.get(code="fr")
+        translation = component.translation_set.get(language=language)
+        team = Group.objects.create(name="Orbit translators")
         team.projects.add(project)
         team.roles.add(Role.objects.get(name="Translate"))
-        team.languages.add(translation.language)
+        team.languages.add(language)
         user.groups.set([team])
+        user.profile.theme = "light"
+        user.profile.save()
+        draft = "La période d’essai de votre espace de travail se termine bientôt."  # codespell:ignore
+        preferred_term = "espace de travail"  # codespell:ignore
+        unit = translation.add_unit(
+            None,
+            "",
+            [
+                "Your workspace trial ends in %(days)s day.",
+                "Your workspace trial ends in %(days)s days.",
+            ],
+            [draft, draft],
+            # This deliberately number-free draft is grammatical for both forms.
+            extra_flags="python-format, ignore-same-plurals",
+            author=user,
+        )
+        assert unit is not None
+        source = unit.source_unit
+        assert source is not None
+        source.explanation = (
+            "Shown in the billing banner. Keep the tone helpful and concise."
+        )
+        source.save()
+        self.assertEqual(
+            list(unit.check_set.values_list("name", flat=True)), ["python_format"]
+        )
+
+        glossary = project.glossaries[0].translation_set.get(language=language)
+        term = glossary.add_unit(None, "", "workspace", preferred_term, author=user)
+        assert term is not None
+        glossary.commit_pending("test", user)
+        store = glossary.store
+        entry, _ = store.find_unit(term.context, term.source)
+        group = entry.unit.get_target_dom().find("tig")
+        etree.SubElement(
+            group, "termNote", type="administrativeStatus"
+        ).text = "preferred"
+        store.save()
+        glossary.drop_store_cache()
+        glossary.component.unload_sources()
+        with transaction.atomic():
+            glossary.check_sync(force=True)
+
+        # Render a fixed application fixture, without changing the editor's DOM.
+        html = Path(get_test_file("translation-quality.html")).read_bytes()
+        self.driver.get("data:text/html;base64," + base64.b64encode(html).decode())
+        banner = self.driver.find_element(By.TAG_NAME, "main")
+        screenshot = Screenshot.objects.create(
+            name="Orbit billing banner", translation=component.source_translation
+        )
+        screenshot.image.save(
+            "orbit-billing.png", ContentFile(banner.screenshot_as_png)
+        )
+        screenshot.add_unit(source, user)
+        self.clear_project_stats_cache(project)
+
+        return unit
+
+    def test_translator_onboarding(self) -> None:
+        """Select languages, translate, resolve a quality warning, and suggest an edit."""
+        user = self.do_login()
+        unit = self.create_translation_quality_scene(user)
         user.profile.languages.clear()
         user.profile.secondary_languages.clear()
+        translation = unit.translation
+        component = translation.component
+        project = component.project
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
 
         self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
             self.click(htmlid="settings-button")
         for field, language, code in (
-            ("languages", "Czech", "cs"),
+            ("languages", "French", "fr"),
             ("secondary_languages", "German", "de"),
         ):
             control = self.driver.find_element(By.ID, f"id_{field}-ts-control")
@@ -3332,7 +3417,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 )
             )
         self.assertEqual(
-            list(user.profile.languages.values_list("code", flat=True)), ["cs"]
+            list(user.profile.languages.values_list("code", flat=True)), ["fr"]
         )
         self.assertEqual(
             list(user.profile.secondary_languages.values_list("code", flat=True)),
@@ -3340,7 +3425,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.screenshot("onboarding-languages.png")
 
-        self.open_translation(component=component.name, project=project)
+        self.open_translation(
+            language="French", component=component.name, project=project
+        )
         with self.wait_for_page_load():
             self.click(
                 self.driver.find_element(By.PARTIAL_LINK_TEXT, "Untranslated strings")
@@ -3348,30 +3435,84 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         editor = self.driver.find_element(
             By.CSS_SELECTOR, ".translation-form .translation-editor"
         )
-        unit = translation.unit_set.get(source="Hello, world!\n")
-        self.assertEqual(editor.get_attribute("id"), f"id_{unit.checksum}_0")
-        editor.send_keys("Ahoj, světe!\n")
-        self.screenshot("onboarding-translation.png")
+        billing = translation.unit_set.get(source="Billing")
+        self.assertEqual(editor.get_attribute("id"), f"id_{billing.checksum}_0")
+        editor.send_keys("Facturation")
         with self.wait_for_page_load():
             self.click(self.driver.find_element(By.NAME, "save"))
-        unit.refresh_from_db()
-        self.assertEqual(unit.target, "Ahoj, světe!\n")
-        self.assertEqual(unit.state, STATE_TRANSLATED)
+        billing.refresh_from_db()
+        self.assertEqual(billing.target, "Facturation")
+        self.assertEqual(billing.state, STATE_TRANSLATED)
+        self.clear_project_stats_cache(project)
 
         with self.wait_for_page_load():
             self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
-        editor = self.driver.find_element(
-            By.CSS_SELECTOR, ".translation-form .translation-editor"
+        self.assert_text_contains(
+            "#glossary-terms",
+            "espace de travail",  # codespell:ignore
         )
-        editor.clear()
-        editor.send_keys("Zdravíme svět!\n")
+        self.assert_text_contains("#glossary-terms", "preferred")
+        self.assert_text_contains(".check-item", "Python format")
+        self.assert_text_contains(
+            ".check-description", "The following format strings are missing: %(days)s"
+        )
+        self.assert_text_contains(
+            ".source-info",
+            "Shown in the billing banner. Keep the tone helpful and concise.",
+        )
+        editors = self.driver.find_elements(By.CSS_SELECTOR, ".translation-editor")
+        self.assertEqual(
+            [editor.get_attribute("value") for editor in editors],
+            unit.get_target_plurals(),
+        )
+        for name in ("save", "suggest"):
+            self.assertTrue(self.driver.find_element(By.NAME, name).is_displayed())
+        self.assertTrue(
+            self.driver.find_element(By.ID, f"id_{unit.checksum}_fuzzy").is_displayed()
+        )
+        self.wait_for_screenshot_ready()
+        context_image = self.driver.find_element(
+            By.CSS_SELECTOR, 'img[alt="Orbit billing banner"]'
+        )
+        self.assertTrue(context_image.is_displayed())
+        self.assertGreater(
+            self.driver.execute_script(
+                "return arguments[0].naturalWidth", context_image
+            ),
+            0,
+        )
+        self.screenshot("translation-quality.png")
+
+        corrected = [
+            "La période d’essai de votre espace de travail se termine dans %(days)s jour.",  # codespell:ignore
+            "La période d’essai de votre espace de travail se termine dans %(days)s jours.",  # codespell:ignore
+        ]
+        for editor, target in zip(editors, corrected, strict=True):
+            editor.clear()
+            editor.send_keys(target)
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element(By.NAME, "save"))
+        unit.refresh_from_db()
+        self.assertEqual(unit.get_target_plurals(), corrected)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertFalse(unit.check_set.exists())
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        self.assertFalse(self.driver.find_elements(By.CSS_SELECTOR, ".check-item"))
+        proposed = [
+            target.replace("La période d’essai", "L’essai") for target in corrected
+        ]
+        editors = self.driver.find_elements(By.CSS_SELECTOR, ".translation-editor")
+        for editor, target in zip(editors, proposed, strict=True):
+            editor.clear()
+            editor.send_keys(target)
         with self.wait_for_page_load():
             self.click(self.driver.find_element(By.NAME, "suggest"))
-        self.assertTrue(
-            unit.suggestion_set.filter(user=user, target="Zdravíme svět!\n").exists()
-        )
+        suggestion = unit.suggestion_set.get(user=user)
+        self.assertEqual(suggestion.get_target_plurals(), proposed)
         unit.refresh_from_db()
-        self.assertEqual(unit.target, "Ahoj, světe!\n")
+        self.assertEqual(unit.get_target_plurals(), corrected)
 
     def test_profile_dashboard(self) -> None:
         """Test profile and dashboard screenshots."""
