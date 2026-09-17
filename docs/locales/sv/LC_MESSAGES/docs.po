@@ -14,15 +14,15 @@
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # win7guru <winsevn@users.noreply.hosted.weblate.org>, 2026.
 # Background update <noreply-weblate-update@weblate.org>, 2026.
+# Daniel Nylander <yeagersthlm@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-09-11 05:51+0200\n"
-"PO-Revision-Date: 2026-09-11 08:24+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-09-17 18:52+0000\n"
+"Last-Translator: Daniel Nylander <yeagersthlm@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "documentation/sv/>\n"
 "Language: sv\n"
@@ -3659,10 +3659,8 @@ msgstr ""
 "Kontrollera med hjälp av språkinformationen att de två pluralformerna på "
 "tjeckiska inte är identiska."
 
-#, fuzzy
-#| msgid "Code hosting sites credentials"
 msgid "Code-hosting integrations"
-msgstr "Inloggningsuppgifter för kodhostingsajter"
+msgstr "Integreringar med kodvärdar"
 
 msgid ""
 "Weblate integrates with code-hosting sites in several separate places: "
@@ -17044,10 +17042,8 @@ msgstr ""
 "Standardvärdet kan ändras genom att ställa "
 "in :setting:`DEFAULT_ACCESS_CONTROL`."
 
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Public sharing"
-msgstr "Städa upp i översättningsfiler"
+msgstr "Offentlig delning"
 
 msgid ""
 "Allow anonymous access to the project's engage pages and rendered status "
@@ -17885,7 +17881,7 @@ msgstr ""
 
 msgid ""
 "Create existing project languages; contact maintainers for new languages"
-msgstr ""
+msgstr "Skapa befintliga projektspråk; kontakta underhållarna för nya språk"
 
 msgid ""
 "Users can create translations for languages already used as target languages "
@@ -47325,10 +47321,8 @@ msgid ""
 "Security update coverage and direct upgrade support are separate policies."
 msgstr ""
 
-#, fuzzy
-#| msgid "Subversion"
 msgid "Version"
-msgstr "Subversion"
+msgstr "Version"
 
 #, fuzzy
 #| msgid "Security updates"
@@ -50894,6 +50888,10 @@ msgid ""
 "mask is set, omit language and match the monolingual base or new base file "
 "instead."
 msgstr ""
+"Det reguljära uttrycket måste definiera en namngiven grupp för komponent. "
+"Definiera också en namngiven grupp för språk när översättningsfiler matchas. "
+"När filmasken är angiven ska språk utelämnas och den enspråkiga basfilen "
+"eller nya basfilen matchas i stället."
 
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr "Använd Djangos mallsyntax. Mallen måste innehålla {{ component }}."
@@ -50925,10 +50923,8 @@ msgstr ""
 "skapandet av de faktiska källsträngarna. Denna mall måste innehålla "
 "{{ component }}."
 
-#, fuzzy
-#| msgid "Screenshot file mask"
 msgid "Define the file mask"
-msgstr "Filmask för skärmdump"
+msgstr "Ange filmasken"
 
 msgid ""
 "Leave empty to match translation files directly. When set, discovery matches "
@@ -50936,6 +50932,11 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
+"Lämna tomt för att matcha översättningsfiler direkt. När värdet anges "
+"matchar upptäckt den enspråkiga basfilen eller nya basfilen och använder den "
+"här mallen som filmask. Inkludera ett jokertecken för språk och {{ "
+"component }}, till exempel locale/*/{{ component }}.po eller docs/{{ "
+"component }}_*.md."
 
 msgid ""
 "Regular expression to filter translation files against when scanning for "
@@ -51765,7 +51766,7 @@ msgid "Weekly"
 msgstr "Veckovis"
 
 msgid "Monthly"
-msgstr "Månatlig"
+msgstr "Månadsvis"
 
 msgid "Normalize POT header"
 msgstr "Normalisera POT-huvudet"
@@ -55807,17 +55808,13 @@ msgid "Sort JSON keys"
 msgstr "Sortera JSON-nycklar"
 
 msgid "Do not sort"
-msgstr ""
+msgstr "Sortera inte"
 
-#, fuzzy
-#| msgid "Enable case-sensitive key sorting"
 msgid "Case-sensitive sort"
-msgstr "Aktivera sortering av tangenter med skiftlägeskänslighet"
+msgstr "Skiftlägeskänslig sortering"
 
-#, fuzzy
-#| msgid "Case insensitive lookups."
 msgid "Case-insensitive sort"
-msgstr "Sökningar som inte är skiftlägeskänsliga."
+msgstr "Icke-skiftlägeskänslig sortering"
 
 msgid "json_use_compact_separators"
 msgstr "json_use_compact_separators"
@@ -57525,10 +57522,8 @@ msgstr "Ändra projektinställningar"
 msgid "Manage project access"
 msgstr "Hantera projektåtkomst"
 
-#, fuzzy
-#| msgid "Manage roles"
 msgid "Manage reports"
-msgstr "Hantera roller"
+msgstr "Hantera rapporter"
 
 #, fuzzy
 #| msgid ":guilabel:`Administration`"
@@ -58653,7 +58648,7 @@ msgid "Glossary entry types"
 msgstr "Ordlista"
 
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 msgid "Purpose"
 msgstr ""
@@ -60626,11 +60621,11 @@ msgstr ":kbd:`Ctrl+Enter` eller"
 msgid ":kbd:`Cmd+Alt+Enter`"
 msgstr ":kbd:`Cmd+Enter`"
 
-#, fuzzy
-#| msgid "Approve translations in a review."
 msgid ""
 "Approve the translation and save and continue. Only available to reviewers."
-msgstr "Godkänn översättningar i en granskning."
+msgstr ""
+"Godkänn översättningen och spara och fortsätt. Endast tillgängligt för "
+"granskare."
 
 msgid ":kbd:`Alt+Enter` or"
 msgstr ":kbd:`Alt+Enter` eller"
