@@ -344,6 +344,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
 
 class UserAPITest(APIBaseTest):
     def test_list(self) -> None:
+        user_count = User.objects.count()
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 0)
 
@@ -354,13 +355,13 @@ class UserAPITest(APIBaseTest):
 
         self.authenticate(True)
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 4)
+        self.assertEqual(response.data["count"], user_count)
         self.assertIsNotNone(response.data["results"][0]["email"])
 
         self.authenticate(False)
         self.grant_perm_to_user("user.view")
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 4)
+        self.assertEqual(response.data["count"], user_count)
         self.assertIsNotNone(response.data["results"][0]["email"])
 
     def test_get(self) -> None:
@@ -507,10 +508,11 @@ class UserAPITest(APIBaseTest):
 
     def test_filter_superuser(self) -> None:
         """Front-end autocompletion interface for superuser."""
+        user_count = User.objects.count()
         self.authenticate(True)
         # Blank search should return all results for superuser
         response = self.client.get(reverse("api:user-list"), {"username": ""})
-        self.assertEqual(response.data["count"], 4)
+        self.assertEqual(response.data["count"], user_count)
         # Short search should return results for superuser
         response = self.client.get(reverse("api:user-list"), {"username": "a"})
         self.assertEqual(response.data["count"], 2)
@@ -704,6 +706,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(response.data["results"][0]["username"], self.user.username)
 
     def test_create(self) -> None:
+        user_count = User.objects.count()
         self.do_request("api:user-list", method="post", code=403)
         response = self.do_request(
             "api:user-list",
@@ -717,7 +720,7 @@ class UserAPITest(APIBaseTest):
                 "is_active": True,
             },
         )
-        self.assertEqual(User.objects.count(), 5)
+        self.assertEqual(User.objects.count(), user_count + 1)
         self.assertIn("profile", response.data)
 
     def test_create_logs_superuser_grant(self) -> None:
@@ -739,6 +742,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(audit.params["username"], self.user.username)
 
     def test_delete(self) -> None:
+        user_count = User.objects.count()
         self.do_request(
             "api:user-list",
             method="post",
@@ -758,7 +762,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(User.objects.count(), 5)
+        self.assertEqual(User.objects.count(), user_count + 1)
         self.assertEqual(User.objects.filter(is_active=True).count(), 1)
 
     def test_add_group(self) -> None:
@@ -7028,6 +7032,55 @@ class ProjectAPITest(APIBaseTest):
             request={"format": "zip:csv"},
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_project_translations_reuses_commit_bot(self) -> None:
+        other = self.create_po(name="Other", project=self.component.project)
+        for component in (self.component, other):
+            PendingUnitChange.objects.create(
+                unit=component.translation_set.get(language_code="cs")
+                .unit_set.order_by("pk")
+                .first(),
+                author=self.user,
+                state=STATE_TRANSLATED,
+            )
+
+        authors = []
+
+        def commit_pending(translation, reason, user):
+            self.assertEqual(reason, "download")
+            authors.append((translation.component_id, user.pk, user.username))
+            return False
+
+        with (
+            patch.object(
+                Translation,
+                "_commit_pending",
+                autospec=True,
+                side_effect=commit_pending,
+            ),
+            patch.object(
+                User.objects,
+                "get_or_create_bot",
+                wraps=User.objects.get_or_create_bot,
+            ) as get_bot,
+        ):
+            self.test_download_project_translations()
+
+        get_bot.assert_called_once_with(
+            scope="weblate", name="commit", verbose="Background commit"
+        )
+        self.assertEqual(
+            {author[0] for author in authors}, {self.component.pk, other.pk}
+        )
+        self.assertEqual(len({author[1] for author in authors}), 1)
+        self.assertEqual({author[2] for author in authors}, {"weblate:commit"})
+
+    def test_download_project_translations_without_changes_does_not_fetch_bot(
+        self,
+    ) -> None:
+        with patch.object(User.objects, "get_or_create_bot") as get_bot:
+            self.test_download_project_translations()
+        get_bot.assert_not_called()
 
     def test_download_project_translations_target_language(self) -> None:
         response = self.do_request(

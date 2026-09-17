@@ -12,7 +12,7 @@ import tempfile
 from io import BytesIO, StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
-from unittest.mock import patch
+from unittest.mock import ANY, patch
 from zipfile import ZipFile
 
 from django.contrib.messages import ERROR
@@ -1423,7 +1423,10 @@ class DownloadMultiTest(ViewTestCase):
             )
 
         self.assertEqual(response.status_code, 200)
-        component_commit.assert_called_once_with(self.component, "download", None)
+        component_commit.assert_called_once_with(self.component, "download", ANY)
+        commit_user = component_commit.call_args.args[2]
+        self.assertEqual(commit_user.username, "weblate:commit")
+        self.assertTrue(commit_user.is_bot)
         project_commit.assert_not_called()
 
     def test_workspace_download_check_stops_at_first_component(self) -> None:

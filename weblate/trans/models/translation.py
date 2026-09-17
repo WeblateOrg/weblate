@@ -36,6 +36,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, ngettext
 from translate.storage.fluent import FluentContentError
 
+from weblate.auth.bots import InternalBot
 from weblate.checks.flags import Flags
 from weblate.formats.auto import try_load
 from weblate.formats.base import TranslationFormat, UnitNotFoundError
@@ -2891,8 +2892,6 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self) -> None:
-        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
-
         if not self.is_source or not self.component.manage_units:
             return
         expected_count = self.component.translation_set.count()
@@ -2906,11 +2905,7 @@ class Translation(
                 continue
             added = True
             if author is None:
-                author = User.objects.get_or_create_bot(
-                    scope="glossary",
-                    name="sync",
-                    verbose="Glossary sync",
-                )
+                author = InternalBot.GLOSSARY_SYNC.get_user()
             # Add unit
             self.add_unit(
                 None,
