@@ -2297,18 +2297,15 @@ class Unit(models.Model, LoggerMixin):
     def all_comments(self) -> models.QuerySet[Comment]:
         """Return list of target comments."""
         if self.is_source:
-            return (
-                Comment.objects.filter(unit__source_unit=self)
-                .prefetch()
-                .prefetch_related(
-                    "unit__translation__language",
-                    "unit__translation__component__project",
-                )
-                .order()
-            )
+            comments = Comment.objects.filter(unit__source_unit=self)
+        else:
+            comments = self.comment_set.all() | self.source_unit.comment_set.all()
         return (
-            (self.comment_set.all() | self.source_unit.comment_set.all())
-            .prefetch()
+            comments.prefetch()
+            .prefetch_related(
+                "unit__translation__language",
+                "unit__translation__component__project",
+            )
             .order()
         )
 
