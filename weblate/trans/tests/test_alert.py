@@ -32,6 +32,7 @@ from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, MultiAlert
+from weblate.trans.alerts.config import BrokenBrowserURL
 from weblate.trans.alerts.files import DuplicateString
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.alerts.vcs import RepositoryErrorAlert, UpdateFailure
@@ -187,6 +188,46 @@ class AlertTest(ViewTestCase):
         return self.client.get(
             reverse("js-diagnostics", kwargs={"path": obj.get_url_path()}), data
         )
+
+    @patch("weblate.trans.alerts.config._get_validated_uri_error")
+    def test_broken_translation_browser_url(self, mocked_uri_error: Mock) -> None:
+        self.component.repoweb = "https://source.example.com/{{filename}}"
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}"
+        )
+        mocked_uri_error.side_effect = (None, "translation browser failure")
+
+        result = BrokenBrowserURL.check_component(self.component)
+
+        assert isinstance(result, dict)
+        self.assertEqual(result["error"], "translation browser failure")
+        self.assertEqual(
+            result["link"],
+            "https://translations.example.com/po-duplicates/de.dpo",
+        )
+        self.assertEqual(mocked_uri_error.call_count, 2)
+
+    @patch(
+        "weblate.trans.alerts.config._get_validated_uri_error",
+        return_value="translation browser failure",
+    )
+    def test_broken_translation_browser_url_without_source_browser(
+        self, mocked_uri_error: Mock
+    ) -> None:
+        self.component.repoweb = ""
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}"
+        )
+
+        result = BrokenBrowserURL.check_component(self.component)
+
+        assert isinstance(result, dict)
+        self.assertEqual(result["error"], "translation browser failure")
+        self.assertEqual(
+            result["link"],
+            "https://translations.example.com/po-duplicates/de.dpo",
+        )
+        mocked_uri_error.assert_called_once()
 
     def test_alert_class_metadata_does_not_initialize_alert_object(self) -> None:
         details = {"occurrences": [{"language_code": "cs"}]}

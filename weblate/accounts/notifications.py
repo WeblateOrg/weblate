@@ -790,8 +790,19 @@ class ParseErrorNotification(Notification):
             change, subscription, extracontext, changes=changes, summaries=summaries
         )
         if change and change.component:
+            filename = change.details.get("filename")
+            is_translation = (
+                change.translation is not None and not change.translation.is_source
+            ) or (
+                change.translation is None
+                and bool(change.component.intermediate)
+                and filename == change.component.intermediate
+            )
             context["details"]["filelink"] = change.component.get_repoweb_link(
-                change.details.get("filename"), "1", user=context["user"]
+                filename,
+                "1",
+                user=context["user"],
+                is_translation=is_translation,
             )
         return context
 
