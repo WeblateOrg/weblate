@@ -342,6 +342,10 @@ class AutoTranslate(BaseAutoTranslate):
             translation__language=self.translation.language,
             state__gte=STATE_TRANSLATED,
         )
+        components = Component.objects.all()
+        if self.enforce_permissions and self.user is not None:
+            sources = sources.filter_access(self.user)
+            components = components.filter_access(self.user)
         # Read-only units can have STATE_READONLY even when their target is
         # empty, so state__gte=STATE_TRANSLATED is not enough to find usable
         # translations. The lower-MD5 lookup matches the trans_unit_target_md5
@@ -350,10 +354,11 @@ class AutoTranslate(BaseAutoTranslate):
         source_language = self.translation.component.source_language
         component_ids = list(dict.fromkeys(source_component_ids or []))
         if component_ids:
-            components = list(Component.objects.filter(id__in=component_ids))
-            component_map = {component.id: component for component in components}
+            source_components = list(components.filter(id__in=component_ids))
+            component_map = {component.id: component for component in source_components}
             if len(component_map) != len(component_ids):
-                raise Component.DoesNotExist
+                msg = "Component not found."
+                raise Component.DoesNotExist(msg)
 
             for component_id in component_ids:
                 component = component_map[component_id]

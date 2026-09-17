@@ -91,7 +91,7 @@ from weblate.workspaces.models import Workspace
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import (
         Project,
     )
@@ -181,7 +181,7 @@ def format_newly_failing_checks_message(check_names: set[str]) -> str:
     ).format(checks=format_html_join_comma("{}", list_to_tuples(ordered_checks)))
 
 
-def get_other_units(unit):
+def get_other_units(user: User, unit: Unit):
     """Return other units to show while translating."""
     with start_span(op="unit.others", name=f"{unit.pk}"):
         result: dict[str, Any] = {
@@ -228,7 +228,8 @@ def get_other_units(unit):
             matches = query | target_matches
 
         units = (
-            Unit.objects.filter(
+            Unit.objects.filter_access(user)
+            .filter(
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
@@ -1029,7 +1030,7 @@ def handle_translate(
 
 def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
     """Handle unit merging."""
-    mergeform = MergeForm(unit, request.POST)
+    mergeform = MergeForm(request.user, unit, request.POST)
     if not mergeform.is_valid():
         show_form_errors(request, mergeform)
         return None
@@ -1464,7 +1465,9 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "nearby": unit.nearby(user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
             "can_go_next_section": offset + user.profile.nearby_strings <= num_results,
-            "others": get_other_units(unit) if user.is_authenticated else {"total": 0},
+            "others": (
+                get_other_units(user, unit) if user.is_authenticated else {"total": 0}
+            ),
             "search_url": search_result["url"],
             "query_params": QueryDict(search_result["url"]),
             "search_query": search_result["query"],

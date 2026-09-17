@@ -2936,7 +2936,7 @@ class TranslationCreateSerializer(ReadOnlySerializer):
         component = self.context["component"]
         request = self.context["request"]
         source_components = []
-        source_queryset = Component.objects.filter(
+        source_queryset = Component.objects.filter_access(request.user).filter(
             models.Q(project_id=component.project_id)
             | models.Q(project__contribute_shared_tm=True)
         )

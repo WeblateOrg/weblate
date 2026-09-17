@@ -1155,6 +1155,10 @@ class MergeForm(UnitForm):
 
     merge = forms.IntegerField()
 
+    def __init__(self, user: User, unit: Unit, *args, **kwargs) -> None:
+        self.user = user
+        super().__init__(unit, *args, **kwargs)
+
     def clean(self):
         super().clean()
         if "merge" not in self.cleaned_data:
@@ -1170,7 +1174,9 @@ class MergeForm(UnitForm):
             }
             if not translation.is_source:
                 filter_kwargs["source"] = unit.source
-            self.cleaned_data["merge_unit"] = Unit.objects.get(**filter_kwargs)
+            self.cleaned_data["merge_unit"] = Unit.objects.filter_access(self.user).get(
+                **filter_kwargs
+            )
         except Unit.DoesNotExist as error:
             raise ValidationError(
                 gettext("Could not find the merged string.")
@@ -1306,7 +1312,6 @@ class AutoForm(forms.Form):
             self.components = Component.objects.filter(project__workspace=obj)
             projects = Project.objects.filter(workspace=obj).order()
             if user is not None:
-                self.components = self.components.filter_access(user)
                 projects = user.allowed_projects.filter(workspace=obj).order()
             for project in projects:
                 machinery_settings.update(project.get_machinery_settings())
@@ -1314,6 +1319,9 @@ class AutoForm(forms.Form):
             # Site-wide add-ons
             self.components = Component.objects.all()
             machinery_settings = Setting.objects.get_settings_dict(SettingCategory.MT)
+
+        if user is not None:
+            self.components = self.components.filter_access(user)
 
         if isinstance(obj, Workspace):
             scope_help = self.COMPONENT_WORKSPACE_HELP_TEXT
@@ -1376,7 +1384,7 @@ class AutoForm(forms.Form):
         if "q" not in self.initial:
             self.initial["q"] = "state:<translated"
 
-        if user is None or not (user.has_perm("unit.review", obj) or obj is None):
+        if user is None or not (obj is None or user.has_perm("unit.review", obj)):
             self.fields["mode"].choices = [
                 choice
                 for choice in self.fields["mode"].choices
