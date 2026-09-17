@@ -9756,6 +9756,59 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "fa"},
         )
 
+    def test_create_translation_rejects_restricted_shared_source(self) -> None:
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.save(update_fields=["new_lang", "new_base"])
+        source_project = self.create_project(
+            name="Restricted shared source",
+            slug="restricted-shared-source",
+            contribute_shared_tm=True,
+        )
+        source = self.create_po_new_base(
+            name="Restricted source", project=source_project
+        )
+        source.restricted = True
+        source.save(update_fields=["restricted"])
+        language = Language.objects.get(code="fa")
+        self.assertIsNotNone(source.add_new_language(language, None))
+        self.grant_perm_to_user("translation.add", component=self.component)
+        self.grant_perm_to_user(
+            "translation.auto",
+            group_name="Automatic translation permission",
+            component=self.component,
+        )
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:component-translations",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            format="json",
+            request={
+                "language_code": "fa",
+                "from_component": [source.full_slug],
+            },
+        )
+
+        self.assertEqual(
+            response.data["errors"],
+            [
+                {
+                    "attr": "from_component",
+                    "code": "invalid",
+                    "detail": "Component not found.",
+                }
+            ],
+        )
+        self.assertNotContains(
+            response, "Automatic translation failed", status_code=400
+        )
+        self.assertFalse(
+            self.component.translation_set.filter(language=language).exists()
+        )
+
     def test_create_translation_existing_policy(self) -> None:
         self.component.new_lang = "existing"
         self.component.inherit_new_lang = False
@@ -12960,6 +13013,55 @@ class TranslationAPITest(APIBaseTest):
 
     def test_autotranslate_json(self) -> None:
         self.test_autotranslate("json")
+
+    def test_autotranslate_rejects_restricted_source(self) -> None:
+        target = self.create_link_existing(
+            name="Automatic translation target",
+            slug="automatic-translation-target",
+            allow_translation_propagation=False,
+        )
+        target_translation = target.translation_set.get(language_code="cs")
+        target_unit = target_translation.unit_set.get(source="Hello, world!\n")
+        source_unit = Translation.objects.get(
+            component=self.component, language_code="cs"
+        ).unit_set.get(source="Hello, world!\n")
+        Unit.objects.filter(pk=source_unit.pk).update(
+            target="Restricted API translation\n", state=STATE_TRANSLATED
+        )
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.grant_perm_to_user("translation.auto", component=target)
+        self.user.clear_permissions_cache()
+        kwargs = {
+            "component__project__slug": target.project.slug,
+            "component__slug": target.slug,
+            "language__code": "cs",
+        }
+        data = {
+            "mode": "suggest",
+            "q": "state:<translated",
+            "auto_source": "others",
+            "threshold": "80",
+        }
+
+        self.do_request(
+            "api:translation-autotranslate",
+            kwargs,
+            method="post",
+            code=400,
+            format="json",
+            request=data | {"component": str(self.component.pk)},
+        )
+        self.do_request(
+            "api:translation-autotranslate",
+            kwargs,
+            method="post",
+            code=200,
+            format="json",
+            request=data,
+        )
+
+        self.assertFalse(target_unit.suggestion_set.exists())
 
     def test_autotranslate_restrict_direct_editing(self) -> None:
         translation = Translation.objects.get(**self.translation_kwargs)

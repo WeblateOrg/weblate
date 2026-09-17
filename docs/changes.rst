@@ -41,6 +41,7 @@ Weblate 2026.10
 .. rubric:: Security fixes
 
 * Prevented project API tokens from inheriting permissions through automatic team assignments.
+* Ensured translation consistency and automatic translation workflows respect restricted component access.
 * Limited the number and aggregate size of alternatives accepted by the translation editor.
 * Prevented component ZIP imports from overwriting version control metadata on case-insensitive filesystems.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
