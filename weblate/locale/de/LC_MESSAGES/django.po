@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-10 22:51-0500\n"
-"PO-Revision-Date: 2026-09-15 14:58+0000\n"
+"PO-Revision-Date: 2026-09-17 18:52+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -7324,6 +7324,11 @@ msgid ""
 "notifications. The user’s own actions do not trigger notifications; event "
 "details, digest content, and delivery rate limits can also affect delivery."
 msgstr ""
+"Überprüfen Sie die Abonnementberechtigung für hypothetische Ereignisse. "
+"Dabei werden keine Benachrichtigungen gesendet. Die eigenen Aktionen des "
+"Benutzers lösen keine Benachrichtigungen aus; die Zustellung kann zudem von "
+"den Ereignisdetails, dem Inhalt der Zusammenfassung und den "
+"Ratenbegrenzungen beeinflusst werden."
 
 msgid "Check notifications"
 msgstr "Benachrichtigungen überprüfen"
@@ -7337,6 +7342,10 @@ msgid ""
 "accessible components. Choose a component or translation path for detailed "
 "eligibility checks."
 msgstr ""
+"Vererbte Projekteinstellungen werden einmalig angezeigt, zusammen mit den "
+"Unterschieden bei den verfügbaren Komponenten. Wählen Sie eine Komponente "
+"oder einen Übersetzungspfad aus, um detaillierte Berechtigungsprüfungen "
+"durchzuführen."
 
 msgid "Notification"
 msgstr "Benachrichtigung"
@@ -7357,6 +7366,8 @@ msgid ""
 "No inherited subscription. Matching settings are listed under component "
 "exceptions."
 msgstr ""
+"Kein vererbtes Abonnement. Die entsprechenden Einstellungen sind unter den "
+"Komponentenausnahmen aufgeführt."
 
 msgid "Overridden subscriptions"
 msgstr "Überschriebene Abonnements"
@@ -7371,11 +7382,15 @@ msgid ""
 "These components have no matching subscription, so this notification will "
 "not be sent."
 msgstr ""
+"Für diese Komponenten gibt es kein passendes Abonnement, daher wird diese "
+"Benachrichtigung nicht gesendet."
 
 msgid ""
 "Shared components use subscriptions from their original project, not this "
 "project’s subscriptions."
 msgstr ""
+"Gemeinsam genutzte Komponenten verwenden Abonnements aus ihrem "
+"ursprünglichen Projekt und nicht die Abonnements dieses Projekts."
 
 msgid "Inspect example components:"
 msgstr "Beispielkomponenten untersuchen:"
@@ -7386,16 +7401,11 @@ msgstr "Komponenten untersuchen:"
 msgid "None"
 msgstr "Keine"
 
-#, fuzzy
-#| msgid "You do not have permission to save translations in this project."
 msgid "No accessible components or translations in this target."
-msgstr ""
-"Sie haben keine Berechtigung, Übersetzungen in diesem Projekt zu speichern."
+msgstr "Keine verfügbaren Komponenten oder Übersetzungen in diesem Ziel."
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching subscriptions in this scope."
-msgstr "Keine passenden Zeichenketten gefunden."
+msgstr "Keine passenden Abonnements in diesem Bereich."
 
 #, python-format
 msgid "%(count)s watched project."
@@ -7419,6 +7429,8 @@ msgid ""
 "No notification languages selected. Language-filtered notifications will not "
 "be sent."
 msgstr ""
+"Keine Benachrichtigungssprachen ausgewählt. Sprachgefilterte "
+"Benachrichtigungen werden nicht gesendet."
 
 msgid "Subscriptions"
 msgstr "Abonnements"
@@ -7494,6 +7506,9 @@ msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
 "what can prevent notification delivery."
 msgstr ""
+"Prüfen Sie, welche Abonnements für ein Projekt, eine Komponente oder eine "
+"Übersetzung gelten und was die Zustellung von Benachrichtigungen verhindern "
+"kann."
 
 msgid "Open notification diagnostics"
 msgstr "Benachrichtigungsdiagnose öffnen"
@@ -8943,17 +8958,14 @@ msgstr "Übernehmen"
 msgid "Browse components"
 msgstr "Komponenten durchsuchen"
 
-#, fuzzy
-#| msgid ""
-#| "The message is shown for all translations in this project language, until "
-#| "its given expiry, or permanently until it is deleted."
 msgid ""
 "The message is shown for all translations in this language within the "
 "category and its subcategories, until its given expiry, or permanently until "
 "it is deleted."
 msgstr ""
 "Die Nachricht wird bis zu ihrem angegebenen Ablauf für alle Übersetzungen in "
-"dieser Projektsprache angezeigt oder dauerhaft, bis sie gelöscht wird."
+"dieser Sprache innerhalb der Kategorie und ihrer Unterkategorien angezeigt "
+"oder dauerhaft, bis sie gelöscht wird."
 
 msgid "Announcements"
 msgstr "Mitteilungen"
@@ -9531,6 +9543,7 @@ msgstr[1] "(%(count)s fehlen im Push-Branch)"
 
 msgid "Pushing is disabled because no repository push URL is configured."
 msgstr ""
+"Das Pushen ist deaktiviert, da keine Repository-Push-URL konfiguriert ist."
 
 #, python-format
 msgid "%(count)s missing commit"
@@ -9746,10 +9759,8 @@ msgstr "Repository für %(component)s"
 msgid "Repository details"
 msgstr "Repository-Details"
 
-#, fuzzy
-#| msgid "Discovery configuration"
 msgid "Edit repository configuration"
-msgstr "Erkennungskonfiguration"
+msgstr "Repository-Konfiguration bearbeiten"
 
 msgid "Repository changes"
 msgstr "Repository-Änderungen"
@@ -9796,6 +9807,8 @@ msgstr "Übersetzung als bearbeitungsbedürftig aufheben und einreichen."
 msgid ""
 "Approve the translation and save and continue. Only available to reviewers."
 msgstr ""
+"Die Übersetzung genehmigen, speichern und fortfahren. Nur für Prüfer "
+"verfügbar."
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -10462,14 +10475,11 @@ msgstr "Kontolöschung bestätigen"
 msgid "Confirm invitation"
 msgstr "Einladung bestätigen"
 
-#, fuzzy
-#| msgid ""
-#| "Note: This digest has been truncated as there were over 100 notifications."
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
-"Hinweis: Diese Zusammenfassung wurde gekürzt, da es über 100 "
-"Benachrichtigungen gab."
+"Hinweis: Diese Benachrichtigung wurde gekürzt, da sie mehr als 100 Einträge "
+"enthielt."
 
 msgid "Source string description"
 msgstr "Beschreibung der Ausgangszeichenkette"
@@ -11183,6 +11193,9 @@ msgid ""
 "Languages already used as target languages in this project can be added "
 "immediately. Other languages are requested from the project maintainers."
 msgstr ""
+"Sprachen, die in diesem Projekt bereits als Zielsprachen verwendet werden, "
+"können sofort hinzugefügt werden. Andere Sprachen müssen bei den "
+"Projektbetreuern angefragt werden."
 
 msgid "Can't find your language in the list above?"
 msgstr "Sie können Ihre Sprache in der obigen Liste nicht finden?"
@@ -11513,40 +11526,34 @@ msgstr ""
 msgid "Translation quality filter"
 msgstr "Filter für die Übersetzungsqualität"
 
-#, fuzzy
-#| msgid "Only approved translations are written to the translation file."
 msgid ""
 "Approval is required before this translation can be written to the "
 "translation file."
 msgstr ""
-"Nur genehmigte Übersetzungen werden in die Übersetzungsdatei geschrieben."
+"Bevor diese Übersetzung in die Übersetzungsdatei geschrieben werden kann, "
+"ist eine Genehmigung erforderlich."
 
-#, fuzzy
-#| msgid ""
-#| "Translations marked as needing editing are not written to the translation "
-#| "file."
 msgid ""
 "Resolve this translation’s needs-editing state before it can be written to "
 "the translation file."
 msgstr ""
-"Als bearbeitungsbedürftig markierte Übersetzungen werden nicht in die "
-"Übersetzungsdatei geschrieben."
+"Der Status „bearbeitungsbedürftig“ dieser Übersetzung muss behoben werden, "
+"bevor sie in die Übersetzungsdatei geschrieben werden kann."
 
 #, python-format
 msgid ""
 "Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
 "controls which translations are written to files."
 msgstr ""
+"Erfahren Sie, wie der <a href=\"%(policy_url)s\">Filter für die "
+"Übersetzungsqualität</a> steuert, welche Übersetzungen in Dateien "
+"geschrieben werden."
 
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Configure language workflow"
-msgstr "Einsprachige Basissprachdatei"
+msgstr "Sprachablauf konfigurieren"
 
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Configure translation quality filter"
-msgstr "Filter für die Übersetzungsqualität"
+msgstr "Filter für die Übersetzungsqualität konfigurieren"
 
 msgid "View details"
 msgstr "Details anzeigen"
@@ -12186,10 +12193,8 @@ msgstr "Übersetzte Zeichenketten in einer bestimmten Sprache"
 msgid "Query"
 msgstr "Abfrage"
 
-#, fuzzy
-#| msgid "Refresh repositories"
 msgid "Refresh results"
-msgstr "Repositorys aktualisieren"
+msgstr "Ergebnisse aktualisieren"
 
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
@@ -12259,36 +12264,29 @@ msgstr "Es wurden noch keine Berichte erzeugt."
 msgid "Report history pagination"
 msgstr "Berichtsverlaufs-Seitenumbruch"
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are enabled for this language."
-msgstr "Für diese Sprache sind keine Glossare definiert."
+msgstr "Überprüfungen sind für diese Sprache aktiviert."
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are disabled for this language."
-msgstr "Für diese Sprache sind keine Glossare definiert."
+msgstr "Überprüfungen sind für diese Sprache deaktiviert."
 
-#, fuzzy, python-format
-#| msgid "Review strings"
+#, python-format
 msgid "Review setting: %(origin)s."
-msgstr "Zeichenketten überprüfen"
+msgstr "Überprüfungseinstellung: %(origin)s."
 
 #, python-format
 msgid ""
 "Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
 "language</a>."
 msgstr ""
+"Erfahren Sie, wie Sie den <a href=\"%(workflow_url)s\">Arbeitsablauf für "
+"diese Sprache anpassen</a>."
 
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Learn how to customize translation workflows."
-msgstr "Anpassen des Übersetzungsablaufs für diese Sprache"
+msgstr "Erfahren Sie, wie Sie Übersetzungsabläufe anpassen können."
 
-#, fuzzy
-#| msgid "Your translation is foo"
 msgid "Configure translation workflow"
-msgstr "Ihre Übersetzung ist foo"
+msgstr "Übersetzungsablauf konfigurieren"
 
 #, python-format
 msgid ""
@@ -12383,10 +12381,9 @@ msgstr "Mit Ja stimmen"
 msgid "Vote against"
 msgstr "Mit Nein stimmen"
 
-#, fuzzy, python-format
-#| msgid "Accept all suggestions from %(username)s"
+#, python-format
 msgid "Accept all suggestions from %(username)s in %(translation)s"
-msgstr "Annehmen aller Vorschläge von %(username)s"
+msgstr "Alle Vorschläge von %(username)s in %(translation)s annehmen"
 
 msgid "Accept"
 msgstr "Annehmen"
@@ -12959,6 +12956,10 @@ msgid ""
 "You cannot add glossary terms directly in Weblate, and terminology entries "
 "are not automatically added to missing glossary languages."
 msgstr ""
+"Dieses Glossar verfügt über kein Remote-Repository, und „Zeichenketten "
+"verwalten“ ist deaktiviert. Sie können Glossarbegriffe nicht direkt in "
+"Weblate hinzufügen, und Terminologieeinträge werden nicht automatisch zu "
+"fehlenden Glossarsprachen hinzugefügt."
 
 msgid ""
 "This glossary contains terms marked as terminology, but ‘Manage strings’ is "
@@ -13779,23 +13780,17 @@ msgstr "Ausgewählte Übersetzung auf aktuelle Zeichenkette anwenden"
 msgid "Browse all string changes"
 msgstr "Alle Zeichenkettenänderungen durchsuchen"
 
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid "Search translation memory"
-msgstr "Gemeinsamer Übersetzungsspeicher"
+msgstr "Übersetzungsspeicher durchsuchen"
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching machine translations found."
-msgstr "Keine passenden Zeichenketten gefunden."
+msgstr "Keine passenden maschinellen Übersetzungen gefunden."
 
 msgid "Delete entry"
 msgstr "Eintrag löschen"
 
-#, fuzzy
-#| msgid "Source"
 msgid "Source:"
-msgstr "Ausgangszeichenkette"
+msgstr "Quelle:"
 
 msgid "Context:"
 msgstr "Kontext:"
