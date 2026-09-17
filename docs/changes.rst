@@ -22,6 +22,7 @@ Weblate 2026.10
 
 * Added a thumbnail picker to associate existing :ref:`screenshots <add-existing-screenshot>` with a string from the translation editor.
 * :ref:`Repository maintenance <repository-maintenance>` now checks permissions on the repository-owning component and explains where missing permissions are required.
+* Added a guided :ref:`first translation <translator-start>` and practical advice for :doc:`building a translators community <devel/community>`.
 
 * :ref:`Automatic translation <auto-translation>` using other components now prefers translations with matching source text and context.
 * Aligned :ref:`string search filters <search-strings>` with the status overview's order and colors, and added an :guilabel:`All strings` option to clear the query.
@@ -40,12 +41,14 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Prevented project API tokens from inheriting permissions through automatic team assignments.
 * Limited the number and aggregate size of alternatives accepted by the translation editor.
 * Prevented component ZIP imports from overwriting version control metadata on case-insensitive filesystems.
-* Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API.
+* Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
 
 .. rubric:: Bug fixes
 
+* :ref:`mt-anthropic` machine translation now preserves the path component of a custom base URL, so API gateways which serve the messages endpoint below a path prefix are reachable.
 * Improved :ref:`SSH repository connections <ssh-repos>` for hosts with unreachable addresses by staggering IPv4 and IPv6 connection attempts and reporting failed addresses and the destination port.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces.
 * Fixed double-counted statistics in nested :ref:`categories <category>` and stale statistics after deleting :ref:`labels`.
@@ -57,6 +60,7 @@ Weblate 2026.10
 
 .. rubric:: Compatibility
 
+* Existing :ref:`project API tokens <api-tokens>` lose permissions from non-project teams during upgrade. Assign any required permissions using project-specific teams.
 * API throttles now read :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` directly; ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` is no longer used by Weblate's throttle classes.
 * :ref:`API authentication <api-generic>` now rejects unsupported authentication schemes, such as Basic, with HTTP 401, including when a valid browser session is present.
 * Notification subscription API responses now expose ``project`` and ``component`` as nullable URL strings instead of nested objects.
