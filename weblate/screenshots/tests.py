@@ -27,8 +27,8 @@ from lxml import html
 from PIL import Image
 from rest_framework.test import APITestCase
 
-from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Group, Permission, Role
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import (
@@ -191,7 +191,27 @@ class TesseractDataTest(SimpleTestCase):
             self.assertEqual(list(Path(cache_dir).iterdir()), [])
 
 
-class ViewTest(FixtureTestCase):
+class LanguageScopedScreenshotMixin:
+    user: User
+    project: Project
+
+    def make_language_scoped_user(self, language_code: str, *permissions: str) -> None:
+        self.user.groups.clear()
+        self.project.remove_user(self.user)
+        group = Group.objects.create(
+            name="Language scoped screenshots",
+            language_selection=SELECTION_MANUAL,
+        )
+        group.projects.add(self.project)
+        group.languages.add(Language.objects.get(code=language_code))
+        role = Role.objects.create(name="Language scoped screenshots")
+        role.permissions.set(Permission.objects.filter(codename__in=permissions))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+
+class ViewTest(LanguageScopedScreenshotMixin, FixtureTestCase):
     def test_list_empty(self) -> None:
         response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
         self.assertContains(response, "Screenshots")
@@ -242,6 +262,38 @@ class ViewTest(FixtureTestCase):
     def test_upload_denied(self) -> None:
         response = self.do_upload()
         self.assertEqual(response.status_code, 403)
+
+    def test_upload_language_scope(self) -> None:
+        self.make_language_scoped_user("cs", "screenshot.add")
+        czech = self.get_translation("cs")
+        english = self.get_translation("en")
+
+        response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
+        self.assertEqual(
+            list(
+                response.context["add_form"]
+                .fields["translation"]
+                .queryset.values_list("pk", flat=True)
+            ),
+            [czech.pk],
+        )
+
+        with patch("weblate.screenshots.forms.ScreenshotForm.download_image") as fetch:
+            response = self.client.post(
+                reverse("screenshots", kwargs=self.kw_component),
+                {
+                    "image_url": "https://example.com/screenshot.png",
+                    "name": "English",
+                    "translation": english.pk,
+                },
+            )
+        self.assertEqual(response.status_code, 403)
+        fetch.assert_not_called()
+        self.assertFalse(Screenshot.objects.exists())
+
+        response = self.do_upload(translation=czech.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Screenshot.objects.get().translation, czech)
 
     def test_upload(self) -> None:
         self.make_manager()
@@ -720,6 +772,88 @@ class ViewTest(FixtureTestCase):
         )
         self.assertEqual(removed_changes.count(), 1)
         self.assertEqual(removed_changes[0].user, self.user)
+
+    def test_source_manipulations_language_scope(self) -> None:
+        english = self.get_translation("en")
+        english_unit = self.get_unit(language="en")
+        assigned = Screenshot.objects.create(name="Assigned", translation=english)
+        assigned.units.add(english_unit)
+        unassigned = Screenshot.objects.create(name="Unassigned", translation=english)
+        self.make_language_scoped_user("cs", "screenshot.edit")
+
+        denied_requests = (
+            self.client.get(reverse("screenshot-js-get", kwargs={"pk": assigned.pk})),
+            self.client.post(
+                reverse("screenshot-js-search", kwargs={"pk": assigned.pk}),
+                {"q": "hello"},
+            ),
+            self.client.post(reverse("screenshot-js-ocr", kwargs={"pk": assigned.pk})),
+            self.client.post(
+                reverse("screenshot-js-add", kwargs={"pk": unassigned.pk}),
+                {"source": english_unit.pk},
+            ),
+            self.client.post(
+                reverse("screenshot-remove-source", kwargs={"pk": assigned.pk}),
+                {"source": english_unit.pk},
+            ),
+        )
+        self.assertTrue(
+            all(response.status_code == 403 for response in denied_requests)
+        )
+        self.assertEqual(list(assigned.units.all()), [english_unit])
+        self.assertFalse(unassigned.units.exists())
+        self.assertFalse(
+            Change.objects.filter(screenshot__in=(assigned, unassigned)).exists()
+        )
+
+        czech = self.get_translation("cs")
+        czech_unit = self.get_unit(language="cs")
+        screenshot = Screenshot.objects.create(name="Czech", translation=czech)
+        response = self.client.post(
+            reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
+            {"source": czech_unit.pk},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(screenshot.units.all()), [czech_unit])
+
+        response = self.client.post(
+            reverse("screenshot-remove-source", kwargs={"pk": screenshot.pk}),
+            {"source": czech_unit.pk},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(screenshot.units.exists())
+
+    def test_language_scoped_controls(self) -> None:
+        english = Screenshot.objects.create(
+            name="English", translation=self.get_translation("en")
+        )
+        czech = Screenshot.objects.create(
+            name="Czech", translation=self.get_translation("cs")
+        )
+        self.make_language_scoped_user("cs", "screenshot.edit", "screenshot.delete")
+        english_delete_url = reverse("screenshot-delete", kwargs={"pk": english.pk})
+        czech_delete_url = reverse("screenshot-delete", kwargs={"pk": czech.pk})
+
+        response = self.client.get(english.get_absolute_url())
+        self.assertNotContains(response, 'id="screenshot-add-form"')
+        self.assertNotContains(response, 'id="screenshot-form-container"')
+        self.assertNotContains(response, f'action="{english_delete_url}"')
+
+        response = self.client.get(czech.get_absolute_url())
+        self.assertContains(response, 'id="screenshot-add-form"')
+        self.assertContains(response, 'id="screenshot-form-container"')
+        self.assertContains(response, f'action="{czech_delete_url}"')
+
+        response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
+        document = html.fromstring(response.content)
+        cards = {
+            card.xpath("string(.//h3/a)").strip(): card
+            for card in document.xpath("//article")
+        }
+        self.assertFalse(
+            cards["English"].xpath('.//div[contains(@class, "card-footer")]')
+        )
+        self.assertTrue(cards["Czech"].xpath('.//div[contains(@class, "card-footer")]'))
 
     def test_source_bulk_manipulations(self) -> None:
         self.make_manager()
@@ -1907,7 +2041,7 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
         )
 
 
-class ScreenshotSelectTest(FixtureTestCase):
+class ScreenshotSelectTest(LanguageScopedScreenshotMixin, FixtureTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.make_manager()
@@ -2042,6 +2176,33 @@ class ScreenshotSelectTest(FixtureTestCase):
             response = method(self.url)
             self.assertEqual(response.status_code, 302)
         self.assertFalse(self.source_screenshot.units.exists())
+
+    def test_language_scope(self) -> None:
+        self.make_language_scoped_user("cs", "screenshot.edit")
+
+        response = self.client.get(self.url)
+        self.assertContains(response, "Target preview")
+        self.assertNotContains(response, "Source preview")
+
+        response = self.client.post(self.url, {"screenshot": self.source_screenshot.pk})
+        self.assertEqual(response.status_code, 403)
+        self.assertFalse(self.source_screenshot.units.exists())
+
+        response = self.client.post(self.url, {"screenshot": self.target_screenshot.pk})
+        self.assertEqual(response.json(), {"success": True})
+        self.assertEqual(list(self.target_screenshot.units.all()), [self.unit])
+
+        source_url = reverse(
+            "screenshot-select", kwargs={"unit_id": self.unit.source_unit.pk}
+        )
+        self.assertEqual(self.client.get(source_url).status_code, 403)
+
+        response = self.client.get(self.unit.get_absolute_url(), follow=True)
+        self.assertContains(response, 'id="select-screenshot-modal"')
+        response = self.client.get(
+            self.unit.source_unit.get_absolute_url(), follow=True
+        )
+        self.assertNotContains(response, 'id="select-screenshot-modal"')
 
     def test_csrf_and_methods(self) -> None:
         client = Client(enforce_csrf_checks=True)

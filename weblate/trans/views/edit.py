@@ -1429,7 +1429,9 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     screenshot_form = None
     if user.has_perm("screenshot.add", unit.translation):
         screenshot_form = ScreenshotForm(
-            unit.translation.component, initial={"translation": unit.translation}
+            unit.translation.component,
+            user,
+            initial={"translation": unit.translation},
         )
 
     glossaries, addable_glossary_ids = get_addable_glossaries(unit, user)
