@@ -26,7 +26,7 @@ Find your project and language
    directly in the project as described below.
 
 .. image:: /screenshots/onboarding-languages.webp
-   :alt: Language settings with Czech selected for translation and German as a secondary language.
+   :alt: Language settings with French selected for translation and German as a secondary language.
 
 Read the project's translation instructions before starting. These can explain
 terminology, style, priorities, and how to contact the language team. If you
@@ -61,8 +61,12 @@ technical markers such as placeholders and markup; see
 :ref:`translating-special-text`. When Weblate displays several plural fields,
 complete each one according to its label; see :ref:`plurals`.
 
-.. image:: /screenshots/onboarding-translation.webp
-   :alt: Translation editor showing a source string, a Czech translation, and the save, suggest, and skip actions.
+.. figure:: /screenshots/translation-quality.webp
+   :alt: French translation editor with plural forms, a missing-placeholder warning, the preferred glossary term for workspace, and a billing banner screenshot.
+
+   Use explanations, screenshots, and glossary terms to choose the right wording.
+   Quality checks highlight problems such as the missing ``%(days)s`` placeholder
+   in this draft. The translator can edit, save, or suggest a translation.
 
 Choose the action that fits your contribution:
 
