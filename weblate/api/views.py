@@ -4050,6 +4050,16 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         """Get correct serializer based on action."""
         if self.action in {"list", "retrieve"}:
             return UnitSerializer
+        if self.action == "screenshots":
+            # Runtime serializer selection (used by DRF's browsable API
+            # form/OPTIONS rendering) is independent of the @extend_schema
+            # annotation on the view, which only affects the generated
+            # OpenAPI document - both need to point at the right shape.
+            if self.request.method == "GET":
+                return ScreenshotSerializer
+            return UnitScreenshotAssociationSerializer
+        if self.action == "delete_screenshots":
+            return ScreenshotSerializer
         return UnitWriteSerializer
 
     def get_queryset(self):
