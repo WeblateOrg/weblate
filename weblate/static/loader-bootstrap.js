@@ -2290,7 +2290,7 @@ onReady(() => {
             const child = document.createElement("a");
             child.textContent = data.value.full_name;
             item.appendChild(child);
-          },
+         },
           selected: "autoComplete_selected",
         },
         data: {
@@ -2298,9 +2298,21 @@ onReady(() => {
           src: async (query) => {
             try {
               // Fetch Data from external Source
-              const source = await fetch(
-                `/api/users/?username=${encodeURIComponent(query)}`,
-              );
+              let userSearchUrl = `/api/users/?username=${encodeURIComponent(query)}`;
+              
+              // Append contextual data to prioritize relevant contributors
+              if (window.weblate?.unit?.id) {
+                userSearchUrl += `&unit=${window.weblate.unit.id}`;
+              }
+              if (window.weblate?.language?.code) {
+                userSearchUrl += `&language=${window.weblate.language.code}`;
+              }
+              if (window.weblate?.project?.slug) {
+                userSearchUrl += `&project=${window.weblate.project.slug}`;
+              }
+
+              const source = await fetch(userSearchUrl);
+
               // Data should be an array of `Objects` or `Strings`
               const data = await source.json();
               return data.results.map((user) => {

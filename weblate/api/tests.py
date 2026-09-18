@@ -519,7 +519,43 @@ class UserAPITest(APIBaseTest):
             reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
         )
         self.assertEqual(response.data["count"], 1)
+    
+    def test_filter_contributors(self) -> None:
+        """Prioritize users who contributed to the current unit."""
+        self.authenticate(True)
 
+        translation = Translation.objects.get(**self.translation_kwargs)
+        unit = translation.unit_set.first()
+        assert unit is not None
+
+        # Create 'other_user' FIRST so they get ID 1
+        _ = User.objects.create_user(
+            "translate-other",
+            "translate-other@example.org",
+            "x",
+        )
+        # Create 'contributor' SECOND so they get ID 2
+        contributor = User.objects.create_user(
+            "translator",
+            "translator@example.org",
+            "x",
+        )
+
+        unit.translate(contributor, "Modified translation", STATE_TRANSLATED)
+
+        response = self.client.get(
+            reverse("api:user-list"),
+            {"username": "trans", "unit": unit.pk},
+        )
+
+        usernames = [user["username"] for user in response.data["results"]]
+
+        self.assertEqual(response.data["count"], 2)
+        self.assertLess(
+            usernames.index("translator"),
+            usernames.index("translate-other"),
+        )
+        
     def test_filter_email(self) -> None:
         """Filtering by email address."""
         self.authenticate(True)
