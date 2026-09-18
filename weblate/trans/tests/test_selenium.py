@@ -1472,15 +1472,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         translation = component.translation_set.get(language_code="cs")
         self.do_login(superuser=True)
         search_url = f"{self.live_server_url}{reverse('search', kwargs={'path': translation.get_url_path()})}"
+        query_builder_url = f"{self.live_server_url}{reverse('search')}"
         with self.wait_for_page_load():
-            self.driver.get(search_url)
+            self.driver.get(query_builder_url)
         query_input = self.driver.find_element(By.ID, "id_q")
         query_input.send_keys("state:empty")
         self.click(htmlid="query-dropdown")
         option = self.driver.find_element(By.CSS_SELECTOR, '[data-filter="all"]')
         option.send_keys(Keys.ENTER)
         self.assertEqual(query_input.get_attribute("value"), "")
-        self.assertEqual(self.driver.current_url, search_url)
+        self.assertEqual(self.driver.current_url, query_builder_url)
         self.assertEqual(self.driver.switch_to.active_element, query_input)
         self.assertEqual(
             self.driver.find_element(By.ID, "query-dropdown").get_attribute(
@@ -1536,15 +1537,25 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
 
         # Results and the editor apply the empty query immediately.
-        for url in (
-            search_url,
-            f"{self.live_server_url}{translation.get_translate_url()}",
+        filtered_query = urlencode(
+            {"q": "state:<translated", "sort_by": "source", "offset": 2}
+        )
+        for url, query in (
+            (search_url, ""),
+            (search_url, f"?{filtered_query}"),
+            (
+                f"{self.live_server_url}{translation.get_translate_url()}",
+                f"?{filtered_query}",
+            ),
         ):
-            with self.subTest(url=url):
+            with self.subTest(url=url, query=query):
                 with self.wait_for_page_load():
-                    self.driver.get(
-                        f"{url}?{urlencode({'q': 'state:<translated', 'sort_by': 'source', 'offset': 2})}"
-                    )
+                    self.driver.get(f"{url}{query}")
+                sort_by = self.driver.find_element(By.NAME, "sort_by").get_attribute(
+                    "value"
+                )
+                if not query:
+                    self.driver.find_element(By.ID, "id_q").send_keys("state:empty")
                 self.click(htmlid="query-dropdown")
                 with self.wait_for_page_load():
                     self.driver.find_element(
@@ -1555,10 +1566,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 )
                 self.assertEqual(
                     self.driver.find_element(By.NAME, "sort_by").get_attribute("value"),
-                    "source",
+                    sort_by,
                 )
                 self.assertNotIn("offset=2", self.driver.current_url)
-                if url != search_url:
+                if url == search_url:
+                    self.assertEqual(
+                        self.count_elements("tbody.unit-listing-body tr"),
+                        translation.unit_set.count(),
+                    )
+                else:
                     count = (
                         self.driver.find_element(By.CSS_SELECTOR, ".position-input")
                         .text.split("/")[-1]

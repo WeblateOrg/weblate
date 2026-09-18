@@ -843,7 +843,7 @@
                     {% for glossary in glossaries %}
                       <a class="btn btn-link green"
                          title="{% blocktranslate with name=glossary.component.name %}Browse glossary {{ name }}{% endblocktranslate %}"
-                         href="{% url 'browse' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %} {% translate "Browse glossary" %}
+                         href="{% url 'search' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %} {% translate "Browse glossary" %}
                         {% include "snippets/glossary-badge.html" with glossary=glossary %}
                       </a>
                     {% endfor %}

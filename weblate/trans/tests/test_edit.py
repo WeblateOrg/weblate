@@ -1950,7 +1950,7 @@ class ZenViewTest(ViewTestCase):
         self.assertContains(response, "This translation is currently locked.")
 
     def test_browse(self) -> None:
-        response = self.client.get(reverse("browse", kwargs=self.kw_translation))
+        response = self.client.get(reverse("search", kwargs=self.kw_translation))
         self.assertContains(response, "Thank you for using Weblate.")
         self.assertContains(
             response,

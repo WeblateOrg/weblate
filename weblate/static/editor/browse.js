@@ -5,7 +5,9 @@
 (() => {
   function ProjectStringsBrowser() {
     hotkeys("right", () => {
-      const nextButton = document.getElementById("button-next");
+      const nextButton = document.querySelector(
+        '.search-pagination a[rel="next"]',
+      );
       const nextLocation = nextButton?.getAttribute("href");
       if (nextButton && !nextButton.classList.contains("disabled")) {
         if (nextLocation !== null && nextLocation !== undefined) {
@@ -15,7 +17,9 @@
       return false;
     });
     hotkeys("left", () => {
-      const prevButton = document.getElementById("button-prev");
+      const prevButton = document.querySelector(
+        '.search-pagination a[rel="prev"]',
+      );
       const prevLocation = prevButton?.getAttribute("href");
       if (prevButton && !prevButton.classList.contains("disabled")) {
         if (prevLocation !== null && prevLocation !== undefined) {
