@@ -225,7 +225,8 @@ class BackupLockTest(SimpleTestCase):
             pass
 
         cursor.execute.assert_called_once_with(
-            "SELECT pg_try_advisory_xact_lock_shared(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
+            "SELECT pg_try_advisory_xact_lock_shared(%s, %s)",
+            [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY],
         )
 
     def test_transaction_rolls_back_after_exception(self) -> None:
@@ -245,7 +246,8 @@ class BackupLockTest(SimpleTestCase):
             raise RuntimeError(msg)
 
         cursor.execute.assert_called_once_with(
-            "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
+            "SELECT pg_try_advisory_xact_lock(%s, %s)",
+            [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY],
         )
 
     def test_exclusive_lock_times_out(self) -> None:
@@ -264,7 +266,8 @@ class BackupLockTest(SimpleTestCase):
             pass
 
         cursor.execute.assert_called_once_with(
-            "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
+            "SELECT pg_try_advisory_xact_lock(%s, %s)",
+            [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY],
         )
 
 
@@ -275,18 +278,21 @@ class BackupLockDatabaseTest(TransactionTestCase):
             other_connection.set_autocommit(False)
             with backup_lock(shared=True), other_connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT pg_try_advisory_xact_lock_shared(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
+                    "SELECT pg_try_advisory_xact_lock_shared(%s, %s)",
+                    [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY],
                 )
                 self.assertTrue(cursor.fetchone()[0])
                 cursor.execute(
-                    "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
+                    "SELECT pg_try_advisory_xact_lock(%s, %s)",
+                    [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY],
                 )
                 self.assertFalse(cursor.fetchone()[0])
             other_connection.rollback()
 
             with other_connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
+                    "SELECT pg_try_advisory_xact_lock(%s, %s)",
+                    [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY],
                 )
                 self.assertTrue(cursor.fetchone()[0])
             other_connection.rollback()
@@ -303,7 +309,8 @@ class BackupLockDatabaseTest(TransactionTestCase):
 
             with other_connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT pg_try_advisory_xact_lock(%s, %s)", [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY]
+                    "SELECT pg_try_advisory_xact_lock(%s, %s)",
+                    [LOCK_SCOPE_BACKUP, BACKUP_LOCK_KEY],
                 )
                 self.assertTrue(cursor.fetchone()[0])
             other_connection.rollback()

@@ -29,7 +29,6 @@ from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
-    from types import TracebackType
 
 BORG_SSH_OPTIONS = (
     "-o",
@@ -65,6 +64,7 @@ class BackupLock(WeblateLock):
             timeout=timeout,
             shared=shared,
         )
+
 
 @contextmanager
 def backup_lock(
