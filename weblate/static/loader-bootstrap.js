@@ -2221,6 +2221,83 @@ onReady(() => {
       });
     });
 
+  /* Markdown preview tab in markdown textareas */
+  document.addEventListener("show.bs.tab", (event) => {
+    const toggle = event.target;
+    if (!toggle.matches(".markdown-preview-toggle")) {
+      return;
+    }
+    const pane = document.querySelector(toggle.getAttribute("data-bs-target"));
+    const editor = toggle
+      .closest(".markdown-editor-tabs")
+      ?.querySelector("textarea.markdown-editor");
+    if (!pane || !editor) {
+      return;
+    }
+    /* Measure while the editor is still visible */
+    pane.style.minHeight = `${editor.getBoundingClientRect().height}px`;
+    const text = editor.value;
+    if (pane.dataset.rendered === text) {
+      return;
+    }
+    if (text.trim() === "") {
+      const empty = document.createElement("p");
+      empty.className = "text-muted";
+      empty.textContent = gettext("Nothing to preview.");
+      pane.replaceChildren(empty);
+      pane.dataset.rendered = text;
+      return;
+    }
+    pane.previewController?.abort();
+    const controller = new AbortController();
+    pane.previewController = controller;
+    pane.setAttribute("aria-busy", "true");
+    fetch(pane.dataset.previewUrl, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRFToken": document.querySelector("#link-post input")?.value ?? "",
+      },
+      body: new URLSearchParams({ text }),
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (response.redirected) {
+          /* Redirected to login, the session has most likely expired */
+          throw new Error(gettext("Please sign in again."));
+        }
+        if (!response.ok) {
+          const isText = response.headers
+            .get("Content-Type")
+            ?.startsWith("text/plain");
+          const detail = isText ? (await response.text()).trim() : "";
+          throw new Error(
+            detail || `${response.statusText} (${response.status})`,
+          );
+        }
+        pane.innerHTML = await response.text();
+        pane.dataset.rendered = text;
+      })
+      .catch((error) => {
+        if (error.name === "AbortError") {
+          return;
+        }
+        const alert = document.createElement("div");
+        alert.className = "alert alert-danger";
+        alert.setAttribute("role", "alert");
+        alert.textContent = `${gettext("Error while loading page:")} ${error.message}`;
+        pane.replaceChildren(alert);
+        delete pane.dataset.rendered;
+      })
+      .finally(() => {
+        if (pane.previewController === controller) {
+          pane.previewController = null;
+          pane.setAttribute("aria-busy", "false");
+        }
+      });
+  });
+
   /* Username @-mention autocompletion in markdown textareas */
   const positionMentionDropdown = (editor, list) => {
     if (!list) {

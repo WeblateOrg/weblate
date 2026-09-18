@@ -34,6 +34,7 @@ Weblate 2026.10
 * Added independent term alternatives and scoped metadata to :ref:`TBX glossaries <tbx>`, including metadata-preserving TBX exports.
 
 * Whitespace characters are now rendered consistently in the source string display and the translation editor, and different kinds of whitespace are now distinguishable from each other.
+* Added a :guilabel:`Preview` tab to Markdown fields such as :ref:`comments <user-comments>`, explanations, announcements, and project instructions.
 * Added a :ref:`font-monospace <custom-checks>` flag to display a string in the translation editor using a monospace font, useful for aligning command-line or terminal output.
 * History :guilabel:`View details` and :guilabel:`Revert` actions are larger, more widely spaced, and show a hover and focus background.
 * Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.

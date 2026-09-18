@@ -92,9 +92,10 @@ the original string, for example that it should be rephrased, or to ask
 questions about it.
 
 Markdown syntax can be used in all comments, as well as mentioning other
-users by using ``@username``. Mention a maintainer or another translator when
-you need them to see a follow-up question; they can reply in the same
-:guilabel:`Comments` tab.
+users by using ``@username``. Use the :guilabel:`Preview` tab above the comment
+field to see how the Markdown and mentions will render before posting. Mention a
+maintainer or another translator when you need them to see a follow-up
+question; they can reply in the same :guilabel:`Comments` tab.
 
 To find comments again, open your :ref:`user-profile`; the comment count links
 to your comment activity. To find strings with comments by a specific user, use
