@@ -43,6 +43,7 @@ Weblate 2026.10
 * Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
 * Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use the same layout as suggestions, and it now shows the :ref:`translation memory <translation-memory>` context of each match.
 * The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-weblate.gettext.meson>` extraction add-ons now bundle common XML translation rules and support project-local ITS directories for extracting mixed source formats into a shared POT.
+* The :ref:`font-spacing <custom-checks>` flag now supports a floating-point number as the spacing value.
 
 .. rubric:: Security fixes
 
