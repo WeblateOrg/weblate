@@ -48,6 +48,7 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.addons.base import build_addon_change_details
+from weblate.addons.cdn import CDNJSAddon
 from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
 from weblate.addons.git import GitSquashAddon
@@ -16131,6 +16132,28 @@ class AddonAPITest(APIBaseTest):
         self.assertEqual(change.user, self.user)
         # Existing
         self.create_addon(code=400)
+
+    @override_settings(
+        LOCALIZE_CDN_PATH=Path(settings.DATA_DIR) / "cdn",
+        LOCALIZE_CDN_URL="https://cdn.example.com/",
+    )
+    def test_create_uses_addon_factory(self) -> None:
+        with (
+            patch.object(CDNJSAddon, "can_install", return_value=True),
+            patch.object(CDNJSAddon, "post_configure"),
+        ):
+            response = self.create_addon(
+                name="weblate.cdn.cdnjs",
+                configuration={
+                    "threshold": 0,
+                    "css_selector": ".l10n",
+                    "cookie_name": "",
+                    "files": "",
+                },
+            )
+
+        addon = self.component.addon_set.get(pk=response.data["id"])
+        self.assertEqual(len(addon.state["uuid"]), 32)
 
     def test_delete(self) -> None:
         response = self.create_addon()
