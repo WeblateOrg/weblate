@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1155,7 +1155,7 @@ msgid ""
 "{0}."
 msgstr ""
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 msgid "Use authentication app (TOTP)"
@@ -1731,6 +1731,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr ""
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr ""
 
@@ -1884,6 +1893,19 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr ""
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "One file per translation"
+msgstr "Avtomatik tercime"
+
+#, fuzzy
+#| msgid "Get support"
+msgid "One file per component"
+msgstr "Destek alıñız"
 
 msgid "Name of generated file"
 msgstr ""
@@ -2370,18 +2392,101 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+msgid "ITS rule file is too large."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "ITS rule file contains too many XPath expressions."
 msgstr ""
+
+msgid "ITS XPath expression is too long."
+msgstr ""
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid image!"
+msgid "Invalid ITS directory path."
+msgstr "Invalid resim!"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+msgid "ITS rule file contains too many elements."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported ITS rule content."
+msgstr "Desteklenmegen resim türü: %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported ITS locating rule."
+msgstr "Desteklenmegen resim türü: %s"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported ITS rule namespace."
+msgstr "Desteklenmegen resim türü: %s"
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+msgid "ITS directories must not contain symbolic links."
+msgstr ""
+
+#, python-format
+msgid "ITS directory does not exist: %(path)s"
+msgstr ""
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Automatic translation"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Avtomatik tercime"
+
+#, fuzzy, python-format
+#| msgid "Automatic translation"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Avtomatik tercime"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
+msgstr ""
+
+msgid "API add-ons must be installed directly on a component."
+msgstr ""
+
+msgid "This add-on is already installed on this component."
 msgstr ""
 
 msgid "This add-on cannot be triggered manually."
@@ -4009,6 +4114,9 @@ msgstr ""
 msgid "Use case insensitive placeholders"
 msgstr ""
 
+msgid "Monospace font"
+msgstr ""
+
 msgid "Font family"
 msgstr ""
 
@@ -5208,6 +5316,20 @@ msgid ""
 "progress. Please try again later."
 msgstr ""
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+msgid "Maximum retained versions"
+msgstr ""
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr ""
 
@@ -6238,6 +6360,11 @@ msgstr "Ekran süretleri"
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Ekran süretleri"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -6307,6 +6434,11 @@ msgstr ""
 
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a valid screenshot."
+msgstr "Ekran süretleri"
 
 msgid "Bad request"
 msgstr ""
@@ -6396,18 +6528,13 @@ msgstr ""
 msgid "Support Weblate"
 msgstr ""
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr ""
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Weblate-ge yardım etiñiz"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6485,6 +6612,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -7449,7 +7584,19 @@ msgstr ""
 msgid "Continue"
 msgstr "Devam etmek"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+msgid "Sign in using a passkey or security key"
+msgstr ""
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -7485,6 +7632,14 @@ msgstr ""
 #| msgid "Screenshots"
 msgid "No components found."
 msgstr "Ekran süretleri"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Get support"
+msgid "API root"
+msgstr "Destek alıñız"
 
 msgid "Configure add-on"
 msgstr ""
@@ -7637,6 +7792,18 @@ msgstr ""
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -8132,6 +8299,11 @@ msgstr ""
 
 msgid "Browse"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Tercimeniñ alı"
 
 msgid "No strings found!"
 msgstr ""
@@ -8634,25 +8806,33 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Destek alıñız"
 
-msgid "Some repositories are not accessible"
+msgid "Some repository operations require additional permissions"
 msgstr ""
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
 #| msgid "Get support"
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr "Destek alıñız"
 
-msgid "Permission required on:"
+msgid "You need the following permissions on the repository-owning component:"
 msgstr ""
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -9663,6 +9843,17 @@ msgstr ""
 msgid "Support expiry"
 msgstr ""
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr ""
 
@@ -9672,8 +9863,10 @@ msgstr ""
 msgid "Unlink support package"
 msgstr ""
 
-msgid "Purchase support package"
-msgstr ""
+#, fuzzy
+#| msgid "Premium self-hosted support"
+msgid "Purchase support"
+msgstr "Öz hostinginiñ Premium destegi"
 
 msgid "Contact customer care"
 msgstr ""
@@ -10273,6 +10466,16 @@ msgstr ""
 msgid "Return to dashboard"
 msgstr ""
 
+#, fuzzy
+#| msgid "Shared translation memory"
+msgid "Thank you for contributing translations."
+msgstr "Tercimelerniñ ortaq hafızası"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Weblate içün bağışlañız"
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -10380,6 +10583,31 @@ msgid "No screenshots found."
 msgstr "Ekran süretleri"
 
 msgid "Add new screenshot"
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a screenshot"
+msgstr "Ekran süretleri"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+msgid "Selected"
+msgstr ""
+
+msgid "No matching screenshots available."
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot pages"
+msgstr "Ekran süretleri"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
 msgstr ""
 
 #. Translators: Button to assign string to a screenshot
@@ -10564,23 +10792,15 @@ msgstr[0] ""
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
+msgid "Support Weblate development"
 msgstr ""
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
+msgid "Thank you for using Weblate and contributing translations."
 msgstr ""
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
 
 msgid ""
@@ -10639,12 +10859,6 @@ msgstr ""
 msgid "Weblate repository"
 msgstr ""
 
-msgid "This translation is forbidden."
-msgstr ""
-
-msgid "This term should not be translated."
-msgstr ""
-
 #, fuzzy
 #| msgid "Shared translation memory"
 msgid "This translation needs editing."
@@ -10653,7 +10867,22 @@ msgstr "Tercimelerniñ ortaq hafızası"
 msgid "Copy word into translation"
 msgstr ""
 
+msgid "This translation is forbidden."
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "This term should not be translated."
+msgstr ""
+
 msgid "Edit glossary term"
+msgstr ""
+
+msgid "Translation explanation"
+msgstr ""
+
+msgid "Source explanation"
 msgstr ""
 
 msgid "Glossary translation explanation"
@@ -11295,6 +11524,25 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr ""
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+msgid "Already purchased? Link your support package"
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Term information from the translation file"
+msgstr "Avtomatik tercime"
+
+msgid "Source terms"
+msgstr ""
+
+#, fuzzy
+#| msgid "Intermediate language"
+msgid "Target terms"
+msgstr "Ara til"
+
 msgid "Translation status"
 msgstr "Tercimeniñ alı"
 
@@ -11691,15 +11939,20 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Hosted strings"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Saqlanğan satırlar"
 
 #, fuzzy
 #| msgid "Hosted strings"
 msgid "Remove duplicate strings"
 msgstr "Saqlanğan satırlar"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -12489,6 +12742,16 @@ msgstr "Destek alıñız"
 
 msgid "No screenshot currently associated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Add existing screenshot"
+msgstr "Ekran süretleri"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Upload screenshot"
+msgstr "Ekran süretleri"
 
 msgid "String information"
 msgstr ""
@@ -14292,6 +14555,22 @@ msgid ""
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 
+#, fuzzy
+#| msgid "Continue"
+msgid "Contributor comments"
+msgstr "Devam etmek"
+
+msgid "Gettext"
+msgstr ""
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr ""
 
@@ -14607,9 +14886,6 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
 msgid "Source string explanation"
-msgstr ""
-
-msgid "Translation explanation"
 msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -17114,6 +17390,16 @@ msgid "Project {}"
 msgstr ""
 
 #. Translators: Text on OpenGraph image
+msgid "Category {}"
+msgstr ""
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Get support"
+msgid "Workspace {}"
+msgstr "Destek alıñız"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr ""
 
@@ -18594,6 +18880,11 @@ msgid "The workspace has been removed."
 msgstr "Destek alıñız"
 
 #, fuzzy
+#~| msgid "Get support"
+#~ msgid "Skipped components:"
+#~ msgstr "Destek alıñız"
+
+#, fuzzy
 #~| msgid "Translation memory"
 #~ msgid "Pending translations are being committed."
 #~ msgstr "Tercimelerniñ hatırası"
@@ -18639,12 +18930,6 @@ msgstr "Destek alıñız"
 #~ msgctxt "Support Weblate financially"
 #~ msgid "Become a supporter"
 #~ msgstr "Destek alıñız"
-
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Weblate-ge yardım etiñiz"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Weblate içün bağışlañız"
 
 #~ msgid "Invalid image!"
 #~ msgstr "Invalid resim!"
