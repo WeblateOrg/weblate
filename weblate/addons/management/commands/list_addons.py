@@ -106,7 +106,9 @@ class Command(DocGeneratorCommand):
                 ["Built-in add-ons", "++++++++++++++++"],
             )
 
-        fake_addon = Addon(component=Component(project=Project(pk=-1), pk=-1))
+        fake_addon = Addon(
+            component=Component(project=Project(pk=-1), pk=-1, source_language_id=-1)
+        )
         for addon_name, obj in sorted(ADDONS.items()):
             addon_lines = []
             if obj.name in EXTRA_ANCHOR_ALIASES:
@@ -223,19 +225,18 @@ class Command(DocGeneratorCommand):
         if doc_field.help_text:
             result.append(format_rst_string(doc_field.help_text))
         choices = getattr(field, "choices", None)
-        if choices:
-            if name in SHARED_PARAMS:
-                # Add link to shared docs
-                result.append(f":ref:`addon-choice-{name}`")
-            elif name not in {
-                "component",
-                "source",
-                "target",
-            }:
-                # List actual choices
-                if result:
-                    result.append("")
-                result.extend(self.get_choices_table(choices))
+        if name in SHARED_PARAMS:
+            # Shared choices are documented independently of configured choices.
+            result.append(f":ref:`addon-choice-{name}`")
+        elif choices and name not in {
+            "component",
+            "source",
+            "target",
+        }:
+            # List actual choices
+            if result:
+                result.append("")
+            result.extend(self.get_choices_table(choices))
         return "\n".join(result)
 
     def get_choices_table(self, choices: list[tuple[str, str]]) -> list[str]:
