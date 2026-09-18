@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   rundev:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     timeout-minutes: 60
     name: Test development Docker
     env:
@@ -56,7 +56,7 @@ jobs:
       if: always()
 
   smoke:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     timeout-minutes: 90
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

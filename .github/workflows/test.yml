@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
@@ -156,7 +156,7 @@ jobs:
         report_type: test_results
 
   argos:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     name: Argos CI upload
     needs:
     - test
@@ -185,7 +185,7 @@ jobs:
       run: yarn argos upload ../test-images/
 
   argos-pull-request:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     name: Argos CI pull request upload
     needs:
     - test
