@@ -459,7 +459,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             cls._driver = None
 
     def scroll_top(self) -> None:
-        self.driver.execute_script("window.scrollTo(0, 0)")
+        self.driver.execute_script(
+            "window.scrollTo({top: 0, left: 0, behavior: 'instant'})"
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                "return window.scrollX === 0 && window.scrollY === 0"
+            )
+        )
 
     def assert_text_contains(self, css_selector: str, text: str) -> None:
         """Assert the element matching css_selector contains text."""
@@ -744,8 +751,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
         self.driver.set_window_size(1200, 1024)
-        self.scroll_top()
         self.wait_for_screenshot_ready()
+        self.scroll_top()
         dimensions = self.driver.execute_script(
             """
             const body = document.body;
@@ -772,8 +779,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             max(1200, math.ceil(dimensions["width"])),
             math.ceil(dimensions["height"] + 180),
         )
-        self.scroll_top()
         self.wait_for_screenshot_ready()
+        self.scroll_top()
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
         )
@@ -787,8 +794,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         them at the given width.
         """
         self.driver.set_window_size(width, height)
-        self.scroll_top()
         self.wait_for_screenshot_ready()
+        self.scroll_top()
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
         )
