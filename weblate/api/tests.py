@@ -16117,6 +16117,44 @@ class ComponentListAPITest(APIBaseTest):
 
 
 class AddonAPITest(APIBaseTest):
+    def test_ai_quality_configuration(self) -> None:
+        project = self.component.project
+        project.machinery_settings = {"openai": {"key": "test", "model": "auto"}}
+        project.save(update_fields=["machinery_settings"])
+        configuration = {
+            "service": "openai",
+            "q": "state:>=translated",
+            "interval": "weekly",
+            "on_change": False,
+            "on_update": False,
+        }
+        self.create_addon(
+            name="weblate.ai.quality",
+            configuration=configuration,
+            code=403,
+            superuser=False,
+        )
+        with patch("weblate.addons.tasks.evaluate_quality.delay_on_commit") as task:
+            self.create_addon(name="weblate.ai.quality", configuration=configuration)
+        task.assert_not_called()
+        addon = self.component.addon_set.get(name="weblate.ai.quality")
+        self.assertEqual(addon.configuration, configuration)
+        self.assertNotIn("key", addon.addon.get_public_configuration())
+
+    def test_ai_quality_invalid_service(self) -> None:
+        self.create_addon(
+            name="weblate.ai.quality",
+            code=400,
+            configuration={
+                "service": "invalid",
+                "interval": "weekly",
+                "q": "state:>=translated",
+            },
+        )
+        self.assertFalse(
+            self.component.addon_set.filter(name="weblate.ai.quality").exists()
+        )
+
     def create_addon(
         self, superuser=True, code=201, name="weblate.gettext.linguas", **request
     ):

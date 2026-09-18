@@ -32,6 +32,11 @@ from weblate.machinery.base import (
     BatchMachineTranslation,
     MachineTranslationError,
 )
+from weblate.machinery.evaluation import (
+    EVALUATION_PROMPT,
+    EvaluationIssue,
+    parse_evaluation_response,
+)
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.requests import JSON_RESPONSE_ERRORS
@@ -270,6 +275,83 @@ class BaseLLMTranslation(BatchMachineTranslation):
     llm_context_support = True
     replacement_start = "@@PH"
     replacement_end = "@@"
+
+    def build_evaluation_request(self, units: list[Unit]) -> tuple[str, str]:
+        translation = units[0].translation
+        source_language = translation.component.source_language.code
+        target_language = translation.language.code
+        fetch_glossary_terms(units, include_variants=False)
+        inputs = []
+        for unit in units:
+            strings = []
+            for index, source in enumerate(unit.get_source_plurals()):
+                context_source, _specs = self._cleanup_source_variant(source, unit)
+                context = self._get_string_context(
+                    context_source,
+                    unit,
+                    source_language,
+                    include_checks=False,
+                    source_occurrence=index,
+                )
+                strings.append({"source": source, **context})
+            inputs.append(
+                {
+                    "unit_id": unit.pk,
+                    "strings": strings,
+                    "translations": unit.get_target_plurals(),
+                }
+            )
+        payload = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source_language_name": self._get_language_name(
+                translation.component.source_language
+            ),
+            "target_language_name": self._get_language_name(translation.language),
+            "units": inputs,
+            "glossary": self._get_glossary_entries(units),
+            "source_plural_formula": translation.component.source_translation.plural.plural_form,
+            "target_plural_formula": translation.plural.plural_form,
+        }
+        prompt = "\n\n".join(
+            [
+                EVALUATION_PROMPT,
+                self.format_prompt_part("persona"),
+                self.format_prompt_part("style"),
+                self.format_language_instructions(target_language),
+            ]
+        )
+        return prompt, json.dumps(payload)
+
+    def evaluate(self, unit: Unit) -> list[EvaluationIssue]:
+        """Evaluate one unit using the same contract as batch evaluation."""
+        return self.evaluate_batch([unit])[unit.pk]
+
+    def evaluate_batch(self, units: list[Unit]) -> dict[int, list[EvaluationIssue]]:
+        """Evaluate related units independently of suggestion generation."""
+        if not units:
+            return {}
+        unit_ids = {unit.pk for unit in units}
+        if (
+            len(units) > self.batch_size
+            or len(unit_ids) != len(units)
+            or None in unit_ids
+            or len({unit.translation_id for unit in units}) != 1
+        ):
+            msg = "Evaluation requires a batch of distinct saved units from one translation."
+            raise ValueError(msg)
+        started_cache = self._ensure_secondary_context_cache()
+        try:
+            prompt, content = self.build_evaluation_request(units)
+            response = self.fetch_llm_translations(
+                prompt,
+                content,
+                '{"source_language":"en","target_language":"cs","units":[{"unit_id":1,"strings":[{"source":"Hello"}],"translations":["Ahoj"]}]}',
+                '{"results":[{"unit_id":1,"issues":[]}]}',
+            )
+            return parse_evaluation_response(response, unit_ids)
+        finally:
+            self._clear_secondary_context_cache(started_cache)
 
     def __init__(self, configuration: SettingsDict) -> None:
         super().__init__(configuration)
@@ -894,6 +976,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         unit: Unit | None,
         source_language: str | None = None,
         *,
+        include_checks: bool = True,
         include_check_labels: bool = True,
         source_occurrence: int = 0,
     ) -> LLMStringContext:
@@ -921,8 +1004,10 @@ class BaseLLMTranslation(BatchMachineTranslation):
         ):
             result["plural"] = plural
 
-        if failing_checks := self._get_failing_checks_context(
-            unit, include_labels=include_check_labels
+        if include_checks and (
+            failing_checks := self._get_failing_checks_context(
+                unit, include_labels=include_check_labels
+            )
         ):
             result["failing_checks"] = failing_checks
 

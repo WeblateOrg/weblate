@@ -489,6 +489,9 @@ class Addon(models.Model):
             ).delete()
 
     def delete(self, using=None, keep_parents=False):
+        # Initialize before deletion clears the primary key, so cleanup can
+        # identify data owned by this installation.
+        addon = self.addon_class(self) if self.is_valid else None
         # Store history
         self.store_change(ActionEvents.ADDON_REMOVE, {})
         # Delete any addon alerts
@@ -513,8 +516,8 @@ class Addon(models.Model):
         self._drop_addons_cache()
 
         # Trigger post uninstall action
-        if self.is_valid:
-            self.addon.post_uninstall()
+        if addon is not None:
+            addon.post_uninstall()
         return result
 
     def disable(self) -> None:

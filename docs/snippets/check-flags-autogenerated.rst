@@ -166,6 +166,16 @@
 
 ``ignore-accelerator``
     Skip the :ref:`check-accelerator` quality check.
+``ignore-ai-accuracy``
+    Skip the :ref:`check-ai-accuracy` quality check.
+``ignore-ai-fluency``
+    Skip the :ref:`check-ai-fluency` quality check.
+``ignore-ai-formatting``
+    Skip the :ref:`check-ai-formatting` quality check.
+``ignore-ai-style``
+    Skip the :ref:`check-ai-style` quality check.
+``ignore-ai-terminology``
+    Skip the :ref:`check-ai-terminology` quality check.
 ``ignore-asciidoc-markup``
     Skip the :ref:`check-asciidoc-markup` quality check.
 ``ignore-bbcode``
