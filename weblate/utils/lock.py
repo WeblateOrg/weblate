@@ -115,7 +115,7 @@ class WeblateLock:
 
     @property
     def lock_key(self) -> int:
-        """Return the 32-bit PostgreSQL advisory lock key."""
+        """The 32-bit PostgreSQL advisory lock key."""
         if isinstance(self._key, int):
             key = self._key
         else:
@@ -148,6 +148,34 @@ class WeblateLock:
             message=f"{operation} {self._name} ({self._local.depth})",
         )
 
+    def _raise_timeout(self) -> None:
+        raise WeblateLockTimeoutError(
+            self.get_error_message(),
+            lock=self,
+        )
+
+    def _wait_for_lock(self) -> None:
+        """Poll for the advisory lock until it is acquired or the timeout expires."""
+        deadline = time.monotonic() + self._timeout
+        with start_span(op="lock.wait", name=self._name):
+            while True:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        self._try_lock_query,
+                        [self.scope_key, self.lock_key],
+                    )
+                    result = cursor.fetchone()
+
+                if result is not None and result[0]:
+                    return
+
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    self.add_breadcrumb("timeout")
+                    self._raise_timeout()
+
+                time.sleep(min(LOCK_POLL_INTERVAL, remaining))
+
     def __enter__(self) -> None:
         self.add_breadcrumb("enter")
 
@@ -159,30 +187,8 @@ class WeblateLock:
                 self._transaction = transaction.atomic()
                 self._transaction.__enter__()
 
-            deadline = time.monotonic() + self._timeout
-
             try:
-                with start_span(op="lock.wait", name=self._name):
-                    while True:
-                        with connection.cursor() as cursor:
-                            cursor.execute(
-                                self._try_lock_query,
-                                [self.scope_key, self.lock_key],
-                            )
-                            result = cursor.fetchone()
-
-                        if result is not None and result[0]:
-                            break
-
-                        remaining = deadline - time.monotonic()
-                        if remaining <= 0:
-                            self.add_breadcrumb("timeout")
-                            raise WeblateLockTimeoutError(
-                                self.get_error_message(),
-                                lock=self,
-                            )
-
-                        time.sleep(min(LOCK_POLL_INTERVAL, remaining))
+                self._wait_for_lock()
             except BaseException as exc:
                 if self._transaction is not None:
                     self._transaction.__exit__(
