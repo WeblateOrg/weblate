@@ -307,6 +307,7 @@ def upload(request: AuthenticatedHttpRequest, path):
             author_email,
             method=form.cleaned_data["method"],
             fuzzy=form.cleaned_data["fuzzy"],
+            ignore_language=form.cleaned_data["ignore_language"],
         )
     except PluralFormsMismatchError:
         messages.error(

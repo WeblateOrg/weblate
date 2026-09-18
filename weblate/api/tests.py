@@ -12478,6 +12478,39 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(self.component.project.stats.suggestions, 0)
         self.check_upload_changes(changes_start, 2)
 
+    def test_upload_language_mismatch(self) -> None:
+        self.authenticate()
+        content = Path(TEST_PO).read_bytes().replace(b"Language: cs", b"Language: de")
+        for override, status in (
+            (None, 400),
+            (False, 400),
+            ("invalid", 400),
+            (True, 200),
+        ):
+            with self.subTest(override=override):
+                data: dict[str, object] = {
+                    "file": SimpleUploadedFile("test.po", content)
+                }
+                if override is not None:
+                    data["ignore_language"] = override
+                response = self.client.put(
+                    reverse("api:translation-file", kwargs=self.translation_kwargs),
+                    data,
+                )
+                self.assertEqual(response.status_code, status)
+                if override == "invalid":
+                    self.assertEqual(
+                        response.data["errors"][0]["attr"], "ignore_language"
+                    )
+                elif status == 400:
+                    self.assertEqual(response.data["errors"][0]["attr"], "file")
+                    self.assertIn(
+                        "uploaded file language (de)",
+                        response.data["errors"][0]["detail"],
+                    )
+                else:
+                    self.assertEqual(response.data["accepted"], 1)
+
     @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
     def test_upload_too_big(self) -> None:
         self.authenticate()

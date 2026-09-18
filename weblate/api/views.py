@@ -3740,6 +3740,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 author_email,
                 data["method"],
                 data["fuzzy"],
+                ignore_language=data["ignore_language"],
             )
         except PluralFormsMismatchError as error:
             raise ValidationError(

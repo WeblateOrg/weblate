@@ -907,6 +907,13 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
         label=gettext_lazy("File"),
         validators=[validate_translation_upload_size, validate_file_extension],
     )
+    ignore_language = forms.BooleanField(
+        label=gettext_lazy("Ignore language mismatch"),
+        help_text=gettext_lazy(
+            "Allow uploading a file that declares a different translation language."
+        ),
+        required=False,
+    )
     method = forms.ChoiceField(
         label=gettext_lazy("File upload mode"),
         choices=FileUploadMethod.choices,
@@ -929,6 +936,7 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field("file"),
+            Field("ignore_language"),
             Field("method", template="%s/layout/radioselect_upload_method.html"),
             Field("fuzzy"),
         )

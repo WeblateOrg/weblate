@@ -2686,6 +2686,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
+    :form boolean ignore_language: Ignore a mismatch between the declared file language and the translation language (defaults to ``false``), see :ref:`upload-ignore_language`
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
     :form file file: Uploaded file
     :form string author_email: Author e-mail
