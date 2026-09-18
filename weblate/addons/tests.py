@@ -12243,7 +12243,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertContains(response, "Installed 1 add-on")
 
 
-class TestCommand(ComponentTestCase):
+class TestCommand(SimpleTestCase):
     def test_list_addons(self) -> None:
         output = StringIO()
         call_command("list_addons", stdout=output)
