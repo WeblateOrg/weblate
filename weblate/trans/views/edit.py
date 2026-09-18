@@ -6,7 +6,6 @@ from __future__ import annotations
 import contextlib
 import json
 import time
-from math import ceil
 from typing import TYPE_CHECKING, Any, NamedTuple, Protocol, TypedDict, cast
 
 from django.conf import settings
@@ -1953,46 +1952,3 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
     # Remove cached search results as we've just removed one of the unit there
     cleanup_session(request.session, delete_all=True)
     return redirect_next(request.POST.get("next"), unit.translation)
-
-
-def browse(request: AuthenticatedHttpRequest, path):
-    """Strings browsing."""
-    obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
-    )
-    project = context["project"]
-    search_result = SearchNavigation(
-        obj, project, unit_set, request, blank=True, use_cache=False
-    ).search()
-    offset = search_result["offset"]
-    page = 20
-    units = unit_set.prefetch_full().get_ordered(
-        search_result["ids"][(offset - 1) * page : (offset - 1) * page + page]
-    )
-
-    base_unit_url = f"{reverse('browse', kwargs={'path': obj.get_url_path()})}?{search_result['url']}&offset="
-    num_results = ceil(len(search_result["ids"]) / page)
-
-    return render(
-        request,
-        "browse.html",
-        {
-            "object": obj,
-            "path_object": obj,
-            "project": project,
-            "component": obj.component if isinstance(obj, Translation) else None,
-            "units": units,
-            "search_query": search_result["query"],
-            "query_params": QueryDict(search_result["url"]),
-            "search_form": search_result["form"].reset_offset(),
-            "filter_count": num_results,
-            "filter_pos": offset,
-            "first_unit_url": f"{base_unit_url}1",
-            "last_unit_url": base_unit_url + str(num_results),
-            "next_unit_url": base_unit_url + str(offset + 1)
-            if offset < num_results
-            else None,
-            "prev_unit_url": base_unit_url + str(offset - 1) if offset > 1 else None,
-            "is_in_browse": True,
-        },
-    )

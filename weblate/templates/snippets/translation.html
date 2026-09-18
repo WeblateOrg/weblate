@@ -3,7 +3,7 @@
 {% get_translate_url object as translate_url %}
 {% url 'translate' path=object.get_url_path as edit_url %}
 {% url 'zen' path=object.get_url_path as zen_url %}
-{% url 'browse' path=object.get_url_path as browse_url %}
+{% url 'search' path=object.get_url_path as browse_url %}
 
 <div class="card {% if object.is_source %}card-warning{% endif %}">
   <div class="card-header">

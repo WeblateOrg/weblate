@@ -169,7 +169,7 @@ real_patterns = [
     ),
     path(
         "browse/<object_path:path>/",
-        weblate.trans.views.edit.browse,
+        weblate.trans.views.search.browse,
         name="browse",
     ),
     path(
