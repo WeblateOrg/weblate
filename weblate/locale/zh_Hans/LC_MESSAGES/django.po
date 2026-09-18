@@ -34,10 +34,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
-"PO-Revision-Date: 2026-09-13 06:51+0000\n"
-"Last-Translator: Hosted Weblate user 54392 "
-"<hamburger2048@users.noreply.hosted.weblate.org>\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"PO-Revision-Date: 2026-09-18 06:04+0000\n"
+"Last-Translator: reducedradius "
+"<137701630+flytothehighest@users.noreply.github.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1071,7 +1071,8 @@ msgstr "创建了新的翻译部件"
 msgid ""
 "The announcement must enable notifications. If it specifies a language, that "
 "language must match the user’s notification languages."
-msgstr "该公告必须启用通知。如果它指定了一种语言，该语言必须匹配用户的通知语言。"
+msgstr ""
+"该公告必须启用通知。如果它指定了一种语言，该语言必须匹配用户的通知语言。"
 
 msgctxt "Notification name"
 msgid "Announcement was published"
@@ -1168,8 +1169,8 @@ msgid ""
 "{0}."
 msgstr "您的电子邮件地址已不再关联已验证账户，已更改为 {0}。"
 
-msgid "Use security key (WebAuthn)"
-msgstr "使用安全密钥（WebAuthn）"
+msgid "Use a passkey or security key (WebAuthn)"
+msgstr "使用通行密钥或安全密钥（WebAuthn）"
 
 msgid "Use authentication app (TOTP)"
 msgstr "使用身份验证应用（TOTP）"
@@ -1746,6 +1747,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "关键词条目必须是字符串。"
 
+msgid "ITS data directories"
+msgstr "ITS数据目录"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "不提取注释"
 
@@ -1905,6 +1915,19 @@ msgstr "Sphinx 附加组件预期新翻译的模板位于 \"locales\" 目录。"
 
 msgid "Could not determine Sphinx source directory."
 msgstr "无法确定 Sphinx 源目录。"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Only include approved translations"
+msgid "One file per translation"
+msgstr "只包括已核准的译文"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "组织部件"
 
 msgid "Name of generated file"
 msgstr "所生成文件的名称"
@@ -2398,19 +2421,119 @@ msgid ""
 "project configuration."
 msgstr "用 Sphinx 的 gettext 构造工具在不加载项目配置情况下更新 gettext 模板。"
 
-msgid "Contributors in comment"
-msgstr "在注释中添加贡献信息"
+#, fuzzy
+#| msgid "Uploaded file is too big."
+msgid "ITS rule file is too large."
+msgstr "上传的文件太大。"
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
-msgstr "更新 PO 文件标头的注释部分，以包含贡献者名字和贡献年份。"
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "ZIP 文件包含项目过多。"
+
+#, fuzzy
+#| msgid "The provided secret is too long."
+msgid "ITS XPath expression is too long."
+msgstr "提供的 secret 太长。"
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+#, fuzzy
+#| msgid "No source files are configured."
+msgid "ITS rule files are too large."
+msgstr "未配置源文件。"
+
+msgid "ITS directories must be a list of strings."
+msgstr "ITS目录须为字符串列表。"
+
+#, fuzzy
+#| msgid "Invalid text direction"
+msgid "Invalid ITS directory path."
+msgstr "无效的文字方向"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+#, fuzzy
+msgid "Invalid ITS rule document root."
+msgstr "无效的ITS规则文档根目录。"
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many elements."
+msgstr "ZIP 文件包含项目过多。"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "不支持的文件格式。"
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "不支持的文件！"
+
+#, fuzzy
+#| msgid "Blank strings require an empty state."
+msgid "ITS locating rules require a pattern."
+msgstr "空白字符串需要空状态。"
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+msgid "Unsupported ITS rule namespace."
+msgstr "不支持的ITS规则命名空间。"
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file contains unsupported symbolic links."
+msgid "ITS directories must not contain symbolic links."
+msgstr "ZIP 文件包含不受支持的符号链接。"
+
+#, fuzzy, python-format
+#| msgid "Referenced category does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "引用的类别不存在。"
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not migrate %(component)s: %(error)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "无法迁移 %(component)s 部件：%(error)s"
+
+#, python-format
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "无法解析 ITS规则：%(path)s"
 
 msgid "Squash Git commits"
 msgstr "挤压 Git 提交"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "在推送变更之前挤压 Git 提交。"
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "该附加组件只能安装在部件上。"
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "该附加组件只能安装在部件上。"
 
 msgid "This add-on cannot be triggered manually."
 msgstr "无法手动触发此附加组件。"
@@ -4004,6 +4127,11 @@ msgstr "忽略所有检查"
 msgid "Use case insensitive placeholders"
 msgstr "使用区分大小写的占位符"
 
+#, fuzzy
+#| msgid "No workspaces found."
+msgid "Monospace font"
+msgstr "未找到工作区。"
+
 msgid "Font family"
 msgstr "字体系列"
 
@@ -5213,6 +5341,24 @@ msgid ""
 "progress. Please try again later."
 msgstr "无法添加术语表术语，因为正在进行另一个后台操作。请稍后再试。"
 
+#, fuzzy
+#| msgid "Maximum changes per day"
+msgid "Maximum build age (days)"
+msgstr "每日最多更改"
+
+#, fuzzy
+#| msgid "Maximum line length"
+msgid "Maximum retained versions"
+msgstr "行最大长度"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Weblate 语言"
 
@@ -6205,6 +6351,11 @@ msgstr "搜索屏幕截图"
 msgid "Sort by"
 msgstr "排序方式"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "屏幕截图"
+
 msgid "Screenshot name"
 msgstr "屏幕截图名称"
 
@@ -6266,6 +6417,11 @@ msgstr "未找到新的匹配的源字符串。"
 
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "无法下载 OCR 数据。请稍后重试。"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "删除屏幕截图"
 
 msgid "Bad request"
 msgstr "请求错误"
@@ -6367,18 +6523,13 @@ msgstr "关于 Weblate"
 msgid "Support Weblate"
 msgstr "支持 Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "帮助 <strong>Weblate</strong> 保持旺盛生命力"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "欢迎并感谢您支持 Weblate"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "感谢并感谢您选择 Weblate"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr "致力于开源价值的本地化平台，尊重隐私。"
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "为 Weblate 作贡献"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6459,6 +6610,14 @@ msgstr "双因素登录"
 
 msgid "Please complete your sign-in using second factor credential."
 msgstr "请使用第二因素凭据完成登录。"
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
 
 msgid "Your profile"
 msgstr "您的个人资料"
@@ -6676,8 +6835,8 @@ msgid ""
 "notifications. The user’s own actions do not trigger notifications; event "
 "details, digest content, and delivery rate limits can also affect delivery."
 msgstr ""
-"检查假定事件是否有订阅资格。这不发送通知。用户自己的操作不触发通知；事件详情"
-"、摘要内容、传送速率限制也可能影响传输。"
+"检查假定事件是否有订阅资格。这不发送通知。用户自己的操作不触发通知；事件详"
+"情、摘要内容、传送速率限制也可能影响传输。"
 
 msgid "Check notifications"
 msgstr "检查通知"
@@ -7425,8 +7584,22 @@ msgstr "仅在信任此目标的情况下才继续。"
 msgid "Continue"
 msgstr "继续"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "使用安全密钥登录"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "不幸的是，您的浏览器不支持 WebAuthn。"
@@ -7457,6 +7630,14 @@ msgstr "不兼容"
 
 msgid "No components found."
 msgstr "未找到部件。"
+
+msgid "Add-on API base URL:"
+msgstr "附加组件 API 基础 URL："
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "API 根网址："
 
 msgid "Configure add-on"
 msgstr "配置附加组件"
@@ -7610,6 +7791,18 @@ msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr "您可以在文件名和内容中使用 Django 模板标记，例如:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "已翻译百分比"
@@ -8109,6 +8302,9 @@ msgstr "检查您的账单状态"
 
 msgid "Browse"
 msgstr "浏览"
+
+msgid "Translation status widgets"
+msgstr "翻译状态小组件"
 
 msgid "No strings found!"
 msgstr "未找到字符串！"
@@ -8614,24 +8810,34 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "成为 Weblate 支持者"
 
-msgid "Some repositories are not accessible"
-msgstr "部分仓库无法访问"
+#, fuzzy
+#| msgid "Another repository operation is already in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "正在进行另一个仓库操作。"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
-msgstr "以下每项操作都不包括仓库，除非您对共享它们的每个部件都具有所需的权限。"
+"Repository operations require permission on the component that owns the "
+"shared repository."
+msgstr ""
 
-msgid "Skipped components:"
-msgstr "跳过的部件:"
+msgid "Affected components:"
+msgstr "受影响的部件："
 
-msgid "Permission required on:"
-msgstr "需要以下权限:"
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "您需要在含有仓库的组件上拥有以下权限："
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
-msgstr "由于一个或多个组件无法访问，一个存储库已被跳过。"
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
+msgstr ""
 
 msgid "Repository status"
 msgstr "仓库状态"
@@ -9639,6 +9845,17 @@ msgstr "支持包限制"
 msgid "Support expiry"
 msgstr "支持过期"
 
+msgid "Professional support for your organization"
+msgstr "为您的组织的专业支持"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "管理支持包"
 
@@ -9648,8 +9865,8 @@ msgstr "取消支持包链接并禁用发现 Weblate"
 msgid "Unlink support package"
 msgstr "取消链接支持包"
 
-msgid "Purchase support package"
-msgstr "购买支持包"
+msgid "Purchase support"
+msgstr "购买支持"
 
 msgid "Contact customer care"
 msgstr "联系客服"
@@ -10142,7 +10359,8 @@ msgstr "项目维护人员会收到此请求的通知，提示他们手动添加
 msgid ""
 "Languages already used as target languages in this project can be added "
 "immediately. Other languages are requested from the project maintainers."
-msgstr "可立刻添加已在此项目中被用作目标语言的语言。其他语言需向项目维护者请求。"
+msgstr ""
+"可立刻添加已在此项目中被用作目标语言的语言。其他语言需向项目维护者请求。"
 
 msgid "Can't find your language in the list above?"
 msgstr "在上面的列表中找不到您的语言？"
@@ -10233,6 +10451,16 @@ msgstr "感谢您使用 Weblate"
 
 msgid "Return to dashboard"
 msgstr "返回操作面板"
+
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "%(translation)s 的新贡献者"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "捐赠给 Weblate"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "请审核并确认本次搜索与替换的结果。"
@@ -10334,6 +10562,33 @@ msgstr "未找到屏幕截图。"
 
 msgid "Add new screenshot"
 msgstr "添加新屏幕截图"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "删除屏幕截图"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Select"
+msgid "Selected"
+msgstr "选择"
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "No matching screenshots available."
+msgstr "团队不可用。"
+
+msgid "Screenshot pages"
+msgstr "屏幕截图页面"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
+msgstr "第 %(current)s页（共 %(total)s 页）"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -10451,8 +10706,8 @@ msgid ""
 "Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
 "controls which translations are written to files."
 msgstr ""
-"了解 <a href=\"%(policy_url)s\">翻译质量筛选器</a> 如何控制将哪些译文写入文件"
-"。"
+"了解 <a href=\"%(policy_url)s\">翻译质量筛选器</a> 如何控制将哪些译文写入文"
+"件。"
 
 msgid "Configure language workflow"
 msgstr "配置语言工作流"
@@ -10512,24 +10767,16 @@ msgstr[0] "另外 %(count)s 个受影响部件。"
 msgid "No diagnostics match the selected filters."
 msgstr "没有匹配所选筛选器的诊断。"
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr "虽然 Weblate 对所有用户依旧免费，但开发需要持续的投入。"
+msgid "Support Weblate development"
+msgstr "支持 Weblate开发"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr "我们将您的隐私至于优先地位；我们从不展示广告或售卖你的数据。"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "感谢您使用 Weblate来贡献译文。"
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr "借助订阅和捐赠的无价社区支持确保 Weblate 继续成长并生生不息。"
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr "加入我们塑造本地化的未来并且今天就作贡献！"
-
-msgid "Purchase a support package"
-msgstr "购买支持包"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
+msgstr ""
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -10590,20 +10837,31 @@ msgstr "Weblate 中的最后一次提交"
 msgid "Weblate repository"
 msgstr "Weblate 仓库"
 
-msgid "This translation is forbidden."
-msgstr "禁止此翻译。"
-
-msgid "This term should not be translated."
-msgstr "这个术语不应被翻译。"
-
 msgid "This translation needs editing."
 msgstr "此译文需要编辑。"
 
 msgid "Copy word into translation"
 msgstr "复制单词到翻译"
 
+msgid "This translation is forbidden."
+msgstr "禁止此翻译。"
+
+msgid "Forbidden"
+msgstr "禁止"
+
+msgid "This term should not be translated."
+msgstr "这个术语不应被翻译。"
+
 msgid "Edit glossary term"
 msgstr "编辑术语表术语"
+
+msgid "Translation explanation"
+msgstr "译文解释"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "源字符串解释"
 
 msgid "Glossary translation explanation"
 msgstr "术语表翻译解释"
@@ -11246,6 +11504,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "未通过的检查："
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "购买支持包"
+
+#, fuzzy
+#| msgid "Remove unused strings from the translation file"
+msgid "Term information from the translation file"
+msgstr "从翻译文件删除未写入的文件"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "源字符串"
+
+#, fuzzy
+#| msgid "Target type"
+msgid "Target terms"
+msgstr "目标类型"
+
 msgid "Translation status"
 msgstr "翻译状态"
 
@@ -11676,13 +11957,18 @@ msgstr "该部件包含多个重复的译文字符串。"
 msgid "Source"
 msgstr "原文"
 
+#, fuzzy, python-format
+#| msgid "Remove duplicated strings from the translation file"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "从翻译文件删除重复字符串"
+
+msgid "Remove duplicate strings"
+msgstr "删除重复字符串"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr "请通过从翻译文件中删除具有相同标识符的重复字符串来解决此问题。"
-
-msgid "Remove duplicate strings"
-msgstr "删除重复字符串"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -11720,8 +12006,8 @@ msgid ""
 "synchronize terminology. You can dismiss this warning if the glossary files "
 "are maintained separately."
 msgstr ""
-"在部件设置中启用“管理字符串”来添加术语和同步专有名词。如果单独维护术语表文件"
-"，你可以忽略此警告。"
+"在部件设置中启用“管理字符串”来添加术语和同步专有名词。如果单独维护术语表文"
+"件，你可以忽略此警告。"
 
 msgid "This component is set up incorrectly."
 msgstr "此部件设置不正确。"
@@ -12485,6 +12771,14 @@ msgstr "浏览术语表"
 
 msgid "No screenshot currently associated."
 msgstr "无相关的屏幕截图。"
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "添加到屏幕截图"
+
+msgid "Upload screenshot"
+msgstr "上传屏幕截图"
 
 msgid "String information"
 msgstr "字符串信息"
@@ -14231,6 +14525,22 @@ msgstr ""
 "默认情况下，gettext 会在每行第 77 个字符处与换行符处换行。添加 --no-wrap 参数"
 "后，换行只在换行符处发生。"
 
+msgid "Contributor comments"
+msgstr "在注释中添加贡献信息"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "gettext PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "保持已翻译字符串先前的 msgid"
 
@@ -14543,9 +14853,6 @@ msgstr "额外的解释，用于阐明字符串的含义或用法。"
 
 msgid "Source string explanation"
 msgstr "源字符串解释"
-
-msgid "Translation explanation"
-msgstr "译文解释"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "源字符串在此时已发生变化。请检查您的改动。"
@@ -17047,6 +17354,19 @@ msgid "Project {}"
 msgstr "{} 项目"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "类别"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgctxt "Translation memory category"
+#| msgid "Workspace: {}"
+msgid "Workspace {}"
+msgstr "工作区： {}"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "{} 部件"
 
@@ -18535,6 +18855,58 @@ msgstr "仍在使用该工作区，无法删除它。"
 msgid "The workspace has been removed."
 msgstr "删除了工作区。"
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr "更新 PO 文件标头的注释部分，以包含贡献者名字和贡献年份。"
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "帮助 <strong>Weblate</strong> 保持旺盛生命力"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "感谢并感谢您选择 Weblate"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr "致力于开源价值的本地化平台，尊重隐私。"
+
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "部分仓库无法访问"
+
+#~ msgid ""
+#~ "Each operation below excludes repositories unless you have the required "
+#~ "permission on every component sharing them."
+#~ msgstr ""
+#~ "以下每项操作都不包括仓库，除非您对共享它们的每个部件都具有所需的权限。"
+
+#~ msgid "Skipped components:"
+#~ msgstr "跳过的部件:"
+
+#~ msgid "Permission required on:"
+#~ msgstr "需要以下权限:"
+
+#~ msgid ""
+#~ "A repository was skipped because one or more of its components are not "
+#~ "accessible."
+#~ msgstr "由于一个或多个组件无法访问，一个存储库已被跳过。"
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr "虽然 Weblate 对所有用户依旧免费，但开发需要持续的投入。"
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr "我们将您的隐私至于优先地位；我们从不展示广告或售卖你的数据。"
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr "借助订阅和捐赠的无价社区支持确保 Weblate 继续成长并生生不息。"
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr "加入我们塑造本地化的未来并且今天就作贡献！"
+
 #~ msgid "Download reports"
 #~ msgstr "下载报告"
 
@@ -19344,9 +19716,6 @@ msgstr "删除了工作区。"
 #~ msgid "Weblate community"
 #~ msgstr "Weblate 社区"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "为 Weblate 作贡献"
-
 #~ msgid "Weblate website"
 #~ msgstr "Weblate 网站"
 
@@ -19479,9 +19848,6 @@ msgstr "删除了工作区。"
 
 #~ msgid "Variable string suffix"
 #~ msgstr "可变的字符串后缀"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "捐赠给 Weblate"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -21552,9 +21918,6 @@ msgstr "删除了工作区。"
 #~ "To test Weblate on this demo server, you can log in as the following "
 #~ "users:"
 #~ msgstr "要在此 demo 服务器上测试 Weblate，您可以使用下列用户登录:"
-
-#~ msgid "Hidden"
-#~ msgstr "隐藏"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "本站运行着 %(weblate_name_link)s 演示服务器。"
@@ -23768,9 +24131,6 @@ msgstr "删除了工作区。"
 #~ "There are %(words)s words, out of which %(percent)s&#37; (%(translated)s) "
 #~ "is translated."
 #~ msgstr "共有 %(words)s 字, 有 %(percent)s&#37; (%(translated)s) 已翻译。"
-
-#~ msgid "Invalid text direction"
-#~ msgstr "无效的文字方向"
 
 #~ msgid "Text direction can be either LTR or RTL"
 #~ msgstr "文字方向可以是 LTR 或 RTL"

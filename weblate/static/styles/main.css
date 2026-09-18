@@ -299,6 +299,11 @@ textarea[name="explanation"] {
   min-height: 3em;
 }
 
+.editor-wrap > textarea.font-monospace,
+.editor-wrap > .highlighted-output.font-monospace {
+  font-family: var(--bs-font-monospace);
+}
+
 textarea#id_comment {
   min-height: 5em;
 }
@@ -2790,9 +2795,15 @@ table.table-simple tbody#glossary-terms > tr.glossary-striped > td {
 }
 
 table.table-simple tbody#glossary-terms td {
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: normal;
   white-space: normal;
 }
+
+#glossary-terms td.source:not([colspan]) {
+  width: 40%;
+}
+
 table.table-simple tbody#glossary-terms .alert-info {
   margin-bottom: 0px;
 }
@@ -2825,7 +2836,13 @@ table.table-simple tbody#glossary-terms .alert-info {
 }
 
 @container (max-width: 350px) {
-  #glossary-terms .glossary-badge-cell {
+  /* Keep four columns so detail rows with colspan="4" have matching edges. */
+  .glossary-table-container .glossary-badge-cell {
+    width: 0;
+    padding-inline: 0;
+  }
+
+  #glossary-terms .glossary-badge-cell > * {
     display: none;
   }
 

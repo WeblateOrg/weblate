@@ -9,7 +9,7 @@ import json
 import re
 from collections import defaultdict
 from collections.abc import Mapping, MutableMapping, Sequence
-from datetime import datetime
+from datetime import datetime, timedelta
 from itertools import chain
 from secrets import token_hex
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Protocol, TypedDict, cast
@@ -548,6 +548,8 @@ class PluralTextarea(forms.Textarea):
 
         # Need to add extra class
         attrs["class"] = "translation-editor form-control highlight-editor"
+        if "font-monospace" in unit.all_flags:
+            attrs["class"] += " font-monospace"
         attrs["lang"] = lang.code
         attrs["dir"] = lang.direction
         attrs["rows"] = 3
@@ -1155,6 +1157,10 @@ class MergeForm(UnitForm):
 
     merge = forms.IntegerField()
 
+    def __init__(self, user: User, unit: Unit, *args, **kwargs) -> None:
+        self.user = user
+        super().__init__(unit, *args, **kwargs)
+
     def clean(self):
         super().clean()
         if "merge" not in self.cleaned_data:
@@ -1170,7 +1176,9 @@ class MergeForm(UnitForm):
             }
             if not translation.is_source:
                 filter_kwargs["source"] = unit.source
-            self.cleaned_data["merge_unit"] = Unit.objects.get(**filter_kwargs)
+            self.cleaned_data["merge_unit"] = Unit.objects.filter_access(self.user).get(
+                **filter_kwargs
+            )
         except Unit.DoesNotExist as error:
             raise ValidationError(
                 gettext("Could not find the merged string.")
@@ -1306,7 +1314,6 @@ class AutoForm(forms.Form):
             self.components = Component.objects.filter(project__workspace=obj)
             projects = Project.objects.filter(workspace=obj).order()
             if user is not None:
-                self.components = self.components.filter_access(user)
                 projects = user.allowed_projects.filter(workspace=obj).order()
             for project in projects:
                 machinery_settings.update(project.get_machinery_settings())
@@ -1314,6 +1321,9 @@ class AutoForm(forms.Form):
             # Site-wide add-ons
             self.components = Component.objects.all()
             machinery_settings = Setting.objects.get_settings_dict(SettingCategory.MT)
+
+        if user is not None:
+            self.components = self.components.filter_access(user)
 
         if isinstance(obj, Workspace):
             scope_help = self.COMPONENT_WORKSPACE_HELP_TEXT
@@ -1376,7 +1386,7 @@ class AutoForm(forms.Form):
         if "q" not in self.initial:
             self.initial["q"] = "state:<translated"
 
-        if user is None or not (user.has_perm("unit.review", obj) or obj is None):
+        if user is None or not (obj is None or user.has_perm("unit.review", obj)):
             self.fields["mode"].choices = [
                 choice
                 for choice in self.fields["mode"].choices
@@ -4540,6 +4550,35 @@ class AnnouncementForm(forms.ModelForm):
             "expiry": WeblateDateInput(),
             "message": MarkdownTextarea,
         }
+
+
+class ChangesDateForm(forms.Form):
+    date = forms.DateField(
+        label=gettext_lazy("Jump to date"),
+        required=False,
+        widget=WeblateDateInput(
+            attrs={"class": "form-control page-link w-auto rounded-0"}
+        ),
+        input_formats=["%Y-%m-%d"],
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.today = timezone.localdate()
+        self.fields["date"].widget.attrs["max"] = self.today.isoformat()
+
+    def clean_date(self) -> datetime | None:
+        value = self.cleaned_data["date"]
+        if value is None:
+            return None
+        if value > self.today:
+            raise ValidationError(gettext("The date cannot be in the future."))
+        try:
+            return from_current_timezone(
+                datetime.combine(value + timedelta(days=1), datetime.min.time())
+            )
+        except (OverflowError, ValueError) as error:
+            raise ValidationError(gettext("Invalid date!")) from error
 
 
 class ChangesForm(forms.Form):

@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:21+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1301,7 +1301,9 @@ msgstr ""
 "Vaš e-poštni naslov ne pripada več potrjenemu računu. Spremenjen je bil na "
 "{0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "Uporabi varnostni ključ (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -2024,6 +2026,17 @@ msgid "Keyword entries have to be strings."
 msgstr "Nismo uspeli shraniti novega prevoda!"
 
 #, fuzzy
+#| msgid "Database backend"
+msgid "ITS data directories"
+msgstr "Podatkovna baza zaledja"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
+#, fuzzy
 #| msgid "Failed to add comment!"
 msgid "Do not extract comments"
 msgstr "Nismo uspeli dodati pripombe!"
@@ -2206,6 +2219,19 @@ msgstr "Temeljna datoteka za nove prevode"
 #| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
 msgstr "Ne morem ustvariti mape projekta: %s"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "One file per translation"
+msgstr "Dodaj kot drug prevod"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "One file per component"
+msgstr "Druge komponente"
 
 msgid "Name of generated file"
 msgstr "Ime ustvarjene datoteke"
@@ -2780,21 +2806,117 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
-msgstr "Sodelujoči v komentarju"
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "ITS rule file is too large."
+msgstr "Vneseni žeton ni veljaven."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "New translation"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Nov prevod"
+
+msgid "ITS XPath expression is too long."
 msgstr ""
-"Posodobi del s komentarji v glavi datoteke PO, da vključuje imena sodelavcev "
-"in leta prispevkov."
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "Trenutno ni dodeljen noben izvirni niz!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid text direction"
+msgid "Invalid ITS directory path."
+msgstr "Neveljavna smer besedila"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "New translation"
+msgid "ITS rule file contains too many elements."
+msgstr "Nov prevod"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Nepodprta oblika datoteke."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "Nepodprta vrsta datoteke!"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Nepodprta oblika datoteke."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "Whether component is locked for translation updates."
+msgid "ITS directories must not contain symbolic links."
+msgstr "Če je komponenta zaklenjena zaradi posodobitev prevodov."
+
+#, fuzzy, python-format
+#| msgid "Translation is currently not locked."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "Prevod trenutno ni zaklenjen."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to parse file %(file)s: %(error)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Nismo uspeli razčleniti datoteke %(file)s: %(error)s"
+
+#, fuzzy, python-format
+#| msgid "Failed to parse %d matched files!"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Nismo uspeli razčleniti %d ujemajočih se datotek!"
 
 msgid "Squash Git commits"
 msgstr "Združevanje Git commitov"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Združi Git commit-e pred pošiljanjem sprememb."
+
+#, fuzzy
+#| msgid "Merge translation comments"
+msgid "API add-ons must be installed directly on a component."
+msgstr "Združi pripombe prevoda"
+
+#, fuzzy
+#| msgid "Merge translation comments"
+msgid "This add-on is already installed on this component."
+msgstr "Združi pripombe prevoda"
 
 #, fuzzy
 #| msgid "This add-on executes a script."
@@ -4841,6 +4963,11 @@ msgstr "Prezrta preverjanja"
 msgid "Use case insensitive placeholders"
 msgstr "Je bil preveden"
 
+#, fuzzy
+#| msgid "No words found!"
+msgid "Monospace font"
+msgstr "Nismo našli nobene besede!"
+
 msgid "Font family"
 msgstr ""
 
@@ -6360,6 +6487,22 @@ msgid ""
 "progress. Please try again later."
 msgstr "Zaklepanje shrambe je spodletelo – v teku je drug poseg."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum length of translation"
+msgid "Maximum retained versions"
+msgstr "Največja dolžina prevoda"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Jeziki Weblate"
 
@@ -7571,6 +7714,11 @@ msgstr "Posnetki zaslona"
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Posnetki zaslona"
+
 msgid "Screenshot name"
 msgstr "Ime zaslonskega posnetka"
 
@@ -7662,6 +7810,11 @@ msgstr "Našli nismo nobenih novih ujemajočih izvirnih nizov."
 #| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Ni bilo mogoče odpreti zahtevka, poskusite znova kasneje."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Izbriši zaslonski posnetek"
 
 #, fuzzy
 #| msgid "Invalid merge request!"
@@ -7795,22 +7948,15 @@ msgstr "O Weblate"
 msgid "Support Weblate"
 msgstr "Podprite Weblate na {0}"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 #, fuzzy
 #| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Hvala, ker uporabljate Weblate."
 
 #, fuzzy
-#| msgid "Thank you for using Weblate."
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Hvala, ker uporabljate Weblate."
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Prispevajte k Weblate"
 
 #, fuzzy
 #| msgid "GitHub username"
@@ -7915,6 +8061,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -9131,7 +9285,21 @@ msgstr ""
 msgid "Continue"
 msgstr "Nadaljuj"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Signed in using password."
+msgid "Sign in using a passkey or security key"
+msgstr "Vpis z uporabo gesla."
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -9175,6 +9343,14 @@ msgstr "Ni na voljo"
 #| msgid "Project, component or language must be specified"
 msgid "No components found."
 msgstr "Določiti morate projekt, komponento ali jezik"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "Korenski URL API:"
 
 #, fuzzy
 #| msgid "Configure columns"
@@ -9367,6 +9543,18 @@ msgstr "Nismo našli ujemajočih preverjanj!"
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 #, fuzzy
@@ -9981,6 +10169,11 @@ msgstr "Preverjanje stanja obračunavanja"
 
 msgid "Browse"
 msgstr "Brskanje"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Stanje prevoda"
 
 #, fuzzy
 #| msgid "No similar strings found."
@@ -10681,28 +10874,36 @@ msgid "Become a Weblate supporter"
 msgstr "Postanite Weblate podpornik"
 
 #, fuzzy
-#| msgid "Visible to everybody."
-msgid "Some repositories are not accessible"
-msgstr "Vidno vsem."
+#| msgid "Failed to lock the repository, another operation in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "Zaklepanje shrambe je spodletelo – v teku je drug poseg."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
 #| msgid "Other components"
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr "Druge komponente"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "Dovoljenje zavrnjeno"
+#| msgid "You do not have permission to change project access control."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "Nimate pravic za spreminjanje nadzora dostopa do projekta."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -11984,6 +12185,19 @@ msgid "Support expiry"
 msgstr "Podprite Weblate na {0}"
 
 #, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "Strokovna podpora"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
+#, fuzzy
 #| msgid "Managed projects"
 msgid "Manage support package"
 msgstr "Upravljani projekti"
@@ -11998,8 +12212,10 @@ msgstr "Upravljani projekti"
 msgid "Unlink support package"
 msgstr "Upravljani projekti"
 
-msgid "Purchase support package"
-msgstr ""
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Purchase support"
+msgstr "Upravljani projekti"
 
 msgid "Contact customer care"
 msgstr ""
@@ -12767,6 +12983,16 @@ msgstr "Hvala, ker uporabljate Weblate."
 msgid "Return to dashboard"
 msgstr "Nadzorna plošča"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "Nov sodelavec pri %(translation)s"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Donirajte Weblateu"
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -12906,6 +13132,36 @@ msgstr "Nisem našel podobnih nizov."
 
 msgid "Add new screenshot"
 msgstr "Dodaj nov zaslonski posnetek"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Izbriši zaslonski posnetek"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Selected"
+msgstr "CSS izbirnik"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching screenshots available."
+msgstr "Ni na voljo"
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "Ime zaslonskega posnetka"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "Uporabljeno %(used)s od %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 #, fuzzy
@@ -13149,26 +13405,20 @@ msgstr[3] "Tukaj je %(count)s nizov, ki potrebujejo pregled."
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
+#, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "Support Weblate development"
+msgstr "Podprite Weblate na {0}"
 
 #, fuzzy
-#| msgid "Managed projects"
-msgid "Purchase a support package"
-msgstr "Upravljani projekti"
+#| msgid "Thank you for using Weblate."
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Hvala, ker uporabljate Weblate."
+
+msgid ""
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
+msgstr ""
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -13240,16 +13490,6 @@ msgstr "Prebazirana shramba"
 
 #, fuzzy
 #| msgid "Translation is currently not locked."
-msgid "This translation is forbidden."
-msgstr "Prevod trenutno ni zaklenjen."
-
-#, fuzzy
-#| msgid "Message is not translated"
-msgid "This term should not be translated."
-msgstr "Sporočilo ni prevedeno"
-
-#, fuzzy
-#| msgid "Translation is currently not locked."
 msgid "This translation needs editing."
 msgstr "Prevod trenutno ni zaklenjen."
 
@@ -13259,9 +13499,34 @@ msgid "Copy word into translation"
 msgstr "Kopiraj besedo v prevod"
 
 #, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "This translation is forbidden."
+msgstr "Prevod trenutno ni zaklenjen."
+
+#, fuzzy
+#| msgid "Sorbian"
+msgid "Forbidden"
+msgstr "lužiška srbščina"
+
+#, fuzzy
+#| msgid "Message is not translated"
+msgid "This term should not be translated."
+msgstr "Sporočilo ni prevedeno"
+
+#, fuzzy
 #| msgid "Export glossary"
 msgid "Edit glossary term"
 msgstr "Izvozi slovar"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation explanation"
+msgstr "Obvestila o prevodih"
+
+#, fuzzy
+#| msgid "Source string location"
+msgid "Source explanation"
+msgstr "Nahajališče izvirnega niza"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -14098,6 +14363,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Spodletela preverjanja:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Already purchased? Link your support package"
+msgstr "Upravljani projekti"
+
+#, fuzzy
+#| msgid "Reset all changes in the local repository"
+msgid "Term information from the translation file"
+msgstr "Ponastavi vse spremembe v lokalni shrambi"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Izvirni nizi"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Target terms"
+msgstr "Izvirni nizi"
+
 msgid "Translation status"
 msgstr "Stanje prevoda"
 
@@ -14559,15 +14847,20 @@ msgstr "Če je komponenta zaklenjena zaradi posodobitev prevodov."
 msgid "Source"
 msgstr "Vir"
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Reset all changes in the local repository"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Ponastavi vse spremembe v lokalni shrambi"
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Odstrani prazne nize"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -15578,6 +15871,16 @@ msgstr "Brskanje po spremembah slovarja"
 
 msgid "No screenshot currently associated."
 msgstr "Trenutno ni povezan noben zaslonski posnetek."
+
+#, fuzzy
+#| msgid "Add new screenshot"
+msgid "Add existing screenshot"
+msgstr "Dodaj nov zaslonski posnetek"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Dodaj zaslonski posnetek"
 
 #, fuzzy
 #| msgid "Source information"
@@ -17974,6 +18277,24 @@ msgstr ""
 "vrstico. S parametrom --no-wrap se prelom opravi samo pri znakih za novo "
 "vrstico."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "Sodelujoči v komentarju"
+
+#, fuzzy
+#| msgid "Gettext (PO)"
+msgid "Gettext"
+msgstr "Gettext (PO)"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "Ohrani prejšnje msgide prevedenih nizov"
 
@@ -18392,11 +18713,6 @@ msgstr ""
 #| msgid "Source string location"
 msgid "Source string explanation"
 msgstr "Nahajališče izvirnega niza"
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation explanation"
-msgstr "Obvestila o prevodih"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -21806,6 +22122,18 @@ msgid "Project {}"
 msgstr "Projekt {}"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Kategorija"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspace {}"
+msgstr "Presledki"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "Komponenta {}"
 
@@ -23671,6 +23999,33 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Vir smo odstranili."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Posodobi del s komentarji v glavi datoteke PO, da vključuje imena "
+#~ "sodelavcev in leta prispevkov."
+
+#, fuzzy
+#~| msgid "Thank you for using Weblate."
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Hvala, ker uporabljate Weblate."
+
+#, fuzzy
+#~| msgid "Visible to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "Vidno vsem."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "Druge komponente"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "Dovoljenje zavrnjeno"
+
 #~ msgid "Download reports"
 #~ msgstr "Prenos poročil"
 
@@ -24439,9 +24794,6 @@ msgstr "Vir smo odstranili."
 #~ msgid "Weblate community"
 #~ msgstr "Nova pripomba"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Prispevajte k Weblate"
-
 #, fuzzy
 #~| msgid "Weblate languages"
 #~ msgid "Weblate website"
@@ -24504,9 +24856,6 @@ msgstr "Vir smo odstranili."
 #~| msgid "Strings"
 #~ msgid "Variable string suffix"
 #~ msgstr "Nizi"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Donirajte Weblateu"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -28233,9 +28582,6 @@ msgstr "Vir smo odstranili."
 #~ msgid "Wolaytta"
 #~ msgstr "valamščina"
 
-#~ msgid "Sorbian"
-#~ msgstr "lužiška srbščina"
-
 #~ msgid "Wolof"
 #~ msgstr "volofščina"
 
@@ -28810,9 +29156,6 @@ msgstr "Vir smo odstranili."
 #~ msgstr ""
 #~ "Tukaj je %(words)s besed, od katerih je %(percent)s &#37; (%"
 #~ "(translated)s) prevedenih."
-
-#~ msgid "Invalid text direction"
-#~ msgstr "Neveljavna smer besedila"
 
 #~ msgid "Text direction can be either LTR or RTL"
 #~ msgstr "Smer besedila je lahko samo LTR ali RTL"

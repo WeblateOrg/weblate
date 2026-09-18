@@ -9,6 +9,7 @@ from __future__ import annotations
 from copy import deepcopy
 from io import BytesIO, StringIO
 from itertools import starmap
+from json import dumps
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -106,6 +107,28 @@ class TBXMultivalueTest(SimpleTestCase):
             unit.tbx_terms["source"][0]["administrative_status"], "obsolete"
         )
         self.assertIsNone(unit.tbx_terms["target"][1]["id"])
+
+    def test_shared_notes_are_not_repeated_in_metadata(self) -> None:
+        alternatives = b"".join(
+            f"<tig><term>term-{index}</term></tig>".encode() for index in range(100)
+        )
+        note = b"x" * 65536
+        data = (
+            b'<martif type="TBX"><text><body><termEntry>'
+            b'<note from="author">'
+            + note
+            + b'</note><langSet xml:lang="en">'
+            + alternatives
+            + b"</langSet></termEntry></body></text></martif>"
+        )
+
+        metadata = self.parse(data, language="en").content_units[0].tbx_terms
+
+        self.assertEqual(len(metadata["source"]), 100)
+        self.assertEqual(sum(len(term["notes"]) for term in metadata["source"]), 1)
+        self.assertLess(len(dumps(metadata)), len(data) * 2)
+        reconciled = reconcile_terms(metadata["source"], ["term-99"])
+        self.assertEqual(reconciled[0]["notes"], metadata["source"][0]["notes"])
 
     def test_edit_and_reserialize(self) -> None:
         storage = self.parse()

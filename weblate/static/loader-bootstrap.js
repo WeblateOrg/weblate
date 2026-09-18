@@ -277,7 +277,7 @@ function screenshotRemoveSources(pks) {
   screenshotUpdateBulkControls();
 }
 
-async function screenshotRefreshAssignedSources() {
+async function screenshotRefreshAssignedSources(addedPks = []) {
   const list = document.getElementById("sources-listing");
   if (list?.dataset.href === undefined) {
     return;
@@ -288,9 +288,94 @@ async function screenshotRefreshAssignedSources() {
   if (!response.ok) {
     throw new Error(response.statusText);
   }
+  const html = await response.text();
   const table = list.querySelector("table");
-  if (table !== null) {
-    table.outerHTML = await response.text();
+  if (table === null) {
+    return;
+  }
+  const template = document.createElement("template");
+  template.innerHTML = html;
+  const freshTable = template.content.querySelector("table");
+  const freshHead = freshTable?.querySelector("thead");
+  const freshBody = freshTable?.querySelector("tbody.unit-listing-body");
+  const currentHead = table.querySelector("thead");
+  const currentBody = table.querySelector("tbody.unit-listing-body");
+  const freshRows = new Map();
+  for (const row of freshBody?.querySelectorAll("tr[data-unit-id]") ?? []) {
+    freshRows.set(row.dataset.unitId, row);
+  }
+  if (
+    freshHead === null ||
+    freshHead === undefined ||
+    currentHead === null ||
+    currentBody === null ||
+    freshRows.size === 0
+  ) {
+    // Nothing to preserve (for example the empty listing placeholder).
+    table.outerHTML = html;
+    return;
+  }
+
+  const rows = [];
+  const takeRow = (unitId) => {
+    const row = freshRows.get(unitId);
+    if (row !== undefined) {
+      freshRows.delete(unitId);
+      rows.push(row);
+    }
+  };
+  // Keep the rows currently shown in their existing order
+  for (const row of currentBody.querySelectorAll("tr[data-unit-id]")) {
+    takeRow(row.dataset.unitId);
+  }
+  // Append newly added strings in the order they were added.
+  for (const pk of addedPks) {
+    takeRow(String(pk));
+  }
+  // Anything else (for example added concurrently) goes to the end.
+  for (const unitId of Array.from(freshRows.keys())) {
+    takeRow(unitId);
+  }
+  currentHead.replaceWith(freshHead);
+  currentBody.replaceChildren(...rows);
+}
+
+async function screenshotRemoveAssignedSource(form) {
+  const unitId = form.closest("tr")?.dataset.unitId;
+  const button = form.querySelector("button[type=submit]");
+  if (button !== null) {
+    button.disabled = true;
+  }
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    });
+    let data = {};
+    try {
+      data = await response.json();
+    } catch (_error) {}
+    if (response.redirected || !response.ok || data.status !== true) {
+      throw new Error(
+        data.error || gettext("Could not remove the source string."),
+      );
+    }
+    const body = document.querySelector(
+      "#sources-listing tbody.unit-listing-body",
+    );
+    if (body !== null && unitId !== undefined) {
+      body.querySelector(`tr[data-unit-id="${unitId}"]`)?.remove();
+    }
+    if (body !== null && body.querySelector("tr[data-unit-id]") === null) {
+      // Let the server render the empty listing placeholder.
+      await screenshotRefreshAssignedSources();
+    }
+  } catch (error) {
+    addAlert(error instanceof Error ? error.message : error);
+    if (button !== null) {
+      button.disabled = false;
+    }
   }
 }
 
@@ -326,7 +411,7 @@ async function screenshotAddSources(pks) {
       throw new Error(response.statusText);
     }
     const data = await response.json();
-    await screenshotRefreshAssignedSources();
+    await screenshotRefreshAssignedSources(pks);
     if (data.added > 0) {
       screenshotRemoveSources(pks);
     }
@@ -712,6 +797,9 @@ function initHighlight(root) {
     }
     if (editor.disabled) {
       highlight.classList.add("disabled");
+    }
+    if (editor.classList.contains("font-monospace")) {
+      highlight.classList.add("font-monospace");
     }
     highlight.setAttribute("role", "status");
     if (editor.hasAttribute("dir")) {
@@ -1207,6 +1295,18 @@ onReady(() => {
     ?.addEventListener("click", (event) => {
       event.preventDefault();
       screenshotAddSources(screenshotSelectedSources());
+    });
+  document
+    .getElementById("sources-listing")
+    ?.addEventListener("submit", (event) => {
+      const form = event.target;
+      if (
+        form instanceof HTMLFormElement &&
+        form.closest("tbody.unit-listing-body") !== null
+      ) {
+        event.preventDefault();
+        void screenshotRemoveAssignedSource(form);
+      }
     });
   /* Avoid double submission of non AJAX forms */
   let submittedForms = new WeakSet();
@@ -1891,6 +1991,48 @@ onReady(() => {
     });
   });
 
+  /* Edit the history date inline without the numeric offset editor. */
+  document.querySelectorAll(".change-date-position").forEach((position) => {
+    const toggle = position.querySelector(".change-date-toggle");
+    const form = position.querySelector(".change-date-form");
+    const input = form.querySelector('input[type="date"]');
+    const hasErrors = form.dataset.hasErrors === "true";
+    const close = () => {
+      if (hasErrors) {
+        return;
+      }
+      form.hidden = true;
+      toggle.hidden = false;
+      toggle.setAttribute("aria-expanded", "false");
+    };
+    if (!hasErrors) {
+      close();
+    }
+    toggle.addEventListener("click", () => {
+      toggle.hidden = true;
+      form.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+      input.focus();
+    });
+    form.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !hasErrors) {
+        event.preventDefault();
+        close();
+        toggle.focus();
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        if (!event.repeat) {
+          form.requestSubmit();
+        }
+      }
+    });
+    document.addEventListener("click", (event) => {
+      if (!position.contains(event.target)) {
+        close();
+      }
+    });
+  });
+
   /* Advanced search */
   document.querySelectorAll(".search-group li a").forEach((link) => {
     link.addEventListener("click", (event) => {
@@ -2477,9 +2619,11 @@ onReady(() => {
   });
 
   /* Date range picker for period inputs */
-  document.querySelectorAll("input[name='period']").forEach((input) => {
-    new DateRangePicker(input);
-  });
+  document
+    .querySelectorAll("input[name='period']:not([type='hidden'])")
+    .forEach((input) => {
+      new DateRangePicker(input);
+    });
 
   /* Singular or plural new unit switcher */
   const setContextValue = (toSelector, fromSelector) => {

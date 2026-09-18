@@ -331,6 +331,10 @@ Recommended server configuration:
   expose Weblate repositories, backups, media, configuration, or the whole data
   directory.
 * Disable directory listing.
+* Deny access to :file:`.kotlin-sdk-staging` and all its contents. The Kotlin
+  SDK add-on uses this directory for temporary preparation, not publication.
+  Apply this restriction before enabling the add-on, including when a CDN
+  copies files from the origin directory.
 * Use HTTPS and make the CDN host read-only from the web server.
 * Send :http:header:`X-Content-Type-Options` with ``nosniff``.
 * Configure conservative MIME types. Serve unknown translation formats as

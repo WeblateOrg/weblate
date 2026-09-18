@@ -663,6 +663,8 @@ class ViewTest(FixtureTestCase):
             reverse("screenshot-js-get", kwargs={"pk": screenshot.pk})
         )
         self.assertContains(response, "Hello")
+        # Rows are identified so that JavaScript can keep their order
+        self.assertContains(response, f'data-unit-id="{source_pk}"')
 
         # Remove added string
         async_to_sync(self.async_client.post)(
@@ -674,6 +676,47 @@ class ViewTest(FixtureTestCase):
             action=ActionEvents.SCREENSHOT_REMOVED,
             screenshot=screenshot,
             unit_id=source_pk,
+        )
+        self.assertEqual(removed_changes.count(), 1)
+        self.assertEqual(removed_changes[0].user, self.user)
+
+    def test_source_remove_ajax(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        source = self.component.source_translation.unit_set.search("hello").get()
+        screenshot.add_unit(source, self.user)
+        self.assertEqual(screenshot.units.count(), 1)
+        self.async_client.force_login(self.user)
+        url = reverse("screenshot-remove-source", kwargs={"pk": screenshot.pk})
+
+        # Invalid unit is reported as JSON instead of a redirect
+        response = async_to_sync(self.async_client.post)(
+            url,
+            {"source": "invalid"},
+            headers={"X-Requested-With": "XMLHttpRequest"},
+        )
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertEqual(data["status"], False)
+        self.assertEqual(data["error"], "Invalid unit.")
+        self.assertEqual(screenshot.units.count(), 1)
+
+        # Successful removal does not redirect, the page keeps remaining rows
+        response = async_to_sync(self.async_client.post)(
+            url,
+            {"source": source.pk},
+            headers={"X-Requested-With": "XMLHttpRequest"},
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["responseCode"], 200)
+        self.assertEqual(data["status"], True)
+        self.assertEqual(screenshot.units.count(), 0)
+        removed_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            screenshot=screenshot,
+            unit_id=source.pk,
         )
         self.assertEqual(removed_changes.count(), 1)
         self.assertEqual(removed_changes[0].user, self.user)

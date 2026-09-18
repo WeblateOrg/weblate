@@ -638,14 +638,24 @@ async def aget_screenshot(request: AuthenticatedHttpRequest, pk):
 @login_required
 async def remove_source(request: AuthenticatedHttpRequest, pk):
     obj = await aget_screenshot(request, pk)
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
 
     try:
         unit = await obj.translation.unit_set.aget(pk=int(request.POST["source"]))
-    except (Unit.DoesNotExist, ValueError):
-        messages.error(request, gettext("Invalid unit."))
+    except (Unit.DoesNotExist, ValueError, KeyError):
+        error = gettext("Invalid unit.")
+        if is_ajax:
+            return JsonResponse(
+                data={"responseCode": 400, "status": False, "error": error},
+                status=400,
+            )
+        messages.error(request, error)
         return redirect(obj)
 
     await obj.aremove_unit(unit, user=request.user)
+
+    if is_ajax:
+        return JsonResponse(data={"responseCode": 200, "status": True})
 
     messages.success(request, gettext("Source has been removed."))
 

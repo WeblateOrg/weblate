@@ -1536,7 +1536,10 @@ class AutoAddonForm(
     ) -> None:
         BaseAddonForm.__init__(self, user, addon)
         AutoForm.__init__(
-            self, obj=addon.instance.component or addon.instance.project, **kwargs
+            self,
+            obj=addon.instance.component or addon.instance.project,
+            user=user,
+            **kwargs,
         )
         # Add-ons use management permissions, not the configuring user's review
         # permission. AutoTranslate applies each target's effective review settings

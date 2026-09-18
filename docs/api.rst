@@ -3256,6 +3256,54 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
 
+.. _kotlin-sdk-build-api:
+
+Kotlin SDK builds
++++++++++++++++++
+
+.. warning::
+
+   The Kotlin SDK API is in beta. No compatibility is guaranteed until the
+   final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and
+   generated resource formats may change without backward compatibility.
+
+The API contract is also documented in the OpenAPI schema at ``/api/schema/``.
+See :ref:`addon-weblate.cdn.kotlin` for add-on installation, lifecycle settings, and the
+CDN manifest contract.
+
+.. http:post:: /api/components/(string:project)/(string:component)/addons/kotlin-sdk/builds/
+
+    Register resource IDs for :ref:`addon-weblate.cdn.kotlin`. Requires the
+    :guilabel:`Kotlin SDK CDN` add-on (``weblate.cdn.kotlin``) installed directly
+    on the component and ``component.edit`` permission. Send JSON with:
+
+    :<json integer schemaVersion: Metadata version, currently 1; defaults to 1.
+    :<json string packageName: Android application package name, at most 127 characters.
+    :<json integer versionCode: Android version code between 1 and 2100000000.
+    :<json object strings: String resource names mapped to hexadecimal IDs, such as ``0x7f090003``; defaults to an empty object.
+    :<json object plurals: Plural resource names mapped to hexadecimal IDs; defaults to an empty object. Quantities and translated values come from Weblate.
+
+    Include at least one resource across the two maps. The request limit is
+    5 MiB and 100000 combined resources. IDs must belong to application package
+    ``0x7f`` and use one distinct type ID per resource kind. Duplicate IDs,
+    invalid names, unknown fields, and unsupported schema versions are rejected.
+    The same name can occur in both maps with different IDs.
+
+    A new registration returns 202; an identical existing registration returns
+    200. Conflicting metadata for an existing package/version returns 409.
+    The response includes ``packageName``, ``versionCode``, ``status``, ``error``,
+    ``status_url``, and ``manifest_url``. Publication is asynchronous; the manifest
+    need not exist when registration returns.
+
+.. http:get:: /api/components/(string:project)/(string:component)/addons/kotlin-sdk/builds/(string:package)/(int:version)/
+
+    Return the registration response fields for an existing build. Requires the
+    :guilabel:`Kotlin SDK CDN` add-on (``weblate.cdn.kotlin``) installed directly
+    on the component and ``component.edit`` permission. Status is ``pending``,
+    ``published``, ``failed``, or ``retired``. A failed replacement may still have
+    a previous successful manifest. Missing installations or registrations
+    return 404.
+
 .. _addons-api:
 
 Add-ons
