@@ -490,6 +490,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
             )
         self.ensure_index()
 
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        """Return languages explicitly declared in the file, without defaults."""
+        return set()
+
     def get_filenames(self):
         if isinstance(self.storefile, str):
             return [self.storefile]

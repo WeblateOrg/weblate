@@ -21,6 +21,7 @@ Weblate 2026.10
 
 * Improved :ref:`translation-history` browsing performance and added navigation by date.
 * Added language-specific :ref:`string flags <additional-flags>` in the editor, Tools menu, bulk editing, and REST API.
+* Added :ref:`uploaded file language checking <upload-ignore_language>` with an override in the upload form and API.
 
 * Improved checks, automatic fixes, glossary matching, and machine translation for :ref:`independent alternatives in multivalue formats <format-multivalue>`.
 

@@ -41,13 +41,14 @@ from weblate.checks.flags import Flags
 from weblate.formats.auto import try_load
 from weblate.formats.base import TranslationFormat, UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
-from weblate.lang.models import Language, Plural
+from weblate.lang.models import Language, Plural, validate_language_code
 from weblate.trans.actions import ActionEvents
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.exceptions import (
     FailedCommitError,
     FileParseError,
+    LanguageMismatchError,
     PluralFormsMismatchError,
     is_expected_parse_error,
 )
@@ -1951,13 +1952,74 @@ class Translation(
         self.create_unit_change_action = ActionEvents.NEW_UNIT_REPO
         self.update_unit_change_action = ActionEvents.STRING_REPO_UPDATE
 
+    def validate_upload_language(
+        self, store: TranslationFormat, *, source: bool = False
+    ) -> None:
+        """Reject explicit declarations of a different base language."""
+        expected = self.component.source_language if source else self.language
+
+        def base_language(code: str) -> str | None:
+            code = code.strip()
+            try:
+                validate_language_code(code)
+            except ValidationError:
+                return None
+            language = Language.objects.fuzzy_get_strict(code)
+            if language is None:
+                # A known base with an unfamiliar variant is still identifiable.
+                base, _country, _subtags = Language.objects.parse_lang_country(
+                    code.split("@", 1)[0]
+                )
+                language = Language.objects.fuzzy_get_strict(base)
+            if language is None:
+                return None
+            base, _country, _subtags = Language.objects.parse_lang_country(
+                language.code.split("@", 1)[0]
+            )
+            return base.lower()
+
+        expected_base = base_language(expected.code)
+        for code in sorted(store.get_declared_languages(source=source)):
+            actual_base = base_language(self.component.get_language_alias(code.strip()))
+            if actual_base is not None and actual_base != expected_base:
+                raise LanguageMismatchError(
+                    gettext(
+                        "The uploaded file language (%(language)s) does not match "
+                        "the current translation (%(expected)s). Enable "
+                        '"Ignore language mismatch" to upload it anyway.'
+                    )
+                    % {"language": code, "expected": expected.code}
+                )
+
     def handle_source(
-        self, request: AuthenticatedHttpRequest, author: User, fileobj: BinaryIO
+        self,
+        request: AuthenticatedHttpRequest,
+        author: User,
+        fileobj: BinaryIO,
+        *,
+        ignore_language: bool = False,
     ) -> UploadResult:
         """Replace source translations with uploaded one."""
         component = self.component
         filenames = []
         filecopy = read_translation_upload(fileobj)
+        if not ignore_language:
+            try:
+                store = component.file_format_cls(
+                    NamedBytesIO(fileobj.name, filecopy),
+                    is_template=True,
+                    file_format_params=component.file_format_params,
+                )
+            except Exception as error:
+                raise FileParseError(
+                    gettext("Could not parse uploaded file: %s")
+                    % sanitize_backend_error_message(
+                        str(error),
+                        repo_urls=(component.repo, component.push),
+                        extra_paths=(component.full_path,),
+                    )
+                ) from error
+            self.validate_upload_language(store, source=True)
         with component.repository.lock:
             # Commit pending changes
             try:
@@ -2016,7 +2078,12 @@ class Translation(
         return (0, 0, self.unit_set.count(), self.unit_set.count())
 
     def handle_replace(
-        self, request: AuthenticatedHttpRequest, author: User, fileobj: BinaryIO
+        self,
+        request: AuthenticatedHttpRequest,
+        author: User,
+        fileobj: BinaryIO,
+        *,
+        ignore_language: bool = False,
     ) -> UploadResult:
         """Replace file content with uploaded one."""
         filecopy = read_translation_upload(fileobj)
@@ -2024,6 +2091,27 @@ class Translation(
         fileobj = NamedBytesIO(fileobj.name, filecopy)
         self.unit_set.select_for_update()
         with self.component.repository.lock:
+            # This will throw an exception in case of error
+            try:
+                store2 = self.load_store(fileobj)
+                store2.check_valid()
+            except Exception as error:
+                raise FileParseError(
+                    gettext(
+                        "Could not parse uploaded file as {file_format}: {error}"
+                    ).format(
+                        file_format=self.component.file_format_cls.name,
+                        error=sanitize_backend_error_message(
+                            str(error),
+                            repo_urls=(self.component.repo, self.component.push),
+                            extra_paths=(self.component.full_path,),
+                        ),
+                    )
+                ) from error
+
+            if not ignore_language:
+                self.validate_upload_language(store2)
+
             try:
                 if self.is_source:
                     self.component.commit_pending("replace file", author)
@@ -2043,24 +2131,6 @@ class Translation(
                         extra_paths=(self.component.full_path,),
                     )
                 ) from error
-            # This will throw an exception in case of error
-            try:
-                store2 = self.load_store(fileobj)
-                store2.check_valid()
-            except Exception as error:
-                raise FileParseError(
-                    gettext(
-                        "Could not parse uploaded file as {file_format}: {error}"
-                    ).format(
-                        file_format=self.component.file_format_cls.name,
-                        error=sanitize_backend_error_message(
-                            str(error),
-                            repo_urls=(self.component.repo, self.component.push),
-                            extra_paths=(self.component.full_path,),
-                        ),
-                    )
-                ) from error
-
             # Actually replace file content
             self.component.file_format_cls.save_atomic(
                 self.get_filename(),
@@ -2155,6 +2225,8 @@ class Translation(
         request: AuthenticatedHttpRequest,
         fileobj: BinaryIO,
         method: Literal["fuzzy", "approve", "translate", "suggest", "add"],
+        *,
+        ignore_language: bool = False,
     ) -> TranslationFormat:
         component = self.component
 
@@ -2164,25 +2236,6 @@ class Translation(
         # Strip possible UTF-8 BOM
         if filecopy[:3] == codecs.BOM_UTF8:
             filecopy = filecopy[3:]
-
-        # Commit pending changes in template
-        if component.has_template() and component.source_translation.needs_commit():
-            try:
-                component.commit_pending("upload", request.user)
-            except DatabaseError as error:
-                raise FailedCommitError(
-                    gettext("Could not commit pending changes: %s")
-                    % gettext("Please try again later.")
-                ) from error
-            except Exception as error:
-                raise FailedCommitError(
-                    gettext("Could not commit pending changes: %s")
-                    % sanitize_backend_error_message(
-                        str(error),
-                        repo_urls=(self.component.repo, self.component.push),
-                        extra_paths=(self.component.full_path,),
-                    )
-                ) from error
 
         existing_units_cache: Iterable[Unit] | None = None
 
@@ -2220,11 +2273,15 @@ class Translation(
                 ) from error
 
         # Load backend file
+        template_store: TranslationFormat | None
         if method == "add" and self.is_template:
             template_store = load_uploaded_store(None, is_template=True)
         else:
             template_store = component.template_store
         store = load_uploaded_store(template_store)
+
+        if not ignore_language:
+            self.validate_upload_language(store)
 
         # Check valid plural forms
         if hasattr(store.store, "parseheader"):
@@ -2237,6 +2294,29 @@ class Translation(
             else:
                 if not self.plural.same_plural(number, formula):
                     raise PluralFormsMismatchError
+
+        # Commit pending changes in template
+        if component.has_template() and component.source_translation.needs_commit():
+            try:
+                component.commit_pending("upload", request.user)
+            except DatabaseError as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % gettext("Please try again later.")
+                ) from error
+            except Exception as error:
+                raise FailedCommitError(
+                    gettext("Could not commit pending changes: %s")
+                    % sanitize_backend_error_message(
+                        str(error),
+                        repo_urls=(self.component.repo, self.component.push),
+                        extra_paths=(self.component.full_path,),
+                    )
+                ) from error
+            # Pending source edits can change the template used to match units.
+            if not (method == "add" and self.is_template):
+                store = load_uploaded_store(component.template_store)
+
         return store
 
     @transaction.atomic
@@ -2251,6 +2331,8 @@ class Translation(
             "fuzzy", "approve", "translate", "suggest", "add", "replace", "source"
         ] = "translate",
         fuzzy: Literal["", "process", "approve"] = "",
+        *,
+        ignore_language: bool = False,
     ) -> UploadResult:
         """Top level handler for file uploads."""
         from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
@@ -2264,12 +2346,18 @@ class Translation(
         result: UploadResult
 
         if method == "replace":
-            result = self.handle_replace(request, author, fileobj)
+            result = self.handle_replace(
+                request, author, fileobj, ignore_language=ignore_language
+            )
 
         elif method == "source":
-            result = self.handle_source(request, author, fileobj)
+            result = self.handle_source(
+                request, author, fileobj, ignore_language=ignore_language
+            )
         else:
-            store = self.load_uploaded_file(request, fileobj, method)
+            store = self.load_uploaded_file(
+                request, fileobj, method, ignore_language=ignore_language
+            )
 
             if method in {"translate", "fuzzy", "approve"}:
                 # Merge on units level
