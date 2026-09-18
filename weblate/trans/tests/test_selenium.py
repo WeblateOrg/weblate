@@ -48,7 +48,6 @@ from selenium.webdriver.support.expected_conditions import (
     invisibility_of_element_located,
     presence_of_element_located,
     staleness_of,
-    text_to_be_present_in_element,
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
@@ -3394,13 +3393,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             control.send_keys(language)
             language_id = Language.objects.get(code=code).pk
             option_selector = f"#id_{field}-ts-dropdown [data-value='{language_id}']"
-            # The option can already be visible before the throttled search
-            # runs. Wait for its highlight so no pending search can reopen the
-            # dropdown after we select the language and leave the field.
+            # Focus can render highlights before the throttled search finishes.
+            # Wait for Tom Select's internal timer so it cannot reopen this
+            # dropdown and steal focus after we move to the next field.
             WebDriverWait(self.driver, 10).until(
-                text_to_be_present_in_element(
-                    (By.CSS_SELECTOR, f"{option_selector} .highlight"), language
-                )
+                lambda driver, field=field, language=language: driver.execute_script(
+                    """
+                    const select = document.getElementById(arguments[0]).tomselect;
+                    return select.control_input.value === arguments[1] &&
+                        select.lastQuery === arguments[1] &&
+                        select.refreshTimeout === null;
+                    """,
+                    f"id_{field}",
+                    language,
+                ),
+                message=f"Language search did not finish in {field}: {language}",
             )
             option = WebDriverWait(self.driver, 10).until(
                 element_to_be_clickable((By.CSS_SELECTOR, option_selector))
