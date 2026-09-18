@@ -26,7 +26,7 @@ from weblate.auth.permissions import (
     get_project_repository_selection,
     get_repository_permission_components,
 )
-from weblate.checks.flags import Flags, get_flag_choices
+from weblate.checks.flags import get_flag_choices
 from weblate.checks.models import Check
 from weblate.trans.diagnostics import get_diagnostics_context
 from weblate.trans.models import (
@@ -129,7 +129,7 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
         ignore = f"ignore-{obj.name.replace('_', '-')}"
     else:
         ignore = obj.check_obj.ignore_string
-    flags = Flags(unit.extra_flags)
+    flags = unit.get_unit_flags()
     if ignore not in flags:
         flags.merge(ignore)
         unit.update_extra_flags(flags.format(), request.user)

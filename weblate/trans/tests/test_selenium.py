@@ -1109,6 +1109,37 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
 
+    def test_flag_editor_disabled_and_external_updates(self) -> None:
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+        self.driver.execute_script(
+            """
+            const input = document.createElement("input");
+            input.id = "disabled-flags";
+            input.className = "flag-editor";
+            input.disabled = true;
+            input.value = "max-length:10";
+            input.dataset.flagChoicesUrl = arguments[0];
+            document.body.appendChild(input);
+            window.initFlagEditor(input);
+            """,
+            reverse("js-flag-choices"),
+        )
+        self.assertFalse(
+            self.driver.find_element(By.ID, "disabled-flags-ts-input").is_enabled()
+        )
+        self.driver.execute_script(
+            """
+            const input = document.getElementById("disabled-flags");
+            input.value = 'placeholders:"one,two", ignore-same';
+            input.dispatchEvent(new Event("change", {bubbles: true}));
+            """
+        )
+        values = self.driver.execute_script(
+            "return Array.from(document.querySelectorAll('.ts-control .item'), item => item.dataset.value);"
+        )
+        self.assertEqual(values, ['placeholders:"one,two"', "ignore-same"])
+
     def test_flag_editor_edit_existing(self) -> None:
         """Check that already added flags can be turned back into editable text."""
         # Load a page so that flag-editor.js and TomSelect are loaded
@@ -4229,9 +4260,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("source-review-edit.png")
 
         # Close modal dialog
-        self.driver.find_element(By.ID, "id_extra_flags-ts-input").send_keys(
-            Keys.ESCAPE
-        )
+        self.driver.find_element(By.ID, "context-edit-form").send_keys(Keys.ESCAPE)
         time.sleep(0.2)
 
     def test_dark_theme(self) -> None:

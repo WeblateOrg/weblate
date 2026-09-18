@@ -1561,10 +1561,12 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
     public_configuration_fields = frozenset(
         {
             "add_flags",
+            "add_translation_flags",
             "add_labels",
             "path",
             "q",
             "remove_flags",
+            "remove_translation_flags",
             "remove_labels",
             "state",
         }

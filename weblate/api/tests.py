@@ -13950,14 +13950,38 @@ class UnitAPITest(APIBaseTest):
         unit.translate(self.user, "Hello, world!\n", STATE_TRANSLATED)
         self.assertEqual(unit.all_checks_names, {"same"})
 
-        # Edit on translation will fail
         self.do_request(
             "api:unit-detail",
             kwargs={"pk": unit.pk},
             method="patch",
             code=403,
+            request={"extra_flags": "ignore-same"},
+        )
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            superuser=True,
+            request={"extra_flags": "max-length:invalid"},
+        )
+
+        # Edit on translation affects only this language
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
             superuser=True,
             request={"extra_flags": "ignore-same"},
+        )
+
+        unit = Unit.objects.get(pk=unit.pk)
+        self.assertEqual(unit.extra_flags, "ignore-same")
+        self.assertEqual(unit.source_unit.extra_flags, "")
+        self.assertEqual(unit.all_checks_names, set())
+        self.assertTrue(
+            unit.change_set.filter(action=ActionEvents.EXTRA_FLAGS).exists()
         )
 
         # Edit on source will work
@@ -13974,6 +13998,127 @@ class UnitAPITest(APIBaseTest):
         unit = Unit.objects.get(pk=unit.id)
         self.assertEqual(unit.all_flags.format(), "c-format, ignore-same")
         self.assertEqual(unit.all_checks_names, set())
+
+    def test_combined_unit_flags_and_target_autofixes(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        for old_flags, new_flags, expected in (
+            ("", "ignore-end-space", "Ahoj "),
+            ("ignore-end-space", "", "Ahoj\n"),
+        ):
+            with self.subTest(flags=new_flags):
+                Unit.objects.filter(pk=unit.pk).update(extra_flags=old_flags)
+                response = self.do_request(
+                    "api:unit-detail",
+                    kwargs={"pk": unit.pk},
+                    method="patch",
+                    code=200,
+                    superuser=True,
+                    request={
+                        "target": ["Ahoj "],
+                        "state": STATE_TRANSLATED,
+                        "extra_flags": new_flags,
+                    },
+                )
+                unit.refresh_from_db()
+                self.assertEqual(unit.target, expected)
+                self.assertEqual(response.data["target"], [expected])
+                self.assertEqual(unit.extra_flags, new_flags)
+                self.assertTrue(
+                    unit.change_set.filter(
+                        action=ActionEvents.EXTRA_FLAGS,
+                        old=old_flags,
+                        target=new_flags,
+                    ).exists()
+                )
+
+    def test_combined_unit_flags_and_target_enforced_checks(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        component = unit.translation.component
+        component.enforced_checks = ["same"]
+        component.save(update_fields=["enforced_checks"])
+        for flags, expected_state in (
+            ("ignore-same", STATE_TRANSLATED),
+            ("", STATE_NEEDS_REWRITING),
+        ):
+            with self.subTest(flags=flags):
+                self.do_request(
+                    "api:unit-detail",
+                    kwargs={"pk": unit.pk},
+                    method="patch",
+                    code=200,
+                    superuser=True,
+                    request={
+                        "target": [unit.source],
+                        "state": STATE_TRANSLATED,
+                        "extra_flags": flags,
+                    },
+                )
+                unit.refresh_from_db()
+                self.assertEqual(unit.state, expected_state)
+
+    def test_combined_unit_flags_and_target_readonly(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={
+                "target": ["Ahoj "],
+                "state": STATE_TRANSLATED,
+                "extra_flags": "read-only, ignore-end-space, priority:70",
+            },
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Ahoj ")
+        self.assertTrue(unit.readonly)
+        self.assertEqual(unit.original_state, STATE_TRANSLATED)
+        self.assertEqual(unit.priority, 70)
+        self.assertEqual(response.data["state"], STATE_READONLY)
+
+    def test_unit_readonly_flags(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        old_state = unit.state
+        for flags, readonly in (("read-only", True), ("", False)):
+            self.do_request(
+                "api:unit-detail",
+                kwargs={"pk": unit.pk},
+                method="patch",
+                code=200,
+                superuser=True,
+                request={"extra_flags": flags},
+            )
+            unit.refresh_from_db()
+            self.assertEqual(unit.readonly, readonly)
+            self.assertEqual(unit.source_unit.extra_flags, "")
+        self.assertEqual(unit.state, old_state)
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit_id},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"extra_flags": "read-only"},
+        )
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"extra_flags": "discard:read-only"},
+        )
+        unit.refresh_from_db()
+        self.assertTrue(unit.readonly)
 
     def test_unit_labels(self) -> None:
         other_project = Project.objects.create(

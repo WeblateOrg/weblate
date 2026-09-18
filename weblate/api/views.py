@@ -4076,7 +4076,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     def perform_update(self, serializer) -> None:
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
-        do_source = "extra_flags" in data or "explanation" in data or "labels" in data
+        do_source = "explanation" in data or "labels" in data
         unit = serializer.instance
         translation = unit.translation
         request = self.request
@@ -4091,6 +4091,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         ):
             self.permission_denied(
                 request, "Source strings properties can be set only on source strings"
+            )
+
+        if "extra_flags" in data and not user.has_perm("meta:unit.flag", translation):
+            self.permission_denied(
+                request, "You do not have permission to edit string flags."
             )
 
         if do_translate:
@@ -4136,7 +4141,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
         # Update attributes
         if do_source:
-            fields = ["extra_flags", "explanation"]
+            fields = ["explanation"]
             for name in fields:
                 try:
                     setattr(unit, name, data[name])
@@ -4145,6 +4150,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if "labels" in data:
                 unit.save_labels(data["labels"], user)
             unit.save(update_fields=fields)
+
+        if "extra_flags" in data:
+            # Autofixes and enforced checks must see the submitted flags,
+            # including when the target and requested state have not changed.
+            unit = Unit.objects.select_for_update().get(pk=unit.pk)
+            unit.update_extra_flags(data["extra_flags"], user)
+            serializer.instance = unit
 
         # Handle translate
         if do_translate:
@@ -4155,6 +4167,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 # the initial lookup and the locking re-fetch in Unit.translate()
                 msg = "Unit was removed while processing the request"
                 raise Http404(msg) from error
+
+        if do_translate and "extra_flags" in data:
+            # translate() sets the requested content state; restore flag-derived
+            # read-only state and its checks after processing the new target.
+            unit.update_state()
+            unit.run_checks()
+            unit.translation.invalidate_cache()
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a translation unit."""

@@ -583,8 +583,14 @@ Define strings by searching for them and actions to perform on matching ones.
 Supported operations:
 
 * Change string state (for example to approve all unreviewed strings).
-* Adjust translation flags (see :ref:`custom-checks`)
+* Adjust source-wide or language-specific translation flags (see :ref:`custom-checks`)
 * Adjust string labels (see :ref:`labels`)
+
+Source flag and label operations affect all languages of matching strings.
+Translation flag operations affect only matching translations and skip source
+strings. Removing translation flags removes local values; inherited flags
+remain in effect. To mark matching translations read-only, add ``read-only``
+under :guilabel:`Translation flags to add — matching translations`.
 
 .. hint::
 

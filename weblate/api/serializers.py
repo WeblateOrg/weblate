@@ -3725,7 +3725,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
 
 
 class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
-    """Serializer for updating source unit."""
+    """Serializer for updating a unit and its flags."""
 
     target = PluralField()
     labels = UnitFlatLabelsSerializer(many=True)
