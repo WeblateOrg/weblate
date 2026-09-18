@@ -1624,6 +1624,72 @@ def get_new_component_language_form(
     return NewComponentLanguageForm
 
 
+class UnitFlagsForm(FieldDocsMixin, forms.Form):
+    source_flags = FlagField(
+        label=gettext_lazy("Source flags — all languages"),
+        required=False,
+        help_text=gettext_lazy(
+            "These flags are inherited by every translation of this string."
+        ),
+    )
+    translation_flags = FlagField(
+        label=gettext_lazy("Translation flags — this language"),
+        required=False,
+        help_text=gettext_lazy(
+            "These flags apply only to this translation. Source read-only cannot be overridden."
+        ),
+    )
+
+    def __init__(self, *args, unit: Unit, user: User, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.unit = unit
+        self.user = user
+        self.targets = {"source_flags": unit.source_unit}
+        if unit.is_source:
+            del self.fields["translation_flags"]
+        else:
+            self.targets["translation_flags"] = unit
+            self.fields["translation_flags"].label = gettext(
+                "Translation flags — %(language)s"
+            ) % {
+                "language": unit.translation.language,
+            }
+        for name, target in self.targets.items():
+            self.fields[name].initial = target.extra_flags
+            self.fields[name].disabled = not user.has_perm(
+                "meta:unit.flag", target.translation
+            )
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str]:
+        return ("admin/translating", "additional-flags")
+
+    def clean(self):
+        cleaned = super().clean()
+        for name, target in self.targets.items():
+            if (
+                self.fields[name].disabled
+                and name in self.data
+                and self.data[name] != target.extra_flags
+            ):
+                raise ValidationError(
+                    gettext("You do not have permission to edit these flags.")
+                )
+        return cleaned
+
+    def save(self) -> None:
+        for name, target in self.targets.items():
+            if not self.fields[name].disabled:
+                target.update_extra_flags(self.cleaned_data[name], self.user)
+                if target.is_source and not self.unit.is_source:
+                    self.unit.refresh_from_db()
+                    self.unit.source_unit = target
+                    self.unit.__dict__.pop("all_flags", None)
+                    self.unit.store_old_unit(self.unit)
+
+
 class ContextForm(FieldDocsMixin, forms.ModelForm):
     class Meta:
         model = Unit
@@ -1647,7 +1713,9 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return self.doc_links[field.name]
 
-    def __init__(self, data=None, instance=None, user=None, **kwargs) -> None:
+    def __init__(
+        self, data=None, instance=None, user=None, *, include_flags=True, **kwargs
+    ) -> None:
         kwargs["initial"] = {"labels": list(instance.all_labels)}
         super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
@@ -1662,17 +1730,21 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
                 template="snippets/labels_description.html",
                 context={"project": project, "user": user},
             ),
-            Field("extra_flags"),
         )
+        if include_flags:
+            self.helper.layout.append(Field("extra_flags"))
+        else:
+            del self.fields["extra_flags"]
         self.user = user
 
     def save(self, commit=True):
         self.instance.update_explanation(
             self.cleaned_data["explanation"], self.user, save=False
         )
-        self.instance.update_extra_flags(
-            self.cleaned_data["extra_flags"], self.user, save=False
-        )
+        if "extra_flags" in self.cleaned_data:
+            self.instance.update_extra_flags(
+                self.cleaned_data["extra_flags"], self.user, save=False
+            )
         if commit:
             self.instance.save(same_content=True)
             self.instance.save_labels(self.cleaned_data["labels"], self.user)
@@ -4316,20 +4388,34 @@ class BulkEditForm(forms.Form):
     )
     path = forms.CharField(widget=forms.HiddenInput, required=False)
     add_flags = FlagField(
-        label=gettext_lazy("Translation flags to add"), required=False
+        label=gettext_lazy("Source flags to add — all languages"), required=False
     )
     remove_flags = FlagField(
-        label=gettext_lazy("Translation flags to remove"), required=False
+        label=gettext_lazy("Source flags to remove — all languages"), required=False
+    )
+    add_translation_flags = FlagField(
+        label=gettext_lazy("Translation flags to add — matching translations"),
+        required=False,
+        help_text=gettext_lazy(
+            "Applies only to matching translations, excluding source strings."
+        ),
+    )
+    remove_translation_flags = FlagField(
+        label=gettext_lazy("Translation flags to remove — matching translations"),
+        required=False,
+        help_text=gettext_lazy(
+            "Removes locally set flags. Inherited flags remain in effect."
+        ),
     )
     add_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
-        label=gettext_lazy("Labels to add"),
+        label=gettext_lazy("Labels to add — all languages"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
     remove_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
-        label=gettext_lazy("Labels to remove"),
+        label=gettext_lazy("Labels to remove — all languages"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
@@ -4394,6 +4480,8 @@ class BulkEditForm(forms.Form):
             Field("state"),
             Field("add_flags"),
             Field("remove_flags"),
+            Field("add_translation_flags"),
+            Field("remove_translation_flags"),
         )
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))

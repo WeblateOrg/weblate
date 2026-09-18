@@ -54,6 +54,7 @@ from weblate.trans.forms import (
     PositionSearchForm,
     RevertForm,
     TranslationForm,
+    UnitFlagsForm,
     ZenTranslationForm,
     get_new_unit_form,
 )
@@ -1481,7 +1482,11 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
                 unit.translation,
                 initial={"scope": "global" if unit.is_source else "translation"},
             ),
-            "context_form": ContextForm(instance=unit.source_unit, user=user),
+            "context_form": ContextForm(
+                instance=unit.source_unit, user=user, include_flags=False
+            ),
+            "flags_form": UnitFlagsForm(unit=unit, user=user),
+            "flag_actions": unit.get_flag_actions(user),
             "search_form": search_result["form"].reset_offset(),
             "can_refresh_search": True,
             "secondary": secondary,

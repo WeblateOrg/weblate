@@ -269,6 +269,8 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
         target_state=form.cleaned_data["state"],
         add_flags=form.cleaned_data["add_flags"],
         remove_flags=form.cleaned_data["remove_flags"],
+        add_translation_flags=form.cleaned_data["add_translation_flags"],
+        remove_translation_flags=form.cleaned_data["remove_translation_flags"],
         add_labels=form.cleaned_data["add_labels"],
         remove_labels=form.cleaned_data["remove_labels"],
         project=context.get("project"),

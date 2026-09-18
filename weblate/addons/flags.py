@@ -136,6 +136,12 @@ class BulkEditAddon(BaseAddon):
             target_state=self.instance.configuration["state"],
             add_flags=self.instance.configuration["add_flags"],
             remove_flags=self.instance.configuration["remove_flags"],
+            add_translation_flags=self.instance.configuration.get(
+                "add_translation_flags", ""
+            ),
+            remove_translation_flags=self.instance.configuration.get(
+                "remove_translation_flags", ""
+            ),
             add_labels=label_set.filter(
                 name__in=self.instance.configuration["add_labels"]
             ),

@@ -20,6 +20,7 @@ Weblate 2026.10
 .. rubric:: Improvements
 
 * Improved :ref:`translation-history` browsing performance and added navigation by date.
+* Added language-specific :ref:`string flags <additional-flags>` in the editor, Tools menu, bulk editing, and REST API.
 
 * Improved checks, automatic fixes, glossary matching, and machine translation for :ref:`independent alternatives in multivalue formats <format-multivalue>`.
 
@@ -65,6 +66,8 @@ Weblate 2026.10
 * Fixed the :ref:`punctuation spacing check <check-punctuation-spacing>` fix button adding a space inside URLs such as Markdown links.
 
 .. rubric:: Compatibility
+
+* Translation flags can no longer discard an explicit source-wide ``read-only`` flag; remove it from the source to make translations editable.
 
 * Existing :ref:`project API tokens <api-tokens>` lose permissions from non-project teams during upgrade. Assign any required permissions using project-specific teams.
 * API throttles now read :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` directly; ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` is no longer used by Weblate's throttle classes.

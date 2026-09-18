@@ -45,6 +45,7 @@
   {% perm 'machinery.view' unit.translation as user_can_use_machinery %}
   {% perm 'source.edit' unit.translation as user_can_edit_source %}
   {% perm 'meta:unit.flag' unit.translation as user_can_edit_flags %}
+  {% perm 'meta:unit.flag' unit.source_unit.translation as user_can_edit_source_flags %}
   {% perm 'screenshot.add' unit.translation as user_can_add_screenshot %}
   {% perm 'screenshot.edit' unit.translation as user_can_edit_screenshot %}
   {% perm 'comment.add' unit.translation as user_can_add_comment %}
@@ -207,8 +208,8 @@
                 <p>{{ user_can_translate.reason }}</p>
               {% endif %}
               <div>
-                {% with flag_actions=unit.get_flag_actions %}
-                  {% if user_can_delete or user_can_edit_flags and flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
+                {% with flag_actions=flag_actions %}
+                  {% if user_can_delete or flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
                     <div class="btn-group float-end">
                       <button type="button"
                               class="btn btn-primary dropdown-toggle btn-spaced"
@@ -228,13 +229,13 @@
                                data-params='{"next": "{{ this_unit_url|escapejs }}"}'>{% translate "Delete string" %}</a>
                           </li>
                         {% endif %}
-                        {% if user_can_edit_flags and flag_actions %}
-                          {% for action, value, name in flag_actions %}
+                        {% if flag_actions %}
+                          {% for action, value, name, scope in flag_actions %}
                             <li>
                               <a href=""
                                  class="dropdown-item link-post"
                                  data-href="{% url 'edit_context' pk=unit.pk %}"
-                                 data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a>
+                                 data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "scope": "{{ scope|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a>
                             </li>
                           {% endfor %}
                         {% endif %}
@@ -961,15 +962,17 @@
                 {% endfor %}
               </div>
             {% endif %}
-            {% if unit.all_flags or user_can_edit_source %}
+            {% if unit.all_flags or user_can_edit_flags or user_can_edit_source_flags %}
               <div class="list-group-item" id="info_all_flags">
                 <h5>
-                  {% if user_can_edit_source %}
+                  {% if user_can_edit_flags or user_can_edit_source_flags %}
                     <a class="btn btn-link btn-xs float-end"
                        href="#"
                        data-bs-toggle="modal"
-                       data-focus="#id_extra_flags"
-                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                       data-focus="{% if user_can_edit_source_flags %}#id_source_flags{% else %}#id_translation_flags{% endif %}"
+                       id="edit-flags"
+                       aria-label="{% translate 'Edit flags' %}"
+                       data-bs-target="#flags-edit-form">{% icon "pencil.svg" %}</a>
                   {% endif %}
                   {% translate "Flags" %}
                 </h5>
@@ -1061,27 +1064,31 @@
        id="js-translate"
        data-services="{{ machinery_services }}"></a>
 
-    <form method="post" action="{% url 'edit_context' pk=unit.source_unit.pk %}">
+    <form method="post" action="{% url 'edit_context' pk=unit.pk %}">
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ this_unit_url }}" />
-      <div class="modal fade" tabindex="-1" role="dialog" id="context-edit-form">
-        <div class="modal-dialog" role="document">
+      <input type="hidden" name="edit_flags" value="1" />
+      <div class="modal fade"
+           tabindex="-1"
+           aria-labelledby="flags-edit-title"
+           id="flags-edit-form">
+        <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">{% translate "Edit additional string info" %}</h4>
+              <h4 class="modal-title" id="flags-edit-title">{% translate "Edit flags" %}</h4>
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
+                      aria-label="{% translate 'Close' %}"></button>
             </div>
             <div class="modal-body">
-              {% crispy context_form %}
+              {% crispy flags_form %}
               {% if unit.translation.check_flags or unit.translation.component.check_flags or unit.flags or unit.translation.component.file_format_flags or unit.translation.component.project.check_flags %}
                 <div class="form-group">
-                  <label>
+                  <h5>
                     {% translate "Inherited flags" %}
                     {% documentation_icon 'admin/checks' 'custom-checks' %}
-                  </label>
+                  </h5>
                   <div class="controls">
                     {% if unit.flags %}
                       <p>
@@ -1122,7 +1129,36 @@
                   </div>
                 </div>
               {% endif %}
+              <h5>{% translate "Effective flags" %}</h5>
+              <p>{{ unit.all_flags.format }}</p>
             </div>
+            <div class="modal-footer">
+              <button type="button"
+                      class="btn btn-outline-secondary"
+                      data-bs-dismiss="modal">{% translate "Close" %}</button>
+              {% if user_can_edit_flags or user_can_edit_source_flags %}
+                <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <form method="post" action="{% url 'edit_context' pk=unit.source_unit.pk %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ this_unit_url }}" />
+      <div class="modal fade" tabindex="-1" role="dialog" id="context-edit-form">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{% translate "Edit additional string info" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
+            </div>
+            <div class="modal-body">{% crispy context_form %}</div>
             <div class="modal-footer">
               <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
             </div>

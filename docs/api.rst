@@ -2905,7 +2905,7 @@ and XLIFF.
     :>json int id: unit identifier
     :>json object tbx_terms: Read-only TBX metadata with source and target alternative lists. Each record contains text, optional ID, administrative status, and notes with text, origin, category, and scope (concept, language, or term). Empty for other formats.
     :>json string explanation: String explanation, available on source units, see :ref:`additional`
-    :>json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :>json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :>json string web_url: URL where the unit can be edited
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json boolean pending: whether the unit is pending for write
@@ -2923,7 +2923,7 @@ and XLIFF.
     :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
-    :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :<json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :<json array labels: labels, available on source units
 
 .. http:put:: /api/units/(int:id)/
@@ -2937,7 +2937,7 @@ and XLIFF.
     :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
-    :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :<json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :<json array labels: labels, available on source units
 
 .. http:delete:: /api/units/(int:id)/

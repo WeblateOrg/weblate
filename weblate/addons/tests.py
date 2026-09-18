@@ -9159,6 +9159,26 @@ class BulkEditAddonTest(ViewTestCase):
         addon.component_update(self.component)
         self.assertEqual(label.unit_set.count(), 1)
 
+    def test_translation_flags(self) -> None:
+        unit = self.get_unit()
+        addon = BulkEditAddon.create(
+            component=self.component,
+            configuration={
+                "q": f"language:{unit.translation.language.code}",
+                "state": -1,
+                "add_labels": [],
+                "remove_labels": [],
+                "add_flags": "",
+                "remove_flags": "",
+                "add_translation_flags": "read-only",
+                "remove_translation_flags": "",
+            },
+        )
+        addon.component_update(self.component)
+        unit.refresh_from_db()
+        self.assertTrue(unit.readonly)
+        self.assertEqual(unit.source_unit.extra_flags, "")
+
     def test_create(self) -> None:
         self.user.is_superuser = True
         self.user.save()
