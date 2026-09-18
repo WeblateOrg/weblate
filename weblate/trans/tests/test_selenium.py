@@ -2807,6 +2807,29 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.screenshot("screenshot-ocr.png")
 
+        # Pre-assign a string which sorts after the one added below, so that
+        # appending is observable (it would be listed first when sorted).
+        other_units = source.translation.unit_set.exclude(pk=source.pk)
+        other = (
+            other_units.filter(priority=source.priority, position__gt=source.position)
+            .order_by("position")
+            .first()
+        ) or other_units.order().first()
+        uploaded_screenshot.add_unit(other, user)
+        with self.wait_for_page_load():
+            self.driver.refresh()
+
+        def assigned_unit_ids() -> list[str]:
+            return [
+                row.get_attribute("data-unit-id")
+                for row in self.driver.find_elements(
+                    By.CSS_SELECTOR,
+                    "#sources-listing tbody.unit-listing-body tr[data-unit-id]",
+                )
+            ]
+
+        self.assertEqual(assigned_unit_ids(), [str(other.pk)])
+
         # Add string manually
         search_input = self.driver.find_element(By.ID, "search-input")
         search_input.clear()
@@ -2824,6 +2847,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 .units.filter(pk=source.pk)
                 .exists()
             )
+        )
+        # Newly added string is appended without reordering existing rows
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: assigned_unit_ids() == [str(other.pk), str(source.pk)]
+        )
+
+        # Removing keeps the remaining rows in place without reloading the page
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR,
+                f'#sources-listing tr[data-unit-id="{other.pk}"] button[type=submit]',
+            )
+        )
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: assigned_unit_ids() == [str(source.pk)]
+        )
+        self.assertFalse(
+            Screenshot.objects.get(pk=uploaded_screenshot.pk)
+            .units.filter(pk=other.pk)
+            .exists()
         )
 
         # Unit should have screenshot assigned now
