@@ -20,6 +20,43 @@ class JSViewsTest(FixtureTestCase):
         )
         self.assertContains(response, 'href="/translate/')
 
+    def test_markdown_preview(self) -> None:
+        response = self.client.post(
+            reverse("js-markdown-preview"), {"text": "**bold** @testuser"}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="markdown"')
+        self.assertContains(response, "<strong>bold</strong>")
+        self.assertContains(response, 'href="/user/testuser/"')
+
+    def test_markdown_preview_empty(self) -> None:
+        response = self.client.post(reverse("js-markdown-preview"), {"text": "  "})
+        self.assertContains(response, "Nothing to preview.")
+        self.assertNotContains(response, 'class="markdown"')
+
+    def test_markdown_preview_xss(self) -> None:
+        response = self.client.post(
+            reverse("js-markdown-preview"), {"text": "<script>alert(1)</script>"}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "<script>")
+
+    def test_markdown_preview_get(self) -> None:
+        response = self.client.get(reverse("js-markdown-preview"))
+        self.assertEqual(response.status_code, 405)
+
+    def test_markdown_preview_anonymous(self) -> None:
+        self.client.logout()
+        response = self.client.post(reverse("js-markdown-preview"), {"text": "x"})
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response["Location"])
+
+    def test_markdown_preview_too_long(self) -> None:
+        response = self.client.post(
+            reverse("js-markdown-preview"), {"text": "x" * 50_001}
+        )
+        self.assertEqual(response.status_code, 400)
+
     def test_flag_choices(self) -> None:
         response = self.client.get(reverse("js-flag-choices"))
         self.assertEqual(response.status_code, 200)

@@ -287,6 +287,8 @@ class FieldDocsMixin(forms.Form):
 
 
 class MarkdownTextarea(forms.Textarea):
+    template_name = "widgets/markdown_textarea.html"
+
     def __init__(self, **kwargs) -> None:
         kwargs["attrs"] = {
             "dir": "auto",

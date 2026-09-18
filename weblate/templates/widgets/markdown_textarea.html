@@ -1,0 +1,41 @@
+{% load i18n icons %}
+
+<div class="markdown-editor-tabs">
+  <ul class="nav nav-pills markdown-editor-nav" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button type="button"
+              class="nav-link active"
+              data-bs-toggle="tab"
+              data-bs-target="#{{ widget.attrs.id }}-write"
+              role="tab"
+              aria-controls="{{ widget.attrs.id }}-write"
+              aria-selected="true">
+        {% icon "pencil.svg" %}
+        {% translate "Write" %}
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button type="button"
+              class="nav-link markdown-preview-toggle"
+              data-bs-toggle="tab"
+              data-bs-target="#{{ widget.attrs.id }}-preview"
+              role="tab"
+              aria-controls="{{ widget.attrs.id }}-preview"
+              aria-selected="false">
+        {% icon "eye.svg" %}
+        {% translate "Preview" %}
+      </button>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active show" id="{{ widget.attrs.id }}-write" role="tabpanel">
+      {% include "django/forms/widgets/textarea.html" %}
+    </div>
+    <div class="tab-pane markdown-preview"
+         id="{{ widget.attrs.id }}-preview"
+         role="tabpanel"
+         data-preview-url="{% url 'js-markdown-preview' %}"
+         aria-live="polite"
+         aria-busy="false"></div>
+  </div>
+</div>
