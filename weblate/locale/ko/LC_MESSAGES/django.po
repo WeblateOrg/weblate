@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:21+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1204,7 +1204,9 @@ msgstr ""
 "이 이메일은 더 이상 인증된 계정에 속하지 않으며, 이미 {0}(으)로 변경되었습니"
 "다."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "보안 키 사용 (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -1849,6 +1851,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "문자열을 제거할 수 없습니다: %s"
 
+#, fuzzy
+#| msgid "Database latency"
+msgid "ITS data directories"
+msgstr "데이터베이스 지연 시간"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "주석을 추출하지 않음"
 
@@ -2016,6 +2029,19 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr "Sphinx 소스 디렉터리를 확인할 수 없습니다."
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Only include approved translations"
+msgid "One file per translation"
+msgstr "승인된 번역만 포함"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "구성요소 정리"
 
 msgid "Name of generated file"
 msgstr "생성된 파일의 이름"
@@ -2542,21 +2568,121 @@ msgstr ""
 "프로젝트 구성을 로드하지 않고 Sphinx의 gettext 빌더를 사용하여 gettext 템플릿"
 "을 업데이트합니다."
 
-msgid "Contributors in comment"
-msgstr "주석에 기여자 표시"
+#, fuzzy
+#| msgid "Uploaded file is too big."
+msgid "ITS rule file is too large."
+msgstr "업로드된 파일이 너무 큽니다."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "ZIP 파일에 너무 많은 항목이 포함되어 있습니다."
+
+#, fuzzy
+#| msgid "The provided secret is too long."
+msgid "ITS XPath expression is too long."
+msgstr "제공된 시크릿이 너무 깁니다."
+
+msgid "Too many ITS rule files."
 msgstr ""
-"PO 파일 헤더의 주석 부분을 업데이트하여 기여자 이름과 기여 연도를 포함하도록 "
-"합니다."
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "현재 원본 문자열이 지정되지 않았습니다!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Inherited component defaults"
+msgid "Invalid ITS directory path."
+msgstr "상속된 구성요소 기본값"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many elements."
+msgstr "ZIP 파일에 너무 많은 항목이 포함되어 있습니다."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "지원되지 않는 파일 형식입니다."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "지원되지 않는 파일입니다!"
+
+#, fuzzy
+#| msgid "Blank strings require an empty state."
+msgid "ITS locating rules require a pattern."
+msgstr "빈 문자열에는 빈 상태가 필요합니다."
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "지원되지 않는 파일 형식입니다."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file contains unsupported symbolic links."
+msgid "ITS directories must not contain symbolic links."
+msgstr "ZIP 파일에 지원되지 않는 심볼릭 링크가 포함되어 있습니다."
+
+#, fuzzy, python-format
+#| msgid "{filename} ({parameter}) does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "{filename} ({parameter})이(가) 존재하지 않습니다."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "%(component)s을(를) 푸시할 수 없습니다: %(error_text)s"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "TMX 파일을 파싱할 수 없습니다: %s"
 
 msgid "Squash Git commits"
 msgstr "Git 커밋 스쿼시"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "변경 사항을 푸시하기 전에 Git 커밋을 스쿼시합니다."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "이 애드온은 구성요소에만 설치할 수 있습니다."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "이 애드온은 구성요소에만 설치할 수 있습니다."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "이 애드온은 수동으로 실행할 수 없습니다."
@@ -4259,6 +4385,11 @@ msgstr "모든 검사 무시"
 msgid "Use case insensitive placeholders"
 msgstr "대소문자 구분 없는 자리 표시자 사용"
 
+#, fuzzy
+#| msgid "No workspaces found."
+msgid "Monospace font"
+msgstr "작업공간을 찾을 수 없습니다."
+
 msgid "Font family"
 msgstr "글꼴 계열"
 
@@ -5521,6 +5652,22 @@ msgstr ""
 "다른 백그라운드 작업이 진행 중이므로 용어집에 단어를 추가할 수 없습니다. 나중"
 "에 다시 시도해 주세요."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum line length"
+msgid "Maximum retained versions"
+msgstr "최대 줄 길이"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Weblate 언어"
 
@@ -6558,6 +6705,11 @@ msgstr "스크린샷 검색"
 msgid "Sort by"
 msgstr "정렬 기준"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "스크린샷"
+
 msgid "Screenshot name"
 msgstr "스크린샷 이름"
 
@@ -6623,6 +6775,11 @@ msgstr "일치하는 새 원문 문자열을 찾을 수 없습니다."
 #| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "티켓을 열 수 없습니다. 나중에 다시 시도해 주세요."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "스크린샷 삭제"
 
 msgid "Bad request"
 msgstr "잘못된 요청"
@@ -6728,18 +6885,13 @@ msgstr "Weblate 정보"
 msgid "Support Weblate"
 msgstr "Weblate 후원"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "<strong>Weblate</strong>가 계속 성장할 수 있도록 도와주세요"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Weblate를 후원해 주셔서 감사합니다"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Weblate를 선택해 주셔서 감사합니다"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr "오픈 소스 가치를 지향하는 프라이버시 존중 현지화 플랫폼입니다."
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Weblate에 공헌하기"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6822,6 +6974,14 @@ msgstr "2단계 인증 로그인"
 
 msgid "Please complete your sign-in using second factor credential."
 msgstr "2단계 인증 정보를 사용하여 로그인을 완료하세요."
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
 
 msgid "Your profile"
 msgstr "내 프로필"
@@ -7847,8 +8007,22 @@ msgstr "이 대상을 신뢰하는 경우에만 계속하세요."
 msgid "Continue"
 msgstr "계속"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "보안 키로 로그인"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "안타깝게도 이 브라우저는 WebAuthn을 지원하지 않습니다."
@@ -7887,6 +8061,17 @@ msgstr "사용 불가"
 #| msgid "No components specified"
 msgid "No components found."
 msgstr "지정된 구성요소 없음"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "OpenAI API base URL"
+msgid "Add-on API base URL:"
+msgstr "OpenAI API 기본 URL"
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "API 루트 URL:"
 
 msgid "Configure add-on"
 msgstr "애드온 구성"
@@ -8047,6 +8232,18 @@ msgid ""
 "example:"
 msgstr ""
 "파일 이름과 내용 모두에 Django 템플릿 마크업을 사용할 수 있습니다. 예시:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "번역된 비율"
@@ -8559,6 +8756,11 @@ msgstr "결제 상태 확인"
 
 msgid "Browse"
 msgstr "찾아보기"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "번역 현황"
 
 msgid "No strings found!"
 msgstr "문자열을 찾을 수 없습니다!"
@@ -9102,28 +9304,36 @@ msgid "Become a Weblate supporter"
 msgstr "Weblate 후원자 되기"
 
 #, fuzzy
-#| msgid "VCS repository is accessible to everybody."
-msgid "Some repositories are not accessible"
-msgstr "VCS 저장소에 모두 접근할 수 있습니다."
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "저장소를 잠글 수 없습니다. 다른 작업이 진행 중입니다."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Skipped components:"
-msgstr "다른 구성요소"
+#| msgid "Created component"
+msgid "Affected components:"
+msgstr "구성요소 생성됨"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "접근 권한이 거부되었습니다"
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "이 구성요소에 접근할 권한이 없습니다."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10206,6 +10416,19 @@ msgstr "지원 패키지 한도"
 msgid "Support expiry"
 msgstr "지원 만료"
 
+#, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "전문 지원"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "지원 패키지 관리"
 
@@ -10217,7 +10440,9 @@ msgstr "지원 패키지 연결 해제"
 msgid "Unlink support package"
 msgstr "지원 패키지 연결 해제"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "지원 패키지 구매"
 
 msgid "Contact customer care"
@@ -10854,6 +11079,16 @@ msgstr "Weblate를 이용해 주셔서 감사합니다"
 msgid "Return to dashboard"
 msgstr "대시보드로 돌아가기"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "%(translation)s의 새 기여자"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Weblate에 기부하기"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "검색 및 바꾸기 결과를 검토하고 확인하세요."
 
@@ -10971,6 +11206,36 @@ msgstr "스크린샷을 찾을 수 없습니다."
 
 msgid "Add new screenshot"
 msgstr "새 스크린샷 추가"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "스크린샷 삭제"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Select"
+msgid "Selected"
+msgstr "선택"
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "No matching screenshots available."
+msgstr "선택 가능한 팀이 없습니다."
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "스크린샷 이름"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "%(total)s 중 %(used)s 사용됨"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11179,30 +11444,20 @@ msgstr[0] "%(component)s의 %(count)s개 문자열에 작업이 필요합니다"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-"Weblate는 모든 사용자에게 무료로 제공되지만, 개발에는 지속적인 투자가 필요합"
-"니다."
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "Weblate 후원"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-"개인정보 보호를 최우선으로 하며, 광고를 표시하거나 데이터를 판매하지 않습니"
-"다."
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Weblate를 이용해 주셔서 감사합니다"
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"구독과 기부를 통한 커뮤니티의 소중한 지원 덕분에 Weblate는 지속적으로 성장하"
-"고 발전할 수 있습니다."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr "현지화의 미래를 함께 만들어 가세요!"
-
-msgid "Purchase a support package"
-msgstr "지원 패키지 구매"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11264,20 +11519,33 @@ msgstr "Weblate의 마지막 커밋"
 msgid "Weblate repository"
 msgstr "Weblate 저장소"
 
-msgid "This translation is forbidden."
-msgstr "이 번역은 금지되어 있습니다."
-
-msgid "This term should not be translated."
-msgstr "이 용어는 번역하면 안 됩니다."
-
 msgid "This translation needs editing."
 msgstr "이 번역은 편집이 필요합니다."
 
 msgid "Copy word into translation"
 msgstr "번역에 단어 복사"
 
+msgid "This translation is forbidden."
+msgstr "이 번역은 금지되어 있습니다."
+
+#, fuzzy
+#| msgid "Hidden"
+msgid "Forbidden"
+msgstr "숨겨짐"
+
+msgid "This term should not be translated."
+msgstr "이 용어는 번역하면 안 됩니다."
+
 msgid "Edit glossary term"
 msgstr "용어집 용어 편집"
+
+msgid "Translation explanation"
+msgstr "번역 설명"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "원문 문자열 설명"
 
 msgid "Glossary translation explanation"
 msgstr "용어집 번역 설명"
@@ -11971,6 +12239,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "실패한 검사:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "지원 패키지 구매"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid "Term information from the translation file"
+msgstr "모든 문자열을 번역 파일에 강제로 기록합니다."
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "원문 문자열"
+
+#, fuzzy
+#| msgid "Target string"
+msgid "Target terms"
+msgstr "대상 문자열"
+
 msgid "Translation status"
 msgstr "번역 현황"
 
@@ -12423,17 +12714,22 @@ msgstr "구성요소에 중복된 번역 문자열이 여러 개 있습니다."
 msgid "Source"
 msgstr "원문"
 
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "모든 문자열을 번역 파일에 강제로 기록합니다."
+
+#, fuzzy
+#| msgid "Remove blank strings"
+msgid "Remove duplicate strings"
+msgstr "빈 문자열 제거"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "번역 파일에서 동일한 식별자를 가진 중복 문자열을 제거하여 이 문제를 해결하세"
 "요."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Remove duplicate strings"
-msgstr "빈 문자열 제거"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -13295,6 +13591,16 @@ msgstr "용어집 찾아보기"
 
 msgid "No screenshot currently associated."
 msgstr "현재 연결된 스크린샷이 없습니다."
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "스크린샷에 추가"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "스크린샷 추가"
 
 msgid "String information"
 msgstr "문자열 정보"
@@ -15376,6 +15682,24 @@ msgstr ""
 "기본적으로 gettext는 77자 및 줄 바꿈 문자에서 줄을 바꿉니다. --no-wrap 매개변"
 "수를 사용하면 줄 바꿈 문자에서만 줄바꿈이 수행됩니다."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "주석에 기여자 표시"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "gettext PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "번역된 문자열의 이전 msgid 보존"
 
@@ -15699,9 +16023,6 @@ msgstr "문자열의 의미나 용도를 명확히 하기 위한 추가 설명�
 
 msgid "Source string explanation"
 msgstr "원문 문자열 설명"
-
-msgid "Translation explanation"
-msgstr "번역 설명"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "그 사이 원문 문자열이 변경되었습니다. 변경사항을 확인하세요."
@@ -18442,6 +18763,19 @@ msgid "Project {}"
 msgstr "{} 프로젝트"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "카테고리"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgctxt "Translation memory category"
+#| msgid "Workspace: {}"
+msgid "Workspace {}"
+msgstr "작업공간: {}"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "구성요소 {}"
 
@@ -20109,6 +20443,61 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "원문이 제거되었습니다."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "PO 파일 헤더의 주석 부분을 업데이트하여 기여자 이름과 기여 연도를 포함하도"
+#~ "록 합니다."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "<strong>Weblate</strong>가 계속 성장할 수 있도록 도와주세요"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Weblate를 선택해 주셔서 감사합니다"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr "오픈 소스 가치를 지향하는 프라이버시 존중 현지화 플랫폼입니다."
+
+#, fuzzy
+#~| msgid "VCS repository is accessible to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "VCS 저장소에 모두 접근할 수 있습니다."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "다른 구성요소"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "접근 권한이 거부되었습니다"
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr ""
+#~ "Weblate는 모든 사용자에게 무료로 제공되지만, 개발에는 지속적인 투자가 필요"
+#~ "합니다."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "개인정보 보호를 최우선으로 하며, 광고를 표시하거나 데이터를 판매하지 않습"
+#~ "니다."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "구독과 기부를 통한 커뮤니티의 소중한 지원 덕분에 Weblate는 지속적으로 성장"
+#~ "하고 발전할 수 있습니다."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr "현지화의 미래를 함께 만들어 가세요!"
+
 #~ msgid "Download reports"
 #~ msgstr "보고서 다운로드"
 
@@ -20952,9 +21341,6 @@ msgstr "원문이 제거되었습니다."
 #~ msgid "Weblate community"
 #~ msgstr "의견 삭제하기"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Weblate에 공헌하기"
-
 #, fuzzy
 #~| msgid "Weblate keys"
 #~ msgid "Weblate website"
@@ -21095,9 +21481,6 @@ msgstr "원문이 제거되었습니다."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "가변 문자열 접미사"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Weblate에 기부하기"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -23214,9 +23597,6 @@ msgstr "원문이 제거되었습니다."
 #~ "users:"
 #~ msgstr ""
 #~ "이 데모 서버에서 Weblate를 테스트하려면 다음 사용자로 로그인하십시오:"
-
-#~ msgid "Hidden"
-#~ msgstr "숨겨짐"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "이 사이트는 %(weblate_name_link)s 데모 서버를 실행중입니다."

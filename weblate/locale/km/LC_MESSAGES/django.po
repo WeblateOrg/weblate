@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:22+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1190,7 +1190,9 @@ msgid ""
 "{0}."
 msgstr "អ៊ីមែលរបស់អ្នកលែងជាកម្មសិទ្ធិរបស់គណនីដែលបានផ្ទៀងផ្ទាត់ទៀតហើយ វាត្រូវបានផ្លាស់ប្តូរទៅ {0}។"
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "ប្រើសោសុវត្ថិភាព (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -1802,6 +1804,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "ប្រភព​ខ្សែអក្សរ"
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 #, fuzzy
 #| msgid "Per project data"
 msgid "Do not extract comments"
@@ -1982,6 +1993,19 @@ msgstr "បកប្រែ"
 #, fuzzy
 #| msgid "Translate"
 msgid "Could not determine Sphinx source directory."
+msgstr "បកប្រែ"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "One file per translation"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "One file per component"
 msgstr "បកប្រែ"
 
 msgid "Name of generated file"
@@ -2525,19 +2549,117 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+#, fuzzy
+#| msgid "A required file is not available."
+msgid "ITS rule file is too large."
+msgstr "ឯកសារដែលត្រូវការមិនមានទេ។"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+msgid "ITS XPath expression is too long."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "Too many ITS rule files."
 msgstr ""
+
+#, fuzzy
+#| msgid "No source files are configured."
+msgid "ITS rule files are too large."
+msgstr "គ្មានឯកសារប្រភពត្រូវបានកំណត់រចនាសម្ព័ន្ធទេ។"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Invalid ITS directory path."
+msgstr "បកប្រែ"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "ITS rule file contains too many elements."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported ITS rule content."
+msgstr "ប្រភេទរូបថតដែលមិនគាំទ្រ៖ %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported ITS locating rule."
+msgstr "ប្រភេទរូបថតដែលមិនគាំទ្រ៖ %s"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported ITS rule namespace."
+msgstr "ប្រភេទរូបថតដែលមិនគាំទ្រ៖ %s"
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "ITS directories must not contain symbolic links."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "ITS directory does not exist: %(path)s"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "បកប្រែ"
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "បកប្រែ"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "API add-ons must be installed directly on a component."
+msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "This add-on is already installed on this component."
+msgstr "បកប្រែ"
 
 msgid "This add-on cannot be triggered manually."
 msgstr ""
@@ -4482,6 +4604,11 @@ msgstr ""
 msgid "Use case insensitive placeholders"
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
+#, fuzzy
+#| msgid "No matching checks found!"
+msgid "Monospace font"
+msgstr "ការ​ពិនិត្យ​ដែលផ្គូផ្គងរកមិនឃេីញ!"
+
 msgid "Font family"
 msgstr ""
 
@@ -5880,6 +6007,22 @@ msgid ""
 "progress. Please try again later."
 msgstr ""
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Maximum retained versions"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr ""
 
@@ -7003,6 +7146,11 @@ msgstr "ស្ក្រីនថត"
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "រូបថតអេក្រង់"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -7081,6 +7229,11 @@ msgstr "រកមិនឃើញខ្សែអក្សរប្រភពថ្
 #| msgid "That was not correct, please try again."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "មិនត្រឹមត្រូវទេ សូមព្យាយាមម្ដងទៀតនៅពេលក្រោយ។"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a valid screenshot."
+msgstr "ស្ក្រីនថត"
 
 msgid "Bad request"
 msgstr ""
@@ -7174,18 +7327,13 @@ msgstr ""
 msgid "Support Weblate"
 msgstr "បរិច្ចាកទៅកាន់Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr ""
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Continue to Weblate"
+msgstr "បរិច្ចាកទៅកាន់Weblate"
 
 #, fuzzy
 #| msgid "GitHub username"
@@ -7273,6 +7421,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -8352,7 +8508,21 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Signed in using password."
+msgid "Sign in using a passkey or security key"
+msgstr "បានចូលដោយប្រើពាក្យសម្ងាត់។"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -8394,6 +8564,14 @@ msgstr ""
 #| msgid "Translate"
 msgid "No components found."
 msgstr "បកប្រែ"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "API root"
+msgstr "ភាសា​មាន​ដែនកំណត់​"
 
 msgid "Configure add-on"
 msgstr ""
@@ -8576,6 +8754,18 @@ msgstr "ការ​ពិនិត្យ​ដែលផ្គូផ្គងរ
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -9148,6 +9338,11 @@ msgstr "ពិនិត្យស្ថានភាពវិក្កយបត្
 
 msgid "Browse"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "ស្ថានភាពការបកប្រែ"
 
 #, fuzzy
 #| msgid "No matching checks found!"
@@ -9724,27 +9919,35 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "ទទួលយកការគាំទ្រ"
 
-msgid "Some repositories are not accessible"
-msgstr ""
+#, fuzzy
+#| msgid "Translate"
+msgid "Some repository operations require additional permissions"
+msgstr "បកប្រែ"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
 #| msgid "Translate"
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr "បកប្រែ"
 
-#, fuzzy
-#| msgid "Permissions"
-msgid "Permission required on:"
-msgstr "សិទ្ធិអនុញ្ញាត"
+msgid "You need the following permissions on the repository-owning component:"
+msgstr ""
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10906,6 +11109,17 @@ msgstr "បរិច្ចាកទៅកាន់Weblate"
 msgid "Support expiry"
 msgstr "បរិច្ចាកទៅកាន់Weblate"
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr ""
 
@@ -10919,8 +11133,10 @@ msgstr "បរិច្ចាកទៅកាន់Weblate"
 msgid "Unlink support package"
 msgstr "បរិច្ចាកទៅកាន់Weblate"
 
-msgid "Purchase support package"
-msgstr ""
+#, fuzzy
+#| msgid "Get support"
+msgid "Purchase support"
+msgstr "ទទួលយកការគាំទ្រ"
 
 msgid "Contact customer care"
 msgstr ""
@@ -11612,6 +11828,16 @@ msgstr ""
 msgid "Return to dashboard"
 msgstr "បរិច្ចាកទៅកាន់Weblate"
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Thank you for contributing translations."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "បរិច្ចាកទៅកាន់Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -11737,6 +11963,36 @@ msgstr "ការ​ពិនិត្យ​ដែលផ្គូផ្គងរ
 
 msgid "Add new screenshot"
 msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a screenshot"
+msgstr "ស្ក្រីនថត"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Selected"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "No matching checks found!"
+msgid "No matching screenshots available."
+msgstr "ការ​ពិនិត្យ​ដែលផ្គូផ្គងរកមិនឃេីញ!"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot pages"
+msgstr "រូបថតអេក្រង់"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "បានប្រើ %(used)s នៃ %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 #, fuzzy
@@ -11945,23 +12201,19 @@ msgstr[0] "បកប្រែ"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Support Weblate development"
+msgstr "បរិច្ចាកទៅកាន់Weblate"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
 msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
 
 msgid ""
@@ -12032,16 +12284,6 @@ msgstr "បកប្រែ"
 
 #, fuzzy
 #| msgid "Translation status"
-msgid "This translation is forbidden."
-msgstr "ស្ថានភាព​ការបកប្រែ"
-
-#, fuzzy
-#| msgid "Strings limit"
-msgid "This term should not be translated."
-msgstr "​តួអក្សរ​មាន​ដែនកំណត់​"
-
-#, fuzzy
-#| msgid "Translation status"
 msgid "This translation needs editing."
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
@@ -12049,9 +12291,34 @@ msgid "Copy word into translation"
 msgstr ""
 
 #, fuzzy
+#| msgid "Translation status"
+msgid "This translation is forbidden."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Forbidden"
+msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "This term should not be translated."
+msgstr "​តួអក្សរ​មាន​ដែនកំណត់​"
+
+#, fuzzy
 #| msgid "Glossary"
 msgid "Edit glossary term"
 msgstr "សទ្ទា​នុក្រម​"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation explanation"
+msgstr "ការជូនដំណឹងការបកប្រែ"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source explanation"
+msgstr "ប្រភព​ខ្សែអក្សរ"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -12823,6 +13090,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "បកប្រែ"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Already purchased? Link your support package"
+msgstr "បរិច្ចាកទៅកាន់Weblate"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Term information from the translation file"
+msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "ខ្សែអក្សរប្រភព"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Target terms"
+msgstr "ប្រភព​ខ្សែអក្សរ"
+
 msgid "Translation status"
 msgstr "ស្ថានភាពការបកប្រែ"
 
@@ -13265,15 +13555,20 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "បកប្រែ"
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "ដកខ្សែរអក្សរទទេចេញ"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -14178,6 +14473,16 @@ msgstr "សទ្ទា​នុក្រម​"
 
 msgid "No screenshot currently associated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Per project data"
+msgid "Add existing screenshot"
+msgstr "ក្នុង​មួយ​ទិន្នន័យនៃ​គម្រោង​"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Upload screenshot"
+msgstr "ស្ក្រីនថត"
 
 #, fuzzy
 #| msgid "No matching checks found!"
@@ -16420,6 +16725,24 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Contributor comments"
+msgstr "អ្នក​រួមចំណែក ជាមួយ​Weblate"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Gettext"
+msgstr "ប្រភព​ខ្សែអក្សរ"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
+#, fuzzy
 #| msgid "Translation status"
 msgid "Keep previous msgids of translated strings"
 msgstr "ស្ថានភាព​ការបកប្រែ"
@@ -16793,11 +17116,6 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Source string explanation"
 msgstr "ប្រភព​ខ្សែអក្សរ"
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation explanation"
-msgstr "ការជូនដំណឹងការបកប្រែ"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -19763,6 +20081,17 @@ msgstr "គម្រោង​មានដែនកំណត់"
 
 #. Translators: Text on OpenGraph image
 #, fuzzy
+msgid "Category {}"
+msgstr "ប្រភេទ"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Full name"
+msgid "Workspace {}"
+msgstr "ឈ្មោះពេញ"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
 #| msgid "Component: {}"
 msgid "Component {}"
 msgstr "សមាសភាគ៖ {}"
@@ -21469,6 +21798,16 @@ msgid "The workspace has been removed."
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
 #, fuzzy
+#~| msgid "Translate"
+#~ msgid "Skipped components:"
+#~ msgstr "បកប្រែ"
+
+#, fuzzy
+#~| msgid "Permissions"
+#~ msgid "Permission required on:"
+#~ msgstr "សិទ្ធិអនុញ្ញាត"
+
+#, fuzzy
 #~| msgid "Download"
 #~ msgid "Download reports"
 #~ msgstr "ការទាញយក"
@@ -21738,11 +22077,6 @@ msgstr "ស្ថានភាព​ការបកប្រែ"
 #~ msgstr "គម្រោង​មានដែនកំណត់"
 
 #, fuzzy
-#~| msgid "Get support"
-#~ msgid "Weblate support"
-#~ msgstr "ទទួលយកការគាំទ្រ"
-
-#, fuzzy
 #~| msgid "Translate"
 #~ msgid "Weblate community"
 #~ msgstr "បកប្រែ"
@@ -21776,9 +22110,6 @@ msgstr "ស្ថានភាព​ការបកប្រែ"
 #~| msgid "Strings limit"
 #~ msgid "Variable string suffix"
 #~ msgstr "​តួអក្សរ​មាន​ដែនកំណត់​"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "បរិច្ចាកទៅកាន់Weblate"
 
 #~ msgid "Invalid image!"
 #~ msgstr "រូបថតដែលមោឃៈ!"

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate / Application\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:26+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1171,7 +1171,9 @@ msgid ""
 "{0}."
 msgstr "ອີເມວຂອງທ່ານບໍ່ໄດ້ເປັນຂອງບັນຊີທີ່ຜ່ານການຢືນຢັນແລ້ວ, ມັນຖືກປ່ຽນເປັນ {0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "ໃຊ້ຄີຄວາມປອດໄພ (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -1764,6 +1766,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "ລາຍການຄຳສຳຄັນຕ້ອງເປັນຂໍ້ຄວາມ."
 
+#, fuzzy
+#| msgid "Data directory latency"
+msgid "ITS data directories"
+msgstr "ຄວາມຊັກຊ້າຂອງໄດເຣັກທໍຣີຂໍ້ມູນ"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "ບໍ່ຕ້ອງສະກັດຄວາມຄິດເຫັນ"
 
@@ -1927,6 +1940,19 @@ msgstr "ສ່ວນເສີມ Sphinx ຕ້ອງການໃຫ້ແມ່�
 
 msgid "Could not determine Sphinx source directory."
 msgstr "ບໍ່ສາມາດກຳນົດໂຟນເດີຕົ້ນສະບັບຂອງ Sphinx ໄດ້."
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Only include approved translations"
+msgid "One file per translation"
+msgstr "ລວມເອົາສະເພາະການແປທີ່ຖືກອະນຸມັດແລ້ວ"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "ຈັດລະບຽບອົງປະກອບ"
 
 msgid "Name of generated file"
 msgstr "ຊື່ຂອງໄຟລ໌ທີ່ສ້າງຂຶ້ນ"
@@ -2425,19 +2451,121 @@ msgid ""
 msgstr ""
 "ອັບເດດແມ່ແບບ gettext ໂດຍໃຊ້ gettext builder ຂອງ Sphinx ໂດຍບໍ່ຕ້ອງໂຫຼດການຕັ້ງຄ່າໂຄງການ."
 
-msgid "Contributors in comment"
-msgstr "ລາຍຊື່ຜູ້ມີສ່ວນຮ່ວມໃນຄຳເຫັນ"
+#, fuzzy
+#| msgid "Uploaded file is too big."
+msgid "ITS rule file is too large."
+msgstr "ໄຟລ໌ທີ່ອັບໂຫຼດມີຂະໜາດໃຫຍ່ເກີນໄປ."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
-msgstr "ອັບເດດສ່ວນຄຳເຫັນຂອງສ່ວນຫົວໄຟລ໌ PO ເພື່ອລວມເອົາຊື່ຜູ້ມີສ່ວນຮ່ວມ ແລະ ປີທີ່ໄດ້ປະກອບສ່ວນ."
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "ໄຟລ໌ ZIP ມີຈຳນວນລາຍການຫຼາຍເກີນໄປ."
+
+#, fuzzy
+#| msgid "The provided secret is too long."
+msgid "ITS XPath expression is too long."
+msgstr "ລະຫັດລັບ (Secret) ທີ່ລະບຸຍາວເກີນໄປ."
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+#, fuzzy
+#| msgid "No source files are configured."
+msgid "ITS rule files are too large."
+msgstr "ບໍ່ໄດ້ກຳນົດຄ່າໄຟລ໌ຕົ້ນສະບັບ."
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid component path."
+msgid "Invalid ITS directory path."
+msgstr "ເສັ້ນທາງສ່ວນປະກອບບໍ່ຖືກຕ້ອງ."
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many elements."
+msgstr "ໄຟລ໌ ZIP ມີຈຳນວນລາຍການຫຼາຍເກີນໄປ."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "ຮູບແບບໄຟລ໌ບໍ່ໄດ້ຮັບການຮອງຮັບ."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "ໄຟລ໌ບໍ່ຮອງຮັບ!"
+
+#, fuzzy
+#| msgid "Blank strings require an empty state."
+msgid "ITS locating rules require a pattern."
+msgstr "ຂໍ້ຄວາມວ່າງຈຳເປັນຕ້ອງມີສະຖານະວ່າງເປົ່າ."
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "ຮູບແບບໄຟລ໌ບໍ່ໄດ້ຮັບການຮອງຮັບ."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file contains unsupported symbolic links."
+msgid "ITS directories must not contain symbolic links."
+msgstr "ໄຟລ໌ ZIP ມີລິ້ງສັນຍະລັກ (Symbolic links) ທີ່ບໍ່ຮອງຮັບ."
+
+#, fuzzy, python-format
+#| msgid "Referenced category does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "ໝວດໝູ່ທີ່ອ້າງອີງບໍ່ມີຢູ່."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not migrate %(component)s: %(error)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "ບໍ່ສາມາດຍ້າຍ %(component)s: %(error)s"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "ບໍ່ສາມາດແປງ (Parse) ໄຟລ໌ TMX: %s"
 
 msgid "Squash Git commits"
 msgstr "ຮວມ Git commits"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "ຮວມ Git commits ກ່ອນທີ່ຈະ push ການປ່ຽນແປງ."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "ສ່ວນເສີມສາມາດຕິດຕັ້ງໄດ້ໃນລະດັບຄອມໂພເນນເທົ່ານັ້ນ."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "ສ່ວນເສີມສາມາດຕິດຕັ້ງໄດ້ໃນລະດັບຄອມໂພເນນເທົ່ານັ້ນ."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "ສ່ວນເສີມນີ້ບໍ່ສາມາດເປີດເຮັດວຽກດ້ວຍຕົນເອງໄດ້."
@@ -4050,6 +4178,11 @@ msgstr "ລະເວັ້ນການກວດສອບທັງໝົດ"
 msgid "Use case insensitive placeholders"
 msgstr "ໃຊ້ຕົວແທນ (Placeholders) ທີ່ບໍ່ແຍກຕົວອັກສອນນ້ອຍ-ໃຫຍ່"
 
+#, fuzzy
+#| msgid "No workspaces found."
+msgid "Monospace font"
+msgstr "ບໍ່ພົບພື້ນທີ່ເຮັດວຽກ."
+
 msgid "Font family"
 msgstr "ຕະກຸນຟອນ"
 
@@ -5276,6 +5409,24 @@ msgstr ""
 "ບໍ່ສາມາດເພີ່ມຄຳສັບສະເພາະໄດ້ ເນື່ອງຈາກມີການເຮັດວຽກເບື້ອງຫຼັງອື່ນກຳລັງດຳເນີນການຢູ່. "
 "ກະລຸນາລອງໃໝ່ພາຍຫຼັງ."
 
+#, fuzzy
+#| msgid "Maximum changes per day"
+msgid "Maximum build age (days)"
+msgstr "ການປ່ຽນແປງສູງສຸດຕໍ່ມື້"
+
+#, fuzzy
+#| msgid "Maximum line length"
+msgid "Maximum retained versions"
+msgstr "ຄວາມຍາວແຖວສູງສຸດ"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "ພາສາໃນ Weblate"
 
@@ -6286,6 +6437,11 @@ msgstr "ຄົ້ນຫາຮູບພາບໜ້າຈໍ"
 msgid "Sort by"
 msgstr "ຈັດລຽງໂດຍ"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "ພາບໜ້າຈໍ"
+
 msgid "Screenshot name"
 msgstr "ຊື່ຮູບພາບໜ້າຈໍ"
 
@@ -6347,6 +6503,11 @@ msgstr "ບໍ່ພົບຂໍ້ຄວາມຕົ້ນທາງທີ່ກ
 
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "ບໍ່ສາມາດດາວໂຫຼດຂໍ້ມູນ OCR ໄດ້. ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "ລຶບພາບຖ່າຍໜ້າຈໍ"
 
 msgid "Bad request"
 msgstr "ຄຳຮ້ອງຂໍບໍ່ຖືກຕ້ອງ"
@@ -6447,18 +6608,13 @@ msgstr "ກ່ຽວກັບ Weblate"
 msgid "Support Weblate"
 msgstr "ສະໜັບສະໜູນ Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "ຊ່ວຍໃຫ້ <strong>Weblate</strong> ເຕີບໃຫຍ່ຂະຫຍາຍຕົວຕໍ່ໄປ"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "ຍິນດີຕ້ອນຮັບ ແລະ ຂໍຂອບໃຈທີ່ສະໜັບສະໜູນ Weblate"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "ຍິນດີຕ້ອນຮັບ ແລະ ຂໍຂອບໃຈທີ່ເລືອກໃຊ້ Weblate"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr "ແພລັດຟອມການແປພາສາທີ່ເຄົາລົບຄວາມເປັນສ່ວນຕົວ ແລະ ຍຶດໝັ້ນໃນຄຸນຄ່າຂອງ open-source."
+#, fuzzy
+#| msgid "Give to Weblate"
+msgid "Continue to Weblate"
+msgstr "ບໍລິຈາກໃຫ້ Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6539,6 +6695,14 @@ msgstr "ການເຂົ້າສູ່ລະບົບດ້ວຍປັດໄ
 
 msgid "Please complete your sign-in using second factor credential."
 msgstr "ກະລຸນາສຳເລັດການເຂົ້າສູ່ລະບົບໂດຍໃຊ້ຂໍ້ມູນຢືນຢັນຕົວຕົນປັດໄຈທີສອງ."
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
 
 msgid "Your profile"
 msgstr "ໂປຣໄຟລ໌ຂອງທ່ານ"
@@ -7546,8 +7710,22 @@ msgstr "ດຳເນີນການຕໍ່ເມື່ອທ່ານເຊື
 msgid "Continue"
 msgstr "ດຳເນີນການຕໍ່"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "ເຂົ້າສູ່ລະບົບດ້ວຍຄີຄວາມປອດໄພ"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "ຂໍອະໄພ, ບຣາວເຊີຂອງທ່ານບໍ່ຮອງຮັບ WebAuthn."
@@ -7578,6 +7756,17 @@ msgstr "ເຂົ້າກັນບໍ່ໄດ້"
 
 msgid "No components found."
 msgstr "ບໍ່ພົບຄອມໂພເນນ."
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "OpenAI API base URL"
+msgid "Add-on API base URL:"
+msgstr "URL ພື້ນຖານຂອງ OpenAI API"
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "API root URL:"
 
 msgid "Configure add-on"
 msgstr "ຕັ້ງຄ່າສ່ວນເສີມ"
@@ -7732,6 +7921,18 @@ msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr "ທ່ານສາມາດໃຊ້ Django templates markup ໄດ້ທັງໃນຊື່ໄຟລ໌ ແລະ ເນື້ອຫາ, ຕົວຢ່າງ:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "ເປີເຊັນທີ່ແປແລ້ວ"
@@ -8234,6 +8435,11 @@ msgstr "ກວດສອບສະຖານະການຊຳລະເງິນຂ
 
 msgid "Browse"
 msgstr "ຊອກເບິ່ງ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "ສະຖານະການແປ"
 
 msgid "No strings found!"
 msgstr "ບໍ່ພົບຂໍ້ຄວາມ!"
@@ -8753,26 +8959,38 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "ເຂົ້າຮ່ວມເປັນຜູ້ສະໜັບສະໜູນ Weblate"
 
-msgid "Some repositories are not accessible"
-msgstr "ບາງຄັງເກັບຂໍ້ມູນ (repository) ບໍ່ສາມາດເຂົ້າເຖິງໄດ້"
+#, fuzzy
+#| msgid "Another repository operation is already in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "ການດຳເນີນການອື່ນກັບຄັງເກັບຂໍ້ມູນກຳລັງເຮັດວຽກຢູ່."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
-"ແຕ່ລະການດຳເນີນການຂ້າງລຸ່ມນີ້ຈະຍົກເວັ້ນຄັງເກັບຂໍ້ມູນ "
-"ເວັ້ນເສຍແຕ່ທ່ານຈະມີສິດອະນຸຍາດທີ່ຈຳເປັນໃນທຸກສ່ວນປະກອບທີ່ໃຊ້ຮ່ວມກັນ."
 
-msgid "Skipped components:"
-msgstr "ສ່ວນປະກອບທີ່ຖືກຂ້າມ:"
+#, fuzzy
+#| msgid "Affected components"
+msgid "Affected components:"
+msgstr "ສ່ວນປະກອບທີ່ໄດ້ຮັບຜົນກະທົບ"
 
-msgid "Permission required on:"
-msgstr "ຕ້ອງການສິດອະນຸຍາດໃນ:"
+#, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "ທ່ານບໍ່ມີສິດອະນຸຍາດໃນການເຂົ້າເຖິງສ່ວນປະກອບນີ້."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
-msgstr "ຄັງເກັບຂໍ້ມູນຖືກຂ້າມ ເພາະວ່າໜຶ່ງ ຫຼື ຫຼາຍສ່ວນປະກອບຂອງມັນບໍ່ສາມາດເຂົ້າເຖິງໄດ້."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
+msgstr ""
 
 msgid "Repository status"
 msgstr "ສະຖານະຄັງເກັບ"
@@ -9808,6 +10026,19 @@ msgstr "ຂີດຈຳກັດຂອງແພັກເກັດສະໜັບ
 msgid "Support expiry"
 msgstr "ວັນໝົດອາຍຸການສະໜັບສະໜູນ"
 
+#, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "ການຊ່ວຍເຫຼືອແບບມືອາຊີບ"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "ຈັດການແພັກເກັດສະໜັບສະໜູນ"
 
@@ -9817,7 +10048,9 @@ msgstr "ຍົກເລີກການເຊື່ອມຕໍ່ແພັກເ
 msgid "Unlink support package"
 msgstr "ຍົກເລີກການເຊື່ອມຕໍ່ແພັກເກັດສະໜັບສະໜູນ"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "ຊື້ແພັກເກັດສະໜັບສະໜູນ"
 
 msgid "Contact customer care"
@@ -10409,6 +10642,14 @@ msgstr "ຂອບໃຈທີ່ໃຊ້ງານ Weblate"
 msgid "Return to dashboard"
 msgstr "ກັບຄືນສູ່ແຜງຄວບຄຸມ"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "ຜູ້ປະກອບສ່ວນໃໝ່ໃນ %(translation)s"
+
+msgid "Donate to Weblate development"
+msgstr ""
+
 msgid "Please review and confirm the search and replace results."
 msgstr "ກະລຸນາກວດສອບ ແລະ ຢືນຢັນຜົນການຄົ້ນຫາ ແລະ ແທນທີ່."
 
@@ -10512,6 +10753,36 @@ msgstr "ບໍ່ພົບພາບໜ້າຈໍ."
 
 msgid "Add new screenshot"
 msgstr "ເພີ່ມພາບໜ້າຈໍໃໝ່"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "ລຶບພາບຖ່າຍໜ້າຈໍ"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Select"
+msgid "Selected"
+msgstr "ເລືອກ"
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "No matching screenshots available."
+msgstr "ບໍ່ມີທີມໃຫ້ເລືອກ."
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "ຊື່ຮູບພາບໜ້າຈໍ"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "ໃຊ້ໄປ %(used)s ຈາກທັງໝົດ %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -10702,28 +10973,20 @@ msgstr[0] "ອີກ %(count)s ສ່ວນປະກອບທີ່ໄດ້ຮ�
 msgid "No diagnostics match the selected filters."
 msgstr "ບໍ່ມີການວິເຄາະທີ່ກົງກັບຕົວເຮົາກັ່ນຕອງທີ່ເລືອກ."
 
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "ສະໜັບສະໜູນ Weblate"
+
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "ຂອບໃຈທີ່ໃຊ້ງານ Weblate"
+
 msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr "ເຖິງວ່າ Weblate ຈະໃຫ້ໃຊ້ຟຣີສຳລັບທຸກຄົນ, ແຕ່ການພັດທະນາຍັງຕ້ອງການການລົງທຶນຢ່າງຕໍ່ເນື່ອງ."
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"ພວກເຮົາໃຫ້ຄວາມສຳຄັນກັບຄວາມເປັນສ່ວນຕົວຂອງທ່ານ; ພວກເຮົາຈະບໍ່ສະແດງໂຄສະນາ ຫຼື "
-"ຂາຍຂໍ້ມູນຂອງທ່ານເດັດຂາດ."
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-"ການສະໜັບສະໜູນທີ່ມີຄ່າຈາກຊຸມຊົນຜ່ານການສະໝັກສະມາຊິກ ແລະ ການບໍລິຈາກ ຊ່ວຍໃຫ້ Weblate ເຕີບໃຫຍ່ ແລະ "
-"ພັດທະນາຕໍ່ໄປ."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr "ມາຮ່ວມກັບພວກເຮົາເພື່ອສ້າງອະນາຄົດຂອງການແປພາສາ ແລະ ເລີ່ມມີສ່ວນຮ່ວມໃນມື້ນີ້!"
-
-msgid "Purchase a support package"
-msgstr "ຊື້ແພັກເກັດສະໜັບສະໜູນ"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -10785,20 +11048,33 @@ msgstr "ຄອມມິດລ້າສຸດໃນ Weblate"
 msgid "Weblate repository"
 msgstr "ຄັງເກັບຂໍ້ມູນ Weblate"
 
-msgid "This translation is forbidden."
-msgstr "ການແປນີ້ຖືກຫ້າມ."
-
-msgid "This term should not be translated."
-msgstr "ຄຳສັບນີ້ບໍ່ຄວນແປ."
-
 msgid "This translation needs editing."
 msgstr "ການແປນີ້ຕ້ອງໄດ້ຮັບການແກ້ໄຂ."
 
 msgid "Copy word into translation"
 msgstr "ຄັດລອກຄຳສັບເຂົ້າໃນການແປ"
 
+msgid "This translation is forbidden."
+msgstr "ການແປນີ້ຖືກຫ້າມ."
+
+#, fuzzy
+#| msgid "Forbidden translation"
+msgid "Forbidden"
+msgstr "ການແປທີ່ຕ້ອງຫ້າມ"
+
+msgid "This term should not be translated."
+msgstr "ຄຳສັບນີ້ບໍ່ຄວນແປ."
+
 msgid "Edit glossary term"
 msgstr "ແກ້ໄຂຄຳສັບໃນພົດຈະນານຸກົມ"
+
+msgid "Translation explanation"
+msgstr "ຄຳອະທິບາຍການແປ"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "ຄຳອະທິບາຍຂໍ້ຄວາມຕົ້ນສະບັບ"
 
 msgid "Glossary translation explanation"
 msgstr "ຄຳອະທິບາຍການແປໃນພົດຈະນານຸກົມ"
@@ -11456,6 +11732,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "ການກວດສອບທີ່ບໍ່ຜ່ານ:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "ຊື້ແພັກເກັດສະໜັບສະໜູນ"
+
+#, fuzzy
+#| msgid "Remove unused strings from the translation file"
+msgid "Term information from the translation file"
+msgstr "ລຶບຂໍ້ຄວາມທີ່ບໍ່ໄດ້ໃຊ້ອອກຈາກໄຟລ໌ແປ"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "ຂໍ້ຄວາມຕົ້ນສະບັບ"
+
+#, fuzzy
+#| msgid "Target type"
+msgid "Target terms"
+msgstr "ປະເພດປາຍທາງ"
+
 msgid "Translation status"
 msgstr "ສະຖານະການແປ"
 
@@ -11910,13 +12209,18 @@ msgstr "ສ່ວນປະກອບນີ້ມີຂໍ້ຄວາມການ
 msgid "Source"
 msgstr "ຕົ້ນສະບັບ"
 
+#, fuzzy, python-format
+#| msgid "Remove duplicated strings from the translation file"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "ລຶບຂໍ້ຄວາມທີ່ຊ້ຳກັນອອກຈາກໄຟລ໌ແປ"
+
+msgid "Remove duplicate strings"
+msgstr "ລຶບຂໍ້ຄວາມທີ່ຊ້ຳກັນ"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr "ກະລຸນາແກ້ໄຂໂດຍການລຶບຂໍ້ຄວາມທີ່ຊ້ຳກັນທີ່ມີລະຫັດລະບຸດຽວກັນອອກຈາກໄຟລ໌ການແປ."
-
-msgid "Remove duplicate strings"
-msgstr "ລຶບຂໍ້ຄວາມທີ່ຊ້ຳກັນ"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -12739,6 +13043,16 @@ msgstr "ເບິ່ງປະມວນສັບ"
 
 msgid "No screenshot currently associated."
 msgstr "ປະຈຸບັນຍັງບໍ່ມີພາບໜ້າຈໍທີ່ກ່ຽວຂ້ອງ."
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "ເພີ່ມໃສ່ພາບໜ້າຈໍ"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "ເພີ່ມພາບຖ່າຍໜ້າຈໍ"
 
 msgid "String information"
 msgstr "ຂໍ້ມູນຂໍ້ຄວາມ"
@@ -14506,6 +14820,24 @@ msgstr ""
 "ໂດຍປົກກະຕິ, gettext ຈະຕັດແຖວທີ່ 77 ຕົວອັກສອນ ແລະ ເມື່ອຂຶ້ນແຖວໃໝ່. ຖ້າໃຊ້ --no-wrap, "
 "ຈະຕັດແຖວສະເພາະເມື່ອຂຶ້ນແຖວໃໝ່ເທົ່ານັ້ນ."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "ລາຍຊື່ຜູ້ມີສ່ວນຮ່ວມໃນຄຳເຫັນ"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "gettext PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "ເກັບຮັກສາ msgid ກ່ອນໜ້າຂອງຂໍ້ຄວາມທີ່ແປແລ້ວ"
 
@@ -14820,9 +15152,6 @@ msgstr "ຄຳອະທິບາຍເພີ່ມເຕີມເພື່ອເ
 
 msgid "Source string explanation"
 msgstr "ຄຳອະທິບາຍຂໍ້ຄວາມຕົ້ນສະບັບ"
-
-msgid "Translation explanation"
-msgstr "ຄຳອະທິບາຍການແປ"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "ຂໍ້ຄວາມຕົ້ນສະບັບໄດ້ປ່ຽນແປງໄປແລ້ວ. ກະລຸນາກວດສອບການປ່ຽນແປງຂອງທ່ານ."
@@ -17380,6 +17709,19 @@ msgid "Project {}"
 msgstr "ໂຄງການ {}"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "ໝວດໝູ່"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgctxt "Translation memory category"
+#| msgid "Workspace: {}"
+msgid "Workspace {}"
+msgstr "ພື້ນທີ່ເຮັດວຽກ: {}"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "ສ່ວນປະກອບ {}"
 
@@ -18904,6 +19246,63 @@ msgstr "ພື້ນທີ່ເຮັດວຽກບໍ່ສາມາດລຶ
 
 msgid "The workspace has been removed."
 msgstr "ພື້ນທີ່ເຮັດວຽກຖືກລຶບອອກແລ້ວ."
+
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr "ອັບເດດສ່ວນຄຳເຫັນຂອງສ່ວນຫົວໄຟລ໌ PO ເພື່ອລວມເອົາຊື່ຜູ້ມີສ່ວນຮ່ວມ ແລະ ປີທີ່ໄດ້ປະກອບສ່ວນ."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "ຊ່ວຍໃຫ້ <strong>Weblate</strong> ເຕີບໃຫຍ່ຂະຫຍາຍຕົວຕໍ່ໄປ"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "ຍິນດີຕ້ອນຮັບ ແລະ ຂໍຂອບໃຈທີ່ເລືອກໃຊ້ Weblate"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr "ແພລັດຟອມການແປພາສາທີ່ເຄົາລົບຄວາມເປັນສ່ວນຕົວ ແລະ ຍຶດໝັ້ນໃນຄຸນຄ່າຂອງ open-source."
+
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "ບາງຄັງເກັບຂໍ້ມູນ (repository) ບໍ່ສາມາດເຂົ້າເຖິງໄດ້"
+
+#~ msgid ""
+#~ "Each operation below excludes repositories unless you have the required "
+#~ "permission on every component sharing them."
+#~ msgstr ""
+#~ "ແຕ່ລະການດຳເນີນການຂ້າງລຸ່ມນີ້ຈະຍົກເວັ້ນຄັງເກັບຂໍ້ມູນ "
+#~ "ເວັ້ນເສຍແຕ່ທ່ານຈະມີສິດອະນຸຍາດທີ່ຈຳເປັນໃນທຸກສ່ວນປະກອບທີ່ໃຊ້ຮ່ວມກັນ."
+
+#~ msgid "Skipped components:"
+#~ msgstr "ສ່ວນປະກອບທີ່ຖືກຂ້າມ:"
+
+#~ msgid "Permission required on:"
+#~ msgstr "ຕ້ອງການສິດອະນຸຍາດໃນ:"
+
+#~ msgid ""
+#~ "A repository was skipped because one or more of its components are not "
+#~ "accessible."
+#~ msgstr "ຄັງເກັບຂໍ້ມູນຖືກຂ້າມ ເພາະວ່າໜຶ່ງ ຫຼື ຫຼາຍສ່ວນປະກອບຂອງມັນບໍ່ສາມາດເຂົ້າເຖິງໄດ້."
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr "ເຖິງວ່າ Weblate ຈະໃຫ້ໃຊ້ຟຣີສຳລັບທຸກຄົນ, ແຕ່ການພັດທະນາຍັງຕ້ອງການການລົງທຶນຢ່າງຕໍ່ເນື່ອງ."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "ພວກເຮົາໃຫ້ຄວາມສຳຄັນກັບຄວາມເປັນສ່ວນຕົວຂອງທ່ານ; ພວກເຮົາຈະບໍ່ສະແດງໂຄສະນາ ຫຼື "
+#~ "ຂາຍຂໍ້ມູນຂອງທ່ານເດັດຂາດ."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "ການສະໜັບສະໜູນທີ່ມີຄ່າຈາກຊຸມຊົນຜ່ານການສະໝັກສະມາຊິກ ແລະ ການບໍລິຈາກ ຊ່ວຍໃຫ້ Weblate ເຕີບໃຫຍ່ "
+#~ "ແລະ ພັດທະນາຕໍ່ໄປ."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr "ມາຮ່ວມກັບພວກເຮົາເພື່ອສ້າງອະນາຄົດຂອງການແປພາສາ ແລະ ເລີ່ມມີສ່ວນຮ່ວມໃນມື້ນີ້!"
 
 #~ msgid "Download reports"
 #~ msgstr "ດາວໂຫຼດລາຍງານ"

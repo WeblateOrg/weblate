@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1263,7 +1263,9 @@ msgstr ""
 "Az e-mail-címe többé már nem tartozik ellenőrzött fiókhoz. Meg lett "
 "változtatva erre: {0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "Biztonsági kulcs használata (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -1959,6 +1961,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Nem sikerült eltávolítani a szöveget: %s"
 
+#, fuzzy
+#| msgid "Database latency"
+msgid "ITS data directories"
+msgstr "Adatbázis késleltetése"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "Ne nyerje ki a megjegyzéseket"
 
@@ -2156,6 +2169,19 @@ msgstr "Az új fordítások sablonja érvénytelen."
 #| msgid "Could not merge the repository."
 msgid "Could not determine Sphinx source directory."
 msgstr "Nem sikerült beolvasztani a tárolót."
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Only include approved translations"
+msgid "One file per translation"
+msgstr "Csak jóváhagyott fordítások bevétele"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "Összetevő rendszerezése"
 
 msgid "Name of generated file"
 msgstr "A létrehozott fájl neve"
@@ -2741,21 +2767,121 @@ msgstr ""
 "A projektkonfiguráció betöltése nélkül frissíti a gettext-sablont a Sphinx "
 "gettext-készítőjének segítségével."
 
-msgid "Contributors in comment"
-msgstr "Közreműködők a megjegyzésben"
+#, fuzzy
+#| msgid "Image is too big."
+msgid "ITS rule file is too large."
+msgstr "A kép túl nagy."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Fordításokat tartalmazó ZIP-fájl"
+
+#, fuzzy
+#| msgid "The provided secret is too long."
+msgid "ITS XPath expression is too long."
+msgstr "A megadott titkosítás túl hosszú."
+
+msgid "Too many ITS rule files."
 msgstr ""
-"Frissíti a PO-fájl fejlécének megjegyzés részét úgy, hogy belekerüljenek a "
-"közreműködők nevei és az évek, amikor hozzájárultak a projekthez."
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "Jelenleg nincsenek forrásszövegek hozzárendelve!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Invalid ITS directory path."
+msgstr "Korlátozott összetevő"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many elements."
+msgstr "Fordításokat tartalmazó ZIP-fájl"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Nem támogatott fájlformátum."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "Nem támogatott fájl!"
+
+#, fuzzy
+#| msgid "Blank strings require an empty state."
+msgid "ITS locating rules require a pattern."
+msgstr "Az üres szövegek üres állapotot igényelnek."
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Nem támogatott fájlformátum."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "The component contains unsupported configuration."
+msgid "ITS directories must not contain symbolic links."
+msgstr "Az összetevő nem támogatott beállítást tartalmaz."
+
+#, fuzzy, python-format
+#| msgid "{filename} ({parameter}) does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "A(z) {filename} ({parameter}) nem létezik."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Nem sikerült felküldeni a(z) %(component)s összetevőt: %(error_text)s"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Nem sikerült feldolgozni a TMX-fájlt: %s"
 
 msgid "Squash Git commits"
 msgstr "Git véglegesítések összevonása"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Git véglegesítések összevonása a változások feltöltése előtt."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "A kiegészítő csak az összetevőre telepíthető."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "A kiegészítő csak az összetevőre telepíthető."
 
 #, fuzzy
 #| msgid "This add-on has no settings."
@@ -4556,6 +4682,11 @@ msgstr "Összes ellenőrzés mellőzése"
 msgid "Use case insensitive placeholders"
 msgstr "Kis- és nagybetűkre nem érzékeny helykitöltők használata"
 
+#, fuzzy
+#| msgid "No invoices found."
+msgid "Monospace font"
+msgstr "Nem találhatók számlák."
+
 msgid "Font family"
 msgstr "Betűkészletcsalád"
 
@@ -5929,6 +6060,22 @@ msgid ""
 "progress. Please try again later."
 msgstr "Nem sikerült zárolni a tárolót, egy másik művelet folyamatban van."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum size of translation"
+msgid "Maximum retained versions"
+msgstr "Fordítás maximális mérete"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Weblate nyelvek"
 
@@ -7057,6 +7204,11 @@ msgstr "Képernyőképek"
 msgid "Sort by"
 msgstr "Rendezés eszerint"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Képernyőképek"
+
 msgid "Screenshot name"
 msgstr "Képernyőkép neve"
 
@@ -7135,6 +7287,11 @@ msgstr "Nem találhatók új egyező forrásszövegek."
 #| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Nem sikerült jegyet nyitni, próbálja meg később újra."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Képernyőkép törlése"
 
 msgid "Bad request"
 msgstr "Hibás kérés"
@@ -7247,20 +7404,13 @@ msgstr "A Weblate névjegye"
 msgid "Support Weblate"
 msgstr "A Weblate támogatása"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "Segítsen a <strong>Weblate</strong> gyarapodásának fenntartásában"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Üdvözöljük és köszönjük, hogy támogatta a Weblate-et"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Üdvözöljük és köszönjük, hogy a Weblate-et választotta"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
-"a nyílt forráskódú értékek iránt elkötelezett, az adatvédelmet tiszteletben "
-"tartó honosítási platformot."
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Vegyen részt a Weblate fejlesztésében"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7351,6 +7501,14 @@ msgid "Please complete your sign-in using second factor credential."
 msgstr ""
 "Fejezze be a bejelentkezést a második faktoros hitelesítési adatok "
 "használatával."
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
 
 msgid "Your profile"
 msgstr "Saját profil"
@@ -8476,8 +8634,22 @@ msgstr ""
 msgid "Continue"
 msgstr "Folytatás"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "Bejelentkezés a biztonsági kulcs használatával"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Sajnos a böngészője nem rendelkezik WebAuthn támogatással."
@@ -8516,6 +8688,17 @@ msgstr "Nem érhető el"
 #| msgid "No components specified"
 msgid "No components found."
 msgstr "Nincsenek összetevők megadva"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "OpenAI API base URL"
+msgid "Add-on API base URL:"
+msgstr "OpenAI API alap URL"
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "API gyökér URL:"
 
 msgid "Configure add-on"
 msgstr "Kiegészítő beállítása"
@@ -8689,6 +8872,18 @@ msgid ""
 msgstr ""
 "Használhat Django sablonjelölőnyelvet a fájlnévben és a tartalomban is. "
 "Például:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "Százalékosan lefordítva"
@@ -9216,6 +9411,11 @@ msgstr "Számlázási állapot ellenőrzése"
 
 msgid "Browse"
 msgstr "Tallózás"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Fordítás állapota"
 
 msgid "No strings found!"
 msgstr "Nem találhatók szövegek!"
@@ -9793,28 +9993,36 @@ msgid "Become a Weblate supporter"
 msgstr "Legyen a Weblate támogatója"
 
 #, fuzzy
-#| msgid "VCS repository is accessible to everybody."
-msgid "Some repositories are not accessible"
-msgstr "A VCS tároló mindenki számára elérhető."
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "Nem sikerült zárolni a tárolót, egy másik művelet folyamatban van."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Skipped components:"
-msgstr "Egyéb összetevők"
+#| msgid "Created component"
+msgid "Affected components:"
+msgstr "Összetevő létrehozva"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "Hozzáférés megtagadva"
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "Nincs jogosultsága az összetevőhöz való hozzáféréshez."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10993,6 +11201,19 @@ msgstr "Támogatási csomag korlátai"
 msgid "Support expiry"
 msgstr "Támogatás lejárata"
 
+#, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "Professzionális támogatás"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "Támogatási csomag kezelése"
 
@@ -11004,7 +11225,9 @@ msgstr "Támogatási csomag leválasztása"
 msgid "Unlink support package"
 msgstr "Támogatási csomag leválasztása"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "Támogatási csomag vásárlása"
 
 msgid "Contact customer care"
@@ -11673,6 +11896,16 @@ msgstr "Köszönjük, hogy a Weblate-et használja"
 msgid "Return to dashboard"
 msgstr "Visszatérés a vezérlőpultra"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "Új közreműködő %(translation)s nyelven"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Támogassa a Weblate-et"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "Nézze át és erősítse meg a keresés és csere eredményeit."
 
@@ -11804,6 +12037,36 @@ msgstr "Nem találhatók javaslatok."
 
 msgid "Add new screenshot"
 msgstr "Új képernyőkép hozzáadása"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Képernyőkép törlése"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Selected"
+msgstr "CSS-szelektor"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching screenshots available."
+msgstr "Nem érhető el"
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "Képernyőkép neve"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "%(used)s / %(total)s használva"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -12044,32 +12307,20 @@ msgstr[1] "%(count)s műveletet igénylő szöveg a(z) %(component)s összetevő
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-"Noha a Weblate továbbra is ingyenes marad minden felhasználó számára, a "
-"fejlesztése folyamatos beruházást igényel."
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "A Weblate támogatása"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-"Prioritásként kezeljük az adatvédelmet: soha nem jelenítünk meg "
-"hirdetéseket, és nem adjuk el az adatait."
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Köszönjük, hogy a Weblate-et használja"
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"A közösség felbecsülhetetlen értékű támogatása az előfizetések és adományok "
-"révén biztosítja, hogy a Weblate továbbra is növekedjen és virágozzon."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-"Csatlakozzon hozzánk a honosítás jövőjének alakításában, és működjön közre "
-"még ma!"
-
-msgid "Purchase a support package"
-msgstr "Támogatási csomag vásárlása"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12136,20 +12387,33 @@ msgstr "Utolsó véglegesítés a Weblate-ben"
 msgid "Weblate repository"
 msgstr "Weblate tároló"
 
-msgid "This translation is forbidden."
-msgstr "Ez a fordítás tiltott."
-
-msgid "This term should not be translated."
-msgstr "Ezt a kifejezést nem szabad lefordítani."
-
 msgid "This translation needs editing."
 msgstr "Ez a fordítás szerkesztést igényel."
 
 msgid "Copy word into translation"
 msgstr "Szó másolása a fordításba"
 
+msgid "This translation is forbidden."
+msgstr "Ez a fordítás tiltott."
+
+#, fuzzy
+#| msgid "Hidden"
+msgid "Forbidden"
+msgstr "Rejtett"
+
+msgid "This term should not be translated."
+msgstr "Ezt a kifejezést nem szabad lefordítani."
+
 msgid "Edit glossary term"
 msgstr "Szójegyzék-kifejezés szerkesztése"
+
+msgid "Translation explanation"
+msgstr "Fordítás magyarázata"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "Forrásszöveg magyarázata"
 
 msgid "Glossary translation explanation"
 msgstr "Szójegyzékfordítás magyarázata"
@@ -12872,6 +13136,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Sikertelen ellenőrzések:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "Támogatási csomag vásárlása"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid "Term information from the translation file"
+msgstr "Az összes szöveg kényszerített írása a fordítási fájlokba."
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Forrásszövegek"
+
+#, fuzzy
+#| msgid "Target string"
+msgid "Target terms"
+msgstr "Célszöveg"
+
 msgid "Translation status"
 msgstr "Fordítás állapota"
 
@@ -13341,17 +13628,22 @@ msgstr "Az összetevő több kettőzött fordítási szöveget tartalmaz."
 msgid "Source"
 msgstr "Forrás"
 
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Az összes szöveg kényszerített írása a fordítási fájlokba."
+
+#, fuzzy
+#| msgid "Remove blank strings"
+msgid "Remove duplicate strings"
+msgstr "Üres szövegek eltávolítása"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Javítsa ezt az azonos azonosítóval rendelkező kettőzött szövegek "
 "eltávolításával a fordítási fájlokból."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Remove duplicate strings"
-msgstr "Üres szövegek eltávolítása"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -14283,6 +14575,16 @@ msgstr "%(name)s szójegyzék böngészése"
 
 msgid "No screenshot currently associated."
 msgstr "Jelenleg nincs képernyőkép hozzárendelve."
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "Hozzáadás képernyőképhez"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Képernyőkép hozzáadása"
 
 msgid "String information"
 msgstr "Szöveginformációk"
@@ -16472,6 +16774,24 @@ msgstr ""
 "Alapértelmezetten a gettext a sorokat 77 karakter után és sortöréseknél töri "
 "meg. A --no-wrap paraméterrel a sortörés csak sortöréseknél történik."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "Közreműködők a megjegyzésben"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "gettext PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "A lefordított szövegek korábbi üzenetazonosítóinak (msgid) megtartása"
 
@@ -16825,9 +17145,6 @@ msgstr ""
 
 msgid "Source string explanation"
 msgstr "Forrásszöveg magyarázata"
-
-msgid "Translation explanation"
-msgstr "Fordítás magyarázata"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "A forrásszöveg időközben megváltozott. Ellenőrizze a változtatásait."
@@ -19866,6 +20183,18 @@ msgid "Project {}"
 msgstr "Projekt: {}"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Kategória"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspace {}"
+msgstr "Szóközök"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "Összetevő: {}"
 
@@ -21628,6 +21957,66 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "A forrás el lett távolítva."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Frissíti a PO-fájl fejlécének megjegyzés részét úgy, hogy belekerüljenek "
+#~ "a közreműködők nevei és az évek, amikor hozzájárultak a projekthez."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "Segítsen a <strong>Weblate</strong> gyarapodásának fenntartásában"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Üdvözöljük és köszönjük, hogy a Weblate-et választotta"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr ""
+#~ "a nyílt forráskódú értékek iránt elkötelezett, az adatvédelmet "
+#~ "tiszteletben tartó honosítási platformot."
+
+#, fuzzy
+#~| msgid "VCS repository is accessible to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "A VCS tároló mindenki számára elérhető."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "Egyéb összetevők"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "Hozzáférés megtagadva"
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr ""
+#~ "Noha a Weblate továbbra is ingyenes marad minden felhasználó számára, a "
+#~ "fejlesztése folyamatos beruházást igényel."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "Prioritásként kezeljük az adatvédelmet: soha nem jelenítünk meg "
+#~ "hirdetéseket, és nem adjuk el az adatait."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "A közösség felbecsülhetetlen értékű támogatása az előfizetések és "
+#~ "adományok révén biztosítja, hogy a Weblate továbbra is növekedjen és "
+#~ "virágozzon."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr ""
+#~ "Csatlakozzon hozzánk a honosítás jövőjének alakításában, és működjön "
+#~ "közre még ma!"
+
 #~ msgid "Download reports"
 #~ msgstr "Jelentések letöltése"
 
@@ -22527,9 +22916,6 @@ msgstr "A forrás el lett távolítva."
 #~ msgid "Weblate community"
 #~ msgstr "Weblate közösség"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Vegyen részt a Weblate fejlesztésében"
-
 #~ msgid "Weblate website"
 #~ msgstr "Weblate webhely"
 
@@ -22670,9 +23056,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Változó szövegutótag"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Támogassa a Weblate-et"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -24812,9 +25195,6 @@ msgstr "A forrás el lett távolítva."
 
 #~ msgid "You cannot change demo account on the demo server."
 #~ msgstr "Nem változtathatja meg a demo fiókot a demo szerveren."
-
-#~ msgid "Hidden"
-#~ msgstr "Rejtett"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Ez a webhely %(weblate_name_link)s demo kiszolgálót futtat."

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1256,7 +1256,7 @@ msgid ""
 "{0}."
 msgstr ""
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 msgid "Use authentication app (TOTP)"
@@ -1879,6 +1879,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "%(count)s traduzion"
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 #, fuzzy
 #| msgid "Could not add comment!"
 msgid "Do not extract comments"
@@ -2046,6 +2055,20 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr ""
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "One file per translation"
+msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "Translation memory"
+msgid "One file per component"
+msgstr "Memorie di traduzion"
 
 msgid "Name of generated file"
 msgstr ""
@@ -2565,18 +2588,97 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+msgid "ITS rule file is too large."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "ITS rule file contains too many XPath expressions."
 msgstr ""
+
+msgid "ITS XPath expression is too long."
+msgstr ""
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "Invalid ITS directory path."
+msgstr "Components"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+msgid "ITS rule file contains too many elements."
+msgstr ""
+
+msgid "Unsupported ITS rule content."
+msgstr ""
+
+msgid "Unsupported ITS locating rule."
+msgstr ""
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+msgid "Unsupported ITS rule namespace."
+msgstr ""
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+msgid "ITS directories must not contain symbolic links."
+msgstr ""
+
+#, python-format
+msgid "ITS directory does not exist: %(path)s"
+msgstr ""
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "%(count)s traduzion"
+
+#, fuzzy, python-format
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "%(count)s traduzion"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
+msgstr ""
+
+msgid "API add-ons must be installed directly on a component."
+msgstr ""
+
+msgid "This add-on is already installed on this component."
 msgstr ""
 
 msgid "This add-on cannot be triggered manually."
@@ -4368,6 +4470,11 @@ msgstr ""
 msgid "Use case insensitive placeholders"
 msgstr "Stât de traduzion"
 
+#, fuzzy
+#| msgid "translate"
+msgid "Monospace font"
+msgstr "tradûs"
+
 msgid "Font family"
 msgstr ""
 
@@ -5683,6 +5790,20 @@ msgid ""
 "progress. Please try again later."
 msgstr ""
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+msgid "Maximum retained versions"
+msgstr ""
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr ""
 
@@ -6755,6 +6876,11 @@ msgstr "Videade"
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Videade"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -6838,6 +6964,11 @@ msgstr "Stringhis sorzint"
 #| msgid_plural "%(count)s translations"
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a valid screenshot."
+msgstr "Videade"
 
 msgid "Bad request"
 msgstr ""
@@ -6931,18 +7062,13 @@ msgstr ""
 msgid "Support Weblate"
 msgstr "Fâs une donazion a Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr ""
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Contribuìs a Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7027,6 +7153,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -8069,7 +8203,19 @@ msgstr ""
 msgid "Continue"
 msgstr "Va indevant"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+msgid "Sign in using a passkey or security key"
+msgstr ""
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -8107,6 +8253,14 @@ msgstr ""
 #| msgid "translate"
 msgid "No components found."
 msgstr "tradûs"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation memory"
+msgid "API root"
+msgstr "Memorie di traduzion"
 
 msgid "Configure add-on"
 msgstr ""
@@ -8279,6 +8433,18 @@ msgstr ""
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -8819,6 +8985,11 @@ msgstr ""
 
 msgid "Browse"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Stât de traduzion"
 
 msgid "No strings found!"
 msgstr ""
@@ -9377,25 +9548,36 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Supuart de comunitât"
 
-msgid "Some repositories are not accessible"
-msgstr ""
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Some repository operations require additional permissions"
+msgstr "%(count)s traduzion"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
 #| msgid "Translation memory"
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr "Memorie di traduzion"
 
-msgid "Permission required on:"
+msgid "You need the following permissions on the repository-owning component:"
 msgstr ""
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10485,6 +10667,17 @@ msgstr ""
 msgid "Support expiry"
 msgstr ""
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr ""
 
@@ -10494,8 +10687,10 @@ msgstr ""
 msgid "Unlink support package"
 msgstr ""
 
-msgid "Purchase support package"
-msgstr ""
+#, fuzzy
+#| msgid "Premium self-hosted support"
+msgid "Purchase support"
+msgstr "Supuart premium pe instalazion personâl"
 
 msgid "Contact customer care"
 msgstr ""
@@ -11143,6 +11338,17 @@ msgstr ""
 msgid "Return to dashboard"
 msgstr "Fâs une donazion a Weblate"
 
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Thank you for contributing translations."
+msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Fâs une donazion a Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -11269,6 +11475,35 @@ msgid "No screenshots found."
 msgstr "tradûs"
 
 msgid "Add new screenshot"
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a screenshot"
+msgstr "Videade"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Selected"
+msgstr "Progjets"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "No matching screenshots available."
+msgstr "Stringhis sorzint"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot pages"
+msgstr "Videade"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
 msgstr ""
 
 #. Translators: Button to assign string to a screenshot
@@ -11472,23 +11707,17 @@ msgstr[1] "%(count)s traduzions"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Support Weblate development"
+msgstr "Fâs une donazion a Weblate"
+
+msgid "Thank you for using Weblate and contributing translations."
+msgstr ""
+
 msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
 
 msgid ""
@@ -11553,8 +11782,22 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
+msgid "This translation needs editing."
+msgstr "Stât de traduzion"
+
+msgid "Copy word into translation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
 msgid "This translation is forbidden."
 msgstr "Stât de traduzion"
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Forbidden"
+msgstr "%(count)s traduzion"
 
 #, fuzzy
 #| msgid "%(count)s translation"
@@ -11563,17 +11806,19 @@ msgid "This term should not be translated."
 msgstr "%(count)s traduzion"
 
 #, fuzzy
-#| msgid "Translation status"
-msgid "This translation needs editing."
-msgstr "Stât de traduzion"
-
-msgid "Copy word into translation"
-msgstr ""
-
-#, fuzzy
 #| msgid "Glossary"
 msgid "Edit glossary term"
 msgstr "Glossari"
+
+#, fuzzy
+#| msgid "Translation memory"
+msgid "Translation explanation"
+msgstr "Memorie di traduzion"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source explanation"
+msgstr "Stringhis sorzint"
 
 #, fuzzy
 #| msgid "Translation memory"
@@ -12291,6 +12536,28 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr ""
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+msgid "Already purchased? Link your support package"
+msgstr ""
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Term information from the translation file"
+msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Stringhis sorzint"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Target terms"
+msgstr "tradûs"
+
 msgid "Translation status"
 msgstr "Stât de traduzion"
 
@@ -12707,15 +12974,21 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "%(count)s traduzion"
 
 #, fuzzy
 #| msgid "Source strings"
 msgid "Remove duplicate strings"
 msgstr "Stringhis sorzint"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -13575,6 +13848,17 @@ msgstr "Glossari"
 
 msgid "No screenshot currently associated."
 msgstr ""
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Add existing screenshot"
+msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Upload screenshot"
+msgstr "Videade"
 
 msgid "String information"
 msgstr ""
@@ -15713,6 +15997,24 @@ msgid ""
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Contributor comments"
+msgstr "Contribuìs a Weblate"
+
+#, fuzzy
+#| msgid "Components"
+msgid "Gettext"
+msgstr "Components"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr ""
 
@@ -16062,11 +16364,6 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Source string explanation"
 msgstr "Stringhis sorzint"
-
-#, fuzzy
-#| msgid "Translation memory"
-msgid "Translation explanation"
-msgstr "Memorie di traduzion"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -18816,6 +19113,18 @@ msgstr "Progjets"
 
 #. Translators: Text on OpenGraph image
 #, fuzzy
+#| msgid "Translation memory"
+msgid "Category {}"
+msgstr "Memorie di traduzion"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Your name"
+msgid "Workspace {}"
+msgstr "Il tô non"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
 #| msgid "Components"
 msgid "Component {}"
 msgstr "Components"
@@ -20470,6 +20779,11 @@ msgid "The workspace has been removed."
 msgstr "Memorie di traduzion"
 
 #, fuzzy
+#~| msgid "Translation memory"
+#~ msgid "Skipped components:"
+#~ msgstr "Memorie di traduzion"
+
+#, fuzzy
 #~| msgid "%(count)s translation"
 #~| msgid_plural "%(count)s translations"
 #~ msgid ""
@@ -20639,9 +20953,6 @@ msgstr "Memorie di traduzion"
 #~ msgid "Translations with contribution"
 #~ msgstr "tradûs"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Contribuìs a Weblate"
-
 #, fuzzy
 #~| msgid "%(count)s translation"
 #~| msgid_plural "%(count)s translations"
@@ -20657,9 +20968,6 @@ msgstr "Memorie di traduzion"
 #~| msgid "Translate"
 #~ msgid "Variable string suffix"
 #~ msgstr "tradûs"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Fâs une donazion a Weblate"
 
 #, fuzzy
 #~| msgid "Enter a valid e-mail address."

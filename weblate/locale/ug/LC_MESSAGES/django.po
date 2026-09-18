@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:22+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1322,7 +1322,7 @@ msgid ""
 "{0}."
 msgstr ""
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 msgid "Use authentication app (TOTP)"
@@ -1974,6 +1974,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "تەرجىمە ئەھۋالى"
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation status"
 msgid "Do not extract comments"
@@ -2152,6 +2161,19 @@ msgstr "تەرجىمە ئەھۋالى"
 #, fuzzy
 #| msgid "Translation status"
 msgid "Could not determine Sphinx source directory."
+msgstr "تەرجىمە ئەھۋالى"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "One file per translation"
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "One file per component"
 msgstr "تەرجىمە ئەھۋالى"
 
 msgid "Name of generated file"
@@ -2681,19 +2703,115 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+#, fuzzy
+#| msgid "Translation status"
+msgid "ITS rule file is too large."
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "تەرجىمە ئەھۋالى"
+
+msgid "ITS XPath expression is too long."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "Too many ITS rule files."
 msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Invalid ITS directory path."
+msgstr "تەرجىمە ئەھۋالى"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "ITS rule file contains too many elements."
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported ITS rule content."
+msgstr "قوللىمايدىغان سۈرەت تۈرى: %s"
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported ITS locating rule."
+msgstr "قوللىمايدىغان سۈرەت تۈرى: %s"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported image type: %s"
+msgid "Unsupported ITS rule namespace."
+msgstr "قوللىمايدىغان سۈرەت تۈرى: %s"
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "ITS directories must not contain symbolic links."
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "ITS directory does not exist: %(path)s"
+msgstr "تەرجىمە ئەھۋالى"
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "تەرجىمە ئەھۋالى"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "API add-ons must be installed directly on a component."
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "This add-on is already installed on this component."
+msgstr "تەرجىمە ئەھۋالى"
 
 msgid "This add-on cannot be triggered manually."
 msgstr ""
@@ -4598,6 +4716,11 @@ msgstr ""
 msgid "Use case insensitive placeholders"
 msgstr "تەرجىمە ئەھۋالى"
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Monospace font"
+msgstr "تەرجىمە ئەھۋالى"
+
 msgid "Font family"
 msgstr ""
 
@@ -5980,6 +6103,22 @@ msgid ""
 "progress. Please try again later."
 msgstr ""
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Maximum retained versions"
+msgstr "تەرجىمە ئەھۋالى"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr ""
 
@@ -7075,6 +7214,11 @@ msgstr "ئېكران كۆرۈنۈشى، ئېكران كەسمىسى"
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "ئېكران كۆرۈنۈشى، ئېكران كەسمىسى"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -7150,6 +7294,11 @@ msgstr "يېڭى ماس كېلىدىغان مەنبە تىزمىسى تېپىل�
 #| msgid "That was not correct, please try again."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "بۇ توغرا ئەمەس ، قايتا سىناڭ."
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a valid screenshot."
+msgstr "ئېكران كۆرۈنۈشى، ئېكران كەسمىسى"
 
 msgid "Bad request"
 msgstr ""
@@ -7243,18 +7392,13 @@ msgstr ""
 msgid "Support Weblate"
 msgstr "تەرجىمە ئەھۋالى"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr ""
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "Translation status"
+msgid "Continue to Weblate"
+msgstr "تەرجىمە ئەھۋالى"
 
 #, fuzzy
 msgctxt "Label on donate page"
@@ -7342,6 +7486,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -8400,7 +8552,19 @@ msgstr ""
 msgid "Continue"
 msgstr "داۋاملاشتۇر"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+msgid "Sign in using a passkey or security key"
+msgstr ""
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -8438,6 +8602,14 @@ msgstr ""
 #| msgid "Translation status"
 msgid "No components found."
 msgstr "تەرجىمە ئەھۋالى"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "API root"
+msgstr "تۈر ئىسمى"
 
 msgid "Configure add-on"
 msgstr ""
@@ -8615,6 +8787,18 @@ msgstr ""
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -9162,6 +9346,11 @@ msgstr "ھېساباتىڭىزنىڭ ھالىتىنى تەكشۈرىدۇ"
 
 msgid "Browse"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "تەرجىمە ئەھۋالى"
 
 msgid "No strings found!"
 msgstr ""
@@ -9720,25 +9909,35 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "قوللاشقا ئېرىشىش"
 
-msgid "Some repositories are not accessible"
-msgstr ""
+#, fuzzy
+#| msgid "Translation status"
+msgid "Some repository operations require additional permissions"
+msgstr "تەرجىمە ئەھۋالى"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr "تەرجىمە ئەھۋالى"
 
-msgid "Permission required on:"
+msgid "You need the following permissions on the repository-owning component:"
 msgstr ""
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10882,6 +11081,17 @@ msgstr "تەرجىمە ئەھۋالى"
 msgid "Support expiry"
 msgstr ""
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr ""
 
@@ -10895,8 +11105,10 @@ msgstr "تەرجىمە ئەھۋالى"
 msgid "Unlink support package"
 msgstr "تەرجىمە ئەھۋالى"
 
-msgid "Purchase support package"
-msgstr ""
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Purchase support"
+msgstr "Weblate قوللىشى"
 
 msgid "Contact customer care"
 msgstr ""
@@ -11565,6 +11777,16 @@ msgstr ""
 msgid "Return to dashboard"
 msgstr "Weblate غا ئىئانە قىلىڭ"
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Thank you for contributing translations."
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Weblate غا ئىئانە قىلىڭ"
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -11688,6 +11910,35 @@ msgid "No screenshots found."
 msgstr "تەرجىمە ئەھۋالى"
 
 msgid "Add new screenshot"
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a screenshot"
+msgstr "ئېكران كۆرۈنۈشى، ئېكران كەسمىسى"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Selected"
+msgstr "باشقۇرۇلىدىغان تۈرلەر"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "No matching screenshots available."
+msgstr "ئەسلى ھەرپلەر"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot pages"
+msgstr "ئېكران كۆرۈنۈشى، ئېكران كەسمىسى"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
 msgstr ""
 
 #. Translators: Button to assign string to a screenshot
@@ -11895,23 +12146,19 @@ msgstr[1] "تەرجىمە ئەھۋالى"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Support Weblate development"
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "تەرجىمە ئەھۋالى"
+
 msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
 
 msgid ""
@@ -11978,7 +12225,20 @@ msgstr "تەرجىمە ئەھۋالى"
 
 #, fuzzy
 #| msgid "Translation status"
+msgid "This translation needs editing."
+msgstr "تەرجىمە ئەھۋالى"
+
+msgid "Copy word into translation"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
 msgid "This translation is forbidden."
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Forbidden"
 msgstr "تەرجىمە ئەھۋالى"
 
 #, fuzzy
@@ -11987,17 +12247,19 @@ msgid "This term should not be translated."
 msgstr "تەرجىمە ئەھۋالى"
 
 #, fuzzy
-#| msgid "Translation status"
-msgid "This translation needs editing."
-msgstr "تەرجىمە ئەھۋالى"
-
-msgid "Copy word into translation"
-msgstr ""
-
-#, fuzzy
 #| msgid "Glossaries"
 msgid "Edit glossary term"
 msgstr "سۆزلۈك جەدۋىلى"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation explanation"
+msgstr "تەرجىمە ئۇقتۇرۇشى"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source explanation"
+msgstr "ئەسلى ھەرپلەر"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -12742,6 +13004,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "تەرجىمە ئەھۋالى"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Already purchased? Link your support package"
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Reset all changes in the local repository"
+msgid "Term information from the translation file"
+msgstr "يەرلىك ئامباردىكى بارلىق ئۆزگەرتىشلەرنى ئەسلىگە كەلتۈرۈڭ"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "ئەسلى ھەرپلەر"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Target terms"
+msgstr "باشقۇرۇلىدىغان تۈرلەر"
+
 msgid "Translation status"
 msgstr "تەرجىمە ئەھۋالى"
 
@@ -13174,15 +13459,20 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Reset all changes in the local repository"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "يەرلىك ئامباردىكى بارلىق ئۆزگەرتىشلەرنى ئەسلىگە كەلتۈرۈڭ"
 
 #, fuzzy
 #| msgid "Translation status"
 msgid "Remove duplicate strings"
 msgstr "تەرجىمە ئەھۋالى"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -14068,6 +14358,16 @@ msgstr "سۆزلۈك جەدۋىلى"
 
 msgid "No screenshot currently associated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Add existing screenshot"
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Upload screenshot"
+msgstr "ئېكران كۆرۈنۈشى، ئېكران كەسمىسى"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -16251,6 +16551,24 @@ msgid ""
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Contributor comments"
+msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
+#| msgid "Context"
+msgid "Gettext"
+msgstr "كونتېكست"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr ""
 
@@ -16613,11 +16931,6 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Source string explanation"
 msgstr "ئەسلى ھەرپلەر"
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation explanation"
-msgstr "تەرجىمە ئۇقتۇرۇشى"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -19494,6 +19807,17 @@ msgstr "تۈر: {}"
 
 #. Translators: Text on OpenGraph image
 #, fuzzy
+msgid "Category {}"
+msgstr "ئىسمىڭىز"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspace {}"
+msgstr "بوشلۇق"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
 #| msgid "Component: {}"
 msgid "Component {}"
 msgstr "تەركىب: {}"
@@ -21200,6 +21524,11 @@ msgid "The workspace has been removed."
 msgstr "تەرجىمە ئەھۋالى"
 
 #, fuzzy
+#~| msgid "Translation status"
+#~ msgid "Skipped components:"
+#~ msgstr "تەرجىمە ئەھۋالى"
+
+#, fuzzy
 #~| msgctxt "String state"
 #~| msgid "Suggested"
 #~ msgid "Suggested change"
@@ -21429,14 +21758,6 @@ msgstr "تەرجىمە ئەھۋالى"
 #~ msgid "Translations with contribution"
 #~ msgstr "تەرجىمە ئەھۋالى"
 
-#~ msgid "Weblate support"
-#~ msgstr "Weblate قوللىشى"
-
-#, fuzzy
-#~| msgid "Translation status"
-#~ msgid "Contribute to Weblate"
-#~ msgstr "تەرجىمە ئەھۋالى"
-
 #, fuzzy
 #~| msgid "Privacy Policy"
 #~ msgid "Privacy policy"
@@ -21471,9 +21792,6 @@ msgstr "تەرجىمە ئەھۋالى"
 #~| msgid "Translation status"
 #~ msgid "Variable string suffix"
 #~ msgstr "تەرجىمە ئەھۋالى"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Weblate غا ئىئانە قىلىڭ"
 
 #, fuzzy
 #~| msgid "Enter a valid e-mail address."

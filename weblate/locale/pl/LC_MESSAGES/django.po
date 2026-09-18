@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:21+0000\n"
 "Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
@@ -1253,7 +1253,9 @@ msgstr ""
 "Twój adres e-mail nie należy już do zweryfikowanego konta. Został on "
 "zmieniony na {0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "Użyj klucza zabezpieczeń (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -1899,6 +1901,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Wpisy słów kluczowych muszą być ciągami znaków."
 
+#, fuzzy
+#| msgid "Data directory latency"
+msgid "ITS data directories"
+msgstr "Opóźnienie katalogu danych"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "Nie wyodrębniaj komentarzy"
 
@@ -2079,6 +2092,19 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr "Nie udało się ustalić katalogu źródłowego Sphinx."
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Only include approved translations"
+msgid "One file per translation"
+msgstr "Uwzględnij tylko zatwierdzone tłumaczenia"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "Uporządkuj komponent"
 
 msgid "Name of generated file"
 msgstr "Nazwa wygenerowanego pliku"
@@ -2615,21 +2641,121 @@ msgstr ""
 "Aktualizuje szablon gettext za pomocą kompilatora gettext Sphinx bez "
 "ładowania konfiguracji projektu."
 
-msgid "Contributors in comment"
-msgstr "Komentarz współautora"
+#, fuzzy
+#| msgid "Uploaded file is too big."
+msgid "ITS rule file is too large."
+msgstr "Przesłany plik jest za duży."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Plik ZIP zawiera zbyt wiele wpisów."
+
+#, fuzzy
+#| msgid "The provided secret is too long."
+msgid "ITS XPath expression is too long."
+msgstr "Podany tajny klucz jest zbyt długi."
+
+msgid "Too many ITS rule files."
 msgstr ""
-"Zaktualizuj część komentarz w nagłówku pliku PO, aby zawierał nazwę autora i "
-"lata wkładu."
+
+#, fuzzy
+#| msgid "No source files are configured."
+msgid "ITS rule files are too large."
+msgstr "Nie skonfigurowano żadnych plików źródłowych."
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid text direction"
+msgid "Invalid ITS directory path."
+msgstr "Nieprawidłowy kierunek tekstu"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many elements."
+msgstr "Plik ZIP zawiera zbyt wiele wpisów."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Nieobsługiwany format pliku."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "Nie wspierany plik!"
+
+#, fuzzy
+#| msgid "Blank strings require an empty state."
+msgid "ITS locating rules require a pattern."
+msgstr "Puste ciągi wymagają pustego stanu."
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Nieobsługiwany format pliku."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file contains unsupported symbolic links."
+msgid "ITS directories must not contain symbolic links."
+msgstr "Plik ZIP zawiera nieobsługiwane dowiązania symboliczne."
+
+#, fuzzy, python-format
+#| msgid "Referenced category does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "Podana kategoria nie istnieje."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not migrate %(component)s: %(error)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Nie można migrować %(component)s: %(error)s"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Nie udało się przeanalizować pliku TMX: %s"
 
 msgid "Squash Git commits"
 msgstr "Zesquashowane commity na Git"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Zesquashuj commity na Git przed wysłaniem zmian."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "Dodatek można zainstalować tylko na komponencie."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "Dodatek można zainstalować tylko na komponencie."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Tego dodatku nie można wywołać ręcznie."
@@ -4301,6 +4427,11 @@ msgstr "Ignoruj wszystkie kontrole"
 msgid "Use case insensitive placeholders"
 msgstr "Użycie symboli zastępczych niewrażliwych na wielkość liter"
 
+#, fuzzy
+#| msgid "No workspaces found."
+msgid "Monospace font"
+msgstr "Nie znaleziono żadnych obszarów roboczych."
+
 msgid "Font family"
 msgstr "Rodzina czcionek"
 
@@ -5572,6 +5703,24 @@ msgstr ""
 "Nie udało się dodać terminu do słownika, ponieważ w tle trwa inna operacja. "
 "Spróbuj ponownie później."
 
+#, fuzzy
+#| msgid "Maximum changes per day"
+msgid "Maximum build age (days)"
+msgstr "Maksymalna liczba zmian dziennie"
+
+#, fuzzy
+#| msgid "Maximum line length"
+msgid "Maximum retained versions"
+msgstr "Maksymalna długość linii"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Języki Weblate"
 
@@ -6626,6 +6775,11 @@ msgstr "Wyszukaj zrzuty ekranu"
 msgid "Sort by"
 msgstr "Sortuj wg"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Zrzuty ekranu"
+
 msgid "Screenshot name"
 msgstr "Nazwa zrzutu ekranu"
 
@@ -6693,6 +6847,11 @@ msgstr "Nie znaleziono żadnych nowych, pasujących źródłowych ciągów znak�
 
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Nie udało się pobrać danych OCR. Spróbuj ponownie później."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Usuń zrzut ekranu"
 
 msgid "Bad request"
 msgstr "Nieprawidłowe żądanie"
@@ -6804,20 +6963,13 @@ msgstr "O Weblate"
 msgid "Support Weblate"
 msgstr "Wesprzyj Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "Pomóż <strong>Weblate</strong> dalej się rozwijać"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Witamy i dziękujemy za wsparcie Weblate"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Witamy i dziękujemy za wybranie Weblate"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
-"szanująca prywatność platforma lokalizacyjna wyznająca wartości otwartego "
-"źródła."
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Przyczyń się do rozwoju Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6908,6 +7060,14 @@ msgstr "Logowanie dwuskładnikowe"
 
 msgid "Please complete your sign-in using second factor credential."
 msgstr "Dokończ logowanie, korzystając z uwierzytelniania dwuskładnikowego."
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
 
 msgid "Your profile"
 msgstr "Twój profil"
@@ -7998,8 +8158,22 @@ msgstr "Kontynuuj tylko wtedy, gdy ufasz temu miejscu docelowemu."
 msgid "Continue"
 msgstr "Kontynuuj"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "Zaloguj się za pomocą klucza bezpieczeństwa"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Niestety, Twoja przeglądarka nie obsługuje WebAuthn."
@@ -8030,6 +8204,17 @@ msgstr "Niezgodny"
 
 msgid "No components found."
 msgstr "Nie znaleziono komponentów."
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "OpenAI API base URL"
+msgid "Add-on API base URL:"
+msgstr "Podstawowy adres URL interfejsu API OpenAI"
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "Baza adresu URL API:"
 
 msgid "Configure add-on"
 msgstr "Konfiguruj wtyczkę"
@@ -8198,6 +8383,18 @@ msgid ""
 msgstr ""
 "Możesz używać znaczników szablonów Django zarówno w nazwie pliku, jak i "
 "treści, na przykład:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "Procent tłumaczenia"
@@ -8754,6 +8951,11 @@ msgstr "Sprawdź swój status płatności"
 
 msgid "Browse"
 msgstr "Przeglądaj"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Stan tłumaczenia"
 
 msgid "No strings found!"
 msgstr "Nie znaleziono żadnych ciągów!"
@@ -9317,28 +9519,38 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Zostań wspierającym Weblate"
 
-msgid "Some repositories are not accessible"
-msgstr "Niektóre repozytoria nie są dostępne"
+#, fuzzy
+#| msgid "Another repository operation is already in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "Kolejna operacja na repozytorium jest już w toku."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
-"Każda z poniższych operacji wyklucza repozytoria, chyba że masz wymagane "
-"uprawnienia do każdego komponentu, który je udostępnia."
 
-msgid "Skipped components:"
-msgstr "Pominięte komponenty:"
+#, fuzzy
+#| msgid "Affected components"
+msgid "Affected components:"
+msgstr "Komponenty, których to dotyczy"
 
-msgid "Permission required on:"
-msgstr "Wymagane uprawnienie na:"
+#, fuzzy
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "Nie masz uprawnień dostępu do tego komponentu."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
 msgstr ""
-"Repozytorium zostało pominięte, ponieważ jeden lub więcej jego komponentów "
-"jest niedostępny."
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Stan repozytorium"
@@ -10463,6 +10675,19 @@ msgstr "Limity pakietów wsparcia"
 msgid "Support expiry"
 msgstr "Wygaśnięcie wsparcia"
 
+#, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "Profesjonalne wsparcie"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "Zarządzaj pakietem wsparcia"
 
@@ -10472,7 +10697,9 @@ msgstr "Odłącz pakiet wsparcia i wyłącz Odkryj Weblate"
 msgid "Unlink support package"
 msgstr "Odłącz pakiet wsparcia"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "Kup pakiet wsparcia"
 
 msgid "Contact customer care"
@@ -11120,6 +11347,16 @@ msgstr "Dziękujemy za korzystanie z Weblate"
 msgid "Return to dashboard"
 msgstr "Wróć do kokpitu"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "Nowy współtwórca w projekcie %(translation)s"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Złóż darowiznę dla Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "Sprawdź i potwierdź wyniki podmiany wyszukiwania."
 
@@ -11232,6 +11469,36 @@ msgstr "Nie znaleziono zrzutów ekranu."
 
 msgid "Add new screenshot"
 msgstr "Dodaj nowy zrzut ekranu"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Usuń zrzut ekranu"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Select"
+msgid "Selected"
+msgstr "Wybierz"
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "No matching screenshots available."
+msgstr "Brak dostępnych zespołów."
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "Nazwa zrzutu ekranu"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "Użyte %(used)s z %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11441,32 +11708,20 @@ msgstr[2] "Dotyczy to jeszcze %(count)s komponentów."
 msgid "No diagnostics match the selected filters."
 msgstr "Brak wyników diagnostyki odpowiadających wybranym filtrom."
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-"Choć Weblate pozostaje darmowy dla wszystkich użytkowników, jego rozwój "
-"wymaga ciągłych inwestycji."
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "Wesprzyj Weblate"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-"Twoja prywatność jest dla nas priorytetem; nigdy nie wyświetlamy reklam ani "
-"nie sprzedajemy Twoich danych."
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Dziękujemy za korzystanie z Weblate"
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"Nieocenione wsparcie społeczności przez subskrypcje i darowizny zapewnia, że "
-"Weblate nadal się rozwija i prosperuje."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-"Dołącz do nas w kształtowaniu przyszłości lokalizacji i wnieś swój wkład już "
-"dziś!"
-
-msgid "Purchase a support package"
-msgstr "Kup pakiet wsparcia"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11531,20 +11786,33 @@ msgstr "Ostatni commit w Weblate"
 msgid "Weblate repository"
 msgstr "Repozytorium Weblate"
 
-msgid "This translation is forbidden."
-msgstr "To tłumaczenie jest zabronione."
-
-msgid "This term should not be translated."
-msgstr "Tego terminu nie należy tłumaczyć."
-
 msgid "This translation needs editing."
 msgstr "To tłumaczenie wymaga edycji."
 
 msgid "Copy word into translation"
 msgstr "Skopiuj słowo do tłumaczenia"
 
+msgid "This translation is forbidden."
+msgstr "To tłumaczenie jest zabronione."
+
+#, fuzzy
+#| msgid "Hidden"
+msgid "Forbidden"
+msgstr "Ukryte"
+
+msgid "This term should not be translated."
+msgstr "Tego terminu nie należy tłumaczyć."
+
 msgid "Edit glossary term"
 msgstr "Edytuj termin słownika"
+
+msgid "Translation explanation"
+msgstr "Wyjaśnienie tłumaczenia"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "Wyjaśnienie ciągu źródłowego"
 
 msgid "Glossary translation explanation"
 msgstr "Wyjaśnienie tłumaczenia słownika"
@@ -12233,6 +12501,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Nieudane sprawdzenia:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "Kup pakiet wsparcia"
+
+#, fuzzy
+#| msgid "Remove unused strings from the translation file"
+msgid "Term information from the translation file"
+msgstr "Usuń nieużywane ciągi z pliku tłumaczenia"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Ciągi źródłowe"
+
+#, fuzzy
+#| msgid "Target type"
+msgid "Target terms"
+msgstr "Typ docelowy"
+
 msgid "Translation status"
 msgstr "Stan tłumaczenia"
 
@@ -12729,15 +13020,20 @@ msgstr "Komponent zawiera kilka zduplikowanych ciągów tłumaczeń."
 msgid "Source"
 msgstr "Źródło"
 
+#, fuzzy, python-format
+#| msgid "Remove duplicated strings from the translation file"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Usuń zduplikowane ciągi znaków z pliku tłumaczenia"
+
+msgid "Remove duplicate strings"
+msgstr "Usuń zduplikowane ciągi"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Napraw to, usuwając zduplikowane ciągi o tym samym identyfikatorze z plików "
 "tłumaczeń."
-
-msgid "Remove duplicate strings"
-msgstr "Usuń zduplikowane ciągi"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -12775,8 +13071,8 @@ msgid ""
 "disabled. Weblate will not automatically add these terms to missing glossary "
 "languages."
 msgstr ""
-"Ten słownik zawiera terminy oznaczone jako terminologia, ale opcja „"
-"Zarządzaj ciągami” jest wyłączona. Weblate nie doda automatycznie tych "
+"Ten słownik zawiera terminy oznaczone jako terminologia, ale opcja "
+"„Zarządzaj ciągami” jest wyłączona. Weblate nie doda automatycznie tych "
 "terminów do brakujących języków słownika."
 
 msgid ""
@@ -13663,6 +13959,16 @@ msgstr "Przeglądaj słownik"
 
 msgid "No screenshot currently associated."
 msgstr "Brak aktualnie powiązanego zrzutu ekranu."
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "Dodaj do zrzutu ekranu"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Dodaj zrzut ekranu"
 
 msgid "String information"
 msgstr "Informacje dotyczące ciągu znaków"
@@ -15538,6 +15844,24 @@ msgstr ""
 "parametrem --no-wrap, zawija jest wykonywane tylko przy przejściu do nowych "
 "linii."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "Komentarz współautora"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "gettext PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "Zachowaj poprzednie msgids przetłumaczonych ciągów"
 
@@ -15874,9 +16198,6 @@ msgstr ""
 
 msgid "Source string explanation"
 msgstr "Wyjaśnienie ciągu źródłowego"
-
-msgid "Translation explanation"
-msgstr "Wyjaśnienie tłumaczenia"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "W międzyczasie zmienił się ciąg źródłowy. Sprawdź zmiany."
@@ -18747,6 +19068,19 @@ msgid "Project {}"
 msgstr "Projekt {}"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Kategoria"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgctxt "Translation memory category"
+#| msgid "Workspace: {}"
+msgid "Workspace {}"
+msgstr "Obszar roboczy: {}"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "Komponent {}"
 
@@ -20389,6 +20723,73 @@ msgstr "Nie można usunąć obszaru roboczego, ponieważ jest on nadal używany.
 msgid "The workspace has been removed."
 msgstr "Obszar roboczy został usunięty."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Zaktualizuj część komentarz w nagłówku pliku PO, aby zawierał nazwę "
+#~ "autora i lata wkładu."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "Pomóż <strong>Weblate</strong> dalej się rozwijać"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Witamy i dziękujemy za wybranie Weblate"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr ""
+#~ "szanująca prywatność platforma lokalizacyjna wyznająca wartości otwartego "
+#~ "źródła."
+
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "Niektóre repozytoria nie są dostępne"
+
+#~ msgid ""
+#~ "Each operation below excludes repositories unless you have the required "
+#~ "permission on every component sharing them."
+#~ msgstr ""
+#~ "Każda z poniższych operacji wyklucza repozytoria, chyba że masz wymagane "
+#~ "uprawnienia do każdego komponentu, który je udostępnia."
+
+#~ msgid "Skipped components:"
+#~ msgstr "Pominięte komponenty:"
+
+#~ msgid "Permission required on:"
+#~ msgstr "Wymagane uprawnienie na:"
+
+#~ msgid ""
+#~ "A repository was skipped because one or more of its components are not "
+#~ "accessible."
+#~ msgstr ""
+#~ "Repozytorium zostało pominięte, ponieważ jeden lub więcej jego "
+#~ "komponentów jest niedostępny."
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr ""
+#~ "Choć Weblate pozostaje darmowy dla wszystkich użytkowników, jego rozwój "
+#~ "wymaga ciągłych inwestycji."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "Twoja prywatność jest dla nas priorytetem; nigdy nie wyświetlamy reklam "
+#~ "ani nie sprzedajemy Twoich danych."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "Nieocenione wsparcie społeczności przez subskrypcje i darowizny zapewnia, "
+#~ "że Weblate nadal się rozwija i prosperuje."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr ""
+#~ "Dołącz do nas w kształtowaniu przyszłości lokalizacji i wnieś swój wkład "
+#~ "już dziś!"
+
 #~ msgid "Download reports"
 #~ msgstr "Pobierz raporty"
 
@@ -21313,9 +21714,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgid "Weblate community"
 #~ msgstr "Społeczność Weblate"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Przyczyń się do rozwoju Weblate"
-
 #~ msgid "Weblate website"
 #~ msgstr "Strona internetowa Weblate"
 
@@ -21455,9 +21853,6 @@ msgstr "Obszar roboczy został usunięty."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Zmienny sufiks ciągu"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Złóż darowiznę dla Weblate"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -23667,9 +24062,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgstr ""
 #~ "Aby przetestować Weblate na tym serwerze demonstracyjnym, możesz "
 #~ "zalogować się jako następujący użytkownik:"
-
-#~ msgid "Hidden"
-#~ msgstr "Ukryte"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Strona napędzana przez wersję demo %(weblate_name_link)s."
@@ -25979,9 +26371,6 @@ msgstr "Obszar roboczy został usunięty."
 #~ msgstr ""
 #~ "Jest %(count)s napisów z których %(translated)s&#37; jest "
 #~ "przetłumaczonych, a %(fuzzy)s&#37; jest wątpliwych."
-
-#~ msgid "Invalid text direction"
-#~ msgstr "Nieprawidłowy kierunek tekstu"
 
 #~ msgid "Text direction can be either LTR or RTL"
 #~ msgstr "Kierunek tekstu może być LTR albo RTL"

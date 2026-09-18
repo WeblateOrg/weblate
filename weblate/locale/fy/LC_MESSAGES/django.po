@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1392,7 +1392,7 @@ msgid ""
 "{0}."
 msgstr ""
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 msgid "Use authentication app (TOTP)"
@@ -2073,6 +2073,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Nije oersetting"
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 #, fuzzy
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
@@ -2255,6 +2264,19 @@ msgstr "Oare oersettings"
 #| msgid "Merge style"
 msgid "Could not determine Sphinx source directory."
 msgstr "Berjochtstyl"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "New translation"
+msgid "One file per translation"
+msgstr "Nije oersetting"
+
+#, fuzzy
+#| msgid "Other components"
+msgid "One file per component"
+msgstr "Oare ûnderdielen"
 
 #, fuzzy
 #| msgid "Generate"
@@ -2819,19 +2841,115 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+#, fuzzy
+#| msgid "Other translations"
+msgid "ITS rule file is too large."
+msgstr "Oare oersettings"
+
+#, fuzzy
+#| msgid "New translation"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Nije oersetting"
+
+msgid "ITS XPath expression is too long."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "Too many ITS rule files."
 msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Invalid ITS directory path."
+msgstr "Oare ûnderdielen"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "New translation"
+msgid "ITS rule file contains too many elements."
+msgstr "Nije oersetting"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Unsupported ITS rule content."
+msgstr "Oer Weblate"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Unsupported ITS locating rule."
+msgstr "Oer Weblate"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Unsupported ITS rule namespace."
+msgstr "Oer Weblate"
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "New translation"
+msgid "ITS directories must not contain symbolic links."
+msgstr "Nije oersetting"
+
+#, fuzzy, python-format
+#| msgid "Translation license"
+msgid "ITS directory does not exist: %(path)s"
+msgstr "Oersettingslisinsje"
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "New translation"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Nije oersetting"
+
+#, fuzzy, python-format
+#| msgid "New translation"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Nije oersetting"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Other translations"
+msgid "API add-ons must be installed directly on a component."
+msgstr "Oare oersettings"
+
+#, fuzzy
+#| msgid "Other translations"
+msgid "This add-on is already installed on this component."
+msgstr "Oare oersettings"
 
 msgid "This add-on cannot be triggered manually."
 msgstr ""
@@ -4912,6 +5030,11 @@ msgstr ""
 msgid "Use case insensitive placeholders"
 msgstr "oerset"
 
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Monospace font"
+msgstr "Masjineoersetting"
+
 msgid "Font family"
 msgstr ""
 
@@ -6423,6 +6546,22 @@ msgid ""
 "progress. Please try again later."
 msgstr "Berjochtstyl"
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Maximum retained versions"
+msgstr "Masjineoersetting"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 #, fuzzy
 #| msgid "Nahuatl languages"
 msgid "Weblate languages"
@@ -7589,6 +7728,11 @@ msgstr "Projekten"
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation license"
+msgid "Screenshot"
+msgstr "Oersettingslisinsje"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -7673,6 +7817,11 @@ msgstr "Masjineoersetting"
 #| msgid "New translation"
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Nije oersetting"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Select a valid screenshot."
+msgstr "Projekten"
 
 msgid "Bad request"
 msgstr ""
@@ -7770,18 +7919,13 @@ msgstr "Oer Weblate"
 msgid "Support Weblate"
 msgstr "Oer Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr ""
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Continue to Weblate"
+msgstr "Oer Weblate"
 
 #, fuzzy
 #| msgid "Username"
@@ -7874,6 +8018,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -9003,7 +9155,21 @@ msgstr ""
 msgid "Continue"
 msgstr "Kontekst"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Sign in using a passkey or security key"
+msgstr "Nij wachtwurd"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -9043,6 +9209,14 @@ msgstr ""
 #| msgid "Components"
 msgid "No components found."
 msgstr "Underdielen"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "API root"
+msgstr "Projektnamme"
 
 #, fuzzy
 #| msgid "Change password"
@@ -9232,6 +9406,18 @@ msgstr "Masjineoersetting"
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 #, fuzzy
@@ -9838,6 +10024,11 @@ msgid "Browse"
 msgstr "Ferkenne"
 
 #, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Oersetstatus"
+
+#, fuzzy
 #| msgid "Machine translation"
 msgid "No strings found!"
 msgstr "Masjineoersetting"
@@ -10441,27 +10632,37 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Oer Weblate"
 
-msgid "Some repositories are not accessible"
-msgstr ""
+#, fuzzy
+#| msgid "Merge style"
+msgid "Some repository operations require additional permissions"
+msgstr "Berjochtstyl"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
 #| msgid "Other components"
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr "Oare ûnderdielen"
 
 #, fuzzy
-#| msgid "Versions"
-msgid "Permission required on:"
-msgstr "Ferzjes"
+#| msgid "New translation in %(translation)s"
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "Nije oersetting yn %(translation)s"
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -11680,6 +11881,17 @@ msgstr "Projekten"
 msgid "Support expiry"
 msgstr "Oer Weblate"
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 #, fuzzy
 #| msgid "Projects"
 msgid "Manage support package"
@@ -11695,8 +11907,10 @@ msgstr "Projekten"
 msgid "Unlink support package"
 msgstr "Projekten"
 
-msgid "Purchase support package"
-msgstr ""
+#, fuzzy
+#| msgid "Projects"
+msgid "Purchase support"
+msgstr "Projekten"
 
 msgid "Contact customer care"
 msgstr ""
@@ -12426,6 +12640,16 @@ msgstr ""
 msgid "Return to dashboard"
 msgstr "Oer Weblate"
 
+#, fuzzy
+#| msgid "New translation"
+msgid "Thank you for contributing translations."
+msgstr "Nije oersetting"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Donate to Weblate development"
+msgstr "Oer Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -12564,6 +12788,36 @@ msgstr "Masjineoersetting"
 
 msgid "Add new screenshot"
 msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Select a screenshot"
+msgstr "Projekten"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Selected"
+msgstr "Projekten"
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "No matching screenshots available."
+msgstr "Masjineoersetting"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Screenshot pages"
+msgstr "Oersettingslisinsje"
+
+#, fuzzy, python-format
+#| msgid "%(position)s / %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "%(position)s / %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 #, fuzzy
@@ -12779,26 +13033,20 @@ msgstr[1] "Oare oersettings"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Support Weblate development"
+msgstr "Oer Weblate"
 
 #, fuzzy
-#| msgid "Projects"
-msgid "Purchase a support package"
-msgstr "Projekten"
+#| msgid "New translation"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Nije oersetting"
+
+msgid ""
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
+msgstr ""
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12868,16 +13116,6 @@ msgstr "Berjochtstyl"
 
 #, fuzzy
 #| msgid "Translation license"
-msgid "This translation is forbidden."
-msgstr "Oersettingslisinsje"
-
-#, fuzzy
-#| msgid "Message is not translated"
-msgid "This term should not be translated."
-msgstr "Berjocht is net oerset"
-
-#, fuzzy
-#| msgid "Translation license"
 msgid "This translation needs editing."
 msgstr "Oersettingslisinsje"
 
@@ -12887,9 +13125,34 @@ msgid "Copy word into translation"
 msgstr "Nije oersetting"
 
 #, fuzzy
+#| msgid "Translation license"
+msgid "This translation is forbidden."
+msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "Serbian"
+msgid "Forbidden"
+msgstr "Servysk"
+
+#, fuzzy
+#| msgid "Message is not translated"
+msgid "This term should not be translated."
+msgstr "Berjocht is net oerset"
+
+#, fuzzy
 #| msgid "Glossary"
 msgid "Edit glossary term"
 msgstr "Wurdlist"
+
+#, fuzzy
+#| msgid "Translation instructions"
+msgid "Translation explanation"
+msgstr "Oersettingsynstruksjes"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Source explanation"
+msgstr "Boarnewiziging"
 
 #, fuzzy
 #| msgid "Translation instructions"
@@ -13705,6 +13968,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Oersettingstriem"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Already purchased? Link your support package"
+msgstr "Projekten"
+
+#, fuzzy
+#| msgid "Merge style"
+msgid "Term information from the translation file"
+msgstr "Berjochtstyl"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Source terms"
+msgstr "Boarnewiziging"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Target terms"
+msgstr "Boarnewiziging"
+
 msgid "Translation status"
 msgstr "Oersetstatus"
 
@@ -14152,15 +14438,20 @@ msgstr ""
 msgid "Source"
 msgstr "Boarne"
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Merge style"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Berjochtstyl"
 
 #, fuzzy
 #| msgid "Status"
 msgid "Remove duplicate strings"
 msgstr "Status"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -15120,6 +15411,16 @@ msgstr "Wurdlist"
 
 msgid "No screenshot currently associated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Add existing screenshot"
+msgstr "Projekten"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Upload screenshot"
+msgstr "Projekten"
 
 #, fuzzy
 #| msgid "Source change"
@@ -17431,6 +17732,24 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "New comment"
+msgid "Contributor comments"
+msgstr "Nije opmerking"
+
+#, fuzzy
+#| msgid "Gettext (PO)"
+msgid "Gettext"
+msgstr "Gettext (PO)"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
+#, fuzzy
 #| msgid "translated"
 msgid "Keep previous msgids of translated strings"
 msgstr "oerset"
@@ -17819,11 +18138,6 @@ msgstr ""
 #| msgid "Source change"
 msgid "Source string explanation"
 msgstr "Boarnewiziging"
-
-#, fuzzy
-#| msgid "Translation instructions"
-msgid "Translation explanation"
-msgstr "Oersettingsynstruksjes"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -20930,6 +21244,18 @@ msgstr "Projekten"
 
 #. Translators: Text on OpenGraph image
 #, fuzzy
+#| msgid "Author name"
+msgid "Category {}"
+msgstr "Namme auteur"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Nahuatl languages"
+msgid "Workspace {}"
+msgstr "Nahuatl talen"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
 #| msgid "Component"
 msgid "Component {}"
 msgstr "Underdiel"
@@ -22697,6 +23023,16 @@ msgid "The workspace has been removed."
 msgstr "Oersettingslisinsje"
 
 #, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "Oare ûnderdielen"
+
+#, fuzzy
+#~| msgid "Versions"
+#~ msgid "Permission required on:"
+#~ msgstr "Ferzjes"
+
+#, fuzzy
 #~| msgid "Download"
 #~ msgid "Download reports"
 #~ msgstr "Download"
@@ -23227,11 +23563,6 @@ msgstr "Oersettingslisinsje"
 #~| msgid "New comment"
 #~ msgid "Weblate community"
 #~ msgstr "Nije opmerking"
-
-#, fuzzy
-#~| msgid "About Weblate"
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Oer Weblate"
 
 #, fuzzy
 #~| msgid "Nahuatl languages"
@@ -25312,11 +25643,6 @@ msgstr "Oersettingslisinsje"
 
 #~ msgid "Wolaytta"
 #~ msgstr "Walamo"
-
-#, fuzzy
-#~| msgid "Serbian"
-#~ msgid "Sorbian"
-#~ msgstr "Servysk"
 
 #~ msgid "Wolof"
 #~ msgstr "Wolof"
