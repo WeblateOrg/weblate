@@ -32,7 +32,7 @@
         {% if term.forbidden %}
           <small title="{% translate 'This translation is forbidden.' %}">{% translate "Forbidden" %}</small>
         {% endif %}
-        {% if "read-only" in item.all_flags %}
+        {% if item.untranslatable %}
           <span>{% translate "This term should not be translated." %}</span>
         {% endif %}
         {% if term.administrative_status and term.administrative_status != "forbidden" %}<small>{{ term.administrative_status }}</small>{% endif %}
