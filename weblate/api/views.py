@@ -4051,15 +4051,17 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if self.action in {"list", "retrieve"}:
             return UnitSerializer
         if self.action == "screenshots":
-            # Runtime serializer selection (used by DRF's browsable API
-            # form/OPTIONS rendering) is independent of the @extend_schema
-            # annotation on the view, which only affects the generated
-            # OpenAPI document - both need to point at the right shape.
+            # GET (list) and POST (associate) need different shapes, so
+            # this one action can't be satisfied by a single
+            # serializer_class= on the @action decorator.
             if self.request.method == "GET":
                 return ScreenshotSerializer
             return UnitScreenshotAssociationSerializer
-        if self.action == "delete_screenshots":
-            return ScreenshotSerializer
+        # Respect an explicit serializer_class= set on the action itself
+        # (e.g. delete_screenshots, comments) instead of silently falling
+        # through to UnitWriteSerializer for every other action.
+        if getattr(self, "serializer_class", None) is not None:
+            return self.serializer_class
         return UnitWriteSerializer
 
     def get_queryset(self):
@@ -4278,6 +4280,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         detail=True,
         methods=["delete"],
         url_path="screenshots/(?P<screenshot_id>[0-9]+)",
+        serializer_class=ScreenshotSerializer,
     )
     @transaction.atomic
     def delete_screenshots(self, request: Request, pk, screenshot_id):
