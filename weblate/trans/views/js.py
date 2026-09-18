@@ -104,7 +104,9 @@ def markdown_preview(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Render Markdown text for previewing in the editor."""
     text = request.POST.get("text", "")
     if len(text) > MARKDOWN_PREVIEW_MAX_LENGTH:
-        return HttpResponseBadRequest(gettext("The text is too long to preview."))
+        return HttpResponseBadRequest(
+            gettext("The text is too long to preview."), content_type="text/plain"
+        )
     return render(request, "js/markdown-preview.html", {"text": text})
 
 

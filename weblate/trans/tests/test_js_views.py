@@ -56,6 +56,10 @@ class JSViewsTest(FixtureTestCase):
             reverse("js-markdown-preview"), {"text": "x" * 50_001}
         )
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response["Content-Type"], "text/plain")
+        self.assertContains(
+            response, "The text is too long to preview.", status_code=400
+        )
 
     def test_flag_choices(self) -> None:
         response = self.client.get(reverse("js-flag-choices"))

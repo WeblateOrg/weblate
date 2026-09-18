@@ -2248,6 +2248,9 @@ onReady(() => {
       pane.dataset.rendered = text;
       return;
     }
+    pane.previewController?.abort();
+    const controller = new AbortController();
+    pane.previewController = controller;
     pane.setAttribute("aria-busy", "true");
     fetch(pane.dataset.previewUrl, {
       method: "POST",
@@ -2257,15 +2260,29 @@ onReady(() => {
         "X-CSRFToken": document.querySelector("#link-post input")?.value ?? "",
       },
       body: new URLSearchParams({ text }),
+      signal: controller.signal,
     })
       .then(async (response) => {
-        if (!response.ok || response.redirected) {
-          throw new Error(`${response.statusText} (${response.status})`);
+        if (response.redirected) {
+          /* Redirected to login, the session has most likely expired */
+          throw new Error(gettext("Please sign in again."));
+        }
+        if (!response.ok) {
+          const isText = response.headers
+            .get("Content-Type")
+            ?.startsWith("text/plain");
+          const detail = isText ? (await response.text()).trim() : "";
+          throw new Error(
+            detail || `${response.statusText} (${response.status})`,
+          );
         }
         pane.innerHTML = await response.text();
         pane.dataset.rendered = text;
       })
       .catch((error) => {
+        if (error.name === "AbortError") {
+          return;
+        }
         const alert = document.createElement("div");
         alert.className = "alert alert-danger";
         alert.setAttribute("role", "alert");
@@ -2274,7 +2291,10 @@ onReady(() => {
         delete pane.dataset.rendered;
       })
       .finally(() => {
-        pane.setAttribute("aria-busy", "false");
+        if (pane.previewController === controller) {
+          pane.previewController = null;
+          pane.setAttribute("aria-busy", "false");
+        }
       });
   });
 
