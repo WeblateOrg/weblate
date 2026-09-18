@@ -5,12 +5,12 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* DeepL automatic suggestions can include a rephrased version of an existing translation via the DeepL Write API (Pro plans and supported languages only). See :ref:`mt-deepl-rephrase`.
 * Added support for :ref:`component-mounted add-on APIs <component-addon-api>`.
 
 * Added :ref:`addon-weblate.cdn.kotlin` with build registration, runtime Android translations, and configurable version retention.
 
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can generate component-wide locale lists with native language names, text direction, and translation statistics.
-
 * Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
 * Added an inherited :ref:`language creation policy <workflow-language-restrictions>` allowing existing project target languages while requesting maintainer approval for new languages.
 * Added configurable per-user and IP/network :ref:`API rate limits and exemptions <api-rate>`, including Docker configuration.
