@@ -365,9 +365,13 @@ class UserAPITest(APIBaseTest):
 
     def test_list_contributors_first(self) -> None:
         translation = self.component.translation_set.get(language__code="cs")
-        unit = translation.unit_set.order_by("id").first()
+        units = list(translation.unit_set.order_by("id")[:2])
+        unit = units[0]
         contributor = User.objects.create_user(
             "contributor", "contributor@example.org", "x"
+        )
+        translation_contributor = User.objects.create_user(
+            "collaborator", "collaborator@example.org", "x"
         )
         User.objects.create_user("curious", "curious@example.org", "x")
         Change.objects.create(
@@ -379,14 +383,25 @@ class UserAPITest(APIBaseTest):
             unit=unit,
             user=contributor,
         )
+        Change.objects.create(
+            action=ActionEvents.CHANGE,
+            project=self.project,
+            component=self.component,
+            translation=translation,
+            language=translation.language,
+            unit=units[1],
+            user=translation_contributor,
+        )
         self.authenticate(False)
         self.grant_perm_to_user("user.view")
         response = self.client.get(
             reverse("api:user-list"), {"username": "c", "unit": unit.pk}
         )
         usernames = [user["username"] for user in response.data["results"]]
-        # Contributor to the unit ranks before other matching users
-        self.assertLess(usernames.index("contributor"), usernames.index("curious"))
+        # Direct unit contributor ranks first, translation contributor
+        # second, other matching users last
+        self.assertLess(usernames.index("contributor"), usernames.index("collaborator"))
+        self.assertLess(usernames.index("collaborator"), usernames.index("curious"))
 
     def test_get(self) -> None:
         language = Language.objects.get(code="cs")

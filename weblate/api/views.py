@@ -1119,6 +1119,16 @@ def get_delete_memory_option(request: Request) -> bool:
 
 
 @extend_schema_view(
+    list=extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "unit",
+                int,
+                OpenApiParameter.QUERY,
+                description="Rank contributors to the given unit first.",
+            ),
+        ],
+    ),
     retrieve=extend_schema(
         description="Return information about users.",
         responses=USER_RESPONSE_SERIALIZER,
@@ -1212,7 +1222,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def order_by_contributions(self, queryset):
         """Rank contributors to the given unit first in user listings."""
-        if "unit" not in self.request.GET:
+        if "unit" not in self.request.GET or not self.request.user.is_authenticated:
             return queryset
         try:
             unit = Unit.objects.filter_access(self.request.user).get(
