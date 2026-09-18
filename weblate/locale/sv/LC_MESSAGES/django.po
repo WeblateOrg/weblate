@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-17 18:51+0000\n"
+"PO-Revision-Date: 2026-09-18 06:04+0000\n"
 "Last-Translator: Daniel Nylander <yeagersthlm@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -1226,10 +1226,8 @@ msgstr ""
 "Din e-postadress tillhör inte längre ett verifierat konto. Den har ändrats "
 "till {0}."
 
-#, fuzzy
-#| msgid "Use security key (WebAuthn)"
 msgid "Use a passkey or security key (WebAuthn)"
-msgstr "Använd säkerhetsnyckel (WebAuthn)"
+msgstr "Använd en inloggningsnyckel eller säkerhetsnyckel (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
 msgstr "Använd autentiseringsapp (TOTP)"
@@ -1864,16 +1862,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Nyckelordsposter måste vara strängar."
 
-#, fuzzy
-#| msgid "Data directory latency"
 msgid "ITS data directories"
-msgstr "Fördröjning i datakatalogen"
+msgstr "ITS-datakataloger"
 
 msgid ""
 "Newline-separated repository-relative directories containing an its "
 "subdirectory, for example po for po/its. Earlier directories override later "
 "directories and bundled rules."
 msgstr ""
+"Kataloger som anges relativt arkivets rot och innehåller en underkatalog med "
+"namnet its, till exempel po för po/its. Ange en katalog per rad. Tidigare "
+"kataloger har företräde framför senare kataloger och medföljande regler."
 
 msgid "Do not extract comments"
 msgstr "Extrahera inte kommentarer"
@@ -2058,17 +2057,13 @@ msgid "Could not determine Sphinx source directory."
 msgstr "Kunde inte bestämma Sphinx källkatalog."
 
 msgid "Output scope"
-msgstr ""
+msgstr "Omfattning för utdata"
 
-#, fuzzy
-#| msgid "Only include approved translations"
 msgid "One file per translation"
-msgstr "Inkludera endast godkända översättningar"
+msgstr "En fil per översättning"
 
-#, fuzzy
-#| msgid "Organize component"
 msgid "One file per component"
-msgstr "Ordna komponent"
+msgstr "En fil per komponent"
 
 msgid "Name of generated file"
 msgstr "Namn på genererad fil"
@@ -2600,105 +2595,80 @@ msgstr ""
 "Uppdaterar gettext-mallen med Sphinx gettext-builder utan att ladda "
 "projektkonfiguration."
 
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "ITS rule file is too large."
-msgstr "Den uppladdade filen är för stor."
+msgstr "ITS-regelfilen är för stor."
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many XPath expressions."
-msgstr "ZIP-filen innehåller för många poster."
+msgstr "ITS-regelfilen innehåller för många XPath-uttryck."
 
-#, fuzzy
-#| msgid "The provided secret is too long."
 msgid "ITS XPath expression is too long."
-msgstr "Den tillhandahållna hemligheten är för lång."
+msgstr "XPath-uttrycket för ITS är för långt."
 
 msgid "Too many ITS rule files."
-msgstr ""
+msgstr "För många ITS-regelfiler."
 
-#, fuzzy
-#| msgid "No source files are configured."
 msgid "ITS rule files are too large."
-msgstr "Inga källfiler är konfigurerade."
+msgstr "ITS-regelfilerna är för stora."
 
 msgid "ITS directories must be a list of strings."
-msgstr ""
+msgstr "ITS-kataloger måste anges som en lista med strängar."
 
-#, fuzzy
-#| msgid "Invalid text direction"
 msgid "Invalid ITS directory path."
-msgstr "Ogiltig textriktning"
+msgstr "Ogiltig sökväg till ITS-katalog."
 
 msgid "ITS rules must not contain a document type."
-msgstr ""
+msgstr "ITS-regler får inte innehålla en dokumenttyp."
 
 msgid "Invalid ITS rule document root."
-msgstr ""
+msgstr "Ogiltigt rotelement i ITS-regeldokumentet."
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many elements."
-msgstr "ZIP-filen innehåller för många poster."
+msgstr "ITS-regelfilen innehåller för många element."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule content."
-msgstr "Filformatet stöds inte."
+msgstr "Innehållet i ITS-regeln stöds inte."
 
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported ITS locating rule."
-msgstr "Filen stöds inte!"
+msgstr "Lokaliseringsregeln för ITS stöds inte."
 
-#, fuzzy
-#| msgid "Blank strings require an empty state."
 msgid "ITS locating rules require a pattern."
-msgstr "Tomma strängar kräver ett tomt tillstånd."
+msgstr "Lokaliseringsregler för ITS kräver ett mönster."
 
 msgid "ITS locating rules require a target or a document rule."
-msgstr ""
+msgstr "Lokaliseringsregler för ITS kräver ett mål eller en dokumentregel."
 
 msgid "ITS document rules require a target."
-msgstr ""
+msgstr "Dokumentregler för ITS kräver ett mål."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule namespace."
-msgstr "Filformatet stöds inte."
+msgstr "Namnrymden för ITS-regeln stöds inte."
 
 msgid "External ITS rule references are not allowed."
-msgstr ""
+msgstr "Externa hänvisningar till ITS-regler är inte tillåtna."
 
 msgid "ITS targets must name a rule in the same directory."
-msgstr ""
+msgstr "ITS-mål måste ange en regel i samma katalog."
 
 msgid "ITS target is missing or is a symbolic link."
-msgstr ""
+msgstr "ITS-målet saknas eller är en symbolisk länk."
 
-#, fuzzy
-#| msgid "ZIP file contains unsupported symbolic links."
 msgid "ITS directories must not contain symbolic links."
-msgstr "ZIP-filen innehåller symboliska länkar som inte stödjs."
+msgstr "ITS-kataloger får inte innehålla symboliska länkar."
 
-#, fuzzy, python-format
-#| msgid "Referenced category does not exist."
+#, python-format
 msgid "ITS directory does not exist: %(path)s"
-msgstr "Den refererade kategorin finns inte."
+msgstr "ITS-katalogen finns inte: %(path)s"
 
 msgid "ITS rules must be regular files, not symbolic links."
-msgstr ""
+msgstr "ITS-regler måste vara vanliga filer, inte symboliska länkar."
 
-#, fuzzy, python-format
-#| msgid "Could not migrate %(component)s: %(error)s"
+#, python-format
 msgid "Invalid ITS rule %(path)s: %(error)s"
-msgstr "Kunde inte migrera %(component)s: %(error)s"
+msgstr "Ogiltig ITS-regel %(path)s: %(error)s"
 
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file: %s"
+#, python-format
 msgid "Could not parse ITS rule: %(path)s"
-msgstr "Kunde inte tolka TMX-filen: %s"
+msgstr "Kunde inte tolka ITS-regeln: %(path)s"
 
 msgid "Squash Git commits"
 msgstr "Squasha Git arkiveringar"
@@ -2706,15 +2676,11 @@ msgstr "Squasha Git arkiveringar"
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Squasha Git-arkiveringar innan de pushas."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "API add-ons must be installed directly on a component."
-msgstr "Tillägget kan endast installeras på komponenten."
+msgstr "API-tillägg måste installeras direkt på en komponent."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "This add-on is already installed on this component."
-msgstr "Tillägget kan endast installeras på komponenten."
+msgstr "Detta tillägg är redan installerat på denna komponent."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Detta tillägg kan inte utlösas manuellt."
@@ -4379,10 +4345,8 @@ msgstr "Ignorera alla kontroller"
 msgid "Use case insensitive placeholders"
 msgstr "Använd icke skiftlägeskänsliga platshållare"
 
-#, fuzzy
-#| msgid "No workspaces found."
 msgid "Monospace font"
-msgstr "Inga arbetsområden hittades."
+msgstr "Typsnitt med fast teckenbredd"
 
 msgid "Font family"
 msgstr "Typsnittsfamilj"
@@ -5642,23 +5606,21 @@ msgstr ""
 "Det gick inte att lägga till termen i ordlistan eftersom en annan "
 "bakgrundsprocess pågår. Försök igen senare."
 
-#, fuzzy
-#| msgid "Maximum changes per day"
 msgid "Maximum build age (days)"
-msgstr "Maximalt antal ändringar per dag"
+msgstr "Högsta ålder för byggen (dagar)"
 
-#, fuzzy
-#| msgid "Maximum line length"
 msgid "Maximum retained versions"
-msgstr "Maximal radlängd"
+msgstr "Högsta antal sparade versioner"
 
 msgid "Kotlin SDK CDN"
-msgstr ""
+msgstr "CDN för Kotlin SDK"
 
 msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+"Publicerar Android-resurser för strängar och pluralformer för registrerade "
+"Kotlin SDK-byggen."
 
 msgid "Weblate languages"
 msgstr "Weblate-språk"
@@ -6700,10 +6662,8 @@ msgstr "Sök skärmbilder"
 msgid "Sort by"
 msgstr "Sortera efter"
 
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot"
-msgstr "Skärmdumpar"
+msgstr "Skärmbild"
 
 msgid "Screenshot name"
 msgstr "Namn på skärmdump"
@@ -6770,10 +6730,8 @@ msgstr "Inga nya matchande källsträngar hittades."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Det gick inte att hämta OCR-data. Försök igen senare."
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a valid screenshot."
-msgstr "Ta bort skärmdump"
+msgstr "Välj en giltig skärmbild."
 
 msgid "Bad request"
 msgstr "Felaktig begäran"
@@ -6887,10 +6845,8 @@ msgstr "Stöd Weblate"
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Välkommen och tack för att du stöder Weblate"
 
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Continue to Weblate"
-msgstr "Bidra till Weblate"
+msgstr "Fortsätt till Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6980,12 +6936,15 @@ msgid "Please complete your sign-in using second factor credential."
 msgstr "Slutför din inloggning med hjälp av tvåfaktorsautentisering."
 
 msgid "Other ways to verify your identity"
-msgstr ""
+msgstr "Andra sätt att verifiera din identitet"
 
 msgid ""
 "If you cannot use your passkey or security key, or any other configured "
 "verification method, contact the site administrator for help."
 msgstr ""
+"Om du inte kan använda din inloggningsnyckel eller säkerhetsnyckel, eller "
+"någon annan konfigurerad verifieringsmetod, kontaktar du "
+"webbplatsadministratören för att få hjälp."
 
 msgid "Your profile"
 msgstr "Din profil"
@@ -8058,17 +8017,22 @@ msgid ""
 "security key. Your passkey might not be available on a new computer or in a "
 "different browser."
 msgstr ""
+"Använd en enhet där din inloggningsnyckel är tillgänglig eller anslut din "
+"registrerade säkerhetsnyckel. Din inloggningsnyckel kanske inte är "
+"tillgänglig på en ny dator eller i en annan webbläsare."
 
-#, fuzzy
-#| msgid "Sign in using the security key"
 msgid "Sign in using a passkey or security key"
-msgstr "Logga in med säkerhetsnyckeln"
+msgstr "Logga in med en inloggningsnyckel eller säkerhetsnyckel"
 
 msgid ""
 "Passkey or security key verification could not be completed. The request may "
 "have timed out or been canceled, or your credential may be unavailable on "
 "this device. Try again or use another verification method if available."
 msgstr ""
+"Verifieringen med inloggningsnyckel eller säkerhetsnyckel kunde inte "
+"slutföras. Begäran kan ha nått tidsgränsen eller avbrutits, eller så är din "
+"inloggningsuppgift inte tillgänglig på den här enheten. Försök igen eller "
+"använd en annan verifieringsmetod om det finns någon."
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Tyvärr har din webbläsare inget stöd för WebAuthn."
@@ -8100,16 +8064,11 @@ msgstr "Inte kompatibel"
 msgid "No components found."
 msgstr "Inga komponenter hittades."
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgid "Add-on API base URL:"
-msgstr "OpenAI API-bas-URL"
+msgstr "Bas-URL för tilläggets API:"
 
-#, fuzzy
-#| msgid "API root URL:"
 msgid "API root"
-msgstr "Bas-URL för API:"
+msgstr "API-rot"
 
 msgid "Configure add-on"
 msgstr "Konfigurera tillägg"
@@ -8280,12 +8239,18 @@ msgid ""
 "and statistics. Use the json or python filter to serialize values in "
 "generated files."
 msgstr ""
+"I komponentläget kan du iterera över översättningarna för att komma åt varje "
+"språks metadata och statistik. Använd filtret json eller python för att "
+"serialisera värden i genererade filer."
 
 msgid ""
 "The translation variables below are available directly in translation mode, "
 "or on each item in component mode. Component and project variables are "
 "available in both modes."
 msgstr ""
+"Översättningsvariablerna nedan är tillgängliga direkt i översättningsläget "
+"eller på varje objekt i komponentläget. Komponent- och projektvariabler är "
+"tillgängliga i båda lägena."
 
 msgid "Percents translated"
 msgstr "Procent översatt"
@@ -8821,10 +8786,8 @@ msgstr "Kontrollera din faktureringsstatus"
 msgid "Browse"
 msgstr "Bläddra"
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation status widgets"
-msgstr "Översättningsstatus"
+msgstr "Widgetar för översättningsstatus"
 
 msgid "No strings found!"
 msgstr "Inga strängar hittades!"
@@ -9371,38 +9334,37 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Bli Weblate-supporter"
 
-#, fuzzy
-#| msgid "Another repository operation is already in progress."
 msgid "Some repository operations require additional permissions"
-msgstr "En annan arkivåtgärd pågår redan."
+msgstr "Vissa arkivåtgärder kräver ytterligare behörigheter"
 
 msgid ""
 "Repository operations require permission on the component that owns the "
 "shared repository."
 msgstr ""
+"Arkivåtgärder kräver behörighet på komponenten som äger det delade arkivet."
 
-#, fuzzy
-#| msgid "Affected components"
 msgid "Affected components:"
-msgstr "Påverkade komponenter"
+msgstr "Berörda komponenter:"
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "You need the following permissions on the repository-owning component:"
-msgstr "Du har inte behörighet att komma åt komponenten."
+msgstr "Du behöver följande behörigheter på komponenten som äger arkivet:"
 
 msgid ""
 "You need the following permissions on the repository-owning component, which "
 "you cannot access:"
 msgstr ""
+"Du behöver följande behörigheter på komponenten som äger arkivet, men som du "
+"inte har åtkomst till:"
 
 msgid "Ask an administrator of the owning project to grant these permissions."
 msgstr ""
+"Be en administratör för projektet som äger arkivet att ge dig dessa "
+"behörigheter."
 
 msgid ""
 "Ask your project administrator to coordinate access with the repository "
 "owner."
-msgstr ""
+msgstr "Be din projektadministratör att samordna åtkomsten med arkivets ägare."
 
 msgid "Repository status"
 msgstr "Arkivstatus"
@@ -10513,18 +10475,19 @@ msgstr "Gränser för supportpaket"
 msgid "Support expiry"
 msgstr "Supportens utgång"
 
-#, fuzzy
-#| msgid "Professional support"
 msgid "Professional support for your organization"
-msgstr "Professionell support"
+msgstr "Professionell support för din organisation"
 
 msgid ""
 "Purchase professional support for expert help with setup, maintenance, and "
 "troubleshooting."
 msgstr ""
+"Köp professionell support för att få experthjälp med konfiguration, "
+"underhåll och felsökning."
 
 msgid "Your subscription also funds the ongoing development of Weblate."
 msgstr ""
+"Din prenumeration finansierar också den fortsatta utvecklingen av Weblate."
 
 msgid "Manage support package"
 msgstr "Hantera supportpaket"
@@ -10535,10 +10498,8 @@ msgstr "Ta bort kopplingen till stödpaketet och deaktivera Discover Weblate"
 msgid "Unlink support package"
 msgstr "Koppla bort supportpaket"
 
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase support"
-msgstr "Köp supportpaket"
+msgstr "Köp support"
 
 msgid "Contact customer care"
 msgstr "Kontakta kundtjänst"
@@ -11173,15 +11134,11 @@ msgstr "Tack för att du använder Weblate"
 msgid "Return to dashboard"
 msgstr "Återgå till kontrollpanelen"
 
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "Thank you for contributing translations."
-msgstr "Ny medarbetare i %(translation)s"
+msgstr "Tack för att du bidrar med översättningar."
 
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Donate to Weblate development"
-msgstr "Donera till Weblate"
+msgstr "Donera till utvecklingen av Weblate"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "Granska och bekräfta resultaten för sök och ersätt."
@@ -11293,35 +11250,28 @@ msgstr "Inga skärmdumpar hittades."
 msgid "Add new screenshot"
 msgstr "Lägg till ny skärmdump"
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a screenshot"
-msgstr "Ta bort skärmdump"
+msgstr "Välj en skärmbild"
 
 msgid ""
 "Source-language screenshots are shown for every translation of this string. "
 "Other screenshots are shown only for their language."
 msgstr ""
+"Skärmbilder på källspråket visas för alla översättningar av den här "
+"strängen. Övriga skärmbilder visas endast för respektive språk."
 
-#, fuzzy
-#| msgid "Select"
 msgid "Selected"
-msgstr "Välj"
+msgstr "Vald"
 
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No matching screenshots available."
-msgstr "Det finns inga grupper tillgängliga."
+msgstr "Inga matchande skärmbilder finns tillgängliga."
 
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshot pages"
-msgstr "Namn på skärmdump"
+msgstr "Sidor med skärmbilder"
 
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Page %(current)s of %(total)s"
-msgstr "Använder %(used)s av %(total)s"
+msgstr "Sida %(current)s av %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11525,20 +11475,18 @@ msgstr[1] "%(count)s fler påverkade komponenter."
 msgid "No diagnostics match the selected filters."
 msgstr "Ingen diagnostik matchar de valda filtren."
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support Weblate development"
-msgstr "Stöd Weblate"
+msgstr "Stöd utvecklingen av Weblate"
 
-#, fuzzy
-#| msgid "Thank you for using Weblate"
 msgid "Thank you for using Weblate and contributing translations."
-msgstr "Tack för att du använder Weblate"
+msgstr "Tack för att du använder Weblate och bidrar med översättningar."
 
 msgid ""
 "If you would like to give more, an optional donation funds development and "
 "maintenance of Weblate itself."
 msgstr ""
+"Om du vill bidra mer kan du göra en frivillig donation som finansierar "
+"utveckling och underhåll av själva Weblate."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11609,10 +11557,8 @@ msgstr "Kopiera ord till översättning"
 msgid "This translation is forbidden."
 msgstr "Denna översättning är förbjuden."
 
-#, fuzzy
-#| msgid "Hidden"
 msgid "Forbidden"
-msgstr "Gömd"
+msgstr "Åtkomst nekad"
 
 msgid "This term should not be translated."
 msgstr "Denna post skall inte översättas."
@@ -11623,10 +11569,8 @@ msgstr "Ändra post i ordlista"
 msgid "Translation explanation"
 msgstr "Förklaring till översättning"
 
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Source explanation"
-msgstr "Förklaring av källsträng"
+msgstr "Förklaring av källsträngen"
 
 msgid "Glossary translation explanation"
 msgstr "Förklaring av ordlisteöversättning"
@@ -12308,27 +12252,19 @@ msgid "Failing checks:"
 msgstr "Fallerande kontroller:"
 
 msgid "Using Weblate in your organization?"
-msgstr ""
+msgstr "Använder din organisation Weblate?"
 
-#, fuzzy
-#| msgid "Purchase a support package"
 msgid "Already purchased? Link your support package"
-msgstr "Köp ett supportpaket"
+msgstr "Har du redan köpt ett supportpaket? Koppla det här"
 
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Term information from the translation file"
-msgstr "Ta bort oanvända strängar från översättningsfilen"
+msgstr "Terminformation från översättningsfilen"
 
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source terms"
-msgstr "Källsträngar"
+msgstr "Källtermer"
 
-#, fuzzy
-#| msgid "Target type"
 msgid "Target terms"
-msgstr "Måltyp"
+msgstr "Måltermer"
 
 msgid "Translation status"
 msgstr "Översättningsstatus"
@@ -12819,10 +12755,9 @@ msgstr "Komponenten innehåller flera duplicerade översättningssträngar."
 msgid "Source"
 msgstr "Källa"
 
-#, fuzzy, python-format
-#| msgid "Remove duplicated strings from the translation file"
+#, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Ta bort duplicerade strängar från översättningsfilen"
+msgstr "Ta bort duplicerade strängar från %(language)s (%(filename)s)"
 
 msgid "Remove duplicate strings"
 msgstr "Ta bort duplicerade strängar"
@@ -13746,15 +13681,11 @@ msgstr "Bläddra i ordlistan"
 msgid "No screenshot currently associated."
 msgstr "Ingen skärmdump är för närvarande associerad."
 
-#, fuzzy
-#| msgid "Add to screenshot"
 msgid "Add existing screenshot"
-msgstr "Lägg till skärmdump"
+msgstr "Lägg till befintlig skärmbild"
 
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Upload screenshot"
-msgstr "Lägg till skärmdump"
+msgstr "Ladda upp skärmbild"
 
 msgid "String information"
 msgstr "Stränginformation"
@@ -15609,23 +15540,22 @@ msgstr ""
 "Som standard bryter gettext rader vid 77 tecken och vid radbrytningar. Med "
 "parametern --no-wrap bryts rader endast vid radbrytningar."
 
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contributor comments"
-msgstr "Bidragsgivare i kommentar"
+msgstr "Kommentarer med uppgifter om bidragsgivare"
 
-#, fuzzy
-#| msgid "gettext PO"
 msgid "Gettext"
-msgstr "gettext PO"
+msgstr "Gettext"
 
 msgid "SPDX"
-msgstr ""
+msgstr "SPDX"
 
 msgid ""
 "Add contributor names and years to header comments. SPDX also converts "
 "existing recognized contributor comments to SPDX-FileCopyrightText entries."
 msgstr ""
+"Lägg till bidragsgivarnas namn och årtal i filhuvudets kommentarer. SPDX "
+"konverterar också befintliga identifierade kommentarer med uppgifter om "
+"bidragsgivare till SPDX-FileCopyrightText-poster."
 
 msgid "Keep previous msgids of translated strings"
 msgstr "Behåll tidigare msgid för översatta strängar"
@@ -18767,17 +18697,12 @@ msgid "Project {}"
 msgstr "Projekt {}"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgid "Category"
 msgid "Category {}"
-msgstr "Kategori"
+msgstr "Kategori {}"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Workspace: {}"
 msgid "Workspace {}"
-msgstr "Arbetsområde: {}"
+msgstr "Arbetsområde {}"
 
 #. Translators: Text on OpenGraph image
 msgid "Component {}"
