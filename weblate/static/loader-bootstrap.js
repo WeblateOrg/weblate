@@ -2245,9 +2245,12 @@ onReady(() => {
       data: {
         keys: ["full_name"],
         src: async (query) => {
-          const response = await fetch(
-            `/api/users/?username=${encodeURIComponent(query)}&is_active=1`,
-          );
+          let url = `/api/users/?username=${encodeURIComponent(query)}&is_active=1`;
+          const unitId = editor.closest("#comment-form")?.dataset.unitId;
+          if (unitId) {
+            url += `&unit=${encodeURIComponent(unitId)}`;
+          }
+          const response = await fetch(url);
           const data = await response.json();
           return data.results.map((user) => ({
             username: user.username,

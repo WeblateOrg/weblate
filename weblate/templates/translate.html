@@ -622,6 +622,7 @@
                 <form method="post"
                       action="{% url 'comment' pk=unit.id %}"
                       class="auto-save-translation"
+                      data-unit-id="{{ unit.id }}"
                       id="comment-form">
                   {% csrf_token %}
                   <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
