@@ -48,6 +48,7 @@ Weblate 2026.10
 * Ensured translation consistency and automatic translation workflows respect restricted component access.
 * Limited the number and aggregate size of alternatives accepted by the translation editor.
 * Prevented component ZIP imports from overwriting version control metadata on case-insensitive filesystems.
+* Excluded Subversion and Bazaar metadata from repository ZIP downloads and path processing.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
 
 .. rubric:: Bug fixes
