@@ -11,10 +11,12 @@ from html import escape
 from typing import cast
 from unittest.mock import patch
 
+from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import urlencode
+from lxml import html
 
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -505,11 +507,13 @@ class ChangesTest(ViewTestCase):
         start = end - timedelta(days=1)
         period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.client.get(reverse("changes"), {"period": period})
-        query_string = urlencode({"page": 2, "limit": 20, "period": period})
-        self.assertContains(response, escape(query_string))
-        response = self.client.get(
-            reverse("changes"), {"page": 2, "limit": 20, "period": period}
+        document = html.fromstring(response.content)
+        next_url = document.xpath('//a[@rel="next"]/@href')[0]
+        self.assertEqual(
+            QueryDict(next_url.removeprefix("?")),
+            QueryDict(urlencode({"page": 2, "limit": 20, "period": period})),
         )
+        response = self.client.get(f"{reverse('changes')}{next_url}")
         self.assertContains(response, "String added in the upload")
 
     def test_rss_link_keeps_query_string(self) -> None:

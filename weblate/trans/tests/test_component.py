@@ -53,6 +53,7 @@ from weblate.trans.tests.test_views import (
     ViewTestCase,
 )
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.trans.util import join_plural
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -947,7 +948,10 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 2, "cs", 5, unit="address bar")
 
         translation = component.translation_set.get(language_code="cs")
-        unit = translation.unit_set.get(source="application")
+        unit = translation.unit_set.get(
+            source=join_plural(["application", "application program"])
+        )
+        self.assertEqual(unit.get_target_plurals(), ["aplikace", "aplikační program"])
         self.assertEqual(
             unit.source_unit.explanation,
             "a computer program designed for a specific task or use",
@@ -1028,7 +1032,7 @@ class ComponentTest(RepoTestCase):
         """Setting of check_flags changes checks for related units."""
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
-        check = Check.objects.all()[0]
+        check = Check.objects.filter(name="same")[0]
         component.check_flags = f"ignore-{check.name}"
         with self.captureOnCommitCallbacks(execute=True):
             component.save()
@@ -1038,7 +1042,7 @@ class ComponentTest(RepoTestCase):
         """Moving to category changes checks inherited by related units."""
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
-        check = Check.objects.all()[0]
+        check = Check.objects.filter(name="same")[0]
         category = component.project.category_set.create(
             name="Checks", slug="checks", check_flags=f"ignore-{check.name}"
         )

@@ -3,7 +3,7 @@
 {% load crispy_forms_tags i18n metrics permissions static translations %}
 
 {% block nav_pills %}
-  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'meta:vcs.maintenance' object as user_can_see_repository_status %}
   {% perm 'project.permissions' object as user_can_manage_acl %}
   {% perm 'translation.add' object as user_can_add_translation %}
   {% perm 'component.edit' object as user_can_edit_component %}
@@ -222,7 +222,8 @@
   {% path_object_breadcrumbs path_object %}
 
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+         alt="{% translate "Translation status widgets" %}" />
   </a>
 {% endblock breadcrumbs %}
 
@@ -232,7 +233,7 @@
 
   {% include "snippets/component/state.html" %}
 
-  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'meta:vcs.maintenance' object as user_can_see_repository_status %}
   {% perm 'project.permissions' object as user_can_manage_acl %}
   {% perm 'translation.add' object as user_can_add_translation %}
   {% perm 'component.edit' object as user_can_edit_component %}

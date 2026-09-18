@@ -8,10 +8,19 @@ import codecs
 import os
 import tempfile
 from contextlib import contextmanager, suppress
+from copy import deepcopy
 from datetime import UTC
 from itertools import batched, chain
 from pathlib import Path
-from typing import TYPE_CHECKING, BinaryIO, Literal, NotRequired, TypedDict, overload
+from typing import (
+    TYPE_CHECKING,
+    BinaryIO,
+    Literal,
+    NotRequired,
+    TypedDict,
+    cast,
+    overload,
+)
 
 from django.conf import settings
 from django.core.cache import cache
@@ -62,7 +71,7 @@ from weblate.trans.util import (
     sanitize_backend_error_message,
     split_plural,
 )
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import validate_check_flags, validate_multivalue_size
 from weblate.utils import messages
 from weblate.utils.errors import log_handled_exception, report_error, report_message
 from weblate.utils.html import format_html_join_comma
@@ -88,6 +97,7 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.formats.base import TranslationUnit
+    from weblate.formats.ttkit import TBXUnit
     from weblate.utils.state import (
         StringState,
     )
@@ -832,7 +842,7 @@ class Translation(
             # We should also do cleanup on source strings tracking objects
 
             # Update revision and stats
-            self.store_hash()
+            self.store_hash(parsed=True)
 
             # Store change entry
             self.update_changes.append(
@@ -1083,11 +1093,22 @@ class Translation(
         """Return current VCS blob hash for file."""
         get_object_hash = self.component.repository.get_object_hash
         filenames = self.get_hash_filenames()
-        return ",".join(get_object_hash(filename) for filename in filenames)
+        hashes = [get_object_hash(filename) for filename in filenames]
+        if version := self.component.file_format_cls.parse_version:
+            hashes[0] = f"{hashes[0]}:{version}"
+        return ",".join(hashes)
 
-    def store_hash(self) -> None:
-        """Store current hash in database."""
-        self.revision = self.get_git_blob_hash()
+    def store_hash(self, *, parsed: bool = False) -> None:
+        """Store the current hash without marking legacy pending edits as reparsed."""
+        revision = self.get_git_blob_hash()
+        version = self.component.file_format_cls.parse_version
+        if (
+            version
+            and not parsed
+            and not self.revision.split(",", maxsplit=1)[0].endswith(f":{version}")
+        ):
+            revision = revision.replace(f":{version}", "", 1)
+        self.revision = revision
         self.save(update_fields=["revision"])
 
     def get_last_author(self):
@@ -1395,7 +1416,15 @@ class Translation(
     def update_pending_store_unit(
         pounit: TranslationUnit, unit: Unit, pending_change: PendingUnitChange
     ) -> None:
-        if unit.is_plural:
+        if (
+            unit.translation.component.file_format == "tbx"
+            and "tbx_terms" not in unit.details
+            and not unit.is_plural
+        ):
+            # Edits queued before the first upgrade reparse only address the
+            # first term. Preserve alternatives that were not exposed then.
+            pounit.set_target([pending_change.target, *split_plural(pounit.target)[1:]])
+        elif unit.is_plural:
             pounit.set_target(unit.get_target_plurals())
         else:
             pounit.set_target(pending_change.target)
@@ -1408,11 +1437,7 @@ class Translation(
         try:
             pounit, add = store.find_unit(unit.context, unit.source)
         except UnitNotFoundError:
-            return store.new_unit(
-                unit.context,
-                unit.get_source_plurals(),
-                unit.get_target_plurals(),
-            )
+            return store.new_unit_from_unit(unit)
         if add:
             store.add_unit(pounit)
         return pounit
@@ -1460,6 +1485,8 @@ class Translation(
             template = self.component.effective_commit_message
         with repository.lock:
             # Pre commit hook
+            if self.filename and self.store.update_contributor(author):
+                self.store.save()
             vcs_pre_commit.send(
                 sender=self.__class__,
                 translation=self,
@@ -2057,7 +2084,7 @@ class Translation(
         has_template = component.has_template()
         skipped = 0
         accepted = 0
-        existing: set[str] | set[tuple[str, str]]
+        existing: set[str | tuple[str, str]]
         existing_id_hashes: set[int] | None = None
 
         self.validate_upload_plural_store(store)
@@ -2067,12 +2094,13 @@ class Translation(
         if has_template:
             existing = set(self.unit_set.values_list("context", flat=True))
         else:
-            existing = set(self.unit_set.values_list("context", "source"))
+            existing_pairs = set(self.unit_set.values_list("context", "source"))
             # Iterate over list to copy set that will be changed
-            for ex_context, ex_source in list(existing):
+            for ex_context, ex_source in list(existing_pairs):
                 if is_plural(ex_source):
                     # Include unpluralized string as well as it does not work in most formats
-                    existing.add((ex_context, split_plural(ex_source)[0]))
+                    existing_pairs.add((ex_context, split_plural(ex_source)[0]))
+            existing = set(existing_pairs)
 
         for _set_fuzzy, unit in store.iterate_merge(fuzzy, only_translated=False):
             import_id_hash = getattr(unit, "import_id_hash", None)
@@ -2103,8 +2131,13 @@ class Translation(
                 split_plural(unit.target) if not self.is_source else [],
                 is_batch_update=True,
                 state=STATE_READONLY if unit.is_readonly() else None,
+                original_unit=cast("TBXUnit", unit)
+                if component.file_format == "tbx" and getattr(unit, "tbx_terms", None)
+                else None,
             )
             existing.add(idkey)
+            if not has_template and component.is_multivalue:
+                existing.add((unit.context, split_plural(unit.source)[0]))
             accepted += 1
         self.store_update_changes()
         component.invalidate_cache()
@@ -2443,6 +2476,7 @@ class Translation(
         source: str | list[str],
         target: str | list[str] | None = None,
         *,
+        original_unit: TBXUnit | None = None,
         extra_flags: str = "",
         explanation: str = "",
         auto_context: bool = False,
@@ -2459,6 +2493,7 @@ class Translation(
         source: str | list[str],
         target: str | list[str] | None = None,
         *,
+        original_unit: TBXUnit | None = None,
         extra_flags: str = "",
         explanation: str = "",
         auto_context: bool = False,
@@ -2474,6 +2509,7 @@ class Translation(
         source: str | list[str],
         target: str | list[str] | None = None,
         *,
+        original_unit: TBXUnit | None = None,
         extra_flags: str = "",
         explanation: str = "",
         auto_context: bool = False,
@@ -2488,6 +2524,7 @@ class Translation(
                 context,
                 source,
                 target,
+                original_unit=original_unit,
                 extra_flags=extra_flags,
                 explanation=explanation,
                 auto_context=auto_context,
@@ -2505,6 +2542,7 @@ class Translation(
         source: str | list[str],
         target: str | list[str] | None = None,
         *,
+        original_unit: TBXUnit | None = None,
         extra_flags: str = "",
         explanation: str = "",
         auto_context: bool = False,
@@ -2609,6 +2647,20 @@ class Translation(
                 except Unit.DoesNotExist:
                     pass
                 else:
+                    if original_unit is not None and not skip_existing:
+                        explanation = original_unit.source_explanation
+                        unit.update_source_unit(
+                            component,
+                            source,
+                            context,
+                            unit.position,
+                            original_unit.notes,
+                            unit.location,
+                            original_unit.flags,
+                            explanation,
+                            tbx_terms=original_unit.tbx_terms,
+                            tbx_flags=original_unit.tbx_flags,
+                        )
                     flags = Flags(unit.extra_flags)
                     flags.merge(extra_flags)
                     new_flags = flags.format()
@@ -2623,8 +2675,10 @@ class Translation(
                             sync_terminology=False,
                         )
             if unit is None:
-                if "read-only" in translation.all_flags or (
-                    component.is_glossary and "read-only" in parsed_flags
+                if (
+                    state == STATE_READONLY
+                    or "read-only" in translation.all_flags
+                    or (component.is_glossary and "read-only" in parsed_flags)
                 ):
                     unit_state = STATE_READONLY
                 elif state is None:
@@ -2635,7 +2689,33 @@ class Translation(
                     unit_state = STATE_EMPTY
                 else:
                     unit_state = state
+                details = {}
+                if original_unit is not None:
+                    terms = deepcopy(original_unit.tbx_terms)
+                    if is_source:
+                        terms["target"] = deepcopy(terms["source"])
+                    details = {"tbx_terms": terms, "tbx_flags": original_unit.tbx_flags}
+                    kwargs["explanation"] = (
+                        original_unit.source_explanation
+                        if is_source
+                        else original_unit.explanation
+                    )
+                elif source_unit is not None and source_unit.tbx_terms:
+                    details = {
+                        "tbx_terms": {
+                            "source": deepcopy(source_unit.tbx_terms["source"]),
+                            "target": [],
+                        },
+                        "tbx_flags": deepcopy(source_unit.details.get("tbx_flags")),
+                    }
+                    if source_unit.readonly:
+                        unit_state = STATE_READONLY
                 unit = Unit(
+                    details=details,
+                    flags=original_unit.flags.format()
+                    if original_unit is not None
+                    else "",
+                    note=original_unit.notes if original_unit is not None else "",
                     translation=translation,
                     context=context,
                     source=source,
@@ -2646,6 +2726,9 @@ class Translation(
                     position=translation.stats.all + 1,
                     **kwargs,
                 )
+                if original_unit is None and source_unit is not None and details:
+                    unit.flags = source_unit.flags
+                    unit.note = source_unit.note
                 unit.fill_new_unit_cache()
                 unit.is_batch_update = is_batch_update
                 unit.trigger_update_variants = False
@@ -2911,6 +2994,12 @@ class Translation(
         component = self.component
         if isinstance(source, str):
             source = [source]
+        validate_multivalue_size(component.is_multivalue, source)
+        if target is not None:
+            validate_multivalue_size(
+                component.is_multivalue,
+                [target] if isinstance(target, str) else target,
+            )
         if (
             len(source) > 1
             and not component.file_format_cls.supports_adding_plural_units()

@@ -839,6 +839,16 @@ Security keys (WebAuthn)
 
    Security keys are WebAuthn credentials that can only be used as a second factor of authentication, and these only validate user presence.
 
+   When signing in on a new computer or in a different browser, your passkey
+   might not be available. Use a device where the passkey is available, or
+   connect your registered security key. A verification error can mean that
+   the request timed out, was canceled, or that the credential is unavailable;
+   it does not identify the exact cause.
+
+   You can also select another configured verification method on the sign-in
+   page, such as :guilabel:`Use recovery codes`. If you cannot use any configured
+   method, contact the site administrator for help.
+
 Authenticator apps (TOTP)
    Authenticator apps and browser extensions like Aegis, Bitwarden, Google Authenticator,
    1Password, Authy, Microsoft Authenticator, etc. generate time-based one-time passwords

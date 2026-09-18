@@ -99,20 +99,7 @@ class CDNBaseAddon(BaseAddon):
         Path(self.cdn_path("")).mkdir(parents=True, exist_ok=True)
 
     def write_cdn_text(self, filename: str, content: str) -> None:
-        target = Path(self.cdn_path(filename))
-        target.parent.mkdir(parents=True, exist_ok=True)
-        temporary = None
-        try:
-            with tempfile.NamedTemporaryFile(
-                "w", delete=False, dir=target.parent, encoding="utf-8"
-            ) as handle:
-                handle.write(content)
-                temporary = handle.name
-            os.chmod(temporary, 0o644)
-            os.replace(temporary, target)
-        finally:
-            if temporary and os.path.exists(temporary):
-                os.unlink(temporary)
+        self.write_cdn_bytes(filename, content.encode("utf-8"))
 
     def copy_cdn_file(self, source: str, filename: str) -> None:
         target = Path(self.cdn_path(filename))
@@ -124,6 +111,22 @@ class CDNBaseAddon(BaseAddon):
             ) as handle:
                 temporary = handle.name
             shutil.copy2(source, temporary)
+            os.chmod(temporary, 0o644)
+            os.replace(temporary, target)
+        finally:
+            if temporary and os.path.exists(temporary):
+                os.unlink(temporary)
+
+    def write_cdn_bytes(self, filename: str, content: bytes) -> None:
+        target = Path(self.cdn_path(filename))
+        target.parent.mkdir(parents=True, exist_ok=True)
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                "wb", delete=False, dir=target.parent
+            ) as handle:
+                temporary = handle.name
+                handle.write(content)
             os.chmod(temporary, 0o644)
             os.replace(temporary, target)
         finally:

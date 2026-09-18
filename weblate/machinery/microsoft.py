@@ -4,12 +4,13 @@
 
 from __future__ import annotations
 
+import re
 from datetime import timedelta
 from typing import TYPE_CHECKING, ClassVar
 
 from django.utils import timezone
 
-from weblate.glossary.models import get_glossary_terms
+from weblate.glossary.models import get_glossary_terms, iter_glossary_alternatives
 
 from .base import (
     MACHINERY_DEFAULT_THRESHOLD,
@@ -199,15 +200,29 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def get_highlights(self, text, unit):
         result = list(super().get_highlights(text, unit))
 
-        for term in get_glossary_terms(unit, include_variants=False):
-            for start, end in term.glossary_positions:
+        for term in iter_glossary_alternatives(
+            get_glossary_terms(unit, include_variants=False)
+        ):
+            if "forbidden" in term.all_flags or not term.target:
+                continue
+            positions = term.glossary_positions
+            if unit.is_multivalue and text != unit.source:
+                pattern = re.escape(term.source)
+                if unit.translation.component.source_language.uses_whitespace():
+                    pattern = rf"(?<!\w){pattern}(?!\w)"
+                positions = tuple(
+                    match.span() for match in re.finditer(pattern, text, re.IGNORECASE)
+                )
+            for start, end in positions:
+                if text[start:end].lower() != term.source.lower():
+                    continue
                 glossary_highlight = (start, end, text[start:end], term)
                 handled = False
-                for i, (h_start, _h_end, _h_text, _h_kind) in enumerate(result):
+                for i, (h_start, h_end, _h_text, _h_kind) in enumerate(result):
+                    if start < h_end and h_start < end:
+                        # Skip as overlaps
+                        break
                     if start < h_start:
-                        if end > h_start:
-                            # Skip as overlaps
-                            break
                         # Insert before
                         result.insert(i, glossary_highlight)
                         handled = True

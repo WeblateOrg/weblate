@@ -1,0 +1,38 @@
+/*
+ * Copyright © Michal Čihař <michal@weblate.org>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+.screenshot-choice {
+  cursor: pointer;
+}
+
+.screenshot-choice:has(input:checked) {
+  border-color: var(--wl-color-link);
+  background-color: color-mix(
+    in srgb,
+    var(--wl-color-link) 12%,
+    var(--wl-color-bg)
+  );
+}
+
+.screenshot-choice:focus-within {
+  outline: 2px solid var(--wl-color-link);
+  outline-offset: 2px;
+}
+
+.screenshot-choice .screenshot-selected {
+  color: var(--wl-color-link-strong);
+  visibility: hidden;
+}
+
+.screenshot-choice:has(input:checked) .screenshot-selected {
+  visibility: visible;
+}
+
+.screenshot-selected svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}

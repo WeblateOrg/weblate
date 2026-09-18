@@ -17,6 +17,9 @@
         </div>
         <div class="card-body">
           <p>{% translate "Please choose the language you want to translate to." %}</p>
+          {% if has_existing_language_policy %}
+            <p>{% translate "Languages already used as target languages in this project can be added immediately. Other languages are requested from the project maintainers." %}</p>
+          {% endif %}
           {{ form|crispy }}
           {% if user_can_add_more_translation %}
             {% if contact_form != "disabled" %}
@@ -32,7 +35,7 @@
         </div>
         <input class="btn btn-primary"
                type="submit"
-               value="{% translate "Start new translation" %}" />
+               value="{% if has_existing_language_policy %}{% translate "Submit" %}{% else %}{% translate "Start new translation" %}{% endif %}" />
       </div>
     </form>
   </div>

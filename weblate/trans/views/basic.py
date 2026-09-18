@@ -11,11 +11,10 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_not_required, login_required
 from django.db import transaction
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.html import format_html
-from django.utils.http import urlencode
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
@@ -109,20 +108,18 @@ class _ComponentChangeSet(Protocol):
 @never_cache
 def list_projects(request: AuthenticatedHttpRequest):
     """List all projects."""
-    query_string = ""
+    query_params = QueryDict(mutable=True)
     projects = request.user.allowed_projects
     form = ProjectFilterForm(request.GET)
     if form.is_valid():
-        query = {}
         if form.cleaned_data["owned"]:
             user = form.cleaned_data["owned"]
-            query["owned"] = user.username
+            query_params["owned"] = user.username
             projects = (user.owned_projects & projects.distinct()).order()
         elif form.cleaned_data["watched"]:
             user = form.cleaned_data["watched"]
-            query["watched"] = user.username
+            query_params["watched"] = user.username
             projects = (user.watched_projects & projects).order()
-        query_string = urlencode(query)
     else:
         show_form_errors(request, form)
 
@@ -144,7 +141,7 @@ def list_projects(request: AuthenticatedHttpRequest):
                 )
             ),
             "title": gettext("Projects"),
-            "query_string": query_string,
+            "query_params": query_params,
             "show_review_columns": show_review_columns,
         },
     )
@@ -990,6 +987,9 @@ def new_project_or_category_language(
                 lang_code: Counter() for lang_code in language_map
             }
 
+            existing_language_ids = (
+                obj.project if isinstance(obj, Category) else obj
+            ).get_existing_target_language_ids()
             for component in eligible_components:
                 _, component_counts = add_languages_to_component(
                     request,
@@ -997,6 +997,7 @@ def new_project_or_category_language(
                     languages,
                     component,
                     show_messages=False,
+                    existing_language_ids=existing_language_ids,
                 )
 
                 for lang_code in language_map:
@@ -1062,6 +1063,10 @@ def new_project_or_category_language(
             "path_object": obj,
             "project": obj,
             "form": form,
+            "has_existing_language_policy": any(
+                component.effective_new_lang == "existing"
+                for component in eligible_components
+            ),
         },
     )
 
@@ -1072,28 +1077,41 @@ def add_languages_to_component(
     languages: list[Language],
     component: Component,
     show_messages: bool,
+    *,
+    existing_language_ids: set[int] | None = None,
 ) -> tuple[Component | Translation | str, Counter[str]]:
+    if not user.has_perm("translation.add", component):
+        return component, Counter(
+            {f"errors_{language.code}": 1 for language in languages}
+        )
+    if existing_language_ids is None:
+        existing_language_ids = component.project.get_existing_target_language_ids()
     added_codes: set[str] = set()
     result: Component | Translation | str = component
     change_set: _ComponentChangeSet = component.change_set
-    kwargs: LanguageChangeKwargs = {
-        "user": user,
-        "component": component,
-        "details": {},
-    }
     lang_counts: Counter[str] = Counter()
     with component.repository.lock:
         component.commit_pending("add language", None)
         for language in languages:
             lang_code = language.code
-            kwargs["details"]["language"] = lang_code
+            kwargs: LanguageChangeKwargs = {
+                "user": user,
+                "component": component,
+                "details": {"language": lang_code},
+            }
 
-            if component.can_add_new_language(user):
+            action = component.get_new_language_action(
+                user, language, existing_language_ids=existing_language_ids
+            )
+            if component.can_add_new_language(
+                user, language=language, existing_language_ids=existing_language_ids
+            ):
                 translation = component.add_new_language(
                     language,
                     request,
                     create_translations=False,
                     show_messages=show_messages,
+                    existing_language_ids=existing_language_ids,
                 )
                 if translation:
                     added_codes.add(translation.language_code)
@@ -1104,7 +1122,7 @@ def add_languages_to_component(
                     lang_counts[f"added_{lang_code}"] += 1
                     continue
 
-            elif component.effective_new_lang == "contact":
+            elif action == "contact":
                 if component.translation_set.filter(language_code=lang_code).exists():
                     continue
                 change_set.create(action=ActionEvents.REQUESTED_LANGUAGE, **kwargs)

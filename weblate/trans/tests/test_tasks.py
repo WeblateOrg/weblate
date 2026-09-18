@@ -20,7 +20,9 @@ from django.db import IntegrityError, connection
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
 
-from weblate.auth.models import User
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Permission, Role, User
+from weblate.checks.models import Check
 from weblate.checks.tasks import finalize_component_checks
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -29,8 +31,10 @@ from weblate.trans.models import (
     PendingUnitChange,
     Project,
     Suggestion,
+    Unit,
 )
 from weblate.trans.models.project import CommitPolicyChoices
+from weblate.trans.models.unit import UnitQuerySet
 from weblate.trans.repository import (
     RepositoryOperationConflictError,
     acquire_repository_operation,
@@ -66,7 +70,7 @@ from weblate.utils import messages
 from weblate.utils.celery import delete_task_metadata
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.tasks import (
     update_language_stats_parents,
     update_project_stats_link,
@@ -79,6 +83,17 @@ if TYPE_CHECKING:
 
 
 class CleanupTest(ComponentTestCase):
+    def test_cleanup_suggestions_batches_query(self) -> None:
+        suggestions = Mock()
+        suggestions.iterator.return_value = ()
+
+        with patch.object(
+            Suggestion.objects, "prefetch_related", return_value=suggestions
+        ):
+            cleanup_suggestions()
+
+        suggestions.iterator.assert_called_once_with(chunk_size=100)
+
     def test_cleanup_suggestions_case_sensitive(self) -> None:
         request = self.get_request()
         unit = self.get_unit()
@@ -569,6 +584,39 @@ class TasksTest(ComponentTestCase):
 
         cleanup.assert_not_called()
 
+    def test_repository_operation_rechecks_owner_after_link_added(self) -> None:
+        self.user.groups.clear()
+        role = Role.objects.create(name="Repository owner reset")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Repository owner reset", language_selection=SELECTION_ALL
+        )
+        group.components.add(self.component)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("vcs.reset", self.component))
+
+        other_project = self.create_project(name="Other", slug="other")
+        self.create_link_existing(project=other_project)
+        task = Mock()
+        with patch.object(Component, "do_cleanup", return_value=True) as cleanup:
+            result = execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
+        self.assertTrue(result["result"])
+        cleanup.assert_called_once()
+
+        self.user.groups.remove(group)
+        with (
+            patch.object(Component, "do_cleanup") as cleanup,
+            self.assertRaises(PermissionDenied),
+        ):
+            execute_repository_operation(
+                task, "cleanup", [self.component.pk], self.user.pk, "task-id"
+            )
+        cleanup.assert_not_called()
+
     def test_repository_operation_rejects_changed_repository_link(self) -> None:
         repository = self.create_po(project=self.project, name="Other repository")
         Component.objects.filter(pk=self.component.pk).update(
@@ -937,6 +985,164 @@ class TasksTest(ComponentTestCase):
         self.assertLessEqual(count_relation_prefetches("trans_project"), 1)
         self.assertLessEqual(count_relation_prefetches("trans_category"), 1)
         self.assertLessEqual(count_relation_prefetches("trans_component"), 1)
+        self.assertEqual(count_relation_prefetches("trans_translation"), 0)
+        self.assertEqual(count_relation_prefetches("trans_unit"), 0)
+
+    def test_update_checks_loading_queries(self) -> None:
+        translations = list(self.component.translation_set.all())
+        source_translation = self.component.source_translation
+        self.assertGreater(len(translations), 2)
+
+        def consume_checks(unit: Unit) -> None:
+            # Exercise the relations needed by checks without check-specific SQL.
+            self.assertEqual(unit.source_unit.translation.pk, source_translation.pk)
+            self.assertEqual(unit.translation.component.pk, self.component.pk)
+            self.assertIsInstance(unit.all_checks_names, set)
+
+        for extra_units in (0, 5):
+            with self.subTest(extra_units=extra_units):
+                for index in range(extra_units):
+                    source = Unit(
+                        translation=source_translation,
+                        id_hash=-100 - index,
+                        position=100 + index,
+                        source=f"Extra source {index}",
+                    )
+                    Unit.objects.bulk_create([source])
+                    Unit.objects.filter(pk=source.pk).update(source_unit_id=source.pk)
+                    Unit.objects.bulk_create(
+                        [
+                            Unit(
+                                translation=translation,
+                                source_unit=source,
+                                id_hash=source.id_hash,
+                                position=source.position,
+                                source=source.source,
+                            )
+                            for translation in translations
+                            if translation.pk != source_translation.pk
+                        ]
+                    )
+
+                with (
+                    patch.object(
+                        Unit, "run_checks", autospec=True, side_effect=consume_checks
+                    ),
+                    patch.object(Component, "run_batched_checks", autospec=True),
+                    CaptureQueriesContext(connection) as queries,
+                ):
+                    update_checks(self.component.pk, "update-token")
+
+                unit_queries = [
+                    query["sql"]
+                    for query in queries
+                    if query["sql"].startswith("SELECT")
+                    and 'FROM "trans_unit"' in query["sql"]
+                ]
+                check_queries = [
+                    query["sql"]
+                    for query in queries
+                    if query["sql"].startswith("SELECT")
+                    and 'FROM "checks_check"' in query["sql"]
+                ]
+                self.assertEqual(len(unit_queries), len(translations) + 1)
+                self.assertEqual(len(check_queries), len(translations))
+
+    def test_update_checks_source_missing_from_snapshot(self) -> None:
+        source = self.get_unit().source_unit
+        self.assertGreater(source.unit_set.exclude(pk=source.pk).count(), 1)
+        original_iter = UnitQuerySet.__iter__
+
+        for update_state in (False, True):
+            with self.subTest(update_state=update_state):
+                snapshot_loaded = False
+
+                def load_units(queryset: UnitQuerySet) -> Iterator[Unit]:
+                    nonlocal snapshot_loaded
+                    units = original_iter(queryset)
+                    if not snapshot_loaded:
+                        snapshot_loaded = True
+                        # Simulate a source becoming visible only after the
+                        # initial snapshot has been read.
+                        return (unit for unit in units if unit.pk != source.pk)
+                    return units
+
+                with (
+                    patch.object(
+                        UnitQuerySet, "__iter__", autospec=True, side_effect=load_units
+                    ),
+                    CaptureQueriesContext(connection) as queries,
+                ):
+                    update_checks(
+                        self.component.pk, "update-token", update_state=update_state
+                    )
+
+                # The fallback source is fetched once and reused across targets.
+                self.assertEqual(
+                    sum(
+                        f'WHERE "trans_unit"."id" = {source.pk} LIMIT' in query["sql"]
+                        for query in queries
+                    ),
+                    1,
+                )
+
+    def test_update_checks_preserves_dismissal(self) -> None:
+        check = Check.objects.filter(
+            unit__translation__component=self.component, name="same"
+        )[0]
+        unit = check.unit
+        check.delete()
+        update_checks(self.component.pk, "update-token")
+        check = unit.check_set.get(name="same")
+        check.dismissed = True
+        check.save()
+        for update_state in (False, True):
+            with self.subTest(update_state=update_state):
+                update_checks(
+                    self.component.pk, "update-token", update_state=update_state
+                )
+                check.refresh_from_db()
+                self.assertTrue(check.dismissed)
+
+        Unit.objects.filter(pk=unit.pk).update(extra_flags="ignore-same")
+        update_checks(self.component.pk, "update-token")
+        self.assertFalse(unit.check_set.filter(name="same").exists())
+
+    def test_update_checks_updates_state(self) -> None:
+        unit = self.get_unit()
+        old_state = unit.state
+        Unit.objects.filter(pk=unit.source_unit.pk).update(extra_flags="read-only")
+        update_checks(self.component.pk, "update-token")
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, old_state)
+        update_checks(self.component.pk, "update-token", update_state=True)
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_READONLY)
+        self.assertEqual(unit.original_state, old_state)
+
+    def test_update_checks_refreshes_sources_last(self) -> None:
+        source = self.get_unit().source_unit
+        target_ids = set(
+            Unit.objects.filter(translation__component=self.component)
+            .exclude(translation=source.translation)
+            .values_list("pk", flat=True)
+        )
+        run_checks = Unit.run_checks
+
+        def check_unit(unit: Unit) -> None:
+            if unit.is_source:
+                self.assertFalse(target_ids)
+                if unit.pk == source.pk:
+                    self.assertIn("stale-test-check", unit.all_checks_names)
+            else:
+                target_ids.remove(unit.pk)
+                if not target_ids:
+                    Check.objects.create(unit=source, name="stale-test-check")
+            run_checks(unit)
+
+        with patch.object(Unit, "run_checks", autospec=True, side_effect=check_unit):
+            update_checks(self.component.pk, "update-token")
+        self.assertFalse(source.check_set.filter(name="stale-test-check").exists())
 
     def test_cleanup_repos(self) -> None:
         cleanup_repos()

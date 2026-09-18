@@ -169,7 +169,6 @@ function insertAtCaret(element, myValue) {
   element.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: global helper used by editor/base.js and editor/full.js
 function replaceValue(element, myValue) {
   element.value = myValue;
   element.dispatchEvent(new Event("input", { bubbles: true }));
@@ -713,6 +712,9 @@ function initHighlight(root) {
     }
     if (editor.disabled) {
       highlight.classList.add("disabled");
+    }
+    if (editor.classList.contains("font-monospace")) {
+      highlight.classList.add("font-monospace");
     }
     highlight.setAttribute("role", "status");
     if (editor.hasAttribute("dir")) {
@@ -1921,18 +1923,20 @@ onReady(() => {
       }
 
       if (group.classList.contains("query-field")) {
+        const textarea = group.querySelector("textarea[name=q]");
         if (
           document.querySelector(".search-toolbar") === null &&
           link.closest(".result-page-form") !== null
         ) {
-          const textarea = group.querySelector("textarea[name=q]");
-          textarea.value = link.dataset.field ?? "";
-          textarea.dispatchEvent(new Event("change", { bubbles: true }));
+          replaceValue(textarea, link.dataset.field ?? "");
           const form = link.closest("form");
           form.querySelectorAll("input[name=offset]").forEach((input) => {
             input.disabled = true;
           });
           form.submit();
+        } else if (link.dataset.filter === "all") {
+          replaceValue(textarea, "");
+          textarea.focus();
         } else {
           insertAtCaret(
             group.querySelector("textarea[name=q]"),
@@ -1941,7 +1945,7 @@ onReady(() => {
         }
       }
       const dropdownToggle = link
-        .closest(".dropdown, .btn-group")
+        .closest(".dropdown, .btn-group, .query-field")
         ?.querySelector('[data-bs-toggle="dropdown"]');
       if (dropdownToggle) {
         bootstrap.Dropdown.getOrCreateInstance(dropdownToggle).hide();
@@ -2240,10 +2244,10 @@ onReady(() => {
 
   /* Notifications removal */
   document
-    .querySelectorAll(".nav-pills > li > a > button.btn-close")
+    .querySelectorAll(".nav-pills > li > button.btn-close")
     .forEach((button) => {
       button.addEventListener("click", (_e) => {
-        const link = button.parentElement;
+        const link = button.parentElement.querySelector("a[data-bs-target]");
         document
           .querySelectorAll(`${link.getAttribute("data-bs-target")} select`)
           .forEach((select) => {
@@ -2252,10 +2256,11 @@ onReady(() => {
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
         /* Activate watched tab */
         const watched = document.querySelector(
-          'a[data-bs-target="#notifications__1"',
+          'a[data-bs-target="#notifications__1"]',
         );
         bootstrap.Tab.getOrCreateInstance(watched).show();
         link.parentElement.remove();
+        watched.focus();
         addAlert(
           gettext(
             "Notification settings removed, please do not forget to save the changes.",
@@ -2454,39 +2459,42 @@ onReady(() => {
             });
         };
         const selected = this.value;
-        if (selected === "singular") {
-          document
-            .querySelectorAll("input[name='new-unit-form-type']")
-            .forEach((input) => {
-              input.removeAttribute("checked");
-            });
-          const showSingular = document.querySelector(
-            "#new-singular #show-singular",
-          );
-          if (showSingular !== null) {
-            showSingular.checked = true;
-          }
-          setContextValue("#new-singular", "#new-plural");
-          transferTextareaInputs("#new-plural", "#new-singular");
-          document.querySelector("#new-plural")?.classList.add("hidden");
-          document.querySelector("#new-singular")?.classList.remove("hidden");
-        } else if (selected === "plural") {
-          document
-            .querySelectorAll("input[name='new-unit-form-type']")
-            .forEach((input) => {
-              input.removeAttribute("checked");
-            });
-          const showPlural = document.querySelector("#new-plural #show-plural");
-          if (showPlural !== null) {
-            showPlural.checked = true;
-          }
-          setContextValue("#new-plural", "#new-singular");
-          transferTextareaInputs("#new-singular", "#new-plural");
-          document.querySelector("#new-singular")?.classList.add("hidden");
-          document.querySelector("#new-plural")?.classList.remove("hidden");
+        if (selected !== "singular" && selected !== "plural") {
+          return;
         }
+        const previous = selected === "singular" ? "plural" : "singular";
+        document
+          .querySelectorAll("input[name='new-unit-form-type']")
+          .forEach((input) => {
+            input.removeAttribute("checked");
+          });
+        const selectedInput = document.getElementById(`show-${selected}`);
+        if (selectedInput !== null) {
+          selectedInput.checked = true;
+        }
+        setContextValue(`#new-${selected}`, `#new-${previous}`);
+        transferTextareaInputs(`#new-${previous}`, `#new-${selected}`);
+        document.getElementById(`new-${previous}`)?.classList.add("hidden");
+        document.getElementById(`new-${selected}`)?.classList.remove("hidden");
       });
     });
+
+  /* Clarify browser verification failures using the page's translated guidance. */
+  document.addEventListener("otp_webauthn.verification_failed", (event) => {
+    if (
+      event.target.id !== "passkey-verification-button" ||
+      event.detail?.fromAutofill ||
+      event.detail?.error?.name !== "NotAllowedError"
+    ) {
+      return;
+    }
+    const status = document.getElementById(
+      "passkey-verification-status-message",
+    );
+    if (status?.dataset.notAllowedMessage) {
+      status.textContent = status.dataset.notAllowedMessage;
+    }
+  });
 
   /* WebAuthn registration completion in profile */
   document.addEventListener("otp_webauthn.register_complete", (event) => {

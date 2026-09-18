@@ -44,6 +44,7 @@ if TYPE_CHECKING:
     from django.db.models import Model
 
     from weblate.trans.models import Category, Change, Component, Project
+    from weblate.workspaces.models import Workspace
 
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
@@ -333,8 +334,8 @@ class BaseStats:
 
     def force_load(self) -> None:
         """Enforced loading of stats."""
-        self._data = self.load()
-        self._loaded = True
+        self.clear()
+        self.set_data(self.load())
 
     def aggregate_get(self, name: str) -> StatItem:
         """
@@ -981,6 +982,10 @@ class AggregatingStats(BaseStats):
     basic_keys = SOURCE_KEYS
     sum_source_keys = True
 
+    def clear(self) -> None:
+        super().clear()
+        self.__dict__.pop("aggregated_stats", None)
+
     def get_child_objects(self) -> Iterable[Model]:
         raise NotImplementedError
 
@@ -1543,9 +1548,7 @@ class CategoryLanguageStats(ChecklistStats):
             category=self.category
         ).values_list("component_id", flat=True)
         return self.language.translation_set.filter(
-            Q(component__category__category__category=self.category)
-            | Q(component__category__category=self.category)
-            | Q(component__category=self.category)
+            Q(component__category=self.category)
             | Q(component__pk__in=shared_component_ids)
         ).only("id", "language")
 
@@ -1619,6 +1622,15 @@ class ProjectStats(ParentAggregatingStats):
 
 
 class WorkspaceStats(ParentAggregatingStats):
+    def get_language_stats(self) -> list[WorkspaceLanguageStats]:
+        languages = Language.objects.filter(
+            Q(translation__component__project__workspace=self._object)
+            | Q(translation__component__links__workspace=self._object)
+        ).distinct()
+        return [
+            WorkspaceLanguageStats(self._object, language) for language in languages
+        ]
+
     @cached_property
     def has_review(self):
         if hasattr(self._object, "stats_has_review"):
@@ -1647,6 +1659,34 @@ class WorkspaceStats(ParentAggregatingStats):
             component__links__workspace=self._object
         ).values_list("language_id", flat=True)
         self.store("languages", owned_languages.union(shared_languages).count())
+
+
+class WorkspaceLanguageStats(SingleLanguageStats):
+    """Aggregate cached project-language statistics without a separate cache."""
+
+    def __init__(self, workspace: Workspace, language: Language) -> None:
+        super().__init__(workspace)
+        self.language = language
+
+    @cached_property
+    def cache_key(self) -> str:
+        return f"stats-{self._object.cache_key}-{self.language.pk}"
+
+    @cached_property
+    def has_review(self):
+        return self._object.stats.has_review
+
+    def get_child_objects(self):
+        return [
+            ProjectLanguage(project, self.language)
+            for project in self._object.projects.only("id", "slug")
+        ]
+
+    def load(self) -> StatDict:
+        return {}
+
+    def save(self, update_parents: bool = True) -> None:
+        return
 
 
 class ComponentListStats(ParentAggregatingStats):

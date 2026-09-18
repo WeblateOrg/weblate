@@ -4,6 +4,7 @@
 
 from django.urls import include, path
 
+from weblate.addons.api import api_patterns
 from weblate.api.routers import WeblateRouter
 from weblate.api.views import (
     AddonViewSet,
@@ -50,6 +51,7 @@ router.register("reports", ReportViewSet, "report")
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
+    *api_patterns(),
     path("metrics/", Metrics.as_view(), name="metrics"),
     path("search/", Search.as_view(), name="search"),
     path("", include(router.urls)),

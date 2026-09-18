@@ -38,7 +38,7 @@ from django.utils import timezone
 from django.utils.html import format_html, format_html_join
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-from django.utils.text import normalize_newlines, slugify
+from django.utils.text import format_lazy, normalize_newlines, slugify
 from django.utils.translation import get_language, gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
@@ -93,6 +93,7 @@ from weblate.trans.models import (
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import (
+    MAX_TRANSLATION_ALTERNATIVES,
     validate_check_flags,
     validate_translation_text_length,
 )
@@ -545,6 +546,8 @@ class PluralTextarea(forms.Textarea):
 
         # Need to add extra class
         attrs["class"] = "translation-editor form-control highlight-editor"
+        if "font-monospace" in unit.all_flags:
+            attrs["class"] += " font-monospace"
         attrs["lang"] = lang.code
         attrs["dir"] = lang.direction
         attrs["rows"] = 3
@@ -602,7 +605,9 @@ class PluralTextarea(forms.Textarea):
     def value_from_datadict(self, data, files, name):
         """Return processed plurals as a list."""
         ret = []
-        for idx in range(10):
+        # Read one extra value so that validation rejects oversized submissions
+        # instead of silently discarding their remaining alternatives.
+        for idx in range(MAX_TRANSLATION_ALTERNATIVES + 1):
             fieldname = f"{name}_{idx:d}"
             if fieldname not in data:
                 break
@@ -835,7 +840,11 @@ class TranslationForm(UnitForm):
 
         fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
 
-        validate_translation_text_length(unit, self.cleaned_data["target"])
+        validate_translation_text_length(
+            unit,
+            self.cleaned_data["target"],
+            add_alternative="add_alternative" in self.data,
+        )
         if self.user.has_perm(
             "unit.review", unit.translation
         ) and self.cleaned_data.get("review"):
@@ -1146,6 +1155,10 @@ class MergeForm(UnitForm):
 
     merge = forms.IntegerField()
 
+    def __init__(self, user: User, unit: Unit, *args, **kwargs) -> None:
+        self.user = user
+        super().__init__(unit, *args, **kwargs)
+
     def clean(self):
         super().clean()
         if "merge" not in self.cleaned_data:
@@ -1161,7 +1174,9 @@ class MergeForm(UnitForm):
             }
             if not translation.is_source:
                 filter_kwargs["source"] = unit.source
-            self.cleaned_data["merge_unit"] = Unit.objects.get(**filter_kwargs)
+            self.cleaned_data["merge_unit"] = Unit.objects.filter_access(self.user).get(
+                **filter_kwargs
+            )
         except Unit.DoesNotExist as error:
             raise ValidationError(
                 gettext("Could not find the merged string.")
@@ -1193,21 +1208,31 @@ class RevertForm(UnitForm):
 class AutoForm(forms.Form):
     """Automatic translation form."""
 
-    COMPONENT_SLUG_HELP_TEXT = gettext_lazy(
-        "Enter slug of a component to use as source, keep blank to use all "
-        "components in the current project."
+    COMPONENT_CHOICE_LIMIT = 30
+    COMPONENT_ID_HELP_TEXT = gettext_lazy("Enter a source component ID.")
+    COMPONENT_ALTERNATIVES_HELP_TEXT = format_lazy(
+        gettext_lazy(
+            "With {count} or more eligible source components, a project/component path "
+            "is also accepted. In that case, component and project operations also "
+            "accept a component slug from the target project."
+        ),
+        count=COMPONENT_CHOICE_LIMIT,
     )
-    COMPONENT_WORKSPACE_SLUG_HELP_TEXT = gettext_lazy(
-        "Enter project and component slug or component ID to use as source, "
-        "keep blank to use all components in the current workspace."
+    COMPONENT_PROJECT_HELP_TEXT = gettext_lazy(
+        "Leave blank to use eligible components from each target component's project."
     )
-    COMPONENT_SELECT_HELP_TEXT = gettext_lazy(
-        "Turn on contribution to shared translation memory for the project to "
-        "get access to additional components."
+    COMPONENT_WORKSPACE_HELP_TEXT = gettext_lazy(
+        "Leave blank to use eligible components in the current workspace."
     )
 
     mode = forms.ChoiceField(
         label=gettext_lazy("Automatic translation mode"),
+        choices=[
+            ("suggest", gettext_lazy("Add as suggestion")),
+            ("translate", gettext_lazy("Add as translation")),
+            ("fuzzy", gettext_lazy('Add as "Needing edit"')),
+            ("approved", gettext_lazy("Add as approved translation")),
+        ],
         initial="suggest",
     )
     q = QueryField(
@@ -1230,7 +1255,12 @@ class AutoForm(forms.Form):
     component = forms.ChoiceField(
         label=gettext_lazy("Component"),
         required=False,
-        help_text=COMPONENT_SLUG_HELP_TEXT,
+        help_text=format_lazy(
+            "{} {} {}",
+            COMPONENT_ID_HELP_TEXT,
+            COMPONENT_ALTERNATIVES_HELP_TEXT,
+            COMPONENT_PROJECT_HELP_TEXT,
+        ),
         initial="",
     )
     engines = forms.MultipleChoiceField(
@@ -1282,7 +1312,6 @@ class AutoForm(forms.Form):
             self.components = Component.objects.filter(project__workspace=obj)
             projects = Project.objects.filter(workspace=obj).order()
             if user is not None:
-                self.components = self.components.filter_access(user)
                 projects = user.allowed_projects.filter(workspace=obj).order()
             for project in projects:
                 machinery_settings.update(project.get_machinery_settings())
@@ -1291,32 +1320,51 @@ class AutoForm(forms.Form):
             self.components = Component.objects.all()
             machinery_settings = Setting.objects.get_settings_dict(SettingCategory.MT)
 
+        if user is not None:
+            self.components = self.components.filter_access(user)
+
+        if isinstance(obj, Workspace):
+            scope_help = self.COMPONENT_WORKSPACE_HELP_TEXT
+            all_components_label = gettext(
+                "All eligible components in current workspace"
+            )
+        else:
+            scope_help = self.COMPONENT_PROJECT_HELP_TEXT
+            all_components_label = (
+                gettext("All eligible components in current project")
+                if self.project is not None
+                else gettext("Eligible components from each target component's project")
+            )
+
         # Fetching first few entries is faster than doing a count query on possibly
         # thousands of components
-        if len(self.components.values_list("id")[:30]) == 30:
-            # Do not show choices when too many
-            help_text = (
-                self.COMPONENT_WORKSPACE_SLUG_HELP_TEXT
-                if isinstance(obj, Workspace)
-                else self.fields["component"].help_text
+        if (
+            len(self.components.values_list("id")[: self.COMPONENT_CHOICE_LIMIT])
+            == self.COMPONENT_CHOICE_LIMIT
+        ):
+            # Bare slugs require a project; IDs and paths work in every scope.
+            input_help = (
+                gettext(
+                    "You can also enter a component slug from the current project "
+                    "or a project/component path."
+                )
+                if self.project is not None
+                else gettext("You can also enter a project/component path.")
             )
             self.fields["component"] = forms.CharField(
                 required=False,
                 label=gettext("Component"),
-                help_text=help_text,
+                help_text=format_lazy(
+                    "{} {} {}", self.COMPONENT_ID_HELP_TEXT, input_help, scope_help
+                ),
             )
         else:
             choices = [
                 (s.id, str(s))
                 for s in self.components.order_project().prefetch_related("project")
             ]
-
-            if isinstance(obj, Workspace):
-                all_components_label = gettext("All components in current workspace")
-            else:
-                all_components_label = gettext("All components in current project")
             self.fields["component"].choices = [("", all_components_label), *choices]
-            self.fields["component"].help_text = self.COMPONENT_SELECT_HELP_TEXT
+            self.fields["component"].help_text = scope_help
 
         engines = sorted(
             (
@@ -1336,14 +1384,12 @@ class AutoForm(forms.Form):
         if "q" not in self.initial:
             self.initial["q"] = "state:<translated"
 
-        choices = [
-            ("suggest", gettext("Add as suggestion")),
-            ("translate", gettext("Add as translation")),
-            ("fuzzy", gettext('Add as "Needing edit"')),
-        ]
-        if user is not None and (user.has_perm("unit.review", obj) or obj is None):
-            choices.append(("approved", gettext("Add as approved translation")))
-        self.fields["mode"].choices = choices
+        if user is None or not (obj is None or user.has_perm("unit.review", obj)):
+            self.fields["mode"].choices = [
+                choice
+                for choice in self.fields["mode"].choices
+                if choice[0] != "approved"
+            ]
 
         self.helper = FormHelper(self)
         self.helper.layout = Layout(

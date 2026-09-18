@@ -178,6 +178,7 @@ class AutoTranslate(BaseAutoTranslate):
         component_wide: bool = False,
         unit_ids: list[int] | None = None,
         allow_non_shared_tm_source_components: bool = False,
+        enforce_permissions: bool = True,
     ) -> None:
         super().__init__(
             user=user,
@@ -190,6 +191,7 @@ class AutoTranslate(BaseAutoTranslate):
             ),
         )
         self.translation: Translation = translation
+        self.enforce_permissions = enforce_permissions
         translation.component.start_batched_checks()
         self.progress_base = 0
         self.target_state = STATE_TRANSLATED
@@ -229,6 +231,7 @@ class AutoTranslate(BaseAutoTranslate):
         else:
             if (
                 state == STATE_APPROVED
+                and self.enforce_permissions
                 and self.user is not None
                 and not self.user.has_perm("unit.review", unit)
             ):
@@ -258,67 +261,61 @@ class AutoTranslate(BaseAutoTranslate):
 
     def collect_other_translations(
         self, filtered_sources, component_ids: list[int]
-    ) -> dict[str, list[str]]:
-        """Collect candidate translations while preserving source priority."""
+    ) -> tuple[dict[tuple[str, str], list[str]], dict[str, list[str]]]:
+        """Collect context matches and source fallbacks preserving source priority."""
         translations: dict[str, list[str]] = {}
+        context_translations: dict[tuple[str, str], list[str]] = {}
+        translation_priority: dict[str, int] = {}
+        context_priority: dict[tuple[str, str], int] = {}
+        component_priority = {
+            component_id: index for index, component_id in enumerate(component_ids)
+        }
         mismatched_translation_ids: set[int] = set()
         target_plural_id = self.translation.plural_id
 
         if component_ids:
-            component_priority = {
-                component_id: index for index, component_id in enumerate(component_ids)
-            }
-            translation_priority: dict[str, int] = {}
-            source_units = (
-                filtered_sources.annotate(
-                    component_priority=Case(
-                        *[
-                            When(
-                                translation__component_id=component_id,
-                                then=priority,
-                            )
-                            for component_id, priority in component_priority.items()
-                        ],
-                        output_field=IntegerField(),
-                    )
+            filtered_sources = filtered_sources.annotate(
+                component_priority=Case(
+                    *[
+                        When(translation__component_id=component_id, then=priority)
+                        for component_id, priority in component_priority.items()
+                    ],
+                    output_field=IntegerField(),
                 )
-                .order_by("component_priority", "translation_id")
-                .values_list(
-                    "translation__component_id",
-                    "source",
-                    "target",
-                    "translation_id",
-                    "translation__plural_id",
-                )
-            )
-            for (
-                component_id,
-                source,
-                target,
-                translation_id,
-                plural_id,
-            ) in source_units:
-                if plural_id != target_plural_id and (
-                    is_plural(source) or is_plural(target)
-                ):
-                    mismatched_translation_ids.add(translation_id)
-                    continue
-                priority = component_priority[component_id]
-                if priority >= translation_priority.get(source, len(component_ids)):
-                    continue
-                translations[source] = split_plural(target)
-                translation_priority[source] = priority
+            ).order_by("component_priority", "translation_id", "pk")
         else:
-            source_units = filtered_sources.values_list(
-                "source", "target", "translation_id", "translation__plural_id"
-            ).order_by("translation_id")
-            for source, target, translation_id, plural_id in source_units:
-                if plural_id != target_plural_id and (
-                    is_plural(source) or is_plural(target)
-                ):
-                    mismatched_translation_ids.add(translation_id)
-                    continue
-                translations.setdefault(source, split_plural(target))
+            filtered_sources = filtered_sources.order_by("translation_id", "pk")
+
+        source_units = filtered_sources.values_list(
+            "translation__component_id",
+            "source",
+            "context",
+            "target",
+            "translation_id",
+            "translation__plural_id",
+        )
+        for (
+            component_id,
+            source,
+            context,
+            target,
+            translation_id,
+            plural_id,
+        ) in source_units:
+            if plural_id != target_plural_id and (
+                is_plural(source) or is_plural(target)
+            ):
+                mismatched_translation_ids.add(translation_id)
+                continue
+            priority = component_priority.get(component_id, 0)
+            context_key = (source, context)
+            target_plurals = split_plural(target)
+            if priority < translation_priority.get(source, len(component_ids) + 1):
+                translations[source] = target_plurals
+                translation_priority[source] = priority
+            if priority < context_priority.get(context_key, len(component_ids) + 1):
+                context_translations[context_key] = target_plurals
+                context_priority[context_key] = priority
 
         mismatched_components = (
             Component.objects.filter(translation__in=mismatched_translation_ids)
@@ -336,7 +333,7 @@ class AutoTranslate(BaseAutoTranslate):
                 % {"component": component}
             )
 
-        return translations
+        return context_translations, translations
 
     @transaction.atomic
     def process_others(self, source_component_ids: list[int] | None) -> None:
@@ -345,6 +342,10 @@ class AutoTranslate(BaseAutoTranslate):
             translation__language=self.translation.language,
             state__gte=STATE_TRANSLATED,
         )
+        components = Component.objects.all()
+        if self.enforce_permissions and self.user is not None:
+            sources = sources.filter_access(self.user)
+            components = components.filter_access(self.user)
         # Read-only units can have STATE_READONLY even when their target is
         # empty, so state__gte=STATE_TRANSLATED is not enough to find usable
         # translations. The lower-MD5 lookup matches the trans_unit_target_md5
@@ -353,10 +354,11 @@ class AutoTranslate(BaseAutoTranslate):
         source_language = self.translation.component.source_language
         component_ids = list(dict.fromkeys(source_component_ids or []))
         if component_ids:
-            components = list(Component.objects.filter(id__in=component_ids))
-            component_map = {component.id: component for component in components}
+            source_components = list(components.filter(id__in=component_ids))
+            component_map = {component.id: component for component in source_components}
             if len(component_map) != len(component_ids):
-                raise Component.DoesNotExist
+                msg = "Component not found."
+                raise Component.DoesNotExist(msg)
 
             for component_id in component_ids:
                 component = component_map[component_id]
@@ -392,7 +394,9 @@ class AutoTranslate(BaseAutoTranslate):
 
         # Fetch available translations
         filtered_sources = sources.filter(source__lower__md5__in=source_md5s)
-        translations = self.collect_other_translations(filtered_sources, component_ids)
+        context_translations, translations = self.collect_other_translations(
+            filtered_sources, component_ids
+        )
 
         # Fetch translated unit IDs
         # Cannot use get_units() directly as SELECT FOR UPDATE cannot be used with JOIN
@@ -416,7 +420,9 @@ class AutoTranslate(BaseAutoTranslate):
         for pos, unit in enumerate(units):
             # Get update
             try:
-                target = translations[unit.source]
+                target = context_translations.get(
+                    (unit.source, unit.context), translations[unit.source]
+                )
             except KeyError:
                 # Happens due to case-insensitive lookup
                 continue
@@ -683,6 +689,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 allow_non_shared_tm_source_components=(
                     self.allow_non_shared_tm_source_components
                 ),
+                enforce_permissions=self.enforce_permissions,
             )
 
             effective_source_component_ids = source_component_ids
