@@ -4370,10 +4370,13 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
 
     def create(self, validated_data):
         validated_data["acting_user"] = self.context["request"].user
+        addon_class = ADDONS[validated_data.pop("name")]
         try:
-            return super().create(validated_data)
+            instance = addon_class.create_object(**validated_data)
+            instance.save(force_insert=True)
         except DjangoValidationError as error:
             raise serializers.ValidationError({"name": error.messages}) from error
+        return instance
 
     def save(self, **kwargs):
         result = super().save(**kwargs)
