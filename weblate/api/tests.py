@@ -519,7 +519,7 @@ class UserAPITest(APIBaseTest):
             reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
         )
         self.assertEqual(response.data["count"], 1)
-    
+
     def test_filter_contributors(self) -> None:
         """Prioritize users who contributed to the current unit."""
         self.authenticate(True)
@@ -555,7 +555,7 @@ class UserAPITest(APIBaseTest):
             usernames.index("translator"),
             usernames.index("translate-other"),
         )
-        
+
     def test_filter_email(self) -> None:
         """Filtering by email address."""
         self.authenticate(True)

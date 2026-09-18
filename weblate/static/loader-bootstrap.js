@@ -2290,7 +2290,7 @@ onReady(() => {
             const child = document.createElement("a");
             child.textContent = data.value.full_name;
             item.appendChild(child);
-         },
+          },
           selected: "autoComplete_selected",
         },
         data: {
@@ -2299,7 +2299,7 @@ onReady(() => {
             try {
               // Fetch Data from external Source
               let userSearchUrl = `/api/users/?username=${encodeURIComponent(query)}`;
-              
+
               // Append contextual data to prioritize relevant contributors
               if (window.weblate?.unit?.id) {
                 userSearchUrl += `&unit=${window.weblate.unit.id}`;
