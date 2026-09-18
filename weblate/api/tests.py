@@ -3775,7 +3775,8 @@ class ComponentCopyTest(APITestCase):
             tempfile.TemporaryDirectory() as source_dir,
             tempfile.TemporaryDirectory() as target_dir,
         ):
-            os.makedirs(os.path.join(source_dir, ".hg"))
+            for dirname in (".hg", ".svn", ".bzr"):
+                os.makedirs(os.path.join(source_dir, dirname))
             os.makedirs(os.path.join(target_dir, ".git"))
             Path(source_dir, "messages.po").write_text("copied", encoding="utf-8")
             Path(target_dir, "stale.po").write_text("stale", encoding="utf-8")
@@ -3794,7 +3795,9 @@ class ComponentCopyTest(APITestCase):
                 replace_component_checkout(target_component, source_component)
             )
             self.assertTrue(Path(target_dir, ".git").is_dir())
-            self.assertFalse(Path(target_dir, ".hg").exists())
+            for dirname in (".hg", ".svn", ".bzr"):
+                with self.subTest(dirname=dirname):
+                    self.assertFalse(Path(target_dir, dirname).exists())
             self.assertTrue(Path(target_dir, "messages.po").is_file())
             self.assertFalse(Path(target_dir, "stale.po").exists())
 

@@ -2431,8 +2431,12 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.resolve_symlinks("prefix-collision/secrets.po")
 
     def test_resolve_symlinks_rejects_vcs_metadata_path(self) -> None:
-        with self.assertRaises(RepositoryRestrictedPathError):
-            self.repo.resolve_symlinks(".git/config")
+        for path in (".git/config", ".hg/hgrc", ".svn/wc.db", ".bzr/README"):
+            with (
+                self.subTest(path=path),
+                self.assertRaises(RepositoryRestrictedPathError),
+            ):
+                self.repo.resolve_symlinks(path)
 
     def test_resolve_symlinks_allows_missing_excluded_repository_path(self) -> None:
         filename = "dist/appstream/messages.pot"
