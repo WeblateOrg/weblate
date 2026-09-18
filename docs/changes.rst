@@ -5,6 +5,8 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added an :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>` that evaluates existing translations and records standard quality checks.
+
 * Added support for :ref:`component-mounted add-on APIs <component-addon-api>`.
 
 * Added :ref:`addon-weblate.cdn.kotlin` with build registration, runtime Android translations, and configurable version retention.

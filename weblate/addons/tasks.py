@@ -44,9 +44,47 @@ from weblate.utils.validators import validate_filename
 if TYPE_CHECKING:
     from celery import Celery
 
+    from weblate.addons.ai import AIEvaluationConfiguration
     from weblate.addons.consistency import LanguageConsistencyAddon
 
 IGNORED_TAGS = {"script", "style"}
+
+
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,), retry_backoff=60)
+def evaluate_quality(
+    addon_id: int,
+    component_ids: list[int],
+    configuration: AIEvaluationConfiguration,
+    *,
+    unit_ids: list[int] | None = None,
+    scheduled: bool = False,
+    activity_log_id: int | None = None,
+) -> None:
+    from weblate.addons.ai import AIEvaluationAddon, evaluate_component  # ruff: ignore[import-outside-top-level]
+    from weblate.machinery.base import MachineTranslationError  # ruff: ignore[import-outside-top-level]
+
+    storage = Addon.objects.filter(pk=addon_id, name=AIEvaluationAddon.name).first()
+    status = AddonActivityLogStatus.SKIPPED
+    results = {}
+    if storage is not None and storage.addon.get_configuration() == configuration:
+        for component in Component.objects.filter(pk__in=component_ids):
+            try:
+                result = evaluate_component(
+                    AIEvaluationAddon(storage),
+                    component,
+                    configuration,
+                    unit_ids,
+                    scheduled=scheduled,
+                )
+            except (MachineTranslationError, httpx2.HTTPError):
+                result = {"evaluated": 0, "failed": 1, "skipped": 0}
+            results[component.full_slug] = result
+            if result["failed"]:
+                status = AddonActivityLogStatus.ERROR
+        if results and status != AddonActivityLogStatus.ERROR:
+            status = AddonActivityLogStatus.SUCCESS
+    if activity_log_id is not None:
+        update_addon_activity_log(activity_log_id, result=results, status=status)
 
 
 def read_component_file(component: Component, filename: str) -> str:
