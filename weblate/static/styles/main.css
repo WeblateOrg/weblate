@@ -1501,6 +1501,13 @@ thead th {
   fill: var(--wl-navi-color);
 }
 
+/* Outline buttons change text color on hover and in the dark theme, so their
+ * icons follow it by default. Zero specificity keeps explicit icon colors such
+ * as .green or .search-icon in charge. */
+:where(.btn-outline-primary, .btn-outline-secondary) path {
+  fill: currentColor;
+}
+
 .green path {
   fill: var(--wl-color-link);
 }
