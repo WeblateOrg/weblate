@@ -41,7 +41,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-19 06:51+0000\n"
-"Last-Translator: Artyom Rybakov <rib.artem@gmail.com>\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -364,6 +364,9 @@ msgid ""
 "Project and category paths summarize inherited settings and component "
 "exceptions."
 msgstr ""
+"Введите слаги, разделённые косой чертой, например project/category/component/"
+"cs. Пути проекта и категории обобщают унаследованные настройки и исключения "
+"компонентов."
 
 msgid "Enter a valid object path."
 msgstr "Введите допустимый путь объекта."
@@ -920,10 +923,8 @@ msgstr "Использовать имя учётной записи"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Пожалуйста, укажите адрес электронной почты для отправки переводов."
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching subscription."
-msgstr "Соответствующие строки не найдены."
+msgstr "Нет подходящей подписки."
 
 msgid "Inactive users and bots do not receive notifications."
 msgstr "Неактивные пользователи и боты не получают уведомлений."
@@ -932,45 +933,45 @@ msgid "The user cannot access this target."
 msgstr "Пользователь не имеет доступа к этой цели."
 
 msgid "This language is not among the user’s notification languages."
-msgstr ""
+msgstr "Этот язык не входит в число языков уведомлений пользователя."
 
 msgid "This notification ignores watched-project subscriptions."
-msgstr ""
+msgstr "Это уведомление игнорирует подписки на отслеживаемые проекты."
 
 msgid "The user is not watching this project."
 msgstr "Пользователь не следит за этим проектом."
 
 msgid "No administered-project subscription matches this target."
-msgstr ""
+msgstr "Ни одна подписка на администрируемый проект не соответствует этой цели."
 
-#, fuzzy
-#| msgid "Project or component visibility was changed."
 msgid "The project or component subscriptions apply to other targets."
-msgstr "Видимость проекта или компонента изменена."
+msgstr "Подписки на проект или компонент применяются к другим целям."
 
 msgid "Disabled by the effective subscription."
-msgstr ""
+msgstr "Отключено действующей подпиской."
 
 msgid "Eligible when the notification’s event conditions are met."
-msgstr ""
+msgstr "Доступно, когда выполнены условия события уведомления."
 
 msgid "Requires a corresponding event on this target."
-msgstr ""
+msgstr "Требуется соответствующее событие для этой цели."
 
 #, python-format
 msgid "Instant delivery can be suppressed by: %(notification)s."
-msgstr ""
+msgstr "Мгновенная доставка может быть подавлена: %(notification)s."
 
-#, fuzzy
-#| msgid "Language-specific instructions contain unknown language code \"%s\"."
 msgid ""
 "Language-specific events require one of the user’s notification languages."
-msgstr "Инструкции для конкретного языка содержат неизвестный код языка «%s»."
+msgstr ""
+"События, связанные с языком, требуют одного из языков уведомлений "
+"пользователя."
 
 msgid ""
 "This scope is too large to check. Choose a smaller category, a component, or "
 "a translation."
 msgstr ""
+"Эта область слишком велика для проверки. Выберите меньшую категорию, "
+"компонент или перевод."
 
 msgid "No notification"
 msgstr "Нет уведомления"
@@ -990,15 +991,11 @@ msgstr "Ежемесячная сводка"
 msgid "All"
 msgstr "Все"
 
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Watched"
-msgstr "Не соответствует \\n"
+msgstr "Отслеживаемые"
 
-#, fuzzy
-#| msgid "Administered projects"
 msgid "Administered"
-msgstr "Администрируемые проекты"
+msgstr "Администрируемые"
 
 msgid "Project"
 msgstr "Проект"
@@ -1082,6 +1079,8 @@ msgid ""
 "Source-string comments ignore notification languages; other comments require "
 "a matching language."
 msgstr ""
+"Комментарии к исходным строкам игнорируют языки уведомлений; другие "
+"комментарии требуют совпадающего языка."
 
 msgctxt "Notification name"
 msgid "Comment was added"
@@ -1092,7 +1091,7 @@ msgid "Comments were added"
 msgstr "Добавлены комментарии"
 
 msgid "The comment must mention this user."
-msgstr ""
+msgstr "Комментарий должен упоминать этого пользователя."
 
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
@@ -1106,6 +1105,8 @@ msgid ""
 "The user must have contributed to the string or previously participated in "
 "its discussion."
 msgstr ""
+"Пользователь должен был внести вклад в строку или ранее участвовать в её "
+"обсуждении."
 
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
@@ -1159,6 +1160,8 @@ msgid ""
 "The announcement must enable notifications. If it specifies a language, that "
 "language must match the user’s notification languages."
 msgstr ""
+"Объявление должно включать уведомления. Если в нём указан язык, он должен "
+"совпадать с языками уведомлений пользователя."
 
 msgctxt "Notification name"
 msgid "Announcement was published"
@@ -1172,6 +1175,9 @@ msgid ""
 "The alert must be at least a warning and the user must be able to act on it. "
 "Linked-component and project-wide alerts can be deduplicated."
 msgstr ""
+"Предупреждение должно быть как минимум уровня warning, и пользователь должен "
+"иметь возможность на него отреагировать. Предупреждения связанных "
+"компонентов и общепроектные предупреждения могут быть дедуплицированы."
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1267,10 +1273,8 @@ msgstr ""
 "Ваша эл. почта больше не принадлежит подтверждённой учётной записи, она была "
 "изменена на {0}."
 
-#, fuzzy
-#| msgid "Use security key (WebAuthn)"
 msgid "Use a passkey or security key (WebAuthn)"
-msgstr "Использовать ключ безопасности (WebAuthn)"
+msgstr "Использовать ключ доступа или ключ безопасности (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
 msgstr "Использовать приложение для авторизации (TOTP)"
@@ -1331,10 +1335,8 @@ msgstr "Связаться с нами"
 msgid "Hosting"
 msgstr "Хостинг"
 
-#, fuzzy
-#| msgid "Invalid workspace."
 msgid "Invalid trial plan."
-msgstr "Недействительное рабочее пространство."
+msgstr "Недействительный пробный план."
 
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
@@ -1353,10 +1355,9 @@ msgstr ""
 msgid "Gratis trial"
 msgstr "Бесплатный ознакомительный период"
 
-#, fuzzy, python-format
-#| msgid "Mute notifications for %(object)s"
+#, python-format
 msgid "Notification diagnostics for %(user)s"
-msgstr "Отключить уведомления для %(object)s"
+msgstr "Диагностика уведомлений для %(user)s"
 
 msgid "This user can not be edited."
 msgstr "Этого пользователя нельзя редактировать."
@@ -1517,16 +1518,12 @@ msgstr "Приложение для авторизации было удален
 msgid "The authentication app %s was registered."
 msgstr "Приложение для аутентификации %s зарегистрировано."
 
-#, fuzzy
-#| msgid ""
-#| "The GitHub App registration link is no longer valid. Start the "
-#| "registration again."
 msgid ""
 "This authentication app registration is no longer valid. Start a new "
 "registration."
 msgstr ""
-"Ссылка регистрации приложения GitHub больше не действительна. Начните "
-"регистрацию заново."
+"Эта регистрация приложения-аутентификатора больше недействительна. Начните "
+"новую регистрацию."
 
 msgid ""
 "Too many failed authentication attempts. Please reset your password to "
@@ -1924,16 +1921,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Записи ключевых слов должны быть строками."
 
-#, fuzzy
-#| msgid "Data directory latency"
 msgid "ITS data directories"
-msgstr "Задержка каталога данных"
+msgstr "Каталоги данных ITS"
 
 msgid ""
 "Newline-separated repository-relative directories containing an its "
 "subdirectory, for example po for po/its. Earlier directories override later "
 "directories and bundled rules."
 msgstr ""
+"Разделённые переводом строки каталоги относительно репозитория, содержащие "
+"подкаталог its, например po для po/its. Более ранние каталоги переопределяют "
+"более поздние каталоги и встроенные правила."
 
 msgid "Do not extract comments"
 msgstr "Не извлекать комментарии"
@@ -2118,7 +2116,7 @@ msgid "Could not determine Sphinx source directory."
 msgstr "Не удалось определить исходный каталог Sphinx."
 
 msgid "Output scope"
-msgstr ""
+msgstr "Область вывода"
 
 msgid "One file per translation"
 msgstr "По одному файлу на перевод"
@@ -2666,89 +2664,70 @@ msgid "ITS XPath expression is too long."
 msgstr "Выражение XPath слишком длинное."
 
 msgid "Too many ITS rule files."
-msgstr ""
+msgstr "Слишком много файлов правил ITS."
 
-#, fuzzy
-#| msgid "No source files are configured."
 msgid "ITS rule files are too large."
-msgstr "Не настроено ни одного исходного файла."
+msgstr "Файлы правил ITS слишком большие."
 
 msgid "ITS directories must be a list of strings."
-msgstr ""
+msgstr "Каталоги ITS должны быть списком строк."
 
-#, fuzzy
-#| msgid "Invalid text direction"
 msgid "Invalid ITS directory path."
-msgstr "Неправильное направление текста"
+msgstr "Недопустимый путь каталога ITS."
 
 msgid "ITS rules must not contain a document type."
-msgstr ""
+msgstr "Правила ITS не должны содержать тип документа."
 
 msgid "Invalid ITS rule document root."
-msgstr ""
+msgstr "Недопустимый корень документа правила ITS."
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many elements."
-msgstr "ZIP-файл содержит слишком много записей."
+msgstr "Файл правил ITS содержит слишком много элементов."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule content."
-msgstr "Неподдерживаемый формат файла."
+msgstr "Неподдерживаемое содержимое правил ITS."
 
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported ITS locating rule."
-msgstr "Неподдерживаемый файл!"
+msgstr "Неподдерживаемое правило локализации ITS."
 
-#, fuzzy
-#| msgid "Blank strings require an empty state."
 msgid "ITS locating rules require a pattern."
-msgstr "Незаполненные строки требуют пустого состояния."
+msgstr "Правила локализации ITS требуют шаблона."
 
 msgid "ITS locating rules require a target or a document rule."
-msgstr ""
+msgstr "Правила локализации ITS требуют цели или правила документа."
 
 msgid "ITS document rules require a target."
-msgstr ""
+msgstr "Правила документа ITS требуют цели."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule namespace."
-msgstr "Неподдерживаемый формат файла."
+msgstr "Неподдерживаемое пространство имён правил ITS."
 
 msgid "External ITS rule references are not allowed."
-msgstr ""
+msgstr "Внешние ссылки на правила ITS не допускаются."
 
 msgid "ITS targets must name a rule in the same directory."
-msgstr ""
+msgstr "Цели ITS должны указывать правило в том же каталоге."
 
 msgid "ITS target is missing or is a symbolic link."
-msgstr ""
+msgstr "Цель ITS отсутствует или является символической ссылкой."
 
-#, fuzzy
-#| msgid "ZIP file contains unsupported symbolic links."
 msgid "ITS directories must not contain symbolic links."
-msgstr "ZIP-файл содержит неподдерживаемые символические ссылки."
+msgstr "Каталоги ITS не должны содержать символические ссылки."
 
-#, fuzzy, python-format
-#| msgid "Referenced category does not exist."
+#, python-format
 msgid "ITS directory does not exist: %(path)s"
-msgstr "Указанная категория не существует."
+msgstr "Каталог ITS не существует: %(path)s"
 
 msgid "ITS rules must be regular files, not symbolic links."
-msgstr ""
+msgstr "Правила ITS должны быть обычными файлами, а не символическими ссылками."
 
-#, fuzzy, python-format
-#| msgid "Could not migrate %(component)s: %(error)s"
+#, python-format
 msgid "Invalid ITS rule %(path)s: %(error)s"
-msgstr "Не удалось перенести %(component)s: %(error)s"
+msgstr "Недопустимое правило ITS %(path)s: %(error)s"
 
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file: %s"
+#, python-format
 msgid "Could not parse ITS rule: %(path)s"
-msgstr "Не удалось разобрать файл TMX: %s"
+msgstr "Не удалось разобрать правило ITS: %(path)s"
 
 msgid "Squash Git commits"
 msgstr "Уплотнение Git-коммитов"
@@ -2756,15 +2735,11 @@ msgstr "Уплотнение Git-коммитов"
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Уплотнение Git-коммитов перед публикацией изменений."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "API add-ons must be installed directly on a component."
-msgstr "Дополнение можно установить только на компонент."
+msgstr "Дополнения API должны устанавливаться непосредственно на компонент."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "This add-on is already installed on this component."
-msgstr "Дополнение можно установить только на компонент."
+msgstr "Это дополнение уже установлено на этом компоненте."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Это дополнение нельзя запустить вручную."
@@ -4229,16 +4204,14 @@ msgstr "Источник и перевод не начинаются оба од
 msgid "Non‑standard characters in Kabyle"
 msgstr "Нестандартные символы в кабильском языке"
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-#| "instead of ε)."
+#, python-brace-format
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
 "Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 "Используйте стандартизированные латинские символы кабильского языка "
-"(например, ɣ вместо греческой γ; ɛ вместо ε)."
+"(например, {latin_gamma} вместо греческой {greek_gamma}; {latin_epsilon} "
+"вместо {greek_epsilon})."
 
 msgid "Trailing space"
 msgstr "Пробелы в конце"
@@ -4291,10 +4264,9 @@ msgstr "Источник и перевод не заканчиваются об�
 msgid "Mismatched \\n"
 msgstr "Несовпадающие \\n"
 
-#, fuzzy, python-brace-format
-#| msgid "Number of \\n literals in translation does not match source."
+#, python-brace-format
 msgid "Number of {newline} literals in translation does not match source."
-msgstr "Число литералов \\n в переводе не соответствует источнику."
+msgstr "Число литералов {newline} в переводе не соответствует источнику."
 
 msgid "Mismatching line breaks"
 msgstr "Несовпадающие переводы строк"
@@ -5738,12 +5710,14 @@ msgid "Maximum retained versions"
 msgstr "Максимальное количество сохраненных версий"
 
 msgid "Kotlin SDK CDN"
-msgstr ""
+msgstr "CDN Kotlin SDK"
 
 msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+"Публикует строковые ресурсы Android и ресурсы множественного числа для "
+"зарегистрированных сборок Kotlin SDK."
 
 msgid "Weblate languages"
 msgstr "Языки Weblate"
@@ -6021,10 +5995,11 @@ msgid "Please read the following General Terms and Conditions document:"
 msgstr ""
 "Пожалуйста, прочтите следующий документ с Общими положениями и условиями:"
 
-#, fuzzy, python-format
-#| msgid "Please also read the Privacy Policy:"
+#, python-format
 msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr "Пожалуйста, также ознакомьтесь с Политикой конфиденциальности:"
+msgstr ""
+"Пожалуйста, также ознакомьтесь с <a href=\"%(privacy_url)s\">Политикой "
+"конфиденциальности</a>."
 
 msgid "Submit"
 msgstr "Подтвердить"
@@ -6047,29 +6022,19 @@ msgstr ""
 "конфиденциальности, вам стоит прочитать оригинальные документы для полного "
 "их понимания:"
 
-#, fuzzy
-#| msgid ""
-#| "This page is based on the General Terms and Conditions and the Privacy "
-#| "Policy, you should still read the original documents to fully understand "
-#| "them:"
 msgid ""
 "This page is based on the General Terms and Conditions, you should still "
 "read the original document to fully understand it:"
 msgstr ""
-"Эта страница основана на Общих положениях и условиях и Политике "
-"конфиденциальности, вам стоит прочитать оригинальные документы для полного "
-"их понимания:"
+"Эта страница основана на Общих положениях и условиях; вам всё же стоит "
+"прочитать оригинальный документ для полного понимания:"
 
-#, fuzzy
-#| msgid ""
-#| "This page is based on the Terms of Service, you should still read the "
-#| "original document to fully understand them."
 msgid ""
 "This page is based on the Privacy Policy, you should still read the original "
 "document to fully understand it:"
 msgstr ""
-"Эта страница основана на Соглашении об использовании, вам стоит прочитать "
-"исходный документ для полного понимания."
+"Эта страница основана на Политике конфиденциальности; вам всё же стоит "
+"прочитать оригинальный документ для полного понимания:"
 
 msgid "Cookies are used on this site for the following:"
 msgstr "Файлы «куки» используются сайтом в следующих целях:"
@@ -6805,10 +6770,8 @@ msgstr "Поиск снимков экрана"
 msgid "Sort by"
 msgstr "Сортировать по"
 
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot"
-msgstr "Снимки экрана"
+msgstr "Снимок экрана"
 
 msgid "Screenshot name"
 msgstr "Название снимка экрана"
@@ -6878,10 +6841,8 @@ msgstr "Новые соответствия исходным строкам не
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Не удалось загрузить данные OCR. Пожалуйста, попробуйте позже."
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a valid screenshot."
-msgstr "Удалить снимок экрана"
+msgstr "Выберите допустимый снимок экрана."
 
 msgid "Bad request"
 msgstr "Плохой запрос"
@@ -6998,10 +6959,8 @@ msgstr "Поддержать Weblate"
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Добро пожаловать и благодарим за поддержку Weblate"
 
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Continue to Weblate"
-msgstr "Внести вклад в Weblate"
+msgstr "Перейти в Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7095,12 +7054,15 @@ msgid "Please complete your sign-in using second factor credential."
 msgstr "Пожалуйста, завершите вход, используя учётные данные второго фактора."
 
 msgid "Other ways to verify your identity"
-msgstr ""
+msgstr "Другие способы подтвердить вашу личность"
 
 msgid ""
 "If you cannot use your passkey or security key, or any other configured "
 "verification method, contact the site administrator for help."
 msgstr ""
+"Если вы не можете использовать ключ доступа или ключ безопасности либо любой "
+"другой настроенный способ проверки, обратитесь за помощью к администратору "
+"сайта."
 
 msgid "Your profile"
 msgstr "Ваш профиль"
@@ -7340,10 +7302,8 @@ msgstr "Забыли пароль?"
 msgid "Register new account"
 msgstr "Зарегистрировать новую учётную запись"
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification diagnostics"
-msgstr "Настройки уведомлений"
+msgstr "Диагностика уведомлений"
 
 msgid "Diagnostics"
 msgstr "Диагностика"
@@ -7353,38 +7313,38 @@ msgid ""
 "notifications. The user’s own actions do not trigger notifications; event "
 "details, digest content, and delivery rate limits can also affect delivery."
 msgstr ""
+"Проверьте применимость подписок для гипотетических событий. Уведомления при "
+"этом не отправляются. Собственные действия пользователя не вызывают "
+"уведомлений; на доставку также могут влиять детали события, содержимое "
+"дайджеста и ограничения частоты доставки."
 
-#, fuzzy
-#| msgid "View notification"
 msgid "Check notifications"
-msgstr "Просмотр уведомлений"
+msgstr "Проверить уведомления"
 
-#, fuzzy, python-format
-#| msgid "Mute notifications for %(object)s"
+#, python-format
 msgid "Notification eligibility for %(target)s"
-msgstr "Отключить уведомления для %(object)s"
+msgstr "Применимость уведомлений для %(target)s"
 
 msgid ""
 "Inherited project settings are shown once, alongside differences across "
 "accessible components. Choose a component or translation path for detailed "
 "eligibility checks."
 msgstr ""
+"Унаследованные настройки проекта показываются один раз вместе с различиями "
+"по доступным компонентам. Выберите компонент или путь перевода для подробных "
+"проверок применимости."
 
 msgid "Notification"
 msgstr "Уведомление"
 
-#, fuzzy
-#| msgid "Edit project settings"
 msgid "Inherited project settings"
-msgstr "Правка настроек проекта"
+msgstr "Унаследованные настройки проекта"
 
 msgid "Settings and eligibility"
-msgstr ""
+msgstr "Настройки и применимость"
 
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Component exceptions"
-msgstr "Предупреждения компонентов"
+msgstr "Исключения компонентов"
 
 msgid "One-time"
 msgstr "Единовременно"
@@ -7393,96 +7353,83 @@ msgid ""
 "No inherited subscription. Matching settings are listed under component "
 "exceptions."
 msgstr ""
+"Нет унаследованной подписки. Соответствующие настройки перечислены в разделе "
+"исключений компонентов."
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Overridden subscriptions"
-msgstr "Подписки на пробную версию"
+msgstr "Переопределённые подписки"
 
 #, python-format
 msgid "Different settings in %(count)s component."
 msgid_plural "Different settings in %(count)s components."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Другие настройки в %(count)s компоненте."
+msgstr[1] "Другие настройки в %(count)s компонентах."
+msgstr[2] "Другие настройки в %(count)s компонентах."
 
 msgid ""
 "These components have no matching subscription, so this notification will "
 "not be sent."
 msgstr ""
+"У этих компонентов нет подходящей подписки, поэтому это уведомление не будет "
+"отправлено."
 
 msgid ""
 "Shared components use subscriptions from their original project, not this "
 "project’s subscriptions."
 msgstr ""
+"Общие компоненты используют подписки из своего исходного проекта, а не "
+"подписки этого проекта."
 
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Inspect example components:"
-msgstr "Обзор по всем компонентам"
+msgstr "Проверить примеры компонентов:"
 
-#, fuzzy
-#| msgid "Skipped components:"
 msgid "Inspect components:"
-msgstr "Пропущенные компоненты:"
+msgstr "Проверить компоненты:"
 
 msgid "None"
 msgstr "Без имени"
 
-#, fuzzy
-#| msgid "You do not have permission to save translations in this project."
 msgid "No accessible components or translations in this target."
-msgstr "У вас нет разрешения на сохранение переводов в этом проекте."
+msgstr "Нет доступных компонентов или переводов для этой цели."
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching subscriptions in this scope."
-msgstr "Соответствующие строки не найдены."
+msgstr "В этой области нет подходящих подписок."
 
-#, fuzzy, python-format
-#| msgid "%(count)s more affected project."
-#| msgid_plural "%(count)s more affected projects."
+#, python-format
 msgid "%(count)s watched project."
 msgid_plural "%(count)s watched projects."
-msgstr[0] "Ещё %(count)s затронутый проект."
-msgstr[1] "Ещё %(count)s затронутых проекта."
-msgstr[2] "Ещё %(count)s затронутых проектов."
+msgstr[0] "%(count)s отслеживаемый проект."
+msgstr[1] "%(count)s отслеживаемых проекта."
+msgstr[2] "%(count)s отслеживаемых проектов."
 
-#, fuzzy
-#| msgid "Watched projects"
 msgid "No watched projects."
-msgstr "Отслеживаемые проекты"
+msgstr "Нет отслеживаемых проектов."
 
-#, fuzzy
-#| msgid "Notification on new language request"
 msgid "Notification languages"
-msgstr "Уведомление о заявке на новый язык"
+msgstr "Языки уведомлений"
 
-#, fuzzy, python-format
-#| msgid "Failed to find matching language!"
+#, python-format
 msgid "%(count)s notification language."
 msgid_plural "%(count)s notification languages."
-msgstr[0] "Не удалось найти сопоставляемый язык!"
-msgstr[1] "Не удалось найти сопоставляемый язык!"
-msgstr[2] "Не удалось найти сопоставляемый язык!"
+msgstr[0] "%(count)s язык уведомлений."
+msgstr[1] "%(count)s языка уведомлений."
+msgstr[2] "%(count)s языков уведомлений."
 
 msgid ""
 "No notification languages selected. Language-filtered notifications will not "
 "be sent."
 msgstr ""
+"Языки уведомлений не выбраны. Уведомления с фильтрацией по языку "
+"отправляться не будут."
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "Subscriptions"
-msgstr "Подписки на пробную версию"
+msgstr "Подписки"
 
 msgid "Frequency"
 msgstr "Периодичность"
 
-#, fuzzy
-#| msgid "Trial subscriptions"
 msgid "No subscriptions."
-msgstr "Подписки на пробную версию"
+msgstr "Нет подписок."
 
 msgid "Please enable the password authentication to secure your account."
 msgstr "Включите авторизацию по паролю для защиты своей учётной записи."
@@ -7545,11 +7492,11 @@ msgid ""
 "Check which subscriptions apply to a project, component, or translation and "
 "what can prevent notification delivery."
 msgstr ""
+"Проверьте, какие подписки применяются к проекту, компоненту или переводу и "
+"что может помешать доставке уведомлений."
 
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Open notification diagnostics"
-msgstr "Настройки уведомлений"
+msgstr "Открыть диагностику уведомлений"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7993,15 +7940,13 @@ msgstr[0] "Ваш пробный период продлится %(days)s ден
 msgstr[1] "Ваш пробный период продлится %(days)s дня."
 msgstr[2] "Ваш пробный период продлится %(days)s дней."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Your trial will run the 640k plan, but you can choose any plan later."
+#, python-format
 msgid ""
 "Your trial will run the %(trial_plan)s plan, but you can choose any plan "
 "later."
 msgstr ""
-"Ваш пробный период будет использовать тариф «640 кб», но позже вы сможете "
-"выбрать любой другой план."
+"Ваш пробный период будет использовать план %(trial_plan)s, но позже вы "
+"сможете выбрать любой план."
 
 msgid "No credit card is needed, but you can set the payment method anytime."
 msgstr ""
@@ -8207,17 +8152,22 @@ msgid ""
 "security key. Your passkey might not be available on a new computer or in a "
 "different browser."
 msgstr ""
+"Используйте устройство, где доступен ваш ключ доступа, или подключите "
+"зарегистрированный ключ безопасности. Ваш ключ доступа может быть недоступен "
+"на новом компьютере или в другом браузере."
 
-#, fuzzy
-#| msgid "Sign in using the security key"
 msgid "Sign in using a passkey or security key"
-msgstr "Вход с помощью ключа безопасности"
+msgstr "Войти с помощью ключа доступа или ключа безопасности"
 
 msgid ""
 "Passkey or security key verification could not be completed. The request may "
 "have timed out or been canceled, or your credential may be unavailable on "
 "this device. Try again or use another verification method if available."
 msgstr ""
+"Не удалось завершить проверку ключа доступа или ключа безопасности. Запрос "
+"мог истечь или быть отменён, либо ваши учётные данные могут быть недоступны "
+"на этом устройстве. Попробуйте снова или используйте другой доступный способ "
+"проверки."
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "К сожалению, ваш браузер не поддерживает WebAuthn."
@@ -8249,16 +8199,11 @@ msgstr "Несовместимо"
 msgid "No components found."
 msgstr "Компонентов не найдено."
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgid "Add-on API base URL:"
-msgstr "Базовый URL API OpenAI"
+msgstr "Базовый URL API дополнения:"
 
-#, fuzzy
-#| msgid "API root URL:"
 msgid "API root"
-msgstr "Корневой URL для API:"
+msgstr "Корень API"
 
 msgid "Configure add-on"
 msgstr "Настроить дополнение"
@@ -8429,12 +8374,18 @@ msgid ""
 "and statistics. Use the json or python filter to serialize values in "
 "generated files."
 msgstr ""
+"В режиме компонента перебирайте переводы, чтобы получить доступ к метаданным "
+"и статистике каждого языка. Используйте фильтр json или python для "
+"сериализации значений в генерируемых файлах."
 
 msgid ""
 "The translation variables below are available directly in translation mode, "
 "or on each item in component mode. Component and project variables are "
 "available in both modes."
 msgstr ""
+"Приведённые ниже переменные перевода доступны напрямую в режиме перевода или "
+"для каждого элемента в режиме компонента. Переменные компонента и проекта "
+"доступны в обоих режимах."
 
 msgid "Percents translated"
 msgstr "Переведено, процентов"
@@ -9041,17 +8992,14 @@ msgstr "Применить"
 msgid "Browse components"
 msgstr "Обзор компонентов"
 
-#, fuzzy
-#| msgid ""
-#| "The message is shown for all translations in this project language, until "
-#| "its given expiry, or permanently until it is deleted."
 msgid ""
 "The message is shown for all translations in this language within the "
 "category and its subcategories, until its given expiry, or permanently until "
 "it is deleted."
 msgstr ""
-"Сообщение отображается для всех переводов на этом языке проекта до указанной "
-"даты истечения срока или постоянно, пока не будет удалено."
+"Сообщение отображается для всех переводов на этом языке в категории и её "
+"подкатегориях до указанного срока истечения или постоянно, пока не будет "
+"удалено."
 
 msgid "Announcements"
 msgstr "Объявления"
@@ -9562,36 +9510,39 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Станьте сторонником Weblate"
 
-#, fuzzy
-#| msgid "Another repository operation is already in progress."
 msgid "Some repository operations require additional permissions"
-msgstr "Другая операция с репозиторием уже выполняется."
+msgstr "Некоторые операции с репозиторием требуют дополнительных разрешений"
 
 msgid ""
 "Repository operations require permission on the component that owns the "
 "shared repository."
 msgstr ""
+"Операции с репозиторием требуют разрешения на компоненте, которому "
+"принадлежит общий репозиторий."
 
 msgid "Affected components:"
 msgstr "Затронутые компоненты:"
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "You need the following permissions on the repository-owning component:"
-msgstr "У вас нет разрешения на доступ к этому компоненту."
+msgstr "Вам нужны следующие разрешения на компоненте, владеющем репозиторием:"
 
 msgid ""
 "You need the following permissions on the repository-owning component, which "
 "you cannot access:"
 msgstr ""
+"Вам нужны следующие разрешения на компоненте, владеющем репозиторием, к "
+"которому у вас нет доступа:"
 
 msgid "Ask an administrator of the owning project to grant these permissions."
 msgstr ""
+"Попросите администратора владеющего проекта предоставить эти разрешения."
 
 msgid ""
 "Ask your project administrator to coordinate access with the repository "
 "owner."
 msgstr ""
+"Попросите администратора вашего проекта согласовать доступ с владельцем "
+"репозитория."
 
 msgid "Repository status"
 msgstr "Статус репозитория"
@@ -9639,7 +9590,7 @@ msgstr[1] "(%(count)s отсутствует в ветке для отправк
 msgstr[2] "(%(count)s отсутствуют в ветке для отправки)"
 
 msgid "Pushing is disabled because no repository push URL is configured."
-msgstr ""
+msgstr "Отправка отключена, поскольку URL отправки репозитория не настроен."
 
 #, python-format
 msgid "%(count)s missing commit"
@@ -9846,10 +9797,8 @@ msgstr "Репозиторий для %(component)s"
 msgid "Repository details"
 msgstr "Подробности репозитория"
 
-#, fuzzy
-#| msgid "Discovery configuration"
 msgid "Edit repository configuration"
-msgstr "Конфигурация обнаружения"
+msgstr "Изменить конфигурацию репозитория"
 
 msgid "Repository changes"
 msgstr "Изменения репозитория"
@@ -9982,10 +9931,8 @@ msgstr ""
 "Пожалуйста, ознакомьтесь с документацией для получения дополнительной "
 "информации."
 
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Translation workflow"
-msgstr "Сведения о переводе"
+msgstr "Рабочий процесс перевода"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -10543,14 +10490,11 @@ msgstr "Подтверждение удаления учётной записи"
 msgid "Confirm invitation"
 msgstr "Подтвердить приглашение"
 
-#, fuzzy
-#| msgid ""
-#| "Note: This digest has been truncated as there were over 100 notifications."
 msgid ""
 "Note: This notification has been truncated as there were over 100 entries."
 msgstr ""
-"Примечание: эта сводка была сокращена, поскольку получено более 100 "
-"уведомлений."
+"Примечание: это уведомление было сокращено, так как в нём было более 100 "
+"записей."
 
 msgid "Source string description"
 msgstr "Описание исходной строки"
@@ -10715,18 +10659,18 @@ msgstr "Ограничения пакета поддержки"
 msgid "Support expiry"
 msgstr "Сроки поддержки истекли"
 
-#, fuzzy
-#| msgid "Professional support"
 msgid "Professional support for your organization"
-msgstr "Профессиональная поддержка"
+msgstr "Профессиональная поддержка для вашей организации"
 
 msgid ""
 "Purchase professional support for expert help with setup, maintenance, and "
 "troubleshooting."
 msgstr ""
+"Приобретите профессиональную поддержку для получения экспертной помощи по "
+"настройке, обслуживанию и устранению неполадок."
 
 msgid "Your subscription also funds the ongoing development of Weblate."
-msgstr ""
+msgstr "Ваша подписка также финансирует текущую разработку Weblate."
 
 msgid "Manage support package"
 msgstr "Управление пакетом поддержки"
@@ -10737,10 +10681,8 @@ msgstr "Отвязать пакет поддержки и отключить Dis
 msgid "Unlink support package"
 msgstr "Отключить пакет поддержки"
 
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase support"
-msgstr "Приобрести пакет поддержки"
+msgstr "Приобрести поддержку"
 
 msgid "Contact customer care"
 msgstr "Связаться с поддержкой клиентов"
@@ -11282,6 +11224,8 @@ msgid ""
 "Languages already used as target languages in this project can be added "
 "immediately. Other languages are requested from the project maintainers."
 msgstr ""
+"Языки, уже используемые как целевые языки в этом проекте, можно добавить "
+"немедленно. Другие языки запрашиваются у сопровождающих проекта."
 
 msgid "Can't find your language in the list above?"
 msgstr "Не можете найти свой язык в вышеуказанном списке?"
@@ -11379,15 +11323,11 @@ msgstr "Благодарим за использование Weblate"
 msgid "Return to dashboard"
 msgstr "Вернуться к панели управления"
 
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "Thank you for contributing translations."
-msgstr "Новый участник в %(translation)s"
+msgstr "Спасибо за ваш вклад в переводы."
 
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Donate to Weblate development"
-msgstr "Пожертвовать для Weblate"
+msgstr "Пожертвовать на развитие Weblate"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "Просмотрите и подтвердите результаты поиска и замены."
@@ -11498,30 +11438,24 @@ msgstr "Снимков экрана не найдено."
 msgid "Add new screenshot"
 msgstr "Добавить новый снимок экрана"
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a screenshot"
-msgstr "Удалить снимок экрана"
+msgstr "Выбрать снимок экрана"
 
 msgid ""
 "Source-language screenshots are shown for every translation of this string. "
 "Other screenshots are shown only for their language."
 msgstr ""
+"Снимки экрана на исходном языке показываются для каждого перевода этой "
+"строки. Другие снимки экрана показываются только для своего языка."
 
-#, fuzzy
-#| msgid "Select"
 msgid "Selected"
-msgstr "Выбрать"
+msgstr "Выбрано"
 
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No matching screenshots available."
-msgstr "Нет доступных команд."
+msgstr "Нет подходящих снимков экрана."
 
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshot pages"
-msgstr "Название снимка экрана"
+msgstr "Страницы снимков экрана"
 
 #, python-format
 msgid "Page %(current)s of %(total)s"
@@ -11644,37 +11578,31 @@ msgstr ""
 msgid "Translation quality filter"
 msgstr "Фильтр качества перевода"
 
-#, fuzzy
-#| msgid "Only approved translations are written to the translation file."
 msgid ""
 "Approval is required before this translation can be written to the "
 "translation file."
-msgstr "В файл перевода записываются только одобренные переводы."
+msgstr "Для записи этого перевода в файл перевода требуется утверждение."
 
-#, fuzzy
-#| msgid ""
-#| "Translations marked as needing editing are not written to the translation "
-#| "file."
 msgid ""
 "Resolve this translation’s needs-editing state before it can be written to "
 "the translation file."
-msgstr "Переводы, помеченные «На правку», не записываются в файл перевода."
+msgstr ""
+"Снимите состояние «Требует редактирования» этого перевода, прежде чем он "
+"сможет быть записан в файл перевода."
 
 #, python-format
 msgid ""
 "Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
 "controls which translations are written to files."
 msgstr ""
+"Узнайте, как <a href=\"%(policy_url)s\">фильтр качества перевода</a> "
+"управляет тем, какие переводы записываются в файлы."
 
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Configure language workflow"
-msgstr "Одноязычный базовый файл"
+msgstr "Настроить рабочий процесс языка"
 
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Configure translation quality filter"
-msgstr "Фильтр качества перевода"
+msgstr "Настроить фильтр качества перевода"
 
 msgid "View details"
 msgstr "Подробнее"
@@ -11739,10 +11667,8 @@ msgstr[2] "Ещё %(count)s затронутых компонентов."
 msgid "No diagnostics match the selected filters."
 msgstr "Ни одна диагностика не соответствует выбранным фильтрам."
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support Weblate development"
-msgstr "Поддержать Weblate"
+msgstr "Поддержать развитие Weblate"
 
 msgid "Thank you for using Weblate and contributing translations."
 msgstr "Благодарим за использование Weblate и за вклад в создание переводов."
@@ -11751,6 +11677,8 @@ msgid ""
 "If you would like to give more, an optional donation funds development and "
 "maintenance of Weblate itself."
 msgstr ""
+"Если вы хотите дать больше, необязательное пожертвование финансирует "
+"разработку и поддержку самого Weblate."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11822,10 +11750,8 @@ msgstr "Скопировать слово в перевод"
 msgid "This translation is forbidden."
 msgstr "Этот перевод нежелателен."
 
-#, fuzzy
-#| msgid "Hidden"
 msgid "Forbidden"
-msgstr "Скрыто"
+msgstr "Запрещено"
 
 msgid "This term should not be translated."
 msgstr "Не следует переводить этот термин."
@@ -11836,10 +11762,8 @@ msgstr "Изменить термин"
 msgid "Translation explanation"
 msgstr "Объяснение перевода"
 
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Source explanation"
-msgstr "Объяснение исходной строки"
+msgstr "Пояснение к исходной строке"
 
 msgid "Glossary translation explanation"
 msgstr "Пояснение для словаря переводов"
@@ -12313,10 +12237,8 @@ msgstr "Строки, переведённые на определённый я�
 msgid "Query"
 msgstr "Запрос"
 
-#, fuzzy
-#| msgid "Refresh repositories"
 msgid "Refresh results"
-msgstr "Обновить репозитории"
+msgstr "Обновить результаты"
 
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
@@ -12383,36 +12305,29 @@ msgstr "Отчёты ещё не созданы."
 msgid "Report history pagination"
 msgstr "Постраничная навигация по истории отчётов"
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are enabled for this language."
-msgstr "Для этого языка не определены глоссарии."
+msgstr "Для этого языка включены проверки."
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are disabled for this language."
-msgstr "Для этого языка не определены глоссарии."
+msgstr "Для этого языка проверки отключены."
 
-#, fuzzy, python-format
-#| msgid "Review strings"
+#, python-format
 msgid "Review setting: %(origin)s."
-msgstr "Рецензирование строк"
+msgstr "Настройка проверок: %(origin)s."
 
 #, python-format
 msgid ""
 "Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
 "language</a>."
 msgstr ""
+"Узнайте, как <a href=\"%(workflow_url)s\">настроить рабочий процесс для "
+"этого языка</a>."
 
-#, fuzzy
-#| msgid "Customize translation workflow for this language"
 msgid "Learn how to customize translation workflows."
-msgstr "Настройка процесса перевода для данного языка"
+msgstr "Узнайте, как настраивать рабочие процессы перевода."
 
-#, fuzzy
-#| msgid "Your translation is foo"
 msgid "Configure translation workflow"
-msgstr "Ваш перевод — метапеременный"
+msgstr "Настроить рабочий процесс перевода"
 
 #, python-format
 msgid ""
@@ -12535,17 +12450,13 @@ msgid "Failing checks:"
 msgstr "Неудачные проверки:"
 
 msgid "Using Weblate in your organization?"
-msgstr ""
+msgstr "Используете Weblate в своей организации?"
 
-#, fuzzy
-#| msgid "Purchase a support package"
 msgid "Already purchased? Link your support package"
-msgstr "Приобрести пакет поддержки"
+msgstr "Уже приобрели? Привяжите свой пакет поддержки"
 
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Term information from the translation file"
-msgstr "Удалить неиспользуемые строки из файла перевода"
+msgstr "Информация о терминах из файла перевода"
 
 msgid "Source terms"
 msgstr "Исходные термины"
@@ -13084,18 +12995,28 @@ msgid ""
 "You cannot add glossary terms directly in Weblate, and terminology entries "
 "are not automatically added to missing glossary languages."
 msgstr ""
+"У этого глоссария нет удалённого репозитория, и «Управление строками» "
+"отключено. Вы не можете добавлять термины глоссария напрямую в Weblate, и "
+"записи терминологии не добавляются автоматически в отсутствующие языки "
+"глоссария."
 
 msgid ""
 "This glossary contains terms marked as terminology, but ‘Manage strings’ is "
 "disabled. Weblate will not automatically add these terms to missing glossary "
 "languages."
 msgstr ""
+"Этот глоссарий содержит термины, помеченные как терминология, но «Управление "
+"строками» отключено. Weblate не будет автоматически добавлять эти термины в "
+"отсутствующие языки глоссария."
 
 msgid ""
 "Enable ‘Manage strings’ in the component settings to add terms and "
 "synchronize terminology. You can dismiss this warning if the glossary files "
 "are maintained separately."
 msgstr ""
+"Включите «Управление строками» в настройках компонента, чтобы добавлять "
+"термины и синхронизировать терминологию. Вы можете закрыть это "
+"предупреждение, если файлы глоссария поддерживаются отдельно."
 
 msgid "This component is set up incorrectly."
 msgstr "Этот компонент установлен или настроен неправильно."
@@ -13760,6 +13681,8 @@ msgid ""
 "Search results stay fixed while you translate. Refresh results to show "
 "strings matching the filters now."
 msgstr ""
+"Результаты поиска остаются неизменными во время перевода. Обновите "
+"результаты, чтобы показать строки, соответствующие фильтрам сейчас."
 
 msgid "Permalink copied to clipboard."
 msgstr "Постоянная ссылка скопирована в буфер обмена."
@@ -13885,15 +13808,11 @@ msgstr "Показать все изменения"
 msgid "Search translation memory"
 msgstr "Поиск в памяти переводов"
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching machine translations found."
-msgstr "Соответствующие строки не найдены."
+msgstr "Подходящие машинные переводы не найдены."
 
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete entry"
-msgstr "Удаление комментариев"
+msgstr "Удалить запись"
 
 msgid "Source:"
 msgstr "Источник:"
@@ -13978,10 +13897,8 @@ msgstr "Обзор словаря"
 msgid "No screenshot currently associated."
 msgstr "Ни одного снимка экрана в настоящее время не связано."
 
-#, fuzzy
-#| msgid "Add to screenshot"
 msgid "Add existing screenshot"
-msgstr "Добавить на снимок экрана"
+msgstr "Добавить существующий снимок экрана"
 
 msgid "Upload screenshot"
 msgstr "Загрузить снимок экрана"
@@ -14112,7 +14029,7 @@ msgid ""
 "translation"
 msgstr ""
 "Все строки, преобразованные файлы, дополненные комментариями; подходит для "
-"офлайн-перевода"
+"автономного перевода"
 
 msgid ""
 "Unfinished strings, converted files enriched with comments; suitable for "
@@ -15867,6 +15784,9 @@ msgid ""
 "Add contributor names and years to header comments. SPDX also converts "
 "existing recognized contributor comments to SPDX-FileCopyrightText entries."
 msgstr ""
+"Добавляет имена участников и годы в комментарии заголовка. SPDX также "
+"преобразует существующие распознанные комментарии участников в записи SPDX-"
+"FileCopyrightText."
 
 msgid "Keep previous msgids of translated strings"
 msgstr "Сохранять предыдущие msgid переведённых строк"
@@ -16181,12 +16101,12 @@ msgstr "Альтернативный перевод"
 msgid "The string you wanted to translate is no longer available."
 msgstr "Строка, которую вы хотели перевести более недоступна."
 
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available."
 msgid ""
 "The string you wanted to translate could not be identified. Please reopen it "
 "and try again."
-msgstr "Строка, которую вы хотели перевести более недоступна."
+msgstr ""
+"Не удалось определить строку, которую вы хотели перевести. Пожалуйста, "
+"откройте её заново и попробуйте снова."
 
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
@@ -16264,10 +16184,8 @@ msgstr "Не удалось найти объединённую строку."
 msgid "Could not find the reverted change."
 msgstr "Не удалось найти возвращённое изменение."
 
-#, fuzzy
-#| msgid "Restricted component"
 msgid "Enter a source component ID."
-msgstr "Ограниченный компонент"
+msgstr "Введите идентификатор исходного компонента."
 
 #, python-brace-format
 msgid ""
@@ -16275,15 +16193,20 @@ msgid ""
 "also accepted. In that case, component and project operations also accept a "
 "component slug from the target project."
 msgstr ""
+"При наличии {count} или более подходящих исходных компонентов также "
+"принимается путь проекта/компонента. В этом случае операции с компонентами и "
+"проектами также принимают слаг компонента из целевого проекта."
 
 msgid ""
 "Leave blank to use eligible components from each target component's project."
 msgstr ""
+"Оставьте пустым, чтобы использовать подходящие компоненты из проекта каждого "
+"целевого компонента."
 
-#, fuzzy
-#| msgid "All components in current workspace"
 msgid "Leave blank to use eligible components in the current workspace."
-msgstr "Все компоненты в текущем рабочем пространстве"
+msgstr ""
+"Оставьте пустым, чтобы использовать подходящие компоненты в текущем рабочем "
+"пространстве."
 
 msgid "Automatic translation mode"
 msgstr "Режим автоматического перевода"
@@ -16322,30 +16245,24 @@ msgstr "Механизмы машинного перевода"
 msgid "Score threshold"
 msgstr "Порог оценки"
 
-#, fuzzy
-#| msgid "All components in current workspace"
 msgid "All eligible components in current workspace"
-msgstr "Все компоненты в текущем рабочем пространстве"
+msgstr "Все подходящие компоненты в текущем рабочем пространстве"
 
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All eligible components in current project"
-msgstr "Все компоненты в текущем проекте"
+msgstr "Все подходящие компоненты в текущем проекте"
 
-#, fuzzy
-#| msgid "All components in current project"
 msgid "Eligible components from each target component's project"
-msgstr "Все компоненты в текущем проекте"
+msgstr "Подходящие компоненты из проекта каждого целевого компонента"
 
 msgid ""
 "You can also enter a component slug from the current project or a project/"
 "component path."
 msgstr ""
+"Вы также можете ввести слаг компонента из текущего проекта или путь проект/"
+"компонент."
 
-#, fuzzy
-#| msgid "Enter component ID or project/component slug."
 msgid "You can also enter a project/component path."
-msgstr "Введите идентификатор компонента или плашку проект/компонент."
+msgstr "Вы также можете ввести путь проект/компонент."
 
 msgid "Component not found!"
 msgstr "Компонент не найден!"
@@ -16524,10 +16441,8 @@ msgstr "Указать настройку вручную"
 msgid "The category does not belong to the selected project."
 msgstr "Категория не относится к выбранному проекту."
 
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change project access settings."
-msgstr "У вас нет разрешения изменять управление доступом к проекту."
+msgstr "У вас нет разрешения изменять настройки доступа к проекту."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -16845,6 +16760,8 @@ msgid ""
 "Allows anonymous access to the engage pages and status widgets for Private "
 "and Custom projects."
 msgstr ""
+"Разрешает анонимный доступ к страницам вовлечения и виджетам состояния для "
+"проектов «Приватный» и «Пользовательский»."
 
 msgid "Public sharing"
 msgstr "Публичный доступ"
@@ -18095,12 +18012,12 @@ msgid ""
 "file."
 msgstr "Переводы, помеченные «На правку», не записываются в файл перевода."
 
-#, fuzzy
-#| msgid "Only approved translations are written to the translation file."
 msgid ""
 "For languages with reviews enabled, only approved translations are written "
 "to the translation file."
-msgstr "В файл перевода записываются только одобренные переводы."
+msgstr ""
+"Для языков с включёнными проверками в файл перевода записываются только "
+"утверждённые переводы."
 
 msgid "Could not accept suggestion!"
 msgstr "Не удалось принять предложение!"
@@ -18414,10 +18331,8 @@ msgstr "Общее с проектом %s."
 msgid "Project settings"
 msgstr "Настройки проекта"
 
-#, fuzzy
-#| msgid "Reset customization"
 msgid "Site-wide language customization"
-msgstr "Сбросить настройки"
+msgstr "Настройка языков на уровне сайта"
 
 msgid "Project-language customization"
 msgstr "Настройка языка проекта"
@@ -18425,24 +18340,18 @@ msgstr "Настройка языка проекта"
 msgid "Only approved translations are written to the translation file."
 msgstr "В файл перевода записываются только одобренные переводы."
 
-#, fuzzy
-#| msgid ""
-#| "Translations marked as needing editing are not written to the translation "
-#| "file."
 msgid ""
 "All translation states, including those needing editing, are eligible to be "
 "written to the translation file."
-msgstr "Переводы, помеченные «На правку», не записываются в файл перевода."
+msgstr ""
+"Все состояния перевода, включая требующие редактирования, могут быть "
+"записаны в файл перевода."
 
-#, fuzzy
-#| msgid "Enable source reviews"
 msgid "Configure source reviews"
-msgstr "Включить рецензии исходных строк"
+msgstr "Настроить проверки исходных строк"
 
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Configure translation reviews"
-msgstr "Очистка файлов перевода"
+msgstr "Настроить проверки переводов"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -18797,6 +18706,8 @@ msgid ""
 "Your previous search results are no longer available. The results have been "
 "refreshed."
 msgstr ""
+"Ваши предыдущие результаты поиска больше недоступны. Результаты были "
+"обновлены."
 
 msgid "Your suggestion is empty!"
 msgstr "Ваше предложение пусто!"
@@ -19073,17 +18984,12 @@ msgid "Project {}"
 msgstr "Проект {}"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgid "Category"
 msgid "Category {}"
-msgstr "Категория"
+msgstr "Категория {}"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Workspace: {}"
 msgid "Workspace {}"
-msgstr "Рабочее пространство: {}"
+msgstr "Рабочее пространство {}"
 
 #. Translators: Text on OpenGraph image
 msgid "Component {}"
@@ -20468,25 +20374,17 @@ msgstr "Шрифт страницы"
 msgid "Header font"
 msgstr "Шрифт заголовка"
 
-#, fuzzy
-#| msgid "Hover color (Light, Dark)"
 msgid "Header color (Light, Dark)"
-msgstr "Цвет при наведении мыши (светлый, тёмный)"
+msgstr "Цвет заголовка (светлый, тёмный)"
 
-#, fuzzy
-#| msgid "Hover color (Light, Dark)"
 msgid "Header text color (Light, Dark)"
-msgstr "Цвет при наведении мыши (светлый, тёмный)"
+msgstr "Цвет текста заголовка (светлый, тёмный)"
 
-#, fuzzy
-#| msgid "Focus color (Light, Dark)"
 msgid "Accent color (Light, Dark)"
-msgstr "Цвет фокуса (светлый, тёмный)"
+msgstr "Акцентный цвет (светлый, тёмный)"
 
-#, fuzzy
-#| msgid "Hover color (Light, Dark)"
 msgid "Header accent color (Light, Dark)"
-msgstr "Цвет при наведении мыши (светлый, тёмный)"
+msgstr "Акцентный цвет заголовка (светлый, тёмный)"
 
 msgid "Hover color (Light, Dark)"
 msgstr "Цвет при наведении мыши (светлый, тёмный)"
