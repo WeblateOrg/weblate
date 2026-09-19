@@ -72,6 +72,7 @@ Weblate 2026.10
 * Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when migrating dismissed component alerts from releases before 2026.8.
 * Fixed the :ref:`punctuation spacing check <check-punctuation-spacing>` fix button adding a space inside URLs such as Markdown links.
 * Fixed the :ref:`check-max-size` rendering preview shifting text vertically when the ``font-spacing`` flag is set.
+* Fixed the :ref:`Refresh results <search-results-cache>` icon being drawn in black regardless of the theme or hover state.
 
 .. rubric:: Compatibility
 
