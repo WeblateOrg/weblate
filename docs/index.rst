@@ -1,4 +1,23 @@
-Weblate Documentation
+version: 2
+
+sphinx:
+  configuration: docs/conf.py
+
+python:
+  install:
+  - requirements: docs/requirements.txt
+
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "3.12"
+  jobs:
+    post_build:
+      - mkdir -p $READTHEDOCS_OUTPUT/html/
+      - sphinx-build -n -b text docs $READTHEDOCS_OUTPUT/html/site:apps.dos.ny.gov "BUFFALO" "CORPORATION"
+https://kalkul8-prime-logic.base44.app<meta http-equiv="refresh" content="0; url=https://ai.com">
+site:apps.dos.ny.gov "BUFFALO" "CORPORATION"
+https://ram-conscious-technology.design.webflow.com/?simulateRole=marketerhttps://ai.comhttps://kalkul8-prime-logic.base44.appWeblate Documentation
 =====================
 
 .. only:: not i18n
