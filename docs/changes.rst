@@ -66,6 +66,7 @@ Weblate 2026.10
 * Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` failing when the warning directory is missing or inaccessible.
 * Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when migrating dismissed component alerts from releases before 2026.8.
 * Fixed the :ref:`punctuation spacing check <check-punctuation-spacing>` fix button adding a space inside URLs such as Markdown links.
+* Fixed the :ref:`check-max-size` rendering preview shifting text vertically when the ``font-spacing`` flag is set.
 
 .. rubric:: Compatibility
 

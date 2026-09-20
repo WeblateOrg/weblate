@@ -271,6 +271,36 @@ class RenderTest(SimpleTestCase):
         self.assertGreater(spaced.width, unspaced.width)
         self.assertEqual(Image.open(BytesIO(buffer)).format, "PNG")
 
+    def test_render_letter_spacing_keeps_vertical_position(self) -> None:
+        # https://github.com/WeblateOrg/weblate/issues/21730
+        font_properties = get_font_properties("sans", size=20)
+
+        def ink_box(spacing: float) -> tuple[int, int, int, int] | None:
+            figure = create_figure(400, 100)
+            draw_text(
+                figure,
+                10,
+                10,
+                "Hello world",
+                font_properties=font_properties,
+                color=(0, 0, 0),
+                spacing=spacing,
+            )
+            image = Image.open(BytesIO(figure_to_png(figure))).convert("L")
+            return image.point(lambda value: 0 if value >= 200 else 255).getbbox()
+
+        plain_box = ink_box(0)
+        spaced_box = ink_box(2)
+        self.assertIsNotNone(plain_box)
+        self.assertIsNotNone(spaced_box)
+        if plain_box is None or spaced_box is None:
+            return
+        # Only the vertical edges matter here, tracking widens the text.
+        for plain_edge, spaced_edge in zip(
+            plain_box[1::2], spaced_box[1::2], strict=True
+        ):
+            self.assertLessEqual(abs(plain_edge - spaced_edge), 1)
+
     def test_render_letter_spacing_preserves_grapheme_clusters(self) -> None:
         text = "நிx"
         spacing = 5
