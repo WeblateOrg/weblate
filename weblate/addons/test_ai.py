@@ -23,9 +23,13 @@ from weblate.checks.ai import AI_CHECKS
 from weblate.checks.models import Check
 from weblate.machinery.base import MachineryRateLimitError, MachineTranslationError
 from weblate.machinery.evaluation import parse_evaluation_response
+from weblate.machinery.google import GoogleTranslation
 from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents
+from weblate.trans.alerts.base import AlertSeverity
+from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import Change, Unit
+from weblate.trans.models.project import Project
 from weblate.trans.tests.test_views import ComponentTestCase
 from weblate.trans.util import join_plural
 from weblate.utils.hash import calculate_hash
@@ -445,9 +449,140 @@ class AIEvaluationTest(ComponentTestCase):
             )
         activity.refresh_from_db()
         self.assertEqual(activity.status, AddonActivityLogStatus.ERROR)
+        self.assertFalse(
+            self.component.alert_set.filter(name="AIEvaluationUnavailable").exists()
+        )
         self.addon.instance.refresh_from_db()
         self.assertTrue(self.addon.is_schedule_due(self.component))
         self.assertFalse(self.unit.check_set.filter(name__in=AI_CHECKS).exists())
+
+    def test_unavailable_service_diagnostic(self) -> None:
+        for service in (
+            "missing",
+            GoogleTranslation.get_identifier(),
+            self.service_key,
+        ):
+            with self.subTest(service=service):
+                configuration = {**self.configuration, "service": service}
+                self.addon.instance.configuration = configuration
+                self.addon.instance.save()
+                activity = AddonActivityLog.objects.create(
+                    addon=self.addon.instance,
+                    component=self.component,
+                    event=AddonEvent.EVENT_MANUAL,
+                )
+                # Missing configuration, an unregistered backend, and a non-LLM backend.
+                configured: dict[str, SettingsDict] = (
+                    {} if service == self.service_key else {service: {}}
+                )
+                with (
+                    patch.object(
+                        Project, "get_machinery_settings", return_value=configured
+                    ),
+                    patch.object(OpenAITranslation, "fetch_llm_translations") as fetch,
+                ):
+                    evaluate_quality(
+                        self.addon.instance.pk,
+                        [self.component.pk],
+                        configuration,
+                        activity_log_id=activity.pk,
+                    )
+                fetch.assert_not_called()
+                activity.refresh_from_db()
+                self.assertEqual(activity.status, AddonActivityLogStatus.ERROR)
+                alert = self.component.alert_set.get(name="AIEvaluationUnavailable")
+                self.assertEqual(alert.severity, AlertSeverity.ERROR)
+                self.assertEqual(
+                    alert.details["occurrences"][0]["addon_id"],
+                    str(self.addon.instance.pk),
+                )
+        self.addon.instance.configuration = self.configuration
+        self.addon.instance.save()
+        self.evaluate()
+        self.assertFalse(
+            self.component.alert_set.filter(name="AIEvaluationUnavailable").exists()
+        )
+
+    def test_unavailable_service_refresh_and_uninstall(self) -> None:
+        with patch.object(Project, "get_machinery_settings", return_value={}):
+            update_alerts(self.component, {"AIEvaluationUnavailable"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="AIEvaluationUnavailable").exists()
+        )
+        self.addon.instance.delete()
+        self.assertFalse(
+            self.component.alert_set.filter(name="AIEvaluationUnavailable").exists()
+        )
+
+    def test_unavailable_inherited_evaluator_and_stale_task(self) -> None:
+        inherited = AIEvaluationAddon.create(
+            project=self.project,
+            configuration={**self.configuration, "service": "missing"},
+            run=False,
+        )
+        update_alerts(self.component, {"AIEvaluationUnavailable"})
+        self.assertFalse(
+            self.component.alert_set.filter(name="AIEvaluationUnavailable").exists()
+        )
+        with patch.object(OpenAITranslation, "fetch_llm_translations") as fetch:
+            evaluate_quality(
+                inherited.instance.pk,
+                [self.component.pk],
+                inherited.get_configuration(),
+            )
+        fetch.assert_not_called()
+        self.assertFalse(
+            self.component.alert_set.filter(name="AIEvaluationUnavailable").exists()
+        )
+        self.addon.instance.delete()
+        alert = self.component.alert_set.get(name="AIEvaluationUnavailable")
+        self.assertEqual(
+            alert.details["occurrences"][0]["addon_id"], str(inherited.instance.pk)
+        )
+        inherited.configure(self.configuration)
+        inherited.post_configure_run()
+        self.assertFalse(
+            self.component.alert_set.filter(name="AIEvaluationUnavailable").exists()
+        )
+
+    def test_evaluation_recommendation(self) -> None:
+        name = "RecommendedAIEvaluationAddon"
+        update_alerts(self.component, {name})
+        self.assertFalse(self.component.alert_set.filter(name=name).exists())
+        self.addon.instance.delete()
+        self.component.drop_addons_cache()
+        update_alerts(self.component, {name})
+        alert = self.component.alert_set.get(name=name)
+        self.assertEqual(alert.severity, AlertSeverity.INFO)
+        self.assertTrue(alert.dismiss(self.user))
+        update_alerts(self.component, {name})
+        alert.refresh_from_db()
+        self.assertTrue(alert.is_dismissed)
+        unavailable: tuple[dict[str, SettingsDict], ...] = (
+            {},
+            {GoogleTranslation.get_identifier(): {}},
+            {"missing": {}},
+        )
+        for configured in unavailable:
+            with patch.object(
+                Project, "get_machinery_settings", return_value=configured
+            ):
+                update_alerts(self.component, {name})
+            self.assertFalse(self.component.alert_set.filter(name=name).exists())
+        with override_settings(WEBLATE_ADDONS=[]):
+            update_alerts(self.component, {name})
+        self.assertFalse(self.component.alert_set.filter(name=name).exists())
+        update_alerts(self.component, {name})
+        inherited = AIEvaluationAddon.create(
+            project=self.project, configuration=self.configuration, run=False
+        )
+        self.component.drop_addons_cache()
+        update_alerts(self.component, {name})
+        self.assertFalse(self.component.alert_set.filter(name=name).exists())
+        inherited.instance.delete()
+        self.component.is_glossary = True
+        update_alerts(self.component, {name})
+        self.assertFalse(self.component.alert_set.filter(name=name).exists())
 
     def test_deleted_addon_does_not_contact_service(self) -> None:
         addon_id = self.addon.instance.pk

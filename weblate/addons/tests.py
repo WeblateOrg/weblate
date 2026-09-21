@@ -9447,6 +9447,10 @@ class CDNJSAddonTest(ViewTestCase):
 
         self.assertEqual(len(errors), 1)
         self.assertIn("CDN unavailable", errors[0]["error"])
+        alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertEqual(
+            alert.details["occurrences"][0]["addon_id"], str(addon.instance.pk)
+        )
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")

@@ -154,6 +154,8 @@ def parse_cdn_html(addon: Addon, component: Component) -> list[dict[str, str]]:
         )
 
     if errors:
+        for occurrence in errors:
+            occurrence.update(addon=addon.name, addon_id=str(addon.pk))
         component.add_alert("CDNAddonError", occurrences=errors)
     else:
         component.delete_alert("CDNAddonError")

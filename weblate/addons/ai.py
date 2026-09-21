@@ -28,18 +28,28 @@ from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.llm import BaseLLMTranslation
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import Unit
 from weblate.utils.forms import QueryField
 from weblate.utils.lock import WeblateLock
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Iterable, Iterator
 
     from weblate.addons.models import Addon
     from weblate.auth.models import User
     from weblate.machinery.evaluation import EvaluationIssue
     from weblate.trans.models import Category, Change, Component, Project
     from weblate.trans.models.unit import UnitQuerySet
+
+
+def available_evaluation_services(configured: Iterable[str]) -> list[str]:
+    """Return configured services that support quality evaluation."""
+    return [
+        key
+        for key in configured
+        if key in MACHINERY and issubclass(MACHINERY[key], BaseLLMTranslation)
+    ]
 
 
 class AIEvaluationConfiguration(TypedDict, total=False):
@@ -103,8 +113,7 @@ class AIEvaluationForm(BaseAddonForm[AIEvaluationConfiguration, "AIEvaluationAdd
         )
         service_field.choices = [
             (key, MACHINERY[key].name)
-            for key in configured
-            if key in MACHINERY and issubclass(MACHINERY[key], BaseLLMTranslation)
+            for key in available_evaluation_services(configured)
         ]
 
 
@@ -149,6 +158,7 @@ class AIEvaluationAddon(
     description = gettext_lazy(
         "Evaluates existing translations using an LLM and records quality checks."
     )
+    alert = "AIEvaluationUnavailable"
     settings_form = AIEvaluationForm
     icon = "language.svg"
     events: ClassVar[set[AddonEvent]] = {
@@ -197,10 +207,16 @@ class AIEvaluationAddon(
 
     def post_uninstall(self) -> None:
         self.cleanup_checks()
+        self.refresh_diagnostics()
 
     def post_configure_run(self) -> None:
-        # Installing/configuring the add-on does not initiate paid requests.
-        pass
+        self.refresh_diagnostics()
+
+    def refresh_diagnostics(self) -> None:
+        # Refresh diagnostics without initiating paid requests.
+        for component in self.instance.affected_components():
+            component.drop_addons_cache()
+            update_alerts(component, {self.alert})
 
     def is_schedule_due(self, component: Component) -> bool:
         interval = self.INTERVALS.get(self.get_configuration()["interval"])
@@ -475,11 +491,8 @@ def evaluate_component(
             return result
         service_key = configuration["service"]
         configured = component.project.get_machinery_settings()
-        if (
-            service_key not in configured
-            or service_key not in MACHINERY
-            or not issubclass(MACHINERY[service_key], BaseLLMTranslation)
-        ):
+        update_alerts(component, {addon.alert})
+        if service_key not in available_evaluation_services(configured):
             msg = "The configured evaluation service is unavailable."
             raise MachineTranslationError(msg)
         service_class = cast("type[BaseLLMTranslation]", MACHINERY[service_key])
