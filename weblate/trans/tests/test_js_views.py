@@ -4,10 +4,12 @@
 
 """Test for AJAX/JS views."""
 
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.trans.views.js import MARKDOWN_PREVIEW_MAX_LENGTH
 
 
 class JSViewsTest(FixtureTestCase):
@@ -53,13 +55,22 @@ class JSViewsTest(FixtureTestCase):
 
     def test_markdown_preview_too_long(self) -> None:
         response = self.client.post(
-            reverse("js-markdown-preview"), {"text": "x" * 50_001}
+            reverse("js-markdown-preview"),
+            {"text": "x" * (MARKDOWN_PREVIEW_MAX_LENGTH + 1)},
         )
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response["Content-Type"], "text/plain")
         self.assertContains(
             response, "The text is too long to preview.", status_code=400
         )
+
+    @override_settings(RATELIMIT_MARKDOWN_PREVIEW_ATTEMPTS=1)
+    def test_markdown_preview_ratelimit(self) -> None:
+        url = reverse("js-markdown-preview")
+        self.assertEqual(self.client.post(url, {"text": "x"}).status_code, 200)
+        response = self.client.post(url, {"text": "x"})
+        self.assertEqual(response["Content-Type"], "text/plain")
+        self.assertContains(response, "Too many preview requests", status_code=429)
 
     def test_flag_choices(self) -> None:
         response = self.client.get(reverse("js-flag-choices"))

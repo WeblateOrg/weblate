@@ -38,6 +38,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.util import sort_unicode
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.views import parse_path
 from weblate.workspaces.models import Workspace
 
@@ -46,8 +47,8 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import AuthenticatedHttpRequest
 
-# Upper bound for text rendered by the Markdown preview endpoint
-MARKDOWN_PREVIEW_MAX_LENGTH = 50_000
+# Upper bound for text rendered by the Markdown preview endpoint.
+MARKDOWN_PREVIEW_MAX_LENGTH = 20_000
 
 
 @never_cache
@@ -106,6 +107,12 @@ def markdown_preview(request: AuthenticatedHttpRequest) -> HttpResponse:
     if len(text) > MARKDOWN_PREVIEW_MAX_LENGTH:
         return HttpResponseBadRequest(
             gettext("The text is too long to preview."), content_type="text/plain"
+        )
+    if not check_rate_limit("markdown_preview", request):
+        return HttpResponse(
+            gettext("Too many preview requests, try again later."),
+            content_type="text/plain",
+            status=429,
         )
     return render(request, "js/markdown-preview.html", {"text": text})
 

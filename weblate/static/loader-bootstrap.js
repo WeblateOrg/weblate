@@ -2237,7 +2237,7 @@ onReady(() => {
     /* Measure while the editor is still visible */
     pane.style.minHeight = `${editor.getBoundingClientRect().height}px`;
     const text = editor.value;
-    if (pane.dataset.rendered === text) {
+    if (pane.previewRendered === text) {
       return;
     }
     if (text.trim() === "") {
@@ -2245,7 +2245,7 @@ onReady(() => {
       empty.className = "text-muted";
       empty.textContent = gettext("Nothing to preview.");
       pane.replaceChildren(empty);
-      pane.dataset.rendered = text;
+      pane.previewRendered = text;
       return;
     }
     pane.previewController?.abort();
@@ -2277,7 +2277,7 @@ onReady(() => {
           );
         }
         pane.innerHTML = await response.text();
-        pane.dataset.rendered = text;
+        pane.previewRendered = text;
       })
       .catch((error) => {
         if (error.name === "AbortError") {
@@ -2288,7 +2288,7 @@ onReady(() => {
         alert.setAttribute("role", "alert");
         alert.textContent = `${gettext("Error while loading page:")} ${error.message}`;
         pane.replaceChildren(alert);
-        delete pane.dataset.rendered;
+        pane.previewRendered = null;
       })
       .finally(() => {
         if (pane.previewController === controller) {
@@ -2297,6 +2297,18 @@ onReady(() => {
         }
       });
   });
+
+  document.addEventListener(
+    "invalid",
+    (event) => {
+      const tabs = event.target.closest?.(".markdown-editor-tabs");
+      const toggle = tabs?.querySelector(".markdown-write-toggle");
+      if (toggle) {
+        bootstrap.Tab.getOrCreateInstance(toggle).show();
+      }
+    },
+    true,
+  );
 
   /* Username @-mention autocompletion in markdown textareas */
   const positionMentionDropdown = (editor, list) => {
