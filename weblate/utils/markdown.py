@@ -5,9 +5,11 @@ from __future__ import annotations
 
 import html
 import re
+from functools import reduce
 from typing import TYPE_CHECKING
 
 import mistletoe
+from django.db.models import Q
 from django.utils.html import linebreaks
 from django.utils.safestring import mark_safe
 from mistletoe import span_token
@@ -36,7 +38,9 @@ def get_mention_users(text: str) -> QuerySet[User]:
             break
     if not usernames:
         return User.objects.none()
-    return User.objects.filter(username__in=tuple(usernames))
+    return User.objects.filter(
+        reduce(lambda query, username: query | Q(username=username), usernames, Q())
+    )
 
 
 class SkipHtmlSpan(span_token.HtmlSpan):

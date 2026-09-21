@@ -18,11 +18,17 @@ class MarkdownTestCase(SimpleTestCase):
         with patch("weblate.utils.markdown.User.objects.filter") as filter_mock:
             get_mention_users(" ".join(mentions))
 
-        filter_mock.assert_called_once_with(
-            username__in=(
-                "duplicate",
-                *(f"user{index}" for index in range(MAX_MENTION_USERS - 1)),
-            )
+        filter_mock.assert_called_once()
+        query = filter_mock.call_args.args[0]
+        self.assertEqual(
+            query.children,
+            [
+                ("username", "duplicate"),
+                *(
+                    ("username", f"user{index}")
+                    for index in range(MAX_MENTION_USERS - 1)
+                ),
+            ],
         )
 
     def test_link(self) -> None:
@@ -217,7 +223,7 @@ class MarkdownMentionTestCase(TestCase):
         )
 
     def test_get_mentions_case_insensitive(self) -> None:
-        user = User.objects.create(username="testuser", full_name="Full Name")
+        user = User.objects.create(username="TestUser", full_name="Full Name")
         self.assertEqual(
             {user.pk},
             set(
