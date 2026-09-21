@@ -24,8 +24,10 @@ if TYPE_CHECKING:
     from weblate.utils.rst import CellType
 
 
-SKIP_FIELDS: tuple[tuple[str, str]] = (
+SKIP_FIELDS: tuple[tuple[str, str], ...] = (
     ("weblate.flags.bulk", "path"),  # Used internally only
+    ("weblate.automation.automation", "preview_component"),
+    ("weblate.automation.automation", "preview_change"),
 )
 
 EXTRA_ANCHOR_ALIASES = {
@@ -186,6 +188,7 @@ class Command(DocGeneratorCommand):
             if (
                 POST_CONFIGURE_EVENTS & set(obj.events)
                 and AddonEvent.EVENT_INSTALL not in obj.events
+                and obj.run_on_configuration
             ):
                 events = f":ref:`addon-event-add-on-installation`, {events}"
             addon_lines.extend(

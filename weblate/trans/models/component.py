@@ -5051,6 +5051,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             schedule_memory_updates(payloads)
 
     def run_batched_checks(self) -> None:
+        from weblate.utils.automation import automation_origin  # ruff: ignore[import-outside-top-level]
+
         source_unit_ids = list(self.updated_sources)
         batched_checks = list(self.batched_checks)
         batch_mode = self.batch_checks
@@ -5065,7 +5067,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # ruff: ignore[import-outside-top-level]
         from weblate.checks.tasks import finalize_component_checks
 
-        if settings.CELERY_TASK_ALWAYS_EAGER:
+        if settings.CELERY_TASK_ALWAYS_EAGER or automation_origin.get():
             finalize_component_checks(
                 self.id,
                 source_unit_ids,

@@ -19,11 +19,15 @@ from celery.signals import (
     after_setup_logger,
     before_task_publish,
     task_failure,
+    task_postrun,
+    task_prerun,
     worker_before_create_process,
 )
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
+
+from weblate.utils.automation import automation_origin
 
 # Type annotation compatibility
 # ruff: ignore[unused-lambda-argument]
@@ -128,6 +132,8 @@ def extract_task_kwargs(body) -> dict[str, Any]:
 def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
     if not isinstance(headers, dict):
         return
+    if origin := automation_origin.get():
+        headers["weblate_automation_origin"] = origin
     task_kwargs = extract_task_kwargs(body)
     component_id = task_kwargs.get("component_id")
     translation_id = task_kwargs.get("translation_id")
@@ -138,6 +144,24 @@ def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
         component_id=component_id,
         translation_id=translation_id,
     )
+
+
+@task_prerun.connect
+def restore_automation_origin(task=None, **kwargs) -> None:
+    if task is not None:
+        headers = task.request.headers or {}
+        origin = headers.get("weblate_automation_origin", automation_origin.get())
+        task.request.automation_origin_token = automation_origin.set(origin)
+
+
+@task_postrun.connect
+def reset_automation_origin(task=None, **kwargs) -> None:
+    if (
+        task is not None
+        and (token := getattr(task.request, "automation_origin_token", None))
+        is not None
+    ):
+        automation_origin.reset(token)
 
 
 @task_failure.connect

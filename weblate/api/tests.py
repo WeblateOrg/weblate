@@ -16945,7 +16945,7 @@ class AddonAPITest(APIBaseTest):
             code=202,
         )
 
-        mocked_delay.assert_called_once_with(addon.pk)
+        mocked_delay.assert_called_once_with(addon.pk, user_id=self.user.pk)
         self.assertEqual(response.data["detail"], "Add-on run has been scheduled.")
         self.assertTrue(
             response.data["url"].endswith(
@@ -17016,7 +17016,7 @@ class AddonAPITest(APIBaseTest):
             code=202,
         )
 
-        mocked_delay.assert_called_once_with(addon.pk)
+        mocked_delay.assert_called_once_with(addon.pk, user_id=self.user.pk)
 
 
 class CategoryAPITest(APIBaseTest):

@@ -35,6 +35,7 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.project import Project
 from weblate.trans.signals import change_bulk_create
 from weblate.trans.util import split_plural
+from weblate.utils.automation import automation_origin
 from weblate.utils.const import WEBLATE_UUID_NAMESPACE
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.state import StringState
@@ -867,6 +868,8 @@ class Change(models.Model, UserDisplayMixin):
 
         Update Change.fill_in_prefetched together with this one
         """
+        if origin := automation_origin.get():
+            self.details |= {"automation_origin": origin}
         if self.unit:
             self.translation = self.unit.translation
         if self.screenshot:

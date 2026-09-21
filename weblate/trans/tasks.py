@@ -1555,28 +1555,21 @@ def auto_translate_component(
 ) -> dict[str, Any]:
     component_obj = Component.objects.get(pk=component_id)
     user = User.objects.get(pk=user_id) if user_id else None
-    auto = BatchAutoTranslate(
+    from weblate.trans.automation import automatic_translation  # ruff: ignore[import-outside-top-level]
+
+    result = automatic_translation(
         component_obj,
-        user=user,
-        q=q,
-        mode=mode,
-        component_wide=True,
+        {
+            "mode": mode,
+            "q": q,
+            "auto_source": auto_source,
+            "engines": engines,
+            "threshold": threshold,
+            "component": source_component_id,
+        },
+        user,
         enforce_permissions=enforce_permissions,
     )
-    message = auto.perform(
-        auto_source=auto_source,
-        engines=engines,
-        threshold=threshold,
-        source_component_ids=(
-            [source_component_id] if source_component_id is not None else None
-        ),
-    )
-    component_obj.run_batched_checks()
-    result = {
-        "component": component_obj.id,
-        "message": message,
-        "warnings": auto.get_warnings(),
-    }
     return store_auto_translate_activity_log(activity_log_id, result)
 
 

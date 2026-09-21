@@ -542,7 +542,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
 
         addon.instance.schedule_manual_run()
 
-        mocked_delay.assert_called_once_with(addon.instance.pk)
+        mocked_delay.assert_called_once_with(addon.instance.pk, user_id=None)
 
     def test_run_addon_manually(self) -> None:
         addon = ManualResultAddon.create(component=self.component, run=False)
@@ -5686,7 +5686,7 @@ class ViewTests(ViewTestCase):
 
         response = self.client.post(addon.get_absolute_url(), {"run": "1"})
 
-        mocked_delay.assert_called_once_with(addon.pk)
+        mocked_delay.assert_called_once_with(addon.pk, user_id=self.user.pk)
         self.assertRedirects(
             response, addon.get_absolute_url(), fetch_redirect_response=False
         )

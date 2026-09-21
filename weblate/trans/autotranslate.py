@@ -660,6 +660,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
         source_component_ids: list[int] | None,
     ) -> str:
         selected_workspace_source_component_ids: dict[int, list[int]] | None = None
+        self.failure_message = None
         if (
             auto_source == "others"
             and source_component_ids is not None
@@ -756,8 +757,10 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 source_component_ids=effective_source_component_ids,
             )
             self.updated += auto_translate.updated
+            if auto_translate.failure_message and self.failure_message is None:
+                self.failure_message = auto_translate.failure_message
             for warning in auto_translate.get_warnings():
                 self.add_warning(warning)
             self.set_progress(pos)
 
-        return self.get_message()
+        return self.failure_message or self.get_message()

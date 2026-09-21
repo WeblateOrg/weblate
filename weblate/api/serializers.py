@@ -4234,6 +4234,12 @@ class ProjectComponentSerializer(ComponentSerializer):
         )
 
 
+class AutomationPreviewRequestSerializer(serializers.Serializer):
+    workflow = serializers.JSONField()
+    component = serializers.IntegerField(min_value=1)
+    change = serializers.IntegerField(min_value=1, required=False)
+
+
 class AddonSerializer(serializers.ModelSerializer[Addon]):
     api_name = serializers.SlugField(
         read_only=True,

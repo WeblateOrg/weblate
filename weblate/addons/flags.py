@@ -15,8 +15,7 @@ from weblate.addons.events import (
     AddonEventOutcome,
 )
 from weblate.addons.forms import BulkEditAddonForm
-from weblate.trans.bulk import bulk_perform
-from weblate.trans.models import Unit
+from weblate.trans.automation import bulk_edit
 from weblate.utils.state import (
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
@@ -25,7 +24,7 @@ from weblate.utils.state import (
 
 if TYPE_CHECKING:
     from weblate.addons.base import CompatDict
-    from weblate.trans.models import Category, Component, Project
+    from weblate.trans.models import Category, Component, Project, Unit
 
 
 class FlagBase(BaseAddon):
@@ -127,29 +126,7 @@ class BulkEditAddon(BaseAddon):
     def component_update(
         self, component: Component, activity_log_id: int | None = None
     ) -> None:
-        label_set = component.project.label_set
-        bulk_perform(
-            None,
-            Unit.objects.filter(translation__component=component),
-            components=[component],
-            query=self.instance.configuration["q"],
-            target_state=self.instance.configuration["state"],
-            add_flags=self.instance.configuration["add_flags"],
-            remove_flags=self.instance.configuration["remove_flags"],
-            add_translation_flags=self.instance.configuration.get(
-                "add_translation_flags", ""
-            ),
-            remove_translation_flags=self.instance.configuration.get(
-                "remove_translation_flags", ""
-            ),
-            add_labels=label_set.filter(
-                name__in=self.instance.configuration["add_labels"]
-            ),
-            remove_labels=label_set.filter(
-                name__in=self.instance.configuration["remove_labels"]
-            ),
-            project=component.project,
-        )
+        bulk_edit(component, self.instance.configuration)
 
 
 class TargetRepoUpdateAddon(BaseAddon):
