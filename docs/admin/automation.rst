@@ -216,9 +216,10 @@ still apply even when each individual list is within its limit.
 Definitions are limited to 64 KiB both as submitted and as ASCII-escaped JSON
 after operation defaults are applied, 100 action/condition nodes, and eight nesting
 levels. CEL expressions are limited to 4,096 characters and evaluated in a helper
-process with 512 MiB memory, two seconds of CPU time, and five seconds of wall time
-per invocation. The helper requires operating-system resource limits and fails
-closed if they are unavailable. The pinned CEL runtime provides native wheels;
+process with two seconds of CPU time and five seconds of wall time per invocation.
+The helper also limits virtual address space to 512 MiB except on macOS, where
+no memory cap is enforced. The helper fails closed if a required operating-system
+resource limit cannot be applied. The pinned CEL runtime provides native wheels;
 Linux installations require a supported glibc platform. No runtime settings or
 separate service are required. Use :ref:`own-addon` for unrestricted custom Python
 logic on self-hosted installations.

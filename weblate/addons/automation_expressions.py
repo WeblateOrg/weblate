@@ -32,11 +32,14 @@ def expressions(values: list[str], context: dict[str, Any] | None = None) -> lis
         )
         response = json.loads(result.stdout)
     except (OSError, subprocess.SubprocessError, ValueError) as error:
-        raise ValidationError(
-            gettext(
-                "CEL validation or evaluation failed or exceeded its resource limit."
-            )
-        ) from error
+        message = gettext(
+            "CEL validation or evaluation failed or exceeded its resource limit."
+        )
+        if isinstance(error, subprocess.CalledProcessError) and error.stderr:
+            stderr = error.stderr.decode("utf-8", errors="replace").strip()[:4096]
+            if stderr:
+                message = f"{message}\n{stderr}"
+        raise ValidationError(message) from error
     if "error" in response:
         raise ValidationError(gettext("Invalid CEL condition: %s") % response["error"])
     return response["results"]
