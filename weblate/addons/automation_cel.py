@@ -12,7 +12,9 @@ import sys
 
 
 def main() -> None:
-    resource.setrlimit(resource.RLIMIT_AS, (512 * 1024 * 1024,) * 2)
+    # macOS can already exceed this address-space limit at interpreter startup.
+    if sys.platform != "darwin":
+        resource.setrlimit(resource.RLIMIT_AS, (512 * 1024 * 1024,) * 2)
     resource.setrlimit(resource.RLIMIT_CPU, (2, 2))
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
     try:

@@ -435,6 +435,8 @@ Build-time and configuration variants
        resource-limited helper process parses and evaluates CEL without custom
        function bindings; workflows cannot supply Python code. This is a distinct
        expression-evaluation boundary, not a sandbox for arbitrary Python.
+       On macOS, the helper enforces CPU and wall-time limits but no memory cap,
+       so expressions can exhaust memory within those time limits.
        *(maintainer)*
      - Existing add-on management authority governs mutations. Operation scopes,
        validation, and automation-origin suppression constrain declarative runs;

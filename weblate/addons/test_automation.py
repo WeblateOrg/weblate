@@ -5,17 +5,20 @@
 from __future__ import annotations
 
 import json
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 from threading import Barrier
 from typing import TYPE_CHECKING, Any, TypedDict, Unpack
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, call, patch
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
+from django.utils.translation import override
 from rest_framework.test import APIClient
 
+from weblate.addons import automation_cel
 from weblate.addons.automation import AutomationAddon
 from weblate.addons.automation_definition import parse_workflow
 from weblate.addons.automation_expressions import expressions
@@ -177,12 +180,84 @@ class DefinitionTest(SimpleTestCase):
                 expressions([source], CONTEXT)
 
     def test_cel_resource_limit(self) -> None:
+        self.assertEqual(expressions(["true"], CONTEXT), [True])
         source = "0"
         items = str(list(range(32)))
         for index in range(6):
             source = f"{items}.map(x{index}, {source})"
         with self.assertRaises(ValidationError):
             expressions([f"size({source}) > 0"], CONTEXT)
+
+    def test_cel_platform_limits(self) -> None:
+        for platform in ("darwin", "linux"):
+            with (
+                self.subTest(platform=platform),
+                patch.object(automation_cel.sys, "platform", platform),
+                patch.object(automation_cel.resource, "setrlimit") as setrlimit,
+                patch.object(
+                    automation_cel, "evaluate_request", return_value={}
+                ) as evaluate,
+                patch.object(automation_cel.sys.stdout, "write"),
+            ):
+                automation_cel.main()
+                expected = [
+                    call(automation_cel.resource.RLIMIT_CPU, (2, 2)),
+                    call(automation_cel.resource.RLIMIT_CORE, (0, 0)),
+                ]
+                if platform != "darwin":
+                    expected.insert(
+                        0,
+                        call(
+                            automation_cel.resource.RLIMIT_AS, (512 * 1024 * 1024,) * 2
+                        ),
+                    )
+                self.assertEqual(setrlimit.call_args_list, expected)
+                evaluate.assert_called_once_with()
+
+    def test_cel_limit_setup_failure(self) -> None:
+        for platform, limit_count in (("darwin", 2), ("linux", 3)):
+            for index in range(limit_count):
+                with (
+                    self.subTest(platform=platform, limit=index),
+                    patch.object(automation_cel.sys, "platform", platform),
+                    patch.object(
+                        automation_cel.resource,
+                        "setrlimit",
+                        side_effect=[None] * index + [ValueError("Cannot set limit")],
+                    ),
+                    patch.object(automation_cel, "evaluate_request") as evaluate,
+                    self.assertRaisesRegex(ValueError, "Cannot set limit"),
+                ):
+                    automation_cel.main()
+                evaluate.assert_not_called()
+
+    @override("en")
+    def test_cel_subprocess_stderr(self) -> None:
+        message = "CEL validation or evaluation failed or exceeded its resource limit."
+        for stderr, detail in (
+            (b"  Cannot set limit\n", "Cannot set limit"),
+            (b"", ""),
+            (None, ""),
+            (b" \n", ""),
+            (b"Invalid: \xff", "Invalid: \ufffd"),
+            (b"x" * 5000, "x" * 4096),
+            (b"<script>failure</script>", "<script>failure</script>"),
+        ):
+            error = subprocess.CalledProcessError(1, ["python"], stderr=stderr)
+            with (
+                self.subTest(stderr=stderr),
+                patch(
+                    "weblate.addons.automation_expressions.subprocess.run",
+                    side_effect=error,
+                ),
+                self.assertRaises(ValidationError) as caught,
+            ):
+                expressions(["true"], CONTEXT)
+            self.assertEqual(
+                caught.exception.messages,
+                [f"{message}\n{detail}" if detail else message],
+            )
+            self.assertIs(caught.exception.__cause__, error)
 
     @patch("weblate.addons.automation_runner.execute_operation")
     def test_sequence_and_choose(self, operation: Mock) -> None:
