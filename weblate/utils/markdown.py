@@ -5,10 +5,9 @@ from __future__ import annotations
 
 import html
 import re
-from functools import reduce
+from typing import TYPE_CHECKING
 
 import mistletoe
-from django.db.models import Q
 from django.utils.html import linebreaks
 from django.utils.safestring import mark_safe
 from mistletoe import span_token
@@ -18,20 +17,26 @@ from weblate.utils.errors import report_error
 
 from .concurrency import MARKDOWN_LOCK
 
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+
 MENTION_RE = re.compile(r"(?<!\w)(@[\w.@+-]+)\b")
+MAX_MENTION_USERS = 100
 PLAIN_AUTOLINK_CHAR = r"A-Za-z0-9.!#$%&'*+/=?^_`{|}~:-"
 PLAIN_AUTOLINK_END = r"A-Za-z0-9/_~=#&+-"
 PLAIN_AUTOLINK_PAREN = rf"\([{PLAIN_AUTOLINK_CHAR}]+\)"
 
 
-def get_mention_users(text):
+def get_mention_users(text: str) -> QuerySet[User]:
     """Return IDs of users mentioned in the text."""
-    matches = MENTION_RE.findall(text)
-    if not matches:
+    usernames: dict[str, None] = {}
+    for match in MENTION_RE.finditer(text):
+        usernames.setdefault(match[1][1:].lower(), None)
+        if len(usernames) == MAX_MENTION_USERS:
+            break
+    if not usernames:
         return User.objects.none()
-    return User.objects.filter(
-        reduce(lambda acc, x: acc | Q(username=x[1:]), matches, Q())
-    )
+    return User.objects.filter(username__in=tuple(usernames))
 
 
 class SkipHtmlSpan(span_token.HtmlSpan):
