@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING
 
 from django.test import SimpleTestCase
 
+from weblate.formats.base import MAX_DECLARED_LANGUAGES
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import (
     ARBFormat,
@@ -76,3 +77,16 @@ class DeclaredLanguagesTest(SimpleTestCase):
                 )
                 self.assertEqual(store.get_declared_languages(), target)
                 self.assertEqual(store.get_declared_languages(source=True), source)
+
+    def test_xliff_declared_languages_are_bounded(self) -> None:
+        files = b"".join(
+            f'<file target-language="x-{index}"><body/></file>'.encode()
+            for index in range(MAX_DECLARED_LANGUAGES + 2)
+        )
+        store = XliffFormat(
+            NamedBytesIO("test.xlf", b'<xliff version="1.2">' + files + b"</xliff>")
+        )
+
+        self.assertEqual(
+            len(store.get_declared_languages()), MAX_DECLARED_LANGUAGES + 1
+        )

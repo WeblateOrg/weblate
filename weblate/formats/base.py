@@ -49,6 +49,8 @@ if TYPE_CHECKING:
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
 
+MAX_DECLARED_LANGUAGES = 100
+
 ANDROID_CODES = {
     "he": "iw",
     "id": "in",

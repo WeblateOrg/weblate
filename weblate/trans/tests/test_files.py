@@ -547,6 +547,20 @@ class LanguageUploadValidationTest(ImportBaseTest):
                 self.get_request(), NamedBytesIO("test.xlf", content), ""
             )
 
+    def test_xliff_language_declarations_limit(self) -> None:
+        files = b"".join(
+            f'<file target-language="x-{index}"><body/></file>'.encode()
+            for index in range(101)
+        )
+        store = XliffFormat(
+            NamedBytesIO("test.xlf", b'<xliff version="1.2">' + files + b"</xliff>")
+        )
+
+        with self.assertRaisesMessage(
+            ValidationError, "contains too many language declarations"
+        ):
+            self.get_translation().validate_upload_language(store)
+
     def test_override_keeps_parse_validation(self) -> None:
         with self.assertRaises(FileParseError):
             self.get_translation().handle_upload(

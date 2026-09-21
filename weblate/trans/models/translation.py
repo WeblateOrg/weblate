@@ -39,7 +39,11 @@ from translate.storage.fluent import FluentContentError
 from weblate.auth.bots import InternalBot
 from weblate.checks.flags import Flags
 from weblate.formats.auto import try_load
-from weblate.formats.base import TranslationFormat, UnitNotFoundError
+from weblate.formats.base import (
+    MAX_DECLARED_LANGUAGES,
+    TranslationFormat,
+    UnitNotFoundError,
+)
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
 from weblate.lang.models import Language, Plural, validate_language_code
 from weblate.trans.actions import ActionEvents
@@ -1957,6 +1961,12 @@ class Translation(
     ) -> None:
         """Reject explicit declarations of a different base language."""
         expected = self.component.source_language if source else self.language
+        declared_languages = store.get_declared_languages(source=source)
+        if len(declared_languages) > MAX_DECLARED_LANGUAGES:
+            raise ValidationError(
+                gettext("The uploaded file contains too many language declarations.")
+            )
+        language_cache = Language.objects.build_fuzzy_get_cache()
 
         def base_language(code: str) -> str | None:
             code = code.strip()
@@ -1964,13 +1974,13 @@ class Translation(
                 validate_language_code(code)
             except ValidationError:
                 return None
-            language = Language.objects.fuzzy_get_strict(code)
+            language = Language.objects.fuzzy_get_strict(code, cache=language_cache)
             if language is None:
                 # A known base with an unfamiliar variant is still identifiable.
                 base, _country, _subtags = Language.objects.parse_lang_country(
                     code.split("@", 1)[0]
                 )
-                language = Language.objects.fuzzy_get_strict(base)
+                language = Language.objects.fuzzy_get_strict(base, cache=language_cache)
             if language is None:
                 return None
             base, _country, _subtags = Language.objects.parse_lang_country(
@@ -1979,7 +1989,7 @@ class Translation(
             return base.lower()
 
         expected_base = base_language(expected.code)
-        for code in sorted(store.get_declared_languages(source=source)):
+        for code in sorted(declared_languages):
             actual_base = base_language(self.component.get_language_alias(code.strip()))
             if actual_base is not None and actual_base != expected_base:
                 raise LanguageMismatchError(
