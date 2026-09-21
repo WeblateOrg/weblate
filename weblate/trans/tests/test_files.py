@@ -524,6 +524,7 @@ class LanguageUploadValidationTest(ImportBaseTest):
                     )
                 )
                 translation.validate_upload_language(store)
+
         for expected, actual in (
             ("pt_BR", "pt-PT"),
             ("zh_Hans", "zh-Hant"),
@@ -539,6 +540,14 @@ class LanguageUploadValidationTest(ImportBaseTest):
                     )
                 )
                 translation.validate_upload_language(store)
+
+    def test_no_declared_language_skips_cache(self) -> None:
+        store = PoFormat(NamedBytesIO("test.po", b'msgid ""\nmsgstr ""\n'))
+
+        with patch.object(Language.objects, "build_fuzzy_get_cache") as build_cache:
+            self.get_translation().validate_upload_language(store)
+
+        build_cache.assert_not_called()
 
     def test_xliff_language_mismatch(self) -> None:
         content = b'<xliff version="1.2"><file source-language="en" target-language="de"><body><trans-unit id="hello"><source>Hello, world!\n</source><target>Hallo Welt!\n</target></trans-unit></body></file></xliff>'
@@ -557,7 +566,7 @@ class LanguageUploadValidationTest(ImportBaseTest):
         )
 
         with self.assertRaisesMessage(
-            ValidationError, "contains too many language declarations"
+            FileParseError, "contains too many language declarations"
         ):
             self.get_translation().validate_upload_language(store)
 

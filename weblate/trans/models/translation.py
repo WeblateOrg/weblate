@@ -1960,12 +1960,14 @@ class Translation(
         self, store: TranslationFormat, *, source: bool = False
     ) -> None:
         """Reject explicit declarations of a different base language."""
-        expected = self.component.source_language if source else self.language
         declared_languages = store.get_declared_languages(source=source)
+        if not declared_languages:
+            return
         if len(declared_languages) > MAX_DECLARED_LANGUAGES:
-            raise ValidationError(
+            raise FileParseError(
                 gettext("The uploaded file contains too many language declarations.")
             )
+        expected = self.component.source_language if source else self.language
         language_cache = Language.objects.build_fuzzy_get_cache()
 
         def base_language(code: str) -> str | None:

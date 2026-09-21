@@ -52,6 +52,7 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Limited XLIFF language declarations processed during file uploads to prevent resource exhaustion.
 * Enforced language-scoped permissions when managing screenshots in the browser interface.
 * Prevented project API tokens from inheriting permissions through automatic team assignments.
 * Ensured translation consistency and automatic translation workflows respect restricted component access.
