@@ -198,6 +198,11 @@ real_patterns = [
         name="upload",
     ),
     path(
+        "unit/<int:unit_id>/source/",
+        weblate.trans.views.edit.edit_source_unit,
+        name="edit-source-unit",
+    ),
+    path(
         "unit/<int:unit_id>/delete/",
         weblate.trans.views.edit.delete_unit,
         name="delete-unit",

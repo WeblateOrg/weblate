@@ -217,6 +217,45 @@ judgment, so use :ref:`source-context`, :doc:`/user/glossary`, and
    * :ref:`source-context`
    * :ref:`user-comments`
 
+.. _edit-source:
+
+Editing source strings and keys
++++++++++++++++++++++++++++++++
+
+When :ref:`component-manage_units` is enabled and you have permission to edit
+source strings, choose :guilabel:`Tools` → :guilabel:`Edit source` in the
+translation editor. You can open this dialog from any language. Changes apply
+to the source string and its existing translations within the component.
+
+The dialog lets you change the source text, supported key or context, and source
+explanation. Existing translations, history, comments, labels, and suggestions
+are retained. Changing source text marks existing translations as needing
+editing. Changing only the key, context, or explanation preserves their states.
+Renaming a key may require corresponding changes in your application code.
+
+Changes are written to translation files through the normal pending-change
+queue and follow the project's commit policy. Keys used by pending edits remain
+reserved until those edits are written. Weblate rejects collisions rather than
+merging strings. Reload the editor if another user has changed the source since
+you opened the dialog.
+
+Source editing supports PO, TBX, plain XLIFF 1.2, XLIFF 2.0, and Apple XLIFF.
+Key editing supports JSON (plain, nested, ARB, WebExtension, and i18next), YAML,
+Ruby YAML, TOML, Go-i18n TOML, Java properties, GWT, PHP, DTD, Android, RESX, and
+simple Fluent messages. These monolingual formats also support source-text
+editing. PO contexts and TBX keys are editable; composite XLIFF keys are not.
+
+YAML and TOML keys can be renamed within their existing mapping, but cannot be
+moved between mappings or renamed inside arrays. Editing source text with
+unsupported inline markup, changing the number of plural forms or terminology
+alternatives, and editing components with an intermediate language file are
+not supported.
+
+.. seealso::
+
+   * :ref:`component-manage_units`
+   * :http:post:`/api/units/(int:id)/source/`
+
 .. _plurals:
 
 Plurals

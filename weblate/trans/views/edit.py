@@ -52,6 +52,7 @@ from weblate.trans.forms import (
     MergeForm,
     PositionSearchForm,
     RevertForm,
+    SourceEditForm,
     TranslationForm,
     UnitFlagsForm,
     ZenTranslationForm,
@@ -1484,6 +1485,9 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "context_form": ContextForm(
                 instance=unit.source_unit, user=user, include_flags=False
             ),
+            "source_edit_form": SourceEditForm(unit, user)
+            if user.has_perm("meta:unit.edit_source", unit)
+            else None,
             "flags_form": UnitFlagsForm(unit=unit, user=user),
             "flag_actions": unit.get_flag_actions(user),
             "search_form": search_result["form"].reset_offset(),
@@ -1927,6 +1931,39 @@ def new_unit(request: AuthenticatedHttpRequest, path):
         return redirect(created_unit)
 
     return redirect(translation)
+
+
+@login_required
+@require_POST
+def edit_source_unit(request: AuthenticatedHttpRequest, unit_id):
+    from weblate.trans.source_edit import edit_source  # ruff: ignore[import-outside-top-level]
+
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=unit_id)
+    if not request.user.has_perm("meta:unit.edit_source", unit):
+        raise PermissionDenied
+    form = SourceEditForm(unit, request.user, request.POST)
+    if form.is_valid():
+        try:
+            edit_source(unit, request.user, **form.cleaned_data)
+        except ValidationError as error:
+            if hasattr(error, "message_dict"):
+                for field, errors in error.message_dict.items():
+                    form.add_error(field if field in form.fields else None, errors)
+            else:
+                form.add_error(None, error)
+        except WeblateLockTimeoutError:
+            form.add_error(None, gettext("The component is busy. Please try again."))
+        else:
+            cleanup_session(request.session, delete_all=True)
+            unit.refresh_from_db()
+            messages.success(request, gettext("Source string updated."))
+            return redirect(unit)
+    return render(
+        request,
+        "trans/source_edit.html",
+        {"unit": unit, "form": form, "object": unit.translation},
+        status=400,
+    )
 
 
 @login_required

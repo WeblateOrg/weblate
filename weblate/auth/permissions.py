@@ -11,6 +11,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.utils.translation import gettext
 
+from weblate.checks.flags import Flags
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.lang.models import Language
 from weblate.trans.models import (
@@ -875,6 +876,37 @@ def check_manage_units(
             gettext("Adding strings is disabled in the component configuration.")
         )
     return Allowed()
+
+
+@register_perm("meta:unit.edit_source")
+def check_unit_edit_source(
+    user: User, permission: str, obj: Unit
+) -> bool | PermissionResult:
+    from weblate.formats.source_edit import editable_fields  # ruff: ignore[import-outside-top-level]
+
+    source = obj.source_unit
+    translation = source.translation
+    component = translation.component
+    if not component.manage_units or (
+        component.has_template() and not component.edit_template
+    ):
+        return Denied(
+            gettext(
+                "Editing source strings is disabled in the component configuration."
+            )
+        )
+    if component.intermediate or not editable_fields(
+        component.file_format, monolingual=component.has_template()
+    ):
+        return Denied(gettext("The file format does not support this."))
+    if (
+        "read-only" in Flags(source.extra_flags, source.flags)
+        or "read-only" in component.all_flags
+    ):
+        return Denied(gettext("The string is read-only."))
+    if component.is_glossary and not user.has_perm("glossary.edit", translation):
+        return Denied(gettext("You do not have permission to edit this glossary."))
+    return check_can_edit(user, "unit.template", translation)
 
 
 @register_perm("unit.delete")

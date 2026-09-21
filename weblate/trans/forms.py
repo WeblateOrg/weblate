@@ -401,6 +401,7 @@ class PluralTextarea(forms.Textarea):
 
     profile: Profile
     unit: Unit
+    edit_source: bool = False
 
     def __init__(self, *args, **kwargs) -> None:
         self.is_source_plural: Literal[True] | None = None
@@ -556,12 +557,14 @@ class PluralTextarea(forms.Textarea):
         attrs["data-max"] = unit.get_max_length()
         attrs["data-mode"] = unit.edit_mode
         attrs["data-placeables"] = "|".join(re.escape(pl) for pl in placeables if pl)
-        if unit.readonly:
+        if unit.readonly and not self.edit_source:
             attrs["readonly"] = 1
 
         # Okay we have more strings
         ret = []
         base_id = f"id_{unit.checksum}"
+        if self.edit_source:
+            base_id += "_source_edit"
         for idx, val in enumerate(values):
             # Generate ID
             fieldname = f"{name}_{idx}"
@@ -4212,6 +4215,41 @@ class NewUnitBaseForm(forms.Form):
             "explanation": self.cleaned_data.get("explanation", ""),
             "auto_context": self.cleaned_data.get("auto_context", False),
         }
+
+
+class SourceEditForm(UnitForm):
+    content_hash = forms.IntegerField(widget=forms.HiddenInput)
+    source = PluralField(label=gettext_lazy("Source string"), required=True)
+    context = forms.CharField(label=gettext_lazy("Key or context"), required=False)
+    explanation = forms.CharField(
+        label=gettext_lazy("Source explanation"), required=False, widget=forms.Textarea
+    )
+
+    def __init__(self, unit, user, data=None) -> None:
+        from weblate.formats.source_edit import editable_fields  # ruff: ignore[import-outside-top-level]
+
+        source_unit = unit.source_unit
+        super().__init__(
+            source_unit,
+            data=data,
+            auto_id="id_source_edit_%s",
+            initial={
+                "source": source_unit,
+                "context": source_unit.context,
+                "explanation": source_unit.explanation,
+                "content_hash": source_unit.content_hash,
+            },
+        )
+        self.fields["source"].widget.profile = user.profile
+        self.fields["source"].widget.unit = source_unit
+        self.fields["source"].widget.edit_source = True
+        fields = editable_fields(
+            source_unit.translation.component.file_format,
+            monolingual=source_unit.translation.component.has_template(),
+        )
+        for field in ("source", "context"):
+            if field not in fields:
+                del self.fields[field]
 
 
 class NewMonolingualUnitForm(NewUnitBaseForm):

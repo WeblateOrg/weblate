@@ -209,7 +209,7 @@
               {% endif %}
               <div>
                 {% with flag_actions=flag_actions %}
-                  {% if user_can_delete or flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
+                  {% if source_edit_form or user_can_delete or flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
                     <div class="btn-group float-end">
                       <button type="button"
                               class="btn btn-primary dropdown-toggle btn-spaced"
@@ -220,6 +220,14 @@
                         {% translate "Tools" %} <span class="caret"></span>
                       </button>
                       <ul class="dropdown-menu shadow">
+                        {% if source_edit_form %}
+                          <li>
+                            <button type="button"
+                                    class="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#source-edit-modal">{% translate "Edit source" %}</button>
+                          </li>
+                        {% endif %}
                         {% if user_can_delete %}
                           <li>
                             <!-- use this_unit_url as the next unit will become the unit at current offset after deletion -->
@@ -1171,6 +1179,36 @@
     </form>
 
   {% endwith %}
+
+  {% if source_edit_form %}
+    <div class="modal fade"
+         id="source-edit-modal"
+         tabindex="-1"
+         aria-labelledby="source-edit-title"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form action="{% url 'edit-source-unit' unit_id=unit.pk %}" method="post">
+            {% csrf_token %}
+            <div class="modal-header">
+              <h4 class="modal-title" id="source-edit-title">{% translate "Edit source" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate 'Close' %}"></button>
+            </div>
+            <div class="modal-body">
+              <p>{% translate "Changes apply to all languages in this component. Changing source text marks existing translations as needing editing. Renamed keys may require changes in your application code." %}</p>
+              {{ source_edit_form|crispy }}
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
   {% if user_can_add_unit %}
     <form action="{% url 'new-unit' path=unit.translation.get_url_path %}" method="post">
