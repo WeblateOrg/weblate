@@ -31,15 +31,20 @@ PLAIN_AUTOLINK_PAREN = rf"\([{PLAIN_AUTOLINK_CHAR}]+\)"
 
 def get_mention_users(text: str) -> QuerySet[User]:
     """Return IDs of users mentioned in the text."""
-    usernames: dict[str, None] = {}
+    usernames: dict[str, str] = {}
     for match in MENTION_RE.finditer(text):
-        usernames.setdefault(match[1][1:].lower(), None)
+        username = match[1][1:]
+        usernames.setdefault(username.lower(), username)
         if len(usernames) == MAX_MENTION_USERS:
             break
     if not usernames:
         return User.objects.none()
     return User.objects.filter(
-        reduce(lambda query, username: query | Q(username=username), usernames, Q())
+        reduce(
+            lambda query, username: query | Q(username=username),
+            usernames.values(),
+            Q(),
+        )
     )
 
 

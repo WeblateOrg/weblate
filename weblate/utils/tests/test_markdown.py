@@ -12,7 +12,7 @@ from weblate.utils.markdown import MAX_MENTION_USERS, get_mention_users, render_
 
 class MarkdownTestCase(SimpleTestCase):
     def test_get_mentions_deduplicated_and_limited(self) -> None:
-        mentions = ["@duplicate", "@DUPLICATE", "@duplicate"]
+        mentions = ["@Duplicate", "@DUPLICATE", "@duplicate"]
         mentions.extend(f"@user{index}" for index in range(MAX_MENTION_USERS))
 
         with patch("weblate.utils.markdown.User.objects.filter") as filter_mock:
@@ -23,7 +23,7 @@ class MarkdownTestCase(SimpleTestCase):
         self.assertEqual(
             query.children,
             [
-                ("username", "duplicate"),
+                ("username", "Duplicate"),
                 *(
                     ("username", f"user{index}")
                     for index in range(MAX_MENTION_USERS - 1)
@@ -231,6 +231,13 @@ class MarkdownMentionTestCase(TestCase):
                     "pk", flat=True
                 )
             ),
+        )
+
+    def test_get_mentions_preserves_unicode_spelling(self) -> None:
+        user = User.objects.create(username="İ", full_name="Full Name")
+        self.assertEqual(
+            {user.pk},
+            set(get_mention_users("@İ").values_list("pk", flat=True)),
         )
 
     def test_get_mentions_non_mention(self) -> None:
