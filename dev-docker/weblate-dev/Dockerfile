@@ -30,7 +30,7 @@ RUN if ! getent group "${GROUP_ID}"; then \
             useradd --gid "${GROUP_ID}" --uid "${USER_ID}" --groups root,tty,weblate --shell /bin/bash developer; \
         fi
 # Following should match what dev container in docker-base repo includes
-RUN apt-get update && apt-get install -y \
+RUN apt-get update --error-on=any && apt-get install -y \
     pkg-config \
     make \
     gcc \
@@ -69,7 +69,7 @@ RUN printf '%s\n' \
         'Pin: release o=LP-PPA-xtradeb-apps' \
         'Pin-Priority: -1' \
         > /etc/apt/preferences.d/xtradeb \
-    && apt-get update \
+    && apt-get update --error-on=any \
     && apt-get install -y --no-install-recommends chromium chromium-driver
 ENV WEBLATE_TEST_CHROME_BINARY=/usr/bin/chromium
 ENV WEBLATE_TEST_CHROMEDRIVER=/usr/bin/chromedriver
