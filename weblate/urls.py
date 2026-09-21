@@ -917,6 +917,11 @@ real_patterns = [
         name="js-unit-translations",
     ),
     path(
+        "js/markdown-preview/",
+        weblate.trans.views.js.markdown_preview,
+        name="js-markdown-preview",
+    ),
+    path(
         "js/access/<name:project>/user/<int:user_id>/groups/",
         weblate.trans.views.acl.project_user_groups,
         name="js-project-user-groups",

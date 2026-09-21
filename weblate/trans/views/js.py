@@ -10,7 +10,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import translation
 from django.utils.http import urlencode
@@ -38,6 +38,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.util import sort_unicode
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.views import parse_path
 from weblate.workspaces.models import Workspace
 
@@ -45,6 +46,9 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from weblate.auth.models import AuthenticatedHttpRequest
+
+# Upper bound for text rendered by the Markdown preview endpoint.
+MARKDOWN_PREVIEW_MAX_LENGTH = 20_000
 
 
 @never_cache
@@ -92,6 +96,25 @@ def get_unit_translations(request: AuthenticatedHttpRequest, unit_id):
             "component": unit.translation.component,
         },
     )
+
+
+@never_cache
+@require_POST
+@login_required
+def markdown_preview(request: AuthenticatedHttpRequest) -> HttpResponse:
+    """Render Markdown text for previewing in the editor."""
+    text = request.POST.get("text", "")
+    if len(text) > MARKDOWN_PREVIEW_MAX_LENGTH:
+        return HttpResponseBadRequest(
+            gettext("The text is too long to preview."), content_type="text/plain"
+        )
+    if not check_rate_limit("markdown_preview", request):
+        return HttpResponse(
+            gettext("Too many preview requests, try again later."),
+            content_type="text/plain",
+            status=429,
+        )
+    return render(request, "js/markdown-preview.html", {"text": text})
 
 
 @require_POST
