@@ -5,8 +5,6 @@ Markdown files
 
 .. versionadded:: 5.0
 
-.. include:: /snippets/format-in-development.rst
-
 The translatable content is extracted from the Markdown files and offered for the translation.
 For Markdown files with JSX syntax, use :ref:`mdx`.
 
