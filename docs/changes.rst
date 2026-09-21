@@ -5,6 +5,8 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added :ref:`automation-workflows` for ordered automatic translation and bulk editing with conditions, CEL expressions, and previews.
+
 * Added an :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>` that evaluates existing translations and records standard quality checks.
 
 * Added support for :ref:`component-mounted add-on APIs <component-addon-api>`.

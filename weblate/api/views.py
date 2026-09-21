@@ -73,6 +73,7 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    AutomationPreviewRequestSerializer,
     AutoTranslateRequestSerializer,
     AutoTranslateResponseSerializer,
     BackupSerializer,
@@ -5297,6 +5298,40 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
     serializer_class = AddonSerializer
     request: AuthenticatedRequest  # type: ignore[assignment]
 
+    @extend_schema(
+        description="Preview an automation without executing operations. Requires add-on management permission.",
+        request=AutomationPreviewRequestSerializer,
+        responses={
+            200: inline_serializer(
+                "AutomationPreviewResponse",
+                {
+                    "workflow": serializers.JSONField(),
+                    "context": serializers.JSONField(),
+                    "trace": serializers.ListField(child=serializers.JSONField()),
+                    "preview": serializers.BooleanField(),
+                },
+            )
+        },
+    )
+    @action(detail=True, methods=["post"])
+    def preview(self, request: Request, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+        if not instance.is_valid or not getattr(instance.addon, "has_preview", False):
+            raise ValidationError({"detail": "This add-on does not support preview."})
+        fields = AutomationPreviewRequestSerializer(data=request.data)
+        fields.is_valid(raise_exception=True)
+        try:
+            result = instance.addon.preview(
+                fields.validated_data["workflow"],
+                fields.validated_data["component"],
+                fields.validated_data.get("change"),
+                actor=request.user,
+            )
+        except DjangoValidationError as error:
+            raise ValidationError({"workflow": error.messages}) from error
+        return Response(result)
+
     def get_queryset(self):
         return Addon.objects.filter_access(self.request.user).order_by("id")
 
@@ -5362,7 +5397,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
                 {"detail": gettext("This add-on cannot be triggered manually.")}
             )
 
-        instance.schedule_manual_run()
+        instance.schedule_manual_run(user_id=request.user.pk)
 
         return Response(
             {

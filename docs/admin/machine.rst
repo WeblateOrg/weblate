@@ -38,6 +38,10 @@ Priority of machine translation and translation memory services
 
 Each machine translation service has a predefined maximum score it can produce. The use of installed translation services is ordered according to their maximum score. For each string with translation score lower than the service's maximum, the service is asked to produce a translation. Translations with a score exceeding the current one are accepted.
 
+For explicit ordering and a separate score threshold for each service, use
+:ref:`automation-translation-ordering`. This workflow completes one translation
+pass before selecting the strings for the next service.
+
 .. _mt-sources:
 
 Source strings for the machine translation

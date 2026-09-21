@@ -50,6 +50,13 @@ if TYPE_CHECKING:
 IGNORED_TAGS = {"script", "style"}
 
 
+@app.task(trail=False)
+def automation_run(activity_id: int) -> None:
+    from weblate.addons.automation_runner import run_automation  # ruff: ignore[import-outside-top-level]
+
+    run_automation(activity_id)
+
+
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,), retry_backoff=60)
 def evaluate_quality(
     addon_id: int,
@@ -324,7 +331,9 @@ def daily_addons(modulo: bool = True) -> None:
 
 
 @app.task(trail=False)
-def run_addon_manually(addon_id: int) -> None:
+def run_addon_manually(addon_id: int, user_id: int | None = None) -> None:
+    from weblate.utils.automation import manual_actor  # ruff: ignore[import-outside-top-level]
+
     try:
         addon = Addon.objects.select_related("component", "category", "project").get(
             pk=addon_id
@@ -335,7 +344,11 @@ def run_addon_manually(addon_id: int) -> None:
     if not addon.can_run_manually:
         return
 
-    handle_scoped_addon_event([addon], AddonEvent.EVENT_MANUAL, "manual")
+    token = manual_actor.set(user_id)
+    try:
+        handle_scoped_addon_event([addon], AddonEvent.EVENT_MANUAL, "manual")
+    finally:
+        manual_actor.reset(token)
 
 
 def update_addon_activity_log(

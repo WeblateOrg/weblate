@@ -111,6 +111,7 @@ Learn more about :ref:`contributing`.
     admin/checks
     admin/machine
     admin/addons
+    admin/automation
     admin/memory
     admin/config
     admin/sample

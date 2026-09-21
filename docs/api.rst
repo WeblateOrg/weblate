@@ -3377,6 +3377,22 @@ Add-ons
     :param id: Add-on ID
     :type id: int
 
+.. http:post:: /api/addons/(int:id)/preview/
+
+    Preview an :ref:`automation-workflows` definition without executing actions.
+    Requires the same management permission as configuring the add-on. Other
+    add-on types reject this operation.
+
+    :param id: Add-on ID.
+    :json object workflow: Workflow definition, using the same structure as configuration.
+    :json int component: Component ID within the installed add-on's scope.
+    :json int change: Optional change ID belonging to that component.
+
+    Returns ``workflow``, execution ``context``, a ``trace`` of evaluated conditions
+    and planned or conditional actions, and ``preview: true``. Configuration and
+    scope errors return HTTP 400. Preview does not save configuration or create an
+    activity log.
+
 
 
 
