@@ -3,8 +3,6 @@ XLIFF 2.0
 
 .. versionadded:: 5.15
 
-.. include:: /snippets/format-in-development.rst
-
 .. note::
 
    :doc:`/formats/xliff` is a different format and is not compatible with XLIFF 2.0.
