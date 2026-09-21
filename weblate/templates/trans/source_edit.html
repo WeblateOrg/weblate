@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n %}
+
+{% block content %}
+  <h1>{% translate "Edit source" %}</h1>
+  <form method="post" action="{% url 'edit-source-unit' unit_id=unit.pk %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+    <a href="{{ unit.get_absolute_url }}" class="btn btn-light">{% translate "Cancel" %}</a>
+  </form>
+{% endblock content %}

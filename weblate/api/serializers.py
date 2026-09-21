@@ -3725,6 +3725,21 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         }
 
 
+class UnitSourceSerializer(serializers.Serializer):
+    content_hash = serializers.IntegerField()
+    source = serializers.ListField(  # type: ignore[assignment]
+        child=serializers.CharField(allow_blank=True, trim_whitespace=False),
+        required=False,
+        allow_empty=False,
+    )
+    context = serializers.CharField(  # type: ignore[assignment]
+        required=False, allow_blank=True, trim_whitespace=False
+    )
+    explanation = serializers.CharField(
+        required=False, allow_blank=True, trim_whitespace=False
+    )
+
+
 class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
     """Serializer for updating a unit and its flags."""
 

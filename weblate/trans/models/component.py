@@ -890,7 +890,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         verbose_name=gettext_lazy("Manage strings"),
         default=False,
         help_text=gettext_lazy(
-            "Enables adding and removing strings straight from Weblate. If your "
+            "Enables adding, removing, and editing source strings and keys in Weblate. If your "
             "strings are extracted from the source code or managed externally you "
             "probably want to keep it disabled."
         ),

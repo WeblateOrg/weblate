@@ -612,6 +612,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
 
         for unit in units_to_update:
             del unit.details["disk_state"]
+            unit.details.pop("disk_identity", None)
 
         if units_to_update:
             Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
@@ -1005,6 +1006,7 @@ class Unit(models.Model, LoggerMixin):
         """
         if "disk_state" in self.details:
             del self.details["disk_state"]
+            self.details.pop("disk_identity", None)
             self.save(same_content=True, only_save=True, update_fields=["details"])
 
     def get_comparison_state(self) -> dict[str, Any]:
@@ -2556,6 +2558,13 @@ class Unit(models.Model, LoggerMixin):
         else:
             old_unit = self
         self.store_old_unit(old_unit)
+        if "disk_identity" in old_unit.details:
+            # A source edit may have happened since this editor loaded the unit.
+            self.source = old_unit.source
+            self.context = old_unit.context
+            self.id_hash = old_unit.id_hash
+            self.details = deepcopy(old_unit.details)
+            self.__dict__.pop("content_hash", None)
 
         # Handle simple string units
         new_target_list = [new_target] if isinstance(new_target, str) else new_target

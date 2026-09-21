@@ -131,6 +131,7 @@ from weblate.api.serializers import (
     TranslationCreateSerializer,
     TranslationSerializer,
     UnitSerializer,
+    UnitSourceSerializer,
     UnitWriteSerializer,
     UploadRequestSerializer,
     UploadResultSerializer,
@@ -4076,12 +4077,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     pagination_class = LargePagination
 
     queryset = Unit.objects.none()
+    serializer_class = UnitWriteSerializer
 
     def get_serializer_class(self):
         """Get correct serializer based on action."""
         if self.action in {"list", "retrieve"}:
             return UnitSerializer
-        return UnitWriteSerializer
+        return super().get_serializer_class()
 
     def get_queryset(self):
         return (
@@ -4102,6 +4104,30 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if query_string:
             result = result.search(query_string)
         return result
+
+    @extend_schema(request=UnitSourceSerializer, responses=UnitSerializer)
+    @action(detail=True, methods=["post"], serializer_class=UnitSourceSerializer)
+    def source(self, request, **kwargs):
+        from weblate.trans.source_edit import edit_source  # ruff: ignore[import-outside-top-level]
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        try:
+            unit = edit_source(
+                self.get_object(), request.user, **serializer.validated_data
+            )
+        except DjangoValidationError as error:
+            raise ValidationError(
+                error.message_dict if hasattr(error, "message_dict") else error.messages
+            ) from error
+        except WeblateLockTimeoutError:
+            raise LockedError(
+                code="component-locked",
+                detail="The component is busy. Please try again.",
+            ) from None
+        return Response(
+            UnitSerializer(unit, context=self.get_serializer_context()).data
+        )
 
     @transaction.atomic
     # ruff: ignore[complex-structure]
