@@ -80,6 +80,8 @@ Weblate 2026.10
 * Fixed the :ref:`Refresh results <search-results-cache>` icon being drawn in black regardless of the theme or hover state.
 * Fixed every :ref:`glossary term <glossary-untranslatable>` of a bilingual glossary being shown as untranslatable when translating in its source language.
 
+* Fixed :ref:`addon-weblate.discovery.discovery` failing to create components with inherited licenses or other inherited settings.
+
 .. rubric:: Compatibility
 
 * Translation flags can no longer discard an explicit source-wide ``read-only`` flag; remove it from the source to make translations editable.
