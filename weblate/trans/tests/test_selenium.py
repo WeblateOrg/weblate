@@ -4264,6 +4264,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         element.send_keys("Monday")
         with self.wait_for_page_load():
             element.submit()
+        # Select explicitly because localStorage remembers tabs from other tests.
+        self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "Other languages"))
         self.screenshot("source-review-detail.png")
 
         # Display variants
