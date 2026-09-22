@@ -4251,6 +4251,8 @@ class SourceEditForm(UnitForm):
         for field in ("source", "context"):
             if field not in fields:
                 del self.fields[field]
+        if not user.has_perm("source.edit", source_unit.translation):
+            del self.fields["explanation"]
 
 
 class NewMonolingualUnitForm(NewUnitBaseForm):
