@@ -94,6 +94,10 @@ class AnnouncementManager(models.Manager["Announcement"]):
 
         if component:
             category_filter = self._category_filter(component.category)
+            for link in component.componentlink_set.exclude(
+                category=None
+            ).select_related("category__category__category"):
+                category_filter |= self._category_filter(link.category)
             project_filter = (
                 Q(project=component.project)
                 & Q(category=None)
@@ -129,14 +133,13 @@ class AnnouncementManager(models.Manager["Announcement"]):
 
         if category:
             category_filter = self._category_filter(category)
+            language_filter = Q(language=None)
+            if language:
+                language_filter |= Q(language=language)
             return base.filter(
-                (category_filter & Q(component=None) & Q(language=None))
-                | (
-                    Q(project=category.project)
-                    & Q(category=None)
-                    & Q(component=None)
-                    & Q(language=None)
-                )
+                (category_filter | (Q(project=category.project) & Q(category=None)))
+                & Q(component=None)
+                & language_filter
             )
 
         if project:

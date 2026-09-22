@@ -4,7 +4,14 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.db import migrations
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
 
 INHERITABLE_COMPONENT_SETTINGS = (
     "license",
@@ -97,7 +104,9 @@ def promote_agreements(
 
 
 # ruff: ignore[complex-structure, too-many-locals]
-def consolidate_category_settings(apps, schema_editor) -> None:
+def consolidate_category_settings(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Category = apps.get_model("trans", "Category")
     Component = apps.get_model("trans", "Component")
     ContributorAgreement = apps.get_model("trans", "ContributorAgreement")

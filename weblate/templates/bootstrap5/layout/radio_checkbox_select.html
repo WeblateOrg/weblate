@@ -27,7 +27,7 @@
                  {% include "bootstrap5/layout/attrs.html" with widget=option %}>
           <label for="{{ option.attrs.id }}" class="form-check-label">{{ option.label|unlocalize }}</label>
           {% if field.errors and forloop.last and not inline_class and forloop.parentloop.last %}
-            {% include 'bootstrap5/layout/field_errors_block.html' %}
+            {% include "bootstrap5/layout/field_errors_block.html" %}
           {% endif %}
         </div>
       {% endif %}
@@ -44,4 +44,4 @@
     {% endfor %}
   </div>
 {% endif %}
-{% include 'bootstrap5/layout/help_text.html' %}
+{% include "bootstrap5/layout/help_text.html" %}

@@ -60,13 +60,17 @@
           <a class="dropdown-item" href="{% url 'changes' %}">{% translate "History" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'changes' %}?action=51&amp;action=50">{% translate "Recent additions" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'changes' %}?action=51&amp;action=50">{% translate "Recent additions" %}</a>
         </li>
         <li>
           <a class="dropdown-item" href="{% url 'stats' %}">{% translate "Statistics" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" data-bs-target="#reports" data-bs-toggle="tab" href="#">{% translate "Translation reports" %}</a>
+          <a class="dropdown-item"
+             data-bs-target="#reports"
+             data-bs-toggle="tab"
+             href="#">{% translate "Translation reports" %}</a>
         </li>
       </ul>
     </li>
@@ -102,7 +106,8 @@
       <div {% active_tab "managed" %}>
         {% include "snippets/list-objects.html" with objects=owned_projects label=_("Project") %}
         {% if all_owned_projects|length > 10 %}
-          <a href="{% url 'projects' %}?owned={{ user.username }}" class="btn btn-primary">{% translate "Browse all managed projects" %}</a>
+          <a href="{% url 'projects' %}?owned={{ user.username }}"
+             class="btn btn-primary">{% translate "Browse all managed projects" %}</a>
         {% endif %}
       </div>
     {% endif %}

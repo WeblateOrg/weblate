@@ -535,7 +535,9 @@ def component_link_categories(request: AuthenticatedHttpRequest, path):
 @require_POST
 async def announcement(request: AuthenticatedHttpRequest, path):
     obj = await aparse_path(
-        request, path, (ProjectLanguage, Translation, Component, Project, Category)
+        request,
+        path,
+        (ProjectLanguage, CategoryLanguage, Translation, Component, Project, Category),
     )
 
     if not await sync_to_async(request.user.has_perm)("announcement.add", obj):
@@ -544,12 +546,15 @@ async def announcement(request: AuthenticatedHttpRequest, path):
     form = AnnouncementForm(request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, "#announcement")
+        return await sync_to_async(redirect_param)(obj, "#announcement")
 
     # Scope specific attributes
     scope = {}
     if isinstance(obj, ProjectLanguage):
         scope["project"] = obj.project
+        scope["language"] = obj.language
+    elif isinstance(obj, CategoryLanguage):
+        scope["category"] = obj.category
         scope["language"] = obj.language
     elif isinstance(obj, Category):
         scope["category"] = obj
@@ -569,7 +574,8 @@ async def announcement(request: AuthenticatedHttpRequest, path):
         **form.cleaned_data,
     )
 
-    return redirect(obj)
+    # Resolving nested category URLs can load ancestors from the database.
+    return redirect(await sync_to_async(obj.get_absolute_url)())
 
 
 @login_required

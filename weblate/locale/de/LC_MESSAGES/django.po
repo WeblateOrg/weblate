@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
-"PO-Revision-Date: 2026-08-28 15:30+0000\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"PO-Revision-Date: 2026-09-19 06:52+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -344,6 +344,24 @@ msgstr ""
 
 msgid "Enter the code from the app"
 msgstr "Geben Sie den Code aus der App ein"
+
+msgid "Project, category, component, or translation path"
+msgstr "Projekt, Kategorie, Komponente oder Übersetzungspfad"
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+"Geben Sie durch Schrägstriche getrennte Slugs ein, zum Beispiel project/"
+"category/component/cs. Projekt- und Kategoriepfade fassen vererbte "
+"Einstellungen und Komponentenausnahmen zusammen."
+
+msgid "Enter a valid object path."
+msgstr "Geben Sie einen gültigen Objektpfad ein."
+
+msgid "The target does not exist or you cannot access it."
+msgstr "Das Ziel existiert nicht oder Sie können nicht darauf zugreifen."
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -902,6 +920,59 @@ msgstr "Kontoname verwenden"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Bitte geben Sie eine E-Mail-Adresse an, um Übersetzungen einzureichen."
 
+msgid "No matching subscription."
+msgstr "Kein passendes Abonnement."
+
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Inaktive Benutzer und Bots erhalten keine Benachrichtigungen."
+
+msgid "The user cannot access this target."
+msgstr "Der Benutzer hat keinen Zugriff auf dieses Ziel."
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+"Diese Sprache gehört nicht zu den Benachrichtigungssprachen des Benutzers."
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr "Diese Benachrichtigung ignoriert Abonnements für beobachtete Projekte."
+
+msgid "The user is not watching this project."
+msgstr "Der Benutzer beobachtet dieses Projekt nicht."
+
+msgid "No administered-project subscription matches this target."
+msgstr "Kein Abonnement für verwaltete Projekte entspricht diesem Ziel."
+
+msgid "The project or component subscriptions apply to other targets."
+msgstr "Die Projekt- oder Komponenten-Abonnements gelten für andere Ziele."
+
+msgid "Disabled by the effective subscription."
+msgstr "Durch das geltende Abonnement deaktiviert."
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+"Berechtigt, wenn die Ereignisbedingungen der Benachrichtigung erfüllt sind."
+
+msgid "Requires a corresponding event on this target."
+msgstr "Erfordert ein entsprechendes Ereignis auf diesem Ziel."
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+"Die sofortige Zustellung kann unterdrückt werden durch: %(notification)s."
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+"Sprachspezifische Ereignisse erfordern eine der Benachrichtigungssprachen "
+"des Benutzers."
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+"Dieser Bereich ist zu groß, um ihn zu überprüfen. Wählen Sie eine kleinere "
+"Kategorie, Komponente oder Übersetzung aus."
+
 msgid "No notification"
 msgstr "Keine Benachrichtigung"
 
@@ -916,6 +987,21 @@ msgstr "Wöchentliche Zusammenfassung"
 
 msgid "Monthly digest"
 msgstr "Monatliche Zusammenfassung"
+
+msgid "All"
+msgstr "Alle"
+
+msgid "Watched"
+msgstr "Beobachtet"
+
+msgid "Administered"
+msgstr "Verwaltet"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Component"
+msgstr "Komponente"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -989,6 +1075,13 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "Komponenten wurden übersetzt"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+"Kommentare zu Ausgangszeichenketten ignorieren die "
+"Benachrichtigungssprachen; andere Kommentare erfordern eine passende Sprache."
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Kommentar wurde hinzugefügt"
@@ -997,6 +1090,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Kommentare wurden hinzugefügt"
 
+msgid "The comment must mention this user."
+msgstr "Der Kommentar muss diesen Benutzer erwähnen."
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Sie wurden in einem Kommentar erwähnt"
@@ -1004,6 +1100,13 @@ msgstr "Sie wurden in einem Kommentar erwähnt"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Sie wurden in einigen Kommentaren erwähnt"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
+"Der Benutzer muss zur Zeichenkette beigetragen oder sich zuvor an ihrer "
+"Diskussion beteiligt haben."
 
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
@@ -1053,6 +1156,14 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "Neue Übersetzungskomponenten wurden erstellt"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+"Die Mitteilung muss Benachrichtigungen aktivieren. Wenn darin eine Sprache "
+"angegeben ist, muss diese Sprache mit den Benachrichtigungssprachen des "
+"Benutzers übereinstimmen."
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Mitteilung wurde veröffentlicht"
@@ -1060,6 +1171,14 @@ msgstr "Mitteilung wurde veröffentlicht"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Mitteilungen wurden veröffentlicht"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
+"Die Meldung muss mindestens eine Warnung sein, und der Benutzer muss darauf "
+"reagieren können. Meldungen zu verknüpften Komponenten und projektweite "
+"Meldungen können dedupliziert werden."
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1159,8 +1278,8 @@ msgstr ""
 "Ihre E-Mail-Adresse gehört nicht länger zu Ihrem verifizierten Konto. Sie "
 "wurde geändert in {0}."
 
-msgid "Use security key (WebAuthn)"
-msgstr "Sicherheitsschlüssel verwenden (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
+msgstr "Ein Passkey oder Sicherheitsschlüssel verwenden (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
 msgstr "Authentifizierungs-App verwenden (TOTP)"
@@ -1221,6 +1340,9 @@ msgstr "Kontakt"
 msgid "Hosting"
 msgstr "Hosting"
 
+msgid "Invalid trial plan."
+msgstr "Ungültiges Testpaket."
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1238,6 +1360,10 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Kostenlos testen"
+
+#, python-format
+msgid "Notification diagnostics for %(user)s"
+msgstr "Benachrichtigungsdiagnose für %(user)s"
 
 msgid "This user can not be edited."
 msgstr "Dieser Benutzer kann nicht bearbeitet werden."
@@ -1402,6 +1528,20 @@ msgstr "Die Authentifizierungs-App wurde entfernt."
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "Die Authentifizierungs-App %s wurde registriert."
+
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr ""
+"Die Registrierung dieser Authentifizierungs-App ist nicht mehr gültig. "
+"Starten Sie eine neue Registrierung."
+
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"Zu viele fehlgeschlagene Authentifizierungsversuche. Bitte setzen Sie Ihr "
+"Passwort zurück, um wieder Zugriff auf Ihr Konto zu erhalten."
 
 msgid "Second factor sign in"
 msgstr "Zwei-Faktor-Anmeldung"
@@ -1800,6 +1940,19 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Schlüsselworteinträge müssen Zeichenketten sein."
 
+msgid "ITS data directories"
+msgstr "ITS-Datenverzeichnisse"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+"Durch Zeilenumbrüche getrennte, zum Repository relative Verzeichnisse, die "
+"ein its-Unterverzeichnis enthalten, zum Beispiel po für po/its. Frühere "
+"Verzeichnisse überschreiben spätere Verzeichnisse und die darin enthaltenen "
+"Regeln."
+
 msgid "Do not extract comments"
 msgstr "Kommentare nicht extrahieren"
 
@@ -1984,6 +2137,15 @@ msgstr ""
 msgid "Could not determine Sphinx source directory."
 msgstr "Das Sphinx-Quellverzeichnis konnte nicht ermittelt werden."
 
+msgid "Output scope"
+msgstr "Ausgabebereich"
+
+msgid "One file per translation"
+msgstr "Eine Datei pro Übersetzung"
+
+msgid "One file per component"
+msgstr "Eine Datei pro Komponente"
+
 msgid "Name of generated file"
 msgstr "Name der erzeugten Datei"
 
@@ -2050,16 +2212,22 @@ msgid "Regular expression to match translation files against"
 msgstr "Regulärer Ausdruck zum Abgleich von Übersetzungsdateien"
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
-"Der reguläre Ausdruck muss benannte Gruppen für Komponente und Sprache "
-"definieren."
+"Der reguläre Ausdruck muss einen Gruppennamen für die Komponente definieren. "
+"Definieren Sie außerdem einen Gruppennamen für die Sprache, wenn "
+"Übersetzungsdateien abgeglichen werden. Wenn die Dateimaske festgelegt ist, "
+"lassen Sie die Sprache weg und gleichen Sie stattdessen die einsprachige "
+"Basisdatei oder die neue Basisdatei ab."
 
 msgid "File format"
 msgstr "Dateiformat"
 
 msgid "Customize the component name"
-msgstr "Anpassen des Komponentennamens"
+msgstr "Den Komponentennamen anpassen"
 
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
@@ -2098,6 +2266,21 @@ msgstr ""
 "sich dabei um eine von den Entwicklern bereitgestellte Übersetzungsdatei, "
 "die beim Erstellen der eigentlichen Ausgangszeichenketten verwendet wird. "
 "Diese Vorlage muss {{ component }} enthalten."
+
+msgid "Define the file mask"
+msgstr "Die Dateimaske definieren"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
+"Lassen Sie das Feld leer, um Übersetzungsdateien direkt abzugleichen. Wenn "
+"dieses Feld gesetzt ist, gleicht die Erkennung die einsprachige Basisdatei "
+"oder neue Basisdatei ab und verwendet diese Vorlage als Dateimaske. Fügen "
+"Sie einen Sprach-Platzhalter und {{ component }} ein, zum Beispiel locale/*/"
+"{{ component }}.po oder docs/{{ component }}_*.md."
 
 msgid "Language filter"
 msgstr "Sprachfilter"
@@ -2200,8 +2383,32 @@ msgid "You can not use a base file for bilingual translation."
 msgstr ""
 "Basisdatei kann nicht für zweisprachige Übersetzungen verwendet werden."
 
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr ""
+"Die Basisdatei für neue Übersetzungen festlegen, wenn Komponenten anhand "
+"einer Vorlage erstellt werden."
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+"Beim Erstellen von Komponenten aus einer Vorlage einen einsprachigen Basis- "
+"oder neuen Basis-Dateinamen festlegen."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr "Die Dateimaske muss einen Sprach-Platzhalter (*) enthalten."
+
 msgid "Please review and confirm the matched components."
 msgstr "Bitte überprüfen und bestätigen Sie die passenden Komponenten."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
+"Beim Erstellen von Komponenten aus einer einsprachigen Basisdatei oder einer "
+"neuen Basisdatei wird der Gruppenname Sprache weggelassen."
 
 msgid "This template must include {{ component }}."
 msgstr "Diese Vorlage muss {{ component }} enthalten."
@@ -2489,21 +2696,93 @@ msgstr ""
 "Aktualisiert die gettext-Vorlage mithilfe des gettext-Builders von Sphinx, "
 "ohne die Projektkonfiguration zu laden."
 
-msgid "Contributors in comment"
-msgstr "Mitwirkende im Kommentar"
+msgid "ITS rule file is too large."
+msgstr "ITS-Regeldatei ist zu groß."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
-msgstr ""
-"Aktualisiert den Kommentarteil im Header der PO-Datei, um den Namen des "
-"Mitwirkenden und das Datum des Beitrags aufzunehmen."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "ITS-Regeldatei enthält zu viele XPath-Ausdrücke."
+
+msgid "ITS XPath expression is too long."
+msgstr "XPath-Ausdruck ist zu lang."
+
+msgid "Too many ITS rule files."
+msgstr "Zu viele ITS-Regeldateien."
+
+msgid "ITS rule files are too large."
+msgstr "ITS-Regeldateien sind zu groß."
+
+msgid "ITS directories must be a list of strings."
+msgstr "ITS-Verzeichnisse müssen eine Liste von Zeichenketten sein."
+
+msgid "Invalid ITS directory path."
+msgstr "Ungültiger ITS-Verzeichnispfad."
+
+msgid "ITS rules must not contain a document type."
+msgstr "ITS-Regeln dürfen keinen Dokumenttyp enthalten."
+
+msgid "Invalid ITS rule document root."
+msgstr "Ungültiges Stammverzeichnis für ITS-Regeldokumente."
+
+msgid "ITS rule file contains too many elements."
+msgstr "ITS-Regeldatei enthält zu viele Elemente."
+
+msgid "Unsupported ITS rule content."
+msgstr "Nicht unterstützter ITS-Regelinhalt."
+
+msgid "Unsupported ITS locating rule."
+msgstr "Nicht unterstützte ITS-Lokalisierungsregel."
+
+msgid "ITS locating rules require a pattern."
+msgstr "ITS-Lokalisierungsregeln erfordern ein Muster."
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr "ITS-Lokalisierungsregeln erfordern ein Ziel oder eine Dokumentregel."
+
+msgid "ITS document rules require a target."
+msgstr "ITS-Dokumentregeln erfordern ein Ziel."
+
+msgid "Unsupported ITS rule namespace."
+msgstr "Nicht unterstützter ITS-Regel-Namensraum."
+
+msgid "External ITS rule references are not allowed."
+msgstr "Externe ITS-Regelreferenzen sind nicht zulässig."
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr "ITS-Ziele müssen eine Regel im selben Verzeichnis benennen."
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr "ITS-Ziel fehlt oder ist ein symbolischer Link."
+
+msgid "ITS directories must not contain symbolic links."
+msgstr "ITS-Verzeichnisse dürfen keine symbolischen Links enthalten."
+
+#, python-format
+msgid "ITS directory does not exist: %(path)s"
+msgstr "ITS-Verzeichnis existiert nicht: %(path)s"
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr "ITS-Regeln müssen reguläre Dateien sein, keine symbolischen Links."
+
+#, python-format
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Ungültige ITS-Regel %(path)s: %(error)s"
+
+#, python-format
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "ITS-Regel konnte nicht analysiert werden: %(path)s"
 
 msgid "Squash Git commits"
 msgstr "Git-Commits zusammenfassen"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Git-Commits vor dem Pushen der Änderungen zusammenfassen."
+
+msgid "API add-ons must be installed directly on a component."
+msgstr ""
+"API-Erweiterungen müssen direkt auf einer Komponente installiert werden."
+
+msgid "This add-on is already installed on this component."
+msgstr "Diese Erweiterung ist auf dieser Komponente bereits installiert."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Diese Erweiterung kann nicht manuell ausgelöst werden."
@@ -2815,14 +3094,14 @@ msgstr "Alle Übersetzungsdateien im Weblate-Repository erneut scannen"
 msgid "Please provide a suggestion"
 msgstr "Bitte machen Sie einen Vorschlag"
 
-msgid "Translation text too long!"
-msgstr "Übersetzungstext zu lang!"
-
 msgid "Number of plurals does not match"
 msgstr "Anzahl der Pluralformen stimmt nicht überein"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Ihr Vorschlag entspricht der aktuellen Übersetzung!"
+
+msgid "Translation text too long!"
+msgstr "Übersetzungstext zu lang!"
 
 msgid "Your suggestion already exists!"
 msgstr "Ihr Vorschlag existiert bereits!"
@@ -2904,14 +3183,8 @@ msgstr "Sie haben keine Berechtigung, Zeichenketten zu genehmigen."
 msgid "This string seems to already exist."
 msgstr "Diese Zeichenkette ist offenbar bereits vorhanden."
 
-msgid "Project"
-msgstr "Projekt"
-
 msgid "Category"
 msgstr "Kategorie"
-
-msgid "Component"
-msgstr "Komponente"
 
 msgid "User"
 msgstr "Benutzer"
@@ -3002,8 +3275,8 @@ msgid "Manage project access"
 msgstr "Projektzugriff verwalten"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Berichte herunterladen"
+msgid "Manage reports"
+msgstr "Berichte verwalten"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4010,12 +4283,13 @@ msgstr ""
 msgid "Non‑standard characters in Kabyle"
 msgstr "Nicht standardisierte Zeichen in Kabyle"
 
+#, python-brace-format
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
-"Verwenden von standardisierten lateinischen Kabyle-Zeichen (z. B. ɣ statt "
-"griechischem γ; ɛ statt ε)."
+"Standardisierte lateinische Kabyle-Zeichen verwenden (z. B. {latin_gamma} "
+"statt griechischem {greek_gamma}; {latin_epsilon} statt {greek_epsilon})."
 
 msgid "Trailing space"
 msgstr "Leerzeichen am Ende"
@@ -4081,9 +4355,10 @@ msgstr ""
 msgid "Mismatched \\n"
 msgstr "Unterschiedliche Menge \\n"
 
-msgid "Number of \\n literals in translation does not match source."
+#, python-brace-format
+msgid "Number of {newline} literals in translation does not match source."
 msgstr ""
-"Anzahl der \\n-Symbole in der Übersetzung passt nicht zur "
+"Anzahl der {newline}-Symbole in der Übersetzung passt nicht zur "
 "Ausgangszeichenkette."
 
 msgid "Mismatching line breaks"
@@ -4242,6 +4517,9 @@ msgstr "Alle Qualitätsprüfungen ignorieren"
 
 msgid "Use case insensitive placeholders"
 msgstr "Platzhalter ohne Berücksichtigung der Groß-/Kleinschreibung verwenden"
+
+msgid "Monospace font"
+msgstr "Monospace-Schriftart"
 
 msgid "Font family"
 msgstr "Schriftfamilie"
@@ -5011,12 +5289,13 @@ msgstr ""
 msgid "Ellipsis"
 msgstr "Auslassungspunkte"
 
+#, python-brace-format
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr ""
-"Die Zeichenkette verwendet drei Punkte ``(...)`` anstelle der "
-"Auslassungspunkte ``(…)``."
+"Die Zeichenkette verwendet drei Punkte {dots} anstelle der Auslassungspunkte "
+"{ellipsis}."
 
 msgid "Source string length"
 msgstr "Länge der Ausgangszeichenkette"
@@ -5089,6 +5368,10 @@ msgstr ""
 
 msgid "Font"
 msgstr "Schriftart"
+
+msgid "Font has to be in the same project as the font group."
+msgstr ""
+"Die Schriftart muss sich im selben Projekt wie die Schriftartgruppe befinden."
 
 msgid "Unsupported file format."
 msgstr "Nicht unterstütztes Dateiformat."
@@ -5525,6 +5808,22 @@ msgstr ""
 "Der Glossarbegriff konnte nicht hinzugefügt werden, da ein anderer "
 "Hintergrundvorgang läuft. Bitte später erneut versuchen."
 
+msgid "Maximum build age (days)"
+msgstr "Maximales Build-Alter (Tage)"
+
+msgid "Maximum retained versions"
+msgstr "Maximale Anzahl aufbewahrter Versionen"
+
+msgid "Kotlin SDK CDN"
+msgstr "Kotlin-SDK-CDN"
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+"Veröffentlicht Android-Zeichenketten- und Plural-Ressourcen für registrierte "
+"Kotlin-SDK-Builds."
+
 msgid "Weblate languages"
 msgstr "Weblate-Sprachen"
 
@@ -5803,8 +6102,11 @@ msgstr ""
 "Bitte lesen Sie das folgende Dokument mit den allgemeinen "
 "Geschäftsbedingungen:"
 
-msgid "Please also read the Privacy Policy:"
-msgstr "Bitte lesen Sie auch die Datenschutzerklärung:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+"Bitte lesen Sie auch die <a href=\"%(privacy_url)s\">Datenschutzerklärung</"
+"a>."
 
 msgid "Submit"
 msgstr "Absenden"
@@ -5824,8 +6126,22 @@ msgid ""
 "them:"
 msgstr ""
 "Diese Seite basiert auf den allgemeinen Geschäftsbedingungen und der "
-"Datenschutzerklärung. Sie sollten die Originaldokumente aufmerksam lesen, um "
+"Datenschutzerklärung. Sie sollten dennoch die Originaldokumente lesen, um "
 "sie vollständig zu verstehen:"
+
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"Diese Seite basiert auf den allgemeinen Geschäftsbedingungen. Sie sollten "
+"dennoch das Originaldokument lesen, um es vollständig zu verstehen:"
+
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
+msgstr ""
+"Diese Seite basiert auf der Datenschutzerklärung. Sie sollten dennoch das "
+"Originaldokument lesen, um es vollständig zu verstehen:"
 
 msgid "Cookies are used on this site for the following:"
 msgstr "Auf dieser Website werden Cookies für folgendes verwendet:"
@@ -6148,9 +6464,6 @@ msgstr ""
 "Das LLM der nächsten Generation gegenüber dem klassischen Modell für "
 "maschinelle Übersetzungen bevorzugen."
 
-msgid "DeepL API v1 is no longer supported."
-msgstr "DeepL-API v1 wird nicht mehr unterstützt."
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr "LLM-Modell"
@@ -6293,22 +6606,6 @@ msgstr "Ollama-Modell"
 
 msgid "Name of the model described in Ollama catalogue."
 msgstr "Name des im Ollama-Katalog beschriebenen Modells."
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr "Claude Haiku 4.5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.8"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
-msgstr "Claude Fable 5"
 
 msgctxt "Anthropic model selection"
 msgid "Custom model"
@@ -6594,6 +6891,9 @@ msgstr "Bildschirmfotos suchen"
 msgid "Sort by"
 msgstr "Sortieren nach"
 
+msgid "Screenshot"
+msgstr "Bildschirmfoto"
+
 msgid "Screenshot name"
 msgstr "Name des Bildschirmfotos"
 
@@ -6664,6 +6964,9 @@ msgid "OCR data could not be downloaded. Please try again later."
 msgstr ""
 "OCR-Daten konnten nicht heruntergeladen werden. Bitte später erneut "
 "versuchen."
+
+msgid "Select a valid screenshot."
+msgstr "Wählen Sie ein gültiges Bildschirmfoto aus."
 
 msgid "Bad request"
 msgstr "Fehlerhafte Anfrage"
@@ -6779,21 +7082,11 @@ msgstr "Über Weblate"
 msgid "Support Weblate"
 msgstr "Weblate unterstützen"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "Helfen Sie <strong>Weblate</strong> weiter zu gedeihen"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Willkommen und vielen Dank, dass Sie Weblate unterstützen"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-"Willkommen und vielen Dank, dass Sie sich für Weblate entschieden haben"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
-"die datenschutzfreundliche Lokalisierungsplattform, die sich den Open-Source-"
-"Werten verpflichtet fühlt."
+msgid "Continue to Weblate"
+msgstr "Weiter zu Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6886,6 +7179,17 @@ msgid "Please complete your sign-in using second factor credential."
 msgstr ""
 "Bitte vervollständigen Sie Ihre Anmeldung mit dem zweiten Faktor Ihrer "
 "Zugangsdaten."
+
+msgid "Other ways to verify your identity"
+msgstr "Weitere Möglichkeiten zum Prüfen Ihrer Identität"
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
+"Sollten Sie Ihren Passkey, Sicherheitsschlüssel oder eine andere "
+"konfigurierte Verifizierungsmethode nicht verwenden können, wenden Sie sich "
+"bitte an den Website-Administrator, um Hilfe zu erhalten."
 
 msgid "Your profile"
 msgstr "Ihr Profil"
@@ -7072,7 +7376,6 @@ msgstr "Bitte korrigieren Sie die Daten im Registrierungsformular."
 msgid "Verify new e-mail address"
 msgstr "Neue E-Mail-Adresse verifizieren"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Registrieren"
 
@@ -7129,6 +7432,134 @@ msgstr "Passwort vergessen?"
 
 msgid "Register new account"
 msgstr "Neues Konto registrieren"
+
+msgid "Notification diagnostics"
+msgstr "Benachrichtigungsdiagnose"
+
+msgid "Diagnostics"
+msgstr "Diagnose"
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+"Überprüfen Sie die Abonnementberechtigung für hypothetische Ereignisse. "
+"Dabei werden keine Benachrichtigungen gesendet. Die eigenen Aktionen des "
+"Benutzers lösen keine Benachrichtigungen aus; die Zustellung kann zudem von "
+"den Ereignisdetails, dem Inhalt der Zusammenfassung und den "
+"Ratenbegrenzungen beeinflusst werden."
+
+msgid "Check notifications"
+msgstr "Benachrichtigungen überprüfen"
+
+#, python-format
+msgid "Notification eligibility for %(target)s"
+msgstr "Benachrichtigungsberechtigung für %(target)s"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+"Vererbte Projekteinstellungen werden einmalig angezeigt, zusammen mit den "
+"Unterschieden bei den verfügbaren Komponenten. Wählen Sie eine Komponente "
+"oder einen Übersetzungspfad aus, um detaillierte Berechtigungsprüfungen "
+"durchzuführen."
+
+msgid "Notification"
+msgstr "Benachrichtigung"
+
+msgid "Inherited project settings"
+msgstr "Vererbte Projekteinstellungen"
+
+msgid "Settings and eligibility"
+msgstr "Einstellungen und Berechtigung"
+
+msgid "Component exceptions"
+msgstr "Komponentenausnahmen"
+
+msgid "One-time"
+msgstr "Einmalig"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+"Kein vererbtes Abonnement. Die entsprechenden Einstellungen sind unter den "
+"Komponentenausnahmen aufgeführt."
+
+msgid "Overridden subscriptions"
+msgstr "Überschriebene Abonnements"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] "Unterschiedliche Einstellungen in %(count)s Komponente."
+msgstr[1] "Unterschiedliche Einstellungen in %(count)s Komponenten."
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+"Für diese Komponenten gibt es kein passendes Abonnement, daher wird diese "
+"Benachrichtigung nicht gesendet."
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+"Gemeinsam genutzte Komponenten verwenden Abonnements aus ihrem "
+"ursprünglichen Projekt und nicht die Abonnements dieses Projekts."
+
+msgid "Inspect example components:"
+msgstr "Beispielkomponenten untersuchen:"
+
+msgid "Inspect components:"
+msgstr "Komponenten untersuchen:"
+
+msgid "None"
+msgstr "Keine"
+
+msgid "No accessible components or translations in this target."
+msgstr "Keine verfügbaren Komponenten oder Übersetzungen in diesem Ziel."
+
+msgid "No matching subscriptions in this scope."
+msgstr "Keine passenden Abonnements in diesem Bereich."
+
+#, python-format
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "%(count)s beobachtetes Projekt."
+msgstr[1] "%(count)s beobachtete Projekte."
+
+msgid "No watched projects."
+msgstr "Keine beobachteten Projekte."
+
+msgid "Notification languages"
+msgstr "Benachrichtigungssprachen"
+
+#, python-format
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "%(count)s Benachrichtigungssprache."
+msgstr[1] "%(count)s Benachrichtigungssprachen."
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+"Keine Benachrichtigungssprachen ausgewählt. Sprachgefilterte "
+"Benachrichtigungen werden nicht gesendet."
+
+msgid "Subscriptions"
+msgstr "Abonnements"
+
+msgid "Frequency"
+msgstr "Häufigkeit"
+
+msgid "No subscriptions."
+msgstr "Keine Abonnements."
 
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
@@ -7190,6 +7621,17 @@ msgstr ""
 
 msgid "Save"
 msgstr "Speichern"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+"Prüfen Sie, welche Abonnements für ein Projekt, eine Komponente oder eine "
+"Übersetzung gelten und was die Zustellung von Benachrichtigungen verhindern "
+"kann."
+
+msgid "Open notification diagnostics"
+msgstr "Benachrichtigungsdiagnose öffnen"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7542,8 +7984,8 @@ msgid ""
 "but you should still read the original documents to fully understand them:"
 msgstr ""
 "Kurzer Überblick über die allgemeinen Geschäftsbedingungen und die "
-"Datenschutzerklärung. Aber Sie sollten die Originaldokumente aufmerksam "
-"lesen, um sie vollständig zu verstehen:"
+"Datenschutzerklärung. Aber Sie sollten dennoch die Originaldokumente lesen, "
+"um sie vollständig zu verstehen:"
 
 msgid ""
 "By registering, you agree that your name and username will be visible "
@@ -7640,10 +8082,13 @@ msgid_plural "Your trial will last %(days)s days."
 msgstr[0] "Ihre Testphase dauert %(days)s Tag."
 msgstr[1] "Ihre Testphase dauert %(days)s Tage."
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, python-format
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
-"Ihre Testphase läuft mit dem 640k-Paket, Sie können jedoch später ein "
-"beliebiges Paket auswählen."
+"Ihre Testphase läuft mit dem %(trial_plan)s-Paket, Sie können jedoch später "
+"ein beliebiges Paket auswählen."
 
 msgid "No credit card is needed, but you can set the payment method anytime."
 msgstr ""
@@ -7743,15 +8188,6 @@ msgstr "Kennung"
 
 msgid "User ID"
 msgstr "Benutzer-ID"
-
-msgid "Notification"
-msgstr "Benachrichtigung"
-
-msgid "Frequency"
-msgstr "Häufigkeit"
-
-msgid "One-time"
-msgstr "Einmalig"
 
 msgid "Members"
 msgstr "Mitglieder"
@@ -7855,8 +8291,28 @@ msgstr "Fahren Sie nur fort, wenn Sie diesem Ziel vertrauen."
 msgid "Continue"
 msgstr "Weiter"
 
-msgid "Sign in using the security key"
-msgstr "Anmelden mit dem Sicherheitsschlüssel"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+"Verwenden Sie ein Gerät, auf dem Ihr Passkey verfügbar ist, oder verbinden "
+"Sie Ihren registrierten Sicherheitsschlüssel. Auf einem neuen Computer oder "
+"in einem anderen Browser ist Ihr Passkey möglicherweise nicht verfügbar."
+
+msgid "Sign in using a passkey or security key"
+msgstr "Mit einem Passkey oder Sicherheitsschlüssel anmelden"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
+"Die Überprüfung des Passkeys oder Sicherheitsschlüssels konnte nicht "
+"abgeschlossen werden. Möglicherweise ist die Anfrage abgelaufen oder wurde "
+"abgebrochen, oder Ihre Zugangsdaten sind auf diesem Gerät nicht verfügbar. "
+"Versuchen Sie es erneut oder verwenden Sie falls verfügbar eine andere "
+"Verifizierungsmethode."
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Leider unterstützt Ihr Browser kein WebAuthn."
@@ -7887,6 +8343,12 @@ msgstr "Nicht kompatibel"
 
 msgid "No components found."
 msgstr "Keine Komponenten gefunden."
+
+msgid "Add-on API base URL:"
+msgstr "API-Basis-URL der Erweiterung:"
+
+msgid "API root"
+msgstr "API-Root"
 
 msgid "Configure add-on"
 msgstr "Erweiterung konfigurieren"
@@ -8060,6 +8522,25 @@ msgid ""
 msgstr ""
 "Sie können das Auszeichnen von Django-Vorlagen sowohl im Dateinamen als auch "
 "im Inhalt verwenden, zum Beispiel:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+"Im Komponentenmodus können Sie die Übersetzungen durchlaufen, um auf die "
+"Metadaten und Statistiken der einzelnen Sprachen zuzugreifen. Verwenden Sie "
+"den JSON- oder Python-Filter, um Werte in generierten Dateien zu "
+"serialisieren."
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
+"Die folgenden Übersetzungsvariablen sind direkt im Übersetzungsmodus oder im "
+"Komponentenmodus für jedes Element verfügbar. Komponenten- und "
+"Projektvariablen sind in beiden Modi verfügbar."
 
 msgid "Percents translated"
 msgstr "Prozent übersetzt"
@@ -8600,6 +9081,9 @@ msgstr "Prüfen Sie Ihren Rechnungsstatus"
 msgid "Browse"
 msgstr "Durchsuchen"
 
+msgid "Translation status widgets"
+msgstr "Übersetzungsstatus-Widgets"
+
 msgid "No strings found!"
 msgstr "Keine Zeichenketten gefunden!"
 
@@ -8624,6 +9108,9 @@ msgstr "Operationen"
 msgid "Search and replace"
 msgstr "Suchen und Ersetzen"
 
+msgid "Post announcement"
+msgstr "Mitteilung veröffentlichen"
+
 msgid "Organize or remove"
 msgstr "Organisieren oder Entfernen"
 
@@ -8638,6 +9125,15 @@ msgstr "Übernehmen"
 
 msgid "Browse components"
 msgstr "Komponenten durchsuchen"
+
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
+"Die Nachricht wird bis zu ihrem angegebenen Ablauf für alle Übersetzungen in "
+"dieser Sprache innerhalb der Kategorie und ihrer Unterkategorien angezeigt "
+"oder dauerhaft, bis sie gelöscht wird."
 
 msgid "Announcements"
 msgstr "Mitteilungen"
@@ -8662,9 +9158,6 @@ msgstr "Automatische Batchübersetzung"
 
 msgid "Add new category"
 msgstr "Neue Kategorie hinzufügen"
-
-msgid "Post announcement"
-msgstr "Mitteilung veröffentlichen"
 
 msgid "Browse all category changes"
 msgstr "Alle Kategorieänderungen durchsuchen"
@@ -8728,9 +9221,6 @@ msgstr "Abbrechen der Aktualisierung"
 
 msgid "Continue after completion"
 msgstr "Nach Abschluss fortfahren"
-
-msgid "Diagnostics"
-msgstr "Diagnose"
 
 msgid "error"
 msgid_plural "errors"
@@ -9155,29 +9645,42 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Werden Sie Weblate-Unterstützer"
 
-msgid "Some repositories are not accessible"
-msgstr "Auf einige Repositorys kann nicht zugegriffen werden"
+msgid "Some repository operations require additional permissions"
+msgstr "Einige Repository-Vorgänge erfordern zusätzliche Berechtigungen"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
-"Bei jedem der folgenden Vorgänge werden Repositorys ausgeschlossen, es sei "
-"denn, Sie verfügen über die erforderlichen Berechtigungen für jede "
-"Komponente, die diese Repositorys gemeinsam nutzt."
+"Repository-Vorgänge erfordern eine Berechtigung für die Komponente, der das "
+"gemeinsam genutzte Repository gehört."
 
-msgid "Skipped components:"
-msgstr "Übersprungene Komponenten:"
+msgid "Affected components:"
+msgstr "Betroffene Komponenten:"
 
-msgid "Permission required on:"
-msgstr "Erforderliche Berechtigung für:"
+msgid "You need the following permissions on the repository-owning component:"
+msgstr ""
+"Sie benötigen die folgenden Berechtigungen für die Komponente, der das "
+"Repository gehört:"
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
 msgstr ""
-"Ein Repository wurde übersprungen, da auf eine oder mehrere seiner "
-"Komponenten nicht zugegriffen werden kann."
+"Sie benötigen die folgenden Berechtigungen für die Komponente, der das "
+"Repository gehört und auf die Sie nicht zugreifen können:"
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+"Bitten Sie einen Administrator des zuständigen Projekts, Ihnen diese "
+"Berechtigungen zu erteilen."
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
+msgstr ""
+"Bitten Sie Ihren Projektadministrator, den Zugriff mit dem Repository-"
+"Inhaber abzustimmen."
 
 msgid "Repository status"
 msgstr "Repository-Status"
@@ -9218,6 +9721,10 @@ msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "(%(count)s fehlt im Push-Branch)"
 msgstr[1] "(%(count)s fehlen im Push-Branch)"
+
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+"Das Pushen ist deaktiviert, da keine Repository-Push-URL konfiguriert ist."
 
 #, python-format
 msgid "%(count)s missing commit"
@@ -9433,6 +9940,9 @@ msgstr "Repository für %(component)s"
 msgid "Repository details"
 msgstr "Repository-Details"
 
+msgid "Edit repository configuration"
+msgstr "Repository-Konfiguration bearbeiten"
+
 msgid "Repository changes"
 msgstr "Repository-Änderungen"
 
@@ -9474,6 +9984,12 @@ msgstr ""
 
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Übersetzung als bearbeitungsbedürftig aufheben und einreichen."
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
+"Die Übersetzung genehmigen, speichern und fortfahren. Nur für Prüfer "
+"verfügbar."
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -9563,6 +10079,9 @@ msgstr ""
 
 msgid "Please see a documentation for more info."
 msgstr "Weitere Informationen entnehmen Sie bitte der Dokumentation."
+
+msgid "Translation workflow"
+msgstr "Übersetzungsablauf"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -9879,12 +10398,6 @@ msgstr "Komponente %(component)s wurde gesperrt"
 msgid "Component %(component)s was unlocked"
 msgstr "Komponente %(component)s wurde entsperrt"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
-"Hinweis: Diese Zusammenfassung wurde gekürzt, da es über 100 "
-"Benachrichtigungen gab."
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -10143,6 +10656,12 @@ msgstr "Kontolöschung bestätigen"
 msgid "Confirm invitation"
 msgstr "Einladung bestätigen"
 
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr ""
+"Hinweis: Diese Benachrichtigung wurde gekürzt, da sie mehr als 100 Einträge "
+"enthielt."
+
 msgid "Source string description"
 msgstr "Beschreibung der Ausgangszeichenkette"
 
@@ -10305,6 +10824,21 @@ msgstr "Grenzen der Supportpakete"
 msgid "Support expiry"
 msgstr "Ablauf der Supportzeit"
 
+msgid "Professional support for your organization"
+msgstr "Professioneller Support für Ihre Organisation"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+"Erwerben Sie professionellen Support für fachkundige Hilfe bei der "
+"Einrichtung, Wartung und Fehlerbehebung."
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+"Mit Ihrem Abonnement unterstützen Sie zudem die weitere Entwicklung von "
+"Weblate."
+
 msgid "Manage support package"
 msgstr "Supportpaket verwalten"
 
@@ -10314,8 +10848,8 @@ msgstr "Supportpaket trennen und Weblate entdecken deaktivieren"
 msgid "Unlink support package"
 msgstr "Supportpaket trennen"
 
-msgid "Purchase support package"
-msgstr "Supportpaket kaufen"
+msgid "Purchase support"
+msgstr "Support kaufen"
 
 msgid "Contact customer care"
 msgstr "Kontakt zur Kundenbetreuung"
@@ -10851,6 +11385,14 @@ msgstr ""
 "Die Projektbetreuer werden über diese Anfrage informiert und aufgefordert, "
 "die Sprache manuell hinzuzufügen."
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+"Sprachen, die in diesem Projekt bereits als Zielsprachen verwendet werden, "
+"können sofort hinzugefügt werden. Andere Sprachen müssen bei den "
+"Projektbetreuern angefragt werden."
+
 msgid "Can't find your language in the list above?"
 msgstr "Sie können Ihre Sprache in der obigen Liste nicht finden?"
 
@@ -10944,10 +11486,16 @@ msgid "Please try again later."
 msgstr "Bitte später erneut versuchen."
 
 msgid "Thank you for using Weblate"
-msgstr "Vielen Dank, dass Sie Weblate verwenden"
+msgstr "Vielen Dank, dass Sie Weblate nutzen"
 
 msgid "Return to dashboard"
 msgstr "Zurück zur Übersichtsseite"
+
+msgid "Thank you for contributing translations."
+msgstr "Vielen Dank für Ihre Beiträge zu den Übersetzungen."
+
+msgid "Donate to Weblate development"
+msgstr "Für Weblate-Entwicklung spenden"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "Bitte prüfen und bestätigen Sie die Suchen-und-Ersetzen-Ergebnisse."
@@ -11061,6 +11609,30 @@ msgstr "Keine Bildschirmfotos gefunden."
 
 msgid "Add new screenshot"
 msgstr "Neues Bildschirmfoto hinzufügen"
+
+msgid "Select a screenshot"
+msgstr "Ein Bildschirmfoto auswählen"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+"Zu jeder Übersetzung dieser Zeichenkette werden Bildschirmfotos in der "
+"Ausgangssprache angezeigt. Andere Bildschirmfotos werden nur für die "
+"jeweilige Sprache angezeigt."
+
+msgid "Selected"
+msgstr "Ausgewählt"
+
+msgid "No matching screenshots available."
+msgstr "Keine passenden Bildschirmfotos verfügbar."
+
+msgid "Screenshot pages"
+msgstr "Bildschirmfoto-Seiten"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
+msgstr "Seite %(current)s von %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11177,6 +11749,38 @@ msgstr ""
 "Sie können den Status aller Zeichenketten eines bestimmten Typs auf einmal "
 "ändern."
 
+msgid "Translation quality filter"
+msgstr "Filter für die Übersetzungsqualität"
+
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr ""
+"Bevor diese Übersetzung in die Übersetzungsdatei geschrieben werden kann, "
+"ist eine Genehmigung erforderlich."
+
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr ""
+"Der Status „bearbeitungsbedürftig“ dieser Übersetzung muss behoben werden, "
+"bevor sie in die Übersetzungsdatei geschrieben werden kann."
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+"Erfahren Sie, wie der <a href=\"%(policy_url)s\">Filter für die "
+"Übersetzungsqualität</a> steuert, welche Übersetzungen in Dateien "
+"geschrieben werden."
+
+msgid "Configure language workflow"
+msgstr "Sprachablauf konfigurieren"
+
+msgid "Configure translation quality filter"
+msgstr "Filter für die Übersetzungsqualität konfigurieren"
+
 msgid "View details"
 msgstr "Details anzeigen"
 
@@ -11237,32 +11841,18 @@ msgstr[1] "%(count)s weitere betroffene Komponenten."
 msgid "No diagnostics match the selected filters."
 msgstr "Keine Diagnose entspricht den ausgewählten Filtern."
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-"Weblate bleibt zwar für alle Benutzer kostenlos, doch seine "
-"Weiterentwicklung erfordert kontinuierliche Investitionen."
+msgid "Support Weblate development"
+msgstr "Weblate-Entwicklung unterstützen"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-"Ihre Privatsphäre hat für uns oberste Priorität; wir schalten niemals "
-"Werbung und verkaufen Ihre Daten nicht."
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Vielen Dank, dass Sie Weblate nutzen und Übersetzungen beitragen."
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"Die unschätzbare Unterstützung der Community durch Abonnements und Spenden "
-"sorgt dafür, dass Weblate weiter wächst und gedeiht."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-"Gestalten Sie gemeinsam mit uns die Zukunft der Lokalisierung und tragen Sie "
-"noch heute dazu bei!"
-
-msgid "Purchase a support package"
-msgstr "Ein Supportpaket kaufen"
+"Wenn Sie mehr spenden möchten, fließt eine freiwillige Spende in die "
+"Entwicklung und Wartung von Weblate selbst."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11328,26 +11918,35 @@ msgstr "Letzter Commit in Weblate"
 msgid "Weblate repository"
 msgstr "Weblate-Repository"
 
-msgid "This translation is forbidden."
-msgstr "Diese Übersetzung ist nicht zulässig."
-
-msgid "This term should not be translated."
-msgstr "Dieser Begriff sollte nicht übersetzt werden."
-
 msgid "This translation needs editing."
 msgstr "Diese Übersetzung ist bearbeitungsbedürftig."
 
 msgid "Copy word into translation"
 msgstr "Wort in Übersetzung kopieren"
 
+msgid "This translation is forbidden."
+msgstr "Diese Übersetzung ist nicht zulässig."
+
+msgid "Forbidden"
+msgstr "Unzulässig"
+
+msgid "This term should not be translated."
+msgstr "Dieser Begriff sollte nicht übersetzt werden."
+
 msgid "Edit glossary term"
 msgstr "Glossarbegriff bearbeiten"
 
+msgid "Translation explanation"
+msgstr "Übersetzungserklärung"
+
+msgid "Source explanation"
+msgstr "Erklärung zur Quelle"
+
 msgid "Glossary translation explanation"
-msgstr "Erklärung der Glossarübersetzung"
+msgstr "Erklärung zur Glossarübersetzung"
 
 msgid "Glossary string explanation"
-msgstr "Erklärung der Glossarzeichenkette"
+msgstr "Erklärung zur Glossarzeichenkette"
 
 msgid "No related strings found in the glossary."
 msgstr "Es wurden keine zugehörigen Zeichenketten im Glossar gefunden."
@@ -11815,6 +12414,9 @@ msgstr "Übersetzte Zeichenketten in einer bestimmten Sprache"
 msgid "Query"
 msgstr "Abfrage"
 
+msgid "Refresh results"
+msgstr "Ergebnisse aktualisieren"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -11882,6 +12484,30 @@ msgstr "Es wurden noch keine Berichte erzeugt."
 
 msgid "Report history pagination"
 msgstr "Berichtsverlaufs-Seitenumbruch"
+
+msgid "Reviews are enabled for this language."
+msgstr "Überprüfungen sind für diese Sprache aktiviert."
+
+msgid "Reviews are disabled for this language."
+msgstr "Überprüfungen sind für diese Sprache deaktiviert."
+
+#, python-format
+msgid "Review setting: %(origin)s."
+msgstr "Überprüfungseinstellung: %(origin)s."
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+"Erfahren Sie, wie Sie den <a href=\"%(workflow_url)s\">Arbeitsablauf für "
+"diese Sprache anpassen</a>."
+
+msgid "Learn how to customize translation workflows."
+msgstr "Erfahren Sie, wie Sie Übersetzungsabläufe anpassen können."
+
+msgid "Configure translation workflow"
+msgstr "Übersetzungsablauf konfigurieren"
 
 #, python-format
 msgid ""
@@ -11977,8 +12603,8 @@ msgid "Vote against"
 msgstr "Mit Nein stimmen"
 
 #, python-format
-msgid "Accept all suggestions from %(username)s"
-msgstr "Annehmen aller Vorschläge von %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
+msgstr "Alle Vorschläge von %(username)s in %(translation)s annehmen"
 
 msgid "Accept"
 msgstr "Annehmen"
@@ -12001,6 +12627,21 @@ msgstr "Vorgeschlagene Änderung:"
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Fehlgeschlagene Qualitätsprüfungen:"
+
+msgid "Using Weblate in your organization?"
+msgstr "Nutzen Sie Weblate in Ihrer Organisation?"
+
+msgid "Already purchased? Link your support package"
+msgstr "Bereits gekauft? Verknüpfen Sie Ihr Supportpaket"
+
+msgid "Term information from the translation file"
+msgstr "Begriffsinformationen aus der Übersetzungsdatei"
+
+msgid "Source terms"
+msgstr "Ausgangsbegriffe"
+
+msgid "Target terms"
+msgstr "Zielbegriffe"
 
 msgid "Translation status"
 msgstr "Übersetzungsstatus"
@@ -12095,7 +12736,7 @@ msgid "Could not find any such user."
 msgstr "Dieser Benutzer konnte nicht gefunden werden."
 
 msgid "Watching"
-msgstr "Beobachtet"
+msgstr "Wird beobachtet"
 
 #, python-format
 msgid "Unwatch project %(project)s"
@@ -12324,6 +12965,25 @@ msgstr ""
 "Sie, ob es für Weblate zugänglich ist."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+"Dieses Repository lässt keine Forks zu. Stellen Sie sicher, dass die Weblate-"
+"GitHub-App mit diesem Arbeitsbereich verbunden ist und Zugriff auf das "
+"Repository hat. Migrieren Sie anschließend die Komponente, um Übersetzungs-"
+"Branches direkt in das Upstream-Repository zu pushen."
+
+msgid "Migrate to GitHub App"
+msgstr "Zur GitHub-App migrieren"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+"Bitten Sie einen Arbeitsbereich-Besitzer, das Einrichten und Migrieren der "
+"GitHub-App abzuschließen."
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12496,15 +13156,19 @@ msgstr "Die Komponente enthält mehrere doppelte Übersetzungszeichenketten."
 msgid "Source"
 msgstr "Ausgangszeichenkette"
 
+#, python-format
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Doppelte Zeichenketten aus %(language)s %(filename)s entfernen"
+
+msgid "Remove duplicate strings"
+msgstr "Doppelte Zeichenketten entfernen"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Bitte beheben Sie dies, indem Sie doppelte Zeichenketten mit gleicher "
 "Kennung aus den Übersetzungsdateien entfernen."
-
-msgid "Remove duplicate strings"
-msgstr "Doppelte Zeichenketten entfernen"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -12519,6 +13183,41 @@ msgid ""
 msgstr ""
 "Installieren Sie auch die Erweiterung msgmerge, wenn Sie möchten, dass die "
 "Übersetzungen automatisch den Vorlagenänderungen folgen."
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
+"Diese Komponente kann die Weblate-GitHub-App für den Repository-Zugriff und "
+"für Pull Requests nutzen."
+
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+"Dieses Glossar verfügt über kein Remote-Repository, und „Zeichenketten "
+"verwalten“ ist deaktiviert. Sie können Glossarbegriffe nicht direkt in "
+"Weblate hinzufügen, und Terminologieeinträge werden nicht automatisch zu "
+"fehlenden Glossarsprachen hinzugefügt."
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+"Dieses Glossar enthält Begriffe, die als Terminologie gekennzeichnet sind, "
+"aber „Zeichenketten verwalten“ ist deaktiviert. Weblate fügt diese Begriffe "
+"nicht automatisch zu fehlenden Glossarsprachen hinzu."
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+"Aktivieren Sie „Zeichenketten verwalten“ in den Komponenteneinstellungen, um "
+"Begriffe hinzuzufügen und die Terminologie zu synchronisieren. Sie können "
+"diese Warnung ignorieren, wenn die Glossardateien separat gepflegt werden."
 
 msgid "This component is set up incorrectly."
 msgstr "Diese Komponente ist falsch eingerichtet."
@@ -12767,19 +13466,15 @@ msgstr "Neueste Änderungen als CSV herunterladen"
 msgid "Follow using RSS"
 msgstr "Per RSS folgen"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "Aus der Versionsverwaltung"
 
-#. Translators: Create a component from existing component
 msgid "From an existing component"
 msgstr "Aus einer vorhandenen Komponente"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "Zusätzlicher Branch"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "Übersetzungsdateien hochladen"
 
@@ -12787,7 +13482,6 @@ msgstr "Übersetzungsdateien hochladen"
 msgid "Translate document"
 msgstr "Dokument übersetzen"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "Bei Null anfangen"
 
@@ -13200,6 +13894,14 @@ msgstr "Im Zen-Modus öffnen"
 msgid "Configure editor"
 msgstr "Editor konfigurieren"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+"Die Suchergebnisse bleiben während der Übersetzung unverändert. "
+"Aktualisieren Sie die Ergebnisse, um nun die Zeichenketten anzuzeigen, die "
+"den Filtern entsprechen."
+
 msgid "Permalink copied to clipboard."
 msgstr "Permalink in die Zwischenablage kopiert."
 
@@ -13324,14 +14026,20 @@ msgstr "Ausgewählte Übersetzung auf aktuelle Zeichenkette anwenden"
 msgid "Browse all string changes"
 msgstr "Alle Zeichenkettenänderungen durchsuchen"
 
-msgid "Suggested change"
-msgstr "Vorgeschlagene Änderung"
+msgid "Search translation memory"
+msgstr "Übersetzungsspeicher durchsuchen"
 
-msgid "Origin"
-msgstr "Ursprung"
+msgid "No matching machine translations found."
+msgstr "Keine passenden maschinellen Übersetzungen gefunden."
 
-msgid "Similarity"
-msgstr "Ähnlichkeit"
+msgid "Delete entry"
+msgstr "Eintrag löschen"
+
+msgid "Source:"
+msgstr "Quelle:"
+
+msgid "Context:"
+msgstr "Kontext:"
 
 msgid "Remove selected translation memory entries"
 msgstr "Ausgewählte Übersetzungsspeichereinträge entfernen"
@@ -13396,9 +14104,6 @@ msgstr "Diese Zeichenkette wurde mit %(author)s automatisch übersetzt."
 msgid "This string was translated automatically by %(author)s."
 msgstr "Diese Zeichenkette wurde von %(author)s automatisch übersetzt."
 
-msgid "Translation quality filter"
-msgstr "Filter für die Übersetzungsqualität"
-
 msgid "Add term to glossary"
 msgstr "Begriff zum Glossar hinzufügen"
 
@@ -13411,6 +14116,12 @@ msgstr "Glossar durchsuchen"
 
 msgid "No screenshot currently associated."
 msgstr "Derzeit ist kein Bildschirmfoto zugeordnet."
+
+msgid "Add existing screenshot"
+msgstr "Vorhandenes Bildschirmfoto hinzufügen"
+
+msgid "Upload screenshot"
+msgstr "Bildschirmfoto hochladen"
 
 msgid "String information"
 msgstr "Zeichenketteninformationen"
@@ -13638,6 +14349,75 @@ msgstr "Aktualisieren"
 msgid "No connected accounts yet."
 msgstr "Es sind noch keine Konten verbunden."
 
+msgid "Code-hosting integrations"
+msgstr "Code-Hosting-Integrationen"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr "%(workspace_name)s zur Weblate-GitHub-App migrieren"
+
+msgid "Connect or update GitHub account"
+msgstr "GitHub-Konto verbinden oder aktualisieren"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+"Wählen Sie vorhandene Git- oder GitHub-Komponenten aus, um die Weblate-"
+"GitHub-App zu nutzen. Ihre Repository-URLs werden durch kanonische HTTPS-"
+"URLs ersetzt, und separate Push-URLs werden entfernt."
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+"Die GitHub-App benötigt Repository-Zugriff für diese Konten: %(accounts)s."
+
+msgid "Connected GitHub accounts:"
+msgstr "Verbundene GitHub-Konten:"
+
+msgid "Refresh repositories"
+msgstr "Repositorys aktualisieren"
+
+msgid "Migrate selected components"
+msgstr "Ausgewählte Komponenten migrieren"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+"Verbinden oder aktualisieren Sie die GitHub-App, um den Zugriff auf die "
+"übrigen Repositorys zu gewähren."
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+"Verbinden Sie die GitHub-App vor der Migration mit den aufgeführten Konten "
+"und gewähren Sie Zugriff auf deren Repositorys."
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+"Ein Arbeitsbereich-Besitzer muss die GitHub-App verbinden und Zugriff auf "
+"diese Repositorys gewähren, bevor diese migriert werden können."
+
+msgid "Migration status"
+msgstr "Migrationsstatus"
+
+msgid "Ready"
+msgstr "Bereit"
+
+msgid "Repository access needed"
+msgstr "Repository-Zugriff erforderlich"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+"In diesem Arbeitsbereich befinden sich keine GitHub-Komponenten, die "
+"migriert werden können."
+
 msgid "Register Weblate GitHub App"
 msgstr "Weblate-GitHub-App registrieren"
 
@@ -13737,9 +14517,6 @@ msgstr "Installieren auf %(hostname)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr "Verbundenes GitHub-Konto: %(login)s"
-
-msgid "Refresh repositories"
-msgstr "Repositorys aktualisieren"
 
 #, python-format
 msgid ""
@@ -13877,11 +14654,28 @@ msgstr ""
 "entfernt."
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
-"Die Weblate-GitHub-App bleibt auf GitHub installiert. Entfernen Sie sie dort "
-"separat, wenn Sie sie nicht mehr benötigen."
+"Wenn kein anderer Weblate-Arbeitsbereich diese Verbindung nutzt, wird die "
+"Weblate-GitHub-App auch auf GitHub deinstalliert. Um die Verbindung "
+"wiederherzustellen, muss die App dann erneut auf GitHub installiert werden."
+
+#, python-format
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Die folgende Komponente verliert den Zugriff auf ihr Repository:"
+msgstr[1] ""
+"Die folgenden %(counter)s Komponenten verlieren den Zugriff auf ihre "
+"Repositorys:"
+
+#, python-format
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "sowie %(counter)s weitere Komponente"
+msgstr[1] "sowie %(counter)s weitere Komponenten"
 
 msgid "Invitations"
 msgstr "Einladungen"
@@ -14777,6 +15571,9 @@ msgstr "Die Komponente scheint nicht verwendet zu werden."
 msgid "Glossary using monolingual files."
 msgstr "Das Glossar verwendet einsprachige Dateien."
 
+msgid "Glossary string management is disabled"
+msgstr "Verwaltung der Glossarzeichenketten ist deaktiviert"
+
 msgid "Unused glossary language."
 msgstr "Nicht verwendete Glossarsprache."
 
@@ -14801,6 +15598,10 @@ msgstr "Keine Dateimaske passt."
 
 msgid "Inexistent files."
 msgstr "Nicht vorhandene Dateien."
+
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+"Diese Komponente kann in die Weblate-GitHub-App-Integration migriert werden."
 
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
@@ -15106,9 +15907,6 @@ msgstr "Versionsverwaltung"
 msgid "State"
 msgstr "Status"
 
-msgid "All"
-msgstr "Alle"
-
 msgid "Severity"
 msgstr "Gewichtung"
 
@@ -15119,18 +15917,45 @@ msgid "Discovery configuration"
 msgstr "Erkennungskonfiguration"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
-"Der reguläre Ausdruck, der zum Abgleich der entdeckten Dateien verwendet "
-"wird, ist zu komplex und die Auswertung dauert zu lange."
+"Komponentenerkennung abgebrochen, da das Repository zu viele Pfade enthält."
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
 msgstr ""
 "Der reguläre Ausdruck des Sprachfilters ist zu komplex und die Auswertung "
-"dauert zu lange."
+"hat zu lange gedauert."
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+"Der reguläre Ausdruck, der zum Abgleich der entdeckten Dateien verwendet "
+"wird, ist zu komplex und die Auswertung hat zu lange gedauert."
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+"Komponentenerkennung abgebrochen, da die Suche nach passenden "
+"Übersetzungsdateien zu viele Vergleiche erfordern würde."
+
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr ""
+"Die für die Erkennung verwendete Dateimaske ist zu komplex, und die "
+"Auswertung hat zu lange gedauert."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
+"Mehrere Basis- oder neue Basisdateien werden in dieselbe Dateimaske "
+"gerendert: %(mask)s (%(existing)s und %(new)s)."
 
 msgid "File mask matches the main component."
 msgstr "Dateimaske entspricht der Hauptkomponente."
@@ -15162,6 +15987,15 @@ msgstr "Liste der letzten mit Weblate vorgenommenen Änderungen in %s."
 
 msgid "Sort JSON keys"
 msgstr "Nach JSON-Schlüssel sortieren"
+
+msgid "Do not sort"
+msgstr "Nicht sortieren"
+
+msgid "Case-sensitive sort"
+msgstr "Groß-/Kleinschreibung beachten"
+
+msgid "Case-insensitive sort"
+msgstr "Groß-/Kleinschreibung nicht beachten"
 
 msgid "JSON indentation"
 msgstr "JSON-Einrückung"
@@ -15198,6 +16032,23 @@ msgstr ""
 "Standardmäßig bricht gettext Zeilen mit 77 Zeichen und bei Zeilenvorschüben "
 "um. Mit dem Parameter --no-wrap wird der Umbruch nur bei Zeilenvorschub "
 "durchgeführt."
+
+msgid "Contributor comments"
+msgstr "Kommentare des Mitwirkenden"
+
+msgid "Gettext"
+msgstr "Gettext"
+
+msgid "SPDX"
+msgstr "SPDX"
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+"Fügt Namen und Jahre der Mitwirkenden zu den Header-Kommentaren hinzu. SPDX "
+"wandelt außerdem vorhandene erkannte Kommentare von Mitwirkenden in SPDX-"
+"FileCopyrightText-Einträge um."
 
 msgid "Keep previous msgids of translated strings"
 msgstr "Vorherige msgids der übersetzten Zeichenketten beibehalten"
@@ -15424,7 +16275,7 @@ msgid "Strings with source comments"
 msgstr "Zeichenketten mit Kommentaren zur Ausgangszeichenkette"
 
 msgid "Translated strings with any failing checks"
-msgstr "Übersetzte Zeichenketten mit eventuellen Qualitätsmängeln"
+msgstr "Übersetzte Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen"
 
 msgid "Translated strings with dismissed checks"
 msgstr "Übersetzte Zeichenketten mit verworfenen Qualitätsprüfungen"
@@ -15513,6 +16364,13 @@ msgstr ""
 "Die Zeichenkette, die Sie übersetzen wollten, ist nicht mehr verfügbar."
 
 msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr ""
+"Die Zeichenkette, die Sie übersetzen wollten, konnte nicht identifiziert "
+"werden. Bitte erneut öffnen und noch einmal versuchen."
+
+msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
@@ -15529,10 +16387,7 @@ msgstr ""
 "verdeutlichen."
 
 msgid "Source string explanation"
-msgstr "Erklärung der Quellzeichenkette"
-
-msgid "Translation explanation"
-msgstr "Übersetzungserklärung"
+msgstr "Erklärung zur Ausgangszeichenkette"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -15595,30 +16450,44 @@ msgstr "Die zusammengeführte Zeichenkette konnte nicht gefunden werden."
 msgid "Could not find the reverted change."
 msgstr "Die rückgängig gemachte Änderung konnte nicht gefunden werden."
 
+msgid "Enter a source component ID."
+msgstr "Geben Sie eine Ausgangskomponenten-ID ein."
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"Den Slug einer Komponente eingeben, die als Quelle verwendet werden soll. "
-"Das Feld leer lassen, um alle Komponenten im aktuellen Projekt zu verwenden."
+"Bei {count} oder mehr geeigneten Ausgangskomponenten wird auch ein Projekt-/"
+"Komponentenpfad angenommen. In diesem Fall nehmen Komponenten- und "
+"Projektoperationen auch einen Komponenten-Slug aus dem Zielprojekt an."
 
 msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
+"Leave blank to use eligible components from each target component's project."
 msgstr ""
-"Den Slug des Projekts und der Komponente oder die Komponenten-ID eingeben, "
-"die als Quelle verwendet werden soll. Das Feld leer lassen, um alle "
-"Komponenten im aktuellen Projekt zu verwenden."
+"Leer lassen, um geeignete Komponenten aus dem jeweiligen Projekt der "
+"Zielkomponente zu verwenden."
 
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
+msgid "Leave blank to use eligible components in the current workspace."
 msgstr ""
-"Den Beitrag zum gemeinsamen Übersetzungsspeicher für das Projekt aktivieren, "
-"um Zugriff auf zusätzliche Komponenten zu erhalten."
+"Leer lassen, um geeignete Komponenten im aktuellen Arbeitsbereich zu "
+"verwenden."
 
 msgid "Automatic translation mode"
 msgstr "Automatischer Übersetzungsmodus"
+
+msgid "Add as suggestion"
+msgstr "Als Vorschlag hinzufügen"
+
+msgid "Add as translation"
+msgstr "Als Übersetzung hinzufügen"
+
+msgid "Add as \"Needing edit\""
+msgstr "Hinzufügen als „Bearbeitungsbedürftig“"
+
+msgid "Add as approved translation"
+msgstr "Als genehmigte Übersetzung hinzufügen"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -15642,23 +16511,24 @@ msgstr "Maschinelle Übersetzungssysteme"
 msgid "Score threshold"
 msgstr "Schwellenwert"
 
-msgid "All components in current workspace"
-msgstr "Alle Komponenten im aktuellen Arbeitsbereich"
+msgid "All eligible components in current workspace"
+msgstr "Alle zulässigen Komponenten im aktuellen Arbeitsbereich"
 
-msgid "All components in current project"
-msgstr "Alle Komponenten im aktuellen Projekt"
+msgid "All eligible components in current project"
+msgstr "Alle geeigneten Komponenten im aktuellen Projekt"
 
-msgid "Add as suggestion"
-msgstr "Als Vorschlag hinzufügen"
+msgid "Eligible components from each target component's project"
+msgstr "Geeignete Komponenten aus dem Projekt jeder Zielkomponente"
 
-msgid "Add as translation"
-msgstr "Als Übersetzung hinzufügen"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
+"Sie können auch einen Komponenten-Slug aus dem aktuellen Projekt oder einen "
+"Projekt-/Komponentenpfad eingeben."
 
-msgid "Add as \"Needing edit\""
-msgstr "Hinzufügen als „Bearbeitungsbedürftig“"
-
-msgid "Add as approved translation"
-msgstr "Als genehmigte Übersetzung hinzufügen"
+msgid "You can also enter a project/component path."
+msgstr "Sie können auch einen Projekt-/Komponenten-Pfad eingeben."
 
 msgid "Component not found!"
 msgstr "Komponente nicht gefunden!"
@@ -15844,6 +16714,11 @@ msgstr "Konfiguration manuell festlegen"
 
 msgid "The category does not belong to the selected project."
 msgstr "Die Kategorie gehört nicht zu dem ausgewählten Projekt."
+
+msgid "You do not have permission to change project access settings."
+msgstr ""
+"Sie haben keine Berechtigung, die Zugriffseinstellungen des Projekts zu "
+"ändern."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -16105,6 +16980,12 @@ msgstr "Auf die URL für die Übersetzungsanweisungen verweisen"
 msgid "Create new language file"
 msgstr "Neue Sprachdatei erstellen"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+"Bestehende Projektsprachen erstellen; für neue Sprachen die Betreuer "
+"kontaktieren"
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "Hinzufügen neuer Übersetzungen deaktivieren"
@@ -16162,6 +17043,16 @@ msgid ""
 msgstr ""
 "Komponente %(component)s wurde übersprungen, da das verlinkte Repository "
 "nicht verfügbar ist."
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+"Ermöglicht anonymen Zugriff auf die Beteiligungsseiten und Status-Widgets "
+"für private und benutzerdefinierte Projekte."
+
+msgid "Public sharing"
+msgstr "Öffentliche Freigabe"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -17118,7 +18009,7 @@ msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
-"Ihrer Push-URL scheinen Anmeldeinformationen zu fehlen. Geben Sie diese "
+"In Ihrer Push-URL scheinen die Zugangsdaten zu fehlen. Geben Sie diese "
 "entweder in der URL an oder verwenden Sie SSH mit schlüsselbasierter "
 "Authentifizierung."
 
@@ -17198,7 +18089,8 @@ msgstr ""
 
 msgid "The regular expression is too complex and took too long to evaluate."
 msgstr ""
-"Der reguläre Ausdruck ist zu komplex und die Auswertung dauert zu lange."
+"Der reguläre Ausdruck ist zu komplex und die Auswertung hat zu lange "
+"gedauert."
 
 msgid "Could not add new translation file."
 msgstr "Eine neue Übersetzungsdatei konnte nicht hinzugefügt werden."
@@ -17346,7 +18238,7 @@ msgid "Requires dedicated reviewers to approve translations."
 msgstr "Benötigt dedizierte Prüfer, um Übersetzungen zu genehmigen."
 
 msgid "Enable source reviews"
-msgstr "Quellenüberprüfung aktivieren"
+msgstr "Quellenüberprüfungen aktivieren"
 
 msgid "Requires dedicated reviewers to approve source strings."
 msgstr "Benötigt dedizierte Prüfer, um Ausgangszeichenketten zu genehmigen."
@@ -17453,9 +18345,12 @@ msgstr ""
 "Als bearbeitungsbedürftig markierte Übersetzungen werden nicht in die "
 "Übersetzungsdatei geschrieben."
 
-msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr ""
-"Nur genehmigte Übersetzungen werden in die Übersetzungsdatei geschrieben."
+"Bei Sprachen, für die Überprüfungen aktiviert sind, werden nur genehmigte "
+"Übersetzungen in die Übersetzungsdatei geschrieben."
 
 msgid "Could not accept suggestion!"
 msgstr "Der Übersetzungsvorschlag wurde nicht angenommen!"
@@ -17653,6 +18548,27 @@ msgstr "Geviertstrich"
 msgid "User configured character: {}"
 msgstr "Benutzerdefinierter Charakter: {}"
 
+msgid "Repository operation could not be completed because it remained locked."
+msgstr ""
+"Repository-Operation konnte nicht abgeschlossen werden, da das Repository "
+"weiterhin gesperrt war."
+
+msgid "Repository operation could not be completed."
+msgstr "Repository-Operation konnte nicht abgeschlossen werden."
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+"Repository-Operation konnte nicht abgeschlossen werden, da der Zugriff nicht "
+"mehr zulässig ist."
+
+msgid "Repository operation completed."
+msgstr "Repository-Operation abgeschlossen."
+
+msgid "Repository operation completed with errors."
+msgstr "Repository-Operation mit Fehlern abgeschlossen."
+
 msgid "No suggestions found."
 msgstr "Keine Vorschläge gefunden."
 
@@ -17750,6 +18666,32 @@ msgstr[1] "%(count)s Zeichenketten werden hier nicht übersetzt."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Geteilt aus dem %s Projekt."
+
+msgid "Project settings"
+msgstr "Projekteinstellungen"
+
+msgid "Site-wide language customization"
+msgstr "Plattformweite Sprachanpassung"
+
+msgid "Project-language customization"
+msgstr "Anpassung der Projektsprache"
+
+msgid "Only approved translations are written to the translation file."
+msgstr ""
+"Nur genehmigte Übersetzungen werden in die Übersetzungsdatei geschrieben."
+
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr ""
+"Alle Übersetzungsstatus, einschließlich derer die bearbeitungsbedürftig "
+"sind, können in die Übersetzungsdatei geschrieben werden."
+
+msgid "Configure source reviews"
+msgstr "Quellenüberprüfungen konfigurieren"
+
+msgid "Configure translation reviews"
+msgstr "Übersetzungsüberprüfungen konfigurieren"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -18107,6 +19049,13 @@ msgstr[1] ""
 "Die Übersetzung wurde gespeichert, aber es gibt einige neue Prüfungen, die "
 "nicht bestanden wurden: {checks}"
 
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
+"Ihre vorherigen Suchergebnisse sind nicht mehr verfügbar. Die Ergebnisse "
+"wurden aktualisiert."
+
 msgid "Your suggestion is empty!"
 msgstr "Ihr Vorschlag ist leer!"
 
@@ -18196,6 +19145,9 @@ msgstr ""
 "Verwenden Sie die Schaltfläche auf der Repository-Statusseite, um diese "
 "Aktion auszuführen."
 
+msgid "Another repository operation is already in progress."
+msgstr "Eine weitere Repository-Operation wird bereits durchgeführt."
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
@@ -18203,55 +19155,11 @@ msgstr ""
 "Es scheint eine laufende Operation im Repository zu geben. Bitte später "
 "erneut versuchen."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-"Alle Repositorys wurden aktualisiert, die Übersetzungen werden derzeit "
-"aktualisiert."
+msgid "This repository operation is already queued."
+msgstr "Diese Repository-Operation befindet sich bereits in der Warteschlange."
 
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr ""
-"Zugängliche Repositorys wurden aktualisiert, die Übersetzungen werden "
-"derzeit aktualisiert."
-
-msgid "All repositories were pushed."
-msgstr "Alle Repositorys wurden gepusht."
-
-msgid "Accessible repositories were pushed."
-msgstr "Zugängliche Repositorys wurden gepusht."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-"Alle Repositorys wurden zurückgesetzt, die Übersetzungen werden derzeit "
-"aktualisiert."
-
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr ""
-"Zugängliche Repositorys wurden zurückgesetzt, die Übersetzungen werden "
-"derzeit aktualisiert."
-
-msgid "All repositories have been cleaned up."
-msgstr "Alle Repositorys wurden bereinigt."
-
-msgid "Accessible repositories have been cleaned up."
-msgstr "Zugängliche Repositorys wurden bereinigt."
-
-msgid "Translation files have been synchronized."
-msgstr "Übersetzungsdateien wurden synchronisiert."
-
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Übersetzungsdateien in zugänglichen Repositorys wurden synchronisiert."
-
-msgid "Updates of translations are in progress."
-msgstr "Übersetzungen werden derzeit aktualisiert."
-
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "Übersetzungen in zugänglichen Repositorys werden derzeit aktualisiert."
+msgid "Repository operation has been queued."
+msgstr "Repository-Operation wurde in die Warteschlange gestellt."
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "Doppelte Zeichenketten wurden aus der Übersetzungsdatei entfernt."
@@ -18262,15 +19170,6 @@ msgstr ""
 
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Veraltete Zeichenketten wurden aus der Übersetzungsdatei entfernt."
-
-msgid "Pending translations are being committed."
-msgstr "Ausstehende Übersetzungen werden committet."
-
-msgid "All pending translations were committed."
-msgstr "Alle ausstehenden Übersetzungen wurden committet."
-
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Ausstehende Übersetzungen in zugänglichen Repositorys werden committet."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Komponente ist nun für Übersetzungen und deren Änderungen gesperrt!"
@@ -18438,6 +19337,14 @@ msgstr "Panel"
 #. Translators: Text on OpenGraph image
 msgid "Project {}"
 msgstr "Projekt {}"
+
+#. Translators: Text on OpenGraph image
+msgid "Category {}"
+msgstr "Kategorie {}"
+
+#. Translators: Text on OpenGraph image
+msgid "Workspace {}"
+msgstr "Arbeitsbereich {}"
 
 #. Translators: Text on OpenGraph image
 msgid "Component {}"
@@ -19278,6 +20185,12 @@ msgstr "Dadurch werden die Änderungen in das Upstream-Repository gepusht."
 msgid "Enter a valid GitHub host."
 msgstr "Geben Sie einen gültigen GitHub-Host ein."
 
+msgid "Components to migrate"
+msgstr "Zu migrierende Komponenten"
+
+msgid "Select at least one component to migrate."
+msgstr "Mindestens eine zu migrierende Komponente auswählen."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -19618,9 +20531,48 @@ msgstr ""
 "Erstellen Sie einen Arbeitsbereich, bevor Sie ein GitHub-Konto verbinden. "
 "GitHub-App-Verbindungen sind mit Arbeitsbereichen verlinkt."
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+"GitHub konnte das verbundene Konto nicht deinstallieren. Die Verbindung "
+"wurde nicht aus Weblate entfernt, bitte erneut versuchen."
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
-msgstr "Verbundenes GitHub-Konto %(target)s entfernt."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+"Das verbundene GitHub-Konto %(target)s wurde entfernt. Die Weblate-GitHub-"
+"App bleibt installiert, da ein anderer Arbeitsbereich sie weiterhin nutzt."
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+"Das verbundene GitHub-Konto %(target)s wurde entfernt und die Weblate GitHub-"
+"App auf GitHub deinstalliert."
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+"Das verbundene GitHub-Konto %(target)s wurde entfernt. GitHub gewährt keinen "
+"Zugriff mehr auf diese Installation, daher wurde sie nicht deinstalliert. "
+"Prüfen Sie auf GitHub, ob die Weblate-GitHub-App noch installiert ist."
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
+msgstr ""
+"Das verbundene GitHub-Konto %(target)s wurde entfernt. Da die Weblate-GitHub-"
+"App auf dieser Weblate-Instanz nicht mehr konfiguriert ist, konnte sie nicht "
+"deinstalliert werden. Bitte entfernen Sie sie manuell auf GitHub."
 
 #, python-format
 msgid ""
@@ -19705,6 +20657,29 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Verbundenes GitHub-Konto hinzugefügt."
 
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] "Eine Komponente wurde zur Weblate-GitHub-App migriert."
+msgstr[1] "%(count)d Komponenten wurden zur Weblate-GitHub-App migriert."
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+"Eine Komponente wurde nicht migriert, da ihr Repository nicht mehr verfügbar "
+"ist."
+msgstr[1] ""
+"%(count)d Komponenten wurden nicht migriert, da ihre Repository nicht mehr "
+"verfügbar sind."
+
+#, python-format
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "%(component)s konnte nicht migriert werden: %(error)s"
+
 msgid "Enter a valid GitHub App name and host."
 msgstr "Geben Sie einen gültigen GitHub-App-Namen und -Host ein."
 
@@ -19775,14 +20750,17 @@ msgstr "Schriftart der Seite"
 msgid "Header font"
 msgstr "Schriftart der Kopfzeile"
 
-msgid "Navigation color (Light, Dark)"
-msgstr "Navigationsfarbe (Hell, Dunkel)"
+msgid "Header color (Light, Dark)"
+msgstr "Kopfzeilenfarbe (Hell, Dunkel)"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr "Navigationstextfarbe (Hell, Dunkel)"
+msgid "Header text color (Light, Dark)"
+msgstr "Kopfzeilen-Textfarbe (Hell, Dunkel)"
 
-msgid "Focus color (Light, Dark)"
-msgstr "Fokusfarbe (Hell, Dunkel)"
+msgid "Accent color (Light, Dark)"
+msgstr "Akzentfarbe (Hell, Dunkel)"
+
+msgid "Header accent color (Light, Dark)"
+msgstr "Kopfzeilen-Akzentfarbe (Hell, Dunkel)"
 
 msgid "Hover color (Light, Dark)"
 msgstr "Farbe beim Darüberfahren (Hell, Dunkel)"
@@ -19879,7 +20857,6 @@ msgstr "Objektliste deaktiviert"
 msgid "Return to Weblate"
 msgstr "Zurück zu Weblate"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr "Dokumentation"
 
@@ -20057,6 +21034,220 @@ msgstr ""
 
 msgid "The workspace has been removed."
 msgstr "Der Arbeitsbereich wurde entfernt."
+
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Aktualisiert den Kommentarteil im Header der PO-Datei, um den Namen des "
+#~ "Mitwirkenden und das Datum des Beitrags aufzunehmen."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "Helfen Sie <strong>Weblate</strong> weiter zu gedeihen"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr ""
+#~ "Willkommen und vielen Dank, dass Sie sich für Weblate entschieden haben"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr ""
+#~ "die datenschutzfreundliche Lokalisierungsplattform, die sich den Open-"
+#~ "Source-Werten verpflichtet fühlt."
+
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "Auf einige Repositorys kann nicht zugegriffen werden"
+
+#~ msgid ""
+#~ "Each operation below excludes repositories unless you have the required "
+#~ "permission on every component sharing them."
+#~ msgstr ""
+#~ "Bei jedem der folgenden Vorgänge werden Repositorys ausgeschlossen, es "
+#~ "sei denn, Sie verfügen über die erforderlichen Berechtigungen für jede "
+#~ "Komponente, die diese Repositorys gemeinsam nutzt."
+
+#~ msgid "Skipped components:"
+#~ msgstr "Übersprungene Komponenten:"
+
+#~ msgid "Permission required on:"
+#~ msgstr "Erforderliche Berechtigung für:"
+
+#~ msgid ""
+#~ "A repository was skipped because one or more of its components are not "
+#~ "accessible."
+#~ msgstr ""
+#~ "Ein Repository wurde übersprungen, da auf eine oder mehrere seiner "
+#~ "Komponenten nicht zugegriffen werden kann."
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr ""
+#~ "Weblate bleibt zwar für alle Benutzer kostenlos, doch seine "
+#~ "Weiterentwicklung erfordert kontinuierliche Investitionen."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "Ihre Privatsphäre hat für uns oberste Priorität; wir schalten niemals "
+#~ "Werbung und verkaufen Ihre Daten nicht."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "Die unschätzbare Unterstützung der Community durch Abonnements und "
+#~ "Spenden sorgt dafür, dass Weblate weiter wächst und gedeiht."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr ""
+#~ "Gestalten Sie gemeinsam mit uns die Zukunft der Lokalisierung und tragen "
+#~ "Sie noch heute dazu bei!"
+
+#~ msgid "Download reports"
+#~ msgstr "Berichte herunterladen"
+
+#~ msgid "DeepL API v1 is no longer supported."
+#~ msgstr "DeepL-API v1 wird nicht mehr unterstützt."
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Haiku 4.5"
+#~ msgstr "Claude Haiku 4.5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Sonnet 5"
+#~ msgstr "Claude Sonnet 5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 5"
+#~ msgstr "Claude Opus 5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5.1"
+#~ msgstr "Claude Fable 5.1"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 4.8"
+#~ msgstr "Claude Opus 4.8"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5"
+#~ msgstr "Claude Fable 5"
+
+#~ msgid "Suggested change"
+#~ msgstr "Vorgeschlagene Änderung"
+
+#~ msgid "Origin"
+#~ msgstr "Ursprung"
+
+#~ msgid "Similarity"
+#~ msgstr "Ähnlichkeit"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr ""
+#~ "Den Slug einer Komponente eingeben, die als Quelle verwendet werden soll. "
+#~ "Das Feld leer lassen, um alle Komponenten im aktuellen Projekt zu "
+#~ "verwenden."
+
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "Den Slug des Projekts und der Komponente oder die Komponenten-ID "
+#~ "eingeben, die als Quelle verwendet werden soll. Das Feld leer lassen, um "
+#~ "alle Komponenten im aktuellen Projekt zu verwenden."
+
+#~ msgid ""
+#~ "Turn on contribution to shared translation memory for the project to get "
+#~ "access to additional components."
+#~ msgstr ""
+#~ "Den Beitrag zum gemeinsamen Übersetzungsspeicher für das Projekt "
+#~ "aktivieren, um Zugriff auf zusätzliche Komponenten zu erhalten."
+
+#~ msgid "Navigation color (Light, Dark)"
+#~ msgstr "Navigationsfarbe (Hell, Dunkel)"
+
+#~ msgid "Navigation text color (Light, Dark)"
+#~ msgstr "Navigationstextfarbe (Hell, Dunkel)"
+
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr ""
+#~ "Der reguläre Ausdruck muss benannte Gruppen für Komponente und Sprache "
+#~ "definieren."
+
+#~ msgid ""
+#~ "The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
+#~ "separately if you no longer need it."
+#~ msgstr ""
+#~ "Die Weblate-GitHub-App bleibt auf GitHub installiert. Entfernen Sie sie "
+#~ "dort separat, wenn Sie sie nicht mehr benötigen."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Alle Repositorys wurden aktualisiert, die Übersetzungen werden derzeit "
+#~ "aktualisiert."
+
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Zugängliche Repositorys wurden aktualisiert, die Übersetzungen werden "
+#~ "derzeit aktualisiert."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "Alle Repositorys wurden gepusht."
+
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Zugängliche Repositorys wurden gepusht."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr ""
+#~ "Alle Repositorys wurden zurückgesetzt, die Übersetzungen werden derzeit "
+#~ "aktualisiert."
+
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Zugängliche Repositorys wurden zurückgesetzt, die Übersetzungen werden "
+#~ "derzeit aktualisiert."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "Alle Repositorys wurden bereinigt."
+
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Zugängliche Repositorys wurden bereinigt."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Übersetzungsdateien wurden synchronisiert."
+
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr ""
+#~ "Übersetzungsdateien in zugänglichen Repositorys wurden synchronisiert."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "Übersetzungen werden derzeit aktualisiert."
+
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr ""
+#~ "Übersetzungen in zugänglichen Repositorys werden derzeit aktualisiert."
+
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Ausstehende Übersetzungen werden committet."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "Alle ausstehenden Übersetzungen wurden committet."
+
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr ""
+#~ "Ausstehende Übersetzungen in zugänglichen Repositorys werden committet."
 
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
@@ -20415,9 +21606,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid "View all alerts"
 #~ msgstr "Alle Warnungen anzeigen"
 
-#~ msgid "Component alerts"
-#~ msgstr "Komponentenwarnungen"
-
 #~ msgid "Automatically recognize"
 #~ msgstr "Automatisch erkennen"
 
@@ -20441,11 +21629,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Arbeitsablauf-Anpassung"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr ""
-#~ "Das Repository konnte nicht gesperrt werden, ein anderer Vorgang wird "
-#~ "durchgeführt."
 
 #~ msgid "Add team"
 #~ msgstr "Team hinzufügen"
@@ -20835,9 +22018,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid "Weblate community"
 #~ msgstr "Weblate-Community"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Zu Weblate beitragen"
-
 #~ msgid "Weblate website"
 #~ msgstr "Weblate-Website"
 
@@ -20996,9 +22176,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Variables Zeichenkettensuffix"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "An Weblate spenden"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -21407,9 +22584,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "Could not find matching project!"
 #~ msgstr "Es konnte kein passendes Projekt gefunden werden!"
-
-#~ msgid "Could not find matching language!"
-#~ msgstr "Es konnte keine passende Sprache gefunden werden!"
 
 #~ msgid "XLIFF with gettext extensions"
 #~ msgstr "XLIFF mit Gettext-Erweiterungen"
@@ -22135,9 +23309,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid "Export glossary"
 #~ msgstr "Glossar exportieren"
 
-#~ msgid "There are no glossaries defined for this language."
-#~ msgstr "Für diese Sprache sind keine Glossare definiert."
-
 #~ msgid "Failed to change a context!"
 #~ msgstr "Fehler beim Ändern eines Kontexts!"
 
@@ -22267,11 +23438,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~| msgid "Last 30 days"
 #~ msgid "last for 14 days."
 #~ msgstr "Letzten 30 Tage"
-
-#, fuzzy
-#~| msgid "Public"
-#~ msgid "Public email"
-#~ msgstr "Öffentlich"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL des Quellcode-Repositories, zum Beispiel Git oder Mercurial."
@@ -22429,9 +23595,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid "Insufficient privileges for editing template."
 #~ msgstr "Unzureichende Rechte, um Übersetzungen zu speichern."
 
-#~ msgid "Context:"
-#~ msgstr "Kontext:"
-
 #~ msgid "Translation memory for the whole platform"
 #~ msgstr "Übersetzungsspeicher für die gesamte Plattform"
 
@@ -22487,9 +23650,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgstr ""
 #~ "Wenn deaktiviert, werden URLs zu Links umgewandelt und jedes 'Markup' "
 #~ "übergangen."
-
-#~ msgid "Administered projects"
-#~ msgstr "Verwaltete Projekte"
 
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "Gruppen hinzufügen (auf der gesamten Plattform)"
@@ -23260,9 +24420,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ "Um Weblate auf diesem Demo-Server zu testen, können Sie sich als "
 #~ "folgender Benutzer anmelden:"
 
-#~ msgid "Hidden"
-#~ msgstr "Verborgen"
-
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Auf dieser Webseite läuft ein %(weblate_name_link)s Demo-Server."
 
@@ -23293,9 +24450,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "Notification on merge failure"
 #~ msgstr "Benachrichtigung bei Merge-Konflikt"
-
-#~ msgid "Notification on new language request"
-#~ msgstr "Benachrichtigung bei einer neuen Sprachanforderung"
 
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "
@@ -23800,14 +24954,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "Summary of languages"
 #~ msgstr "Übersicht der Sprachen"
-
-#~ msgid ""
-#~ "This page is based on the Terms of Service, you should still read the "
-#~ "original document to fully understand them."
-#~ msgstr ""
-#~ "Diese Seite basiert auf den Nutzungsbedingungen. Sie sollten das "
-#~ "Originaldokument aufmerksam lesen, um die Nutzungsbedingungen vollständig "
-#~ "verstehen zu können."
 
 #~ msgid "Indexing offloading processing"
 #~ msgstr "Indizieren auslagern wird ausgeführt"
@@ -25279,11 +26425,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgstr "Git-Paketquelle mit Weblate-Übersetzungen:"
 
 #, fuzzy
-#~| msgid "Mismatched \\n"
-#~ msgid "Watched"
-#~ msgstr "Geänderte Anzahl \\n"
-
-#, fuzzy
 #~| msgid "Invalid link to a Weblate project, can not link to self!"
 #~ msgid ""
 #~ "Invalid link to a Weblate project, Invalid link to a Weblate project, can "
@@ -25399,10 +26540,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ "Durch die Registrierung stimmen Sie zu, dass Ihr Name und Ihre E-Mail-"
 #~ "Adresse in Git-Commits verwendet werden und Ihre Beiträge unter derselben "
 #~ "Lizenz wie das zu übersetzenden Projekt lizenziert werden."
-
-#~ msgid "Subproject is now open for translation updates."
-#~ msgstr ""
-#~ "Das Unterprojekt kann nun Übersetzungen und deren Änderungen annehmen."
 
 #~ msgid "+1 vote"
 #~ msgstr "+1 Stimme"
@@ -25601,9 +26738,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgstr ""
 #~ "Es gibt %(words)s Wörter, davon sind %(percent)s&#37; (%(translated)s) "
 #~ "übersetzt."
-
-#~ msgid "Invalid text direction"
-#~ msgstr "Ungültige Leserichtung"
 
 #~ msgid "Text direction can be either LTR or RTL"
 #~ msgstr "Leserichtung kann entweder LTR oder RTL sein"

@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
@@ -11,7 +13,11 @@ from django.utils import timezone
 
 from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.tasks import run_backup_preparation
 from weblate.wladmin.models import BackupService, SupportStatus
+
+if TYPE_CHECKING:
+    from celery import Celery
 
 
 def run_backup_service(service: BackupService) -> bool:
@@ -33,10 +39,18 @@ def support_status_update() -> None:
         support.save()
 
 
-@app.task(trail=False)
-def backup() -> None:
-    for service in BackupService.objects.filter(enabled=True):
-        backup_service.delay(service.pk)
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
+def backup(service_ids: list[int] | None = None) -> None:
+    if service_ids is None:
+        service_ids = list(
+            BackupService.objects.filter(enabled=True)
+            .order_by("pk")
+            .values_list("pk", flat=True)
+        )
+
+    run_backup_preparation(service_ids)
+    for service_id in service_ids:
+        backup_service.delay(service_id)
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
@@ -50,7 +64,7 @@ def backup_service(pk: int) -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     # Randomize this per site to avoid all instances hitting server at the same time
     minute_to_run = hash(settings.SITE_DOMAIN) % 1440
     sender.add_periodic_task(

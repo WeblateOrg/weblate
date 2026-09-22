@@ -4,12 +4,13 @@
 
 from __future__ import annotations
 
+import re
 from datetime import timedelta
 from typing import TYPE_CHECKING, ClassVar
 
 from django.utils import timezone
 
-from weblate.glossary.models import get_glossary_terms
+from weblate.glossary.models import get_glossary_terms, iter_glossary_alternatives
 
 from .base import (
     MACHINERY_DEFAULT_THRESHOLD,
@@ -22,6 +23,9 @@ from .forms import MicrosoftMachineryForm
 if TYPE_CHECKING:
     from datetime import datetime
 
+    import httpx2
+
+    from weblate.auth.models import User
     from weblate.checks.base import Highlight
     from weblate.trans.models import Unit
 
@@ -82,7 +86,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def get_url(self, suffix) -> str:
         return f"https://{self.settings['base_url']}/{suffix}"
 
-    def is_token_expired(self):
+    def is_token_expired(self) -> bool:
         """Check whether token is about to expire."""
         return self._token_expiry is None or self._token_expiry <= timezone.now()
 
@@ -114,7 +118,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             code = f"{lang}-{country}"
         return code
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = "utf-8-sig"
         super().check_failure(response)
@@ -150,11 +154,11 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
@@ -196,15 +200,29 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     def get_highlights(self, text, unit):
         result = list(super().get_highlights(text, unit))
 
-        for term in get_glossary_terms(unit, include_variants=False):
-            for start, end in term.glossary_positions:
+        for term in iter_glossary_alternatives(
+            get_glossary_terms(unit, include_variants=False)
+        ):
+            if "forbidden" in term.all_flags or not term.target:
+                continue
+            positions = term.glossary_positions
+            if unit.is_multivalue and text != unit.source:
+                pattern = re.escape(term.source)
+                if unit.translation.component.source_language.uses_whitespace():
+                    pattern = rf"(?<!\w){pattern}(?!\w)"
+                positions = tuple(
+                    match.span() for match in re.finditer(pattern, text, re.IGNORECASE)
+                )
+            for start, end in positions:
+                if text[start:end].lower() != term.source.lower():
+                    continue
                 glossary_highlight = (start, end, text[start:end], term)
                 handled = False
-                for i, (h_start, _h_end, _h_text, _h_kind) in enumerate(result):
+                for i, (h_start, h_end, _h_text, _h_kind) in enumerate(result):
+                    if start < h_end and h_start < end:
+                        # Skip as overlaps
+                        break
                     if start < h_start:
-                        if end > h_start:
-                            # Skip as overlaps
-                            break
                         # Insert before
                         result.insert(i, glossary_highlight)
                         handled = True

@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 from django.test.utils import modify_settings, override_settings
 from django.utils import timezone
@@ -19,6 +22,9 @@ from weblate.trans.models import Comment, Component, Project
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from weblate.auth.results import PermissionResult
 
 
 class PermissionsTest(FixtureComponentTestCase):
@@ -114,7 +120,12 @@ class PermissionsTest(FixtureComponentTestCase):
 
         self.assertFalse(self.user.has_perm("management.use"))
 
-        TOTPDevice.objects.create(user=self.user)
+        device = TOTPDevice.objects.create(user=self.user, confirmed=False)
+        user = User.objects.get(pk=self.user.pk)
+        self.assertFalse(user.has_perm("management.use"))
+
+        device.confirmed = True
+        device.save(update_fields=["confirmed"])
         user = User.objects.get(pk=self.user.pk)
 
         self.assertTrue(user.has_perm("management.use"))
@@ -148,6 +159,23 @@ class PermissionsTest(FixtureComponentTestCase):
 
         self.assertTrue(self.user.has_perm("workspace.edit", workspace))
         self.assertTrue(self.user.has_perm("reports.view", workspace))
+
+    def test_workspace_reports_permission_requires_project_2fa(self) -> None:
+        workspace = Workspace.objects.create(name="Workspace with enforced 2FA")
+        self.project.workspace = workspace
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["workspace", "enforced_2fa"])
+        workspace.add_owner(self.user)
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.superuser.has_perm("reports.view", workspace))
+        self.assertTrue(self.user.has_perm("workspace.edit", workspace))
+        self.assertFalse(self.user.has_perm("reports.view", workspace))
+
+        TOTPDevice.objects.create(user=self.user)
+        user = User.objects.get(pk=self.user.pk)
+
+        self.assertTrue(user.has_perm("reports.view", workspace))
 
     def test_reports_role_is_assignable_to_workspace_team(self) -> None:
         role = Role.objects.create(name="Workspace report viewer")
@@ -285,7 +313,9 @@ class PermissionsTest(FixtureComponentTestCase):
         self.component.save(update_fields=["restricted"])
         self.assertFalse(self.admin.has_perm("component.edit", self.component))
 
-    def assert_denied_reason(self, result, reason: str) -> None:
+    def assert_denied_reason(
+        self, result: bool | PermissionResult, reason: str
+    ) -> None:
         self.assertFalse(result)
         self.assertEqual(getattr(result, "reason", ""), reason)
 

@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
@@ -18,6 +21,10 @@ from weblate.utils.db import (
     re_escape,
 )
 
+if TYPE_CHECKING:
+    from unittest.mock import Mock
+
+
 BASE_SQL = 'SELECT "trans_unit"."id" FROM "trans_unit" WHERE '
 
 
@@ -28,7 +35,7 @@ class DbTest(TestCase):
 
     @patch("weblate.utils.db.connections")
     def test_adjust_similarity_threshold_applies_boundary_updates(
-        self, connections_mock
+        self, connections_mock: Mock
     ) -> None:
         cursor = MagicMock()
         cursor.__enter__.return_value = cursor
@@ -44,7 +51,7 @@ class DbTest(TestCase):
 
     @patch("weblate.utils.db.connections")
     def test_adjust_similarity_threshold_applies_nearby_updates(
-        self, connections_mock
+        self, connections_mock: Mock
     ) -> None:
         cursor = MagicMock()
         cursor.__enter__.return_value = cursor
@@ -59,7 +66,7 @@ class DbTest(TestCase):
         cursor.execute.assert_called_once_with("SELECT set_limit(%s)", [0.966])
 
     @patch("weblate.utils.db.connections")
-    def test_get_database_size_postgresql(self, connections_mock) -> None:
+    def test_get_database_size_postgresql(self, connections_mock: Mock) -> None:
         cursor = MagicMock()
         cursor.__enter__.return_value = cursor
         cursor.fetchone.return_value = [123456]
@@ -73,7 +80,7 @@ class DbTest(TestCase):
         )
 
     @patch("weblate.utils.db.connections")
-    def test_get_database_size_non_postgresql(self, connections_mock) -> None:
+    def test_get_database_size_non_postgresql(self, connections_mock: Mock) -> None:
         connection = MagicMock(vendor="sqlite")
         connections_mock.__getitem__.return_value = connection
 
@@ -81,7 +88,7 @@ class DbTest(TestCase):
         connection.cursor.assert_not_called()
 
     @patch("weblate.utils.db.connections")
-    def test_get_database_size_database_error(self, connections_mock) -> None:
+    def test_get_database_size_database_error(self, connections_mock: Mock) -> None:
         connection = MagicMock(vendor="postgresql")
         connection.cursor.side_effect = DatabaseError
         connections_mock.__getitem__.return_value = connection
@@ -89,7 +96,7 @@ class DbTest(TestCase):
         self.assertIsNone(get_database_size())
 
     @patch("weblate.utils.db.connections")
-    def test_get_invalid_database_statistics(self, connections_mock) -> None:
+    def test_get_invalid_database_statistics(self, connections_mock: Mock) -> None:
         cursor = MagicMock()
         cursor.__enter__.return_value = cursor
         cursor.fetchall.return_value = [
@@ -113,7 +120,7 @@ class DbTest(TestCase):
 
     @patch("weblate.utils.db.connections")
     def test_get_invalid_database_statistics_non_postgresql(
-        self, connections_mock
+        self, connections_mock: Mock
     ) -> None:
         connection = MagicMock(vendor="sqlite")
         connections_mock.__getitem__.return_value = connection
@@ -124,7 +131,7 @@ class DbTest(TestCase):
     @patch("weblate.utils.db.disk_usage", return_value="usage")
     @patch("weblate.utils.db.connections")
     def test_get_database_disk_usage_postgresql(
-        self, connections_mock, disk_usage_mock
+        self, connections_mock: Mock, disk_usage_mock: Mock
     ) -> None:
         cursor = MagicMock()
         cursor.__enter__.return_value = cursor
@@ -143,7 +150,7 @@ class DbTest(TestCase):
     @patch("weblate.utils.db.disk_usage")
     @patch("weblate.utils.db.connections")
     def test_get_database_disk_usage_remote_postgresql(
-        self, connections_mock, disk_usage_mock
+        self, connections_mock: Mock, disk_usage_mock: Mock
     ) -> None:
         connection = MagicMock(vendor="postgresql")
         connection.settings_dict = {"HOST": "database.example.com"}
@@ -156,7 +163,7 @@ class DbTest(TestCase):
     @patch("weblate.utils.db.disk_usage", side_effect=OSError)
     @patch("weblate.utils.db.connections")
     def test_get_database_disk_usage_error(
-        self, connections_mock, disk_usage_mock
+        self, connections_mock: Mock, disk_usage_mock: Mock
     ) -> None:
         cursor = MagicMock()
         cursor.__enter__.return_value = cursor

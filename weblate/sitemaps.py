@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from itertools import chain
 from typing import NoReturn
 
@@ -13,7 +15,7 @@ from weblate.utils.stats import prefetch_stats
 
 
 class PagesSitemap(Sitemap):
-    def items(self):
+    def items(self) -> tuple[tuple[str, float, str], ...]:
         return (
             ("/", 1.0, "daily"),
             ("/about/", 0.4, "weekly"),

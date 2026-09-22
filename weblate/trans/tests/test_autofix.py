@@ -4,6 +4,8 @@
 
 """Tests for automatic fixups."""
 
+from __future__ import annotations
+
 from django.test import TestCase
 
 from weblate.trans.autofixes import fix_target
@@ -21,6 +23,58 @@ from weblate.trans.tests.factories import make_unit, set_unit_flags, set_unit_so
 
 
 class AutoFixTest(TestCase):
+    def test_multivalue_conflicting_source_autofixes(self) -> None:
+        cases = (
+            (
+                SameBookendingWhitespace(),
+                [" app ", "application"],
+                ["aplikace", " program "],
+            ),
+            (
+                ReplaceTrailingDotsWithEllipsis(),
+                ["app…", "application"],
+                ["aplikace...", "program"],
+            ),
+            (
+                RemoveZeroSpace(),
+                ["app\u200b", "application"],
+                ["aplikace\u200b", "program"],
+            ),
+        )
+        for file_format in ("tbx", "csv-multi"):
+            for fix, sources, targets in cases:
+                for source_order in (sources, sources[::-1]):
+                    with self.subTest(
+                        file_format=file_format, fix=fix.fix_id, sources=source_order
+                    ):
+                        unit = make_unit(source=source_order)
+                        unit.translation.component.file_format = file_format
+                        self.assertEqual(
+                            fix.fix_target(targets, unit), (targets, False)
+                        )
+
+    def test_multivalue_unambiguous_autofixes(self) -> None:
+        for file_format in ("tbx", "csv-multi"):
+            for sources in ([" app "], [" app ", " application "]):
+                with self.subTest(file_format=file_format, sources=sources):
+                    unit = make_unit(source=sources)
+                    unit.translation.component.file_format = file_format
+                    self.assertEqual(
+                        SameBookendingWhitespace().fix_target(
+                            ["aplikace", "program"], unit
+                        ),
+                        ([" aplikace ", " program "], True),
+                    )
+
+    def test_multivalue_source_independent_autofixes(self) -> None:
+        for file_format in ("tbx", "csv-multi"):
+            with self.subTest(file_format=file_format):
+                unit = make_unit(source=[" app ", "application"])
+                unit.translation.component.file_format = file_format
+                fixed, fixes = fix_target(["aplikace\x1b", " program "], unit)
+                self.assertEqual(fixed, ["aplikace", " program "])
+                self.assertEqual([str(fix) for fix in fixes], ["Control characters"])
+
     def test_ellipsis(self) -> None:
         unit = make_unit(source="Foo…")
         fix = ReplaceTrailingDotsWithEllipsis()
@@ -98,6 +152,16 @@ class AutoFixTest(TestCase):
         self.assertEqual(
             fix.fix_target(["<https://weblate.org>"], unit),
             (["<https://weblate.org>"], False),
+        )
+
+    def test_html_mdx_void_element(self) -> None:
+        value = "Paragraph.<br />"
+        fix = BleachHTML()
+        unit = make_unit(source=value, flags="auto-safe-html,md-text,safe-mdx")
+        self.assertEqual(fix.fix_target([value], unit), ([value], False))
+        self.assertEqual(
+            fix.fix_target(["Paragraph.<br>"], unit),
+            ([value], True),
         )
 
     def test_auto_safe_html(self) -> None:

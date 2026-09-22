@@ -30,7 +30,7 @@ class _StubManager:
 class _StubView:
     @classmethod
     def as_view(cls, *_args, **_kwargs):
-        def view(*_args, **_kwargs):
+        def view(*_args, **_kwargs) -> None:
             return None
 
         return view

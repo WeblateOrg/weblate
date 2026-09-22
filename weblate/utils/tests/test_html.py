@@ -8,14 +8,19 @@ from django.test import SimpleTestCase
 
 from weblate.checks.flags import Flags
 from weblate.utils.html import (
+    AUTO_SAFE_HTML_VOID_TAGS,
     HTML2Text,
     HTMLAttribute,
     HTMLSanitizer,
     extract_html_attributes,
     extract_html_tags,
     is_auto_safe_html_source,
+    iter_markdown_autolinks,
+    iter_markdown_code_spans,
+    iter_markdown_syntax,
     list_to_tuples,
     mail_quote_value,
+    serialize_mdx_void_elements,
 )
 
 
@@ -32,6 +37,108 @@ class HTMLSanitizerTestCase(SimpleTestCase):
             self.sanitize("<style>translation</style>", "<style>text</style>"),
             "<style>translation</style>",
         )
+
+    def test_clean_mdx_void_element(self) -> None:
+        value = 'Paragraph.<br /><img src="test.png" onerror="alert(1)" />'
+        self.assertEqual(
+            self.sanitize(
+                value,
+                'Paragraph.<br /><img src="test.png" />',
+                "safe-mdx",
+            ),
+            'Paragraph.<br /><img src="test.png" />',
+        )
+
+    def test_clean_html_void_element(self) -> None:
+        self.assertEqual(
+            self.sanitize("Paragraph.<br />", "Paragraph.<br />"),
+            "Paragraph.<br>",
+        )
+
+    def test_serialize_mdx_void_elements(self) -> None:
+        for tag in AUTO_SAFE_HTML_VOID_TAGS:
+            with self.subTest(tag=tag):
+                self.assertEqual(
+                    serialize_mdx_void_elements(f'<{tag} title="test">'),
+                    f'<{tag} title="test" />',
+                )
+
+
+class MarkdownSyntaxTestCase(SimpleTestCase):
+    def test_code_spans(self) -> None:
+        text = "`one` ``two ` inner`` ```three\nlines```"
+        self.assertEqual(
+            [
+                (text[span.start : span.end], span.value)
+                for span in iter_markdown_code_spans(text)
+            ],
+            [
+                ("`one`", "`"),
+                ("``two ` inner``", "``"),
+                ("```three\nlines```", "```"),
+            ],
+        )
+
+    def test_unmatched_code_spans(self) -> None:
+        text = "```a` and ``b``"
+        self.assertEqual(
+            [text[span.start : span.end] for span in iter_markdown_code_spans(text)],
+            ["``b``"],
+        )
+
+    def test_escaped_code_span(self) -> None:
+        text = r"\` `code` {expression} `"
+        self.assertEqual(
+            [text[span.start : span.end] for span in iter_markdown_code_spans(text)],
+            ["`code`"],
+        )
+
+    def test_escaped_code_span_closer(self) -> None:
+        text = r"`code\`"
+        self.assertEqual(
+            [text[span.start : span.end] for span in iter_markdown_code_spans(text)],
+            [text],
+        )
+
+    def test_partially_escaped_code_span(self) -> None:
+        text = r"\``{expression}`"
+        self.assertEqual(
+            [text[span.start : span.end] for span in iter_markdown_code_spans(text)],
+            ["`{expression}`"],
+        )
+
+    def test_autolinks(self) -> None:
+        text = "See <https://example.com/path> and <noreply@example.com>."
+        self.assertEqual(
+            [text[span.start : span.end] for span in iter_markdown_autolinks(text)],
+            ["<https://example.com/path>", "<noreply@example.com>"],
+        )
+
+    def test_code_spans_are_opaque(self) -> None:
+        text = "**before `*literal*` after**"
+        self.assertEqual(
+            [syntax.value for syntax in iter_markdown_syntax(text)],
+            ["**", "`"],
+        )
+
+    def test_code_spans_in_autolinks(self) -> None:
+        text = "<https://example.com/`path`>"
+        self.assertEqual(
+            [syntax.value for syntax in iter_markdown_syntax(text)],
+            ["<"],
+        )
+
+    def test_incomplete_autolinks(self) -> None:
+        text = "<a@b." * 20_000
+        self.assertEqual(list(iter_markdown_autolinks(text)), [])
+        self.assertEqual(list(iter_markdown_syntax(text)), [])
+
+    def test_incomplete_code_span(self) -> None:
+        for length in (400, 800, 1600, 100_000):
+            with self.subTest(length=length):
+                text = "`" * length + "X"
+                self.assertEqual(list(iter_markdown_code_spans(text)), [])
+                self.assertEqual(list(iter_markdown_syntax(text)), [])
 
 
 class HtmlTestCase(SimpleTestCase):

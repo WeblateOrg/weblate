@@ -62,7 +62,7 @@ class TestGitHubAppHooks(ViewTestCase):
     WEBHOOK_URL = _integration_url(GITHUB_COM_TOKEN)
     LEGACY_WEBHOOK_URL = "/hooks/github/"
 
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         # Webhook endpoints are unauthenticated; use a plain API client.
         self.client = APIClient()
@@ -91,7 +91,7 @@ class TestGitHubAppHooks(ViewTestCase):
         defaults.update(overrides)
         return GitHubInstallation.objects.create(**defaults)
 
-    def test_installation_deleted(self):
+    def test_installation_deleted(self) -> None:
         self._create_installation()
         data = {
             "action": "deleted",
@@ -103,7 +103,7 @@ class TestGitHubAppHooks(ViewTestCase):
             GitHubInstallation.objects.get(installation_id="12345").enabled
         )
 
-    def test_installation_suspended(self):
+    def test_installation_suspended(self) -> None:
         self._create_installation()
         data = {
             "action": "suspend",
@@ -115,7 +115,7 @@ class TestGitHubAppHooks(ViewTestCase):
             GitHubInstallation.objects.get(installation_id="12345").enabled
         )
 
-    def test_installation_unsuspended(self):
+    def test_installation_unsuspended(self) -> None:
         self._create_installation(enabled=False)
         data = {
             "action": "unsuspend",
@@ -126,7 +126,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
     @http_mock.activate
-    def test_installation_created_syncs_existing_row(self):
+    def test_installation_created_syncs_existing_row(self) -> None:
         """``created`` updates rows owned by the setup flow; never auto-creates."""
         cache.clear()
         self._create_installation(target_login="placeholder")
@@ -185,7 +185,7 @@ class TestGitHubAppHooks(ViewTestCase):
             [call.request.method for call in http_mock.calls], ["POST", "GET"]
         )
 
-    def test_installation_created_without_row_is_pending(self):
+    def test_installation_created_without_row_is_pending(self) -> None:
         """Without an authorized workspace row, the App webhook only stores metadata."""
         data = {
             "action": "created",
@@ -217,7 +217,7 @@ class TestGitHubAppHooks(ViewTestCase):
             },
         )
 
-    def test_installation_created_with_malformed_id_is_ignored(self):
+    def test_installation_created_with_malformed_id_is_ignored(self) -> None:
         data = {
             "action": "created",
             "installation": {
@@ -231,7 +231,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertFalse(GitHubInstallation.objects.exists())
         self.assertFalse(PendingInstallation.objects.exists())
 
-    def test_cleanup_pending_installations_task(self):
+    def test_cleanup_pending_installations_task(self) -> None:
         old = PendingInstallation.objects.create(
             provider=InstallationProvider.GITHUB,
             hostname="github.com",
@@ -255,7 +255,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertFalse(PendingInstallation.objects.filter(pk=old.pk).exists())
         self.assertTrue(PendingInstallation.objects.filter(pk=current.pk).exists())
 
-    def test_unknown_webhook_token_is_rejected(self):
+    def test_unknown_webhook_token_is_rejected(self) -> None:
         """A delivery to an unknown webhook token cannot be authenticated."""
         data = {
             "action": "created",
@@ -273,7 +273,7 @@ class TestGitHubAppHooks(ViewTestCase):
         )
         self.assertEqual(response.status_code, 403)
 
-    def test_repositories_added(self):
+    def test_repositories_added(self) -> None:
         installation = self._create_installation(
             repositories=[{"full_name": "test-org/existing"}]
         )
@@ -297,7 +297,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertIn("test-org/existing", names)
         self.assertIn("test-org/new-repo", names)
 
-    def test_repositories_added_uses_installation_hostname(self):
+    def test_repositories_added_uses_installation_hostname(self) -> None:
         _make_credentials(
             "github.example.com",
             ENTERPRISE_TOKEN,
@@ -327,7 +327,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertEqual(repo["clone_url"], "https://github.example.com/org/repo.git")
         self.assertEqual(repo["ssh_url"], "git@github.example.com:org/repo.git")
 
-    def test_repositories_removed(self):
+    def test_repositories_removed(self) -> None:
         installation = self._create_installation(
             repositories=[
                 {"full_name": "test-org/repo1"},
@@ -347,7 +347,9 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertNotIn("test-org/repo1", names)
         self.assertIn("test-org/repo2", names)
 
-    def test_installation_target_renamed_updates_components_and_repositories(self):
+    def test_installation_target_renamed_updates_components_and_repositories(
+        self,
+    ) -> None:
         self.project.workspace = self.workspace
         self.project.save(update_fields=["workspace"])
         old_clone_url = "https://github.com/old-org/local-repo.git"
@@ -395,7 +397,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertEqual(self.component.push, "")
         self.assertEqual(self.component.push_branch, "")
 
-    def test_signature_required_when_secret_configured(self):
+    def test_signature_required_when_secret_configured(self) -> None:
         """An App webhook on a configured integration requires a valid signature."""
         self._create_installation()
         data = {
@@ -406,7 +408,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
-    def test_invalid_signature_rejected(self):
+    def test_invalid_signature_rejected(self) -> None:
         self._create_installation()
         data = {
             "action": "deleted",
@@ -424,7 +426,7 @@ class TestGitHubAppHooks(ViewTestCase):
         )
         self.assertEqual(response.status_code, 403)
 
-    def test_other_integration_secret_does_not_authorize(self):
+    def test_other_integration_secret_does_not_authorize(self) -> None:
         """Signing with another integration's secret must be rejected."""
         _make_credentials(
             "github.example.com",
@@ -457,7 +459,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
-    def test_push_event(self):
+    def test_push_event(self) -> None:
         """GitHub App deliveries require the integration secret."""
         data = {
             "ref": "refs/heads/main",
@@ -497,7 +499,7 @@ class TestGitHubAppHooks(ViewTestCase):
             headers=headers,
         )
 
-    def test_push_event_without_app_configured(self):
+    def test_push_event_without_app_configured(self) -> None:
         """Plain repo-level webhook deliveries still work when no App is set up."""
         data = {
             "ref": "refs/heads/main",
@@ -513,7 +515,7 @@ class TestGitHubAppHooks(ViewTestCase):
         response = self._legacy_post("push", data)
         self.assertIn(response.status_code, (200, 202))
 
-    def test_app_delivery_rejected_on_generic_endpoint(self):
+    def test_app_delivery_rejected_on_generic_endpoint(self) -> None:
         """App deliveries are rejected unless a legacy secret is configured."""
         data = {
             "ref": "refs/heads/main",
@@ -531,7 +533,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertEqual(response.status_code, 403)
 
     @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
-    def test_legacy_app_push_with_valid_signature(self):
+    def test_legacy_app_push_with_valid_signature(self) -> None:
         """A signed legacy App push updates ordinary Git components."""
         data = {
             "ref": f"refs/heads/{self.component.branch}",
@@ -552,7 +554,7 @@ class TestGitHubAppHooks(ViewTestCase):
         )
 
     @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
-    def test_legacy_app_push_rejects_invalid_signatures(self):
+    def test_legacy_app_push_rejects_invalid_signatures(self) -> None:
         data = {
             "ref": "refs/heads/main",
             "installation": {"id": 12345},
@@ -575,7 +577,7 @@ class TestGitHubAppHooks(ViewTestCase):
                 self.assertEqual(response.status_code, 403)
 
     @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
-    def test_legacy_app_push_excludes_github_app_components(self):
+    def test_legacy_app_push_excludes_github_app_components(self) -> None:
         self.component.vcs = "github-app"
         self.component.save(update_fields=["vcs"])
         data = {
@@ -597,7 +599,7 @@ class TestGitHubAppHooks(ViewTestCase):
         )
 
     @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
-    def test_legacy_app_non_push_event_is_ignored(self):
+    def test_legacy_app_non_push_event_is_ignored(self) -> None:
         installation = self._create_installation()
         data = {
             "action": "deleted",
@@ -610,7 +612,7 @@ class TestGitHubAppHooks(ViewTestCase):
         installation.refresh_from_db()
         self.assertTrue(installation.enabled)
 
-    def test_signed_integration_hook_runs_repository_update(self):
+    def test_signed_integration_hook_runs_repository_update(self) -> None:
         self.project.workspace = self.workspace
         self.project.save(update_fields=["workspace"])
         GitHubInstallation.objects.create(
@@ -663,7 +665,7 @@ class TestGitHubAppHooks(ViewTestCase):
             self.component.change_set.filter(action=ActionEvents.HOOK).exists()
         )
 
-    def test_signed_integration_hook_respects_disabled_project_hooks(self):
+    def test_signed_integration_hook_respects_disabled_project_hooks(self) -> None:
         self.project.workspace = self.workspace
         self.project.enable_hooks = False
         self.project.save(update_fields=["workspace", "enable_hooks"])

@@ -19,11 +19,20 @@ jobs:
   apply-label:
     runs-on: ubuntu-slim
     if: |
-      ! github.event.issue.pull_request
+      ! github.event.issue.pull_request && github.event.issue.state == 'open'
     steps:
     - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
       with:
         script: |
+          const {data: issue} = await github.rest.issues.get({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          if (issue.state !== 'open') {
+            core.info(`Issue #${context.issue.number} has closed, skipping.`);
+            return;
+          }
           const labels = await github.rest.issues.listLabelsOnIssue({
             issue_number: context.issue.number,
             owner: context.repo.owner,
@@ -39,7 +48,7 @@ jobs:
               })
             }
           }
-          if (! context.payload.issue.milestone || context.payload.issue.milestone.state == 'open') {
+          if (! issue.milestone || issue.milestone.state == 'open') {
             await github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,

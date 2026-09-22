@@ -52,6 +52,19 @@
   </p>
 {% endif %}
 
+{% if analysis.github_app_migration_available %}
+  <p>
+    {% translate "This repository does not allow forks. Ensure the Weblate GitHub App is connected to this workspace and has access to the repository, then migrate the component to push translation branches directly to the upstream repository." %}
+  </p>
+  {% if github_app_migration_url %}
+    <p>
+      <a class="btn btn-primary" href="{{ github_app_migration_url }}">{% translate "Migrate to GitHub App" %}</a>
+    </p>
+  {% else %}
+    <p>{% translate "Ask a workspace owner to complete the GitHub App setup and migration." %}</p>
+  {% endif %}
+{% endif %}
+
 {% if analysis.gerrit %}
   <p>
     {% translate "Gerrit prohibited this push. You might need a gerrit-account that has the forge author permissions for the repository/branch or have to use the squash add-on on this component in Weblate." %}

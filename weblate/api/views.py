@@ -73,6 +73,9 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    AutomationPreviewRequestSerializer,
+    AutoTranslateRequestSerializer,
+    AutoTranslateResponseSerializer,
     BackupSerializer,
     BasicUserSerializer,
     BilingualSourceUnitSerializer,
@@ -128,6 +131,7 @@ from weblate.api.serializers import (
     TranslationCreateSerializer,
     TranslationSerializer,
     UnitSerializer,
+    UnitSourceSerializer,
     UnitWriteSerializer,
     UploadRequestSerializer,
     UploadResultSerializer,
@@ -1117,6 +1121,16 @@ def get_delete_memory_option(request: Request) -> bool:
 
 
 @extend_schema_view(
+    list=extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "unit",
+                int,
+                OpenApiParameter.QUERY,
+                description="Rank contributors to the given unit first.",
+            ),
+        ],
+    ),
     retrieve=extend_schema(
         description="Return information about users.",
         responses=USER_RESPONSE_SERIALIZER,
@@ -1198,6 +1212,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         queryset = queryset.filter_search_access(user)
         queryset = self.filter_queryset(queryset)
+        queryset = self.order_by_contributions(queryset)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -1206,6 +1221,25 @@ class UserViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    def order_by_contributions(self, queryset):
+        """Rank contributors to the given unit first in user listings."""
+        if "unit" not in self.request.GET or not self.request.user.is_authenticated:
+            return queryset
+        try:
+            unit = Unit.objects.filter_access(self.request.user).get(
+                pk=self.request.GET["unit"]
+            )
+        except (Unit.DoesNotExist, ValueError):
+            return queryset
+        return queryset.annotate(
+            contributed_unit=Exists(
+                Change.objects.filter(user=OuterRef("pk"), unit=unit)
+            ),
+            contributed_translation=Exists(
+                Change.objects.filter(user=OuterRef("pk"), translation=unit.translation)
+            ),
+        ).order_by("-contributed_unit", "-contributed_translation", "id")
 
     def perm_check(
         self,
@@ -1330,7 +1364,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 serializer.save(user=obj)
                 return Response(serializer.data, status=HTTP_201_CREATED)
         self.perm_check(request, obj, allow_self=True)
-        queryset = obj.subscription_set.order_by("id")
+        queryset = obj.subscription_set.filter_access(request.user).order_by("id")
         page = self.paginate_queryset(queryset)
         serializer = NotificationSerializer(
             page, many=True, context={"request": request}
@@ -1365,24 +1399,29 @@ class UserViewSet(viewsets.ModelViewSet):
     ):
         obj = self.get_object()
 
+        if request.method == "GET":
+            self.perm_check(request, obj, allow_self=True)
+        else:
+            self.perm_check(request, obj, allow_self=True, protect_internal=True)
+
+        queryset = obj.subscription_set
+        if request.method != "DELETE":
+            queryset = queryset.filter_access(request.user)
         try:
-            subscription = obj.subscription_set.get(id=subscription_id)
+            subscription = queryset.get(id=subscription_id)
         except Subscription.DoesNotExist as error:
             msg = "Subscription"
             raise not_found_http404(msg) from error
 
         if request.method == "DELETE":
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             subscription.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
         if request.method == "GET":
-            self.perm_check(request, obj, allow_self=True)
             serializer = NotificationSerializer(
                 subscription, context={"request": request}
             )
         else:
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             serializer = NotificationSerializer(
                 subscription,
                 data=request.data,
@@ -1897,7 +1936,7 @@ def validate_report_scope_access(user, scope) -> None:
     if scope is None:
         return
     if isinstance(scope, Workspace):
-        allowed = scope.can_view(user)
+        allowed = scope.can_view(user) or user.has_perm("reports.view", scope)
     elif isinstance(scope, Project):
         allowed = user.allowed_projects.filter(pk=scope.pk).exists()
     elif isinstance(scope, Category):
@@ -1946,7 +1985,10 @@ class ReportsMixin(APIViewSetMixin):
     )
     @extend_schema(
         methods=["post"],
-        description="Schedule report generation using the endpoint object as scope.",
+        description=(
+            "Schedule report generation using the endpoint object as the complete "
+            "report scope."
+        ),
         request=ScopedReportCreateSerializer,
         responses={HTTP_202_ACCEPTED: REPORT_TASK_RESPONSE_SERIALIZER},
     )
@@ -3051,6 +3093,15 @@ class ComponentViewSet(
                 message = f"Could not add {language_code!r}!"
                 raise ValidationError({"language_code": message}) from error
 
+            if obj.get_new_language_action(request.user, language) != "add":
+                self.permission_denied(
+                    request,
+                    "This language requires maintainer approval. "
+                    "Request it using the web interface.",
+                )
+            if not obj.can_add_new_language(request.user, language=language):
+                self.permission_denied(request, message=obj.new_lang_error_message)
+
             if source_components:
                 auto_permission = check_auto_translate_permission(
                     request.user,
@@ -3691,6 +3742,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 author_email,
                 data["method"],
                 data["fuzzy"],
+                ignore_language=data["ignore_language"],
             )
         except PluralFormsMismatchError as error:
             raise ValidationError(
@@ -3867,7 +3919,12 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Trigger automatic translation.", methods=["post"])
+    @extend_schema(
+        description="Trigger automatic translation.",
+        methods=["post"],
+        request=AutoTranslateRequestSerializer,
+        responses={HTTP_200_OK: AutoTranslateResponseSerializer},
+    )
     @action(detail=True, methods=["post"])
     def autotranslate(self, request: Request, **kwargs):
         translation = self.get_object()
@@ -4020,12 +4077,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     pagination_class = LargePagination
 
     queryset = Unit.objects.none()
+    serializer_class = UnitWriteSerializer
 
     def get_serializer_class(self):
         """Get correct serializer based on action."""
         if self.action in {"list", "retrieve"}:
             return UnitSerializer
-        return UnitWriteSerializer
+        return super().get_serializer_class()
 
     def get_queryset(self):
         return (
@@ -4047,12 +4105,36 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             result = result.search(query_string)
         return result
 
+    @extend_schema(request=UnitSourceSerializer, responses=UnitSerializer)
+    @action(detail=True, methods=["post"], serializer_class=UnitSourceSerializer)
+    def source(self, request, **kwargs):
+        from weblate.trans.source_edit import edit_source  # ruff: ignore[import-outside-top-level]
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        try:
+            unit = edit_source(
+                self.get_object(), request.user, **serializer.validated_data
+            )
+        except DjangoValidationError as error:
+            raise ValidationError(
+                error.message_dict if hasattr(error, "message_dict") else error.messages
+            ) from error
+        except WeblateLockTimeoutError:
+            raise LockedError(
+                code="component-locked",
+                detail="The component is busy. Please try again.",
+            ) from None
+        return Response(
+            UnitSerializer(unit, context=self.get_serializer_context()).data
+        )
+
     @transaction.atomic
     # ruff: ignore[complex-structure]
     def perform_update(self, serializer) -> None:
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
-        do_source = "extra_flags" in data or "explanation" in data or "labels" in data
+        do_source = "explanation" in data or "labels" in data
         unit = serializer.instance
         translation = unit.translation
         request = self.request
@@ -4067,6 +4149,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         ):
             self.permission_denied(
                 request, "Source strings properties can be set only on source strings"
+            )
+
+        if "extra_flags" in data and not user.has_perm("meta:unit.flag", translation):
+            self.permission_denied(
+                request, "You do not have permission to edit string flags."
             )
 
         if do_translate:
@@ -4112,7 +4199,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
         # Update attributes
         if do_source:
-            fields = ["extra_flags", "explanation"]
+            fields = ["explanation"]
             for name in fields:
                 try:
                     setattr(unit, name, data[name])
@@ -4121,6 +4208,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if "labels" in data:
                 unit.save_labels(data["labels"], user)
             unit.save(update_fields=fields)
+
+        if "extra_flags" in data:
+            # Autofixes and enforced checks must see the submitted flags,
+            # including when the target and requested state have not changed.
+            unit = Unit.objects.select_for_update().get(pk=unit.pk)
+            unit.update_extra_flags(data["extra_flags"], user)
+            serializer.instance = unit
 
         # Handle translate
         if do_translate:
@@ -4131,6 +4225,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 # the initial lookup and the locking re-fetch in Unit.translate()
                 msg = "Unit was removed while processing the request"
                 raise Http404(msg) from error
+
+        if do_translate and "extra_flags" in data:
+            # translate() sets the requested content state; restore flag-derived
+            # read-only state and its checks after processing the new target.
+            unit.update_state()
+            unit.run_checks()
+            unit.translation.invalidate_cache()
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a translation unit."""
@@ -5002,7 +5103,10 @@ class Search(APIView):
         parameters=REPORT_LIST_FILTER_PARAMETERS,
     ),
     create=extend_schema(
-        description="Schedule generation of a stored report.",
+        description=(
+            "Schedule generation of a stored report. The reports.view permission "
+            "authorizes the complete selected scope."
+        ),
         request=ReportCreateSerializer,
         responses={HTTP_202_ACCEPTED: REPORT_TASK_RESPONSE_SERIALIZER},
     ),
@@ -5220,6 +5324,40 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
     serializer_class = AddonSerializer
     request: AuthenticatedRequest  # type: ignore[assignment]
 
+    @extend_schema(
+        description="Preview an automation without executing operations. Requires add-on management permission.",
+        request=AutomationPreviewRequestSerializer,
+        responses={
+            200: inline_serializer(
+                "AutomationPreviewResponse",
+                {
+                    "workflow": serializers.JSONField(),
+                    "context": serializers.JSONField(),
+                    "trace": serializers.ListField(child=serializers.JSONField()),
+                    "preview": serializers.BooleanField(),
+                },
+            )
+        },
+    )
+    @action(detail=True, methods=["post"])
+    def preview(self, request: Request, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+        if not instance.is_valid or not getattr(instance.addon, "has_preview", False):
+            raise ValidationError({"detail": "This add-on does not support preview."})
+        fields = AutomationPreviewRequestSerializer(data=request.data)
+        fields.is_valid(raise_exception=True)
+        try:
+            result = instance.addon.preview(
+                fields.validated_data["workflow"],
+                fields.validated_data["component"],
+                fields.validated_data.get("change"),
+                actor=request.user,
+            )
+        except DjangoValidationError as error:
+            raise ValidationError({"workflow": error.messages}) from error
+        return Response(result)
+
     def get_queryset(self):
         return Addon.objects.filter_access(self.request.user).order_by("id")
 
@@ -5285,7 +5423,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
                 {"detail": gettext("This add-on cannot be triggered manually.")}
             )
 
-        instance.schedule_manual_run()
+        instance.schedule_manual_run(user_id=request.user.pk)
 
         return Response(
             {

@@ -8,11 +8,12 @@ import os
 import shutil
 from typing import TYPE_CHECKING, cast
 
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 
 from weblate.addons.models import Addon
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
+from weblate.utils.files import VCS_METADATA_DIRS
 
 if TYPE_CHECKING:
     from collections.abc import Collection
@@ -85,9 +86,14 @@ def copy_component_addons(
     for addon in addons:
         if component.addon_set.filter(name=addon.name).exists():
             continue
-        if not addon.addon.can_install(component=component):
+        if not addon.addon.can_install(
+            component=component
+        ) or not addon.addon.api_available(component):
             continue
-        addon.addon.create(component=component, configuration=addon.configuration)
+        try:
+            addon.addon.create(component=component, configuration=addon.configuration)
+        except ValidationError as error:
+            component.log_warning("could not copy addon %s: %s", addon.name, error)
 
 
 def replace_component_checkout(
@@ -101,7 +107,7 @@ def replace_component_checkout(
         os.path.join(source_component.full_path, ".git")
     )
     preserve_target_git = component.is_repo_local and not source_has_git_checkout
-    ignore_vcs_metadata = shutil.ignore_patterns(".git", ".hg", ".svn", ".bzr")
+    ignore_vcs_metadata = shutil.ignore_patterns(*VCS_METADATA_DIRS)
 
     with source_component.repository.lock, component.repository.lock:
         os.makedirs(component.full_path, exist_ok=True)

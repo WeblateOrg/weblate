@@ -904,6 +904,8 @@ INSTALLED_APPS = [
     "customize",
     # Weblate apps on top to override Django locales and templates
     "weblate.addons",
+    "weblate.kotlin_sdk",
+    "weblate.api",
     "weblate.auth",
     "weblate.checks",
     "weblate_fonts",
@@ -1370,11 +1372,11 @@ SESSION_ENGINE = get_env_str(
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # REST framework settings for API
-REST_FRAMEWORK = get_drf_settings(
-    require_login=REQUIRE_LOGIN,
-    anon_throttle=get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", "100/day"),
-    user_throttle=get_env_ratelimit("WEBLATE_API_RATELIMIT_USER", "5000/hour"),
-)
+API_RATELIMIT_ANON = get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", "100/day")
+API_RATELIMIT_USER = get_env_ratelimit("WEBLATE_API_RATELIMIT_USER", "5000/hour")
+API_RATELIMIT_USER_OVERRIDES = get_env_json("WEBLATE_API_RATELIMIT_USER_OVERRIDES", {})
+API_RATELIMIT_IP_OVERRIDES = get_env_json("WEBLATE_API_RATELIMIT_IP_OVERRIDES", {})
+REST_FRAMEWORK = get_drf_settings(require_login=REQUIRE_LOGIN)
 DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
 SPECTACULAR_SETTINGS = get_spectacular_settings(
     INSTALLED_APPS,
@@ -1462,7 +1464,7 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_RETRY = True
 
 # Celery settings, it is not recommended to change these
-CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000 if DEBUG else 250000
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_TASK_ROUTES = {

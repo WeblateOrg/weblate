@@ -51,10 +51,9 @@ from weblate.utils.html import (
     MD_BROKEN_LINK,
     MD_LINK,
     MD_REFLINK,
-    MD_SYNTAX,
-    MD_SYNTAX_GROUPS,
     HTMLSanitizer,
     extract_html_attributes,
+    iter_markdown_syntax,
 )
 from weblate.utils.xml import parse_xml
 
@@ -177,7 +176,7 @@ class RSTRoleMatch(NamedTuple):
     syntax_suffix: str
 
 
-def strip_entities(text):
+def strip_entities(text: str) -> str:
     """Strip all HTML entities (we don't care about them)."""
     return XML_CDATA_MATCH.sub(r"\1", XML_ENTITY_MATCH.sub(" ", text))
 
@@ -287,7 +286,7 @@ class BBCodeCheck(TargetCheck):
         super().__init__()
         self.enable_string = "bbcode-text"
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # Parse source
         src_match = BBCODE_MATCH.findall(source)
 
@@ -301,7 +300,7 @@ class BBCodeCheck(TargetCheck):
 
         return src_tags != tgt_tags
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
         for match in BBCODE_MATCH.finditer(source):
@@ -400,7 +399,7 @@ class XMLTagsCheck(BaseXMLCheck):
     name = gettext_lazy("XML markup")
     description = gettext_lazy("XML tags in translation do not match source.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # Check if source is XML
         try:
             source_tree, wrap = self.detect_xml_wrapping(source)
@@ -420,7 +419,7 @@ class XMLTagsCheck(BaseXMLCheck):
         # Compare tags
         return source_tags != target_tags
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return []
         if not self.can_parse_xml(source):
@@ -523,7 +522,7 @@ class MarkdownRefLinkCheck(MarkdownBaseCheck):
     name = gettext_lazy("Markdown references")
     description = gettext_lazy("Markdown link references do not match source.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         src_match = MD_REFLINK.findall(source)
         if not src_match:
             return False
@@ -540,7 +539,7 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
     name = gettext_lazy("Markdown links")
     description = gettext_lazy("Markdown links do not match source.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         src_match = MD_LINK.findall(source)
         if not src_match:
             return False
@@ -569,30 +568,19 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
     name = gettext_lazy("Markdown syntax")
     description = gettext_lazy("Markdown syntax does not match source.")
 
-    @staticmethod
-    def extract_match(match):
-        for i in range(6):
-            if match[i]:
-                return match[i]
-        return None
-
-    def check_single(self, source: str, target: str, unit: Unit):
-        src_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(source)}
-        tgt_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(target)}
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        src_tags = {match.value for match in iter_markdown_syntax(source)}
+        tgt_tags = {match.value for match in iter_markdown_syntax(target)}
 
         return src_tags != tgt_tags
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
-        for match in MD_SYNTAX.finditer(source):
-            value = ""
-            for i in range(MD_SYNTAX_GROUPS):
-                value = match.group(i + 1)
-                if value:
-                    break
-            start = match.start()
-            end = match.end()
+        for match in iter_markdown_syntax(source):
+            value = match.value
+            start = match.start
+            end = match.end
             group = f"markdown:{start}:{end}"
             translatable = value != "<"
             forbidden_text = (value[0],) if translatable and len(value) > 1 else ()
@@ -623,7 +611,7 @@ class URLCheck(TargetCheck):
     default_disabled = True
 
     @cached_property
-    def validator(self):
+    def validator(self) -> URLValidator:
         return URLValidator()
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
@@ -643,7 +631,7 @@ class SafeHTMLCheck(TargetCheck):
     default_disabled = True
     extra_enable_strings = ("auto-safe-html",)
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         flags = unit.all_flags
         if not flags.is_active("safe-html", source):
             return False
@@ -953,7 +941,7 @@ class RSTReferencesCheck(PluralResultDescriptionMixin, RSTBaseCheck):
             }
         return False
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
         _references, _counter, highlights = extract_rst_references(source)
@@ -1143,7 +1131,7 @@ class AsciiDocMarkupCheck(PluralResultDescriptionMixin, TargetCheck):
             }
         return False
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
         yield from iter_asciidoc_highlights(source)

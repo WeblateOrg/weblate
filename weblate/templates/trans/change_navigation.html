@@ -1,0 +1,44 @@
+{% load i18n icons %}
+
+{% if LANGUAGE_BIDI %}
+  {% icon "page-last.svg" as latest_icon %}
+  {% icon "page-next.svg" as newer_icon %}
+  {% icon "page-previous.svg" as older_icon %}
+{% else %}
+  {% icon "page-first.svg" as latest_icon %}
+  {% icon "page-previous.svg" as newer_icon %}
+  {% icon "page-next.svg" as older_icon %}
+{% endif %}
+
+<nav aria-label="{{ navigation_label }}">
+  <ul class="pagination flex-wrap mb-0">
+    <li class="page-item{% if not newer_cursor %} disabled{% endif %}">
+      {% if newer_cursor %}
+        <a class="page-link green" href="{{ latest_url }}">{{ latest_icon }} {% translate "Latest" %}</a>
+      {% else %}
+        <span class="page-link green" aria-disabled="true">{{ latest_icon }} {% translate "Latest" %}</span>
+      {% endif %}
+    </li>
+    <li class="page-item{% if not newer_cursor %} disabled{% endif %}">
+      {% if newer_cursor %}
+        <a class="page-link green"
+           rel="prev"
+           href="{% querystring query_params after=newer_cursor.after id=newer_cursor.id %}">{{ newer_icon }} {% translate "Newer" %}</a>
+      {% else %}
+        <span class="page-link green" aria-disabled="true">{{ newer_icon }} {% translate "Newer" %}</span>
+      {% endif %}
+    </li>
+    {% if show_date_jump %}
+      <li class="page-item change-date-position">{% include "trans/change_date.html" %}</li>
+    {% endif %}
+    <li class="page-item{% if not older_cursor %} disabled{% endif %}">
+      {% if older_cursor %}
+        <a class="page-link green"
+           rel="next"
+           href="{% querystring query_params before=older_cursor.before id=older_cursor.id %}">{{ older_icon }} {% translate "Older" %}</a>
+      {% else %}
+        <span class="page-link green" aria-disabled="true">{{ older_icon }} {% translate "Older" %}</span>
+      {% endif %}
+    </li>
+  </ul>
+</nav>

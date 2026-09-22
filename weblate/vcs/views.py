@@ -1118,6 +1118,9 @@ def github_app_migration(request, workspace_id):
                 except ValidationError as error:
                     errors.append((component.full_slug, " ".join(error.messages)))
                     continue
+                component.delete_alert("GitHubAppMigration")
+                component.delete_alert("PushFailure")
+                component.delete_alert("UpdateFailure")
                 component.save(
                     update_fields=(
                         "vcs",
@@ -1127,7 +1130,6 @@ def github_app_migration(request, workspace_id):
                         "vcs_params",
                     )
                 )
-                component.delete_alert("GitHubAppMigration")
                 migrated += 1
 
         if migrated:

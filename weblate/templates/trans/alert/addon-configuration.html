@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% for addon in configure_addons %}
+  <p>
+    <a href="{{ addon.get_absolute_url }}">{% blocktranslate with addon=addon.addon.verbose %}Configure {{ addon }}{% endblocktranslate %}</a>
+  </p>
+{% endfor %}

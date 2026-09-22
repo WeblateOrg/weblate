@@ -127,10 +127,16 @@ Untranslatable terms
 
 Flagging certain glossary term translations ``read-only`` by bulk-editing,
 typing in the flag, or by using :guilabel:`Tools` ↓
-:guilabel:`Mark as untranslatable` means they can not be translated. Use this
+:guilabel:`Mark this translation as untranslatable` means they cannot be translated. Use this
 for brand names, product names, domains, technology names, or other terms that
 should not be changed in other languages. Such terms are visually highlighted
 in the glossary sidebar.
+
+To keep a term unchanged in every language, use
+:guilabel:`Mark as untranslatable for all languages`. If the current translation
+is already untranslatable, :guilabel:`Make untranslatable apply to all languages`
+moves that flag to the source. Forbidden translations are language-specific;
+terminology remains source-wide.
 
 The ``read-only`` flag is enough when the glossary entry already exists in the
 languages where it should be shown. Add the :ref:`glossary-terminology` flag as
@@ -170,9 +176,19 @@ Terminology
 
 Flagging certain source-language glossary terms as ``terminology`` by
 bulk-editing, typing in the flag, or by using :guilabel:`Tools` ↓
-:guilabel:`Mark as terminology` adds entries for them to all languages in the
+:guilabel:`Mark as terminology for all languages` adds entries for them to all languages in the
 glossary. Use this for important terms that should be well thought out, and
 retain a consistent meaning across all languages.
+
+Enable :ref:`component-manage_units` on the glossary component to synchronize
+terminology. When it is disabled, Weblate does not create missing language
+entries, even for terms marked as terminology.
+
+Weblate shows a dismissible :ref:`diagnostic <alerts>` when string management is
+disabled for a glossary with no remote repository, or for another glossary that
+contains terminology. Enable string management to add terms directly in Weblate
+and synchronize terminology, or dismiss the warning if you maintain the glossary
+files separately.
 
 The terminology flag is ongoing state, not just a one-time action. While the
 flag remains on the source term, Weblate treats it as terminology and keeps an

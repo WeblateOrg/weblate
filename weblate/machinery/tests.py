@@ -100,6 +100,7 @@ from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
 from weblate.machinery.youdao import YoudaoTranslation
 from weblate.memory.machine import WeblateMemory
+from weblate.memory.models import Memory
 from weblate.trans.models import Category, Component, Project, Unit
 from weblate.trans.tests.factories import make_language, make_unit
 from weblate.trans.tests.test_views import (
@@ -109,6 +110,7 @@ from weblate.trans.tests.test_views import (
 )
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
+from weblate.utils.errors import report_error as report_exception
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 from weblate.utils.tests import http_mock
 
@@ -548,6 +550,62 @@ class BaseMachineTranslationTest(TestCase):
 
 
 class MachineTranslationTest(BaseMachineTranslationTest):
+    def test_translate_error_details(self) -> None:
+        extracted: object
+        for asynchronous in (False, True):
+            for extracted in (
+                "Provider explanation",
+                ValueError("Bad JSON"),
+                "",
+                None,
+                {},
+            ):
+                with self.subTest(asynchronous=asynchronous, extracted=extracted):
+                    machine = self.get_machine()
+                    error = ValueError("Provider failed")
+                    expected = (
+                        extracted
+                        if isinstance(extracted, str) and extracted
+                        else "ValueError: Provider failed"
+                    )
+                    method = (
+                        "adownload_pending_translations"
+                        if asynchronous
+                        else "download_pending_translations"
+                    )
+                    download = AsyncMock if asynchronous else Mock
+                    with (
+                        patch.object(machine, method, new=download(side_effect=error)),
+                        patch.object(
+                            machine,
+                            "get_error_message",
+                            side_effect=extracted
+                            if isinstance(extracted, Exception)
+                            else None,
+                            return_value=extracted,
+                        ) as extract,
+                        patch("weblate.machinery.base.report_error") as report_error,
+                        self.assertRaises(MachineTranslationError) as raised,
+                    ):
+                        unit = make_unit(
+                            code=self.SUPPORTED, source=self.SOURCE_TRANSLATED
+                        )
+                        if asynchronous:
+                            async_to_sync(machine.atranslate)(unit)
+                        else:
+                            machine.translate(unit)
+
+                    self.assertEqual(str(raised.exception), expected)
+                    self.assertIs(raised.exception.__cause__, error)
+                    extract.assert_called_once_with(error)
+                    report_error.assert_called_once_with(
+                        f"machinery[{machine.name}]: Could not fetch translations",
+                        exception=error,
+                        extra_log="Provider explanation"
+                        if extracted == "Provider explanation"
+                        else None,
+                    )
+
     def test_async_translate_error_reports_original_exception(self) -> None:
         machine = self.get_machine()
         error = ValueError("Provider failed")
@@ -568,7 +626,6 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         report_error.assert_called_once_with(
             f"machinery[{machine.name}]: Could not fetch translations",
             extra_log=None,
-            message=False,
             exception=error,
         )
 
@@ -730,6 +787,132 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(
             machine_translation.get_cache_key("test"),
             "mt:dummy:test:11364700946005001116",
+        )
+
+
+class MachineTranslationErrorLoggingTest(SimpleTestCase):
+    def test_supplemental_log_output(self) -> None:
+        for message, extra in (
+            ("ValueError: Provider failed", None),
+            ("Provider failed", None),
+            ("failed", None),
+            ("ValueError: Provider failed: Quota exceeded", "Quota exceeded"),
+            ("x" * 250, "x" * 200),
+        ):
+            with self.subTest(message=message):
+                machine = DummyTranslation({})
+                error = ValueError("Provider failed")
+                with (
+                    patch.object(machine, "get_error_message", return_value=message),
+                    patch(
+                        "weblate.machinery.base.report_error",
+                        wraps=report_exception,
+                    ) as report_error,
+                    patch("weblate.utils.errors.record_error") as record_error,
+                    self.assertLogs("weblate.errors", level="WARNING") as logs,
+                    self.assertRaises(MachineTranslationError) as raised,
+                ):
+                    machine._handle_download_error(error)  # ruff: ignore[private-member-access]
+
+                self.assertEqual(str(raised.exception), message)
+                self.assertIs(raised.exception.__cause__, error)
+                report_error.assert_called_once_with(
+                    "machinery[Dummy]: Could not fetch translations",
+                    exception=error,
+                    extra_log=extra,
+                )
+                record_error.assert_called_once()
+                self.assertIs(record_error.call_args.kwargs["exception"], error)
+                expected = [
+                    "machinery[Dummy]: Could not fetch translations: ValueError: Provider failed"
+                ]
+                if extra:
+                    expected.append(
+                        f"machinery[Dummy]: Could not fetch translations: ValueError: {extra}"
+                    )
+                self.assertEqual(
+                    [record.getMessage() for record in logs.records], expected
+                )
+
+    def test_deepl_quota_explanation(self) -> None:
+        machine = DeepLTranslation({"key": "x"})
+        response = make_error_response("https://api.deepl.com/v2/translate", 456)
+        with self.assertRaises(HTTPError) as original:
+            machine.check_failure(response)
+        with (
+            patch.object(machine, "set_rate_limit") as set_rate_limit,
+            patch("weblate.machinery.base.report_error") as report_error,
+            self.assertRaises(MachineTranslationError) as raised,
+        ):
+            machine._handle_download_error(original.exception)  # ruff: ignore[private-member-access]
+        message = "Quota exceeded. The character limit has been reached."
+        self.assertEqual(str(raised.exception), message)
+        set_rate_limit.assert_called_once_with()
+        report_error.assert_called_once_with(
+            "machinery[DeepL]: Could not fetch translations",
+            exception=original.exception,
+            extra_log=message,
+        )
+
+    def test_http_details_already_logged(self) -> None:
+        machine = DeepLTranslation({"key": "x"})
+        response = make_error_response(
+            "https://api.deepl.com/v2/translate",
+            400,
+            json_data={"message": "Invalid request"},
+        )
+        with self.assertRaises(HTTPError) as original:
+            machine.check_failure(response)
+        with (
+            patch("weblate.machinery.base.report_error") as report_error,
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine._handle_download_error(original.exception)  # ruff: ignore[private-member-access]
+        self.assertIsNone(report_error.call_args.kwargs["extra_log"])
+
+    def test_untrusted_response_details(self) -> None:
+        machine = OpenAITranslation(
+            {
+                "key": "x",
+                "model": "auto",
+                "persona": "",
+                "style": "",
+                "base_url": "https://custom.example.com/",
+                "_project": Mock(),
+            }
+        )
+        response = make_error_response(
+            "https://custom.example.com/v1", 400, json_data={"message": "Top secret"}
+        )
+        with self.assertRaises(HTTPError) as original:
+            machine.check_failure(response)
+        with (
+            patch("weblate.machinery.base.report_error", wraps=report_exception),
+            patch("weblate.utils.errors.record_error"),
+            self.assertLogs("weblate.errors", level="WARNING") as logs,
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine._handle_download_error(original.exception)  # ruff: ignore[private-member-access]
+        self.assertEqual(len(logs.records), 1)
+        self.assertNotIn("Top secret", logs.output[0])
+
+    def test_machine_translation_error_identity(self) -> None:
+        machine = DummyTranslation({})
+        error = MachineryRateLimitError("Too many requests")
+        with (
+            patch.object(machine, "set_rate_limit") as set_rate_limit,
+            patch.object(machine, "get_error_message") as extract,
+            patch("weblate.machinery.base.report_error") as report_error,
+            self.assertRaises(MachineryRateLimitError) as raised,
+        ):
+            machine._handle_download_error(error)  # ruff: ignore[private-member-access]
+        self.assertIs(raised.exception, error)
+        extract.assert_not_called()
+        set_rate_limit.assert_called_once_with()
+        report_error.assert_called_once_with(
+            "machinery[Dummy]: Could not fetch translations",
+            exception=error,
+            extra_log=None,
         )
 
 
@@ -2974,8 +3157,12 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         ):
             with self.subTest(url):
                 machine = self.MACHINE_CLS({"key": "KEY", "url": url})
-                with self.assertRaises(MachineTranslationError):
-                    _ = machine.api_base_url
+                self.assertTrue(machine.is_legacy_api)
+                self.assertEqual(machine.api_base_url, url.removesuffix("/v1/"))
+                self.assertEqual(
+                    machine.get_api_url(machine.translation_api_version, "translate"),
+                    f"{url}translate",
+                )
 
     @http_mock.activate
     def test_languages_map(self) -> None:
@@ -2989,6 +3176,120 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(machine.get_languages(lang_pt, lang_pt_br), ("PT", "PT-BR"))
         self.assertEqual(machine.get_languages(lang_en, lang_pt), ("EN", "PT-PT"))
         self.assertEqual(machine.get_languages(lang_en, lang_pt_pt), ("EN", "PT-PT"))
+
+
+class DeepLLegacyTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = DeepLTranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "EN"
+    SUPPORTED = "DE"
+    NOTSUPPORTED = "CS"
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "KEY",
+        "url": "https://api.deepl.com/v1/",
+    }
+
+    @staticmethod
+    def mock_languages(url: str = "https://api.deepl.com/v1") -> None:
+        http_mock.register(
+            "GET", f"{url}/languages?type=source", json=[{"language": "EN"}]
+        )
+        http_mock.register(
+            "GET",
+            f"{url}/languages?type=target",
+            json=[{"language": "DE", "supports_formality": True}, {"language": "FR"}],
+        )
+
+    def mock_response(self) -> None:
+        self.mock_languages()
+        http_mock.register(
+            "POST", "https://api.deepl.com/v1/translate", json=DEEPL_RESPONSE
+        )
+
+    def mock_error(self) -> None:
+        http_mock.register("GET", "https://api.deepl.com/v1/languages", status_code=500)
+        http_mock.register(
+            "POST", "https://api.deepl.com/v1/translate", status_code=500
+        )
+
+    def mock_empty(self) -> NoReturn:
+        self.skipTest("Not tested")
+
+    @http_mock.activate
+    def test_languages(self) -> None:
+        self.mock_languages()
+        self.assertEqual(
+            set(self.get_machine().download_languages()),
+            {
+                ("EN", target)
+                for target in ("EN", "DE", "DE@FORMAL", "DE@INFORMAL", "FR")
+            },
+        )
+
+    @http_mock.activate
+    def test_async_translate(self) -> None:
+        self.mock_response()
+        self.assert_async_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+        )
+
+    @http_mock.activate
+    @patch("weblate.glossary.models.get_glossary_tsv", return_value="foo\tbar")
+    def test_translation_without_glossary(self, glossary_tsv: Mock) -> None:
+        machine = self.get_machine()
+        machine.settings.update({"context": "Test context", "next_gen": True})
+        cache.set(machine.get_glossary_languages_cache_key(), ({"EN"}, {"DE"}))
+        for translate in (
+            machine.download_multiple_translations,
+            async_to_sync(machine.adownload_multiple_translations),
+        ):
+            for target, formality in (("DE@FORMAL", "more"), ("DE@INFORMAL", "less")):
+                with self.subTest(translate=translate, target=target):
+                    http_mock.register(
+                        "POST",
+                        "https://api.deepl.com/v1/translate",
+                        json={"translations": [{"text": "Hallo"}, {"text": "Welt"}]},
+                    )
+                    unit = make_unit(code="DE", source="Hello")
+                    result = translate("EN", target, [("Hello", unit), ("World", unit)])
+                    self.assertEqual(result["Hello"][0]["text"], "Hallo")
+                    self.assertEqual(result["World"][0]["text"], "Welt")
+                    request = http_mock.calls[-1].request
+                    self.assertEqual(
+                        request.headers["Authorization"], "DeepL-Auth-Key KEY"
+                    )
+                    self.assertEqual(
+                        load_request_json(request),
+                        {
+                            "text": ["Hello", "World"],
+                            "source_lang": "EN",
+                            "target_lang": "DE",
+                            "formality": formality,
+                            "tag_handling": "xml",
+                            "ignore_tags": ["x"],
+                            "context": "Test context",
+                            "model_type": "prefer_quality_optimized",
+                        },
+                    )
+        glossary_tsv.assert_not_called()
+        self.assertEqual(len(http_mock.calls), 4)
+
+    def test_legacy_url(self) -> None:
+        for url in (
+            "https://api.deepl.com/v1",
+            "https://api-free.deepl.com/v1",
+            "https://example.com/deepl/v1",
+        ):
+            for suffix in ("", "/", "///"):
+                with self.subTest(url=url, suffix=suffix):
+                    machine = self.MACHINE_CLS({"url": url + suffix, "key": "KEY:fx"})
+                    self.assertEqual(
+                        machine.get_api_url(
+                            machine.translation_api_version, "translate"
+                        ),
+                        f"{url}/translate",
+                    )
+                    self.assertFalse(machine.is_glossary_supported("EN", "DE"))
 
 
 class LibreTranslateTranslationTest(BaseMachineTranslationTest):
@@ -7315,7 +7616,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         mock_report_error.assert_called_once_with(
             report_cause,
             extra_log=None,
-            message=False,
             exception=ANY,
         )
         self.assertIsInstance(
@@ -7349,7 +7649,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         mock_report_error.assert_called_once_with(
             report_cause,
             extra_log=None,
-            message=False,
             exception=ANY,
         )
         self.assertIsInstance(
@@ -7386,6 +7685,44 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
 
 class OpenAILLMContextTest(FixtureComponentTestCase):
+    def test_project_examples_do_not_pair_independent_alternatives(self) -> None:
+        unit = self.get_unit(language="cs")
+        candidates = unit.translation.unit_set.exclude(pk=unit.pk)
+        candidate = candidates.first()
+        assert candidate is not None
+        candidates.update(state=STATE_EMPTY)
+        machine = OpenAITranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+        cases: tuple[tuple[list[str], list[str], list[dict[str, str]]], ...] = (
+            (["application", "app"], ["aplikace", "program"], []),
+            (["application", "app"], ["aplikace"], []),
+            (["application"], ["aplikace", "program"], []),
+            (
+                ["application"],
+                ["aplikace"],
+                [{"source": "application", "target": "aplikace"}],
+            ),
+        )
+        for file_format in ("tbx", "csv-multi"):
+            unit.translation.component.file_format = file_format
+            unit.translation.component.__dict__.pop("file_format_cls", None)
+            for sources, targets, expected in cases:
+                with self.subTest(
+                    file_format=file_format, sources=sources, targets=targets
+                ):
+                    candidates.filter(pk=candidate.pk).update(
+                        source=join_plural(sources),
+                        target=join_plural(targets),
+                        state=STATE_TRANSLATED,
+                    )
+                    self.assertEqual(
+                        machine._get_project_previous_examples(  # ruff: ignore[private-member-access]
+                            "en", [(unit.source, unit)]
+                        ),
+                        expected,
+                    )
+
     def test_translate_uses_project_previous_messages_for_target_language(self) -> None:
         self.change_unit(
             "Orangutan má %d banán.\n",
@@ -7957,6 +8294,14 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
 
+    def test_base_url_path_is_preserved(self) -> None:
+        machine = self.MACHINE_CLS(
+            {**self.CONFIGURATION, "base_url": "http://localhost:11434/ollama"}
+        )
+        self.assertEqual(
+            machine.get_chat_url(), "http://localhost:11434/ollama/api/chat"
+        )
+
     def mock_error(self) -> None:
         http_mock.register(
             "POST",
@@ -8068,10 +8413,10 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
             },
         )
 
-    def mock_response(self) -> None:
+    def mock_response(self, url: str = "https://api.anthropic.com/v1/messages") -> None:
         http_mock.register(
             "POST",
-            "https://api.anthropic.com/v1/messages",
+            url,
             status_code=200,
             json={
                 "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
@@ -8163,6 +8508,32 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
         )
 
         machine = self.MACHINE_CLS({**self.CONFIGURATION, "base_url": ""})
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_BLANK,
+            self.EXPECTED_LEN,
+            machine=machine,
+        )
+
+    @http_mock.activate
+    def test_base_url_path_is_preserved(self) -> None:
+        self.mock_response("https://gateway.example/api/v1/messages")
+        machine = self.MACHINE_CLS(
+            {**self.CONFIGURATION, "base_url": "https://gateway.example/api"}
+        )
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_BLANK,
+            self.EXPECTED_LEN,
+            machine=machine,
+        )
+
+    @http_mock.activate
+    def test_base_url_with_version(self) -> None:
+        self.mock_response("https://gateway.example/api/v1/messages")
+        machine = self.MACHINE_CLS(
+            {**self.CONFIGURATION, "base_url": "https://gateway.example/api/v1"}
+        )
         self.assert_translate(
             self.SUPPORTED,
             self.SOURCE_BLANK,
@@ -8283,6 +8654,114 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
 
 
 class WeblateTranslationTest(FixtureComponentTestCase):
+    def test_multivalue_candidates(self) -> None:
+        unit = self.get_unit(language="cs")
+        type(unit.translation.component).objects.filter(
+            pk=unit.translation.component_id
+        ).update(file_format="csv-multi")
+        Unit.objects.filter(pk=unit.pk).update(
+            source=join_plural(["application with a very long full name", "app"]),
+            target=join_plural(["aplikace", "program"]),
+            state=STATE_TRANSLATED,
+        )
+        machine = WeblateTranslation({})
+        for threshold in (100, 75):
+            with self.subTest(threshold=threshold):
+                results = list(
+                    machine.download_translations(
+                        unit.translation.component.source_language,
+                        unit.translation.language,
+                        "app",
+                        unit=None,
+                        user=self.user,
+                        threshold=threshold,
+                    )
+                )
+                self.assertEqual(
+                    {(result["source"], result["text"]) for result in results},
+                    {("app", "aplikace"), ("app", "program")},
+                )
+
+    def test_long_multivalue_candidates(self) -> None:
+        unit = self.get_unit(language="cs")
+        type(unit.translation.component).objects.filter(
+            pk=unit.translation.component_id
+        ).update(file_format="csv-multi")
+        machine = WeblateTranslation({})
+        for sources in (
+            ["application", "a much longer alternative"],
+            ["a much longer alternative", "application"],
+        ):
+            Unit.objects.filter(pk=unit.pk).update(
+                source=join_plural(sources),
+                target=join_plural(["aplikace", "program"]),
+                state=STATE_TRANSLATED,
+            )
+            for text in ("application", "applications"):
+                with self.subTest(sources=sources, text=text):
+                    results = list(
+                        machine.download_translations(
+                            unit.translation.component.source_language,
+                            unit.translation.language,
+                            text,
+                            unit=None,
+                            user=self.user,
+                            threshold=75,
+                        )
+                    )
+                    self.assertEqual(
+                        {(result["source"], result["text"]) for result in results},
+                        {("application", "aplikace"), ("application", "program")},
+                    )
+
+    def test_multivalue_candidate_ranking_uses_matching_alias(self) -> None:
+        unit = self.get_unit(language="cs")
+        type(unit.translation.component).objects.filter(
+            pk=unit.translation.component_id
+        ).update(file_format="csv-multi")
+        Unit.objects.filter(pk=unit.pk).update(
+            source=join_plural(["application", "a much longer alternative"]),
+            target=join_plural(["aplikace", "program"]),
+            state=STATE_TRANSLATED,
+        )
+        machine = WeblateTranslation({})
+        competitors = Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=unit.translation,
+                    source_unit_id=unit.source_unit_id,
+                    source="application",
+                    target=f"translation {index}",
+                    state=STATE_TRANSLATED,
+                    id_hash=index,
+                    position=index,
+                )
+                for index in range(machine.candidate_limit)
+            ]
+        )
+        for text in ("application", "app"):
+            with self.subTest(text=text):
+                Unit.objects.filter(
+                    pk__in=[competitor.pk for competitor in competitors]
+                ).update(source=text)
+                Unit.objects.filter(pk=unit.pk).update(
+                    source=join_plural(["a much longer alternative", text])
+                )
+                results = list(
+                    machine.download_translations(
+                        unit.translation.component.source_language,
+                        unit.translation.language,
+                        text,
+                        unit=None,
+                        user=self.user,
+                        threshold=75,
+                    )
+                )
+                self.assertEqual(len(results), machine.candidate_limit)
+                self.assertEqual(
+                    [result["text"] for result in results[:2]], ["aplikace", "program"]
+                )
+
     def test_empty(self) -> None:
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)
@@ -8302,7 +8781,7 @@ class WeblateTranslationTest(FixtureComponentTestCase):
         self.assertNotEqual(results, [])
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_matches_still_probe_fuzzy_lookup(self, adjust_threshold) -> None:
+    def test_matches_still_probe_fuzzy_lookup(self, adjust_threshold: Mock) -> None:
         unit = Unit.objects.get(translation__language_code="cs", position=1)
         other = unit.translation.unit_set.exclude(pk=unit.pk).order_by("pk")[0]
         other.source = unit.source
@@ -8695,6 +9174,28 @@ class ViewsTest(FixtureTestCase):
         data = response.json()
         self.assertEqual(data["service"], "Weblate Translation Memory")
 
+    def test_memory_includes_context(self) -> None:
+        """The JSON payload carries the memory context for the editor."""
+        unit = self.get_unit()
+        Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Hello",
+            target="Ahoj",
+            origin="test",
+            context="menu.file.open",
+            legacy_from_file=True,
+            legacy_shared=False,
+            status=Memory.STATUS_ACTIVE,
+        )
+        response = self.client.post(
+            reverse("js-memory", kwargs={"unit_id": unit.id}), {"q": "Hello"}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["responseStatus"], 200)
+        self.assertEqual(data["translations"][0]["context"], "menu.file.open")
+
     def test_machinery_hides_private_unit_from_anonymous_user(self) -> None:
         unit = self.get_unit()
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -8866,7 +9367,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
     @patch("weblate.machinery.weblatetm.Unit.objects")
     @patch("weblate.machinery.weblatetm.Translation.objects")
     def test_get_base_queryset_uses_translation_subquery(
-        self, translation_objects, unit_objects
+        self, translation_objects: Mock, unit_objects: Mock
     ) -> None:
         machine = WeblateTranslation({})
         user = MagicMock()
@@ -8902,7 +9403,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         )
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
-    def test_get_matching_units_uses_fuzzy_lookup(self, adjust_threshold) -> None:
+    def test_get_matching_units_uses_fuzzy_lookup(self, adjust_threshold: Mock) -> None:
         machine = WeblateTranslation({})
         base = MagicMock()
         queryset = MagicMock()
@@ -8921,7 +9422,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
             results = machine.get_matching_units(base, "Hello", 75)
 
         self.assertEqual(results, [fuzzy_match])
-        base.filter.assert_called_once_with(source__trgm_search="Hello")
+        base.filter.assert_called_once()
         queryset.annotate.assert_called_once()
         annotated_queryset.order_by.assert_called_once_with("-match_similarity", "pk")
         prepare_queryset.assert_called_once_with(ordered_queryset)
@@ -8932,7 +9433,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
     def test_get_matching_units_orders_short_queries_before_slicing(
-        self, adjust_threshold
+        self, adjust_threshold: Mock
     ) -> None:
         machine = WeblateTranslation({})
         base = MagicMock()
@@ -8961,7 +9462,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
 
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
     def test_get_matching_units_uses_exact_lookup_at_full_threshold(
-        self, adjust_threshold
+        self, adjust_threshold: Mock
     ) -> None:
         machine = WeblateTranslation({})
         base = MagicMock()
@@ -8993,10 +9494,12 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         machine.comparer.similarity.side_effect = [95, 90, 85]
 
         filtered_match = MagicMock()
+        filtered_match.is_multivalue = False
         filtered_match.source_string = "ignored"
         filtered_match.all_flags = {"forbidden"}
 
         first_match = MagicMock()
+        first_match.is_multivalue = False
         first_match.source_string = "first"
         first_match.all_flags = set()
         first_match.get_target_plurals.return_value = ["First"]
@@ -9004,6 +9507,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         first_match.get_absolute_url.return_value = "/first/"
 
         second_match = MagicMock()
+        second_match.is_multivalue = False
         second_match.source_string = "second"
         second_match.all_flags = set()
         second_match.get_target_plurals.return_value = ["Second"]
@@ -9011,6 +9515,7 @@ class WeblateTranslationLookupTest(SimpleTestCase):
         second_match.get_absolute_url.return_value = "/second/"
 
         third_match = MagicMock()
+        third_match.is_multivalue = False
         third_match.source_string = "third"
         third_match.all_flags = set()
         third_match.get_target_plurals.return_value = ["Third"]
@@ -9098,7 +9603,8 @@ class MachineryValidationTest(TestCase):
         self.assertIn("site administrator", str(form.errors["__all__"]))
         self.assertIn("site-wide or allowlisted", str(form.errors["__all__"]))
 
-    def test_deepl_rejects_v1_url(self) -> None:
+    @http_mock.activate
+    def test_deepl_accepts_v1_url(self) -> None:
         for url in (
             "https://api.deepl.com/v1/",
             "https://api-free.deepl.com/v1/",
@@ -9111,10 +9617,9 @@ class MachineryValidationTest(TestCase):
                     data={"key": "x", "url": url},
                 )
 
-                self.assertFalse(form.is_valid())
-                self.assertIn(
-                    "DeepL API v1 is no longer supported.", form.errors["url"]
-                )
+                DeepLLegacyTranslationTest.mock_languages(url.rstrip("/"))
+                http_mock.register("POST", f"{url}translate", json=DEEPL_RESPONSE)
+                self.assertTrue(form.is_valid(), form.errors)
 
     @override_settings(OFFER_HOSTING=True)
     def test_project_machinery_rejects_private_url_on_hosted_site(self) -> None:

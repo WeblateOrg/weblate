@@ -19,11 +19,15 @@ from weblate.utils.rst import format_rst_string, format_table
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from django.core.management.base import CommandParser
+
     from weblate.utils.rst import CellType
 
 
-SKIP_FIELDS: tuple[tuple[str, str]] = (
+SKIP_FIELDS: tuple[tuple[str, str], ...] = (
     ("weblate.flags.bulk", "path"),  # Used internally only
+    ("weblate.automation.automation", "preview_component"),
+    ("weblate.automation.automation", "preview_change"),
 )
 
 EXTRA_ANCHOR_ALIASES = {
@@ -45,7 +49,7 @@ SHARED_PARAMS = ("engines", "file_format", "event_filter", "events")
 class Command(DocGeneratorCommand):
     help = "List installed add-ons"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "-s",
@@ -104,7 +108,9 @@ class Command(DocGeneratorCommand):
                 ["Built-in add-ons", "++++++++++++++++"],
             )
 
-        fake_addon = Addon(component=Component(project=Project(pk=-1), pk=-1))
+        fake_addon = Addon(
+            component=Component(project=Project(pk=-1), pk=-1, source_language_id=-1)
+        )
         for addon_name, obj in sorted(ADDONS.items()):
             addon_lines = []
             if obj.name in EXTRA_ANCHOR_ALIASES:
@@ -179,7 +185,11 @@ class Command(DocGeneratorCommand):
             events = ", ".join(
                 f":ref:`{event_link(event)}`" for event in sorted_events(obj.events)
             )
-            if POST_CONFIGURE_EVENTS & set(obj.events):
+            if (
+                POST_CONFIGURE_EVENTS & set(obj.events)
+                and AddonEvent.EVENT_INSTALL not in obj.events
+                and obj.run_on_configuration
+            ):
                 events = f":ref:`addon-event-add-on-installation`, {events}"
             addon_lines.extend(
                 [
@@ -218,19 +228,18 @@ class Command(DocGeneratorCommand):
         if doc_field.help_text:
             result.append(format_rst_string(doc_field.help_text))
         choices = getattr(field, "choices", None)
-        if choices:
-            if name in SHARED_PARAMS:
-                # Add link to shared docs
-                result.append(f":ref:`addon-choice-{name}`")
-            elif name not in {
-                "component",
-                "source",
-                "target",
-            }:
-                # List actual choices
-                if result:
-                    result.append("")
-                result.extend(self.get_choices_table(choices))
+        if name in SHARED_PARAMS:
+            # Shared choices are documented independently of configured choices.
+            result.append(f":ref:`addon-choice-{name}`")
+        elif choices and name not in {
+            "component",
+            "source",
+            "target",
+        }:
+            # List actual choices
+            if result:
+                result.append("")
+            result.extend(self.get_choices_table(choices))
         return "\n".join(result)
 
     def get_choices_table(self, choices: list[tuple[str, str]]) -> list[str]:

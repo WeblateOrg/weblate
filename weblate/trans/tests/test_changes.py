@@ -4,18 +4,130 @@
 
 """Tests for changes browsing."""
 
-from datetime import timedelta
-from html import escape
+from __future__ import annotations
 
+from datetime import UTC, datetime, timedelta
+from html import escape
+from typing import TYPE_CHECKING, cast
+from unittest.mock import patch
+
+from django.db import connection
+from django.http import QueryDict
+from django.template.loader import render_to_string
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.http import urlencode
+from lxml import html
 
+from weblate.lang.models import Language
+from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.feeds import ChangeFeedScope, TranslationChangesFeed
-from weblate.trans.models import Change, Project, Unit
+from weblate.trans.forms import ChangesDateForm
+from weblate.trans.models import Announcement, Change, Project, Translation, Unit
+from weblate.trans.templatetags.translations import format_last_changes_content
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
+from weblate.trans.views.changes import ChangesView
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.xml import parse_xml
+
+if TYPE_CHECKING:
+    from django.test.client import _MonkeyPatchedWSGIResponse
+
+
+class ChangeScopeTest(ViewTestCase):
+    def test_language_scoped_history(self) -> None:
+        language = self.translation.language
+        category = self.create_category(self.project)
+        scopes: tuple[
+            tuple[
+                dict[str, object],
+                ProjectLanguage | Translation | CategoryLanguage | Language,
+            ],
+            ...,
+        ] = (
+            ({"project": self.project}, ProjectLanguage(self.project, language)),
+            (
+                {"project": self.project, "component": self.component},
+                self.translation,
+            ),
+            ({"category": category}, CategoryLanguage(category, language)),
+            ({}, language),
+        )
+        for scope, expected in scopes:
+            for action in (ActionEvents.ANNOUNCEMENT, ActionEvents.COMMENT):
+                with self.subTest(scope=scope, action=action):
+                    if action == ActionEvents.ANNOUNCEMENT:
+                        announcement = Announcement.objects.create(
+                            language=language, message="Scoped announcement", **scope
+                        )
+                        change = Change.objects.get(announcement=announcement)
+                    else:
+                        change = Change(action=action, language=language, **scope)
+                    self.assertIsNone(change.translation_id)
+                    content = render_to_string(
+                        "snippets/last-changes-content.html",
+                        format_last_changes_content([change], self.user),
+                    )
+                    url = expected.get_absolute_url()
+                    self.assertInHTML(
+                        f'<li class="breadcrumb-item"><a href="{url}">{escape(str(language))}</a></li>',
+                        content,
+                    )
+                    self.assertIn(f'href="{url}"\n', content)
+                    self.assertEqual(change.get_absolute_url(), url)
+                    self.assertIsNone(change.translation_id)
+
+    def test_component_language_resolution_is_cached(self) -> None:
+        Translation.objects.filter(pk=self.translation.pk).update(
+            language_code="custom"
+        )
+        change = Change(component=self.component, language=self.translation.language)
+        with self.assertNumQueries(1):
+            resolved = change.path_object
+        self.assertEqual(resolved, self.translation)
+        self.assertEqual(cast("Translation", resolved).language_code, "custom")
+        expected_url = self.translation.get_absolute_url()
+        with self.assertNumQueries(0):
+            self.assertIs(change.path_object, resolved)
+            self.assertEqual(change.get_absolute_url(), expected_url)
+        self.assertIsNone(change.translation_id)
+
+    def test_missing_translation_falls_back_to_component(self) -> None:
+        language = Language.objects.exclude(
+            pk__in=self.component.translation_set.values("language_id")
+        ).first()
+        self.assertIsNotNone(language)
+        change = Change(component=self.component, language=language)
+        self.assertEqual(change.path_object, self.component)
+        self.assertEqual(change.get_absolute_url(), self.component.get_absolute_url())
+
+    def test_existing_destinations(self) -> None:
+        category = self.create_category(self.project)
+        for field, obj in (
+            ("translation", self.translation),
+            ("component", self.component),
+            ("category", category),
+            ("project", self.project),
+        ):
+            with self.subTest(field=field):
+                change = Change(**{field: obj})
+                self.assertEqual(change.path_object, obj)
+                self.assertEqual(change.get_absolute_url(), obj.get_absolute_url())
+        self.assertEqual(Change().get_absolute_url(), "/")
+
+    def test_detail_destinations_take_precedence(self) -> None:
+        change = Change(translation=self.translation)
+        for field, model in (("unit", Unit), ("screenshot", Screenshot)):
+            with self.subTest(field=field):
+                detail = model()
+                setattr(change, field, detail)
+                with patch.object(
+                    detail, "get_absolute_url", return_value=f"/{field}/"
+                ):
+                    self.assertEqual(change.get_absolute_url(), f"/{field}/")
+                setattr(change, field, None)
 
 
 class FeedQueriesTest(FixtureTestCase):
@@ -402,12 +514,313 @@ class ChangesTest(ViewTestCase):
         start = end - timedelta(days=1)
         period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.client.get(reverse("changes"), {"period": period})
-        query_string = urlencode({"page": 2, "limit": 20, "period": period})
-        self.assertContains(response, escape(query_string))
-        response = self.client.get(
-            reverse("changes"), {"page": 2, "limit": 20, "period": period}
-        )
+        document = html.fromstring(response.content)
+        next_url = document.xpath('//a[@rel="next"]/@href')[0]
+        params = QueryDict(next_url.removeprefix("?"))
+        self.assertEqual(params["period"], period)
+        self.assertIn("before", params)
+        self.assertIn("id", params)
+        self.assertNotIn("cursor", params)
+        self.assertNotIn("page", params)
+        response = self.client.get(f"{reverse('changes')}{next_url}")
         self.assertContains(response, "String added in the upload")
+
+    def create_cursor_changes(self, count: int = 45) -> list[Change]:
+        Change.objects.all().delete()
+        changes = [
+            self.component.change_set.create(action=ActionEvents.LOCK)
+            for _ in range(count)
+        ]
+        # Exercise the ID tie breaker across multiple full pages.
+        timestamp = timezone.now()
+        Change.objects.all().update(timestamp=timestamp)
+        return list(reversed(changes))
+
+    def get_cursor_page(
+        self, cursor: dict[str, str | int] | None = None, **params: str | int
+    ) -> _MonkeyPatchedWSGIResponse:
+        if cursor:
+            params.update(cursor)
+        return self.client.get(reverse("changes"), params)
+
+    def test_cursor_round_trip(self) -> None:
+        changes = self.create_cursor_changes()
+        first = self.get_cursor_page()
+        self.assertEqual(list(first.context["object_list"]), changes[:20])
+        self.assertIsNone(first.context["newer_cursor"])
+        first_document = html.fromstring(first.content)
+        self.assertEqual(
+            len(
+                first_document.xpath(
+                    '//nav[starts-with(@aria-label, "History navigation")]//li[1]/span[@aria-disabled="true"]'
+                )
+            ),
+            2,
+        )
+        second = self.get_cursor_page(first.context["older_cursor"])
+        second_document = html.fromstring(second.content)
+        self.assertEqual(
+            len(
+                second_document.xpath(
+                    '//nav[starts-with(@aria-label, "History navigation")]//li[1]/a'
+                )
+            ),
+            2,
+        )
+        self.assertEqual(list(second.context["object_list"]), changes[20:40])
+        last = self.get_cursor_page(second.context["older_cursor"])
+        self.assertEqual(list(last.context["object_list"]), changes[40:])
+        self.assertIsNone(last.context["older_cursor"])
+        previous = self.get_cursor_page(last.context["newer_cursor"])
+        self.assertEqual(list(previous.context["object_list"]), changes[20:40])
+        previous = self.get_cursor_page(previous.context["newer_cursor"])
+        self.assertEqual(list(previous.context["object_list"]), changes[:20])
+
+    def test_cursor_page_sizes(self) -> None:
+        for count in (0, 1, 20, 21):
+            with self.subTest(count=count):
+                changes = self.create_cursor_changes(count)
+                response = self.get_cursor_page()
+                self.assertEqual(list(response.context["object_list"]), changes[:20])
+                self.assertEqual(bool(response.context["older_cursor"]), count > 20)
+                self.assertIsNone(response.context["newer_cursor"])
+                document = html.fromstring(response.content)
+                navigation = document.xpath(
+                    '//nav[starts-with(@aria-label, "History navigation")]'
+                )
+                self.assertEqual(len(navigation), 2 if count > 20 else 0)
+                self.assertEqual(
+                    len(document.xpath('//form[@id="change-date-form"]')), 1
+                )
+
+    def test_cursor_survives_history_changes(self) -> None:
+        changes = self.create_cursor_changes()
+        response = self.get_cursor_page()
+        changes[19].delete()
+        self.component.change_set.create(action=ActionEvents.LOCK)
+        response = self.get_cursor_page(response.context["older_cursor"])
+        self.assertEqual(list(response.context["object_list"]), changes[20:40])
+
+    def test_cursor_queries_are_bounded(self) -> None:
+        self.create_cursor_changes()
+        first = self.get_cursor_page()
+        for cursor in (None, first.context["older_cursor"]):
+            with (
+                self.subTest(cursor=cursor),
+                CaptureQueriesContext(connection) as queries,
+            ):
+                response = self.get_cursor_page(cursor)
+                self.assertEqual(response.status_code, 200)
+            history_queries = [
+                q["sql"] for q in queries if 'FROM "trans_change"' in q["sql"]
+            ]
+            self.assertTrue(history_queries)
+            for sql in history_queries:
+                self.assertNotIn("COUNT(", sql)
+                self.assertNotIn("OFFSET", sql)
+                self.assertTrue(
+                    "LIMIT" in sql or '"trans_change"."id" IN (' in sql, sql
+                )
+
+    def test_readable_cursor_parameters(self) -> None:
+        changes = self.create_cursor_changes()
+        boundary = changes[20]
+        boundary.refresh_from_db()
+        timestamp = boundary.timestamp.astimezone(
+            timezone.get_fixed_timezone(120)
+        ).isoformat()
+        response = self.get_cursor_page(before=timestamp, id=boundary.pk)
+        self.assertEqual(list(response.context["object_list"]), changes[21:41])
+        response = self.get_cursor_page(after=timestamp, id=boundary.pk)
+        self.assertEqual(list(response.context["object_list"]), changes[:20])
+        params = response.context["older_cursor"]
+        self.assertTrue(params["before"].endswith("Z"))
+        self.assertEqual(params["id"], changes[19].pk)
+
+    def test_cursor_invalid(self) -> None:
+        timestamp = timezone.now().isoformat()
+        values: tuple[dict[str, str | int], ...] = (
+            {"before": timestamp},
+            {"id": 1},
+            {"before": timestamp, "after": timestamp, "id": 1},
+            {"before": timestamp, "id": -1},
+            {"before": timestamp, "id": 2**63},
+            {"before": timestamp, "id": "invalid"},
+            {"before": "invalid", "id": 1},
+            {"before": "", "id": 1},
+            {"after": "2026-09-17T00:00:00", "id": 1},
+            {"before": "0001-01-01T00:00:00+01:00", "id": 1},
+            {"after": "9999-12-31T23:59:59-01:00", "id": 1},
+        )
+        for value in values:
+            with self.subTest(value=value):
+                self.assertEqual(
+                    self.client.get(reverse("changes"), value).status_code, 404
+                )
+        for query in (
+            "before=2026-09-17T00:00:00Z&id=1&id=2",
+            "before=2026-09-17T00:00:00Z&before=2026-09-16T00:00:00Z&id=1",
+        ):
+            with self.subTest(query=query):
+                self.assertEqual(
+                    self.client.get(f"{reverse('changes')}?{query}").status_code, 404
+                )
+
+    def test_date_jump(self) -> None:
+        changes = self.create_cursor_changes(2)
+        today = timezone.localdate()
+        yesterday = today - timedelta(days=1)
+        Change.objects.filter(pk=changes[1].pk).update(
+            timestamp=timezone.now() - timedelta(days=1)
+        )
+        response = self.get_cursor_page(
+            date=yesterday.isoformat(), before="ignored", id="ignored"
+        )
+        self.assertEqual(list(response.context["object_list"]), [changes[1]])
+        self.assertIsNone(response.context["older_cursor"])
+        response = self.get_cursor_page(response.context["newer_cursor"])
+        self.assertEqual(list(response.context["object_list"]), [changes[0]])
+        response = self.get_cursor_page(date="2000-01-01")
+        self.assertEqual(list(response.context["object_list"]), [])
+        self.assertIsNotNone(response.context["newer_cursor"])
+        response = self.get_cursor_page(response.context["newer_cursor"])
+        self.assertEqual(list(response.context["object_list"]), changes)
+
+    def test_date_jump_timezone_and_range(self) -> None:
+        changes = self.create_cursor_changes(3)
+        # Midnight after a DST transition in Prague is 22:00 UTC.
+        boundary = datetime(2026, 3, 29, 22, tzinfo=UTC)
+        for change, delta in zip(
+            changes,
+            (timedelta(), timedelta(microseconds=-1), timedelta(days=-2)),
+            strict=True,
+        ):
+            Change.objects.filter(pk=change.pk).update(timestamp=boundary + delta)
+        with timezone.override("Europe/Prague"):
+            response = self.get_cursor_page(date="2026-03-29")
+            self.assertEqual(list(response.context["object_list"]), changes[1:])
+            response = self.get_cursor_page(
+                date="2026-03-29", period="03/29/2026 - 03/30/2026"
+            )
+            self.assertEqual(list(response.context["object_list"]), changes[1:2])
+            newer = self.get_cursor_page(
+                response.context["newer_cursor"], period="03/29/2026 - 03/30/2026"
+            )
+            self.assertEqual(list(newer.context["object_list"]), changes[:1])
+
+    def test_cursor_scope_and_permissions(self) -> None:
+        changes = self.create_cursor_changes()
+        private_project = self.create_project(
+            name="Cursor private",
+            slug="cursor-private",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        hidden = Change.objects.create(
+            project=private_project, action=ActionEvents.LOCK
+        )
+        cursor = ChangesView.cursor_params(hidden.timestamp, hidden.pk, "older")
+        response = self.get_cursor_page(cursor)
+        self.assertEqual(list(response.context["object_list"]), changes[:20])
+        scoped_url = reverse("changes", kwargs={"path": self.component.get_url_path()})
+        response = self.client.get(scoped_url, response.context["older_cursor"])
+        self.assertEqual(list(response.context["object_list"]), changes[20:40])
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        response = self.get_cursor_page(cursor)
+        self.assertEqual(list(response.context["object_list"]), [])
+        self.assertIsNone(response.context["older_cursor"])
+        self.assertIsNone(response.context["newer_cursor"])
+
+    def test_exports_ignore_navigation(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        self.create_cursor_changes()
+        for name in ("changes-rss", "changes-csv"):
+            with self.subTest(name=name):
+                url = reverse(name)
+                expected = self.client.get(url, {"action": ActionEvents.LOCK})
+                response = self.client.get(
+                    url,
+                    {
+                        "action": str(ActionEvents.LOCK),
+                        "before": "invalid",
+                        "id": "invalid",
+                        "date": "2000-01-01",
+                    },
+                )
+                if name == "changes-csv":
+                    self.assertEqual(response.content, expected.content)
+                else:
+                    self.assertEqual(
+                        len(parse_xml(response.content).findall("channel/item")), 10
+                    )
+                    self.assertEqual(
+                        [
+                            item.findtext("guid")
+                            for item in parse_xml(response.content).findall(
+                                "channel/item"
+                            )
+                        ],
+                        [
+                            item.findtext("guid")
+                            for item in parse_xml(expected.content).findall(
+                                "channel/item"
+                            )
+                        ],
+                    )
+
+    def test_date_jump_invalid(self) -> None:
+        for date in ("invalid", "9999-12-31"):
+            with self.subTest(date=date):
+                response = self.get_cursor_page(date=date)
+                self.assertEqual(response.status_code, 200)
+                self.assertTrue(response.context["date_form"].errors)
+                self.assertEqual(list(response.context["object_list"]), [])
+
+    def test_date_jump_rejects_future(self) -> None:
+        today = timezone.localdate()
+        response = self.get_cursor_page(date=(today + timedelta(days=1)).isoformat())
+        self.assertFormError(
+            response.context["date_form"], "date", "The date cannot be in the future."
+        )
+        self.assertEqual(list(response.context["object_list"]), [])
+        document = html.fromstring(response.content)
+        self.assertEqual(
+            document.xpath('//input[@name="date"]/@max'), [today.isoformat()]
+        )
+        response = self.get_cursor_page(date=today.isoformat())
+        self.assertFalse(response.context["date_form"].errors)
+
+    def test_date_jump_future_limit_uses_current_timezone(self) -> None:
+        now = datetime(2026, 9, 17, 23, tzinfo=UTC)
+        with (
+            timezone.override("Europe/Prague"),
+            patch("django.utils.timezone.now", return_value=now),
+        ):
+            form = ChangesDateForm(data={"date": "2026-09-18"})
+            self.assertTrue(form.is_valid())
+            self.assertEqual(form.fields["date"].widget.attrs["max"], "2026-09-18")
+            self.assertFalse(ChangesDateForm(data={"date": "2026-09-19"}).is_valid())
+
+    def test_legacy_pagination_redirect(self) -> None:
+        response = self.get_cursor_page(page="last", limit=50, action=ActionEvents.LOCK)
+        self.assertRedirects(
+            response, f"{reverse('changes')}?action={ActionEvents.LOCK}"
+        )
+
+    def test_navigation_not_in_export_links(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        self.create_cursor_changes()
+        first = self.get_cursor_page()
+        response = self.get_cursor_page(
+            first.context["older_cursor"], action=ActionEvents.LOCK
+        )
+        for name in ("changes-rss", "changes-csv"):
+            self.assertContains(response, f"{reverse(name)}?action={ActionEvents.LOCK}")
+        response = self.get_cursor_page(date="2000-01-01", action=ActionEvents.LOCK)
+        for name in ("changes-rss", "changes-csv"):
+            self.assertContains(response, f"{reverse(name)}?action={ActionEvents.LOCK}")
 
     def test_rss_link_keeps_query_string(self) -> None:
         response = self.client.get(reverse("changes"), {"user": self.user.username})

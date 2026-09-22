@@ -35,7 +35,9 @@
     <div class="card-footer">
       <form class="form-inline">
         <div class="form-group">
-          <a href="{{ return_url }}" class="btn btn-primary" id="progress-return">{% blocktranslate %}Continue to {{ return_target }}{% endblocktranslate %}</a>
+          <a href="{{ return_url }}"
+             class="btn btn-primary"
+             id="progress-return">{% blocktranslate %}Continue to {{ return_target }}{% endblocktranslate %}</a>
           {% if user_can_edit_component and task_cancellable %}
             <a href="#" class="btn btn-danger" id="terminate-task-button">{% translate "Abort the update" %}</a>
           {% endif %}

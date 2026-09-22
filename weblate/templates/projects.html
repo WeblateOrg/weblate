@@ -16,7 +16,8 @@
 
   {% if payment_enabled %}
     <p>
-      <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% translate "Purchase new hosting plan" %}</a>
+      <a href="{% url 'create-billing' %}?upgrade=1"
+         class="btn btn-primary">{% translate "Purchase new hosting plan" %}</a>
     </p>
   {% elif offer_hosting %}
     <p>

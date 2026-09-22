@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import os
 import re
-from itertools import chain
+from itertools import islice
 from operator import itemgetter
 from pathlib import Path
 from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
@@ -28,7 +28,7 @@ from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
 from weblate.utils.errors import report_error
-from weblate.utils.files import is_path_within_resolved_directory
+from weblate.utils.files import VCS_METADATA_DIRS, is_path_within_resolved_directory
 from weblate.utils.regex import compile_regex, regex_match
 from weblate.utils.render import render_template
 
@@ -44,6 +44,8 @@ DISCOVERY_PRESET_COMPONENT_MARKER = "__COMPONENT__"
 DISCOVERY_PRESET_COMPONENT_TEMPLATE = "{{ component }}"
 DISCOVERY_PRESET_LANGUAGE_CAPTURE = r"(?P<language>[^/.]*)"
 DISCOVERY_PRESET_COMPONENT_CAPTURE = r"(?P<component>[^/]*)"
+MAX_DISCOVERY_PATHS = 100_000
+MAX_DISCOVERY_COMPARISONS = 1_000_000
 
 
 class DiscoveryErrorMatch(TypedDict):
@@ -482,6 +484,7 @@ class ComponentDiscovery:
         self.component = component
         self.match = match
         self.errors: list[tuple[DiscoveryErrorMatch, str]] = []
+        self.limit_exceeded = False
         if path is None:
             self.path = self.component.full_path
         else:
@@ -614,22 +617,46 @@ class ComponentDiscovery:
     def _iter_repository_paths(self):
         """Yield relative repository paths found under the discovery root."""
         base = Path(self.path).resolve()
-        for root, dirnames, filenames in os.walk(self.path, followlinks=True):
-            dirnames[:] = [
-                dirname
-                for dirname in dirnames
-                if is_path_within_resolved_directory(os.path.join(root, dirname), base)
-            ]
-            for filename in chain(filenames, dirnames):
-                fullname = os.path.join(root, filename)
-                if not is_path_within_resolved_directory(fullname, base):
+        directories = [self.path]
+        while directories:
+            directory = directories.pop()
+            for entry in self._iter_directory_entries(directory):
+                try:
+                    is_directory = entry.is_dir(follow_symlinks=True)
+                except OSError:
+                    # Ignore entries which disappear or become inaccessible.
                     continue
-                yield path_separator(os.path.relpath(fullname, self.path))
+                if is_directory and entry.name in VCS_METADATA_DIRS:
+                    continue
+                if not is_path_within_resolved_directory(entry.path, base):
+                    continue
+                yield path_separator(os.path.relpath(entry.path, self.path))
+                if is_directory:
+                    directories.append(entry.path)
+
+    @staticmethod
+    def _iter_directory_entries(directory: str):
+        """Yield directory entries without materializing the directory listing."""
+        try:
+            with os.scandir(directory) as entries:
+                yield from entries
+        except OSError:
+            # Match os.walk's default behavior for inaccessible directories.
+            pass
 
     @cached_property
     def repository_paths(self) -> list[str]:
         """Return relative repository paths under the discovery root."""
-        return list(self._iter_repository_paths())
+        paths = list(islice(self._iter_repository_paths(), MAX_DISCOVERY_PATHS + 1))
+        if len(paths) > MAX_DISCOVERY_PATHS:
+            self.limit_exceeded = True
+            self.add_error(
+                gettext(
+                    "Component discovery stopped because the repository contains too many paths."
+                )
+            )
+            return []
+        return paths
 
     def _match_language(self, language_part: str | None) -> bool:
         if language_part is None:
@@ -730,6 +757,15 @@ class ComponentDiscovery:
     ) -> dict[str, list[tuple[str, str]]]:
         """Return translation files for each mask in a single path scan."""
         if not masks:
+            return {}
+
+        if len(self.repository_paths) * len(masks) > MAX_DISCOVERY_COMPARISONS:
+            self.limit_exceeded = True
+            self.add_error(
+                gettext(
+                    "Component discovery stopped because matching translation files would require too many comparisons."
+                )
+            )
             return {}
 
         compiled = {mask: self.compile_mask_match(mask) for mask in masks}
@@ -856,9 +892,12 @@ class ComponentDiscovery:
                 }
                 for mask, match in result.items()
             }
-            for mask, translations in self._collect_translations_by_mask(
+            translations_by_mask = self._collect_translations_by_mask(
                 set(result), exclude_paths=exclude_paths
-            ).items():
+            )
+            if self.limit_exceeded:
+                return {}
+            for mask, translations in translations_by_mask.items():
                 for translation_path, language in translations:
                     result[mask]["files"].add(translation_path)
                     result[mask]["languages"].add(language)
@@ -1052,11 +1091,15 @@ class ComponentDiscovery:
         return None
 
     def perform(self, preview=False, remove=False, background=False):
-        created = []
-        matched = []
-        deleted = []
-        skipped = []
-        processed = set()
+        created: list[tuple[DiscoveryMatch, Component | None]] = []
+        matched: list[tuple[DiscoveryMatch, Component]] = []
+        deleted: list[tuple[None, Component]] = []
+        skipped: list[tuple[DiscoveryMatch, str]] = []
+        processed: set[int] = set()
+
+        discovered = self.matched_components
+        if self.limit_exceeded:
+            return created, matched, deleted, skipped
 
         main = self.component
         category_components = main.project.component_set.filter(category=main.category)
@@ -1070,7 +1113,7 @@ class ComponentDiscovery:
             name.lower() for name in category_components.values_list("name", flat=True)
         }
 
-        for match in self.matched_components.values():
+        for match in discovered.values():
             # Skip invalid matches
             reason = self.get_skip_reason(match)
             if reason is not None:

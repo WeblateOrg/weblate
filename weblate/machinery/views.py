@@ -97,7 +97,7 @@ class MachineryConfiguration:
         self.is_configured = is_configured
 
     @property
-    def is_enabled(self):
+    def is_enabled(self) -> bool:
         return self.configuration is not None
 
     @property
@@ -117,7 +117,7 @@ class MachineryConfiguration:
         return self.machinery.get_doc_anchor()
 
     @property
-    def has_settings(self):
+    def has_settings(self) -> bool:
         return self.machinery.settings_form is not None
 
     def get_absolute_url(self) -> str:
@@ -387,9 +387,14 @@ def format_results_helper(
     plural_form: int,
     translation: Translation,
     source_translation: Translation,
+    *,
+    multivalue: bool = False,
 ) -> None:
     item["plural_form"] = plural_form
-    item["diff"] = format_string_helper(item["text"], translation, targets[plural_form])
+    if multivalue:
+        item["multivalue"] = True
+    target = None if multivalue else targets[plural_form]
+    item["diff"] = format_string_helper(item["text"], translation, target)
     item["source_diff"] = format_string_helper(
         item["source"], source_translation, item["original_source"]
     )
@@ -409,6 +414,8 @@ def get_machinery_translations(
         translations = translation_service.search(unit, search, request.user)
         return format_machinery_translations(
             translations,
+            multivalue=unit.is_multivalue
+            or unit.has_multiple_values(unit.plural_map, targets),
             search=True,
             targets=targets,
             translation=translation,
@@ -418,6 +425,8 @@ def get_machinery_translations(
     translations = translation_service.translate(unit, request.user)
     return format_machinery_translations(
         translations,
+        multivalue=unit.is_multivalue
+        or unit.has_multiple_values(unit.plural_map, targets),
         search=False,
         targets=targets,
         translation=translation,
@@ -442,6 +451,8 @@ async def get_machinery_translations_async(
         is_search = False
     return await sync_to_async(format_machinery_translations)(
         translations,
+        multivalue=unit.is_multivalue
+        or unit.has_multiple_values(unit.plural_map, targets),
         search=is_search,
         targets=targets,
         translation=translation,
@@ -453,19 +464,27 @@ def format_machinery_translations(
     translations,
     *,
     search: bool,
+    multivalue: bool = False,
     targets: list[str],
     translation: Translation,
     source_translation: Translation,
 ) -> list[dict]:
     if search:
         for item in translations:
-            format_results_helper(item, targets, 0, translation, source_translation)
+            format_results_helper(
+                item, targets, 0, translation, source_translation, multivalue=multivalue
+            )
         return translations
 
     for plural_form, possible_translations in enumerate(translations):
         for item in possible_translations:
             format_results_helper(
-                item, targets, plural_form, translation, source_translation
+                item,
+                targets,
+                plural_form,
+                translation,
+                source_translation,
+                multivalue=multivalue,
             )
     return list(chain.from_iterable(translations))
 
@@ -516,7 +535,7 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
         except Exception as error:
-            report_error("Machinery failed", project=component.project)
+            report_error("Machinery failed", project=component.project, exception=error)
             response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
     if response["responseStatus"] != 200:

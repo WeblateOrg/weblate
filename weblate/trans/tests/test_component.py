@@ -21,7 +21,7 @@ from django.core.paginator import Paginator
 from django.db import close_old_connections, connection
 from django.db.models import F
 from django.test import SimpleTestCase, TransactionTestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
 from translate.storage.base import ParseError
 
@@ -30,6 +30,7 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
     Change,
     CommitPolicyChoices,
@@ -38,6 +39,7 @@ from weblate.trans.models import (
     Project,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.component import prefetch_tasks
 from weblate.trans.repository_context import (
@@ -50,11 +52,14 @@ from weblate.trans.tests.test_views import (
     FixtureTestCase,
     ViewTestCase,
 )
-from weblate.trans.tests.utils import RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.trans.util import join_plural
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
+    STATE_APPROVED,
     STATE_EMPTY,
+    STATE_FUZZY,
     STATE_NEEDS_CHECKING,
     STATE_READONLY,
     STATE_TRANSLATED,
@@ -81,6 +86,167 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_commit_pending_without_changes_does_not_fetch_bot(self) -> None:
+        component = self.create_component()
+        with patch("weblate.auth.models.User.objects.get_or_create_bot") as get_bot:
+            self.assertTrue(component.commit_pending("test", None))
+        get_bot.assert_not_called()
+
+    def test_commit_pending_uses_linked_project_policy(self) -> None:
+        component = self.create_component()
+        project = component.project
+        project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
+        project.save()
+        other_project = self.create_project(
+            name="Other",
+            slug="other",
+            commit_policy=CommitPolicyChoices.APPROVED_ONLY,
+            translation_review=True,
+        )
+        linked = Component.objects.create(
+            project=other_project,
+            name="Linked",
+            slug="linked",
+            repo=component.get_repo_link_url(),
+            file_format="po",
+            filemask="po-duplicates/*.dpo",
+        )
+        translation = linked.translation_set.get(language_code="cs")
+        WorkflowSetting.objects.create(
+            project=other_project,
+            language=translation.language,
+            translation_review=False,
+        )
+        user = create_test_user()
+        owner_unit = component.translation_set.get(
+            language_code="cs"
+        ).unit_set.order_by("pk")[0]
+        owner_unit.translate(user, "Owner needs editing\n", STATE_FUZZY)
+        unit = translation.unit_set.order_by("pk")[0]
+        unit.translate(user, "Linked needs editing\n", STATE_FUZZY)
+        reviewed_translation = linked.translation_set.get(language_code="de")
+        reviewed = reviewed_translation.unit_set.order_by("pk")[0]
+        reviewed.translate(user, "First translation\n", STATE_TRANSLATED)
+        reviewed.translate(user, "Approved translation\n", STATE_APPROVED)
+        reviewed.translate(user, "Unapproved update\n", STATE_FUZZY)
+
+        eligible = PendingUnitChange.objects.for_component(
+            component, apply_filters=True, include_linked=True
+        )
+        self.assertEqual(eligible.filter(unit=unit).count(), 1)
+        self.assertFalse(eligible.filter(unit=owner_unit).exists())
+        self.assertEqual(
+            list(
+                eligible.filter(unit=reviewed)
+                .order_by("timestamp")
+                .values_list("state", flat=True)
+            ),
+            [STATE_TRANSLATED, STATE_APPROVED],
+        )
+        self.assertTrue(
+            PendingUnitChange.objects.find_committable_components(hours=0)
+            .filter(pk=component.pk)
+            .exists()
+        )
+        component.commit_pending("test", user)
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+        self.assertTrue(PendingUnitChange.objects.filter(unit=owner_unit).exists())
+        self.assertEqual(PendingUnitChange.objects.filter(unit=reviewed).count(), 1)
+        for changed, expected in (
+            (unit, "Linked needs editing\n"),
+            (reviewed, "Approved translation\n"),
+        ):
+            fresh = Translation.objects.get(pk=changed.translation_id)
+            stored, _ = fresh.store.find_unit(changed.context, changed.source)
+            self.assertEqual(stored.target, expected)
+        self.assertFalse(
+            PendingUnitChange.objects.find_committable_components(hours=0)
+            .filter(pk=component.pk)
+            .exists()
+        )
+
+    def test_commit_pending_preloads_workflows(self) -> None:
+        component = self.create_component()
+        project = component.project
+        project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.translation_review = True
+        project.source_review = True
+        project.save()
+        other_project = self.create_project(
+            name="Other",
+            slug="other",
+            commit_policy=CommitPolicyChoices.APPROVED_ONLY,
+            translation_review=True,
+            source_review=False,
+        )
+        linked = Component.objects.create(
+            project=other_project,
+            name="Linked",
+            slug="linked",
+            repo=component.get_repo_link_url(),
+            file_format="po",
+            filemask="po-duplicates/*.dpo",
+        )
+        czech = Language.objects.get(code="cs")
+        german = Language.objects.get(code="de")
+        WorkflowSetting.objects.create(language=czech, translation_review=False)
+        WorkflowSetting.objects.create(language=german, translation_review=False)
+        local = WorkflowSetting.objects.create(
+            project=project, language=czech, translation_review=True
+        )
+        user = create_test_user()
+        translations = list(
+            Translation.objects.filter(component__in=[component, linked])
+        )
+        self.assertGreaterEqual(len(translations), 4)
+        for translation in translations:
+            PendingUnitChange.objects.create(
+                unit=translation.unit_set.order_by("pk")[0],
+                author=user,
+                state=STATE_APPROVED,
+            )
+
+        # Start with a fresh component and project-language cache, as background
+        # commits do. Check the actual instances passed into the commit loop.
+        component = Component.objects.get(pk=component.pk)
+        seen = set()
+
+        def check_workflow(translation, reason, author) -> bool:
+            with self.assertNumQueries(0):
+                setting = translation.workflow_settings
+                review = translation.enable_review
+            if translation.is_source or translation.language_id == czech.pk:
+                expected = translation.component.project_id == project.pk
+            else:
+                expected = translation.language_id != german.pk
+            self.assertEqual(review, expected, translation.full_slug)
+            if translation.component.project_id == project.pk:
+                if translation.language_id == czech.pk:
+                    self.assertEqual(setting, local)
+                elif translation.is_source:
+                    self.assertIsNone(setting)
+                    self.assertIs(translation, component.source_translation)
+            seen.add(translation.pk)
+            return False
+
+        with (
+            patch.object(
+                Translation,
+                "_commit_pending",
+                autospec=True,
+                side_effect=check_workflow,
+            ),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            component.commit_pending("test", user)
+        self.assertEqual(seen, {translation.pk for translation in translations})
+        workflow_queries = [
+            query
+            for query in queries
+            if query["sql"].startswith('SELECT "trans_workflowsetting".')
+        ]
+        self.assertEqual(len(workflow_queries), 2)
 
     def test_prefetch_tasks_preserves_page(self) -> None:
         component = self.create_po()
@@ -232,7 +398,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_component()
         repository = component.repository
 
-        def reset_repository_to_remote(request, user, *, keep_changes: bool):
+        def reset_repository_to_remote(request, user, *, keep_changes: bool) -> str:
             with repository.lock:
                 return "old"
 
@@ -788,7 +954,10 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 2, "cs", 5, unit="address bar")
 
         translation = component.translation_set.get(language_code="cs")
-        unit = translation.unit_set.get(source="application")
+        unit = translation.unit_set.get(
+            source=join_plural(["application", "application program"])
+        )
+        self.assertEqual(unit.get_target_plurals(), ["aplikace", "aplikační program"])
         self.assertEqual(
             unit.source_unit.explanation,
             "a computer program designed for a specific task or use",
@@ -869,7 +1038,7 @@ class ComponentTest(RepoTestCase):
         """Setting of check_flags changes checks for related units."""
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
-        check = Check.objects.all()[0]
+        check = Check.objects.filter(name="same")[0]
         component.check_flags = f"ignore-{check.name}"
         with self.captureOnCommitCallbacks(execute=True):
             component.save()
@@ -879,7 +1048,7 @@ class ComponentTest(RepoTestCase):
         """Moving to category changes checks inherited by related units."""
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
-        check = Check.objects.all()[0]
+        check = Check.objects.filter(name="same")[0]
         category = component.project.category_set.create(
             name="Checks", slug="checks", check_flags=f"ignore-{check.name}"
         )
@@ -890,7 +1059,7 @@ class ComponentTest(RepoTestCase):
 
         self.assertEqual(Check.objects.count(), 0)
 
-    def test_create_symlinks(self):
+    def test_create_symlinks(self) -> None:
         component = self._create_component("po", "po-brokenlink/*.po")
         # - xx should not be present as it is a symlink to existing translation
         # - fr should not be present as it is a symlink out of tree
@@ -1101,19 +1270,19 @@ class ComponentTest(RepoTestCase):
         component.create_translations_immediate(force=True)
         self.verify_component(component, 4, "cs", 4)
 
-    def test_maintenance_po(self):
+    def test_maintenance_po(self) -> None:
         component = self.create_po()
         self._test_maintenance(component)
 
-    def test_maintenance_po_branch(self):
+    def test_maintenance_po_branch(self) -> None:
         component = self.create_po_branch()
         self._test_maintenance(component)
 
-    def test_maintenance_po_mercurial(self):
+    def test_maintenance_po_mercurial(self) -> None:
         component = self.create_po_mercurial()
         self._test_maintenance(component)
 
-    def test_maintenance_po_mercurial_branch(self):
+    def test_maintenance_po_mercurial_branch(self) -> None:
         component = self.create_po_mercurial_branch()
         self._test_maintenance(component)
 
@@ -1205,6 +1374,79 @@ class ComponentDeleteTest(RepoTestCase):
 
 class ComponentChangeTest(RepoTestCase):
     """Component object change testing."""
+
+    def test_changed_setup_preserves_pending_commit_revision(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        self.assertIsNotNone(unit)
+        initial_revision = component.repository.last_revision
+
+        unit.translate(create_test_user(), "Changed translation", STATE_TRANSLATED)
+        component.edit_template = not component.edit_template
+        component.save()
+
+        component.refresh_from_db()
+        current_revision = component.repository.last_revision
+        self.assertNotEqual(initial_revision, current_revision)
+        self.assertEqual(component.local_revision, current_revision)
+        self.assertEqual(component.processed_revision, current_revision)
+
+    def test_changed_setup_preserves_check_settings(self) -> None:
+        component = self.create_component()
+        component.edit_template = not component.edit_template
+        component.check_flags = "ignore-inconsistent"
+
+        with (
+            patch.object(
+                Component, "schedule_update_checks", autospec=True
+            ) as schedule_update_checks,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            component.save()
+
+        schedule_update_checks.assert_called_once_with(component, update_state=True)
+
+    def test_file_format_params_change_forces_rescan(self) -> None:
+        component = self._create_component("markdown", "*.md")
+        component.file_format_params = {
+            **component.file_format_params,
+            "md_no_placeholders": True,
+        }
+
+        with (
+            patch.object(Component, "commit_pending", autospec=True) as commit_pending,
+            patch.object(
+                Component, "create_translations", autospec=True, return_value=False
+            ) as create_translations,
+        ):
+            component.save(update_fields=["file_format_params"])
+
+        commit_pending.assert_called_once()
+        self.assertEqual(commit_pending.call_args.args[1:], ("changed setup", None))
+        create_translations.assert_called_once_with(
+            component, force=True, changed_template=False
+        )
+
+    def test_equivalent_file_format_params_change_skips_rescan(self) -> None:
+        component = self.create_po()
+        default_params = get_default_params_for_file_format(component.file_format)
+
+        with (
+            patch.object(Component, "commit_pending", autospec=True) as commit_pending,
+            patch.object(
+                Component, "create_translations", autospec=True, return_value=False
+            ) as create_translations,
+        ):
+            for file_format_params in (
+                default_params,
+                {**default_params, "po_line_wrap": "77"},
+            ):
+                component.file_format_params = file_format_params
+                component.save(update_fields=["file_format_params"])
+
+        commit_pending.assert_not_called()
+        create_translations.assert_not_called()
 
     def test_rename(self) -> None:
         link_component = self.create_link()
@@ -1432,6 +1674,25 @@ class ComponentChangeTest(RepoTestCase):
         linked_component.refresh_from_db()
         self.assertTrue(component.locked)
         self.assertTrue(linked_component.locked)
+
+
+class ComponentResetTransactionTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    def test_reset_opens_transaction(self) -> None:
+        component = self.create_component()
+        unit = Unit.objects.filter(translation__component=component).first()
+        self.assertIsNotNone(unit)
+        unit.details["disk_state"] = {}
+        unit.save(update_fields=["details"], only_save=True)
+
+        self.assertTrue(connection.get_autocommit())
+        self.assertTrue(component.do_reset())
+
+        unit.refresh_from_db()
+        self.assertNotIn("disk_state", unit.details)
 
 
 class ComponentAlertConcurrencyTest(RepoTestMixin, TransactionTestCase):
@@ -2472,7 +2733,7 @@ class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
 
 
 class ExistingIntermediateLanguageFileTest(ComponentTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_mono(new_lang="add")
 
     def test_existing_language_file_can_be_used_and_cleared_as_intermediate(
@@ -2536,7 +2797,7 @@ class ExistingIntermediateLanguageFileTest(ComponentTestCase):
 
 
 class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po_new_base(new_lang="add")
 
     def setUp(self) -> None:
@@ -2667,13 +2928,14 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
             target="Hallo Welt!\n",
         )
         request = self.get_request()
+        restore_error = OSError("restore failed")
 
         with (
             patch.object(
                 Component,
                 "restore_missing_translation_file",
                 autospec=True,
-                side_effect=OSError("restore failed"),
+                side_effect=restore_error,
             ),
             patch.object(self.component.repository, "reset") as mock_reset,
             patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
@@ -2695,6 +2957,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         mock_report_error.assert_called_once_with(
             "Could not recreate missing translation file during file sync",
             project=self.component.project,
+            exception=restore_error,
         )
         messages = [message.message for message in get_messages(request)]
         self.assertEqual(len(messages), 1)
@@ -2810,6 +3073,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
 
     def test_file_sync_ignores_uncommittable_missing_translation_file(self) -> None:
         self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.translation_review = True
         self.project.save()
         self.prepare_missing_translation_file(
             self.de_translation,
@@ -3253,6 +3517,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self,
     ) -> None:
         request = self.get_request()
+        restore_error = OSError("atomic failed")
         with (
             patch.object(self.component.repository, "reset") as mock_reset,
             patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
@@ -3263,7 +3528,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
                     request=request,
                     missing_translations=[],
                     current_translation=None,
-                    error=OSError("atomic failed"),
+                    error=restore_error,
                 )
             )
 
@@ -3272,6 +3537,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         mock_report_error.assert_called_once_with(
             "Could not recreate missing translation file during reset",
             project=self.component.project,
+            exception=restore_error,
         )
         messages = [message.message for message in get_messages(request)]
         self.assertEqual(len(messages), 1)
@@ -3502,7 +3768,7 @@ class CleanupRevisionTest(ComponentTestCase):
 
 
 class LinkedResetDiskStateTest(ComponentTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_link()
 
     def test_reset_keep_clears_disk_state_for_linked_components(self) -> None:
@@ -3760,7 +4026,7 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
 
 
 class LinkedEditTest(ViewTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_link()
 
     def test_linked(self) -> None:
@@ -3808,7 +4074,7 @@ class ComponentEditTest(ViewTestCase):
 class ComponentEditMonoTest(ComponentEditTest):
     """Test for error handling."""
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_ts_mono()
 
     @staticmethod
@@ -3844,7 +4110,7 @@ class ComponentEditMonoTest(ComponentEditTest):
 class ComponentKeyFilterTest(ViewTestCase):
     """Test the key filtering implementation in Component."""
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_android(key_filter="^tr")
 
     def test_get_key_filter_re(self) -> None:
@@ -3896,13 +4162,13 @@ class ComponentRepoWebTestCase(FixtureTestCase):
     def get_url(self) -> str | None:
         return self.component.get_repoweb_link("test.py", "42", user=self.user)
 
-    def test_provided(self):
+    def test_provided(self) -> None:
         self.component.repoweb = (
             "https://example.com/{{branch}}/f/{{filename}}#_{{line}}"
         )
         self.assertEqual("https://example.com/main/f/test.py#_42", self.get_url())
 
-    def test_blank(self):
+    def test_blank(self) -> None:
         self.assertIsNone(self.get_url())
 
     def test_repo_link_generation_bitbucket(self) -> None:

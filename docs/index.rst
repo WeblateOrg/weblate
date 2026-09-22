@@ -34,7 +34,7 @@ Read the :doc:`user/basic` to get an overview of what Weblate does.
 
 Joining a translation project
 ------------------------------
-If you would like to contribute to a project as a translator, read about :doc:`user/translating`.
+If you would like to contribute to a project as a translator, start with :ref:`translator-start`, then explore :doc:`user/translating`.
 
 Starting a translation project
 -------------------------------
@@ -111,6 +111,7 @@ Learn more about :ref:`contributing`.
     admin/checks
     admin/machine
     admin/addons
+    admin/automation
     admin/memory
     admin/config
     admin/sample
@@ -159,6 +160,7 @@ Learn more about :ref:`contributing`.
    security/release-artifacts
    security/dependencies
    security/issues
+   security/incident-reporting
    security/incident-response-plan
    security/passwords
    security/disaster-recovery-plan

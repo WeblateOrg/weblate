@@ -132,6 +132,7 @@ type RepositoryDiagnosisCode = Literal[
     "branch_behind",
     "gerrit_permission",
     "git_lfs_missing_objects",
+    "github_forking_disabled",
     "github_pull_request_creation_restricted",
     "missing_credentials",
     "repository_not_found",
@@ -410,9 +411,10 @@ REPOSITORY_TEMPORARY_MESSAGES = (
     "Too many retries",
     "Connection timed out",
 )
+GITHUB_FORKING_DISABLED_MESSAGE = "The repository exists, but forking is disabled."
 REPOSITORY_PERMISSION_MESSAGES = (
     "denied to",
-    "The repository exists, but forking is disabled.",
+    GITHUB_FORKING_DISABLED_MESSAGE,
     "protected branch hook declined",
     "GH006:",
 )
@@ -681,6 +683,8 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
         diagnoses.append({"code": "ssh_host_key_unverified"})
     if any(message in error for message in REPOSITORY_NOT_FOUND_MESSAGES):
         diagnoses.append({"code": "repository_not_found"})
+    if GITHUB_FORKING_DISABLED_MESSAGE in error:
+        diagnoses.append({"code": "github_forking_disabled"})
     if any(message in error for message in REPOSITORY_PERMISSION_MESSAGES):
         diagnoses.append({"code": "repository_permission"})
     if any(message in error for message in REPOSITORY_GERRIT_PERMISSION_MESSAGES):
@@ -1149,7 +1153,7 @@ class Repository:
     @classmethod
     def validate_remote_url(cls, url: str) -> ResolvedRepositoryURL | None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level]
 
         from weblate.utils.validators import resolve_repo_url  # ruff: ignore[import-outside-top-level]
 
@@ -1317,7 +1321,7 @@ class Repository:
         """Check whether repository needs commit."""
         raise NotImplementedError
 
-    def count_missing(self):
+    def count_missing(self) -> int:
         """Count missing commits."""
         return len(
             self.log_revisions(self.ref_to_remote.format(self.get_remote_branch_name()))
@@ -1355,11 +1359,11 @@ class Repository:
             return outgoing
         return [revision for revision in outgoing if revision in branch_outgoing]
 
-    def count_outgoing(self, branch: str | None = None):
+    def count_outgoing(self, branch: str | None = None) -> int:
         """Count outgoing commits."""
         return len(self.get_outgoing_revisions(branch))
 
-    def needs_merge(self):
+    def needs_merge(self) -> bool:
         """
         Check whether repository needs merge with upstream.
 
@@ -1468,7 +1472,7 @@ class Repository:
         cls._version_cache.clear()
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False)
 

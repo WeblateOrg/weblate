@@ -140,14 +140,14 @@ class GitNoVersionRepository(GitRepository):
 
 class BrokenGitRepository(GitRepository):
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         msg = "missing git"
         raise FileNotFoundError(msg)
 
 
 class BrokenGitChildRepository(BrokenGitRepository):
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         return "1.0"
 
 
@@ -338,6 +338,10 @@ class RepositoryTest(SimpleTestCase):
             ("rejected: fetch first", "branch_behind"),
             ("Repository not found.", "repository_not_found"),
             ("push denied to user", "repository_permission"),
+            (
+                "The repository exists, but forking is disabled.",
+                "github_forking_disabled",
+            ),
             ("push prohibited by Gerrit", "gerrit_permission"),
             (
                 "remote: GitLab: LFS objects are missing. Ensure LFS is properly set up.",
@@ -2427,8 +2431,12 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.resolve_symlinks("prefix-collision/secrets.po")
 
     def test_resolve_symlinks_rejects_vcs_metadata_path(self) -> None:
-        with self.assertRaises(RepositoryRestrictedPathError):
-            self.repo.resolve_symlinks(".git/config")
+        for path in (".git/config", ".hg/hgrc", ".svn/wc.db", ".bzr/README"):
+            with (
+                self.subTest(path=path),
+                self.assertRaises(RepositoryRestrictedPathError),
+            ):
+                self.repo.resolve_symlinks(path)
 
     def test_resolve_symlinks_allows_missing_excluded_repository_path(self) -> None:
         filename = "dist/appstream/messages.pot"
@@ -4799,7 +4807,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         )
 
         with (
-            patch("weblate.vcs.git.report_error") as mock_report_error,
+            patch("weblate.vcs.git.report_message") as mock_report_message,
             self.assertRaisesMessage(
                 RepositoryError,
                 "Could not get GitLab project (401): invalid_token, Token is expired.",
@@ -4807,9 +4815,8 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         ):
             self.repo.get_target_project_id(self.repo.get_credentials())
 
-        mock_report_error.assert_called_once_with(
+        mock_report_message.assert_called_once_with(
             "Could not get GitLab project",
-            message=True,
             extra_log="401: invalid_token, Token is expired.",
         )
 
@@ -5503,6 +5510,24 @@ remove the file manually to continue.
         with self.assertRaisesRegex(RepositoryError, "ZIP file contains invalid path"):
             LocalRepository.from_zip(target, archive)
         self.assertFalse(os.path.exists(target))
+
+    def test_from_zip_excludes_casefolded_vcs_metadata(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr(".GIT/config", "[casefold]\nsentinel = true\n")
+            zipfile.writestr(".HG/hgrc", "casefold sentinel")
+            zipfile.writestr("locale/cs.po", "msgid ''\nmsgstr ''\n")
+        archive.seek(0)
+        target = Path(self.tempdir) / "from-zip-casefolded-metadata"
+
+        repo = LocalRepository.from_zip(str(target), archive)
+
+        self.assertTrue(repo.is_valid())
+        self.assertTrue((target / "locale" / "cs.po").is_file())
+        self.assertNotIn(
+            "casefold", (target / ".git" / "config").read_text(encoding="utf-8")
+        )
+        self.assertFalse((target / ".hg" / "hgrc").exists())
 
     def test_from_zip_rejects_too_many_entries(self) -> None:
         archive = BytesIO()

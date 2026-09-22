@@ -16,6 +16,8 @@ from weblate.checks.format import BaseFormatCheck
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.trans.models import Unit
 
 # Unique value for checking tags. Since types are
@@ -81,7 +83,7 @@ def parse_icu(
     allow_tags: bool,
     strict_tags: bool,
     tag_prefix: str | None = None,
-    want_tokens=False,
+    want_tokens: bool = False,
 ) -> tuple[list[str] | None, Exception | None, list[str] | None]:
     """Parse an ICU MessageFormat message."""
     ast = None
@@ -103,7 +105,7 @@ def parse_icu(
     return ast, err, tokens
 
 
-def check_bad_plural_selector(selector):
+def check_bad_plural_selector(selector: str) -> bool:
     if selector in PLURAL_SELECTORS:
         return False
     return selector[0] != "="
@@ -127,7 +129,7 @@ def update_maybe_value(value, old):
     return 0
 
 
-def extract_highlights(token, source: str):
+def extract_highlights(token, source: str) -> Iterable[Highlight]:
     """Extract all placeholders from an AST selected for highlighting."""
     if isinstance(token, str):
         return
@@ -553,7 +555,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
                 format_html_join_comma("{}", list_to_tuples(result["tag_empty"])),
             )
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
 

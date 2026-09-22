@@ -102,7 +102,7 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Iterable, Iterator
 
     from lxml.etree import _Element
 
@@ -1019,7 +1019,7 @@ class BaseFormatTest(FormatTestCase, ABC):
     @contextmanager
     def temporary_file_format_param(
         self, key: FileFormatParamKey, value: str | int | bool
-    ):
+    ) -> Iterator[None]:
         """Temporarily set a file format parameter for the duration of the context."""
         if key in self.FILE_FORMAT_PARAMS:
             previous: str | int | bool = self.FILE_FORMAT_PARAMS[key]
@@ -1091,7 +1091,7 @@ class BaseFormatTest(FormatTestCase, ABC):
     def test_edit(self) -> None:
         self._test_save(self.EDIT_TARGET)
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         """
         Content aware comparison.
 
@@ -1296,7 +1296,7 @@ class BaseFormatTest(FormatTestCase, ABC):
 
 
 class XMLMixin(SimpleTestCase):
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertXMLEqual(newdata.decode(), testdata.decode())
 
 
@@ -1321,6 +1321,41 @@ class PoFormatPreviousSourceTest(SimpleTestCase):
 
         self.assertEqual(unit.previous_source, "")
         self.assertNotIn("#|", str(unit.unit))
+
+
+class ContributorCommentsTest(SimpleTestCase):
+    def test_modes(self) -> None:
+        for format_class in (PoFormat, PoMonoFormat):
+            for mode in ("none", "gettext", "spdx"):
+                with self.subTest(format_class=format_class, mode=mode):
+                    store = format_class(
+                        BytesIO(b'msgid ""\nmsgstr "MIME-Version: 1.0\\n"\n'),
+                        file_format_params={
+                            "po_contributor_comments": mode,
+                            "po_set_last_translator": False,
+                        },
+                    )
+                    self.assertEqual(
+                        store.update_contributor("Jane <jane@example.com>"),
+                        mode != "none",
+                    )
+                    notes = store.store.header().getnotes("translator")
+                    self.assertEqual("Jane" in notes, mode != "none")
+                    self.assertEqual("SPDX-FileCopyrightText:" in notes, mode == "spdx")
+                    self.assertNotIn("Last-Translator", store.store.parseheader())
+
+    def test_disabled_by_default(self) -> None:
+        store = PoFormat(BytesIO(b'msgid ""\nmsgstr "MIME-Version: 1.0\\n"\n'))
+        self.assertFalse(store.update_contributor("Jane <jane@example.com>"))
+
+    def test_anonymous(self) -> None:
+        store = PoFormat(
+            BytesIO(b'msgid ""\nmsgstr "MIME-Version: 1.0\\n"\n'),
+            file_format_params={"po_contributor_comments": "spdx"},
+        )
+        before = bytes(store.store)
+        self.assertFalse(store.update_contributor("Anonymous <noreply@weblate.org>"))
+        self.assertEqual(bytes(store.store), before)
 
 
 class PoFormatTest(BaseFormatTest):
@@ -1539,7 +1574,7 @@ class PropertiesFormatTest(BaseFormatTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertEqual(
             (newdata).strip().splitlines(),
             (testdata).strip().splitlines(),
@@ -1646,7 +1681,7 @@ class GWTFormatTest(BaseFormatTest):
     # https://github.com/translate/translate/blob/7ecba141b535572de75616ddb5f78afb41c2b7b2/translate/storage/properties.py#L578
     SUPPORTS_NOTES = False
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertEqual(
             (newdata).strip().splitlines(),
             (testdata).strip().splitlines(),
@@ -1683,7 +1718,7 @@ class JSONFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b'\n    "Source string": ""\n'
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertJSONEqual(newdata.decode(), testdata.decode())
 
 
@@ -2495,7 +2530,7 @@ class YAMLFormatTest(BaseFormatTest):
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         # Fixup quotes as different translate toolkit versions behave
         # differently
         self.assertEqual(
@@ -2533,7 +2568,7 @@ class TS1FormatTest(XMLMixin, BaseFormatTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     SUPPORTS_NOTES = False
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         newdata = newdata.replace(b"<!DOCTYPE TS>", b"")
         testdata = testdata.replace(b"<!DOCTYPE TS>", b"")
         super().assert_same(newdata, testdata)
@@ -2609,7 +2644,7 @@ class TS2FormatTest(XMLMixin, BaseFormatTest):
     def test_autodetection_prefers_version_2(self) -> None:
         self.assertIs(detect_filename("test.ts"), TS2Format)
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         # Comparing of XML with doctype fails...
         newdata = newdata.replace(b"<!DOCTYPE TS>", b"")
         testdata = testdata.replace(b"<!DOCTYPE TS>", b"")
@@ -3198,6 +3233,16 @@ class CustomFlatXMLFormatTest(FlatXMLFormatTest):
         "flatxml_key_name": "name",
     }
 
+    def test_parameter_whitespace_is_normalized(self) -> None:
+        with (
+            self.temporary_file_format_param("flatxml_root_name", " dictionary "),
+            self.temporary_file_format_param("flatxml_value_name", " entry "),
+            self.temporary_file_format_param("flatxml_key_name", " name "),
+        ):
+            storage = self.parse_file(self.FILE)
+
+        self.assertEqual(len(storage.all_units), self.COUNT)
+
 
 class ResourceDictionaryFormatTest(BaseFormatTest):
     format_class = ResourceDictionaryFormat
@@ -3594,7 +3639,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(
             unit.source_explanation, "An internal code identifier not to be localized."
         )
-        self.assertEqual(unit.flags, Flags())
+        self.assertEqual(unit.flags, Flags("read-only"))
         self.assertEqual(unit.is_readonly(), True)
 
         unit, _ = storage.find_unit("e003", "combo box")
@@ -3620,7 +3665,7 @@ class StringsFormatTest(BaseFormatTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertEqual(
             (newdata).strip().splitlines(),
             (testdata).strip().splitlines(),

@@ -18,6 +18,7 @@ from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
 from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
+from weblate.trans.file_format_params import get_effective_params_for_file_format
 from weblate.trans.forms import (
     CategorySettingsForm,
     ComponentSettingsForm,
@@ -51,6 +52,16 @@ from weblate.workspaces.models import Workspace
 
 
 class SettingsTest(ViewTestCase):
+    def test_public_sharing_permission(self) -> None:
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+        self.assertTrue(form.fields["public_sharing"].disabled)
+
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_permissions_cache()
+        form = ProjectSettingsForm(self.get_request(), instance=self.project)
+        self.assertFalse(form.fields["public_sharing"].disabled)
+
     @override_settings(OFFER_HOSTING=True)
     def test_hosted_restricted_component_rejects_shared_memory(self) -> None:
         self.component.restricted = True
@@ -215,6 +226,26 @@ class SettingsTest(ViewTestCase):
         self.assertEqual(
             set(component.all_flags), {"safe-html", "strict-same", "ignore-same"}
         )
+
+    def test_existing_language_policy_inheritance(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Policy workspace", new_lang="existing"
+        )
+        self.project.workspace = workspace
+        self.project.inherit_new_lang = True
+        self.project.save()
+        category = Category.objects.create(
+            name="Policy", slug="policy", project=self.project
+        )
+        self.component.category = category
+        self.component.inherit_new_lang = True
+        self.component.save()
+        component = Component.objects.get(pk=self.component.pk)
+        self.assertEqual(component.effective_new_lang, "existing")
+        component.inherit_new_lang = False
+        component.new_lang = "contact"
+        component.save()
+        self.assertEqual(component.effective_new_lang, "contact")
 
     def test_inherited_setting_widget_state(self) -> None:
         self.project.license = "MIT"
@@ -1066,9 +1097,30 @@ class SettingsTest(ViewTestCase):
         # Check change details display
         self.assertEqual(change.get_details_display(), "Protected")
 
+    def test_change_public_sharing(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["public_sharing"] = True
+
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, url)
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.public_sharing)
+
+        billing = create_test_billing(self.user)
+        billing.add_project(self.project)
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, url)
+
+        self.project.refresh_from_db()
+        self.assertTrue(self.project.public_sharing)
+
     def test_project_audit_settings(self) -> None:
         self.project.acting_user = self.user
         self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.public_sharing = True
         self.project.enforced_2fa = True
         self.project.translation_review = True
         self.project.source_review = True
@@ -1467,6 +1519,15 @@ class SettingsTest(ViewTestCase):
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
+        # Preserve checkbox values so the submission does not trigger a rescan.
+        data.update(
+            {
+                f"file_format_params_{name}": value
+                for name, value in get_effective_params_for_file_format(
+                    self.component.file_format, self.component.file_format_params
+                ).items()
+            }
+        )
         data["license"] = "MIT"
 
         original_clean = Component.clean

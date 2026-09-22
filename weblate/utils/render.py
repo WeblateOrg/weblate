@@ -117,7 +117,7 @@ def validate_render(value: str, **kwargs) -> str:
 
 
 def validate_render_mock(value: str, *, translation: bool = False, **kwargs) -> str:
-    from weblate.lang.models import Language  # ruff: ignore[import-outside-top-level, unsorted-imports]
+    from weblate.lang.models import Language  # ruff: ignore[import-outside-top-level]
     from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
         Component,
         Project,

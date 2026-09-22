@@ -839,11 +839,30 @@ Security keys (WebAuthn)
 
    Security keys are WebAuthn credentials that can only be used as a second factor of authentication, and these only validate user presence.
 
+   When signing in on a new computer or in a different browser, your passkey
+   might not be available. Use a device where the passkey is available, or
+   connect your registered security key. A verification error can mean that
+   the request timed out, was canceled, or that the credential is unavailable;
+   it does not identify the exact cause.
+
+   You can also select another configured verification method on the sign-in
+   page, such as :guilabel:`Use recovery codes`. If you cannot use any configured
+   method, contact the site administrator for help.
+
 Authenticator apps (TOTP)
    Authenticator apps and browser extensions like Aegis, Bitwarden, Google Authenticator,
    1Password, Authy, Microsoft Authenticator, etc. generate time-based one-time passwords
    that are used as a second factor to verify your identity when prompted
    during sign-in.
+
+   Registration becomes active only after you verify a code from the app.
+   Complete registration within 24 hours; otherwise start again with a new QR
+   code. Each registration can be completed only once. After registering, wait
+   for the next code before using the app to sign in.
+
+   Only one registration can be pending per account. Opening registration in
+   another browser session shows the same QR code until registration is
+   completed or expires.
 
 Recovery codes
    Recovery codes can be used to access your account if you lose access to your device and cannot receive two-factor authentication codes.

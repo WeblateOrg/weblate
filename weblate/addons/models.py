@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal
 
 from appconf import AppConf
+from django.core.exceptions import ValidationError
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
 from django.db.models import Q
@@ -271,11 +272,41 @@ class Addon(models.Model):
         super().__init__(*args, **kwargs)
         self.acting_user = acting_user
 
+    @transaction.atomic
     # pylint: disable-next=arguments-differ
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+    ) -> None:
+        if update_fields is not None:
+            update_fields = frozenset(update_fields)
+        if (
+            not self._state.adding
+            and not force_insert
+            and update_fields is not None
+            and update_fields <= {"state"}
+        ):
+            super().save(
+                force_insert=force_insert,
+                force_update=force_update,
+                using=using,
+                update_fields=update_fields,
+            )
+            return
         cls = self.addon_class
+        if cls.api_name is not None:
+            component_id = self.component_id
+            if component_id is None or cls.repo_scope:
+                msg = gettext("API add-ons must be installed directly on a component.")
+                raise ValidationError(msg)
+            # Serialize installation checks even when no add-on row exists yet.
+            Component.objects.select_for_update().get(pk=component_id)
+            if (
+                Addon.objects.filter(component_id=component_id, name=self.name)
+                .exclude(pk=self.pk)
+                .exists()
+            ):
+                msg = gettext("This add-on is already installed on this component.")
+                raise ValidationError(msg, code="addon_already_installed")
         self.repo_scope = cls.repo_scope
 
         # Reallocate to repository
@@ -345,6 +376,32 @@ class Addon(models.Model):
             Event.objects.get_or_create(addon=self, event=event)
         self.event_set.exclude(event__in=events).delete()
 
+    @property
+    def api_name(self) -> str | None:
+        provider = ADDONS.get(self.name)
+        if (
+            provider is None
+            or self.component is None
+            or not provider.can_process(component=self.component)
+        ):
+            return None
+        return provider.api_name
+
+    @property
+    def api_url(self) -> str | None:
+        component = self.component
+        api_name = self.api_name
+        if not api_name or component is None:
+            return None
+        base = reverse(
+            "api:component-detail",
+            kwargs={
+                "project__slug": component.project.slug,
+                "slug": "%2F".join(component.get_url_path()[1:]),
+            },
+        )
+        return f"{base}addons/{api_name}/"
+
     @cached_property
     def addon_class(self) -> type[BaseAddon]:
         return ADDONS[self.name]
@@ -375,7 +432,7 @@ class Addon(models.Model):
     def can_run_manually(self) -> bool:
         return self.is_valid and self.has_event(AddonEvent.EVENT_MANUAL)
 
-    def schedule_manual_run(self) -> None:
+    def schedule_manual_run(self, user_id: int | None = None) -> None:
         if not self.can_run_manually:
             raise ValueError(gettext("This add-on cannot be triggered manually."))
         if self.pk is None:
@@ -387,9 +444,9 @@ class Addon(models.Model):
             run_addon_manually,
         )
 
-        run_addon_manually.delay_on_commit(self.pk)
+        run_addon_manually.delay_on_commit(self.pk, user_id=user_id)
 
-    def _drop_addons_cache(self):
+    def _drop_addons_cache(self) -> None:
         if self.component:
             self.component.drop_addons_cache()
 
@@ -432,6 +489,9 @@ class Addon(models.Model):
             ).delete()
 
     def delete(self, using=None, keep_parents=False):
+        # Initialize before deletion clears the primary key, so cleanup can
+        # identify data owned by this installation.
+        addon = self.addon_class(self) if self.is_valid else None
         # Store history
         self.store_change(ActionEvents.ADDON_REMOVE, {})
         # Delete any addon alerts
@@ -456,8 +516,8 @@ class Addon(models.Model):
         self._drop_addons_cache()
 
         # Trigger post uninstall action
-        if self.is_valid:
-            self.addon.post_uninstall()
+        if addon is not None:
+            addon.post_uninstall()
         return result
 
     def disable(self) -> None:
@@ -563,6 +623,7 @@ def _report_addon_error(
     report_error(
         f"add-on {addon.name} failed",
         project=_project_for_error(addon, component, scope),
+        exception=error,
     )
 
 
@@ -1025,7 +1086,9 @@ class AddonActivityLog(models.Model):
         if reason := self.details.get("reason"):
             with contextlib.suppress(ValueError):
                 reason_label = str(AddonActivityLogReason(reason).label)
-        if self.status == AddonActivityLogStatus.SKIPPED:
+        if self.status == AddonActivityLogStatus.SKIPPED and (
+            not self.addon.is_valid or not self.addon.addon.show_skipped_result
+        ):
             return reason_label
         return self.addon.addon.render_activity_log(self) or reason_label
 

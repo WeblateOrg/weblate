@@ -90,6 +90,21 @@ The string flags are also inherited from the :ref:`component-check_flags` at
 :ref:`component` and flags from the translation file (see :doc:`/formats`).
 
 
+Use :guilabel:`Source flags — all languages` to configure every translation of
+a string, and :guilabel:`Translation flags` to configure the current language.
+Translation flags override source values such as ``max-length`` and ``max-size``.
+Removing a local value restores the inherited value. An explicit ``read-only``
+flag on the source applies to every language and cannot be discarded by a
+translation.
+
+The :guilabel:`Tools` menu can mark one translation or all languages read-only.
+When a translation is already read-only, choose
+:guilabel:`Make read-only apply to all languages` to move its flag to the source.
+Removing source-wide read-only preserves independently set translation flags.
+Editing flags requires source editing permission, or glossary editing permission
+for glossary entries, in each affected language.
+
+
 .. seealso::
 
    * :ref:`checks`
@@ -141,14 +156,18 @@ Each screenshot is stored for a specific translation language. In the
 translate page, screenshots attached to the source language are shown for
 every translation of the string, while screenshots attached to any other
 language are shown only for that language. You can add a screenshot directly
-from the translate page using :guilabel:`Add screenshot` in the
-:guilabel:`Screenshot context` panel, or open the separate management
+from the translate page using :guilabel:`Upload screenshot` in the
+:guilabel:`Screenshots` panel, or open the separate management
 interface under the :guilabel:`Operations` menu. There you can upload
 screenshots, assign them to source strings manually, or let Weblate find
 strings in the image using text recognition (OCR) with the
 :guilabel:`Find strings in image` button.
 Matching source strings can be assigned individually, in a selected batch, or
 all at once.
+
+To associate an uploaded screenshot with the current string, use
+:guilabel:`Add existing screenshot` in the translation editor. See
+:ref:`add-existing-screenshot` for the workflow and required permission.
 
 The screenshot listing summarizes uploaded screenshots and lets you search or
 filter them:

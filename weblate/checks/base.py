@@ -5,13 +5,15 @@
 from __future__ import annotations
 
 import re
+from collections import Counter
 from contextlib import nullcontext
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Literal, TypedDict
+from html import unescape
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict
 
 from django.http import Http404
-from django.utils.html import format_html, format_html_join
-from django.utils.safestring import mark_safe
+from django.utils.html import escape, format_html, format_html_join, strip_tags
+from django.utils.safestring import SafeData, mark_safe
 from django.utils.translation import gettext
 from lxml import etree
 from siphashc import siphash
@@ -25,6 +27,7 @@ from weblate.utils.xml import parse_xml
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
 
+    from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -57,6 +60,20 @@ class MissingExtraDict(TypedDict, total=False):
     missing: list[str]
     extra: list[str]
     errors: list[str]
+
+
+def merge_diagnostics(failures: Iterable[MissingExtraDict]) -> MissingExtraDict:
+    """Combine alternative diagnostics without losing repeated markup counts."""
+    failures = list(failures)
+    result: MissingExtraDict = {}
+    key: Literal["missing", "extra", "errors"]
+    for key in ("missing", "extra", "errors"):
+        counts: Counter[str] = Counter()
+        for failure in failures:
+            if key in failure:
+                counts |= Counter(failure[key])
+                result[key] = sorted(counts.elements())
+    return result
 
 
 class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
@@ -171,6 +188,23 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
             yield self.check_single(sources[0], targets[0], unit)
             return
 
+        if unit.has_multiple_values(sources, targets):
+            # Each target alternative can correspond to any source alternative.
+            for target in targets:
+                failures = [
+                    self.check_single(source, target, unit) for source in sources
+                ]
+                if failures and all(failures):
+                    yield (
+                        merge_diagnostics(
+                            failure for failure in failures if isinstance(failure, dict)
+                        )
+                        or True
+                    )
+                else:
+                    yield False
+            return
+
         # ruff: ignore[import-outside-top-level]
         from weblate.lang.models import (
             PluralMapper,
@@ -205,7 +239,7 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         """Check source strings."""
         if self.should_skip(unit):
             return False
-        return self.check_source_unit(sources, unit)
+        return self.check_source_alternatives(sources, unit)
 
     def check_source_with_flags(
         self, sources: list[str], unit: Unit, all_flags: Flags
@@ -220,8 +254,14 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
                 {self.enable_string, *self.extra_enable_strings}
             ):
                 return False
-            return self.check_source_unit(sources, unit)
+            return self.check_source_alternatives(sources, unit)
         return self.check_source(sources, unit)
+
+    def check_source_alternatives(self, sources: list[str], unit: Unit) -> bool:
+        """Check independent alternatives without assigning a singular form."""
+        if unit.has_multiple_values(sources, []):
+            return any(self.check_source_unit([source], unit) for source in sources)
+        return self.check_source_unit(sources, unit)
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         """Check source string."""
@@ -254,6 +294,19 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
     def get_description(self, check_obj: Check) -> StrOrPromise:
         return self.description
 
+    def get_plain_description(self, check_obj: Check) -> str:
+        """Return description text suitable for an escaped HTML attribute."""
+        description = str(self.get_description(check_obj))
+        if isinstance(description, SafeData):
+            # Dynamic checks separate individual errors with HTML line breaks.
+            description = re.sub(r"<br\s*/?>", "\n", description, flags=re.IGNORECASE)
+            return unescape(strip_tags(description))
+        return description
+
+    def get_documentation_description(self) -> str:
+        """Return the description formatted for reStructuredText documentation."""
+        return str(self.description).replace("\\", "\\\\")
+
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
         return None
 
@@ -264,7 +317,7 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
     def get_cache_key(self, unit: Unit, pos: int) -> str:
         return f"check:{self.check_id}:{unit.pk}:{siphash('Weblate   Checks', unit.all_flags.format())}:{pos}"
 
-    def get_replacement_function(self, unit: Unit):
+    def get_replacement_function(self, unit: Unit) -> Callable[[str], str]:
         def strip_xml(content: str) -> str:
             try:
                 tree = parse_xml(f"<x>{content}</x>")
@@ -298,6 +351,38 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
 
         return lambda text: pattern.sub(
             lambda m: replacements[m.group(0)], replacement(text)
+        )
+
+
+class CodeDescriptionMixin(BaseCheck):
+    """Render literal examples for HTML, plain text, and documentation."""
+
+    description_template: StrOrPromise
+    description_values: ClassVar[dict[str, str]]
+
+    def get_description(self, check_obj: Check) -> SafeString:
+        return format_html(
+            escape(self.description_template),
+            **{
+                key: format_html("<code>{}</code>", value)
+                for key, value in self.description_values.items()
+            },
+        )
+
+    def get_plain_description(self, check_obj: Check) -> str:
+        return str(self.description_template).format(**self.description_values)
+
+    def get_documentation_description(self) -> str:
+        # Backslashes are literal inside RST inline code, unlike surrounding prose.
+        return (
+            str(self.description_template)
+            .replace("\\", "\\\\")
+            .format(
+                **{
+                    key: f"``{value}``"
+                    for key, value in self.description_values.items()
+                }
+            )
         )
 
 

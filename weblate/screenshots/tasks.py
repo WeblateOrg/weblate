@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os.path
 from typing import TYPE_CHECKING, cast
 
@@ -12,6 +14,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.utils.celery import app
 
 if TYPE_CHECKING:
+    from celery import Celery
     from django.core.files.storage import Storage
 
 
@@ -30,7 +33,7 @@ def cleanup_screenshot_files() -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(
         crontab(hour=0, minute=35),
         cleanup_screenshot_files.s(),

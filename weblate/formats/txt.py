@@ -78,7 +78,7 @@ class TextSerializer:
     def __init__(self, filename, units) -> None:
         self.units = [unit for unit in units if unit.filename == filename]
 
-    def __call__(self, handle):
+    def __call__(self, handle: IO[bytes]) -> None:
         for unit in self.units:
             handle.write(unit.text.encode())
             handle.write(b"\n")

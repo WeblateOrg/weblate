@@ -65,9 +65,13 @@ class TracingTest(SimpleTestCase):
 
     @override_settings(SENTRY_DSN=None)
     def test_report_error_skip_error_reporting_skips_opentelemetry(self) -> None:
+        error = ValueError("broken")
         with patch("weblate.utils.errors.record_error") as record_error:
             errors.report_error(
-                "Handled error", level="error", skip_error_reporting=True
+                "Handled error",
+                level="error",
+                skip_error_reporting=True,
+                exception=error,
             )
 
         record_error.assert_not_called()

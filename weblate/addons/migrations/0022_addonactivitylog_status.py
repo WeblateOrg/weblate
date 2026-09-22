@@ -2,10 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.db import migrations, models
 
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
-def migrate_activity_status(apps, schema_editor) -> None:
+
+def migrate_activity_status(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     activity_log = apps.get_model("addons", "AddonActivityLog")
     # These high-frequency events were always excluded from activity logging,
     # but rows used to be created for them before the exclusion was applied.

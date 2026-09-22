@@ -15,6 +15,8 @@ from .base import (
 from .forms import KeyMachineryForm
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.auth.models import User
     from weblate.trans.models import Unit
 
@@ -37,7 +39,7 @@ class YandexTranslation(MachineTranslation):
             msg = f"Error: {payload['code']}"
             raise MachineTranslationError(msg)
 
-    def download_languages(self):
+    def download_languages(self) -> Iterable[str]:
         """Download list of supported languages from a service."""
         response = self.request(
             "get",
@@ -49,8 +51,8 @@ class YandexTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
         unit: Unit | None,
         user: User | None,

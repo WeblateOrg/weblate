@@ -58,7 +58,7 @@ class MultiCSVFormatTest(BaseFormatTest):
         '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',  # codespell:ignore infarction
     ]
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.maxDiff = None
         self.assertEqual(testdata.decode().splitlines(), newdata.decode().splitlines())
 

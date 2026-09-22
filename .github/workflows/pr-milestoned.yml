@@ -1,0 +1,132 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Pull request lifecycle: Copy the milestone to linked issues
+
+name: 'Pull requests: Synchronize linked issue milestones'
+
+# Metadata-only API calls: no checkout or execution of pull request code.
+on: # zizmor: ignore[dangerous-triggers]
+  pull_request_target:
+    types: [opened, reopened, edited, synchronize, milestoned]
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  synchronize-milestones:
+    runs-on: ubuntu-slim
+    if: github.event_name == 'pull_request_target' || github.event.issue.pull_request
+    steps:
+    - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      with:
+        script: |
+          // Sidebar links have no dedicated Actions event. Reconcile them on
+          // subsequent PR activity; issue closure also synchronizes before commenting.
+          const {owner, repo} = context.repo;
+          // Require collaborator activity, not approval of each closing reference.
+          // Contributor-supplied keyword links are intentionally included: the
+          // limited risk of incorrect planning metadata is accepted.
+          let permission = 'none';
+          try {
+            const {data: collaborator} = await github.rest.repos.getCollaboratorPermissionLevel({
+              owner, repo, username: context.payload.sender.login,
+            });
+            permission = collaborator.permission;
+          } catch (error) {
+            if (error.status !== 404) {
+              throw error;
+            }
+          }
+          // The API maps the maintain role to the legacy write permission.
+          if (!['admin', 'write'].includes(permission)) {
+            core.info('Skipping milestone synchronization without repository write access.');
+            return;
+          }
+          const number = context.payload.pull_request?.number ?? context.issue.number;
+          const {data: pullRequest} = await github.rest.pulls.get({
+            owner, repo, pull_number: number,
+          });
+          if (pullRequest.state !== 'open') {
+            core.info(`PR #${number} is closed, skipping.`);
+            return;
+          }
+          if (!pullRequest.milestone) {
+            // Removing a PR milestone intentionally preserves issue milestones
+            // and labels; this workflow only propagates assigned milestones.
+            core.info(`PR #${number} has no milestone, skipping.`);
+            return;
+          }
+          let cursor = null;
+          do {
+            // closingIssuesReferences includes both keyword and manual links:
+            // excludeUserLinked and userLinkedOnly both default to false.
+            const result = await github.graphql(`
+              query($owner: String!, $repo: String!, $number: Int!, $cursor: String) {
+                repository(owner: $owner, name: $repo) {
+                  pullRequest(number: $number) {
+                    closingIssuesReferences(first: 100, after: $cursor) {
+                      nodes {
+                        number
+                        state
+                        repository { nameWithOwner }
+                      }
+                      pageInfo { hasNextPage endCursor }
+                    }
+                  }
+                }
+              }
+            `, {owner, repo, number, cursor});
+            const issues = result.repository.pullRequest.closingIssuesReferences;
+            for (const issue of issues.nodes) {
+              if (issue.repository.nameWithOwner.toLowerCase() !== `${owner}/${repo}`.toLowerCase()) {
+                core.info(`Skipping cross-repository issue ${issue.repository.nameWithOwner}#${issue.number}.`);
+                continue;
+              }
+              if (issue.state !== 'OPEN') {
+                core.info(`Issue #${issue.number} is closed, skipping.`);
+                continue;
+              }
+              // Refresh state before writing; a linked issue may have closed
+              // since the connection was fetched.
+              const {data: currentIssue} = await github.rest.issues.get({
+                owner, repo, issue_number: issue.number,
+              });
+              if (currentIssue.state !== 'open') {
+                core.info(`Issue #${issue.number} has closed, skipping.`);
+                continue;
+              }
+              if (currentIssue.milestone?.number !== pullRequest.milestone.number) {
+                await github.rest.issues.update({
+                  owner, repo, issue_number: issue.number,
+                  milestone: pullRequest.milestone.number,
+                });
+                core.info(`Updated issue #${issue.number} to milestone ${pullRequest.milestone.title}.`);
+              }
+              // GITHUB_TOKEN updates do not trigger issue-milestoned.yml.
+              // Reconcile labels even when the milestone already matches so
+              // retries can finish a partially completed synchronization.
+              const implementationLabel = 'Waiting for: Implementation';
+              for (const label of currentIssue.labels) {
+                if (label.name.startsWith('Waiting for: ') && label.name !== implementationLabel) {
+                  await github.rest.issues.removeLabel({
+                    owner, repo, issue_number: issue.number, name: label.name,
+                  });
+                }
+              }
+              if (pullRequest.milestone.state === 'open' && !currentIssue.labels.some(label => label.name === implementationLabel)) {
+                await github.rest.issues.addLabels({
+                  owner, repo, issue_number: issue.number, labels: [implementationLabel],
+                });
+              }
+            }
+            cursor = issues.pageInfo.hasNextPage ? issues.pageInfo.endCursor : null;
+          } while (cursor);
