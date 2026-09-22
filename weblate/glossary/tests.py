@@ -178,7 +178,9 @@ class GlossaryTest(ViewTestCase):
                 params,
             )
 
-    def add_term(self, source, target, context="", extra_flags="") -> None:
+    def add_term(
+        self, source, target, context="", extra_flags="", target_flags=""
+    ) -> None:
         id_hash = calculate_hash(source, context)
         source_unit = self.glossary_component.source_translation.unit_set.create(
             source=source,
@@ -197,6 +199,7 @@ class GlossaryTest(ViewTestCase):
             id_hash=id_hash,
             position=1,
             state=STATE_TRANSLATED,
+            extra_flags=target_flags,
         )
         self.glossary.invalidate_cache()
 
@@ -536,6 +539,28 @@ class GlossaryTest(ViewTestCase):
                         response, "ahoj" if language == "cs" else "hello"
                     )
                     self.assertContains(response, label, count=1)
+
+    def test_untranslatable_term_cannot_be_discarded(self) -> None:
+        """A source-wide read-only term stays untranslatable in every language."""
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term(
+                "world",
+                "planeta",
+                extra_flags="read-only",
+                target_flags="discard:read-only",
+            )
+        term = self.glossary.unit_set.get(source="world")
+        self.assertIn("read-only", term.all_flags)
+        self.assertTrue(term.untranslatable)
+        self.assertEqual(list(get_glossary_tuples([term])), [("world", "world")])
+
+        with translation_override("en"):
+            unit = self.get_unit()
+            response = self.client.get(
+                unit.translation.get_translate_url(), {"checksum": unit.checksum}
+            )
+        self.assertContains(response, "This term should not be translated.")
+        self.assertNotContains(response, "planeta")
 
     def test_substrings(self) -> None:
         self.add_term("reach", "dojet")

@@ -2699,6 +2699,13 @@ class Unit(models.Model, LoggerMixin):
         edited there (for example source strings of a bilingual file).
         Glossaries use this to tell untranslatable terms apart.
         """
+        # The source_unit is None before saving the object for the first time
+        source_flags = Flags(getattr(self.source_unit, "extra_flags", ""))
+
+        # Explicit source-wide read-only cannot be discarded by a translation.
+        if not self.is_source and "read-only" in source_flags:
+            return True
+
         # Validate flags from the unit to avoid crash
         try:
             unit_flags = Flags(self.flags)
@@ -2708,8 +2715,7 @@ class Unit(models.Model, LoggerMixin):
         return "read-only" in Flags(
             # Apply unit flags from the file format
             unit_flags,
-            # The source_unit is None before saving the object for the first time
-            getattr(self.source_unit, "extra_flags", ""),
+            source_flags,
             # This unit flag overrides
             self.extra_flags,
         )
@@ -3031,6 +3037,7 @@ class Unit(models.Model, LoggerMixin):
             return
         self.extra_flags = extra_flags
         self.__dict__.pop("all_flags", None)
+        self.__dict__.pop("untranslatable", None)
         units: Iterable[Unit] = []
         if self.is_source:
             units = self.unit_set.select_for_update().exclude(id=self.id)
