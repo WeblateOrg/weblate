@@ -554,7 +554,7 @@ class BaseFormatCheck(TargetCheck):
     def get_description(self, check_obj: Check) -> StrOrPromise:
         unit = check_obj.unit
         checks = self.check_generator(
-            unit.get_source_plurals(), unit.get_target_plurals(), unit
+            unit.get_effective_source_plurals(), unit.get_target_plurals(), unit
         )
         errors: list[StrOrPromise] = []
 
@@ -816,7 +816,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         if self.is_ignored(all_flags):
             return True
 
-        return not all_flags.is_active("java-format", unit.source)
+        return not all_flags.is_active("java-format", unit.effective_source)
 
     def check_format(
         self, source: str, target: str, ignore_missing: bool, unit: Unit

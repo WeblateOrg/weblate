@@ -76,7 +76,10 @@ class TermForm(NewBilingualGlossaryUnitForm, forms.ModelForm):
                 language=translation.language,
                 component__in=translation.component.project.glossaries,
             ).prefetch()
-        self.glossaries = glossaries.filter(component__manage_units=True)
+        self.glossaries = glossaries.filter(
+            component__manage_units=True,
+            component__source_language=unit.effective_source_language,
+        )
         if filter_permissions:
             exclude = [
                 glossary.pk

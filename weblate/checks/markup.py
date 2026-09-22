@@ -351,7 +351,7 @@ class BaseXMLCheck(TargetCheck):
         if "xml-text" in flags:
             return False
 
-        sources = unit.get_source_plurals()
+        sources = unit.get_effective_source_plurals()
 
         # Quick check if source looks like XML.
         if all(

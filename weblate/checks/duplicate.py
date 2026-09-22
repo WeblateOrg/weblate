@@ -90,7 +90,7 @@ class DuplicateCheck(TargetCheck):
         return groups, words
 
     def check_single(self, source: str, target: str, unit: Unit):
-        source_code = unit.translation.component.source_language.base_code
+        source_code = unit.effective_source_language.base_code
         lang_code = unit.translation.language.base_code
 
         target_groups, target_words = self.extract_groups(
@@ -114,7 +114,7 @@ class DuplicateCheck(TargetCheck):
     def get_description(self, check_obj: Check):
         duplicate = set()
         unit = check_obj.unit
-        source = unit.source_string
+        source = unit.effective_source_string
         for target in unit.get_target_plurals():
             duplicate.update(self.check_single(source, target, unit))
         return format_html(

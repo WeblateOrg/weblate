@@ -39,7 +39,7 @@ class AutoFix(ClassLoaderProtocol):
 
     def fix_target(self, target: list[str], unit: Unit) -> tuple[list[str], bool]:
         """Return a target translation array with a single fix applied."""
-        source_strings = unit.get_source_plurals()
+        source_strings = unit.get_effective_source_plurals()
         if unit.has_multiple_values(source_strings, target):
             results = []
             for text in target:
@@ -52,7 +52,7 @@ class AutoFix(ClassLoaderProtocol):
         elif len(source_strings) == 1 and len(target) == 1:
             results = [self.fix_single_target(target[0], source_strings[0], unit)]
         else:
-            source_plural = unit.translation.component.source_language.plural
+            source_plural = unit.effective_source_plural
             target_plural = unit.translation.plural
             source_examples = {
                 tuple(examples): number

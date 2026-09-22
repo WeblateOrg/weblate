@@ -27,6 +27,7 @@ from weblate.utils.unicodechars import CONTROLCHARS
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
 
+    from weblate.lang.models import Language
     from weblate.trans.models import Project, Translation
     from weblate.utils.terminology import TermRecord
 
@@ -151,12 +152,13 @@ def fetch_glossary_terms(  # ruff: ignore[complex-structure]
     if len(units) == 0:
         return
 
-    translations: dict[int, Translation] = {}
-    translation_units: dict[int, list[Unit]] = defaultdict(list)
+    translations: dict[tuple[int, int], Translation] = {}
+    translation_units: dict[tuple[int, int], list[Unit]] = defaultdict(list)
 
     for unit in units:
-        translations[unit.translation.id] = unit.translation
-        translation_units[unit.translation.id].append(unit)
+        key = (unit.translation.id, unit.effective_source_language.pk)
+        translations[key] = unit.translation
+        translation_units[key].append(unit)
         # Initialize glossary terms
         unit.glossary_terms = []
 
@@ -167,10 +169,12 @@ def fetch_glossary_terms(  # ruff: ignore[complex-structure]
         if component.hide_glossary_matches:
             continue
         project = component.project
-        source_language = component.source_language
+        source_language = translation_units[translation_id][0].effective_source_language
 
         # Extract all source strings
-        sources = [unit.source.lower() for unit in translation_units[translation_id]]
+        sources = [
+            unit.effective_source.lower() for unit in translation_units[translation_id]
+        ]
 
         # Match word boundaries if needed
         uses_whitespace = source_language.uses_whitespace()
@@ -372,20 +376,35 @@ def prepare_glossary_alternatives(unit):
     ]
 
 
-def iter_glossary_alternatives(units, *, allow_readonly_aliases: bool = False):
-    """Expand concepts, preserving DNT text unless checking interchangeable aliases."""
+def iter_glossary_alternatives(
+    units, *, allow_readonly_aliases: bool = False, effective_source: bool = False
+):
+    """
+    Expand concepts into source/target pairs, preserving DNT text.
+
+    With effective_source, read text and rules from the workflow parent together.
+    Yielded units represent individual pairs: consumers must use source and target,
+    rather than resolving their effective source again.
+    """
     for unit in units:
+        parent = unit.translation_parent if effective_source else None
         if not unit.details.get("tbx_terms") and not unit.is_multivalue:
             from weblate.lang.models import PluralMapper  # ruff: ignore[import-outside-top-level]
 
-            sources = unit.get_source_plurals()
+            sources = (
+                parent.get_target_plurals() if parent else unit.get_source_plurals()
+            )
             targets = unit.get_target_plurals()
             if unit.untranslatable:
                 pairs = [(source, source) for source in sources]
             elif len(sources) == 1 and len(targets) == 1:
                 pairs = [(sources[0], targets[0])]
             else:
-                source_plural = unit.translation.component.source_language.plural
+                source_plural = (
+                    parent.translation.plural
+                    if parent
+                    else unit.translation.component.source_language.plural
+                )
                 target_plural = unit.translation.plural
                 if (
                     len(sources) == source_plural.number
@@ -406,16 +425,17 @@ def iter_glossary_alternatives(units, *, allow_readonly_aliases: bool = False):
                 item.source, item.target = source, target
                 yield item
             continue
-        sources = glossary_source_records(unit)
+        source_records = (
+            term_records(parent) if parent else glossary_source_records(unit)
+        )
+        sources = source_records
         matched = getattr(unit, "matched_sources", None)
         if matched is not None:
             sources = [
                 record for record in sources if record["text"].lower() in matched
             ]
         untranslatable = unit.untranslatable
-        targets = (
-            glossary_source_records(unit) if untranslatable else term_records(unit)
-        )
+        targets = source_records if untranslatable else term_records(unit)
         for source in sources:
             for target in (
                 [source] if untranslatable and not allow_readonly_aliases else targets
@@ -507,9 +527,12 @@ def render_glossary_units_tsv(units: Iterable[Unit]) -> str:
     )
 
 
-def get_glossary_tsv(translation) -> str:
+def get_glossary_tsv(
+    translation: Translation, *, source_language: Language | None = None
+) -> str:
     project = translation.component.project
-    source_language = translation.component.source_language
+    if source_language is None:
+        source_language = translation.component.source_language
     language = translation.language
 
     cache_key = project.get_glossary_tsv_cache_key(source_language, language)

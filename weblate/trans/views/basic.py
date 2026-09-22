@@ -681,6 +681,22 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
     last_changes = obj.change_set.prefetch().recent(skip_preload="component")
 
     translations = prefetch_stats(list(obj.translation_set.prefetch_meta()))
+    if obj.project.translation_parent_language_ids:
+        by_language = {
+            translation.language_id: translation for translation in translations
+        }
+        for translation in translations:
+            workflow = obj.project.project_languages[
+                translation.language
+            ].workflow_settings
+            parent = None
+            if (
+                workflow is not None
+                and workflow.project_id
+                and not translation.is_source
+            ):
+                parent = by_language.get(workflow.source_language_id)
+            translation.effective_source_translation = parent or obj.source_translation
 
     can_add_language_components = obj.project.components_user_can_add_new_language(user)
     user_can_add_translation = can_add_language_components.exists()

@@ -14,9 +14,14 @@ from weblate_language_data.utils import gettext_noop
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.mixins import UserDisplayMixin
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
-from weblate.utils.state import STATE_NEEDS_CHECKING, STATE_NEEDS_REWRITING
+from weblate.utils.state import (
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
+    STATE_TRANSLATED,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -49,7 +54,10 @@ class CommentManager(models.Manager):
     ) -> Comment:
         """Add comment to this unit."""
         # Is this source or target comment?
-        unit_scope = unit.source_unit if scope in {"global", "report"} else unit
+        if scope == "report":
+            unit_scope = unit.effective_source_unit
+        else:
+            unit_scope = unit.source_unit if scope == "global" else unit
 
         if user is None:
             user = request.user
@@ -80,8 +88,21 @@ class CommentManager(models.Manager):
 
         # Add review label/flag
         if scope == "report":
-            if component.has_template():
-                if unit_scope.translated and not unit_scope.readonly:
+            if component.has_template() or not unit_scope.is_source:
+                if (
+                    not unit_scope.is_source
+                    and unit_scope.readonly
+                    and unit_scope.details.get("translation_parent", {}).get("blocked")
+                    and unit_scope.original_state >= STATE_TRANSLATED
+                ):
+                    unit_scope.original_state = STATE_NEEDS_REWRITING
+                    unit_scope.save(update_fields=["original_state"], same_content=True)
+                    PendingUnitChange.store_unit_change(unit_scope, author=user)
+                    unit_scope.generate_change(
+                        user, user, ActionEvents.MARKED_EDIT, check_new=False
+                    )
+                    unit_scope.translation.invalidate_cache()
+                elif unit_scope.translated and not unit_scope.readonly:
                     unit_scope.translate(
                         user,
                         unit_scope.target,

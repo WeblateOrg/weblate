@@ -279,7 +279,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         fake_unit.target = self.target
         fake_unit.state = STATE_TRANSLATED
         fake_unit.check_cache = {}
-        source = fake_unit.get_source_plurals()
+        source = fake_unit.get_effective_source_plurals()
         target = fake_unit.get_target_plurals()
 
         result = []

@@ -28,6 +28,7 @@ from django.utils import timezone
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
+    STATE_READONLY,
     StringState,
 )
 from weblate.utils.version import GIT_VERSION
@@ -514,7 +515,13 @@ class PendingUnitChange(models.Model):
         if explanation is None:
             explanation = unit.explanation
         if state is None:
-            state = unit.state
+            # Dependency blocking is an editor restriction, not a file state.
+            state = (
+                unit.original_state
+                if unit.state == STATE_READONLY
+                and unit.details.get("translation_parent", {}).get("blocked")
+                else unit.state
+            )
         if source_unit_explanation is None:
             source_unit_explanation = unit.source_unit.explanation
         if author is None:

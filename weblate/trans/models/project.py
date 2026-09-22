@@ -116,10 +116,14 @@ class ProjectLanguageFactory(UserDict):
 
         pending = {instance.language.id: instance for instance in instances}
 
-        for setting in WorkflowSetting.objects.filter(
-            Q(project=None) | Q(project=self._project),
-            language__in=[instance.language for instance in instances],
-        ).order_by(F("project").desc(nulls_last=True)):
+        for setting in (
+            WorkflowSetting.objects.filter(
+                Q(project=None) | Q(project=self._project),
+                language__in=[instance.language for instance in instances],
+            )
+            .select_related("source_language")
+            .order_by(F("project").desc(nulls_last=True))
+        ):
             if setting.language_id not in pending:
                 continue
             pending[setting.language_id].__dict__["workflow_settings"] = setting
@@ -1332,6 +1336,33 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def source_language_cache_key(self) -> str:
         return f"project-source-language-ids-{self.pk}"
 
+    _translation_parent_cache_generation: ClassVar[int] = 0
+
+    @classmethod
+    def invalidate_translation_parent_cache(cls) -> None:
+        """Invalidate live project instances after a local workflow change."""
+        cls._translation_parent_cache_generation += 1
+
+    def cache_translation_parent_language_ids(self, language_ids: set[int]) -> None:
+        self.__dict__["_translation_parent_language_ids"] = (
+            self._translation_parent_cache_generation,
+            language_ids,
+        )
+
+    @property
+    def translation_parent_language_ids(self) -> set[int]:
+        """Languages whose edits can affect custom translation dependencies."""
+        cached = self.__dict__.get("_translation_parent_language_ids")
+        if cached is None or cached[0] != self._translation_parent_cache_generation:
+            language_ids = set(
+                self.workflowsetting_set.exclude(source_language=None).values_list(
+                    "source_language_id", flat=True
+                )
+            )
+            self.cache_translation_parent_language_ids(language_ids)
+            return language_ids
+        return cached[1]
+
     def get_glossary_tsv_cache_key(
         self, source_language: Language, language: Language
     ) -> str:
@@ -1416,7 +1447,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         tsv_cache_keys = [
             self.get_glossary_tsv_cache_key(source_language, language)
             for source_language in Language.objects.filter(
-                component__project=self
+                Q(component__project=self) | Q(source_workflow_settings__project=self)
             ).distinct()
             for language in self.languages
         ]

@@ -4452,6 +4452,10 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 },
             )
             serializer.is_valid(raise_exception=True)
+            if serializer.validated_data["scope"] == "report" and not user.has_perm(
+                "comment.add", unit.effective_source_unit.translation
+            ):
+                self.permission_denied(request)
 
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)

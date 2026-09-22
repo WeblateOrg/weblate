@@ -12,6 +12,7 @@ from weblate.checks.flags import Flags, FlagsValidator
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.models.pending import PendingUnitChange
+from weblate.trans.models.source import propagate_parent_change, source_operation
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
@@ -75,7 +76,7 @@ def bulk_perform(
     for component in components:
         prev_updated = updated
         component.start_batched_checks()
-        with transaction.atomic():
+        with transaction.atomic(), source_operation(component):
             component_units = matching.filter(translation__component=component)
 
             # Snapshot matching translations before state/source changes alter the query.
@@ -156,6 +157,8 @@ def bulk_perform(
                     ],
                     batch_size=500,
                 )
+                for unit in to_update:
+                    propagate_parent_change(unit.translation, unit.pk, user)
                 # Fire source_change event in bulk for source units
                 for unit in source_units:
                     # The change is already done in the database, we

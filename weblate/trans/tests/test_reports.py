@@ -24,6 +24,7 @@ from weblate.trans.models import (
     Report,
     Suggestion,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentLink
 from weblate.trans.tests.test_views import ViewTestCase
@@ -33,7 +34,12 @@ from weblate.trans.views.reports import (
     generate_counts,
     generate_credits,
 )
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 
 COUNTS_DATA = [
     {
@@ -465,6 +471,102 @@ class ReportsTest(BaseReportsTest):
         buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
 
         self.assertEqual(buckets["needs_editing"]["count"], 1)
+
+    def test_contribution_characters_use_effective_source(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        parent.translate(
+            self.user,
+            "A longer source with a different character count",
+            STATE_TRANSLATED,
+        )
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        before = {item["email"]: item for item in self.generate_count_data()}
+        unit.refresh_from_db()
+        unit.translate(self.user, "Child translation", STATE_TRANSLATED)
+        after = {item["email"]: item for item in self.generate_count_data()}
+        self.assertEqual(
+            after[self.user.email]["chars"] - before[self.user.email]["chars"],
+            len(parent.target),
+        )
+
+    def test_contribution_counts_preserve_source_snapshot(self) -> None:
+        unit = self.get_unit("Thank you for using Weblate.")
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        parent.translate(self.user, "Short source", STATE_TRANSLATED)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        start = timezone.now()
+        unit.refresh_from_db()
+        unit.translate(self.user, "Child translation", STATE_TRANSLATED)
+        end = timezone.now()
+        expected_chars = len(parent.target)
+        parent.translate(
+            self.user, "A much longer source with many more words", STATE_TRANSLATED
+        )
+        counts = generate_counts(
+            self.user, start, end, "", "date_joined", "ascending", unit=unit
+        )
+        self.assertEqual(len(counts), 1)
+        self.assertEqual(counts[0]["count"], 1)
+        self.assertEqual(counts[0]["chars"], expected_chars)
+        self.assertEqual(counts[0]["words"], 2)
+
+    def test_cost_repetitions_use_effective_source(self) -> None:
+        other = self.create_po(project=self.project, name="Other")
+        unit = self.get_unit("Thank you for using Weblate.")
+        other_unit = other.translation_set.get(
+            language=unit.translation.language
+        ).unit_set.get(id_hash=unit.id_hash)
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        other_parent = other.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        parent.translate(
+            self.user, "First German source", STATE_TRANSLATED, propagate=False
+        )
+        other_parent.translate(
+            self.user, "Different German source", STATE_TRANSLATED, propagate=False
+        )
+        Unit.objects.filter(pk__in=[unit.pk, other_unit.pk]).update(
+            target="", state=STATE_EMPTY
+        )
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        query = f"id:{unit.pk} OR id:{other_unit.pk}"
+        data = self.generate_cost_data(entity=self.project, q=query)
+        buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
+        self.assertEqual(buckets["repetition"]["count"], 0)
+        self.assertEqual(buckets["new"]["count"], 2)
+        self.assertEqual(
+            buckets["new"]["chars"], len(parent.target) + len(other_parent.target)
+        )
+        other_parent.translate(
+            self.user, parent.target, STATE_TRANSLATED, propagate=False
+        )
+        Unit.objects.filter(pk=other_unit.pk).update(
+            id_hash=other_unit.id_hash + 1, source="Distinct canonical source"
+        )
+        data = self.generate_cost_data(entity=self.project, q=query)
+        buckets = {bucket["slug"]: bucket for bucket in data["buckets"]}
+        self.assertEqual(buckets["repetition"]["count"], 1)
+        self.assertEqual(buckets["new"]["count"], 1)
 
     def test_cost_estimate_repetition_precedes_memory(self) -> None:
         unit = self.get_unit("Thank you for using Weblate.")

@@ -12,6 +12,7 @@ Weblate 2026.10
 * Added language-specific :ref:`string flags <additional-flags>` to the editor, Tools menu, bulk editing, and REST API.
 * Added an inherited :ref:`language creation policy <workflow-language-restrictions>` that allows existing project target languages and requires approval for new ones.
 * Added a guided :ref:`first translation <translator-start>` and advice for :doc:`building a translators community <devel/community>`.
+* Added :ref:`custom source languages <workflow-source-language>` to project-language workflows.
 * Added configurable per-user and IP/network :ref:`API rate limits and exemptions <api-rate>`, including Docker configuration.
 * Added :ref:`component-mounted add-on APIs <component-addon-api>`.
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can now produce component-wide locale lists with native language names, text direction, and translation statistics.

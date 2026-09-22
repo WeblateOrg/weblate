@@ -39794,6 +39794,25 @@ components:
           type: string
           format: uri
           readOnly: true
+        translation_parent:
+          type:
+          - string
+          - 'null'
+          format: uri
+          readOnly: true
+        effective_source:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        effective_previous_source:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        effective_source_language:
+          type: string
+          readOnly: true
         priority:
           type: integer
           maximum: 2147483647
@@ -39832,6 +39851,9 @@ components:
       required:
       - approved
       - content_hash
+      - effective_previous_source
+      - effective_source
+      - effective_source_language
       - fuzzy
       - has_comment
       - has_failing_check
@@ -39850,6 +39872,7 @@ components:
       - timestamp
       - translated
       - translation
+      - translation_parent
       - url
       - web_url
     UnitSource:

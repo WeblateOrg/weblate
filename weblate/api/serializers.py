@@ -3666,6 +3666,16 @@ class UnitFlatLabelsSerializer(UnitLabelsSerializer):
 
 
 class UnitSerializer(serializers.ModelSerializer[Unit]):
+    translation_parent: serializers.HyperlinkedRelatedField[Unit] = (
+        serializers.HyperlinkedRelatedField(
+            read_only=True, allow_null=True, view_name="api:unit-detail"
+        )
+    )
+    effective_source = PluralField(read_only=True)
+    effective_previous_source = PluralField(read_only=True)
+    effective_source_language = serializers.CharField(
+        source="effective_source_language.code", read_only=True
+    )
     tbx_terms = serializers.DictField(read_only=True)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
@@ -3716,6 +3726,10 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "has_failing_check",
             "num_words",
             "source_unit",
+            "translation_parent",
+            "effective_source",
+            "effective_previous_source",
+            "effective_source_language",
             "priority",
             "id",
             "web_url",

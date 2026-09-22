@@ -183,7 +183,7 @@ class BeginSpaceCheck(TargetCheck):
         return source_space != target_space
 
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
-        source = unit.source_string
+        source = unit.effective_source_string
         stripped_source = source.lstrip(" ")
         spaces = len(source) - len(stripped_source)
         replacement = source[:spaces] if spaces else ""
@@ -263,7 +263,7 @@ class EndSpaceCheck(TargetCheck):
         return source_space != target_space
 
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
-        source = unit.source_string
+        source = unit.effective_source_string
         stripped_source = source.rstrip(" ")
         spaces = len(source) - len(stripped_source)
         replacement = source[-spaces:] if spaces else ""

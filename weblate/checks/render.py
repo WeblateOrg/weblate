@@ -119,7 +119,7 @@ class MaxSizeCheck(TargetCheckParametrized):
 
     def get_render_plurals(self, unit: Unit) -> list[str]:
         if unit.is_source:
-            return unit.get_source_plurals()
+            return unit.get_effective_source_plurals()
         return unit.get_target_plurals()
 
     def get_description(self, check_obj: Check):
@@ -162,10 +162,10 @@ class MaxSizeCheck(TargetCheckParametrized):
         result = cache.get(key)
         if result is None:
             if unit.is_source:
-                self.check_source_unit(unit.get_source_plurals(), unit)
+                self.check_source_unit(unit.get_effective_source_plurals(), unit)
             else:
                 self.check_target_unit(
-                    unit.get_source_plurals(), unit.get_target_plurals(), unit
+                    unit.get_effective_source_plurals(), unit.get_target_plurals(), unit
                 )
             result = cache.get(key)
         if result is None:

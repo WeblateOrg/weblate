@@ -70,7 +70,7 @@ class GlossaryCheck(TargetCheck):
 
     def get_description(self, check_obj: Check):
         unit = check_obj.unit
-        sources = unit.get_source_plurals()
+        sources = unit.get_effective_source_plurals()
         targets = unit.get_target_plurals()
         source = sources[0]
         results = set()

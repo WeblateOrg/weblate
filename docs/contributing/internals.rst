@@ -105,6 +105,36 @@ Weblate consists of several Django applications (some optional, see
 .. _Django: https://www.djangoproject.com/
 .. _Django REST framework: https://www.django-rest-framework.org/
 
+Translation sources
+-------------------
+
+A unit has a canonical file source and may have a translation from another
+language as its effective source. Keep ``Unit.source`` and ``Unit.source_unit``
+canonical: repository synchronization and file formats depend on this. Use
+``effective_source`` and its language and plural accessors for content shown to
+translators. Do not replace ``source`` on a copied unit to simulate an effective
+source; other fields and related objects still describe the canonical source.
+
+Use ``Unit.source_snapshot`` when an operation needs to preserve the source text,
+language, and plural rules together. Its ``identity`` defines source changes for
+dependency reconciliation, editor conflict detection, and AI diagnostics. For
+historical rendering and reports, read the snapshot recorded on the change,
+rather than reconstructing it from the current unit.
+
+Text-only accessors do not load language or plural metadata. For batch consumers
+that need the complete effective source, use
+``UnitQuerySet.prefetch_translation_parent()`` alongside their existing unit
+prefetches. ``prefetch_source()`` already includes this. Keep ordinary-source
+paths free of dependency queries and preserve their existing content hashes.
+
+Machinery source selection happens before mapping language codes to a provider.
+Use ``get_unit_source_language()`` for translation and ``uses_custom_source()``
+for workflow-specific glossary handling. Provider codes can merge distinct
+language variants, so code equality cannot determine whether a workflow source
+was selected. Explicit component or secondary source selection takes precedence
+over the workflow source.
+
+
 .. _background-tasks-internals:
 
 Background tasks internals

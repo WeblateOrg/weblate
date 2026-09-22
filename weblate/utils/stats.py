@@ -655,7 +655,7 @@ class TranslationStats(BaseStats):
         return {
             "state": unit.state,
             "num_words": unit.num_words,
-            "num_chars": len(unit.source),
+            "num_chars": len(unit.effective_source),
             "active_checks_count": len(unit.active_checks),
             "dismissed_checks_count": len(unit.dismissed_checks),
             "suggestion_count": len(unit.suggestions),
@@ -815,10 +815,15 @@ class TranslationStats(BaseStats):
         # Group by state and five presence flags, not by word or character count.
         # This bounds the rows sent to Python regardless of translation size and
         # avoids repeating Exists expressions for each conditional bucket sum.
+        source = Unit.objects.effective_source_expression(
+            custom_sources=bool(
+                self._object.component.project.translation_parent_language_ids
+            )
+        )
         groups = units.values(*values).annotate(
             num_units=Count("pk"),
             num_words=Sum("num_words"),
-            num_chars=Sum(Length("source")),
+            num_chars=Sum(Length(source)),
         )
 
         totals = dict.fromkeys(self.UNIT_DELTA_KEYS, 0)
@@ -930,7 +935,11 @@ class TranslationStats(BaseStats):
         stats = (
             self._object.unit_set.filter(check__dismissed=False)
             .values("check__name")
-            .annotate_stats()
+            .annotate_stats(
+                custom_sources=bool(
+                    self._object.component.project.translation_parent_language_ids
+                )
+            )
         )
         for check, strings, words, chars in stats.values_list(
             "check__name", "strings", "words", "chars"
@@ -958,7 +967,11 @@ class TranslationStats(BaseStats):
         )
         stats = (
             self._object.unit_set.values("source_unit__labels__name")
-            .annotate_stats()
+            .annotate_stats(
+                custom_sources=bool(
+                    self._object.component.project.translation_parent_language_ids
+                )
+            )
             .values_list("source_unit__labels__name", "strings", "words", "chars")
         )
 
