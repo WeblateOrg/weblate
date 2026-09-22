@@ -21,8 +21,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-21 21:19+0000\n"
-"Last-Translator: Stysusss <158248053+stysus@users.noreply.github.com>\n"
+"PO-Revision-Date: 2026-09-22 00:12+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -1886,16 +1886,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Entri kata kunci harus berupa string."
 
-#, fuzzy
-#| msgid "Data directory latency"
 msgid "ITS data directories"
-msgstr "Latensi direktori data"
+msgstr "Direktori data ITS"
 
 msgid ""
 "Newline-separated repository-relative directories containing an its "
 "subdirectory, for example po for po/its. Earlier directories override later "
 "directories and bundled rules."
 msgstr ""
+"Direktori relatif terhadap repositori yang dipisahkan dengan baris baru dan "
+"berisi subdirektori its, misalnya po untuk po/its. Direktori yang lebih awal "
+"mengesampingkan direktori berikutnya dan aturan bawaan."
 
 msgid "Do not extract comments"
 msgstr "Jangan ekstrak komentar"
@@ -2076,17 +2077,13 @@ msgid "Could not determine Sphinx source directory."
 msgstr "Tidak dapat menentukan direktori sumber Sphinx."
 
 msgid "Output scope"
-msgstr ""
+msgstr "Cakupan keluaran"
 
-#, fuzzy
-#| msgid "Only include approved translations"
 msgid "One file per translation"
-msgstr "Hanya sertakan terjemahan yang disetujui"
+msgstr "Satu berkas per terjemahan"
 
-#, fuzzy
-#| msgid "Organize component"
 msgid "One file per component"
-msgstr "Organisir komponen"
+msgstr "Satu berkas per komponen"
 
 msgid "Name of generated file"
 msgstr "Nama berkas yang dihasilkan"
@@ -2622,105 +2619,80 @@ msgstr ""
 "Memperbarui templat gettext menggunakan pembangun gettext Sphinx tanpa "
 "memuat konfigurasi proyek."
 
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "ITS rule file is too large."
-msgstr "Berkas terunggah terlalu besar."
+msgstr "Berkas aturan ITS terlalu besar."
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many XPath expressions."
-msgstr "Berkas ZIP mengandung terlalu banyak entri."
+msgstr "Berkas aturan ITS memuat terlalu banyak ekspresi XPath."
 
-#, fuzzy
-#| msgid "The provided secret is too long."
 msgid "ITS XPath expression is too long."
-msgstr "Rahasia yang disediakan terlalu panjang."
+msgstr "Ekspresi XPath ITS terlalu panjang."
 
 msgid "Too many ITS rule files."
-msgstr ""
+msgstr "Terlalu banyak berkas aturan ITS."
 
-#, fuzzy
-#| msgid "No source files are configured."
 msgid "ITS rule files are too large."
-msgstr "Tidak ada berkas sumber yang dikonfigurasi."
+msgstr "Berkas aturan ITS terlalu besar."
 
 msgid "ITS directories must be a list of strings."
-msgstr ""
+msgstr "Direktori ITS harus berupa daftar string."
 
-#, fuzzy
-#| msgid "Invalid text direction"
 msgid "Invalid ITS directory path."
-msgstr "Arah teks tidak valid"
+msgstr "Jalur direktori ITS tidak valid."
 
 msgid "ITS rules must not contain a document type."
-msgstr ""
+msgstr "Aturan ITS tidak boleh memuat jenis dokumen."
 
 msgid "Invalid ITS rule document root."
-msgstr ""
+msgstr "Akar dokumen aturan ITS tidak valid."
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many elements."
-msgstr "Berkas ZIP mengandung terlalu banyak entri."
+msgstr "Berkas aturan ITS memuat terlalu banyak elemen."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule content."
-msgstr "Format berkas tidak didukung."
+msgstr "Konten aturan ITS tidak didukung."
 
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported ITS locating rule."
-msgstr "Berkas tidak didukung!"
+msgstr "Aturan penentu lokasi ITS tidak didukung."
 
-#, fuzzy
-#| msgid "Blank strings require an empty state."
 msgid "ITS locating rules require a pattern."
-msgstr "String kosong memerlukan status kosong."
+msgstr "Aturan penentu lokasi ITS memerlukan pola."
 
 msgid "ITS locating rules require a target or a document rule."
-msgstr ""
+msgstr "Aturan penentu lokasi ITS memerlukan target atau aturan dokumen."
 
 msgid "ITS document rules require a target."
-msgstr ""
+msgstr "Aturan dokumen ITS memerlukan target."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule namespace."
-msgstr "Format berkas tidak didukung."
+msgstr "Namespace aturan ITS tidak didukung."
 
 msgid "External ITS rule references are not allowed."
-msgstr ""
+msgstr "Referensi aturan ITS eksternal tidak diizinkan."
 
 msgid "ITS targets must name a rule in the same directory."
-msgstr ""
+msgstr "Target ITS harus menyebutkan aturan dalam direktori yang sama."
 
 msgid "ITS target is missing or is a symbolic link."
-msgstr ""
+msgstr "Target ITS tidak ada atau merupakan tautan simbolik."
 
-#, fuzzy
-#| msgid "ZIP file contains unsupported symbolic links."
 msgid "ITS directories must not contain symbolic links."
-msgstr "Berkas ZIP mengandung tautan simbolis yang tidak didukung."
+msgstr "Direktori ITS tidak boleh berisi tautan simbolik."
 
-#, fuzzy, python-format
-#| msgid "Referenced category does not exist."
+#, python-format
 msgid "ITS directory does not exist: %(path)s"
-msgstr "Kategori yang dirujuk tidak ada."
+msgstr "Direktori ITS tidak ada: %(path)s"
 
 msgid "ITS rules must be regular files, not symbolic links."
-msgstr ""
+msgstr "Aturan ITS harus berupa berkas reguler, bukan tautan simbolik."
 
-#, fuzzy, python-format
-#| msgid "Could not migrate %(component)s: %(error)s"
+#, python-format
 msgid "Invalid ITS rule %(path)s: %(error)s"
-msgstr "Tidak dapat memigrasikan %(component)s: %(error)s"
+msgstr "Aturan ITS tidak valid %(path)s: %(error)s"
 
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file: %s"
+#, python-format
 msgid "Could not parse ITS rule: %(path)s"
-msgstr "Tidak dapat mengurai berkas TMX: %s"
+msgstr "Tidak dapat mengurai aturan ITS: %(path)s"
 
 msgid "Squash Git commits"
 msgstr "Lumatkan komit Git"
@@ -2728,15 +2700,11 @@ msgstr "Lumatkan komit Git"
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Lumatkan komit Git sebelum mendorong perubahan."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "API add-ons must be installed directly on a component."
-msgstr "Pengaya hanya dapat dipasang pada komponen."
+msgstr "Add-on API harus dipasang langsung pada sebuah komponen."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "This add-on is already installed on this component."
-msgstr "Pengaya hanya dapat dipasang pada komponen."
+msgstr "Add-on ini sudah dipasang pada komponen ini."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Add-on ini tidak dapat dipicu secara manual."
@@ -4391,10 +4359,8 @@ msgstr "Abaikan semua pemeriksaan"
 msgid "Use case insensitive placeholders"
 msgstr "Gunakan pengganti tidak peka huruf kapital"
 
-#, fuzzy
-#| msgid "No workspaces found."
 msgid "Monospace font"
-msgstr "Tidak ada workspace yang ditemukan."
+msgstr "Font monospace"
 
 msgid "Font family"
 msgstr "Keluarga huruf"
@@ -5663,23 +5629,21 @@ msgstr ""
 "Tidak dapat menambahkan istilah glosarium karena operasi latar belakang lain "
 "sedang berlangsung. Silakan coba lagi nanti."
 
-#, fuzzy
-#| msgid "Maximum changes per day"
 msgid "Maximum build age (days)"
-msgstr "Perubahan maksimum per hari"
+msgstr "Usia build maksimum (hari)"
 
-#, fuzzy
-#| msgid "Maximum line length"
 msgid "Maximum retained versions"
-msgstr "Panjang maksimum baris"
+msgstr "Jumlah versi maksimum yang disimpan"
 
 msgid "Kotlin SDK CDN"
-msgstr ""
+msgstr "CDN Kotlin SDK"
 
 msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+"Menerbitkan sumber daya string dan plural Android untuk build Kotlin SDK "
+"yang terdaftar."
 
 msgid "Weblate languages"
 msgstr "Bahasa Weblate"
@@ -6715,10 +6679,8 @@ msgstr "Cari screenshot"
 msgid "Sort by"
 msgstr "Sortir berdasarkan"
 
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot"
-msgstr "Cuplikan layar, Tangkapan layar"
+msgstr "Tangkapan layar"
 
 msgid "Screenshot name"
 msgstr "Nama tangkapan layar"
@@ -6785,10 +6747,8 @@ msgstr "Tidak ada string sumber cocok yang baru ditemukan."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Data OCR tidak dapat diunduh. Silakan coba lagi nanti."
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a valid screenshot."
-msgstr "Hapus tangkapan layar"
+msgstr "Pilih tangkapan layar yang valid."
 
 msgid "Bad request"
 msgstr "Permintaan buruk"
@@ -6903,10 +6863,8 @@ msgstr "Dukung Weblate"
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Selamat datang dan terima kasih telah mendukung Weblate"
 
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Continue to Weblate"
-msgstr "Berkontribusi ke Weblate"
+msgstr "Lanjutkan ke Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6993,12 +6951,15 @@ msgid "Please complete your sign-in using second factor credential."
 msgstr "Silakan selesaikan masuk Anda menggunakan kredensial faktor kedua."
 
 msgid "Other ways to verify your identity"
-msgstr ""
+msgstr "Cara lain untuk memverifikasi identitas Anda"
 
 msgid ""
 "If you cannot use your passkey or security key, or any other configured "
 "verification method, contact the site administrator for help."
 msgstr ""
+"Jika Anda tidak dapat menggunakan passkey atau kunci keamanan, atau metode "
+"verifikasi lain yang telah dikonfigurasi, hubungi administrator situs untuk "
+"mendapatkan bantuan."
 
 msgid "Your profile"
 msgstr "Profil Anda"
@@ -8063,17 +8024,22 @@ msgid ""
 "security key. Your passkey might not be available on a new computer or in a "
 "different browser."
 msgstr ""
+"Gunakan perangkat yang menyediakan passkey Anda, atau hubungkan kunci "
+"keamanan yang telah Anda daftarkan. Passkey Anda mungkin tidak tersedia pada "
+"komputer baru atau di browser lain."
 
-#, fuzzy
-#| msgid "Sign in using the security key"
 msgid "Sign in using a passkey or security key"
-msgstr "Masuk menggunakan kunci keamanan"
+msgstr "Masuk menggunakan passkey atau kunci keamanan"
 
 msgid ""
 "Passkey or security key verification could not be completed. The request may "
 "have timed out or been canceled, or your credential may be unavailable on "
 "this device. Try again or use another verification method if available."
 msgstr ""
+"Verifikasi passkey atau kunci keamanan tidak dapat diselesaikan. Permintaan "
+"mungkin telah habis waktu atau dibatalkan, atau kredensial Anda mungkin "
+"tidak tersedia pada perangkat ini. Coba lagi atau gunakan metode verifikasi "
+"lain jika tersedia."
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Sayangnya, peramban Anda tidak mendukung WebAuthn."
@@ -8105,16 +8071,11 @@ msgstr "Tidak kompatibel"
 msgid "No components found."
 msgstr "Tidak ada komponen yang ditemukan."
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgid "Add-on API base URL:"
-msgstr "URL dasar API OpenAI"
+msgstr "URL dasar API add-on:"
 
-#, fuzzy
-#| msgid "API root URL:"
 msgid "API root"
-msgstr "URL root API:"
+msgstr "Akar API"
 
 msgid "Configure add-on"
 msgstr "Konfigurasikan pengaya"
@@ -8287,12 +8248,18 @@ msgid ""
 "and statistics. Use the json or python filter to serialize values in "
 "generated files."
 msgstr ""
+"Dalam mode komponen, lakukan loop pada terjemahan untuk mengakses metadata "
+"dan statistik setiap bahasa. Gunakan filter json atau python untuk "
+"menyerialkan nilai dalam berkas yang dihasilkan."
 
 msgid ""
 "The translation variables below are available directly in translation mode, "
 "or on each item in component mode. Component and project variables are "
 "available in both modes."
 msgstr ""
+"Variabel terjemahan di bawah ini tersedia secara langsung dalam mode "
+"terjemahan, atau pada setiap item dalam mode komponen. Variabel komponen dan "
+"proyek tersedia pada kedua mode."
 
 msgid "Percents translated"
 msgstr "Persen yang diterjemahkan"
@@ -8806,10 +8773,8 @@ msgstr "Periksa status penagihan Anda"
 msgid "Browse"
 msgstr "Telusuri"
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation status widgets"
-msgstr "Status terjemahan"
+msgstr "Widget status terjemahan"
 
 msgid "No strings found!"
 msgstr "Tidak ada string yang ditemukan!"
@@ -9349,38 +9314,38 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Jadilah pendukung Weblate"
 
-#, fuzzy
-#| msgid "Another repository operation is already in progress."
 msgid "Some repository operations require additional permissions"
-msgstr "Operasi repositori lain sedang berlangsung."
+msgstr "Beberapa operasi repositori memerlukan izin tambahan"
 
 msgid ""
 "Repository operations require permission on the component that owns the "
 "shared repository."
 msgstr ""
+"Operasi repositori memerlukan izin pada komponen yang memiliki repositori "
+"bersama."
 
-#, fuzzy
-#| msgid "Affected components"
 msgid "Affected components:"
-msgstr "Komponen terdampak"
+msgstr "Komponen yang terdampak:"
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "You need the following permissions on the repository-owning component:"
-msgstr "Anda tidak memiliki izin untuk mengakses komponen ini."
+msgstr "Anda memerlukan izin berikut pada komponen pemilik repositori:"
 
 msgid ""
 "You need the following permissions on the repository-owning component, which "
 "you cannot access:"
 msgstr ""
+"Anda memerlukan izin berikut pada komponen pemilik repositori, yang tidak "
+"dapat Anda akses:"
 
 msgid "Ask an administrator of the owning project to grant these permissions."
-msgstr ""
+msgstr "Mintalah administrator proyek pemilik untuk memberikan izin ini."
 
 msgid ""
 "Ask your project administrator to coordinate access with the repository "
 "owner."
 msgstr ""
+"Mintalah administrator proyek Anda untuk mengoordinasikan akses dengan "
+"pemilik repositori."
 
 msgid "Repository status"
 msgstr "Status repositori"
@@ -10473,18 +10438,18 @@ msgstr "Batasan paket dukungan"
 msgid "Support expiry"
 msgstr "Dukungan berakhir"
 
-#, fuzzy
-#| msgid "Professional support"
 msgid "Professional support for your organization"
-msgstr "Dukungan profesional"
+msgstr "Dukungan profesional untuk organisasi Anda"
 
 msgid ""
 "Purchase professional support for expert help with setup, maintenance, and "
 "troubleshooting."
 msgstr ""
+"Beli dukungan profesional untuk mendapatkan bantuan ahli terkait penyiapan, "
+"pemeliharaan, dan pemecahan masalah."
 
 msgid "Your subscription also funds the ongoing development of Weblate."
-msgstr ""
+msgstr "Langganan Anda juga mendanai pengembangan Weblate yang berkelanjutan."
 
 msgid "Manage support package"
 msgstr "Kelola paket dukungan"
@@ -10495,10 +10460,8 @@ msgstr "Putuskan tautan paket dukungan dan nonaktifkan Discover Weblate"
 msgid "Unlink support package"
 msgstr "Lepaskan paket dukungan"
 
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase support"
-msgstr "Beli paket dukungan"
+msgstr "Beli dukungan"
 
 msgid "Contact customer care"
 msgstr "Hubungi layanan pelanggan"
@@ -11120,15 +11083,11 @@ msgstr "Terima kasih telah menggunakan Weblate"
 msgid "Return to dashboard"
 msgstr "Kembali ke dasbor"
 
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "Thank you for contributing translations."
-msgstr "Kontributor baru di %(translation)s"
+msgstr "Terima kasih telah berkontribusi dalam penerjemahan."
 
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Donate to Weblate development"
-msgstr "Donasi ke Weblate"
+msgstr "Donasikan untuk pengembangan Weblate"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "Harap tinjau dan konfirmasikan pencarian dan ganti hasilnya."
@@ -11239,35 +11198,28 @@ msgstr "Tidak ada screenshot yang ditemukan."
 msgid "Add new screenshot"
 msgstr "Tambahkan tangkapan layar baru"
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a screenshot"
-msgstr "Hapus tangkapan layar"
+msgstr "Pilih tangkapan layar"
 
 msgid ""
 "Source-language screenshots are shown for every translation of this string. "
 "Other screenshots are shown only for their language."
 msgstr ""
+"Tangkapan layar bahasa sumber ditampilkan untuk setiap terjemahan string "
+"ini. Tangkapan layar lainnya hanya ditampilkan untuk bahasanya masing-masing."
 
-#, fuzzy
-#| msgid "Select"
 msgid "Selected"
-msgstr "Pilih"
+msgstr "Dipilih"
 
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No matching screenshots available."
-msgstr "Tidak ada tim yang tersedia."
+msgstr "Tidak ada tangkapan layar yang sesuai."
 
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshot pages"
-msgstr "Nama tangkapan layar"
+msgstr "Halaman tangkapan layar"
 
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Page %(current)s of %(total)s"
-msgstr "%(used)s dari %(total)s digunakan"
+msgstr "Halaman %(current)s dari %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11469,20 +11421,19 @@ msgstr[0] "%(count)s komponen terdampak lainnya."
 msgid "No diagnostics match the selected filters."
 msgstr "Tidak ada diagnostik yang cocok dengan filter yang dipilih."
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support Weblate development"
-msgstr "Dukung Weblate"
+msgstr "Dukung pengembangan Weblate"
 
-#, fuzzy
-#| msgid "Thank you for using Weblate"
 msgid "Thank you for using Weblate and contributing translations."
-msgstr "Terima kasih telah menggunakan Weblate"
+msgstr ""
+"Terima kasih telah menggunakan Weblate dan berkontribusi dalam penerjemahan."
 
 msgid ""
 "If you would like to give more, an optional donation funds development and "
 "maintenance of Weblate itself."
 msgstr ""
+"Jika Anda ingin memberikan lebih banyak, donasi opsional akan mendanai "
+"pengembangan dan pemeliharaan Weblate itu sendiri."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11553,10 +11504,8 @@ msgstr "Salin kata ke terjemahan"
 msgid "This translation is forbidden."
 msgstr "Terjemahan ini dilarang."
 
-#, fuzzy
-#| msgid "Hidden"
 msgid "Forbidden"
-msgstr "Tersembunyi"
+msgstr "Dilarang"
 
 msgid "This term should not be translated."
 msgstr "Istilah ini tidak boleh diterjemahkan."
@@ -11567,10 +11516,8 @@ msgstr "Sunting istilah glosarium"
 msgid "Translation explanation"
 msgstr "Penjelasan terjemahan"
 
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Source explanation"
-msgstr "Penjelasan string sumber"
+msgstr "Penjelasan sumber"
 
 msgid "Glossary translation explanation"
 msgstr "Penjelasan terjemahan glosarium"
@@ -12248,27 +12195,19 @@ msgid "Failing checks:"
 msgstr "Pemeriksaan gagal:"
 
 msgid "Using Weblate in your organization?"
-msgstr ""
+msgstr "Menggunakan Weblate di organisasi Anda?"
 
-#, fuzzy
-#| msgid "Purchase a support package"
 msgid "Already purchased? Link your support package"
-msgstr "Beli paket dukungan"
+msgstr "Sudah membeli? Tautkan paket dukungan Anda"
 
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Term information from the translation file"
-msgstr "Hapus string yang tidak digunakan dari file terjemahan"
+msgstr "Informasi istilah dari berkas terjemahan"
 
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source terms"
-msgstr "String sumber"
+msgstr "Istilah sumber"
 
-#, fuzzy
-#| msgid "Target type"
 msgid "Target terms"
-msgstr "Jenis target"
+msgstr "Istilah target"
 
 msgid "Translation status"
 msgstr "Status terjemahan"
@@ -12762,10 +12701,9 @@ msgstr "Komponen berisi beberapa string terjemahan ganda."
 msgid "Source"
 msgstr "Sumber"
 
-#, fuzzy, python-format
-#| msgid "Remove duplicated strings from the translation file"
+#, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Hapus string duplikat dari file terjemahan"
+msgstr "Hapus string duplikat dari %(language)s (%(filename)s)"
 
 msgid "Remove duplicate strings"
 msgstr "Hapus string duplikat"
@@ -13670,15 +13608,11 @@ msgstr "Telusuri glosarium"
 msgid "No screenshot currently associated."
 msgstr "Tidak ada tangkapan layar yang saat ini terkait."
 
-#, fuzzy
-#| msgid "Add to screenshot"
 msgid "Add existing screenshot"
-msgstr "Tambahkan ke tangkapan layar"
+msgstr "Tambahkan tangkapan layar yang sudah ada"
 
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Upload screenshot"
-msgstr "Tambahkan tangkapan layar"
+msgstr "Unggah tangkapan layar"
 
 msgid "String information"
 msgstr "Informasi string"
@@ -15522,23 +15456,22 @@ msgstr ""
 "Secara bawaan, gettext memecahkan baris dengan 77 karakter dan pada baris "
 "baru. Dengan parameter --no-wrap, pemecahan hanya dilakukan pada baris baru."
 
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contributor comments"
-msgstr "Kontributor di komentar"
+msgstr "Komentar kontributor"
 
-#, fuzzy
-#| msgid "gettext PO"
 msgid "Gettext"
-msgstr "gettext PO"
+msgstr "Gettext"
 
 msgid "SPDX"
-msgstr ""
+msgstr "SPDX"
 
 msgid ""
 "Add contributor names and years to header comments. SPDX also converts "
 "existing recognized contributor comments to SPDX-FileCopyrightText entries."
 msgstr ""
+"Tambahkan nama kontributor dan tahun ke komentar header. SPDX juga "
+"mengonversi komentar kontributor yang sudah ada dan dikenali menjadi entri "
+"SPDX-FileCopyrightText."
 
 msgid "Keep previous msgids of translated strings"
 msgstr "Pertahankan msgids sebelumnya dari string yang diterjemahkan"
@@ -18650,17 +18583,12 @@ msgid "Project {}"
 msgstr "Proyek {}"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgid "Category"
 msgid "Category {}"
-msgstr "Kategori"
+msgstr "Kategori {}"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Workspace: {}"
 msgid "Workspace {}"
-msgstr "Ruang kerja: {}"
+msgstr "Ruang kerja {}"
 
 #. Translators: Text on OpenGraph image
 msgid "Component {}"
