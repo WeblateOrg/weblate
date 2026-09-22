@@ -11,6 +11,8 @@ from django.conf import settings
 from django.utils import timezone
 
 from weblate.utils.celery import app
+from celery import Celery
+
 
 
 @app.task(trail=False)
@@ -26,7 +28,7 @@ def cleanup_machinery_errors() -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(
         crontab(hour=1, minute=30),
         cleanup_machinery_errors.s(),
