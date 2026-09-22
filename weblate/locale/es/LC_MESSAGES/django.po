@@ -41,7 +41,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-22 14:14+0000\n"
+"PO-Revision-Date: 2026-09-22 15:02+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -1363,10 +1363,9 @@ msgstr ""
 msgid "Gratis trial"
 msgstr "Prueba gratuita"
 
-#, fuzzy, python-format
-#| msgid "Mute notifications for %(object)s"
+#, python-format
 msgid "Notification diagnostics for %(user)s"
-msgstr "Silenciar notificaciones sobre %(object)s"
+msgstr "Diagnóstico de notificaciones para %(user)s"
 
 msgid "This user can not be edited."
 msgstr "Este usuario no puede ser editado."
@@ -2709,10 +2708,8 @@ msgstr "No está configurado ningún archivo de origen."
 msgid "ITS directories must be a list of strings."
 msgstr ""
 
-#, fuzzy
-#| msgid "Invalid text direction"
 msgid "Invalid ITS directory path."
-msgstr "Dirección de texto inválida"
+msgstr "Ruta de directorio ITS no válida."
 
 msgid "ITS rules must not contain a document type."
 msgstr ""
@@ -2765,10 +2762,9 @@ msgstr ""
 msgid "ITS directories must not contain symbolic links."
 msgstr "El archivador ZIP contiene enlaces simbólicos no admitidos."
 
-#, fuzzy, python-format
-#| msgid "Referenced category does not exist."
+#, python-format
 msgid "ITS directory does not exist: %(path)s"
-msgstr "La categoría referida no existe."
+msgstr "El directorio ITS no existe: %(path)s"
 
 msgid "ITS rules must be regular files, not symbolic links."
 msgstr ""
@@ -4490,10 +4486,8 @@ msgstr "Ignorar todas las comprobaciones"
 msgid "Use case insensitive placeholders"
 msgstr "Usar sustitutivos que no distingan mayúsculas y minúsculas"
 
-#, fuzzy
-#| msgid "No workspaces found."
 msgid "Monospace font"
-msgstr "Ningún espacio de trabajo encontrado."
+msgstr "Tipo de letra monoespaciado"
 
 msgid "Font family"
 msgstr "Tipo de letra"
@@ -5771,7 +5765,7 @@ msgid "Glossaries"
 msgstr "Glosarios"
 
 msgid "Invalid integer list!"
-msgstr "¡La lista de enteros es inválida!"
+msgstr "Lista de enteros no válida."
 
 msgid "Glossary"
 msgstr "Glosario"
@@ -5986,7 +5980,7 @@ msgid "Unknown"
 msgstr "Desconocido"
 
 msgid "Plural definition source"
-msgstr "Origen de definición de plurales"
+msgstr "Fuente de la definición de plurales"
 
 msgid "Default plural"
 msgstr "Plural predeterminado"
@@ -6523,8 +6517,7 @@ msgstr "Nombre del modelo personalizado"
 
 msgid "Only needed when model is set to 'Custom model'"
 msgstr ""
-"Solo es necesario cuando el modelo está configurado como 'Modelo "
-"personalizado'"
+"Solo se necesita cuando el modelo está establecido en «Modelo personalizado»"
 
 msgid "Missing custom model name."
 msgstr "Falta el nombre del modelo personalizado."
@@ -6949,10 +6942,8 @@ msgid "OCR data could not be downloaded. Please try again later."
 msgstr ""
 "Los datos de OCR no pudo ser descargados. Inténtelo de nuevo más tarde."
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a valid screenshot."
-msgstr "Borrar captura de pantalla"
+msgstr "Seleccione una captura de pantalla válida."
 
 msgid "Bad request"
 msgstr "Petición incorrecta"
@@ -7514,12 +7505,11 @@ msgstr "No hay ningún proyecto monitorizado."
 msgid "Notification languages"
 msgstr "Notificar las nuevas solicitudes de idioma"
 
-#, fuzzy, python-format
-#| msgid "Failed to find matching language!"
+#, python-format
 msgid "%(count)s notification language."
 msgid_plural "%(count)s notification languages."
-msgstr[0] "¡No se pudo encontrar el idioma correspondiente!"
-msgstr[1] "¡No se pudo encontrar el idioma correspondiente!"
+msgstr[0] "%(count)s idioma de notificación."
+msgstr[1] "%(count)s idiomas de notificación."
 
 msgid ""
 "No notification languages selected. Language-filtered notifications will not "
@@ -9597,22 +9587,18 @@ msgstr "Estado"
 
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
-msgstr "Conviértete en seguidor de Weblate"
+msgstr "Patrocine Weblate"
 
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Some repository operations require additional permissions"
-msgstr "No se ha podido bloquear el repositorio, hay otra operación en curso."
+msgstr "Algunas operaciones sobre repositorios requieren de más permisos"
 
 msgid ""
 "Repository operations require permission on the component that owns the "
 "shared repository."
 msgstr ""
 
-#, fuzzy
-#| msgid "Affected components"
 msgid "Affected components:"
-msgstr "Componentes afectados"
+msgstr "Componentes afectados:"
 
 #, fuzzy
 #| msgid "You do not have permission to access this component."
@@ -9638,8 +9624,8 @@ msgstr "Estado del repositorio"
 #, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(total_count)s pendiente de unidad"
-msgstr[1] "%(total_count)s pendientes de unidades"
+msgstr[0] "%(total_count)s unidad pendiente"
+msgstr[1] "%(total_count)s unidades pendientes"
 
 #, python-format
 msgid "%(policy_count)s skipped by the commit policy"
@@ -9669,11 +9655,13 @@ msgstr[1] "%(count)s consignaciones salientes"
 #, python-format
 msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
-msgstr[0] "(%(count)s falta en la rama push)"
-msgstr[1] "(%(count)s faltan en las ramas push)"
+msgstr[0] "(%(count)s faltante en la rama de inserción)"
+msgstr[1] "(%(count)s faltantes en la rama de inserción)"
 
 msgid "Pushing is disabled because no repository push URL is configured."
 msgstr ""
+"La inserción está desactivada porque no se configuró ningún URL de "
+"repositorio de inserción."
 
 #, python-format
 msgid "%(count)s missing commit"
@@ -11412,10 +11400,8 @@ msgstr "Gracias por utilizar Weblate"
 msgid "Return to dashboard"
 msgstr "Volver al panel de control"
 
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "Thank you for contributing translations."
-msgstr "Colaborador nuevo en %(translation)s"
+msgstr "Gracias por contribuir traducciones."
 
 #, fuzzy
 #| msgid "Donate to Weblate"
@@ -11775,10 +11761,8 @@ msgstr "No hay diagnósticos que concuerden con los filtros seleccionados."
 msgid "Support Weblate development"
 msgstr "Apoye a Weblate"
 
-#, fuzzy
-#| msgid "Thank you for using Weblate"
 msgid "Thank you for using Weblate and contributing translations."
-msgstr "Gracias por utilizar Weblate"
+msgstr "Gracias por usar Weblate y contribuir traducciones."
 
 msgid ""
 "If you would like to give more, an optional donation funds development and "
@@ -14525,13 +14509,11 @@ msgstr[0] "Este componente perderá el acceso a su repositorio:"
 msgstr[1] ""
 "Estos %(counter)s componentes perderán el acceso a sus repositorios:"
 
-#, fuzzy, python-format
-#| msgid "%(count)s more affected component."
-#| msgid_plural "%(count)s more affected components."
+#, python-format
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
-msgstr[0] "%(count)s componente más afectado."
-msgstr[1] "%(count)s componente más afectados."
+msgstr[0] "y %(counter)s componente más"
+msgstr[1] "y %(counter)s componentes más"
 
 msgid "Invitations"
 msgstr "Invitaciones"
@@ -14651,7 +14633,7 @@ msgid "Collapse"
 msgstr "Contraer"
 
 msgid "The translation has come to an end."
-msgstr "La traducción ha finalizado."
+msgstr "Finalizó la traducción."
 
 msgid "Edit in single string mode"
 msgstr "Editar en el modo de cadena única"
@@ -15537,20 +15519,14 @@ msgstr "La suma de comprobación no es válida."
 msgid "Too deep nesting of categories!"
 msgstr "Anidamiento de categorías demasiado profundo!"
 
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate category or component slug."
-msgstr "Duplicar este componente"
+msgstr "Duplicar categoría o URL amigable del componente."
 
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate category or component name."
-msgstr "Duplicar este componente"
+msgstr "Duplicar nombre de categoría o componente."
 
-#, fuzzy
-#| msgid "Duplicate candidate scan"
 msgid "Duplicate category slug."
-msgstr "Duplicar análisis de candidato"
+msgstr "Duplicar URL amigable de categoría."
 
 msgid "Duplicate label name."
 msgstr "Nombre de etiqueta duplicado."
@@ -15573,10 +15549,8 @@ msgid "Component filename does not match its category and slug."
 msgstr ""
 "El nombre de archivo del componente no coincide con su categoría y slug."
 
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate component slug."
-msgstr "Duplicar este componente"
+msgstr "Duplicar URL amigable del componente."
 
 #, fuzzy
 #| msgid "Duplicated translation."
@@ -17706,7 +17680,7 @@ msgstr "La categoría no pertenece a este proyecto."
 
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
-"Enlace inválido a un proyecto de Weblate, utilice weblate://proyecto/"
+"Enlace no válido a un proyecto de Weblate; utilice weblate://proyecto/"
 "componente."
 
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
@@ -19831,10 +19805,9 @@ msgstr "La publicación de mensajes de Fedora fallaba: %(error)s"
 msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "%(message)s Reintente más tarde."
 
-#, fuzzy, python-format
-#| msgid "Could not get repository status!"
+#, python-format
 msgid "Could not fork repository at %(hostname)s"
-msgstr "¡No se ha podido obtener el estado del repositorio!"
+msgstr "No se pudo bifurcar el repositorio en %(hostname)s"
 
 #, fuzzy, python-format
 #| msgid "Could not open a ticket, please try again later."
@@ -20728,10 +20701,8 @@ msgstr ""
 msgid "Discover Weblate enabled."
 msgstr "Descubrir Weblate"
 
-#, fuzzy
-#| msgid "Support status"
 msgid "Support status refreshed."
-msgstr "Estado de asistencia"
+msgstr "Se actualizó el estado de asistencia."
 
 #, fuzzy
 #| msgid "Could not activate your installation. Please try again later."
