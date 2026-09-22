@@ -845,6 +845,10 @@ class TranslationTest(RepoTestCase):
         ]
         self.assertEqual(len(unit_queries), 1)
         unit_query = unit_queries[0]
+        self.assertNotIn("COALESCE", unit_query.upper())
+        self.assertNotIn('JOIN "trans_unit"', unit_query)
+        self.assertNotIn('JOIN "trans_translation"', unit_query)
+        self.assertNotIn('JOIN "trans_component"', unit_query)
         for table in (
             "checks_check",
             "trans_suggestion",

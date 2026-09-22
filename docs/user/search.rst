@@ -190,6 +190,9 @@ Fields
    This field also supports :ref:`search-operators`, so searching for completed strings can be performed as ``state:>=translated``, searching for strings needing translation as ``state:<translated``.
 ``source_state:TEXT``
    Search for source string states, see above for more info.
+   With a :ref:`custom source language <workflow-source-language>`, this uses
+   the parent translation's state. Strings whose configured source is missing
+   do not match a source state.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``

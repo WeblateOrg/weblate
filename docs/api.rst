@@ -1094,6 +1094,44 @@ Projects
             "web_url": "http://example.com/projects/hello/"
         }
 
+.. http:get:: /api/projects/(string:project)/languages/(string:language)/workflow/
+
+    Return project-language workflow settings. When no project override exists,
+    return inherited site-wide workflow settings, or defaults when none exist,
+    without creating an override. Reviews remain disabled when both project
+    review settings are disabled. The language is identified by its code.
+    Access to the project is required.
+
+    :>json string language: Language code (read-only)
+    :>json string source_language: Custom source language code, or null for the component source; see :ref:`workflow-source-language`
+    :>json boolean translation_review: Enable translation review
+    :>json boolean enable_suggestions: Enable suggestions
+    :>json boolean restrict_direct_editing: Require suggestions instead of direct editing
+    :>json boolean suggestion_voting: Enable voting on suggestions
+    :>json integer suggestion_autoaccept: Number of votes required to accept suggestions, or 0 to disable
+
+.. http:patch:: /api/projects/(string:project)/languages/(string:language)/workflow/
+
+    Create or update a project-language workflow override. Requires permission
+    to edit the project. Accepts the writable fields returned by
+    :http:get:`/api/projects/(string:project)/languages/(string:language)/workflow/`.
+    Omitted fields retain their values, including inherited workflow settings
+    when creating an override. Enabling reviews requires source or translation
+    reviews to be enabled on the project. Set ``source_language`` to null to use
+    the component source. Source languages must exist in the project and must
+    not form a dependency cycle. Changes reconcile affected units before the
+    request completes.
+
+.. http:delete:: /api/projects/(string:project)/languages/(string:language)/workflow/
+
+    Remove the project-language workflow override, restoring inherited settings.
+    Requires permission to edit the project. Returns HTTP 204, including when
+    no override exists.
+
+    All three methods return HTTP 409 if legacy data contains multiple workflow
+    overrides for the same project and language. Resolve the duplicate settings
+    before using this endpoint; the API does not choose or delete them implicitly.
+
 .. http:patch:: /api/projects/(string:project)/
 
     .. versionadded:: 4.3
@@ -2945,6 +2983,10 @@ and XLIFF.
     :>json string web_url: URL where the unit can be edited
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json string screenshots_url: URL to list and manage associated screenshots; see :http:get:`/api/units/(int:id)/screenshots/`
+    :>json string translation_parent: Read-only link to the configured parent unit, or null when using the component source or the configured parent is missing; see :ref:`workflow-source-language`
+    :>json array effective_source: Read-only source text used for translation, including plural forms. The existing ``source`` field continues to contain the canonical file source.
+    :>json array effective_previous_source: Read-only previous source text shown before an effective-source change, including plural forms. The existing ``previous_source`` field retains the canonical file-source value.
+    :>json string effective_source_language: Read-only language code of the effective source, retaining the configured language when its source is missing
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
     :>json timestamp last_updated: last string update

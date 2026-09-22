@@ -24,7 +24,14 @@ AI_CHECKS = tuple(f"ai_{category}" for category in AI_CATEGORIES)
 
 def evaluation_fingerprint(unit: Unit) -> str:
     """Identify the content to which persisted diagnostics apply."""
-    content = [unit.source, unit.target, unit.context, unit.translation.language_id]
+    snapshot = unit.source_snapshot
+    content = [
+        unit.source,
+        *snapshot.identity,
+        unit.target,
+        unit.context,
+        unit.translation.language_id,
+    ]
     return hashlib.sha256(json.dumps(content).encode()).hexdigest()
 
 

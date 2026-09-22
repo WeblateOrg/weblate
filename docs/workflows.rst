@@ -25,7 +25,7 @@ Site-wide workflow customization can be done while :ref:`changing-languages`.
 
 Per-project customization can be done on each language page of the project.
 
-All workflow settings can be overridden, the only limitation is that
+Review and suggestion settings can be overridden, the only limitation is that
 :ref:`project-translation_review` needs to be turned on and can only be
 disabled in the per-language customization.
 
@@ -39,6 +39,46 @@ The first existing setting applies:
 
    Please be careful when using site-wide override as that applies to all
    projects (unless they have own overrides for a given language).
+
+.. _workflow-source-language:
+
+Custom source language
+++++++++++++++++++++++
+
+Select :guilabel:`Source language` in a project's language workflow settings to
+translate from another language in the same project. For example, you can
+translate a regional language variant from its parent language. Leave the
+selection empty to use the component's source language.
+
+The selected language's translation is displayed as the source in the editor
+and used for translation checks, automatic translation, and translation memory.
+The original source strings and file identifiers remain unchanged.
+
+Changing a parent translation marks its translated children as needing editing.
+Children are read-only while their parent is untranslated or needs editing,
+including when reviews are disabled. A parent that is translated (waiting for
+review) or approved permits editing. This restriction also applies through
+multiple levels of parent languages. Languages cannot depend on themselves or
+form a cycle.
+
+If a component lacks the selected language or a matching string, its children
+are read-only until that source becomes available. Weblate preserves their
+translations and the configured source language; it does not fall back to the
+component source. Clearing the setting or selecting the component source language
+restores the canonical source. Moving a component applies the destination
+project's workflow settings. Changing workflow settings updates affected strings
+before returning; on large projects, this can delay translation edits.
+
+Languages selected as custom sources cannot be deleted until these workflow
+settings are cleared or changed to another language.
+
+This setting can only be configured per project and language. Existing
+:ref:`intermediate language <component-intermediate>` configuration continues to
+control the component source.
+
+Workflow changes affect new translation-memory updates. Previously stored source
+and target pairs remain subject to the existing translation-memory retention
+and cleanup settings. A missing source does not create an active memory entry.
 
 .. _workflow-language-restrictions:
 

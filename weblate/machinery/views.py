@@ -483,10 +483,24 @@ def format_machinery_translations(
     return list(chain.from_iterable(translations))
 
 
+def get_machinery_source_translation(translation_service, unit: Unit) -> Translation:
+    if translation_service.uses_custom_source(unit):
+        source_unit = unit.effective_source_unit
+        if source_unit is None:
+            raise PermissionDenied
+        return source_unit.translation
+    component = unit.translation.component
+    language = translation_service.get_unit_source_language(unit)
+    if language.pk != component.source_language_id:
+        source = component.translation_set.filter(language=language).first()
+        if source is not None:
+            return source
+    return component.source_translation
+
+
 def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=None):
     translation = unit.translation
     component = translation.component
-    source_translation = component.source_translation
     if not request.user.has_perm("machinery.view", translation):
         raise PermissionDenied
 
@@ -514,6 +528,7 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
     except KeyError:
         response["responseDetails"] = gettext("Service is currently not available.")
     else:
+        source_translation = get_machinery_source_translation(translation_service, unit)
         try:
             translations = get_machinery_translations(
                 request,
@@ -556,7 +571,6 @@ async def translate(request: AuthenticatedHttpRequest, unit_id: int, service: st
     unit = await sync_to_async(get_machinery_unit)(request.user, unit_id)
     translation = await sync_to_async(lambda: unit.translation)()
     component = await sync_to_async(lambda: translation.component)()
-    source_translation = await sync_to_async(lambda: component.source_translation)()
     if not await sync_to_async(request.user.has_perm)("machinery.view", translation):
         raise PermissionDenied
 
@@ -586,6 +600,9 @@ async def translate(request: AuthenticatedHttpRequest, unit_id: int, service: st
     except KeyError:
         response["responseDetails"] = gettext("Service is currently not available.")
     else:
+        source_translation = await sync_to_async(get_machinery_source_translation)(
+            translation_service, unit
+        )
         try:
             response["translations"] = await get_machinery_translations_async(
                 request,

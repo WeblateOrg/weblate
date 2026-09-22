@@ -530,7 +530,8 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
             encoding="utf-8",
         )
 
-        self.component.create_translations_immediate(force=True)
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.create_translations_immediate(force=True)
 
         updated_source_units = self.component.source_translation.unit_set
         with_screenshots = (

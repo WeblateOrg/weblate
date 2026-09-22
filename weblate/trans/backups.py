@@ -2251,6 +2251,16 @@ class ProjectBackup:
         return linked_component
 
     def restore_component(
+        self, zipfile: ZipFile, data: dict, actor: User, changes: list[Change]
+    ) -> bool:
+        from weblate.trans.models.source import source_project_gate  # ruff: ignore[import-outside-top-level]
+
+        if self.project is None:
+            raise TypeError
+        with source_project_gate([self.project.pk], exclusive=True):
+            return self._restore_component(zipfile, data, actor, changes)
+
+    def _restore_component(
         self,
         zipfile: ZipFile,
         data: dict,
@@ -2405,6 +2415,11 @@ class ProjectBackup:
 
         if not component.is_repo_link:
             component.configure_repo(pull=False)
+
+        from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+        # Restored unit metadata can refer to workflows absent from the new project.
+        reconcile_component_parents(component)
 
         changes.append(
             Change(

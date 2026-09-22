@@ -209,21 +209,24 @@ def get_other_units(user: User, unit: Unit):
         untranslated = False
         translation = unit.translation
         component = translation.component
+        custom_sources = bool(component.project.translation_parent_language_ids)
         propagation = component.allow_translation_propagation
         same = None
         any_propagated = False
 
-        query_match_source = Q(source__lower__md5=MD5(Lower(Value(unit.source))))
+        query_match_source = Q(
+            check_source__lower__md5=MD5(Lower(Value(unit.effective_source)))
+        )
         query_match_context = Q(context__lower__md5=MD5(Lower(Value(unit.context))))
 
-        if unit.source and unit.context:
-            match = Q(source=unit.source) & Q(context=unit.context)
+        if unit.effective_source and unit.context:
+            match = Q(check_source=unit.effective_source) & Q(context=unit.context)
             if component.has_template():
                 query = query_match_source | query_match_context
             else:
                 query = query_match_source
-        elif unit.source:
-            match = Q(source=unit.source) & Q(context="")
+        elif unit.effective_source:
+            match = Q(check_source=unit.effective_source) & Q(context="")
             query = query_match_source
         elif unit.context:
             match = Q(context=unit.context)
@@ -231,6 +234,9 @@ def get_other_units(user: User, unit: Unit):
         else:
             return result
 
+        source_language = Q(check_source_language=unit.effective_source_language.pk)
+        query &= source_language
+        match &= source_language
         matches = query
         if unit.target:
             target_matches = Q(target__lower__md5=MD5(Lower(Value(unit.target)))) & Q(
@@ -240,6 +246,7 @@ def get_other_units(user: User, unit: Unit):
 
         units = (
             Unit.objects.filter_access(user)
+            .with_effective_source(custom_sources=custom_sources, select=False)
             .filter(
                 translation__component__project=component.project,
                 translation__language=translation.language,
@@ -278,14 +285,36 @@ def get_other_units(user: User, unit: Unit):
         result["skipped"] = units_count > max_units
 
         for item in units_limited:
-            item.allow_merge = item.differently_translated = (
-                item.translated and item.target != unit.target
+            same_source = (
+                item.effective_source == unit.effective_source
+                and item.effective_source_language.pk
+                == unit.effective_source_language.pk
+                and (
+                    not custom_sources
+                    or (
+                        item.effective_source_plural.number,
+                        item.effective_source_plural.formula,
+                        item.effective_source_plural.type,
+                    )
+                    == (
+                        unit.effective_source_plural.number,
+                        unit.effective_source_plural.formula,
+                        unit.effective_source_plural.type,
+                    )
+                )
+            )
+            item.differently_translated = item.translated and item.target != unit.target
+            item.allow_merge = (
+                item.differently_translated
+                and not item.translation_parent_blocked
+                and (translation.is_source or same_source)
             )
             item.is_propagated = (
                 propagation
+                and not item.translation_parent_blocked
                 and item.translation.component.allow_translation_propagation
                 and item.translation.plural_id == translation.plural_id
-                and item.source == unit.source
+                and same_source
                 and item.context == unit.context
             )
             if item.pk != unit.pk:
@@ -295,9 +324,9 @@ def get_other_units(user: User, unit: Unit):
             if item.pk == unit.pk:
                 same = item
                 result["same"].append(item)
-            elif item.source == unit.source and item.context == unit.context:
+            elif same_source and item.context == unit.context:
                 result["matching"].append(item)
-            elif item.source == unit.source:
+            elif same_source:
                 result["source"].append(item)
             elif item.context == unit.context:
                 result["context"].append(item)
@@ -940,13 +969,19 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
         component.is_glossary and unit.explanation != form.cleaned_data["explanation"]
     )
     # Save
-    saved = unit.translate(
-        user,
-        form.cleaned_data["target"],
-        form.cleaned_data["state"],
-        request=request,
-        add_alternative=add_alternative,
-    )
+    try:
+        saved = unit.translate(
+            user,
+            form.cleaned_data["target"],
+            form.cleaned_data["state"],
+            request=request,
+            add_alternative=add_alternative,
+            expected_source_hash=form.cleaned_data["contentsum"],
+        )
+    except ValidationError as error:
+        form.add_error(None, error)
+        show_form_errors(request, form)
+        return False
     # Make sure explanation is saved
     if change_explanation:
         saved |= unit.update_explanation(form.cleaned_data["explanation"], user)
@@ -1035,6 +1070,8 @@ def handle_translate(
             show_unit_edit_denied(request, edit_permission)
     else:
         go_next = perform_translation(unit, form, request)
+        if form.errors:
+            return form
 
     # Redirect to next entry
     if "save-stay" not in request.POST and go_next:
@@ -1224,7 +1261,11 @@ def get_addable_glossaries(unit, user):
     if unit.translation.component.hide_glossary_matches:
         return [], []
 
-    glossaries = list(unit.translation.get_glossaries())
+    glossaries = list(
+        unit.translation.get_glossaries().filter(
+            component__source_language=unit.effective_source_language
+        )
+    )
     if not user.has_perm("glossary.add", unit.translation.component.project):
         return glossaries, []
 
@@ -1649,6 +1690,13 @@ def comment(request: AuthenticatedHttpRequest, pk):
     if form.is_valid():
         text = form.cleaned_data["comment"]
         scope = form.cleaned_data["scope"]
+        if scope == "report" and (
+            unit.effective_source_unit is None
+            or not request.user.has_perm(
+                "comment.add", unit.effective_source_unit.translation
+            )
+        ):
+            raise PermissionDenied
         Comment.objects.add(request, unit, text, scope)
         messages.success(request, gettext("Posted new comment"))
     else:
@@ -1883,7 +1931,8 @@ def save_zen(request: AuthenticatedHttpRequest, path):
     else:
         perform_translation(unit, form, request)
 
-        translationsum = hash_to_checksum(unit.get_target_hash())
+        if not form.errors:
+            translationsum = hash_to_checksum(unit.get_target_hash())
 
     zen_messages, state = collect_zen_messages(request)
     response: dict[str, Any] = {
