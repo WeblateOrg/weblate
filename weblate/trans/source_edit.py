@@ -67,6 +67,12 @@ def edit_source(
             "source": old["source"] if source is None else join_plural(source),
             "context": old["context"] if context is None else context,
         }
+        if (
+            explanation is not None
+            and explanation != source_unit.explanation
+            and not user.has_perm("source.edit", source_unit.translation)
+        ):
+            raise PermissionDenied
         explanation = source_unit.explanation if explanation is None else explanation
         if old == new and explanation == source_unit.explanation:
             return source_unit
