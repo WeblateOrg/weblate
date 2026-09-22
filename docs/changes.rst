@@ -22,6 +22,8 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* Improved :ref:`translation memory <translation-memory>` lookup performance when many candidates have equal similarity.
+
 * Add-on error :ref:`diagnostics <alerts>` now link directly to the responsible add-on configuration.
 
 * Improved :ref:`translation-history` browsing performance and added navigation by date.
