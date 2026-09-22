@@ -10060,7 +10060,7 @@ class MachineryErrorTest(TestCase):
 
     def test_report_error_without_exc_creates_no_db_record(self) -> None:
         """report_error without exc does not create a MachineryError row."""
-        self.get_machine().report_error("Something went wrong")
+        self.get_machine().report_error("Something went wrong", Exception())
         self.assertEqual(MachineryError.objects.count(), 0)
 
     def test_report_error_with_exc_creates_db_record(self) -> None:
