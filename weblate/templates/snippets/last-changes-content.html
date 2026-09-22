@@ -20,7 +20,7 @@
           {% if not in_email %}
             <div class="btn-float">
               {% if item.permissions.can_revert %}
-                <a class="btn btn-link"
+                <a class="btn btn-link red"
                    href="{{ translate_url|default:item.change.translation.get_translate_url }}{% querystring query_params offset=offset checksum=item.change.unit.checksum revert=item.change.id %}"
                    title="{% translate "Revert" %}">{% icon "undo.svg" %}</a>
               {% endif %}
@@ -36,7 +36,7 @@
               {% endif %}
               <a class="btn btn-link"
                  href="{{ item.change.get_absolute_url }}"
-                 title="{% translate "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
+                 title="{% translate "View details" %}">{% icon "eye.svg" %}</a>
             </div>
           {% endif %}
           <div class="comment-content">
