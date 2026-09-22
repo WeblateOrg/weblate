@@ -9,7 +9,7 @@ import weblate.utils.render
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0105_contributor_comments"),
+        ("trans", "0106_alter_component_manage_units"),
     ]
 
     operations = [
