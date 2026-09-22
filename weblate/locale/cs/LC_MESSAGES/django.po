@@ -22,8 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-21 15:40+0000\n"
-"Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-09-22 15:03+0000\n"
+"Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -1228,10 +1228,8 @@ msgid ""
 "{0}."
 msgstr "Váš e-mail už není ověřený, byl změněn na {0}."
 
-#, fuzzy
-#| msgid "Use security key (WebAuthn)"
 msgid "Use a passkey or security key (WebAuthn)"
-msgstr "Použít bezpečnostní klíč (WebAuthn)"
+msgstr "Použijte přístupový klíč nebo bezpečnostní klíč (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
 msgstr "Použít autentifikační aplikaci (TOTP)"
@@ -1862,16 +1860,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Záznamy klíčových slov musí být řetězce."
 
-#, fuzzy
-#| msgid "Data directory latency"
 msgid "ITS data directories"
-msgstr "Odezva adresáře s daty"
+msgstr "Datové adresáře ITS"
 
 msgid ""
 "Newline-separated repository-relative directories containing an its "
 "subdirectory, for example po for po/its. Earlier directories override later "
 "directories and bundled rules."
 msgstr ""
+"Adresáře relativní k repozitáři, oddělené novými řádky, obsahující "
+"podadresář „its“; například „po“ pro „po/its“. Adresáře uvedené dříve mají "
+"přednost před těmi, které následují, a před pravidly v balíčku."
 
 msgid "Do not extract comments"
 msgstr "Neextrahovat komentáře"
@@ -2051,17 +2050,13 @@ msgid "Could not determine Sphinx source directory."
 msgstr "Nepodařilo se zjistit zdrojový adresář Sphinx."
 
 msgid "Output scope"
-msgstr ""
+msgstr "Rozsah výstupu"
 
-#, fuzzy
-#| msgid "Only include approved translations"
 msgid "One file per translation"
-msgstr "Zahrnout pouze schválené překlady"
+msgstr "Jeden soubor na jeden překlad"
 
-#, fuzzy
-#| msgid "Organize component"
 msgid "One file per component"
-msgstr "Uspořádat součást"
+msgstr "Jeden soubor na jednu součást"
 
 msgid "Name of generated file"
 msgstr "Název vytvořeného souboru"
@@ -2590,105 +2585,81 @@ msgstr ""
 "Aktualizuje šablonu gettext pomocí sestavovacího nástroje Sphinx bez načtení "
 "konfigurace projektu."
 
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "ITS rule file is too large."
-msgstr "Nahraný soubor je příliš velký."
+msgstr "Soubor pravidel ITS je příliš velký."
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many XPath expressions."
-msgstr "Soubor ZIP obsahuje příliš mnoho záznamů."
+msgstr "Soubor pravidel ITS obsahuje příliš mnoho výrazů XPath."
 
-#, fuzzy
-#| msgid "The provided secret is too long."
 msgid "ITS XPath expression is too long."
-msgstr "Zadaný tajný klíč je příliš dlouhý."
+msgstr "Výraz ITS XPath je příliš dlouhý."
 
 msgid "Too many ITS rule files."
-msgstr ""
+msgstr "Příliš mnoho souborů pravidel ITS."
 
-#, fuzzy
-#| msgid "No source files are configured."
 msgid "ITS rule files are too large."
-msgstr "Nejsou nakonfigurovány žádné zdrojové soubory."
+msgstr "Soubory pravidel ITS jsou příliš velké."
 
 msgid "ITS directories must be a list of strings."
-msgstr ""
+msgstr "Adresáře ITS musí být seznamem řetězců."
 
-#, fuzzy
-#| msgid "Invalid text direction"
 msgid "Invalid ITS directory path."
-msgstr "Chybný směr textu"
+msgstr "Neplatná cesta k adresáři ITS."
 
 msgid "ITS rules must not contain a document type."
-msgstr ""
+msgstr "Pravidla ITS nesmí obsahovat typ dokumentu."
 
 msgid "Invalid ITS rule document root."
-msgstr ""
+msgstr "Neplatný kořenový adresář dokumentů pravidel ITS."
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many elements."
-msgstr "Soubor ZIP obsahuje příliš mnoho záznamů."
+msgstr "Soubor pravidel ITS obsahuje příliš mnoho prvků."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule content."
-msgstr "Nepodporovaný formát."
+msgstr "Nepodporovaný obsah pravidla ITS."
 
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported ITS locating rule."
-msgstr "Nepodporovaný soubor!"
+msgstr "Nepodporované pravidlo pro určování lokalizace ITS."
 
-#, fuzzy
-#| msgid "Blank strings require an empty state."
 msgid "ITS locating rules require a pattern."
-msgstr "Prázdné řetězce vyžadují prázdný stav."
+msgstr "Pravidla pro lokalizaci ITS vyžadují určitý vzor."
 
 msgid "ITS locating rules require a target or a document rule."
 msgstr ""
+"Pravidla pro lokalizaci ITS vyžadují pravidlo pro cíl nebo pro dokument."
 
 msgid "ITS document rules require a target."
-msgstr ""
+msgstr "Pravidla pro dokumenty ITS vyžadují zadání cíle."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule namespace."
-msgstr "Nepodporovaný formát."
+msgstr "Nepodporovaný jmenný prostor pravidel ITS."
 
 msgid "External ITS rule references are not allowed."
-msgstr ""
+msgstr "Odkazy na externí pravidla ITS nejsou povoleny."
 
 msgid "ITS targets must name a rule in the same directory."
-msgstr ""
+msgstr "Cíle ITS musí odkazovat na pravidlo ve stejném adresáři."
 
 msgid "ITS target is missing or is a symbolic link."
-msgstr ""
+msgstr "Cíl ITS chybí nebo se jedná o symbolický odkaz."
 
-#, fuzzy
-#| msgid "ZIP file contains unsupported symbolic links."
 msgid "ITS directories must not contain symbolic links."
-msgstr "Soubor ZIP obsahuje nepodporované symbolické odkazy."
+msgstr "Adresáře ITS nesmí obsahovat symbolické odkazy."
 
-#, fuzzy, python-format
-#| msgid "Referenced category does not exist."
+#, python-format
 msgid "ITS directory does not exist: %(path)s"
-msgstr "Uvedená kategorie neexistuje."
+msgstr "Adresář ITS neexistuje: %(path)s"
 
 msgid "ITS rules must be regular files, not symbolic links."
-msgstr ""
+msgstr "Pravidla ITS musí být běžné soubory, nikoli symbolické odkazy."
 
-#, fuzzy, python-format
-#| msgid "Could not migrate %(component)s: %(error)s"
+#, python-format
 msgid "Invalid ITS rule %(path)s: %(error)s"
-msgstr "Nepodařilo se zmigrovat součást %(component)s: %(error)s"
+msgstr "Neplatné pravidlo ITS %(path)s: %(error)s"
 
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file: %s"
+#, python-format
 msgid "Could not parse ITS rule: %(path)s"
-msgstr "Nepodařilo ze zpracovat TMX soubor: %s"
+msgstr "Nelze analyzovat pravidlo ITS: %(path)s"
 
 msgid "Squash Git commits"
 msgstr "Sloučit zápisy v Gitu"
@@ -2696,15 +2667,11 @@ msgstr "Sloučit zápisy v Gitu"
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Sloučit zápisy Gitu před jejich odesláním."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "API add-ons must be installed directly on a component."
-msgstr "Doplněk lze instalovat pouze na součást."
+msgstr "Doplňky API je nutné nainstalovat přímo do komponenty."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "This add-on is already installed on this component."
-msgstr "Doplněk lze instalovat pouze na součást."
+msgstr "Tento doplněk je v této komponentě již nainstalován."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Tento doplněk nelze spustit ručně."
@@ -4358,10 +4325,8 @@ msgstr "Ignorovat všechny kontroly"
 msgid "Use case insensitive placeholders"
 msgstr "Zástupné symboly bez ohledu na velikost písmen"
 
-#, fuzzy
-#| msgid "No workspaces found."
 msgid "Monospace font"
-msgstr "Nebyly nalezeny žádné pracovní prostory."
+msgstr "Písmo s pevnou šírkou"
 
 msgid "Font family"
 msgstr "Rodina písma"
@@ -5621,23 +5586,21 @@ msgstr ""
 "Nepodařilo se přidat slovo do glosáře, protože na pozadí probíhá jiná "
 "operace. Zkuste to prosím znovu později."
 
-#, fuzzy
-#| msgid "Maximum changes per day"
 msgid "Maximum build age (days)"
-msgstr "Maximální počet změn za den"
+msgstr "Maximální věk sestavení (dny)"
 
-#, fuzzy
-#| msgid "Maximum line length"
 msgid "Maximum retained versions"
-msgstr "Maximální délka řádku"
+msgstr "Maximální počet uchovávaných verzí"
 
 msgid "Kotlin SDK CDN"
-msgstr ""
+msgstr "Kotlin SDK CDN"
 
 msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
 msgstr ""
+"Zveřejňuje řetězcové a množné zdroje pro Android pro registrované sestavení "
+"SDK v jazyce Kotlin."
 
 msgid "Weblate languages"
 msgstr "Jazyky Weblate"
@@ -6686,10 +6649,8 @@ msgstr "Vyhledat snímky obrazovky"
 msgid "Sort by"
 msgstr "Seřadit podle"
 
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot"
-msgstr "Snímky obrazovky"
+msgstr "Snímek obrazovky"
 
 msgid "Screenshot name"
 msgstr "Název snímku obrazovky"
@@ -6759,10 +6720,8 @@ msgstr "Nebyly nalezeny žádné nové odpovídající zdrojové řetězce."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Data OCR se nepodařilo stáhnout. Zkuste to prosím později."
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a valid screenshot."
-msgstr "Odstranit snímek obrazovky"
+msgstr "Vyberte platný snímek obrazovky."
 
 msgid "Bad request"
 msgstr "Chybný požadavek"
@@ -6873,10 +6832,8 @@ msgstr "Podpořte Weblate"
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Vítejte a děkujeme vám za podporu Weblate"
 
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Continue to Weblate"
-msgstr "Přispějte do Weblate"
+msgstr "Pokračovat na Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6967,12 +6924,14 @@ msgid "Please complete your sign-in using second factor credential."
 msgstr "Přihlášení dokončete pomocí nastaveného druhého faktoru."
 
 msgid "Other ways to verify your identity"
-msgstr ""
+msgstr "Další způsoby ověření vaší totožnosti"
 
 msgid ""
 "If you cannot use your passkey or security key, or any other configured "
 "verification method, contact the site administrator for help."
 msgstr ""
+"Pokud nemůžete použít svůj přístupový kód, bezpečnostní klíč ani žádný jiný "
+"nastavený způsob ověření, obraťte se o pomoc na správce webu."
 
 msgid "Your profile"
 msgstr "Váš profil"
@@ -8050,17 +8009,23 @@ msgid ""
 "security key. Your passkey might not be available on a new computer or in a "
 "different browser."
 msgstr ""
+"Použijte zařízení, na kterém máte přístupový klíč k dispozici, nebo připojte "
+"svůj registrovaný bezpečnostní klíč. Na novém počítači nebo v jiném "
+"prohlížeči nemusí být váš přístupový klíč k dispozici."
 
-#, fuzzy
-#| msgid "Sign in using the security key"
 msgid "Sign in using a passkey or security key"
-msgstr "Přihlásit se pomocí klíče"
+msgstr "Přihlaste se pomocí přístupového klíče nebo bezpečnostního klíče"
 
 msgid ""
 "Passkey or security key verification could not be completed. The request may "
 "have timed out or been canceled, or your credential may be unavailable on "
 "this device. Try again or use another verification method if available."
 msgstr ""
+"Ověření pomocí přístupového klíče nebo bezpečnostního klíče se nepodařilo "
+"dokončit. K žádosti mohlo dojít k vypršení časového limitu nebo k jejímu "
+"zrušení, případně vaše přihlašovací údaje na tomto zařízení nemusí být k "
+"dispozici. Zkuste to znovu nebo použijte jinou metodu ověření, je-li k "
+"dispozici."
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Omlouváme se, ale váš prohlížeč nemá podporu WebAuthn."
@@ -8092,16 +8057,11 @@ msgstr "Nekompatibilní"
 msgid "No components found."
 msgstr "Nebyly nalezeny žádné součásti."
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgid "Add-on API base URL:"
-msgstr "Základní URL API OpenAI"
+msgstr "Základní URL rozhraní API doplňku:"
 
-#, fuzzy
-#| msgid "API root URL:"
 msgid "API root"
-msgstr "Kořenová adresa API:"
+msgstr "Kořen API"
 
 msgid "Configure add-on"
 msgstr "Nastavit doplněk"
@@ -8269,12 +8229,18 @@ msgid ""
 "and statistics. Use the json or python filter to serialize values in "
 "generated files."
 msgstr ""
+"V režimu komponentů projděte překlady a získejte přístup k metadatům a "
+"statistikám jednotlivých jazyků. K serializaci hodnot ve vygenerovaných "
+"souborech použijte filtr json nebo python."
 
 msgid ""
 "The translation variables below are available directly in translation mode, "
 "or on each item in component mode. Component and project variables are "
 "available in both modes."
 msgstr ""
+"Níže uvedené překladové proměnné jsou k dispozici přímo v překladovém režimu "
+"nebo u jednotlivých položek v režimu komponent. Proměnné komponent a "
+"projektu jsou k dispozici v obou režimech."
 
 msgid "Percents translated"
 msgstr "Procent přeloženo"
@@ -8830,10 +8796,8 @@ msgstr "Zkontrolovat stav předplatného"
 msgid "Browse"
 msgstr "Procházet"
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation status widgets"
-msgstr "Stav překladu"
+msgstr "Widgety zobrazující stav překladu"
 
 msgid "No strings found!"
 msgstr "Nebyly nalezeny žádné řetězce!"
@@ -9389,38 +9353,39 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Staňte se podporovatelem Weblate"
 
-#, fuzzy
-#| msgid "Another repository operation is already in progress."
 msgid "Some repository operations require additional permissions"
-msgstr "Již probíhá jiná operace repozitáře."
+msgstr "Některé operace s repozitářem vyžadují další oprávnění"
 
 msgid ""
 "Repository operations require permission on the component that owns the "
 "shared repository."
 msgstr ""
+"Operace s úložištěm vyžadují oprávnění ke komponentě, která je vlastníkem "
+"sdíleného úložiště."
 
-#, fuzzy
-#| msgid "Affected components"
 msgid "Affected components:"
-msgstr "Dotčené součásti"
+msgstr "Dotčené komponenty:"
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "You need the following permissions on the repository-owning component:"
-msgstr "Nemáte oprávnění k přístupu k této součásti."
+msgstr ""
+"V komponentě, která je vlastníkem repozitáře, potřebujete následující "
+"oprávnění:"
 
 msgid ""
 "You need the following permissions on the repository-owning component, which "
 "you cannot access:"
 msgstr ""
+"Potřebujete následující oprávnění ke komponentě, která je vlastníkem "
+"repozitáře, ke které však nemáte přístup:"
 
 msgid "Ask an administrator of the owning project to grant these permissions."
-msgstr ""
+msgstr "Požádejte správce příslušného projektu, aby vám tato oprávnění udělil."
 
 msgid ""
 "Ask your project administrator to coordinate access with the repository "
 "owner."
 msgstr ""
+"Požádejte správce projektu, aby domluvil přístup s vlastníkem repozitáře."
 
 msgid "Repository status"
 msgstr "Stav repozitáře"
@@ -10529,18 +10494,18 @@ msgstr "Limity balíčku podpory"
 msgid "Support expiry"
 msgstr "Vypršení podpory"
 
-#, fuzzy
-#| msgid "Professional support"
 msgid "Professional support for your organization"
-msgstr "Profesionální podpora"
+msgstr "Odborná podpora pro vaši organizaci"
 
 msgid ""
 "Purchase professional support for expert help with setup, maintenance, and "
 "troubleshooting."
 msgstr ""
+"Zakupte si profesionální podporu a získejte odbornou pomoc s nastavením, "
+"údržbou a řešením problémů."
 
 msgid "Your subscription also funds the ongoing development of Weblate."
-msgstr ""
+msgstr "Vaše předplatné také přispívá k dalšímu vývoji Weblate."
 
 msgid "Manage support package"
 msgstr "Správa balíčku podpory"
@@ -10551,10 +10516,8 @@ msgstr "Odpojit balíček podpory a deaktivovat Objevit Weblate"
 msgid "Unlink support package"
 msgstr "Odpojit balíček podpory"
 
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase support"
-msgstr "Koupit balíček podpory"
+msgstr "Zakoupit podporu"
 
 msgid "Contact customer care"
 msgstr "Kontaktovat zákaznickou podporu"
@@ -11189,15 +11152,11 @@ msgstr "Děkujeme vám za používání Weblate"
 msgid "Return to dashboard"
 msgstr "Zpět na nástěnku"
 
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "Thank you for contributing translations."
-msgstr "Nový přispěvatel v %(translation)s"
+msgstr "Děkujeme za vaše překlady."
 
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Donate to Weblate development"
-msgstr "Přispět na Weblate"
+msgstr "Přispějte na vývoj Weblate"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "Zkontrolujte a potvrďte výsledky vyhledání a nahrazení."
@@ -11309,35 +11268,28 @@ msgstr "Nebyly nalezeny žádné snímky obrazovky."
 msgid "Add new screenshot"
 msgstr "Přidat nový snímek obrazovky"
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a screenshot"
-msgstr "Odstranit snímek obrazovky"
+msgstr "Vyberte snímek obrazovky"
 
 msgid ""
 "Source-language screenshots are shown for every translation of this string. "
 "Other screenshots are shown only for their language."
 msgstr ""
+"U každého překladu tohoto řetězce se zobrazují snímky obrazovky v zdrojovém "
+"jazyce. Ostatní snímky obrazovky se zobrazují pouze pro příslušný jazyk."
 
-#, fuzzy
-#| msgid "Select"
 msgid "Selected"
-msgstr "Vybrat"
+msgstr "Vybrané"
 
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No matching screenshots available."
-msgstr "Žádné týmy nejsou k dispozici."
+msgstr "Nejsou k dispozici žádné odpovídající snímky obrazovky."
 
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshot pages"
-msgstr "Název snímku obrazovky"
+msgstr "Stránky se snímky obrazovky"
 
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Page %(current)s of %(total)s"
-msgstr "Použito %(used)s z %(total)s"
+msgstr "Strana %(current)s z %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11543,20 +11495,18 @@ msgstr[2] "%(count)s dalších dotčených součástí."
 msgid "No diagnostics match the selected filters."
 msgstr "Žádná diagnostika neodpovídá zadaným filtrům."
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support Weblate development"
-msgstr "Podpořte Weblate"
+msgstr "Podpořte vývoj Weblate"
 
-#, fuzzy
-#| msgid "Thank you for using Weblate"
 msgid "Thank you for using Weblate and contributing translations."
-msgstr "Děkujeme vám za používání Weblate"
+msgstr "Děkujeme, že používáte Weblate a přispíváte překlady."
 
 msgid ""
 "If you would like to give more, an optional donation funds development and "
 "maintenance of Weblate itself."
 msgstr ""
+"Pokud byste chtěli přispět vyšší částkou, můžete prostřednictvím "
+"dobrovolného příspěvku podpořit vývoj a údržbu samotného Weblate."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11627,10 +11577,8 @@ msgstr "Zkopírovat slovo do překladu"
 msgid "This translation is forbidden."
 msgstr "Tento překlad je zakázaný."
 
-#, fuzzy
-#| msgid "Hidden"
 msgid "Forbidden"
-msgstr "Skryto"
+msgstr "Zakázáno"
 
 msgid "This term should not be translated."
 msgstr "Tento výraz by se neměl překládat."
@@ -11641,10 +11589,8 @@ msgstr "Upravit termín glosáře"
 msgid "Translation explanation"
 msgstr "Vysvětlení překladu"
 
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Source explanation"
-msgstr "Vysvětlení zdrojového řetězce"
+msgstr "Vysvětlení zdroje"
 
 msgid "Glossary translation explanation"
 msgstr "Vysvětlení překladu glosáře"
@@ -12324,27 +12270,19 @@ msgid "Failing checks:"
 msgstr "Selhavší kontroly:"
 
 msgid "Using Weblate in your organization?"
-msgstr ""
+msgstr "Používáte Weblate ve vaší organizaci?"
 
-#, fuzzy
-#| msgid "Purchase a support package"
 msgid "Already purchased? Link your support package"
-msgstr "Koupit balíček podpory"
+msgstr "Už jste si produkt zakoupili? Propojte svůj balíček podpory"
 
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Term information from the translation file"
-msgstr "Odstraňte nepoužívané řetězce z překladového souboru"
+msgstr "Informace o termínech z překladového souboru"
 
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source terms"
-msgstr "Zdrojové řetězce"
+msgstr "Zdrojové výrazy"
 
-#, fuzzy
-#| msgid "Target type"
 msgid "Target terms"
-msgstr "Typ cíle"
+msgstr "Cílové výrazy"
 
 msgid "Translation status"
 msgstr "Stav překladu"
@@ -12840,10 +12778,9 @@ msgstr "Součást obsahuje několik duplicitních překladových řetězců."
 msgid "Source"
 msgstr "Zdroj"
 
-#, fuzzy, python-format
-#| msgid "Remove duplicated strings from the translation file"
+#, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "Odeber duplicitní řetězce z překladového souboru"
+msgstr "Odstranit duplicitní řetězce z %(language)s (%(filename)s)"
 
 msgid "Remove duplicate strings"
 msgstr "Odstranit duplicitní řetězce"
@@ -13768,15 +13705,11 @@ msgstr "Procházet glosář"
 msgid "No screenshot currently associated."
 msgstr "Nebyl nahrán žádný snímek obrazovky."
 
-#, fuzzy
-#| msgid "Add to screenshot"
 msgid "Add existing screenshot"
-msgstr "Přidat k snímku obrazovky"
+msgstr "Přidat existující snímek obrazovky"
 
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Upload screenshot"
-msgstr "Přidat snímek obrazovky"
+msgstr "Nahrát snímek obrazovky"
 
 msgid "String information"
 msgstr "Informace o řetězci"
@@ -15635,23 +15568,22 @@ msgstr ""
 "Ve výchozím stavu gettext zalamuje řádky po 77 znacích a znacích nových "
 "řádků, s parametrem --no-wrap zalamuje pouze po znacích nových řádků."
 
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contributor comments"
-msgstr "Přispěvatelé v komentáři"
+msgstr "Komentáře přispěvatelů"
 
-#, fuzzy
-#| msgid "gettext PO"
 msgid "Gettext"
-msgstr "gettext PO"
+msgstr "Gettext"
 
 msgid "SPDX"
-msgstr ""
+msgstr "SPDX"
 
 msgid ""
 "Add contributor names and years to header comments. SPDX also converts "
 "existing recognized contributor comments to SPDX-FileCopyrightText entries."
 msgstr ""
+"Do komentářů v záhlaví přidejte jména přispěvatelů a roky. SPDX také převádí "
+"stávající rozpoznané komentáře přispěvatelů na položky typu SPDX-"
+"FileCopyrightText."
 
 msgid "Keep previous msgids of translated strings"
 msgstr "Zachovat předchozí msgid přeložených řetězců"
@@ -18794,15 +18726,10 @@ msgid "Project {}"
 msgstr "Projekt {}"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgid "Category"
 msgid "Category {}"
-msgstr "Kategorie"
+msgstr "Kategorie {}"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Workspace: {}"
 msgid "Workspace {}"
 msgstr "Pracovní prostor: {}"
 
