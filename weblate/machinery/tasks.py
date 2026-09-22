@@ -5,14 +5,16 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 from celery.schedules import crontab
 from django.conf import settings
 from django.utils import timezone
 
 from weblate.utils.celery import app
-from celery import Celery
 
+if TYPE_CHECKING:
+    from celery import Celery
 
 
 @app.task(trail=False)
