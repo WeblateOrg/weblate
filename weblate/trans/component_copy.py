@@ -13,6 +13,7 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from weblate.addons.models import Addon
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.inherited_settings import INHERITABLE_COMPONENT_FLAGS
+from weblate.utils.files import VCS_METADATA_DIRS
 
 if TYPE_CHECKING:
     from collections.abc import Collection
@@ -106,7 +107,7 @@ def replace_component_checkout(
         os.path.join(source_component.full_path, ".git")
     )
     preserve_target_git = component.is_repo_local and not source_has_git_checkout
-    ignore_vcs_metadata = shutil.ignore_patterns(".git", ".hg", ".svn", ".bzr")
+    ignore_vcs_metadata = shutil.ignore_patterns(*VCS_METADATA_DIRS)
 
     with source_component.repository.lock, component.repository.lock:
         os.makedirs(component.full_path, exist_ok=True)

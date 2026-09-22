@@ -542,7 +542,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
 
         addon.instance.schedule_manual_run()
 
-        mocked_delay.assert_called_once_with(addon.instance.pk)
+        mocked_delay.assert_called_once_with(addon.instance.pk, user_id=None)
 
     def test_run_addon_manually(self) -> None:
         addon = ManualResultAddon.create(component=self.component, run=False)
@@ -5686,7 +5686,7 @@ class ViewTests(ViewTestCase):
 
         response = self.client.post(addon.get_absolute_url(), {"run": "1"})
 
-        mocked_delay.assert_called_once_with(addon.pk)
+        mocked_delay.assert_called_once_with(addon.pk, user_id=self.user.pk)
         self.assertRedirects(
             response, addon.get_absolute_url(), fetch_redirect_response=False
         )
@@ -9159,6 +9159,26 @@ class BulkEditAddonTest(ViewTestCase):
         addon.component_update(self.component)
         self.assertEqual(label.unit_set.count(), 1)
 
+    def test_translation_flags(self) -> None:
+        unit = self.get_unit()
+        addon = BulkEditAddon.create(
+            component=self.component,
+            configuration={
+                "q": f"language:{unit.translation.language.code}",
+                "state": -1,
+                "add_labels": [],
+                "remove_labels": [],
+                "add_flags": "",
+                "remove_flags": "",
+                "add_translation_flags": "read-only",
+                "remove_translation_flags": "",
+            },
+        )
+        addon.component_update(self.component)
+        unit.refresh_from_db()
+        self.assertTrue(unit.readonly)
+        self.assertEqual(unit.source_unit.extra_flags, "")
+
     def test_create(self) -> None:
         self.user.is_superuser = True
         self.user.save()
@@ -9427,6 +9447,10 @@ class CDNJSAddonTest(ViewTestCase):
 
         self.assertEqual(len(errors), 1)
         self.assertIn("CDN unavailable", errors[0]["error"])
+        alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertEqual(
+            alert.details["occurrences"][0]["addon_id"], str(addon.instance.pk)
+        )
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -12243,7 +12267,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertContains(response, "Installed 1 add-on")
 
 
-class TestCommand(ComponentTestCase):
+class TestCommand(SimpleTestCase):
     def test_list_addons(self) -> None:
         output = StringIO()
         call_command("list_addons", stdout=output)

@@ -282,6 +282,7 @@ class NavigationQueryTest(ViewTestCase):
                 "limit": "25",
                 "unrelated": "drop",
             },
+            follow=True,
         )
         self.assertEqual(response.status_code, 200)
         document = html.fromstring(response.content)

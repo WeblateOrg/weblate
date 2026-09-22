@@ -135,6 +135,15 @@ Searching for strings
 
 String search supports the shared query syntax above.
 
+Browsing and searching strings use the same list. Opening a scoped list without
+query parameters shows all strings in that scope. The global search page shows
+the search form until you submit it. Existing browse links redirect to search.
+
+When searching a translation, a project language, or a category language, select
+:guilabel:`Translate` to open the translation editor with the current query and
+sorting. Project-language and category-language searches let you review matching
+strings across components.
+
 When no field is defined, the lookup happens on source, target, and context strings.
 
 Select :guilabel:`All strings` at the top of the :guilabel:`Filters` menu to

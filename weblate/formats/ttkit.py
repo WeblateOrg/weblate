@@ -60,6 +60,7 @@ from translate.storage.xliff_common import XliffUnit as TranslateToolkitXliffUni
 
 import weblate.utils.version
 from weblate.formats.base import (
+    MAX_DECLARED_LANGUAGES,
     BaseItem,
     BaseStore,
     BilingualUpdateMixin,
@@ -1849,6 +1850,12 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
     supports_remove_obsolete_units = True
     additional_states = (STATE_FUZZY,)
 
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        # PO has no standard source-language header. Language-Team and Poedit
+        # headers are not reliable declarations of the translation language.
+        language = None if source else self.store.parseheader().get("Language")
+        return {language} if language else set()
+
     def update_contributor(self, author: str) -> bool:
         mode = GettextContributorComments.get_value(self.file_format_params)
         if mode == "none" or "noreply@weblate.org" in author:
@@ -1939,7 +1946,6 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise UpdateError(" ".join(cmd), error) from error
         except subprocess.CalledProcessError as error:
             error_output = error.output + error.stderr
-            report_error("Failed msgmerge")
             raise UpdateError(
                 " ".join(cmd), cleanup_error_message(error_output)
             ) from error
@@ -2003,6 +2009,12 @@ class TS1Format(TranslationFormat[TS1Store, TS1Item, TS1Unit]):
         template_store: TranslationFormat | None,
     ) -> TS1Store:
         return TS1Store(storefile)
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        language = self.store.parser.documentElement.get(
+            "sourcelanguage" if source else "language"
+        )
+        return {language} if language else set()
 
     @staticmethod
     def mimetype() -> str:
@@ -2115,6 +2127,10 @@ class TS2Format(TTKitFormat):
     supports_flags = True
     additional_states = (STATE_FUZZY,)
 
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        language = self.store.header.get("sourcelanguage" if source else "language")
+        return {language} if language else set()
+
 
 class XliffFormat(TTKitFormat):
     # Translators: File format name
@@ -2140,6 +2156,18 @@ class XliffFormat(TTKitFormat):
   </file>
 </xliff>
 """
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        attribute = "source-language" if source else "target-language"
+        result = set()
+        for node in self.store.document.getroot().iterchildren(
+            self.store.namespaced("file")
+        ):
+            if language := node.get(attribute):
+                result.add(language)
+                if len(result) > MAX_DECLARED_LANGUAGES:
+                    break
+        return result
 
     def construct_unit(self, source: str):
         unit = super().construct_unit(source)
@@ -2201,6 +2229,10 @@ class Xliff2Format(XliffFormat):
     autoload: tuple[str, ...] = ()
     empty_file_template = None
     monolingual = False
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        language = self.store.document.getroot().get("srcLang" if source else "trgLang")
+        return {language} if language else set()
 
     @staticmethod
     def extension() -> str:
@@ -2568,6 +2600,17 @@ class ARBFormat(JSONFormat):
     check_flags = ("icu-message-format",)
     supports_plural: bool = True
     supports_descriptions = True
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        if source:
+            return set()
+        return {
+            language
+            for unit in self.store.units
+            if unit.isheader()
+            and isinstance(language := unit.metadata.get("@@locale"), str)
+            and language
+        }
 
 
 class GoTextFormat(JSONFormat):

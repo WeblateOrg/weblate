@@ -6,8 +6,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.db import transaction
+from django.db.models import F
 
-from weblate.checks.flags import Flags
+from weblate.checks.flags import Flags, FlagsValidator
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.models.pending import PendingUnitChange
@@ -48,6 +49,8 @@ def bulk_perform(
     remove_labels: QuerySet[Label],
     project: Project | None,
     components: QuerySet[Component] | list[Component] | None = None,
+    add_translation_flags: str | Flags = "",
+    remove_translation_flags: str | Flags = "",
 ) -> int:
     matching = unit_set.search(query, project=project)
     if components is None:
@@ -58,13 +61,13 @@ def bulk_perform(
     if isinstance(target_state, str):
         target_state = int(target_state)
     if isinstance(add_flags, str):
-        add_flags = Flags(add_flags)
+        add_flags = FlagsValidator(add_flags)
     if isinstance(remove_flags, str):
-        remove_flags = Flags(remove_flags)
+        remove_flags = FlagsValidator(remove_flags)
+    add_translation_flags = FlagsValidator(add_translation_flags)
+    remove_translation_flags = FlagsValidator(remove_translation_flags)
     add_labels_pks = {label.pk for label in add_labels}
     remove_labels_pks = {label.pk for label in remove_labels}
-
-    update_source = add_flags or remove_flags or add_labels or remove_labels
 
     updated = 0
     for component in components:
@@ -73,6 +76,16 @@ def bulk_perform(
         with transaction.atomic():
             component_units = matching.filter(translation__component=component)
 
+            # Snapshot matching translations before state/source changes alter the query.
+            translation_unit_ids = (
+                list(
+                    component_units.exclude(pk=F("source_unit_id")).values_list(
+                        "pk", flat=True
+                    )
+                )
+                if add_translation_flags or remove_translation_flags
+                else []
+            )
             source_unit_ids = set()
 
             if target_state == -1:
@@ -145,7 +158,7 @@ def bulk_perform(
                     unit.is_batch_update = True
                     unit.source_unit_save()
 
-            if update_source and (
+            if (add_flags or remove_flags or add_labels or remove_labels) and (
                 user is None
                 or (
                     user.has_perm("source.edit", component)
@@ -163,7 +176,7 @@ def bulk_perform(
                 for source_unit in source_units.select_for_update():
                     changed = False
                     if add_flags or remove_flags:
-                        flags = Flags(source_unit.extra_flags)
+                        flags = source_unit.get_unit_flags()
                         flags.merge(add_flags)
                         flags.remove(remove_flags)
                         new_flags = flags.format()
@@ -204,6 +217,27 @@ def bulk_perform(
                             changed = True
 
                     if changed:
+                        updated += 1
+
+            if add_translation_flags or remove_translation_flags:
+                for unit in (
+                    Unit.objects.filter(pk__in=translation_unit_ids)
+                    .order_by("pk")
+                    .prefetch()
+                    .select_for_update()
+                ):
+                    if user is not None and not (
+                        user.has_perm("meta:unit.flag", unit.translation)
+                        and user.has_perm("unit.bulk_edit", unit)
+                    ):
+                        continue
+                    flags = unit.get_unit_flags()
+                    flags.merge(add_translation_flags)
+                    flags.remove(remove_translation_flags)
+                    if flags.format() != unit.extra_flags:
+                        unit.is_batch_update = True
+                        unit.translation.component = component
+                        unit.update_extra_flags(flags.format(), user)
                         updated += 1
 
         if prev_updated != updated:

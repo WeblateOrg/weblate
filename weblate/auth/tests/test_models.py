@@ -15,6 +15,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 
 from weblate.auth import permissions as auth_permissions
+from weblate.auth.bots import InternalBot
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import (
     Group,
@@ -48,6 +49,38 @@ class InternalBotEmailTest(TestCase):
 
     def tearDown(self) -> None:
         bot_cache.get({}).clear()
+
+    def test_fixed_bot_identities(self) -> None:
+        expected = (
+            (InternalBot.COMMIT, "weblate:commit", "Background commit"),
+            (InternalBot.UPDATE, "weblate:update", "Background update"),
+            (InternalBot.PUSH, "weblate:push", "Background push"),
+            (InternalBot.REPOSITORY, "weblate:repository", "Repository maintenance"),
+            (
+                InternalBot.SCREENSHOTS,
+                "weblate:screenshots",
+                "Screenshots from repository",
+            ),
+            (InternalBot.GLOSSARY_SYNC, "glossary:sync", "Glossary sync"),
+        )
+        for bot, username, full_name in expected:
+            with self.subTest(bot=bot):
+                user = bot.get_user()
+                self.assertEqual(user.username, username)
+                self.assertEqual(user.full_name, full_name)
+                self.assertTrue(user.is_bot)
+                self.assertFalse(user.is_active)
+                self.assertFalse(user.has_usable_password())
+                self.assertEqual(bot.get_user().pk, user.pk)
+
+    @override_settings(INTERNAL_BOT_EMAIL_TEMPLATE="{scope}-{name}@example.com")
+    def test_fixed_bot_custom_email_template(self) -> None:
+        for bot in InternalBot:
+            with self.subTest(bot=bot):
+                user = bot.get_user()
+                self.assertEqual(
+                    user.email, f"{user.username.replace(':', '-')}@example.com"
+                )
 
     def test_get_or_create_bot_default_email(self) -> None:
         user = User.objects.get_or_create_bot(

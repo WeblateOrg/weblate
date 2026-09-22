@@ -6,6 +6,11 @@ Weblate 2026.10
 .. rubric:: New features
 
 * Added a separate :ref:`repository browser URL <component-repoweb-translations>` for translation files.
+* Added :ref:`automation-workflows` for ordered automatic translation and bulk editing with conditions, CEL expressions, and previews.
+* Added :ref:`editing source strings and translation keys <edit-source>` while preserving translations and history, through the editor and REST API.
+
+* Added an :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>` that evaluates existing translations and records standard quality checks.
+
 * Added support for :ref:`component-mounted add-on APIs <component-addon-api>`.
 
 * Added :ref:`addon-weblate.cdn.kotlin` with build registration, runtime Android translations, and configurable version retention.
@@ -18,9 +23,17 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* Add-on error :ref:`diagnostics <alerts>` now link directly to the responsible add-on configuration.
+
+* Improved :ref:`translation-history` browsing performance and added navigation by date.
+* Added language-specific :ref:`string flags <additional-flags>` in the editor, Tools menu, bulk editing, and REST API.
+* Added :ref:`uploaded file language checking <upload-ignore_language>` with an override in the upload form and API.
+* Unified browsing and :ref:`searching strings <search-strings>`, with a direct translation editor action for language-specific lists.
+
 * Improved checks, automatic fixes, glossary matching, and machine translation for :ref:`independent alternatives in multivalue formats <format-multivalue>`.
 
 * Added a thumbnail picker to associate existing :ref:`screenshots <add-existing-screenshot>` with a string from the translation editor.
+* Strings assigned to a :ref:`screenshot <screenshots>` are appended to the end of the list while editing, and removing one no longer reloads the page.
 * :ref:`Repository maintenance <repository-maintenance>` now checks permissions on the repository-owning component and explains where missing permissions are required.
 * Added a guided :ref:`first translation <translator-start>` and practical advice for :doc:`building a translators community <devel/community>`.
 
@@ -32,18 +45,24 @@ Weblate 2026.10
 * Added independent term alternatives and scoped metadata to :ref:`TBX glossaries <tbx>`, including metadata-preserving TBX exports.
 
 * Whitespace characters are now rendered consistently in the source string display and the translation editor, and different kinds of whitespace are now distinguishable from each other.
+* Added a :guilabel:`Preview` tab to Markdown fields such as :ref:`comments <user-comments>`, explanations, announcements, and project instructions.
 * Added a :ref:`font-monospace <custom-checks>` flag to display a string in the translation editor using a monospace font, useful for aligning command-line or terminal output.
 * History :guilabel:`View details` and :guilabel:`Revert` actions are larger, more widely spaced, and show a hover and focus background.
 * Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and save and continue.
 * Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
 * Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use the same layout as suggestions, and it now shows the :ref:`translation memory <translation-memory>` context of each match.
 * The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-weblate.gettext.meson>` extraction add-ons now bundle common XML translation rules and support project-local ITS directories for extracting mixed source formats into a shared POT.
+* The :ref:`font-spacing <custom-checks>` flag now supports a floating-point number as the spacing value.
 
 .. rubric:: Security fixes
 
+* Limited XLIFF language declarations processed during file uploads to prevent resource exhaustion.
+* Enforced language-scoped permissions when managing screenshots in the browser interface.
 * Prevented project API tokens from inheriting permissions through automatic team assignments.
+* Ensured translation consistency and automatic translation workflows respect restricted component access.
 * Limited the number and aggregate size of alternatives accepted by the translation editor.
 * Prevented component ZIP imports from overwriting version control metadata on case-insensitive filesystems.
+* Excluded Subversion and Bazaar metadata from repository ZIP downloads and path processing.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
 
 .. rubric:: Bug fixes
@@ -57,8 +76,12 @@ Weblate 2026.10
 * Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` failing when the warning directory is missing or inaccessible.
 * Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when migrating dismissed component alerts from releases before 2026.8.
 * Fixed the :ref:`punctuation spacing check <check-punctuation-spacing>` fix button adding a space inside URLs such as Markdown links.
+* Fixed the :ref:`check-max-size` rendering preview shifting text vertically when the ``font-spacing`` flag is set.
+* Fixed the :ref:`Refresh results <search-results-cache>` icon being drawn in black regardless of the theme or hover state.
 
 .. rubric:: Compatibility
+
+* Translation flags can no longer discard an explicit source-wide ``read-only`` flag; remove it from the source to make translations editable.
 
 * Existing :ref:`project API tokens <api-tokens>` lose permissions from non-project teams during upgrade. Assign any required permissions using project-specific teams.
 * API throttles now read :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` directly; ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` is no longer used by Weblate's throttle classes.

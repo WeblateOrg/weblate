@@ -1044,8 +1044,9 @@ Manage strings
 .. versionadded:: 4.5
 
 Configures whether users in Weblate will be allowed to add new strings and
-remove existing ones. Adjust this to match your localization workflow - how the
-new strings are supposed to be introduced.
+remove existing ones. It also enables :ref:`editing source strings and keys
+<edit-source>` in supported formats. Adjust this to match your localization
+workflow — how strings are introduced and maintained.
 
 For bilingual formats, the strings are typically extracted from the source code
 (for example by using :program:`xgettext`) and adding new strings in Weblate

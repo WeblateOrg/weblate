@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:22+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1251,7 +1251,9 @@ msgid ""
 msgstr ""
 "உங்கள் மின்னஞ்சல் இனி சரிபார்க்கப்பட்ட கணக்கிற்கு சொந்தமானதல்ல, அது {0} என மாற்றப்பட்டுள்ளது."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "பாதுகாப்பு விசையைப் பயன்படுத்தவும் (வெப்அத்ன்)"
 
 msgid "Use authentication app (TOTP)"
@@ -1926,6 +1928,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "சரத்தை அகற்ற முடியவில்லை: %s"
 
+#, fuzzy
+#| msgid "Database latency"
+msgid "ITS data directories"
+msgstr "தரவுத்தள நேரந்தவறுகை"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "கருத்துகளைப் பிரித்தெடுக்க வேண்டாம்"
 
@@ -2108,6 +2121,19 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr "சூரரிமாச்சிலை மூல கோப்பகத்தைத் தீர்மானிக்க முடியவில்லை."
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Only include approved translations"
+msgid "One file per translation"
+msgstr "அங்கீகரிக்கப்பட்ட மொழிபெயர்ப்புகளை மட்டும் சேர்க்கவும்"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "கூறு ஒழுங்கமைக்கவும்"
 
 msgid "Name of generated file"
 msgstr "உருவாக்கப்பட்ட கோப்பின் பெயர்"
@@ -2661,21 +2687,119 @@ msgstr ""
 "திட்ட உள்ளமைவை ஏற்றாமல் ச்பிங்க்சின் உரைபெறு பில்டரைப் பயன்படுத்தி உரைபெறு டெம்ப்ளேட்டைப் "
 "புதுப்பிக்கிறது."
 
-msgid "Contributors in comment"
-msgstr "கருத்தில் பங்களிப்பாளர்கள்"
+#, fuzzy
+#| msgid "Uploaded file is too big."
+msgid "ITS rule file is too large."
+msgstr "பதிவேற்றிய கோப்பு மிகவும் பெரியதாக உள்ளது."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "மொழிபெயர்ப்புகளைக் கொண்ட சுருக்கு கோப்பு"
+
+#, fuzzy
+#| msgid "The provided secret is too long."
+msgid "ITS XPath expression is too long."
+msgstr "வழங்கப்பட்ட மறைபொருள் மிக நீண்டது."
+
+msgid "Too many ITS rule files."
 msgstr ""
-"பங்களிப்பாளர் பெயர்கள் மற்றும் பல பங்களிப்புகளைச் சேர்க்க po கோப்பு தலைப்பின் கருத்து "
-"பகுதியை புதுப்பிக்கிறது."
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Invalid ITS directory path."
+msgstr "தடைசெய்யப்பட்ட கூறு"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many elements."
+msgstr "மொழிபெயர்ப்புகளைக் கொண்ட சுருக்கு கோப்பு"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "ஆதரிக்கப்படாத கோப்பு வடிவம்."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "ஆதரிக்கப்படாத கோப்பு!"
+
+#, fuzzy
+#| msgid "Blank strings require an empty state."
+msgid "ITS locating rules require a pattern."
+msgstr "வெற்று சரங்களுக்கு வெற்று நிலை தேவை."
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "ஆதரிக்கப்படாத கோப்பு வடிவம்."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing project backup"
+msgid "ITS directories must not contain symbolic links."
+msgstr "திட்ட காப்புப்பிரதி கொண்ட சுருக்கு கோப்பு"
+
+#, fuzzy, python-format
+#| msgid "{filename} ({parameter}) does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "{filename} ({parameter}) இல்லை."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "%(component)s: %(error_text)s தள்ள முடியவில்லை"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "டிஎம்எஃச் கோப்பை அலச முடியவில்லை: %s"
 
 msgid "Squash Git commits"
 msgstr "ச்குவாச் அறிவிலி கம்யூச்"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "மாற்றங்களைத் தள்ளுவதற்கு முன்பு ச்குவாச் அறிவிலி உறுதியளிக்கிறது."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "கூடுதல் ஆன் கூறுகளில் மட்டுமே நிறுவ முடியும்."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "கூடுதல் ஆன் கூறுகளில் மட்டுமே நிறுவ முடியும்."
 
 #, fuzzy
 #| msgid "This add-on has no settings."
@@ -4432,6 +4556,11 @@ msgstr "எல்லா சரிபார்ப்புகளையும் �
 msgid "Use case insensitive placeholders"
 msgstr "வழக்கு உணர்திரணற்ற ஒதுக்கிடங்களைப் பயன்படுத்துக"
 
+#, fuzzy
+#| msgid "No invoices found."
+msgid "Monospace font"
+msgstr "விலைப்பட்டியல் எதுவும் கிடைக்கவில்லை."
+
 msgid "Font family"
 msgstr "எழுத்துரு குடும்பம்"
 
@@ -5761,6 +5890,22 @@ msgstr ""
 "மற்றொரு பின்னணி செயல்பாடு நடந்து கொண்டிருப்பதால் சரத்தை அகற்ற முடியவில்லை. பிறகு "
 "முயற்சிக்கவும்."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum line length"
+msgid "Maximum retained versions"
+msgstr "அதிகபட்ச வரி நீளம்"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "வலைபெயர்ப்பு மொழிகள்"
 
@@ -6865,6 +7010,11 @@ msgstr "திரைக்காட்சிகள்"
 msgid "Sort by"
 msgstr "வரிசைப்படுத்தவும்"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "திரைக்காட்சிகள்"
+
 msgid "Screenshot name"
 msgstr "திரைக்காட்சி பெயர்"
 
@@ -6941,6 +7091,11 @@ msgstr "புதிய பொருந்தக்கூடிய மூல ச
 #| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "சிக்கலைத் திறக்க முடியவில்லை, பிறகு முயற்சிக்கவும்."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "ச்கிரீன்சாட்டை நீக்கு"
 
 msgid "Bad request"
 msgstr "மோசமான கோரிக்கை"
@@ -7048,19 +7203,13 @@ msgstr "வலைபெயர்ப்பு பற்றி"
 msgid "Support Weblate"
 msgstr "வெப்லேட்டை ஆதரிக்கவும்"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "உதவுங்கள் <strong> வலைபெயர்ப்பு </strong> செழித்து வளர்க்கவும்"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "வெப்லேட்டை ஆதரித்தமைக்கு வரவேற்பு மற்றும் நன்றி"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "வெப்லேட்டைத் தேர்ந்தெடுத்ததற்கு வரவேற்பு மற்றும் நன்றி"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
-"திறந்த மூல மதிப்புகளுக்கு உறுதியளித்த தனியுரிமை மரியாதைக்குரிய உள்ளூர்மயமாக்கல் தளம்."
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "வலைபெயர்ப்புக்கு பங்களிக்கவும்"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7147,6 +7296,14 @@ msgstr "இரண்டாவது காரணி உள்நுழைவு"
 
 msgid "Please complete your sign-in using second factor credential."
 msgstr "இரண்டாவது காரணி நற்சான்றிதழைப் பயன்படுத்தி உங்கள் உள்நுழைவை முடிக்கவும்."
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
 
 msgid "Your profile"
 msgstr "உங்கள் சுயவிவரம்"
@@ -8253,8 +8410,22 @@ msgstr ""
 msgid "Continue"
 msgstr "தொடரவும்"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "பாதுகாப்பு விசையைப் பயன்படுத்தி உள்நுழைக"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "துரதிர்ச்டவசமாக, உங்கள் உலாவிக்கு வெபதின் உதவி இல்லை."
@@ -8293,6 +8464,17 @@ msgstr "கிடைக்கவில்லை"
 #| msgid "No components specified"
 msgid "No components found."
 msgstr "எந்த கூறுகளும் குறிப்பிடப்படவில்லை"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "OpenAI API base URL"
+msgid "Add-on API base URL:"
+msgstr "OpenAI பநிஇ அடிப்படை முகவரி"
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "பநிஇ ரூட் url:"
 
 msgid "Configure add-on"
 msgstr "துணை நிரலை உள்ளமைக்கவும்"
@@ -8461,6 +8643,18 @@ msgid ""
 msgstr ""
 "நீங்கள் சாங்கோ வார்ப்புருக்கள் மார்க்அப்பை கோப்பு பெயர் மற்றும் உள்ளடக்கம் இரண்டிலும் "
 "பயன்படுத்தலாம், எடுத்துக்காட்டாக:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "பெர்சென்ட்கள் மொழிபெயர்க்கப்பட்டவை"
@@ -8982,6 +9176,11 @@ msgstr "உங்கள் பட்டியலிடல் நிலையை 
 
 msgid "Browse"
 msgstr "உலாவு"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "மொழிபெயர்ப்பு நிலை"
 
 msgid "No strings found!"
 msgstr "சரங்கள் எதுவும் கிடைக்கவில்லை!"
@@ -9552,28 +9751,36 @@ msgid "Become a Weblate supporter"
 msgstr "வலைபெயர்ப்பு உதவி"
 
 #, fuzzy
-#| msgid "VCS repository is accessible to everybody."
-msgid "Some repositories are not accessible"
-msgstr "பகஅ களஞ்சியம் அனைவருக்கும் அணுகக்கூடியது."
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "களஞ்சியத்தை பூட்ட முடியவில்லை, மற்றொரு செயல்பாடு நடந்து கொண்டிருக்கிறது."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Skipped components:"
-msgstr "பிற கூறுகள்"
+#| msgid "Restricted component"
+msgid "Affected components:"
+msgstr "தடைசெய்யப்பட்ட கூறு"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "இசைவு மறுக்கப்பட்டது"
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "இந்த கூறுகளை அணுக உங்களுக்கு இசைவு இல்லை."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10720,6 +10927,19 @@ msgstr "தொகுப்பு வரம்புகளை ஆதரிக்�
 msgid "Support expiry"
 msgstr "காலாவதியாகும் உதவி"
 
+#, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "தொழில்முறை உதவி"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "உதவி தொகுப்பை நிர்வகிக்கவும்"
 
@@ -10731,7 +10951,9 @@ msgstr "உதவி தொகுப்பை நீக்கு"
 msgid "Unlink support package"
 msgstr "உதவி தொகுப்பை நீக்கு"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "உதவி தொகுப்பு வாங்க"
 
 msgid "Contact customer care"
@@ -11388,6 +11610,16 @@ msgstr "வெப்லேட்டைப் பயன்படுத்தி�
 msgid "Return to dashboard"
 msgstr "முகப்பலகை பார்வைக்கு திரும்பு"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "%(translation)s இல் புதிய பங்களிப்பாளர்"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "வலைபெயர்ப்புக்கு நன்கொடை"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "தேடலை மதிப்பாய்வு செய்து உறுதிப்படுத்தவும், முடிவுகளை மாற்றவும்."
 
@@ -11517,6 +11749,36 @@ msgstr "பரிந்துரைகள் எதுவும் இல்ல�
 
 msgid "Add new screenshot"
 msgstr "புதிய திரை காட்சி சேர்க்கவும்"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "ச்கிரீன்சாட்டை நீக்கு"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Selected"
+msgstr "css தேர்வாளர்"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching screenshots available."
+msgstr "கிடைக்கவில்லை"
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "திரைக்காட்சி பெயர்"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "பயன்படுத்தப்பட்ட %(used)s %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11752,30 +12014,20 @@ msgstr[1] "%(count)s கருத்துக்கள்"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-"வலைபெயர்ப்பு அனைத்து பயனர்களுக்கும் இலவசமாக இருக்கும்போது, அதன் வளர்ச்சிக்கு தொடர்ச்சியான "
-"முதலீடு தேவைப்படுகிறது."
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "வெப்லேட்டை ஆதரிக்கவும்"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-"உங்கள் தனியுரிமைக்கு நாங்கள் முன்னுரிமை அளிக்கிறோம்; நாங்கள் ஒருபோதும் விளம்பரங்களைக் "
-"காண்பிப்பதில்லை அல்லது உங்கள் தரவை விற்க மாட்டோம்."
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "வெப்லேட்டைப் பயன்படுத்தியதற்கு நன்றி"
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"சந்தாக்கள் மற்றும் நன்கொடைகள் மூலம் சமூகத்தின் விலைமதிப்பற்ற உதவி வலைபெயர்ப்பு தொடர்ந்து "
-"வளர்ந்து வருவதை உறுதி செய்கிறது."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr "உள்ளூர்மயமாக்கலின் எதிர்காலத்தை வடிவமைப்பதில் எங்களுடன் சேர்ந்து இன்று பங்களிக்கவும்!"
-
-msgid "Purchase a support package"
-msgstr "உதவி தொகுப்பை வாங்கவும்"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11839,20 +12091,33 @@ msgstr "வலைபெயர்ப்புடில் கடைசியா�
 msgid "Weblate repository"
 msgstr "வலைபெயர்ப்பு களஞ்சியம்"
 
-msgid "This translation is forbidden."
-msgstr "இந்த மொழிபெயர்ப்பு தடைசெய்யப்பட்டுள்ளது."
-
-msgid "This term should not be translated."
-msgstr "இந்த சொல் மொழிபெயர்க்கப்படக்கூடாது."
-
 msgid "This translation needs editing."
 msgstr "இந்த மொழிபெயர்ப்புக்கு திருத்தம் தேவை."
 
 msgid "Copy word into translation"
 msgstr "வார்த்தையை மொழிபெயர்ப்பில் நகலெடுக்கவும்"
 
+msgid "This translation is forbidden."
+msgstr "இந்த மொழிபெயர்ப்பு தடைசெய்யப்பட்டுள்ளது."
+
+#, fuzzy
+#| msgid "Forbidden translation"
+msgid "Forbidden"
+msgstr "தடைசெய்யப்பட்ட மொழிபெயர்ப்பு"
+
+msgid "This term should not be translated."
+msgstr "இந்த சொல் மொழிபெயர்க்கப்படக்கூடாது."
+
 msgid "Edit glossary term"
 msgstr "சொற்களஞ்சிய காலத்தைத் திருத்து"
+
+msgid "Translation explanation"
+msgstr "மொழிபெயர்ப்பு விளக்கம்"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "மூல சரம் விளக்கம்"
 
 msgid "Glossary translation explanation"
 msgstr "சொற்களஞ்சிய மொழிபெயர்ப்பு விளக்கம்"
@@ -12570,6 +12835,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "தோல்வியுற்ற சரிபார்ப்புகள்:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "உதவி தொகுப்பை வாங்கவும்"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid "Term information from the translation file"
+msgstr "மொழிபெயர்ப்பு கோப்புகளுக்கு அனைத்து சரங்களையும் எழுதுகிறது."
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "மூல சரங்கள்"
+
+#, fuzzy
+#| msgid "Target string"
+msgid "Target terms"
+msgstr "இலக்கு சரம்"
+
 msgid "Translation status"
 msgstr "மொழிபெயர்ப்பு நிலை"
 
@@ -13046,17 +13334,22 @@ msgstr "கூறு பல நகல் மொழிபெயர்ப்பு
 msgid "Source"
 msgstr "சான்று"
 
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "மொழிபெயர்ப்பு கோப்புகளுக்கு அனைத்து சரங்களையும் எழுதுகிறது."
+
+#, fuzzy
+#| msgid "Remove blank strings"
+msgid "Remove duplicate strings"
+msgstr "வெற்று சரங்களை அகற்றவும்"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "மொழிபெயர்ப்பு கோப்புகளிலிருந்து அதே அடையாளங்காட்டியுடன் நகல் சரங்களை அகற்றுவதன் மூலம் "
 "இதை சரிசெய்யவும்."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Remove duplicate strings"
-msgstr "வெற்று சரங்களை அகற்றவும்"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -13954,6 +14247,16 @@ msgstr "குளோசரி %(name)s உலாவுக"
 
 msgid "No screenshot currently associated."
 msgstr "திரை காட்சி தற்போது தொடர்புபடுத்தப்படவில்லை."
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "ச்கிரீன்சாட்டில் சேர்க்கவும்"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "திரை காட்சி சேர்"
 
 msgid "String information"
 msgstr "சரம் செய்தி"
@@ -16089,6 +16392,24 @@ msgstr ""
 "முன்னிருப்பாக, உரைபெறு வரிகளை 77 எழுத்துகள் மற்றும் புதிய வரிகளில் மூடுகிறது. --no-"
 "wrap அளவுருவுடன், புதிய வரிகளில் மட்டுமே மடக்குதல் செய்யப்படுகிறது."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "கருத்தில் பங்களிப்பாளர்கள்"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "உரைபெறு po"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "மொழிபெயர்க்கப்பட்ட சரங்களின் முந்தைய msgids ஐ வைத்திருங்கள்"
 
@@ -16421,9 +16742,6 @@ msgstr "சரத்தின் பொருள் அல்லது பயன
 
 msgid "Source string explanation"
 msgstr "மூல சரம் விளக்கம்"
-
-msgid "Translation explanation"
-msgstr "மொழிபெயர்ப்பு விளக்கம்"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "இதற்கிடையில் மூல சரம் மாறிவிட்டது. உங்கள் மாற்றங்களைச் சரிபார்க்கவும்."
@@ -19387,6 +19705,18 @@ msgid "Project {}"
 msgstr "திட்டம் {}"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "வகை"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Workspaces"
+msgid "Workspace {}"
+msgstr "பணியிடங்கள்"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "கூறு {}"
 
@@ -21105,6 +21435,64 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "பங்களிப்பாளர் பெயர்கள் மற்றும் பல பங்களிப்புகளைச் சேர்க்க po கோப்பு தலைப்பின் கருத்து "
+#~ "பகுதியை புதுப்பிக்கிறது."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "உதவுங்கள் <strong> வலைபெயர்ப்பு </strong> செழித்து வளர்க்கவும்"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "வெப்லேட்டைத் தேர்ந்தெடுத்ததற்கு வரவேற்பு மற்றும் நன்றி"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr ""
+#~ "திறந்த மூல மதிப்புகளுக்கு உறுதியளித்த தனியுரிமை மரியாதைக்குரிய உள்ளூர்மயமாக்கல் "
+#~ "தளம்."
+
+#, fuzzy
+#~| msgid "VCS repository is accessible to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "பகஅ களஞ்சியம் அனைவருக்கும் அணுகக்கூடியது."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "பிற கூறுகள்"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "இசைவு மறுக்கப்பட்டது"
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr ""
+#~ "வலைபெயர்ப்பு அனைத்து பயனர்களுக்கும் இலவசமாக இருக்கும்போது, அதன் வளர்ச்சிக்கு "
+#~ "தொடர்ச்சியான முதலீடு தேவைப்படுகிறது."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "உங்கள் தனியுரிமைக்கு நாங்கள் முன்னுரிமை அளிக்கிறோம்; நாங்கள் ஒருபோதும் விளம்பரங்களைக் "
+#~ "காண்பிப்பதில்லை அல்லது உங்கள் தரவை விற்க மாட்டோம்."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "சந்தாக்கள் மற்றும் நன்கொடைகள் மூலம் சமூகத்தின் விலைமதிப்பற்ற உதவி வலைபெயர்ப்பு தொடர்ந்து "
+#~ "வளர்ந்து வருவதை உறுதி செய்கிறது."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr ""
+#~ "உள்ளூர்மயமாக்கலின் எதிர்காலத்தை வடிவமைப்பதில் எங்களுடன் சேர்ந்து இன்று பங்களிக்கவும்!"
+
 #~ msgid "Download reports"
 #~ msgstr "அறிக்கைகளைப் பதிவிறக்குங்கள்"
 
@@ -21975,9 +22363,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 #~ msgid "Weblate community"
 #~ msgstr "வலைபெயர்ப்பு சமூகம்"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "வலைபெயர்ப்புக்கு பங்களிக்கவும்"
-
 #~ msgid "Weblate website"
 #~ msgstr "வலைபெயர்ப்பு வலைத்தளம்"
 
@@ -22111,9 +22496,6 @@ msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "மாறி சரம் பின்னொட்டு"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "வலைபெயர்ப்புக்கு நன்கொடை"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."

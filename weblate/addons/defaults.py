@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 DEFAULT_WEBLATE_ADDONS: tuple[str, ...] = (
+    "weblate.addons.automation.AutomationAddon",
     "weblate.addons.gettext.GenerateMoAddon",
     "weblate.addons.gettext.UpdateLinguasAddon",
     "weblate.addons.gettext.UpdateConfigureAddon",
@@ -19,6 +20,7 @@ DEFAULT_WEBLATE_ADDONS: tuple[str, ...] = (
     "weblate.addons.consistency.LanguageConsistencyAddon",
     "weblate.addons.discovery.DiscoveryAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
+    "weblate.addons.ai.AIEvaluationAddon",
     "weblate.addons.flags.SourceEditAddon",
     "weblate.addons.flags.TargetEditAddon",
     "weblate.addons.flags.SameEditAddon",

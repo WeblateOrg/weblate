@@ -23,7 +23,7 @@ permissions:
 
 jobs:
   rundev:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     timeout-minutes: 60
     name: Test development Docker
     env:
@@ -36,10 +36,10 @@ jobs:
       with:
         path: /tmp/cache/tesseract
         key: tesseract-data
-    - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+    - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         enable-cache: false
-        version: 0.12.13
+        version: 0.12.17
     - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
     - run: ./rundev.sh start
     - run: ./rundev.sh wait
@@ -56,7 +56,7 @@ jobs:
       if: always()
 
   smoke:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-26.04-arm
     timeout-minutes: 90
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

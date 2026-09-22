@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-15 10:51+0000\n"
 "Last-Translator: Sup! 0_0 <alelmnour1o234@proton.me>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -1227,7 +1227,9 @@ msgid ""
 msgstr ""
 "بريدك الإلكتروني لم يعد ينتمي إلى حساب متحقق منه بعد الآن، لقد تغيّر إلى {0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "استخدام مفتاح أمان (WebAuthn)"
 
 #, fuzzy
@@ -1892,6 +1894,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "فشل إزالة السلسلة: %s"
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "لا تستخرج التعليقات!"
 
@@ -2058,6 +2069,19 @@ msgstr "قالب الترجمات الجديدة غير صالح."
 #| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
 msgstr "لا يمكن إنشاء مجلد المشروع: %s"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add as approved translation"
+msgid "One file per translation"
+msgstr "إضافة كترجمة تم التحقق منها"
+
+#, fuzzy
+#| msgid "Create component"
+msgid "One file per component"
+msgstr "إنشاء عنصر"
 
 msgid "Name of generated file"
 msgstr "اسم الملف المولّد"
@@ -2628,23 +2652,117 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
-msgstr "المساهمون في التعليق"
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "ITS rule file is too large."
+msgstr "الرمز المميز المُدخل غير صالح."
 
 #, fuzzy
-#| msgid ""
-#| "Update comment in the PO file header to include contributor name and "
-#| "years of contributions."
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
-msgstr "حدّث التعليق في ترويسة ملف PO لتتضمّن اسم المساهم وسنوات المساهمات."
+#| msgid "New translation"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "ترجمة جديدة"
+
+msgid "ITS XPath expression is too long."
+msgstr ""
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "لا سلاسل مصدرية مُرفقة حالياً!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Invalid ITS directory path."
+msgstr "إنشاء عنصر"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "New translation"
+msgid "ITS rule file contains too many elements."
+msgstr "ترجمة جديدة"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "نسق الملف غير مدعوم."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "الملف غير مدعوم!"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "نسق الملف غير مدعوم."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "New translation"
+msgid "ITS directories must not contain symbolic links."
+msgstr "ترجمة جديدة"
+
+#, fuzzy, python-format
+#| msgid "{filename} ({parameter}) does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "{filename} ({parameter}) غير موجود."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to parse file %(file)s: %(error)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "فشل تحليل الملف %(file)s: %(error)s"
+
+#, fuzzy, python-format
+#| msgid "Failed to parse TMX file!"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "فشل تحليل ملف TMX!"
 
 msgid "Squash Git commits"
 msgstr "جمع إيداعات Git"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "There are some alerts on this component"
+msgid "API add-ons must be installed directly on a component."
+msgstr "هناك بعض مِن التنبيهات بشأن هذا العنصر"
+
+#, fuzzy
+#| msgid "There are some alerts on this component"
+msgid "This add-on is already installed on this component."
+msgstr "هناك بعض مِن التنبيهات بشأن هذا العنصر"
 
 #, fuzzy
 #| msgid "This add-on executes a script."
@@ -4584,6 +4702,11 @@ msgstr "تجاهل جميع الفحوص"
 msgid "Use case insensitive placeholders"
 msgstr "النسبة المئوية لتقدّم الترجمة"
 
+#, fuzzy
+#| msgid "No invoices found."
+msgid "Monospace font"
+msgstr "لم يتم العثور علي أية فواتير."
+
 msgid "Font family"
 msgstr "عائلة الخطوط"
 
@@ -5966,6 +6089,22 @@ msgstr ""
 "تعذرت إزالة السلسلة النصية لأن عملية أخرى تجري في الخلفية. الرجاء إعادة "
 "المحاولة لاحقا."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum size of translation"
+msgid "Maximum retained versions"
+msgstr "الحجم الأقصى للترجمة"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "لغات وِبليت"
 
@@ -7193,6 +7332,11 @@ msgstr "لقطات الشاشة"
 msgid "Sort by"
 msgstr "صنف حسب"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "لقطات الشاشة"
+
 msgid "Screenshot name"
 msgstr "اسم لقطة الشاشة"
 
@@ -7281,6 +7425,11 @@ msgstr "لم يتم ايجاد مصادر سلاسل مطابقة جديدة."
 #| msgid "Too many messages sent, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "لم نستطع فتح تذكرة، يُرجى المحاولة مرة أخرى لاحقًا."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "حذف لقطة الشاشة"
 
 msgid "Bad request"
 msgstr "طلب غير صالح"
@@ -7407,22 +7556,15 @@ msgstr "حول Weblate"
 msgid "Support Weblate"
 msgstr "قم بدعم Weblate على {0}"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 #, fuzzy
 #| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "شكرًا لكم على استخدام Weblate."
 
 #, fuzzy
-#| msgid "Thank you for using Weblate."
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "شكرًا لكم على استخدام Weblate."
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "المساهمة في Weblate"
 
 #, fuzzy
 #| msgctxt "Label on engage page"
@@ -7527,6 +7669,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -8745,7 +8895,21 @@ msgstr ""
 msgid "Continue"
 msgstr "استمر"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Signed in using password."
+msgid "Sign in using a passkey or security key"
+msgstr "تسجيل الدخول بكلمة السر."
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -8790,6 +8954,14 @@ msgstr "غير متوفر"
 #| msgid "No components specified"
 msgid "No components found."
 msgstr "لا مكونات مطابقة"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "رابط الجذر لواجهة برمجة التطبيقات API:"
 
 #, fuzzy
 #| msgid "Configure addon"
@@ -8999,6 +9171,18 @@ msgstr "لا فحوص مُطابقة موجودة!"
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -9581,6 +9765,11 @@ msgstr "تحقق من حالة الفاتورة"
 
 msgid "Browse"
 msgstr "استعراض"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "حالة الترجمة"
 
 #, fuzzy
 #| msgid "No words found!"
@@ -10295,28 +10484,36 @@ msgid "Become a Weblate supporter"
 msgstr "كن من داعمي Weblate"
 
 #, fuzzy
-#| msgid "VCS repository might be exposed to everybody."
-msgid "Some repositories are not accessible"
-msgstr "قد يكون مستودع VCS متاحًا للجميع."
+#| msgid "Failed to clean the repository on %s."
+msgid "Some repository operations require additional permissions"
+msgstr "فشلت عملية تنضيف المستودع على %s."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Skipped components:"
-msgstr "المكونات الأخرى"
+#| msgid "Create component"
+msgid "Affected components:"
+msgstr "إنشاء عنصر"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "رُفضت الأذونات"
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "ليس لديك إذن للوصول إلى هذا المكون."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -11634,6 +11831,17 @@ msgstr "إدارة حزمة الدعم"
 msgid "Support expiry"
 msgstr "انتهاء صلاحية الدعم"
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "إدارة حزمة الدعم"
 
@@ -11647,7 +11855,9 @@ msgstr "إدارة حزمة الدعم"
 msgid "Unlink support package"
 msgstr "إدارة حزمة الدعم"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "شراء حزمة الدعم"
 
 msgid "Contact customer care"
@@ -12377,6 +12587,16 @@ msgstr "شكرًا لكم على استخدام Weblate."
 msgid "Return to dashboard"
 msgstr "العرض على لوحة المراقبة"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "مساهم جديد في %(translation)s"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "تبرع لِ Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "يرجى مراجعة وتأكيد البحث واستبدال النتائج."
 
@@ -12517,6 +12737,36 @@ msgstr "لا كلمات موجودة!"
 
 msgid "Add new screenshot"
 msgstr "إضافة لقطة شاشة"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "حذف لقطة الشاشة"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Selected"
+msgstr "محدد CSS"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching screenshots available."
+msgstr "غير متوفر"
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "اسم لقطة الشاشة"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "أستخدم %(used)s من %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 #, fuzzy
@@ -12780,28 +13030,20 @@ msgstr[5] "%(count)s سلاسل تحتاج إلى إجراء في %(component)s"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-"يضمن الدعم الذي لا يقدر بثمن من المجتمع من خلال الاشتراكات والتبرعات استمرار "
-"Weblate في النمو والازدهار."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
+#, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "Support Weblate development"
+msgstr "قم بدعم Weblate على {0}"
 
 #, fuzzy
-#| msgid "Purchase support package"
-msgid "Purchase a support package"
-msgstr "شراء حزمة الدعم"
+#| msgid "Thank you for using Weblate."
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "شكرًا لكم على استخدام Weblate."
+
+msgid ""
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
+msgstr ""
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12867,14 +13109,6 @@ msgstr "إعادة ضبط المستودع"
 
 #, fuzzy
 #| msgid "This translation is locked."
-msgid "This translation is forbidden."
-msgstr "هذه الترجمة مغلقة."
-
-msgid "This term should not be translated."
-msgstr "لا ينبغي ترجمة هذا المصطلح."
-
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation needs editing."
 msgstr "هذه الترجمة مغلقة."
 
@@ -12882,9 +13116,32 @@ msgid "Copy word into translation"
 msgstr "انسخ الكلمة إلى الترجمة"
 
 #, fuzzy
+#| msgid "This translation is locked."
+msgid "This translation is forbidden."
+msgstr "هذه الترجمة مغلقة."
+
+#, fuzzy
+#| msgid "Hidden"
+msgid "Forbidden"
+msgstr "مخفي"
+
+msgid "This term should not be translated."
+msgstr "لا ينبغي ترجمة هذا المصطلح."
+
+#, fuzzy
 #| msgid "Edit glossary entry"
 msgid "Edit glossary term"
 msgstr "تحرير مفردة في معجم المفردات"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation explanation"
+msgstr "إشعارات الترجمة"
+
+#, fuzzy
+#| msgid "Source string location"
+msgid "Source explanation"
+msgstr "مكان سلسة المصدر"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -13661,6 +13918,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "الفحوص الفاشلة:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Already purchased? Link your support package"
+msgstr "شراء حزمة الدعم"
+
+#, fuzzy
+#| msgid "Reset all changes in the local repository"
+msgid "Term information from the translation file"
+msgstr "إعادة تعيين كل التغييرات في المستودع المحلي"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "السلاسل المصدرية"
+
+#, fuzzy
+#| msgid "Target strings"
+msgid "Target terms"
+msgstr "السلاسل الهدف"
+
 msgid "Translation status"
 msgstr "حالة الترجمة"
 
@@ -14130,16 +14410,21 @@ msgstr "يحتوي العنصر على عدة سلاسل ترجمة مكررة."
 msgid "Source"
 msgstr "المصدر"
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
-"يرجى تصحيح هذا عن طريق إزالة السلاسل المكررة بنفس المعرف من ملفات الترجمة."
+#, fuzzy, python-format
+#| msgid "Reset all changes in the local repository"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "إعادة تعيين كل التغييرات في المستودع المحلي"
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "أزل السلاسل الفارغة"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
+"يرجى تصحيح هذا عن طريق إزالة السلاسل المكررة بنفس المعرف من ملفات الترجمة."
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -15148,6 +15433,16 @@ msgstr "تصفح المسرد %(name)s"
 
 msgid "No screenshot currently associated."
 msgstr "لا توجد لقطة شاشة مرتبطة حاليًا."
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Add existing screenshot"
+msgstr "إضافة لقطة شاشة"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "إضافة لقطة شاشة"
 
 msgid "String information"
 msgstr "معلومات السلسلة"
@@ -17520,6 +17815,24 @@ msgstr ""
 "بشكل افتراضي، يلتف نص gettext عند الحرف 77 ونهابات الأسطر. باستخدام التعليمة "
 "--no-wrap ، يتم لفها عند نهايات الأسطر فقط."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "المساهمون في التعليق"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "جت‌ تكست PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "إبقاء عناوين msgid للسلاسل المُترجمة"
 
@@ -17924,11 +18237,6 @@ msgstr ""
 #| msgid "Source string location"
 msgid "Source string explanation"
 msgstr "مكان سلسة المصدر"
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation explanation"
-msgstr "إشعارات الترجمة"
 
 #, fuzzy
 #| msgid "Source string has been changed meanwhile. Please check your changes."
@@ -21180,6 +21488,18 @@ msgstr "مشروع {}"
 
 #. Translators: Text on OpenGraph image
 #, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "الفئة"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspace {}"
+msgstr "مسافات"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
 #| msgid "Component: {}"
 msgid "Component {}"
 msgstr "المكون: {}"
@@ -22987,6 +23307,42 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "حُذِف المصدر."
 
+#, fuzzy
+#~| msgid ""
+#~| "Update comment in the PO file header to include contributor name and "
+#~| "years of contributions."
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr "حدّث التعليق في ترويسة ملف PO لتتضمّن اسم المساهم وسنوات المساهمات."
+
+#, fuzzy
+#~| msgid "Thank you for using Weblate."
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "شكرًا لكم على استخدام Weblate."
+
+#, fuzzy
+#~| msgid "VCS repository might be exposed to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "قد يكون مستودع VCS متاحًا للجميع."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "المكونات الأخرى"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "رُفضت الأذونات"
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "يضمن الدعم الذي لا يقدر بثمن من المجتمع من خلال الاشتراكات والتبرعات "
+#~ "استمرار Weblate في النمو والازدهار."
+
 #~ msgid "Download reports"
 #~ msgstr "تنزيل التقارير"
 
@@ -23786,9 +24142,6 @@ msgstr "حُذِف المصدر."
 #~ msgid "Weblate community"
 #~ msgstr "حذف تعليق"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "المساهمة في Weblate"
-
 #, fuzzy
 #~| msgid "Weblate keys"
 #~ msgid "Weblate website"
@@ -23937,9 +24290,6 @@ msgstr "حُذِف المصدر."
 #~| msgid "Strings"
 #~ msgid "Variable string suffix"
 #~ msgstr "سلاسل"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "تبرع لِ Weblate"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -25987,9 +26337,6 @@ msgstr "حُذِف المصدر."
 #~ msgstr ""
 #~ "لتجربة وِبليت على خادوم التجربة هذا، يمكنك الدخول باستعمال أسماء المستخدم "
 #~ "التالية:"
-
-#~ msgid "Hidden"
-#~ msgstr "مخفي"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "هذا الموقع يُشغل خادوم %(weblate_name_link)s التجريبي."

@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 04:03+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1282,7 +1282,9 @@ msgid ""
 msgstr ""
 "Το email σας δεν ανήκει πια σε επιβεβαιωμένο λογαριασμό, έχει αλλάξει σε {0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "Χρήση κλειδιού ασφαλείας (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -1989,6 +1991,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Δεν ήταν δυνατή η αφαίρεση του κειμένου: %s"
 
+#, fuzzy
+#| msgid "Database latency"
+msgid "ITS data directories"
+msgstr "Καθυστέρηση βάσης δεδομένων"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "Χωρίς εξαγωγή σχολίων"
 
@@ -2150,6 +2163,19 @@ msgstr "Το πρότυπο για νέες μεταφράσεις είναι ά
 #| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
 msgstr "Αδύνατη η δημιουργία φακέλου έργου: %s"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add as approved translation"
+msgid "One file per translation"
+msgstr "Προσθήκη ως εγκεκριμένη μετάφραση"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "Οργάνωση στοιχείου"
 
 msgid "Name of generated file"
 msgstr "Όνομα του δημιουργημένου αρχείου"
@@ -2733,21 +2759,119 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
-msgstr "Συντελεστές στα σχόλια"
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "ITS rule file is too large."
+msgstr "Το διακριτικό που εισαγάγατε δεν είναι έγκυρο."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Το αρχείο ZIP περιέχει πάρα πολλές καταχωρίσεις."
+
+#, fuzzy
+#| msgid "Rejection reason"
+msgid "ITS XPath expression is too long."
+msgstr "Λόγος απόρριψης"
+
+msgid "Too many ITS rule files."
 msgstr ""
-"Ενημερώνει το τμήμα σχολίων της επικεφαλίδας του αρχείου PO για να "
-"περιλαμβάνει τα ονόματα των συνεισφερόντων και τα έτη συνεισφοράς."
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "Κανένα κείμενο προέλευσης δεν έχει συσχετιστεί!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid text direction"
+msgid "Invalid ITS directory path."
+msgstr "Μη έγκυρη κατεύθυνση κειμένου"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many elements."
+msgstr "Το αρχείο ZIP περιέχει πάρα πολλές καταχωρίσεις."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Μη υποστηριζόμενη μορφή αρχείου."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "Μη υποστηριζόμενο αρχείο!"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Μη υποστηριζόμενη μορφή αρχείου."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "Whether component is locked for translation updates."
+msgid "ITS directories must not contain symbolic links."
+msgstr "Αν το περιεχόμενο είναι κλειδωμένο για μεταφραστικές ενημερώσεις."
+
+#, fuzzy, python-format
+#| msgid "{filename} ({parameter}) does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "{filename} ({parameter}) δεν υπάρχει."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Δεν ήταν δυνατή η ώθηση του %(component)s: %(error_text)s"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Δεν ήταν δυνατή η ανάλυση του αρχείου TMX: %s"
 
 msgid "Squash Git commits"
 msgstr "Συμπίεση υποβολών στο Git"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Συμπίεση των υποβολών στο Git πριν από την προώθησή τους."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "Το πρόσθετο μπορεί μόνο να εγκατασταθεί στο στοιχείο."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "Το πρόσθετο μπορεί μόνο να εγκατασταθεί στο στοιχείο."
 
 #, fuzzy
 #| msgid "This add-on has no settings."
@@ -4585,6 +4709,11 @@ msgstr "Αγνόηση όλων των ελέγχων"
 msgid "Use case insensitive placeholders"
 msgstr "Χρήση συμβόλων κράτησης θέσης χωρίς διάκριση πεζών-κεφαλαίων"
 
+#, fuzzy
+#| msgid "No words found!"
+msgid "Monospace font"
+msgstr "Δεν βρέθηκαν λέξεις!"
+
 msgid "Font family"
 msgstr "Οικογένεια γραμματοσειράς"
 
@@ -5959,6 +6088,22 @@ msgstr ""
 "Δεν ήταν δυνατό το κλείδωμα του αποθετηρίου, μια άλλη λειτουργία βρίσκεται "
 "σε εξέλιξη."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum size of translation"
+msgid "Maximum retained versions"
+msgstr "Μέγιστο μέγεθος μετάφρασης"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Γλώσσες Weblate"
 
@@ -7067,6 +7212,11 @@ msgstr "Στιγμιότυπα οθόνης"
 msgid "Sort by"
 msgstr "Ταξινόμηση κατά"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Στιγμιότυπα οθόνης"
+
 msgid "Screenshot name"
 msgstr "Όνομα στιγμιότυπου"
 
@@ -7147,6 +7297,11 @@ msgstr "Κανένα νέο κείμενο προέλευσης που να τα
 #| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Δεν ήταν δυνατό το άνοιγμα ενός αιτήματος, δοκιμάστε ξανά αργότερα."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Διαγραφή στιγμιότυπου οθόνης"
 
 msgid "Bad request"
 msgstr "Εσφαλμένο αίτημα"
@@ -7269,18 +7424,13 @@ msgstr "Σχετικά με το Weblate"
 msgid "Support Weblate"
 msgstr "Υποστηρίξτε το Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Καλωήρθατε και σας ευχαριστούμε που υποσοτηρίζετε το Weblate"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Καλωσήρθατε και σας ευχαριστούμε που επιλέγετε το Weblate"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Συνεισφέρετε στο Weblate"
 
 #, fuzzy
 #| msgctxt "Label on engage page"
@@ -7371,6 +7521,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -8515,8 +8673,22 @@ msgstr "Συνεχίστε μόνο εάν εμπιστεύεστε αυτόν �
 msgid "Continue"
 msgstr "Συνέχεια"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "Σύνδεση με χρήση του κλειδιού ασφαλείας"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Δυστυχώς, ο περιηγητής σας δεν υποστηρίζει το WebAuthn."
@@ -8555,6 +8727,14 @@ msgstr "Μη διαθέσιμο"
 #| msgid "No components specified"
 msgid "No components found."
 msgstr "Κανένα στοιχείο δεν καθορίζεται"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "Ρίζα URL για το API:"
 
 msgid "Configure add-on"
 msgstr "Διαμόρφωση πρόσθετου"
@@ -8725,6 +8905,18 @@ msgstr "Δεν βρέθηκαν στοιχεία που να ταιριάζου�
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -9242,6 +9434,11 @@ msgstr "Ελέγξτε την κατάσταση χρέωσής σας"
 
 msgid "Browse"
 msgstr "Περιήγηση"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Kατάσταση μετάφρασης"
 
 msgid "No strings found!"
 msgstr "Δεν βρέθηκαν κείμενα!"
@@ -9823,28 +10020,38 @@ msgid "Become a Weblate supporter"
 msgstr "Γίνετε υποστηρικτής του Weblate"
 
 #, fuzzy
-#| msgid "VCS repository might be exposed to everybody."
-msgid "Some repositories are not accessible"
-msgstr "Το αποθετήριο VCS μπορεί να είναι εμφανές σε όλους."
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Some repository operations require additional permissions"
+msgstr ""
+"Δεν ήταν δυνατό το κλείδωμα του αποθετηρίου, μια άλλη λειτουργία βρίσκεται "
+"σε εξέλιξη."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Skipped components:"
-msgstr "Άλλα εξαρτήματα"
+#| msgid "Created component"
+msgid "Affected components:"
+msgstr "Δημιουργημένο στοιχείο"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "Άρνηση Δικαιώματος"
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "Δεν έχετε δικαίωμα πρόσβασης σε αυτό το στοιχείο."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -11020,6 +11227,19 @@ msgstr "Όρια πακέτων υποστήριξης"
 msgid "Support expiry"
 msgstr "Λήξη υποστήριξης"
 
+#, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "Επαγγελματική υποστήριξη"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "Διαχείριση πακέτου υποστήριξης"
 
@@ -11031,7 +11251,9 @@ msgstr "Αποσύνδεση πακέτου υποστήριξης"
 msgid "Unlink support package"
 msgstr "Αποσύνδεση πακέτου υποστήριξης"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "Αγορά πακέτου υποστήριξης"
 
 msgid "Contact customer care"
@@ -11707,6 +11929,16 @@ msgstr "Σας ευχαριστούμε που χρησιμοποιείτε το
 msgid "Return to dashboard"
 msgstr "Επιστροφή στον πίνακα ελέγχου"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "Νέα συμβολή στο %(translation)s"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Δωρεά στο Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 "Ελέγξτε και επιβεβαιώστε τα αποτελέσματα αναζήτησης και αντικατάστασης."
@@ -11837,6 +12069,36 @@ msgstr "Δεν βρέθηκαν προτάσεις."
 
 msgid "Add new screenshot"
 msgstr "Προσθήκη νέου στιγμιοτύπου"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Διαγραφή στιγμιότυπου οθόνης"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Selected"
+msgstr "Επιλογέας CSS"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching screenshots available."
+msgstr "Μη διαθέσιμο"
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "Όνομα στιγμιότυπου"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "Χρησιμοποιήθηκαν %(used)s από %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -12073,24 +12335,20 @@ msgstr[1] "%(count)s κείμενα που χρειάζονται ενέργει
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "Υποστηρίξτε το Weblate"
+
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Σας ευχαριστούμε που χρησιμοποιείτε το Weblate"
+
 msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
-msgstr "Αγορά πακέτου υποστήριξης"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12154,12 +12412,6 @@ msgstr "Τελευταία υποβολή στο Weblate"
 msgid "Weblate repository"
 msgstr "Αποθετήριο Weblate"
 
-msgid "This translation is forbidden."
-msgstr "Αυτή η μετάφραση απαγορεύεται."
-
-msgid "This term should not be translated."
-msgstr "Αυτός ο όρος δεν πρέπει να μεταφραστεί."
-
 #, fuzzy
 #| msgid "This translation is locked."
 msgid "This translation needs editing."
@@ -12168,8 +12420,27 @@ msgstr "Αυτή η μετάφραση είναι κλειδωμένη."
 msgid "Copy word into translation"
 msgstr "Αντιγραφή λέξης στη μετάφραση"
 
+msgid "This translation is forbidden."
+msgstr "Αυτή η μετάφραση απαγορεύεται."
+
+#, fuzzy
+#| msgid "Hidden"
+msgid "Forbidden"
+msgstr "Κρυφό"
+
+msgid "This term should not be translated."
+msgstr "Αυτός ο όρος δεν πρέπει να μεταφραστεί."
+
 msgid "Edit glossary term"
 msgstr "Επεξεργασία όρου γλωσσαρίου"
+
+msgid "Translation explanation"
+msgstr "Επεξήγηση της μετάφρασης"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "Επεξήγηση του κειμένου της πηγής"
 
 msgid "Glossary translation explanation"
 msgstr "Επεξήγηση μετάφρασης γλωσσαρίου"
@@ -12878,6 +13149,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Αποτυχημένοι έλεγχοι:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "Αγορά πακέτου υποστήριξης"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid "Term information from the translation file"
+msgstr "Αναγκάζει την εγγραφή όλων των κειμένων στα αρχεία μετάφρασης."
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Κείμενα προέλευσης"
+
+#, fuzzy
+#| msgid "Target string"
+msgid "Target terms"
+msgstr "Κείμενο προορισμού"
+
 msgid "Translation status"
 msgstr "Kατάσταση μετάφρασης"
 
@@ -13352,17 +13646,22 @@ msgstr "Το στοιχείο περιέχει πολλά διπλότυπα κ�
 msgid "Source"
 msgstr "Προέλευση"
 
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Αναγκάζει την εγγραφή όλων των κειμένων στα αρχεία μετάφρασης."
+
+#, fuzzy
+#| msgid "Remove blank strings"
+msgid "Remove duplicate strings"
+msgstr "Κατάργηση κενών κειμένων"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Διορθώστε το αφαιρώντας τα διπλότυπα κείμενα με το ίδιο αναγνωριστικό από τα "
 "αρχεία μετάφρασης."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Remove duplicate strings"
-msgstr "Κατάργηση κενών κειμένων"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -14275,6 +14574,16 @@ msgstr "Περιήγηση στο γλωσσάρι %(name)s"
 
 msgid "No screenshot currently associated."
 msgstr "Δεν υπάρχει συσχετισμένο στιγμιότυπο οθόνης αυτήν τη στιγμή."
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "Προσθήκη στο στιγμιότυπο οθόνης"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Προσθήκη στιγμιότυπου οθόνης"
 
 msgid "String information"
 msgstr "Πληροφορίες κειμένου"
@@ -16401,6 +16710,24 @@ msgstr ""
 "νέες γραμμές. Με την παράμετρο --no-wrap, η αναδίπλωση γίνεται μόνο σε νέες "
 "γραμμές."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "Συντελεστές στα σχόλια"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "gettext PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "Διατήρηση των προηγούμενων msgids από τα μεταφρασμένα κείμενα"
 
@@ -16756,9 +17083,6 @@ msgstr ""
 
 msgid "Source string explanation"
 msgstr "Επεξήγηση του κειμένου της πηγής"
-
-msgid "Translation explanation"
-msgstr "Επεξήγηση της μετάφρασης"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -19797,6 +20121,18 @@ msgid "Project {}"
 msgstr "Έργο {}"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Κατηγορία"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspace {}"
+msgstr "Κενά"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "Στοιχείο {}"
 
@@ -21561,6 +21897,31 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Η προέλευση απομακρύνθηκε."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Ενημερώνει το τμήμα σχολίων της επικεφαλίδας του αρχείου PO για να "
+#~ "περιλαμβάνει τα ονόματα των συνεισφερόντων και τα έτη συνεισφοράς."
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Καλωσήρθατε και σας ευχαριστούμε που επιλέγετε το Weblate"
+
+#, fuzzy
+#~| msgid "VCS repository might be exposed to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "Το αποθετήριο VCS μπορεί να είναι εμφανές σε όλους."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "Άλλα εξαρτήματα"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "Άρνηση Δικαιώματος"
+
 #~ msgid "Download reports"
 #~ msgstr "Λήψη αναφορών"
 
@@ -22427,9 +22788,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgid "Weblate community"
 #~ msgstr "Κοινότητα Weblate"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Συνεισφέρετε στο Weblate"
-
 #, fuzzy
 #~| msgid "Weblate keys"
 #~ msgid "Weblate website"
@@ -22575,9 +22933,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Μεταβλητό επίθημα κειμένου"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Δωρεά στο Weblate"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -24737,9 +25092,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgstr ""
 #~ "Δεν μπορείτε να αλλάξετε το δοκιμαστικό λογαριασμό στον δοκιμαστικό "
 #~ "διακομιστή."
-
-#~ msgid "Hidden"
-#~ msgstr "Κρυφό"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Η σελίδα σε δοκιμαστικό διακομιστή %(weblate_name_link)s."
@@ -26963,9 +27315,6 @@ msgstr "Η προέλευση απομακρύνθηκε."
 #~ msgstr ""
 #~ "Υπάρχουν %(words)s λέξεις, από συνολικά %(percent)s&#37; (%(translated)s) "
 #~ "που μεταφράστηκαν."
-
-#~ msgid "Invalid text direction"
-#~ msgstr "Μη έγκυρη κατεύθυνση κειμένου"
 
 #~ msgid "Text direction can be either LTR or RTL"
 #~ msgstr "Η κατευθυνση κειμένου μπορεί να είναι LTR ή RTL"
