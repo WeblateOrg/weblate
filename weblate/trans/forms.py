@@ -1700,6 +1700,7 @@ class UnitFlagsForm(FieldDocsMixin, forms.Form):
                     self.unit.refresh_from_db()
                     self.unit.source_unit = target
                     self.unit.__dict__.pop("all_flags", None)
+                    self.unit.__dict__.pop("untranslatable", None)
                     self.unit.store_old_unit(self.unit)
 
 

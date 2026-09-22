@@ -78,6 +78,7 @@ Weblate 2026.10
 * Fixed the :ref:`punctuation spacing check <check-punctuation-spacing>` fix button adding a space inside URLs such as Markdown links.
 * Fixed the :ref:`check-max-size` rendering preview shifting text vertically when the ``font-spacing`` flag is set.
 * Fixed the :ref:`Refresh results <search-results-cache>` icon being drawn in black regardless of the theme or hover state.
+* Fixed every :ref:`glossary term <glossary-untranslatable>` of a bilingual glossary being shown as untranslatable when translating in its source language.
 
 .. rubric:: Compatibility
 
