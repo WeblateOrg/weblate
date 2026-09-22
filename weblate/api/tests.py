@@ -28,8 +28,10 @@ from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError, transaction
 from django.db.models import Q
+from django.http import StreamingHttpResponse
 from django.templatetags.static import static
 from django.test import SimpleTestCase
+from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -1132,6 +1134,56 @@ class UserAPITest(APIBaseTest):
             method="get",
             code=200,
         )
+
+    def test_head_notifications(self) -> None:
+        self.authenticate()
+        subscription = self.user.subscription_set.all()[0]
+        original = (
+            subscription.notification,
+            subscription.scope,
+            subscription.frequency,
+        )
+        url = reverse(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription.pk},
+        )
+        get_response = self.client.get(url)
+        self.assertEqual(get_response.status_code, 200)
+        for body in (
+            "",
+            json.dumps(
+                {
+                    "notification": "RepositoryNotification",
+                    "scope": subscription.scope,
+                    "frequency": 1,
+                }
+            ),
+        ):
+            with self.subTest(body=body):
+                response = self.client.generic(
+                    "HEAD", url, body, content_type="application/json"
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.content, b"")
+                self.assertEqual(response["Content-Type"], get_response["Content-Type"])
+                subscription.refresh_from_db()
+                self.assertEqual(
+                    (
+                        subscription.notification,
+                        subscription.scope,
+                        subscription.frequency,
+                    ),
+                    original,
+                )
+
+        other = User.objects.create_user("head-other", "head-other@example.com")
+        url = reverse(
+            "api:user-notifications-details",
+            kwargs={"username": other.username, "subscription_id": subscription.pk},
+        )
+        get_response = self.client.get(url)
+        self.assertIn(get_response.status_code, (403, 404))
+        self.assertEqual(self.client.head(url).status_code, get_response.status_code)
 
     def test_put_notifications(self) -> None:
         user = User.objects.filter(is_active=True)[0]
@@ -12307,6 +12359,71 @@ class TranslationAPITest(APIBaseTest):
         )
         self.assertContains(response, "Project-Id-Version: Weblate Hello World 2016")
 
+    def test_head_translation_file(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        original_units = list(
+            translation.unit_set.order_by("pk").values_list("pk", "target", "state")
+        )
+        filename = translation.get_filename()
+        assert filename is not None
+        original_file = Path(filename).read_bytes()
+        changes = Change.objects.count()
+        with open(TEST_PO, "rb") as handle:
+            body = encode_multipart(BOUNDARY, {"file": handle})
+        for superuser in (False, True):
+            self.authenticate(superuser)
+            if not superuser:
+                self.user.groups.clear()
+                self.user.clear_permissions_cache()
+                self.grant_perm_to_user("translation.download", project=self.project)
+            get_response = self.client.get(url)
+            self.assertEqual(
+                get_response.status_code, 200, getattr(get_response, "data", None)
+            )
+            for payload in (b"", body):
+                with self.subTest(superuser=superuser, payload=bool(payload)):
+                    # DRF stubs omit the bytes bodies supported by Django's client.
+                    response = self.client.generic(
+                        "HEAD",
+                        url,
+                        payload,  # type: ignore[arg-type]
+                        content_type=MULTIPART_CONTENT,
+                    )
+                    self.assertEqual(response.status_code, 200)
+                    content = (
+                        b"".join(response.streaming_content)
+                        if isinstance(response, StreamingHttpResponse)
+                        else response.content
+                    )
+                    self.assertEqual(content, b"")
+                    for header in (
+                        "Content-Type",
+                        "Content-Disposition",
+                        "Last-Modified",
+                    ):
+                        self.assertEqual(response.get(header), get_response.get(header))
+                    self.assertEqual(
+                        list(
+                            translation.unit_set.order_by("pk").values_list(
+                                "pk", "target", "state"
+                            )
+                        ),
+                        original_units,
+                    )
+                    self.assertEqual(Path(filename).read_bytes(), original_file)
+                    self.assertEqual(Change.objects.count(), changes)
+            if isinstance(get_response, StreamingHttpResponse):
+                list(get_response.streaming_content)
+
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(self.client.head(url).status_code, 404)
+
     def test_download_modified(self) -> None:
         response = self.do_request(
             "api:translation-file",
@@ -15352,6 +15469,58 @@ class ScreenshotAPITest(APIBaseTest):
             reverse("api:screenshot-file", kwargs={"pk": Screenshot.objects.get().pk})
         )
         self.assertContains(response, b"PNG")
+
+    def test_head_screenshot_file(self) -> None:
+        screenshot = Screenshot.objects.get()
+        url = reverse("api:screenshot-file", kwargs={"pk": screenshot.pk})
+        original_name = screenshot.image.name
+        original_image = Path(screenshot.image.path).read_bytes()
+        changes = Change.objects.count()
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            body = encode_multipart(BOUNDARY, {"image": handle})
+        for superuser in (False, True):
+            self.authenticate(superuser)
+            if not superuser:
+                self.user.groups.clear()
+                self.user.clear_permissions_cache()
+            get_response = self.client.get(url)
+            self.assertEqual(
+                get_response.status_code, 200, getattr(get_response, "data", None)
+            )
+            for payload in (b"", body):
+                with self.subTest(superuser=superuser, payload=bool(payload)):
+                    # DRF stubs omit the bytes bodies supported by Django's client.
+                    response = self.client.generic(
+                        "HEAD",
+                        url,
+                        payload,  # type: ignore[arg-type]
+                        content_type=MULTIPART_CONTENT,
+                    )
+                    self.assertEqual(response.status_code, 200)
+                    assert isinstance(response, StreamingHttpResponse)
+                    self.assertEqual(b"".join(response.streaming_content), b"")
+                    for header in (
+                        "Content-Type",
+                        "Content-Disposition",
+                        "Content-Length",
+                    ):
+                        self.assertEqual(response[header], get_response[header])
+                    screenshot.refresh_from_db()
+                    self.assertEqual(screenshot.image.name, original_name)
+                    self.assertEqual(
+                        Path(screenshot.image.path).read_bytes(), original_image
+                    )
+                    self.assertEqual(Change.objects.count(), changes)
+            if isinstance(get_response, StreamingHttpResponse):
+                list(get_response.streaming_content)
+
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(self.client.head(url).status_code, 404)
 
     def test_upload(self, superuser=True, code=200, filename=TEST_SCREENSHOT) -> None:
         self.authenticate(superuser)
