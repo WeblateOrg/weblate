@@ -7,6 +7,10 @@ Hosting subscribers receive priority support at no extra charge.
 Prepaid help packages are available for everyone, including self-hosting users.
 Find info about current support offerings at https://weblate.org/support.
 
+The :ref:`cloudbackup` service is also available separately for self-hosted
+installations. It does not require a hosting or separate support subscription.
+You can purchase it from the :guilabel:`Backups` page in the management interface.
+
 .. _activate-support:
 
 Integrating support
