@@ -159,6 +159,12 @@ html_theme = "furo"
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
 markdown_http_base = html_baseurl.rstrip("/")
 llms_txt_suffix_mode = "replace"
+llms_txt_suppress_unknown_node_warnings = [
+    "graphviz",
+    "admonition",
+    "caption",
+    "abbreviation",
+]
 
 # Tell Jinja2 templates the build is running on Read the Docs
 if os.environ.get("READTHEDOCS", "") == "True":
