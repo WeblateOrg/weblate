@@ -60,6 +60,7 @@ from translate.storage.xliff_common import XliffUnit as TranslateToolkitXliffUni
 
 import weblate.utils.version
 from weblate.formats.base import (
+    MAX_DECLARED_LANGUAGES,
     BaseItem,
     BaseStore,
     BilingualUpdateMixin,
@@ -2158,13 +2159,15 @@ class XliffFormat(TTKitFormat):
 
     def get_declared_languages(self, *, source: bool = False) -> set[str]:
         attribute = "source-language" if source else "target-language"
-        return {
-            language
-            for node in self.store.document.getroot().iterchildren(
-                self.store.namespaced("file")
-            )
-            if (language := node.get(attribute))
-        }
+        result = set()
+        for node in self.store.document.getroot().iterchildren(
+            self.store.namespaced("file")
+        ):
+            if language := node.get(attribute):
+                result.add(language)
+                if len(result) > MAX_DECLARED_LANGUAGES:
+                    break
+        return result
 
     def construct_unit(self, source: str):
         unit = super().construct_unit(source)
