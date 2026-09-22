@@ -127,35 +127,42 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         ).values_list("id", "plural_id"):
             translation_ids_by_plural[plural_id].append(translation_id)
 
-        # A single translation cannot contain different targets for one id_hash.
-        translation_ids = [
-            translation_id
-            for plural_translation_ids in translation_ids_by_plural.values()
-            if len(plural_translation_ids) > 1
-            for translation_id in plural_translation_ids
-        ]
-        if not translation_ids:
+        # Aggregate each plural group separately to avoid joining translations
+        # and keep the aggregation state smaller on large projects.
+        queries = []
+        for plural_id, translation_ids in translation_ids_by_plural.items():
+            # A single translation cannot have different targets for one id_hash.
+            if len(translation_ids) < 2:
+                continue
+            queries.append(
+                Unit.objects.filter(translation_id__in=translation_ids)
+                .values("id_hash")
+                .annotate(
+                    plural_id=Value(plural_id),
+                    min_target=Min("target"),
+                    max_target=Max("target"),
+                )
+                .filter(min_target__lt=F("max_target"))
+                .order_by("id_hash")[:100]
+            )
+
+        if not queries:
             return []
 
-        units = Unit.objects.filter(translation_id__in=translation_ids)
-
-        # List strings with different targets
-        # Limit this to 100 strings, otherwise the resulting query is way too complex
-        matches = (
-            units.values("id_hash", "translation__plural_id")
-            .annotate(min_target=Min("target"), max_target=Max("target"))
-            .filter(min_target__lt=F("max_target"))
-            .order_by("id_hash", "translation__plural_id")[:100]
-        )
+        # Preserve the global limit and ordering across plural groups. A group's
+        # first 100 matches contain all its possible matches in the global top 100.
+        matches = queries[0]
+        if len(queries) > 1:
+            matches = matches.union(*queries[1:], all=True).order_by(
+                "id_hash", "plural_id"
+            )[:100]
 
         if not matches:
             return []
 
         id_hashes_by_plural: dict[int, list[int]] = defaultdict(list)
         for match in matches:
-            id_hashes_by_plural[match["translation__plural_id"]].append(
-                match["id_hash"]
-            )
+            id_hashes_by_plural[match["plural_id"]].append(match["id_hash"])
 
         return (
             Unit.objects.filter(

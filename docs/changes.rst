@@ -67,6 +67,7 @@ Weblate 2026.10
 .. rubric:: Bug fixes
 
 * Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry middleware instrumentation is enabled.
+* Reduced aggregation overhead for the :ref:`check-inconsistent` check on large projects.
 * :ref:`mt-anthropic` machine translation now preserves the path component of a custom base URL, so API gateways which serve the messages endpoint below a path prefix are reachable.
 * Improved :ref:`SSH repository connections <ssh-repos>` for hosts with unreachable addresses by staggering IPv4 and IPv6 connection attempts and reporting failed addresses and the destination port.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces.
