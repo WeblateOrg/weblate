@@ -6,12 +6,14 @@ from __future__ import annotations
 
 from unittest.mock import patch
 
-from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.urls import reverse
 
+from weblate.auth.models import Group, Role
 from weblate.formats.base import UnitNotFoundError
 from weblate.formats.source_edit import find_identity
+from weblate.trans.forms import SourceEditForm
 from weblate.trans.models import Component, Unit
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.source_edit import edit_source
@@ -248,6 +250,41 @@ class SourceEditTest(ViewTestCase):
         self.component.commit_pending("test", self.user)
         edited.refresh_from_db()
         self.assertEqual(edited.explanation, "Definition")
+
+    def test_explanation_permission(self) -> None:
+        source = self.source_unit()
+        user = create_another_user("explanation")
+        group = Group.objects.create(name="Source edit without explanation")
+        group.projects.add(self.project)
+        group.roles.add(Role.objects.get(name="Power user"))
+        user.groups.add(group)
+        self.assertTrue(user.has_perm("meta:unit.edit_source", source))
+        self.assertFalse(user.has_perm("source.edit", source.translation))
+
+        form = SourceEditForm(source, user)
+        self.assertNotIn("explanation", form.fields)
+        with self.assertRaises(PermissionDenied):
+            edit_source(
+                source,
+                user,
+                content_hash=source.content_hash,
+                explanation="Unauthorized definition",
+            )
+        source.refresh_from_db()
+        self.assertNotEqual(source.explanation, "Unauthorized definition")
+
+        self.client.force_login(user)
+        response = self.client.post(
+            f"/api/units/{source.pk}/source/",
+            {
+                "content_hash": source.content_hash,
+                "explanation": "Unauthorized definition",
+            },
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 403, response.content)
+        source.refresh_from_db()
+        self.assertNotEqual(source.explanation, "Unauthorized definition")
 
     def test_retry_after_written_file(self) -> None:
         source = self.source_unit()

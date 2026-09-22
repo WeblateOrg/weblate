@@ -23,6 +23,8 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* Improved :ref:`translation memory <translation-memory>` lookup performance when many candidates have equal similarity.
+
 * Add-on error :ref:`diagnostics <alerts>` now link directly to the responsible add-on configuration.
 
 * Improved :ref:`translation-history` browsing performance and added navigation by date.
@@ -67,6 +69,8 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry middleware instrumentation is enabled.
+* Reduced aggregation overhead for the :ref:`check-inconsistent` check on large projects.
 * :ref:`mt-anthropic` machine translation now preserves the path component of a custom base URL, so API gateways which serve the messages endpoint below a path prefix are reachable.
 * Improved :ref:`SSH repository connections <ssh-repos>` for hosts with unreachable addresses by staggering IPv4 and IPv6 connection attempts and reporting failed addresses and the destination port.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces.
@@ -78,6 +82,9 @@ Weblate 2026.10
 * Fixed the :ref:`punctuation spacing check <check-punctuation-spacing>` fix button adding a space inside URLs such as Markdown links.
 * Fixed the :ref:`check-max-size` rendering preview shifting text vertically when the ``font-spacing`` flag is set.
 * Fixed the :ref:`Refresh results <search-results-cache>` icon being drawn in black regardless of the theme or hover state.
+* Fixed every :ref:`glossary term <glossary-untranslatable>` of a bilingual glossary being shown as untranslatable when translating in its source language.
+
+* Fixed :ref:`addon-weblate.discovery.discovery` failing to create components with inherited licenses or other inherited settings.
 
 .. rubric:: Compatibility
 

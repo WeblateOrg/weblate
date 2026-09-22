@@ -5732,6 +5732,38 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if errors:
             raise ValidationError(errors)
 
+    def clean_fields(self, exclude: Collection[str] | None = None) -> None:
+        """Validate inherited settings without changing their stored overrides."""
+        excluded = set(exclude or ())
+        inherited = {
+            name
+            for name in INHERITABLE_COMPONENT_SETTINGS
+            if name not in excluded and self.uses_project_setting(name)
+        }
+        errors: dict[str, list[ValidationError]] = {}
+        try:
+            super().clean_fields(exclude=excluded | inherited)
+        except ValidationError as error:
+            error.update_error_dict(errors)
+
+        for name in inherited:
+            try:
+                value = self.get_effective_setting(name)
+            except ObjectDoesNotExist:
+                # Let relationship validation report missing parents.
+                continue
+            field = cast("models.Field", self._meta.get_field(name))
+            raw_value = value.pk if isinstance(value, models.Model) else value
+            if field.blank and raw_value in field.empty_values:
+                continue
+            try:
+                field.clean(raw_value, self)
+            except ValidationError as error:
+                errors[name] = error.error_list
+
+        if errors:
+            raise ValidationError(errors)
+
     def clean(self) -> None:
         """
         Validate component parameters.
