@@ -53,6 +53,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Component
     from weblate.trans.models.component import ComponentQuerySet
+    from weblate.vcs.base import RepositoryLock
 
 
 class CategoryQuerySet(models.QuerySet["Category", "Category"]):
@@ -78,6 +79,8 @@ class CategoryQuerySet(models.QuerySet["Category", "Category"]):
 class Category(
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
+    rename_repository_locks: tuple[RepositoryLock, ...] = ()
+
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
         "license",
         "agreement",
@@ -407,10 +410,15 @@ class Category(
 
     def move_to_project(self, project) -> None:
         """Trigger save with changed project on categories and components."""
+        locks = self.rename_repository_locks
         for category in self.category_set.all():
+            category.rename_repository_locks = locks
             category.project = project
             category.save()
         for component in self.component_set.all():
+            for lock in locks:
+                if component.repository.lock.replace_lock_if_matching(lock):
+                    break
             component.project = project
             component.save()
 

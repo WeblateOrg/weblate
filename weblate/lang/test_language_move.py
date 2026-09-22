@@ -64,6 +64,7 @@ class LanguageMoveFixtures(ViewTestCase):
         ("trans.announcement", "language"): "announcement_fixture",
         ("trans.change", "language"): "change_fixture",
         ("trans.workflowsetting", "language"): "workflow_fixture",
+        ("trans.workflowsetting", "source_language"): "source_workflow_fixture",
         ("fonts.fontoverride", "language"): "font_fixture",
         ("memory.memory", "source_language"): "memory_fixture",
         ("memory.memory", "target_language"): "memory_fixture",
@@ -136,6 +137,13 @@ class LanguageMoveFixtures(ViewTestCase):
             translation_review=True,
             enable_suggestions=False,
             restrict_direct_editing=True,
+        )
+
+    def source_workflow_fixture(self) -> WorkflowSetting:
+        return WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.unrelated,
+            source_language=self.source,
         )
 
     def font_fixture(self) -> FontOverride:
@@ -261,7 +269,7 @@ class LanguageMoveTest(LanguageMoveFixtures):
         self.assertEqual(
             (translation.filename, translation.language_code), original_file
         )
-        self.assertEqual(
+        self.assertCountEqual(
             list(translation.unit_set.values_list("pk", "target")), original_units
         )
         self.assertTrue(self.source.has_no_children())

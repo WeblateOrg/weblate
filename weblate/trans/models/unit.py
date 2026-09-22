@@ -12,10 +12,11 @@ from typing import TYPE_CHECKING, Any, TypedDict
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
 from django.db.models import Count, ManyToManyField, Max, Q, Sum, Value
-from django.db.models.functions import MD5, Length, Lower
+from django.db.models.functions import MD5, Cast, Coalesce, Length, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext
@@ -44,9 +45,15 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.project import CommitPolicyChoices, Project
+from weblate.trans.models.source import (
+    propagate_parent_change,
+    source_operation_method,
+    source_project_gate,
+)
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import unit_post_sync, unit_pre_create
+from weblate.trans.source_snapshot import MissingSourceCache, SourceSnapshot
 from weblate.trans.util import (
     count_words,
     is_plural,
@@ -78,6 +85,7 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.formats.base import TranslationUnit
+    from weblate.lang.models import Language, Plural
     from weblate.machinery.base import UnitMemoryResultDict
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import Translation
@@ -191,6 +199,13 @@ def _get_permission_scope_query(user: User, permission: str) -> Q:
 
 
 class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
+    def delete(self):
+        project_ids = self.values_list(
+            "translation__component__project_id", flat=True
+        ).distinct()
+        with source_project_gate(project_ids, using=self.db):
+            return super().delete()
+
     def prefetch(self):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.component import (
@@ -244,6 +259,13 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             "translation__component__source_language",
         )
 
+    def prefetch_translation_parent(self):
+        """Load the complete effective source, including its language and rules."""
+        return self.prefetch_related(
+            "translation_parent__translation__language",
+            "translation_parent__translation__plural",
+        )
+
     def prefetch_source(self):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.component import (
@@ -255,7 +277,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             Workspace,
         )
 
-        return self.prefetch_related(
+        return self.prefetch_translation_parent().prefetch_related(
             "source_unit",
             "source_unit__translation",
             "source_unit__translation__language",
@@ -330,7 +352,11 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
 
     def prefetch_api(self):
         """Prefetch relations used by the unit API serializer."""
-        return self.prefetch_related(
+        return self.select_related(
+            "translation_parent__translation__language",
+            "translation_parent__translation__plural",
+            "translation__component__source_language",
+        ).prefetch_related(
             "labels",
             models.Prefetch(
                 "check_set",
@@ -388,19 +414,120 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         result = self.annotate(**annotations).filter(filters)
         return result.distinct()
 
+    def exclude_blocked(self, *, custom_sources: bool = True) -> UnitQuerySet:
+        """Exclude targets whose translation parent is not ready."""
+        if not custom_sources:
+            return self
+        return self.filter(
+            Q(details__translation_parent__blocked__isnull=True)
+            | Q(details__translation_parent__blocked=False)
+        )
+
+    @staticmethod
+    def effective_source_expression(
+        *, custom_sources: bool = True
+    ) -> models.F | models.Case:
+        if custom_sources:
+            return models.Case(
+                models.When(
+                    details__translation_parent__has_key="missing", then=Value("")
+                ),
+                default=Coalesce("translation_parent__target", "source"),
+                output_field=models.TextField(),
+            )
+        return models.F("source")
+
+    @staticmethod
+    def effective_source_language_expression(
+        *, custom_sources: bool = True
+    ) -> models.F | models.Case:
+        if custom_sources:
+            return models.Case(
+                models.When(
+                    details__translation_parent__has_key="missing",
+                    then=Cast(
+                        "details__translation_parent__missing__language_id",
+                        models.BigIntegerField(),
+                    ),
+                ),
+                default=Coalesce(
+                    "translation_parent__translation__language_id",
+                    "translation__component__source_language_id",
+                ),
+                output_field=models.BigIntegerField(),
+            )
+        return models.F("translation__component__source_language_id")
+
+    def with_effective_source(
+        self, *, custom_sources: bool = True, select: bool = True
+    ):
+        """Expose effective source text and language for cross-unit comparisons."""
+        annotate = self.annotate if select else self.alias
+        rules = (
+            {
+                f"check_source_{field}": Coalesce(
+                    f"translation_parent__translation__plural__{field}",
+                    f"source_unit__translation__plural__{field}",
+                    f"translation__plural__{field}",
+                )
+                for field in ("number", "formula", "type")
+            }
+            if custom_sources
+            else {}
+        )
+        return annotate(
+            **rules,
+            check_source=self.effective_source_expression(
+                custom_sources=custom_sources
+            ),
+            check_source_language=self.effective_source_language_expression(
+                custom_sources=custom_sources
+            ),
+        )
+
     def same(self, unit: Unit, exclude: bool = True) -> UnitQuerySet:
         """Get units with same source within same project."""
         translation = unit.translation
         component = translation.component
-        result = self.filter(
-            source__lower__md5=MD5(Lower(Value(unit.source))),
+        custom_sources = bool(component.project.translation_parent_language_ids)
+        result = self.exclude_blocked(
+            custom_sources=custom_sources
+        ).with_effective_source(custom_sources=custom_sources, select=False)
+        if custom_sources:
+            result = result.filter(
+                Q(
+                    translation_parent__isnull=True,
+                    source__lower__md5=MD5(Lower(Value(unit.effective_source))),
+                    source=unit.effective_source,
+                    translation__component__source_language_id=unit.effective_source_language.pk,
+                )
+                | Q(
+                    translation_parent__target__lower__md5=MD5(
+                        Lower(Value(unit.effective_source))
+                    ),
+                    translation_parent__target=unit.effective_source,
+                    translation_parent__translation__language_id=unit.effective_source_language.pk,
+                )
+            )
+        else:
+            result = result.filter(
+                source__lower__md5=MD5(Lower(Value(unit.source))),
+                source=unit.source,
+                translation__component__source_language_id=component.source_language_id,
+            )
+        result = result.filter(
             context__lower__md5=MD5(Lower(Value(unit.context))),
-            source=unit.source,
             context=unit.context,
             translation__component__project_id=component.project_id,
             translation__language_id=translation.language_id,
-            translation__component__source_language_id=component.source_language_id,
         )
+        if custom_sources:
+            plural = unit.effective_source_plural
+            result = result.filter(
+                check_source_number=plural.number,
+                check_source_formula=plural.formula,
+                check_source_type=plural.type,
+            )
         if exclude:
             result = result.exclude(pk=unit.id)
         return result
@@ -418,18 +545,33 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             return self.none()
         translation = unit.translation
         component = translation.component
-        result = self.filter(
-            state__gte=STATE_TRANSLATED,
-            target__lower__md5=MD5(Lower(Value(target))),
-            target=target,
-            translation__component__project_id=component.project_id,
-            translation__component__source_language_id=component.source_language_id,
-            translation__component__allow_translation_propagation=True,
-            translation__plural_id=translation.plural_id,
-            translation__plural__number__gt=1,
-        ).exclude(source=unit.source)
+        custom_sources = bool(component.project.translation_parent_language_ids)
+        result = (
+            self.exclude_blocked(custom_sources=custom_sources)
+            .with_effective_source(custom_sources=custom_sources, select=False)
+            .filter(
+                state__gte=STATE_TRANSLATED,
+                target__lower__md5=MD5(Lower(Value(target))),
+                target=target,
+                translation__component__project_id=component.project_id,
+                check_source_language=unit.effective_source_language.pk,
+                translation__component__allow_translation_propagation=True,
+                translation__plural_id=translation.plural_id,
+                translation__plural__number__gt=1,
+            )
+            .exclude(check_source=unit.effective_source)
+        )
+        if custom_sources:
+            plural = unit.effective_source_plural
+            result = result.filter(
+                check_source_number=plural.number,
+                check_source_formula=plural.formula,
+                check_source_type=plural.type,
+            )
         if not unit.translation.language.is_case_sensitive():
-            result = result.exclude(source__lower__md5=MD5(Lower(Value(unit.source))))
+            result = result.exclude(
+                check_source__lower__md5=MD5(Lower(Value(unit.effective_source)))
+            )
         return result
 
     def order_by_request(self, form_data, obj) -> UnitQuerySet:
@@ -489,11 +631,30 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 sort_list = [*get_component_order_fields(), "-priority", "position"]
             else:
                 sort_list = ["-priority", "position"]
+        queryset = self
+        if "source" in sort_list or "-source" in sort_list:
+            queryset = self.with_source_ordering(obj)
+            sort_list = [
+                choice.replace("source", "sort_source")
+                if choice in {"source", "-source"}
+                else choice
+                for choice in sort_list
+            ]
         if "max_labels_name" in sort_list or "-max_labels_name" in sort_list:
-            return self.annotate(max_labels_name=Max("labels__name")).order_by(
+            return queryset.annotate(max_labels_name=Max("labels__name")).order_by(
                 *sort_list
             )
-        return self.order_by(*sort_list)
+        return queryset.order_by(*sort_list)
+
+    def with_source_ordering(self, obj):
+        project = obj if isinstance(obj, Project) else getattr(obj, "project", None)
+        if project is None and hasattr(obj, "component"):
+            project = obj.component.project
+        source = self.effective_source_expression(
+            custom_sources=project is None
+            or bool(project.translation_parent_language_ids)
+        )
+        return self.alias(sort_source=source)
 
     def order_by_count(self, choice: str, count_filter) -> UnitQuerySet:
         model = choice.split("__", 1)[0].replace("-", "")
@@ -602,9 +763,10 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
         # Use weaker locking and limit locking to Unit table only
         return super().select_for_update(no_key=True, of=("self",))
 
-    def annotate_stats(self):
+    def annotate_stats(self, *, custom_sources: bool = True):
+        source = self.effective_source_expression(custom_sources=custom_sources)
         return self.annotate(
-            strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+            strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length(source))
         )
 
     def clear_disk_state(self) -> None:
@@ -723,6 +885,14 @@ class Unit(models.Model, LoggerMixin):
     source_unit: Unit = models.ForeignKey(
         "trans.Unit", on_delete=models.deletion.CASCADE, blank=True, null=True
     )  # type: ignore[assignment]
+    translation_parent: Unit | None = models.ForeignKey(
+        "trans.Unit",
+        on_delete=models.SET_NULL,
+        related_name="translation_children",
+        blank=True,
+        null=True,
+        editable=False,
+    )  # type: ignore[assignment]
 
     objects = UnitQuerySet.as_manager()
 
@@ -828,6 +998,7 @@ class Unit(models.Model, LoggerMixin):
             # Avoid storing if .only() was used to fetch the query (eg. in stats)
             self.store_old_unit(self)
 
+    @source_operation_method
     # pylint: disable-next=arguments-differ
     def save(  # type: ignore[override]
         self,
@@ -839,6 +1010,7 @@ class Unit(models.Model, LoggerMixin):
         force_update: bool = False,
         only_save: bool = False,
         sync_terminology: bool = True,
+        source_change_author: User | None = None,
         using=None,
         update_fields: list[str] | None = None,
     ) -> None:
@@ -847,19 +1019,40 @@ class Unit(models.Model, LoggerMixin):
 
         Wrapper around save to run checks or update fulltext.
         """
-        # Store number of words
-        if not same_content or not self.num_words:
-            self.num_words = count_words(
-                self.source, self.translation.component.source_language
-            )
-            if update_fields and "num_words" not in update_fields:
-                update_fields.append("num_words")
-
         # Update last_updated timestamp
         if update_fields and "last_updated" not in update_fields:
             update_fields.append("last_updated")
 
         was_created = force_insert or self.pk is None
+        previous_parent_values = None
+        if not only_save:
+            previous_parent_values = getattr(
+                self,
+                "_saved_parent_values",
+                (
+                    self.old_unit["target"],
+                    self.old_unit["state"],
+                    self.original_state,
+                    None,
+                ),
+            )
+        if (
+            self.state >= STATE_TRANSLATED
+            and self.state != STATE_READONLY
+            and "translation_parent" in self.details
+        ):
+            self.accept_source_snapshot()
+            if update_fields and "details" not in update_fields:
+                update_fields.append("details")
+
+        if was_created:
+            self.resolve_translation_parent()
+
+        # Workload follows the source shown to the translator.
+        if not same_content or not self.num_words:
+            self.num_words = self.effective_source_num_words
+            if update_fields and "num_words" not in update_fields:
+                update_fields.append("num_words")
 
         # Actually save the unit
         super().save(
@@ -867,6 +1060,12 @@ class Unit(models.Model, LoggerMixin):
             force_update=force_update,
             using=using,
             update_fields=update_fields,
+        )
+        self._saved_parent_values = (
+            self.target,
+            self.state,
+            self.original_state,
+            deepcopy(self.details.get("tbx_terms")),
         )
 
         # Set source_unit for source units, this needs to be done after
@@ -905,8 +1104,63 @@ class Unit(models.Model, LoggerMixin):
         if sync_terminology:
             self.sync_terminology()
 
+        if was_created or (
+            previous_parent_values is not None
+            and self._saved_parent_values != previous_parent_values
+        ):
+            propagate_parent_change(
+                self.translation, self.pk, source_change_author, created=was_created
+            )
+
     def get_absolute_url(self) -> str:
         return f"{self.translation.get_translate_url()}?checksum={self.checksum}"
+
+    @source_operation_method
+    def delete(self, using=None, keep_parents=False):
+        return super().delete(using=using, keep_parents=keep_parents)
+
+    def accept_source_snapshot(self) -> None:
+        """Clear an accepted invalidation without losing the reconciled source."""
+        metadata = self.details["translation_parent"]
+        if "missing" in metadata:
+            return
+        if "applied" in metadata and self.translation.has_custom_source:
+            self.details["translation_parent"] = {"applied": metadata["applied"]}
+        else:
+            self.details.pop("translation_parent", None)
+
+    prefetched_translation_parent: Unit | None
+    prefetched_missing_sources: MissingSourceCache
+
+    def resolve_translation_parent(self) -> None:
+        """Link a newly created unit to its configured translation parent."""
+        if (
+            not self.is_source
+            and self.translation.component.project.translation_parent_language_ids
+        ):
+            if "prefetched_translation_parent" in self.__dict__:
+                self.translation_parent = self.prefetched_translation_parent
+            else:
+                parent_translation = self.translation.effective_source_translation
+                if (
+                    parent_translation is not None
+                    and parent_translation.pk
+                    != self.translation.component.source_translation.pk
+                ):
+                    self.translation_parent = parent_translation.unit_set.filter(
+                        id_hash=self.id_hash
+                    ).first()
+            self.update_missing_source(
+                getattr(self, "prefetched_missing_sources", None)
+            )
+            if self.translation.has_custom_source:
+                self.details["translation_parent"]["applied"] = (
+                    self.source_snapshot.as_dict()
+                )
+            if self.translation_parent_blocked:
+                self.original_state = self.state
+                self.state = STATE_READONLY
+                self.details["translation_parent"]["blocked"] = True
 
     def fill_new_unit_cache(self) -> None:
         """
@@ -953,6 +1207,12 @@ class Unit(models.Model, LoggerMixin):
             )
 
     def store_old_unit(self, unit) -> None:
+        self._saved_parent_values = (
+            unit.target,
+            unit.state,
+            unit.__dict__.get("original_state", unit.state),
+            deepcopy(unit.__dict__.get("details", {}).get("tbx_terms")),
+        )
         self.old_unit = {
             "state": unit.state,
             "source": unit.source,
@@ -998,7 +1258,10 @@ class Unit(models.Model, LoggerMixin):
                 explanation=self.old_unit["explanation"],
                 automatically_translated=self.old_unit["automatically_translated"],
             )
+            # Saving bookkeeping must not accept target/state changes still in memory.
+            saved_parent_values = self._saved_parent_values
             self.save(same_content=True, only_save=True, update_fields=["details"])
+            self._saved_parent_values = saved_parent_values
 
     def clear_disk_state(self) -> None:
         """
@@ -1165,6 +1428,8 @@ class Unit(models.Model, LoggerMixin):
 
         # when checking for original_state, ignore Weblate originated readonly state
         if include_weblate_readonly:
+            if self.translation_parent_blocked:
+                return STATE_READONLY
             # Read-only from the source
             if (
                 not self.is_source
@@ -1662,6 +1927,7 @@ class Unit(models.Model, LoggerMixin):
             force_insert=created,
             same_content=same_source and same_target,
             run_checks=not same_source or not same_target or not same_state,
+            source_change_author=user or author,
         )
         if not preserve_pending_target:
             self.clear_disk_state()
@@ -1726,10 +1992,14 @@ class Unit(models.Model, LoggerMixin):
         * Flagged with 'read-only'
         * Where source string is untranslated
         """
-        if "read-only" in self.all_flags or (
-            not self.is_source
-            and self.source_unit.state < STATE_TRANSLATED
-            and self.translation.component.intermediate
+        if (
+            self.translation_parent_blocked
+            or "read-only" in self.all_flags
+            or (
+                not self.is_source
+                and self.source_unit.state < STATE_TRANSLATED
+                and self.translation.component.intermediate
+            )
         ):
             if not self.readonly:
                 self.original_state = self.state
@@ -1777,7 +2047,7 @@ class Unit(models.Model, LoggerMixin):
     def is_multivalue(self) -> bool:
         """Whether the current string contains independent alternatives."""
         return self.has_multiple_values(
-            split_plural(self.source), split_plural(self.target)
+            self.get_effective_source_plurals(), self.get_target_plurals()
         )
 
     def has_multiple_values(self, sources: list[str], targets: list[str]) -> bool:
@@ -1793,6 +2063,137 @@ class Unit(models.Model, LoggerMixin):
     def get_source_plurals(self) -> list[str]:
         """Return source plurals in array."""
         return split_plural(self.source)
+
+    @property
+    def source_snapshot(self) -> SourceSnapshot:
+        return self.missing_source_snapshot or SourceSnapshot.from_unit(self)
+
+    @property
+    def effective_source_unit(self) -> Unit | None:
+        if self.missing_source_snapshot is not None:
+            return None
+        return self.translation_parent or self.source_unit or self
+
+    @property
+    def missing_source_snapshot(self) -> SourceSnapshot | None:
+        missing = self.details.get("translation_parent", {}).get("missing")
+        return SourceSnapshot.from_dict(missing) if missing is not None else None
+
+    def update_missing_source(
+        self, snapshots: MissingSourceCache | None = None
+    ) -> None:
+        """Record an unavailable configured source without falling back to file text."""
+        if snapshots is not None:
+            self.prefetched_missing_sources = snapshots
+        metadata = self.details.setdefault("translation_parent", {})
+        language_id = self.translation.custom_source_language_id
+        if language_id is None or self.translation_parent is not None:
+            metadata.pop("missing", None)
+            return
+        from weblate.lang.models import Language  # ruff: ignore[import-outside-top-level]
+
+        if snapshots is not None and language_id in snapshots:
+            metadata["missing"] = snapshots[language_id][0].as_dict()
+            return
+        language = Language.objects.get(pk=language_id)
+        parent_translation = self.translation.effective_source_translation
+        plural = (
+            parent_translation.plural
+            if parent_translation is not None
+            else language.plural
+        )
+        snapshot = SourceSnapshot(
+            "",
+            language.pk,
+            language.code,
+            language.name,
+            language.direction,
+            plural.pk,
+            plural.number,
+            plural.formula,
+            plural.type,
+        )
+        metadata["missing"] = snapshot.as_dict()
+        if snapshots is not None:
+            snapshots[language_id] = (snapshot, language)
+
+    @property
+    def effective_source(self) -> str:
+        if self.details.get("translation_parent", {}).get("missing") is not None:
+            return ""
+        parent = self.translation_parent
+        return parent.target if parent is not None else self.source
+
+    @property
+    def effective_source_num_words(self) -> int:
+        source = self.effective_source
+        return count_words(source, self.effective_source_language) if source else 0
+
+    @property
+    def effective_source_language(self) -> Language:
+        if missing := self.missing_source_snapshot:
+            if cached := getattr(self, "prefetched_missing_sources", {}).get(
+                missing.language_id
+            ):
+                return cached[1]
+            from weblate.lang.models import (  # ruff: ignore[import-outside-top-level]
+                Language,
+            )
+
+            return Language.objects.get(pk=missing.language_id)
+        parent = self.translation_parent
+        if parent is not None:
+            return parent.translation.language
+        return self.translation.component.source_language
+
+    @property
+    def effective_source_plural(self) -> Plural:
+        if missing := self.missing_source_snapshot:
+            return missing.plural
+        parent = self.translation_parent
+        if parent is not None:
+            return parent.translation.plural
+        return (self.source_unit or self).translation.plural
+
+    def get_effective_source_plurals(self) -> list[str]:
+        return split_plural(self.effective_source)
+
+    @property
+    def effective_source_string(self) -> str:
+        """Effective singular, with a fallback for unused singular forms."""
+        plurals = self.get_effective_source_plurals()
+        singular = plurals[0]
+        if len(plurals) == 1 or not is_unused_string(singular):
+            return singular
+        return plurals[1]
+
+    @property
+    def effective_previous_source(self) -> str:
+        previous = self.details.get("translation_parent", {}).get("previous")
+        return previous["text"] if previous is not None else self.previous_source
+
+    def get_effective_previous_source_plurals(self) -> list[str]:
+        return split_plural(self.effective_previous_source)
+
+    @property
+    def translation_parent_blocked(self) -> bool:
+        if self.details.get("translation_parent", {}).get("missing") is not None:
+            return True
+        parent = self.translation_parent
+        if parent is None:
+            return False
+        state = (
+            parent.original_state if parent.state == STATE_READONLY else parent.state
+        )
+        return (
+            not any(parent.get_target_plurals())
+            or state < STATE_TRANSLATED
+            or bool(parent.details.get("translation_parent", {}).get("blocked"))
+            or (
+                bool(parent.translation.component.intermediate)
+                and parent.source_unit.state < STATE_TRANSLATED
+            )
+        )
 
     @cached_property
     def source_string(self) -> str:
@@ -1840,6 +2241,7 @@ class Unit(models.Model, LoggerMixin):
 
         return ret
 
+    @source_operation_method
     def propagate(
         self, user: User | None, change_action=None, author=None, request=None
     ) -> bool:
@@ -1923,6 +2325,9 @@ class Unit(models.Model, LoggerMixin):
                 )
                 for unit in to_update
             ]
+
+            for unit in to_update:
+                propagate_parent_change(unit.translation, unit.pk, author or user)
 
             # Bulk create changes
             Change.objects.bulk_create(changes)
@@ -2011,6 +2416,7 @@ class Unit(models.Model, LoggerMixin):
             update_fields=update_fields,
             run_checks=run_checks,
             force_propagate_checks=was_propagated,
+            source_change_author=user or author,
         )
 
         # Generate change and process it
@@ -2074,6 +2480,7 @@ class Unit(models.Model, LoggerMixin):
                 change.author.profile.increase_count("translated")
         return change
 
+    @source_operation_method
     def update_source_units(
         self, previous_source: str, user: User | None, author: User | None
     ) -> None:
@@ -2089,7 +2496,8 @@ class Unit(models.Model, LoggerMixin):
             translation_delta_data: dict[int, TranslationDeltaEntry] = {}
 
             # Find relevant units
-            for unit in self.unit_set.exclude(id=self.id).prefetch().prefetch_bulk():
+            units = self.unit_set.exclude(id=self.id).prefetch().prefetch_bulk()
+            for unit in units:
                 if not self.update_unit_from_source_change(
                     unit,
                     previous_source,
@@ -2111,6 +2519,17 @@ class Unit(models.Model, LoggerMixin):
                 )
                 for stat in unit.translation.stats.get_update_objects(full=False):
                     translation_parent_stats[stat.cache_key] = stat
+            if self.translation.component.project.translation_parent_language_ids:
+                from weblate.trans.models.source import (  # ruff: ignore[import-outside-top-level]
+                    DependencyWork,
+                    request_reconciliation,
+                )
+
+                request_reconciliation(
+                    self.translation.component,
+                    DependencyWork(children={unit.pk for unit in units}, author=author),
+                )
+                delta_failed = True
             if changes:
                 # Bulk create changes
                 Change.objects.bulk_create(changes)
@@ -2137,7 +2556,7 @@ class Unit(models.Model, LoggerMixin):
     ) -> None:
         # Update source and number of words
         unit.source = self.target
-        unit.num_words = self.num_words
+        unit.num_words = unit.effective_source_num_words
         # Find reverted units
         if (
             unit.state in FUZZY_STATES
@@ -2254,6 +2673,14 @@ class Unit(models.Model, LoggerMixin):
             "source": self.source,
             "context": self.context,
         }
+        if (
+            self.translation_parent_id or self.missing_source_snapshot
+        ) and action != ActionEvents.SOURCE_CHANGE:
+            snapshot = self.source_snapshot
+            details.update(
+                source_snapshot=snapshot.as_dict(),
+                source=snapshot.text,
+            )
         if change_details:
             details.update(change_details)
 
@@ -2324,6 +2751,8 @@ class Unit(models.Model, LoggerMixin):
             comments = Comment.objects.filter(unit__source_unit=self)
         else:
             comments = self.comment_set.all() | self.source_unit.comment_set.all()
+            if self.translation_parent_id is not None:
+                comments |= Comment.objects.filter(unit_id=self.translation_parent_id)
         return (
             comments.prefetch()
             .prefetch_related(
@@ -2356,6 +2785,7 @@ class Unit(models.Model, LoggerMixin):
         create = []
 
         component = self.translation.component
+
         if component.is_glossary:
             checks = CHECKS.glossary
             target_checks = True
@@ -2392,7 +2822,11 @@ class Unit(models.Model, LoggerMixin):
 
         # Run all checks
         if checks:
-            src = self.get_source_plurals()
+            src = (
+                self.get_effective_source_plurals()
+                if target_checks
+                else self.get_source_plurals()
+            )
             if target_checks:
                 tgt = self.get_target_plurals()
                 # Target checks mostly use the base skip logic; compute flags once.
@@ -2514,7 +2948,52 @@ class Unit(models.Model, LoggerMixin):
             .order_by("context")
         )
 
+    def prepare_translation_update(
+        self, *, select_for_update: bool, expected_source_hash: int | None
+    ) -> None:
+        """Lock the current unit and revalidate the source used for this edit."""
+        if expected_source_hash is None:
+            expected_source_hash = self.edit_content_hash
+
+        # Fetch current copy from database and lock it for update
+        if select_for_update:
+            old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+        else:
+            old_unit = self
+        self.store_old_unit(old_unit)
+        if old_unit is not self and (
+            self.translation_parent_id
+            or old_unit.translation_parent_id
+            or "translation_parent" in self.details
+            or "translation_parent" in old_unit.details
+        ):
+            self.translation_parent = old_unit.translation_parent
+            self.details = deepcopy(old_unit.details)
+            self.state = old_unit.state
+            self.original_state = old_unit.original_state
+            self.source = old_unit.source
+            self.context = old_unit.context
+            self.__dict__.pop("content_hash", None)
+            if (
+                self.translation_parent_blocked
+                or self.edit_content_hash != expected_source_hash
+            ):
+                raise ValidationError(
+                    gettext(
+                        "The source string has changed meanwhile. "
+                        "Please check your changes."
+                    )
+                )
+        if "disk_identity" in old_unit.details:
+            # A source edit may have happened since this editor loaded the unit.
+            self.source = old_unit.source
+            self.context = old_unit.context
+            self.id_hash = old_unit.id_hash
+            self.details = deepcopy(old_unit.details)
+            self.__dict__.pop("content_hash", None)
+
     @transaction.atomic
+    @source_operation_method
     def translate(
         self,
         user: User | None,
@@ -2528,6 +3007,7 @@ class Unit(models.Model, LoggerMixin):
         add_alternative: bool = False,
         select_for_update: bool = True,
         change_details: dict[str, Any] | None = None,
+        expected_source_hash: int | None = None,
     ) -> bool:
         """
         Store new translation of a unit.
@@ -2539,19 +3019,10 @@ class Unit(models.Model, LoggerMixin):
         # Force flushing checks cache
         self.invalidate_checks_cache()
 
-        # Fetch current copy from database and lock it for update
-        if select_for_update:
-            old_unit = Unit.objects.select_for_update().get(pk=self.pk)
-        else:
-            old_unit = self
-        self.store_old_unit(old_unit)
-        if "disk_identity" in old_unit.details:
-            # A source edit may have happened since this editor loaded the unit.
-            self.source = old_unit.source
-            self.context = old_unit.context
-            self.id_hash = old_unit.id_hash
-            self.details = deepcopy(old_unit.details)
-            self.__dict__.pop("content_hash", None)
+        self.prepare_translation_update(
+            select_for_update=select_for_update,
+            expected_source_hash=expected_source_hash,
+        )
 
         # Handle simple string units
         new_target_list = [new_target] if isinstance(new_target, str) else new_target
@@ -2732,14 +3203,18 @@ class Unit(models.Model, LoggerMixin):
         """Return list of secondary units."""
         translation = self.translation
         component = translation.component
-        secondary_langs: set[int] = user.profile.secondary_language_ids
+        secondary_langs = user.profile.secondary_language_ids.copy()
 
         # Add project/component secondary languages
         if component.effective_secondary_language is not None:
             secondary_langs.add(component.effective_secondary_language.pk)
 
         # Remove current source and target language
-        secondary_langs -= {translation.language_id, component.source_language_id}
+        secondary_langs -= {
+            translation.language_id,
+            component.source_language_id,
+            self.effective_source_language.pk,
+        }
 
         if not secondary_langs:
             return []
@@ -2800,7 +3275,7 @@ class Unit(models.Model, LoggerMixin):
             return fallback
         # Base length on source string
         if settings.LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH:
-            return max(100, len(self.get_source_plurals()[0]) * 10)
+            return max(100, len(self.get_effective_source_plurals()[0]) * 10)
 
         return fallback
 
@@ -2810,6 +3285,17 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def content_hash(self) -> int:
         return calculate_hash(self.source, self.context)
+
+    @property
+    def edit_content_hash(self) -> int:
+        """Detect changes to both the file source and the source shown in the editor."""
+        if self.translation_parent_id is None and not self.details.get(
+            "translation_parent", {}
+        ).get("applied"):
+            return self.content_hash
+        return calculate_hash(
+            self.source, self.context, *map(str, self.source_snapshot.identity)
+        )
 
     @cached_property
     def recent_content_changes(self):
@@ -3079,7 +3565,7 @@ class Unit(models.Model, LoggerMixin):
             (not translation.is_source or component.intermediate)
             and (self.state >= STATE_TRANSLATED or self.state != self.old_unit["state"])
             and not component.is_glossary
-            and is_valid_memory_entry(source=self.source, target=self.target)
+            and is_valid_memory_entry(source=self.effective_source, target=self.target)
         ):
             payload = get_unit_memory_update(self, user, component)
             if payload is None:

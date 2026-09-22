@@ -913,9 +913,34 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         target: Language,
         logger: Callable[[str], None] | None = None,
     ) -> None:
+        from weblate.trans.models.source import source_project_gate  # ruff: ignore[import-outside-top-level]
+
+        projects = set(
+            source.translation_set.values_list("component__project_id", flat=True)
+        )
+        projects.update(source.component_set.values_list("project_id", flat=True))
+        projects.update(
+            source.source_workflow_settings.exclude(project=None).values_list(
+                "project_id", flat=True
+            )
+        )
+        projects.update(
+            source.workflowsetting_set.exclude(project=None).values_list(
+                "project_id", flat=True
+            )
+        )
+        with source_project_gate(projects, using=self.db, exclusive=True):
+            self._move_language(source, target, logger)
+
+    @transaction.atomic
+    def _move_language(
+        self,
+        source: Language,
+        target: Language,
+        logger: Callable[[str], None] | None = None,
+    ) -> None:
         """Migrate all content unless translations or settings conflict."""
-        if logger is None:
-            logger = dummy_logger
+        logger = logger or dummy_logger
         if source.pk == target.pk:
             return
 
@@ -933,7 +958,11 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
             return
         settings_to_move, duplicate_settings = settings_move
 
+        affected_projects: set[int | None] = set(
+            source.component_set.values_list("project_id", flat=True)
+        )
         for translation in source.translation_set.iterator():
+            affected_projects.add(translation.component.project_id)
             translation.language = target
             translation.save()
         source.announcement_set.update(language=target)
@@ -968,7 +997,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
             setting.delete()
         for setting in settings_to_move:
             setting.language = target
-            setting.save(update_fields=["language"])
+            setting.save()
 
         for plural in source.plural_set.iterator():
             formulas = target.plural_set.filter(
@@ -993,6 +1022,19 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         source.memory_source_set.update(source_language=target)
         source.memory_target_set.update(target_language=target)
 
+        # Save individually to validate the resulting dependency graph and reconcile
+        # units after both translation languages and plural forms have been moved.
+        from weblate.trans.models.source import reconcile_project_parents  # ruff: ignore[import-outside-top-level]
+
+        for workflow in source.source_workflow_settings.select_related("project"):
+            affected_projects.add(workflow.project_id)
+            workflow.source_language = (
+                None if workflow.language_id == target.pk else target
+            )
+            workflow.save(update_fields=["source_language"])
+        for project_id in affected_projects:
+            reconcile_project_parents(project_id, force=True)
+
     def _prepare_language_settings_move(
         self,
         source: Language,
@@ -1005,6 +1047,8 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         | None
     ):
         """Check scoped settings before moving or consolidating any records."""
+        from weblate.trans.models.workflow import WorkflowSetting  # ruff: ignore[import-outside-top-level]
+
         settings_to_move: list[WorkflowSetting | FontOverride] = []
         duplicate_settings: list[WorkflowSetting | FontOverride] = []
         for queryset, scope in (
@@ -1024,6 +1068,12 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     getattr(setting, field) for field in fields
                 )
             for setting in queryset:
+                if (
+                    isinstance(setting, WorkflowSetting)
+                    and setting.source_language_id == target.pk
+                ):
+                    # Moving a child onto its source collapses the dependency.
+                    setting.source_language = None
                 key = getattr(setting, scope)
                 values = tuple(getattr(setting, field) for field in fields)
                 if key in seen:
@@ -1452,9 +1502,34 @@ class Plural(models.Model):
     def __str__(self) -> str:
         return self.get_type_display()
 
+    @transaction.atomic
     def save(self, *args, **kwargs) -> None:
+        previous = None
+        update_fields = kwargs.get("update_fields")
+        if self.pk and (
+            update_fields is None
+            or {"number", "formula", "type"}.intersection(update_fields)
+        ):
+            previous = (
+                type(self)
+                .objects.filter(pk=self.pk)
+                .values_list("number", "formula", "type")
+                .first()
+            )
         self.type = get_plural_type(self.language.base_code, self.formula)
-        super().save(*args, **kwargs)
+        if previous is None or previous == (self.number, self.formula, self.type):
+            super().save(*args, **kwargs)
+            return
+        from weblate.trans.models.source import source_project_gate  # ruff: ignore[import-outside-top-level]
+
+        projects = self.translation_set.values_list(
+            "component__project_id", flat=True
+        ).distinct()
+        with source_project_gate(
+            projects, using=self._state.db or "default", exclusive=True
+        ):
+            super().save(*args, **kwargs)
+            self.reconcile_source_dependents()
 
     def get_absolute_url(self) -> str:
         return f"{reverse('show_language', kwargs={'lang': self.language.code})}#information"
@@ -1467,6 +1542,22 @@ class Plural(models.Model):
             )
         except ValidationError as error:
             raise ValidationError({"formula": error}) from error
+
+    def reconcile_source_dependents(self) -> None:
+        """Apply edited rules to custom sources, including canonical fallbacks."""
+        from weblate.trans.models import Component, Unit  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+        components = Unit.objects.filter(
+            Q(translation_parent__translation__plural=self)
+            | Q(
+                translation_parent__isnull=True,
+                source_unit__translation__plural=self,
+                details__translation_parent__applied__isnull=False,
+            )
+        ).values_list("translation__component_id", flat=True)
+        for component in Component.objects.filter(pk__in=components).order_by("pk"):
+            reconcile_component_parents(component)
 
     @cached_property
     def plural_form(self) -> str:
@@ -1688,7 +1779,7 @@ class PluralMapper:
             return {}
         return {
             other.id_hash: other
-            for other in translation.unit_set.filter(
+            for other in translation.unit_set.exclude_blocked().filter(
                 state__gte=STATE_TRANSLATED,
                 id_hash__in={unit.id_hash for unit in units},
             )

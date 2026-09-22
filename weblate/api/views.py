@@ -8,7 +8,7 @@ from __future__ import annotations
 import os.path
 from collections import Counter
 from collections.abc import Mapping
-from contextlib import suppress
+from contextlib import nullcontext, suppress
 from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import unquote
 
@@ -141,6 +141,7 @@ from weblate.api.serializers import (
     UploadResultSerializer,
     UserStatisticsSerializer,
     UserUpdateRequestSerializer,
+    WorkflowSettingSerializer,
     edit_service_settings_response_serializer,
     get_reverse_kwargs,
 )
@@ -183,8 +184,10 @@ from weblate.trans.models import (
     Suggestion,
     SuggestionAddResult,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
+from weblate.trans.models.source import source_project_gate
 from weblate.trans.models.translation import Translation, TranslationQuerySet
 from weblate.trans.repository import (
     RepositoryOperation,
@@ -2251,6 +2254,88 @@ class ProjectViewSet(
     serializer_class = ProjectSerializer
     lookup_field = "slug"
     request: AuthenticatedRequest  # type: ignore[assignment]
+
+    @extend_schema(
+        parameters=[OpenApiParameter("language", str, OpenApiParameter.PATH)],
+        request=WorkflowSettingSerializer,
+        responses={
+            HTTP_200_OK: WorkflowSettingSerializer,
+            HTTP_409_CONFLICT: OpenApiResponse(
+                description="Multiple project-language workflow overrides exist."
+            ),
+        },
+        methods=["GET", "PATCH"],
+    )
+    @extend_schema(
+        parameters=[OpenApiParameter("language", str, OpenApiParameter.PATH)],
+        responses={
+            HTTP_204_NO_CONTENT: None,
+            HTTP_409_CONFLICT: OpenApiResponse(
+                description="Multiple project-language workflow overrides exist."
+            ),
+        },
+        methods=["DELETE"],
+    )
+    @action(
+        detail=True,
+        methods=["get", "patch", "delete"],
+        url_path=r"languages/(?P<language>[^/.]+)/workflow",
+    )
+    def language_workflow(self, request: Request, language: str, **kwargs):
+        project = self.get_object()
+        language_obj = get_object_or_404(Language, code=language)
+        if request.method != "GET" and not request.user.has_perm(
+            "project.edit", project
+        ):
+            self.permission_denied(
+                request, "Project management permission is required."
+            )
+        with (
+            source_project_gate([project.pk], exclusive=True)
+            if request.method != "GET"
+            else nullcontext()
+        ):
+            instances = list(
+                project.workflowsetting_set.filter(language=language_obj)[:2]
+            )
+            if len(instances) > 1:
+                return Response(
+                    {
+                        "detail": "Multiple workflows exist for this project and language."
+                    },
+                    status=HTTP_409_CONFLICT,
+                )
+            instance = instances[0] if instances else None
+            if request.method == "DELETE":
+                if instance:
+                    instance.delete()
+                return Response(status=HTTP_204_NO_CONTENT)
+            if instance is None:
+                inherited = project.project_languages[language_obj].workflow_settings
+                defaults = {"translation_review": project.translation_review}
+                if inherited is not None:
+                    defaults = {
+                        field: getattr(inherited, field)
+                        for field in WorkflowSettingSerializer.Meta.fields
+                        if field not in {"language", "source_language"}
+                    }
+                    defaults["translation_review"] &= project.enable_review
+                instance = WorkflowSetting(
+                    project=project,
+                    language=language_obj,
+                    **defaults,
+                )
+            if request.method == "PATCH":
+                serializer = WorkflowSettingSerializer(
+                    instance, data=request.data, partial=True
+                )
+                serializer.is_valid(raise_exception=True)
+                try:
+                    serializer.save()
+                except DjangoValidationError as error:
+                    raise ValidationError(error.message_dict) from error
+                return Response(serializer.data)
+            return Response(WorkflowSettingSerializer(instance).data)
 
     def get_create_workspaces(self, request: Request):
         user = get_request_user(request)
@@ -4372,9 +4457,14 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             UnitSerializer(unit, context=self.get_serializer_context()).data
         )
 
-    @transaction.atomic
-    # ruff: ignore[complex-structure]
     def perform_update(self, serializer) -> None:
+        from weblate.trans.models.source import source_operation  # ruff: ignore[import-outside-top-level]
+
+        with source_operation(serializer.instance.translation.component):
+            self._perform_unit_update(serializer)
+
+    # ruff: ignore[complex-structure]
+    def _perform_unit_update(self, serializer) -> None:
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
         do_source = "explanation" in data or "labels" in data
@@ -4645,6 +4735,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 },
             )
             serializer.is_valid(raise_exception=True)
+            if serializer.validated_data["scope"] == "report" and (
+                unit.effective_source_unit is None
+                or not user.has_perm(
+                    "comment.add", unit.effective_source_unit.translation
+                )
+            ):
+                self.permission_denied(request)
 
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)

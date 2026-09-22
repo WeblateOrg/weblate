@@ -13,14 +13,21 @@ from django.urls import reverse
 from weblate.auth.models import Group, Role
 from weblate.formats.base import UnitNotFoundError
 from weblate.formats.source_edit import find_identity
+from weblate.lang.models import Language
 from weblate.trans.forms import SourceEditForm
-from weblate.trans.models import Component, Unit
+from weblate.trans.models import Component, Unit, WorkflowSetting
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.source_edit import edit_source
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_another_user
 from weblate.trans.util import split_plural
-from weblate.utils.state import FUZZY_STATES, STATE_APPROVED, STATE_TRANSLATED
+from weblate.utils.state import (
+    FUZZY_STATES,
+    STATE_APPROVED,
+    STATE_NEEDS_REWRITING,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 
 class SourceEditTest(ViewTestCase):
@@ -84,6 +91,52 @@ class SourceEditTest(ViewTestCase):
         for unit in source.unit_set.exclude(pk=source.pk):
             backend = unit.translation.store.find_unit(source.context, source.source)[0]
             self.assertEqual(backend.source, "Second edit")
+
+    def test_source_edit_preserves_dependency_blocking(self) -> None:
+        self.component.add_new_language(
+            Language.objects.get(code="fr"), None, show_messages=False
+        )
+        source = self.source_unit()
+        for parent_first in (True, False):
+            with self.subTest(parent_first=parent_first):
+                WorkflowSetting.objects.filter(project=self.project).delete()
+                source = Unit.objects.get(pk=source.pk)
+                siblings = list(
+                    source.unit_set.exclude(pk=source.pk).order_by("pk")[:2]
+                )
+                parent, child = siblings if parent_first else reversed(siblings)
+                parent.translate(
+                    self.user, "Parent source", STATE_TRANSLATED, propagate=False
+                )
+                workflow = WorkflowSetting.objects.create(
+                    project=self.project,
+                    language=child.translation.language,
+                    source_language=parent.translation.language,
+                )
+                child.refresh_from_db()
+                child.translate(
+                    self.user, "Child target", STATE_TRANSLATED, propagate=False
+                )
+                child_target = child.target
+                updated = edit_source(
+                    source,
+                    self.user,
+                    content_hash=source.content_hash,
+                    source=[f"Updated source {parent_first}"],
+                )
+                parent.refresh_from_db()
+                child.refresh_from_db()
+                self.assertEqual(parent.state, STATE_NEEDS_REWRITING)
+                self.assertEqual(child.state, STATE_READONLY)
+                self.assertEqual(child.original_state, STATE_NEEDS_REWRITING)
+                self.assertEqual(child.translation_parent_id, parent.pk)
+                self.assertEqual(child.id_hash, updated.id_hash)
+                self.assertEqual(parent.id_hash, updated.id_hash)
+                self.assertIsNone(child.missing_source_snapshot)
+                self.assertTrue(child.details["translation_parent"]["blocked"])
+                self.assertFalse(self.user.has_perm("unit.edit", child))
+                self.assertEqual(child.target, child_target)
+                workflow.delete()
 
     def test_stale_edit(self) -> None:
         source = self.source_unit()

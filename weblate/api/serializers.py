@@ -92,6 +92,7 @@ from weblate.trans.models import (
     SuggestionAddResult,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
@@ -3804,7 +3805,49 @@ class UnitFlatLabelsSerializer(UnitLabelsSerializer):
         return instance.id
 
 
+class WorkflowSettingSerializer(serializers.ModelSerializer):
+    source_language = serializers.SlugRelatedField(
+        slug_field="code",
+        queryset=Language.objects.all(),
+        required=False,
+        allow_null=True,
+    )
+    language = serializers.CharField(source="language.code", read_only=True)
+
+    class Meta:
+        model = WorkflowSetting
+        fields = (
+            "language",
+            "source_language",
+            "translation_review",
+            "enable_suggestions",
+            "restrict_direct_editing",
+            "suggestion_voting",
+            "suggestion_autoaccept",
+        )
+
+    def validate(self, attrs):
+        prospective = copy(cast("WorkflowSetting", self.instance))
+        for key, value in attrs.items():
+            setattr(prospective, key, value)
+        try:
+            prospective.clean()
+        except DjangoValidationError as error:
+            raise serializers.ValidationError(error.message_dict) from error
+        return attrs
+
+
 class UnitSerializer(serializers.ModelSerializer[Unit]):
+    translation_parent: serializers.HyperlinkedRelatedField[Unit] = (
+        serializers.HyperlinkedRelatedField(
+            read_only=True, allow_null=True, view_name="api:unit-detail"
+        )
+    )
+    effective_source = PluralField(read_only=True)
+    effective_previous_source = PluralField(read_only=True)
+    effective_source_language = serializers.CharField(
+        source="effective_source_language.code", read_only=True
+    )
     tbx_terms = serializers.DictField(read_only=True)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
@@ -3859,6 +3902,10 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "num_words",
             "source_unit",
             "screenshots_url",
+            "translation_parent",
+            "effective_source",
+            "effective_previous_source",
+            "effective_source_language",
             "priority",
             "id",
             "web_url",

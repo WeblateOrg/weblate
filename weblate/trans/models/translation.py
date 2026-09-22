@@ -65,6 +65,12 @@ from weblate.trans.file_format_params import (
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
+from weblate.trans.models.source import (
+    current_source_workflows,
+    source_operation,
+    source_operation_method,
+    source_project_gate,
+)
 from weblate.trans.models.suggestion import Suggestion, SuggestionAddResult
 from weblate.trans.models.unit import UNIT_METADATA_UPDATE_FIELDS, Unit
 from weblate.trans.signals import (
@@ -105,6 +111,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.formats.base import TranslationUnit
     from weblate.formats.ttkit import TBXUnit
+    from weblate.trans.source_snapshot import MissingSourceCache
     from weblate.utils.state import (
         StringState,
     )
@@ -195,6 +202,11 @@ class TranslationManager(models.Manager):
 
 
 class TranslationQuerySet(models.QuerySet["Translation", "Translation"]):
+    def delete(self):
+        project_ids = self.values_list("component__project_id", flat=True).distinct()
+        with source_project_gate(project_ids, using=self.db):
+            return super().delete()
+
     def prefetch(self, *, defer_huge: bool = True):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import (
@@ -741,6 +753,9 @@ class Translation(
                     user=author or user,
                 )
 
+        # Resolve new units' dependency sources together before saving the batch.
+        self.prefetch_new_unit_parents(updated.values())
+
         # Create/update translations
         for newunit in updated.values():
             if "disk_identity" in newunit.details:
@@ -786,6 +801,30 @@ class Translation(
 
         return dbunits, updated
 
+    def prefetch_new_unit_parents(self, units: Iterable[Unit]) -> None:
+        """Preload sources for new units in a single translation import."""
+        new_units = [unit for unit in units if unit.pk is None]
+        if not new_units or not self.has_custom_source:
+            return
+        parent_translation = self.effective_source_translation
+        parents = (
+            {
+                parent.id_hash: parent
+                for parent in parent_translation.unit_set.filter(
+                    id_hash__in=[unit.id_hash for unit in new_units]
+                )
+                .prefetch()
+                .prefetch_source()
+            }
+            if parent_translation is not None
+            else {}
+        )
+        missing_sources: MissingSourceCache = {}
+        for unit in new_units:
+            unit.prefetched_translation_parent = parents.get(unit.id_hash)
+            unit.prefetched_missing_sources = missing_sources
+
+    @source_operation_method
     def check_sync(
         self,
         force: bool = False,
@@ -900,6 +939,13 @@ class Translation(
         # further consumers as no further consumer is expected after this and
         # we do not want to parse the file again.
         self.__dict__["store"] = None
+        if (
+            not self.component.batch_checks
+            and self.component.project.translation_parent_language_ids
+        ):
+            from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+            reconcile_component_parents(self.component)
         return True
 
     def store_update_changes(self) -> None:
@@ -1158,6 +1204,7 @@ class Translation(
         return self.component.commit_pending(reason, user, skip_push=skip_push)
 
     @transaction.atomic
+    @source_operation_method
     def _commit_pending(self, reason: str, user: User | None) -> bool:
         """
         Commit pending translation.
@@ -1446,12 +1493,27 @@ class Translation(
             exception=error,
         )
 
+    @source_operation_method
+    def _mark_failed_unit(self, unit: Unit) -> None:
+        """Demote a failed save and block translations which depend on it."""
+        from weblate.trans.models.source import propagate_parent_change  # ruff: ignore[import-outside-top-level]
+
+        current = Unit.objects.select_for_update().get(pk=unit.pk)
+        if current.translation_parent_blocked:
+            unit.state = STATE_READONLY
+            unit.original_state = STATE_FUZZY
+            Unit.objects.filter(pk=unit.pk).update(
+                state=STATE_READONLY, original_state=STATE_FUZZY
+            )
+        else:
+            unit.state = STATE_FUZZY
+            Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+        propagate_parent_change(self, unit.pk)
+
     def _store_failed_unit_update(
         self, unit: Unit, pending_change: PendingUnitChange, error: Exception
     ) -> None:
-        unit.state = STATE_FUZZY
-        # Use update instead of hitting expensive save()
-        Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+        self._mark_failed_unit(unit)
         unit.change_set.create(
             action=ActionEvents.SAVE_FAILED,
             target=self.component.get_parse_error_message(error),
@@ -1710,9 +1772,7 @@ class Translation(
                         project=self.component.project,
                         skip_error_reporting=True,
                     )
-                    unit.state = STATE_FUZZY
-                    # Use update instead of hitting expensive save()
-                    Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+                    self._mark_failed_unit(unit)
                     unit.change_set.create(
                         action=ActionEvents.SAVE_FAILED,
                         target="Could not find string in the translation file",
@@ -1831,6 +1891,58 @@ class Translation(
     def workflow_settings(self):
         return self.component.project.project_languages[self.language].workflow_settings
 
+    @property
+    def custom_source_language_id(self) -> int | None:
+        if self.is_source:
+            return None
+        workflows = current_source_workflows(
+            self.component.project_id, using=self._state.db or "default"
+        )
+        if workflows is not None:
+            language_id = workflows.get(self.language_id)
+        else:
+            workflow = self.workflow_settings
+            language_id = (
+                workflow.source_language_id
+                if workflow and workflow.project_id
+                else None
+            )
+        return language_id if language_id != self.component.source_language_id else None
+
+    @property
+    def has_custom_source(self) -> bool:
+        return self.custom_source_language_id is not None
+
+    prefetched_source_translation: Translation | None
+
+    @property
+    def effective_source_translation(self) -> Translation | None:
+        if (
+            "prefetched_source_translation" in self.__dict__
+            and current_source_workflows(
+                self.component.project_id, using=self._state.db or "default"
+            )
+            is None
+        ):
+            return self.prefetched_source_translation
+        if language_id := self.custom_source_language_id:
+            return self.component.translation_set.filter(
+                language_id=language_id
+            ).first()
+        return self.component.source_translation
+
+    @property
+    def effective_source_language(self) -> Language:
+        translation = self.effective_source_translation
+        if translation is not None:
+            return translation.language
+        language_id = self.custom_source_language_id
+        workflow = self.workflow_settings
+        language = workflow.source_language if workflow is not None else None
+        if language is not None and language.pk == language_id:
+            return language
+        return Language.objects.get(pk=language_id)
+
     @cached_property
     def enable_review(self):
         project = self.component.project
@@ -1932,6 +2044,7 @@ class Translation(
         for unit in units:
             self.validate_upload_unit_metadata(unit)
 
+    @source_operation_method
     def merge_translations(
         self,
         request: AuthenticatedHttpRequest,
@@ -1956,16 +2069,16 @@ class Translation(
 
         # Are there any translations to propagate?
         # This is just an optimalization to avoid doing that for every unit.
-        propagate = (
-            Translation.objects.filter(
-                language=self.language,
-                component__source_language_id=self.component.source_language_id,
-                component__project=self.component.project,
+        candidates = Translation.objects.filter(
+            language=self.language,
+            component__project=self.component.project,
+            component__allow_translation_propagation=True,
+        ).exclude(pk=self.pk)
+        if not self.component.project.translation_parent_language_ids:
+            candidates = candidates.filter(
+                component__source_language_id=self.component.source_language_id
             )
-            .filter(component__allow_translation_propagation=True)
-            .exclude(pk=self.pk)
-            .exists()
-        )
+        propagate = candidates.exists()
         self.component.start_batched_checks()
 
         unit_set = (
@@ -2187,7 +2300,7 @@ class Translation(
                     )
                 ) from error
             self.validate_upload_language(store, source=True)
-        with component.repository.lock:
+        with component.repository.lock, source_operation(component):
             # Commit pending changes
             try:
                 component.commit_pending("source update", author)
@@ -2256,8 +2369,7 @@ class Translation(
         filecopy = read_translation_upload(fileobj)
         fileobj.close()
         fileobj = NamedBytesIO(fileobj.name, filecopy)
-        self.unit_set.select_for_update()
-        with self.component.repository.lock:
+        with self.component.repository.lock, source_operation(self.component):
             # This will throw an exception in case of error
             try:
                 store2 = self.load_store(fileobj)
@@ -2617,6 +2729,10 @@ class Translation(
         """Return URL of exported git repository."""
         return self.component.get_export_url()
 
+    @source_operation_method
+    def delete(self, using=None, keep_parents=False):
+        return super().delete(using=using, keep_parents=keep_parents)
+
     @transaction.atomic
     def remove(self, user: User) -> None:
         """Remove translation from the Database and VCS."""
@@ -2792,6 +2908,7 @@ class Translation(
             )
 
     @transaction.atomic
+    @source_operation_method
     def _add_unit_locked(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements, too-many-branches]
         self,
         request: AuthenticatedHttpRequest | None,
@@ -3054,6 +3171,7 @@ class Translation(
         )
 
     @transaction.atomic
+    @source_operation_method
     def delete_unit(self, request: AuthenticatedHttpRequest | None, unit: Unit) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.auth.models import (
@@ -3153,6 +3271,7 @@ class Translation(
                 )
 
     @transaction.atomic
+    @source_operation_method
     def sync_terminology(self) -> None:
         if not self.is_source or not self.component.manage_units:
             return
@@ -3181,6 +3300,10 @@ class Translation(
         if added:
             self.store_update_changes()
             self.component.invalidate_cache()
+            if self.component.project.translation_parent_language_ids:
+                from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+                reconcile_component_parents(self.component)
 
     def _validate_new_unit_context(self, context: str) -> None:
         if not context:

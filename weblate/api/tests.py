@@ -4284,6 +4284,165 @@ class ProjectAPITest(APIBaseTest):
         translation_path.write_bytes(Path(TEST_PO).read_bytes())
         return translation
 
+    def test_language_workflow_source_language(self) -> None:
+        self.authenticate(True)
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        self.assertEqual(self.client.get(url).status_code, 200)
+        self.assertFalse(
+            self.project.workflowsetting_set.filter(language__code="cs").exists()
+        )
+        response = self.client.patch(url, {"source_language": "de"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["source_language"], "de")
+        self.assertEqual(
+            self.project.workflowsetting_set.get(
+                language__code="cs"
+            ).source_language_id,
+            Language.objects.get(code="de").pk,
+        )
+        response = self.client.patch(url, {"enable_suggestions": True})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["source_language"], "de")
+        self.assertTrue(response.data["enable_suggestions"])
+        child = self.component.translation_set.get(
+            language_code="cs"
+        ).unit_set.order_by("pk")[0]
+        child.refresh_from_db()
+        self.assertIsNotNone(child.translation_parent_id)
+        parent_url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "de"},
+        )
+        self.assertEqual(
+            self.client.patch(parent_url, {"source_language": "cs"}).status_code, 400
+        )
+        response = self.client.patch(url, {"source_language": "cs"})
+        self.assertEqual(response.status_code, 400)
+        response = self.client.patch(url, {"source_language": "af"})
+        self.assertEqual(response.status_code, 400)
+        response = self.client.patch(url, {"source_language": None}, format="json")
+        self.assertEqual(response.status_code, 200)
+        child.refresh_from_db()
+        self.assertIsNone(child.translation_parent_id)
+        self.assertFalse(child.translation_parent_blocked)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(self.client.delete(url).status_code, 204)
+        self.assertFalse(
+            self.project.workflowsetting_set.filter(language__code="cs").exists()
+        )
+
+    def test_language_workflow_inherits_site_settings(self) -> None:
+        self.authenticate(True)
+        inherited_values = {
+            "translation_review": True,
+            "enable_suggestions": False,
+            "restrict_direct_editing": True,
+            "suggestion_voting": True,
+            "suggestion_autoaccept": 3,
+        }
+        inherited = WorkflowSetting.objects.create(
+            language=Language.objects.get(code="cs"), **inherited_values
+        )
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        for review_enabled in (False, True):
+            with self.subTest(review_enabled=review_enabled):
+                self.project.translation_review = review_enabled
+                self.project.source_review = False
+                self.project.save()
+                expected = {
+                    **inherited_values,
+                    "translation_review": review_enabled,
+                }
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 200)
+                for field, value in expected.items():
+                    self.assertEqual(response.data[field], value)
+                self.assertFalse(self.project.workflowsetting_set.exists())
+                response = self.client.patch(url, {"source_language": "de"})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.data["source_language"], "de")
+                override = self.project.workflowsetting_set.get()
+                for field, value in expected.items():
+                    self.assertEqual(response.data[field], value)
+                    self.assertEqual(getattr(override, field), value)
+                self.assertEqual(self.client.delete(url).status_code, 204)
+                inherited.refresh_from_db()
+                self.assertIsNone(inherited.project_id)
+                for field, value in inherited_values.items():
+                    self.assertEqual(getattr(inherited, field), value)
+
+    def test_language_workflow_review_requires_project_reviews(self) -> None:
+        self.authenticate(True)
+        self.project.translation_review = False
+        self.project.source_review = False
+        self.project.save()
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        response = self.client.patch(url, {"translation_review": True})
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data["errors"][0]["attr"], "translation_review")
+        self.assertFalse(self.project.workflowsetting_set.exists())
+        self.assertEqual(
+            self.client.patch(url, {"translation_review": False}).status_code, 200
+        )
+        response = self.client.patch(url, {"translation_review": True})
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(self.project.workflowsetting_set.get().translation_review)
+        for field in ("translation_review", "source_review"):
+            with self.subTest(field=field):
+                self.project.translation_review = field == "translation_review"
+                self.project.source_review = field == "source_review"
+                self.project.save()
+                response = self.client.patch(url, {"translation_review": True})
+                self.assertEqual(response.status_code, 200)
+                self.assertTrue(
+                    self.project.workflowsetting_set.get().translation_review
+                )
+
+    def test_language_workflow_requires_project_management(self) -> None:
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        self.authenticate(False)
+        self.assertEqual(self.client.get(url).status_code, 200)
+        self.assertEqual(self.client.delete(url).status_code, 403)
+        self.assertEqual(
+            self.client.patch(url, {"source_language": "de"}).status_code, 403
+        )
+        self.assertFalse(
+            self.project.workflowsetting_set.filter(language__code="cs").exists()
+        )
+
+    def test_language_workflow_ambiguous_legacy_settings(self) -> None:
+        self.authenticate(True)
+        language = Language.objects.get(code="cs")
+        WorkflowSetting.objects.bulk_create(
+            [
+                WorkflowSetting(project=self.project, language=language),
+                WorkflowSetting(project=self.project, language=language),
+            ]
+        )
+        url = reverse(
+            "api:project-language-workflow",
+            kwargs={"slug": self.project.slug, "language": "cs"},
+        )
+        for method in (self.client.get, self.client.patch, self.client.delete):
+            with self.subTest(method=method.__name__):
+                self.assertEqual(method(url).status_code, 409)
+        self.assertEqual(
+            self.project.workflowsetting_set.filter(language=language).count(), 2
+        )
+
     def test_list_projects(self) -> None:
         response = self.client.get(reverse("api:project-list"))
         self.assertEqual(response.data["count"], 1)
@@ -14640,6 +14799,98 @@ class TranslationAPITest(APIBaseTest):
 
 
 class UnitAPITest(APIBaseTest):
+    def test_report_requires_effective_parent_permission(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        parent.translate(self.user, "Parent source", STATE_TRANSLATED)
+        self.project.source_review = True
+        self.project.save(update_fields=["source_review"])
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        self.user.groups.clear()
+        self.grant_perm_to_user(
+            "comment.add", group_name="Child comments", component=self.component
+        )
+        membership = TeamMembership.objects.get(
+            user=self.user, group__name="Child comments"
+        )
+        membership.limit_languages.add(unit.translation.language)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("comment.add", unit.translation))
+        self.assertFalse(self.user.has_perm("comment.add", parent.translation))
+        url = reverse("api:unit-comments", kwargs={"pk": unit.pk})
+        self.do_request(
+            url,
+            method="post",
+            request={"scope": "report", "comment": "Parent issue"},
+            code=403,
+        )
+        parent.refresh_from_db()
+        self.assertEqual(parent.state, STATE_TRANSLATED)
+        self.assertFalse(parent.comment_set.exists())
+        self.do_request(
+            url,
+            method="post",
+            request={"scope": "translation", "comment": "Child comment"},
+            code=201,
+        )
+        membership.limit_languages.add(parent.translation.language)
+        self.user.clear_permissions_cache()
+        self.do_request(
+            url,
+            method="post",
+            request={"scope": "report", "comment": "Parent issue"},
+            code=201,
+        )
+        parent.refresh_from_db()
+        self.assertEqual(parent.state, STATE_NEEDS_REWRITING)
+        self.assertTrue(parent.comment_set.filter(comment="Parent issue").exists())
+
+    def test_custom_source_language(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        parent.translate(self.user, "Hallo, Welt!", STATE_TRANSLATED)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        response = self.do_request(
+            "api:unit-detail", kwargs={"pk": unit.pk}, method="get", code=200
+        )
+        self.assertEqual(response.data["source"], [unit.source])
+        self.assertEqual(response.data["effective_source"], parent.get_target_plurals())
+        self.assertEqual(response.data["effective_source_language"], "de")
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "target": ["Ahoj"],
+                "state": STATE_TRANSLATED,
+                "translation_parent": None,
+                "effective_source": ["Changed"],
+                "effective_previous_source": ["Forged previous source"],
+            },
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.translation_parent_id, parent.pk)
+        self.assertEqual(unit.effective_source, parent.target)
+        self.assertEqual(unit.effective_previous_source, "")
+
     def test_list_units(self) -> None:
         response = self.client.get(reverse("api:unit-list"))
         self.assertEqual(response.data["count"], 16)

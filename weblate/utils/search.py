@@ -585,7 +585,7 @@ class BaseTermExpr:
         # Generic query
         return Q(**{field_name(field, None): match})
 
-    def convert_non_field(self) -> Q:
+    def convert_non_field(self, context: dict) -> Q:
         raise NotImplementedError
 
     def as_query(self, context: dict) -> Q:
@@ -593,7 +593,7 @@ class BaseTermExpr:
         match = self.match
         # Simple term based search
         if not field:
-            return self.convert_non_field()
+            return self.convert_non_field(context)
 
         # Field specific code
         field_method: Callable[[str, dict], Q] | None = cast(
@@ -685,6 +685,75 @@ class UnitTermExpr(BaseTermExpr):
         "source_comment_author": "source_unit__comment__user__username",
     }
 
+    @staticmethod
+    def effective_source_query(canonical: Q, parent: Q, context: dict) -> Q:
+        project = context.get("project")
+        if project is not None and not project.translation_parent_language_ids:
+            return canonical
+        return (
+            Q(
+                translation_parent__isnull=True,
+                details__translation_parent__missing__isnull=True,
+            )
+            & canonical
+        ) | (Q(translation_parent__isnull=False) & parent)
+
+    def source_field(self, text: str | RegexExpr, context: dict) -> Q:
+        return self.effective_source_query(
+            self.build_field_query("source", text),
+            self.build_field_query(
+                "target",
+                text,
+                lambda field, suffix: (
+                    "translation_parent__" + self.field_name(field, suffix)
+                ),
+            ),
+            context,
+        )
+
+    def source_comments_query(
+        self,
+        context: dict,
+        *,
+        text: str | RegexExpr | None = None,
+        resolved: bool | None = None,
+        author: bool = False,
+    ) -> Q:
+        relations = ["source_unit"]
+        project = context.get("project")
+        if project is None or project.translation_parent_language_ids:
+            relations.append("translation_parent")
+        result = Q()
+        for relation in relations:
+            query = Q()
+            if text is not None:
+
+                def field_name(
+                    field: str, suffix: str | None, relation: str = relation
+                ) -> str:
+                    return self.field_name(field, suffix).replace(
+                        "source_unit__", f"{relation}__"
+                    )
+
+                query = self.build_field_query(
+                    "source_comment_author" if author else "source_comment",
+                    text,
+                    field_name,
+                )
+            if resolved is not None:
+                query &= Q(**{f"{relation}__comment__resolved": resolved})
+            result |= query
+        return result
+
+    def source_comment_field(self, text: str | RegexExpr, context: dict) -> Q:
+        return self.source_comments_query(context, text=text, resolved=False)
+
+    def resolved_source_comment_field(self, text: str | RegexExpr, context: dict) -> Q:
+        return self.source_comments_query(context, text=text, resolved=True)
+
+    def source_comment_author_field(self, text: str | RegexExpr, context: dict) -> Q:
+        return self.source_comments_query(context, text=text, author=True)
+
     def change_field_name(self, field: str, suffix: str | None = None) -> str:
         if suffix is None:
             suffix = OPERATOR_MAP[self.operator]
@@ -747,7 +816,11 @@ class UnitTermExpr(BaseTermExpr):
     # ruff: ignore[complex-structure]
     def has_field(self, text: str, context: dict) -> Q:
         if text == "plural":
-            return Q(source__trgm_search=PLURAL_SEPARATOR)
+            return self.effective_source_query(
+                Q(source__trgm_search=PLURAL_SEPARATOR),
+                Q(translation_parent__target__trgm_search=PLURAL_SEPARATOR),
+                context,
+            )
         if text == "suggestion":
             return Q(suggestion__isnull=False)
         if text == "explanation":
@@ -761,9 +834,9 @@ class UnitTermExpr(BaseTermExpr):
         if text in {"resolved-comment", "resolved_comment"}:
             return Q(comment__resolved=True)
         if text in {"source-comment", "source_comment"}:
-            return Q(source_unit__comment__resolved=False)
+            return self.source_comments_query(context, resolved=False)
         if text in {"resolved-source-comment", "resolved_source_comment"}:
-            return Q(source_unit__comment__resolved=True)
+            return self.source_comments_query(context, resolved=True)
         if text in {"check", "failing-check", "failing_check"}:
             return Q(check__dismissed=False)
         if text in {
@@ -791,27 +864,56 @@ class UnitTermExpr(BaseTermExpr):
         if text == "flags":
             return ~Q(source_unit__extra_flags="")
         if text == "glossary":
-            project = context.get("project")
-            if not project:
-                return Q(source__isnull=True)
-            terms = set(
-                chain.from_iterable(
-                    glossary.glossary_sources for glossary in project.glossaries
-                )
-            )
-            if not terms:
-                return Q(source__isnull=True)
-            template = r"[[:<:]]({})[[:>:]]"
-            return Q(
-                source__iregex=template.format(
-                    "|".join(re_escape(term) for term in terms)
-                )
-            )
+            return self.glossary_query(context)
 
         return super().has_field(text, context)
 
-    def convert_source_state(self, text: str) -> int | None:
-        return self.convert_state(text)
+    def glossary_query(self, context: dict) -> Q:
+        project = context.get("project")
+        if not project:
+            return Q(source__isnull=True)
+        terms = set(
+            chain.from_iterable(
+                glossary.glossary_sources for glossary in project.glossaries
+            )
+        )
+        if not terms:
+            return Q(source__isnull=True)
+        template = r"[[:<:]]({})[[:>:]]"
+        pattern = template.format("|".join(re_escape(term) for term in terms))
+        return self.effective_source_query(
+            Q(source__iregex=pattern),
+            Q(translation_parent__target__iregex=pattern),
+            context,
+        )
+
+    def source_state_field(self, text: str, context: dict) -> Q:
+        state = self.convert_state(text)
+        return self.effective_source_query(
+            self.build_field_query("source_state", state),
+            self.build_field_query(
+                "state",
+                state,
+                lambda field, suffix: (
+                    "translation_parent__" + self.field_name(field, suffix)
+                ),
+            ),
+            context,
+        )
+
+    def source_changed_field(self, text: str, context: dict) -> Q:
+        changed = self.convert_source_changed(text)
+        return self.effective_source_query(
+            self.build_field_query("source_changed", changed),
+            self.build_field_query(
+                "last_changed",
+                changed,
+                lambda field, suffix: (
+                    "translation_parent__" + self.field_name(field, suffix)
+                ),
+            ),
+            context,
+        )
 
     def component_field(self, text: str, context: dict) -> Q:
         if self.operator == ":=":
@@ -963,16 +1065,12 @@ class UnitTermExpr(BaseTermExpr):
             return query & Q(comment__resolved=False)
         if field == "resolved_comment":
             return query & Q(comment__resolved=True)
-        if field == "source_comment":
-            return query & Q(source_unit__comment__resolved=False)
-        if field == "resolved_source_comment":
-            return query & Q(source_unit__comment__resolved=True)
 
         return super().field_extra(field, query, match)
 
-    def convert_non_field(self) -> Q:
+    def convert_non_field(self, context: dict) -> Q:
         return (
-            Q(source__substring=self.match)
+            self.source_field(self.match, context)
             | Q(target__substring=self.match)
             | Q(context__substring=self.match)
         )
@@ -999,7 +1097,7 @@ class UserTermExpr(BaseTermExpr):
     def convert_joined(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
 
-    def convert_non_field(self) -> Q:
+    def convert_non_field(self, context: dict) -> Q:
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
     def contributes_field(self, text: str, context: dict) -> Q:
@@ -1036,7 +1134,7 @@ class SuperuserUserTermExpr(UserTermExpr):
             )
         return Q(auditlog__address=self.convert_ip(text))
 
-    def convert_non_field(self) -> Q:
+    def convert_non_field(self, context: dict) -> Q:
         result = (
             Q(username__icontains=self.match)
             | Q(full_name__icontains=self.match)
@@ -1088,7 +1186,7 @@ class ScreenshotTermExpr(BaseTermExpr):
             self.operator = ":"
         super().fixup()
 
-    def convert_non_field(self) -> Q:
+    def convert_non_field(self, context: dict) -> Q:
         return Q(name__icontains=self.match)
 
     def language_field(self, text: str | RegexExpr, context: dict) -> Q:
