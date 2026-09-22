@@ -1399,10 +1399,12 @@ class UserViewSet(viewsets.ModelViewSet):
     ):
         obj = self.get_object()
 
-        if request.method == "GET":
-            self.perm_check(request, obj, allow_self=True)
-        else:
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
+        self.perm_check(
+            request,
+            obj,
+            allow_self=True,
+            protect_internal=request.method in {"PUT", "PATCH", "DELETE"},
+        )
 
         queryset = obj.subscription_set
         if request.method != "DELETE":
@@ -1417,11 +1419,7 @@ class UserViewSet(viewsets.ModelViewSet):
             subscription.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
-        if request.method == "GET":
-            serializer = NotificationSerializer(
-                subscription, context={"request": request}
-            )
-        else:
+        if request.method in {"PUT", "PATCH"}:
             serializer = NotificationSerializer(
                 subscription,
                 data=request.data,
@@ -1430,6 +1428,10 @@ class UserViewSet(viewsets.ModelViewSet):
             )
             serializer.is_valid(raise_exception=True)
             serializer.save()
+        else:
+            serializer = NotificationSerializer(
+                subscription, context={"request": request}
+            )
 
         return Response(serializer.data, status=HTTP_200_OK)
 
@@ -3703,7 +3705,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
         user = get_request_user(request)
-        if request.method == "GET":
+        if request.method not in {"POST", "PUT"}:
             return self.get_translation_file_response(request, obj, user)
 
         if not (can_upload := user.has_perm("upload.perform", obj)):
@@ -4513,7 +4515,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     )
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
-        if request.method == "GET":
+        if request.method not in {"POST", "PUT"}:
             return self.download_file(obj.image.path, "application/binary")
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
