@@ -1147,16 +1147,20 @@ class TasksTest(ComponentTestCase):
     def test_cleanup_repos(self) -> None:
         cleanup_repos()
 
-    def test_cleanup_stale_repos_keeps_category_with_stale_git_dir(self) -> None:
+    def test_cleanup_stale_repos_keeps_category_with_vcs_metadata(self) -> None:
         category = Category.objects.create(
             project=self.project, name="WorkshopApp", slug="workshopapp"
         )
         component = self.create_po(
             project=self.project, category=category, name="startup", vcs="local"
         )
-        stale_git = Path(category.full_path) / ".git"
-        stale_git.mkdir()
-        (stale_git / "config").write_text("[core]\n", encoding="utf-8")
+        metadata_files = []
+        for dirname in (".git", ".hg", ".svn", ".bzr"):
+            metadata = Path(category.full_path) / dirname
+            metadata.mkdir()
+            metadata_file = metadata / "config"
+            metadata_file.write_text("metadata\n", encoding="utf-8")
+            metadata_files.append(metadata_file)
 
         old_timestamp = time.time() - 2 * 86400
         os.utime(category.full_path, (old_timestamp, old_timestamp))
@@ -1166,6 +1170,9 @@ class TasksTest(ComponentTestCase):
 
         self.assertTrue(os.path.isdir(category.full_path))
         self.assertTrue(os.path.isdir(component.full_path))
+        self.assertTrue(
+            all(metadata_file.is_file() for metadata_file in metadata_files)
+        )
         self.assertTrue(
             os.path.isfile(os.path.join(component.full_path, ".git", "config"))
         )

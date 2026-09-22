@@ -6,7 +6,6 @@ from __future__ import annotations
 import contextlib
 import json
 import time
-from math import ceil
 from typing import TYPE_CHECKING, Any, NamedTuple, Protocol, TypedDict, cast
 
 from django.conf import settings
@@ -53,7 +52,9 @@ from weblate.trans.forms import (
     MergeForm,
     PositionSearchForm,
     RevertForm,
+    SourceEditForm,
     TranslationForm,
+    UnitFlagsForm,
     ZenTranslationForm,
     get_new_unit_form,
 )
@@ -1429,7 +1430,9 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     screenshot_form = None
     if user.has_perm("screenshot.add", unit.translation):
         screenshot_form = ScreenshotForm(
-            unit.translation.component, initial={"translation": unit.translation}
+            unit.translation.component,
+            user,
+            initial={"translation": unit.translation},
         )
 
     glossaries, addable_glossary_ids = get_addable_glossaries(unit, user)
@@ -1479,7 +1482,14 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
                 unit.translation,
                 initial={"scope": "global" if unit.is_source else "translation"},
             ),
-            "context_form": ContextForm(instance=unit.source_unit, user=user),
+            "context_form": ContextForm(
+                instance=unit.source_unit, user=user, include_flags=False
+            ),
+            "source_edit_form": SourceEditForm(unit, user)
+            if user.has_perm("meta:unit.edit_source", unit)
+            else None,
+            "flags_form": UnitFlagsForm(unit=unit, user=user),
+            "flag_actions": unit.get_flag_actions(user),
             "search_form": search_result["form"].reset_offset(),
             "can_refresh_search": True,
             "secondary": secondary,
@@ -1925,6 +1935,39 @@ def new_unit(request: AuthenticatedHttpRequest, path):
 
 @login_required
 @require_POST
+def edit_source_unit(request: AuthenticatedHttpRequest, unit_id):
+    from weblate.trans.source_edit import edit_source  # ruff: ignore[import-outside-top-level]
+
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=unit_id)
+    if not request.user.has_perm("meta:unit.edit_source", unit):
+        raise PermissionDenied
+    form = SourceEditForm(unit, request.user, request.POST)
+    if form.is_valid():
+        try:
+            edit_source(unit, request.user, **form.cleaned_data)
+        except ValidationError as error:
+            if hasattr(error, "message_dict"):
+                for field, errors in error.message_dict.items():
+                    form.add_error(field if field in form.fields else None, errors)
+            else:
+                form.add_error(None, error)
+        except WeblateLockTimeoutError:
+            form.add_error(None, gettext("The component is busy. Please try again."))
+        else:
+            cleanup_session(request.session, delete_all=True)
+            unit.refresh_from_db()
+            messages.success(request, gettext("Source string updated."))
+            return redirect(unit)
+    return render(
+        request,
+        "trans/source_edit.html",
+        {"unit": unit, "form": form, "object": unit.translation},
+        status=400,
+    )
+
+
+@login_required
+@require_POST
 @transaction.atomic
 def delete_unit(request: AuthenticatedHttpRequest, unit_id):
     """Delete unit."""
@@ -1946,46 +1989,3 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
     # Remove cached search results as we've just removed one of the unit there
     cleanup_session(request.session, delete_all=True)
     return redirect_next(request.POST.get("next"), unit.translation)
-
-
-def browse(request: AuthenticatedHttpRequest, path):
-    """Strings browsing."""
-    obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
-    )
-    project = context["project"]
-    search_result = SearchNavigation(
-        obj, project, unit_set, request, blank=True, use_cache=False
-    ).search()
-    offset = search_result["offset"]
-    page = 20
-    units = unit_set.prefetch_full().get_ordered(
-        search_result["ids"][(offset - 1) * page : (offset - 1) * page + page]
-    )
-
-    base_unit_url = f"{reverse('browse', kwargs={'path': obj.get_url_path()})}?{search_result['url']}&offset="
-    num_results = ceil(len(search_result["ids"]) / page)
-
-    return render(
-        request,
-        "browse.html",
-        {
-            "object": obj,
-            "path_object": obj,
-            "project": project,
-            "component": obj.component if isinstance(obj, Translation) else None,
-            "units": units,
-            "search_query": search_result["query"],
-            "query_params": QueryDict(search_result["url"]),
-            "search_form": search_result["form"].reset_offset(),
-            "filter_count": num_results,
-            "filter_pos": offset,
-            "first_unit_url": f"{base_unit_url}1",
-            "last_unit_url": base_unit_url + str(num_results),
-            "next_unit_url": base_unit_url + str(offset + 1)
-            if offset < num_results
-            else None,
-            "prev_unit_url": base_unit_url + str(offset - 1) if offset > 1 else None,
-            "is_in_browse": True,
-        },
-    )

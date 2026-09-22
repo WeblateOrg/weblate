@@ -139,8 +139,16 @@ class ZipDownloadTest(TestCase):
         with TemporaryDirectory() as root_name, TemporaryDirectory() as outside_name:
             root = Path(root_name)
             outside = Path(outside_name)
-            (root / ".git").mkdir()
-            (root / ".git" / "config").write_bytes(b"repository metadata")
+            metadata_files = {
+                ".git/config": b"git metadata",
+                ".hg/hgrc": b"mercurial metadata",
+                ".svn/wc.db": b"subversion metadata",
+                ".bzr/README": b"bazaar metadata",
+            }
+            for filename, content in metadata_files.items():
+                metadata = root / filename
+                metadata.parent.mkdir()
+                metadata.write_bytes(content)
             (root / "build").mkdir()
             (root / "build" / "translation.txt").write_bytes(b"build directory")
             (root / "node_modules").mkdir()
@@ -151,6 +159,7 @@ class ZipDownloadTest(TestCase):
             (root / "shared.txt").write_bytes(b"shared translation")
             (outside / "secret.txt").write_bytes(sentinel)
             os.symlink(root / "shared.txt", root / "safe_link.txt")
+            os.symlink(root / ".svn" / "wc.db", root / "svn_metadata_link.db")
             os.symlink(outside / "secret.txt", root / "leak_host.bin")
             os.symlink(root / "regular.txt", outside / "outside_link.txt")
 
@@ -163,7 +172,10 @@ class ZipDownloadTest(TestCase):
             self.assertIn("build/translation.txt", archive.namelist())
             self.assertIn("node_modules/translation.txt", archive.namelist())
             self.assertEqual(archive.read("safe_link.txt"), b"shared translation")
-            self.assertNotIn(".git/config", archive.namelist())
+            for filename in metadata_files:
+                with self.subTest(filename=filename):
+                    self.assertNotIn(filename, archive.namelist())
+            self.assertNotIn("svn_metadata_link.db", archive.namelist())
             self.assertNotIn("leak_host.bin", archive.namelist())
             self.assertFalse(any(name.startswith("../") for name in archive.namelist()))
             archived_files = [archive.read(name) for name in archive.namelist()]

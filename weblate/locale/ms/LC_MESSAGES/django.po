@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:25+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1278,7 +1278,7 @@ msgid ""
 "{0}."
 msgstr ""
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 msgid "Use authentication app (TOTP)"
@@ -1880,6 +1880,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr ""
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr ""
 
@@ -2036,6 +2045,19 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr ""
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "One file per translation"
+msgstr "Terjemahan automatik"
+
+#, fuzzy
+#| msgid "Comments made"
+msgid "One file per component"
+msgstr "Komen dibuat"
 
 msgid "Name of generated file"
 msgstr ""
@@ -2524,19 +2546,100 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "ITS rule file is too large."
+msgstr "Anda telah memasukkan kata laluan yang tidak sah."
+
+msgid "ITS rule file contains too many XPath expressions."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "ITS XPath expression is too long."
 msgstr ""
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Component list: %s"
+msgid "Invalid ITS directory path."
+msgstr "Senarai komponen: %s"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+msgid "ITS rule file contains too many elements."
+msgstr ""
+
+msgid "Unsupported ITS rule content."
+msgstr ""
+
+msgid "Unsupported ITS locating rule."
+msgstr ""
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+msgid "Unsupported ITS rule namespace."
+msgstr ""
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+msgid "ITS directories must not contain symbolic links."
+msgstr ""
+
+#, python-format
+msgid "ITS directory does not exist: %(path)s"
+msgstr ""
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Current password"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Kata laluan semasa"
+
+#, fuzzy, python-format
+#| msgid "Current password"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Kata laluan semasa"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+
+msgid "API add-ons must be installed directly on a component."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This add-on is already installed on this component."
+msgstr "Susunan dipilih tidak disokong."
 
 msgid "This add-on cannot be triggered manually."
 msgstr ""
@@ -4262,6 +4365,11 @@ msgstr ""
 msgid "Use case insensitive placeholders"
 msgstr ""
 
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Monospace font"
+msgstr "Cadangan dibuat"
+
 msgid "Font family"
 msgstr ""
 
@@ -5490,6 +5598,20 @@ msgid ""
 "progress. Please try again later."
 msgstr ""
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+msgid "Maximum retained versions"
+msgstr ""
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr ""
 
@@ -6561,6 +6683,11 @@ msgstr ""
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots uploaded"
+msgid "Screenshot"
+msgstr "Tangkapan skrin dimuat naik"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -6630,6 +6757,9 @@ msgstr "Cadangan dibuat"
 #| msgid "That was not correct, please try again."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Salah, sila cuba lagi."
+
+msgid "Select a valid screenshot."
+msgstr ""
 
 msgid "Bad request"
 msgstr ""
@@ -6719,18 +6849,12 @@ msgstr ""
 msgid "Support Weblate"
 msgstr ""
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr ""
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+msgid "Continue to Weblate"
+msgstr "Pentadbiran"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6809,6 +6933,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -7815,7 +7947,21 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Signed in using password."
+msgid "Sign in using a passkey or security key"
+msgstr "Telah log masuk menggunakan kata laluan."
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -7852,6 +7998,14 @@ msgstr ""
 #| msgid "Suggestions made"
 msgid "No components found."
 msgstr "Cadangan dibuat"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project: {}"
+msgid "API root"
+msgstr "Projek: {}"
 
 msgid "Configure add-on"
 msgstr ""
@@ -8008,6 +8162,18 @@ msgstr ""
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -8513,6 +8679,11 @@ msgstr ""
 
 msgid "Browse"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation status widgets"
+msgstr "Terjemahan dibuat"
 
 msgid "No strings found!"
 msgstr ""
@@ -9025,25 +9196,35 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr ""
 
-msgid "Some repositories are not accessible"
-msgstr ""
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Some repository operations require additional permissions"
+msgstr "Projek terurus"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
 #| msgid "Comments made"
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr "Komen dibuat"
 
-msgid "Permission required on:"
+msgid "You need the following permissions on the repository-owning component:"
 msgstr ""
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10078,6 +10259,17 @@ msgstr ""
 msgid "Support expiry"
 msgstr ""
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr ""
 
@@ -10087,7 +10279,7 @@ msgstr ""
 msgid "Unlink support package"
 msgstr ""
 
-msgid "Purchase support package"
+msgid "Purchase support"
 msgstr ""
 
 msgid "Contact customer care"
@@ -10705,6 +10897,14 @@ msgstr ""
 msgid "Return to dashboard"
 msgstr ""
 
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Thank you for contributing translations."
+msgstr "Terjemahan automatik"
+
+msgid "Donate to Weblate development"
+msgstr ""
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -10813,6 +11013,35 @@ msgid "No screenshots found."
 msgstr "Cadangan dibuat"
 
 msgid "Add new screenshot"
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Select a screenshot"
+msgstr "Cadangan dibuat"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Selected"
+msgstr "Projek terurus"
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "No matching screenshots available."
+msgstr "Cadangan dibuat"
+
+#, fuzzy
+#| msgid "Screenshots uploaded"
+msgid "Screenshot pages"
+msgstr "Tangkapan skrin dimuat naik"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
 msgstr ""
 
 #. Translators: Button to assign string to a screenshot
@@ -11001,23 +11230,15 @@ msgstr[0] ""
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
+msgid "Support Weblate development"
 msgstr ""
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
+msgid "Thank you for using Weblate and contributing translations."
 msgstr ""
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
 
 msgid ""
@@ -11076,12 +11297,6 @@ msgstr ""
 msgid "Weblate repository"
 msgstr ""
 
-msgid "This translation is forbidden."
-msgstr ""
-
-msgid "This term should not be translated."
-msgstr ""
-
 #, fuzzy
 #| msgid "Translations made"
 msgid "This translation needs editing."
@@ -11090,8 +11305,27 @@ msgstr "Terjemahan dibuat"
 msgid "Copy word into translation"
 msgstr ""
 
+msgid "This translation is forbidden."
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "This term should not be translated."
+msgstr ""
+
 msgid "Edit glossary term"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation explanation"
+msgstr "Pemberitahuan terjemahan"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Source explanation"
+msgstr "Kata laluan semasa"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -11755,6 +11989,27 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr ""
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+msgid "Already purchased? Link your support package"
+msgstr ""
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Term information from the translation file"
+msgstr "Kata laluan semasa"
+
+#, fuzzy
+#| msgid "Current password"
+msgid "Source terms"
+msgstr "Kata laluan semasa"
+
+#, fuzzy
+#| msgid "Language"
+msgid "Target terms"
+msgstr "Bahasa"
+
 msgid "Translation status"
 msgstr ""
 
@@ -12163,15 +12418,20 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Suggestions made"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Cadangan dibuat"
 
 #, fuzzy
 #| msgid "Suggestions made"
 msgid "Remove duplicate strings"
 msgstr "Cadangan dibuat"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -12980,6 +13240,16 @@ msgstr "Projek terurus"
 
 msgid "No screenshot currently associated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Add existing screenshot"
+msgstr "Cadangan dibuat"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Upload screenshot"
+msgstr "Projek terurus"
 
 msgid "String information"
 msgstr ""
@@ -15001,6 +15271,24 @@ msgid ""
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 
+#, fuzzy
+#| msgid "Comments made"
+msgid "Contributor comments"
+msgstr "Komen dibuat"
+
+#, fuzzy
+#| msgid "Comments made"
+msgid "Gettext"
+msgstr "Komen dibuat"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr ""
 
@@ -15327,11 +15615,6 @@ msgstr ""
 
 msgid "Source string explanation"
 msgstr ""
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation explanation"
-msgstr "Pemberitahuan terjemahan"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -17925,6 +18208,18 @@ msgstr ""
 
 #. Translators: Text on OpenGraph image
 #, fuzzy
+#| msgid "Your name"
+msgid "Category {}"
+msgstr "Nama anda"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Your name"
+msgid "Workspace {}"
+msgstr "Nama anda"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
 #| msgid "Component: {}"
 msgid "Component {}"
 msgstr "Komponen: {}"
@@ -19502,6 +19797,11 @@ msgid "The workspace has been removed."
 msgstr "Terjemahan dibuat"
 
 #, fuzzy
+#~| msgid "Comments made"
+#~ msgid "Skipped components:"
+#~ msgstr "Komen dibuat"
+
+#, fuzzy
 #~| msgid "Suggestions made"
 #~ msgid "Suggested change"
 #~ msgstr "Cadangan dibuat"
@@ -19549,11 +19849,6 @@ msgstr "Terjemahan dibuat"
 #~| msgid "Managed projects"
 #~ msgid "Repository name"
 #~ msgstr "Projek terurus"
-
-#, fuzzy
-#~| msgid "Comments made"
-#~ msgid "Configure component"
-#~ msgstr "Komen dibuat"
 
 #, fuzzy
 #~| msgid "Password reset requested."

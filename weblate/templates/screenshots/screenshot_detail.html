@@ -22,8 +22,8 @@
 
 {% block content %}
 
-  {% perm 'screenshot.delete' object.translation.component as user_can_delete_screenshot %}
-  {% perm 'screenshot.edit' object.translation.component as user_can_edit_screenshot %}
+  {% perm 'screenshot.delete' object.translation as user_can_delete_screenshot %}
+  {% perm 'screenshot.edit' object.translation as user_can_edit_screenshot %}
 
 
   <div class="card"

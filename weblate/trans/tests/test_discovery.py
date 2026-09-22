@@ -540,9 +540,10 @@ class ComponentDiscoveryTest(RepoTestCase):
     def test_repository_paths_exclude_vcs_metadata(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
             root = pathlib.Path(tempdir)
-            metadata = root / ".git"
-            metadata.mkdir()
-            (metadata / "config").touch()
+            for dirname in (".git", ".hg", ".svn", ".bzr"):
+                metadata = root / dirname
+                metadata.mkdir()
+                (metadata / "translation.po").touch()
             (root / "translation.po").touch()
             discovery = ComponentDiscovery(
                 self.component,

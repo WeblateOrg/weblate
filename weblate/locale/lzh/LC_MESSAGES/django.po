@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:25+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1235,7 +1235,7 @@ msgid ""
 "{0}."
 msgstr ""
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 msgid "Use authentication app (TOTP)"
@@ -1870,6 +1870,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr ""
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr ""
 
@@ -2029,6 +2038,19 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr ""
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Clone to translation"
+msgid "One file per translation"
+msgstr "克隆译至通事"
+
+#, fuzzy
+#| msgid "Configure dashboard"
+msgid "One file per component"
+msgstr "置仪表板"
 
 msgid "Name of generated file"
 msgstr ""
@@ -2519,19 +2541,100 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "ITS rule file is too large."
+msgstr "君输者密码不效。"
+
+msgid "ITS rule file contains too many XPath expressions."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "ITS XPath expression is too long."
 msgstr ""
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Component list: %s"
+msgid "Invalid ITS directory path."
+msgstr "组件列表： %s"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+msgid "ITS rule file contains too many elements."
+msgstr ""
+
+msgid "Unsupported ITS rule content."
+msgstr ""
+
+msgid "Unsupported ITS locating rule."
+msgstr ""
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+msgid "Unsupported ITS rule namespace."
+msgstr ""
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+msgid "ITS directories must not contain symbolic links."
+msgstr ""
+
+#, python-format
+msgid "ITS directory does not exist: %(path)s"
+msgstr ""
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Clone to translation"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "克隆译至通事"
+
+#, fuzzy, python-format
+#| msgid "Clone to translation"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "克隆译至通事"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+
+msgid "API add-ons must be installed directly on a component."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "This add-on is already installed on this component."
+msgstr "不持选序。"
 
 msgid "This add-on cannot be triggered manually."
 msgstr ""
@@ -4249,6 +4352,11 @@ msgstr ""
 msgid "Use case insensitive placeholders"
 msgstr ""
 
+#, fuzzy
+#| msgid "Suggestions made"
+msgid "Monospace font"
+msgstr "建白其议"
+
 msgid "Font family"
 msgstr ""
 
@@ -5480,6 +5588,20 @@ msgid ""
 "progress. Please try again later."
 msgstr ""
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+msgid "Maximum retained versions"
+msgstr ""
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr ""
 
@@ -6543,6 +6665,11 @@ msgstr ""
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots uploaded"
+msgid "Screenshot"
+msgstr "截图上传"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -6609,6 +6736,9 @@ msgstr "未得新匹配源字符串。"
 #| msgid "That was not correct, please try again."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "此非是,请重试。"
+
+msgid "Select a valid screenshot."
+msgstr ""
 
 msgid "Bad request"
 msgstr ""
@@ -6706,18 +6836,13 @@ msgstr ""
 msgid "Support Weblate"
 msgstr ""
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr ""
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "Documentation"
+msgid "Continue to Weblate"
+msgstr "文档"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6797,6 +6922,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -7806,7 +7939,19 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+msgid "Sign in using a passkey or security key"
+msgstr ""
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -7844,6 +7989,14 @@ msgstr ""
 #| msgid "Suggestions made"
 msgid "No components found."
 msgstr "建白其议"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project: {}"
+msgid "API root"
+msgstr "项目: {}"
 
 msgid "Configure add-on"
 msgstr ""
@@ -8000,6 +8153,18 @@ msgstr ""
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -8501,6 +8666,11 @@ msgstr ""
 
 msgid "Browse"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translations made"
+msgid "Translation status widgets"
+msgstr "译"
 
 msgid "No strings found!"
 msgstr ""
@@ -9016,25 +9186,35 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr ""
 
-msgid "Some repositories are not accessible"
-msgstr ""
+#, fuzzy
+#| msgid "Translations made"
+msgid "Some repository operations require additional permissions"
+msgstr "译"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
 #| msgid "Configure dashboard"
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr "置仪表板"
 
-msgid "Permission required on:"
+msgid "You need the following permissions on the repository-owning component:"
 msgstr ""
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10078,6 +10258,17 @@ msgstr ""
 msgid "Support expiry"
 msgstr ""
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr ""
 
@@ -10087,7 +10278,7 @@ msgstr ""
 msgid "Unlink support package"
 msgstr ""
 
-msgid "Purchase support package"
+msgid "Purchase support"
 msgstr ""
 
 msgid "Contact customer care"
@@ -10705,6 +10896,14 @@ msgstr ""
 msgid "Return to dashboard"
 msgstr "置仪表板"
 
+#, fuzzy
+#| msgid "Clone to translation"
+msgid "Thank you for contributing translations."
+msgstr "克隆译至通事"
+
+msgid "Donate to Weblate development"
+msgstr ""
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -10814,6 +11013,35 @@ msgid "No screenshots found."
 msgstr "建白其议"
 
 msgid "Add new screenshot"
+msgstr ""
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Select a screenshot"
+msgstr "符串约禁之"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Selected"
+msgstr "托管项目"
+
+#, fuzzy
+#| msgid "No new matching source strings found."
+msgid "No matching screenshots available."
+msgstr "未得新匹配源字符串。"
+
+#, fuzzy
+#| msgid "Screenshots uploaded"
+msgid "Screenshot pages"
+msgstr "截图上传"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
 msgstr ""
 
 #. Translators: Button to assign string to a screenshot
@@ -11014,23 +11242,15 @@ msgstr[0] ""
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
+msgid "Support Weblate development"
 msgstr ""
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
+msgid "Thank you for using Weblate and contributing translations."
 msgstr ""
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
 
 msgid ""
@@ -11089,12 +11309,6 @@ msgstr ""
 msgid "Weblate repository"
 msgstr ""
 
-msgid "This translation is forbidden."
-msgstr ""
-
-msgid "This term should not be translated."
-msgstr "此术语不应见译。"
-
 #, fuzzy
 #| msgid "Translations made"
 msgid "This translation needs editing."
@@ -11103,8 +11317,27 @@ msgstr "译"
 msgid "Copy word into translation"
 msgstr ""
 
+msgid "This translation is forbidden."
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "This term should not be translated."
+msgstr "此术语不应见译。"
+
 msgid "Edit glossary term"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation explanation"
+msgstr "译通"
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Source explanation"
+msgstr "符串约禁之"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -11765,6 +11998,27 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr ""
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+msgid "Already purchased? Link your support package"
+msgstr ""
+
+#, fuzzy
+#| msgid "Please sign in to save translations."
+msgid "Term information from the translation file"
+msgstr "请录以存译。"
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Source terms"
+msgstr "符串约禁之"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Target terms"
+msgstr "译语言"
+
 msgid "Translation status"
 msgstr ""
 
@@ -12167,15 +12421,20 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Please sign in to save translations."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "请录以存译。"
 
 #, fuzzy
 #| msgid "Translated string"
 msgid "Remove duplicate strings"
 msgstr "译后字符串"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -12986,6 +13245,16 @@ msgstr "托管项目"
 
 msgid "No screenshot currently associated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Add existing screenshot"
+msgstr "符串约禁之"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Upload screenshot"
+msgstr "托管项目"
 
 msgid "String information"
 msgstr ""
@@ -15020,6 +15289,24 @@ msgid ""
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 
+#, fuzzy
+#| msgid "Comments made"
+msgid "Contributor comments"
+msgstr "论者以为言"
+
+#, fuzzy
+#| msgid "Comments made"
+msgid "Gettext"
+msgstr "论者以为言"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "旧译字符串 msgid"
 
@@ -15350,11 +15637,6 @@ msgstr ""
 #| msgid "Strings limit"
 msgid "Source string explanation"
 msgstr "符串约禁之"
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation explanation"
-msgstr "译通"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -17968,6 +18250,18 @@ msgid "Project {}"
 msgstr ""
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Your name"
+msgid "Category {}"
+msgstr "君姓名"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Your name"
+msgid "Workspace {}"
+msgstr "君姓名"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr ""
 
@@ -19520,6 +19814,11 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "译"
 
+#, fuzzy
+#~| msgid "Configure dashboard"
+#~ msgid "Skipped components:"
+#~ msgstr "置仪表板"
+
 #~ msgid "Suggested change"
 #~ msgstr "议者更之"
 
@@ -19566,11 +19865,6 @@ msgstr "译"
 #~| msgid "Managed projects"
 #~ msgid "Repository name"
 #~ msgstr "托管项目"
-
-#, fuzzy
-#~| msgid "Configure dashboard"
-#~ msgid "Configure component"
-#~ msgstr "置仪表板"
 
 #, fuzzy
 #~| msgid "Your name"

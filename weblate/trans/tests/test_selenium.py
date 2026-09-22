@@ -48,7 +48,6 @@ from selenium.webdriver.support.expected_conditions import (
     invisibility_of_element_located,
     presence_of_element_located,
     staleness_of,
-    text_to_be_present_in_element,
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
@@ -460,7 +459,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             cls._driver = None
 
     def scroll_top(self) -> None:
-        self.driver.execute_script("window.scrollTo(0, 0)")
+        self.driver.execute_script(
+            "window.scrollTo({top: 0, left: 0, behavior: 'instant'})"
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                "return window.scrollX === 0 && window.scrollY === 0"
+            )
+        )
 
     def assert_text_contains(self, css_selector: str, text: str) -> None:
         """Assert the element matching css_selector contains text."""
@@ -745,8 +751,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
         self.driver.set_window_size(1200, 1024)
-        self.scroll_top()
         self.wait_for_screenshot_ready()
+        self.scroll_top()
         dimensions = self.driver.execute_script(
             """
             const body = document.body;
@@ -773,8 +779,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             max(1200, math.ceil(dimensions["width"])),
             math.ceil(dimensions["height"] + 180),
         )
-        self.scroll_top()
         self.wait_for_screenshot_ready()
+        self.scroll_top()
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
         )
@@ -788,8 +794,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         them at the given width.
         """
         self.driver.set_window_size(width, height)
-        self.scroll_top()
         self.wait_for_screenshot_ready()
+        self.scroll_top()
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
         )
@@ -1109,6 +1115,37 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         WebDriverWait(self.driver, 5).until(
             lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
+
+    def test_flag_editor_disabled_and_external_updates(self) -> None:
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+        self.driver.execute_script(
+            """
+            const input = document.createElement("input");
+            input.id = "disabled-flags";
+            input.className = "flag-editor";
+            input.disabled = true;
+            input.value = "max-length:10";
+            input.dataset.flagChoicesUrl = arguments[0];
+            document.body.appendChild(input);
+            window.initFlagEditor(input);
+            """,
+            reverse("js-flag-choices"),
+        )
+        self.assertFalse(
+            self.driver.find_element(By.ID, "disabled-flags-ts-input").is_enabled()
+        )
+        self.driver.execute_script(
+            """
+            const input = document.getElementById("disabled-flags");
+            input.value = 'placeholders:"one,two", ignore-same';
+            input.dispatchEvent(new Event("change", {bubbles: true}));
+            """
+        )
+        values = self.driver.execute_script(
+            "return Array.from(document.querySelectorAll('.ts-control .item'), item => item.dataset.value);"
+        )
+        self.assertEqual(values, ['placeholders:"one,two"', "ignore-same"])
 
     def test_flag_editor_edit_existing(self) -> None:
         """Check that already added flags can be turned back into editable text."""
@@ -1435,15 +1472,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         translation = component.translation_set.get(language_code="cs")
         self.do_login(superuser=True)
         search_url = f"{self.live_server_url}{reverse('search', kwargs={'path': translation.get_url_path()})}"
+        query_builder_url = f"{self.live_server_url}{reverse('search')}"
         with self.wait_for_page_load():
-            self.driver.get(search_url)
+            self.driver.get(query_builder_url)
         query_input = self.driver.find_element(By.ID, "id_q")
         query_input.send_keys("state:empty")
         self.click(htmlid="query-dropdown")
         option = self.driver.find_element(By.CSS_SELECTOR, '[data-filter="all"]')
         option.send_keys(Keys.ENTER)
         self.assertEqual(query_input.get_attribute("value"), "")
-        self.assertEqual(self.driver.current_url, search_url)
+        self.assertEqual(self.driver.current_url, query_builder_url)
         self.assertEqual(self.driver.switch_to.active_element, query_input)
         self.assertEqual(
             self.driver.find_element(By.ID, "query-dropdown").get_attribute(
@@ -1499,15 +1537,25 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
 
         # Results and the editor apply the empty query immediately.
-        for url in (
-            search_url,
-            f"{self.live_server_url}{translation.get_translate_url()}",
+        filtered_query = urlencode(
+            {"q": "state:<translated", "sort_by": "source", "offset": 2}
+        )
+        for url, query in (
+            (search_url, ""),
+            (search_url, f"?{filtered_query}"),
+            (
+                f"{self.live_server_url}{translation.get_translate_url()}",
+                f"?{filtered_query}",
+            ),
         ):
-            with self.subTest(url=url):
+            with self.subTest(url=url, query=query):
                 with self.wait_for_page_load():
-                    self.driver.get(
-                        f"{url}?{urlencode({'q': 'state:<translated', 'sort_by': 'source', 'offset': 2})}"
-                    )
+                    self.driver.get(f"{url}{query}")
+                sort_by = self.driver.find_element(By.NAME, "sort_by").get_attribute(
+                    "value"
+                )
+                if not query:
+                    self.driver.find_element(By.ID, "id_q").send_keys("state:empty")
                 self.click(htmlid="query-dropdown")
                 with self.wait_for_page_load():
                     self.driver.find_element(
@@ -1518,10 +1566,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 )
                 self.assertEqual(
                     self.driver.find_element(By.NAME, "sort_by").get_attribute("value"),
-                    "source",
+                    sort_by,
                 )
                 self.assertNotIn("offset=2", self.driver.current_url)
-                if url != search_url:
+                if url == search_url:
+                    self.assertEqual(
+                        self.count_elements("tbody.unit-listing-body tr"),
+                        translation.unit_set.count(),
+                    )
+                else:
                     count = (
                         self.driver.find_element(By.CSS_SELECTOR, ".position-input")
                         .text.split("/")[-1]
@@ -2808,6 +2861,29 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.screenshot("screenshot-ocr.png")
 
+        # Pre-assign a string which sorts after the one added below, so that
+        # appending is observable (it would be listed first when sorted).
+        other_units = source.translation.unit_set.exclude(pk=source.pk)
+        other = (
+            other_units.filter(priority=source.priority, position__gt=source.position)
+            .order_by("position")
+            .first()
+        ) or other_units.order().first()
+        uploaded_screenshot.add_unit(other, user)
+        with self.wait_for_page_load():
+            self.driver.refresh()
+
+        def assigned_unit_ids() -> list[str]:
+            return [
+                row.get_attribute("data-unit-id")
+                for row in self.driver.find_elements(
+                    By.CSS_SELECTOR,
+                    "#sources-listing tbody.unit-listing-body tr[data-unit-id]",
+                )
+            ]
+
+        self.assertEqual(assigned_unit_ids(), [str(other.pk)])
+
         # Add string manually
         search_input = self.driver.find_element(By.ID, "search-input")
         search_input.clear()
@@ -2825,6 +2901,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 .units.filter(pk=source.pk)
                 .exists()
             )
+        )
+        # Newly added string is appended without reordering existing rows
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: assigned_unit_ids() == [str(other.pk), str(source.pk)]
+        )
+
+        # Removing keeps the remaining rows in place without reloading the page
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR,
+                f'#sources-listing tr[data-unit-id="{other.pk}"] button[type=submit]',
+            )
+        )
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: assigned_unit_ids() == [str(source.pk)]
+        )
+        self.assertFalse(
+            Screenshot.objects.get(pk=uploaded_screenshot.pk)
+            .units.filter(pk=other.pk)
+            .exists()
         )
 
         # Unit should have screenshot assigned now
@@ -3394,13 +3490,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             control.send_keys(language)
             language_id = Language.objects.get(code=code).pk
             option_selector = f"#id_{field}-ts-dropdown [data-value='{language_id}']"
-            # The option can already be visible before the throttled search
-            # runs. Wait for its highlight so no pending search can reopen the
-            # dropdown after we select the language and leave the field.
+            # Focus can render highlights before the throttled search finishes.
+            # Wait for Tom Select's internal timer so it cannot reopen this
+            # dropdown and steal focus after we move to the next field.
             WebDriverWait(self.driver, 10).until(
-                text_to_be_present_in_element(
-                    (By.CSS_SELECTOR, f"{option_selector} .highlight"), language
-                )
+                lambda driver, field=field, language=language: driver.execute_script(
+                    """
+                    const select = document.getElementById(arguments[0]).tomselect;
+                    return select.control_input.value === arguments[1] &&
+                        select.lastQuery === arguments[1] &&
+                        select.refreshTimeout === null;
+                    """,
+                    f"id_{field}",
+                    language,
+                ),
+                message=f"Language search did not finish in {field}: {language}",
             )
             option = WebDriverWait(self.driver, 10).until(
                 element_to_be_clickable((By.CSS_SELECTOR, option_selector))
@@ -4179,9 +4283,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("source-review-edit.png")
 
         # Close modal dialog
-        self.driver.find_element(By.ID, "id_extra_flags-ts-input").send_keys(
-            Keys.ESCAPE
-        )
+        self.driver.find_element(By.ID, "context-edit-form").send_keys(Keys.ESCAPE)
         time.sleep(0.2)
 
     def test_dark_theme(self) -> None:
@@ -4248,8 +4350,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             f"{self.live_server_url}{reverse('changes')}?{urlencode({'period': period})}"
         )
 
-        period_input = self.driver.find_element(By.NAME, "period")
-        picker = self.driver.find_element(By.CSS_SELECTOR, ".datepicker")
+        period_input = self.driver.find_element(By.ID, "id_period")
+        pickers = self.driver.find_elements(By.CSS_SELECTOR, ".datepicker")
+        self.assertEqual(len(pickers), 1)
+        picker = pickers[0]
 
         self.assertEqual(picker.value_of_css_property("display"), "none")
 
@@ -4304,7 +4408,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         title = self.driver.find_element(By.CSS_SELECTOR, ".datepicker-cal-title")
         self.assertNotEqual(title.text, initial_title)
 
-        # Click on the page body outside the picker
-        self.driver.find_element(By.TAG_NAME, "label").click()
+        # Click the search heading outside the picker.
+        self.click(self.driver.find_element(By.CSS_SELECTOR, "form .card-header"))
 
         self.assertEqual(picker.value_of_css_property("display"), "none")

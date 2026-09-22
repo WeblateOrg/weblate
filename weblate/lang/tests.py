@@ -432,6 +432,11 @@ class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
         self.assertIsNotNone(first)
         self.assertEqual(first, second)
 
+        with self.assertNumQueries(0):
+            self.assertIsNone(
+                Language.objects.fuzzy_get_strict("unknown-code", cache=cache)
+            )
+
 
 class CommandTest(BaseTestCase):
     """Test for management commands."""

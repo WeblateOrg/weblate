@@ -12,6 +12,7 @@ from django.db import transaction
 from django.db.models import Sum
 from django.http import QueryDict
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
@@ -45,6 +46,23 @@ if TYPE_CHECKING:
 
 SEARCH_SUMMARY_MAX_STRINGS = 1_000
 SEARCH_REPLACE_PREVIEW_LIMIT = 250
+
+
+def browse(request: AuthenticatedHttpRequest, path):
+    """Redirect legacy string lists to search, preserving their pagination."""
+    params = request.GET.copy()
+    if "offset" in params:
+        if "page" not in params:
+            try:
+                params["page"] = str(max(1, int(params.get("offset", "1"))))
+            except ValueError:
+                params["page"] = "1"
+            params["limit"] = "20"
+        del params["offset"]
+    url = reverse("search", kwargs={"path": path})
+    if params:
+        url = f"{url}?{params.urlencode()}"
+    return redirect(url, permanent=True)
 
 
 @login_required
@@ -185,9 +203,15 @@ def search(request: AuthenticatedHttpRequest, path=None):
 
     search_form = SearchForm(request=request, data=request.GET, obj=obj)
     context["search_form"] = search_form
-    context["back_url"] = obj.get_absolute_url() if obj is not None else None
+    context["has_editor"] = isinstance(
+        obj, (Translation, ProjectLanguage, CategoryLanguage)
+    )
 
-    if not is_ratelimited and request.GET and search_form.is_valid():
+    if (
+        not is_ratelimited
+        and (obj is not None or request.GET)
+        and search_form.is_valid()
+    ):
         # This is ugly way to hide query builder when showing results
         search_form = SearchForm(
             request=request, data=request.GET, show_builder=False, obj=obj
@@ -214,13 +238,21 @@ def search(request: AuthenticatedHttpRequest, path=None):
                 "show_results": True,
                 "page_obj": units,
                 "path_object": obj,
-                "title": gettext("Search for %s") % (search_form.cleaned_data["q"]),
+                "title": gettext("Search for %s") % search_form.cleaned_data["q"]
+                if search_form.cleaned_data["q"]
+                else gettext("All strings"),
                 "query_params": QueryDict(search_form.urlencode()),
                 "search_query": search_form.cleaned_data["q"],
+                "sort_query": search_form.sort_query,
                 "total_strings": total_strings,
                 "total_words": total_words,
             }
         )
+        if isinstance(obj, (Translation, ProjectLanguage, CategoryLanguage)):
+            context["translate_url"] = (
+                f"{reverse('translate', kwargs={'path': obj.get_url_path()})}"
+                f"?{search_form.urlencode()}"
+            )
     elif is_ratelimited:
         messages.error(
             request, gettext("Too many search queries, please try again later.")
@@ -269,6 +301,8 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
         target_state=form.cleaned_data["state"],
         add_flags=form.cleaned_data["add_flags"],
         remove_flags=form.cleaned_data["remove_flags"],
+        add_translation_flags=form.cleaned_data["add_translation_flags"],
+        remove_translation_flags=form.cleaned_data["remove_translation_flags"],
         add_labels=form.cleaned_data["add_labels"],
         remove_labels=form.cleaned_data["remove_labels"],
         project=context.get("project"),

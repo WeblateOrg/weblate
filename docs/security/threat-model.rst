@@ -428,6 +428,19 @@ Build-time and configuration variants
      - Custom code can add new trust boundaries and security properties outside
        this model. *(maintainer)*
      - Third-party code is modeled separately. *(maintainer)*
+   * - Declarative automation expressions
+     - Add-on managers configure ordered Weblate operations and CEL conditions.
+       *(documented)* (source: :ref:`automation-workflows`)
+     - Expressions receive JSON context rather than application objects. A
+       resource-limited helper process parses and evaluates CEL without custom
+       function bindings; workflows cannot supply Python code. This is a distinct
+       expression-evaluation boundary, not a sandbox for arbitrary Python.
+       On macOS, the helper enforces CPU and wall-time limits but no memory cap,
+       so expressions can exhaust memory within those time limits.
+       *(maintainer)*
+     - Existing add-on management authority governs mutations. Operation scopes,
+       validation, and automation-origin suppression constrain declarative runs;
+       custom Python add-ons retain their separate trust model. *(maintainer)*
 
 Input assumptions
 -----------------

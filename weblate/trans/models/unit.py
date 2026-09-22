@@ -28,7 +28,7 @@ from weblate.auth.data import (
     SELECTION_ALL_PUBLIC,
 )
 from weblate.auth.results import PermissionResult
-from weblate.checks.flags import Flags
+from weblate.checks.flags import Flags, FlagsValidator
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
 from weblate.memory.tasks import (
@@ -612,6 +612,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
 
         for unit in units_to_update:
             del unit.details["disk_state"]
+            unit.details.pop("disk_identity", None)
 
         if units_to_update:
             Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
@@ -1005,6 +1006,7 @@ class Unit(models.Model, LoggerMixin):
         """
         if "disk_state" in self.details:
             del self.details["disk_state"]
+            self.details.pop("disk_identity", None)
             self.save(same_content=True, only_save=True, update_fields=["details"])
 
     def get_comparison_state(self) -> dict[str, Any]:
@@ -2297,18 +2299,15 @@ class Unit(models.Model, LoggerMixin):
     def all_comments(self) -> models.QuerySet[Comment]:
         """Return list of target comments."""
         if self.is_source:
-            return (
-                Comment.objects.filter(unit__source_unit=self)
-                .prefetch()
-                .prefetch_related(
-                    "unit__translation__language",
-                    "unit__translation__component__project",
-                )
-                .order()
-            )
+            comments = Comment.objects.filter(unit__source_unit=self)
+        else:
+            comments = self.comment_set.all() | self.source_unit.comment_set.all()
         return (
-            (self.comment_set.all() | self.source_unit.comment_set.all())
-            .prefetch()
+            comments.prefetch()
+            .prefetch_related(
+                "unit__translation__language",
+                "unit__translation__component__project",
+            )
             .order()
         )
 
@@ -2559,6 +2558,13 @@ class Unit(models.Model, LoggerMixin):
         else:
             old_unit = self
         self.store_old_unit(old_unit)
+        if "disk_identity" in old_unit.details:
+            # A source edit may have happened since this editor loaded the unit.
+            self.source = old_unit.source
+            self.context = old_unit.context
+            self.id_hash = old_unit.id_hash
+            self.details = deepcopy(old_unit.details)
+            self.__dict__.pop("content_hash", None)
 
         # Handle simple string units
         new_target_list = [new_target] if isinstance(new_target, str) else new_target
@@ -2650,32 +2656,41 @@ class Unit(models.Model, LoggerMixin):
 
         return saved
 
-    def get_all_flags(self, override: Flags | str | None = None) -> Flags:
-        """Return union of own and component flags."""
+    def get_inherited_flags(self, override: Flags | str | None = None) -> Flags:
+        """Return translation and file flags, excluding manually set unit flags."""
         # Validate flags from the unit to avoid crash
         try:
             unit_flags = Flags(override or self.flags)
         except ParseException:
             unit_flags = None
 
+        return Flags(self.translation.all_flags, unit_flags)
+
+    def get_all_flags(self, override: Flags | str | None = None) -> Flags:
+        """Return inherited flags with source and translation overrides."""
         # Ordering is important here as that defines overriding
-        return Flags(
-            # Base on translation + component flags
-            self.translation.all_flags,
-            # Apply unit flags from the file format
-            unit_flags,
+        flags = Flags(
+            self.get_inherited_flags(override),
             # The source_unit is None before saving the object for the first time
             getattr(self.source_unit, "extra_flags", ""),
             # This unit flag overrides
             self.extra_flags,
         )
 
+        # Explicit source-wide read-only cannot be discarded by a translation.
+        # Do not inherit source translation restrictions imposed by its format.
+        if not self.is_source and "read-only" in Flags(
+            getattr(self.source_unit, "extra_flags", "")
+        ):
+            flags.merge("read-only")
+        return flags
+
     @cached_property
     def all_flags(self) -> Flags:
         return self.get_all_flags()
 
     def get_unit_flags(self) -> Flags:
-        return Flags(self.extra_flags)
+        return FlagsValidator(self.extra_flags)
 
     @cached_property
     def edit_mode(self) -> str:
@@ -2827,63 +2842,99 @@ class Unit(models.Model, LoggerMixin):
         unit = self if self.is_source else self.source_unit
         return unit.labels.all()
 
-    def get_flag_actions(self):
-        flags = self.all_flags
-        translation = self.translation
-        component = translation.component
+    def get_flag_actions(
+        self, user: User | None = None
+    ) -> list[tuple[str, str, str, str]]:
+        """Return flag operations with explicit source or translation scope."""
         result = []
-        if self.is_source:
-            if "read-only" in flags:
-                if (
-                    "read-only" not in translation.all_flags
-                    and "read-only" not in component.all_flags
-                ):
-                    result.append(
-                        ("removeflag", "read-only", gettext("Unmark as read-only"))
-                    )
-            else:
-                result.append(("addflag", "read-only", gettext("Mark as read-only")))
-        if component.is_glossary:
-            if "read-only" in self.source_unit.get_unit_flags():
-                result.append(
-                    ("removeflag", "read-only", gettext("Unmark as untranslatable"))
+        source = self.source_unit
+        glossary = self.translation.component.is_glossary
+        source_readonly = "read-only" in source.get_unit_flags()
+        local_readonly = "read-only" in self.get_unit_flags()
+
+        def add(action: str, flag: str, label: str, scope: str) -> None:
+            targets = [source] if scope == "source" else [self]
+            if action == "promoteflag":
+                targets = [source, self]
+            if (
+                scope == "source"
+                and flag == "read-only"
+                and "read-only" in self.translation.component.all_flags
+            ):
+                return
+            if user is None or all(
+                user.has_perm("meta:unit.flag", unit.translation) for unit in targets
+            ):
+                result.append((action, flag, label, scope))
+
+        if source_readonly:
+            # Only offer removal when removing the stored flag can unlock it.
+            if "read-only" not in self.translation.component.all_flags:
+                add(
+                    "removeflag",
+                    "read-only",
+                    gettext("Unmark as untranslatable for all languages")
+                    if glossary
+                    else gettext("Unmark as read-only for all languages"),
+                    "source",
                 )
-            else:
-                result.append(
-                    ("addflag", "read-only", gettext("Mark as untranslatable"))
+        elif not self.is_source and local_readonly:
+            if "read-only" not in self.get_inherited_flags():
+                add(
+                    "removeflag",
+                    "read-only",
+                    gettext("Unmark this translation as untranslatable")
+                    if glossary
+                    else gettext("Unmark this translation as read-only"),
+                    "translation",
                 )
-            if "forbidden" in flags:
-                result.append(
-                    (
-                        "removeflag",
-                        "forbidden",
-                        gettext("Unmark as forbidden translation"),
-                    )
+            add(
+                "promoteflag",
+                "read-only",
+                gettext("Make untranslatable apply to all languages")
+                if glossary
+                else gettext("Make read-only apply to all languages"),
+                "source",
+            )
+        else:
+            if not self.is_source and "read-only" not in self.all_flags:
+                add(
+                    "addflag",
+                    "read-only",
+                    gettext("Mark this translation as untranslatable")
+                    if glossary
+                    else gettext("Mark this translation as read-only"),
+                    "translation",
                 )
-            else:
-                result.append(
-                    (
-                        "addflag",
-                        "forbidden",
-                        gettext("Mark as forbidden translation"),
-                    )
-                )
-            if "terminology" in flags:
-                result.append(
-                    (
-                        "removeflag",
-                        "terminology",
-                        gettext("Unmark as terminology"),
-                    )
-                )
-            else:
-                result.append(
-                    (
-                        "addflag",
-                        "terminology",
-                        gettext("Mark as terminology"),
-                    )
-                )
+            add(
+                "addflag",
+                "read-only",
+                gettext("Mark as untranslatable for all languages")
+                if glossary
+                else gettext("Mark as read-only for all languages"),
+                "source",
+            )
+        if glossary:
+            for flag, target, scope, add_label, remove_label in (
+                (
+                    "forbidden",
+                    self,
+                    "source" if self.is_source else "translation",
+                    gettext("Mark as forbidden translation"),
+                    gettext("Unmark as forbidden translation"),
+                ),
+                (
+                    "terminology",
+                    source,
+                    "source",
+                    gettext("Mark as terminology for all languages"),
+                    gettext("Unmark as terminology for all languages"),
+                ),
+            ):
+                if flag in target.get_unit_flags():
+                    add("removeflag", flag, remove_label, scope)
+                elif flag not in target.all_flags:
+                    add("addflag", flag, add_label, scope)
         return result
 
     def invalidate_related_cache(self) -> None:
@@ -2954,13 +3005,23 @@ class Unit(models.Model, LoggerMixin):
         if old == extra_flags:
             return
         self.extra_flags = extra_flags
+        self.__dict__.pop("all_flags", None)
         units: Iterable[Unit] = []
         if self.is_source:
             units = self.unit_set.select_for_update().exclude(id=self.id)
         # Always generate change for self
         units = [*units, self]
         if save:
-            self.save(update_fields=["extra_flags"], same_content=True)
+            self.save(
+                update_fields=["extra_flags"], same_content=True, run_checks=False
+            )
+            if not self.is_source:
+                self.update_state()
+                self.update_priority()
+                self.run_checks()
+                self.translation.invalidate_cache()
+            else:
+                self.run_checks()
 
         for unit in units:
             unit.generate_change(

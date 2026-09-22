@@ -9,7 +9,7 @@ import json
 import re
 from collections import defaultdict
 from collections.abc import Mapping, MutableMapping, Sequence
-from datetime import datetime
+from datetime import datetime, timedelta
 from itertools import chain
 from secrets import token_hex
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Protocol, TypedDict, cast
@@ -287,6 +287,8 @@ class FieldDocsMixin(forms.Form):
 
 
 class MarkdownTextarea(forms.Textarea):
+    template_name = "widgets/markdown_textarea.html"
+
     def __init__(self, **kwargs) -> None:
         kwargs["attrs"] = {
             "dir": "auto",
@@ -399,6 +401,7 @@ class PluralTextarea(forms.Textarea):
 
     profile: Profile
     unit: Unit
+    edit_source: bool = False
 
     def __init__(self, *args, **kwargs) -> None:
         self.is_source_plural: Literal[True] | None = None
@@ -554,12 +557,14 @@ class PluralTextarea(forms.Textarea):
         attrs["data-max"] = unit.get_max_length()
         attrs["data-mode"] = unit.edit_mode
         attrs["data-placeables"] = "|".join(re.escape(pl) for pl in placeables if pl)
-        if unit.readonly:
+        if unit.readonly and not self.edit_source:
             attrs["readonly"] = 1
 
         # Okay we have more strings
         ret = []
         base_id = f"id_{unit.checksum}"
+        if self.edit_source:
+            base_id += "_source_edit"
         for idx, val in enumerate(values):
             # Generate ID
             fieldname = f"{name}_{idx}"
@@ -907,6 +912,13 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
         label=gettext_lazy("File"),
         validators=[validate_translation_upload_size, validate_file_extension],
     )
+    ignore_language = forms.BooleanField(
+        label=gettext_lazy("Ignore language mismatch"),
+        help_text=gettext_lazy(
+            "Allow uploading a file that declares a different translation language."
+        ),
+        required=False,
+    )
     method = forms.ChoiceField(
         label=gettext_lazy("File upload mode"),
         choices=FileUploadMethod.choices,
@@ -929,6 +941,7 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field("file"),
+            Field("ignore_language"),
             Field("method", template="%s/layout/radioselect_upload_method.html"),
             Field("fuzzy"),
         )
@@ -1624,6 +1637,72 @@ def get_new_component_language_form(
     return NewComponentLanguageForm
 
 
+class UnitFlagsForm(FieldDocsMixin, forms.Form):
+    source_flags = FlagField(
+        label=gettext_lazy("Source flags — all languages"),
+        required=False,
+        help_text=gettext_lazy(
+            "These flags are inherited by every translation of this string."
+        ),
+    )
+    translation_flags = FlagField(
+        label=gettext_lazy("Translation flags — this language"),
+        required=False,
+        help_text=gettext_lazy(
+            "These flags apply only to this translation. Source read-only cannot be overridden."
+        ),
+    )
+
+    def __init__(self, *args, unit: Unit, user: User, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.unit = unit
+        self.user = user
+        self.targets = {"source_flags": unit.source_unit}
+        if unit.is_source:
+            del self.fields["translation_flags"]
+        else:
+            self.targets["translation_flags"] = unit
+            self.fields["translation_flags"].label = gettext(
+                "Translation flags — %(language)s"
+            ) % {
+                "language": unit.translation.language,
+            }
+        for name, target in self.targets.items():
+            self.fields[name].initial = target.extra_flags
+            self.fields[name].disabled = not user.has_perm(
+                "meta:unit.flag", target.translation
+            )
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+
+    def get_field_doc(self, field: forms.Field) -> tuple[str, str]:
+        return ("admin/translating", "additional-flags")
+
+    def clean(self):
+        cleaned = super().clean()
+        for name, target in self.targets.items():
+            if (
+                self.fields[name].disabled
+                and name in self.data
+                and self.data[name] != target.extra_flags
+            ):
+                raise ValidationError(
+                    gettext("You do not have permission to edit these flags.")
+                )
+        return cleaned
+
+    def save(self) -> None:
+        for name, target in self.targets.items():
+            if not self.fields[name].disabled:
+                target.update_extra_flags(self.cleaned_data[name], self.user)
+                if target.is_source and not self.unit.is_source:
+                    self.unit.refresh_from_db()
+                    self.unit.source_unit = target
+                    self.unit.__dict__.pop("all_flags", None)
+                    self.unit.store_old_unit(self.unit)
+
+
 class ContextForm(FieldDocsMixin, forms.ModelForm):
     class Meta:
         model = Unit
@@ -1647,7 +1726,9 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return self.doc_links[field.name]
 
-    def __init__(self, data=None, instance=None, user=None, **kwargs) -> None:
+    def __init__(
+        self, data=None, instance=None, user=None, *, include_flags=True, **kwargs
+    ) -> None:
         kwargs["initial"] = {"labels": list(instance.all_labels)}
         super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
@@ -1662,17 +1743,21 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
                 template="snippets/labels_description.html",
                 context={"project": project, "user": user},
             ),
-            Field("extra_flags"),
         )
+        if include_flags:
+            self.helper.layout.append(Field("extra_flags"))
+        else:
+            del self.fields["extra_flags"]
         self.user = user
 
     def save(self, commit=True):
         self.instance.update_explanation(
             self.cleaned_data["explanation"], self.user, save=False
         )
-        self.instance.update_extra_flags(
-            self.cleaned_data["extra_flags"], self.user, save=False
-        )
+        if "extra_flags" in self.cleaned_data:
+            self.instance.update_extra_flags(
+                self.cleaned_data["extra_flags"], self.user, save=False
+            )
         if commit:
             self.instance.save(same_content=True)
             self.instance.save_labels(self.cleaned_data["labels"], self.user)
@@ -4132,6 +4217,41 @@ class NewUnitBaseForm(forms.Form):
         }
 
 
+class SourceEditForm(UnitForm):
+    content_hash = forms.IntegerField(widget=forms.HiddenInput)
+    source = PluralField(label=gettext_lazy("Source string"), required=True)
+    context = forms.CharField(label=gettext_lazy("Key or context"), required=False)
+    explanation = forms.CharField(
+        label=gettext_lazy("Source explanation"), required=False, widget=forms.Textarea
+    )
+
+    def __init__(self, unit, user, data=None) -> None:
+        from weblate.formats.source_edit import editable_fields  # ruff: ignore[import-outside-top-level]
+
+        source_unit = unit.source_unit
+        super().__init__(
+            source_unit,
+            data=data,
+            auto_id="id_source_edit_%s",
+            initial={
+                "source": source_unit,
+                "context": source_unit.context,
+                "explanation": source_unit.explanation,
+                "content_hash": source_unit.content_hash,
+            },
+        )
+        self.fields["source"].widget.profile = user.profile
+        self.fields["source"].widget.unit = source_unit
+        self.fields["source"].widget.edit_source = True
+        fields = editable_fields(
+            source_unit.translation.component.file_format,
+            monolingual=source_unit.translation.component.has_template(),
+        )
+        for field in ("source", "context"):
+            if field not in fields:
+                del self.fields[field]
+
+
 class NewMonolingualUnitForm(NewUnitBaseForm):
     context = forms.CharField(
         label=gettext_lazy("Translation key"),
@@ -4316,20 +4436,34 @@ class BulkEditForm(forms.Form):
     )
     path = forms.CharField(widget=forms.HiddenInput, required=False)
     add_flags = FlagField(
-        label=gettext_lazy("Translation flags to add"), required=False
+        label=gettext_lazy("Source flags to add — all languages"), required=False
     )
     remove_flags = FlagField(
-        label=gettext_lazy("Translation flags to remove"), required=False
+        label=gettext_lazy("Source flags to remove — all languages"), required=False
+    )
+    add_translation_flags = FlagField(
+        label=gettext_lazy("Translation flags to add — matching translations"),
+        required=False,
+        help_text=gettext_lazy(
+            "Applies only to matching translations, excluding source strings."
+        ),
+    )
+    remove_translation_flags = FlagField(
+        label=gettext_lazy("Translation flags to remove — matching translations"),
+        required=False,
+        help_text=gettext_lazy(
+            "Removes locally set flags. Inherited flags remain in effect."
+        ),
     )
     add_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
-        label=gettext_lazy("Labels to add"),
+        label=gettext_lazy("Labels to add — all languages"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
     remove_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
-        label=gettext_lazy("Labels to remove"),
+        label=gettext_lazy("Labels to remove — all languages"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
@@ -4394,6 +4528,8 @@ class BulkEditForm(forms.Form):
             Field("state"),
             Field("add_flags"),
             Field("remove_flags"),
+            Field("add_translation_flags"),
+            Field("remove_translation_flags"),
         )
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))
@@ -4548,6 +4684,35 @@ class AnnouncementForm(forms.ModelForm):
             "expiry": WeblateDateInput(),
             "message": MarkdownTextarea,
         }
+
+
+class ChangesDateForm(forms.Form):
+    date = forms.DateField(
+        label=gettext_lazy("Jump to date"),
+        required=False,
+        widget=WeblateDateInput(
+            attrs={"class": "form-control page-link w-auto rounded-0"}
+        ),
+        input_formats=["%Y-%m-%d"],
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.today = timezone.localdate()
+        self.fields["date"].widget.attrs["max"] = self.today.isoformat()
+
+    def clean_date(self) -> datetime | None:
+        value = self.cleaned_data["date"]
+        if value is None:
+            return None
+        if value > self.today:
+            raise ValidationError(gettext("The date cannot be in the future."))
+        try:
+            return from_current_timezone(
+                datetime.combine(value + timedelta(days=1), datetime.min.time())
+            )
+        except (OverflowError, ValueError) as error:
+            raise ValidationError(gettext("Invalid date!")) from error
 
 
 class ChangesForm(forms.Form):

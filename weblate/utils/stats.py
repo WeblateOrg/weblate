@@ -1464,6 +1464,10 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
     def get_url_path(self) -> list[str]:
         return [*self.category.get_url_path(), "-", self.language.code]
 
+    def get_widgets_url(self) -> str:
+        """Return the project widgets URL with this language selected."""
+        return f"{self.category.get_widgets_url()}?lang={self.language.code}"
+
     def get_absolute_url(self) -> str:
         return reverse("show", kwargs={"path": self.get_url_path()})
 

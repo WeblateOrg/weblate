@@ -591,9 +591,10 @@
         .then((data) => {
           if (dismissAll) {
             const { extra_flags, all_flags } = data;
-            const extraFlags = document.getElementById("id_extra_flags");
+            const extraFlags = document.getElementById("id_source_flags");
             if (extraFlags) {
               extraFlags.value = extra_flags;
+              extraFlags.dispatchEvent(new Event("change", { bubbles: true }));
             }
             const allFlags = document.getElementById("unit_all_flags");
             if (allFlags) {

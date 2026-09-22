@@ -3004,6 +3004,7 @@ class TranslationCreateSerializer(ReadOnlySerializer):
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
+    ignore_language = serializers.BooleanField(required=False, default=False)
     file = serializers.FileField(validators=[validate_translation_upload_size])
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
@@ -3724,8 +3725,23 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         }
 
 
+class UnitSourceSerializer(serializers.Serializer):
+    content_hash = serializers.IntegerField()
+    source = serializers.ListField(  # type: ignore[assignment]
+        child=serializers.CharField(allow_blank=True, trim_whitespace=False),
+        required=False,
+        allow_empty=False,
+    )
+    context = serializers.CharField(  # type: ignore[assignment]
+        required=False, allow_blank=True, trim_whitespace=False
+    )
+    explanation = serializers.CharField(
+        required=False, allow_blank=True, trim_whitespace=False
+    )
+
+
 class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
-    """Serializer for updating source unit."""
+    """Serializer for updating a unit and its flags."""
 
     target = PluralField()
     labels = UnitFlatLabelsSerializer(many=True)
@@ -4233,6 +4249,12 @@ class ProjectComponentSerializer(ComponentSerializer):
         )
 
 
+class AutomationPreviewRequestSerializer(serializers.Serializer):
+    workflow = serializers.JSONField()
+    component = serializers.IntegerField(min_value=1)
+    change = serializers.IntegerField(min_value=1, required=False)
+
+
 class AddonSerializer(serializers.ModelSerializer[Addon]):
     api_name = serializers.SlugField(
         read_only=True,
@@ -4370,10 +4392,13 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
 
     def create(self, validated_data):
         validated_data["acting_user"] = self.context["request"].user
+        addon_class = ADDONS[validated_data.pop("name")]
         try:
-            return super().create(validated_data)
+            instance = addon_class.create_object(**validated_data)
+            instance.save(force_insert=True)
         except DjangoValidationError as error:
             raise serializers.ValidationError({"name": error.messages}) from error
+        return instance
 
     def save(self, **kwargs):
         result = super().save(**kwargs)
