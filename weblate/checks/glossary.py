@@ -46,6 +46,7 @@ class GlossaryCheck(TargetCheck):
         for term in iter_glossary_alternatives(
             get_glossary_terms(unit, include_variants=False),
             allow_readonly_aliases=True,
+            effective_source=True,
         ):
             term_source = term.source
             flags = term.all_flags
@@ -70,7 +71,7 @@ class GlossaryCheck(TargetCheck):
 
     def get_description(self, check_obj: Check):
         unit = check_obj.unit
-        sources = unit.get_source_plurals()
+        sources = unit.get_effective_source_plurals()
         targets = unit.get_target_plurals()
         source = sources[0]
         results = set()

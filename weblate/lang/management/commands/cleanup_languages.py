@@ -24,7 +24,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options) -> None:
-        for language in Language.objects.filter(translation=None):
+        for language in Language.objects.filter(
+            translation=None, source_workflow_settings=None
+        ):
             if language.show_language_code:
                 self.stdout.write(f"{language}: {language.translation_set.count()}")
                 if options["delete"]:

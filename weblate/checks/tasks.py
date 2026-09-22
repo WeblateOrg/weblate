@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Literal, TypedDict
+from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError, OperationalError, transaction
@@ -21,6 +21,7 @@ from weblate.utils.lock import WeblateLockTimeoutError
 
 if TYPE_CHECKING:
     from weblate.trans.models import Translation
+    from weblate.trans.models.unit import UnitQuerySet
 
 
 class PropagatedCheckGroup(TypedDict):
@@ -32,6 +33,7 @@ class PropagatedCheckGroup(TypedDict):
     source: str
     context: str
     target: str
+    source_rules: NotRequired[tuple[int, str, int]]
 
 
 @dataclass
@@ -70,6 +72,7 @@ def schedule_propagated_checks(
     if refresh_unit:
         pending.unit_ids.add(unit.pk)
 
+    custom_sources = bool(component.project.translation_parent_language_ids)
     for check in sorted(checks):
         scope = CHECKS[check].propagates
         if scope is None:
@@ -93,6 +96,12 @@ def schedule_propagated_checks(
                 "context": state.get("context", unit.context),
                 "target": state.get("target", unit.target),
             }
+            if custom_sources:
+                group["source_language_id"] = unit.effective_source_language.pk
+                plural = unit.effective_source_plural
+                group["source_rules"] = (plural.number, plural.formula, plural.type)
+                if unit.translation_parent_id or unit.missing_source_snapshot:
+                    group["source"] = unit.effective_source
             if scope == "source":
                 group["target"] = ""
             else:
@@ -120,6 +129,43 @@ def _store_propagated_checks(
     Check.objects.filter(unit_id__in=remove, name=check_id).delete()
 
 
+def _get_propagated_check_units(
+    project_id: int, group: PropagatedCheckGroup, *, custom_sources: bool
+) -> UnitQuerySet:
+    """Find peers sharing the check's effective source or target context."""
+    units = (
+        Unit.objects.exclude_blocked(custom_sources=custom_sources)
+        .with_effective_source(custom_sources=custom_sources, select=False)
+        .filter(
+            translation__component__project_id=project_id,
+            check_source_language=group["source_language_id"],
+            translation__component__allow_translation_propagation=True,
+            translation__plural_id=group["plural_id"],
+        )
+    )
+    if custom_sources and "source_rules" in group:
+        number, formula, plural_type = group["source_rules"]
+        units = units.filter(
+            check_source_number=number,
+            check_source_formula=formula,
+            check_source_type=plural_type,
+        )
+    if group["scope"] == "source":
+        units = units.filter(
+            translation__language_id=group["language_id"],
+            check_source=group["source"],
+            context=group["context"],
+            check_source__lower__md5=MD5(Lower(Value(group["source"]))),
+            context__lower__md5=MD5(Lower(Value(group["context"]))),
+        )
+    else:
+        units = units.filter(
+            target=group["target"],
+            target__lower__md5=MD5(Lower(Value(group["target"]))),
+        )
+    return units.prefetch().prefetch_source().prefetch_all_checks()
+
+
 @app.task(
     trail=False,
     autoretry_for=(
@@ -143,6 +189,7 @@ def refresh_propagated_checks(
     # for the entire group and block concurrent translation saves.
     with project.checks_lock:
         project.log_info("refreshing %d propagated check groups", len(groups))
+        custom_sources = bool(project.translation_parent_language_ids)
         translations: dict[int, Translation] = {}
         sources: set[int] = set()
         # Text propagation has already changed these units' content. They need
@@ -169,26 +216,9 @@ def refresh_propagated_checks(
                 continue
             if check.propagates == "target" and not any(split_plural(group["target"])):
                 continue
-            units = Unit.objects.filter(
-                translation__component__project_id=project_id,
-                translation__component__source_language_id=group["source_language_id"],
-                translation__component__allow_translation_propagation=True,
-                translation__plural_id=group["plural_id"],
+            units = _get_propagated_check_units(
+                project_id, group, custom_sources=custom_sources
             )
-            if check.propagates == "source":
-                units = units.filter(
-                    translation__language_id=group["language_id"],
-                    source=group["source"],
-                    context=group["context"],
-                    source__lower__md5=MD5(Lower(Value(group["source"]))),
-                    context__lower__md5=MD5(Lower(Value(group["context"]))),
-                )
-            else:
-                units = units.filter(
-                    target=group["target"],
-                    target__lower__md5=MD5(Lower(Value(group["target"]))),
-                )
-            units = units.prefetch().prefetch_source().prefetch_all_checks()
             create = []
             remove = []
             for unit, failed in check.evaluate_propagated(units):

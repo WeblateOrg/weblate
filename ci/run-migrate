@@ -187,6 +187,14 @@ if [ "$xliff_params_migrate" -eq 0 ]; then
     check
 fi
 
+# Seed an ordinary workflow before the source-workflow gate function is installed.
+semver_compare "$1" "<" "2026.10"
+source_workflow_gate_migrate=$?
+if [ "$source_workflow_gate_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-source-workflow-gate.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -286,5 +294,10 @@ fi
 if [ "$xliff_params_migrate" -eq 0 ]; then
     # check that XLIFF formats and whitespace handling were migrated
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-xliff-params.py"
+    check
+fi
+
+if [ "$source_workflow_gate_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-source-workflow-gate.py"
     check
 fi

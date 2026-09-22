@@ -14,8 +14,9 @@ from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, ngettext, pgettext
 
-from weblate.lang.models import Language
+from weblate.lang.models import Language, Plural
 from weblate.trans.models import Category, Component, Project, Translation, Unit
+from weblate.trans.source_snapshot import SourceSnapshot
 from weblate.trans.specialchars import get_display_char
 from weblate.trans.util import split_plural
 from weblate.utils.diff import Differ
@@ -487,10 +488,43 @@ def format_unit_target(
     )
 
 
+def get_source_changes(unit: Unit) -> list[dict]:
+    """Keep source diffs comparable only when both sides share plural metadata."""
+    language = unit.effective_source_language
+    plural = unit.effective_source_plural
+    metadata = unit.details.get("translation_parent", {})
+    previous_data = metadata.get("previous")
+    previous = SourceSnapshot.from_dict(previous_data) if previous_data else None
+    separate = previous is not None and previous.rules != unit.source_snapshot.rules
+    sources = []
+    if separate and previous is not None:
+        sources.append(
+            {
+                "label": gettext("Previous source"),
+                "value": previous.text,
+                "language": previous.language,
+                "plural": previous.plural,
+                "diff": None,
+            }
+        )
+    sources.append(
+        {
+            "label": gettext("Source") if separate else "",
+            "value": unit.effective_source,
+            "language": language,
+            "plural": plural,
+            "diff": None if separate else unit.effective_previous_source,
+        }
+    )
+    return sources
+
+
 def format_unit_source(
     unit,
     *,
     value: str | None = None,
+    language: Language | None = None,
+    plural: Plural | None = None,
     diff=None,
     search_match: str | None = None,
     match: str = "search",
@@ -499,11 +533,24 @@ def format_unit_source(
     wrap: bool = False,
     show_copy: bool = False,
 ):
-    source_translation = unit.translation.component.source_translation
+    if language is None:
+        language = (
+            unit.effective_source_language
+            if value is None
+            else unit.translation.component.source_language
+        )
+    if plural is None:
+        plural = (
+            unit.effective_source_plural
+            if value is None
+            else unit.source_unit.translation.plural
+        )
     return format_translation(
-        plurals=unit.get_source_plurals() if value is None else split_plural(value),
-        language=source_translation.language,
-        plural=source_translation.plural,
+        plurals=unit.get_effective_source_plurals()
+        if value is None
+        else split_plural(value),
+        language=language,
+        plural=plural,
         unit=unit,
         diff=diff,
         search_match=search_match,

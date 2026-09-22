@@ -151,7 +151,8 @@ class SameCheck(TargetCheck):
             terms = [
                 re.escape(term.source)
                 for term in iter_glossary_alternatives(
-                    get_glossary_terms(unit, include_variants=False)
+                    get_glossary_terms(unit, include_variants=False),
+                    effective_source=True,
                 )
                 if "read-only" in term.all_flags and "forbidden" not in term.all_flags
             ]
@@ -179,7 +180,7 @@ class SameCheck(TargetCheck):
         if unit.readonly or super().should_skip(unit):
             return True
 
-        source_language = unit.translation.component.source_language.base_code
+        source_language = unit.effective_source_language.base_code
 
         return (
             # Ignore the check for source language,

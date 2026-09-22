@@ -31,6 +31,7 @@ from weblate.trans.formatting import (
     format_unit_target,
     get_breadcrumbs,
     get_glossary_badge,
+    get_source_changes,
     try_linkify_filename,
     unit_state_class,
     unit_state_title,
@@ -126,6 +127,8 @@ PRIORITY_ICONS = {
     120: ("single_arrow_down", "text-muted", gettext_lazy("Priority: Low")),
     140: ("double_arrow_down", "text-secondary", gettext_lazy("Priority: Very low")),
 }
+
+get_source_changes = register.simple_tag(get_source_changes)
 
 format_unit_target = register.inclusion_tag("snippets/format-translation.html")(
     format_unit_target
