@@ -5292,6 +5292,23 @@ class VCSHgTest(VCSGitTest):
             self.repo.configure_remote("/pullurl", "/push", "branch")
         self.assertEqual(self.repo.get_config("paths", "default-push"), "/push")
 
+    def test_configure_remote_rejects_unsafe_config_values(self) -> None:
+        filename = Path(self.tempdir, ".hg", "hgrc")
+        original = filename.read_bytes()
+
+        for character in ("\r", "\n", "\x00"):
+            with (
+                self.subTest(character=repr(character)),
+                self.repo.lock,
+                self.assertRaises(RepositoryValidationError),
+            ):
+                self.repo.configure_remote(
+                    f"ssh://example.com/repository{character}[alias]",
+                    "",
+                    "branch",
+                )
+            self.assertEqual(filename.read_bytes(), original)
+
     def test_revision_info(self) -> None:
         # Latest commit
         info = self.repo.get_revision_info(self.repo.last_revision)
