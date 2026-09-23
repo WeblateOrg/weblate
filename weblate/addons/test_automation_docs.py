@@ -51,6 +51,10 @@ class AutomationDocumentationTest(SimpleTestCase):
                     ),
                 )
             )
+            self.assertEqual(
+                schema["$defs"]["action"]["oneOf"][-1]["properties"]["scope"],
+                {"oneOf": [{"const": "component"}]},
+            )
             with patch(
                 "weblate.addons.management.commands.list_automation.SCHEMA", schema
             ):

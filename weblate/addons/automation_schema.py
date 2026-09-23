@@ -29,16 +29,39 @@ ACTIONS = {"type": "array", "items": {"$ref": "#/$defs/action"}, "maxItems": 100
 
 
 def action_schema(
-    name: str, title: str, added: str, settings: dict[str, Any]
+    name: str,
+    title: str,
+    added: str,
+    settings: dict[str, Any],
+    *,
+    supported_scopes: frozenset[str] = frozenset({"component"}),
+    query_required_for_component: bool = False,
 ) -> dict[str, Any]:
-    return object_schema(
+    scope_options = [
+        {"const": scope}
+        if scope != "result"
+        else {"type": "string", "pattern": "^result:[a-z][a-z0-9_]{0,63}$"}
+        for scope in ("component", "trigger", "result")
+        if scope in supported_scopes
+    ]
+    schema = object_schema(
         {
             "action": {"const": name},
             "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$"},
+            "scope": {"oneOf": scope_options},
             "settings": settings,
         },
         ["action", "settings"],
     ) | {"title": title, "x-version-added": added}
+    if query_required_for_component:
+        schema |= {
+            "if": {
+                "properties": {"scope": {"pattern": "^(trigger|result:)"}},
+                "required": ["scope"],
+            },
+            "else": {"properties": {"settings": {"required": ["q"]}}},
+        }
+    return schema
 
 
 SCHEMA = {
@@ -133,6 +156,10 @@ SCHEMA = {
                         operation.title,
                         operation.version_added,
                         operation.settings_schema,
+                        supported_scopes=operation.supported_scopes,
+                        query_required_for_component=(
+                            operation.query_required_for_component
+                        ),
                     )
                     for operation in OPERATIONS.values()
                 ],

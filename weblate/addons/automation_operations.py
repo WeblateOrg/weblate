@@ -12,7 +12,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from jsonschema import Draft202012Validator
 
-from weblate.trans.automation import automatic_translation, bulk_edit
+from weblate.trans.automation import UnitSelection, automatic_translation, bulk_edit
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Component
 
@@ -40,16 +40,28 @@ class AutomationOperation:
     version_added: ClassVar[str]
     settings_schema: ClassVar[dict[str, Any]]
     result_schema: ClassVar[dict[str, Any]]
+    supported_scopes: ClassVar[frozenset[str]] = frozenset({"component"})
+    query_required_for_component: ClassVar[bool] = False
 
     @classmethod
     def normalize(
-        cls, settings: dict[str, Any], obj: Component | Project | None
+        cls,
+        settings: dict[str, Any],
+        obj: Component | Project | None,
+        *,
+        scope: str = "component",
     ) -> dict[str, Any]:
         raise NotImplementedError
 
     @classmethod
     def execute(
-        cls, component: Component, settings: dict[str, Any], user: User | None
+        cls,
+        component: Component,
+        settings: dict[str, Any],
+        user: User | None,
+        *,
+        selection: UnitSelection | None = None,
+        affected: UnitSelection | None = None,
     ) -> dict[str, Any]:
         raise NotImplementedError
 
@@ -85,14 +97,24 @@ def validate_result(
 
 
 def execute_operation(
-    action: dict[str, Any], component: Component, user: User | None
+    action: dict[str, Any],
+    component: Component,
+    user: User | None,
+    selection: UnitSelection | None = None,
+    affected: UnitSelection | None = None,
 ) -> dict[str, Any]:
     from django.utils.translation import override  # ruff: ignore[import-outside-top-level]
 
     operation = get_operation(action["action"])
     # Persisted results must not depend on the worker's active UI language.
     with override("en"):
-        result = operation.execute(component, action["settings"], user)
+        result = operation.execute(
+            component,
+            action["settings"],
+            user,
+            selection=selection,
+            affected=affected,
+        )
         validate_result(operation, result)
         return result
 
@@ -102,6 +124,7 @@ class AutomaticTranslationOperation(AutomationOperation):
     name = "weblate.automatic_translation"
     title = "Automatic translation"
     version_added = "2026.10"
+    supported_scopes = frozenset({"component", "trigger", "result"})
     settings_schema = object_schema(
         {
             "mode": {"enum": ["suggest", "translate", "fuzzy", "approved"]},
@@ -130,17 +153,23 @@ class AutomaticTranslationOperation(AutomationOperation):
 
     @classmethod
     def normalize(
-        cls, settings: dict[str, Any], obj: Component | Project | None
+        cls,
+        settings: dict[str, Any],
+        obj: Component | Project | None,
+        *,
+        scope: str = "component",
     ) -> dict[str, Any]:
         data = {
             "mode": "suggest",
-            "q": "state:<translated",
+            "q": "state:<translated" if scope == "component" else "",
             "auto_source": "others",
             "component": None,
             "engines": [],
             "threshold": 80,
         } | settings
         form = AutoForm(obj=obj, user=None, data=data)
+        if scope != "component":
+            form.fields["q"].required = False
         cast("forms.ChoiceField", form.fields["mode"]).choices = cast(
             "forms.ChoiceField", AutoForm.base_fields["mode"]
         ).choices
@@ -154,10 +183,21 @@ class AutomaticTranslationOperation(AutomationOperation):
 
     @classmethod
     def execute(
-        cls, component: Component, settings: dict[str, Any], user: User | None
+        cls,
+        component: Component,
+        settings: dict[str, Any],
+        user: User | None,
+        *,
+        selection: UnitSelection | None = None,
+        affected: UnitSelection | None = None,
     ) -> dict[str, Any]:
         result = automatic_translation(
-            component, settings, user, enforce_permissions=False
+            component,
+            settings,
+            user,
+            enforce_permissions=False,
+            selection=selection,
+            affected=affected,
         )
         warnings = result["warnings"]
         result["warnings"] = [str(warning)[:1024] for warning in warnings[:20]]
@@ -170,6 +210,8 @@ class BulkEditOperation(AutomationOperation):
     name = "weblate.bulk_edit"
     title = "Bulk editing"
     version_added = "2026.10"
+    supported_scopes = frozenset({"component", "trigger", "result"})
+    query_required_for_component = True
     settings_schema = object_schema(
         {
             "q": STRING,
@@ -186,7 +228,7 @@ class BulkEditOperation(AutomationOperation):
             "add_labels": STRINGS,
             "remove_labels": STRINGS,
         },
-        ["q"],
+        [],
     )
     result_schema = object_schema(
         {"component": {"type": "integer"}, "updated": {"type": "integer"}},
@@ -195,8 +237,14 @@ class BulkEditOperation(AutomationOperation):
 
     @classmethod
     def normalize(
-        cls, settings: dict[str, Any], obj: Component | Project | None
+        cls,
+        settings: dict[str, Any],
+        obj: Component | Project | None,
+        *,
+        scope: str = "component",
     ) -> dict[str, Any]:
+        if scope != "component":
+            settings.setdefault("q", "")
         data = {
             "state": -1,
             "add_flags": "",
@@ -208,6 +256,8 @@ class BulkEditOperation(AutomationOperation):
         } | settings
         project = obj.project if isinstance(obj, Component) else obj
         form = BulkEditForm(obj=obj, project=project, user=None, data=data)
+        if scope != "component":
+            form.fields["q"].required = False
         for name in ("add_labels", "remove_labels"):
             if project is None:
                 form.fields[name] = forms.MultipleChoiceField(
@@ -224,6 +274,12 @@ class BulkEditOperation(AutomationOperation):
 
     @classmethod
     def execute(
-        cls, component: Component, settings: dict[str, Any], _user: User | None
+        cls,
+        component: Component,
+        settings: dict[str, Any],
+        _user: User | None,
+        *,
+        selection: UnitSelection | None = None,
+        affected: UnitSelection | None = None,
     ) -> dict[str, Any]:
-        return bulk_edit(component, settings)
+        return bulk_edit(component, settings, selection, affected)
