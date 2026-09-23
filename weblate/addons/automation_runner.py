@@ -15,6 +15,7 @@ from django.utils.translation import override
 from weblate.addons.automation_expressions import expressions
 from weblate.addons.automation_operations import execute_operation
 from weblate.addons.events import AddonActivityLogStatus
+from weblate.trans.automation import UnitSelection
 from weblate.trans.models import Unit
 from weblate.utils.automation import automation_origin
 
@@ -63,6 +64,7 @@ def execution_context(
             "name": trigger,
             "timestamp": (change.timestamp if change else timezone.now()).isoformat(),
             "unit_ids": [unit.pk] if unit else None,
+            "source_unit_ids": [unit.source_unit_id or unit.pk] if unit else None,
             "revision": component.local_revision or None,
         },
         "results": {},
@@ -89,6 +91,32 @@ class Runner:
         self.trace: list[dict[str, Any]] = []
         self.failed = False
         self.planned = False
+        self.selections: dict[str, UnitSelection] = {}
+
+    def selection(self, scope: str) -> UnitSelection:
+        if scope == "component":
+            return UnitSelection()
+        if scope == "trigger":
+            trigger = self.context["trigger"]
+            ids = trigger.get("unit_ids")
+            if not ids:
+                msg = "Trigger scope requires a change with a unit."
+                raise ValueError(msg)
+            source_ids = trigger.get("source_unit_ids")
+            if source_ids is None:
+                source_ids = list(
+                    Unit.objects.filter(
+                        pk__in=ids, translation__component=self.component
+                    ).values_list("source_unit_id", flat=True)
+                )
+            sources = set(source_ids)
+            source_changes = set(ids) & sources
+            return UnitSelection(set(ids) - source_changes, sources, source_changes)
+        action_id = scope.removeprefix("result:")
+        if action_id not in self.selections:
+            msg = f"Result scope requires completed action {action_id}."
+            raise ValueError(msg)
+        return self.selections[action_id]
 
     def record(self, path: str, status: str, **details: object) -> None:
         self.trace.append({"path": path, "status": status, **details})
@@ -187,19 +215,50 @@ class Runner:
                 if skipped:
                     self.record(node_path, "skipped")
                 elif self.preview:
-                    self.record(
-                        node_path,
-                        "conditional" if conditional else "planned",
-                        action=node["action"],
-                    )
-                    self.planned = True
+                    try:
+                        scope = node.get("scope", "component")
+                        if scope == "trigger":
+                            self.selection(scope)
+                        self.record(
+                            node_path,
+                            "conditional"
+                            if conditional or scope.startswith("result:")
+                            else "planned",
+                            action=node["action"],
+                        )
+                        self.planned = True
+                    except Exception as error:
+                        self.failed = True
+                        self.record(node_path, "error", error=str(error)[:4096])
                 else:
                     self.record(node_path, "running", action=node["action"])
-                    try:
-                        output = execute_operation(node, self.component, self.user)
+                    try:  # ruff: ignore[too-many-statements-in-try-clause]
+                        scope = node.get("scope", "component")
+                        selection = self.selection(scope)
+                        scope_units = (
+                            selection.count(self.component)
+                            if scope != "component"
+                            else None
+                        )
+                        affected = UnitSelection(set())
+                        output = execute_operation(
+                            node, self.component, self.user, selection, affected
+                        )
                         if "id" in node:
                             self.context["results"][node["id"]] = output
-                        self.record(node_path, "success", output=output)
+                            self.selections[node["id"]] = affected
+                        self.record(
+                            node_path,
+                            "success",
+                            output=output,
+                            scope=scope,
+                            affected=len(affected.unit_ids or ()),
+                            **(
+                                {"scope_units": scope_units}
+                                if scope_units is not None
+                                else {}
+                            ),
+                        )
                     except Exception as error:
                         self.failed = True
                         self.record(node_path, "error", error=str(error)[:4096])

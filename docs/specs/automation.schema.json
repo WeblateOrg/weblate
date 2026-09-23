@@ -13,6 +13,20 @@
               "pattern": "^[a-z][a-z0-9_]{0,63}$",
               "type": "string"
             },
+            "scope": {
+              "oneOf": [
+                {
+                  "const": "component"
+                },
+                {
+                  "const": "trigger"
+                },
+                {
+                  "pattern": "^result:[a-z][a-z0-9_]{0,63}$",
+                  "type": "string"
+                }
+              ]
+            },
             "settings": {
               "additionalProperties": false,
               "properties": {
@@ -69,6 +83,25 @@
         },
         {
           "additionalProperties": false,
+          "else": {
+            "properties": {
+              "settings": {
+                "required": [
+                  "q"
+                ]
+              }
+            }
+          },
+          "if": {
+            "properties": {
+              "scope": {
+                "pattern": "^(trigger|result:)"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
           "properties": {
             "action": {
               "const": "weblate.bulk_edit"
@@ -76,6 +109,20 @@
             "id": {
               "pattern": "^[a-z][a-z0-9_]{0,63}$",
               "type": "string"
+            },
+            "scope": {
+              "oneOf": [
+                {
+                  "const": "component"
+                },
+                {
+                  "const": "trigger"
+                },
+                {
+                  "pattern": "^result:[a-z][a-z0-9_]{0,63}$",
+                  "type": "string"
+                }
+              ]
             },
             "settings": {
               "additionalProperties": false,
@@ -120,9 +167,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "q"
-              ],
+              "required": [],
               "type": "object"
             }
           },

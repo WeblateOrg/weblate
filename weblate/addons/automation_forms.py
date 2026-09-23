@@ -39,7 +39,7 @@ def validate_operations(
             continue
         try:
             node["settings"] = get_operation(node["action"]).normalize(
-                node["settings"].copy(), obj
+                node["settings"].copy(), obj, scope=node.get("scope", "component")
             )
         except ValidationError as error:
             raise ValidationError(

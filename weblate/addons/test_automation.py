@@ -36,7 +36,8 @@ from weblate.addons.models import AddonActivityLog, handle_addon_event
 from weblate.addons.tasks import run_addon_manually
 from weblate.machinery.base import MachineTranslationError
 from weblate.trans.actions import ActionEvents
-from weblate.trans.autotranslate import BatchAutoTranslate
+from weblate.trans.automation import UnitSelection
+from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
 from weblate.trans.models import Change
 from weblate.trans.tests.test_views import ComponentTestCase
 from weblate.utils.automation import automation_origin
@@ -85,6 +86,12 @@ class DefinitionTest(SimpleTestCase):
             self.assertEqual(
                 variant["properties"]["settings"], operation.settings_schema
             )
+            scopes = variant["properties"]["scope"]["oneOf"]
+            self.assertEqual(len(scopes), len(operation.supported_scopes))
+            self.assertEqual(
+                {option["const"] for option in scopes if "const" in option},
+                operation.supported_scopes - {"result"},
+            )
 
     def test_duplicate_operation_registration_is_rejected(self) -> None:
         class DuplicateOperation(AutomationOperation):
@@ -100,6 +107,7 @@ class DefinitionTest(SimpleTestCase):
         ):
             self.assertEqual(runner.run(), AddonActivityLogStatus.ERROR)
         self.assertEqual(runner.context["results"], {})
+        self.assertEqual(runner.selections, {})
         self.assertEqual(runner.trace[-1]["status"], "error")
         self.assertIn("Invalid result", runner.trace[-1]["error"])
 
@@ -157,6 +165,32 @@ class DefinitionTest(SimpleTestCase):
         self.assertEqual(outcomes, [AddonActivityLogStatus.SUCCESS] * 2)
         self.assertIsNot(runners[0].context["results"], runners[1].context["results"])
 
+    @patch.object(UnitSelection, "count", return_value=10000)
+    @patch("weblate.addons.automation_runner.execute_operation")
+    def test_large_selection_stays_out_of_result(
+        self, operation: Mock, count: Mock
+    ) -> None:
+        def execute(
+            action: dict[str, Any],
+            component: object,
+            user: object,
+            selection: UnitSelection,
+            affected: UnitSelection,
+        ) -> dict[str, int]:
+            if action["id"] == "first":
+                affected.unit_ids = set(range(10000))
+            return {"updated": len(affected.unit_ids or ())}
+
+        operation.side_effect = execute
+        workflow = WORKFLOW | {
+            "actions": [AUTO, AUTO | {"id": "second", "scope": "result:first"}]
+        }
+        runner = Runner(workflow, CONTEXT, Mock(), Mock())
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS)
+        self.assertEqual(count.call_count, 1)
+        self.assertEqual(runner.trace[1]["affected"], 10000)
+        self.assertLess(len(json.dumps(runner.result())), 2000)
+
     def test_deferred_origin_and_worker_cleanup(self) -> None:
         from weblate.utils.celery import (  # ruff: ignore[import-outside-top-level]
             reset_automation_origin,
@@ -197,6 +231,32 @@ class DefinitionTest(SimpleTestCase):
         ):
             with self.subTest(value=value), self.assertRaises(ValidationError):
                 parse_workflow(value)
+
+    def test_scope_validation(self) -> None:
+        trigger = AUTO | {"scope": "trigger"}
+        result = BULK | {"scope": "result:first"}
+        self.assertEqual(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "triggers": [{"trigger": "change", "events": ["source_change"]}],
+                    "actions": [trigger, result],
+                }
+            )["actions"],
+            [trigger, result],
+        )
+        for workflow in (
+            WORKFLOW | {"actions": [trigger]},
+            WORKFLOW
+            | {
+                "triggers": [{"trigger": "daily"}],
+                "actions": [trigger],
+            },
+            WORKFLOW | {"actions": [result, AUTO]},
+            WORKFLOW | {"actions": [BULK | {"settings": {"state": STATE_FUZZY}}]},
+        ):
+            with self.subTest(workflow=workflow), self.assertRaises(ValidationError):
+                parse_workflow(workflow)
 
     def test_cel(self) -> None:
         self.assertEqual(
@@ -364,8 +424,160 @@ class DefinitionTest(SimpleTestCase):
             sum(step["status"] == "conditional" for step in runner.trace), 2
         )
 
+    @patch("weblate.addons.automation_runner.execute_operation")
+    def test_preview_scopes(self, operation: Mock) -> None:
+        runner = Runner(
+            WORKFLOW
+            | {
+                "actions": [
+                    AUTO,
+                    BULK | {"scope": "result:first"},
+                ]
+            },
+            CONTEXT,
+            Mock(),
+            None,
+            preview=True,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS)
+        self.assertEqual(runner.trace[-1]["status"], "conditional")
+        operation.assert_not_called()
+        runner = Runner(
+            WORKFLOW | {"actions": [BULK | {"scope": "trigger"}]},
+            CONTEXT,
+            Mock(),
+            None,
+            preview=True,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.ERROR)
+        self.assertEqual(runner.trace[-1]["status"], "error")
+
 
 class AutomationTest(ComponentTestCase):
+    def test_suggestion_result_tracks_created_unit(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.all()[0]
+        auto = AutoTranslate(
+            translation=translation,
+            user=None,
+            q="",
+            mode="suggest",
+            component_wide=True,
+            enforce_permissions=False,
+        )
+        auto.update(unit, STATE_TRANSLATED, ["Proposed translation"])
+        auto.update(unit, STATE_TRANSLATED, ["Proposed translation"])
+        self.assertEqual(auto.updated, 1)
+        self.assertEqual(auto.affected_unit_ids, {unit.pk})
+        self.assertEqual(auto.affected_source_unit_ids, {unit.source_unit_id})
+
+    def test_trigger_scope_expands_source_change(self) -> None:
+        source = self.component.source_translation.unit_set.all()[0]
+        change = Change.objects.create(
+            unit=source, action=ActionEvents.SOURCE_CHANGE, user=self.user
+        )
+        runner = Runner(
+            WORKFLOW,
+            execution_context(self.component, "change", change),
+            self.component,
+            self.user,
+        )
+        selected = runner.selection("trigger").queryset(self.component)
+        self.assertEqual(
+            set(selected.values_list("pk", flat=True)),
+            set(source.unit_set.exclude(pk=source.pk).values_list("pk", flat=True)),
+        )
+        source.unit_set.exclude(pk=source.pk).update(state=STATE_TRANSLATED)
+        scoped_workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "triggers": [{"trigger": "change", "events": ["source_change"]}],
+                    "actions": [
+                        BULK
+                        | {
+                            "scope": "trigger",
+                            "settings": {"q": "language:cs", "state": STATE_FUZZY},
+                        }
+                    ],
+                }
+            ),
+            self.component,
+        )
+        runner = Runner(
+            scoped_workflow,
+            execution_context(self.component, "change", change),
+            self.component,
+            self.user,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual(
+            source.unit_set.filter(translation__language__code="cs").get().state,
+            STATE_FUZZY,
+        )
+        self.assertTrue(
+            source.unit_set.exclude(pk=source.pk)
+            .exclude(translation__language__code="cs")
+            .filter(state=STATE_TRANSLATED)
+            .exists()
+        )
+        target = source.unit_set.exclude(pk=source.pk)[0]
+        target_change = Change.objects.create(
+            unit=target, action=ActionEvents.CHANGE, user=self.user
+        )
+        runner = Runner(
+            WORKFLOW,
+            execution_context(self.component, "change", target_change),
+            self.component,
+            self.user,
+        )
+        self.assertEqual(
+            list(runner.selection("trigger").queryset(self.component)), [target]
+        )
+
+    def test_result_scope_tracks_only_changed_units(self) -> None:
+        units = self.component.translation_set.get(language_code="cs").unit_set
+        units.update(state=STATE_TRANSLATED)
+        first = units.all()[0]
+        actions = [
+            {
+                "action": "weblate.bulk_edit",
+                "id": "first",
+                "settings": {"q": f"id:{first.pk}", "state": STATE_FUZZY},
+            },
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:first",
+                "settings": {"state": STATE_TRANSLATED},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        runner = Runner(
+            workflow,
+            execution_context(self.component, "manual"),
+            self.component,
+            self.user,
+        )
+        self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual(runner.selections["first"].unit_ids, {first.pk})
+        self.assertEqual(runner.context["results"]["first"]["updated"], 1)
+        self.assertEqual(runner.trace[-1]["scope_units"], 1)
+        self.assertNotIn("unit_ids", json.dumps(runner.result()["context"]["results"]))
+
+    def test_missing_runtime_scopes_fail(self) -> None:
+        for scope in ("trigger", "result:first"):
+            runner = Runner(
+                WORKFLOW | {"actions": [BULK | {"scope": scope}]},
+                CONTEXT,
+                self.component,
+                self.user,
+            )
+            with self.subTest(scope=scope):
+                self.assertEqual(runner.run(), AddonActivityLogStatus.ERROR)
+                self.assertEqual(runner.trace[-1]["status"], "error")
+
     def test_batch_preserves_failure_after_successful_translation(self) -> None:
         auto = BatchAutoTranslate(
             self.component,
@@ -459,6 +671,11 @@ class AutomationTest(ComponentTestCase):
                     "q": "state:empty AND language:cs",
                 },
             },
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:first",
+                "settings": {"state": STATE_FUZZY},
+            },
         ]
         addon = self.install(WORKFLOW | {"actions": actions}, component=target)
         workflow = validate_operations(
@@ -473,6 +690,13 @@ class AutomationTest(ComponentTestCase):
         )
         self.assertEqual(runner.context["results"]["first"]["updated"], 1)
         self.assertGreater(runner.context["results"]["second"]["updated"], 0)
+        self.assertEqual(
+            runner.selections["first"].unit_ids,
+            {target_translation.unit_set.get(source=first.source).pk},
+        )
+        self.assertEqual(
+            target_translation.unit_set.get(source=first.source).state, STATE_FUZZY
+        )
 
     def test_invalid_configuration_and_preview_ui(self) -> None:
         addon = self.install()

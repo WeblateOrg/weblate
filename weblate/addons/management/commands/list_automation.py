@@ -17,6 +17,10 @@ if TYPE_CHECKING:
 
 def describe_parameter(schema: dict[str, Any]) -> str:
     """Describe the public JSON Schema without duplicating parameter definitions."""
+    if "oneOf" in schema:
+        if all(option.get("type") == "object" for option in schema["oneOf"]):
+            return "object"
+        return ", ".join(describe_parameter(option) for option in schema["oneOf"])
     if "$ref" in schema:
         return schema["$ref"].rsplit("/", 1)[-1]
     if "const" in schema:
