@@ -750,9 +750,10 @@ PROFILE_READONLY_FIELDS = (
 )
 
 
+# The email format alone does not make the empty-string alternative exclusive.
 @extend_schema_field(
     {
-        "oneOf": [
+        "anyOf": [
             {"type": "string", "format": "email"},
             {"type": "string", "enum": [""]},
         ]
@@ -810,7 +811,7 @@ class AllowedProjectsField(serializers.Field):
         ]
 
 
-@extend_schema_field(serializers.URLField(allow_null=True))
+@extend_schema_field(serializers.URLField())
 class AllowedComponentListField(serializers.Field):
     """Hyperlinked component list filtered by the viewer's ACL."""
 
@@ -4445,12 +4446,13 @@ class SearchResultSerializer(ReadOnlySerializer):
 
 
 TASK_RESULT_SCHEMA = {
+    # JSON Schema numbers include integers; a separate integer branch in oneOf
+    # would make every integer match twice and fail validation.
     "oneOf": [
         {"type": "object", "additionalProperties": True},
         {"type": "array", "items": {}},
         {"type": "string"},
         {"type": "number"},
-        {"type": "integer"},
         {"type": "boolean"},
         {"type": "null"},
     ]
@@ -4508,7 +4510,7 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
     target_class = ProjectMachinerySettingsSerializer
 
     def map_serializer(self, auto_schema: AutoSchema, direction):
-        return build_object_type(properties={"service_name": build_basic_type(dict)})
+        return build_object_type(additionalProperties=build_basic_type(dict))
 
 
 class BackupSerializer(serializers.Serializer):
