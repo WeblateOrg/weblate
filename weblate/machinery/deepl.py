@@ -161,11 +161,18 @@ class DeepLTranslation(
         if languages_cache is not None:
             return set(languages_cache)
 
-        response = self.request(
-            "get",
-            self.get_api_url("v3", "languages"),
-            params={"resource": "write"},
-        )
+        try:
+            response = self.request(
+                "get",
+                self.get_api_url("v3", "languages"),
+                params={"resource": "write"},
+            )
+        except httpx2.HTTPStatusError as exc:
+            if exc.response.status_code == 404:
+                languages: set[str] = set()
+                cache.set(cache_key, languages, CACHE_EXPIRATION)
+                return languages
+            raise
         languages = {
             item["lang"]
             for item in response.json()
