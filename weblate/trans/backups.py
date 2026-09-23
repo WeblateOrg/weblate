@@ -40,6 +40,7 @@ from django.db.models.signals import pre_save
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext
+from packaging.version import InvalidVersion, Version
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.auth.models import (
@@ -211,6 +212,9 @@ LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING: dict[
         {"xliff_placeables": "placeables", "xml_whitespace_handling": "standard"},
     ),
 }
+LEGACY_XLIFF_IDENTITY_FORMATS = frozenset(
+    {"apple-xliff", "poxliff", "xliff", "xliff2"},
+)
 
 
 def get_project_backup_download_storage() -> Storage:
@@ -634,7 +638,9 @@ class ProjectBackup:
             component.setdefault("vcs_params", {})["git_force_push"] = True
 
     @staticmethod
-    def migrate_component_file_format_params(component: dict[str, Any]) -> None:
+    def migrate_component_file_format_params(
+        component: dict[str, Any], *, backup_version: str | None = None
+    ) -> None:
         """
         Convert file format settings used by older component backups.
 
@@ -651,16 +657,34 @@ class ProjectBackup:
                 component["file_format_params"]["json_sort_keys"] = json_sort_keys
 
         # Migrate file format params for legacy formats
-        if component["file_format"] in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING:
-            new_file_format, migrate_params = LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[
-                component["file_format"]
-            ]
+        file_format = component["file_format"]
+        if file_format not in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING:
+            return
 
-            component["file_format"] = new_file_format
-            file_format_params = migrate_params | component.setdefault(
-                "file_format_params", {}
+        try:
+            backup_uses_xliff_format_params = Version(backup_version).release[:2] >= (
+                2026,
+                10,
             )
-            component["file_format_params"] = file_format_params
+        except InvalidVersion:
+            backup_uses_xliff_format_params = False
+
+        # Skip backup already using XLIFF file format parameters
+        if (
+            file_format in LEGACY_XLIFF_IDENTITY_FORMATS
+            and backup_uses_xliff_format_params(backup_version)
+        ):
+            return
+
+        new_file_format, migrate_params = LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[
+            file_format
+        ]
+
+        component["file_format"] = new_file_format
+        file_format_params = migrate_params | component.setdefault(
+            "file_format_params", {}
+        )
+        component["file_format_params"] = file_format_params
 
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
         """Backup a many to many relation using a unique identifying field of the related object."""
@@ -1637,7 +1661,10 @@ class ProjectBackup:
                 data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
             self.migrate_component_vcs_settings(data["component"])
-            self.migrate_component_file_format_params(data["component"])
+            self.migrate_component_file_format_params(
+                data["component"],
+                backup_version=self.data["metadata"].get("version"),
+            )
             self.validate_component_object(zipfile, filename, data)
             self.component_data[filename] = data
         if skip_linked and data["component"]["repo"].startswith("weblate:"):
