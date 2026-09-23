@@ -993,6 +993,12 @@
                 </div>
               </div>
             {% endif %}
+            {% if unit.location or unit.source_unit.location %}
+              <div class="list-group-item">
+                <h5>{% translate "Source string location" %}</h5>
+                {% get_location_links user unit %}
+              </div>
+            {% endif %}
             <div class="list-group-item">
               <div class="accordion" id="string-info-details-accordion-{{ unit.id }}">
                 <div class="accordion-item">
@@ -1015,12 +1021,6 @@
                               data-clipboard-value="{{ unit.id }}"
                               data-clipboard-message="{% translate "Unit identifier copied to clipboard." %}">{{ unit.id }}</span>
                       </div>
-                      {% if unit.location or unit.source_unit.location %}
-                        <div class="mb-3">
-                          <h5>{% translate "Source string location" %}</h5>
-                          {% get_location_links user unit %}
-                        </div>
-                      {% endif %}
                       <div class="mb-3">
                         {# Translators: Label for timestamp when the string was first imported into Weblate. #}
                         <h5>{% translate "String age" %}</h5>
