@@ -1673,7 +1673,7 @@ class RephraseMachineTranslationMixin(MachineTranslation):
         Occurrences are counted over the full ``sources`` list (after MT cache
         hits), so a cached first plural does not reset the target form index.
         """
-        if not self.is_rephrase_enabled() or self.is_rephrase_rate_limited():
+        if not self.is_rephrase_enabled():
             return None
 
         candidates: list[tuple[int, str, str]] = []
@@ -1706,13 +1706,16 @@ class RephraseMachineTranslationMixin(MachineTranslation):
         try:
             cache.incr(version_key)
         except ValueError:
-            cache.set(version_key, 1, self.cache_expiry)
+            cache.set(version_key, 1, None)
 
     def get_rephrase_rate_limit_cache_key(self) -> str:
         return self.get_cache_key("rephrase-rate-limit")
 
     def is_rephrase_rate_limited(self) -> bool:
         return bool(cache.get(self.get_rephrase_rate_limit_cache_key()))
+
+    async def ais_rephrase_rate_limited(self) -> bool:
+        return bool(await cache.aget(self.get_rephrase_rate_limit_cache_key()))
 
     def set_rephrase_rate_limit(self) -> None:
         cache.set(self.get_rephrase_rate_limit_cache_key(), True, 1800)
@@ -1831,7 +1834,7 @@ class RephraseMachineTranslationMixin(MachineTranslation):
                     continue
             misses.append((candidate_index, target_text))
 
-        if misses:
+        if misses and not self.is_rephrase_rate_limited():
             downloaded_by_target = self._download_unique_rephrases(
                 self._unique_rephrase_targets(misses), write_lang
             )
@@ -1868,7 +1871,7 @@ class RephraseMachineTranslationMixin(MachineTranslation):
                     continue
             misses.append((candidate_index, target_text))
 
-        if misses:
+        if misses and not await self.ais_rephrase_rate_limited():
             downloaded_by_target = await self._adownload_unique_rephrases(
                 self._unique_rephrase_targets(misses), write_lang
             )
