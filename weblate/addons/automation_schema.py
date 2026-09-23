@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from weblate.addons.automation_operations import OPERATIONS, object_schema
 from weblate.addons.events import AddonEvent
 from weblate.trans.actions import ActionEvents
 from weblate.utils.state import StringState
@@ -22,48 +23,9 @@ TRIGGERS = {
 CHANGE_ACTIONS = {action.name.lower(): action.value for action in ActionEvents}
 
 
-def object_schema(properties: dict[str, Any], required: list[str]) -> dict[str, Any]:
-    return {
-        "type": "object",
-        "properties": properties,
-        "required": required,
-        "additionalProperties": False,
-    }
-
-
 STRING = {"type": "string", "maxLength": 4096}
-STRINGS = {"type": "array", "items": STRING, "maxItems": 100}
 CONDITIONS = {"type": "array", "items": {"$ref": "#/$defs/condition"}, "maxItems": 100}
 ACTIONS = {"type": "array", "items": {"$ref": "#/$defs/action"}, "maxItems": 100}
-AUTO_SETTINGS = object_schema(
-    {
-        "mode": {"enum": ["suggest", "translate", "fuzzy", "approved"]},
-        "q": STRING,
-        "auto_source": {"enum": ["others", "mt"]},
-        "component": {"type": ["integer", "null"], "minimum": 1},
-        "engines": STRINGS,
-        "threshold": {"type": "integer", "minimum": 1, "maximum": 100},
-    },
-    [],
-)
-BULK_SETTINGS = object_schema(
-    {
-        "q": STRING,
-        "state": {"type": "integer"},
-        **dict.fromkeys(
-            (
-                "add_flags",
-                "remove_flags",
-                "add_translation_flags",
-                "remove_translation_flags",
-            ),
-            STRING,
-        ),
-        "add_labels": STRINGS,
-        "remove_labels": STRINGS,
-    },
-    ["q"],
-)
 
 
 def action_schema(
@@ -165,15 +127,15 @@ SCHEMA = {
         },
         "action": {
             "oneOf": [
-                action_schema(
-                    "weblate.automatic_translation",
-                    "Automatic translation",
-                    "2026.10",
-                    AUTO_SETTINGS,
-                ),
-                action_schema(
-                    "weblate.bulk_edit", "Bulk editing", "2026.10", BULK_SETTINGS
-                ),
+                *[
+                    action_schema(
+                        operation.name,
+                        operation.title,
+                        operation.version_added,
+                        operation.settings_schema,
+                    )
+                    for operation in OPERATIONS.values()
+                ],
                 object_schema({"sequence": ACTIONS}, ["sequence"])
                 | {"title": "Sequence", "x-version-added": "2026.10"},
                 object_schema(

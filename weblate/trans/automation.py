@@ -8,8 +8,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from django.utils.translation import override
-
 from weblate.machinery.base import MachineTranslationError
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.bulk import bulk_perform
@@ -71,22 +69,3 @@ def bulk_edit(component: Component, settings: dict[str, Any]) -> dict[str, Any]:
         project=component.project,
     )
     return {"component": component.pk, "updated": updated}
-
-
-def execute_operation(
-    action: dict[str, Any], component: Component, user: User | None
-) -> dict[str, Any]:
-    # Persisted results must not depend on the worker's active UI language.
-    with override("en"):
-        if action["action"] == "weblate.automatic_translation":
-            result = automatic_translation(
-                component, action["settings"], user, enforce_permissions=False
-            )
-            warnings = result["warnings"]
-            result["warnings"] = [str(warning)[:1024] for warning in warnings[:20]]
-            result["warnings_omitted"] = max(0, len(warnings) - 20)
-            return result
-        if action["action"] == "weblate.bulk_edit":
-            return bulk_edit(component, action["settings"])
-    msg = "Unsupported automation operation"
-    raise ValueError(msg)

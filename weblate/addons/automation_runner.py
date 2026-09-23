@@ -13,8 +13,8 @@ from django.utils import timezone
 from django.utils.translation import override
 
 from weblate.addons.automation_expressions import expressions
+from weblate.addons.automation_operations import execute_operation
 from weblate.addons.events import AddonActivityLogStatus
-from weblate.trans.automation import execute_operation
 from weblate.trans.models import Unit
 from weblate.utils.automation import automation_origin
 

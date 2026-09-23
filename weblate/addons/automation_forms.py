@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 
 from crispy_forms.helper import FormHelper
 from django import forms
@@ -17,15 +17,15 @@ from weblate.addons.automation_definition import (
     validate_workflow_size,
     walk,
 )
+from weblate.addons.automation_operations import get_operation
 from weblate.addons.forms import BaseAddonForm
-from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.trans.models import Component, Project
 from weblate.utils.forms import QueryField
 
 if TYPE_CHECKING:
     from weblate.addons.automation import AutomationAddon
     from weblate.addons.models import Addon
     from weblate.auth.models import User
+    from weblate.trans.models import Component, Project
 
 
 def validate_operations(
@@ -37,55 +37,15 @@ def validate_operations(
             QueryField().clean(node["value"])
         if "action" not in node:
             continue
-        form: forms.Form
-        data = node["settings"].copy()
-        if node["action"] == "weblate.automatic_translation":
-            data = {
-                "mode": "suggest",
-                "q": "state:<translated",
-                "auto_source": "others",
-                "component": None,
-                "engines": [],
-                "threshold": 80,
-            } | data
-            form = AutoForm(obj=obj, user=None, data=data)
-            cast("forms.ChoiceField", form.fields["mode"]).choices = cast(
-                "forms.ChoiceField", AutoForm.base_fields["mode"]
-            ).choices
-            if obj is None:
-                cast("forms.MultipleChoiceField", form.fields["engines"]).choices = [
-                    (engine, engine) for engine in data["engines"]
-                ]
-        else:
-            data = {
-                "state": -1,
-                "add_flags": "",
-                "remove_flags": "",
-                "add_translation_flags": "",
-                "remove_translation_flags": "",
-                "add_labels": [],
-                "remove_labels": [],
-            } | data
-            project = obj.project if isinstance(obj, Component) else obj
-            form = BulkEditForm(obj=obj, project=project, user=None, data=data)
-            for name in ("add_labels", "remove_labels"):
-                if project is None:
-                    form.fields[name] = forms.MultipleChoiceField(
-                        required=False, choices=[(label, label) for label in data[name]]
-                    )
-                else:
-                    cast(
-                        "forms.ModelMultipleChoiceField", form.fields[name]
-                    ).to_field_name = "name"
-        if not form.is_valid():
+        try:
+            node["settings"] = get_operation(node["action"]).normalize(
+                node["settings"].copy(), obj
+            )
+        except ValidationError as error:
             raise ValidationError(
                 gettext("%(path)s: %(error)s")
-                % {"path": path, "error": str(form.errors.as_text())}
-            )
-        if node["action"] == "weblate.automatic_translation":
-            node["settings"] = {key: form.cleaned_data[key] for key in data}
-        else:
-            node["settings"] = data
+                % {"path": path, "error": error.messages[0]}
+            ) from error
     validate_workflow_size(workflow)
     return workflow
 
