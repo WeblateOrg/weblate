@@ -398,7 +398,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     format_id: str = ""
     monolingual: bool | None = None
     check_flags: tuple[str, ...] = ()
-    unit_class: ClassVar[type[T] | dict[str, type[T]]] = TranslationUnit  # type: ignore[assignment]
+    unit_class: ClassVar[type[T]] = TranslationUnit  # type: ignore[assignment]
+    unit_class_variants: ClassVar[dict[str, type[T]]] = {}
     autoload: tuple[str, ...] = ()
     can_add_unit: bool = True
     can_delete_unit: bool = True
@@ -452,13 +453,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         cls, file_format_params: FileFormatParams | None = None
     ) -> type[T]:
         """Return class for wrapping store units."""
-        unit_class = cls.unit_class
-        if not isinstance(unit_class, dict):
-            return unit_class
         variant = cls.get_unit_class_variant(file_format_params)
-        if variant in unit_class:
-            return unit_class[variant]
-        return next(iter(unit_class.values()))
+        if variant is None:
+            return cls.unit_class
+        return cls.unit_class_variants.get(variant, cls.unit_class)
 
     def __init__(
         self,

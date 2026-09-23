@@ -73,8 +73,9 @@ def find_identity(
     """Find physical entries even when their template has already been renamed."""
     if not (store.has_template or store.is_template):
         return store.find_unit(identity["context"], identity["source"])[0]
+    unit_class = store.get_unit_class(store.file_format_params)
     for raw in store.all_store_units:
-        unit = store.unit_class(store, raw, raw)
+        unit = unit_class(store, raw, raw)
         if unit.context == identity["context"]:
             return unit
     raise UnitNotFoundError(identity["context"], identity["source"])
@@ -107,11 +108,10 @@ def edit_identity(
                     )
                 }
             )
+        unit_class = store.get_unit_class(store.file_format_params)
         for raw in store.all_store_units:
             other = (
-                store.unit_class(store, raw, raw)
-                if monolingual
-                else store.unit_class(store, raw)
+                unit_class(store, raw, raw) if monolingual else unit_class(store, raw)
             )
             if (
                 raw is not unit.unit

@@ -474,7 +474,7 @@ class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
 class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     TranslationFormat[S, U, T]
 ):
-    unit_class: ClassVar[type[T] | dict[str, type[T]]] = TTKitUnit  # type: ignore[assignment]
+    unit_class: ClassVar[type[T]] = TTKitUnit  # type: ignore[assignment]
     loader: ClassVar[tuple[str, str] | dict[str, tuple[str, str]] | type[S]] = ("", "")
     set_context_bilingual = True
     # Use settarget/setsource to set language as well
@@ -2248,7 +2248,7 @@ class BaseXliffFormat(TTKitFormat):
     supports_flags = True
     supports_read_only = True
     additional_states = (STATE_FUZZY, STATE_APPROVED)
-    unit_class: ClassVar[type[XliffUnit] | dict[str, type[XliffUnit]]] = XliffUnit  # type: ignore[assignment]
+    unit_class: ClassVar[type[XliffUnit]] = XliffUnit
     language_format = "bcp"
     use_settarget = True
     empty_file_template: str | None = """<?xml version="1.0" encoding="UTF-8"?>
@@ -2346,7 +2346,8 @@ class XliffFormat(BaseXliffFormat):
     name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "xliff"
     autoload: tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
-    unit_class: ClassVar[type[XliffUnit] | dict[str, type[XliffUnit]]] = {  # type: ignore[assignment]
+    unit_class: ClassVar[type[XliffUnit]] = RichXliffUnit
+    unit_class_variants: ClassVar[dict[str, type[XliffUnit]]] = {
         "placeables": RichXliffUnit,
         "plain": XliffUnit,
     }
@@ -2381,10 +2382,6 @@ class Xliff2Format(XliffFormat):
     format_id = "xliff2"
     loader = Xliff2File  # type: ignore[assignment]
     autoload: tuple[str, ...] = ()
-    unit_class: ClassVar[type[XliffUnit] | dict[str, type[XliffUnit]]] = {  # type: ignore[assignment]
-        "plain": XliffUnit,
-        "placeables": RichXliffUnit,
-    }
     empty_file_template = None
     monolingual = False
 

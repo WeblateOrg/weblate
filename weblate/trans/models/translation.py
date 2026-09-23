@@ -627,7 +627,7 @@ class Translation(
             for unit in self.unit_set.prefetch_bulk().select_for_update()
         }
         pending_identities = {
-            store.unit_class.calculate_id_hash(
+            store.get_unit_class(store.file_format_params).calculate_id_hash(
                 store.has_template or store.is_template, disk["source"], disk["context"]
             ): unit
             for unit in dbunits.values()
@@ -3215,7 +3215,9 @@ class Translation(
                     metadata__identity__context=context,
                 ).exists()
             )
-        calculate_hash = self.component.file_format_cls.unit_class.calculate_id_hash
+        calculate_hash = self.component.file_format_cls.get_unit_class(
+            self.component.file_format_params
+        ).calculate_id_hash
         monolingual = self.component.has_template()
         identity_hash = calculate_hash(monolingual, source, context)
         reserved = chain(

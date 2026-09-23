@@ -77,7 +77,9 @@ def edit_source(
         if old == new and explanation == source_unit.explanation:
             return source_unit
         _validate_request(component, old, new)
-        unit_class = component.file_format_cls.unit_class
+        unit_class = component.file_format_cls.get_unit_class(
+            component.file_format_params
+        )
         new_hash = unit_class.calculate_id_hash(
             component.has_template(), new["source"], new["context"]
         )

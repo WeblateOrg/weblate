@@ -672,7 +672,7 @@ class ProjectBackup:
         # Skip backup already using XLIFF file format parameters
         if (
             file_format in LEGACY_XLIFF_IDENTITY_FORMATS
-            and backup_uses_xliff_format_params(backup_version)
+            and backup_uses_xliff_format_params
         ):
             return
 

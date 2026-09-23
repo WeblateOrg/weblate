@@ -50,7 +50,8 @@ def test_key_roundtrip(format_id: str, content: str, new_key: str) -> None:
     store = cls(BytesIO(content.encode()), is_template=True)
     store = clone_for_edit(store)
     raw = next(iter(store.all_store_units))
-    unit = store.unit_class(store, raw, raw)
+    unit_class = store.get_unit_class(store.file_format_params)
+    unit = unit_class(store, raw, raw)
     target = unit.target
     notes = unit.notes
     edit_identity(store, unit, {"source": unit.source, "context": new_key})
@@ -95,7 +96,8 @@ def test_bilingual_source_roundtrip(format_id: str) -> None:
 def test_complex_fluent_edit_rejected(content: str) -> None:
     store = FILE_FORMATS["fluent"](BytesIO(content.encode()), is_template=True)
     raw = next(iter(store.all_store_units))
-    unit = store.unit_class(store, raw, raw)
+    unit_class = store.get_unit_class(store.file_format_params)
+    unit = unit_class(store, raw, raw)
     original = store.serialize(store.store)
     with pytest.raises(ValidationError, match="attributes or selectors"):
         edit_identity(store, unit, {"source": unit.source, "context": "new"})
