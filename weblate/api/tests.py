@@ -5680,6 +5680,29 @@ class ProjectAPITest(APIBaseTest):
             request={},
         )
 
+    def test_create_component_rejects_unsafe_repository_url(self) -> None:
+        with patch.object(Component, "clean") as component_clean:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                format="json",
+                request={
+                    "name": "Unsafe repository",
+                    "slug": "unsafe-repository",
+                    "repo": "ssh://example.com/repository\r[alias]\rlog = !true",
+                    "filemask": "po/*.po",
+                    "file_format": "po",
+                    "new_lang": "none",
+                },
+            )
+
+        component_clean.assert_not_called()
+        self.assertEqual(response.data["errors"][0]["attr"], "repo")
+        self.assertFalse(Component.objects.filter(slug="unsafe-repository").exists())
+
     def test_create_component_no_format(self) -> None:
         repo_url = self.format_local_path(self.git_repo_path)
         response = self.do_request(
@@ -8416,6 +8439,33 @@ class ComponentAPITest(APIBaseTest):
             request={"name": "New Name"},
         )
         self.assertEqual(response.data["name"], "New Name")
+
+    def test_patch_rejects_unsafe_repository_urls(self) -> None:
+        original_repo = self.component.repo
+        original_push = self.component.push
+
+        for field in ("repo", "push"):
+            with (
+                self.subTest(field=field),
+                patch.object(Component, "clean") as component_clean,
+            ):
+                response = self.do_request(
+                    "api:component-detail",
+                    self.component_kwargs,
+                    method="patch",
+                    superuser=True,
+                    code=400,
+                    format="json",
+                    request={
+                        field: "ssh://example.com/repository\r[alias]\rlog = !true"
+                    },
+                )
+
+            component_clean.assert_not_called()
+            self.assertEqual(response.data["errors"][0]["attr"], field)
+            self.component.refresh_from_db()
+            self.assertEqual(self.component.repo, original_repo)
+            self.assertEqual(self.component.push, original_push)
 
     def test_patch_rejects_inaccessible_repository_link(self) -> None:
         private_component = self.create_acl()

@@ -108,6 +108,7 @@ from weblate.utils.validators import (
     validate_component_zip_upload_size,
     validate_file_extension,
     validate_plural_formula_range,
+    validate_repo_url,
     validate_translation_upload_size,
 )
 from weblate.utils.version import GIT_VERSION
@@ -2090,9 +2091,14 @@ class ComponentSerializer(RemovableSerializer[Component]):
     )
     source_language = LanguageSerializer(required=False)
 
-    repo = RepoField(max_length=REPO_LENGTH)
+    repo = RepoField(max_length=REPO_LENGTH, validators=[validate_repo_url])
 
-    push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    push = RepoField(
+        required=False,
+        allow_blank=True,
+        max_length=REPO_LENGTH,
+        validators=[validate_repo_url],
+    )
     branch = LinkedField(required=False, allow_blank=True, max_length=BRANCH_LENGTH)
     push_branch = LinkedField(
         required=False, allow_blank=True, max_length=BRANCH_LENGTH

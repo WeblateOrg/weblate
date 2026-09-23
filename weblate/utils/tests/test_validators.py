@@ -910,6 +910,22 @@ class OutboundAddressValidationTest(SimpleTestCase):
 
 
 class RepoURLValidationTestCase(SimpleTestCase):
+    def test_unsafe_characters(self) -> None:
+        for character in ("\r", "\n", "\x00"):
+            with (
+                self.subTest(character=repr(character)),
+                patch("weblate.vcs.ssh.resolve_ssh_destination") as resolve_destination,
+                patch("weblate.utils.outbound.socket.getaddrinfo") as getaddrinfo,
+                self.assertRaisesMessage(
+                    ValidationError, "Repository URL contains unsafe characters."
+                ),
+            ):
+                validate_repo_url(
+                    f"ssh://username@example.com/repository{character}injected"
+                )
+            resolve_destination.assert_not_called()
+            getaddrinfo.assert_not_called()
+
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[
