@@ -60,7 +60,7 @@ from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.backups import LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING, ProjectBackup
+from weblate.trans.backups import ProjectBackup
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -3395,23 +3395,6 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
     def get_discovery_data(value: DiscoveryResult) -> dict[str, Any]:
         data = dict(cast("dict[str, Any]", value.match))
         file_format = data.get("file_format")
-
-        # temporary patch until translation-finder is updated
-        # as it still emits retired format IDs (e.g 'plainxliff')
-        # that need to be remapped to current formats
-        if (
-            isinstance(file_format, str)
-            and file_format not in FILE_FORMATS
-            and file_format in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING
-        ):
-            file_format, extra_params = LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[
-                file_format
-            ]
-            data["file_format"] = file_format
-            existing_params = data.get("file_format_params")
-            if not isinstance(existing_params, dict):
-                existing_params = {}
-            data["file_format_params"] = {**extra_params, **existing_params}
         file_format_params = data.get("file_format_params")
 
         if file_format_params is None:
