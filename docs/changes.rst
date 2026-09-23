@@ -68,6 +68,8 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* Scheduled repository alert checks now run in bounded batches to reduce peak worker
+  memory use.
 * Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry middleware instrumentation is enabled.
 * Reduced aggregation overhead for the :ref:`check-inconsistent` check on large projects.
 * :ref:`mt-anthropic` machine translation now preserves the path component of a custom base URL, so API gateways which serve the messages endpoint below a path prefix are reachable.

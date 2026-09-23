@@ -88,6 +88,7 @@ from weblate.utils.stats import ProjectLanguage, prefetch_stats
 from weblate.vcs.base import RepositoryError
 
 COMPONENT_MEMORY_CLEANUP_BATCH_SIZE = 1000
+REPOSITORY_ALERT_BATCH_SIZE = 100
 LEGACY_REPOSITORY_LOCK_MAX_RETRIES = 3
 
 if TYPE_CHECKING:
@@ -1032,8 +1033,24 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
 
 @app.task(trail=False)
 def repository_alerts(threshold: int = settings.REPOSITORY_ALERT_THRESHOLD) -> None:
-    non_linked = Component.objects.with_repo()
-    for component in non_linked.iterator():
+    component_ids = (
+        Component.objects.with_repo().order_by("pk").values_list("pk", flat=True)
+    )
+    for batch in batched(
+        component_ids.iterator(chunk_size=REPOSITORY_ALERT_BATCH_SIZE),
+        REPOSITORY_ALERT_BATCH_SIZE,
+    ):
+        repository_alerts_batch.delay(list(batch), threshold)
+
+
+@app.task(trail=False)
+def repository_alerts_batch(component_ids: list[int], threshold: int) -> None:
+    components = (
+        Component.objects.with_repo()
+        .filter(pk__in=component_ids)
+        .order_by("pk")
+    )
+    for component in components.iterator(chunk_size=REPOSITORY_ALERT_BATCH_SIZE):
         try:
             update_repository_alerts(component, threshold)
         except RepositoryError as error:

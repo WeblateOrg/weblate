@@ -11,7 +11,7 @@ from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
-from unittest.mock import ANY, Mock, patch
+from unittest.mock import ANY, call, Mock, patch
 
 from celery.exceptions import Retry
 from django.core.cache import cache
@@ -47,6 +47,7 @@ from weblate.trans.repository_context import (
     repository_task_suppress_auto_push,
 )
 from weblate.trans.tasks import (
+    REPOSITORY_ALERT_BATCH_SIZE,
     RepositoryOperationRetryError,
     cleanup_repos,
     cleanup_stale_repos,
@@ -62,6 +63,8 @@ from weblate.trans.tasks import (
     perform_repository_operation,
     perform_update,
     project_removal,
+    repository_alerts,
+    repository_alerts_batch,
     update_checks,
     update_remotes,
 )
@@ -958,6 +961,55 @@ class TasksTest(ComponentTestCase):
             component_alerts([second.pk, self.component.pk])
 
         self.assertEqual(processed, [self.component.pk, second.pk])
+
+    def test_repository_alerts_dispatches_bounded_batches(self) -> None:
+        component_ids = Mock()
+        component_ids.iterator.return_value = iter(
+            range(REPOSITORY_ALERT_BATCH_SIZE * 2 + 1)
+        )
+        queryset = Mock()
+        ordered_queryset = queryset.order_by.return_value
+        ordered_queryset.values_list.return_value = component_ids
+
+        with (
+            patch.object(Component.objects, "with_repo", return_value=queryset),
+            patch.object(repository_alerts_batch, "delay") as schedule_batch,
+        ):
+            repository_alerts(threshold=7)
+
+        queryset.order_by.assert_called_once_with("pk")
+        ordered_queryset.values_list.assert_called_once_with("pk", flat=True)
+        component_ids.iterator.assert_called_once_with(
+            chunk_size=REPOSITORY_ALERT_BATCH_SIZE
+        )
+        self.assertEqual(
+            schedule_batch.call_args_list,
+            [
+                call(list(range(REPOSITORY_ALERT_BATCH_SIZE)), 7),
+                call(
+                    list(
+                        range(
+                            REPOSITORY_ALERT_BATCH_SIZE,
+                            2 * REPOSITORY_ALERT_BATCH_SIZE,
+                        )
+                    ),
+                    7,
+                ),
+                call([2 * REPOSITORY_ALERT_BATCH_SIZE], 7),
+            ],
+        )
+
+    def test_repository_alerts_batch_checks_components(self) -> None:
+        second = self.create_po(project=self.project, name="Second")
+
+        with patch("weblate.trans.tasks.update_repository_alerts") as check:
+            repository_alerts_batch([self.component.pk, second.pk], 7)
+
+        self.assertEqual(
+            [call.args[0].pk for call in check.call_args_list],
+            [self.component.pk, second.pk],
+        )
+        self.assertEqual([call.args[1] for call in check.call_args_list], [7, 7])
 
     def test_daily_update_checks(self) -> None:
         daily_update_checks()
