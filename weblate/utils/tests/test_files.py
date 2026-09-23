@@ -111,13 +111,23 @@ class FilesTestCase(SimpleTestCase):
         self.assertFalse(is_unsafe_path("build/translation.txt"))
 
     def test_is_vcs_metadata_path(self) -> None:
-        self.assertTrue(is_vcs_metadata_path(".git/config"))
-        self.assertTrue(is_vcs_metadata_path("path/.hg/hgrc"))
-        self.assertTrue(is_vcs_metadata_path(".GIT/CONFIG"))
-        self.assertTrue(is_vcs_metadata_path(r"path\.Hg\hgrc"))
+        for path in (
+            ".git/config",
+            "path/.hg/hgrc",
+            ".svn/wc.db",
+            "path/.bzr/README",
+            ".GIT/CONFIG",
+            r"path\.Hg\hgrc",
+            ".SVN/WC.DB",
+            r"path\.BzR\README",
+        ):
+            with self.subTest(path=path):
+                self.assertTrue(is_vcs_metadata_path(path))
         self.assertFalse(is_vcs_metadata_path("build/translation.txt"))
         self.assertFalse(is_vcs_metadata_path("node_modules/translation.txt"))
         self.assertFalse(is_vcs_metadata_path("docs/.gitish/config"))
+        self.assertFalse(is_vcs_metadata_path("docs/.svnignore"))
+        self.assertFalse(is_vcs_metadata_path("docs/.bzrignore"))
 
     def test_is_path_within_directory_accepts_descendants(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:

@@ -113,7 +113,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     language_map: ClassVar[dict[str, str]] = {}
     same_languages = False
     do_cleanup = True
-    # Batch size is currently used in autotranslate
+    # Unit limit for automatic translation and quality evaluation requests.
     batch_size = 20
     accounting_key = "external"
     force_uncleanup = False

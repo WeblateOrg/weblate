@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import pathlib
 import shutil
@@ -540,9 +542,10 @@ class ComponentDiscoveryTest(RepoTestCase):
     def test_repository_paths_exclude_vcs_metadata(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
             root = pathlib.Path(tempdir)
-            metadata = root / ".git"
-            metadata.mkdir()
-            (metadata / "config").touch()
+            for dirname in (".git", ".hg", ".svn", ".bzr"):
+                metadata = root / dirname
+                metadata.mkdir()
+                (metadata / "translation.po").touch()
             (root / "translation.po").touch()
             discovery = ComponentDiscovery(
                 self.component,
@@ -633,6 +636,71 @@ class ComponentDiscoveryTest(RepoTestCase):
                 ),
             )
         )
+
+    def test_create_component_with_inherited_settings(self) -> None:
+        project = self.component.project
+        project.license = "CC-BY-SA-4.0"
+        project.commit_message = "Inherited commit message"
+        project.save(update_fields=["license", "commit_message"])
+        Component.objects.filter(pk=self.component.pk).update(
+            license="",
+            inherit_license=True,
+            commit_message="",
+            inherit_commit_message=True,
+        )
+        self.component.refresh_from_db()
+        match = self.discovery.matched_components["second-po/*.po"]
+
+        for preview in (True, False):
+            with self.subTest(preview=preview):
+                component = self.discovery.create_component(
+                    self.component,
+                    match,
+                    preview=preview,
+                    existing_slugs=set(),
+                    existing_names=set(),
+                )
+                if not preview:
+                    component.refresh_from_db()
+                self.assertEqual(component.license, "")
+                self.assertTrue(component.inherit_license)
+                self.assertEqual(component.effective_license, "CC-BY-SA-4.0")
+                self.assertEqual(component.commit_message, "")
+                self.assertTrue(component.inherit_commit_message)
+                self.assertEqual(
+                    component.effective_commit_message, "Inherited commit message"
+                )
+
+        project.license = "MIT"
+        project.save(update_fields=["license"])
+        component.refresh_from_db()
+        self.assertEqual(component.effective_license, "MIT")
+
+    def test_create_component_background_with_inherited_license(self) -> None:
+        project = self.component.project
+        project.license = "CC-BY-SA-4.0"
+        project.save(update_fields=["license"])
+        Component.objects.filter(pk=self.component.pk).update(
+            license="", inherit_license=True
+        )
+        self.component.refresh_from_db()
+        match = self.discovery.matched_components["second-po/*.po"]
+
+        with patch("weblate.trans.discovery.create_component.delay") as delay:
+            self.discovery.create_component(
+                self.component,
+                match,
+                background=True,
+                existing_slugs=set(),
+                existing_names=set(),
+            )
+
+        delay.assert_called_once()
+        result = create_component(**delay.call_args.kwargs)
+        component = Component.objects.get(pk=result["component"])
+        self.assertEqual(component.license, "")
+        self.assertTrue(component.inherit_license)
+        self.assertEqual(component.effective_license, "CC-BY-SA-4.0")
 
     def test_create_component_preview_applies_inheritance_defaults(self) -> None:
         self.component.project.license = "GPL-3.0-or-later"

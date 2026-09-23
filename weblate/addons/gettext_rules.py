@@ -17,6 +17,37 @@ GETTEXT_DATA_DIR = Path(__file__).resolve().parent / "extractors" / "gettext"
 ITS_NAMESPACE = "http://www.w3.org/2005/11/its"
 GETTEXT_NAMESPACE = "https://www.gnu.org/s/gettext/ns/its/extensions/1.0"
 
+# Repository-provided rules are validated in web and Celery processes, so keep
+# their parsing and XPath compilation resource usage predictably bounded.
+MAX_RULE_FILE_SIZE = 1024 * 1024
+MAX_RULES_TOTAL_SIZE = 10 * MAX_RULE_FILE_SIZE
+MAX_RULE_FILES = 100
+MAX_RULE_ELEMENTS = 10_000
+MAX_RULE_XPATHS = 1_000
+MAX_RULE_XPATH_LENGTH = 4_096
+
+
+def validate_rule_file_size(filename: Path) -> None:
+    if filename.stat().st_size > MAX_RULE_FILE_SIZE:
+        raise ValidationError(gettext("ITS rule file is too large."))
+
+
+def validate_rule_xpath(value: str, namespaces: dict[str, str], count: int) -> None:
+    if count > MAX_RULE_XPATHS:
+        raise ValidationError(
+            gettext("ITS rule file contains too many XPath expressions.")
+        )
+    if len(value) > MAX_RULE_XPATH_LENGTH:
+        raise ValidationError(gettext("ITS XPath expression is too long."))
+    etree.XPath(value, namespaces=namespaces)
+
+
+def validate_rule_collection(file_count: int, total_size: int) -> None:
+    if file_count > MAX_RULE_FILES:
+        raise ValidationError(gettext("Too many ITS rule files."))
+    if total_size > MAX_RULES_TOTAL_SIZE:
+        raise ValidationError(gettext("ITS rule files are too large."))
+
 
 def get_bundled_rules_fingerprint(directory: Path) -> str:
     """Fingerprint the bundled rules, including their locating filenames."""
@@ -43,6 +74,7 @@ def validate_data_dirs(value: object) -> list[str]:
 
 def validate_rule_file(filename: Path) -> None:
     """Check rules without loading DTDs, entities, or external resources."""
+    validate_rule_file_size(filename)
     parser = etree.XMLParser(
         resolve_entities=False,
         load_dtd=False,
@@ -59,7 +91,10 @@ def validate_rule_file(filename: Path) -> None:
     )
     if root.tag != expected:
         raise ValidationError(gettext("Invalid ITS rule document root."))
-    for element in root.iter():
+    xpath_count = 0
+    for element_count, element in enumerate(root.iter(), start=1):
+        if element_count > MAX_RULE_ELEMENTS:
+            raise ValidationError(gettext("ITS rule file contains too many elements."))
         if not isinstance(element.tag, str):
             raise ValidationError(gettext("Unsupported ITS rule content."))
         tag = etree.QName(element)
@@ -93,9 +128,11 @@ def validate_rule_file(filename: Path) -> None:
             if name == "target":
                 validate_rule_target(filename, value)
             if name == "selector" or name.endswith("Pointer"):
-                etree.XPath(
+                xpath_count += 1
+                validate_rule_xpath(
                     value,
-                    namespaces={key: uri for key, uri in element.nsmap.items() if key},
+                    {key: uri for key, uri in element.nsmap.items() if key},
+                    xpath_count,
                 )
 
 
@@ -118,6 +155,7 @@ def validate_rule_target(filename: Path, value: str) -> None:
 def resolve_data_dirs(root: Path, names: object) -> list[Path]:
     """Resolve and validate repository-local gettext data directories."""
     result = []
+    file_count = total_size = 0
     for name in validate_data_dirs(names):
         relative = Path(name) / "its"
         directory = root
@@ -140,6 +178,9 @@ def resolve_data_dirs(root: Path, names: object) -> list[Path]:
                     gettext("ITS rules must be regular files, not symbolic links.")
                 )
             try:
+                file_count += 1
+                total_size += filename.stat().st_size
+                validate_rule_collection(file_count, total_size)
                 validate_rule_file(filename)
             except ValidationError as error:
                 raise ValidationError(

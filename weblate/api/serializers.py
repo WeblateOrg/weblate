@@ -108,6 +108,7 @@ from weblate.utils.validators import (
     validate_component_zip_upload_size,
     validate_file_extension,
     validate_plural_formula_range,
+    validate_repo_url,
     validate_translation_upload_size,
 )
 from weblate.utils.version import GIT_VERSION
@@ -750,9 +751,10 @@ PROFILE_READONLY_FIELDS = (
 )
 
 
+# The email format alone does not make the empty-string alternative exclusive.
 @extend_schema_field(
     {
-        "oneOf": [
+        "anyOf": [
             {"type": "string", "format": "email"},
             {"type": "string", "enum": [""]},
         ]
@@ -810,7 +812,7 @@ class AllowedProjectsField(serializers.Field):
         ]
 
 
-@extend_schema_field(serializers.URLField(allow_null=True))
+@extend_schema_field(serializers.URLField())
 class AllowedComponentListField(serializers.Field):
     """Hyperlinked component list filtered by the viewer's ACL."""
 
@@ -2089,9 +2091,14 @@ class ComponentSerializer(RemovableSerializer[Component]):
     )
     source_language = LanguageSerializer(required=False)
 
-    repo = RepoField(max_length=REPO_LENGTH)
+    repo = RepoField(max_length=REPO_LENGTH, validators=[validate_repo_url])
 
-    push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    push = RepoField(
+        required=False,
+        allow_blank=True,
+        max_length=REPO_LENGTH,
+        validators=[validate_repo_url],
+    )
     branch = LinkedField(required=False, allow_blank=True, max_length=BRANCH_LENGTH)
     push_branch = LinkedField(
         required=False, allow_blank=True, max_length=BRANCH_LENGTH
@@ -2936,7 +2943,7 @@ class TranslationCreateSerializer(ReadOnlySerializer):
         component = self.context["component"]
         request = self.context["request"]
         source_components = []
-        source_queryset = Component.objects.filter(
+        source_queryset = Component.objects.filter_access(request.user).filter(
             models.Q(project_id=component.project_id)
             | models.Q(project__contribute_shared_tm=True)
         )
@@ -3004,6 +3011,7 @@ class TranslationCreateSerializer(ReadOnlySerializer):
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
+    ignore_language = serializers.BooleanField(required=False, default=False)
     file = serializers.FileField(validators=[validate_translation_upload_size])
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
@@ -3724,8 +3732,23 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         }
 
 
+class UnitSourceSerializer(serializers.Serializer):
+    content_hash = serializers.IntegerField()
+    source = serializers.ListField(  # type: ignore[assignment]
+        child=serializers.CharField(allow_blank=True, trim_whitespace=False),
+        required=False,
+        allow_empty=False,
+    )
+    context = serializers.CharField(  # type: ignore[assignment]
+        required=False, allow_blank=True, trim_whitespace=False
+    )
+    explanation = serializers.CharField(
+        required=False, allow_blank=True, trim_whitespace=False
+    )
+
+
 class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
-    """Serializer for updating source unit."""
+    """Serializer for updating a unit and its flags."""
 
     target = PluralField()
     labels = UnitFlatLabelsSerializer(many=True)
@@ -4233,6 +4256,12 @@ class ProjectComponentSerializer(ComponentSerializer):
         )
 
 
+class AutomationPreviewRequestSerializer(serializers.Serializer):
+    workflow = serializers.JSONField()
+    component = serializers.IntegerField(min_value=1)
+    change = serializers.IntegerField(min_value=1, required=False)
+
+
 class AddonSerializer(serializers.ModelSerializer[Addon]):
     api_name = serializers.SlugField(
         read_only=True,
@@ -4370,10 +4399,13 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
 
     def create(self, validated_data):
         validated_data["acting_user"] = self.context["request"].user
+        addon_class = ADDONS[validated_data.pop("name")]
         try:
-            return super().create(validated_data)
+            instance = addon_class.create_object(**validated_data)
+            instance.save(force_insert=True)
         except DjangoValidationError as error:
             raise serializers.ValidationError({"name": error.messages}) from error
+        return instance
 
     def save(self, **kwargs):
         result = super().save(**kwargs)
@@ -4420,12 +4452,13 @@ class SearchResultSerializer(ReadOnlySerializer):
 
 
 TASK_RESULT_SCHEMA = {
+    # JSON Schema numbers include integers; a separate integer branch in oneOf
+    # would make every integer match twice and fail validation.
     "oneOf": [
         {"type": "object", "additionalProperties": True},
         {"type": "array", "items": {}},
         {"type": "string"},
         {"type": "number"},
-        {"type": "integer"},
         {"type": "boolean"},
         {"type": "null"},
     ]
@@ -4483,7 +4516,7 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
     target_class = ProjectMachinerySettingsSerializer
 
     def map_serializer(self, auto_schema: AutoSchema, direction):
-        return build_object_type(properties={"service_name": build_basic_type(dict)})
+        return build_object_type(additionalProperties=build_basic_type(dict))
 
 
 class BackupSerializer(serializers.Serializer):

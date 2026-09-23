@@ -2431,8 +2431,12 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.resolve_symlinks("prefix-collision/secrets.po")
 
     def test_resolve_symlinks_rejects_vcs_metadata_path(self) -> None:
-        with self.assertRaises(RepositoryRestrictedPathError):
-            self.repo.resolve_symlinks(".git/config")
+        for path in (".git/config", ".hg/hgrc", ".svn/wc.db", ".bzr/README"):
+            with (
+                self.subTest(path=path),
+                self.assertRaises(RepositoryRestrictedPathError),
+            ):
+                self.repo.resolve_symlinks(path)
 
     def test_resolve_symlinks_allows_missing_excluded_repository_path(self) -> None:
         filename = "dist/appstream/messages.pot"
@@ -5287,6 +5291,23 @@ class VCSHgTest(VCSGitTest):
         with self.repo.lock:
             self.repo.configure_remote("/pullurl", "/push", "branch")
         self.assertEqual(self.repo.get_config("paths", "default-push"), "/push")
+
+    def test_configure_remote_rejects_unsafe_config_values(self) -> None:
+        filename = Path(self.tempdir, ".hg", "hgrc")
+        original = filename.read_bytes()
+
+        for character in ("\r", "\n", "\x00"):
+            with (
+                self.subTest(character=repr(character)),
+                self.repo.lock,
+                self.assertRaises(RepositoryValidationError),
+            ):
+                self.repo.configure_remote(
+                    f"ssh://example.com/repository{character}[alias]",
+                    "",
+                    "branch",
+                )
+            self.assertEqual(filename.read_bytes(), original)
 
     def test_revision_info(self) -> None:
         # Latest commit

@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
-"PO-Revision-Date: 2026-09-11 13:10+0000\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"PO-Revision-Date: 2026-09-22 14:14+0000\n"
 "Last-Translator: Watchman89 <rplatte@hotmail.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -1247,8 +1247,8 @@ msgstr ""
 "Uw e-mailadres behoort niet meer tot het geverifieerde account. Het is "
 "gewijzigd in {0}."
 
-msgid "Use security key (WebAuthn)"
-msgstr "Gebruik beveiligingssleutel (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
+msgstr "Gebruik een passkey of beveiligingssleutel (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
 msgstr "Gebruik app voor authenticatie (TOTP)"
@@ -1893,6 +1893,18 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Sleutelwoord-items moeten tekenreeksen zijn."
 
+msgid "ITS data directories"
+msgstr "ITS-gegevensmappen"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+"Door witregel gescheidden mappen die afhangen van de opslagplaats bevatten "
+"een its ondermap, bijvoorbeeld po voor po/its. Eerdere mappen overschrijven "
+"latere mappen en meegeleverde regels."
+
 msgid "Do not extract comments"
 msgstr "Geen opmerkingen uitnemen"
 
@@ -2075,6 +2087,15 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr "Kon de bronmap van Sphinx niet bepalen."
+
+msgid "Output scope"
+msgstr "Uitvoerkader"
+
+msgid "One file per translation"
+msgstr "Één bestand per vertaling"
+
+msgid "One file per component"
+msgstr "Één bestand per onderdeel"
 
 msgid "Name of generated file"
 msgstr "Naam van gegenereerd bestand"
@@ -2624,21 +2645,92 @@ msgstr ""
 "Werkt het sjabloon van gettext bij met Sphinx's gettext builder zonder "
 "geladen projectconfiguratie."
 
-msgid "Contributors in comment"
-msgstr "Medewerkers in opmerking"
+msgid "ITS rule file is too large."
+msgstr "ITS-regelbestand is te groot."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
-msgstr ""
-"Werkt de opmerking in een deel van de po-bestandskop bij en voegt de namen "
-"van vertalers en jaartallen van hun bijdragen toe."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "ITS-regelbestand bevat te veel XPath uitdrukkingen."
+
+msgid "ITS XPath expression is too long."
+msgstr "ITS XPath uitdrukking is te lang."
+
+msgid "Too many ITS rule files."
+msgstr "Te veel ITS-regelbestanden."
+
+msgid "ITS rule files are too large."
+msgstr "ITS-regelbestanden zijn te groot."
+
+msgid "ITS directories must be a list of strings."
+msgstr "ITS-mappen moeten een lijst tekenreeksen zijn."
+
+msgid "Invalid ITS directory path."
+msgstr "Ongeldig ITS-map pad."
+
+msgid "ITS rules must not contain a document type."
+msgstr "ITS-regels moeten geen documenttype bevatten."
+
+msgid "Invalid ITS rule document root."
+msgstr "Ongeldige wortel van ITS-regeldocument."
+
+msgid "ITS rule file contains too many elements."
+msgstr "ITS-regelbestand bevat te veel elementen."
+
+msgid "Unsupported ITS rule content."
+msgstr "Niet-ondersteunde ITS-regelinhoud."
+
+msgid "Unsupported ITS locating rule."
+msgstr "Niet-ondersteunde ITS-localiseringsregel."
+
+msgid "ITS locating rules require a pattern."
+msgstr "ITS-localiseringsregels vereisen een patroon."
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr "ITS-localiseringsregels vereisen een doel of een documentregel."
+
+msgid "ITS document rules require a target."
+msgstr "ITS-documentregels vereisen een doel."
+
+msgid "Unsupported ITS rule namespace."
+msgstr "Niet-ondersteunde naamruimte van ITS-regel."
+
+msgid "External ITS rule references are not allowed."
+msgstr "Externe ITS-regel referenties zijn niet toegestaan."
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr "ITS-doelen moeten een regel noemen in dezelfde map."
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr "ITS-doel ontbreekt of is een symbolische link."
+
+msgid "ITS directories must not contain symbolic links."
+msgstr "ITS-mappen moeten geen symbolische links bevatten."
+
+#, python-format
+msgid "ITS directory does not exist: %(path)s"
+msgstr "ITS-map bestaat niet: %(path)s"
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr "ITS-regels moeten gewone bestanden zijn, geen symbolische links."
+
+#, python-format
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Ongeldige ITS-regel %(path)s: %(error)s"
+
+#, python-format
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Kon ITS-regel: %(path)s niet parseren"
 
 msgid "Squash Git commits"
 msgstr "Git-commits samenvoegen"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Voeg git-commits samen vóór het pushen van wijzigingen."
+
+msgid "API add-ons must be installed directly on a component."
+msgstr "API uitbreiding moet direct op onderdeel worden geïnstalleerd."
+
+msgid "This add-on is already installed on this component."
+msgstr "Deze uitbreiding is al op dit onderdeel geïnstalleerd."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Deze add-on kan niet handmatig worden gestart."
@@ -4319,6 +4411,9 @@ msgstr "Alle controles negeren"
 msgid "Use case insensitive placeholders"
 msgstr "Hoofdletter-ongevoelige plaatsaanduidingen gebruiken"
 
+msgid "Monospace font"
+msgstr "Monospace lettertype"
+
 msgid "Font family"
 msgstr "Lettertypefamilie"
 
@@ -5622,6 +5717,22 @@ msgstr ""
 "Kon de tekenreeks voor de woordenlijst niet toevoegen omdat er al een "
 "bewerking op de achtergrond wordt uitgevoerd. Probeer het later nog eens."
 
+msgid "Maximum build age (days)"
+msgstr "Maximale leeftijd van build (dagen)"
+
+msgid "Maximum retained versions"
+msgstr "Maximale aantal behouden versies"
+
+msgid "Kotlin SDK CDN"
+msgstr "Kotlin SDK CDN"
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+"Publiceert Android tekenreeks en meervoudsgrondstoffen voor geregistreerde "
+"builds van Kotlin SDK."
+
 msgid "Weblate languages"
 msgstr "Weblate-talen"
 
@@ -5897,7 +6008,8 @@ msgstr "Lees het document met de algemene voorwaarden:"
 
 #, python-format
 msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
-msgstr "Lees alstublieft ook het <a href=\"%(privacy_url)s\">Privacybeleid</a>."
+msgstr ""
+"Lees alstublieft ook het <a href=\"%(privacy_url)s\">Privacybeleid</a>."
 
 msgid "Submit"
 msgstr "Indienen"
@@ -6669,6 +6781,9 @@ msgstr "Schermafdrukken zoeken"
 msgid "Sort by"
 msgstr "Sorteren op"
 
+msgid "Screenshot"
+msgstr "Schermafdruk"
+
 msgid "Screenshot name"
 msgstr "Naam van schermafdruk"
 
@@ -6736,6 +6851,9 @@ msgstr "Geen nieuwe overeenkomstige brontekenreeksen gevonden."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr ""
 "OCR-gegevens konden niet worden gedownload. Probeer het later nog eens."
+
+msgid "Select a valid screenshot."
+msgstr "Selecteer een geldige schermafdruk."
 
 msgid "Bad request"
 msgstr "Slecht verzoek"
@@ -6845,20 +6963,11 @@ msgstr "Over Weblate"
 msgid "Support Weblate"
 msgstr "Ondersteun Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "Help <strong>Weblate</strong> groter te worden"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Welkom en bedankt voor het steunen van Weblate"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Welkom en bedankt dat u voor Weblate hebt gekozen"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
-"het vertaalplatform dat privacy respecteert en rekening houdt met de waarden "
-"van open-bron."
+msgid "Continue to Weblate"
+msgstr "Doorgaan naar Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6947,6 +7056,17 @@ msgstr "Twee-factor inloggen"
 
 msgid "Please complete your sign-in using second factor credential."
 msgstr "Voltooi uw inloggen met uw gegevens voor twee-factor inloggen."
+
+msgid "Other ways to verify your identity"
+msgstr "Andere manieren om uw identiteit te bevestigen"
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
+"Ald u uw passkey of beveiligingssleutel, of elke andere ingestelde "
+"verificatiemethode, niet kan gebruiken, neem contact op met de sitebeheerder "
+"voor hulp."
 
 msgid "Your profile"
 msgstr "Uw profiel"
@@ -8022,8 +8142,27 @@ msgstr "Ga alleen door als u dit doel vertrouwt."
 msgid "Continue"
 msgstr "Doorgaan"
 
-msgid "Sign in using the security key"
-msgstr "Inloggen met de beveiligingssleutel"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+"Gebruik een apparaat waarop uw passkey beschikbaar is of verbind uw "
+"geregistreerde beveiligingssleutel. Uw passkey is misschien niet "
+"beschikbaaar op een nieuwe computer of in een andere browser."
+
+msgid "Sign in using a passkey or security key"
+msgstr "Inloggen met een passkey of beveiligingssleutel"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
+"Passkey- of beveiligingssleutel-verificatie kon niet voltooid worden. Het "
+"verzoek is misschien verlopen of geannuleerd of uw inloggegevens waren "
+"misschien niet beschikbaar op dit apparaat. Probeer het opnieuw of gebruik "
+"een andere verificatiemethode als die beschikbaar is."
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Helaas, uw browser ondersteunt geen WebAuthn."
@@ -8054,6 +8193,12 @@ msgstr "Niet compatibel"
 
 msgid "No components found."
 msgstr "Geen onderdelen gevonden."
+
+msgid "Add-on API base URL:"
+msgstr "Add-on-API basis-URL:"
+
+msgid "API root"
+msgstr "API-basis"
 
 msgid "Configure add-on"
 msgstr "Uitbreiding instellen"
@@ -8224,6 +8369,24 @@ msgid ""
 msgstr ""
 "U kunt Django-sjabloonopmaak gebruiken in zowel bestandsnaam als inhoud, "
 "bijvoorbeeld:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+"Loop door vertalingen in onderdelenmodus om toegang te krijgen tot de "
+"metadata en statistieken van elke taal. Gebruik het json- of python-filter "
+"om waarden in aangemaakte bestanden in serie te stellen."
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
+"De vertaalvariabelen hieronder zijn direct beschikbaar in vertaalmodus of "
+"per item in onderdelenmodus. Onderdeel- en projectvariabelen zijn "
+"beschikbaar in beide modi."
 
 msgid "Percents translated"
 msgstr "Procent vertaald"
@@ -8761,6 +8924,9 @@ msgstr "Controleer uw factureringsstatus"
 
 msgid "Browse"
 msgstr "Bladeren"
+
+msgid "Translation status widgets"
+msgstr "Vertaalstatus widgets"
 
 msgid "No strings found!"
 msgstr "Er zijn geen tekenreeksen gevonden!"
@@ -9313,28 +9479,41 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Wordt supporter van Weblate"
 
-msgid "Some repositories are not accessible"
-msgstr "Sommige opslagplaatsen zijn niet toegankelijk"
+msgid "Some repository operations require additional permissions"
+msgstr "Sommige opslagruimtebewerkingen vereisen extra toestemming"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
-"Elke operatie hieronder sluit opslagruimte uit behalve als u de vereiste "
-"toestemming heeft voor elk onderdeel die ze deelt."
+"Opslagruimtebewerkingen vereisen toestemmingen voor het onderdeel dat de "
+"eigenaar is van de gedeelde opslagruimte."
 
-msgid "Skipped components:"
-msgstr "Overgeslagen onderdelen:"
+msgid "Affected components:"
+msgstr "Beïnvloedde onderdelen:"
 
-msgid "Permission required on:"
-msgstr "Toestemming vereist voor:"
+msgid "You need the following permissions on the repository-owning component:"
+msgstr ""
+"U heeft de volgende toestemmingen nodig voor het onderdeel dat deze "
+"opslagplaats bevat:"
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
 msgstr ""
-"Een opslagruimte is overgeslagen omdat een of meerdere onderdelen niet "
-"toegankelijk zijn."
+"U heeft de volgende toestemmingen nodig voor het onderdeel wat de "
+"opslagplaats bevat, waar u geen toegang tot heeft:"
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+"Vraag een beheerder van het bevoegde project om deze toestemmingen te geven."
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
+msgstr ""
+"Vraag uw projectbeheerder om toegang te coördineren met de opslagruimte-"
+"eigenaar."
 
 msgid "Repository status"
 msgstr "Status van opslagruimte"
@@ -10461,6 +10640,19 @@ msgstr "Beperkingen van ondersteuningspakket"
 msgid "Support expiry"
 msgstr "Ondersteuning vervalt op"
 
+msgid "Professional support for your organization"
+msgstr "Professionele ondersteuning voor uw organizatie"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+"Schaf professionele ondersteuning aan voor hulp van experts met installeren, "
+"onderhouden en problemen oplossen."
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr "Uw abonnement financiert ook de doorlopende ontwikkeling van Weblate."
+
 msgid "Manage support package"
 msgstr "Ondersteuningspakket beheren"
 
@@ -10470,8 +10662,8 @@ msgstr "Ondersteuningspakket loskoppelen en Ontdek Weblate uitschakelen"
 msgid "Unlink support package"
 msgstr "Ondersteuningspakket loskoppelen"
 
-msgid "Purchase support package"
-msgstr "Ondersteuningspakket aanschaffen"
+msgid "Purchase support"
+msgstr "Ondersteuning aanschaffen"
 
 msgid "Contact customer care"
 msgstr "Neem contact op met klantenservice"
@@ -11103,6 +11295,12 @@ msgstr "Bedankt voor het gebruiken van Weblate"
 msgid "Return to dashboard"
 msgstr "Terug naar overzicht"
 
+msgid "Thank you for contributing translations."
+msgstr "Dank u voor het bijdragen van vertalingen."
+
+msgid "Donate to Weblate development"
+msgstr "Doneren aan Weblate-ontwikkeling"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "Controleer en bevestig de resultaten voor het zoeken en vervangen."
 
@@ -11213,6 +11411,29 @@ msgstr "Geen schermafdrukken gevonden."
 
 msgid "Add new screenshot"
 msgstr "Schermfoto toevoegen"
+
+msgid "Select a screenshot"
+msgstr "Selecteer een schermafdruk"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+"Schermafdrukken van brontaal worden getoond voor elke vertaling van deze "
+"tekenreeks. Andere schermafdrukken worden alleen getoont voor hun taal."
+
+msgid "Selected"
+msgstr "Geselecteerd"
+
+msgid "No matching screenshots available."
+msgstr "Geen overeenkomende schermafdrukken beschikbaar."
+
+msgid "Screenshot pages"
+msgstr "Pagina's van schermafdruk"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
+msgstr "Pagina %(current)s van %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11419,32 +11640,19 @@ msgid "No diagnostics match the selected filters."
 msgstr ""
 "Er zijn geen statistieken die overeenkomen met de geselecteerde filters."
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-"Hoewel Weblate gratis blijft voor alle gebruikers, vereist de ontwikkeling "
-"ervan doorlopende investeringen."
+msgid "Support Weblate development"
+msgstr "Ondersteun Weblate-ontwikkeling"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
+msgid "Thank you for using Weblate and contributing translations."
 msgstr ""
-"We prioriteren uw privacy; we geven nooit advertenties weer of verkopen uw "
-"gegevens."
+"Bedankt voor het gebruiken van Weblate en voor het bijdragen van vertalingen."
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"De onschatbare waarde van de steun van de gemeenschap via abonnementen en "
-"donaties zorgt ervoor dat Weblate doorlopend groeit en beter wordt."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-"Doe met ons mee bij het vormgeven van de toekomst in vertalen en draag "
-"vandaag nog bij!"
-
-msgid "Purchase a support package"
-msgstr "Koop een ondersteuningspakket"
+"Als u meer zou willen geven, een optionele donatie financiert ontwikkeling "
+"en onderhoud van Weblate zelf."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11508,20 +11716,29 @@ msgstr "Recentste commit op Weblate"
 msgid "Weblate repository"
 msgstr "Weblate-opslagruimte"
 
-msgid "This translation is forbidden."
-msgstr "Deze vertaling is verboden."
-
-msgid "This term should not be translated."
-msgstr "Deze term mag niet worden vertaald."
-
 msgid "This translation needs editing."
 msgstr "Deze vertaling moet bewerkt worden."
 
 msgid "Copy word into translation"
 msgstr "Woord kopiëren naar vertaling"
 
+msgid "This translation is forbidden."
+msgstr "Deze vertaling is verboden."
+
+msgid "Forbidden"
+msgstr "Verboden"
+
+msgid "This term should not be translated."
+msgstr "Deze term mag niet worden vertaald."
+
 msgid "Edit glossary term"
 msgstr "Begrip bewerken"
+
+msgid "Translation explanation"
+msgstr "Vertaaluitleg"
+
+msgid "Source explanation"
+msgstr "Uitleg omtrent bron"
 
 msgid "Glossary translation explanation"
 msgstr "Uitleg woordenlijst vertaling"
@@ -12199,6 +12416,21 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Foutmeldingen:"
 
+msgid "Using Weblate in your organization?"
+msgstr "Gebruikt u Weblate in uw organisatie?"
+
+msgid "Already purchased? Link your support package"
+msgstr "Al aangeschaft? Link uw ondersteuningspakket"
+
+msgid "Term information from the translation file"
+msgstr "Termeninformatie uit het vertaalbestand"
+
+msgid "Source terms"
+msgstr "Brontermen"
+
+msgid "Target terms"
+msgstr "Doeltermen"
+
 msgid "Translation status"
 msgstr "Vertaalstatus"
 
@@ -12709,15 +12941,19 @@ msgstr "Het onderdeel bevat verschillende dubbele vertaaltekenreeksen."
 msgid "Source"
 msgstr "Bron"
 
+#, python-format
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Verwijder gedupliceerde tekenreeksen uit %(language)s (%(filename)s)"
+
+msgid "Remove duplicate strings"
+msgstr "Dubbele tekenreeksen verwijderen"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Los dit op door de dubbele tekenreeksen met dezelfde identificatie uit de "
 "vertaalbestanden te verwijderen."
-
-msgid "Remove duplicate strings"
-msgstr "Dubbele tekenreeksen verwijderen"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -12755,8 +12991,8 @@ msgid ""
 "disabled. Weblate will not automatically add these terms to missing glossary "
 "languages."
 msgstr ""
-"Deze woordenlijst bevat termen die gemarkeerd zijn als terminologie maar ‘"
-"Beheer tekenreeksen’ is uitgeschakeld. Weblate zal deze termen niet "
+"Deze woordenlijst bevat termen die gemarkeerd zijn als terminologie maar "
+"‘Beheer tekenreeksen’ is uitgeschakeld. Weblate zal deze termen niet "
 "automatisch toevoegen aan ontbrekende woordenlijsttalen."
 
 msgid ""
@@ -13642,6 +13878,12 @@ msgstr "Bladeren door woordenlijst"
 
 msgid "No screenshot currently associated."
 msgstr "Geen schermfoto bijgevoegd."
+
+msgid "Add existing screenshot"
+msgstr "Bestaande schermafdruk toevoegen"
+
+msgid "Upload screenshot"
+msgstr "Schermafdruk uploaden"
 
 msgid "String information"
 msgstr "Tekenreeksinformatie"
@@ -15536,6 +15778,23 @@ msgstr ""
 "Gettext breekt regels standaard af bij 77 tekens en nieuwe regels. Met de "
 "parameter --no-wrap wordt tekst alleen afgebroken bij nieuwe regels."
 
+msgid "Contributor comments"
+msgstr "Opmerkingen van medewerkers"
+
+msgid "Gettext"
+msgstr "Gettext"
+
+msgid "SPDX"
+msgstr "SPDX"
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+"Voeg medewerkersnamen en jaartallen toe aan opmerkingen in de kopregel. SPDX "
+"zet ook bestaande en erkende medewerkersopmerkingen om tot SPDX-"
+"FileCopyrightText items."
+
 msgid "Keep previous msgids of translated strings"
 msgstr "Vorige msgids van vertaalde tekenreeksen bewaren"
 
@@ -15869,9 +16128,6 @@ msgstr "Aanvullende uitleg over de betekenis of het gebruik van de tekenreeks."
 msgid "Source string explanation"
 msgstr "Uitleg omtrent brontekenreeks"
 
-msgid "Translation explanation"
-msgstr "Vertaaluitleg"
-
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
 "De brontekenreeks is in de tussentijd gewijzigd - controleer uw aanpassingen."
@@ -16194,7 +16450,8 @@ msgid "The category does not belong to the selected project."
 msgstr "De categorie behoort niet tot het geselecteerde project."
 
 msgid "You do not have permission to change project access settings."
-msgstr "U heeft geen toestemming om de project-toegangsinstellingen te beheren."
+msgstr ""
+"U heeft geen toestemming om de project-toegangsinstellingen te beheren."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -18745,6 +19002,14 @@ msgid "Project {}"
 msgstr "Project {}"
 
 #. Translators: Text on OpenGraph image
+msgid "Category {}"
+msgstr "Categorie {}"
+
+#. Translators: Text on OpenGraph image
+msgid "Workspace {}"
+msgstr "Werkruimte {}"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "Onderdeel: {}"
 
@@ -20402,6 +20667,73 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "De werkruimte is verwijderd."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Werkt de opmerking in een deel van de po-bestandskop bij en voegt de "
+#~ "namen van vertalers en jaartallen van hun bijdragen toe."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "Help <strong>Weblate</strong> groter te worden"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Welkom en bedankt dat u voor Weblate hebt gekozen"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr ""
+#~ "het vertaalplatform dat privacy respecteert en rekening houdt met de "
+#~ "waarden van open-bron."
+
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "Sommige opslagplaatsen zijn niet toegankelijk"
+
+#~ msgid ""
+#~ "Each operation below excludes repositories unless you have the required "
+#~ "permission on every component sharing them."
+#~ msgstr ""
+#~ "Elke operatie hieronder sluit opslagruimte uit behalve als u de vereiste "
+#~ "toestemming heeft voor elk onderdeel die ze deelt."
+
+#~ msgid "Skipped components:"
+#~ msgstr "Overgeslagen onderdelen:"
+
+#~ msgid "Permission required on:"
+#~ msgstr "Toestemming vereist voor:"
+
+#~ msgid ""
+#~ "A repository was skipped because one or more of its components are not "
+#~ "accessible."
+#~ msgstr ""
+#~ "Een opslagruimte is overgeslagen omdat een of meerdere onderdelen niet "
+#~ "toegankelijk zijn."
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr ""
+#~ "Hoewel Weblate gratis blijft voor alle gebruikers, vereist de "
+#~ "ontwikkeling ervan doorlopende investeringen."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "We prioriteren uw privacy; we geven nooit advertenties weer of verkopen "
+#~ "uw gegevens."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "De onschatbare waarde van de steun van de gemeenschap via abonnementen en "
+#~ "donaties zorgt ervoor dat Weblate doorlopend groeit en beter wordt."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr ""
+#~ "Doe met ons mee bij het vormgeven van de toekomst in vertalen en draag "
+#~ "vandaag nog bij!"
+
 #~ msgid "Download reports"
 #~ msgstr "Verslagen downloaden"
 
@@ -21268,9 +21600,6 @@ msgstr "De werkruimte is verwijderd."
 #~ msgid "Weblate community"
 #~ msgstr "gemeenschap van Weblate"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Bijdragen aan Weblate"
-
 #~ msgid "Weblate website"
 #~ msgstr "Weblate website"
 
@@ -21413,9 +21742,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Variabel achtervoegsel van tekenreeksen"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Doneren aan Weblate"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -23641,9 +23967,6 @@ msgstr "De werkruimte is verwijderd."
 #~ msgstr ""
 #~ "Meld u aan als een van volgende gebruikers om Weblate op deze demoserver "
 #~ "te testen:"
-
-#~ msgid "Hidden"
-#~ msgstr "Verborgen"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Deze website draait de %(weblate_name_link)s-demoserver."
@@ -25918,9 +26241,6 @@ msgstr "De werkruimte is verwijderd."
 #~ msgstr ""
 #~ "Er zijn %(words)s woorden, waarvan er %(percent)s&#37; (%(translated)s) "
 #~ "vertaald zijn."
-
-#~ msgid "Invalid text direction"
-#~ msgstr "Ongeldige tekstrichting"
 
 #~ msgid "Text direction can be either LTR or RTL"
 #~ msgstr ""

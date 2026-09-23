@@ -33,7 +33,7 @@ CLIENT_DIR = os.path.join(BASE_DIR, "client")
 EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 
 PATH_EXCLUDES = [f"/{exclude.casefold()}/" for exclude in EXCLUDES]
-VCS_METADATA_DIRS = frozenset((".git", ".hg"))
+VCS_METADATA_DIRS = frozenset((".git", ".hg", ".svn", ".bzr"))
 REPO_TEMP_DIRNAME = "weblate-tmp"
 
 

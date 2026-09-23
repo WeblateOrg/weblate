@@ -20,6 +20,7 @@ from urllib.parse import parse_qs, urlparse
 import httpx2
 from django.apps import apps
 from django.conf import settings
+from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.core import mail
 from django.core.cache import cache
 from django.core.checks import Critical
@@ -28,6 +29,7 @@ from django.core.management.base import CommandError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import connection
 from django.test import TestCase as DjangoTestCase
+from django.test.client import RequestFactory
 from django.test.utils import CaptureQueriesContext, modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -80,6 +82,8 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
 
@@ -911,6 +915,49 @@ class ManagementAccessControlTest(ViewTestCase):
 
 
 class ManageMiddlewareTest(TestCase):
+    def test_support_reminder_waits_for_page_navigation(self) -> None:
+        middleware = ManageMiddleware(Mock())
+        factory = RequestFactory()
+        session = SessionStore()
+        session["redirect_to_donate"] = True
+        requests = [
+            factory.post("/", headers={"accept": "text/html"}),
+            factory.get(reverse("api:api-root"), headers={"accept": "text/html"}),
+            factory.get("/", headers={"accept": "application/json"}),
+            factory.get("/", headers={"accept": "text/html;q=0"}),
+            factory.get("/"),
+            factory.get(
+                "/",
+                headers={"accept": "text/html", "x-requested-with": "XMLHttpRequest"},
+            ),
+            factory.get(
+                "/", headers={"accept": "text/html", "sec-fetch-dest": "empty"}
+            ),
+        ]
+        with patch("weblate.wladmin.middleware.AuditLog.objects.create") as audit:
+            for pending_request in requests:
+                request = cast("AuthenticatedHttpRequest", pending_request)
+                with self.subTest(method=request.method, headers=request.headers):
+                    request.session = session
+                    self.assertIsNone(middleware.process_request(request))
+                    self.assertTrue(session["redirect_to_donate"])
+                    audit.assert_not_called()
+
+            destination = f"{reverse('about')}?view=details&language=cs"
+            request = cast(
+                "AuthenticatedHttpRequest",
+                factory.get(destination, headers={"accept": "text/html"}),
+            )
+            request.session = session
+            request.user = Mock()
+            response = middleware.process_request(request)
+            self.assertEqual(response.url, reverse("donate"))
+            self.assertEqual(session["support_return_url"], destination)
+            self.assertNotIn("redirect_to_donate", session)
+            audit.assert_called_once_with(request.user, request, "donate")
+            self.assertIsNone(middleware.process_request(request))
+            audit.assert_called_once()
+
     def test_claim_configuration_health_check(self) -> None:
         with (
             patch("weblate.wladmin.middleware.time.time", return_value=123),
@@ -1088,6 +1135,9 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "Enable Discover Weblate")
         self.assertContains(response, reverse("manage-discovery-register"))
         self.assertNotContains(response, "Register on weblate.org")
+        self.assertContains(response, "Professional support for your organization")
+        self.assertContains(response, "Purchase support", count=1)
+        self.assertNotContains(response, "Give to Weblate")
 
     def test_manage_index_discovery_registration_requires_site_title(self) -> None:
         response = self.client.get(reverse("manage"))
@@ -1106,6 +1156,7 @@ class AdminTest(ViewTestCase):
             enabled=True,
         )
         response = self.client.get(reverse("manage"))
+        self.assertNotContains(response, "Purchase support")
         self.assertContains(response, "Discover Weblate")
         self.assertContains(response, "Enable discovery")
         self.assertContains(response, reverse("manage-discovery"))

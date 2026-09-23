@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:21+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1246,7 +1246,9 @@ msgstr ""
 "Email-i juaj s’i përket më një llogarie të verifikuar, është ndryshuar në "
 "{0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "Përdor kyç sigurieWebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -1922,6 +1924,17 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "S’u arrit të hiqet vargu: %s"
 
+#, fuzzy
+#| msgid "Database latency"
+msgid "ITS data directories"
+msgstr "Vonesë baze të dhënash"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "Mos i përfto komentet"
 
@@ -2099,6 +2112,19 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr "S’u përcaktua dot drejtori burim Sphinx."
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Only include approved translations"
+msgid "One file per translation"
+msgstr "Përfshi vetëm përkthime të miratuar"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "Sistemoni përbërës"
 
 msgid "Name of generated file"
 msgstr "Emër i kartelës së prodhuar"
@@ -2640,15 +2666,105 @@ msgstr ""
 "Përditëson gjedhen gettext duke përdorur ndërtuesin gettext të Sphinx-it, pa "
 "ngarkuar formësim projekti."
 
-msgid "Contributors in comment"
-msgstr "Kontribues në koment"
+#, fuzzy
+#| msgid "Uploaded file is too big."
+msgid "ITS rule file is too large."
+msgstr "Kartela e ngarkuar është shumë e madhe."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Kartela ZIP përmban shumë zëra."
+
+#, fuzzy
+#| msgid "The provided secret is too long."
+msgid "ITS XPath expression is too long."
+msgstr "E fshehta që u dha është shumë e gjatë."
+
+msgid "Too many ITS rule files."
 msgstr ""
-"Përditëson pjesën e komentit te kryet e kartelës PO, për të përfshirë emrat "
-"e kontribuesve dhe vite kontributi."
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "Aktualisht s’ka të caktuar vargje burim!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Inherited component defaults"
+msgid "Invalid ITS directory path."
+msgstr "Parazgjedhje të trashëguara projekti"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "ITS rule file contains too many elements."
+msgstr "Kartela ZIP përmban shumë zëra."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Format kartele i pambuluar."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "Kartelë e pambuluar!"
+
+#, fuzzy
+#| msgid "Blank strings require an empty state."
+msgid "ITS locating rules require a pattern."
+msgstr "Vargje të zbrazët lypin një gjendje të zbrazët."
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Format kartele i pambuluar."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file contains unsupported symbolic links."
+msgid "ITS directories must not contain symbolic links."
+msgstr "Kartela ZIP përmban lidhje simbolike që s’mbulohen."
+
+#, fuzzy, python-format
+#| msgid "{filename} ({parameter}) does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "{filename} ({parameter}) s’ekziston."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "S’u krye dot push %(component)s: %(error_text)s"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "S’u arrit të përtypej kartelë TMX: %s"
 
 msgid "Squash Git commits"
 msgstr "Kryej \"squash\" për depozitime Git"
@@ -2657,6 +2773,16 @@ msgid "Squash Git commits prior to pushing changes."
 msgstr ""
 "Kryej \"squash\" për depozitime Git, përpara kryerjes së push-it për "
 "ndryshimet."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "Shtesa mund të instalohet vetëm te përbërësi."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "Shtesa mund të instalohet vetëm te përbërësi."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Kjo shtesë s’mund të vihet në punë dorazi."
@@ -4398,6 +4524,11 @@ msgstr ""
 "Përdor vendmbajtëse për të cilat s’merret parasysh dallimi mes shkronjash të "
 "vogla dhe të mëdha"
 
+#, fuzzy
+#| msgid "No workspaces found."
+msgid "Monospace font"
+msgstr "S’u gjetën hapësira pune."
+
 msgid "Font family"
 msgstr "Familje shkronjash"
 
@@ -5678,6 +5809,22 @@ msgstr ""
 "S’u shtua dot termi i fjalorthit, ngaqë është duke u kryer në prapaskenë një "
 "tjetër veprim. Ju lutemi, riprovoni më vonë."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum line length"
+msgid "Maximum retained versions"
+msgstr "Gjatësi maksimum rreshtash"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Gjuhë Weblate-i"
 
@@ -6769,6 +6916,11 @@ msgstr "Kërkoni te foto ekrani"
 msgid "Sort by"
 msgstr "Renditi sipas"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Foto ekrani"
+
 msgid "Screenshot name"
 msgstr "Emër fotoje ekrani"
 
@@ -6836,6 +6988,11 @@ msgstr "S’u gjet varg i ri me përputhje."
 #| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "S’u hap dot çështje, ju lutemi, riprovoni më vonë."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Të fshijë foto ekrani"
 
 msgid "Bad request"
 msgstr "Kërkesë e gabuar"
@@ -6946,20 +7103,13 @@ msgstr "Rreth Weblate-it"
 msgid "Support Weblate"
 msgstr "Përkrahni Weblate-in"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "Ndihmojeni <strong>Weblate</strong>-in të lulëzojë"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Mirë se vini dhe faleminderit për përkrahjen e Weblate-it"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Mirë se vini dhe faleminderit që zgjidhni Weblate-in"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
-"platforma e përkthimit që respekton privatësinë, përkushtuar vlerave të "
-"burimit të hapët."
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Kontribuoni te Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7049,6 +7199,14 @@ msgstr "Hyrje me faktor të dytë"
 msgid "Please complete your sign-in using second factor credential."
 msgstr ""
 "Ju lutemi, plotësoni hyrjen tuaj duke përdorur kredencial faktori të dytë."
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
 
 msgid "Your profile"
 msgstr "Profili juaj"
@@ -8150,8 +8308,22 @@ msgstr "Vazhdoni vetëm nëse i zini besë kësaj vendmbërritjeje."
 msgid "Continue"
 msgstr "Vazhdo"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "Bëni hyrjen duke përdorur kyçin e sigurisë"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Mjerisht, shfletuesi juaj nuk mbulon WebAuthn."
@@ -8184,6 +8356,17 @@ msgstr "Jo i përputhshëm"
 
 msgid "No components found."
 msgstr "S’u gjetën përbërës"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "OpenAI API base URL"
+msgid "Add-on API base URL:"
+msgstr "URL bazë API OpenAI"
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "URL rrënjë API:"
 
 msgid "Configure add-on"
 msgstr "Formësoni shtesë"
@@ -8348,6 +8531,18 @@ msgid ""
 msgstr ""
 "Mund të përdorni markup gjedhesh Django si për emër përbërësi, ashtu edhe "
 "për lëndë, për shembull:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "Përqindje përkthimi"
@@ -8893,6 +9088,11 @@ msgstr "Kontrolloni gjendjen e faturimit tuaj"
 
 msgid "Browse"
 msgstr "Shfletoni"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Gjendje përkthimi"
 
 msgid "No strings found!"
 msgstr "S’u gjetën vargje!"
@@ -9469,28 +9669,36 @@ msgid "Become a Weblate supporter"
 msgstr "Bëhuni një përkrahës i Weblate-it"
 
 #, fuzzy
-#| msgid "VCS repository is accessible to everybody."
-msgid "Some repositories are not accessible"
-msgstr "Depoja VCS është e përdorshme nga gjithkush."
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "S’u arrit të kyçej depoja, ka në ecuri e sipër një tjetër veprim."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "View components"
-msgid "Skipped components:"
-msgstr "Shihni përbërës"
+#| msgid "Created component"
+msgid "Affected components:"
+msgstr "U krijua përbërës"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "Leje e Mohuar"
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "S’keni leje të hyni te ky përbërës."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10638,6 +10846,19 @@ msgstr "Kufij pakete përkrahjeje"
 msgid "Support expiry"
 msgstr "Skadim Asistence"
 
+#, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "Asistencë profesionale"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "Administroni paketë asistence"
 
@@ -10649,7 +10870,9 @@ msgstr "Hiqja lidhjen paketës së asistencës"
 msgid "Unlink support package"
 msgstr "Hiqja lidhjen paketës së asistencës"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "Blini paketë asistence"
 
 msgid "Contact customer care"
@@ -11309,6 +11532,16 @@ msgstr "Faleminderit që përdorni Weblate-in"
 msgid "Return to dashboard"
 msgstr "Kthehuni te pulti"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "Kontribues i ri te %(translation)s"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Dhuroni për Weblate-in"
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 "Ju lutemi, shqyrtoni dhe ripohoni kërkimin dhe përfundimet e zëvendësimit."
@@ -11431,6 +11664,36 @@ msgstr "S’u gjetën foto ekrani."
 
 msgid "Add new screenshot"
 msgstr "Shtoni foto të re ekrani"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Të fshijë foto ekrani"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Select"
+msgid "Selected"
+msgstr "Përzgjidhni"
+
+#, fuzzy
+#| msgid "No teams are available."
+msgid "No matching screenshots available."
+msgstr "S’ka ekipe të gatshme."
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "Emër fotoje ekrani"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "E përdorur %(used)s nga %(total)s gjithsej"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11653,31 +11916,20 @@ msgstr[1] "Ka %(count)s vargje që lypin veprim te %(component)s"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-"Teksa Weblate-i mbetet falas për krejt përdoruesit, zhvillimi i tij lyp "
-"investim të vazhdueshëm."
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "Përkrahni Weblate-in"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-"Privatësinë tuaj e kemi përparësi; nuk shfaqim reklama kurrë, as shesim të "
-"dhëna tuajat."
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Faleminderit që përdorni Weblate-in"
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"Përkrahja e paçmuar e bashkësisë, përmes pajtimeve dhe dhurimeve, garanton "
-"që Weblate-i të vazhdojë të rritet dhe fuqizohet."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-"Ejani me ne t’i japim formë të ardhmes së përkthimit dhe kontribuoni që sot!"
-
-msgid "Purchase a support package"
-msgstr "Blini një paketë asistence"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11742,20 +11994,33 @@ msgstr "Parashtrimi i fundit në Weblate"
 msgid "Weblate repository"
 msgstr "Depo Weblate"
 
-msgid "This translation is forbidden."
-msgstr "Ky përkthim është i ndaluar."
-
-msgid "This term should not be translated."
-msgstr "Ky term s’duhet përkthyer."
-
 msgid "This translation needs editing."
 msgstr "Ky përkthim lyp përpunim."
 
 msgid "Copy word into translation"
 msgstr "Kopjoje fjalën te përkthimi"
 
+msgid "This translation is forbidden."
+msgstr "Ky përkthim është i ndaluar."
+
+#, fuzzy
+#| msgid "Forbidden translation"
+msgid "Forbidden"
+msgstr "Përkthim i ndaluar"
+
+msgid "This term should not be translated."
+msgstr "Ky term s’duhet përkthyer."
+
 msgid "Edit glossary term"
 msgstr "Të përpunojë zë fjalorthi"
+
+msgid "Translation explanation"
+msgstr "Shpjegim përkthimi"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "Shpjegim vargu burim"
 
 msgid "Glossary translation explanation"
 msgstr "Shpjegim përkthimi fjalorthi"
@@ -12465,6 +12730,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Kontrolle me dështim:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "Blini një paketë asistence"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid "Term information from the translation file"
+msgstr "Detyron shkrim të krejt vargjeve te kartelat e përkthimit."
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Vargje burim"
+
+#, fuzzy
+#| msgid "Target string"
+msgid "Target terms"
+msgstr "Varg i synuar"
+
 msgid "Translation status"
 msgstr "Gjendje përkthimi"
 
@@ -12930,17 +13218,22 @@ msgstr "Përbërësi përmban disa vargje përkthimi të përsëdytura."
 msgid "Source"
 msgstr "Burim"
 
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Detyron shkrim të krejt vargjeve te kartelat e përkthimit."
+
+#, fuzzy
+#| msgid "Remove blank strings"
+msgid "Remove duplicate strings"
+msgstr "Hiqni vargje të zbrazët"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Ju lutemi, ndreqeni këtë duke hequr vargje të përsëdytura me të njëjtin "
 "identifikues prej kartelave të përkthimit."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Remove duplicate strings"
-msgstr "Hiqni vargje të zbrazët"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -13845,6 +14138,16 @@ msgstr "Shfletoni fjalorthin"
 
 msgid "No screenshot currently associated."
 msgstr "Hëpërhë s’ka foto ekrani të përshoqëruar."
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "Shtoje te foto ekrani"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Të shtojë foto ekrani"
 
 msgid "String information"
 msgstr "Informacion vargu"
@@ -15948,6 +16251,24 @@ msgstr ""
 "dhe rreshta të rinj. Me parametrin ``--no-wrap``, mbështjellja kryhet vetëm "
 "në rreshta të rinj."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "Kontribues në koment"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "PO gettext"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "Mbaji msgid-e të mëparshëm të vargjeve të përkthyer"
 
@@ -16274,9 +16595,6 @@ msgstr "Shpjegim shtesë për qartësimin e domethënies ose përdorimit të var
 
 msgid "Source string explanation"
 msgstr "Shpjegim vargu burim"
-
-msgid "Translation explanation"
-msgstr "Shpjegim përkthimi"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -19195,6 +19513,18 @@ msgid "Project {}"
 msgstr "Projekti {}"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Kategori"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Workspace"
+msgid "Workspace {}"
+msgstr "Hapësirë pune"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "Përbërës {}"
 
@@ -20905,6 +21235,65 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Burimi u hoq."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Përditëson pjesën e komentit te kryet e kartelës PO, për të përfshirë "
+#~ "emrat e kontribuesve dhe vite kontributi."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "Ndihmojeni <strong>Weblate</strong>-in të lulëzojë"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Mirë se vini dhe faleminderit që zgjidhni Weblate-in"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr ""
+#~ "platforma e përkthimit që respekton privatësinë, përkushtuar vlerave të "
+#~ "burimit të hapët."
+
+#, fuzzy
+#~| msgid "VCS repository is accessible to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "Depoja VCS është e përdorshme nga gjithkush."
+
+#, fuzzy
+#~| msgid "View components"
+#~ msgid "Skipped components:"
+#~ msgstr "Shihni përbërës"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "Leje e Mohuar"
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr ""
+#~ "Teksa Weblate-i mbetet falas për krejt përdoruesit, zhvillimi i tij lyp "
+#~ "investim të vazhdueshëm."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "Privatësinë tuaj e kemi përparësi; nuk shfaqim reklama kurrë, as shesim "
+#~ "të dhëna tuajat."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "Përkrahja e paçmuar e bashkësisë, përmes pajtimeve dhe dhurimeve, "
+#~ "garanton që Weblate-i të vazhdojë të rritet dhe fuqizohet."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr ""
+#~ "Ejani me ne t’i japim formë të ardhmes së përkthimit dhe kontribuoni që "
+#~ "sot!"
+
 #~ msgid "Download reports"
 #~ msgstr "Të shkarkojë raporte"
 
@@ -21755,9 +22144,6 @@ msgstr "Burimi u hoq."
 #~ msgid "Weblate community"
 #~ msgstr "Bashkësia Weblate"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Kontribuoni te Weblate"
-
 #~ msgid "Weblate website"
 #~ msgstr "Sajt Weblate"
 
@@ -21895,9 +22281,6 @@ msgstr "Burimi u hoq."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Prapashtesë vargjesh e ndryshueshme"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Dhuroni për Weblate-in"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."

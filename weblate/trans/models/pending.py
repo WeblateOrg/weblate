@@ -533,6 +533,11 @@ class PendingUnitChange(models.Model):
             automatically_translated=automatically_translated,
             timestamp=timestamp,
         )
+        if "disk_identity" in unit.details:
+            pending_unit_change.metadata["identity"] = {
+                "source": unit.source,
+                "context": unit.context,
+            }
         if save:
             pending_unit_change.save()
         return pending_unit_change

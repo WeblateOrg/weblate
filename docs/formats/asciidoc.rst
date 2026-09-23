@@ -5,8 +5,6 @@ AsciiDoc files
 
 .. versionadded:: 5.16.1
 
-.. include:: /snippets/format-in-development.rst
-
 The translatable content is extracted from the AsciiDoc files and offered for the translation.
 
 .. include:: /snippets/format-database-backed.rst

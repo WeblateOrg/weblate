@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 08:22+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1346,7 +1346,7 @@ msgstr ""
 "Tansa-ik imayl ur tezgi tcudd ɣer umiḍan yettwasentmen, tura tettumselsi s "
 "{0}."
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 #, fuzzy
@@ -2074,6 +2074,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Ur izmir ara ad yesleḍ tuttra: {}"
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 #, fuzzy
 #| msgid "Failed to add comment!"
 msgid "Do not extract comments"
@@ -2256,6 +2265,19 @@ msgstr "Tineɣrufin i tsuqilin timaynutin"
 #| msgid "Could not merge the repository."
 msgid "Could not determine Sphinx source directory."
 msgstr "Ur izmir ara ad isdukkel akufi."
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add as approved translation"
+msgid "One file per translation"
+msgstr "Rnu-t d tasuqilt yettwaqeblen"
+
+#, fuzzy
+#| msgid "Create component"
+msgid "One file per component"
+msgstr "Rnu asuddis"
 
 msgid "Name of generated file"
 msgstr "Isem n ufaylu yettwarnan"
@@ -2856,25 +2878,117 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
-msgstr "Iwiziwen deg uwennit"
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "ITS rule file is too large."
+msgstr "Tiddest i tsekcmeḍ mačči d tameɣtut."
 
 #, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Afaylu Zip igebren tasuqilt"
+
+msgid "ITS XPath expression is too long."
 msgstr ""
-"Ad ibeddel awennit deg uqerru n ufaylu PO akken ad iseddu ismawen n "
-"yiwiziwen akked umḍan n yiseggasen n uttekki."
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "Ulac azrir aɣbalu icudden akka tura!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Invalid ITS directory path."
+msgstr "Asuddis yettwarnan"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many elements."
+msgstr "Afaylu Zip igebren tasuqilt"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Amasal n ufaylu ur ittusefrak ara."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "Amasal n ufaylu ur ittusefrak ara!"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Amasal n ufaylu ur ittusefrak ara."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS directories must not contain symbolic links."
+msgstr "Afaylu Zip igebren tasuqilt"
+
+#, fuzzy, python-format
+#| msgid "{filename} ({parameter}) does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "{filename} ({parameter}) ulac-it."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Error in parameter %(field)s: %(error)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Tuccḍa deg usebdad %(field)s: %(error)s"
+
+#, fuzzy, python-format
+#| msgid "Failed to parse TMX file!"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Ur izmir ara ad yesleḍ afaylu TMX!"
 
 msgid "Squash Git commits"
 msgstr "Asfeɛj n teṛcivt Git"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Sfeɛj tiṛcivin Git send ad deggreḍ ibeddilen."
+
+#, fuzzy
+#| msgid "This translation"
+msgid "API add-ons must be installed directly on a component."
+msgstr "Tasuqilt-agi"
+
+#, fuzzy
+#| msgid "This translation"
+msgid "This add-on is already installed on this component."
+msgstr "Tasuqilt-agi"
 
 #, fuzzy
 #| msgid "This add-on executes a script."
@@ -4822,6 +4936,11 @@ msgstr "Zgel asenqed yeccḍen"
 msgid "Use case insensitive placeholders"
 msgstr "Tiṛekkizin n usemselsi s yisekkilen i meyya"
 
+#, fuzzy
+#| msgid "No invoices found."
+msgid "Monospace font"
+msgstr "Ulac tifaturin."
+
 msgid "Font family"
 msgstr "Tawacult n tsefsit"
 
@@ -6274,6 +6393,22 @@ msgid ""
 "progress. Please try again later."
 msgstr "Ur izmir ara ad isizdeg akufi %s."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum size of translation"
+msgid "Maximum retained versions"
+msgstr "Teɣzi tafellayt n tsuqilt"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Tutlayin n Weblate"
 
@@ -7454,6 +7589,11 @@ msgstr "Tuṭṭfiwin n wegdil"
 msgid "Sort by"
 msgstr "Smizwer s"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Tuṭṭfiwin n wegdil"
+
 msgid "Screenshot name"
 msgstr "Isem n tuṭṭfa n ugdil"
 
@@ -7541,6 +7681,11 @@ msgstr "Ulac azrir amaynut aɣbalu yenmeɣran."
 #| msgid "Too many messages sent, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Ddeqs n yiznan i yettwaznen, ɛreḍ tikelt-nniḍen ticki."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Kkes tuṭṭfa n ugdil"
 
 msgid "Bad request"
 msgstr "Yir tuttra"
@@ -7662,22 +7807,15 @@ msgstr "Ɣef Weblate"
 msgid "Support Weblate"
 msgstr "Ɣef Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 #, fuzzy
 #| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Tanemmirt imi tseqdaceḍ Weblate."
 
 #, fuzzy
-#| msgid "Thank you for using Weblate."
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Tanemmirt imi tseqdaceḍ Weblate."
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Ttekki akked Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7770,6 +7908,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -8936,7 +9082,21 @@ msgstr ""
 msgid "Continue"
 msgstr "Kemmel"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Signed in using password."
+msgid "Sign in using a passkey or security key"
+msgstr "Yeqqen s useqdec n wawal uffir."
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -8979,6 +9139,14 @@ msgstr "Ulac"
 #| msgid "No components were matched!"
 msgid "No components found."
 msgstr "Ula d yiwen n usuddis n icudd!"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "Tansa aẓar n API:"
 
 #, fuzzy
 #| msgid "Configure addon"
@@ -9184,6 +9352,18 @@ msgid ""
 msgstr ""
 "Temreḍ ad tesqedceḍ tiṛ€kkizin n tneɣrufin Django deg yiwet n tikkelt deg "
 "yisem n ufaylu akked ugbur, amedya:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "Afmiḍi n tsuqilt"
@@ -9757,6 +9937,11 @@ msgstr "Senqed addad n tfaturt-ik"
 
 msgid "Browse"
 msgstr "Snirem"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Addad n tsuqqilt"
 
 #, fuzzy
 #| msgid "No words found!"
@@ -10407,28 +10592,36 @@ msgid "Become a Weblate supporter"
 msgstr "Awi tallelt"
 
 #, fuzzy
-#| msgid "Visible to everybody."
-msgid "Some repositories are not accessible"
-msgstr "Yettban-d i meṛṛa."
+#| msgid "Could not clean the repository on %s."
+msgid "Some repository operations require additional permissions"
+msgstr "Ur izmir ara ad isizdeg akufi %s."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Skipped components:"
-msgstr "Isuddisen-nniḍen"
+#| msgid "Created component"
+msgid "Affected components:"
+msgstr "Asuddis yettwarnan"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "Tasiregt tegdel"
+#| msgid "You do not have permission to access this component!"
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "Ur ɣur-k ara tasiregt akken ad tkecmeḍ ɣer usuddis-a!"
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -11686,6 +11879,17 @@ msgstr "Sefrek ahil n tallelt"
 msgid "Support expiry"
 msgstr "Taggara n tallelt"
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "Sefrek ahil n tallelt"
 
@@ -11699,7 +11903,9 @@ msgstr "Sefrek ahil n tallelt"
 msgid "Unlink support package"
 msgstr "Sefrek ahil n tallelt"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "Aɣ ahil n tallelt"
 
 msgid "Contact customer care"
@@ -12419,6 +12625,16 @@ msgstr "Tanemmirt imi tseqdaceḍ Weblate."
 msgid "Return to dashboard"
 msgstr "Sken deg tfelwit n tedbelt"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "Iwiziw amaynut deg %(translation)s"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Mudd tawsa i Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "Ttxil senqed daɣen sentem igmaḍ n temhelt n unadi akked usemselsi."
 
@@ -12555,6 +12771,36 @@ msgstr "Ur ttwafen ara wawalen!"
 
 msgid "Add new screenshot"
 msgstr "Rnu tuṭṭfa n ugdil tamaynut"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Kkes tuṭṭfa n ugdil"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Selected"
+msgstr "Amsefran CSS"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching screenshots available."
+msgstr "Ulac"
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "Isem n tuṭṭfa n ugdil"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "%(used)s si %(total)sn seqdec"
 
 #. Translators: Button to assign string to a screenshot
 #, fuzzy
@@ -12809,26 +13055,20 @@ msgstr[1] "Sider tasuqilt CSV"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Support Weblate development"
+msgstr "Ɣef Weblate"
 
 #, fuzzy
-#| msgid "Purchase support package"
-msgid "Purchase a support package"
-msgstr "Aɣ ahil n tallelt"
+#| msgid "Thank you for using Weblate."
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Tanemmirt imi tseqdaceḍ Weblate."
+
+msgid ""
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
+msgstr ""
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12894,14 +13134,6 @@ msgstr "Tanemmirt ɣef useqdec n Weblate!"
 msgid "Weblate repository"
 msgstr "Akufi n Weblate"
 
-msgid "This translation is forbidden."
-msgstr "Tasuqilt-a tettwagdel."
-
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
-msgid "This term should not be translated."
-msgstr "Isekkilen n ucebbeḥ kashida ur ilaq ara ad ttwasqedcen"
-
 #, fuzzy
 #| msgid "This translation is locked."
 msgid "This translation needs editing."
@@ -12910,10 +13142,33 @@ msgstr "Tasuqilt-a tṣukkeṛ."
 msgid "Copy word into translation"
 msgstr "Nɣel awal ɣer tsuqilt"
 
+msgid "This translation is forbidden."
+msgstr "Tasuqilt-a tettwagdel."
+
+#, fuzzy
+#| msgid "Hidden"
+msgid "Forbidden"
+msgstr "Yeffer"
+
+#, fuzzy
+#| msgid "The decorative kashida letters should not be used"
+msgid "This term should not be translated."
+msgstr "Isekkilen n ucebbeḥ kashida ur ilaq ara ad ttwasqedcen"
+
 #, fuzzy
 #| msgid "Edit glossary entry"
 msgid "Edit glossary term"
 msgstr "Beddel anekcum deg umawal"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation explanation"
+msgstr "Ilɣa ɣef tsuqilin"
+
+#, fuzzy
+#| msgid "Source string location"
+msgid "Source explanation"
+msgstr "Adig n uzrir aɣbalu"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -13666,6 +13921,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Isenqaden yeccḍen:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Already purchased? Link your support package"
+msgstr "Aɣ ahil n tallelt"
+
+#, fuzzy
+#| msgid "Reset all changes in the local repository"
+msgid "Term information from the translation file"
+msgstr "Ales awennez n yibeddilen meṛṛa deg ukufi adigan"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Izriren iɣbula"
+
+#, fuzzy
+#| msgid "Target strings"
+msgid "Target terms"
+msgstr "Izriren isuḍas"
+
 msgid "Translation status"
 msgstr "Addad n tsuqqilt"
 
@@ -14126,17 +14404,22 @@ msgstr "Asuddis igber ddeqs n tsuqilin yellan yakan."
 msgid "Source"
 msgstr "Aɣbalu"
 
+#, fuzzy, python-format
+#| msgid "Reset all changes in the local repository"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Ales awennez n yibeddilen meṛṛa deg ukufi adigan"
+
+#, fuzzy
+#| msgid "Remove blank strings"
+msgid "Remove duplicate strings"
+msgstr "Ad yekkes izriren ilmawen"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Ttxil seɣti s tukksa n yizriren yellan yakan i yesɛan yiwen n usulay deg "
 "yifuyla n tsuqilt."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Remove duplicate strings"
-msgstr "Ad yekkes izriren ilmawen"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -15090,6 +15373,16 @@ msgstr "Snirem akk asnifel n umawal"
 #| msgid "No screenshot currently associated!"
 msgid "No screenshot currently associated."
 msgstr "Ulac tuṭṭfa n ugdil icudden akka tura!"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Add existing screenshot"
+msgstr "Rnu tuṭṭfa n ugdil"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Rnu tuṭṭfa n ugdil"
 
 msgid "String information"
 msgstr "Talɣut ɣef uzrir"
@@ -17405,6 +17698,24 @@ msgstr ""
 "imaynuten. S uɣewwar --no-wrap, angaz n yizirig iḍerru kan i yizirigen "
 "imaynuten."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "Iwiziwen deg uwennit"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "Gettext (PO)"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "Eǧǧ msgids uqbel izirigen yettwasuqlen"
 
@@ -17765,11 +18076,6 @@ msgstr ""
 #| msgid "Source string location"
 msgid "Source string explanation"
 msgstr "Adig n uzrir aɣbalu"
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation explanation"
-msgstr "Ilɣa ɣef tsuqilin"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -20846,6 +21152,18 @@ msgstr "Asenfar {}"
 
 #. Translators: Text on OpenGraph image
 #, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Taggayt"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Display name"
+msgid "Workspace {}"
+msgstr "Isem n uskan"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
 #| msgid "Component: {}"
 msgid "Component {}"
 msgstr "Asuddis: {}"
@@ -22620,6 +22938,37 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Aɣbalu yettwakkes."
 
+#, fuzzy
+#~| msgid ""
+#~| "Update the comment in the PO file header to include contributor names "
+#~| "and years of contributions."
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Ad ibeddel awennit deg uqerru n ufaylu PO akken ad iseddu ismawen n "
+#~ "yiwiziwen akked umḍan n yiseggasen n uttekki."
+
+#, fuzzy
+#~| msgid "Thank you for using Weblate."
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Tanemmirt imi tseqdaceḍ Weblate."
+
+#, fuzzy
+#~| msgid "Visible to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "Yettban-d i meṛṛa."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "Isuddisen-nniḍen"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "Tasiregt tegdel"
+
 #~ msgid "Download reports"
 #~ msgstr "Sader aneqqis"
 
@@ -23389,9 +23738,6 @@ msgstr "Aɣbalu yettwakkes."
 #~ msgid "Weblate community"
 #~ msgstr "Kkes awennit"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Ttekki akked Weblate"
-
 #, fuzzy
 #~| msgid "Weblate keys"
 #~ msgid "Weblate website"
@@ -23537,9 +23883,6 @@ msgstr "Aɣbalu yettwakkes."
 #~| msgid "Strings"
 #~ msgid "Variable string suffix"
 #~ msgstr "Izriren"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Mudd tawsa i Weblate"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -25174,9 +25517,6 @@ msgstr "Aɣbalu yettwakkes."
 #~ msgctxt "Number of comments"
 #~ msgid "Comments"
 #~ msgstr "Iwenniten"
-
-#~ msgid "Hidden"
-#~ msgstr "Yeffer"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Asmel-a  iselkam aqeddac n usekyed %(weblate_name_link)s."

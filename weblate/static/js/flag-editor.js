@@ -99,6 +99,7 @@
 
     const select = document.createElement("select");
     select.multiple = true;
+    select.disabled = input.disabled;
     select.classList.add("flag-editor-select");
     for (const cls of input.classList) {
       if (cls === "flag-editor") continue;
@@ -207,6 +208,22 @@
     ts.on("change", () => {
       input.value = ts.items.join(", ");
       input.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    input.addEventListener("change", () => {
+      const flags = parseFlagInputValue(input.value || "");
+      if (
+        flags.length === ts.items.length &&
+        flags.every((flag, index) => flag === ts.items[index])
+      ) {
+        return;
+      }
+      for (const flag of flags) {
+        if (!ts.options[flag]) {
+          ts.addOption({ name: flag, label: flag, category: customCategory });
+        }
+      }
+      ts.setValue(flags, true);
     });
 
     /* Intercept selection of a parametrized flag without a value */
