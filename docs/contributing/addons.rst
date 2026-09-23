@@ -23,10 +23,13 @@ Documenting automation operations
 ---------------------------------
 
 The :ref:`automation-reference` uses the schema in
-:file:`weblate/addons/automation_schema.py` as its reference source. When adding
-an action or control block, include its ``title`` and ``x-version-added`` metadata
-alongside its parameters. Use the Weblate release in which the operation first
-appeared, and preserve that version when extending it later.
+:file:`weblate/addons/automation_schema.py` as its reference source. Built-in
+actions are registered in :file:`weblate/addons/automation_operations.py`, which
+supplies their settings and result schemas, validation, and execution. Keep this
+registry internal; it does not load third-party operations. When adding an action,
+set its title and version added to the Weblate release in which it first appears.
+Preserve that version when extending the action later. Control blocks keep their
+``title`` and ``x-version-added`` metadata in the workflow schema.
 
 Run ``make -C docs update-automation-schema update-automation-docs`` to update the
 downloadable schema and reference. Add explanations and examples after the

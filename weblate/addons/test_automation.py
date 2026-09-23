@@ -23,7 +23,14 @@ from weblate.addons.automation import AutomationAddon
 from weblate.addons.automation_definition import parse_workflow
 from weblate.addons.automation_expressions import expressions
 from weblate.addons.automation_forms import AutomationForm, validate_operations
+from weblate.addons.automation_operations import (
+    OPERATIONS,
+    AutomaticTranslationOperation,
+    AutomationOperation,
+    register,
+)
 from weblate.addons.automation_runner import Runner, execution_context, run_automation
+from weblate.addons.automation_schema import SCHEMA
 from weblate.addons.events import AddonActivityLogStatus, AddonEvent
 from weblate.addons.models import AddonActivityLog, handle_addon_event
 from weblate.addons.tasks import run_addon_manually
@@ -67,6 +74,35 @@ CONTEXT = {
 
 
 class DefinitionTest(SimpleTestCase):
+    def test_operation_registry_drives_action_schema(self) -> None:
+        variants = SCHEMA["$defs"]["action"]["oneOf"]
+        self.assertEqual(
+            [variant["properties"]["action"]["const"] for variant in variants[:2]],
+            list(OPERATIONS),
+        )
+        for variant in variants[:2]:
+            operation = OPERATIONS[variant["properties"]["action"]["const"]]
+            self.assertEqual(
+                variant["properties"]["settings"], operation.settings_schema
+            )
+
+    def test_duplicate_operation_registration_is_rejected(self) -> None:
+        class DuplicateOperation(AutomationOperation):
+            name = AutomaticTranslationOperation.name
+
+        with self.assertRaisesMessage(ValueError, "Duplicate automation operation"):
+            register(DuplicateOperation)
+
+    def test_invalid_operation_result_fails_without_storing_output(self) -> None:
+        runner = Runner(WORKFLOW | {"actions": [AUTO]}, CONTEXT, Mock(), None)
+        with patch.object(
+            AutomaticTranslationOperation, "execute", return_value={"updated": "bad"}
+        ):
+            self.assertEqual(runner.run(), AddonActivityLogStatus.ERROR)
+        self.assertEqual(runner.context["results"], {})
+        self.assertEqual(runner.trace[-1]["status"], "error")
+        self.assertIn("Invalid result", runner.trace[-1]["error"])
+
     @override_settings(BACKGROUND_TASKS="monthly")
     @patch("weblate.addons.automation.timezone.now")
     def test_monthly_schedule_covers_every_remainder(self, now: Mock) -> None:

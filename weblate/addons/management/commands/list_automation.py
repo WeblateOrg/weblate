@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any
 
+from weblate.addons.automation_operations import OPERATIONS
 from weblate.addons.automation_schema import CHANGE_ACTIONS, SCHEMA
 from weblate.utils.management.base import DocGeneratorCommand
 
@@ -68,6 +69,19 @@ class Command(DocGeneratorCommand):
             ]
         )
         self.parameters(lines, schema)
+        if name.startswith("action-") and (operation := OPERATIONS.get(name[7:])):
+            lines.extend(
+                [
+                    "",
+                    ".. list-table:: Result fields",
+                    "   :header-rows: 1",
+                    "",
+                    "   * - Name",
+                    "     - Required",
+                    "     - Type or allowed values",
+                ]
+            )
+            self.parameters(lines, operation.result_schema)
         self.add_section(name, lines)
 
     def parameters(
