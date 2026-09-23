@@ -104,14 +104,20 @@ Weblate provisioned backup storage
 ----------------------------------
 
 The easiest way of backing up your Weblate instance is purchasing the `backup
-service at weblate.org <https://weblate.org/support/#backup>`_. This
-is how you get it running:
+service at weblate.org <https://weblate.org/support/#backup>`_. It is available
+for Weblate running in your own environment and does not require a hosting or
+separate support subscription.
 
-1. Purchase the `Backup service` on https://weblate.org/support/#backup.
-2. Enter the obtained key in the management interface, see :ref:`activate-support`.
+This is how you get it running:
+
+1. In the management interface, open :guilabel:`Backups` and select
+   :guilabel:`Buy backup service`, or `purchase the backup service directly
+   <https://weblate.org/subscription/new/?plan=backup>`_.
+2. Enter the obtained activation token in :guilabel:`Activate support package`
+   on the :guilabel:`Backups` page, see :ref:`activate-support`.
 3. Weblate connects to the cloud service and obtains access info for the backups.
 4. Turn on the new backup configuration from the :guilabel:`Backups` tab.
-5. Backup your Borg credentials to be able to restore the backups, see :ref:`borg-keys`.
+5. Back up your Borg credentials to be able to restore the backups, see :ref:`borg-keys`.
 
 .. hint::
 

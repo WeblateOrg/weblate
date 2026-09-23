@@ -897,6 +897,64 @@ class EditTest(ViewTestCase):
 
 
 class EditAccessTest(ViewTestCase):
+    def create_restricted_matching_unit(self) -> tuple[Component, Unit, Unit]:
+        restricted = self.create_link_existing(
+            name="Restricted", slug="restricted", allow_translation_propagation=False
+        )
+        restricted.restricted = True
+        restricted.save(update_fields=["restricted"])
+        target_unit = self.get_unit("Hello, world!\n")
+        restricted_unit = self.get_unit(
+            "Hello, world!\n",
+            translation=restricted.translation_set.get(language_code="cs"),
+        )
+        Unit.objects.filter(pk=restricted_unit.pk).update(
+            target="Restricted translation\n", state=STATE_TRANSLATED
+        )
+        restricted_unit.refresh_from_db()
+        self.user.clear_permissions_cache()
+        return restricted, target_unit, restricted_unit
+
+    def test_other_units_and_merge_skip_restricted_component(self) -> None:
+        restricted, target_unit, restricted_unit = (
+            self.create_restricted_matching_unit()
+        )
+        url = (
+            f"{target_unit.translation.get_translate_url()}"
+            f"?checksum={target_unit.checksum}"
+        )
+
+        response = self.client.get(url)
+
+        self.assertNotContains(response, restricted_unit.target)
+        self.assertNotContains(response, f'value="{restricted_unit.pk}"')
+
+        response = self.client.post(url, {"merge": restricted_unit.pk})
+
+        self.assertContains(response, "Could not find the merged string.")
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, "")
+
+        group = Group.objects.create(
+            name="Restricted component translators",
+            language_selection=SELECTION_ALL,
+        )
+        group.components.add(restricted)
+        group.roles.add(Role.objects.get(name="Translate"))
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        response = self.client.get(url)
+
+        self.assertContains(response, "Restricted translation")
+        self.assertContains(response, f'value="{restricted_unit.pk}"')
+
+        response = self.client.post(url, {"merge": restricted_unit.pk})
+
+        self.assertEqual(response.status_code, 302)
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, restricted_unit.target)
+
     def assert_unit_action_urls_not_found(self, unit: Unit) -> None:
         check = Check.objects.create(unit=unit, name="same")
 
@@ -1892,7 +1950,7 @@ class ZenViewTest(ViewTestCase):
         self.assertContains(response, "This translation is currently locked.")
 
     def test_browse(self) -> None:
-        response = self.client.get(reverse("browse", kwargs=self.kw_translation))
+        response = self.client.get(reverse("search", kwargs=self.kw_translation))
         self.assertContains(response, "Thank you for using Weblate.")
         self.assertContains(
             response,

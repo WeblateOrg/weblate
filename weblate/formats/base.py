@@ -49,6 +49,8 @@ if TYPE_CHECKING:
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
 
+MAX_DECLARED_LANGUAGES = 100
+
 ANDROID_CODES = {
     "he": "iw",
     "id": "in",
@@ -510,6 +512,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
                 )
             )
         self.ensure_index()
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        """Return languages explicitly declared in the file, without defaults."""
+        return set()
 
     def get_filenames(self):
         if isinstance(self.storefile, str):

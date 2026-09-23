@@ -432,7 +432,7 @@ class Addon(models.Model):
     def can_run_manually(self) -> bool:
         return self.is_valid and self.has_event(AddonEvent.EVENT_MANUAL)
 
-    def schedule_manual_run(self) -> None:
+    def schedule_manual_run(self, user_id: int | None = None) -> None:
         if not self.can_run_manually:
             raise ValueError(gettext("This add-on cannot be triggered manually."))
         if self.pk is None:
@@ -444,7 +444,7 @@ class Addon(models.Model):
             run_addon_manually,
         )
 
-        run_addon_manually.delay_on_commit(self.pk)
+        run_addon_manually.delay_on_commit(self.pk, user_id=user_id)
 
     def _drop_addons_cache(self) -> None:
         if self.component:
@@ -489,6 +489,9 @@ class Addon(models.Model):
             ).delete()
 
     def delete(self, using=None, keep_parents=False):
+        # Initialize before deletion clears the primary key, so cleanup can
+        # identify data owned by this installation.
+        addon = self.addon_class(self) if self.is_valid else None
         # Store history
         self.store_change(ActionEvents.ADDON_REMOVE, {})
         # Delete any addon alerts
@@ -513,8 +516,8 @@ class Addon(models.Model):
         self._drop_addons_cache()
 
         # Trigger post uninstall action
-        if self.is_valid:
-            self.addon.post_uninstall()
+        if addon is not None:
+            addon.post_uninstall()
         return result
 
     def disable(self) -> None:
@@ -1083,7 +1086,9 @@ class AddonActivityLog(models.Model):
         if reason := self.details.get("reason"):
             with contextlib.suppress(ValueError):
                 reason_label = str(AddonActivityLogReason(reason).label)
-        if self.status == AddonActivityLogStatus.SKIPPED:
+        if self.status == AddonActivityLogStatus.SKIPPED and (
+            not self.addon.is_valid or not self.addon.addon.show_skipped_result
+        ):
             return reason_label
         return self.addon.addon.render_activity_log(self) or reason_label
 

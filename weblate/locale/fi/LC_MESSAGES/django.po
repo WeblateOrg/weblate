@@ -15,10 +15,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
-"PO-Revision-Date: 2026-09-11 04:03+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"PO-Revision-Date: 2026-09-17 18:51+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -26,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -340,10 +339,8 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr "Syötä koodi sovelluksesta"
 
-#, fuzzy
-#| msgid "Subproject is now open for translation updates."
 msgid "Project, category, component, or translation path"
-msgstr "Aliprojekti on nyt auki käännös päivityksille."
+msgstr "Projekti, luokka, komponentti tai käännöspolku"
 
 msgid ""
 "Enter slash-separated slugs, for example project/category/component/cs. "
@@ -1283,7 +1280,9 @@ msgstr ""
 "Sähköpostiosoitteesi ei enää ole liitetty varmistettuun tiliin, "
 "sähköpostiosoitteeksi on muutettu {0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "Käytä turva-avainta (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -2015,6 +2014,17 @@ msgid "Keyword entries have to be strings."
 msgstr "Tekstin poistaminen epäonnistui: %s"
 
 #, fuzzy
+#| msgid "Database latency"
+msgid "ITS data directories"
+msgstr "Tietokannan latenssi"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
+#, fuzzy
 #| msgid "Could not add comment!"
 msgid "Do not extract comments"
 msgstr "Kommentia ei voitu lisätä!"
@@ -2206,6 +2216,19 @@ msgstr "Malli uusille käännöksille on virheellinen."
 #| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
 msgstr "Projektin kansiota ei voitu luoda: %s"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Only include approved translations"
+msgid "One file per translation"
+msgstr "Sisällytä vain hyväksytyt käännökset"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "Järjestele komponentti"
 
 msgid "Name of generated file"
 msgstr "Luodun tiedoston nimi"
@@ -2783,21 +2806,121 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
-msgstr "Osallistujat kommentissa"
+#, fuzzy
+#| msgid "Image is too big."
+msgid "ITS rule file is too large."
+msgstr "Kuva on liian suuri."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Käännökset sisältävä ZIP-tiedosto"
+
+#, fuzzy
+#| msgid "Rejection reason"
+msgid "ITS XPath expression is too long."
+msgstr "Hylkäämisen syy"
+
+msgid "Too many ITS rule files."
 msgstr ""
-"Päivittää kommenttiosion PO-tiedoston otsaketiedoissa sisältämään "
-"osallistujien nimet sekä osallistumisvuodet."
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "Ei liitettyjä lähdetekstejä!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid text direction"
+msgid "Invalid ITS directory path."
+msgstr "Väärä tekstin suunta"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many elements."
+msgstr "Käännökset sisältävä ZIP-tiedosto"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Tiedostomuotoa ei tueta."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "Tiedostoa ei tueta!"
+
+#, fuzzy
+#| msgid "Blank strings require an empty state."
+msgid "ITS locating rules require a pattern."
+msgstr "Tyhjät merkkijonot vaativat tyhjän tilan."
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Tiedostomuotoa ei tueta."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "The component contains unsupported configuration."
+msgid "ITS directories must not contain symbolic links."
+msgstr "Komponentti sisältää asetuksia, joita ei tueta."
+
+#, fuzzy, python-format
+#| msgid "{filename} ({parameter}) does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "{filename} ({parameter}) ei ole olemassa."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Ei voitu työntää %(component)s %(error_text)s"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "TMX-tiedoston jäsentäminen epäonnistui: %s"
 
 msgid "Squash Git commits"
 msgstr "Niputa (squash) Git-commitit"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Niputa Git-commitit ennen muutosten vientiä etäarkistoon."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "Lisäosan voi asentaa vain komponenttiin."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "Lisäosan voi asentaa vain komponenttiin."
 
 #, fuzzy
 #| msgid "This add-on has no settings."
@@ -4588,6 +4711,11 @@ msgstr "Jätä huomiotta kaikki tarkistukset"
 msgid "Use case insensitive placeholders"
 msgstr "Käytä paikkamerkkejä, joissa kirjainkoolla ei ole merkitystä"
 
+#, fuzzy
+#| msgid "No words found!"
+msgid "Monospace font"
+msgstr "Sanoja ei löytynyt!"
+
 msgid "Font family"
 msgstr "Fonttiperhe"
 
@@ -5927,6 +6055,22 @@ msgid ""
 "progress. Please try again later."
 msgstr "Tietovarastoa ei voitu lukita, toinen toiminto on meneillään."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum line length"
+msgid "Maximum retained versions"
+msgstr "Rivin enimmäispituus"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Weblaten kielet"
 
@@ -7051,6 +7195,11 @@ msgstr "Kuvakaappaukset"
 msgid "Sort by"
 msgstr "Järjestämisperuste"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Kuvakaappaukset"
+
 msgid "Screenshot name"
 msgstr "Ruudunkaappauskuvan nimi"
 
@@ -7130,6 +7279,11 @@ msgstr "Uusia hakua vastaavia lähdetekstejä ei löytynyt."
 #| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Lippua ei voitu avata, yritä myöhemmin uudelleen."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Poista ruudunkaappauskuva"
 
 msgid "Bad request"
 msgstr "Virheellinen pyyntö"
@@ -7241,20 +7395,13 @@ msgstr "Tietoja Weblatesta"
 msgid "Support Weblate"
 msgstr "Tue Weblatea"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "Auta <strong>Weblatea</strong> menestymään"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Tervetuloa ja kiitos Weblate-tuesta"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Tervetuloa ja kiitos Weblaten valitsemisesta"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
-"yksityisyyttä kunnioittava lokalisointialusta, joka on sitoutunut avoimen "
-"lähdekoodin arvoihin."
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Osallistu Weblaten kehittämiseen"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7342,6 +7489,14 @@ msgstr "Toisen tekijän sisäänkirjautuminen"
 
 msgid "Please complete your sign-in using second factor credential."
 msgstr "Viimeistele sisäänkirjautuminen toisen tekijän valtuustiedolla."
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
 
 msgid "Your profile"
 msgstr "Profiilisi"
@@ -8460,8 +8615,22 @@ msgstr "Jatka vain, jos luotat tähän kohteeseen."
 msgid "Continue"
 msgstr "Jatka"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "Kirjaudu sisään turva-avaimella"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Valitettavasti verkkoselaimessasi ei ole WebAuthn-tukea."
@@ -8505,6 +8674,17 @@ msgstr "Ei saatavilla"
 #| msgid "No components were matched!"
 msgid "No components found."
 msgstr "Yhtään ehtoihin täsmäävää komponenttia ei löytynyt!"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "OpenAI API base URL"
+msgid "Add-on API base URL:"
+msgstr "OpenAI-sovellusliittymän perus-URL-osoite"
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "Rajapinnan juuripolku (URL):"
 
 msgid "Configure add-on"
 msgstr "Määrittele lisäosa"
@@ -8675,6 +8855,18 @@ msgid ""
 msgstr ""
 "Voit käyttää Djangon mallineiden (templates) merkintää sekä tiedostonimessä "
 "että sisällössä, esimerkiksi:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "Prosenttia käännetty"
@@ -9203,6 +9395,11 @@ msgstr "Tarkista laskutustilanteesi"
 msgid "Browse"
 msgstr "Selaa"
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Käännöksen tila"
+
 msgid "No strings found!"
 msgstr "Tekstejä ei löytynyt!"
 
@@ -9685,12 +9882,14 @@ msgid ""
 msgstr "Kun olet aktivoinut tilisi, siirry kääntämisosioon."
 
 msgid "Choose what to work on"
-msgstr ""
+msgstr "Valitse, mitä työstät"
 
 msgid ""
 "Start with untranslated strings, then continue with checks, review, "
 "suggestions, or editing."
 msgstr ""
+"Aloita kääntämättömistä merkkijonoista ja jatka sitten tarkistuksilla, "
+"arvioinnilla, ehdotuksilla tai muokkauksella."
 
 msgctxt "Call to action on engage page"
 msgid "Translate"
@@ -9780,28 +9979,36 @@ msgid "Become a Weblate supporter"
 msgstr "Ryhdy Weblaten tukijaksi"
 
 #, fuzzy
-#| msgid "VCS repository is accessible to everybody."
-msgid "Some repositories are not accessible"
-msgstr "VCS-tietovarasto on kaikkien käytettävissä."
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "Tietovarastoa ei voitu lukita, toinen toiminto on meneillään."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Skipped components:"
-msgstr "Muut komponentit"
+#| msgid "Created component"
+msgid "Affected components:"
+msgstr "Luotu käännöskomponentti"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "Lupa evätty"
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "Sinulla ei ole oikeuksia tähän komponenttiin."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10952,6 +11159,19 @@ msgstr "Tukipakettien rajat"
 msgid "Support expiry"
 msgstr "Tuen päättyminen"
 
+#, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "Ammattimainen tuki"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "Hallinnoi tukipakettia"
 
@@ -10963,7 +11183,9 @@ msgstr "Poista tukipaketin linkitys"
 msgid "Unlink support package"
 msgstr "Poista tukipaketin linkitys"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "Osta tukipaketti"
 
 msgid "Contact customer care"
@@ -11629,6 +11851,16 @@ msgstr "Kiitoksia Weblaten käyttämisestä"
 msgid "Return to dashboard"
 msgstr "Palaa kojelautaan"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "Uusi osallistuja projektissa %(translation)s"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Lahjoita Weblatelle"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "Ole hyvä ja tarkista sekä vahvista etsi ja korvaa -toiminnon tulokset."
 
@@ -11760,6 +11992,36 @@ msgstr "Ehdotuksia ei löytynyt."
 
 msgid "Add new screenshot"
 msgstr "Lisää uusi ruudunkaappauskuva"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Poista ruudunkaappauskuva"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Selected"
+msgstr "CSS-valitsin"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching screenshots available."
+msgstr "Ei saatavilla"
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "Ruudunkaappauskuvan nimi"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "Käytetty %(used)s / %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -11994,31 +12256,20 @@ msgstr[1] "%(count)s tekstiä vaatii toimenpiteitä komponentissa %(component)s"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-"Vaikka Weblate on edelleen ilmainen kaikille käyttäjille, sen kehittäminen "
-"vaatii jatkuvaa investointeja."
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "Tue Weblatea"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-"Asetamme etusijalle yksityisyytesi; emme koskaan näytä mainoksia tai myy "
-"tietojasi."
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Kiitoksia Weblaten käyttämisestä"
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"Yhteisön korvaamaton tuki tilauksilla ja lahjoituksilla varmistaa, että "
-"Weblate jatkaa kasvuaan ja kukoistaa."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-"Liity meihin muokkaamaan lokalisoinnin tulevaisuutta ja osallistu jo tänään!"
-
-msgid "Purchase a support package"
-msgstr "Osta tukipaketti"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12083,20 +12334,33 @@ msgstr "Viimeisin sitoutus Weblatessa"
 msgid "Weblate repository"
 msgstr "Weblaten tietovarasto"
 
-msgid "This translation is forbidden."
-msgstr "Tämä käännös on kielletty."
-
-msgid "This term should not be translated."
-msgstr "Tätä termiä ei tule kääntää."
-
 msgid "This translation needs editing."
 msgstr "Tämä käännös vaatii muokkaamista."
 
 msgid "Copy word into translation"
 msgstr "Kopioi sana käännökseen"
 
+msgid "This translation is forbidden."
+msgstr "Tämä käännös on kielletty."
+
+#, fuzzy
+#| msgid "Hidden"
+msgid "Forbidden"
+msgstr "Piilotettu"
+
+msgid "This term should not be translated."
+msgstr "Tätä termiä ei tule kääntää."
+
 msgid "Edit glossary term"
 msgstr "Muokkaa sanaston termiä"
+
+msgid "Translation explanation"
+msgstr "Käännöksen selitys"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "Lähdetekstin selitys"
 
 msgid "Glossary translation explanation"
 msgstr "Sanaston käännöksen selitys"
@@ -12818,6 +13082,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Epäonnistuneet tarkastukset:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "Osta tukipaketti"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid "Term information from the translation file"
+msgstr "Pakota kaikkien tekstien kirjoittaminen käännöstiedostoihin."
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Lähdetekstit"
+
+#, fuzzy
+#| msgid "Target string"
+msgid "Target terms"
+msgstr "Kohdeteksti"
+
 msgid "Translation status"
 msgstr "Käännöksen tila"
 
@@ -13281,16 +13568,21 @@ msgstr "Komponentti sisältää useita käännöstekstien kaksoiskappaleita."
 msgid "Source"
 msgstr "Lähde"
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
-"Korjaa tämä poistamalla käännöstiedostoista tekstit joilla on sama tunniste."
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Pakota kaikkien tekstien kirjoittaminen käännöstiedostoihin."
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "Poista tyhjät tekstit"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
+"Korjaa tämä poistamalla käännöstiedostoista tekstit joilla on sama tunniste."
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -14189,6 +14481,16 @@ msgstr "Selaa sanastoa %(name)s"
 
 msgid "No screenshot currently associated."
 msgstr "Yhtään ruudunkaappauskuvaa liitettynä."
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "Lisää ruudunkaappauskuvaan"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Lisää ruudunkaappauskuva"
 
 msgid "String information"
 msgstr "Tietoa tekstistä"
@@ -16375,6 +16677,24 @@ msgstr ""
 "rivinvaihdoilla. Parametrilla '--no-wrap' rivitys tehdään vain "
 "rivinvaihdoilla."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "Osallistujat kommentissa"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "gettext PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "Säilytä käännettyjen tekstien aiemmat msgid:t"
 
@@ -16722,9 +17042,6 @@ msgstr "Lisäselitys tekstin merkityksen tai käytön selventämiseksi."
 
 msgid "Source string explanation"
 msgstr "Lähdetekstin selitys"
-
-msgid "Translation explanation"
-msgstr "Käännöksen selitys"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "Lähdeteksti on muutunut samaan aikaan. Tarkista tekemäsi muutokset."
@@ -19708,6 +20025,18 @@ msgid "Project {}"
 msgstr "Projekti {}"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Luokka"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspace {}"
+msgstr "Välilyönnit"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "Komponentti {}"
 
@@ -21455,6 +21784,65 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Lähdeteksti on poistettu."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Päivittää kommenttiosion PO-tiedoston otsaketiedoissa sisältämään "
+#~ "osallistujien nimet sekä osallistumisvuodet."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "Auta <strong>Weblatea</strong> menestymään"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Tervetuloa ja kiitos Weblaten valitsemisesta"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr ""
+#~ "yksityisyyttä kunnioittava lokalisointialusta, joka on sitoutunut avoimen "
+#~ "lähdekoodin arvoihin."
+
+#, fuzzy
+#~| msgid "VCS repository is accessible to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "VCS-tietovarasto on kaikkien käytettävissä."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "Muut komponentit"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "Lupa evätty"
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr ""
+#~ "Vaikka Weblate on edelleen ilmainen kaikille käyttäjille, sen "
+#~ "kehittäminen vaatii jatkuvaa investointeja."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "Asetamme etusijalle yksityisyytesi; emme koskaan näytä mainoksia tai myy "
+#~ "tietojasi."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "Yhteisön korvaamaton tuki tilauksilla ja lahjoituksilla varmistaa, että "
+#~ "Weblate jatkaa kasvuaan ja kukoistaa."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr ""
+#~ "Liity meihin muokkaamaan lokalisoinnin tulevaisuutta ja osallistu jo "
+#~ "tänään!"
+
 #~ msgid "Download reports"
 #~ msgstr "Lataa raportteja"
 
@@ -22268,9 +22656,6 @@ msgstr "Lähdeteksti on poistettu."
 #~ msgid "Weblate community"
 #~ msgstr "Weblate-yhteisö"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Osallistu Weblaten kehittämiseen"
-
 #~ msgid "Weblate website"
 #~ msgstr "Weblaten verkkosivusto"
 
@@ -22412,9 +22797,6 @@ msgstr "Lähdeteksti on poistettu."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Muuttuva tekstin loppuliite"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Lahjoita Weblatelle"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -24605,9 +24987,6 @@ msgstr "Lähdeteksti on poistettu."
 #~ msgstr ""
 #~ "Testataksesi Weblatea tällä demoserverillä, voit kirjautua sisään "
 #~ "seuraavilla tunnuksilla:"
-
-#~ msgid "Hidden"
-#~ msgstr "Piilotettu"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Tässä sivussa toimii %(weblate_name_link)s demo serveri."
@@ -26920,9 +27299,6 @@ msgstr "Lähdeteksti on poistettu."
 #~ "is translated."
 #~ msgstr ""
 #~ "%(words)s sanaa, mistä %(percent)s&#37; (%(translated)s) on käännetty."
-
-#~ msgid "Invalid text direction"
-#~ msgstr "Väärä tekstin suunta"
 
 #~ msgid "Text direction can be either LTR or RTL"
 #~ msgstr ""

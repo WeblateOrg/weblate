@@ -23,6 +23,11 @@ class AutoGroupTest(TestCase):
         user = self.create_user()
         self.assertEqual(user.groups.count(), 0)
 
+    def test_bot(self) -> None:
+        user = User.objects.create_user("bot", "bot@example.com", is_bot=True)
+
+        self.assertFalse(user.groups.exists())
+
     def test_matching(self) -> None:
         AutoGroup.objects.create(
             match="^.*@weblate.org", group=Group.objects.get(name="Guests")

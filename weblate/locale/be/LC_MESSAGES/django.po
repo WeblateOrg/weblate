@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1318,7 +1318,9 @@ msgstr ""
 "Ваш адрас электроннай пошты больш не належыць праверанаму ўліковаму запісу, "
 "ён быў зменены на {0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "Выкарыстоўваць ключ бяспекі (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -2050,6 +2052,17 @@ msgid "Keyword entries have to be strings."
 msgstr "Не ўдалося выдаліць радок: %s"
 
 #, fuzzy
+#| msgid "Database latency"
+msgid "ITS data directories"
+msgstr "Затрымка базы даных"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
+#, fuzzy
 #| msgid "Could not add comment!"
 msgid "Do not extract comments"
 msgstr "Не ўдалося дадаць каментарый!"
@@ -2228,6 +2241,19 @@ msgstr "Хібны шаблон для новых перакладаў."
 #| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
 msgstr "Не ўдалося стварыць дырэкторыю праекта: %s"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add as approved translation"
+msgid "One file per translation"
+msgstr "Дадаць як ухвалены пераклад"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "Упарадкаваць кампанент"
 
 msgid "Name of generated file"
 msgstr "Назва згенераванага файла"
@@ -2808,21 +2834,119 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
-msgstr "Удзельнікі перакладу"
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "ITS rule file is too large."
+msgstr "Уведзены токен несапраўдны."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Файл ZIP з перакладамі"
+
+#, fuzzy
+#| msgid "Rejection reason"
+msgid "ITS XPath expression is too long."
+msgstr "Прычына адмовы"
+
+msgid "Too many ITS rule files."
 msgstr ""
-"Абнаўляе загаловак PO-файла, каб дадаць імя ўдзельніка і гады, у якія ён "
-"працаваў з перакладам."
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "Няма звязаных зыходных радкоў!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid text direction"
+msgid "Invalid ITS directory path."
+msgstr "Няслушны накірунак тэксту"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many elements."
+msgstr "Файл ZIP з перакладамі"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Фармат файла не падтрымліваецца."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "Файл не падтрымліваецца!"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Фармат файла не падтрымліваецца."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "The component contains several duplicated translation strings."
+msgid "ITS directories must not contain symbolic links."
+msgstr "Кампанент змяшчае некалькі дубляваных радкоў перакладу."
+
+#, fuzzy, python-format
+#| msgid "{filename} ({parameter}) does not exist."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "{filename} ({parameter}) не існуе."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Не ўдалося выканаць запіс %(component)s: %(error_text)s"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Не ўдалося разабраць файл TMX: %s"
 
 msgid "Squash Git commits"
 msgstr "Спалучэнне Git-унёскаў"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Спалучае Git-унёскі перад адпраўленнем змен."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "Дапаўненне можна ўсталяваць толькі для кампанентаў."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "Дапаўненне можна ўсталяваць толькі для кампанентаў."
 
 #, fuzzy
 #| msgid "This add-on has no settings."
@@ -4631,6 +4755,11 @@ msgstr "Ігнараваць усе праверкі"
 msgid "Use case insensitive placeholders"
 msgstr "Выкарыстоўваць запаўняльнікі без уліку рэгістра"
 
+#, fuzzy
+#| msgid "No invoices found."
+msgid "Monospace font"
+msgstr "Рахункаў не знойдзена."
+
 msgid "Font family"
 msgstr "Сямейства шрыфтоў"
 
@@ -5939,6 +6068,22 @@ msgid ""
 "progress. Please try again later."
 msgstr "Не ўдалося заблакаваць рэпазіторый, выконваецца іншая аперацыя."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum size of translation"
+msgid "Maximum retained versions"
+msgstr "Максімальны памер перакладу"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr "Мовы Weblate"
 
@@ -7035,6 +7180,11 @@ msgstr "Здымкі экрана"
 msgid "Sort by"
 msgstr "Сартаванне"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Здымкі экрана"
+
 msgid "Screenshot name"
 msgstr "Назва здымка экрана"
 
@@ -7117,6 +7267,11 @@ msgstr "Не знойдзена новых адпаведных зыходных
 #| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Не ўдалося адкрыць заяўку, паўтарыце спробу пазней."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Выдаліць здымак экрана"
 
 msgid "Bad request"
 msgstr "Хібны запыт"
@@ -7231,18 +7386,13 @@ msgstr "Пра Weblate"
 msgid "Support Weblate"
 msgstr "Падтрымаць Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Вітаем вас і дзякуем за падтрымку Weblate"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Вітаем вас і дзякуем за выбар Weblate"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Удзел у развіцці Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7331,6 +7481,14 @@ msgstr "Другі фактар уваходу"
 
 msgid "Please complete your sign-in using second factor credential."
 msgstr "Завяршыце ўваход, выкарыстоўвайце ўліковыя даныя другога фактару."
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
 
 msgid "Your profile"
 msgstr "Ваш профіль"
@@ -8438,8 +8596,22 @@ msgstr ""
 msgid "Continue"
 msgstr "Працягнуць"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Sign in using the security key"
+msgid "Sign in using a passkey or security key"
 msgstr "Уваход з дапамогай ключа бяспекі"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
@@ -8480,6 +8652,17 @@ msgstr "Недаступна"
 #| msgid "No components were matched!"
 msgid "No components found."
 msgstr "Супадаючыя кампаненты адсутнічаюць!"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "OpenAI API base URL"
+msgid "Add-on API base URL:"
+msgstr "Базавы URL-адрас OpenAI API"
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "Каранёвы URL для API:"
 
 msgid "Configure add-on"
 msgstr "Наладзіць дапаўненне"
@@ -8656,6 +8839,18 @@ msgid ""
 msgstr ""
 "У назве файла і яго змесціве можна выкарыстоўваць разметку шаблонаў Django, "
 "напрыклад:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
 
 msgid "Percents translated"
 msgstr "Адсотак перакладзенага"
@@ -9192,6 +9387,11 @@ msgstr "Праверце статус тарыфнага плана"
 
 msgid "Browse"
 msgstr "Прагляд"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Стан перакладу"
 
 msgid "No strings found!"
 msgstr "Ніводнага радка не знойдзена!"
@@ -9778,28 +9978,36 @@ msgid "Become a Weblate supporter"
 msgstr "Падтрымка"
 
 #, fuzzy
-#| msgid "VCS repository might be exposed to everybody."
-msgid "Some repositories are not accessible"
-msgstr "Рэпазіторый VCS можа быць даступны для ўсіх."
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Some repository operations require additional permissions"
+msgstr "Не ўдалося заблакаваць рэпазіторый, выконваецца іншая аперацыя."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Skipped components:"
-msgstr "Іншыя кампаненты"
+#| msgid "Created component"
+msgid "Affected components:"
+msgstr "Кампанент створаны"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "У доступе адмоўлена"
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "У вас няма правоў для доступу да гэтага кампанента."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10952,6 +11160,19 @@ msgstr "Абмежаванне пакетаў падтрымкі"
 msgid "Support expiry"
 msgstr "Тэрмін падтрымкі"
 
+#, fuzzy
+#| msgid "Professional support"
+msgid "Professional support for your organization"
+msgstr "Прафесійная падтрымка"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "Кіраваць пакетам падтрымкі"
 
@@ -10965,7 +11186,9 @@ msgstr "Кіраваць пакетам падтрымкі"
 msgid "Unlink support package"
 msgstr "Кіраваць пакетам падтрымкі"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "Набыць пакет падтрымкі"
 
 msgid "Contact customer care"
@@ -11635,6 +11858,16 @@ msgstr "Дзякуем за выкарыстанне Weblate"
 msgid "Return to dashboard"
 msgstr "Вярнуцца на асноўную панэль"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "Новы ўдзельнік у %(translation)s"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Ахвяраваць для Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "Пераглядзіце і пацвердзіце вынікі пошуку і замены."
 
@@ -11767,6 +12000,36 @@ msgstr "Слоў не знойдзена!"
 
 msgid "Add new screenshot"
 msgstr "Дадаць новы здымак экрана"
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Выдаліць здымак экрана"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Selected"
+msgstr "Выбар CSS"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching screenshots available."
+msgstr "Недаступна"
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "Назва здымка экрана"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "Выкарыстана %(used)s з %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -12004,24 +12267,20 @@ msgstr[2] ""
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "Падтрымаць Weblate"
+
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Дзякуем за выкарыстанне Weblate"
+
 msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
-msgstr "Набыць пакет падтрымкі"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12081,12 +12340,6 @@ msgstr "Апошні ўнёсак на Weblate"
 msgid "Weblate repository"
 msgstr "Рэпазіторый Weblate"
 
-msgid "This translation is forbidden."
-msgstr "Гэты пераклад забаронены."
-
-msgid "This term should not be translated."
-msgstr "Гэты тэрмін непатрэбна перакладаць."
-
 #, fuzzy
 #| msgid "This translation is locked."
 msgid "This translation needs editing."
@@ -12095,8 +12348,27 @@ msgstr "Гэты пераклад заблакаваны."
 msgid "Copy word into translation"
 msgstr "Скапіяваць слова ў пераклад"
 
+msgid "This translation is forbidden."
+msgstr "Гэты пераклад забаронены."
+
+#, fuzzy
+#| msgid "Hidden"
+msgid "Forbidden"
+msgstr "Схаваны"
+
+msgid "This term should not be translated."
+msgstr "Гэты тэрмін непатрэбна перакладаць."
+
 msgid "Edit glossary term"
 msgstr "Змяніць тэрмін гласарыя"
+
+msgid "Translation explanation"
+msgstr "Тлумачэнне перакладу"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "Тлумачэнне да зыходнага радка"
 
 msgid "Glossary translation explanation"
 msgstr "Тлумачэнне перакладу ў гласарыі"
@@ -12796,6 +13068,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Няпройдзеныя праверкі:"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "Набыць пакет падтрымкі"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid "Term information from the translation file"
+msgstr "Прымусовы запіс усіх радкоў у файлы перакладу."
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Зыходныя радкі"
+
+#, fuzzy
+#| msgid "Target string"
+msgid "Target terms"
+msgstr "Мэтавы радок"
+
 msgid "Translation status"
 msgstr "Стан перакладу"
 
@@ -13237,17 +13532,22 @@ msgstr "Кампанент змяшчае некалькі дубляваных 
 msgid "Source"
 msgstr "Зыходны тэкст"
 
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Прымусовы запіс усіх радкоў у файлы перакладу."
+
+#, fuzzy
+#| msgid "Remove blank strings"
+msgid "Remove duplicate strings"
+msgstr "Выдаліце пустыя радкі"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Калі ласка, выпраўце гэта выдаліўшы дубляваныя радкі з тым самым "
 "ідэнтыфікатарам з файлаў перакладу."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Remove duplicate strings"
-msgstr "Выдаліце пустыя радкі"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -14147,6 +14447,16 @@ msgstr "Праглядзець гласарый %(name)s"
 
 msgid "No screenshot currently associated."
 msgstr "Няма звязаных здымкаў экрана."
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "Дадаць на здымак экрана"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Дадаць здымак экрана"
 
 msgid "String information"
 msgstr "Звесткі пра радок"
@@ -16330,6 +16640,24 @@ msgstr ""
 "радка, а з параметрам --no-wrap ён пераносіць толькі пасля сімвала новага "
 "радка."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "Удзельнікі перакладу"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "gettext PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "Захоўваць папярэднія msgid перакладзеных радкоў"
 
@@ -16688,9 +17016,6 @@ msgstr ""
 
 msgid "Source string explanation"
 msgstr "Тлумачэнне да зыходнага радка"
-
-msgid "Translation explanation"
-msgstr "Тлумачэнне перакладу"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "За гэты час зыходны радок змяніўся. Праверце змены."
@@ -19687,6 +20012,18 @@ msgid "Project {}"
 msgstr "Праект {}"
 
 #. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Катэгорыя"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspace {}"
+msgstr "Прагалы"
+
+#. Translators: Text on OpenGraph image
 msgid "Component {}"
 msgstr "Кампанент {}"
 
@@ -21434,6 +21771,31 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Крыніца была выдалена."
 
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Абнаўляе загаловак PO-файла, каб дадаць імя ўдзельніка і гады, у якія ён "
+#~ "працаваў з перакладам."
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Вітаем вас і дзякуем за выбар Weblate"
+
+#, fuzzy
+#~| msgid "VCS repository might be exposed to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "Рэпазіторый VCS можа быць даступны для ўсіх."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "Іншыя кампаненты"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "У доступе адмоўлена"
+
 #~ msgid "Download reports"
 #~ msgstr "Спампаваць справаздачы"
 
@@ -22215,9 +22577,6 @@ msgstr "Крыніца была выдалена."
 #~ msgid "Weblate community"
 #~ msgstr "Супольнасць Weblate"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Удзел у развіцці Weblate"
-
 #~ msgid "Weblate website"
 #~ msgstr "Вэб-сайт Weblate"
 
@@ -22354,9 +22713,6 @@ msgstr "Крыніца была выдалена."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Зменны суфікс радка"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Ахвяраваць для Weblate"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -24536,9 +24892,6 @@ msgstr "Крыніца была выдалена."
 #~ msgstr ""
 #~ "Каб пратэставаць Weblate на гэтым дэма-серверы, вы можаце ўвайсці як "
 #~ "наступныя карыстальнікі:"
-
-#~ msgid "Hidden"
-#~ msgstr "Схаваны"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Працуе на дэма-серверы %(weblate_name_link)s."
@@ -26814,9 +27167,6 @@ msgstr "Крыніца была выдалена."
 #~ msgstr ""
 #~ "Ён утрымоўвае %(words)s слоў, з якіх %(percent)s&#37; (%(translated)s) "
 #~ "перакладзена."
-
-#~ msgid "Invalid text direction"
-#~ msgstr "Няслушны накірунак тэксту"
 
 #~ msgid "Text direction can be either LTR or RTL"
 #~ msgstr "Накірунак тэксту можа быць альбо злева-направа альбо справа-налева"

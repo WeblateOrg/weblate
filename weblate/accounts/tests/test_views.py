@@ -1199,6 +1199,48 @@ class ProfileTest(FixtureTestCase):
         self.assertNotContains(response, "Project: Test")
         self.assertNotContains(response, "Component: Test/Test")
 
+    def test_subscription_hides_inaccessible_scopes(self) -> None:
+        self.project.name = "PRIVATE_TEST_PROJECT_12345"
+        self.project.access_control = self.project.ACCESS_PRIVATE
+        self.project.save(update_fields=["name", "access_control"])
+        self.component.name = "PRIVATE_TEST_COMPONENT_12345"
+        self.component.save(update_fields=["name"])
+        self.project.add_user(self.user, "Translate")
+        subscriptions = [
+            self.user.subscription_set.create(
+                scope=NotificationScope.SCOPE_PROJECT,
+                project=self.project,
+                notification="RepositoryNotification",
+                frequency=NotificationFrequency.FREQ_INSTANT,
+            ),
+            self.user.subscription_set.create(
+                scope=NotificationScope.SCOPE_COMPONENT,
+                component=self.component,
+                notification="LockNotification",
+                frequency=NotificationFrequency.FREQ_INSTANT,
+            ),
+        ]
+
+        with (
+            mock.patch(
+                "weblate.accounts.models.cleanup_inaccessible_subscriptions.delay"
+            ),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.project.remove_user(self.user)
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(self.user.allowed_projects.filter(pk=self.project.pk).exists())
+        self.assertEqual(
+            self.user.subscription_set.filter(
+                pk__in=[subscription.pk for subscription in subscriptions]
+            ).count(),
+            2,
+        )
+        response = self.client.get(reverse("profile"))
+        self.assertNotContains(response, self.project.name)
+        self.assertNotContains(response, self.component.name)
+
     def test_subscription_additional_form_defaults_to_active_scope(self) -> None:
         initial_response = self.client.get(
             f"{reverse('profile')}?notify_project={self.project.pk}"

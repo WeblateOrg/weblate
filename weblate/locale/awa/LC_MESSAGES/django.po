@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
 "PO-Revision-Date: 2026-09-11 04:05+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1139,7 +1139,7 @@ msgid ""
 "{0}."
 msgstr ""
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 msgid "Use authentication app (TOTP)"
@@ -1703,6 +1703,15 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr ""
 
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr ""
 
@@ -1849,6 +1858,15 @@ msgid ""
 msgstr ""
 
 msgid "Could not determine Sphinx source directory."
+msgstr ""
+
+msgid "Output scope"
+msgstr ""
+
+msgid "One file per translation"
+msgstr ""
+
+msgid "One file per component"
 msgstr ""
 
 msgid "Name of generated file"
@@ -2324,18 +2342,91 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+msgid "ITS rule file is too large."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr ""
+
+msgid "ITS XPath expression is too long."
+msgstr ""
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+msgid "Invalid ITS directory path."
+msgstr ""
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+msgid "ITS rule file contains too many elements."
+msgstr ""
+
+msgid "Unsupported ITS rule content."
+msgstr ""
+
+msgid "Unsupported ITS locating rule."
+msgstr ""
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+msgid "Unsupported ITS rule namespace."
+msgstr ""
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+msgid "ITS directories must not contain symbolic links."
+msgstr ""
+
+#, python-format
+msgid "ITS directory does not exist: %(path)s"
+msgstr ""
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, python-format
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr ""
+
+#, python-format
+msgid "Could not parse ITS rule: %(path)s"
 msgstr ""
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
+msgstr ""
+
+msgid "API add-ons must be installed directly on a component."
+msgstr ""
+
+msgid "This add-on is already installed on this component."
 msgstr ""
 
 msgid "This add-on cannot be triggered manually."
@@ -3929,6 +4020,9 @@ msgstr ""
 msgid "Use case insensitive placeholders"
 msgstr ""
 
+msgid "Monospace font"
+msgstr ""
+
 msgid "Font family"
 msgstr ""
 
@@ -5102,6 +5196,20 @@ msgid ""
 "progress. Please try again later."
 msgstr ""
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+msgid "Maximum retained versions"
+msgstr ""
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr ""
 
@@ -6092,6 +6200,9 @@ msgstr ""
 msgid "Sort by"
 msgstr ""
 
+msgid "Screenshot"
+msgstr ""
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -6153,6 +6264,9 @@ msgid "No new matching source strings found."
 msgstr ""
 
 msgid "OCR data could not be downloaded. Please try again later."
+msgstr ""
+
+msgid "Select a valid screenshot."
 msgstr ""
 
 msgid "Bad request"
@@ -6243,17 +6357,10 @@ msgstr ""
 msgid "Support Weblate"
 msgstr ""
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr ""
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
+msgid "Continue to Weblate"
 msgstr ""
 
 msgctxt "Label on donate page"
@@ -6335,6 +6442,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -7289,7 +7404,19 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+msgid "Sign in using a passkey or security key"
+msgstr ""
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -7320,6 +7447,12 @@ msgid "Not compatible"
 msgstr ""
 
 msgid "No components found."
+msgstr ""
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+msgid "API root"
 msgstr ""
 
 msgid "Configure add-on"
@@ -7474,6 +7607,18 @@ msgstr ""
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -7961,6 +8106,9 @@ msgid "Check your billing status"
 msgstr ""
 
 msgid "Browse"
+msgstr ""
+
+msgid "Translation status widgets"
 msgstr ""
 
 msgid "No strings found!"
@@ -8463,23 +8611,31 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr ""
 
-msgid "Some repositories are not accessible"
+msgid "Some repository operations require additional permissions"
 msgstr ""
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr ""
 
-msgid "Permission required on:"
+msgid "You need the following permissions on the repository-owning component:"
 msgstr ""
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -9487,6 +9643,17 @@ msgstr ""
 msgid "Support expiry"
 msgstr ""
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr ""
 
@@ -9496,7 +9663,7 @@ msgstr ""
 msgid "Unlink support package"
 msgstr ""
 
-msgid "Purchase support package"
+msgid "Purchase support"
 msgstr ""
 
 msgid "Contact customer care"
@@ -10077,6 +10244,12 @@ msgstr ""
 msgid "Return to dashboard"
 msgstr ""
 
+msgid "Thank you for contributing translations."
+msgstr ""
+
+msgid "Donate to Weblate development"
+msgstr ""
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -10175,6 +10348,27 @@ msgid "No screenshots found."
 msgstr ""
 
 msgid "Add new screenshot"
+msgstr ""
+
+msgid "Select a screenshot"
+msgstr ""
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+msgid "Selected"
+msgstr ""
+
+msgid "No matching screenshots available."
+msgstr ""
+
+msgid "Screenshot pages"
+msgstr ""
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
 msgstr ""
 
 #. Translators: Button to assign string to a screenshot
@@ -10349,23 +10543,15 @@ msgstr[1] ""
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
+msgid "Support Weblate development"
 msgstr ""
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
+msgid "Thank you for using Weblate and contributing translations."
 msgstr ""
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
 
 msgid ""
@@ -10424,19 +10610,28 @@ msgstr ""
 msgid "Weblate repository"
 msgstr ""
 
-msgid "This translation is forbidden."
-msgstr ""
-
-msgid "This term should not be translated."
-msgstr ""
-
 msgid "This translation needs editing."
 msgstr ""
 
 msgid "Copy word into translation"
 msgstr ""
 
+msgid "This translation is forbidden."
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "This term should not be translated."
+msgstr ""
+
 msgid "Edit glossary term"
+msgstr ""
+
+msgid "Translation explanation"
+msgstr ""
+
+msgid "Source explanation"
 msgstr ""
 
 msgid "Glossary translation explanation"
@@ -11068,6 +11263,21 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr ""
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+msgid "Already purchased? Link your support package"
+msgstr ""
+
+msgid "Term information from the translation file"
+msgstr ""
+
+msgid "Source terms"
+msgstr ""
+
+msgid "Target terms"
+msgstr ""
+
 msgid "Translation status"
 msgstr ""
 
@@ -11462,12 +11672,16 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
+#, python-format
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
 msgstr ""
 
 msgid "Remove duplicate strings"
+msgstr ""
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
 msgstr ""
 
 msgid ""
@@ -12254,6 +12468,12 @@ msgid "Browse glossary"
 msgstr ""
 
 msgid "No screenshot currently associated."
+msgstr ""
+
+msgid "Add existing screenshot"
+msgstr ""
+
+msgid "Upload screenshot"
 msgstr ""
 
 msgid "String information"
@@ -13988,6 +14208,20 @@ msgid ""
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 
+msgid "Contributor comments"
+msgstr ""
+
+msgid "Gettext"
+msgstr ""
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr ""
 
@@ -14296,9 +14530,6 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
 msgid "Source string explanation"
-msgstr ""
-
-msgid "Translation explanation"
 msgstr ""
 
 msgid "The source string has changed meanwhile. Please check your changes."
@@ -16765,6 +16996,14 @@ msgstr ""
 
 #. Translators: Text on OpenGraph image
 msgid "Project {}"
+msgstr ""
+
+#. Translators: Text on OpenGraph image
+msgid "Category {}"
+msgstr ""
+
+#. Translators: Text on OpenGraph image
+msgid "Workspace {}"
 msgstr ""
 
 #. Translators: Text on OpenGraph image

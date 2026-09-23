@@ -306,6 +306,68 @@ class MemoryParserTest(SimpleTestCase):
 
 
 class MemoryModelTest(FixtureTestCase):
+    def test_fuzzy_candidates_limit_distance_ties(self) -> None:
+        memories = [
+            self.create_automatic_memory(
+                f"Candidate {index}", MemoryScope.SCOPE_PROJECT, project=self.project
+            )
+            for index in range(MEMORY_LOOKUP_LIMIT + 5)
+        ]
+        pending_ids = [memory.pk for memory in memories[::2]]
+        Memory.objects.filter(pk__in=pending_ids).update(status=Memory.STATUS_PENDING)
+        queryset = Memory.objects.filter(pk__in=[memory.pk for memory in memories])
+
+        # Punctuation has no trigrams, so all candidates have equal distance.
+        for limit in (0, 3, MEMORY_LOOKUP_LIMIT):
+            with self.subTest(limit=limit):
+                results = list(queryset.get_fuzzy_candidates("!!!", limit=limit))
+                self.assertEqual(len(results), limit)
+                self.assertEqual(len({result.pk for result in results}), limit)
+                self.assertEqual(
+                    results,
+                    sorted(results, key=lambda result: (-result.status, result.pk)),
+                )
+
+    def test_fuzzy_candidates_select_nearest_visible_entries(self) -> None:
+        hidden = [
+            self.create_automatic_memory(
+                "Hello world", MemoryScope.SCOPE_USER, user=self.user
+            )
+            for _ in range(MEMORY_LOOKUP_LIMIT + 1)
+        ]
+        nearest = self.create_automatic_memory(
+            "Hello world!", MemoryScope.SCOPE_PROJECT, project=self.project
+        )
+        MemoryScope.objects.create(memory=nearest, scope=MemoryScope.SCOPE_GLOBAL_FILE)
+        farther = self.create_automatic_memory(
+            "Hello world again", MemoryScope.SCOPE_PROJECT, project=self.project
+        )
+        wrong_language = self.create_automatic_memory(
+            "Hello world", MemoryScope.SCOPE_PROJECT, project=self.project
+        )
+        wrong_language.target_language = wrong_language.source_language
+        wrong_language.save(update_fields=["target_language"])
+        queryset = Memory.objects.filter(
+            pk__in=[memory.pk for memory in [*hidden, nearest, farther, wrong_language]]
+        ).get_lookup_queryset(
+            nearest.source_language, nearest.target_language, None, self.project, False
+        )
+
+        self.assertEqual(
+            list(queryset.get_fuzzy_candidates("Hello world", limit=1)), [nearest]
+        )
+        self.assertEqual(
+            list(queryset.get_fuzzy_candidates("Hello world")), [nearest, farther]
+        )
+        self.assertEqual(
+            list(
+                queryset.filter(pk__in=[hidden[0].pk]).get_fuzzy_candidates(
+                    "Hello world"
+                )
+            ),
+            [],
+        )
+
     def project_memory(self, queryset=None):
         if queryset is None:
             queryset = Memory.objects
@@ -5235,6 +5297,9 @@ class LookupPolicyTest(SimpleTestCase):
             text[:MEMORY_LOOKUP_PREFIX_LENGTH],
         )
         self.assertEqual(queryset.query.high_mark, MEMORY_LOOKUP_LIMIT)
+        candidate_query = cast("Any", queryset.query.where.children[0]).rhs
+        self.assertEqual(candidate_query.order_by, ("match_distance",))
+        self.assertEqual(candidate_query.high_mark, MEMORY_LOOKUP_LIMIT)
 
     def test_get_full_source_fuzzy_candidates_caps_backoff_results(self) -> None:
         text = "x" * (MEMORY_LOOKUP_PREFIX_LENGTH + 1)

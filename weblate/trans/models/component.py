@@ -41,6 +41,7 @@ from django.utils.timezone import localtime, now
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
 
+from weblate.auth.bots import InternalBot
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.base import BilingualUpdateMixin
@@ -889,7 +890,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         verbose_name=gettext_lazy("Manage strings"),
         default=False,
         help_text=gettext_lazy(
-            "Enables adding and removing strings straight from Weblate. If your "
+            "Enables adding, removing, and editing source strings and keys in Weblate. If your "
             "strings are extracted from the source code or managed externally you "
             "probably want to keep it disabled."
         ),
@@ -1649,14 +1650,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @staticmethod
     def get_repository_maintenance_user() -> User:
         """Return the internal identity for automatic repository maintenance."""
-        # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import User
-
-        return User.objects.get_or_create_bot(
-            scope="weblate",
-            name="repository",
-            verbose="Repository maintenance",
-        )
+        return InternalBot.REPOSITORY.get_user()
 
     def record_repository_redirect_change(
         self,
@@ -3047,12 +3041,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if user is not None:
             return user
 
-        # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import User
-
-        return User.objects.get_or_create_bot(
-            scope="weblate", name="update", verbose="Background update"
-        )
+        return InternalBot.UPDATE.get_user()
 
     @perform_on_link
     def push_if_needed(self, do_update=True) -> None:
@@ -3109,12 +3098,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if user is not None:
             return user
 
-        # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import User
-
-        return User.objects.get_or_create_bot(
-            scope="weblate", name="push", verbose="Background push"
-        )
+        return InternalBot.PUSH.get_user()
 
     @perform_on_link
     def push_repo(
@@ -3938,14 +3922,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self, reason: str, user: User | None, skip_push: bool = False
     ) -> bool:
         """Check whether there is any translation to be committed."""
-        # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import User
-
-        if user is None:
-            user = User.objects.get_or_create_bot(
-                scope="weblate", name="commit", verbose="Background commit"
-            )
-
         pending_translation_ids = PendingUnitChange.objects.for_component(
             self, apply_filters=True, include_linked=True
         ).values_list("unit__translation_id", flat=True)
@@ -3965,6 +3941,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if not translations:
             return True
+
+        if user is None:
+            user = InternalBot.COMMIT.get_user()
 
         translations = [
             self.reuse_component_for_translation(translation, reuse_source=True)
@@ -5072,6 +5051,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             schedule_memory_updates(payloads)
 
     def run_batched_checks(self) -> None:
+        from weblate.utils.automation import automation_origin  # ruff: ignore[import-outside-top-level]
+
         source_unit_ids = list(self.updated_sources)
         batched_checks = list(self.batched_checks)
         batch_mode = self.batch_checks
@@ -5086,7 +5067,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # ruff: ignore[import-outside-top-level]
         from weblate.checks.tasks import finalize_component_checks
 
-        if settings.CELERY_TASK_ALWAYS_EAGER:
+        if settings.CELERY_TASK_ALWAYS_EAGER or automation_origin.get():
             finalize_component_checks(
                 self.id,
                 source_unit_ids,
@@ -5728,6 +5709,38 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     setattr(self, field, "")
                 continue
             errors[field] = self.INTEGRATION_LOCKED_FIELD_MESSAGE
+
+        if errors:
+            raise ValidationError(errors)
+
+    def clean_fields(self, exclude: Collection[str] | None = None) -> None:
+        """Validate inherited settings without changing their stored overrides."""
+        excluded = set(exclude or ())
+        inherited = {
+            name
+            for name in INHERITABLE_COMPONENT_SETTINGS
+            if name not in excluded and self.uses_project_setting(name)
+        }
+        errors: dict[str, list[ValidationError]] = {}
+        try:
+            super().clean_fields(exclude=excluded | inherited)
+        except ValidationError as error:
+            error.update_error_dict(errors)
+
+        for name in inherited:
+            try:
+                value = self.get_effective_setting(name)
+            except ObjectDoesNotExist:
+                # Let relationship validation report missing parents.
+                continue
+            field = cast("models.Field", self._meta.get_field(name))
+            raw_value = value.pk if isinstance(value, models.Model) else value
+            if field.blank and raw_value in field.empty_values:
+                continue
+            try:
+                field.clean(raw_value, self)
+            except ValidationError as error:
+                errors[name] = error.error_list
 
         if errors:
             raise ValidationError(errors)

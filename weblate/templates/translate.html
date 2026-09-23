@@ -45,8 +45,9 @@
   {% perm 'machinery.view' unit.translation as user_can_use_machinery %}
   {% perm 'source.edit' unit.translation as user_can_edit_source %}
   {% perm 'meta:unit.flag' unit.translation as user_can_edit_flags %}
+  {% perm 'meta:unit.flag' unit.source_unit.translation as user_can_edit_source_flags %}
   {% perm 'screenshot.add' unit.translation as user_can_add_screenshot %}
-  {% perm 'screenshot.edit' unit.translation.component as user_can_edit_screenshot %}
+  {% perm 'screenshot.edit' unit.translation as user_can_edit_screenshot %}
   {% perm 'comment.add' unit.translation as user_can_add_comment %}
   {% perm 'unit.add' unit.translation as user_can_add_unit %}
 
@@ -207,8 +208,8 @@
                 <p>{{ user_can_translate.reason }}</p>
               {% endif %}
               <div>
-                {% with flag_actions=unit.get_flag_actions %}
-                  {% if user_can_delete or user_can_edit_flags and flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
+                {% with flag_actions=flag_actions %}
+                  {% if source_edit_form or user_can_delete or flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
                     <div class="btn-group float-end">
                       <button type="button"
                               class="btn btn-primary dropdown-toggle btn-spaced"
@@ -219,6 +220,14 @@
                         {% translate "Tools" %} <span class="caret"></span>
                       </button>
                       <ul class="dropdown-menu shadow">
+                        {% if source_edit_form %}
+                          <li>
+                            <button type="button"
+                                    class="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#source-edit-modal">{% translate "Edit source" %}</button>
+                          </li>
+                        {% endif %}
                         {% if user_can_delete %}
                           <li>
                             <!-- use this_unit_url as the next unit will become the unit at current offset after deletion -->
@@ -228,13 +237,13 @@
                                data-params='{"next": "{{ this_unit_url|escapejs }}"}'>{% translate "Delete string" %}</a>
                           </li>
                         {% endif %}
-                        {% if user_can_edit_flags and flag_actions %}
-                          {% for action, value, name in flag_actions %}
+                        {% if flag_actions %}
+                          {% for action, value, name, scope in flag_actions %}
                             <li>
                               <a href=""
                                  class="dropdown-item link-post"
                                  data-href="{% url 'edit_context' pk=unit.pk %}"
-                                 data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a>
+                                 data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "scope": "{{ scope|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a>
                             </li>
                           {% endfor %}
                         {% endif %}
@@ -622,6 +631,7 @@
                 <form method="post"
                       action="{% url 'comment' pk=unit.id %}"
                       class="auto-save-translation"
+                      data-unit-id="{{ unit.id }}"
                       id="comment-form">
                   {% csrf_token %}
                   <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
@@ -820,8 +830,8 @@
                         <th>{{ unit.translation.component.source_language }}</th>
                         <th>{{ unit.translation.language }}</th>
                       {% endif %}
-                      <th></th>
-                      <th></th>
+                      <th class="glossary-badge-cell" aria-label="{% translate 'Glossary' %}"></th>
+                      <th aria-label="{% translate 'Actions' %}"></th>
                     </tr>
                   </thead>
                   <tbody id="glossary-terms">
@@ -841,7 +851,7 @@
                     {% for glossary in glossaries %}
                       <a class="btn btn-link green"
                          title="{% blocktranslate with name=glossary.component.name %}Browse glossary {{ name }}{% endblocktranslate %}"
-                         href="{% url 'browse' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %} {% translate "Browse glossary" %}
+                         href="{% url 'search' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %} {% translate "Browse glossary" %}
                         {% include "snippets/glossary-badge.html" with glossary=glossary %}
                       </a>
                     {% endfor %}
@@ -960,15 +970,17 @@
                 {% endfor %}
               </div>
             {% endif %}
-            {% if unit.all_flags or user_can_edit_source %}
+            {% if unit.all_flags or user_can_edit_flags or user_can_edit_source_flags %}
               <div class="list-group-item" id="info_all_flags">
                 <h5>
-                  {% if user_can_edit_source %}
+                  {% if user_can_edit_flags or user_can_edit_source_flags %}
                     <a class="btn btn-link btn-xs float-end"
                        href="#"
                        data-bs-toggle="modal"
-                       data-focus="#id_extra_flags"
-                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                       data-focus="{% if user_can_edit_source_flags %}#id_source_flags{% else %}#id_translation_flags{% endif %}"
+                       id="edit-flags"
+                       aria-label="{% translate 'Edit flags' %}"
+                       data-bs-target="#flags-edit-form">{% icon "pencil.svg" %}</a>
                   {% endif %}
                   {% translate "Flags" %}
                 </h5>
@@ -1060,27 +1072,31 @@
        id="js-translate"
        data-services="{{ machinery_services }}"></a>
 
-    <form method="post" action="{% url 'edit_context' pk=unit.source_unit.pk %}">
+    <form method="post" action="{% url 'edit_context' pk=unit.pk %}">
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ this_unit_url }}" />
-      <div class="modal fade" tabindex="-1" role="dialog" id="context-edit-form">
-        <div class="modal-dialog" role="document">
+      <input type="hidden" name="edit_flags" value="1" />
+      <div class="modal fade"
+           tabindex="-1"
+           aria-labelledby="flags-edit-title"
+           id="flags-edit-form">
+        <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">{% translate "Edit additional string info" %}</h4>
+              <h4 class="modal-title" id="flags-edit-title">{% translate "Edit flags" %}</h4>
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
+                      aria-label="{% translate 'Close' %}"></button>
             </div>
             <div class="modal-body">
-              {% crispy context_form %}
+              {% crispy flags_form %}
               {% if unit.translation.check_flags or unit.translation.component.check_flags or unit.flags or unit.translation.component.file_format_flags or unit.translation.component.project.check_flags %}
                 <div class="form-group">
-                  <label>
+                  <h5>
                     {% translate "Inherited flags" %}
                     {% documentation_icon 'admin/checks' 'custom-checks' %}
-                  </label>
+                  </h5>
                   <div class="controls">
                     {% if unit.flags %}
                       <p>
@@ -1121,7 +1137,36 @@
                   </div>
                 </div>
               {% endif %}
+              <h5>{% translate "Effective flags" %}</h5>
+              <p>{{ unit.all_flags.format }}</p>
             </div>
+            <div class="modal-footer">
+              <button type="button"
+                      class="btn btn-outline-secondary"
+                      data-bs-dismiss="modal">{% translate "Close" %}</button>
+              {% if user_can_edit_flags or user_can_edit_source_flags %}
+                <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <form method="post" action="{% url 'edit_context' pk=unit.source_unit.pk %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ this_unit_url }}" />
+      <div class="modal fade" tabindex="-1" role="dialog" id="context-edit-form">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{% translate "Edit additional string info" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
+            </div>
+            <div class="modal-body">{% crispy context_form %}</div>
             <div class="modal-footer">
               <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
             </div>
@@ -1134,6 +1179,36 @@
     </form>
 
   {% endwith %}
+
+  {% if source_edit_form %}
+    <div class="modal fade"
+         id="source-edit-modal"
+         tabindex="-1"
+         aria-labelledby="source-edit-title"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form action="{% url 'edit-source-unit' unit_id=unit.pk %}" method="post">
+            {% csrf_token %}
+            <div class="modal-header">
+              <h4 class="modal-title" id="source-edit-title">{% translate "Edit source" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate 'Close' %}"></button>
+            </div>
+            <div class="modal-body">
+              <p>{% translate "Changes apply to all languages in this component. Changing source text marks existing translations as needing editing. Renamed keys may require changes in your application code." %}</p>
+              {{ source_edit_form|crispy }}
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
   {% if user_can_add_unit %}
     <form action="{% url 'new-unit' path=unit.translation.get_url_path %}" method="post">

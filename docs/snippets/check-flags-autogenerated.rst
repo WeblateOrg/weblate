@@ -16,6 +16,12 @@
     Define font-size for rendering checks, see :ref:`fonts`.
 ``font-spacing:SPACING``
     Define letter spacing for rendering checks, see :ref:`fonts`.
+``font-monospace``
+    Display the string in the translation editor using a monospace font.
+    Unlike the ``font-family``/``font-size``/``font-weight``/``font-spacing``
+    flags, this does not affect rendering checks and never loads an uploaded
+    font; it only switches the editor to the browser's built-in monospace
+    font stack.
 ``icu-flags:FLAGS``
     Define flags for customizing the behavior of the :ref:`check-icu-message-format` quality check.
 ``icu-tag-prefix:PREFIX``
@@ -160,6 +166,16 @@
 
 ``ignore-accelerator``
     Skip the :ref:`check-accelerator` quality check.
+``ignore-ai-accuracy``
+    Skip the :ref:`check-ai-accuracy` quality check.
+``ignore-ai-fluency``
+    Skip the :ref:`check-ai-fluency` quality check.
+``ignore-ai-formatting``
+    Skip the :ref:`check-ai-formatting` quality check.
+``ignore-ai-style``
+    Skip the :ref:`check-ai-style` quality check.
+``ignore-ai-terminology``
+    Skip the :ref:`check-ai-terminology` quality check.
 ``ignore-asciidoc-markup``
     Skip the :ref:`check-asciidoc-markup` quality check.
 ``ignore-bbcode``

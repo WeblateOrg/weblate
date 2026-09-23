@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -429,7 +430,7 @@ class AddonDetail(BaseAddonView, UpdateView):
             )
             return redirect(self.get_success_url())
 
-        self.object.schedule_manual_run()
+        self.object.schedule_manual_run(user_id=request.user.pk)
         messages.success(request, gettext("Add-on run has been scheduled."))
         return redirect(self.get_success_url())
 
@@ -450,6 +451,29 @@ class AddonDetail(BaseAddonView, UpdateView):
             return redirect(self.get_success_url())
         if "run" in request.POST:
             return self.trigger_manual_run(request)
+        if "preview" in request.POST and getattr(obj.addon, "has_preview", False):
+            form = self.get_form()
+            preview_result = None
+            if form.is_valid():
+                try:
+                    preview_result = obj.addon.preview(
+                        form.cleaned_data["workflow"],
+                        form.cleaned_data.get("preview_component") or obj.component_id,
+                        form.cleaned_data.get("preview_change"),
+                        actor=request.user,
+                    )
+                except ValidationError as error:
+                    form.add_error(None, error)
+            return self.render_to_response(
+                self.get_context_data(
+                    form=form,
+                    preview_result=json.dumps(
+                        preview_result, indent=2, ensure_ascii=False
+                    )
+                    if preview_result is not None
+                    else None,
+                )
+            )
         return super().post(request, *args, **kwargs)
 
 
