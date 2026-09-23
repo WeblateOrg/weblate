@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-15 10:51+0000\n"
+"PO-Revision-Date: 2026-09-23 19:41+0000\n"
 "Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -1164,10 +1164,8 @@ msgid ""
 "{0}."
 msgstr "您的電子郵件不再屬於驗證過的帳號，所以已變更為 {0}。"
 
-#, fuzzy
-#| msgid "Use security key (WebAuthn)"
 msgid "Use a passkey or security key (WebAuthn)"
-msgstr "使用安全金鑰 (WebAuthn)"
+msgstr "使用通行密鑰或安全金鑰 (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
 msgstr "使用身分驗證應用程式 (TOTP)"
@@ -1744,16 +1742,16 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "關鍵字項目必須是字串。"
 
-#, fuzzy
-#| msgid "Data directory latency"
 msgid "ITS data directories"
-msgstr "資料目錄延遲"
+msgstr "ITS 資料目錄"
 
 msgid ""
 "Newline-separated repository-relative directories containing an its "
 "subdirectory, for example po for po/its. Earlier directories override later "
 "directories and bundled rules."
 msgstr ""
+"以換行分隔、相對於儲存庫的目錄路徑；每個目錄都必須包含 its 子目錄，例如填入 "
+"po 代表 po/its。前面的目錄規則會優先於後面的目錄及內建規則。"
 
 msgid "Do not extract comments"
 msgstr "不要擷取評論"
@@ -1920,17 +1918,13 @@ msgid "Could not determine Sphinx source directory."
 msgstr "無法判斷 Sphinx 來源目錄。"
 
 msgid "Output scope"
-msgstr ""
+msgstr "輸出範圍"
 
-#, fuzzy
-#| msgid "Only include approved translations"
 msgid "One file per translation"
-msgstr "只納入已核可的翻譯"
+msgstr "每份翻譯一個檔案"
 
-#, fuzzy
-#| msgid "Organize component"
 msgid "One file per component"
-msgstr "組織組件"
+msgstr "每個組件一個檔案"
 
 msgid "Name of generated file"
 msgstr "產生的檔案名稱"
@@ -2428,105 +2422,80 @@ msgid ""
 "project configuration."
 msgstr "使用 Sphinx 的 gettext builder 更新 gettext 範本，且不載入專案設定。"
 
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "ITS rule file is too large."
-msgstr "上傳的檔案過大。"
+msgstr "ITS 規則檔案過大。"
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many XPath expressions."
-msgstr "ZIP 檔案包含的項目數量過多。"
+msgstr "ITS 規則檔案包含太多 XPath 運算式。"
 
-#, fuzzy
-#| msgid "The provided secret is too long."
 msgid "ITS XPath expression is too long."
-msgstr "提供的金鑰過長。"
+msgstr "ITS XPath 運算式過長。"
 
 msgid "Too many ITS rule files."
-msgstr ""
+msgstr "ITS 規則檔案過多。"
 
-#, fuzzy
-#| msgid "No source files are configured."
 msgid "ITS rule files are too large."
-msgstr "尚未設定來源檔案。"
+msgstr "ITS 規則檔案過大。"
 
 msgid "ITS directories must be a list of strings."
-msgstr ""
+msgstr "ITS 目錄必須是字串清單。"
 
-#, fuzzy
-#| msgid "Invalid text direction"
 msgid "Invalid ITS directory path."
-msgstr "無效的文字方向"
+msgstr "ITS 目錄路徑無效。"
 
 msgid "ITS rules must not contain a document type."
-msgstr ""
+msgstr "ITS 規則不得包含文件類型宣告。"
 
 msgid "Invalid ITS rule document root."
-msgstr ""
+msgstr "ITS 規則文件的根元素無效。"
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many elements."
-msgstr "ZIP 檔案包含的項目數量過多。"
+msgstr "ITS 規則檔案包含太多元素。"
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule content."
-msgstr "不支援的檔案格式。"
+msgstr "不支援的 ITS 規則內容。"
 
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported ITS locating rule."
-msgstr "不支援的檔案！"
+msgstr "不支援的 ITS 定位規則。"
 
-#, fuzzy
-#| msgid "Blank strings require an empty state."
 msgid "ITS locating rules require a pattern."
-msgstr "空白字串需要空狀態。"
+msgstr "ITS 定位規則必須指定模式。"
 
 msgid "ITS locating rules require a target or a document rule."
-msgstr ""
+msgstr "ITS 定位規則必須指定目標或文件規則。"
 
 msgid "ITS document rules require a target."
-msgstr ""
+msgstr "ITS 文件規則必須指定目標。"
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule namespace."
-msgstr "不支援的檔案格式。"
+msgstr "不支援的 ITS 規則命名空間。"
 
 msgid "External ITS rule references are not allowed."
-msgstr ""
+msgstr "不得參照外部 ITS 規則。"
 
 msgid "ITS targets must name a rule in the same directory."
-msgstr ""
+msgstr "ITS 目標必須指定同一目錄中的規則。"
 
 msgid "ITS target is missing or is a symbolic link."
-msgstr ""
+msgstr "ITS 目標不存在，或是符號連結。"
 
-#, fuzzy
-#| msgid "ZIP file contains unsupported symbolic links."
 msgid "ITS directories must not contain symbolic links."
-msgstr "ZIP 檔案包含不支援的符號連結。"
+msgstr "ITS 目錄不得包含符號連結。"
 
-#, fuzzy, python-format
-#| msgid "Referenced category does not exist."
+#, python-format
 msgid "ITS directory does not exist: %(path)s"
-msgstr "參照的分類不存在。"
+msgstr "ITS 目錄不存在：%(path)s"
 
 msgid "ITS rules must be regular files, not symbolic links."
-msgstr ""
+msgstr "ITS 規則必須是一般檔案，不能是符號連結。"
 
-#, fuzzy, python-format
-#| msgid "Could not migrate %(component)s: %(error)s"
+#, python-format
 msgid "Invalid ITS rule %(path)s: %(error)s"
-msgstr "無法移轉 %(component)s：%(error)s"
+msgstr "ITS 規則 %(path)s 無效：%(error)s"
 
-#, fuzzy, python-format
-#| msgid "Could not parse TMX file: %s"
+#, python-format
 msgid "Could not parse ITS rule: %(path)s"
-msgstr "無法解析 TMX 檔案：%s"
+msgstr "無法解析 ITS 規則：%(path)s"
 
 msgid "Squash Git commits"
 msgstr "壓縮 Git 提交"
@@ -2534,15 +2503,11 @@ msgstr "壓縮 Git 提交"
 msgid "Squash Git commits prior to pushing changes."
 msgstr "推送變更前先壓縮 Git 提交。"
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "API add-ons must be installed directly on a component."
-msgstr "這個附加元件只能安裝在組件上。"
+msgstr "API 附加元件必須直接安裝在組件上。"
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "This add-on is already installed on this component."
-msgstr "這個附加元件只能安裝在組件上。"
+msgstr "此組件已安裝這個附加元件。"
 
 msgid "This add-on cannot be triggered manually."
 msgstr "這個附加元件不能手動觸發。"
@@ -4136,10 +4101,8 @@ msgstr "忽略所有檢查"
 msgid "Use case insensitive placeholders"
 msgstr "使用區分大小寫的佔位符號"
 
-#, fuzzy
-#| msgid "No workspaces found."
 msgid "Monospace font"
-msgstr "找不到工作空間。"
+msgstr "等寬字型"
 
 msgid "Font family"
 msgstr "字族"
@@ -5353,23 +5316,19 @@ msgid ""
 "progress. Please try again later."
 msgstr "由於另一個背景作業正在進行，無法新增詞彙表字詞。請稍後再試。"
 
-#, fuzzy
-#| msgid "Maximum changes per day"
 msgid "Maximum build age (days)"
-msgstr "每日變更數上限"
+msgstr "建置結果最長保留天數"
 
-#, fuzzy
-#| msgid "Maximum line length"
 msgid "Maximum retained versions"
-msgstr "最大列寬"
+msgstr "最多保留版本數"
 
 msgid "Kotlin SDK CDN"
-msgstr ""
+msgstr "Kotlin SDK CDN"
 
 msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
 "builds."
-msgstr ""
+msgstr "發布已註冊 Kotlin SDK 建置版本的 Android 字串與複數形式資源。"
 
 msgid "Weblate languages"
 msgstr "Weblate 語言"
@@ -6368,8 +6327,6 @@ msgstr "搜尋螢幕擷圖"
 msgid "Sort by"
 msgstr "排序方式"
 
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Screenshot"
 msgstr "螢幕擷圖"
 
@@ -6435,10 +6392,8 @@ msgstr "找不到符合的來源字串。"
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "無法下載 OCR 資料，請稍後再試。"
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a valid screenshot."
-msgstr "刪除螢幕擷圖"
+msgstr "請選取有效的螢幕擷圖。"
 
 msgid "Bad request"
 msgstr "不良的請求"
@@ -6543,10 +6498,8 @@ msgstr "支援 Weblate"
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "很歡迎而且感謝您支持 Weblate"
 
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Continue to Weblate"
-msgstr "為 Weblate 做出貢獻"
+msgstr "繼續前往 Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6629,12 +6582,14 @@ msgid "Please complete your sign-in using second factor credential."
 msgstr "請使用雙重要素憑證完成登入。"
 
 msgid "Other ways to verify your identity"
-msgstr ""
+msgstr "其他身分驗證方式"
 
 msgid ""
 "If you cannot use your passkey or security key, or any other configured "
 "verification method, contact the site administrator for help."
 msgstr ""
+"如果無法使用通行密鑰、安全金鑰或其他已設定的驗證方式，請聯絡網站管理員尋求協"
+"助。"
 
 msgid "Your profile"
 msgstr "您的個人檔案"
@@ -7610,17 +7565,19 @@ msgid ""
 "security key. Your passkey might not be available on a new computer or in a "
 "different browser."
 msgstr ""
+"請使用可存取通行密鑰的裝置，或接上已註冊的安全金鑰。換了電腦或瀏覽器後，通行"
+"密鑰可能無法使用。"
 
-#, fuzzy
-#| msgid "Sign in using the security key"
 msgid "Sign in using a passkey or security key"
-msgstr "使用安全金鑰登入"
+msgstr "使用通行密鑰或安全金鑰登入"
 
 msgid ""
 "Passkey or security key verification could not be completed. The request may "
 "have timed out or been canceled, or your credential may be unavailable on "
 "this device. Try again or use another verification method if available."
 msgstr ""
+"無法完成通行密鑰或安全金鑰驗證。要求可能已逾時或取消，這台裝置也可能無法使用"
+"該憑證。請再試一次，或改用其他可用的驗證方式。"
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "很不幸，您的瀏覽器不支援 WebAuthn。"
@@ -7652,16 +7609,11 @@ msgstr "不相容"
 msgid "No components found."
 msgstr "找不到組件。"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgid "Add-on API base URL:"
-msgstr "OpenAI API 基礎 URL"
+msgstr "附加元件 API 基礎 URL："
 
-#, fuzzy
-#| msgid "API root URL:"
 msgid "API root"
-msgstr "API 基礎 URL："
+msgstr "API 根路徑"
 
 msgid "Configure add-on"
 msgstr "設定附加元件"
@@ -7821,12 +7773,16 @@ msgid ""
 "and statistics. Use the json or python filter to serialize values in "
 "generated files."
 msgstr ""
+"在組件模式中，可逐一處理翻譯，取得各語言的中繼資料與統計資料。請使用 json 或 "
+"python 篩選器，將產生檔案中的值序列化。"
 
 msgid ""
 "The translation variables below are available directly in translation mode, "
 "or on each item in component mode. Component and project variables are "
 "available in both modes."
 msgstr ""
+"在翻譯模式中，下列翻譯變數可直接使用；在組件模式中，則可從各項目取得。兩種模"
+"式都能使用組件與專案變數。"
 
 msgid "Percents translated"
 msgstr "翻譯的百分比"
@@ -8329,10 +8285,8 @@ msgstr "檢查您的帳單狀態"
 msgid "Browse"
 msgstr "瀏覽"
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation status widgets"
-msgstr "翻譯狀態"
+msgstr "翻譯狀態小工具"
 
 msgid "No strings found!"
 msgstr "找不到字串！"
@@ -8843,38 +8797,32 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "成為 Weblate 的支持者"
 
-#, fuzzy
-#| msgid "Another repository operation is already in progress."
 msgid "Some repository operations require additional permissions"
-msgstr "另一項儲存庫操作已在進行中。"
+msgstr "部分儲存庫操作需要額外權限"
 
 msgid ""
 "Repository operations require permission on the component that owns the "
 "shared repository."
-msgstr ""
+msgstr "執行儲存庫操作，需要具備共用儲存庫所屬組件的權限。"
 
-#, fuzzy
-#| msgid "Affected components"
 msgid "Affected components:"
-msgstr "受影響的組件"
+msgstr "受影響的組件："
 
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "You need the following permissions on the repository-owning component:"
-msgstr "您無權存取此組件。"
+msgstr "您需要具備儲存庫所屬組件的下列權限："
 
 msgid ""
 "You need the following permissions on the repository-owning component, which "
 "you cannot access:"
-msgstr ""
+msgstr "您需要具備儲存庫所屬組件的下列權限，但目前無法存取該組件："
 
 msgid "Ask an administrator of the owning project to grant these permissions."
-msgstr ""
+msgstr "請所屬專案的管理員授予這些權限。"
 
 msgid ""
 "Ask your project administrator to coordinate access with the repository "
 "owner."
-msgstr ""
+msgstr "請專案管理員與儲存庫擁有者協調存取權。"
 
 msgid "Repository status"
 msgstr "儲存庫狀態"
@@ -9890,18 +9838,16 @@ msgstr "支援套件上限"
 msgid "Support expiry"
 msgstr "支援到期"
 
-#, fuzzy
-#| msgid "Professional support"
 msgid "Professional support for your organization"
-msgstr "專家支援"
+msgstr "為您的組織提供專業支援"
 
 msgid ""
 "Purchase professional support for expert help with setup, maintenance, and "
 "troubleshooting."
-msgstr ""
+msgstr "購買專業支援，即可在設定、維護和排除問題時獲得專家協助。"
 
 msgid "Your subscription also funds the ongoing development of Weblate."
-msgstr ""
+msgstr "您的訂閱也會資助 Weblate 的持續開發。"
 
 msgid "Manage support package"
 msgstr "管理支援套件"
@@ -9912,10 +9858,8 @@ msgstr "取消連結支援套件並停用 Discover Weblate"
 msgid "Unlink support package"
 msgstr "取消連結支援套件"
 
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase support"
-msgstr "購買支援套件"
+msgstr "購買支援服務"
 
 msgid "Contact customer care"
 msgstr "聯絡客服"
@@ -10504,15 +10448,11 @@ msgstr "感謝您使用 Weblate"
 msgid "Return to dashboard"
 msgstr "回到儀表板"
 
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "Thank you for contributing translations."
-msgstr "%(translation)s 的新貢獻者"
+msgstr "感謝您貢獻翻譯。"
 
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Donate to Weblate development"
-msgstr "捐款給 Weblate"
+msgstr "捐款支持 Weblate 開發"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "請檢閱並確認搜尋和取代結果。"
@@ -10616,35 +10556,28 @@ msgstr "找不到螢幕擷圖。"
 msgid "Add new screenshot"
 msgstr "新增螢幕擷圖"
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a screenshot"
-msgstr "刪除螢幕擷圖"
+msgstr "選取螢幕擷圖"
 
 msgid ""
 "Source-language screenshots are shown for every translation of this string. "
 "Other screenshots are shown only for their language."
 msgstr ""
+"來源語言的螢幕擷圖會顯示在這則字串的所有翻譯中。其他螢幕擷圖只會顯示在對應的"
+"語言中。"
 
-#, fuzzy
-#| msgid "Select"
 msgid "Selected"
-msgstr "選取"
+msgstr "已選取"
 
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No matching screenshots available."
-msgstr "沒有可用的團隊。"
+msgstr "沒有相符的螢幕擷圖。"
 
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshot pages"
-msgstr "螢幕擷圖名稱"
+msgstr "螢幕擷圖頁面"
 
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Page %(current)s of %(total)s"
-msgstr "已使用 %(used)s，共 %(total)s"
+msgstr "第 %(current)s 頁，共 %(total)s 頁"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -10821,20 +10754,16 @@ msgstr[0] "另外還有 %(count)s 個受影響的組件。"
 msgid "No diagnostics match the selected filters."
 msgstr "沒有符合所選篩選條件的診斷結果。"
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support Weblate development"
-msgstr "支援 Weblate"
+msgstr "支持 Weblate 開發"
 
-#, fuzzy
-#| msgid "Thank you for using Weblate"
 msgid "Thank you for using Weblate and contributing translations."
-msgstr "感謝您使用 Weblate"
+msgstr "感謝您使用 Weblate 並貢獻翻譯。"
 
 msgid ""
 "If you would like to give more, an optional donation funds development and "
 "maintenance of Weblate itself."
-msgstr ""
+msgstr "如果想進一步支持我們，您可以自由選擇捐款，資助 Weblate 本身的開發與維護。"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -10902,10 +10831,8 @@ msgstr "複製單字到翻譯中"
 msgid "This translation is forbidden."
 msgstr "此翻譯被禁止。"
 
-#, fuzzy
-#| msgid "Hidden"
 msgid "Forbidden"
-msgstr "隱藏"
+msgstr "禁止存取"
 
 msgid "This term should not be translated."
 msgstr "此字詞不應翻譯。"
@@ -10916,10 +10843,8 @@ msgstr "編輯詞彙表字詞"
 msgid "Translation explanation"
 msgstr "翻譯解釋"
 
-#, fuzzy
-#| msgid "Source string explanation"
 msgid "Source explanation"
-msgstr "來源字串解釋"
+msgstr "來源字串說明"
 
 msgid "Glossary translation explanation"
 msgstr "詞彙表翻譯解釋"
@@ -11566,27 +11491,19 @@ msgid "Failing checks:"
 msgstr "未通過檢查："
 
 msgid "Using Weblate in your organization?"
-msgstr ""
+msgstr "您的組織也在使用 Weblate 嗎？"
 
-#, fuzzy
-#| msgid "Purchase a support package"
 msgid "Already purchased? Link your support package"
-msgstr "購買支援套件"
+msgstr "已購買支援服務？連結您的支援方案"
 
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Term information from the translation file"
-msgstr "從翻譯檔案中移除未使用的字串"
+msgstr "翻譯檔案中的術語資訊"
 
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source terms"
-msgstr "來源字串"
+msgstr "來源語言術語"
 
-#, fuzzy
-#| msgid "Target type"
 msgid "Target terms"
-msgstr "目標類型"
+msgstr "目標語言術語"
 
 msgid "Translation status"
 msgstr "翻譯狀態"
@@ -12020,10 +11937,9 @@ msgstr "該組件包含許多重複的翻譯字串。"
 msgid "Source"
 msgstr "來源"
 
-#, fuzzy, python-format
-#| msgid "Remove duplicated strings from the translation file"
+#, python-format
 msgid "Remove duplicate strings from %(language)s (%(filename)s)"
-msgstr "從翻譯檔案中移除重複字串"
+msgstr "從 %(language)s (%(filename)s) 移除重複字串"
 
 msgid "Remove duplicate strings"
 msgstr "移除重複字串"
@@ -12836,15 +12752,11 @@ msgstr "瀏覽詞彙表"
 msgid "No screenshot currently associated."
 msgstr "目前無關聯的螢幕擷圖。"
 
-#, fuzzy
-#| msgid "Add to screenshot"
 msgid "Add existing screenshot"
-msgstr "加到螢幕擷圖"
+msgstr "加入現有螢幕擷圖"
 
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Upload screenshot"
-msgstr "新增螢幕擷圖"
+msgstr "上傳螢幕擷圖"
 
 msgid "String information"
 msgstr "字串資訊"
@@ -14598,23 +14510,21 @@ msgstr ""
 "預設情況下，gettext 會在第 77 個字元和新列字元處換列；加上 --no-wrap 參數後，"
 "則僅在新列字元處換列。"
 
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Contributor comments"
-msgstr "評論中的貢獻者紀錄"
+msgstr "貢獻者註解"
 
-#, fuzzy
-#| msgid "gettext PO"
 msgid "Gettext"
-msgstr "gettext PO"
+msgstr "Gettext"
 
 msgid "SPDX"
-msgstr ""
+msgstr "SPDX"
 
 msgid ""
 "Add contributor names and years to header comments. SPDX also converts "
 "existing recognized contributor comments to SPDX-FileCopyrightText entries."
 msgstr ""
+"將貢獻者姓名與年份加入標頭註解。SPDX 也會將現有、可識別的貢獻者註解轉換為 "
+"SPDX-FileCopyrightText 項目。"
 
 msgid "Keep previous msgids of translated strings"
 msgstr "保留翻譯字串上次的 msgid"
@@ -17428,17 +17338,12 @@ msgid "Project {}"
 msgstr "{} 專案"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgid "Category"
 msgid "Category {}"
-msgstr "類別"
+msgstr "類別 {}"
 
 #. Translators: Text on OpenGraph image
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Workspace: {}"
 msgid "Workspace {}"
-msgstr "工作空間：{}"
+msgstr "工作空間 {}"
 
 #. Translators: Text on OpenGraph image
 msgid "Component {}"
