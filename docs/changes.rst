@@ -5,14 +5,13 @@ Weblate 2026.10
 
 .. rubric:: New features
 
-* Added the :ref:`Automation add-on <addon-weblate.automation.automation>` to run ordered translation and editing steps automatically when specified conditions are met. See :ref:`automation-workflows` for defining a workflow.
+* Added the :ref:`Automation add-on <addon-weblate.automation.automation>` to run ordered translation and editing steps automatically when specified conditions are met. See :doc:`admin/automation` for defining a workflow.
 * Added :ref:`editing source strings and translation keys <edit-source>` while preserving translations and history, through the editor and REST API.
 
 * Added an :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>` that evaluates existing translations and records standard quality checks.
 
 * Added support for :ref:`component-mounted add-on APIs <component-addon-api>`.
 
-* Added :ref:`addon-weblate.cdn.kotlin` with build registration, runtime Android translations, and configurable version retention.
 
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can generate component-wide locale lists with native language names, text direction, and translation statistics.
 
@@ -54,6 +53,7 @@ Weblate 2026.10
 * Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use the same layout as suggestions, and it now shows the :ref:`translation memory <translation-memory>` context of each match.
 * The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-weblate.gettext.meson>` extraction add-ons now bundle common XML translation rules and support project-local ITS directories for extracting mixed source formats into a shared POT.
 * The :ref:`font-spacing <custom-checks>` flag now supports a floating-point number as the spacing value.
+* Testing version of :ref:`addon-weblate.cdn.kotlin`.
 
 .. rubric:: Security fixes
 
