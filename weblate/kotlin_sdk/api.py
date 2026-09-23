@@ -20,6 +20,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from weblate_schemas import validate_schema
 
 from weblate.addons.api import InstalledAddonAPIView
 from weblate.kotlin_sdk.publication import Publication
@@ -102,6 +103,7 @@ class BuildMetadataSerializer(serializers.Serializer):
         if package_ids != {0x7F} or types[0] & types[1]:
             msg = "Expected app package IDs and distinct string/plural types."
             raise serializers.ValidationError(msg)
+        validate_schema(attrs, "weblate-kotlin-sdk-build.schema.json")
         return attrs
 
 
