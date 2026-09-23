@@ -224,6 +224,7 @@ class BuildRegistrationView(InstalledAddonAPIView):
 
     @extend_schema(
         operation_id="api_components_addons_kotlin_sdk_builds_create",
+        summary="Register a Kotlin SDK build",
         responses={
             200: BuildStatusSerializer,
             202: BuildStatusSerializer,
@@ -313,6 +314,7 @@ class BuildStatusView(InstalledAddonAPIView):
 
     @extend_schema(
         operation_id="api_components_addons_kotlin_sdk_builds_retrieve",
+        summary="Get Kotlin SDK build status",
         description=(
             API_DESCRIPTION
             + "\n\n"

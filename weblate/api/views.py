@@ -31,6 +31,7 @@ from django.utils.html import format_html
 from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
+from drf_spectacular.serializers import PolymorphicProxySerializerExtension
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiParameter,
@@ -501,6 +502,26 @@ COMPONENT_TRANSLATION_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentTranslationResponseSerializer",
     fields={"data": ComponentTranslationSerializer()},
 )
+
+
+class WeblatePolymorphicProxySerializerExtension(PolymorphicProxySerializerExtension):
+    """
+    Use anyOf for variants that can match more than one serializer.
+
+    FullUser also matches BasicUser, and BilingualSourceUnit can match
+    BilingualUnit. The oneOf emitted without a discriminator would reject
+    values that match both schemas.
+    """
+
+    priority = 0
+
+    def map_serializer(self, auto_schema, direction):
+        schema = super().map_serializer(auto_schema, direction)
+        if self.target.component_name in {"NewUnitRequest", "UserResponse"}:
+            schema["anyOf"] = schema.pop("oneOf")
+        return schema
+
+
 NEW_UNIT_REQUEST_SERIALIZER = PolymorphicProxySerializer(
     component_name="NewUnitRequest",
     serializers=[
@@ -1122,7 +1143,21 @@ def get_delete_memory_option(request: Request) -> bool:
 
 @extend_schema_view(
     list=extend_schema(
+        description=(
+            "List users. Users with user.view or user.edit permission can see all "
+            "users and filter by email; other users see only themselves and "
+            "cannot filter by email."
+        ),
         parameters=[
+            OpenApiParameter(
+                "email",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Filter by exact email address, ignoring case. Requires "
+                    "user.view or user.edit permission; ignored otherwise."
+                ),
+            ),
             OpenApiParameter(
                 "unit",
                 int,
@@ -1491,6 +1526,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
+    list=extend_schema(
+        description=(
+            "List teams the user can access. Users with group.view or group.edit "
+            "permission can see all teams."
+        )
+    ),
     create=extend_schema(description="Create a new group."),
     retrieve=extend_schema(description="Return information about a group."),
     partial_update=extend_schema(description="Change the group parameters."),
@@ -2216,12 +2257,21 @@ class ProjectViewSet(
         return prefetch_project_flags(cast("list[Project]", page))
 
     @extend_schema(
-        description="Return information about VCS repository status.",
+        description=(
+            "Return information about VCS repository status. The project response "
+            "summarizes all eligible repositories and lists included and skipped "
+            "components. A repository is included only when the caller has VCS "
+            "permission on its owning component."
+        ),
         methods=["get"],
         responses=RepositorySerializer,
     )
     @extend_schema(
-        description="Perform given operation on the VCS repository.",
+        description=(
+            "Perform given operation on the VCS repository. Process repositories "
+            "whose owning components grant the requested VCS permission and skip "
+            "the others. The request is denied when no repository is eligible."
+        ),
         methods=["post"],
         responses=REPOSITORY_OPERATION_RESPONSES,
     )
@@ -2446,6 +2496,7 @@ class ProjectViewSet(
 
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(description="Create an add-on for this project.")
     @action(detail=True, methods=["post"])
     def addons(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -2555,9 +2606,29 @@ class ProjectViewSet(
         )
 
     @extend_schema(
-        description="Download all translation files in the project.",
+        description=(
+            "Download all translation files in the project. The archive defaults "
+            "to ZIP and can be limited to one language using language_code."
+        ),
         methods=["get"],
         responses=binary_download_response_schema("Project translation download."),
+        parameters=[
+            OpenApiParameter(
+                "format",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Archive format; defaults to zip. Use zip:CONVERSION to convert "
+                    "files to a supported format."
+                ),
+            ),
+            OpenApiParameter(
+                "language_code",
+                str,
+                OpenApiParameter.QUERY,
+                description="Include translations only for this language code.",
+            ),
+        ],
     )
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
@@ -2588,7 +2659,8 @@ class ProjectViewSet(
     @extend_schema(
         description=(
             "Download all component translation files in the project for a specific "
-            "language."
+            "language. The archive defaults to ZIP, and filter limits included "
+            "components by a case-insensitive substring of their slug."
         ),
         methods=["get"],
         responses=binary_download_response_schema(
@@ -2596,11 +2668,26 @@ class ProjectViewSet(
         ),
         parameters=[
             OpenApiParameter(
+                "format",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Archive format; defaults to zip. Use zip:CONVERSION to convert "
+                    "files to a supported format."
+                ),
+            ),
+            OpenApiParameter(
                 name="language_code",
                 type=OpenApiTypes.STR,
                 location=OpenApiParameter.PATH,
                 description="Language code for the requested translations.",
-            )
+            ),
+            OpenApiParameter(
+                name="filter",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="Include components whose slugs contain this text, ignoring case.",
+            ),
         ],
     )
     @action(
@@ -2969,12 +3056,20 @@ class ComponentViewSet(
         serializer.save()
 
     @extend_schema(
-        description="Return information about VCS repository status.",
+        description=(
+            "Return information about VCS repository status. Requires VCS "
+            "permission on the component that owns the repository, including "
+            "when accessed through a linked component."
+        ),
         methods=["get"],
         responses=RepositorySerializer,
     )
     @extend_schema(
-        description="Perform given operation on the VCS repository.",
+        description=(
+            "Perform given operation on the VCS repository. Requires the "
+            "requested VCS permission on the component that owns the repository, "
+            "including when accessed through a linked component."
+        ),
         methods=["post"],
         responses=REPOSITORY_OPERATION_RESPONSES,
     )
@@ -3167,6 +3262,7 @@ class ComponentViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(description="Create an add-on for this component.")
     @action(detail=True, methods=["post"])
     def addons(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -3331,6 +3427,17 @@ class ComponentViewSet(
         description="Download all translation files in the component.",
         methods=["get"],
         responses=binary_download_response_schema("Component translation download."),
+        parameters=[
+            OpenApiParameter(
+                "format",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Archive format; defaults to zip. Use zip:CONVERSION to convert "
+                    "files to a supported format."
+                ),
+            ),
+        ],
     )
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
@@ -3354,6 +3461,7 @@ class ComponentViewSet(
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of memory results."),
+    retrieve=extend_schema(description="Return information about a memory result."),
 )
 class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     """Memory API."""
@@ -3641,12 +3749,22 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         return result
 
     @extend_schema(
-        description="Return information about VCS repository status.",
+        description=(
+            "Return information about VCS repository status. Requires VCS "
+            "permission on the owning component, even when this translation "
+            "is accessed through a linked component. Language-limited "
+            "permission is insufficient."
+        ),
         methods=["get"],
         responses=RepositorySerializer,
     )
     @extend_schema(
-        description="Perform given operation on the VCS repository.",
+        description=(
+            "Perform given operation on the VCS repository. Requires the "
+            "requested VCS permission on the owning component, even when "
+            "accessed through a linked component. Language-limited permission "
+            "is insufficient."
+        ),
         methods=["post"],
         responses=REPOSITORY_OPERATION_RESPONSES,
     )
@@ -3683,9 +3801,33 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             raise
 
     @extend_schema(
-        description="Download translation file.",
+        description=(
+            "Download translation file. Without format, return the file as stored "
+            "in the repository. With format, convert the file and optionally "
+            "filter its strings using q."
+        ),
         methods=["get"],
         responses=binary_download_response_schema("Translation file download."),
+        parameters=[
+            OpenApiParameter(
+                "format",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Convert the stored translation file to this format. Without "
+                    "format, return the file as stored in the repository."
+                ),
+            ),
+            OpenApiParameter(
+                "q",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Filter downloaded strings using a search query. Requires a "
+                    "conversion format; otherwise a nonempty query is rejected."
+                ),
+            ),
+        ],
     )
     @extend_schema(
         description="Upload new file with translations.",
@@ -4107,7 +4249,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             result = result.search(query_string)
         return result
 
-    @extend_schema(request=UnitSourceSerializer, responses=UnitSerializer)
+    @extend_schema(
+        request=UnitSourceSerializer,
+        responses=UnitSerializer,
+        description="Edit the source string associated with a unit.",
+    )
     @action(detail=True, methods=["post"], serializer_class=UnitSourceSerializer)
     def source(self, request, **kwargs):
         from weblate.trans.source_edit import edit_source  # ruff: ignore[import-outside-top-level]
@@ -4258,6 +4404,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             )
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(
+        description="List target translation units for the given source unit."
+    )
     @action(detail=True, methods=["get"])
     def translations(self, request: Request, *args, **kwargs):
         unit = self.get_object()
@@ -4720,6 +4869,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     @extend_schema(
         description="Associate component with a component list.", methods=["post"]
     )
+    @extend_schema(description="List components in a component list.", methods=["get"])
     @action(detail=True, methods=["post", "get"])
     def components(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -4778,6 +4928,11 @@ class ComponentListViewSet(viewsets.ModelViewSet):
 
 @extend_schema_view(
     list=extend_schema(description="List available categories."),
+    create=extend_schema(description="Create a new category."),
+    retrieve=extend_schema(description="Return information about a category."),
+    partial_update=extend_schema(
+        description="Edit partial information about a category."
+    ),
     destroy=extend_schema(
         description="Delete a category.",
         parameters=[
