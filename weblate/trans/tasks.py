@@ -982,7 +982,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
             empty_dir = False
             # Possibly a lock file
             continue
-        if root_is_known_container and path.name in VCS_METADATA_DIRS:
+        if root_is_known_container and path.name.casefold() in VCS_METADATA_DIRS:
             empty_dir = False
             continue
 

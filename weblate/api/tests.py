@@ -16,7 +16,7 @@ from datetime import UTC, date, datetime, timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, patch
 
 import yaml
@@ -3823,35 +3823,74 @@ class ComponentCopyTest(APITestCase):
     def test_replace_component_checkout_preserves_local_git_for_non_git_source(
         self,
     ) -> None:
+        for metadata_dirs in (
+            (
+                ".hg",
+                ".svn",
+                ".bzr",
+                "CVS",
+                "_darcs",
+                "RCS",
+                "SCCS",
+            ),
+            (".SVN",),
+        ):
+            with (
+                tempfile.TemporaryDirectory() as source_dir,
+                tempfile.TemporaryDirectory() as target_dir,
+            ):
+                for dirname in metadata_dirs:
+                    os.makedirs(os.path.join(source_dir, dirname))
+                os.makedirs(os.path.join(target_dir, ".git"))
+                Path(source_dir, "messages.po").write_text("copied", encoding="utf-8")
+                Path(target_dir, "stale.po").write_text("stale", encoding="utf-8")
+
+                source_component = SimpleNamespace(
+                    full_path=source_dir,
+                    repository=SimpleNamespace(lock=nullcontext()),
+                )
+                target_component = SimpleNamespace(
+                    full_path=target_dir,
+                    is_repo_local=True,
+                    repository=SimpleNamespace(lock=nullcontext()),
+                )
+
+                self.assertTrue(
+                    replace_component_checkout(target_component, source_component)
+                )
+                self.assertTrue(Path(target_dir, ".git").is_dir())
+                for dirname in metadata_dirs:
+                    self.assertFalse(Path(target_dir, dirname).exists())
+                self.assertTrue(Path(target_dir, "messages.po").is_file())
+                self.assertFalse(Path(target_dir, "stale.po").exists())
+
+    def test_replace_component_checkout_preserves_local_checkout(self) -> None:
         with (
             tempfile.TemporaryDirectory() as source_dir,
             tempfile.TemporaryDirectory() as target_dir,
         ):
-            for dirname in (".hg", ".svn", ".bzr"):
-                os.makedirs(os.path.join(source_dir, dirname))
-            os.makedirs(os.path.join(target_dir, ".git"))
-            Path(source_dir, "messages.po").write_text("copied", encoding="utf-8")
-            Path(target_dir, "stale.po").write_text("stale", encoding="utf-8")
-
-            source_component = SimpleNamespace(
-                full_path=source_dir,
-                repository=SimpleNamespace(lock=nullcontext()),
+            for filename in (".git/config", "CVS/Root", "messages.po"):
+                path = Path(source_dir, filename)
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("copied", encoding="utf-8")
+            source = SimpleNamespace(
+                full_path=source_dir, repository=SimpleNamespace(lock=nullcontext())
             )
-            target_component = SimpleNamespace(
+            target = SimpleNamespace(
                 full_path=target_dir,
                 is_repo_local=True,
                 repository=SimpleNamespace(lock=nullcontext()),
             )
-
             self.assertTrue(
-                replace_component_checkout(target_component, source_component)
+                replace_component_checkout(
+                    cast("Component", target), cast("Component", source)
+                )
             )
-            self.assertTrue(Path(target_dir, ".git").is_dir())
-            for dirname in (".hg", ".svn", ".bzr"):
-                with self.subTest(dirname=dirname):
-                    self.assertFalse(Path(target_dir, dirname).exists())
-            self.assertTrue(Path(target_dir, "messages.po").is_file())
-            self.assertFalse(Path(target_dir, "stale.po").exists())
+            for filename in (".git/config", "CVS/Root", "messages.po"):
+                with self.subTest(filename=filename):
+                    self.assertEqual(
+                        Path(target_dir, filename).read_text(encoding="utf-8"), "copied"
+                    )
 
     def test_normalize_local_copy_branch_resets_to_component_branch(self) -> None:
         calls: list[list[str]] = []
@@ -8377,6 +8416,18 @@ class ComponentAPITest(APIBaseTest):
             name="appstore", project=self.component.project
         )
         template_path = os.path.join(component.full_path, component.template)
+        metadata_paths = (
+            "CVS/Root",
+            "_darcs/patches",
+            "RCS/foo,v",
+            "SCCS/s.1",
+            ".SVN/wc.db",
+        )
+        for filename in metadata_paths:
+            path = Path(template_path, filename)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b"metadata sentinel")
+        Path(template_path, "cvs_link").symlink_to(Path(template_path, "CVS/Root"))
         sentinel = b"outside repository"
 
         with tempfile.NamedTemporaryFile(delete=False) as handle:
@@ -8394,6 +8445,9 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.headers["content-type"], "application/zip")
         with zipfile.ZipFile(BytesIO(response.content)) as zf:
             self.assertNotIn("leak_host.bin", zf.namelist())
+            for filename in (*metadata_paths, "cvs_link"):
+                self.assertNotIn(filename, zf.namelist())
+            self.assertIn("title.txt", zf.namelist())
             archived_files = [zf.read(name) for name in zf.namelist()]
 
         self.assertFalse(any(sentinel in content for content in archived_files))
