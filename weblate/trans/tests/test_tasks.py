@@ -1148,27 +1148,47 @@ class TasksTest(ComponentTestCase):
         cleanup_repos()
 
     def test_cleanup_stale_repos_keeps_category_with_vcs_metadata(self) -> None:
-        category = Category.objects.create(
-            project=self.project, name="WorkshopApp", slug="workshopapp"
-        )
-        component = self.create_po(
-            project=self.project, category=category, name="startup", vcs="local"
-        )
+        categories = []
         metadata_files = []
-        for dirname in (".git", ".hg", ".svn", ".bzr"):
+        for index, dirname in enumerate(
+            (
+                ".git",
+                ".hg",
+                ".svn",
+                ".bzr",
+                "CVS",
+                "_darcs",
+                "RCS",
+                "SCCS",
+                ".SVN",
+                "cVs",
+            )
+        ):
+            category = Category.objects.create(
+                project=self.project,
+                name=f"WorkshopApp {index}",
+                slug=f"workshopapp-{index}",
+            )
+            categories.append(category)
             metadata = Path(category.full_path) / dirname
-            metadata.mkdir()
+            metadata.mkdir(parents=True)
             metadata_file = metadata / "config"
             metadata_file.write_text("metadata\n", encoding="utf-8")
             metadata_files.append(metadata_file)
 
+        component = self.create_po(
+            project=self.project, category=categories[0], name="startup", vcs="local"
+        )
         old_timestamp = time.time() - 2 * 86400
-        os.utime(category.full_path, (old_timestamp, old_timestamp))
+        for category in categories:
+            os.utime(category.full_path, (old_timestamp, old_timestamp))
         os.utime(component.full_path, (old_timestamp, old_timestamp))
 
         cleanup_stale_repos()
 
-        self.assertTrue(os.path.isdir(category.full_path))
+        self.assertTrue(
+            all(os.path.isdir(category.full_path) for category in categories)
+        )
         self.assertTrue(os.path.isdir(component.full_path))
         self.assertTrue(
             all(metadata_file.is_file() for metadata_file in metadata_files)
