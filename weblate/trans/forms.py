@@ -4245,9 +4245,11 @@ class SourceEditForm(UnitForm):
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].widget.unit = source_unit
         self.fields["source"].widget.edit_source = True
+        component = source_unit.translation.component
         fields = editable_fields(
-            source_unit.translation.component.file_format,
-            monolingual=source_unit.translation.component.has_template(),
+            component.file_format,
+            monolingual=component.has_template(),
+            file_format_params=component.file_format_params,
         )
         for field in ("source", "context"):
             if field not in fields:

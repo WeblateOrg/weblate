@@ -127,7 +127,9 @@ def _validate_request(
     component: Component, old: dict[str, str], new: dict[str, str]
 ) -> None:
     fields = editable_fields(
-        component.file_format, monolingual=component.has_template()
+        component.file_format,
+        monolingual=component.has_template(),
+        file_format_params=component.file_format_params,
     )
     for field in ("source", "context"):
         if old[field] != new[field] and field not in fields:

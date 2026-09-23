@@ -11,7 +11,12 @@ from django.core.exceptions import ValidationError
 from translate.storage import applestrings_xliff, po, tbx, xliff, xliff2
 
 from weblate.formats.models import FILE_FORMATS
-from weblate.formats.source_edit import clone_for_edit, edit_identity, find_identity
+from weblate.formats.source_edit import (
+    clone_for_edit,
+    edit_identity,
+    editable_fields,
+    find_identity,
+)
 from weblate.trans.util import join_plural
 
 
@@ -62,28 +67,67 @@ def test_key_roundtrip(format_id: str, content: str, new_key: str) -> None:
 
 
 @pytest.mark.parametrize(
-    "format_id", ["po", "tbx", "plainxliff", "xliff2", "apple-xliff"]
+    ("format_id", "file_format_params"),
+    [
+        ("po", None),
+        ("tbx", None),
+        ("xliff", {"xliff_placeables": "plain"}),
+        ("xliff2", {"xliff_placeables": "plain"}),
+        ("apple-xliff", None),
+    ],
 )
-def test_bilingual_source_roundtrip(format_id: str) -> None:
+def test_bilingual_source_roundtrip(
+    format_id: str, file_format_params: dict[str, str] | None
+) -> None:
     cls = FILE_FORMATS[format_id]
     raw_cls = {
         "po": po.pofile,
         "tbx": tbx.tbxfile,
-        "plainxliff": xliff.xlifffile,
+        "xliff": xliff.xlifffile,
         "xliff2": xliff2.Xliff2File,
         "apple-xliff": applestrings_xliff.AppleStringsXliffFile,
     }[format_id]
-    store = cls(BytesIO(bytes(raw_cls())), source_language="en", language_code="cs")
+    store = cls(
+        BytesIO(bytes(raw_cls())),
+        source_language="en",
+        language_code="cs",
+        file_format_params=file_format_params,
+    )
     unit = store.new_unit("key", "Original", "Translation")
     old = {"context": unit.context, "source": unit.source}
     store = clone_for_edit(store)
     unit = find_identity(store, old)
     edit_identity(store, unit, {"source": "Updated", "context": unit.context})
     reloaded = cls(
-        BytesIO(store.serialize(store.store)), source_language="en", language_code="cs"
+        BytesIO(store.serialize(store.store)),
+        source_language="en",
+        language_code="cs",
+        file_format_params=file_format_params,
     )
     edited = find_identity(reloaded, {"source": "Updated", "context": unit.context})
     assert edited.target == "Translation"
+
+
+@pytest.mark.parametrize(
+    ("format_id", "file_format_params", "expected"),
+    [
+        ("xliff", {"xliff_placeables": "plain"}, {"source"}),
+        ("xliff", {"xliff_placeables": "placeables"}, set()),
+        ("xliff2", {"xliff_placeables": "plain"}, {"source"}),
+        ("xliff2", {"xliff_placeables": "placeables"}, set()),
+    ],
+)
+def test_xliff_source_edit_capability(
+    format_id: str, file_format_params: dict[str, str], expected: set[str]
+) -> None:
+    assert (
+        editable_fields(
+            format_id,
+            monolingual=False,
+            file_format_params=file_format_params,
+        )
+        == expected
+    )
 
 
 @pytest.mark.parametrize(
@@ -105,9 +149,12 @@ def test_complex_fluent_edit_rejected(content: str) -> None:
 
 
 def test_inline_source_edit_rejected() -> None:
-    cls = FILE_FORMATS["plainxliff"]
+    cls = FILE_FORMATS["xliff"]
     content = b'<xliff version="1.2"><file source-language="en" target-language="cs" original="test"><body><trans-unit id="key"><source>Hello <g id="1">world</g></source><target>Translation</target></trans-unit></body></file></xliff>'
-    store = cls(BytesIO(content))
+    store = cls(
+        BytesIO(content),
+        file_format_params={"xliff_placeables": "plain"},
+    )
     unit = store.content_units[0]
     original = store.serialize(store.store)
     with pytest.raises(ValidationError, match="inline markup"):
