@@ -19,6 +19,7 @@ from arsc_writer import Text
 from django.db import DatabaseError, connections, transaction
 from django.test import SimpleTestCase, TransactionTestCase, override_settings
 from django.utils import timezone
+from jsonschema.exceptions import ValidationError as SchemaValidationError
 from rest_framework.test import APIClient, APIRequestFactory
 from translate.storage.base import ParseError as TranslateParseError
 
@@ -68,6 +69,26 @@ def locales(snapshot: TranslationSnapshot) -> list[LocaleSnapshot]:
 
 
 class MetadataTest(SimpleTestCase):
+    def test_manifest_schema(self) -> None:
+        from weblate.kotlin_sdk.preparation import (  # ruff: ignore[import-outside-top-level]
+            BuildInput,
+            PreparedPublication,
+        )
+
+        build = BuildInput(1, "0" * 64, "org.weblate.sample", 1)
+        manifest = PreparedPublication().manifest(build)
+        self.assertEqual(manifest["locales"], {})
+        with self.assertRaises(SchemaValidationError):
+            PreparedPublication(
+                locales={
+                    "fr": {
+                        "url": "../wrong.arsc",
+                        "sha256": "a" * 64,
+                        "size": 1,
+                    }
+                }
+            ).manifest(build)
+
     def test_compilation_limit_closes_resource_stream(self) -> None:
         from tempfile import TemporaryDirectory  # ruff: ignore[import-outside-top-level]
 
@@ -1188,6 +1209,43 @@ class KotlinSDKTest(ViewTestCase):
                 self.assertEqual(build.status, "published")
                 self.assertFalse(build.pending_manifest)
                 self.assertEqual(path.read_bytes(), expected)
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_invalid_pending_manifest(self) -> None:
+        addon = self.install()
+        snapshot: TranslationSnapshot = {
+            "fr": ("fr", {("strings", "hello"): Text("Bonjour")})
+        }
+        for version, corruption in enumerate(("size", "url"), start=1):
+            with self.subTest(corruption=corruption):
+                build = self.register(addon, version=version)
+                with (
+                    patch.object(
+                        KotlinSDKAddon,
+                        "write_cdn_text",
+                        side_effect=OSError("failed"),
+                    ),
+                    self.captureOnCommitCallbacks(execute=True),
+                ):
+                    self.stage_build(addon, build, locales(snapshot))
+                build.refresh_from_db()
+                locale = build.pending_manifest["locales"]["fr"]
+                if corruption == "size":
+                    locale["size"] = 0
+                else:
+                    locale["url"] = f"../../artifacts/{'a' * 64}.arsc"
+                build.save(update_fields=["pending_manifest"])
+                self.assertIsNotNone(addon.finalize_manifest(build.pk))
+                build.refresh_from_db()
+                self.assertEqual(build.status, "failed")
+                self.assertFalse(build.pending_manifest)
+                self.assertFalse(
+                    Path(
+                        addon.cdn.cdn_path(
+                            f"org.weblate.sample/{version}/manifest.json"
+                        )
+                    ).exists()
+                )
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     def test_incompatible_component_retirement(self) -> None:
