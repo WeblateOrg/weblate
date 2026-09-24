@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os.path
 from fnmatch import fnmatch
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from translate.storage import factory
 from translate.storage.base import TranslationStore
@@ -106,7 +106,10 @@ def params_for_detected_format(
         placeables_value = (
             "placeables" if extension in {".sdlxliff", ".mxliff"} else "plain"
         )
-        return {**(file_format_params or {}), "xliff_placeables": placeables_value}
+        return cast(
+            "FileFormatParams",
+            {**(file_format_params or {}), "xliff_placeables": placeables_value},
+        )
     return file_format_params
 
 

@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from io import BytesIO
+from typing import TYPE_CHECKING, cast
 
 import pytest
 from django.core.exceptions import ValidationError
@@ -18,6 +19,9 @@ from weblate.formats.source_edit import (
     find_identity,
 )
 from weblate.trans.util import join_plural
+
+if TYPE_CHECKING:
+    from weblate.trans.file_format_params import FileFormatParams
 
 
 @pytest.mark.parametrize(
@@ -124,7 +128,7 @@ def test_xliff_source_edit_capability(
         editable_fields(
             format_id,
             monolingual=False,
-            file_format_params=file_format_params,
+            file_format_params=cast("FileFormatParams", file_format_params),
         )
         == expected
     )

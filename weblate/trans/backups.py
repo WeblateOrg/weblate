@@ -228,6 +228,15 @@ def get_project_backup_download_url(name: str) -> str:
     return storage.url(name)
 
 
+def backup_uses_xliff_format_params(backup_version: str | None) -> bool:
+    if backup_version is None:
+        return False
+    try:
+        return Version(backup_version).release[:2] >= (2026, 10)
+    except InvalidVersion:
+        return False
+
+
 class BackupListDict(TypedDict):
     name: str
     path: str
@@ -661,18 +670,10 @@ class ProjectBackup:
         if file_format not in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING:
             return
 
-        try:
-            backup_uses_xliff_format_params = Version(backup_version).release[:2] >= (
-                2026,
-                10,
-            )
-        except InvalidVersion:
-            backup_uses_xliff_format_params = False
-
         # Skip backup already using XLIFF file format parameters
         if (
             file_format in LEGACY_XLIFF_IDENTITY_FORMATS
-            and backup_uses_xliff_format_params
+            and backup_uses_xliff_format_params(backup_version)
         ):
             return
 
