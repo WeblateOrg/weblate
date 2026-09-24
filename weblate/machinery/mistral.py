@@ -19,10 +19,11 @@ class MistralTranslation(OpenAITranslation):
     """
 
     name = "Mistral"
+    default_api_url = "https://api.mistral.ai/v1"
     trusted_error_hosts: ClassVar[set[str]] = {"api.mistral.ai"}
 
     settings_form = MistralMachineryForm
     version_added = "2026.7"
 
     def get_runtime_base_url(self) -> str:
-        return self.settings.get("base_url") or "https://api.mistral.ai/v1"
+        return self.settings.get("base_url") or self.default_api_url
