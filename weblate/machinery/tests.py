@@ -4314,11 +4314,11 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         version_key = machine.get_rephrase_cache_version_key()
         cache_key = cache.make_key(version_key)
         self.assertEqual(cache.get(version_key), 1)
-        self.assertIsNone(cache._expire_info[cache_key])
+        self.assertIsNone(cache._expire_info[cache_key])  # ruff: ignore[private-member-access]
 
         machine.delete_cache()
         self.assertEqual(cache.get(version_key), 2)
-        self.assertIsNone(cache._expire_info[cache_key])
+        self.assertIsNone(cache._expire_info[cache_key])  # ruff: ignore[private-member-access]
         cache.clear()
 
     @http_mock.activate
