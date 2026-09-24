@@ -56,6 +56,7 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
 * Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry instrumentation is enabled.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces, and corrected statistics for nested :ref:`categories <category>` and deleted :ref:`labels`.
 * Fixed MIME nesting and reduced the size of inline branding images in :ref:`notification e-mails <notifications>`.
