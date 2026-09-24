@@ -299,6 +299,11 @@ textarea[name="explanation"] {
   min-height: 3em;
 }
 
+.editor-wrap > textarea.font-monospace,
+.editor-wrap > .highlighted-output.font-monospace {
+  font-family: var(--bs-font-monospace);
+}
+
 textarea#id_comment {
   min-height: 5em;
 }
@@ -844,7 +849,7 @@ form + .login-label {
     position: static;
   }
 
-  #comments #comment-section {
+  .comment-section {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -1257,13 +1262,10 @@ th.number {
   background: none;
 }
 
-.nav-pills > li > a > button.btn-close {
+.nav-pills > li > button.btn-close {
   height: 14px;
   width: 14px;
   margin: 0 10px;
-}
-.nav-pills > li.active > a > button.btn-close {
-  color: var(--wl-color-translate-bg);
 }
 
 .bread-icon path,
@@ -1499,6 +1501,13 @@ thead th {
   fill: var(--wl-navi-color);
 }
 
+/* Outline buttons change text color on hover and in the dark theme, so their
+ * icons follow it by default. Zero specificity keeps explicit icon colors such
+ * as .green or .search-icon in charge. */
+:where(.btn-outline-primary, .btn-outline-secondary) path {
+  fill: currentColor;
+}
+
 .green path {
   fill: var(--wl-color-link);
 }
@@ -1583,6 +1592,10 @@ a.red:hover path {
 
 svg {
   vertical-align: middle;
+}
+
+.math-captcha svg {
+  fill: currentColor;
 }
 
 .unit-pagination svg,
@@ -2122,6 +2135,36 @@ input.color_edit:checked + label {
   margin: 0;
   height: auto;
   display: block;
+}
+
+.markdown-editor-nav {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-editor-nav .nav-link {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.markdown-editor-nav .nav-link svg {
+  height: 1em;
+  width: 1em;
+}
+
+.markdown-editor-nav .nav-link path {
+  fill: currentColor;
+}
+
+.markdown-preview {
+  padding: 0.5em;
+  border: 1px solid var(--wl-color-border-input);
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+
+.markdown-preview pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .editor-wrap > textarea,
@@ -2766,15 +2809,72 @@ tbody.warning {
 table.table-simple tbody#glossary-terms {
   table-layout: fixed;
   width: 100%;
-  vertical-align: middle;
+  vertical-align: top;
+}
+
+table.table-simple tbody#glossary-terms > tr.glossary-striped > td {
+  --bs-table-bg-type: var(--bs-table-striped-bg);
 }
 
 table.table-simple tbody#glossary-terms td {
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: normal;
   white-space: normal;
 }
+
+#glossary-terms td.source:not([colspan]) {
+  width: 40%;
+}
+
 table.table-simple tbody#glossary-terms .alert-info {
   margin-bottom: 0px;
+}
+
+#glossary-terms .glossary-copy {
+  padding: 0;
+  min-height: 24px;
+  font: inherit;
+  text-align: start;
+}
+
+#glossary-terms .glossary-explanation {
+  border-inline-start: 2px solid var(--bs-border-color);
+  padding-inline-start: 0.5rem;
+  color: var(--bs-secondary-color);
+  font-size: 0.875em;
+}
+
+#glossary-terms .glossary-explanation p:last-child {
+  margin-bottom: 0;
+}
+
+.glossary-table-container {
+  container-type: inline-size;
+}
+
+#glossary-terms .glossary-compact-badge,
+#glossary-terms .glossary-details:not(.glossary-has-details) {
+  display: none;
+}
+
+@container (max-width: 350px) {
+  /* Keep four columns so detail rows with colspan="4" have matching edges. */
+  .glossary-table-container .glossary-badge-cell {
+    width: 0;
+    padding-inline: 0;
+  }
+
+  #glossary-terms .glossary-badge-cell > * {
+    display: none;
+  }
+
+  #glossary-terms .glossary-compact-badge {
+    display: block;
+  }
+
+  #glossary-terms .glossary-details:not(.glossary-has-details) {
+    display: table-row;
+  }
 }
 
 /* Editor styles when it has changes */

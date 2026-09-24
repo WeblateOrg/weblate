@@ -53,6 +53,7 @@ from weblate.trans.tests.test_views import (
     ViewTestCase,
 )
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.trans.util import join_plural
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -85,6 +86,12 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_commit_pending_without_changes_does_not_fetch_bot(self) -> None:
+        component = self.create_component()
+        with patch("weblate.auth.models.User.objects.get_or_create_bot") as get_bot:
+            self.assertTrue(component.commit_pending("test", None))
+        get_bot.assert_not_called()
 
     def test_commit_pending_uses_linked_project_policy(self) -> None:
         component = self.create_component()
@@ -947,7 +954,10 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 2, "cs", 5, unit="address bar")
 
         translation = component.translation_set.get(language_code="cs")
-        unit = translation.unit_set.get(source="application")
+        unit = translation.unit_set.get(
+            source=join_plural(["application", "application program"])
+        )
+        self.assertEqual(unit.get_target_plurals(), ["aplikace", "aplikační program"])
         self.assertEqual(
             unit.source_unit.explanation,
             "a computer program designed for a specific task or use",

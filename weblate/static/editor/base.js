@@ -404,7 +404,7 @@ WLT.Editor = (() => {
     });
   };
 
-  function insertEditor(text, element) {
+  function insertEditor(text, element, replace = false) {
     let root;
 
     /* Find within root element */
@@ -427,11 +427,16 @@ WLT.Editor = (() => {
     }
 
     if (editor) {
-      insertAtCaret(editor, text);
+      if (replace) {
+        replaceValue(editor, text);
+      } else {
+        insertAtCaret(editor, text);
+      }
     }
   }
 
   return {
     Base: EditorBase,
+    insertEditor,
   };
 })();

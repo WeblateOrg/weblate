@@ -10,7 +10,7 @@
   {% get_translate_url object as translate_url %}
   {% url 'translate' path=object.get_url_path as edit_url %}
   {% url 'zen' path=object.get_url_path as zen_url %}
-  {% url 'browse' path=object.get_url_path as browse_url %}
+  {% url 'search' path=object.get_url_path as browse_url %}
 
 
   <ul class="nav nav-pills">
@@ -182,7 +182,7 @@
   {% get_translate_url object as translate_url %}
   {% url 'translate' path=object.get_url_path as edit_url %}
   {% url 'zen' path=object.get_url_path as zen_url %}
-  {% url 'browse' path=object.get_url_path as browse_url %}
+  {% url 'search' path=object.get_url_path as browse_url %}
 
   <div class="tab-content">
     <div class="tab-pane active" id="translation">
@@ -286,7 +286,7 @@
                     {% translate "Singular" %}
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="new-unit-form-type" id="show-plural" value="plural">
+                    <input type="radio" name="new-unit-form-type" value="plural">
                     {% translate "Plural" %}
                   </label>
                 {% endif %}
@@ -311,7 +311,7 @@
                   {% csrf_token %}
                   {{ new_unit_plural_form|crispy }}
                   <label class="radio-inline">
-                    <input type="radio" name="new-unit-form-type" id="show-singular" value="singular">
+                    <input type="radio" name="new-unit-form-type" value="singular">
                     {% translate "Singular" %}
                   </label>
                   <label class="radio-inline">

@@ -10,9 +10,11 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import DatabaseError
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
+from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
+from weblate.auth.bots import InternalBot
 from weblate.formats.models import EXPORTERS
 from weblate.trans.exceptions import (
     FailedCommitError,
@@ -84,10 +86,12 @@ def download_multi(
     components = set()
     component_roots = set()
     extra: dict[str, str | bytes] = {}
+    # Resolve the commit bot only when needed, once for the whole download.
+    commit_user = SimpleLazyObject(InternalBot.COMMIT.get_user)
 
     for obj in commit_objs:
         try:
-            obj.commit_pending("download", None)
+            obj.commit_pending("download", commit_user)
         except Exception:
             if isinstance(obj, Project):
                 report_error("Download commit", project=obj)
@@ -303,6 +307,7 @@ def upload(request: AuthenticatedHttpRequest, path):
             author_email,
             method=form.cleaned_data["method"],
             fuzzy=form.cleaned_data["fuzzy"],
+            ignore_language=form.cleaned_data["ignore_language"],
         )
     except PluralFormsMismatchError:
         messages.error(

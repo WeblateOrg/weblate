@@ -89,6 +89,27 @@ if TYPE_CHECKING:
 
 register = template.Library()
 
+
+@register.simple_tag
+def tbx_term_information(unit: Unit) -> dict:
+    """Group shared notes at their scope instead of repeating them per term."""
+    terms = unit.tbx_terms
+    notes: dict[str, list[str]] = {"concept": [], "source": [], "target": []}
+    for side, records in terms.items():
+        for record in records:
+            term_notes = []
+            for note in record["notes"]:
+                scope = note.get("scope", "term")
+                if scope == "term":
+                    term_notes.append(note)
+                else:
+                    shared = notes["concept" if scope == "concept" else side]
+                    if note["text"] not in shared:
+                        shared.append(note["text"])
+            record["notes"] = term_notes
+    return {"terms": terms, "notes": notes}
+
+
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
@@ -471,7 +492,7 @@ def get_translate_url(context: Context, obj, glossary_browse=True) -> str:
     if isinstance(obj, BaseStats) or not hasattr(obj, "get_translate_url"):
         return ""
     if glossary_browse and hasattr(obj, "component") and obj.component.is_glossary:
-        name = "browse"
+        name = "search"
     elif context["user"].profile.translate_mode == Profile.TRANSLATE_ZEN:
         name = "zen"
     else:

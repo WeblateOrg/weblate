@@ -33,7 +33,9 @@ CLIENT_DIR = os.path.join(BASE_DIR, "client")
 EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 
 PATH_EXCLUDES = [f"/{exclude.casefold()}/" for exclude in EXCLUDES]
-VCS_METADATA_DIRS = frozenset((".git", ".hg"))
+VCS_METADATA_DIRS = frozenset(
+    (".git", ".hg", ".svn", ".bzr", "cvs", "_darcs", "rcs", "sccs")
+)
 REPO_TEMP_DIRNAME = "weblate-tmp"
 
 
@@ -100,9 +102,11 @@ def should_skip(location: str | os.PathLike[str]) -> bool:
 def is_excluded(path: str) -> bool:
     """Whether path should be excluded from zip extraction."""
     normalized = path.replace("\\", "/").casefold()
-    return any(
-        exclude in f"/{normalized}/" for exclude in PATH_EXCLUDES
-    ) or is_unsafe_path(path)
+    return (
+        any(exclude in f"/{normalized}/" for exclude in PATH_EXCLUDES)
+        or is_unsafe_path(path)
+        or is_vcs_metadata_path(path)
+    )
 
 
 def is_unsafe_path(path: str) -> bool:

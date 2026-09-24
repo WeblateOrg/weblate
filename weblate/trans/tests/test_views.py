@@ -139,8 +139,20 @@ class ZipDownloadTest(TestCase):
         with TemporaryDirectory() as root_name, TemporaryDirectory() as outside_name:
             root = Path(root_name)
             outside = Path(outside_name)
-            (root / ".git").mkdir()
-            (root / ".git" / "config").write_bytes(b"repository metadata")
+            metadata_files = {
+                ".git/config": b"git metadata",
+                ".hg/hgrc": b"mercurial metadata",
+                ".svn/wc.db": b"subversion metadata",
+                ".bzr/README": b"bazaar metadata",
+                "CVS/Root": b"cvs metadata",
+                "_darcs/patches": b"darcs metadata",
+                "RCS/foo,v": b"rcs metadata",
+                "SCCS/s.1": b"sccs metadata",
+            }
+            for filename, content in metadata_files.items():
+                metadata = root / filename
+                metadata.parent.mkdir()
+                metadata.write_bytes(content)
             (root / "build").mkdir()
             (root / "build" / "translation.txt").write_bytes(b"build directory")
             (root / "node_modules").mkdir()
@@ -151,6 +163,8 @@ class ZipDownloadTest(TestCase):
             (root / "shared.txt").write_bytes(b"shared translation")
             (outside / "secret.txt").write_bytes(sentinel)
             os.symlink(root / "shared.txt", root / "safe_link.txt")
+            os.symlink(root / ".svn" / "wc.db", root / "svn_metadata_link.db")
+            os.symlink(root / "CVS" / "Root", root / "cvs_metadata_link")
             os.symlink(outside / "secret.txt", root / "leak_host.bin")
             os.symlink(root / "regular.txt", outside / "outside_link.txt")
 
@@ -163,12 +177,27 @@ class ZipDownloadTest(TestCase):
             self.assertIn("build/translation.txt", archive.namelist())
             self.assertIn("node_modules/translation.txt", archive.namelist())
             self.assertEqual(archive.read("safe_link.txt"), b"shared translation")
-            self.assertNotIn(".git/config", archive.namelist())
+            for filename in metadata_files:
+                with self.subTest(filename=filename):
+                    self.assertNotIn(filename, archive.namelist())
+            self.assertNotIn("svn_metadata_link.db", archive.namelist())
+            self.assertNotIn("cvs_metadata_link", archive.namelist())
             self.assertNotIn("leak_host.bin", archive.namelist())
             self.assertFalse(any(name.startswith("../") for name in archive.namelist()))
             archived_files = [archive.read(name) for name in archive.namelist()]
 
         self.assertFalse(any(sentinel in content for content in archived_files))
+
+        with TemporaryDirectory() as root_name:
+            root = Path(root_name)
+            (root / ".SVN").mkdir()
+            (root / ".SVN" / "entries").write_bytes(b"mixed case metadata")
+            (root / "regular.txt").write_bytes(b"inside repository")
+            response = zip_download(str(root), [str(root)])
+
+        with ZipFile(BytesIO(response.content), "r") as archive:
+            self.assertIn("regular.txt", archive.namelist())
+            self.assertNotIn(".SVN/entries", archive.namelist())
 
 
 class RegistrationTestMixin(TestCase):
@@ -1613,6 +1642,19 @@ class BasicViewTest(ViewTestCase):
         unit = self.get_unit()
         response = self.client.get(unit.get_absolute_url())
         self.assertContains(response, "Hello, world!")
+
+    def test_font_monospace_flag(self) -> None:
+        unit = self.get_unit()
+        response = self.client.get(unit.get_absolute_url())
+        self.assertNotContains(response, "font-monospace")
+
+        source = unit.source_unit
+        source.extra_flags = "font-monospace"
+        source.save()
+
+        unit = self.get_unit()
+        response = self.client.get(unit.get_absolute_url())
+        self.assertContains(response, "font-monospace")
 
     def test_view_component_list(self) -> None:
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")

@@ -15,7 +15,16 @@ from django.test import SimpleTestCase
 from translate.storage.po import pofile
 
 from weblate.addons.gettext import MesonAddon, XgettextAddon
-from weblate.addons.gettext_rules import GETTEXT_DATA_DIR, resolve_data_dirs
+from weblate.addons.gettext_rules import (
+    GETTEXT_DATA_DIR,
+    MAX_RULE_ELEMENTS,
+    MAX_RULE_FILE_SIZE,
+    MAX_RULE_FILES,
+    MAX_RULE_XPATH_LENGTH,
+    MAX_RULE_XPATHS,
+    MAX_RULES_TOTAL_SIZE,
+    resolve_data_dirs,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 
 if TYPE_CHECKING:
@@ -99,6 +108,62 @@ class ITSValidationTest(SimpleTestCase):
                 )
                 with self.assertRaises(ValidationError):
                     resolve_data_dirs(self.root, ["po"])
+
+    def test_rule_resource_limits(self) -> None:
+        filename = self.rules / "polkit.its"
+        cases = (
+            (
+                b" " * (MAX_RULE_FILE_SIZE + 1),
+                "ITS rule file is too large.",
+            ),
+            (
+                (
+                    '<its:rules xmlns:its="http://www.w3.org/2005/11/its">'
+                    + "<its:translateRule/>" * MAX_RULE_ELEMENTS
+                    + "</its:rules>"
+                ).encode(),
+                "ITS rule file contains too many elements.",
+            ),
+            (
+                (
+                    '<its:rules xmlns:its="http://www.w3.org/2005/11/its">'
+                    + '<its:translateRule selector="//*"/>' * (MAX_RULE_XPATHS + 1)
+                    + "</its:rules>"
+                ).encode(),
+                "ITS rule file contains too many XPath expressions.",
+            ),
+            (
+                (
+                    '<its:rules xmlns:its="http://www.w3.org/2005/11/its">'
+                    f'<its:translateRule selector="/{"a" * MAX_RULE_XPATH_LENGTH}"/>'
+                    "</its:rules>"
+                ).encode(),
+                "ITS XPath expression is too long.",
+            ),
+        )
+        for content, message in cases:
+            with self.subTest(message=message):
+                filename.write_bytes(content)
+                with self.assertRaisesMessage(ValidationError, message):
+                    resolve_data_dirs(self.root, ["po"])
+
+    def test_rule_directory_resource_limits(self) -> None:
+        content = b'<its:rules xmlns:its="http://www.w3.org/2005/11/its"/>'
+        for number in range(MAX_RULE_FILES):
+            (self.rules / f"extra-{number}.its").write_bytes(content)
+        with self.assertRaisesMessage(ValidationError, "Too many ITS rule files."):
+            resolve_data_dirs(self.root, ["po"])
+
+        for path in self.rules.glob("extra-*.its"):
+            path.unlink()
+        with (
+            patch(
+                "weblate.addons.gettext_rules.MAX_RULES_TOTAL_SIZE",
+                MAX_RULES_TOTAL_SIZE // 100_000,
+            ),
+            self.assertRaisesMessage(ValidationError, "ITS rule files are too large."),
+        ):
+            resolve_data_dirs(self.root, ["po"])
 
 
 class ITSExtractionTest(ViewTestCase):

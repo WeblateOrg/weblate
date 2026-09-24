@@ -4,6 +4,8 @@
 
 """Tests for quality checks."""
 
+from __future__ import annotations
+
 from weblate.checks.same import SameCheck
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_unit
@@ -34,6 +36,34 @@ class SameCheckTest(CheckTestCase):
         # Interlingua special case
         unit.translation.language.code = "ia"
         self.assertTrue(self.check.should_skip(unit))
+
+    def test_multivalue_matches_any_source(self) -> None:
+        for file_format in ("tbx", "csv-multi"):
+            for sources in (["application", "app"], ["app", "application"]):
+                for targets in (["application"], ["app"], ["aplikace", "app"]):
+                    with self.subTest(
+                        file_format=file_format, sources=sources, targets=targets
+                    ):
+                        unit = make_unit(
+                            source=sources, target=targets, flags="strict-same"
+                        )
+                        unit.translation.component.file_format = file_format
+                        self.assertTrue(self.check.check_target(sources, targets, unit))
+
+    def test_multivalue_unchanged_exemptions(self) -> None:
+        for file_format in ("tbx", "csv-multi"):
+            for targets, flags in (
+                (["aplikace", "program"], ""),
+                (["alarm"], ""),
+                (["application"], "ignore-same"),
+            ):
+                with self.subTest(
+                    file_format=file_format, targets=targets, flags=flags
+                ):
+                    sources = ["application", "alarm"]
+                    unit = make_unit(source=sources, target=targets, flags=flags)
+                    unit.translation.component.file_format = file_format
+                    self.assertFalse(self.check.check_target(sources, targets, unit))
 
     def test_same_db_screen(self) -> None:
         self.assertTrue(

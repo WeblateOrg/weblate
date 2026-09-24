@@ -23,13 +23,16 @@ from django.conf import settings
 from django.core import mail
 from django.core.cache import cache
 from django.core.files import File
+from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
+from django.db import transaction
 from django.http import HttpRequest
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
+from lxml import etree
 from PIL import Image
 from selenium import webdriver
 from selenium.common.exceptions import (
@@ -42,6 +45,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.expected_conditions import (
     element_to_be_clickable,
+    invisibility_of_element_located,
     presence_of_element_located,
     staleness_of,
 )
@@ -84,12 +88,15 @@ from weblate.trans.tests.utils import (
     require_github,
     social_core_override_settings,
 )
+from weblate.trans.views.about import FALLBACK_STATS, DonateView
 from weblate.trans.widgets import WIDGETS
+from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats, ProjectLanguage
+from weblate.vcs.git import LocalRepository
 from weblate.vcs.ssh import ssh_file
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.workspaces.models import Workspace
@@ -454,7 +461,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             cls._driver = None
 
     def scroll_top(self) -> None:
-        self.driver.execute_script("window.scrollTo(0, 0)")
+        self.driver.execute_script(
+            "window.scrollTo({top: 0, left: 0, behavior: 'instant'})"
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                "return window.scrollX === 0 && window.scrollY === 0"
+            )
+        )
 
     def assert_text_contains(self, css_selector: str, text: str) -> None:
         """Assert the element matching css_selector contains text."""
@@ -739,8 +753,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def screenshot(self, name: str) -> None:
         """Capture named full page screenshot."""
         self.driver.set_window_size(1200, 1024)
-        self.scroll_top()
         self.wait_for_screenshot_ready()
+        self.scroll_top()
         dimensions = self.driver.execute_script(
             """
             const body = document.body;
@@ -767,8 +781,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             max(1200, math.ceil(dimensions["width"])),
             math.ceil(dimensions["height"] + 180),
         )
-        self.scroll_top()
         self.wait_for_screenshot_ready()
+        self.scroll_top()
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
         )
@@ -782,8 +796,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         them at the given width.
         """
         self.driver.set_window_size(width, height)
-        self.scroll_top()
         self.wait_for_screenshot_ready()
+        self.scroll_top()
         Path(os.path.join(self.image_path, name)).write_bytes(
             self.driver.get_screenshot_as_png()
         )
@@ -1051,6 +1065,44 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(submit_button.get_attribute("type"), "submit")
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
 
+    def test_support_page_navigation(self) -> None:
+        """Keep the purchase offer and its exit accessible on narrow screens."""
+        cache.delete(SUPPORT_STATUS_CACHE_KEY)
+        self.do_login(superuser=True)
+        with (
+            patch.object(DonateView, "get_stats", return_value=FALLBACK_STATS),
+            self.wait_for_page_load(),
+        ):
+            self.driver.get(f"{self.live_server_url}{reverse('donate')}")
+
+        for width in (1200, 390):
+            with self.subTest(width=width):
+                self.driver.set_window_size(width, 844)
+                self.assertTrue(
+                    self.driver.execute_script(
+                        "return document.documentElement.scrollWidth <= window.innerWidth"
+                    )
+                )
+                purchase = self.driver.find_element(By.LINK_TEXT, "Purchase support")
+                self.driver.execute_script("arguments[0].focus()", purchase)
+                purchase.send_keys(Keys.TAB)
+                self.assertEqual(
+                    self.driver.switch_to.active_element.text, "Continue to Weblate"
+                )
+                self.driver.switch_to.active_element.send_keys(Keys.TAB)
+                self.assertEqual(
+                    self.driver.switch_to.active_element.text,
+                    "Already purchased? Link your support package",
+                )
+
+        self.screenshot_viewport("support-mobile.png", 390, 844)
+        continuation = self.driver.find_element(By.LINK_TEXT, "Continue to Weblate")
+        with self.wait_for_page_load():
+            continuation.send_keys(Keys.ENTER)
+        self.assertEqual(
+            self.driver.current_url, f"{self.live_server_url}{reverse('home')}"
+        )
+
     def test_slug_autofill(self) -> None:
         """Check that base JavaScript initializes slug autogeneration."""
         self.do_login(superuser=True)
@@ -1065,6 +1117,37 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         WebDriverWait(self.driver, 5).until(
             lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
+
+    def test_flag_editor_disabled_and_external_updates(self) -> None:
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+        self.driver.execute_script(
+            """
+            const input = document.createElement("input");
+            input.id = "disabled-flags";
+            input.className = "flag-editor";
+            input.disabled = true;
+            input.value = "max-length:10";
+            input.dataset.flagChoicesUrl = arguments[0];
+            document.body.appendChild(input);
+            window.initFlagEditor(input);
+            """,
+            reverse("js-flag-choices"),
+        )
+        self.assertFalse(
+            self.driver.find_element(By.ID, "disabled-flags-ts-input").is_enabled()
+        )
+        self.driver.execute_script(
+            """
+            const input = document.getElementById("disabled-flags");
+            input.value = 'placeholders:"one,two", ignore-same';
+            input.dispatchEvent(new Event("change", {bubbles: true}));
+            """
+        )
+        values = self.driver.execute_script(
+            "return Array.from(document.querySelectorAll('.ts-control .item'), item => item.dataset.value);"
+        )
+        self.assertEqual(values, ['placeholders:"one,two"', "ignore-same"])
 
     def test_flag_editor_edit_existing(self) -> None:
         """Check that already added flags can be turned back into editable text."""
@@ -1255,6 +1338,65 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             )
         )
 
+    def test_glossary_copy_uses_last_active_alternative(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(
+            name="Glossary copying", slug="glossary-copying"
+        )
+        component = fixture.create_po(project=project)
+        unit = component.translation_set.get(language_code="cs").unit_set.get(
+            source__contains="Orangutan"
+        )
+        self.do_login(superuser=True)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        editors = self.driver.find_elements(
+            By.CSS_SELECTOR, ".translation-form .translation-editor"
+        )
+        self.assertEqual(len(editors), 3)
+        for editor in editors:
+            editor.clear()
+        button = self.driver.execute_script("""
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "glossary-copy";
+            button.dataset.glossaryText = "alternative";
+            button.textContent = "Copy alternative";
+            document.querySelector(".translation-form").append(button);
+            return button;
+        """)
+        editors[1].click()
+        button.send_keys(Keys.SPACE)
+        self.assertEqual(
+            [editor.get_attribute("value") for editor in editors],
+            ["", "alternative", ""],
+        )
+        editors[2].click()
+        button.click()
+        self.assertEqual(
+            [editor.get_attribute("value") for editor in editors],
+            ["", "alternative", "alternative"],
+        )
+        machinery_button = self.driver.execute_script("""
+            const row = document.createElement("div");
+            row.className = "machinery-row";
+            row.dataset.raw = JSON.stringify({text: "suggestion", plural_forms: [9], multivalue: true});
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "js-copy-machinery";
+            button.textContent = "Copy suggestion";
+            row.append(button);
+            document.querySelector(".translation-form").append(row);
+            return button;
+        """)
+        editors[1].click()
+        machinery_button.send_keys(Keys.SPACE)
+        self.assertEqual(
+            [editor.get_attribute("value") for editor in editors],
+            ["", "suggestion", "alternative"],
+        )
+
     def test_retained_translation_is_unsaved(self) -> None:
         """Retained plural drafts warn on navigation without further input."""
         fixture = RepoTestMixin()
@@ -1332,15 +1474,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         translation = component.translation_set.get(language_code="cs")
         self.do_login(superuser=True)
         search_url = f"{self.live_server_url}{reverse('search', kwargs={'path': translation.get_url_path()})}"
+        query_builder_url = f"{self.live_server_url}{reverse('search')}"
         with self.wait_for_page_load():
-            self.driver.get(search_url)
+            self.driver.get(query_builder_url)
         query_input = self.driver.find_element(By.ID, "id_q")
         query_input.send_keys("state:empty")
         self.click(htmlid="query-dropdown")
         option = self.driver.find_element(By.CSS_SELECTOR, '[data-filter="all"]')
         option.send_keys(Keys.ENTER)
         self.assertEqual(query_input.get_attribute("value"), "")
-        self.assertEqual(self.driver.current_url, search_url)
+        self.assertEqual(self.driver.current_url, query_builder_url)
         self.assertEqual(self.driver.switch_to.active_element, query_input)
         self.assertEqual(
             self.driver.find_element(By.ID, "query-dropdown").get_attribute(
@@ -1396,15 +1539,25 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
 
         # Results and the editor apply the empty query immediately.
-        for url in (
-            search_url,
-            f"{self.live_server_url}{translation.get_translate_url()}",
+        filtered_query = urlencode(
+            {"q": "state:<translated", "sort_by": "source", "offset": 2}
+        )
+        for url, query in (
+            (search_url, ""),
+            (search_url, f"?{filtered_query}"),
+            (
+                f"{self.live_server_url}{translation.get_translate_url()}",
+                f"?{filtered_query}",
+            ),
         ):
-            with self.subTest(url=url):
+            with self.subTest(url=url, query=query):
                 with self.wait_for_page_load():
-                    self.driver.get(
-                        f"{url}?{urlencode({'q': 'state:<translated', 'sort_by': 'source', 'offset': 2})}"
-                    )
+                    self.driver.get(f"{url}{query}")
+                sort_by = self.driver.find_element(By.NAME, "sort_by").get_attribute(
+                    "value"
+                )
+                if not query:
+                    self.driver.find_element(By.ID, "id_q").send_keys("state:empty")
                 self.click(htmlid="query-dropdown")
                 with self.wait_for_page_load():
                     self.driver.find_element(
@@ -1415,10 +1568,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 )
                 self.assertEqual(
                     self.driver.find_element(By.NAME, "sort_by").get_attribute("value"),
-                    "source",
+                    sort_by,
                 )
                 self.assertNotIn("offset=2", self.driver.current_url)
-                if url != search_url:
+                if url == search_url:
+                    self.assertEqual(
+                        self.count_elements("tbody.unit-listing-body tr"),
+                        translation.unit_set.count(),
+                    )
+                else:
                     count = (
                         self.driver.find_element(By.CSS_SELECTOR, ".position-input")
                         .text.split("/")[-1]
@@ -2477,7 +2635,34 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         glossary.add_unit(
             None, "", "machine translation", "strojový překlad", author=user
         )
-        glossary.add_unit(None, "", "project", "projekt", author=user)
+        unit = glossary.add_unit(
+            None,
+            "",
+            "project",
+            ["projekt", "překladový projekt", "projektík"],
+            explanation="A collection of related translation components.",
+            author=user,
+        )
+        assert unit is not None
+        glossary.commit_pending("test", user)
+        store = glossary.store
+        term, _ = store.find_unit(unit.context, unit.source)
+        term.unit.set_source_terms(["project", "translation project"])
+        groups = term.unit.get_target_dom().findall("tig")
+        for group, status in zip(
+            groups, ("preferred", "admitted", "forbidden"), strict=True
+        ):
+            etree.SubElement(
+                group, "termNote", type="administrativeStatus"
+            ).text = status
+        etree.SubElement(
+            groups[2], "note", {"from": "translator"}
+        ).text = "Avoid this informal diminutive."
+        store.save()
+        glossary.drop_store_cache()
+        glossary.component.unload_sources()
+        with transaction.atomic():
+            glossary.check_sync(force=True)
         return glossary
 
     def view_site(self) -> None:
@@ -2777,6 +2962,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             with self.wait_for_page_load():
                 self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
             self.click(htmlid=tab)
+            if name == "source-information.png":
+                self.assert_text_contains("#glossary-terms", "překladový projekt")
+                self.assert_text_contains(
+                    "#glossary-terms", "Avoid this informal diminutive."
+                )
+                forbidden = self.driver.find_element(
+                    By.CSS_SELECTOR,
+                    '#glossary-terms button[data-glossary-text="projektík"]',
+                )
+                self.assertFalse(forbidden.is_enabled())
             self.screenshot(name)
             with self.wait_for_page_load():
                 self.click("Dashboard")
@@ -2864,6 +3059,29 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.screenshot("screenshot-ocr.png")
 
+        # Pre-assign a string which sorts after the one added below, so that
+        # appending is observable (it would be listed first when sorted).
+        other_units = source.translation.unit_set.exclude(pk=source.pk)
+        other = (
+            other_units.filter(priority=source.priority, position__gt=source.position)
+            .order_by("position")
+            .first()
+        ) or other_units.order().first()
+        uploaded_screenshot.add_unit(other, user)
+        with self.wait_for_page_load():
+            self.driver.refresh()
+
+        def assigned_unit_ids() -> list[str]:
+            return [
+                row.get_attribute("data-unit-id")
+                for row in self.driver.find_elements(
+                    By.CSS_SELECTOR,
+                    "#sources-listing tbody.unit-listing-body tr[data-unit-id]",
+                )
+            ]
+
+        self.assertEqual(assigned_unit_ids(), [str(other.pk)])
+
         # Add string manually
         search_input = self.driver.find_element(By.ID, "search-input")
         search_input.clear()
@@ -2881,6 +3099,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 .units.filter(pk=source.pk)
                 .exists()
             )
+        )
+        # Newly added string is appended without reordering existing rows
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: assigned_unit_ids() == [str(other.pk), str(source.pk)]
+        )
+
+        # Removing keeps the remaining rows in place without reloading the page
+        self.click(
+            self.driver.find_element(
+                By.CSS_SELECTOR,
+                f'#sources-listing tr[data-unit-id="{other.pk}"] button[type=submit]',
+            )
+        )
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: assigned_unit_ids() == [str(source.pk)]
+        )
+        self.assertFalse(
+            Screenshot.objects.get(pk=uploaded_screenshot.pk)
+            .units.filter(pk=other.pk)
+            .exists()
         )
 
         # Unit should have screenshot assigned now
@@ -3338,6 +3576,245 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             presence_of_element_located((By.CSS_SELECTOR, ".zen-unit"))
         )
         self.screenshot("zen-mode.png")
+
+    def create_translation_quality_scene(self, user: User) -> Unit:
+        """Show translation context, terminology, and a real placeholder warning."""
+        project = Project.objects.create(name="Orbit", slug="orbit")
+        remove_tree(project.full_path, ignore_errors=True)
+        self.addCleanup(remove_tree, project.full_path, True)
+        LocalRepository.from_files(
+            os.path.join(project.full_path, "billing"),
+            {"fr.po": Path(get_test_file("translation-quality.po")).read_bytes()},
+        )
+        component = project.scratch_create_component(
+            "Billing",
+            "billing",
+            Language.objects.get(code="en"),
+            "po",
+            new_base="fr.po",
+            new_lang="add",
+        )
+        # Secondary-language choices only include languages used by the site.
+        self.assertIsNotNone(
+            component.add_new_language(Language.objects.get(code="de"), None),
+            component.new_lang_error_message,
+        )
+        language = Language.objects.get(code="fr")
+        translation = component.translation_set.get(language=language)
+        team = Group.objects.create(name="Orbit translators")
+        team.projects.add(project)
+        team.roles.add(Role.objects.get(name="Translate"))
+        team.languages.add(language)
+        user.groups.set([team])
+        user.profile.theme = "light"
+        user.profile.save()
+        draft = "La période d’essai de votre espace de travail se termine bientôt."  # codespell:ignore
+        preferred_term = "espace de travail"  # codespell:ignore
+        unit = translation.add_unit(
+            None,
+            "",
+            [
+                "Your workspace trial ends in %(days)s day.",
+                "Your workspace trial ends in %(days)s days.",
+            ],
+            [draft, draft],
+            # This deliberately number-free draft is grammatical for both forms.
+            extra_flags="python-format, ignore-same-plurals",
+            author=user,
+        )
+        assert unit is not None
+        source = unit.source_unit
+        assert source is not None
+        source.explanation = (
+            "Shown in the billing banner. Keep the tone helpful and concise."
+        )
+        source.save()
+        self.assertEqual(
+            list(unit.check_set.values_list("name", flat=True)), ["python_format"]
+        )
+
+        glossary = project.glossaries[0].translation_set.get(language=language)
+        term = glossary.add_unit(None, "", "workspace", preferred_term, author=user)
+        assert term is not None
+        glossary.commit_pending("test", user)
+        store = glossary.store
+        entry, _ = store.find_unit(term.context, term.source)
+        group = entry.unit.get_target_dom().find("tig")
+        etree.SubElement(
+            group, "termNote", type="administrativeStatus"
+        ).text = "preferred"
+        store.save()
+        glossary.drop_store_cache()
+        glossary.component.unload_sources()
+        with transaction.atomic():
+            glossary.check_sync(force=True)
+
+        # Render a fixed application fixture, without changing the editor's DOM.
+        html = Path(get_test_file("translation-quality.html")).read_bytes()
+        self.driver.get("data:text/html;base64," + base64.b64encode(html).decode())
+        banner = self.driver.find_element(By.TAG_NAME, "main")
+        screenshot = Screenshot.objects.create(
+            name="Orbit billing banner", translation=component.source_translation
+        )
+        screenshot.image.save(
+            "orbit-billing.png", ContentFile(banner.screenshot_as_png)
+        )
+        screenshot.add_unit(source, user)
+        self.clear_project_stats_cache(project)
+
+        return unit
+
+    def test_translator_onboarding(self) -> None:
+        """Select languages, translate, resolve a quality warning, and suggest an edit."""
+        user = self.do_login()
+        unit = self.create_translation_quality_scene(user)
+        user.profile.languages.clear()
+        user.profile.secondary_languages.clear()
+        translation = unit.translation
+        component = translation.component
+        project = component.project
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
+
+        self.click(htmlid="user-dropdown")
+        with self.wait_for_page_load():
+            self.click(htmlid="settings-button")
+        for field, language, code in (
+            ("languages", "French", "fr"),
+            ("secondary_languages", "German", "de"),
+        ):
+            control = self.driver.find_element(By.ID, f"id_{field}-ts-control")
+            control.click()
+            control.send_keys(language)
+            language_id = Language.objects.get(code=code).pk
+            option_selector = f"#id_{field}-ts-dropdown [data-value='{language_id}']"
+            # Focus can render highlights before the throttled search finishes.
+            # Wait for Tom Select's internal timer so it cannot reopen this
+            # dropdown and steal focus after we move to the next field.
+            WebDriverWait(self.driver, 10).until(
+                lambda driver, field=field, language=language: driver.execute_script(
+                    """
+                    const select = document.getElementById(arguments[0]).tomselect;
+                    return select.control_input.value === arguments[1] &&
+                        select.lastQuery === arguments[1] &&
+                        select.refreshTimeout === null;
+                    """,
+                    f"id_{field}",
+                    language,
+                ),
+                message=f"Language search did not finish in {field}: {language}",
+            )
+            option = WebDriverWait(self.driver, 10).until(
+                element_to_be_clickable((By.CSS_SELECTOR, option_selector))
+            )
+            self.click(option)
+            control.send_keys(Keys.ESCAPE, Keys.TAB)
+            WebDriverWait(self.driver, 10).until(
+                invisibility_of_element_located((By.ID, f"id_{field}-ts-dropdown"))
+            )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, '#languages input[type="submit"]'
+                )
+            )
+        self.assertEqual(
+            list(user.profile.languages.values_list("code", flat=True)), ["fr"]
+        )
+        self.assertEqual(
+            list(user.profile.secondary_languages.values_list("code", flat=True)),
+            ["de"],
+        )
+        self.screenshot("onboarding-languages.png")
+
+        self.open_translation(
+            language="French", component=component.name, project=project
+        )
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(By.PARTIAL_LINK_TEXT, "Untranslated strings")
+            )
+        editor = self.driver.find_element(
+            By.CSS_SELECTOR, ".translation-form .translation-editor"
+        )
+        billing = translation.unit_set.get(source="Billing")
+        self.assertEqual(editor.get_attribute("id"), f"id_{billing.checksum}_0")
+        editor.send_keys("Facturation")
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element(By.NAME, "save"))
+        billing.refresh_from_db()
+        self.assertEqual(billing.target, "Facturation")
+        self.assertEqual(billing.state, STATE_TRANSLATED)
+        self.clear_project_stats_cache(project)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        self.assert_text_contains(
+            "#glossary-terms",
+            "espace de travail",  # codespell:ignore
+        )
+        self.assert_text_contains("#glossary-terms", "preferred")
+        self.assert_text_contains(".check-item", "Python format")
+        self.assert_text_contains(
+            ".check-description", "The following format strings are missing: %(days)s"
+        )
+        self.assert_text_contains(
+            ".source-info",
+            "Shown in the billing banner. Keep the tone helpful and concise.",
+        )
+        editors = self.driver.find_elements(By.CSS_SELECTOR, ".translation-editor")
+        self.assertEqual(
+            [editor.get_attribute("value") for editor in editors],
+            unit.get_target_plurals(),
+        )
+        for name in ("save", "suggest"):
+            self.assertTrue(self.driver.find_element(By.NAME, name).is_displayed())
+        self.assertTrue(
+            self.driver.find_element(By.ID, f"id_{unit.checksum}_fuzzy").is_displayed()
+        )
+        self.wait_for_screenshot_ready()
+        context_image = self.driver.find_element(
+            By.CSS_SELECTOR, 'img[alt="Orbit billing banner"]'
+        )
+        self.assertTrue(context_image.is_displayed())
+        self.assertGreater(
+            self.driver.execute_script(
+                "return arguments[0].naturalWidth", context_image
+            ),
+            0,
+        )
+        self.screenshot("translation-quality.png")
+
+        corrected = [
+            "La période d’essai de votre espace de travail se termine dans %(days)s jour.",  # codespell:ignore
+            "La période d’essai de votre espace de travail se termine dans %(days)s jours.",  # codespell:ignore
+        ]
+        for editor, target in zip(editors, corrected, strict=True):
+            editor.clear()
+            editor.send_keys(target)
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element(By.NAME, "save"))
+        unit.refresh_from_db()
+        self.assertEqual(unit.get_target_plurals(), corrected)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertFalse(unit.check_set.exists())
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        self.assertFalse(self.driver.find_elements(By.CSS_SELECTOR, ".check-item"))
+        proposed = [
+            target.replace("La période d’essai", "L’essai") for target in corrected
+        ]
+        editors = self.driver.find_elements(By.CSS_SELECTOR, ".translation-editor")
+        for editor, target in zip(editors, proposed, strict=True):
+            editor.clear()
+            editor.send_keys(target)
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element(By.NAME, "suggest"))
+        suggestion = unit.suggestion_set.get(user=user)
+        self.assertEqual(suggestion.get_target_plurals(), proposed)
+        unit.refresh_from_db()
+        self.assertEqual(unit.get_target_plurals(), corrected)
 
     def test_profile_dashboard(self) -> None:
         """Test profile and dashboard screenshots."""
@@ -3985,6 +4462,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         element.send_keys("Monday")
         with self.wait_for_page_load():
             element.submit()
+        # Select explicitly because localStorage remembers tabs from other tests.
+        self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "Other languages"))
         self.screenshot("source-review-detail.png")
 
         # Display variants
@@ -4004,9 +4483,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("source-review-edit.png")
 
         # Close modal dialog
-        self.driver.find_element(By.ID, "id_extra_flags-ts-input").send_keys(
-            Keys.ESCAPE
-        )
+        self.driver.find_element(By.ID, "context-edit-form").send_keys(Keys.ESCAPE)
         time.sleep(0.2)
 
     def test_dark_theme(self) -> None:
@@ -4053,6 +4530,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "projekt"))
 
+        self.click(
+            self.driver.find_element(
+                By.XPATH,
+                '//summary[normalize-space()="Term information from the translation file"]',
+            )
+        )
+        self.assert_text_contains("details[open]", "Avoid this informal diminutive.")
         self.click(htmlid="unit_tools_dropdown")
         self.screenshot("glossary-tools.png")
 
@@ -4066,8 +4550,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             f"{self.live_server_url}{reverse('changes')}?{urlencode({'period': period})}"
         )
 
-        period_input = self.driver.find_element(By.NAME, "period")
-        picker = self.driver.find_element(By.CSS_SELECTOR, ".datepicker")
+        period_input = self.driver.find_element(By.ID, "id_period")
+        pickers = self.driver.find_elements(By.CSS_SELECTOR, ".datepicker")
+        self.assertEqual(len(pickers), 1)
+        picker = pickers[0]
 
         self.assertEqual(picker.value_of_css_property("display"), "none")
 
@@ -4122,7 +4608,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         title = self.driver.find_element(By.CSS_SELECTOR, ".datepicker-cal-title")
         self.assertNotEqual(title.text, initial_title)
 
-        # Click on the page body outside the picker
-        self.driver.find_element(By.TAG_NAME, "label").click()
+        # Click the search heading outside the picker.
+        self.click(self.driver.find_element(By.CSS_SELECTOR, "form .card-header"))
 
         self.assertEqual(picker.value_of_css_property("display"), "none")

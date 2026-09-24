@@ -11,6 +11,7 @@ from itertools import chain
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.utils.translation import gettext_lazy
+from lxml import etree
 from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
 from translate.storage.aresource import AndroidResourceFile
@@ -24,6 +25,7 @@ from translate.storage.tmx import tmxfile
 from translate.storage.xliff import xlifffile
 
 import weblate.utils.version
+from weblate.checks.flags import Flags
 from weblate.formats.external import XlsxFormat
 from weblate.formats.helpers import (
     CSV_ID_HASH,
@@ -32,7 +34,7 @@ from weblate.formats.helpers import (
     CSV_TARGET_PLURAL_FORM,
     format_csv_id_hash,
 )
-from weblate.formats.ttkit import WeblateCSVFile
+from weblate.formats.ttkit import TBXUnit, WeblateCSVFile
 from weblate.lang.models import PluralMapper
 from weblate.trans.file_format_params import (
     GettextSetLanguageTeamHeader,
@@ -47,6 +49,7 @@ if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
     from translate.storage.lisa import LISAfile
     from translate.storage.poxliff import PoXliffUnit
+    from translate.storage.tbx import tbxunit
 
     from weblate.trans.models import Translation
 
@@ -163,6 +166,151 @@ class TBXExporter(XMLExporter):
     extension = "tbx"
     verbose = gettext_lazy("TBX")
     storage_class = tbxfile
+
+    @staticmethod
+    # ruff: ignore[unused-static-method-argument]
+    def supports(translation: Translation) -> bool:
+        return True
+
+    def build_unit(self, unit):
+        output = cast("tbxunit", super().build_unit(unit))
+        if unit.translation.component.is_multivalue:
+            source_unit = unit.source_unit if unit.details.get("tbx_terms") else unit
+            output.set_source_terms(
+                [self.string_filter(text) for text in source_unit.get_source_plurals()],
+                self.source_language.code,
+            )
+            if self.source_language != self.language:
+                targets = unit.get_target_plurals()
+                output.set_target_terms(
+                    [self.string_filter(text) for text in targets]
+                    if any(targets)
+                    else [],
+                    self.language.code,
+                )
+        return output
+
+    def store_flags(self, output, flags) -> None:
+        output.xmlelement.set("weblate-flags", flags.format())
+
+    def _export_term_metadata(
+        self, output, records, language_code, shared_notes
+    ) -> None:
+        language = output.getlanguageNode(language_code)
+        if language is None:
+            return
+        for tig, record in zip(
+            language.findall(output.namespaced("tig")), records, strict=False
+        ):
+            if record.get("id"):
+                tig.set("id", self.string_filter(record["id"]))
+            if record.get("administrative_status"):
+                node = etree.SubElement(
+                    tig, output.namespaced("termNote"), type="administrativeStatus"
+                )
+                node.text = self.string_filter(record["administrative_status"])
+            for note in record.get("notes", []):
+                scope = note.get("scope", "term")
+                parent = (
+                    output.xmlelement
+                    if scope == "concept"
+                    else language
+                    if scope == "language"
+                    else tig
+                )
+                key = (parent, note.get("origin"), note.get("category"), note["text"])
+                if scope != "term" and key in shared_notes:
+                    continue
+                shared_notes.add(key)
+                self._export_note(output, parent, note)
+
+    def _export_note(self, output, parent, note) -> None:
+        origin = note.get("origin")
+        tag = (
+            "descrip"
+            if origin == "definition"
+            else "termNote"
+            if origin == "pos"
+            else "note"
+        )
+        node = etree.SubElement(parent, output.namespaced(tag))
+        if note.get("category"):
+            node.set("type", self.string_filter(note["category"]))
+        if tag == "note" and origin:
+            node.set("from", self.string_filter(origin))
+        node.text = self.string_filter(note["text"])
+
+    def store_unit_metadata(self, output, unit) -> None:
+        if unit.context:
+            output.setid(self.string_filter(unit.context))
+        metadata = unit.tbx_terms
+        source_metadata = unit.source_unit.tbx_terms if metadata else metadata
+        shared_notes: set[tuple] = set()
+        self._export_term_metadata(
+            output,
+            source_metadata.get("source", []),
+            self.source_language.code,
+            shared_notes,
+        )
+        if self.source_language != self.language:
+            self._export_term_metadata(
+                output, metadata.get("target", []), self.language.code, shared_notes
+            )
+        # Compare with the imported explanations so term-scoped definitions are
+        # not duplicated at concept scope merely by exporting them.
+        adapter: TBXUnit = TBXUnit(None, output)  # type: ignore[call-overload]
+        adapter.set_source_explanation(self.string_filter(unit.source_unit.explanation))
+        if self.source_language != self.language:
+            adapter.set_explanation(self.string_filter(unit.explanation))
+        if unit.note and unit.note != adapter.notes:
+            output.addnote(self.string_filter(unit.note), origin="developer")
+        for comment in unit.unresolved_comments:
+            self._export_note(
+                output,
+                output.target_dom
+                if output.target_dom is not None
+                else output.xmlelement,
+                {"origin": "translator", "text": comment.comment},
+            )
+        for suggestion in unit.suggestions:
+            suggestions = ", ".join(split_plural(suggestion.target))
+            self._export_note(
+                output,
+                output.target_dom
+                if output.target_dom is not None
+                else output.xmlelement,
+                {
+                    "origin": "translator",
+                    "text": f"Suggested in Weblate: {suggestions}",
+                },
+            )
+        # TBX requires concept/language metadata before language sets/terms.
+        # Common explanations and developer notes can also append metadata, so
+        # restore ordering after all writers have finished.
+        for parent, child_tag in [
+            (output.xmlelement, "langSet"),
+            *((language, "tig") for language in output.getlanguageNodes()),
+        ]:
+            for child in list(parent):
+                if child.tag == output.namespaced(child_tag):
+                    parent.append(child)
+        native_flags = unit.details.get("tbx_flags")
+        flags = unit.all_flags
+        if native_flags is not None:
+            flags = Flags(
+                unit.translation.all_flags,
+                native_flags["explicit"],
+                unit.source_unit.extra_flags,
+                unit.extra_flags,
+            )
+        if (native_flags and native_flags["read_only"]) or "read-only" in flags:
+            node = etree.Element(
+                output.namespaced("descrip"), type="Translation needed"
+            )
+            node.text = "No"
+            output.xmlelement.insert(0, node)
+        self.store_flags(output, flags)
+        self.store_unit_state(output, unit)
 
     def add(self, unit, word) -> None:
         if self.source_language.code.replace("_", "-").lower() == (
@@ -340,7 +488,7 @@ class MultiCSVExporter(CVSBaseExporter):
 
     @staticmethod
     def supports(translation: Translation) -> bool:
-        return translation.component.file_format_cls.has_multiple_strings
+        return translation.component.file_format == "csv-multi"
 
     def string_filter(self, text):
         """
@@ -415,7 +563,9 @@ class MonolingualExporter(BaseExporter):
 
     @staticmethod
     def supports(translation: Translation) -> bool:
-        return translation.component.has_template()
+        return (
+            BaseExporter.supports(translation) and translation.component.has_template()
+        )
 
     def build_unit(self, unit):
         output = self.create_unit(unit.context)

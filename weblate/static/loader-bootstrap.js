@@ -277,7 +277,7 @@ function screenshotRemoveSources(pks) {
   screenshotUpdateBulkControls();
 }
 
-async function screenshotRefreshAssignedSources() {
+async function screenshotRefreshAssignedSources(addedPks = []) {
   const list = document.getElementById("sources-listing");
   if (list?.dataset.href === undefined) {
     return;
@@ -288,9 +288,94 @@ async function screenshotRefreshAssignedSources() {
   if (!response.ok) {
     throw new Error(response.statusText);
   }
+  const html = await response.text();
   const table = list.querySelector("table");
-  if (table !== null) {
-    table.outerHTML = await response.text();
+  if (table === null) {
+    return;
+  }
+  const template = document.createElement("template");
+  template.innerHTML = html;
+  const freshTable = template.content.querySelector("table");
+  const freshHead = freshTable?.querySelector("thead");
+  const freshBody = freshTable?.querySelector("tbody.unit-listing-body");
+  const currentHead = table.querySelector("thead");
+  const currentBody = table.querySelector("tbody.unit-listing-body");
+  const freshRows = new Map();
+  for (const row of freshBody?.querySelectorAll("tr[data-unit-id]") ?? []) {
+    freshRows.set(row.dataset.unitId, row);
+  }
+  if (
+    freshHead === null ||
+    freshHead === undefined ||
+    currentHead === null ||
+    currentBody === null ||
+    freshRows.size === 0
+  ) {
+    // Nothing to preserve (for example the empty listing placeholder).
+    table.outerHTML = html;
+    return;
+  }
+
+  const rows = [];
+  const takeRow = (unitId) => {
+    const row = freshRows.get(unitId);
+    if (row !== undefined) {
+      freshRows.delete(unitId);
+      rows.push(row);
+    }
+  };
+  // Keep the rows currently shown in their existing order
+  for (const row of currentBody.querySelectorAll("tr[data-unit-id]")) {
+    takeRow(row.dataset.unitId);
+  }
+  // Append newly added strings in the order they were added.
+  for (const pk of addedPks) {
+    takeRow(String(pk));
+  }
+  // Anything else (for example added concurrently) goes to the end.
+  for (const unitId of Array.from(freshRows.keys())) {
+    takeRow(unitId);
+  }
+  currentHead.replaceWith(freshHead);
+  currentBody.replaceChildren(...rows);
+}
+
+async function screenshotRemoveAssignedSource(form) {
+  const unitId = form.closest("tr")?.dataset.unitId;
+  const button = form.querySelector("button[type=submit]");
+  if (button !== null) {
+    button.disabled = true;
+  }
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    });
+    let data = {};
+    try {
+      data = await response.json();
+    } catch (_error) {}
+    if (response.redirected || !response.ok || data.status !== true) {
+      throw new Error(
+        data.error || gettext("Could not remove the source string."),
+      );
+    }
+    const body = document.querySelector(
+      "#sources-listing tbody.unit-listing-body",
+    );
+    if (body !== null && unitId !== undefined) {
+      body.querySelector(`tr[data-unit-id="${unitId}"]`)?.remove();
+    }
+    if (body !== null && body.querySelector("tr[data-unit-id]") === null) {
+      // Let the server render the empty listing placeholder.
+      await screenshotRefreshAssignedSources();
+    }
+  } catch (error) {
+    addAlert(error instanceof Error ? error.message : error);
+    if (button !== null) {
+      button.disabled = false;
+    }
   }
 }
 
@@ -326,7 +411,7 @@ async function screenshotAddSources(pks) {
       throw new Error(response.statusText);
     }
     const data = await response.json();
-    await screenshotRefreshAssignedSources();
+    await screenshotRefreshAssignedSources(pks);
     if (data.added > 0) {
       screenshotRemoveSources(pks);
     }
@@ -712,6 +797,9 @@ function initHighlight(root) {
     }
     if (editor.disabled) {
       highlight.classList.add("disabled");
+    }
+    if (editor.classList.contains("font-monospace")) {
+      highlight.classList.add("font-monospace");
     }
     highlight.setAttribute("role", "status");
     if (editor.hasAttribute("dir")) {
@@ -1208,6 +1296,18 @@ onReady(() => {
       event.preventDefault();
       screenshotAddSources(screenshotSelectedSources());
     });
+  document
+    .getElementById("sources-listing")
+    ?.addEventListener("submit", (event) => {
+      const form = event.target;
+      if (
+        form instanceof HTMLFormElement &&
+        form.closest("tbody.unit-listing-body") !== null
+      ) {
+        event.preventDefault();
+        void screenshotRemoveAssignedSource(form);
+      }
+    });
   /* Avoid double submission of non AJAX forms */
   let submittedForms = new WeakSet();
   document.querySelectorAll("form:not(.double-submission)").forEach((form) => {
@@ -1274,7 +1374,11 @@ onReady(() => {
     const target = button?.dataset.focus;
     if (target) {
       /* Modal context focusing */
-      document.querySelector(target)?.focus();
+      const input = document.querySelector(target);
+      const flagInput = input?.classList.contains("flag-editor")
+        ? document.getElementById(`${input.id}-ts-input`)
+        : null;
+      (flagInput || input)?.focus();
     } else {
       for (const input of event.target.querySelectorAll("input")) {
         if (!input.disabled && input.offsetParent !== null) {
@@ -1891,6 +1995,48 @@ onReady(() => {
     });
   });
 
+  /* Edit the history date inline without the numeric offset editor. */
+  document.querySelectorAll(".change-date-position").forEach((position) => {
+    const toggle = position.querySelector(".change-date-toggle");
+    const form = position.querySelector(".change-date-form");
+    const input = form.querySelector('input[type="date"]');
+    const hasErrors = form.dataset.hasErrors === "true";
+    const close = () => {
+      if (hasErrors) {
+        return;
+      }
+      form.hidden = true;
+      toggle.hidden = false;
+      toggle.setAttribute("aria-expanded", "false");
+    };
+    if (!hasErrors) {
+      close();
+    }
+    toggle.addEventListener("click", () => {
+      toggle.hidden = true;
+      form.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+      input.focus();
+    });
+    form.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !hasErrors) {
+        event.preventDefault();
+        close();
+        toggle.focus();
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        if (!event.repeat) {
+          form.requestSubmit();
+        }
+      }
+    });
+    document.addEventListener("click", (event) => {
+      if (!position.contains(event.target)) {
+        close();
+      }
+    });
+  });
+
   /* Advanced search */
   document.querySelectorAll(".search-group li a").forEach((link) => {
     link.addEventListener("click", (event) => {
@@ -2079,6 +2225,95 @@ onReady(() => {
       });
     });
 
+  /* Markdown preview tab in markdown textareas */
+  document.addEventListener("show.bs.tab", (event) => {
+    const toggle = event.target;
+    if (!toggle.matches(".markdown-preview-toggle")) {
+      return;
+    }
+    const pane = document.querySelector(toggle.getAttribute("data-bs-target"));
+    const editor = toggle
+      .closest(".markdown-editor-tabs")
+      ?.querySelector("textarea.markdown-editor");
+    if (!pane || !editor) {
+      return;
+    }
+    /* Measure while the editor is still visible */
+    pane.style.minHeight = `${editor.getBoundingClientRect().height}px`;
+    const text = editor.value;
+    if (pane.previewRendered === text) {
+      return;
+    }
+    if (text.trim() === "") {
+      const empty = document.createElement("p");
+      empty.className = "text-muted";
+      empty.textContent = gettext("Nothing to preview.");
+      pane.replaceChildren(empty);
+      pane.previewRendered = text;
+      return;
+    }
+    pane.previewController?.abort();
+    const controller = new AbortController();
+    pane.previewController = controller;
+    pane.setAttribute("aria-busy", "true");
+    fetch(pane.dataset.previewUrl, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRFToken": document.querySelector("#link-post input")?.value ?? "",
+      },
+      body: new URLSearchParams({ text }),
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (response.redirected) {
+          /* Redirected to login, the session has most likely expired */
+          throw new Error(gettext("Please sign in again."));
+        }
+        if (!response.ok) {
+          const isText = response.headers
+            .get("Content-Type")
+            ?.startsWith("text/plain");
+          const detail = isText ? (await response.text()).trim() : "";
+          throw new Error(
+            detail || `${response.statusText} (${response.status})`,
+          );
+        }
+        pane.innerHTML = await response.text();
+        pane.previewRendered = text;
+      })
+      .catch((error) => {
+        if (error.name === "AbortError") {
+          return;
+        }
+        const alert = document.createElement("div");
+        alert.className = "alert alert-danger";
+        alert.setAttribute("role", "alert");
+        alert.textContent = `${gettext("Error while loading page:")} ${error.message}`;
+        pane.replaceChildren(alert);
+        pane.previewRendered = null;
+      })
+      .finally(() => {
+        if (pane.previewController === controller) {
+          pane.previewController = null;
+          pane.setAttribute("aria-busy", "false");
+        }
+      });
+  });
+
+  document.addEventListener(
+    "invalid",
+    (event) => {
+      const tabs = event.target.closest?.(".markdown-editor-tabs");
+      const toggle = tabs?.querySelector(".markdown-write-toggle");
+      if (toggle) {
+        bootstrap.Tab.getOrCreateInstance(toggle).show();
+      }
+    },
+    true,
+  );
+
   /* Username @-mention autocompletion in markdown textareas */
   const positionMentionDropdown = (editor, list) => {
     if (!list) {
@@ -2103,9 +2338,12 @@ onReady(() => {
       data: {
         keys: ["full_name"],
         src: async (query) => {
-          const response = await fetch(
-            `/api/users/?username=${encodeURIComponent(query)}&is_active=1`,
-          );
+          let url = `/api/users/?username=${encodeURIComponent(query)}&is_active=1`;
+          const unitId = editor.closest("#comment-form")?.dataset.unitId;
+          if (unitId) {
+            url += `&unit=${encodeURIComponent(unitId)}`;
+          }
+          const response = await fetch(url);
           const data = await response.json();
           return data.results.map((user) => ({
             username: user.username,
@@ -2245,10 +2483,10 @@ onReady(() => {
 
   /* Notifications removal */
   document
-    .querySelectorAll(".nav-pills > li > a > button.btn-close")
+    .querySelectorAll(".nav-pills > li > button.btn-close")
     .forEach((button) => {
       button.addEventListener("click", (_e) => {
-        const link = button.parentElement;
+        const link = button.parentElement.querySelector("a[data-bs-target]");
         document
           .querySelectorAll(`${link.getAttribute("data-bs-target")} select`)
           .forEach((select) => {
@@ -2257,10 +2495,11 @@ onReady(() => {
         //      document.getElementById(link.getAttribute("href").substring(1)).remove();
         /* Activate watched tab */
         const watched = document.querySelector(
-          'a[data-bs-target="#notifications__1"',
+          'a[data-bs-target="#notifications__1"]',
         );
         bootstrap.Tab.getOrCreateInstance(watched).show();
         link.parentElement.remove();
+        watched.focus();
         addAlert(
           gettext(
             "Notification settings removed, please do not forget to save the changes.",
@@ -2423,9 +2662,11 @@ onReady(() => {
   });
 
   /* Date range picker for period inputs */
-  document.querySelectorAll("input[name='period']").forEach((input) => {
-    new DateRangePicker(input);
-  });
+  document
+    .querySelectorAll("input[name='period']:not([type='hidden'])")
+    .forEach((input) => {
+      new DateRangePicker(input);
+    });
 
   /* Singular or plural new unit switcher */
   const setContextValue = (toSelector, fromSelector) => {
@@ -2459,37 +2700,23 @@ onReady(() => {
             });
         };
         const selected = this.value;
-        if (selected === "singular") {
-          document
-            .querySelectorAll("input[name='new-unit-form-type']")
-            .forEach((input) => {
-              input.removeAttribute("checked");
-            });
-          const showSingular = document.querySelector(
-            "#new-singular #show-singular",
-          );
-          if (showSingular !== null) {
-            showSingular.checked = true;
-          }
-          setContextValue("#new-singular", "#new-plural");
-          transferTextareaInputs("#new-plural", "#new-singular");
-          document.querySelector("#new-plural")?.classList.add("hidden");
-          document.querySelector("#new-singular")?.classList.remove("hidden");
-        } else if (selected === "plural") {
-          document
-            .querySelectorAll("input[name='new-unit-form-type']")
-            .forEach((input) => {
-              input.removeAttribute("checked");
-            });
-          const showPlural = document.querySelector("#new-plural #show-plural");
-          if (showPlural !== null) {
-            showPlural.checked = true;
-          }
-          setContextValue("#new-plural", "#new-singular");
-          transferTextareaInputs("#new-singular", "#new-plural");
-          document.querySelector("#new-singular")?.classList.add("hidden");
-          document.querySelector("#new-plural")?.classList.remove("hidden");
+        if (selected !== "singular" && selected !== "plural") {
+          return;
         }
+        const previous = selected === "singular" ? "plural" : "singular";
+        document
+          .querySelectorAll("input[name='new-unit-form-type']")
+          .forEach((input) => {
+            input.removeAttribute("checked");
+          });
+        const selectedInput = document.getElementById(`show-${selected}`);
+        if (selectedInput !== null) {
+          selectedInput.checked = true;
+        }
+        setContextValue(`#new-${selected}`, `#new-${previous}`);
+        transferTextareaInputs(`#new-${previous}`, `#new-${selected}`);
+        document.getElementById(`new-${previous}`)?.classList.add("hidden");
+        document.getElementById(`new-${selected}`)?.classList.remove("hidden");
       });
     });
 

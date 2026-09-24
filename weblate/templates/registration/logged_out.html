@@ -17,7 +17,10 @@
       <a href="{% url "login" %}" class="btn btn-outline-primary btn-lg">{% translate "Sign in" %}</a>
     </p>
 
-    {% include "snippets/donate.html" %}
+    <p>{% translate "Thank you for contributing translations." %}</p>
+    <p>
+      <a href="{{ donate_url }}">{% translate "Donate to Weblate development" %}</a>
+    </p>
 
   </div>
 {% endblock content %}

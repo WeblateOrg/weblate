@@ -45,6 +45,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
 
     from django.forms.boundfield import BoundField
+    from django.urls.resolvers import URLPattern
     from django_stubs_ext import StrOrPromise
 
     from weblate.addons.forms import BaseAddonForm
@@ -158,6 +159,23 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     events: ClassVar[set[AddonEvent]] = set()
     settings_form: type[BaseAddonForm[StoredConfigurationT, Self]] | None = None
     name = ""
+    api_name: str | None = None
+
+    @classmethod
+    def get_api_urls(cls) -> tuple[URLPattern, ...]:
+        """Return named Django URL patterns for this provider's API."""
+        return ()
+
+    @classmethod
+    def api_available(cls, component: Component | None) -> bool:
+        if not cls.api_name:
+            return True
+        return (
+            component is not None
+            and not cls.repo_scope
+            and not component.addon_set.filter(name=cls.name).exists()
+        )
+
     compat: ClassVar[CompatDict] = {}
     multiple = False
     verbose: StrOrPromise = "Base add-on"
@@ -166,6 +184,9 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     repo_scope = False
     needs_component = False
     has_summary = False
+    has_preview = False
+    show_skipped_result = False
+    run_on_configuration = True
     alert: str = ""
     trigger_update = False
     stay_on_create = False
@@ -357,15 +378,19 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         self.instance.save()
         self.post_configure()
 
+    @property
+    def configured_events(self) -> set[AddonEvent]:
+        return self.events
+
     def post_configure(self, run: bool = True) -> None:
         from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level]
 
         self.instance.log_debug("configuring events for %s add-on", self.name)
 
         # Configure events to current status
-        self.instance.configure_events(self.events)
+        self.instance.configure_events(self.configured_events)
 
-        if run:
+        if run and self.run_on_configuration:
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 postconfigure_addon(self.instance.pk, self.instance)
             else:
@@ -781,6 +806,17 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             reason=selected_outcome.reason,
             result=result,
         )
+
+    def preview(
+        self,
+        workflow: object,
+        component_id: int | None,
+        change_id: int | None = None,
+        actor: User | None = None,
+    ) -> dict[str, object]:
+        """Preview an operation without changing application state, if supported."""
+        msg = "This add-on does not support preview."
+        raise NotImplementedError(msg)
 
     def manual_component(
         self,

@@ -49,6 +49,8 @@ if TYPE_CHECKING:
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
 
+MAX_DECLARED_LANGUAGES = 100
+
 ANDROID_CODES = {
     "he": "iw",
     "id": "in",
@@ -255,6 +257,10 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
     @cached_property
     def flags(self) -> Flags:
         """Return flags or typecomments from units."""
+        return self.get_flags()
+
+    def get_flags(self) -> Flags:
+        """Read explicit flags without populating the derived flags cache."""
         flags = Flags()
         for extra in self.get_extra_flags():
             try:
@@ -403,6 +409,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     create_empty_bilingual: bool = False
     bilingual_class: type[TranslationFormat] | None = None
     create_style = "create"
+    # Increment when existing files must be reparsed after a representation change.
+    parse_version: int = 0
     has_multiple_strings: bool = False
     supports_explanation: bool = False
     supports_plural: bool = False
@@ -483,6 +491,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
                 )
             )
         self.ensure_index()
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        """Return languages explicitly declared in the file, without defaults."""
+        return set()
 
     def get_filenames(self):
         if isinstance(self.storefile, str):
@@ -901,6 +913,11 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     ) -> U:
         raise NotImplementedError
 
+    def new_unit_from_unit(self, unit: Unit) -> T:
+        return self.new_unit(
+            unit.context, unit.get_source_plurals(), unit.get_target_plurals()
+        )
+
     def new_unit(
         self,
         key: str,
@@ -1139,9 +1156,9 @@ class BaseExporter:
         self.fieldnames = fieldnames
 
     @staticmethod
-    # ruff: ignore[unused-static-method-argument]
     def supports(translation: Translation) -> bool:
-        return True
+        # TBX alternatives require an exporter that preserves independent terms.
+        return translation.component.file_format != "tbx"
 
     @cached_property
     def storage(self):

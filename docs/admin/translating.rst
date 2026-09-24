@@ -90,6 +90,21 @@ The string flags are also inherited from the :ref:`component-check_flags` at
 :ref:`component` and flags from the translation file (see :doc:`/formats`).
 
 
+Use :guilabel:`Source flags — all languages` to configure every translation of
+a string, and :guilabel:`Translation flags` to configure the current language.
+Translation flags override source values such as ``max-length`` and ``max-size``.
+Removing a local value restores the inherited value. An explicit ``read-only``
+flag on the source applies to every language and cannot be discarded by a
+translation.
+
+The :guilabel:`Tools` menu can mark one translation or all languages read-only.
+When a translation is already read-only, choose
+:guilabel:`Make read-only apply to all languages` to move its flag to the source.
+Removing source-wide read-only preserves independently set translation flags.
+Editing flags requires source editing permission, or glossary editing permission
+for glossary entries, in each affected language.
+
+
 .. seealso::
 
    * :ref:`checks`

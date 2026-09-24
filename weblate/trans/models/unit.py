@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import operator
 import re
+from copy import deepcopy
 from functools import partial, reduce
 from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
@@ -27,7 +28,7 @@ from weblate.auth.data import (
     SELECTION_ALL_PUBLIC,
 )
 from weblate.auth.results import PermissionResult
-from weblate.checks.flags import Flags
+from weblate.checks.flags import Flags, FlagsValidator
 from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
 from weblate.memory.tasks import (
@@ -82,6 +83,7 @@ if TYPE_CHECKING:
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import Translation
     from weblate.utils.stats import StatItem, TranslationStats
+    from weblate.utils.terminology import TermRecord
 
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
@@ -94,6 +96,9 @@ COMPONENT_ORDER_FIELDS = [
     "translation__component__name",
 ]
 UNIT_METADATA_UPDATE_FIELDS = (
+    "details",
+    "source",
+    "target",
     "location",
     "note",
     "position",
@@ -610,12 +615,14 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
 
         for unit in units_to_update:
             del unit.details["disk_state"]
+            unit.details.pop("disk_identity", None)
 
         if units_to_update:
             Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
 
 
 class OldUnit(TypedDict):
+    tbx_terms: dict | None
     state: StringState
     source: str
     target: str
@@ -626,6 +633,8 @@ class OldUnit(TypedDict):
 
 
 class UnitAttributesDict(TypedDict):
+    tbx_terms: dict | None
+    tbx_flags: dict | None
     location: str
     explanation: str
     source_explanation: str
@@ -794,6 +803,10 @@ class Unit(models.Model, LoggerMixin):
         self.plural_map: list[str] = []
         # Data for glossary integration
         self.glossary_terms: list[Unit] | None = None
+        self.matched_sources: tuple[str, ...] | None = None
+        self.glossary_notes: dict[str, list[str]] = {}
+        self.glossary_sources: list[TermRecord] = []
+        self.glossary_targets: list[TermRecord] = []
         self.glossary_positions: tuple[tuple[int, int], ...] = ()
         # Project backup integration
         self.import_data: dict[str, Any] = {}
@@ -946,6 +959,7 @@ class Unit(models.Model, LoggerMixin):
             "source": unit.source,
             "target": unit.target,
             "context": unit.context,
+            "tbx_terms": deepcopy(unit.details.get("tbx_terms")),
             "extra_flags": unit.extra_flags,
             "explanation": unit.explanation,
             "automatically_translated": unit.automatically_translated,
@@ -958,8 +972,10 @@ class Unit(models.Model, LoggerMixin):
         state: int,
         explanation: str,
         automatically_translated: bool,
+        tbx_terms: dict | None = None,
     ) -> dict[str, Any]:
         return {
+            **({"tbx_terms": tbx_terms} if tbx_terms is not None else {}),
             "target": target,
             "state": state,
             "explanation": explanation,
@@ -978,6 +994,7 @@ class Unit(models.Model, LoggerMixin):
         if "disk_state" not in self.details:
             self.details["disk_state"] = self.get_disk_state(
                 target=self.old_unit["target"],
+                tbx_terms=self.old_unit.get("tbx_terms"),
                 state=self.old_unit["state"],
                 explanation=self.old_unit["explanation"],
                 automatically_translated=self.old_unit["automatically_translated"],
@@ -992,6 +1009,7 @@ class Unit(models.Model, LoggerMixin):
         """
         if "disk_state" in self.details:
             del self.details["disk_state"]
+            self.details.pop("disk_identity", None)
             self.save(same_content=True, only_save=True, update_fields=["details"])
 
     def get_comparison_state(self) -> dict[str, Any]:
@@ -1223,7 +1241,14 @@ class Unit(models.Model, LoggerMixin):
         explanation,
         *,
         metadata_updates: dict[int, Unit] | None = None,
+        tbx_terms: dict | None = None,
+        tbx_flags: dict | None = None,
     ) -> None:
+        source_terms = (
+            {"source": tbx_terms["source"], "target": tbx_terms["source"]}
+            if tbx_terms is not None
+            else None
+        )
         source_unit = component.get_source(
             self.id_hash,
             create={
@@ -1235,46 +1260,100 @@ class Unit(models.Model, LoggerMixin):
                 "location": location,
                 "explanation": explanation,
                 "flags": flags.format(),
+                "details": {"tbx_terms": deepcopy(source_terms), "tbx_flags": tbx_flags}
+                if source_terms is not None
+                else {},
             },
         )
         try:
             parsed_flags = Flags(source_unit.flags)
         except ParseException:
             parsed_flags = Flags()
+        disk_state = source_unit.details.get("disk_state")
+        disk_terms_changed = False
+        if source_terms is not None and disk_state is not None:
+            # Another language can refresh metadata while source edits are pending.
+            if source == disk_state["target"]:
+                from weblate.utils.terminology import reconcile_terms  # ruff: ignore[import-outside-top-level]
+
+                disk_terms_changed = disk_state.get("tbx_terms") != source_terms
+                disk_state["tbx_terms"] = deepcopy(source_terms)
+                records = reconcile_terms(
+                    source_terms["source"], split_plural(source_unit.source)
+                )
+                source_terms = {"source": records, "target": deepcopy(records)}
+                source = source_unit.source
+            if explanation == disk_state["explanation"]:
+                explanation = source_unit.explanation
+        same_source = source == source_unit.source
+        same_terms = (
+            source_unit.details.get("tbx_terms") == source_terms
+            and same_source
+            and not disk_terms_changed
+            and source_unit.details.get("tbx_flags") == tbx_flags
+        )
         same_flags = flags == parsed_flags
         same_explanation = explanation == source_unit.explanation
         if (
             not source_unit.source_updated
             and not source_unit.translation.filename
             and (
-                pos != source_unit.position
+                not same_terms
+                or pos != source_unit.position
                 or location != source_unit.location
                 or not same_flags
                 or note != source_unit.note
                 or explanation != source_unit.explanation
             )
         ):
+            source_unit.source = source_unit.target = source
+            if source_terms is None:
+                source_unit.details.pop("tbx_terms", None)
+                source_unit.details.pop("tbx_flags", None)
+            else:
+                source_unit.details["tbx_terms"] = source_terms
+                source_unit.details["tbx_flags"] = tbx_flags
             source_unit.position = pos
             source_unit.source_updated = True
             source_unit.location = location
             source_unit.explanation = explanation
             source_unit.flags = flags.format()
             source_unit.note = note
-            if same_flags and same_explanation and metadata_updates is not None:
+            if (
+                same_flags
+                and same_explanation
+                and same_source
+                and metadata_updates is not None
+            ):
                 metadata_updates[source_unit.pk] = source_unit
             else:
                 source_unit.save(
                     update_fields=[
+                        "source",
+                        "target",
+                        "details",
                         "position",
                         "location",
                         "explanation",
                         "flags",
                         "note",
                     ],
-                    same_content=True,
-                    run_checks=False,
-                    only_save=same_flags,
+                    same_content=same_source,
+                    run_checks=not same_source,
+                    only_save=same_flags and same_source,
                 )
+                if source_terms is not None and not same_source:
+                    # Unchanged sibling files will not be reparsed. Keep their
+                    # searchable source and derived checks/counts in sync too.
+                    siblings = source_unit.unit_set.exclude(
+                        pk__in=[self.pk, source_unit.pk]
+                    )
+                    for sibling in siblings.prefetch().prefetch_bulk():
+                        sibling.translation.component = component
+                        sibling.source_unit = source_unit
+                        sibling.source = source
+                        sibling.save(update_fields=["source"], sync_terminology=False)
+                        sibling.translation.invalidate_cache()
         self.source_unit = source_unit
 
     def store_unit_attributes(
@@ -1332,6 +1411,8 @@ class Unit(models.Model, LoggerMixin):
         context = unit.context
         self.check_valid([context])
         return {
+            "tbx_terms": getattr(unit, "tbx_terms", None),
+            "tbx_flags": getattr(unit, "tbx_flags", None),
             "location": location,
             "explanation": explanation,
             "source_explanation": source_explanation,
@@ -1369,6 +1450,7 @@ class Unit(models.Model, LoggerMixin):
             msg = "store_unit_attributes has to be called first"
             raise ValueError(msg)
         unit_attributes = self.unit_attributes
+        tbx_terms = deepcopy(unit_attributes["tbx_terms"])
         location = unit_attributes["location"]
         explanation = unit_attributes["explanation"]
         source_explanation = unit_attributes["source_explanation"]
@@ -1401,6 +1483,8 @@ class Unit(models.Model, LoggerMixin):
                 flags,
                 source_explanation,
                 metadata_updates=metadata_updates,
+                tbx_terms=tbx_terms,
+                tbx_flags=unit_attributes["tbx_flags"],
             )
 
         # Get comparison state (disk_state if exists, otherwise current state)
@@ -1464,7 +1548,10 @@ class Unit(models.Model, LoggerMixin):
         )
 
         same_metadata = (
-            location == self.location
+            tbx_terms
+            == comparison_state.get("tbx_terms", self.details.get("tbx_terms"))
+            and self.details.get("tbx_flags") == unit_attributes["tbx_flags"]
+            and location == self.location
             and note == self.note
             and pos == self.position
             and automatically_translated == self.automatically_translated
@@ -1499,15 +1586,40 @@ class Unit(models.Model, LoggerMixin):
         if same_data and same_metadata:
             return
 
+        preserve_pending_target = (
+            tbx_terms is not None
+            and "disk_state" in self.details
+            and not created
+            and same_target
+            and same_state
+            and same_explanation
+        )
+
+        # Store imported terminology metadata without losing pending text edits.
+        if tbx_terms is None:
+            self.details.pop("tbx_terms", None)
+            self.details.pop("tbx_flags", None)
+        else:
+            if (same_data or preserve_pending_target) and "disk_state" in self.details:
+                from weblate.utils.terminology import reconcile_terms  # ruff: ignore[import-outside-top-level]
+
+                self.details["disk_state"]["tbx_terms"] = deepcopy(tbx_terms)
+                tbx_terms["target"] = reconcile_terms(
+                    tbx_terms["target"], split_plural(self.target)
+                )
+            self.details["tbx_terms"] = tbx_terms
+            self.details["tbx_flags"] = unit_attributes["tbx_flags"]
         # Store updated values
         self.original_state = original_state
         self.position = pos
         self.location = location
-        self.explanation = explanation
+        if (not same_data and not preserve_pending_target) or not supports_explanation:
+            self.explanation = explanation
         self.flags = flags.format()
         self.source = source
-        self.target = target
-        self.state = state
+        if not same_data and not preserve_pending_target:
+            self.target = target
+            self.state = state
         self.context = context
         self.note = note
         self.previous_source = previous_source
@@ -1521,6 +1633,7 @@ class Unit(models.Model, LoggerMixin):
                 metadata_updates[self.pk] = self
             else:
                 update_fields = [
+                    "details",
                     "location",
                     "note",
                     "position",
@@ -1551,9 +1664,10 @@ class Unit(models.Model, LoggerMixin):
             same_content=same_source and same_target,
             run_checks=not same_source or not same_target or not same_state,
         )
-        self.clear_disk_state()
+        if not preserve_pending_target:
+            self.clear_disk_state()
         # Remove pending changes for existing units
-        if not created:
+        if not created and not preserve_pending_target:
             PendingUnitChange.objects.filter(unit=self).delete()
 
         if pending:
@@ -1630,10 +1744,36 @@ class Unit(models.Model, LoggerMixin):
                     same_content=True, run_checks=False, update_fields=["priority"]
                 )
 
+    @property
+    def tbx_terms(self) -> dict:
+        """Imported metadata aligned with the current alternatives."""
+        if "tbx_terms" not in self.details:
+            return {}
+        from weblate.utils.terminology import term_records  # ruff: ignore[import-outside-top-level]
+
+        source_unit = self.source_unit or self
+        return {
+            "source": term_records(source_unit, source=True),
+            "target": term_records(self),
+        }
+
     @cached_property
     def is_plural(self) -> bool:
         """Check whether message is plural."""
         return is_plural(self.source) or is_plural(self.target)
+
+    @property
+    def is_multivalue(self) -> bool:
+        """Whether the current string contains independent alternatives."""
+        return self.has_multiple_values(
+            split_plural(self.source), split_plural(self.target)
+        )
+
+    def has_multiple_values(self, sources: list[str], targets: list[str]) -> bool:
+        """Check actual or proposed values for independent alternatives."""
+        return self.translation.component.is_multivalue and (
+            len(sources) > 1 or len(targets) > 1
+        )
 
     @cached_property
     def is_source(self) -> bool:
@@ -1824,6 +1964,8 @@ class Unit(models.Model, LoggerMixin):
             "explanation",
             "automatically_translated",
         ]
+        if "tbx_terms" in self.details:
+            update_fields.append("details")
         if self.is_source and not self.translation.component.intermediate:
             self.source = self.target
             update_fields.extend(["source"])
@@ -2160,18 +2302,15 @@ class Unit(models.Model, LoggerMixin):
     def all_comments(self) -> models.QuerySet[Comment]:
         """Return list of target comments."""
         if self.is_source:
-            return (
-                Comment.objects.filter(unit__source_unit=self)
-                .prefetch()
-                .prefetch_related(
-                    "unit__translation__language",
-                    "unit__translation__component__project",
-                )
-                .order()
-            )
+            comments = Comment.objects.filter(unit__source_unit=self)
+        else:
+            comments = self.comment_set.all() | self.source_unit.comment_set.all()
         return (
-            (self.comment_set.all() | self.source_unit.comment_set.all())
-            .prefetch()
+            comments.prefetch()
+            .prefetch_related(
+                "unit__translation__language",
+                "unit__translation__component__project",
+            )
             .order()
         )
 
@@ -2422,6 +2561,13 @@ class Unit(models.Model, LoggerMixin):
         else:
             old_unit = self
         self.store_old_unit(old_unit)
+        if "disk_identity" in old_unit.details:
+            # A source edit may have happened since this editor loaded the unit.
+            self.source = old_unit.source
+            self.context = old_unit.context
+            self.id_hash = old_unit.id_hash
+            self.details = deepcopy(old_unit.details)
+            self.__dict__.pop("content_hash", None)
 
         # Handle simple string units
         new_target_list = [new_target] if isinstance(new_target, str) else new_target
@@ -2442,6 +2588,12 @@ class Unit(models.Model, LoggerMixin):
             new_target_list, self.fixups = fix_target(new_target_list, self)
 
         # Update unit and save it
+        if "tbx_terms" in self.details:
+            from weblate.utils.terminology import reconcile_terms  # ruff: ignore[import-outside-top-level]
+
+            self.details["tbx_terms"]["target"] = reconcile_terms(
+                self.details["tbx_terms"]["target"], new_target_list
+            )
         self.target = join_plural(new_target_list)
         not_empty = any(new_target_list)
 
@@ -2493,11 +2645,11 @@ class Unit(models.Model, LoggerMixin):
                 # if already saved update in DB else deferred via bulk create
                 if self.pending_unit_change.pk is not None:
                     self.pending_unit_change.save(update_fields=["state"])
-            elif saved:
-                # There should be a pending unit if saved
-                msg = "Updating unit, but pending unit change is not set!"
-                raise ValueError(msg)
             else:
+                if saved:
+                    # There should be a pending unit if saved
+                    msg = "Updating unit, but pending unit change is not set!"
+                    raise ValueError(msg)
                 # Generate pending unit change otherwise
                 PendingUnitChange.store_unit_change(unit=self, author=author)
                 # Indicate as saved
@@ -2507,32 +2659,72 @@ class Unit(models.Model, LoggerMixin):
 
         return saved
 
-    def get_all_flags(self, override: Flags | str | None = None) -> Flags:
-        """Return union of own and component flags."""
+    def get_inherited_flags(self, override: Flags | str | None = None) -> Flags:
+        """Return translation and file flags, excluding manually set unit flags."""
         # Validate flags from the unit to avoid crash
         try:
             unit_flags = Flags(override or self.flags)
         except ParseException:
             unit_flags = None
 
+        return Flags(self.translation.all_flags, unit_flags)
+
+    def get_all_flags(self, override: Flags | str | None = None) -> Flags:
+        """Return inherited flags with source and translation overrides."""
         # Ordering is important here as that defines overriding
-        return Flags(
-            # Base on translation + component flags
-            self.translation.all_flags,
-            # Apply unit flags from the file format
-            unit_flags,
+        flags = Flags(
+            self.get_inherited_flags(override),
             # The source_unit is None before saving the object for the first time
             getattr(self.source_unit, "extra_flags", ""),
             # This unit flag overrides
             self.extra_flags,
         )
 
+        # Explicit source-wide read-only cannot be discarded by a translation.
+        # Do not inherit source translation restrictions imposed by its format.
+        if not self.is_source and "read-only" in Flags(
+            getattr(self.source_unit, "extra_flags", "")
+        ):
+            flags.merge("read-only")
+        return flags
+
     @cached_property
     def all_flags(self) -> Flags:
         return self.get_all_flags()
 
+    @cached_property
+    def untranslatable(self) -> bool:
+        """
+        Whether the string itself carries the read-only flag.
+
+        Unlike checking :attr:`all_flags`, this ignores the flag inherited from
+        the translation or component, which only means the strings cannot be
+        edited there (for example source strings of a bilingual file).
+        Glossaries use this to tell untranslatable terms apart.
+        """
+        # The source_unit is None before saving the object for the first time
+        source_flags = Flags(getattr(self.source_unit, "extra_flags", ""))
+
+        # Explicit source-wide read-only cannot be discarded by a translation.
+        if not self.is_source and "read-only" in source_flags:
+            return True
+
+        # Validate flags from the unit to avoid crash
+        try:
+            unit_flags = Flags(self.flags)
+        except ParseException:
+            unit_flags = None
+
+        return "read-only" in Flags(
+            # Apply unit flags from the file format
+            unit_flags,
+            source_flags,
+            # This unit flag overrides
+            self.extra_flags,
+        )
+
     def get_unit_flags(self) -> Flags:
-        return Flags(self.extra_flags)
+        return FlagsValidator(self.extra_flags)
 
     @cached_property
     def edit_mode(self) -> str:
@@ -2684,63 +2876,99 @@ class Unit(models.Model, LoggerMixin):
         unit = self if self.is_source else self.source_unit
         return unit.labels.all()
 
-    def get_flag_actions(self):
-        flags = self.all_flags
-        translation = self.translation
-        component = translation.component
+    def get_flag_actions(
+        self, user: User | None = None
+    ) -> list[tuple[str, str, str, str]]:
+        """Return flag operations with explicit source or translation scope."""
         result = []
-        if self.is_source:
-            if "read-only" in flags:
-                if (
-                    "read-only" not in translation.all_flags
-                    and "read-only" not in component.all_flags
-                ):
-                    result.append(
-                        ("removeflag", "read-only", gettext("Unmark as read-only"))
-                    )
-            else:
-                result.append(("addflag", "read-only", gettext("Mark as read-only")))
-        if component.is_glossary:
-            if "read-only" in self.source_unit.get_unit_flags():
-                result.append(
-                    ("removeflag", "read-only", gettext("Unmark as untranslatable"))
+        source = self.source_unit
+        glossary = self.translation.component.is_glossary
+        source_readonly = "read-only" in source.get_unit_flags()
+        local_readonly = "read-only" in self.get_unit_flags()
+
+        def add(action: str, flag: str, label: str, scope: str) -> None:
+            targets = [source] if scope == "source" else [self]
+            if action == "promoteflag":
+                targets = [source, self]
+            if (
+                scope == "source"
+                and flag == "read-only"
+                and "read-only" in self.translation.component.all_flags
+            ):
+                return
+            if user is None or all(
+                user.has_perm("meta:unit.flag", unit.translation) for unit in targets
+            ):
+                result.append((action, flag, label, scope))
+
+        if source_readonly:
+            # Only offer removal when removing the stored flag can unlock it.
+            if "read-only" not in self.translation.component.all_flags:
+                add(
+                    "removeflag",
+                    "read-only",
+                    gettext("Unmark as untranslatable for all languages")
+                    if glossary
+                    else gettext("Unmark as read-only for all languages"),
+                    "source",
                 )
-            else:
-                result.append(
-                    ("addflag", "read-only", gettext("Mark as untranslatable"))
+        elif not self.is_source and local_readonly:
+            if "read-only" not in self.get_inherited_flags():
+                add(
+                    "removeflag",
+                    "read-only",
+                    gettext("Unmark this translation as untranslatable")
+                    if glossary
+                    else gettext("Unmark this translation as read-only"),
+                    "translation",
                 )
-            if "forbidden" in flags:
-                result.append(
-                    (
-                        "removeflag",
-                        "forbidden",
-                        gettext("Unmark as forbidden translation"),
-                    )
+            add(
+                "promoteflag",
+                "read-only",
+                gettext("Make untranslatable apply to all languages")
+                if glossary
+                else gettext("Make read-only apply to all languages"),
+                "source",
+            )
+        else:
+            if not self.is_source and "read-only" not in self.all_flags:
+                add(
+                    "addflag",
+                    "read-only",
+                    gettext("Mark this translation as untranslatable")
+                    if glossary
+                    else gettext("Mark this translation as read-only"),
+                    "translation",
                 )
-            else:
-                result.append(
-                    (
-                        "addflag",
-                        "forbidden",
-                        gettext("Mark as forbidden translation"),
-                    )
-                )
-            if "terminology" in flags:
-                result.append(
-                    (
-                        "removeflag",
-                        "terminology",
-                        gettext("Unmark as terminology"),
-                    )
-                )
-            else:
-                result.append(
-                    (
-                        "addflag",
-                        "terminology",
-                        gettext("Mark as terminology"),
-                    )
-                )
+            add(
+                "addflag",
+                "read-only",
+                gettext("Mark as untranslatable for all languages")
+                if glossary
+                else gettext("Mark as read-only for all languages"),
+                "source",
+            )
+        if glossary:
+            for flag, target, scope, add_label, remove_label in (
+                (
+                    "forbidden",
+                    self,
+                    "source" if self.is_source else "translation",
+                    gettext("Mark as forbidden translation"),
+                    gettext("Unmark as forbidden translation"),
+                ),
+                (
+                    "terminology",
+                    source,
+                    "source",
+                    gettext("Mark as terminology for all languages"),
+                    gettext("Unmark as terminology for all languages"),
+                ),
+            ):
+                if flag in target.get_unit_flags():
+                    add("removeflag", flag, remove_label, scope)
+                elif flag not in target.all_flags:
+                    add("addflag", flag, add_label, scope)
         return result
 
     def invalidate_related_cache(self) -> None:
@@ -2811,13 +3039,24 @@ class Unit(models.Model, LoggerMixin):
         if old == extra_flags:
             return
         self.extra_flags = extra_flags
+        self.__dict__.pop("all_flags", None)
+        self.__dict__.pop("untranslatable", None)
         units: Iterable[Unit] = []
         if self.is_source:
             units = self.unit_set.select_for_update().exclude(id=self.id)
         # Always generate change for self
         units = [*units, self]
         if save:
-            self.save(update_fields=["extra_flags"], same_content=True)
+            self.save(
+                update_fields=["extra_flags"], same_content=True, run_checks=False
+            )
+            if not self.is_source:
+                self.update_state()
+                self.update_priority()
+                self.run_checks()
+                self.translation.invalidate_cache()
+            else:
+                self.run_checks()
 
         for unit in units:
             unit.generate_change(

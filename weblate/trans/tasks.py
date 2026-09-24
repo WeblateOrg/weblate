@@ -25,7 +25,7 @@ from django.contrib.messages.storage.cookie import CookieStorage
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import Exists, F, OuterRef, Q
+from django.db.models import Exists, F, OuterRef, Prefetch, Q
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext, ngettext, override
@@ -34,6 +34,7 @@ from translate.storage.base import ParseError as TranslateParseError
 from weblate.accounts.utils import remove_user
 from weblate.addons.events import AddonActivityLogReason, AddonActivityLogStatus
 from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
+from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
@@ -981,7 +982,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
             empty_dir = False
             # Possibly a lock file
             continue
-        if root_is_known_container and path.name in VCS_METADATA_DIRS:
+        if root_is_known_container and path.name.casefold() in VCS_METADATA_DIRS:
             empty_dir = False
             continue
 
@@ -1554,28 +1555,21 @@ def auto_translate_component(
 ) -> dict[str, Any]:
     component_obj = Component.objects.get(pk=component_id)
     user = User.objects.get(pk=user_id) if user_id else None
-    auto = BatchAutoTranslate(
+    from weblate.trans.automation import automatic_translation  # ruff: ignore[import-outside-top-level]
+
+    result = automatic_translation(
         component_obj,
-        user=user,
-        q=q,
-        mode=mode,
-        component_wide=True,
+        {
+            "mode": mode,
+            "q": q,
+            "auto_source": auto_source,
+            "engines": engines,
+            "threshold": threshold,
+            "component": source_component_id,
+        },
+        user,
         enforce_permissions=enforce_permissions,
     )
-    message = auto.perform(
-        auto_source=auto_source,
-        engines=engines,
-        threshold=threshold,
-        source_component_ids=(
-            [source_component_id] if source_component_id is not None else None
-        ),
-    )
-    component_obj.run_batched_checks()
-    result = {
-        "component": component_obj.id,
-        "message": message,
-        "warnings": auto.get_warnings(),
-    }
     return store_auto_translate_activity_log(activity_log_id, result)
 
 
@@ -1629,6 +1623,9 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
 
     component.start_batched_checks()
     source_translation = component.source_translation
+    # Share source data across target translations. Fetch sources again for the
+    # final check pass so it sees changes made while processing targets.
+    source_units = {unit.pk: unit for unit in source_translation.unit_set.all()}
     # Source translation as last
     translations = (
         *component.translation_set.exclude(pk=source_translation.pk).select_related(
@@ -1637,12 +1634,20 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
         source_translation,
     )
     for translation in translations:
-        units = translation.unit_set.prefetch_all_checks()
+        units = translation.unit_set.prefetch_related(
+            Prefetch("check_set", queryset=Check.objects.order(), to_attr="all_checks")
+        )
         if update_state:
             units = units.select_for_update()
         for unit in units:
-            # Reuse object to avoid fetching from the database
-            unit.source_unit.translation = source_translation
+            if not unit.is_source:
+                try:
+                    unit.source_unit = source_units[unit.source_unit_id]
+                except KeyError:
+                    # A source can be added after the initial snapshot. Let the
+                    # relation fetch it, then share it with later translations.
+                    unit.source_unit.translation = source_translation
+                    source_units[unit.source_unit_id] = unit.source_unit
             # Mark this as a batch update to avoid stats update on each unit
             unit.is_batch_update = True
             if update_state:

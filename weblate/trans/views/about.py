@@ -4,9 +4,13 @@
 
 from __future__ import annotations
 
+from urllib.parse import urlsplit
+
 import httpx2
 from django.core.cache import cache
 from django.db.models import Sum
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext, gettext_lazy
 from django.views.generic import TemplateView
 
@@ -130,4 +134,13 @@ class DonateView(AboutView):
 
     def page_context(self, context) -> None:
         context["title"] = gettext("Support Weblate")
+        return_url = self.request.session.pop("support_return_url", "")
+        if (
+            not return_url.startswith("/")
+            or return_url.startswith("//")
+            or not url_has_allowed_host_and_scheme(return_url, allowed_hosts=set())
+            or urlsplit(return_url).path == reverse("donate")
+        ):
+            return_url = reverse("home")
+        context["support_return_url"] = return_url
         context.update(self.get_stats())

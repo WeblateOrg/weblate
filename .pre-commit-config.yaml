@@ -43,7 +43,7 @@ repos:
     - --exit-non-zero-on-fix
   - id: ruff-format
 - repo: https://github.com/adamtheturtle/doccmd-pre-commit
-  rev: v2026.9.1
+  rev: v2026.9.16.1
   hooks:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
@@ -78,19 +78,19 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.5.13
+  rev: v2.5.14
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.5.13'
+    - '@biomejs/biome@2.5.14'
     language: node
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: '0.26'
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/djlint/djLint
-  rev: v1.45.2
+  rev: v1.46.1
   hooks:
   - id: djlint-reformat-django
     types_or: [html, text]
@@ -189,7 +189,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.50.1
+  rev: v1.50.2
   hooks:
   - id: typos
     args: []
@@ -212,7 +212,7 @@ repos:
     env:
       KINGFISHER_VERSION: v2.2.0
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.2.73
+  rev: v0.2.75
   hooks:
   - id: rumdl
   - id: rumdl-fmt

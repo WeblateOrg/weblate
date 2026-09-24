@@ -14,12 +14,6 @@ You can use it directly or by :ref:`wlc`.
 The API is also documented using OpenAPI 3.1 on the ``/api/schema/`` URL, you
 can browse at ``/api/docs/``.
 
-.. note::
-
-   OpenAPI is available as a feature preview. The documentation is most likely
-   incomplete at this point and subject to change. Please consult the
-   documentation below for more detailed information on the API.
-
 .. _api-generic:
 
 Authentication and generic parameters
@@ -2686,6 +2680,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
+    :form boolean ignore_language: Ignore a mismatch between the declared file language and the translation language (defaults to ``false``), see :ref:`upload-ignore_language`
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
     :form file file: Uploaded file
     :form string author_email: Author e-mail
@@ -2903,8 +2898,9 @@ and XLIFF.
     :>json int num_words: number of source words
     :>json int priority: translation priority; 100 is default
     :>json int id: unit identifier
+    :>json object tbx_terms: Read-only TBX metadata with source and target alternative lists. Each record contains text, optional ID, administrative status, and notes with text, origin, category, and scope (concept, language, or term). Empty for other formats.
     :>json string explanation: String explanation, available on source units, see :ref:`additional`
-    :>json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :>json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :>json string web_url: URL where the unit can be edited
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json boolean pending: whether the unit is pending for write
@@ -2922,7 +2918,7 @@ and XLIFF.
     :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
-    :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :<json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :<json array labels: labels, available on source units
 
 .. http:put:: /api/units/(int:id)/
@@ -2936,8 +2932,31 @@ and XLIFF.
     :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
-    :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :<json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :<json array labels: labels, available on source units
+
+.. http:post:: /api/units/(int:id)/source/
+
+    Edit the source string associated with a unit, updating its existing
+    translations within the component. Requires source-editing permission and
+    :ref:`component-manage_units`. See :ref:`edit-source` for format support
+    and restrictions.
+
+    :param int id: unit ID in any language
+    :<json integer content_hash: current content hash of the source unit, required to detect stale edits
+    :<json array source: replacement source forms, preserving the existing number of forms; optional
+    :<json string context: replacement key or context; optional
+    :<json string explanation: source explanation; optional
+    :>json object: updated source unit, in the same format as :http:get:`/api/units/(int:id)/`
+    :statuscode 200: source updated, or the request made no changes
+    :statuscode 400: invalid edit, conflicting key, unsupported operation, or stale content hash
+    :statuscode 403: editing is not permitted
+    :statuscode 423: component is busy; retry later
+
+    Omitted fields remain unchanged. Translation text and associated history
+    are retained. Source-text changes mark translations as needing editing;
+    key-only changes preserve translation states. Files are updated by the
+    normal pending-change queue, respecting the project's commit policy.
 
 .. http:delete:: /api/units/(int:id)/
 
@@ -3255,6 +3274,56 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
 
+.. _kotlin-sdk-build-api:
+
+Kotlin SDK builds
++++++++++++++++++
+
+.. warning::
+
+   The Kotlin SDK API is in beta. No compatibility is guaranteed until the
+   final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and
+   generated resource formats may change without backward compatibility.
+
+The API contract is also documented in the OpenAPI schema at ``/api/schema/``.
+The registration metadata has a :download:`JSON Schema
+</specs/schemas/weblate-kotlin-sdk-build.schema.json>`.
+See :ref:`addon-weblate.cdn.kotlin` for add-on installation, lifecycle settings, and the
+CDN manifest contract.
+
+.. http:post:: /api/components/(string:project)/(string:component)/addons/kotlin-sdk/builds/
+
+    Register resource IDs for :ref:`addon-weblate.cdn.kotlin`. Requires the
+    :guilabel:`Kotlin SDK CDN` add-on (``weblate.cdn.kotlin``) installed directly
+    on the component and ``component.edit`` permission. Send JSON with:
+
+    :<json integer schemaVersion: Metadata version, currently 1; defaults to 1.
+    :<json string packageName: Android application package name, at most 127 characters.
+    :<json integer versionCode: Android version code between 1 and 2100000000.
+    :<json object strings: String resource names mapped to hexadecimal IDs, such as ``0x7f090003``; defaults to an empty object.
+    :<json object plurals: Plural resource names mapped to hexadecimal IDs; defaults to an empty object. Quantities and translated values come from Weblate.
+
+    Include at least one resource across the two maps. The request limit is
+    5 MiB and 100000 combined resources. IDs must belong to application package
+    ``0x7f`` and use one distinct type ID per resource kind. Duplicate IDs,
+    invalid names, unknown fields, and unsupported schema versions are rejected.
+    The same name can occur in both maps with different IDs.
+
+    A new registration returns 202; an identical existing registration returns
+    200. Conflicting metadata for an existing package/version returns 409.
+    The response includes ``packageName``, ``versionCode``, ``status``, ``error``,
+    ``status_url``, and ``manifest_url``. Publication is asynchronous; the manifest
+    need not exist when registration returns.
+
+.. http:get:: /api/components/(string:project)/(string:component)/addons/kotlin-sdk/builds/(string:package)/(int:version)/
+
+    Return the registration response fields for an existing build. Requires the
+    :guilabel:`Kotlin SDK CDN` add-on (``weblate.cdn.kotlin``) installed directly
+    on the component and ``component.edit`` permission. Status is ``pending``,
+    ``published``, ``failed``, or ``retired``. A failed replacement may still have
+    a previous successful manifest. Missing installations or registrations
+    return 404.
+
 .. _addons-api:
 
 Add-ons
@@ -3332,6 +3401,22 @@ Add-ons
 
     :param id: Add-on ID
     :type id: int
+
+.. http:post:: /api/addons/(int:id)/preview/
+
+    Preview an :ref:`automation-workflows` definition without executing actions.
+    Requires the same management permission as configuring the add-on. Other
+    add-on types reject this operation.
+
+    :param id: Add-on ID.
+    :json object workflow: Workflow definition, using the same structure as configuration.
+    :json int component: Component ID within the installed add-on's scope.
+    :json int change: Optional change ID belonging to that component.
+
+    Returns ``workflow``, execution ``context``, a ``trace`` of evaluated conditions
+    and planned or conditional actions, and ``preview: true``. Configuration and
+    scope errors return HTTP 400. Preview does not save configuration or create an
+    activity log.
 
 
 

@@ -59,10 +59,14 @@
       if (!raw) {
         return;
       }
-      for (const pluralForm of raw.plural_forms) {
-        const area = this.translationArea[pluralForm];
-        if (area) {
-          replaceValue(area, raw.text);
+      if (raw.multivalue) {
+        WLT.Editor.insertEditor(raw.text, row, true);
+      } else {
+        for (const pluralForm of raw.plural_forms) {
+          const area = this.translationArea[pluralForm];
+          if (area) {
+            replaceValue(area, raw.text);
+          }
         }
       }
       mark(this.translationForm);
@@ -587,9 +591,10 @@
         .then((data) => {
           if (dismissAll) {
             const { extra_flags, all_flags } = data;
-            const extraFlags = document.getElementById("id_extra_flags");
+            const extraFlags = document.getElementById("id_source_flags");
             if (extraFlags) {
               extraFlags.value = extra_flags;
+              extraFlags.dispatchEvent(new Event("change", { bubbles: true }));
             }
             const allFlags = document.getElementById("unit_all_flags");
             if (allFlags) {
@@ -719,6 +724,13 @@
   };
 
   FullEditor.prototype.initGlossary = function () {
+    delegate(this.editors, "click", ".glossary-copy", (e) => {
+      const button = e.target.closest(".glossary-copy");
+      if (!button.disabled) {
+        WLT.Editor.insertEditor(button.dataset.glossaryText, button);
+      }
+    });
+
     /* Copy from glossary */
     delegate(this.editors, "click", ".glossary-embed", (e) => {
       const currentTarget = e.target.closest(".glossary-embed");

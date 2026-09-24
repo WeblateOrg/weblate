@@ -79,6 +79,187 @@ class AutoTranslationTest(ViewTestCase):
                 allow_translation_propagation=False,
             )
 
+    def prepare_restricted_source(self) -> tuple[Translation, Unit, Unit, Group]:
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        group = Group.objects.create(
+            name="Restricted automatic translation",
+            language_selection=SELECTION_ALL,
+        )
+        group.components.add(self.component2)
+        group.roles.add(
+            Role.objects.get(name="Translate"),
+            Role.objects.get(name="Automatic translation"),
+        )
+        self.user.groups.add(group)
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+
+        source_unit = self.get_unit("Hello, world!\n")
+        Unit.objects.filter(pk=source_unit.pk).update(
+            target="Restricted automatic translation\n", state=STATE_TRANSLATED
+        )
+        source_unit.refresh_from_db()
+        target_translation = self.component2.translation_set.get(language_code="cs")
+        target_unit = self.get_unit("Hello, world!\n", translation=target_translation)
+        Unit.objects.filter(pk=target_unit.pk).update(target="", state=STATE_EMPTY)
+        target_unit.refresh_from_db()
+        return target_translation, source_unit, target_unit, group
+
+    def test_restricted_other_component_sources(self) -> None:
+        target_translation, source_unit, target_unit, group = (
+            self.prepare_restricted_source()
+        )
+        auto = AutoTranslate(
+            translation=target_translation,
+            user=self.user,
+            q="state:<translated",
+            mode="translate",
+        )
+
+        with self.assertRaises(Component.DoesNotExist):
+            auto.process_others([self.component.pk])
+
+        auto.process_others(None)
+        self.assertEqual(auto.updated, 0)
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, "")
+
+        group.components.add(self.component)
+        self.user.clear_permissions_cache()
+        auto.process_others([self.component.pk])
+        self.assertEqual(auto.updated, 1)
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, source_unit.target)
+
+    def test_rechecks_restricted_source_access_during_execution(self) -> None:
+        target_translation, _source_unit, target_unit, group = (
+            self.prepare_restricted_source()
+        )
+        group.components.add(self.component)
+        self.user.clear_permissions_cache()
+        self.assertIn(self.component.pk, self.user.component_permissions)
+        auto = AutoTranslate(
+            translation=target_translation,
+            user=self.user,
+            q="state:<translated",
+            mode="translate",
+        )
+
+        group.components.remove(self.component)
+        self.user.clear_permissions_cache()
+        message = auto.perform(
+            auto_source="others",
+            source_component_ids=[self.component.pk],
+            engines=[],
+            threshold=80,
+        )
+
+        self.assertEqual(message, "Automatic translation failed: Component not found.")
+        self.assertEqual(auto.failure_message, message)
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, "")
+
+    def test_trusted_restricted_other_component_sources(self) -> None:
+        target_translation, source_unit, target_unit, _group = (
+            self.prepare_restricted_source()
+        )
+        for user, enforce_permissions in ((None, True), (self.user, False)):
+            with self.subTest(user=user, enforce_permissions=enforce_permissions):
+                Unit.objects.filter(pk=target_unit.pk).update(
+                    target="", state=STATE_EMPTY
+                )
+                auto = AutoTranslate(
+                    translation=target_translation,
+                    user=user,
+                    q="state:<translated",
+                    mode="translate",
+                    enforce_permissions=enforce_permissions,
+                )
+
+                auto.process_others([self.component.pk])
+
+                self.assertEqual(auto.updated, 1)
+                target_unit.refresh_from_db()
+                self.assertEqual(target_unit.target, source_unit.target)
+
+    def test_auto_form_filters_restricted_sources(self) -> None:
+        _target_translation, _source_unit, _target_unit, _group = (
+            self.prepare_restricted_source()
+        )
+        workspace = Workspace.objects.create(name="Restricted source workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+
+        addon = AutoTranslateAddon(Addon(component=self.component2))
+        for obj, addon_form in (
+            (self.component2, False),
+            (self.project, False),
+            (workspace, False),
+            (self.component2, True),
+        ):
+            with self.subTest(scope=type(obj).__name__, addon=addon_form):
+                form = (
+                    AutoAddonForm(self.user, addon)
+                    if addon_form
+                    else AutoForm(obj, self.user)
+                )
+                self.assertNotIn(
+                    self.component.pk,
+                    {value for value, _label in form.fields["component"].choices},
+                )
+
+        data = {
+            "mode": "translate",
+            "q": "state:<translated",
+            "auto_source": "others",
+            "threshold": "80",
+        }
+        with patch.object(AutoForm, "COMPONENT_CHOICE_LIMIT", 1):
+            for obj, reference in (
+                (self.component2, str(self.component.pk)),
+                (self.component2, self.component.slug),
+                (self.component2, self.component.full_slug),
+                (self.project, str(self.component.pk)),
+                (self.project, self.component.slug),
+                (self.project, self.component.full_slug),
+            ):
+                with self.subTest(scope=type(obj).__name__, reference=reference):
+                    form = AutoForm(obj, self.user, data | {"component": reference})
+                    self.assertFalse(form.is_valid())
+                    self.assertIn("component", form.errors)
+
+    def test_auto_translation_view_skips_restricted_sources(self) -> None:
+        target_translation, _source_unit, target_unit, _group = (
+            self.prepare_restricted_source()
+        )
+        url = reverse(
+            "auto_translation", kwargs={"path": target_translation.get_url_path()}
+        )
+        data = {
+            "mode": "translate",
+            "q": "state:<translated",
+            "auto_source": "others",
+            "threshold": "80",
+        }
+
+        response = self.client.post(url, data, follow=True)
+
+        self.assertContains(
+            response, "Automatic translation completed, no strings were updated."
+        )
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, "")
+
+        response = self.client.post(
+            url, data | {"component": str(self.component.pk)}, follow=True
+        )
+
+        self.assertContains(response, "Select a valid choice.")
+        target_unit.refresh_from_db()
+        self.assertEqual(target_unit.target, "")
+
     def create_autotranslate_activity_log(
         self, component: Component | None = None
     ) -> AddonActivityLog:

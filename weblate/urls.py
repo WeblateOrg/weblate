@@ -169,7 +169,7 @@ real_patterns = [
     ),
     path(
         "browse/<object_path:path>/",
-        weblate.trans.views.edit.browse,
+        weblate.trans.views.search.browse,
         name="browse",
     ),
     path(
@@ -196,6 +196,11 @@ real_patterns = [
         "upload/<object_path:path>/",
         weblate.trans.views.files.upload,
         name="upload",
+    ),
+    path(
+        "unit/<int:unit_id>/source/",
+        weblate.trans.views.edit.edit_source_unit,
+        name="edit-source-unit",
     ),
     path(
         "unit/<int:unit_id>/delete/",
@@ -915,6 +920,11 @@ real_patterns = [
         "js/translations/<int:unit_id>/",
         weblate.trans.views.js.get_unit_translations,
         name="js-unit-translations",
+    ),
+    path(
+        "js/markdown-preview/",
+        weblate.trans.views.js.markdown_preview,
+        name="js-markdown-preview",
     ),
     path(
         "js/access/<name:project>/user/<int:user_id>/groups/",
