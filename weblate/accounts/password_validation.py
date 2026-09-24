@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
@@ -9,11 +13,14 @@ from django.utils.translation import gettext, ngettext
 
 from weblate.accounts.models import AuditLog
 
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
 
 class CharsPasswordValidator:
     """Validate whether the password is not only whitespace or single char."""
 
-    def validate(self, password, user=None) -> None:
+    def validate(self, password: str, user: User | None = None) -> None:
         if not password:
             return
 
@@ -28,7 +35,7 @@ class CharsPasswordValidator:
                 code="password_same_chars",
             )
 
-    def get_help_text(self):
+    def get_help_text(self) -> str:
         return gettext(
             "Your password can't consist of a single character or only whitespace."
         )
@@ -37,7 +44,7 @@ class CharsPasswordValidator:
 class MaximalLengthValidator:
     """Validate that the password is of a maximal length."""
 
-    def validate(self, password, user=None) -> None:
+    def validate(self, password: str, user: User | None = None) -> None:
         if len(password) > settings.MAXIMAL_PASSWORD_LENGTH:
             raise ValidationError(
                 ngettext(
@@ -51,7 +58,7 @@ class MaximalLengthValidator:
                 params={"max_length": settings.MAXIMAL_PASSWORD_LENGTH},
             )
 
-    def get_help_text(self):
+    def get_help_text(self) -> str:
         return ngettext(
             "Your password must contain at most %(max_length)d character.",
             "Your password must contain at most %(max_length)d characters.",
@@ -62,7 +69,7 @@ class MaximalLengthValidator:
 class PastPasswordsValidator:
     """Validate whether the password was not used before."""
 
-    def validate(self, password, user=None) -> None:
+    def validate(self, password: str, user: User | None = None) -> None:
         if user is not None:
             passwords = []
             if user.has_usable_password():
@@ -82,7 +89,7 @@ class PastPasswordsValidator:
                         code="password-past",
                     )
 
-    def get_help_text(self):
+    def get_help_text(self) -> str:
         return gettext(
             "Your password can't match a password you have used in the past."
         )

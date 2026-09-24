@@ -156,6 +156,34 @@ supported by the format.
    well. Choose native format of your platform such as :ref:`gettext`,
    :ref:`aresource` or :ref:`stringsdict`.
 
+.. _format-multivalue:
+
+Multivalue formats
+++++++++++++++++++
+
+Multivalue formats, such as :ref:`multivalue-csv` and :ref:`tbx`, store independent
+source and target alternatives within one string. These alternatives have no
+one-to-one pairing, and their counts do not follow grammatical plural rules.
+
+Source checks inspect every source alternative. Target checks compare each
+target alternative with the source alternatives.
+A target passes when it matches any source alternative, independently of their
+order or the languages' grammatical plural forms. The :guilabel:`Unchanged
+translation` check instead reports targets identical to any source alternative,
+subject to its usual exemptions. Automatic fixes are applied only when all
+source alternatives produce the same correction.
+
+:ref:`Machine translation suggestions <machine-translation>` translate each
+source alternative independently. Automatic machine translation supports strings
+with one source alternative and at most one target alternative; it skips strings
+with multiple alternatives to preserve them. Machinery glossaries can use all
+alternatives. Automatic :ref:`translation-memory` contributions skip strings
+with multiple alternatives.
+
+LLM translation services use only strings with one source alternative and one
+target alternative as examples of previous translations. They omit existing
+translation context for strings with multiple alternatives.
+
 .. _read-only-strings:
 
 Read-only strings

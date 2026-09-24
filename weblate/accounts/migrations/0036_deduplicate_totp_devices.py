@@ -4,11 +4,19 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.db import migrations
 from django.db.models import Count, F, Max, Min
 
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
-def deduplicate_totp_devices(apps, schema_editor) -> None:
+
+def deduplicate_totp_devices(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     """Preserve replay protection when merging equivalent authenticators."""
     device_model = apps.get_model("otp_totp", "TOTPDevice")
     devices = device_model.objects.using(schema_editor.connection.alias)

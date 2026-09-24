@@ -2,11 +2,19 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from itertools import batched
+from typing import TYPE_CHECKING
 
 from django.db import migrations, models
 
 import weblate.trans.validators
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
 
 FORCE_PUSH_VCS = "git-force-push"
 GIT_VCS = "git"
@@ -14,7 +22,9 @@ FORCE_PUSH_PARAM = "git_force_push"
 BATCH_SIZE = 500
 
 
-def migrate_force_push_vcs(apps, schema_editor) -> None:
+def migrate_force_push_vcs(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     """Turn the dedicated force push backend into a Git parameter."""
     Component = apps.get_model("trans", "Component")
 
@@ -32,7 +42,9 @@ def migrate_force_push_vcs(apps, schema_editor) -> None:
         )
 
 
-def reverse_force_push_vcs(apps, schema_editor) -> None:
+def reverse_force_push_vcs(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Component = apps.get_model("trans", "Component")
 
     def convert(component):

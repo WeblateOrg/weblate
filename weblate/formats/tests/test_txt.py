@@ -4,6 +4,8 @@
 
 """File format specific behavior."""
 
+from __future__ import annotations
+
 import os.path
 from typing import IO
 
@@ -29,7 +31,9 @@ class AppStoreFormatTest(BaseFormatTest):
     BASE = os.path.dirname(APPSTORE_FILE)
     EXPECTED_FLAGS = "max-length:80"
 
-    def parse_file(self, filename: str | IO[bytes], template: str | None = None):
+    def parse_file(
+        self, filename: str | IO[bytes], template: str | None = None
+    ) -> AppStoreFormat:
         if not isinstance(filename, str):
             msg = "App store does not operate on files"
             raise TypeError(msg)

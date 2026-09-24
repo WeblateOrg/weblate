@@ -477,26 +477,26 @@ class LaravelFormatCheckTest(CheckTestCase):
             [(5, 10, ":name")],
         )
 
-    def test_no_format(self):
+    def test_no_format(self) -> None:
         self.assertFalse(self.check.check_format("Test", "Test", False, make_unit()))
 
-    def test_format(self):
+    def test_format(self) -> None:
         self.assertFalse(
             self.check.check_format("Test :name", "Test :name", False, make_unit())
         )
 
-    def test_missing_format(self):
+    def test_missing_format(self) -> None:
         self.assertTrue(
             self.check.check_format("Test :name", "Test", False, make_unit())
         )
 
-    def test_extra_format(self):
+    def test_extra_format(self) -> None:
         self.assertEqual(
             self.check.check_format("Test", "Test :name", False, make_unit()),
             {"missing": [], "extra": [":name"]},
         )
 
-    def test_multiple_placeholders(self):
+    def test_multiple_placeholders(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "The :attribute must be :value",
@@ -506,7 +506,7 @@ class LaravelFormatCheckTest(CheckTestCase):
             )
         )
 
-    def test_reordering(self):
+    def test_reordering(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 ":name :value",
@@ -516,19 +516,19 @@ class LaravelFormatCheckTest(CheckTestCase):
             )
         )
 
-    def test_wrong_placeholder_names(self):
+    def test_wrong_placeholder_names(self) -> None:
         self.assertEqual(
             self.check.check_format(":attribute", ":name", False, make_unit()),
             {"missing": [":attribute"], "extra": [":name"]},
         )
 
-    def test_case_sensitivity(self):
+    def test_case_sensitivity(self) -> None:
         self.assertEqual(
             self.check.check_format(":name", ":Name", False, make_unit()),
             {"missing": [":name"], "extra": [":Name"]},
         )
 
-    def test_special_characters(self):
+    def test_special_characters(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 ":user_id :value2",
@@ -538,7 +538,7 @@ class LaravelFormatCheckTest(CheckTestCase):
             )
         )
 
-    def test_edge_positions(self):
+    def test_edge_positions(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 ":start middle :end",
@@ -1400,8 +1400,12 @@ class PluralTest(FixtureComponentTestCase):
     check = PythonFormatCheck()
 
     def do_check(
-        self, sources: list[str], targets: list[str], translation, flags: str = ""
-    ):
+        self,
+        sources: list[str],
+        targets: list[str],
+        translation: Translation,
+        flags: str = "",
+    ) -> bool:
         return self.check.check_target_unit(
             sources,
             targets,

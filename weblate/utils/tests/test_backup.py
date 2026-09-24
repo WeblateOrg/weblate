@@ -2,11 +2,13 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import shlex
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from contextlib import contextmanager, nullcontext
-from typing import cast
+from typing import TYPE_CHECKING, cast
 from unittest.mock import MagicMock, patch
 
 from django.conf import settings
@@ -36,6 +38,9 @@ from weblate.utils.tasks import (
 )
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.models import BackupService
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 class BackupTest(TransactionTestCase):
@@ -322,7 +327,7 @@ class BackupPreparationTest(SimpleTestCase):
         operations: list[str | tuple[str, list[int] | None]] = []
 
         @contextmanager
-        def tracked_lock():
+        def tracked_lock() -> Iterator[None]:
             operations.append("lock-enter")
             try:
                 yield
@@ -372,7 +377,7 @@ class BackupPreparationTest(SimpleTestCase):
         )
 
         @contextmanager
-        def tracked_lock():
+        def tracked_lock() -> Iterator[None]:
             operations.append("lock-enter")
             try:
                 yield

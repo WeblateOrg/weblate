@@ -344,6 +344,35 @@ supports the following options:
   reviewer will be committed. This option requires :ref:`project-translation_review`
   to be enabled.
 
+The approved-only policy applies only to translations with reviews enabled.
+Languages with reviews disabled through :ref:`workflow-customization` commit all
+translations, including those marked as needing editing. Source strings follow
+the same rule using :ref:`project-source_review`.
+
+Components linked to a repository in another project follow their own project's
+commit policy.
+
+If the editor shows “Only approved translations are written to the translation
+file.” or “Approval is required before this translation can be written to the
+translation file.”, the quality filter prevents writing the translation to the
+file until it is approved. This notice does not confirm that your current edit
+was saved; resolve any validation errors before leaving the editor. The project
+policy description qualifies this as “For languages with reviews enabled, only
+approved translations are written to the translation file.” Having permission
+to approve translations does not automatically approve your edits.
+
+For a language that does not use reviews, open its page in the project and
+choose :guilabel:`Settings`. Enable :guilabel:`Customize translation workflow for
+this language in this project`, then turn :guilabel:`Enable reviews` off. This
+requires permission to edit project settings. See :ref:`workflow-customization`.
+With the approved-only policy, this makes all translation states eligible for
+writing to files for that language, including those needing editing.
+
+If reviews are needed, users with both review and bulk-edit permissions can use
+:ref:`bulk-edit` to approve existing translations they have reviewed. Eligibility
+for writing to a translation file does not mean the change is immediately
+committed or pushed; see :ref:`lazy-commit` and :ref:`component-push_on_commit`.
+
 
 .. _project-enable_hooks:
 
@@ -969,6 +998,11 @@ Point to translation instructions URL
 Create new language file
     User can select language and Weblate automatically creates the file for it
     and translation can begin.
+Create existing project languages; contact maintainers for new languages
+    Users can create translations for languages already used as target languages
+    in another non-glossary component in the project. Other languages are requested
+    from maintainers, who approve them by creating the first target translation.
+    See :ref:`workflow-language-restrictions` for eligibility and API behavior.
 Disable adding new translations
     There will be no option for user to start new translation.
 
@@ -993,8 +1027,9 @@ Manage strings
 .. versionadded:: 4.5
 
 Configures whether users in Weblate will be allowed to add new strings and
-remove existing ones. Adjust this to match your localization workflow - how the
-new strings are supposed to be introduced.
+remove existing ones. It also enables :ref:`editing source strings and keys
+<edit-source>` in supported formats. Adjust this to match your localization
+workflow — how strings are introduced and maintained.
 
 For bilingual formats, the strings are typically extracted from the source code
 (for example by using :program:`xgettext`) and adding new strings in Weblate
@@ -1486,6 +1521,11 @@ The following variables are available in the component templates:
     Author of current commit, available only in the commit scope.
 ``{{ addon_name }}``
     Name of currently executed add-on, available only in the add-on commit message.
+
+The :ref:`Statistics generator <addon-weblate.generate.generate>` additionally
+supports a collection of languages and their statistics in component mode.
+Use the ``json`` or ``python`` filter to serialize template values into JSON or
+Python literals, including the necessary quoting and escaping.
 
 The following variables are available in the repository browser or editor templates:
 

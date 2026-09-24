@@ -16,6 +16,17 @@ how to translate using Weblate:
 
 .. image:: /screenshots/engage.webp
 
+Status widgets also support categories, including nested categories. Use
+``/widget/<project>/<category>/svg-badge.svg`` for a category's overall progress,
+or ``/widget/<project>/<category>/-/<language>/svg-badge.svg`` for its progress
+in one language. For nested categories, include each parent category in the path.
+Widgets follow the project's :ref:`public sharing setting <project-public_sharing>`.
+
+Workspace widgets use ``/widget/-/workspace/<workspace-id>/svg-badge.svg`` and
+follow the workspace's access checks. They show the same aggregate statistics as
+the workspace page. A project's public sharing setting does not grant access to
+its workspace widgets.
+
 .. seealso::
 
    :setting:`ENABLE_SHARING`

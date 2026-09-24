@@ -2,8 +2,11 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import asyncio
 import os
+from typing import TYPE_CHECKING
 from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
 import httpx2
@@ -27,12 +30,15 @@ from weblate.utils.requests import (
 )
 from weblate.utils.tests import http_mock
 
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator, Iterator
+
 
 class TrackedSyncStream(httpx2.SyncByteStream):
     def __init__(self, events: list[str]) -> None:
         self.events = events
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[bytes]:
         self.events.append("read")
         yield b"response-body"
 
@@ -41,7 +47,7 @@ class TrackedAsyncStream(httpx2.AsyncByteStream):
     def __init__(self, events: list[str]) -> None:
         self.events = events
 
-    async def __aiter__(self):
+    async def __aiter__(self) -> AsyncIterator[bytes]:
         self.events.append("read")
         yield b"response-body"
 
@@ -677,7 +683,7 @@ class GetUriErrorTest(SimpleTestCase):
         self.assertEqual(len(http_mock.calls), 3)
 
     @patch("weblate.utils.requests._probe_validated_url")
-    def test_get_uri_error_flattens_validation_error(self, mocked_probe) -> None:
+    def test_get_uri_error_flattens_validation_error(self, mocked_probe: Mock) -> None:
         mocked_probe.side_effect = ValidationError("This URL is prohibited")
 
         self.assertEqual(
@@ -1496,7 +1502,7 @@ class FetchValidatedURLTest(SimpleTestCase):
 
     @patch("weblate.utils.requests._get_response_peer_ip", return_value=None)
     def test_http_request_fails_when_peer_ip_is_unavailable(
-        self, mocked_get_peer
+        self, mocked_get_peer: Mock
     ) -> None:
         response = Mock()
         response.url = "https://public.example.com/source"
@@ -1519,7 +1525,7 @@ class FetchValidatedURLTest(SimpleTestCase):
 
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="127.0.0.1")
     def test_validate_response_peer_skips_allowlisted_hostname(
-        self, mocked_get_peer
+        self, mocked_get_peer: Mock
     ) -> None:
         response = Mock()
         response.url = "https://private.example/source"

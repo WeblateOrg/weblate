@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 from django.test.utils import modify_settings, override_settings
 from django.utils import timezone
@@ -19,6 +22,9 @@ from weblate.trans.models import Comment, Component, Project
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import create_test_billing
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from weblate.auth.results import PermissionResult
 
 
 class PermissionsTest(FixtureComponentTestCase):
@@ -307,7 +313,9 @@ class PermissionsTest(FixtureComponentTestCase):
         self.component.save(update_fields=["restricted"])
         self.assertFalse(self.admin.has_perm("component.edit", self.component))
 
-    def assert_denied_reason(self, result, reason: str) -> None:
+    def assert_denied_reason(
+        self, result: bool | PermissionResult, reason: str
+    ) -> None:
         self.assertFalse(result)
         self.assertEqual(getattr(result, "reason", ""), reason)
 

@@ -59,7 +59,7 @@ class MathCaptcha:
         else:
             self.timestamp = timestamp
 
-    def generate_question(self):
+    def generate_question(self) -> str:
         """Generate random question."""
         generator = SystemRandom()
         operation = generator.choice(self.operators)
@@ -81,7 +81,7 @@ class MathCaptcha:
         """Serialize captcha settings."""
         return (self.question, self.timestamp)
 
-    def validate(self, answer):
+    def validate(self, answer) -> bool:
         """Validate answer."""
         return self.result == answer and self.timestamp + TIMEDELTA > time.time()
 
@@ -94,7 +94,12 @@ class MathCaptcha:
     def display(self):
         """Unicode for display."""
         parts = self.question.split()
-        return format_html("{} {} {}", parts[0], operator_display(parts[1]), parts[2])
+        return format_html(
+            '<span class="math-captcha">{} {} {}</span>',
+            parts[0],
+            operator_display(parts[1]),
+            parts[2],
+        )
 
 
 def eval_expr(expr):

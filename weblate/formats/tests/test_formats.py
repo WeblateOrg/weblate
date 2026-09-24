@@ -71,8 +71,7 @@ from weblate.formats.ttkit import (
     RESJSONFormat,
     ResourceDictionaryFormat,
     RESXFormat,
-    RichXliff2Format,
-    RichXliffFormat,
+    RichXliffUnit,
     RubyYAMLFormat,
     StringsdictFormat,
     StringsFormat,
@@ -84,6 +83,7 @@ from weblate.formats.ttkit import (
     WebExtensionJSONFormat,
     Xliff2Format,
     XliffFormat,
+    XliffUnit,
     XWikiFullPageFormat,
     XWikiPagePropertiesFormat,
     XWikiPropertiesFormat,
@@ -102,7 +102,7 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Iterable, Iterator
 
     from lxml.etree import _Element
 
@@ -538,16 +538,25 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
         name: str,
         content: bytes,
         expected: str,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
-        storage = format_class(NamedBytesIO(name, content))
+        storage = format_class(
+            NamedBytesIO(name, content), file_format_params=file_format_params
+        )
 
         self.assertTrue(format_class.supports_flags)
         self.assertEqual(storage.content_units[0].flags, Flags(expected))
 
     def assert_read_only(
-        self, format_class: type[TranslationFormat], name: str, content: bytes
+        self,
+        format_class: type[TranslationFormat],
+        name: str,
+        content: bytes,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
-        storage = format_class(NamedBytesIO(name, content))
+        storage = format_class(
+            NamedBytesIO(name, content), file_format_params=file_format_params
+        )
 
         self.assertTrue(format_class.supports_read_only)
         self.assertEqual(
@@ -713,12 +722,17 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
 
         for format_class in (
             XliffFormat,
-            RichXliffFormat,
             PoXliffFormat,
             AppleXliffFormat,
         ):
             with self.subTest(format_class=format_class.format_id):
                 self.assert_read_only(format_class, "test.xliff", content)
+                self.assert_read_only(
+                    format_class,
+                    "test.xliff",
+                    content,
+                    file_format_params={"xliff_placeables": "plain"},
+                )
 
     def test_xliff2_variant_read_only(self) -> None:
         content = (
@@ -734,9 +748,13 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
             b"</file></xliff>"
         )
 
-        for format_class in (Xliff2Format, RichXliff2Format):
-            with self.subTest(format_class=format_class.format_id):
-                self.assert_read_only(format_class, "test.xliff", content)
+        self.assert_read_only(Xliff2Format, "test.xliff", content)
+        self.assert_read_only(
+            Xliff2Format,
+            "test.xliff",
+            content,
+            file_format_params={"xliff_placeables": "placeables"},
+        )
 
     def test_gettext_flags(self) -> None:
         for format_class in (PoFormat, PoMonoFormat):
@@ -759,14 +777,20 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
             b"</trans-unit></body></file></xliff>"
         )
 
-        for format_class, expected in (
-            (XliffFormat, "c-format"),
-            (RichXliffFormat, "c-format, xml-text"),
-            (PoXliffFormat, "c-format"),
-            (AppleXliffFormat, "c-format"),
+        for format_class, expected, params in (
+            (XliffFormat, "c-format", {"xliff_placeables": "plain"}),
+            (XliffFormat, "c-format, xml-text", {"xliff_placeables": "placeables"}),
+            (PoXliffFormat, "c-format", {"xliff_placeables": "plain"}),
+            (AppleXliffFormat, "c-format", {"xliff_placeables": "plain"}),
         ):
-            with self.subTest(format_class=format_class.format_id):
-                self.assert_flags(format_class, "test.xliff", content, expected)
+            with self.subTest(format_class=format_class.format_id, params=params):
+                self.assert_flags(
+                    format_class,
+                    "test.xliff",
+                    content,
+                    expected,
+                    file_format_params=cast("FileFormatParams", params),
+                )
 
     def test_xliff2_segment_flags(self) -> None:
         content = (
@@ -779,8 +803,20 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
             b"</segment></unit></file></xliff>"
         )
 
-        self.assert_flags(Xliff2Format, "test.xliff", content, "c-format")
-        self.assert_flags(RichXliff2Format, "test.xliff", content, "c-format, xml-text")
+        self.assert_flags(
+            Xliff2Format,
+            "test.xliff",
+            content,
+            "c-format",
+            file_format_params={"xliff_placeables": "plain"},
+        )
+        self.assert_flags(
+            Xliff2Format,
+            "test.xliff",
+            content,
+            "c-format, xml-text",
+            file_format_params={"xliff_placeables": "placeables"},
+        )
 
     def test_resx_flags(self) -> None:
         self.assert_file_flags(RESXFormat, "cs.resx", "c-format, max-length:100")
@@ -918,6 +954,40 @@ class AutoLoadTest(SimpleTestCase):
     def test_xliff(self) -> None:
         self.single_test(TEST_XLIFF, XliffFormat)
 
+    def do_test_xliff_conversion_upload(self, filename: str):
+        content = (
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<xliff version="1.1">'
+            '<file original="file" source-language="en" datatype="plaintext">'
+            '<body><trans-unit id="amp">'
+            "<source>Source &amp; translation</source>"
+            "<target>Zdroj &amp; překlad</target>"
+            "</trans-unit></body></file></xliff>"
+        ).encode()
+
+        native_store = try_load(filename, content, XliffFormat, None)
+        self.assertIsInstance(native_store.content_units[0], RichXliffUnit)
+        self.assertEqual(
+            native_store.content_units[0].source, "Source &amp; translation"
+        )
+        conversion_store = try_load(filename, content, JSONFormat, None)
+        self.assertIsInstance(conversion_store, XliffFormat)
+        return conversion_store
+
+    def test_xliff_conversion_upload_with_plain_placeables(self) -> None:
+        conversion_store = self.do_test_xliff_conversion_upload("test.xliff")
+        self.assertIsInstance(conversion_store.content_units[0], XliffUnit)
+        unit = conversion_store.content_units[0]
+        self.assertEqual(unit.source, "Source & translation")
+        self.assertNotIn("xml-text", unit.flags)
+
+    def test_xliff_conversion_upload_with_placeables(self) -> None:
+        conversion_store = self.do_test_xliff_conversion_upload("test.mxliff")
+        self.assertIsInstance(conversion_store.content_units[0], RichXliffUnit)
+        unit = conversion_store.content_units[0]
+        self.assertEqual(unit.source, "Source &amp; translation")
+        self.assertIn("xml-text", unit.flags)
+
     def test_resx(self) -> None:
         self.single_test(TEST_RESX, RESXFormat)
 
@@ -1019,7 +1089,7 @@ class BaseFormatTest(FormatTestCase, ABC):
     @contextmanager
     def temporary_file_format_param(
         self, key: FileFormatParamKey, value: str | int | bool
-    ):
+    ) -> Iterator[None]:
         """Temporarily set a file format parameter for the duration of the context."""
         if key in self.FILE_FORMAT_PARAMS:
             previous: str | int | bool = self.FILE_FORMAT_PARAMS[key]
@@ -1091,7 +1161,7 @@ class BaseFormatTest(FormatTestCase, ABC):
     def test_edit(self) -> None:
         self._test_save(self.EDIT_TARGET)
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         """
         Content aware comparison.
 
@@ -1296,7 +1366,7 @@ class BaseFormatTest(FormatTestCase, ABC):
 
 
 class XMLMixin(SimpleTestCase):
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertXMLEqual(newdata.decode(), testdata.decode())
 
 
@@ -1321,6 +1391,41 @@ class PoFormatPreviousSourceTest(SimpleTestCase):
 
         self.assertEqual(unit.previous_source, "")
         self.assertNotIn("#|", str(unit.unit))
+
+
+class ContributorCommentsTest(SimpleTestCase):
+    def test_modes(self) -> None:
+        for format_class in (PoFormat, PoMonoFormat):
+            for mode in ("none", "gettext", "spdx"):
+                with self.subTest(format_class=format_class, mode=mode):
+                    store = format_class(
+                        BytesIO(b'msgid ""\nmsgstr "MIME-Version: 1.0\\n"\n'),
+                        file_format_params={
+                            "po_contributor_comments": mode,
+                            "po_set_last_translator": False,
+                        },
+                    )
+                    self.assertEqual(
+                        store.update_contributor("Jane <jane@example.com>"),
+                        mode != "none",
+                    )
+                    notes = store.store.header().getnotes("translator")
+                    self.assertEqual("Jane" in notes, mode != "none")
+                    self.assertEqual("SPDX-FileCopyrightText:" in notes, mode == "spdx")
+                    self.assertNotIn("Last-Translator", store.store.parseheader())
+
+    def test_disabled_by_default(self) -> None:
+        store = PoFormat(BytesIO(b'msgid ""\nmsgstr "MIME-Version: 1.0\\n"\n'))
+        self.assertFalse(store.update_contributor("Jane <jane@example.com>"))
+
+    def test_anonymous(self) -> None:
+        store = PoFormat(
+            BytesIO(b'msgid ""\nmsgstr "MIME-Version: 1.0\\n"\n'),
+            file_format_params={"po_contributor_comments": "spdx"},
+        )
+        before = bytes(store.store)
+        self.assertFalse(store.update_contributor("Anonymous <noreply@weblate.org>"))
+        self.assertEqual(bytes(store.store), before)
 
 
 class PoFormatTest(BaseFormatTest):
@@ -1539,7 +1644,7 @@ class PropertiesFormatTest(BaseFormatTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertEqual(
             (newdata).strip().splitlines(),
             (testdata).strip().splitlines(),
@@ -1646,7 +1751,7 @@ class GWTFormatTest(BaseFormatTest):
     # https://github.com/translate/translate/blob/7ecba141b535572de75616ddb5f78afb41c2b7b2/translate/storage/properties.py#L578
     SUPPORTS_NOTES = False
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertEqual(
             (newdata).strip().splitlines(),
             (testdata).strip().splitlines(),
@@ -1683,7 +1788,7 @@ class JSONFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b'\n    "Source string": ""\n'
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertJSONEqual(newdata.decode(), testdata.decode())
 
 
@@ -2214,7 +2319,7 @@ class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
 
 
 class XliffFormatTest(XMLMixin, BaseFormatTest):
-    format_class = XliffFormat
+    format_class: type[TranslationFormat] = XliffFormat
     FILE = TEST_XLIFF
     BASE = TEST_XLIFF
     MIME = "application/xliff+xml"
@@ -2229,6 +2334,27 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         b"<source>Source string</source>",
     )
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100"
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"xliff_placeables": "plain"}
+
+    def test_unit_class_variants(self) -> None:
+        self.assertIs(
+            XliffFormat.get_unit_class({"xliff_placeables": "plain"}),
+            XliffUnit,
+        )
+        self.assertIs(
+            XliffFormat.get_unit_class({"xliff_placeables": "placeables"}),
+            RichXliffUnit,
+        )
+        self.assertIs(XliffFormat.get_unit_class(), RichXliffUnit)
+        self.assertIs(Xliff2Format.get_unit_class(), RichXliffUnit)
+        self.assertIs(
+            Xliff2Format.get_unit_class({"xliff_placeables": "plain"}),
+            XliffUnit,
+        )
+        self.assertIs(
+            Xliff2Format.get_unit_class({"xliff_placeables": "placeables"}),
+            RichXliffUnit,
+        )
 
     def test_set_state(self) -> None:
         # Read test content
@@ -2276,6 +2402,175 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         self.assertTrue(units[1].is_automatically_translated())
         self.assertFalse(units[2].is_automatically_translated())
 
+    def test_whitespace_preserve_keeps_newlines(self) -> None:
+        if self.FILE != TEST_XLIFF:
+            self.skipTest("Only supported for cs.xliff")
+        storage = self.parse_file(self.FILE)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!\n")
+
+    def test_whitespace_preserve_without_attribute(self) -> None:
+        """Default preserve policy keeps whitespace even when xml:space is omitted."""
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1">
+  <file>
+    <body>
+      <trans-unit id="hello">
+        <source>Hello, world!
+</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, f"preserve-no-attr.{self.EXT}")
+        Path(testfile).write_bytes(content)
+        storage = self.parse_file(testfile)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!\n")
+        storage.save()
+        # check no new xml:space attributes were added under preserve.
+        saved = Path(testfile).read_bytes()
+        self.assertNotIn(b"xml:space", saved)
+
+    def test_whitespace_normalize_collapses_preserved_source(self) -> None:
+        if self.FILE != TEST_XLIFF:
+            self.skipTest("Only supported for cs.xliff")
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(self.FILE)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!")
+
+    def test_whitespace_standard_follows_source_attribute(self) -> None:
+        if self.FILE != TEST_XLIFF:
+            self.skipTest("Only supported for cs.xliff")
+        with self.temporary_file_format_param("xml_whitespace_handling", "standard"):
+            storage = self.parse_file(self.FILE)
+        # First unit has xml:space="preserve" on <source>
+        self.assertEqual(storage.all_units[0].source, "Hello, world!\n")
+        # Last unit has no xml:space attribute
+        self.assertEqual(storage.all_units[3].source, "Thank you for using Weblate.")
+
+    def test_whitespace_standard_collapses_without_attribute(self) -> None:
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1">
+  <file>
+    <body>
+      <trans-unit id="hello">
+        <source>Hello, world!
+</source>
+      </trans-unit>
+      <trans-unit id="thanks" xml:space="preserve">
+        <source>Thank you!
+</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, f"standard-space.{self.EXT}")
+        Path(testfile).write_bytes(content)
+        with self.temporary_file_format_param("xml_whitespace_handling", "standard"):
+            storage = self.parse_file(testfile)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!")
+        self.assertEqual(storage.all_units[1].source, "Thank you!\n")
+
+    def test_new_unit_whitespace_normalize(self) -> None:
+        newdata = self.add_unit_and_get_whitespace_variant("normalize")
+        self.assertIn(b'xml:space="default"', newdata)
+        self.assertNotIn(b'xml:space="preserve" id="key"', newdata)
+        self.assertNotIn(b'id="key" xml:space="preserve"', newdata)
+
+    def test_new_unit_whitespace_standard(self) -> None:
+        newdata = self.add_unit_and_get_whitespace_variant("standard")
+        self.assertNotIn(b'xml:space="preserve" id="key"', newdata)
+        self.assertNotIn(b'id="key" xml:space="preserve"', newdata)
+
+    def add_unit_and_get_whitespace_variant(self, policy: str) -> bytes:
+        if not self.format_class.can_add_unit:
+            self.skipTest("Not supported")
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, f"test-{policy}.{self.EXT}")
+        Path(testfile).write_bytes(testdata)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", policy):
+            storage = self.parse_file(testfile, template=testfile)
+            if self.MONOLINGUAL:
+                storage = storage.template_store
+            storage.new_unit(self.NEW_UNIT_KEY, "Source string", self.NEW_UNIT_TARGET)
+            storage.save()
+
+        return Path(testfile).read_bytes()
+
+    def do_new_unit_whitespace_test(self, policy: str) -> bytes:
+        if not self.format_class.can_add_unit:
+            self.skipTest("Not supported")
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, f"test-{policy}.{self.EXT}")
+        Path(testfile).write_bytes(testdata)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "policy"):
+            storage = self.parse_file(testfile, template=testfile)
+            if self.MONOLINGUAL:
+                storage = storage.template_store
+            storage.new_unit(self.NEW_UNIT_KEY, "Source string", self.NEW_UNIT_TARGET)
+            storage.save()
+
+        return Path(testfile).read_bytes()
+
+    def test_set_target_normalize_overrides_preserve(self) -> None:
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1">
+  <file>
+    <body>
+      <trans-unit id="hello" xml:space="preserve">
+        <source>Hello</source>
+        <target>  Ahoj  svete  </target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, f"normalize-target.{self.EXT}")
+        Path(testfile).write_bytes(content)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(testfile)
+            unit = storage.all_units[0]
+            unit.set_target("  Nazdar   svete  \n")
+            storage.save()
+
+        saved = Path(testfile).read_text(encoding="utf-8")
+        self.assertIn(">Nazdar svete<", saved)
+        self.assertIn('xml:space="default"', saved)
+        self.assertNotIn('xml:space="preserve"', saved)
+
+    def test_whitespace_placeable_normalize(self) -> None:
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1">
+  <file>
+    <body>
+      <trans-unit id="hello" xml:space="preserve">
+        <source>Hello <x id="name"/> world
+</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, f"normalize-placeable.{self.EXT}")
+        Path(testfile).write_bytes(content)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(testfile)
+
+        source = storage.all_units[0].source
+        # Nested preserve must not block normalization under the normalize policy.
+        self.assertNotIn("\n", source)
+        if self.format_class.get_unit_class(self.FILE_FORMAT_PARAMS) is RichXliffUnit:
+            self.assertIn('id="name"', source)
+            self.assertTrue(source.startswith("Hello"))
+            self.assertTrue(source.rstrip().endswith("world"))
+        else:
+            self.assertEqual(source, "Hello world")
+
 
 class AppleXliffFormatTest(XliffFormatTest):
     format_class = AppleXliffFormat
@@ -2292,12 +2587,12 @@ class AppleXliffFormatTest(XliffFormatTest):
     MATCH = 'target-language="cs"'
 
 
-class RichXliffFormatTest(XliffFormatTest):
-    format_class = RichXliffFormat
+class XliffWithPlaceablesTest(XliffFormatTest):
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"xliff_placeables": "placeables"}
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100, xml-text"
 
 
-class XliffIdFormatTest(RichXliffFormatTest):
+class XliffIdFormatTest(XliffWithPlaceablesTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = "hello"
@@ -2376,6 +2671,7 @@ class PoXliffFormatTest(XMLMixin, BaseFormatTest):
         b"<source>Source string</source>",
     )
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100"
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"xliff_placeables": "plain"}
 
     def test_add_language_updates_plural_header(self) -> None:
         out = Path(self.tempdir) / f"test.{self.EXT}"
@@ -2394,6 +2690,49 @@ class PoXliffFormatTest(XMLMixin, BaseFormatTest):
 
         self.assertEqual(plural.source, Plural.SOURCE_CLDR)
         self.assertEqual(plural.number, 3)
+
+    def test_whitespace_standard_keeps_plural_child_preserve(self) -> None:
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1" version="1.1">
+  <file original="cs.po" source-language="en" datatype="plaintext">
+    <body>
+      <group restype="x-gettext-plurals" id="1">
+        <trans-unit xml:space="preserve" id="1[0]">
+          <source>one banana
+</source>
+          <target>singular banana
+</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="1[1]">
+          <source>many bananas
+</source>
+          <target>plural bananas
+</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, "plural-space.xlf")
+        Path(testfile).write_bytes(content)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "standard"):
+            storage = self.parse_file(testfile)
+            unit = next(u for u in storage.all_units if getattr(u.unit, "units", None))
+            unit.set_target(["singular  banana  \n", "plural  bananas  \n"])
+            storage.save()
+
+        saved = Path(testfile).read_text(encoding="utf-8")
+        self.assertRegex(
+            saved,
+            r"<trans-unit(?=[^>]*id=\"1\[0\]\")(?=[^>]*xml:space=\"preserve\")",
+        )
+        self.assertRegex(
+            saved,
+            r"<trans-unit(?=[^>]*id=\"1\[1\]\")(?=[^>]*xml:space=\"preserve\")",
+        )
+        self.assertNotRegex(saved, r"<group[^>]*xml:space=")
 
 
 class PoXliffPoHeaderFormatTest(PoXliffFormatTest):
@@ -2495,7 +2834,7 @@ class YAMLFormatTest(BaseFormatTest):
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         # Fixup quotes as different translate toolkit versions behave
         # differently
         self.assertEqual(
@@ -2533,7 +2872,7 @@ class TS1FormatTest(XMLMixin, BaseFormatTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     SUPPORTS_NOTES = False
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         newdata = newdata.replace(b"<!DOCTYPE TS>", b"")
         testdata = testdata.replace(b"<!DOCTYPE TS>", b"")
         super().assert_same(newdata, testdata)
@@ -2609,7 +2948,7 @@ class TS2FormatTest(XMLMixin, BaseFormatTest):
     def test_autodetection_prefers_version_2(self) -> None:
         self.assertIs(detect_filename("test.ts"), TS2Format)
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         # Comparing of XML with doctype fails...
         newdata = newdata.replace(b"<!DOCTYPE TS>", b"")
         testdata = testdata.replace(b"<!DOCTYPE TS>", b"")
@@ -2783,9 +3122,9 @@ class CSVFormatTest(BaseFormatTest):
             self.skipTest("Only full CSV preserves plural metadata fields")
 
         source = "%(count)s file\x1e\x1e%(count)s files"
-        import_id_hash = self.format_class.unit_class.calculate_id_hash(
-            True, source, "ctx"
-        )
+        import_id_hash = self.format_class.get_unit_class(
+            self.FILE_FORMAT_PARAMS
+        ).calculate_id_hash(True, source, "ctx")
         template_store = self.format_class(
             NamedBytesIO(
                 "template.csv",
@@ -3604,7 +3943,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
         self.assertEqual(
             unit.source_explanation, "An internal code identifier not to be localized."
         )
-        self.assertEqual(unit.flags, Flags())
+        self.assertEqual(unit.flags, Flags("read-only"))
         self.assertEqual(unit.is_readonly(), True)
 
         unit, _ = storage.find_unit("e003", "combo box")
@@ -3630,7 +3969,7 @@ class StringsFormatTest(BaseFormatTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
 
-    def assert_same(self, newdata, testdata) -> None:
+    def assert_same(self, newdata: bytes, testdata: bytes) -> None:
         self.assertEqual(
             (newdata).strip().splitlines(),
             (testdata).strip().splitlines(),
@@ -3710,10 +4049,29 @@ class Xliff2FormatTestCase(BaseFormatTest):
     NEW_UNIT_KEY = "key"
     MASK = "loc/*/default.xliff"
     EXPECTED_PATH = "loc/cs-CZ/default.xliff"
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"xliff_placeables": "plain"}
+
+    def test_whitespace_normalize_collapses_preserved_source(self) -> None:
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(self.FILE)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!")
+
+    def test_new_unit_whitespace_normalize(self) -> None:
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, f"test-normalize.{self.EXT}")
+        Path(testfile).write_bytes(testdata)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(testfile)
+            storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+            storage.save()
+
+        newdata = Path(testfile).read_bytes()
+        self.assertIn(b'xml:space="default"', newdata)
 
 
-class RichXliff2FormatTestCase(Xliff2FormatTestCase):
-    format_class = RichXliff2Format
+class Xliff2WithPlaceablesTestCase(Xliff2FormatTestCase):
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"xliff_placeables": "placeables"}
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "xml-text"
 
 

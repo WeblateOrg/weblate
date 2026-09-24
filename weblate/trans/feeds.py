@@ -52,7 +52,7 @@ class BaseFeed(Feed):
     def item_guid(self, item):
         return get_change_feed_guid(item)
 
-    def item_guid_is_permalink(self, item):
+    def item_guid_is_permalink(self, item) -> bool:
         return False
 
 

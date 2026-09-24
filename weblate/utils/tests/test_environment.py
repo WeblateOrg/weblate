@@ -2,9 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 from contextlib import contextmanager
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -30,9 +33,12 @@ from weblate.utils.environment import (
 from weblate.utils.files import remove_tree
 from weblate.utils.unittest import tempdir_setting
 
+if TYPE_CHECKING:
+    from collections.abc import Callable, Iterator
+
 
 @contextmanager
-def cleaned_environment(cleanup):
+def cleaned_environment(cleanup: Callable[[], None]) -> Iterator[None]:
     cleanup()
     try:
         yield

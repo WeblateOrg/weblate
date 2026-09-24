@@ -220,6 +220,14 @@ The :guilabel:`Repository maintenance` view shows repository status for a
 project, component, or translation and lets privileged users run maintenance
 operations from the user interface.
 
+For shared repositories, permissions are checked on the component that owns
+the repository, even when the operation is started from a linked component.
+Users with repository permissions only on a linked component can open this view
+to see which permissions they need on the owner. Restrictions identify the
+owning component when it is accessible; otherwise, ask your project
+administrator to coordinate access with the repository owner. See
+:doc:`/admin/access` for permission scope.
+
 The same actions can also be triggered using :ref:`api` or, for the supported
 subset, :ref:`wlc`.
 
@@ -311,6 +319,24 @@ language synchronization and cleanup are described in
    * - :guilabel:`Remove obsolete`
      - Removes obsolete strings from one PO translation file.
      - Run a one-time PO cleanup without enabling automatic obsolete string removal.
+
+For Git repositories, both reset actions affect only the configured
+:ref:`component-branch`. They do not reset or remove other local branches.
+:guilabel:`Cleanup` deletes all other local branches, including any commits
+that have not been pushed, and removes untracked files. It does not delete
+branches from the upstream repository.
+
+If you replace an upstream branch with unrelated history, switching to it in
+Weblate can fail because Weblate reuses its existing local branch and tries to
+merge or rebase it. Resetting while another branch is configured does not fix
+that inactive local branch. For example, resetting ``master`` leaves an old
+local ``dev`` branch unchanged.
+
+If no local changes on the affected branch need to be kept, configure a working
+branch, run :guilabel:`Cleanup` from :guilabel:`Repository maintenance`, and wait
+for it to finish. Then switch to the affected branch again. Weblate creates it
+afresh from upstream. If the affected branch is already configured, use
+:guilabel:`Reset and discard` to replace its local history with upstream instead.
 
 .. _manage-vcs-reset-reapply:
 

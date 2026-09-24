@@ -402,6 +402,58 @@ class XMLParamsTest(BaseFileFormatsTest):
     def test_closing_tags_off(self) -> None:
         self.test_closing_tags(closing_tags_active=False)
 
+    def test_whitespace_normalize(self) -> None:
+        # check that the default param is preserve
+        defaults = get_default_params_for_file_format(self.component.file_format)
+        self.assertEqual(defaults["xml_whitespace_handling"], "preserve")
+
+        self.update_component_file_params(xml_whitespace_handling="normalize")
+        translation = self.get_translation()
+        store = translation.store
+        unit = next(u for u in store.all_units if "Thank you" in u.source)
+        unit.set_target("  Díky  za  \n")
+        store.save()
+        content = get_optional_path(translation.get_filename()).read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(">Díky za<", content)
+        self.assertIn('xml:space="default"', content)
+        self.assertNotIn('xml:space="preserve"', content)
+
+    def test_whitespace_standard_new_unit_omits_preserve(self) -> None:
+        self.update_component_file_params(xml_whitespace_handling="standard")
+        translation = self.get_translation()
+        # Adding via the store path used for new strings
+        store = translation.store
+        store.new_unit("new-key", "Brand new string")
+        store.save()
+        content = get_optional_path(translation.get_filename()).read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('id="new-key"', content)
+        self.assertNotIn('xml:space="preserve" id="new-key"', content)
+        self.assertNotIn('id="new-key" xml:space="preserve"', content)
+
+    def test_placeables_param_default(self) -> None:
+        defaults = get_default_params_for_file_format(self.component.file_format)
+        self.assertEqual(defaults["xliff_placeables"], "placeables")
+
+        self.update_component_file_params(xliff_placeables="plain")
+        self.assertEqual(
+            self.component.file_format_cls.get_unit_class(
+                self.component.file_format_params
+            ).__name__,
+            "XliffUnit",
+        )
+
+        self.update_component_file_params(xliff_placeables="placeables")
+        self.assertEqual(
+            self.component.file_format_cls.get_unit_class(
+                self.component.file_format_params
+            ).__name__,
+            "RichXliffUnit",
+        )
+
 
 class TSParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:
@@ -453,7 +505,17 @@ class TSParamsTest(BaseFileFormatsTest):
 
 
 class GettextParamsTest(BaseFileFormatsTest):
-    def create_component(self):
+    def test_contributor_comments(self) -> None:
+        self.update_component_file_params(po_contributor_comments="spdx")
+        self.assertEqual(
+            self.component.file_format_params["po_contributor_comments"], "spdx"
+        )
+        self.update_component_file_params(po_contributor_comments="none")
+        self.assertEqual(
+            self.component.file_format_params["po_contributor_comments"], "none"
+        )
+
+    def create_component(self) -> Component:
         return self.create_po_new_base(new_lang="add")
 
     def remove_thank_you_from_template(self) -> None:
@@ -638,7 +700,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         rev = self.component.repository.last_revision
         return rev, self.component.repository.show(rev)
 
-    def test_update_language_team_header(self):
+    def test_update_language_team_header(self) -> None:
         commit0 = self.component.repository.show(
             self.component.repository.last_revision
         )
@@ -662,7 +724,7 @@ class GettextParamsTest(BaseFileFormatsTest):
             commit2,
         )
 
-    def test_last_translator_header(self):
+    def test_last_translator_header(self) -> None:
         commit0 = self.component.repository.show(
             self.component.repository.last_revision
         )
@@ -697,7 +759,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.assertIn("chore(l10n): add French translation", commit4)
         self.assertIn("Last-Translator: Automatically generated", commit4)
 
-    def test_x_generator_header(self):
+    def test_x_generator_header(self) -> None:
         with patch("weblate.utils.version.VERSION", new="9.99"):
             commit0 = self.component.repository.show(
                 self.component.repository.last_revision
@@ -713,7 +775,7 @@ class GettextParamsTest(BaseFileFormatsTest):
             self.assertNotEqual(rev1, rev2)
             self.assertIn("X-Generator: Weblate 9.99", commit2)
 
-    def test_report_msgid_bugs_to_header(self):
+    def test_report_msgid_bugs_to_header(self) -> None:
         self.component.report_source_bugs = "weblate@example.org"
         self.component.save()
         commit0 = self.component.repository.show(
@@ -732,14 +794,14 @@ class GettextParamsTest(BaseFileFormatsTest):
 
 
 class StringsParamsTest(BaseFileFormatsTest):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_iphone()
 
-    def test_encoding_param(self):
+    def test_encoding_param(self) -> None:
         self.do_create_with_encoding_test("strings_encoding", "utf-8", success=False)
         self.do_create_with_encoding_test("strings_encoding", "utf-16", success=True)
 
-    def test_new_file_content(self):
+    def test_new_file_content(self) -> None:
 
         self.assertNotEqual(
             StringsFormat.get_new_file_content("utf-8"),
@@ -748,10 +810,10 @@ class StringsParamsTest(BaseFileFormatsTest):
 
 
 class JavaPropertiesTest(BaseFileFormatsTest):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_java()
 
-    def test_encoding_param(self):
+    def test_encoding_param(self) -> None:
         self.do_create_with_encoding_test(
             "properties_encoding", "utf-16", success=False
         )
@@ -759,7 +821,7 @@ class JavaPropertiesTest(BaseFileFormatsTest):
             "properties_encoding", "iso-8859-1", success=True
         )
 
-    def test_encoding_param_utf8(self):
+    def test_encoding_param_utf8(self) -> None:
         # Java properties need to be ISO 8859-1, but Translate Toolkit converts
         # them to UTF-8.
         self.do_create_with_encoding_test("properties_encoding", "utf-8", success=True)
@@ -769,7 +831,7 @@ class CSVParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:
         return self.create_csv_mono()
 
-    def test_encoding_param(self):
+    def test_encoding_param(self) -> None:
         # both "auto" and "utf-8" are valid for the test CSV files
         self.do_create_with_encoding_test("csv_encoding", "utf-8", success=True)
 
@@ -778,5 +840,5 @@ class CSVSimpleParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:
         return self.create_csv()
 
-    def test_encoding_param(self):
+    def test_encoding_param(self) -> None:
         self.do_create_with_encoding_test("csv_simple_encoding", "utf-8", success=True)

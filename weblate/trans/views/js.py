@@ -10,7 +10,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import translation
 from django.utils.http import urlencode
@@ -18,12 +18,15 @@ from django.utils.translation import gettext
 from django.views.decorators.cache import cache_control, never_cache
 from django.views.decorators.http import require_GET, require_POST
 
+from weblate.auth.data import PERMISSIONS
 from weblate.auth.permissions import (
     REPOSITORY_PERMISSIONS,
+    ProjectRepositoryRestriction,
     filter_accessible_repository_restrictions,
     get_project_repository_selection,
+    get_repository_permission_components,
 )
-from weblate.checks.flags import Flags, get_flag_choices
+from weblate.checks.flags import get_flag_choices
 from weblate.checks.models import Check
 from weblate.trans.diagnostics import get_diagnostics_context
 from weblate.trans.models import (
@@ -35,11 +38,17 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.util import sort_unicode
+from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.views import parse_path
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from weblate.auth.models import AuthenticatedHttpRequest
+
+# Upper bound for text rendered by the Markdown preview endpoint.
+MARKDOWN_PREVIEW_MAX_LENGTH = 20_000
 
 
 @never_cache
@@ -89,6 +98,25 @@ def get_unit_translations(request: AuthenticatedHttpRequest, unit_id):
     )
 
 
+@never_cache
+@require_POST
+@login_required
+def markdown_preview(request: AuthenticatedHttpRequest) -> HttpResponse:
+    """Render Markdown text for previewing in the editor."""
+    text = request.POST.get("text", "")
+    if len(text) > MARKDOWN_PREVIEW_MAX_LENGTH:
+        return HttpResponseBadRequest(
+            gettext("The text is too long to preview."), content_type="text/plain"
+        )
+    if not check_rate_limit("markdown_preview", request):
+        return HttpResponse(
+            gettext("Too many preview requests, try again later."),
+            content_type="text/plain",
+            status=429,
+        )
+    return render(request, "js/markdown-preview.html", {"text": text})
+
+
 @require_POST
 @login_required
 @transaction.atomic
@@ -124,7 +152,7 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
         ignore = f"ignore-{obj.name.replace('_', '-')}"
     else:
         ignore = obj.check_obj.ignore_string
-    flags = Flags(unit.extra_flags)
+    flags = unit.get_unit_flags()
     if ignore not in flags:
         flags.merge(ignore)
         unit.update_extra_flags(flags.format(), request.user)
@@ -159,9 +187,14 @@ def dismiss_automatically_translated(request: AuthenticatedHttpRequest, unit_id)
 @login_required
 def git_status(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
-    if not request.user.has_perm("meta:vcs.status", obj):
+    if not request.user.has_perm("meta:vcs.maintenance", obj):
         raise PermissionDenied
 
+    component_ids: set[int] | None = None
+    repo_components: Sequence[Component] = ()
+    push_repo_components: Sequence[Component] = ()
+    update_repo_components: Sequence[Component] = ()
+    permission_names = dict(PERMISSIONS)
     if isinstance(obj, Project):
         repository_selection = get_project_repository_selection(
             request.user, obj, REPOSITORY_PERMISSIONS
@@ -175,17 +208,12 @@ def git_status(request: AuthenticatedHttpRequest, path):
         }
         repository_operation_restrictions = tuple(
             (
-                label,
+                gettext(permission_names[permission]),
                 filter_accessible_repository_restrictions(
                     request.user, selection.restrictions
                 ),
             )
-            for permission, label in (
-                ("vcs.commit", gettext("Commit")),
-                ("vcs.push", gettext("Push")),
-                ("vcs.update", gettext("Update")),
-                ("vcs.reset", gettext("Reset")),
-            )
+            for permission in REPOSITORY_PERMISSIONS
             if (selection := operation_selections[permission]).permission_blockers
         )
         commit_selection = operation_selections["vcs.commit"]
@@ -195,11 +223,38 @@ def git_status(request: AuthenticatedHttpRequest, path):
             component.pk for component in commit_selection.included_components
         }
     else:
+        component = obj.component if isinstance(obj, Translation) else obj
+        owners = get_repository_permission_components(obj)
+        repository_operation_restrictions = tuple(
+            (
+                gettext(permission_names[permission]),
+                filter_accessible_repository_restrictions(
+                    request.user,
+                    (ProjectRepositoryRestriction((component,), tuple(owners)),),
+                ),
+            )
+            for permission in REPOSITORY_PERMISSIONS
+            if not request.user.has_perm(permission, obj)
+        )
+    repository_restrictions: dict[ProjectRepositoryRestriction, list[str]] = {}
+    for permission_name, restrictions in repository_operation_restrictions:
+        for restriction in restrictions:
+            repository_restrictions.setdefault(restriction, []).append(permission_name)
+
+    if not isinstance(obj, Project):
+        if not request.user.has_perm("meta:vcs.status", obj):
+            return render(
+                request,
+                "js/git-repository-restrictions.html",
+                {
+                    "object": obj,
+                    "repository_restrictions": repository_restrictions.items(),
+                },
+            )
         repo_components = obj.all_repo_components
         push_repo_components = repo_components
         update_repo_components = repo_components
         component_ids = None
-        repository_operation_restrictions = ()
 
     # Filter events from repository
     changes = (
@@ -216,7 +271,9 @@ def git_status(request: AuthenticatedHttpRequest, path):
     except IndexError:
         push_label = ""
     else:
-        push_label = first_component.repository_class.get_push_label(first_component)
+        push_label = str(
+            first_component.repository_class.get_push_label(first_component)
+        )
 
     pending_units = PendingUnitChange.objects.detailed_count(
         obj, component_ids=component_ids
@@ -243,6 +300,7 @@ def git_status(request: AuthenticatedHttpRequest, path):
             ),
             "repositories": repo_components,
             "repository_operation_restrictions": repository_operation_restrictions,
+            "repository_restrictions": repository_restrictions.items(),
             "pending_units": pending_units,
             "outgoing_commits": sum(
                 repo.count_repo_outgoing for repo in push_repo_components

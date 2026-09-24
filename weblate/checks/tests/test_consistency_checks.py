@@ -4,6 +4,8 @@
 
 """Tests for consistency checks."""
 
+from __future__ import annotations
+
 from unittest.mock import patch
 
 from django.db import connection
@@ -302,6 +304,45 @@ class ConsistencyCheckTest(ComponentTestCase):
 
         self.assertEqual(unit.all_checks_names, {"inconsistent"})
 
+    def test_consistency_separates_plural_groups(self) -> None:
+        self.translation_2.plural = self.other.source_translation.plural
+        self.translation_2.save(update_fields=["plural"])
+        unit = self.add_unit(self.translation_1, "one", "One", "Jeden")
+        self.add_unit(self.translation_2, "one", "One", "One", increment=False)
+
+        self.assertNotIn(
+            unit.id_hash,
+            {
+                match.id_hash
+                for match in ConsistencyCheck().check_component(self.component)
+            },
+        )
+
+    def test_consistency_global_limit(self) -> None:
+        expected = {}
+        for index in range(101):
+            unit = self.add_unit(self.translation_1, str(index), "Source", "First")
+            other = self.add_unit(
+                self.translation_2, str(index), "Source", "Second", increment=False
+            )
+            # Make the source translations inconsistent as well, so the same
+            # hashes match in two plural groups and exercise the ordering tie.
+            Unit.objects.filter(pk=other.source_unit_id).update(target="Different")
+            expected[unit.id_hash, self.translation_1.plural_id] = {
+                unit.pk,
+                other.pk,
+            }
+            expected[unit.id_hash, self.component.source_translation.plural_id] = {
+                unit.source_unit_id,
+                other.source_unit_id,
+            }
+
+        expected_ids = set().union(*(expected[key] for key in sorted(expected)[:100]))
+        self.assertSetEqual(
+            {unit.pk for unit in ConsistencyCheck().check_component(self.component)},
+            expected_ids,
+        )
+
     def test_consistency_query_uses_min_max_targets(self) -> None:
         check = ConsistencyCheck()
 
@@ -320,6 +361,7 @@ class ConsistencyCheckTest(ComponentTestCase):
             query["sql"].upper() for query in queries if "MIN(" in query["sql"].upper()
         )
         self.assertNotIn('"TRANS_COMPONENT"', aggregate_sql)
+        self.assertNotIn('"TRANS_TRANSLATION"', aggregate_sql)
         self.assertIn('"TRANS_UNIT"."TRANSLATION_ID" IN', aggregate_sql)
 
         unit_sql = next(

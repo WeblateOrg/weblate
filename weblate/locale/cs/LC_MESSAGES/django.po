@@ -15,13 +15,14 @@
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # Michal Várady <miko.vaji@gmail.com>, 2026.
+# Valentin Ljuba <7fnndt50@anonaddy.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
-"PO-Revision-Date: 2026-09-05 05:51+0000\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"PO-Revision-Date: 2026-09-22 15:03+0000\n"
 "Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -30,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.9.1.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -324,6 +325,23 @@ msgstr ""
 
 msgid "Enter the code from the app"
 msgstr "Zadejte kód z aplikace"
+
+msgid "Project, category, component, or translation path"
+msgstr "Projekt, kategorie, komponenta nebo překladová cesta"
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+"Zadejte slugy oddělené lomítkem, například project/category/component/cs. "
+"Cesty „project“ a „category“ shrnují zděděná nastavení a výjimky komponent."
+
+msgid "Enter a valid object path."
+msgstr "Zadejte platnou cestu k objektu."
+
+msgid "The target does not exist or you cannot access it."
+msgstr "Cíl neexistuje nebo k němu nemáte přístup."
 
 #. Translators: Audit log entry
 msgid "Password changed."
@@ -852,8 +870,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
-"Přidán jazyk %(language)s do překládaných jazyků. Můžete je upravit v "
-"nastaveních."
+"Do překládaných jazyků byl přidán jazyk %(language)s. Tyto jazyky můžete "
+"upravit v nastavení."
 
 msgid "Use anonymous account name"
 msgstr "Použít anonymní jméno účtu"
@@ -863,6 +881,57 @@ msgstr "Použít jméno účtu"
 
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Prosím poskytněte e-mailovou adresu pro odesílání překladů."
+
+msgid "No matching subscription."
+msgstr "Nebylo nalezeno žádné odpovídající předplatné."
+
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Neaktivní uživatelé a boti nedostávají oznámení."
+
+msgid "The user cannot access this target."
+msgstr "Uživatel nemá k tomuto cíli přístup."
+
+msgid "This language is not among the user’s notification languages."
+msgstr "Tento jazyk není mezi jazyky, ve kterých uživatel dostává oznámení."
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr "Toto oznámení nebere v úvahu odběry sledovaných projektů."
+
+msgid "The user is not watching this project."
+msgstr "Uživatel tento projekt nesleduje."
+
+msgid "No administered-project subscription matches this target."
+msgstr "Žádné předplatné spravovaného projektu tomuto cíli neodpovídá."
+
+msgid "The project or component subscriptions apply to other targets."
+msgstr "Předplatná projektů nebo komponent se vztahují na další cíle."
+
+msgid "Disabled by the effective subscription."
+msgstr "Funkce je deaktivována v rámci platného předplatného."
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+"Nárok vzniká, jakmile jsou splněny podmínky události uvedené v oznámení."
+
+msgid "Requires a corresponding event on this target."
+msgstr "Vyžaduje odpovídající událost na tomto cíli."
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr "Okamžité doručení lze potlačit pomocí: %(notification)s."
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+"Události vázané na jazyk vyžadují, aby byl nastaven jeden z jazyků oznámení "
+"uživatele."
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+"Tento rozsah je příliš široký na to, aby se dal zkontrolovat. Vyberte menší "
+"kategorii, komponentu nebo překlad."
 
 msgid "No notification"
 msgstr "Žádná oznámení"
@@ -878,6 +947,21 @@ msgstr "Týdenní souhrn"
 
 msgid "Monthly digest"
 msgstr "Měsíční souhrn"
+
+msgid "All"
+msgstr "Vše"
+
+msgid "Watched"
+msgstr "Sledované"
+
+msgid "Administered"
+msgstr "Spravováno"
+
+msgid "Project"
+msgstr "Projekt"
+
+msgid "Component"
+msgstr "Součást"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -951,6 +1035,13 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "Součásti byly přeloženy"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+"Komentáře ve zdrojovém řetězci ignorují jazyky oznámení; ostatní komentáře "
+"vyžadují odpovídající jazyk."
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Komentář byl přidán"
@@ -959,6 +1050,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Komentáře byly přidány"
 
+msgid "The comment must mention this user."
+msgstr "Komentář musí tohoto uživatele zmínit."
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Byli jste zmíněni v komentáři"
@@ -966,6 +1060,13 @@ msgstr "Byli jste zmíněni v komentáři"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Byli jste zmíněni v některých komentářích"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
+"Uživatel musí mít podíl na vytvoření daného řetězce nebo se již dříve "
+"účastnil diskuse o něm."
 
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
@@ -1015,6 +1116,13 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "Nové součásti překladu byly vytvořeny"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+"Oznámení musí umožňovat zasílání oznámení. Pokud je v něm uveden jazyk, musí "
+"se tento jazyk shodovat s jazyky, ve kterých uživatel dostává oznámení."
+
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "Oznámení bylo zveřejněno"
@@ -1022,6 +1130,14 @@ msgstr "Oznámení bylo zveřejněno"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Oznámení byla zveřejněna"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
+"Upozornění musí mít alespoň úroveň „varování“ a uživatel musí mít možnost na "
+"něj reagovat. Upozornění týkající se propojených komponent a celého projektu "
+"lze deduplikovat."
 
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
@@ -1112,8 +1228,8 @@ msgid ""
 "{0}."
 msgstr "Váš e-mail už není ověřený, byl změněn na {0}."
 
-msgid "Use security key (WebAuthn)"
-msgstr "Použít bezpečnostní klíč (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
+msgstr "Použijte přístupový klíč nebo bezpečnostní klíč (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
 msgstr "Použít autentifikační aplikaci (TOTP)"
@@ -1174,6 +1290,9 @@ msgstr "Kontakt"
 msgid "Hosting"
 msgstr "Hostování"
 
+msgid "Invalid trial plan."
+msgstr "Neplatný testovací plán."
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1190,6 +1309,10 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Vyzkoušet zdarma"
+
+#, python-format
+msgid "Notification diagnostics for %(user)s"
+msgstr "Diagnostika oznámení pro %(user)s"
 
 msgid "This user can not be edited."
 msgstr "Tento uživatel nelze upravit."
@@ -1343,6 +1466,12 @@ msgstr "Autentifikační aplikace byla odstraněna."
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "Autentifikační aplikace %s byla zaregistrována."
+
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr ""
+"Tato registrace ověřovací aplikace již není platná. Zahajte novou registraci."
 
 msgid ""
 "Too many failed authentication attempts. Please reset your password to "
@@ -1731,6 +1860,18 @@ msgstr ""
 msgid "Keyword entries have to be strings."
 msgstr "Záznamy klíčových slov musí být řetězce."
 
+msgid "ITS data directories"
+msgstr "Datové adresáře ITS"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+"Adresáře relativní k repozitáři, oddělené novými řádky, obsahující "
+"podadresář „its“; například „po“ pro „po/its“. Adresáře uvedené dříve mají "
+"přednost před těmi, které následují, a před pravidly v balíčku."
+
 msgid "Do not extract comments"
 msgstr "Neextrahovat komentáře"
 
@@ -1907,6 +2048,15 @@ msgstr ""
 
 msgid "Could not determine Sphinx source directory."
 msgstr "Nepodařilo se zjistit zdrojový adresář Sphinx."
+
+msgid "Output scope"
+msgstr "Rozsah výstupu"
+
+msgid "One file per translation"
+msgstr "Jeden soubor na jeden překlad"
+
+msgid "One file per component"
+msgstr "Jeden soubor na jednu součást"
 
 msgid "Name of generated file"
 msgstr "Název vytvořeného souboru"
@@ -2435,21 +2585,93 @@ msgstr ""
 "Aktualizuje šablonu gettext pomocí sestavovacího nástroje Sphinx bez načtení "
 "konfigurace projektu."
 
-msgid "Contributors in comment"
-msgstr "Přispěvatelé v komentáři"
+msgid "ITS rule file is too large."
+msgstr "Soubor pravidel ITS je příliš velký."
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Soubor pravidel ITS obsahuje příliš mnoho výrazů XPath."
+
+msgid "ITS XPath expression is too long."
+msgstr "Výraz ITS XPath je příliš dlouhý."
+
+msgid "Too many ITS rule files."
+msgstr "Příliš mnoho souborů pravidel ITS."
+
+msgid "ITS rule files are too large."
+msgstr "Soubory pravidel ITS jsou příliš velké."
+
+msgid "ITS directories must be a list of strings."
+msgstr "Adresáře ITS musí být seznamem řetězců."
+
+msgid "Invalid ITS directory path."
+msgstr "Neplatná cesta k adresáři ITS."
+
+msgid "ITS rules must not contain a document type."
+msgstr "Pravidla ITS nesmí obsahovat typ dokumentu."
+
+msgid "Invalid ITS rule document root."
+msgstr "Neplatný kořenový adresář dokumentů pravidel ITS."
+
+msgid "ITS rule file contains too many elements."
+msgstr "Soubor pravidel ITS obsahuje příliš mnoho prvků."
+
+msgid "Unsupported ITS rule content."
+msgstr "Nepodporovaný obsah pravidla ITS."
+
+msgid "Unsupported ITS locating rule."
+msgstr "Nepodporované pravidlo pro určování lokalizace ITS."
+
+msgid "ITS locating rules require a pattern."
+msgstr "Pravidla pro lokalizaci ITS vyžadují určitý vzor."
+
+msgid "ITS locating rules require a target or a document rule."
 msgstr ""
-"Aktualizuje komentář v hlavičce PO souboru tak, aby obsahoval jméno "
-"přispěvatele a roky kdy přispíval."
+"Pravidla pro lokalizaci ITS vyžadují pravidlo pro cíl nebo pro dokument."
+
+msgid "ITS document rules require a target."
+msgstr "Pravidla pro dokumenty ITS vyžadují zadání cíle."
+
+msgid "Unsupported ITS rule namespace."
+msgstr "Nepodporovaný jmenný prostor pravidel ITS."
+
+msgid "External ITS rule references are not allowed."
+msgstr "Odkazy na externí pravidla ITS nejsou povoleny."
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr "Cíle ITS musí odkazovat na pravidlo ve stejném adresáři."
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr "Cíl ITS chybí nebo se jedná o symbolický odkaz."
+
+msgid "ITS directories must not contain symbolic links."
+msgstr "Adresáře ITS nesmí obsahovat symbolické odkazy."
+
+#, python-format
+msgid "ITS directory does not exist: %(path)s"
+msgstr "Adresář ITS neexistuje: %(path)s"
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr "Pravidla ITS musí být běžné soubory, nikoli symbolické odkazy."
+
+#, python-format
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Neplatné pravidlo ITS %(path)s: %(error)s"
+
+#, python-format
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Nelze analyzovat pravidlo ITS: %(path)s"
 
 msgid "Squash Git commits"
 msgstr "Sloučit zápisy v Gitu"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Sloučit zápisy Gitu před jejich odesláním."
+
+msgid "API add-ons must be installed directly on a component."
+msgstr "Doplňky API je nutné nainstalovat přímo do komponenty."
+
+msgid "This add-on is already installed on this component."
+msgstr "Tento doplněk je v této komponentě již nainstalován."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Tento doplněk nelze spustit ručně."
@@ -2752,14 +2974,14 @@ msgstr "Znovu naskenovat všechny soubory překladů v repozitáři Weblate"
 msgid "Please provide a suggestion"
 msgstr "Prosím, uveďte návrh"
 
-msgid "Translation text too long!"
-msgstr "Text překladu je příliš dlouhý!"
-
 msgid "Number of plurals does not match"
 msgstr "Počet množných čísel se neshoduje"
 
 msgid "Your suggestion is similar to the current translation!"
 msgstr "Váš návrh je podobný současnému překladu!"
+
+msgid "Translation text too long!"
+msgstr "Text překladu je příliš dlouhý!"
 
 msgid "Your suggestion already exists!"
 msgstr "Váš návrh už existuje!"
@@ -2830,14 +3052,8 @@ msgstr "Nemáte oprávnění ke schvalování řetězců."
 msgid "This string seems to already exist."
 msgstr "Vypadá to, že tento řetězec již existuje."
 
-msgid "Project"
-msgstr "Projekt"
-
 msgid "Category"
 msgstr "Kategorie"
-
-msgid "Component"
-msgstr "Součást"
 
 msgid "User"
 msgstr "Uživatel"
@@ -2928,8 +3144,8 @@ msgid "Manage project access"
 msgstr "Spravovat přístupy k projektu"
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Stáhnout výkazy"
+msgid "Manage reports"
+msgstr "Správa přehledů"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -3892,12 +4108,14 @@ msgstr "Překlad a zdroj oba nezačínají stejným počtem mezer."
 msgid "Non‑standard characters in Kabyle"
 msgstr "Nestandardní znaky v kabylštině"
 
+#, python-brace-format
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
-"Používat standardizované latinkové znaky kabylštiny (např. ɣ namísto řeckého "
-"γ; ɛ namísto znaku ε)."
+"Používejte standardizované latinské znaky pro kabylštinu (např. "
+"{latin_gamma} místo řeckého {greek_gamma}; {latin_epsilon} místo "
+"{greek_epsilon})."
 
 msgid "Trailing space"
 msgstr "Koncová mezera"
@@ -3950,8 +4168,9 @@ msgstr "Překlad a zdroj oba nekončí výpustky."
 msgid "Mismatched \\n"
 msgstr "Neodpovídající \\n"
 
-msgid "Number of \\n literals in translation does not match source."
-msgstr "Počet symbolů \\n v překladu neodpovídá zdroji."
+#, python-brace-format
+msgid "Number of {newline} literals in translation does not match source."
+msgstr "Počet {newline} v překladu se neshoduje s počtem ve zdrojovém textu."
 
 msgid "Mismatching line breaks"
 msgstr "Neshodují se zalomení řádků"
@@ -4105,6 +4324,9 @@ msgstr "Ignorovat všechny kontroly"
 
 msgid "Use case insensitive placeholders"
 msgstr "Zástupné symboly bez ohledu na velikost písmen"
+
+msgid "Monospace font"
+msgstr "Písmo s pevnou šírkou"
 
 msgid "Font family"
 msgstr "Rodina písma"
@@ -4855,10 +5077,11 @@ msgstr ""
 msgid "Ellipsis"
 msgstr "Výpustka"
 
+#, python-brace-format
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
-msgstr "Řetězec používá tři tečky ``(...)`` namísto výpustky ``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
+msgstr "Řetězec používá tři tečky {dots} namísto znaku elipsy {ellipsis}."
 
 msgid "Source string length"
 msgstr "Délka zdrojového řetězce"
@@ -4927,6 +5150,9 @@ msgstr "Výchozí písmo je použité pokud není nastavená výjimka podle jazy
 
 msgid "Font"
 msgstr "Písmo"
+
+msgid "Font has to be in the same project as the font group."
+msgstr "Písmo musí být ve stejném projektu jako skupina písem."
 
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát."
@@ -5360,6 +5586,22 @@ msgstr ""
 "Nepodařilo se přidat slovo do glosáře, protože na pozadí probíhá jiná "
 "operace. Zkuste to prosím znovu později."
 
+msgid "Maximum build age (days)"
+msgstr "Maximální věk sestavení (dny)"
+
+msgid "Maximum retained versions"
+msgstr "Maximální počet uchovávaných verzí"
+
+msgid "Kotlin SDK CDN"
+msgstr "Kotlin SDK CDN"
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+"Zveřejňuje řetězcové a množné zdroje pro Android pro registrované sestavení "
+"SDK v jazyce Kotlin."
+
 msgid "Weblate languages"
 msgstr "Jazyky Weblate"
 
@@ -5637,8 +5879,11 @@ msgid "Please read the following General Terms and Conditions document:"
 msgstr ""
 "Přečtěte si prosím následující dokument s obecnými obchodními podmínkami:"
 
-msgid "Please also read the Privacy Policy:"
-msgstr "Přečtěte si prosím také zásady ochrany osobních údajů:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
+msgstr ""
+"Přečtěte si prosím také <a href=\"%(privacy_url)s\">Zásady ochrany osobních "
+"údajů</a>."
 
 msgid "Submit"
 msgstr "Odeslat"
@@ -5660,6 +5905,20 @@ msgstr ""
 "Tato stránka vychází ze Všeobecných smluvních podmínek a Zásad ochrany "
 "osobních údajů, doporučujeme si ale přečíst tyto dokumenty celé, abyste jim "
 "plně porozuměli:"
+
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+"Tato stránka vychází z Všeobecných obchodních podmínek; pro úplné porozumění "
+"byste si však měli přečíst původní dokument:"
+
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
+msgstr ""
+"Tato stránka vychází ze Zásad ochrany osobních údajů; pro úplné pochopení "
+"byste si měli přečíst i původní dokument:"
 
 msgid "Cookies are used on this site for the following:"
 msgstr "Soubory cookie se na těchto stránkách používají pro:"
@@ -5964,9 +6223,6 @@ msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
 "Preferovat LLM nové generace před klasickým modelem strojového překladu."
 
-msgid "DeepL API v1 is no longer supported."
-msgstr "DeepL API v1 již není podporováno."
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr "Model LLM"
@@ -6108,30 +6364,6 @@ msgstr "Model Ollama"
 
 msgid "Name of the model described in Ollama catalogue."
 msgstr "Název modelu popsaný v katalogu Ollama."
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr "Claude Haiku 4.5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr "Claude Opus 5"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr "Claude Fable 5.1"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.8"
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
-msgstr "Claude Fable 5"
 
 msgctxt "Anthropic model selection"
 msgid "Custom model"
@@ -6409,13 +6641,16 @@ msgid "Assigned strings"
 msgstr "Přiřazené řetězce"
 
 msgid "Search"
-msgstr "Vyhledávání"
+msgstr "Hledat"
 
 msgid "Search screenshots"
 msgstr "Vyhledat snímky obrazovky"
 
 msgid "Sort by"
 msgstr "Seřadit podle"
+
+msgid "Screenshot"
+msgstr "Snímek obrazovky"
 
 msgid "Screenshot name"
 msgstr "Název snímku obrazovky"
@@ -6484,6 +6719,9 @@ msgstr "Nebyly nalezeny žádné nové odpovídající zdrojové řetězce."
 
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Data OCR se nepodařilo stáhnout. Zkuste to prosím později."
+
+msgid "Select a valid screenshot."
+msgstr "Vyberte platný snímek obrazovky."
 
 msgid "Bad request"
 msgstr "Chybný požadavek"
@@ -6591,20 +6829,11 @@ msgstr "O Weblate"
 msgid "Support Weblate"
 msgstr "Podpořte Weblate"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr "Pomozte <strong>Weblate</strong> zvyšovat svou kvalitu"
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Vítejte a děkujeme vám za podporu Weblate"
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Vítejte a děkujeme vám, že jste si vybrali Weblate"
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
-"lokalizační platforma respektující soukromí a vyznávající hodnoty open-"
-"source."
+msgid "Continue to Weblate"
+msgstr "Pokračovat na Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6693,6 +6922,16 @@ msgstr "Přihlášení druhým faktorem"
 
 msgid "Please complete your sign-in using second factor credential."
 msgstr "Přihlášení dokončete pomocí nastaveného druhého faktoru."
+
+msgid "Other ways to verify your identity"
+msgstr "Další způsoby ověření vaší totožnosti"
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
+msgstr ""
+"Pokud nemůžete použít svůj přístupový kód, bezpečnostní klíč ani žádný jiný "
+"nastavený způsob ověření, obraťte se o pomoc na správce webu."
 
 msgid "Your profile"
 msgstr "Váš profil"
@@ -6868,7 +7107,6 @@ msgstr "Prosím opravte chyby v registračním formuláři."
 msgid "Verify new e-mail address"
 msgstr "Ověřit novou e-mailovou adresu"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Registrace"
 
@@ -6924,6 +7162,135 @@ msgstr "Zapomněli jste heslo?"
 msgid "Register new account"
 msgstr "Založit nový účet"
 
+msgid "Notification diagnostics"
+msgstr "Diagnostika oznámení"
+
+msgid "Diagnostics"
+msgstr "Diagnostika"
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+"Zkontrolujte, zda jsou události splňující dané podmínky způsobilé k odběru. "
+"Tím se neodesílají žádné oznámení. Oznámení se nespouštějí na základě akcí "
+"samotného uživatele; na doručování mohou mít vliv také podrobnosti události, "
+"obsah souhrnu a limity frekvence doručování."
+
+msgid "Check notifications"
+msgstr "Zkontrolovat oznámení"
+
+#, python-format
+msgid "Notification eligibility for %(target)s"
+msgstr "Oprávnění k zasílání oznámení pro %(target)s"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+"Zděděná nastavení projektu se zobrazí jednou, společně s rozdíly v "
+"dostupných komponentách. Vyberte komponentu nebo překladovou cestu pro "
+"podrobnou kontrolu způsobilosti."
+
+msgid "Notification"
+msgstr "Oznámení"
+
+msgid "Inherited project settings"
+msgstr "Zděděná nastavení projektu"
+
+msgid "Settings and eligibility"
+msgstr "Nastavení a podmínky účasti"
+
+msgid "Component exceptions"
+msgstr "Výjimky týkající se komponent"
+
+msgid "One-time"
+msgstr "Jednorázově"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+"Žádné zděděné předplatné. Odpovídající nastavení jsou uvedena v části "
+"„Výjimky komponent“."
+
+msgid "Overridden subscriptions"
+msgstr "Přepsaná předplatná"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] "Různá nastavení v %(count)s komponentě."
+msgstr[1] "Různá nastavení v %(count)s komponentách."
+msgstr[2] "Různá nastavení v %(count)s komponentách."
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+"Tyto komponenty nemají žádné odpovídající předplatné, takže toto oznámení "
+"nebude odesláno."
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+"Sdílené komponenty využívají předplatné ze svého původního projektu, nikoli "
+"předplatné tohoto projektu."
+
+msgid "Inspect example components:"
+msgstr "Prohlédněte si ukázkové komponenty:"
+
+msgid "Inspect components:"
+msgstr "Zkontrolujte součásti:"
+
+msgid "None"
+msgstr "Žádná"
+
+msgid "No accessible components or translations in this target."
+msgstr "V tomto cílovém jazyce nejsou žádné přístupné komponenty ani překlady."
+
+msgid "No matching subscriptions in this scope."
+msgstr "V tomto rozsahu nebyly nalezeny žádné odpovídající předplatné."
+
+#, python-format
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "%(count)s sledovaný projekt."
+msgstr[1] "%(count)s sledované projekty."
+msgstr[2] "%(count)s sledovaných projektů."
+
+msgid "No watched projects."
+msgstr "Žádné sledované projekty."
+
+msgid "Notification languages"
+msgstr "Jazyky oznámení"
+
+#, python-format
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "Jazyk oznámení: %(count)s."
+msgstr[1] "Jazyky oznámení: %(count)s."
+msgstr[2] "Jazyků oznámení: %(count)s."
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+"Nebyly vybrány žádné jazyky pro oznámení. Oznámení filtrovaná podle jazyka "
+"nebudou odeslána."
+
+msgid "Subscriptions"
+msgstr "Předplatné"
+
+msgid "Frequency"
+msgstr "Frekvence"
+
+msgid "No subscriptions."
+msgstr "Žádné předplatné."
+
 msgid "Please enable the password authentication to secure your account."
 msgstr "Zabezpečte si svůj účet zapnutím ověřování heslem."
 
@@ -6977,6 +7344,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Uložit"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+"Zkontrolujte, která předplatná se vztahují k projektu, komponentu nebo "
+"překladu a co může bránit doručení oznámení."
+
+msgid "Open notification diagnostics"
+msgstr "Otevřít diagnostiku upozornění"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7415,10 +7792,13 @@ msgstr[0] "Vaše zkušební období potrvá %(days)s den."
 msgstr[1] "Vaše zkušební období potrvá %(days)s dny."
 msgstr[2] "Vaše zkušební období potrvá %(days)s dní."
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, python-format
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
-"Ve zkušebním období budete používat plán 640k, ale později si můžete zvolit "
-"jakýkoliv jiný."
+"Během zkušebního období bude platit tarif %(trial_plan)s, ale později si "
+"můžete vybrat jakýkoli jiný tarif."
 
 msgid "No credit card is needed, but you can set the payment method anytime."
 msgstr ""
@@ -7522,15 +7902,6 @@ msgstr "Identita"
 msgid "User ID"
 msgstr "Identifikátor uživatele"
 
-msgid "Notification"
-msgstr "Oznámení"
-
-msgid "Frequency"
-msgstr "Frekvence"
-
-msgid "One-time"
-msgstr "Jednorázově"
-
 msgid "Members"
 msgstr "Členové"
 
@@ -7633,8 +8004,28 @@ msgstr "Pokračujte pouze, pokud důvěřujete tomuto cíli."
 msgid "Continue"
 msgstr "Pokračovat"
 
-msgid "Sign in using the security key"
-msgstr "Přihlásit se pomocí klíče"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+"Použijte zařízení, na kterém máte přístupový klíč k dispozici, nebo připojte "
+"svůj registrovaný bezpečnostní klíč. Na novém počítači nebo v jiném "
+"prohlížeči nemusí být váš přístupový klíč k dispozici."
+
+msgid "Sign in using a passkey or security key"
+msgstr "Přihlaste se pomocí přístupového klíče nebo bezpečnostního klíče"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
+msgstr ""
+"Ověření pomocí přístupového klíče nebo bezpečnostního klíče se nepodařilo "
+"dokončit. K žádosti mohlo dojít k vypršení časového limitu nebo k jejímu "
+"zrušení, případně vaše přihlašovací údaje na tomto zařízení nemusí být k "
+"dispozici. Zkuste to znovu nebo použijte jinou metodu ověření, je-li k "
+"dispozici."
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Omlouváme se, ale váš prohlížeč nemá podporu WebAuthn."
@@ -7665,6 +8056,12 @@ msgstr "Nekompatibilní"
 
 msgid "No components found."
 msgstr "Nebyly nalezeny žádné součásti."
+
+msgid "Add-on API base URL:"
+msgstr "Základní URL rozhraní API doplňku:"
+
+msgid "API root"
+msgstr "Kořen API"
 
 msgid "Configure add-on"
 msgstr "Nastavit doplněk"
@@ -7826,6 +8223,24 @@ msgid ""
 msgstr ""
 "Jak v názvu souboru, tak v obsahu je možné použít značkovací jazyk šablon "
 "Django, například:"
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+"V režimu komponentů projděte překlady a získejte přístup k metadatům a "
+"statistikám jednotlivých jazyků. K serializaci hodnot ve vygenerovaných "
+"souborech použijte filtr json nebo python."
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
+"Níže uvedené překladové proměnné jsou k dispozici přímo v překladovém režimu "
+"nebo u jednotlivých položek v režimu komponent. Proměnné komponent a "
+"projektu jsou k dispozici v obou režimech."
 
 msgid "Percents translated"
 msgstr "Procent přeloženo"
@@ -8381,6 +8796,9 @@ msgstr "Zkontrolovat stav předplatného"
 msgid "Browse"
 msgstr "Procházet"
 
+msgid "Translation status widgets"
+msgstr "Widgety zobrazující stav překladu"
+
 msgid "No strings found!"
 msgstr "Nebyly nalezeny žádné řetězce!"
 
@@ -8405,6 +8823,9 @@ msgstr "Operace"
 msgid "Search and replace"
 msgstr "Vyhledat a nahradit"
 
+msgid "Post announcement"
+msgstr "Vydat oznámení"
+
 msgid "Organize or remove"
 msgstr "Uspořádat nebo odstranit"
 
@@ -8419,6 +8840,15 @@ msgstr "Použít"
 
 msgid "Browse components"
 msgstr "Procházet součásti"
+
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
+"Zpráva se zobrazuje u všech překladů v tomto jazyce v dané kategorii a "
+"jejích podkategoriích, a to buď do stanoveného data vypršení platnosti, nebo "
+"trvale, dokud nebude smazána."
 
 msgid "Announcements"
 msgstr "Oznámení"
@@ -8443,9 +8873,6 @@ msgstr "Hromadný automatický překlad"
 
 msgid "Add new category"
 msgstr "Přidat novou kategorii"
-
-msgid "Post announcement"
-msgstr "Vydat oznámení"
 
 msgid "Browse all category changes"
 msgstr "Prohlédnout si všechny změny v kategoriích"
@@ -8498,7 +8925,7 @@ msgid "Progress"
 msgstr "Postup"
 
 msgid "Repository changes are being processed…"
-msgstr "Probíhá zpracování změn v úložišti…"
+msgstr "Probíhá zpracování změn v repozitáři…"
 
 #, python-format
 msgid "Continue to %(return_target)s"
@@ -8509,9 +8936,6 @@ msgstr "Přerušit aktualizaci"
 
 msgid "Continue after completion"
 msgstr "Pokračovat po dokončení"
-
-msgid "Diagnostics"
-msgstr "Diagnostika"
 
 msgid "error"
 msgid_plural "errors"
@@ -8929,28 +9353,39 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Staňte se podporovatelem Weblate"
 
-msgid "Some repositories are not accessible"
-msgstr "K některým repozitářům není přístup"
+msgid "Some repository operations require additional permissions"
+msgstr "Některé operace s repozitářem vyžadují další oprávnění"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
-"Každá z níže uvedených operací vylučuje repozitáře, pokud nemáte potřebná "
-"oprávnění ke všem komponentám, které je sdílejí."
+"Operace s úložištěm vyžadují oprávnění ke komponentě, která je vlastníkem "
+"sdíleného úložiště."
 
-msgid "Skipped components:"
-msgstr "Vynechané součásti:"
+msgid "Affected components:"
+msgstr "Dotčené komponenty:"
 
-msgid "Permission required on:"
-msgstr "Je vyžadováno oprávnění pro:"
+msgid "You need the following permissions on the repository-owning component:"
+msgstr ""
+"V komponentě, která je vlastníkem repozitáře, potřebujete následující "
+"oprávnění:"
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
 msgstr ""
-"Repozitář byl přeskočen, protože jedna nebo více jeho součástí není "
-"přístupná."
+"Potřebujete následující oprávnění ke komponentě, která je vlastníkem "
+"repozitáře, ke které však nemáte přístup:"
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr "Požádejte správce příslušného projektu, aby vám tato oprávnění udělil."
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
+msgstr ""
+"Požádejte správce projektu, aby domluvil přístup s vlastníkem repozitáře."
 
 msgid "Repository status"
 msgstr "Stav repozitáře"
@@ -8994,6 +9429,11 @@ msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "(%(count)s chybí ve větvi push)"
 msgstr[1] "(%(count)s chybí ve větvi push)"
 msgstr[2] "(%(count)s chybí ve větvi push)"
+
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+"Odesílání je zakázané, protože nebyla nastavena žádná adresa URL odesílání "
+"do repozitáře."
 
 #, python-format
 msgid "%(count)s missing commit"
@@ -9196,6 +9636,9 @@ msgstr "Repozitář pro %(component)s"
 msgid "Repository details"
 msgstr "Podrobnosti repozitáře"
 
+msgid "Edit repository configuration"
+msgstr "Upravit nastavení repozitáře"
+
 msgid "Repository changes"
 msgstr "Změny repozitáře"
 
@@ -9236,6 +9679,10 @@ msgstr ""
 
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Zrušit označení překladu jako Potřebuje upravit a odeslat jej."
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr "Přijmout překlad a uložit a pokračovat. Dostupné pouze kontrolorům."
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -9319,6 +9766,9 @@ msgstr "Změna pravidel množných čísel nemusí mít požadovaný účinek."
 
 msgid "Please see a documentation for more info."
 msgstr "Další informace naleznete v dokumentaci."
+
+msgid "Translation workflow"
+msgstr "Workflow překladů"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -9621,12 +10071,6 @@ msgstr "Součást %(component)s byla zamčena"
 msgid "Component %(component)s was unlocked"
 msgstr "Součást %(component)s byla odemčena"
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
-"Poznámka: Tento souhrn byl zkrácen, protože bylo zaznamenáno více než 100 "
-"upozornění."
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -9881,6 +10325,12 @@ msgstr "Potvrdit odstranění účtu"
 msgid "Confirm invitation"
 msgstr "Potvrďte pozvánku"
 
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr ""
+"Poznámka: Toto oznámení bylo zkráceno, protože bylo zaznamenáno více než 100 "
+"položek."
+
 msgid "Source string description"
 msgstr "Popis zdrojového řetězce"
 
@@ -10044,6 +10494,19 @@ msgstr "Limity balíčku podpory"
 msgid "Support expiry"
 msgstr "Vypršení podpory"
 
+msgid "Professional support for your organization"
+msgstr "Odborná podpora pro vaši organizaci"
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+"Zakupte si profesionální podporu a získejte odbornou pomoc s nastavením, "
+"údržbou a řešením problémů."
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr "Vaše předplatné také přispívá k dalšímu vývoji Weblate."
+
 msgid "Manage support package"
 msgstr "Správa balíčku podpory"
 
@@ -10053,8 +10516,8 @@ msgstr "Odpojit balíček podpory a deaktivovat Objevit Weblate"
 msgid "Unlink support package"
 msgstr "Odpojit balíček podpory"
 
-msgid "Purchase support package"
-msgstr "Koupit balíček podpory"
+msgid "Purchase support"
+msgstr "Zakoupit podporu"
 
 msgid "Contact customer care"
 msgstr "Kontaktovat zákaznickou podporu"
@@ -10268,7 +10731,7 @@ msgid "Activate"
 msgstr "Aktivovat"
 
 msgid "Backup repository"
-msgstr "Zálohovací úložiště"
+msgstr "Zálohovací repozitář"
 
 msgid "Passphrase"
 msgstr "Heslo"
@@ -10287,7 +10750,7 @@ msgstr "Stáhnout soukromý klíč"
 
 msgid "The private key is needed to access the remote backup repository."
 msgstr ""
-"Soukromý klíč je nezbytný pro přístup ke vzdálenému úložišti se zálohami."
+"Soukromý klíč je nezbytný pro přístup ke vzdálenému repozitáři se zálohami."
 
 msgid "SSH keys"
 msgstr "Klíče SSH"
@@ -10588,6 +11051,13 @@ msgstr ""
 "Správce projektu bude informován o tomto požadavku a bude požádán o přidání "
 "překladu ručně."
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+"Jazyky již použité jako cílové jazyky v tomto projektu lze přidat okamžitě. "
+"Ostatní jazyky jsou vyžádány od správců projektu."
+
 msgid "Can't find your language in the list above?"
 msgstr "Nemůžete najít svůj jazyk v seznamu?"
 
@@ -10681,6 +11151,12 @@ msgstr "Děkujeme vám za používání Weblate"
 
 msgid "Return to dashboard"
 msgstr "Zpět na nástěnku"
+
+msgid "Thank you for contributing translations."
+msgstr "Děkujeme za vaše překlady."
+
+msgid "Donate to Weblate development"
+msgstr "Přispějte na vývoj Weblate"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "Zkontrolujte a potvrďte výsledky vyhledání a nahrazení."
@@ -10791,6 +11267,29 @@ msgstr "Nebyly nalezeny žádné snímky obrazovky."
 
 msgid "Add new screenshot"
 msgstr "Přidat nový snímek obrazovky"
+
+msgid "Select a screenshot"
+msgstr "Vyberte snímek obrazovky"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+"U každého překladu tohoto řetězce se zobrazují snímky obrazovky v zdrojovém "
+"jazyce. Ostatní snímky obrazovky se zobrazují pouze pro příslušný jazyk."
+
+msgid "Selected"
+msgstr "Vybrané"
+
+msgid "No matching screenshots available."
+msgstr "Nejsou k dispozici žádné odpovídající snímky obrazovky."
+
+msgid "Screenshot pages"
+msgstr "Stránky se snímky obrazovky"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
+msgstr "Strana %(current)s z %(total)s"
 
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
@@ -10904,6 +11403,35 @@ msgstr ""
 msgid "You can change the state of all strings matching given type at once."
 msgstr "Je možné změnit stav všech řetězců odpovídajícího typu naráz."
 
+msgid "Translation quality filter"
+msgstr "Filtr kvality překladů"
+
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr "Před zapsáním tohoto překladu do souboru překladů je třeba potvrzení."
+
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr ""
+"Před zápisem do souboru překladů je třeba vyřešit stav „potřebuje upravit“ "
+"tohoto překladu."
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+"Zjistěte, jak <a href=\"%(policy_url)s\">filtr kvality překladů</a> ovládá, "
+"které překlady budou zapsány do souborů."
+
+msgid "Configure language workflow"
+msgstr "Nastavit workflow jazyka"
+
+msgid "Configure translation quality filter"
+msgstr "Nastavit filtr kvality překladů"
+
 msgid "View details"
 msgstr "Zobrazit podrobnosti"
 
@@ -10960,38 +11488,25 @@ msgstr "Dotčené součásti"
 #, python-format
 msgid "%(count)s more affected component."
 msgid_plural "%(count)s more affected components."
-msgstr[0] "%(count)s více dotčená součást."
-msgstr[1] "%(count)s více dotčené součásti."
-msgstr[2] "%(count)s více dotčených součástí."
+msgstr[0] "%(count)s další dotčená součást."
+msgstr[1] "%(count)s další dotčené součásti."
+msgstr[2] "%(count)s dalších dotčených součástí."
 
 msgid "No diagnostics match the selected filters."
 msgstr "Žádná diagnostika neodpovídá zadaným filtrům."
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-"Weblate je pro všechny uživatele zdarma, jeho vývoj však vyžaduje neustálé "
-"investice."
+msgid "Support Weblate development"
+msgstr "Podpořte vývoj Weblate"
 
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-"Vaše soukromí je naší prioritou; nikdy nezobrazujeme reklamy ani neprodáváme "
-"vaše data."
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Děkujeme, že používáte Weblate a přispíváte překlady."
 
 msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-"Neocenitelná podpora komunity prostřednictvím předplatného a darů zajišťuje, "
-"že Weblate nadále roste a vzkvétá."
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-"Připojte se k nám při utváření budoucnosti lokalizace a přispějte ještě dnes!"
-
-msgid "Purchase a support package"
-msgstr "Koupit balíček podpory"
+"Pokud byste chtěli přispět vyšší částkou, můžete prostřednictvím "
+"dobrovolného příspěvku podpořit vývoj a údržbu samotného Weblate."
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -11053,20 +11568,29 @@ msgstr "Poslední zápis ve Weblate"
 msgid "Weblate repository"
 msgstr "Weblate repozitář"
 
-msgid "This translation is forbidden."
-msgstr "Tento překlad je zakázaný."
-
-msgid "This term should not be translated."
-msgstr "Tento výraz by se neměl překládat."
-
 msgid "This translation needs editing."
 msgstr "Tento překlad potřebuje upravit."
 
 msgid "Copy word into translation"
 msgstr "Zkopírovat slovo do překladu"
 
+msgid "This translation is forbidden."
+msgstr "Tento překlad je zakázaný."
+
+msgid "Forbidden"
+msgstr "Zakázáno"
+
+msgid "This term should not be translated."
+msgstr "Tento výraz by se neměl překládat."
+
 msgid "Edit glossary term"
 msgstr "Upravit termín glosáře"
+
+msgid "Translation explanation"
+msgstr "Vysvětlení překladu"
+
+msgid "Source explanation"
+msgstr "Vysvětlení zdroje"
 
 msgid "Glossary translation explanation"
 msgstr "Vysvětlení překladu glosáře"
@@ -11533,6 +12057,9 @@ msgstr "Přeložené řetězce v některém jazyku"
 msgid "Query"
 msgstr "Dotaz"
 
+msgid "Refresh results"
+msgstr "Obnovit výsledky"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -11597,6 +12124,30 @@ msgstr "Zatím nebyly vygenerovány žádné zprávy."
 
 msgid "Report history pagination"
 msgstr "Stránkování historie zpráv"
+
+msgid "Reviews are enabled for this language."
+msgstr "Kontroly jsou u tohoto jazyka povoleny."
+
+msgid "Reviews are disabled for this language."
+msgstr "Kontroly jsou u tohoto jazyka zakázány."
+
+#, python-format
+msgid "Review setting: %(origin)s."
+msgstr "Zkontrolovat nastavení: %(origin)s."
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+"Zjistěte, jak si <a href=\"%(workflow_url)s\">přizpůsobit workflow u tohoto "
+"jazyka</a>."
+
+msgid "Learn how to customize translation workflows."
+msgstr "Zjistěte, jak si přizpůsobit workflow překladů."
+
+msgid "Configure translation workflow"
+msgstr "Nastavit workflow překladů"
 
 #, python-format
 msgid ""
@@ -11693,8 +12244,8 @@ msgid "Vote against"
 msgstr "Hlasovat proti"
 
 #, python-format
-msgid "Accept all suggestions from %(username)s"
-msgstr "Přijmout všechny návrhy od uživatele %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
+msgstr "Přijmout všechny návrhy od uživatele %(username)s v %(translation)s"
 
 msgid "Accept"
 msgstr "Přijmout"
@@ -11717,6 +12268,21 @@ msgstr "Navrhovaná změna:"
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Selhavší kontroly:"
+
+msgid "Using Weblate in your organization?"
+msgstr "Používáte Weblate ve vaší organizaci?"
+
+msgid "Already purchased? Link your support package"
+msgstr "Už jste si produkt zakoupili? Propojte svůj balíček podpory"
+
+msgid "Term information from the translation file"
+msgstr "Informace o termínech z překladového souboru"
+
+msgid "Source terms"
+msgstr "Zdrojové výrazy"
+
+msgid "Target terms"
+msgstr "Cílové výrazy"
 
 msgid "Translation status"
 msgstr "Stav překladu"
@@ -11983,8 +12549,8 @@ msgid ""
 "settings and use a complete repository URL supported by the selected version "
 "control system."
 msgstr ""
-"Nastavená adresa URL úložiště není platná. Zkontrolujte adresu URL v "
-"nastavení komponenty a zadejte úplnou adresu URL úložiště, kterou podporuje "
+"Nastavená adresa URL repozitáře není platná. Zkontrolujte adresu URL v "
+"nastavení součásti a zadejte úplnou adresu URL repozitáře, který podporuje "
 "vybraný systém správy verzí."
 
 msgid ""
@@ -12212,15 +12778,19 @@ msgstr "Součást obsahuje několik duplicitních překladových řetězců."
 msgid "Source"
 msgstr "Zdroj"
 
+#, python-format
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Odstranit duplicitní řetězce z %(language)s (%(filename)s)"
+
+msgid "Remove duplicate strings"
+msgstr "Odstranit duplicitní řetězce"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Opravte to, prosím, odstraněním řetězců se stejným identifikátorem z "
 "překladových souborů."
-
-msgid "Remove duplicate strings"
-msgstr "Odstranit duplicitní řetězce"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -12242,6 +12812,33 @@ msgid ""
 msgstr ""
 "Tato komponenta může využívat aplikaci Weblate na GitHubu pro přístup k "
 "repozitáři a k žádostem o stažení."
+
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+"Tento glosář nemá vzdálený repozitář a \"Spravovat řetězce\" je vypnuto. "
+"Nemužete přidat termíny glosáře přímo do Weblate a záznamy terminologie "
+"nejsou automaticky přidány do chybějících jazyků s glosářem."
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+"Tento glosář obsahuje termíny označené jako terminologie, ale \"Spravovat "
+"řetězce\" je vypnuto. Weblate automaticky nepřidá tyto termíny do "
+"chybějících jazyků s glosářem."
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
+msgstr ""
+"Povolte \"Spravovat řetězce\" v nastavení komponentů pro přidání termínů a "
+"synchronizace terminologie. Můžete ignorovat toto varování pokud soubory "
+"glosáře jsou spravovány odděleně."
 
 msgid "This component is set up incorrectly."
 msgstr "Tato součást má chybné nastavení."
@@ -12477,19 +13074,15 @@ msgstr "Stáhnout poslední změny jako CSV"
 msgid "Follow using RSS"
 msgstr "Sledovat pomocí RSS"
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr "Ze systému správy verzí"
 
-#. Translators: Create a component from existing component
 msgid "From an existing component"
 msgstr "Z existující součásti"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr "Další větev"
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr "Nahrát soubory s překlady"
 
@@ -12497,7 +13090,6 @@ msgstr "Nahrát soubory s překlady"
 msgid "Translate document"
 msgstr "Přeložit dokument"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr "Začít od začátku"
 
@@ -12892,6 +13484,13 @@ msgstr "Otevřít v režimu Zen"
 msgid "Configure editor"
 msgstr "Nastavit editor"
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+"Výsledky hledání zůstavají nezměněny když překládáte. Obnovte výsledky pro "
+"zobrazení řetězců shodujích s nynějšími filtry."
+
 msgid "Permalink copied to clipboard."
 msgstr "Trvalý odkaz zkopírován do schránky."
 
@@ -13014,14 +13613,20 @@ msgstr "Použít vybraný překlad na aktuální řetězec"
 msgid "Browse all string changes"
 msgstr "Procházet všechny změny řetězců"
 
-msgid "Suggested change"
-msgstr "Navrhovaná změna"
+msgid "Search translation memory"
+msgstr "Hledat v překladové paměti"
 
-msgid "Origin"
-msgstr "Původ"
+msgid "No matching machine translations found."
+msgstr "Nenalezeny žádné odpovídající strojové překlady."
 
-msgid "Similarity"
-msgstr "Podobnost"
+msgid "Delete entry"
+msgstr "Odstranit položku"
+
+msgid "Source:"
+msgstr "Zdroj:"
+
+msgid "Context:"
+msgstr "Kontext:"
 
 msgid "Remove selected translation memory entries"
 msgstr "Odstranit zvolené položky v překladové paměti"
@@ -13087,9 +13692,6 @@ msgstr "Tento řetězec byl automaticky přeložen pomocí %(author)s."
 msgid "This string was translated automatically by %(author)s."
 msgstr "Tento řetězec byl automaticky přeložen nástrojem %(author)s."
 
-msgid "Translation quality filter"
-msgstr "Filtr kvality překladů"
-
 msgid "Add term to glossary"
 msgstr "Přidat slovo do glosáře"
 
@@ -13102,6 +13704,12 @@ msgstr "Procházet glosář"
 
 msgid "No screenshot currently associated."
 msgstr "Nebyl nahrán žádný snímek obrazovky."
+
+msgid "Add existing screenshot"
+msgstr "Přidat existující snímek obrazovky"
+
+msgid "Upload screenshot"
+msgstr "Nahrát snímek obrazovky"
 
 msgid "String information"
 msgstr "Informace o řetězci"
@@ -13322,76 +13930,74 @@ msgstr "Obnovit"
 msgid "No connected accounts yet."
 msgstr "Zatím nejsou propojeny žádné účty."
 
-#, fuzzy
-#| msgid "code-hosting installations"
 msgid "Code-hosting integrations"
-msgstr "instalace služeb pro hostování kódu"
+msgstr "Integrace služeb pro hostování kódu"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
-msgstr ""
+msgstr "Přenést %(workspace_name)s do Weblate na GitHubu"
 
-#, fuzzy
-#| msgid "Connect GitHub account"
 msgid "Connect or update GitHub account"
-msgstr "Propojit účet GitHub"
+msgstr "Připojit nebo aktualizovat účet na GitHubu"
 
 msgid ""
 "Select existing Git or GitHub components to use the Weblate GitHub App. "
 "Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
 "push URLs will be removed."
 msgstr ""
+"Vyberte stávající komponenty Git nebo GitHub, u nichž chcete používat "
+"Weblate pro GitHub. Adresy URL jejich repozitářů budou nahrazeny kanonickými "
+"adresami HTTPS a samostatné adresy URL pro odesílání budou odstraněny."
 
 #, python-format
 msgid ""
 "The GitHub App needs repository access for these accounts: %(accounts)s."
 msgstr ""
+"Aplikace GitHub potřebuje přístup k repozitářům pro tyto účty: %(accounts)s."
 
-#, fuzzy
-#| msgid "connected GitHub accounts"
 msgid "Connected GitHub accounts:"
-msgstr "propojené účty na GitHubu"
+msgstr "Propojené účty GitHub:"
 
 msgid "Refresh repositories"
 msgstr "Obnovit repozitáře"
 
-#, fuzzy
-#| msgid "Affected components"
 msgid "Migrate selected components"
-msgstr "Dotčené součásti"
+msgstr "Přenést vybrané komponenty"
 
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
 msgstr ""
+"Připojte aplikaci GitHub nebo ji aktualizujte, abyste udělili přístup k "
+"zbývajícím repozitářům."
 
 msgid ""
 "Connect the GitHub App to the listed accounts and grant access to their "
 "repositories before migrating."
 msgstr ""
+"Před migrací propojte aplikaci GitHub s uvedenými účty a udělejte jim "
+"přístup k jejich repozitářům."
 
 msgid ""
 "A workspace owner needs to connect the GitHub App and grant access to these "
 "repositories before they can be migrated."
 msgstr ""
+"Vlastník pracovního prostoru musí nejprve propojit aplikaci GitHub a udělit "
+"přístup k těmto repozitářům, aby bylo možné je migrovat."
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Migration status"
-msgstr "Stav překladu"
+msgstr "Stav migrace"
 
-#, fuzzy
-#| msgid "Read-only"
 msgid "Ready"
-msgstr "Pouze ke čtení"
+msgstr "Připraveno"
 
-#, fuzzy
-#| msgid "Repository rebased"
 msgid "Repository access needed"
-msgstr "Proveden rebase repozitáře"
+msgstr "Je nutný přístup k repozitáři"
 
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+"V tomto pracovním prostoru se nenacházejí žádné součásti GitHubu, které je "
+"možné zmigrovat."
 
 msgid "Register Weblate GitHub App"
 msgstr "Zaregistrovat aplikaci Weblate na GitHubu"
@@ -13630,24 +14236,26 @@ msgid ""
 "will also be uninstalled from GitHub. Reconnecting it then requires "
 "installing the app on GitHub again."
 msgstr ""
+"Pokud toto připojení nepoužívá žádný jiný pracovní prostor, bude GitHubová "
+"aplikace Weblate odinstalována také z GitHubu. Její opětovné připojení bude "
+"poté vyžadovat opětovnou instalaci aplikace na GitHubu."
 
-#, fuzzy, python-format
-#| msgid "The following components would be created"
+#, python-format
 msgid "The following component will lose access to its repository:"
 msgid_plural ""
 "The following %(counter)s components will lose access to their repositories:"
-msgstr[0] "Následující součásti by byly vytvořeny"
-msgstr[1] "Následující součásti by byly vytvořeny"
-msgstr[2] "Následující součásti by byly vytvořeny"
+msgstr[0] "Následující součást ztratí přístup ke svému repozitáři:"
+msgstr[1] ""
+"Následující %(counter)s součásti ztratí přístup ke svým repozitářům:"
+msgstr[2] ""
+"Následujících %(counter)s součástí ztratí přístup ke svým repozitářům:"
 
-#, fuzzy, python-format
-#| msgid "%(count)s more affected component."
-#| msgid_plural "%(count)s more affected components."
+#, python-format
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
-msgstr[0] "%(count)s více dotčená součást."
-msgstr[1] "%(count)s více dotčené součásti."
-msgstr[2] "%(count)s více dotčených součástí."
+msgstr[0] "a %(counter)s další součást"
+msgstr[1] "a %(counter)s další součásti"
+msgstr[2] "a %(counter)s dalších součástí"
 
 msgid "Invitations"
 msgstr "Pozvánky"
@@ -14297,7 +14905,7 @@ msgid "Source string added in the upload"
 msgstr "Zdrojový řetězec byl přidán v nahrání"
 
 msgid "A source string was added while synchronizing from the repository."
-msgstr "Při synchronizaci z úložiště byl přidán zdrojový řetězec."
+msgstr "Při synchronizaci z repozitáře byl přidán zdrojový řetězec."
 
 msgid "Source string added in the repository"
 msgstr "Zdrojový řetězec byl přidán do repozitáře"
@@ -14366,7 +14974,7 @@ msgid "A remote repository update was completed."
 msgstr "Byla dokončena aktualizace vzdáleného repozitáře."
 
 msgid "Remote repository updated"
-msgstr "Vzdálené úložiště bylo aktualizováno"
+msgstr "Vzdálený repozitář byl aktualizován"
 
 msgid "Updating a remote repository failed."
 msgstr "Aktualizace vzdáleného repozitáře se nezdařila."
@@ -14507,6 +15115,9 @@ msgstr "Součást vypadá, že je nepoužitá."
 msgid "Glossary using monolingual files."
 msgstr "Glosář používá jednojazyčné soubory."
 
+msgid "Glossary string management is disabled"
+msgstr "Správa řetězců glosáře je zakázána"
+
 msgid "Unused glossary language."
 msgstr "Nepoužitý výraz z glosáře."
 
@@ -14533,7 +15144,7 @@ msgid "Inexistent files."
 msgstr "Neexistující soubory."
 
 msgid "This component can be migrated to the Weblate GitHub App integration."
-msgstr ""
+msgstr "Tuto součást lze zmigrovat do GitHubové aplikace Weblate."
 
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
@@ -14831,9 +15442,6 @@ msgstr "Verzovací systém"
 msgid "State"
 msgstr "Stav"
 
-msgid "All"
-msgstr "Vše"
-
 msgid "Severity"
 msgstr "Závažnost"
 
@@ -14843,15 +15451,10 @@ msgstr "Můžu to provést já"
 msgid "Discovery configuration"
 msgstr "Nastavení objevování"
 
-#, fuzzy
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
 msgstr ""
-"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
-"není k dispozici."
+"Objevování součástí zastaveno, protože repozitář obsahuje příliš mnoho cest."
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
@@ -14871,20 +15474,23 @@ msgid ""
 "Component discovery stopped because matching translation files would require "
 "too many comparisons."
 msgstr ""
+"Objevování součást zastaveno, protože odpovídající soubory překladu by "
+"vyžadovaly příliš mnoho porovnání."
 
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
 "The file mask used for discovery is too complex and took too long to "
 "evaluate."
 msgstr ""
-"Regulární výraz je příliš složitý a jeho vyhodnocení trvalo příliš dlouho."
+"Souborová maska použitá pro objevování je příliš složitá a její vyhodnocení "
+"trvalo příliš dlouho."
 
 #, python-format
 msgid ""
 "Multiple base or new base files render to the same file mask %(mask)s "
 "(%(existing)s and %(new)s)."
 msgstr ""
+"Několik základních nebo nových základních souborů se vykresluje do stejné "
+"souborové masky %(mask)s (%(existing)s a %(new)s)."
 
 msgid "File mask matches the main component."
 msgstr "Maska souborů odpovídá hlavní součásti."
@@ -14917,20 +15523,14 @@ msgstr "Seznam nedávných změn provedených za pomocí Weblate v %s."
 msgid "Sort JSON keys"
 msgstr "Seřadit JSON klíče"
 
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not sort"
-msgstr "Nenahrávat"
+msgstr "Netřídit"
 
-#, fuzzy
-#| msgid "Case-sensitive"
 msgid "Case-sensitive sort"
-msgstr "Rozlišuje velikost písmen"
+msgstr "Třízení s rozlišením velikosti písmen"
 
-#, fuzzy
-#| msgid "Case-insensitive"
 msgid "Case-insensitive sort"
-msgstr "Nerozlišuje velikost písmen"
+msgstr "Třízení bez rozlišení velikosti písmen"
 
 msgid "JSON indentation"
 msgstr "Odsazování JSON"
@@ -14967,6 +15567,23 @@ msgid ""
 msgstr ""
 "Ve výchozím stavu gettext zalamuje řádky po 77 znacích a znacích nových "
 "řádků, s parametrem --no-wrap zalamuje pouze po znacích nových řádků."
+
+msgid "Contributor comments"
+msgstr "Komentáře přispěvatelů"
+
+msgid "Gettext"
+msgstr "Gettext"
+
+msgid "SPDX"
+msgstr "SPDX"
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+"Do komentářů v záhlaví přidejte jména přispěvatelů a roky. SPDX také převádí "
+"stávající rozpoznané komentáře přispěvatelů na položky typu SPDX-"
+"FileCopyrightText."
 
 msgid "Keep previous msgids of translated strings"
 msgstr "Zachovat předchozí msgid přeložených řetězců"
@@ -15280,6 +15897,13 @@ msgid "The string you wanted to translate is no longer available."
 msgstr "Řetězec, který jste chtěli přeložit, už není dostupný."
 
 msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr ""
+"Řetězec, který jste chtěli přeložit, se nepodařilo identifikovat. Zkuste jej "
+"prosím znovu otevřít a zkuste to znovu."
+
+msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
@@ -15294,9 +15918,6 @@ msgstr "Další vysvětlení k objasnění významu nebo použití řetězce."
 
 msgid "Source string explanation"
 msgstr "Vysvětlení zdrojového řetězce"
-
-msgid "Translation explanation"
-msgstr "Vysvětlení překladu"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr "Zdrojový řetězec se změnil. Zkontrolujte prosím vaše změny."
@@ -15353,30 +15974,44 @@ msgstr "Nedaří se najít sloučený řetězec."
 msgid "Could not find the reverted change."
 msgstr "Vrácenou změnu se nedaří najít."
 
+msgid "Enter a source component ID."
+msgstr "Zadejte ID zdrojové součásti."
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
-"Zadejte zkratku součásti, kterou chcete použít jako zdroj, ponechte prázdné "
-"pro použití všech součástí v aktuálním projektu."
+"S {count}nebo více vhodnými součásti zdroje, cesta projektu/součásti je také "
+"přijatelná. V takovém případě, operace součásti a projektu také přijímají "
+"zkratku součásti z cílového projektu."
 
 msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
+"Leave blank to use eligible components from each target component's project."
 msgstr ""
-"Zadejte zkratku projektu a komponenty nebo ID součástí, které chcete použít "
-"jako zdroj; pokud pole ponecháte prázdné, budou použity všechny součásti v "
-"aktuálním pracovním prostoru."
+"Nechte pole prázdné, chcete-li použít vhodné komponenty z projektu každé "
+"cílové komponenty."
 
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
+msgid "Leave blank to use eligible components in the current workspace."
 msgstr ""
-"Pro získání přístupu k dalším součástem povolte přispívání do sdílené "
-"překladové paměti u projektu."
+"Nechte pole prázdné, chcete-li použít vhodné komponenty v aktuálním "
+"pracovním prostoru."
 
 msgid "Automatic translation mode"
 msgstr "Režim automatického překladu"
+
+msgid "Add as suggestion"
+msgstr "Přidat jako návrh"
+
+msgid "Add as translation"
+msgstr "Přidat jako překlad"
+
+msgid "Add as \"Needing edit\""
+msgstr "Přidat jako „Potřebuje upravit“"
+
+msgid "Add as approved translation"
+msgstr "Přidat jako schválený překlad"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -15400,23 +16035,24 @@ msgstr "Enginy strojového překladu"
 msgid "Score threshold"
 msgstr "Práh hodnocení"
 
-msgid "All components in current workspace"
-msgstr "Všechny součásti v aktuálním pracovním prostoru"
+msgid "All eligible components in current workspace"
+msgstr "Všechny způsobilé komponenty v aktuálním pracovním prostoru"
 
-msgid "All components in current project"
-msgstr "Všechny součásti v aktuálním projektu"
+msgid "All eligible components in current project"
+msgstr "Všechny způsobilé komponenty v aktuálním projektu"
 
-msgid "Add as suggestion"
-msgstr "Přidat jako návrh"
+msgid "Eligible components from each target component's project"
+msgstr "Způsobilé komponenty z projektu každé cílové komponenty"
 
-msgid "Add as translation"
-msgstr "Přidat jako překlad"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
+msgstr ""
+"Můžete také zadat slug komponenty z aktuálního projektu nebo cestu k "
+"projektu/komponentě."
 
-msgid "Add as \"Needing edit\""
-msgstr "Přidat jako „Potřebuje upravit“"
-
-msgid "Add as approved translation"
-msgstr "Přidat jako schválený překlad"
+msgid "You can also enter a project/component path."
+msgstr "Můžete také zadat cestu k projektu nebo komponentě."
 
 msgid "Component not found!"
 msgstr "Součást nebyla nalezena!"
@@ -15595,6 +16231,9 @@ msgstr "Zadat nastavení ručně"
 
 msgid "The category does not belong to the selected project."
 msgstr "Kategorie nepatří do zvoleného projektu."
+
+msgid "You do not have permission to change project access settings."
+msgstr "Nemáte oprávnění ke změně nastavení přístupu k projektu."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -15836,6 +16475,12 @@ msgstr "Odkázat na instrukce pro překladatele"
 msgid "Create new language file"
 msgstr "Vytvořit nový jazykový soubor"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+"Vytvořte jazykové verze stávajících projektů; v případě nových jazyků "
+"kontaktujte správce"
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr "Vypnout přidávání překladů"
@@ -15891,6 +16536,16 @@ msgid ""
 msgstr ""
 "Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
 "není k dispozici."
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+"Umožňuje anonymní přístup ke stránkám pro zapojení uživatelů a widgetům se "
+"stavem u soukromých a vlastních projektů."
+
+msgid "Public sharing"
+msgstr "Veřejné sdílení"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -16116,7 +16771,7 @@ msgid "Parent category has to be different!"
 msgstr "Nadřazená kategorie nesmí být stejná!"
 
 msgid "Repository path for this category already exists and is not empty."
-msgstr "Cesta k úložišti pro tuto kategorii již existuje a není prázdná."
+msgstr "Cesta k repozitáři pro tuto kategorii již existuje a není prázdná."
 
 msgid "Component created from scratch"
 msgstr "Součást vytvořena od začátku"
@@ -16906,7 +17561,7 @@ msgid "Could not get repository status!"
 msgstr "Nepodařilo se získat stav repozitáře!"
 
 msgid "File path is in a restricted location in the repository."
-msgstr "Cesta k souboru se nachází v omezeném umístění v úložišti."
+msgstr "Cesta k souboru se nachází v omezeném umístění v repozitáři."
 
 msgid "Component list name"
 msgstr "Název seznamu součástí"
@@ -17108,8 +17763,12 @@ msgid ""
 msgstr ""
 "Překlady označené jako potřebující úpravu nejsou zapsány do souboru překladů."
 
-msgid "Only approved translations are written to the translation file."
-msgstr "Do souboru překladů budou zapsány pouze schválené překlady."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
+msgstr ""
+"U jazyků, u nichž jsou povoleny revize, se do překladového souboru ukládají "
+"pouze schválené překlady."
 
 msgid "Could not accept suggestion!"
 msgstr "Nepodařilo se přijmout návrh!"
@@ -17298,32 +17957,23 @@ msgstr "Dlouhá pomlčka"
 msgid "User configured character: {}"
 msgstr "Uživatelem zadaný znak: {}"
 
-#, fuzzy
-#| msgid ""
-#| "Automatic translation cannot be started because the target is locked."
 msgid "Repository operation could not be completed because it remained locked."
-msgstr "Automatický překlad nelze spustit, protože cíl je uzamčen."
+msgstr "Operaci repozitáře nebylo možné dokončit, protože zůstala zamčená."
 
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operation could not be completed."
-msgstr "Operace s repozitářem v %(component)s"
+msgstr "Operaci repozitáře nebylo možné dokončit."
 
 msgid ""
 "Repository operation could not be completed because access is no longer "
 "permitted."
 msgstr ""
+"Operaci repozitáře nebylo možné dokončit, protože přístup již není povolen."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository operation completed."
-msgstr "Operace na repozitáři selhala"
+msgstr "Operace repozitáře dokončena."
 
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operation completed with errors."
-msgstr "Operace s repozitářem v %(component)s"
+msgstr "Operace repozitáře dokončena s chybami."
 
 msgid "No suggestions found."
 msgstr "Nenalezeny žádné řetězce."
@@ -17426,6 +18076,31 @@ msgstr[2] "%(count)s řetězců zde není překládáno."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Sdíleno z projektu %s."
+
+msgid "Project settings"
+msgstr "Nastavení projektu"
+
+msgid "Site-wide language customization"
+msgstr "Nastavení jazyka pro celý web"
+
+msgid "Project-language customization"
+msgstr "Přizpůsobení jazyka projektu"
+
+msgid "Only approved translations are written to the translation file."
+msgstr "Do souboru překladů budou zapsány pouze schválené překlady."
+
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr ""
+"Všechny stavy překladu, včetně těch, které vyžadují úpravy, mohou být "
+"zapsány do překladového souboru."
+
+msgid "Configure source reviews"
+msgstr "Nastavení revizí zdrojového kódu"
+
+msgid "Configure translation reviews"
+msgstr "Nastavení kontroly překladů"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -17769,6 +18444,13 @@ msgstr[1] ""
 msgstr[2] ""
 "Překlad byl uložen, ale objevily se nové selhavší kontroly: {checks}"
 
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
+"Vaše předchozí výsledky vyhledávání již nejsou k dispozici. Výsledky byly "
+"aktualizovány."
+
 msgid "Your suggestion is empty!"
 msgstr "Váš návrh je prázdný!"
 
@@ -17856,27 +18538,20 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 "K provedení této akce použijte tlačítko na stránce se stavem repozitáře."
 
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Another repository operation is already in progress."
-msgstr "Nepodařilo se zamknout repozitář, právě probíhá jiná operace."
+msgstr "Již probíhá jiná operace repozitáře."
 
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
-msgstr "Zdá se, že v úložišti právě probíhá operace. Zkuste to prosím později."
+msgstr ""
+"Zdá se, že v repozitáři právě probíhá operace. Zkuste to prosím později."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operations failed"
 msgid "This repository operation is already queued."
-msgstr "Operace na repozitáři selhaly"
+msgstr "Tato operace repozitáře je již ve frontě."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository operation has been queued."
-msgstr "Operace na repozitáři selhala"
+msgstr "Operace repozitáře byla zařazena do fronty."
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "Z překladového souboru byly odstraněny duplicitní řetězce."
@@ -18049,6 +18724,14 @@ msgstr "Panel"
 #. Translators: Text on OpenGraph image
 msgid "Project {}"
 msgstr "Projekt {}"
+
+#. Translators: Text on OpenGraph image
+msgid "Category {}"
+msgstr "Kategorie {}"
+
+#. Translators: Text on OpenGraph image
+msgid "Workspace {}"
+msgstr "Pracovní prostor: {}"
 
 #. Translators: Text on OpenGraph image
 msgid "Component {}"
@@ -18761,7 +19444,7 @@ msgstr ""
 "byla zamítnuta."
 
 msgid "The repository returned an invalid HTTP redirect."
-msgstr "Úložiště vrátilo neplatné přesměrování HTTP."
+msgstr "Repozitář vrátil neplatné přesměrování HTTP."
 
 msgid "The repository returned an HTTP redirect with an invalid hostname."
 msgstr "Repozitář vrátil přesměrování HTTP s neplatným názvem hostitele."
@@ -18854,15 +19537,11 @@ msgstr "Toto odešle změny do upstream repozitáře."
 msgid "Enter a valid GitHub host."
 msgstr "Zadejte platný hostitelský název GitHubu."
 
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Components to migrate"
-msgstr "Součást k odstranění"
+msgstr "Součást k migraci"
 
-#, fuzzy
-#| msgid "Select an existing component configuration to copy."
 msgid "Select at least one component to migrate."
-msgstr "Vyberte existující konfiguraci součásti ke zkopírování."
+msgstr "Vyberte alespoň jednu součást k migraci."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -19198,19 +19877,24 @@ msgid ""
 "GitHub could not uninstall the connected account. The connection was not "
 "removed from Weblate, please try again."
 msgstr ""
+"GitHubu se nepodařilo odinstalovat připojený účet. Připojení nebylo "
+"odstraněno z Weblate, zkuste to prosím znovu."
 
 #, python-format
 msgid ""
 "Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
 "installed because another workspace still uses it."
 msgstr ""
+"Odstraněn připojený GitHub účet %(target)s. GitHubová aplikace Weblate "
+"zůstává nainstalovaná, protože ji stále používá jiný pracovní prostor."
 
-#, fuzzy, python-format
-#| msgid "Removed connected GitHub account %(target)s."
+#, python-format
 msgid ""
 "Removed connected GitHub account %(target)s and uninstalled the Weblate "
 "GitHub App from GitHub."
-msgstr "Odpojen účet GitHub %(target)s."
+msgstr ""
+"Odstraněn připojený GitHub účet %(target)s a odinstalována GitHubová "
+"aplikace Weblate z GitHubu."
 
 #, python-format
 msgid ""
@@ -19218,6 +19902,9 @@ msgid ""
 "to this installation, so it was not uninstalled. Check on GitHub whether the "
 "Weblate GitHub App is still installed."
 msgstr ""
+"Odstraněn připojený GitHub účet %(target)s. GitHub již neuděluje přístup k "
+"této instalaci, takže nebyla odinstalována. Zkontrolujte GitHub, zda je "
+"aplikace Weblate stále nainstalovaná."
 
 #, python-format
 msgid ""
@@ -19225,6 +19912,9 @@ msgid ""
 "longer configured on this Weblate instance, so it could not be uninstalled, "
 "please remove it on GitHub manually."
 msgstr ""
+"Odstraněn připojený GitHub účet %(target)s. GitHubová aplikace Weblate již "
+"není na této instanci Weblate nastavena, takže se ji nepodařilo "
+"odinstalovat, odstraňte ji prosím na GitHubu ručně."
 
 #, python-format
 msgid ""
@@ -19309,37 +19999,31 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Byl přidán propojený účet GitHub."
 
-#, fuzzy, python-format
-#| msgid "Remove Weblate GitHub App?"
+#, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
-msgstr[0] "Odstranit aplikaci Weblate z GitHubu?"
-msgstr[1] "Odstranit aplikaci Weblate z GitHubu?"
-msgstr[2] "Odstranit aplikaci Weblate z GitHubu?"
+msgstr[0] "Jedna součást zmigrována do GitHubové aplikace Weblate."
+msgstr[1] "%(count)d součásti zmigrovány do GitHubové aplikace Weblate."
+msgstr[2] "%(count)d součástí zmigrováno do GitHubové aplikace Weblate."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
+#, python-format
 msgid ""
 "One component was not migrated because its repository is no longer available."
 msgid_plural ""
 "%(count)d components were not migrated because their repositories are no "
 "longer available."
 msgstr[0] ""
-"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
-"není k dispozici."
+"Jedna součást nebyla zmigrována, protože její repozitář již není dostupný."
 msgstr[1] ""
-"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
-"není k dispozici."
+"%(count)d součásti nebyly zmigrovány, protože jejich repozitáře již nejsou "
+"dostupné."
 msgstr[2] ""
-"Komponenta %(component)s byla přeskočena, protože její propojený repozitář "
-"není k dispozici."
+"%(count)d součástí nebylo zmigrováno, protože jejich repozitáře již nejsou "
+"dostupné."
 
-#, fuzzy, python-format
-#| msgid "Could not push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not migrate %(component)s: %(error)s"
-msgstr "Nepodařilo se odeslat %(component)s: %(error_text)s"
+msgstr "Nepodařilo se zmigrovat součást %(component)s: %(error)s"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Zadejte platný název aplikace GitHub a hostitele."
@@ -19407,14 +20091,17 @@ msgstr "Písmo stránky"
 msgid "Header font"
 msgstr "Písmo záhlaví"
 
-msgid "Navigation color (Light, Dark)"
-msgstr "Barva navigace (světlá, tmavá)"
+msgid "Header color (Light, Dark)"
+msgstr "Barva záhlaví (světlá, tmavá)"
 
-msgid "Navigation text color (Light, Dark)"
-msgstr "Barva textu navigace (světlá, tmavá)"
+msgid "Header text color (Light, Dark)"
+msgstr "Barva textu v záhlaví (světlá, tmavá)"
 
-msgid "Focus color (Light, Dark)"
-msgstr "Barva zaměření (světlá, tmavá)"
+msgid "Accent color (Light, Dark)"
+msgstr "Doplňková barva (světlá, tmavá)"
+
+msgid "Header accent color (Light, Dark)"
+msgstr "Barva zvýraznění záhlaví (světlá, tmavá)"
 
 msgid "Hover color (Light, Dark)"
 msgstr "Barva přechodu myší (světlá, tmavá)"
@@ -19465,7 +20152,7 @@ msgid "Unpaid subscription"
 msgstr "Nezaplacené předplatné"
 
 msgid "Backup repository URL"
-msgstr "Adresa URL zálohovacího úložiště"
+msgstr "Adresa URL zálohovacího repozitáře"
 
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
@@ -19497,7 +20184,7 @@ msgstr "Odstraněny nejstarší zálohy"
 
 #. Translators: Backup repository operation
 msgid "Cleaned up backup storage"
-msgstr "Vymazáno úložiště záloh"
+msgstr "Vymazán zálohovací repozitář"
 
 #. Translators: Backup repository operation
 msgid "Repository initialization"
@@ -19512,7 +20199,6 @@ msgstr "Vypisování objektů je vypnuté"
 msgid "Return to Weblate"
 msgstr "Zpět do Weblate"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr "Dokumentace k rychlosti nahrávání"
 
@@ -19672,6 +20358,140 @@ msgstr "Pracovní prostor nelze odstranit, protože je stále v používání."
 
 msgid "The workspace has been removed."
 msgstr "Pracovní prostor byl odstraněn."
+
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Aktualizuje komentář v hlavičce PO souboru tak, aby obsahoval jméno "
+#~ "přispěvatele a roky kdy přispíval."
+
+#~ msgid "Help <strong>Weblate</strong> keep thriving"
+#~ msgstr "Pomozte <strong>Weblate</strong> zvyšovat svou kvalitu"
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Vítejte a děkujeme vám, že jste si vybrali Weblate"
+
+#~ msgid ""
+#~ "the privacy-respecting localization platform committed to open-source "
+#~ "values."
+#~ msgstr ""
+#~ "lokalizační platforma respektující soukromí a vyznávající hodnoty open-"
+#~ "source."
+
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "K některým repozitářům není přístup"
+
+#~ msgid ""
+#~ "Each operation below excludes repositories unless you have the required "
+#~ "permission on every component sharing them."
+#~ msgstr ""
+#~ "Každá z níže uvedených operací vylučuje repozitáře, pokud nemáte potřebná "
+#~ "oprávnění ke všem komponentám, které je sdílejí."
+
+#~ msgid "Skipped components:"
+#~ msgstr "Vynechané součásti:"
+
+#~ msgid "Permission required on:"
+#~ msgstr "Je vyžadováno oprávnění pro:"
+
+#~ msgid ""
+#~ "A repository was skipped because one or more of its components are not "
+#~ "accessible."
+#~ msgstr ""
+#~ "Repozitář byl přeskočen, protože jedna nebo více jeho součástí není "
+#~ "přístupná."
+
+#~ msgid ""
+#~ "While Weblate remains free for all users, its development requires "
+#~ "continuous investment."
+#~ msgstr ""
+#~ "Weblate je pro všechny uživatele zdarma, jeho vývoj však vyžaduje "
+#~ "neustálé investice."
+
+#~ msgid "We prioritize your privacy; we never display ads or sell your data."
+#~ msgstr ""
+#~ "Vaše soukromí je naší prioritou; nikdy nezobrazujeme reklamy ani "
+#~ "neprodáváme vaše data."
+
+#~ msgid ""
+#~ "The invaluable support of the community through subscriptions and "
+#~ "donations ensures that Weblate continues to grow and thrive."
+#~ msgstr ""
+#~ "Neocenitelná podpora komunity prostřednictvím předplatného a darů "
+#~ "zajišťuje, že Weblate nadále roste a vzkvétá."
+
+#~ msgid "Join us in shaping the future of localization and contribute today!"
+#~ msgstr ""
+#~ "Připojte se k nám při utváření budoucnosti lokalizace a přispějte ještě "
+#~ "dnes!"
+
+#~ msgid "Download reports"
+#~ msgstr "Stáhnout výkazy"
+
+#~ msgid "DeepL API v1 is no longer supported."
+#~ msgstr "DeepL API v1 již není podporováno."
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Haiku 4.5"
+#~ msgstr "Claude Haiku 4.5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Sonnet 5"
+#~ msgstr "Claude Sonnet 5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 5"
+#~ msgstr "Claude Opus 5"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5.1"
+#~ msgstr "Claude Fable 5.1"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Opus 4.8"
+#~ msgstr "Claude Opus 4.8"
+
+#~ msgctxt "Anthropic model selection"
+#~ msgid "Claude Fable 5"
+#~ msgstr "Claude Fable 5"
+
+#~ msgid "Suggested change"
+#~ msgstr "Navrhovaná změna"
+
+#~ msgid "Origin"
+#~ msgstr "Původ"
+
+#~ msgid "Similarity"
+#~ msgstr "Podobnost"
+
+#~ msgid ""
+#~ "Enter slug of a component to use as source, keep blank to use all "
+#~ "components in the current project."
+#~ msgstr ""
+#~ "Zadejte zkratku součásti, kterou chcete použít jako zdroj, ponechte "
+#~ "prázdné pro použití všech součástí v aktuálním projektu."
+
+#~ msgid ""
+#~ "Enter project and component slug or component ID to use as source, keep "
+#~ "blank to use all components in the current workspace."
+#~ msgstr ""
+#~ "Zadejte zkratku projektu a komponenty nebo ID součástí, které chcete "
+#~ "použít jako zdroj; pokud pole ponecháte prázdné, budou použity všechny "
+#~ "součásti v aktuálním pracovním prostoru."
+
+#~ msgid ""
+#~ "Turn on contribution to shared translation memory for the project to get "
+#~ "access to additional components."
+#~ msgstr ""
+#~ "Pro získání přístupu k dalším součástem povolte přispívání do sdílené "
+#~ "překladové paměti u projektu."
+
+#~ msgid "Navigation color (Light, Dark)"
+#~ msgstr "Barva navigace (světlá, tmavá)"
+
+#~ msgid "Navigation text color (Light, Dark)"
+#~ msgstr "Barva textu navigace (světlá, tmavá)"
 
 #~ msgid ""
 #~ "The regular expression must define named groups for component and "
@@ -20080,9 +20900,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "View all alerts"
 #~ msgstr "Zobrazit všechna upozornění"
-
-#~ msgid "Component alerts"
-#~ msgstr "Upozornění součástí"
 
 #~ msgid "Automatically recognize"
 #~ msgstr "Automaticky rozpoznat"
@@ -20498,9 +21315,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Weblate community"
 #~ msgstr "Komunita Weblate"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Přispějte do Weblate"
-
 #~ msgid "Weblate website"
 #~ msgstr "Webové stránky Weblate"
 
@@ -20640,9 +21454,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Proměnlivá přípona řetězce"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Přispět na Weblate"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -21051,11 +21862,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~| msgid "Failed to find matching project!"
 #~ msgid "Could not find matching project!"
 #~ msgstr "Nepodařilo se najít odpovídající projekt!"
-
-#, fuzzy
-#~| msgid "Failed to find matching language!"
-#~ msgid "Could not find matching language!"
-#~ msgstr "Nepodařilo se najít odpovídající jazyk!"
 
 #~ msgid "XLIFF with gettext extensions"
 #~ msgstr "XLIFF s gettext rozšířeními"
@@ -21741,9 +22547,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Export glossary"
 #~ msgstr "Exportovat glosář"
 
-#~ msgid "There are no glossaries defined for this language."
-#~ msgstr "Pro tento jazyk nejsou k dispozici žádné glosáře."
-
 #~ msgid "Failed to change a context!"
 #~ msgstr "Nepodařilo se změnit souvislosti!"
 
@@ -21873,9 +22676,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "run the Enterprise plan."
 #~ msgstr "používat Podnikový plán."
-
-#~ msgid "Public email"
-#~ msgstr "Veřejný e-mail"
 
 #~ msgid "URL of source code repository, for example Git or Mercurial."
 #~ msgstr "URL adresa zdrojového repozitáře, například Git nebo Mercurial."
@@ -22048,9 +22848,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Insufficient privileges for editing template."
 #~ msgstr "Nemáte oprávnění pro úpravu zdrojových řetězců."
 
-#~ msgid "Context:"
-#~ msgstr "Kontext:"
-
 #~ msgid "Translation memory for the whole platform"
 #~ msgstr "Překladová paměť na celé platformě"
 
@@ -22097,9 +22894,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgstr ""
 #~ "Když je vypnuté, URL adresy budou převedeny na odkazy a všechny značky "
 #~ "značkovacího jazyka budou zbaveny významu (escape)."
-
-#~ msgid "Administered projects"
-#~ msgstr "Spravované projekty"
 
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "Přidat skupiny (na celé platformě)"
@@ -22845,9 +23639,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ "Pro vyzkoušení si Weblate na tomto ukázkovém server se můžete přihlásit "
 #~ "jako následující uživatelé:"
 
-#~ msgid "Hidden"
-#~ msgstr "Skryto"
-
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Tyto stránky slouží jako ukázkový server %(weblate_name_link)s."
 
@@ -22878,9 +23669,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Notification on merge failure"
 #~ msgstr "Upozornění na chybu při sloučení"
-
-#~ msgid "Notification on new language request"
-#~ msgstr "Upozornění na požadavky o překlad do nového jazyka"
 
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "
@@ -23349,13 +24137,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Summary of languages"
 #~ msgstr "Souhrn jazyků"
-
-#~ msgid ""
-#~ "This page is based on the Terms of Service, you should still read the "
-#~ "original document to fully understand them."
-#~ msgstr ""
-#~ "Tato stránka vychází ze Všeobecných smluvních podmínek, ale doporučujeme "
-#~ "přečíst celý tento dokument, abyste jim plně porozuměli."
 
 #~ msgid "Indexing offloading processing"
 #~ msgstr "Zpracování odloženého indexování"
@@ -24792,9 +25573,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgid "Git repository with Weblate translations:"
 #~ msgstr "Git repozitář s překlady z Weblate:"
 
-#~ msgid "Watched"
-#~ msgstr "Sledované"
-
 #, fuzzy
 #~| msgid "Invalid link to a Weblate project, can not link to self!"
 #~ msgid ""
@@ -24912,9 +25690,6 @@ msgstr "Pracovní prostor byl odstraněn."
 
 #~ msgid "Git push URL"
 #~ msgstr "URL pro odesílání Gïtu"
-
-#~ msgid "Subproject is now open for translation updates."
-#~ msgstr "Podprojekt je nyní přístupný pro překlady."
 
 #~ msgid ""
 #~ "Please note that you have to complete the registration from this computer "
@@ -25132,9 +25907,6 @@ msgstr "Pracovní prostor byl odstraněn."
 #~ msgstr ""
 #~ "Je v něm %(words)s slov, ze kterých je přeloženo %(percent)s&#37; (%"
 #~ "(translated)s)."
-
-#~ msgid "Invalid text direction"
-#~ msgstr "Chybný směr textu"
 
 #~ msgid "Text direction can be either LTR or RTL"
 #~ msgstr "Směr textu musí být LTR nebo RTL"

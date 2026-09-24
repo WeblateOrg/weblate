@@ -40,7 +40,7 @@ class YandexV2Translation(MachineTranslation):
             msg = f"Error: {payload['code']}"
             raise MachineTranslationError(msg)
 
-    def download_languages(self):
+    def download_languages(self) -> list[str]:
         """Download list of supported languages from a service."""
         key = self.settings["key"]
         response = self.request(
@@ -54,8 +54,8 @@ class YandexV2Translation(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
         unit: Unit | None,
         user: User | None,

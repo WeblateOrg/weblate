@@ -46,7 +46,7 @@ class LegalView(TemplateView):
 
         return context
 
-    def get_template_names(self):
+    def get_template_names(self) -> list[str]:
         return [f"legal/{self.page}.html"]
 
 

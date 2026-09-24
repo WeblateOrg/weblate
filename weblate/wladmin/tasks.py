@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
@@ -13,6 +15,9 @@ from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.tasks import run_backup_preparation
 from weblate.wladmin.models import BackupService, SupportStatus
+
+if TYPE_CHECKING:
+    from celery import Celery
 
 
 def run_backup_service(service: BackupService) -> bool:
@@ -59,7 +64,7 @@ def backup_service(pk: int) -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     # Randomize this per site to avoid all instances hitting server at the same time
     minute_to_run = hash(settings.SITE_DOMAIN) % 1440
     sender.add_periodic_task(

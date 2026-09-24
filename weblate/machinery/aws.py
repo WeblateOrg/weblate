@@ -16,6 +16,9 @@ from .base import (
 from .forms import AWSMachineryForm
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import (
         DownloadTranslations,
     )
@@ -67,14 +70,14 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
-        params = {
+        params: dict[str, object] = {
             "Text": text,
             "SourceLanguageCode": source_language,
             "TargetLanguageCode": target_language,

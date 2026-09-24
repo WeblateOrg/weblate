@@ -23,6 +23,7 @@ from weblate.checks.parser import (
     length_validation,
     multi_value_flag,
     single_value_flag,
+    validate_float,
 )
 from weblate.fonts.utils import get_font_weight
 from weblate.trans.autofixes import AUTOFIXES
@@ -125,6 +126,7 @@ PLAIN_FLAGS["forbidden"] = gettext_lazy("Forbidden translation")
 PLAIN_FLAGS["terminology"] = gettext_lazy("Terminology")
 PLAIN_FLAGS["ignore-all-checks"] = gettext_lazy("Ignore all checks")
 PLAIN_FLAGS["case-insensitive"] = gettext_lazy("Use case insensitive placeholders")
+PLAIN_FLAGS["font-monospace"] = gettext_lazy("Monospace font")
 PLAIN_FLAGS.update(
     {handler.auto_flag: handler.name for handler in AUTO_FLAG_HANDLERS.values()}
 )
@@ -138,7 +140,7 @@ TYPED_FLAGS_ARGS["font-size"] = single_value_flag(int)
 TYPED_FLAGS["font-weight"] = gettext_lazy("Font weight")
 TYPED_FLAGS_ARGS["font-weight"] = single_value_flag(get_font_weight)
 TYPED_FLAGS["font-spacing"] = gettext_lazy("Font spacing")
-TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(int)
+TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(float, validate_float)
 TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat flags")
 TYPED_FLAGS_ARGS["icu-flags"] = multi_value_flag(str)
 TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat tag prefix")
@@ -480,6 +482,7 @@ _FLAG_CATEGORIES: dict[str, StrOrPromise] = {
     "forbidden": FLAG_CATEGORY_BEHAVIOR,
     "terminology": FLAG_CATEGORY_BEHAVIOR,
     "case-insensitive": FLAG_CATEGORY_BEHAVIOR,
+    "font-monospace": FLAG_CATEGORY_BEHAVIOR,
     "strict-same": FLAG_CATEGORY_BEHAVIOR,
     "strict-format": FLAG_CATEGORY_BEHAVIOR,
     "ignore-all-checks": FLAG_CATEGORY_BEHAVIOR,

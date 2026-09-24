@@ -16,6 +16,8 @@ from weblate.utils.views import parse_path
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
@@ -43,7 +45,9 @@ def get_agreement_text(obj: Category | Component | Project | Workspace) -> str:
 
 @never_cache
 @login_required
-def agreement_confirm(request: AuthenticatedHttpRequest, path):
+def agreement_confirm(
+    request: AuthenticatedHttpRequest, path: list[str]
+) -> HttpResponse:
     obj = parse_path(request, path, (Component, Category, Project, Workspace))
 
     owner_lookup = get_agreement_owner_lookup(obj)

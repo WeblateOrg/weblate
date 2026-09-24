@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os.path
 import pathlib
-from typing import ClassVar
+from typing import ClassVar, Never
 from unittest.mock import patch
 
 from django.core import mail
@@ -506,7 +506,7 @@ class RenameTest(ViewTestCase):
         old_path = self.project.full_path
         original_rename = os.rename
 
-        def move_source(old_path, new_path):
+        def move_source(old_path, new_path) -> Never:
             original_rename(old_path, new_path)
             raise FileNotFoundError(2, "No such file or directory", old_path, new_path)
 
@@ -525,7 +525,7 @@ class RenameTest(ViewTestCase):
     def test_rename_project_requires_destination_on_missing_source(self) -> None:
         self.make_manager()
 
-        def remove_source(old_path, new_path):
+        def remove_source(old_path, new_path) -> Never:
             remove_tree(old_path, ignore_errors=True)
             raise FileNotFoundError(2, "No such file or directory", old_path, new_path)
 

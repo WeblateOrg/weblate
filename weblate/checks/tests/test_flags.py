@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.utils.translation import override
@@ -218,7 +220,7 @@ class FlagTest(SimpleTestCase):
     def test_whitespace(self) -> None:
         self.assertEqual(Flags("  foo    , bar  ").items(), {"foo", "bar"})
         flags = Flags(
-            "max-size:120:2,font-family:DIN next pro,font-spacing:2, priority:140"
+            "max-size:120:2,font-family:DIN next pro,font-spacing:1.2, priority:140"
         )
         self.assertEqual(
             flags.items(),
@@ -226,7 +228,7 @@ class FlagTest(SimpleTestCase):
                 ("font-family", "DIN next pro"),
                 ("priority", "140"),
                 ("max-size", "120", "2"),
-                ("font-spacing", "2"),
+                ("font-spacing", "1.2"),
             },
         )
         self.assertEqual(
@@ -243,7 +245,8 @@ class FlagTest(SimpleTestCase):
         )
 
     def test_replacements(
-        self, text='replacements:{COLOR-GREY}:"":{COLOR-GARNET}:"":{VARIABLE-01}:99'
+        self,
+        text: str = 'replacements:{COLOR-GREY}:"":{COLOR-GARNET}:"":{VARIABLE-01}:99',
     ) -> None:
         flags = Flags(text)
         self.assertEqual(

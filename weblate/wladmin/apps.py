@@ -31,7 +31,7 @@ def check_backups(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.wladmin.models import BackupService
@@ -70,7 +70,7 @@ def check_support(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     # ruff: ignore[import-outside-top-level]
     from weblate.wladmin.models import SupportStatus

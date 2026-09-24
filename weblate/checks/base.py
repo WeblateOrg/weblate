@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from collections import Counter
 from contextlib import nullcontext
 from dataclasses import dataclass
 from html import unescape
@@ -59,6 +60,20 @@ class MissingExtraDict(TypedDict, total=False):
     missing: list[str]
     extra: list[str]
     errors: list[str]
+
+
+def merge_diagnostics(failures: Iterable[MissingExtraDict]) -> MissingExtraDict:
+    """Combine alternative diagnostics without losing repeated markup counts."""
+    failures = list(failures)
+    result: MissingExtraDict = {}
+    key: Literal["missing", "extra", "errors"]
+    for key in ("missing", "extra", "errors"):
+        counts: Counter[str] = Counter()
+        for failure in failures:
+            if key in failure:
+                counts |= Counter(failure[key])
+                result[key] = sorted(counts.elements())
+    return result
 
 
 class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
@@ -173,6 +188,23 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
             yield self.check_single(sources[0], targets[0], unit)
             return
 
+        if unit.has_multiple_values(sources, targets):
+            # Each target alternative can correspond to any source alternative.
+            for target in targets:
+                failures = [
+                    self.check_single(source, target, unit) for source in sources
+                ]
+                if failures and all(failures):
+                    yield (
+                        merge_diagnostics(
+                            failure for failure in failures if isinstance(failure, dict)
+                        )
+                        or True
+                    )
+                else:
+                    yield False
+            return
+
         # ruff: ignore[import-outside-top-level]
         from weblate.lang.models import (
             PluralMapper,
@@ -207,7 +239,7 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         """Check source strings."""
         if self.should_skip(unit):
             return False
-        return self.check_source_unit(sources, unit)
+        return self.check_source_alternatives(sources, unit)
 
     def check_source_with_flags(
         self, sources: list[str], unit: Unit, all_flags: Flags
@@ -222,8 +254,14 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
                 {self.enable_string, *self.extra_enable_strings}
             ):
                 return False
-            return self.check_source_unit(sources, unit)
+            return self.check_source_alternatives(sources, unit)
         return self.check_source(sources, unit)
+
+    def check_source_alternatives(self, sources: list[str], unit: Unit) -> bool:
+        """Check independent alternatives without assigning a singular form."""
+        if unit.has_multiple_values(sources, []):
+            return any(self.check_source_unit([source], unit) for source in sources)
+        return self.check_source_unit(sources, unit)
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         """Check source string."""
@@ -279,7 +317,7 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
     def get_cache_key(self, unit: Unit, pos: int) -> str:
         return f"check:{self.check_id}:{unit.pk}:{siphash('Weblate   Checks', unit.all_flags.format())}:{pos}"
 
-    def get_replacement_function(self, unit: Unit):
+    def get_replacement_function(self, unit: Unit) -> Callable[[str], str]:
         def strip_xml(content: str) -> str:
             try:
                 tree = parse_xml(f"<x>{content}</x>")

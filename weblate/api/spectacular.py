@@ -89,7 +89,9 @@ def get_spectacular_settings(
         "DESCRIPTION": """
 The API is accessible on the ``/api/`` URL and it is based on [Django REST framework](https://www.django-rest-framework.org/).
 
-The OpenAPI specification is available as feature preview, feedback welcome!
+Read-only requests can be made without authentication unless the site requires login.
+Authenticate using a personal or project token in the `Authorization` header with
+the `Token` or `Bearer` scheme. API requests are rate limited.
 
 ## Authorization
 
@@ -144,35 +146,36 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         },
         "TAGS": [
             {
-                "name": "root",
-                "description": "The API root entry point.",
-            },
-            {
                 "name": "users",
-                "description": "Added in version 4.0.",
+                "description": "User accounts, profiles, and related data.",
             },
             {
                 "name": "groups",
-                "description": "Added in version 4.0.",
+                "description": "Teams and their access permissions.",
             },
             {
                 "name": "roles",
+                "description": "Permission roles available to teams.",
             },
             {
                 "name": "languages",
+                "description": "Languages available for translation.",
             },
             {
                 "name": "projects",
+                "description": "Translation projects and their configuration.",
             },
             {
                 "name": "components",
+                "description": "Translation components, their files, and repository operations.",
             },
             {
                 "name": "translations",
+                "description": "Translations of components into individual languages.",
             },
             {
                 "name": "memory",
-                "description": "Added in version 4.14.",
+                "description": "Translation memory entries and matches.",
             },
             {
                 "name": "units",
@@ -180,25 +183,23 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             },
             {
                 "name": "changes",
+                "description": "Recorded changes to translations and other objects.",
             },
             {
                 "name": "screenshots",
+                "description": "Screenshots and their associations with source strings.",
             },
             {
                 "name": "addons",
-                "description": "Added in version 4.4.1.",
+                "description": "Installed add-ons and their configuration.",
             },
             {
                 "name": "component-lists",
-                "description": "Added in version 4.0.",
-            },
-            {
-                "name": "glossary",
-                "description": "**Changed in version 4.5:** Glossaries are now stored as regular components, translations and strings, please use respective API instead.",
+                "description": "Lists of translation components.",
             },
             {
                 "name": "tasks",
-                "description": "Added in version 4.4.\n\nListing of the tasks is currently not available.",
+                "description": "Background task status and cancellation. Listing tasks is not available.",
             },
             {
                 "name": "statistics",
@@ -206,26 +207,36 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             },
             {
                 "name": "metrics",
+                "description": "Translation metrics in CSV and OpenMetrics formats.",
             },
             {
                 "name": "search",
-                "description": "Added in version 4.18.",
+                "description": "Search across projects, components, languages, and users.",
             },
             {
                 "name": "categories",
+                "description": "Categories that group translation components.",
+            },
+            {
+                "name": "contributions",
+                "description": "Contributions made by a user.",
+            },
+            {
+                "name": "reports",
+                "description": "Stored reports and report generation.",
+            },
+            {
+                "name": "schema",
+                "description": "The OpenAPI schema for this API.",
+            },
+            {
+                "name": "suggestions",
+                "description": "Suggestions for translating strings.",
             },
             {
                 "name": "hooks",
                 "description": """Notification hooks allow external applications to notify Weblate that the VCS repository has been updated."""
                 """\n\nYou can use repository endpoints for projects, components and translations to update individual repositories.""",
-            },
-            {
-                "name": "exports",
-                "description": "Weblate provides various exports to allow you to further process the data.",
-            },
-            {
-                "name": "rssFeeds",
-                "description": "Changes in translations are exported in RSS feeds.",
             },
             {
                 "name": "webhooks",
@@ -264,9 +275,7 @@ def get_drf_standardized_errors_settings() -> dict[str, Any]:
     }
 
 
-def get_drf_settings(
-    *, require_login: bool, anon_throttle: str, user_throttle: str
-) -> dict[str, Any]:
+def get_drf_settings(*, require_login: bool) -> dict[str, Any]:
     return {
         # Use Django's standard `django.contrib.auth` permissions,
         # or allow read-only access for unauthenticated users.
@@ -279,16 +288,14 @@ def get_drf_settings(
         "DEFAULT_AUTHENTICATION_CLASSES": (
             "rest_framework.authentication.TokenAuthentication",
             "weblate.api.authentication.BearerAuthentication",
+            # Reject unhandled headers before a browser session can authenticate them.
+            "weblate.api.authentication.RejectAuthorizationAuthentication",
             "rest_framework.authentication.SessionAuthentication",
         ),
         "DEFAULT_THROTTLE_CLASSES": (
             "weblate.api.throttling.UserRateThrottle",
             "weblate.api.throttling.AnonRateThrottle",
         ),
-        "DEFAULT_THROTTLE_RATES": {
-            "anon": anon_throttle,
-            "user": user_throttle,
-        },
         "DEFAULT_RENDERER_CLASSES": [
             "rest_framework.renderers.JSONRenderer",
             "rest_framework.renderers.BrowsableAPIRenderer",

@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM weblate/weblate:2026.9.0.0@sha256:24b99c51a53d2edbb06db41a384c683fc599d95420ff0c1a4cba03f5b970458c
+FROM weblate/weblate:2026.9.1.2@sha256:f0be5b122b38d336e2b3575af1f5828884d482934a35d9dff83a3ec5efb66ae7
 
 ##########
 # WARNING!
@@ -30,7 +30,7 @@ RUN if ! getent group "${GROUP_ID}"; then \
             useradd --gid "${GROUP_ID}" --uid "${USER_ID}" --groups root,tty,weblate --shell /bin/bash developer; \
         fi
 # Following should match what dev container in docker-base repo includes
-RUN apt-get update && apt-get install -y \
+RUN apt-get update --error-on=any && apt-get install -y \
     pkg-config \
     make \
     gcc \
@@ -69,7 +69,7 @@ RUN printf '%s\n' \
         'Pin: release o=LP-PPA-xtradeb-apps' \
         'Pin-Priority: -1' \
         > /etc/apt/preferences.d/xtradeb \
-    && apt-get update \
+    && apt-get update --error-on=any \
     && apt-get install -y --no-install-recommends chromium chromium-driver
 ENV WEBLATE_TEST_CHROME_BINARY=/usr/bin/chromium
 ENV WEBLATE_TEST_CHROMEDRIVER=/usr/bin/chromedriver

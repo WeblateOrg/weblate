@@ -11,6 +11,7 @@ from decimal import Decimal
 from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 from zipfile import BadZipfile
 
+from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import models, transaction
@@ -42,6 +43,7 @@ from weblate.accounts.models import (
     Subscription,
     validate_listing_columns,
 )
+from weblate.accounts.notifications import NotificationScope
 from weblate.accounts.utils import get_all_user_mails
 from weblate.addons.base import is_public_addon_change_details
 from weblate.addons.models import ADDONS, Addon
@@ -67,6 +69,7 @@ from weblate.trans.exceptions import (
     SuggestionSimilarToTranslationError,
     SuggestionTooLongError,
 )
+from weblate.trans.forms import AutoForm
 from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     apply_create_inheritance_defaults,
@@ -105,6 +108,7 @@ from weblate.utils.validators import (
     validate_component_zip_upload_size,
     validate_file_extension,
     validate_plural_formula_range,
+    validate_repo_url,
     validate_translation_upload_size,
 )
 from weblate.utils.version import GIT_VERSION
@@ -680,7 +684,7 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
         }
 
     @property
-    def is_source_language(self):
+    def is_source_language(self) -> bool:
         return (
             isinstance(self.parent, ComponentSerializer)
             and self.field_name == "source_language"
@@ -747,9 +751,10 @@ PROFILE_READONLY_FIELDS = (
 )
 
 
+# The email format alone does not make the empty-string alternative exclusive.
 @extend_schema_field(
     {
-        "oneOf": [
+        "anyOf": [
             {"type": "string", "format": "email"},
             {"type": "string", "enum": [""]},
         ]
@@ -807,7 +812,7 @@ class AllowedProjectsField(serializers.Field):
         ]
 
 
-@extend_schema_field(serializers.URLField(allow_null=True))
+@extend_schema_field(serializers.URLField())
 class AllowedComponentListField(serializers.Field):
     """Hyperlinked component list filtered by the viewer's ACL."""
 
@@ -921,7 +926,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
         )
         read_only_fields = PROFILE_READONLY_FIELDS
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.fields["special_chars"].trim_whitespace = False
         if self.instance:
@@ -2086,9 +2091,14 @@ class ComponentSerializer(RemovableSerializer[Component]):
     )
     source_language = LanguageSerializer(required=False)
 
-    repo = RepoField(max_length=REPO_LENGTH)
+    repo = RepoField(max_length=REPO_LENGTH, validators=[validate_repo_url])
 
-    push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    push = RepoField(
+        required=False,
+        allow_blank=True,
+        max_length=REPO_LENGTH,
+        validators=[validate_repo_url],
+    )
     branch = LinkedField(required=False, allow_blank=True, max_length=BRANCH_LENGTH)
     push_branch = LinkedField(
         required=False, allow_blank=True, max_length=BRANCH_LENGTH
@@ -2439,7 +2449,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
         if errors:
             raise serializers.ValidationError(errors)
 
-    def populate_from_component_input_defaults(self, data, source_component: Component):
+    def populate_from_component_input_defaults(
+        self, data, source_component: Component
+    ) -> None:
         defaults = {
             "filemask": source_component.filemask,
             "file_format": source_component.file_format,
@@ -2493,7 +2505,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
         return attrs
 
-    def validate_from_component_overrides(self, attrs, source_component: Component):
+    def validate_from_component_overrides(
+        self, attrs, source_component: Component
+    ) -> None:
         forbidden_fields = sorted(
             self.forbidden_from_component_override_fields.intersection(
                 self.initial_data
@@ -2531,7 +2545,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     def set_create_inheritance_defaults(
         self, attrs, *, preserve_existing: bool = False
-    ):
+    ) -> None:
         if self.instance:
             return
         apply_create_inheritance_defaults(
@@ -2694,8 +2708,47 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
 
 class NotificationSerializer(serializers.ModelSerializer[Subscription]):
-    project = ProjectSerializer(read_only=True)
-    component = ComponentSerializer(read_only=True)
+    project = MultiFieldHyperlinkedIdentityField(
+        view_name="api:project-detail",
+        lookup_field=("project__slug",),
+        strip_parts=1,
+        read_only=True,
+        allow_null=True,
+    )
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("component__project__slug", "component__slug"),
+        strip_parts=1,
+        read_only=True,
+        allow_null=True,
+    )
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        scope = attrs.get(
+            "scope",
+            self.instance.scope if self.instance else NotificationScope.SCOPE_ALL,
+        )
+        if self.instance is not None and scope != self.instance.scope:
+            raise serializers.ValidationError(
+                {"scope": "Changing notification scope is not supported."}
+            )
+        if self.instance is None and scope in {
+            NotificationScope.SCOPE_PROJECT,
+            NotificationScope.SCOPE_COMPONENT,
+        }:
+            raise serializers.ValidationError(
+                {"scope": "Scoped notifications require an existing target."}
+            )
+        return attrs
+
+    def to_representation(self, instance):
+        result = super().to_representation(instance)
+        if instance.scope != NotificationScope.SCOPE_PROJECT:
+            result["project"] = None
+        if instance.scope != NotificationScope.SCOPE_COMPONENT:
+            result["component"] = None
+        return result
 
     class Meta:
         model = Subscription
@@ -2890,7 +2943,7 @@ class TranslationCreateSerializer(ReadOnlySerializer):
         component = self.context["component"]
         request = self.context["request"]
         source_components = []
-        source_queryset = Component.objects.filter(
+        source_queryset = Component.objects.filter_access(request.user).filter(
             models.Q(project_id=component.project_id)
             | models.Q(project__contribute_shared_tm=True)
         )
@@ -2958,6 +3011,7 @@ class TranslationCreateSerializer(ReadOnlySerializer):
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
+    ignore_language = serializers.BooleanField(required=False, default=False)
     file = serializers.FileField(validators=[validate_translation_upload_size])
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
@@ -3612,6 +3666,7 @@ class UnitFlatLabelsSerializer(UnitLabelsSerializer):
 
 
 class UnitSerializer(serializers.ModelSerializer[Unit]):
+    tbx_terms = serializers.DictField(read_only=True)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     translation = MultiFieldHyperlinkedIdentityField(
         view_name="api:translation-detail",
@@ -3638,6 +3693,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     class Meta:
         model = Unit
         fields = (
+            "tbx_terms",
             "translation",
             "language_code",
             "source",
@@ -3676,8 +3732,23 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
         }
 
 
+class UnitSourceSerializer(serializers.Serializer):
+    content_hash = serializers.IntegerField()
+    source = serializers.ListField(  # type: ignore[assignment]
+        child=serializers.CharField(allow_blank=True, trim_whitespace=False),
+        required=False,
+        allow_empty=False,
+    )
+    context = serializers.CharField(  # type: ignore[assignment]
+        required=False, allow_blank=True, trim_whitespace=False
+    )
+    explanation = serializers.CharField(
+        required=False, allow_blank=True, trim_whitespace=False
+    )
+
+
 class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
-    """Serializer for updating source unit."""
+    """Serializer for updating a unit and its flags."""
 
     target = PluralField()
     labels = UnitFlatLabelsSerializer(many=True)
@@ -4185,7 +4256,29 @@ class ProjectComponentSerializer(ComponentSerializer):
         )
 
 
+class AutomationPreviewRequestSerializer(serializers.Serializer):
+    workflow = serializers.JSONField()
+    component = serializers.IntegerField(min_value=1)
+    change = serializers.IntegerField(min_value=1, required=False)
+
+
 class AddonSerializer(serializers.ModelSerializer[Addon]):
+    api_name = serializers.SlugField(
+        read_only=True,
+        allow_null=True,
+        help_text="Current API name declared by the enabled, compatible provider. Null when no API is available.",
+    )
+    api_url = serializers.SerializerMethodField(
+        help_text="Component-mounted API base URL, including any encoded category path. Null when the provider is disabled, incompatible, or does not declare an API.",
+    )
+
+    def get_api_url(self, obj: Addon) -> str | None:
+        url = obj.api_url
+        if url is None:
+            return None
+        request = self.context.get("request")
+        return request.build_absolute_uri(url) if request else url
+
     component = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
         lookup_field=("component__project__slug", "component__slug"),
@@ -4210,6 +4303,8 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             "id",
             "configuration",
             "url",
+            "api_name",
+            "api_url",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:addon-detail"}
@@ -4304,7 +4399,13 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
 
     def create(self, validated_data):
         validated_data["acting_user"] = self.context["request"].user
-        return super().create(validated_data)
+        addon_class = ADDONS[validated_data.pop("name")]
+        try:
+            instance = addon_class.create_object(**validated_data)
+            instance.save(force_insert=True)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError({"name": error.messages}) from error
+        return instance
 
     def save(self, **kwargs):
         result = super().save(**kwargs)
@@ -4351,12 +4452,13 @@ class SearchResultSerializer(ReadOnlySerializer):
 
 
 TASK_RESULT_SCHEMA = {
+    # JSON Schema numbers include integers; a separate integer branch in oneOf
+    # would make every integer match twice and fail validation.
     "oneOf": [
         {"type": "object", "additionalProperties": True},
         {"type": "array", "items": {}},
         {"type": "string"},
         {"type": "number"},
-        {"type": "integer"},
         {"type": "boolean"},
         {"type": "null"},
     ]
@@ -4414,7 +4516,7 @@ class ProjectMachinerySettingsSerializerExtension(OpenApiSerializerExtension):
     target_class = ProjectMachinerySettingsSerializer
 
     def map_serializer(self, auto_schema: AutoSchema, direction):
-        return build_object_type(properties={"service_name": build_basic_type(dict)})
+        return build_object_type(additionalProperties=build_basic_type(dict))
 
 
 class BackupSerializer(serializers.Serializer):
@@ -4515,55 +4617,61 @@ class ErrorResponse423Serializer(serializers.Serializer):
 class AutoTranslateRequestSerializer(serializers.Serializer):
     """Request body for the autotranslate action."""
 
-    # Mirrors :class:`weblate.trans.forms.AutoForm`.  Keep the two in sync
-    # when adding or removing fields.
-
-    q = serializers.CharField(
-        required=True,
-        help_text=(
-            "Query string selecting strings to translate. "
-            "Translating all strings discards existing translations."
-        ),
-    )
-    mode = serializers.ChoiceField(
-        choices=["suggest", "translate", "fuzzy", "approved"],
-        help_text=(
-            "How to store the result: as a suggestion, translation, "
-            "needing-edit, or approved. Typical value: ``suggest``."
-        ),
-    )
-    auto_source = serializers.ChoiceField(
-        choices=["others", "mt"],
-        help_text=(
-            "Translation source: other components (``others``) or machine "
-            "translation (``mt``). Typical value: ``others``."
-        ),
-    )
-    component = serializers.CharField(
-        required=False,
-        allow_blank=True,
-        help_text=(
-            "Component ID (always accepted). "
-            "When the project has 30 or more eligible source components "
-            "a component slug or ``project/component`` path is also accepted. "
-            "Leave blank to use all components."
-        ),
-    )
-    engines = serializers.ListField(
-        child=serializers.CharField(),
-        required=False,
-        help_text=(
-            "Machine translation engine identifiers to use when ``auto_source`` is ``mt``."
-        ),
-    )
-    threshold = serializers.IntegerField(
-        min_value=1,
-        max_value=100,
-        help_text=(
-            "Minimum translation score (1–100) to accept when using machine translation. "
-            "Typical value: 80."
-        ),
-    )
+    def get_fields(self) -> dict[str, serializers.Field]:
+        # Use declarations to avoid database queries and user-specific choices.
+        # Runtime validation remains in AutoForm, including dynamic choices.
+        fields: dict[str, serializers.Field] = {}
+        for name, field in AutoForm.base_fields.items():
+            kwargs: dict[str, Any] = {
+                "required": field.required,
+                "label": field.label,
+                "help_text": field.help_text,
+            }
+            if isinstance(field, forms.ChoiceField):
+                kwargs["choices"] = field.choices
+            if isinstance(field, forms.MultipleChoiceField):
+                choices = kwargs.pop("choices")
+                child = (
+                    serializers.ChoiceField(choices=choices)
+                    if choices
+                    else serializers.CharField()
+                )
+                fields[name] = serializers.ListField(child=child, **kwargs)
+            elif isinstance(field, forms.ChoiceField):
+                if field.choices:
+                    fields[name] = serializers.ChoiceField(
+                        allow_blank=not field.required, **kwargs
+                    )
+                else:
+                    kwargs.pop("choices")
+                    fields[name] = serializers.CharField(
+                        allow_blank=not field.required, **kwargs
+                    )
+            elif isinstance(field, forms.IntegerField):
+                fields[name] = serializers.IntegerField(
+                    min_value=(
+                        field.min_value()
+                        if callable(field.min_value)
+                        else field.min_value
+                    ),
+                    max_value=(
+                        field.max_value()
+                        if callable(field.max_value)
+                        else field.max_value
+                    ),
+                    **kwargs,
+                )
+            elif isinstance(field, forms.CharField):
+                fields[name] = serializers.CharField(
+                    allow_blank=not field.required,
+                    min_length=field.min_length,
+                    max_length=field.max_length,
+                    **kwargs,
+                )
+            else:
+                msg = f"Unsupported AutoForm field {name}: {type(field).__name__}"
+                raise TypeError(msg)
+        return fields
 
 
 class AutoTranslateResponseSerializer(serializers.Serializer):

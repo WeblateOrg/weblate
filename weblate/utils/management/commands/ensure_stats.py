@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 
+from __future__ import annotations
+
 from django.utils import timezone
 
 from weblate.metrics.models import Metric
@@ -13,7 +15,7 @@ from weblate.utils.stats import GlobalStats
 class Command(BaseCommand):
     help = "ensures that stats are present"
 
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: object, **options: object) -> None:
         all_strings = GlobalStats().all
         self.stdout.write(f"found {all_strings} strings")
         today = timezone.now().date()

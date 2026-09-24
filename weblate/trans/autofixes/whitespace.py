@@ -2,12 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.chars import BeginSpaceCheck, EndSpaceCheck
 from weblate.trans.autofixes.base import AutoFix
+
+if TYPE_CHECKING:
+    from weblate.checks.base import BaseCheck
+    from weblate.trans.models import Unit
+
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
 START = re.compile(r"^(\s+)")
@@ -21,10 +29,12 @@ class SameBookendingWhitespace(AutoFix):
     name = gettext_lazy("Trailing and leading whitespace")
 
     @staticmethod
-    def get_related_checks():
+    def get_related_checks() -> list[BaseCheck]:
         return [BeginSpaceCheck(), EndSpaceCheck()]
 
-    def fix_single_target(self, target, source, unit):
+    def fix_single_target(
+        self, target: str, source: str, unit: Unit
+    ) -> tuple[str, bool]:
         # normalize newlines of source
         source = NEWLINES.sub("\n", source)
 

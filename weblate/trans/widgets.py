@@ -25,13 +25,15 @@ from django.utils.translation import (
 
 from weblate.fonts.utils import render_size
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.util import sort_unicode, translation_percent
 from weblate.utils import messages
 from weblate.utils.formatting import number_format
 from weblate.utils.icons import find_static_file
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import (
+    CategoryLanguage,
+    CategoryLanguageStats,
     GlobalStats,
     ProjectLanguage,
     ProjectLanguageStats,
@@ -39,6 +41,7 @@ from weblate.utils.stats import (
     get_non_glossary_stats,
 )
 from weblate.utils.views import get_percent_color
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
@@ -58,6 +61,7 @@ COLOR_DATA = {
 
 WIDGETS: dict[str, type[Widget]] = {}
 WIDGET_FONT = "Source Sans 3"
+WIDGET_FONT_SCALE = 4 / 3
 # Pango rounded the Source Sans ascent and descent independently. Preserve
 # those logical line metrics because the bitmap backgrounds were designed for
 # their resulting baselines.
@@ -212,11 +216,11 @@ class BitmapWidget(Widget):
         return [
             render.get_font_properties(
                 WIDGET_FONT,
-                size=self.font_size * 1.5 * render.FONT_SCALE,
+                size=self.font_size * 1.5 * WIDGET_FONT_SCALE,
                 weight=700,
             ),
             render.get_font_properties(
-                WIDGET_FONT, size=self.font_size * render.FONT_SCALE, weight=400
+                WIDGET_FONT, size=self.font_size * WIDGET_FONT_SCALE, weight=400
             ),
         ]
 
@@ -350,10 +354,10 @@ class OpenGraphWidget(NormalWidget):
 
         return [
             render.get_font_properties(
-                WIDGET_FONT, size=42 * render.FONT_SCALE, weight=400
+                WIDGET_FONT, size=42 * WIDGET_FONT_SCALE, weight=400
             ),
             render.get_font_properties(
-                WIDGET_FONT, size=18 * render.FONT_SCALE, weight=400
+                WIDGET_FONT, size=18 * WIDGET_FONT_SCALE, weight=400
             ),
         ]
 
@@ -368,6 +372,12 @@ class OpenGraphWidget(NormalWidget):
         elif isinstance(self.obj, Project):
             # Translators: Text on OpenGraph image
             template = gettext("Project {}")
+        elif isinstance(self.obj, Category):
+            # Translators: Text on OpenGraph image
+            template = gettext("Category {}")
+        elif isinstance(self.obj, Workspace):
+            # Translators: Text on OpenGraph image
+            template = gettext("Workspace {}")
         else:
             # Translators: Text on OpenGraph image
             template = gettext("Component {}")
@@ -399,7 +409,7 @@ class OpenGraphWidget(NormalWidget):
         # ruff: ignore[import-outside-top-level]
         from weblate.fonts import render
 
-        font_size = 52 * render.FONT_SCALE
+        font_size = 52 * WIDGET_FONT_SCALE
         regular_font = render.get_font_properties(
             WIDGET_FONT, size=font_size, weight=400
         )
@@ -591,7 +601,9 @@ class MultiLanguageWidget(SVGWidget):
     }
 
     def get_language_stats(self) -> list[BaseStats]:
-        if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
+        if isinstance(
+            self.stats, (CategoryLanguageStats, ProjectLanguageStats, TranslationStats)
+        ):
             return [self.stats]
         if isinstance(self.obj, ProjectLanguage):
             return [self.obj.stats]
@@ -609,6 +621,16 @@ class MultiLanguageWidget(SVGWidget):
             )
         if self.obj is None:
             return get_site_url(language.get_absolute_url())
+        if isinstance(self.obj, Category):
+            return get_site_url(CategoryLanguage(self.obj, language).get_absolute_url())
+        if isinstance(self.obj, Workspace):
+            return get_site_url(
+                reverse(
+                    "search",
+                    kwargs={"path": self.obj.get_url_path()},
+                    query={"q": f"language:{language.code}"},
+                )
+            )
         project_language = ProjectLanguage(self.obj, language)
         return get_site_url(project_language.get_absolute_url())
 
@@ -883,7 +905,9 @@ class LanguageBadgeWidget(BaseSVGBadgeWidget):
             threshold = 0
 
         languages: list[BaseStats]
-        if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
+        if isinstance(
+            self.stats, (CategoryLanguageStats, ProjectLanguageStats, TranslationStats)
+        ):
             languages = [self.stats]
         elif isinstance(self.obj, (ProjectLanguage, Language)):
             languages = [self.obj.stats]

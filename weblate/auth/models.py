@@ -1103,7 +1103,7 @@ class User(AbstractBaseUser):
             msg = "Access denied"
             raise Http404(msg)
 
-    def can_access_component(self, component):
+    def can_access_component(self, component) -> bool:
         """Check access to given component."""
         if self.is_superuser:
             return True
@@ -1799,7 +1799,7 @@ def sync_create_groups(sender, **kwargs) -> None:
 
 def auto_assign_group(user: User) -> None:
     """Automatic group assignment based on user e-mail address."""
-    if user.is_anonymous:
+    if user.is_anonymous or user.is_bot:
         return
     # Add user to automatic groups
     for auto in AutoGroup.objects.prefetch_related("group"):

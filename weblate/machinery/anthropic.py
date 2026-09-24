@@ -4,8 +4,7 @@
 
 from __future__ import annotations
 
-from typing import ClassVar
-from urllib.parse import urljoin
+from typing import TYPE_CHECKING, ClassVar
 
 from .base import MachineryRateLimitError, MachineTranslationError
 from .forms import AnthropicMachineryForm
@@ -22,7 +21,7 @@ class AnthropicTranslation(BaseLLMTranslation):
 
     name = "Anthropic"
     trusted_error_hosts: ClassVar[set[str]] = {"api.anthropic.com"}
-    end_point = "/v1/messages"
+    end_point = "v1/messages"
     settings_form = AnthropicMachineryForm
     version_added = "5.16"
 
@@ -39,7 +38,7 @@ class AnthropicTranslation(BaseLLMTranslation):
             "content-type": "application/json",
         }
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         if response.status_code == 429:
             message = self.get_error_detail(response) or "Rate limit exceeded"
             raise MachineryRateLimitError(message)
@@ -91,13 +90,18 @@ class AnthropicTranslation(BaseLLMTranslation):
         }
 
     def get_chat_url(self) -> str:
-        return urljoin(
-            self.settings.get("base_url") or "https://api.anthropic.com",
-            self.end_point,
-        )
+        base_url = (
+            self.settings.get("base_url") or "https://api.anthropic.com"
+        ).rstrip("/")
+        # The endpoint carries the API version, so strip it from the base URL
+        # to accept configurations which spell it out there as well.
+        version = self.end_point.partition("/")[0]
+        if base_url.endswith(f"/{version}"):
+            base_url = base_url[: -len(version) - 1]
+        return self.join_api_url(base_url, self.end_point)
 
     @staticmethod
-    def parse_chat_response(response_data) -> str:
+    def parse_chat_response(response_data: object) -> str:
         if not isinstance(response_data, dict):
             msg = "Invalid service response: expected a JSON object."
             raise MachineTranslationError(msg)
@@ -126,3 +130,7 @@ class AnthropicTranslation(BaseLLMTranslation):
             raise MachineTranslationError(msg)
         msg = "Assistant message did not contain text content."
         raise MachineTranslationError(msg)
+
+
+if TYPE_CHECKING:
+    import httpx2

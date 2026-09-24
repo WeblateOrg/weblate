@@ -61,11 +61,13 @@ from weblate.utils.errors import report_error
 from weblate.utils.state import STATE_APPROVED
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Generator
 
+    from lxml import etree
     from translate.storage.base import TranslationStore
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
+    from weblate.checks.flags import Flags
     from weblate.formats.base import TranslationUnit
     from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
@@ -151,7 +153,7 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     can_add_unit = False
     can_delete_unit = False
     can_edit_base: bool = False
-    unit_class: type[TranslationUnit] = ConvertPoUnit  # type: ignore[assignment]
+    unit_class: ClassVar[type[TranslationUnit]] = ConvertPoUnit  # type: ignore[assignment]
     needs_existing_units = True
     autoaddon: ClassVar[dict[str, dict[str, Any]]] = {
         "weblate.flags.same_edit": {},
@@ -549,7 +551,7 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
 
 
 class MDXPoUnit(ConvertPoUnit):
-    def get_extra_flags(self):
+    def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
         yield from super().get_extra_flags()
         if self.is_code_block():
             # fenced/indented code-block contents are considered as literal text, not JSX

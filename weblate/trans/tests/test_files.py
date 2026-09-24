@@ -12,7 +12,7 @@ import tempfile
 from io import BytesIO, StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
-from unittest.mock import patch
+from unittest.mock import ANY, patch
 from zipfile import ZipFile
 
 from django.contrib.messages import ERROR
@@ -27,10 +27,15 @@ from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role
 from weblate.auth.results import Denied
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
-from weblate.formats.ttkit import CSVFormat
+from weblate.formats.ttkit import CSVFormat, PoFormat, XliffFormat
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
-from weblate.trans.exceptions import FailedCommitError, FileParseError
+from weblate.trans.exceptions import (
+    FailedCommitError,
+    FileParseError,
+    LanguageMismatchError,
+    PluralFormsMismatchError,
+)
 from weblate.trans.forms import SimpleUploadForm, UploadForm, get_upload_form
 from weblate.trans.models import (
     Change,
@@ -330,7 +335,9 @@ class ImportTest(ImportBaseTest):
     def test_direct_import_commit_database_error_is_hidden(self) -> None:
         translation = self.get_translation()
         request = self.get_request()
-        handle = NamedBytesIO("test.po", Path(TEST_PO).read_bytes())
+        filename = translation.get_filename()
+        assert filename is not None
+        handle = NamedBytesIO(filename, Path(filename).read_bytes())
 
         with (
             patch.object(
@@ -444,6 +451,192 @@ class ImportErrorTest(ImportBaseTest):
         self.assertIn(
             "Plural forms in the uploaded file do not match", messages[0].message
         )
+
+
+class LanguageUploadValidationTest(ImportBaseTest):
+    def mismatched_file(self) -> SimpleUploadedFile:
+        return SimpleUploadedFile(
+            "test.po",
+            Path(TEST_PO).read_bytes().replace(b"Language: cs", b"Language: de"),
+        )
+
+    def test_mismatch_does_not_change_translation(self) -> None:
+        translation = self.get_translation()
+        path = translation.get_filename()
+        assert path is not None
+        filename = Path(path)
+        content = filename.read_bytes()
+        targets = list(translation.unit_set.values_list("target", flat=True))
+        changes = translation.change_set.count()
+        for method in ("translate", "approve", "fuzzy", "suggest", "add", "replace"):
+            with (
+                self.subTest(method=method),
+                patch.object(translation, "commit_pending") as commit,
+                patch.object(
+                    translation.component, "commit_pending"
+                ) as component_commit,
+                self.assertRaises(LanguageMismatchError),
+            ):
+                translation.handle_upload(
+                    self.get_request(),
+                    NamedBytesIO("test.po", self.mismatched_file().read()),
+                    "",
+                    method=method,
+                )
+            commit.assert_not_called()
+            component_commit.assert_not_called()
+            self.assertEqual(filename.read_bytes(), content)
+            self.assertEqual(
+                list(translation.unit_set.values_list("target", flat=True)), targets
+            )
+            self.assertEqual(translation.change_set.count(), changes)
+
+    def test_ui_mismatch_and_override(self) -> None:
+        for ignore_language in (False, True):
+            with self.subTest(ignore_language=ignore_language):
+                response = self.client.post(
+                    reverse("upload", kwargs=self.kw_translation),
+                    {
+                        "file": self.mismatched_file(),
+                        "method": "translate",
+                        "author_name": self.user.full_name,
+                        "author_email": self.user.email,
+                        "ignore_language": ignore_language,
+                    },
+                    follow=True,
+                )
+                messages = list(response.context["messages"])
+                if ignore_language:
+                    self.assertNotEqual(messages[0].level, ERROR)
+                    self.assertEqual(self.get_unit().target, TRANSLATION_PO)
+                else:
+                    self.assertEqual(messages[0].level, ERROR)
+                    self.assertIn("uploaded file language (de)", messages[0].message)
+                    self.assertIn("Ignore language mismatch", messages[0].message)
+
+    def test_language_codes(self) -> None:
+        translation = self.get_translation()
+        for code in ("cs", "CS", "cs-CZ", "ces", "cs_XX", "", "unknown", "de-invalid!"):
+            with self.subTest(code=code):
+                store = PoFormat(
+                    NamedBytesIO(
+                        "test.po", f'msgid ""\nmsgstr "Language: {code}\\n"\n'.encode()
+                    )
+                )
+                translation.validate_upload_language(store)
+
+        for expected, actual in (
+            ("pt_BR", "pt-PT"),
+            ("zh_Hans", "zh-Hant"),
+            ("sr_Latn", "sr@cyrillic"),
+            ("he", "iw"),
+        ):
+            with self.subTest(expected=expected, actual=actual):
+                translation.language = Language.objects.get(code=expected)
+                store = PoFormat(
+                    NamedBytesIO(
+                        "test.po",
+                        f'msgid ""\nmsgstr "Language: {actual}\\n"\n'.encode(),
+                    )
+                )
+                translation.validate_upload_language(store)
+
+    def test_no_declared_language_skips_cache(self) -> None:
+        store = PoFormat(NamedBytesIO("test.po", b'msgid ""\nmsgstr ""\n'))
+
+        with patch.object(Language.objects, "build_fuzzy_get_cache") as build_cache:
+            self.get_translation().validate_upload_language(store)
+
+        build_cache.assert_not_called()
+
+    def test_xliff_language_mismatch(self) -> None:
+        content = b'<xliff version="1.2"><file source-language="en" target-language="de"><body><trans-unit id="hello"><source>Hello, world!\n</source><target>Hallo Welt!\n</target></trans-unit></body></file></xliff>'
+        with self.assertRaises(LanguageMismatchError):
+            self.get_translation().handle_upload(
+                self.get_request(), NamedBytesIO("test.xlf", content), ""
+            )
+
+    def test_xliff_language_declarations_limit(self) -> None:
+        files = b"".join(
+            f'<file target-language="x-{index}"><body/></file>'.encode()
+            for index in range(101)
+        )
+        store = XliffFormat(
+            NamedBytesIO("test.xlf", b'<xliff version="1.2">' + files + b"</xliff>")
+        )
+
+        with self.assertRaisesMessage(
+            FileParseError, "contains too many language declarations"
+        ):
+            self.get_translation().validate_upload_language(store)
+
+    def test_override_keeps_parse_validation(self) -> None:
+        with self.assertRaises(FileParseError):
+            self.get_translation().handle_upload(
+                self.get_request(),
+                NamedBytesIO("test.po", b"not a PO file"),
+                "",
+                method="replace",
+                ignore_language=True,
+            )
+
+    def test_override_replace(self) -> None:
+        translation = self.get_translation()
+        result = translation.handle_upload(
+            self.get_request(),
+            NamedBytesIO("test.po", self.mismatched_file().read()),
+            "",
+            method="replace",
+            ignore_language=True,
+        )
+        self.assertGreater(result[2], 0)
+        self.assertEqual(self.get_unit().target, TRANSLATION_PO)
+
+    def test_override_suggest(self) -> None:
+        translation = self.get_translation()
+        result = translation.handle_upload(
+            self.get_request(),
+            NamedBytesIO("test.po", self.mismatched_file().read()),
+            "",
+            method="suggest",
+            ignore_language=True,
+        )
+        self.assertEqual(result[2], 1)
+        self.assertEqual(self.get_unit().suggestion_set.get().target, TRANSLATION_PO)
+
+    def test_project_language_alias(self) -> None:
+        translation = self.get_translation()
+        translation.component.project.language_aliases = "de:cs"
+        translation.component.project.__dict__.pop("language_aliases_dict", None)
+        store = PoFormat(NamedBytesIO("test.po", self.mismatched_file().read()))
+        translation.validate_upload_language(store)
+
+    def test_override_keeps_plural_validation(self) -> None:
+        with self.assertRaises(PluralFormsMismatchError):
+            self.get_translation().handle_upload(
+                self.get_request(),
+                NamedBytesIO("test.po", Path(TEST_BADPLURALS).read_bytes()),
+                "",
+                ignore_language=True,
+            )
+
+    def test_source_language(self) -> None:
+        source = self.component.source_translation
+        content = b'<xliff version="1.2"><file source-language="de" target-language="en"><body/></file></xliff>'
+        store = XliffFormat(NamedBytesIO("test.xlf", content))
+        with self.assertRaises(LanguageMismatchError):
+            source.validate_upload_language(store, source=True)
+        # A foreign target language does not make a source upload invalid.
+        store = XliffFormat(
+            NamedBytesIO(
+                "test.xlf",
+                content.replace(
+                    b'source-language="de" target-language="en"',
+                    b'source-language="en" target-language="de"',
+                ),
+            )
+        )
+        source.validate_upload_language(store, source=True)
 
 
 class PluralMetadataUploadValidationTest(ImportBaseTest):
@@ -774,21 +967,21 @@ class ImportMoPoTest(ImportTest):
 
     test_file = TEST_MO
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_po()
 
 
 class ImportJoomlaTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_joomla()
 
 
 class ImportCSVTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_csv_mono()
 
     def test_import_source(self) -> None:
@@ -816,35 +1009,35 @@ class ImportCSVTest(ImportTest):
 class ImportJSONTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_json()
 
 
 class ImportJSONMonoTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_json_mono()
 
 
 class ImportPHPMonoTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_php_mono()
 
 
 class StringsImportTest(ImportTest):
     has_plurals = False
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_iphone()
 
 
 class RubyPluralImportText(ImportBaseTest):
     test_file = TEST_RUBY
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_ruby_yaml()
 
     def test_import_plural(self) -> None:
@@ -913,7 +1106,7 @@ pt_br:
 
 
 class AndroidImportTest(ViewTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_android()
 
     def test_import(self) -> None:
@@ -1052,7 +1245,7 @@ class ExportTest(ViewTestCase):
     test_source = "Orangutan has %d banana"
     test_source_plural = "Orangutan has %d bananas"
 
-    def create_component(self):
+    def create_component(self) -> Component:
         # Needs to create PO file to have language pack option
         return self.create_po()
 
@@ -1155,7 +1348,7 @@ class ExportMultifileTest(ExportTest):
     test_source = "https://www.youtube.com/watch?v=IVlXt6QdgdA"
     test_source_plural = "https://www.youtube.com/watch?v=IVlXt6QdgdA"
 
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_appstore()
 
 
@@ -1300,7 +1493,7 @@ class ImportAddTest(ImportBaseTest):
         request = self.get_request()
         store = object()
 
-        def handle_add_upload(*args, **kwargs):
+        def handle_add_upload(*args, **kwargs) -> tuple[int, int, int, int]:
             self.assertTrue(translation.component.lock.is_locked)
             return (0, 0, 0, 0)
 
@@ -1423,7 +1616,10 @@ class DownloadMultiTest(ViewTestCase):
             )
 
         self.assertEqual(response.status_code, 200)
-        component_commit.assert_called_once_with(self.component, "download", None)
+        component_commit.assert_called_once_with(self.component, "download", ANY)
+        commit_user = component_commit.call_args.args[2]
+        self.assertEqual(commit_user.username, "weblate:commit")
+        self.assertTrue(commit_user.is_bot)
         project_commit.assert_not_called()
 
     def test_workspace_download_check_stops_at_first_component(self) -> None:
@@ -1555,7 +1751,7 @@ UPLOAD_CSV = """
 
 
 class ImportExportAddTest(ViewTestCase):
-    def create_component(self):
+    def create_component(self) -> Component:
         return self.create_json_mono()
 
     def test_notchanged(self) -> None:

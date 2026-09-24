@@ -120,7 +120,7 @@ def error(
     add_message(request, constants.ERROR, message, extra_tags)
 
 
-def get_message_kind(tags):
+def get_message_kind(tags: str) -> str:
     if "error" in tags:
         return "danger"
     for tag in ["info", "success", "warning", "danger"]:

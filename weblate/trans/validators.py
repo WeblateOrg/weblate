@@ -21,6 +21,17 @@ if TYPE_CHECKING:
 
 SUGGESTION_REJECTION_REASON_LENGTH = 200
 DEFAULT_TRANSLATION_MAX_LENGTH = 10000
+MAX_TRANSLATION_ALTERNATIVES = 100
+MAX_TRANSLATION_TOTAL_LENGTH = 100000
+
+
+def validate_multivalue_size(is_multivalue: bool, value: list[str]) -> None:
+    """Validate the cardinality and aggregate size of multivalue text."""
+    if is_multivalue and (
+        len(value) > MAX_TRANSLATION_ALTERNATIVES
+        or sum(map(len, value)) > MAX_TRANSLATION_TOTAL_LENGTH
+    ):
+        raise ValidationError(gettext("Translation text too long!"))
 
 
 def get_translation_text_max_length(unit: Unit) -> int:
@@ -34,14 +45,19 @@ def get_translation_text_max_length(unit: Unit) -> int:
     return 10 * (max_length + 100)
 
 
-def validate_translation_text_length(unit: Unit, target: list[str]) -> None:
+def validate_translation_text_length(
+    unit: Unit, target: list[str], *, add_alternative: bool = False
+) -> None:
     """Validate translation text length for a unit."""
     max_length = get_translation_text_max_length(unit)
+    if add_alternative:
+        target = [*target, ""]
+    validate_multivalue_size(unit.translation.component.is_multivalue, target)
     if any(len(text) > max_length for text in target):
         raise ValidationError(gettext("Translation text too long!"))
 
 
-def validate_filemask(val) -> None:
+def validate_filemask(val: str) -> None:
     """Validate that the filemask contains *."""
     if "*" not in val:
         raise ValidationError(
@@ -49,7 +65,7 @@ def validate_filemask(val) -> None:
         )
 
 
-def validate_autoaccept(val) -> None:
+def validate_autoaccept(val: int) -> None:
     """Validate correct value for automatic acceptance."""
     if val == 1:
         raise ValidationError(
@@ -60,7 +76,7 @@ def validate_autoaccept(val) -> None:
         )
 
 
-def validate_check_flags(val) -> None:
+def validate_check_flags(val: str) -> None:
     """Validate check-influencing flags."""
     try:
         flags = FlagsValidator(val)

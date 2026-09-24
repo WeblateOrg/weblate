@@ -38,7 +38,7 @@ class YoudaoTranslation(MachineTranslation):
     }
     settings_form = KeySecretMachineryForm
 
-    def download_languages(self):
+    def download_languages(self) -> list[str]:
         """List of supported languages."""
         return [
             "zh-CHS",
@@ -64,8 +64,8 @@ class YoudaoTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
         unit: Unit | None,
         user: User | None,

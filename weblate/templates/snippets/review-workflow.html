@@ -1,0 +1,39 @@
+{% load i18n permissions translations %}
+
+{% get_review_workflows workflow_translation as review_workflows %}
+{% for review_workflow in review_workflows %}
+  {% if review_workflow.role %}
+    <h5>
+      {% if review_workflow.show_project %}{{ review_workflow.project }} —{% endif %}
+      {{ review_workflow.role }}
+    </h5>
+  {% endif %}
+  <p>
+    {% if review_workflow.enabled %}
+      {% translate "Reviews are enabled for this language." %}
+    {% else %}
+      {% translate "Reviews are disabled for this language." %}
+    {% endif %}
+    {% blocktranslate with origin=review_workflow.origin %}Review setting: {{ origin }}.{% endblocktranslate %}
+  </p>
+  <p>{{ review_workflow.policy }}</p>
+  <p>
+    {% documentation 'workflows' 'workflow-customization' as workflow_url %}
+    {% blocktranslate %}Learn how to <a href="{{ workflow_url }}">customize the workflow for this language</a>.{% endblocktranslate %}
+  </p>
+  {% perm review_workflow.settings_object.settings_permission review_workflow.settings_object as can_configure_workflow %}
+  {% if can_configure_workflow %}
+    <p>
+      <a href="{{ review_workflow.settings_url }}">{{ review_workflow.settings_label }}</a>
+    </p>
+  {% endif %}
+{% empty %}
+  {% documentation 'workflows' 'workflow-customization' as workflow_url %}
+  <p><a href="{{ workflow_url }}">{% translate "Learn how to customize translation workflows." %}</a></p>
+  {% perm workflow_translation.project.settings_permission workflow_translation.project as can_configure_workflow %}
+  {% if can_configure_workflow %}
+    <p>
+      <a href="{% url 'settings' path=workflow_translation.project.get_url_path %}#workflow">{% translate "Configure translation workflow" %}</a>
+    </p>
+  {% endif %}
+{% endfor %}

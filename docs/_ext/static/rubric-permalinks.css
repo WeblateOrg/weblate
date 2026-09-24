@@ -1,0 +1,25 @@
+/*
+ * Copyright © Michal Čihař <michal@weblate.org>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+.changelog-rubric > .headerlink {
+  margin-left: 0.5rem;
+  opacity: 0;
+}
+
+.changelog-rubric:hover > .headerlink,
+.changelog-rubric:focus-within > .headerlink {
+  opacity: 1;
+}
+
+.changelog-rubric > .headerlink:focus-visible {
+  outline: auto;
+}
+
+@media (hover: none) {
+  .changelog-rubric > .headerlink {
+    opacity: 1;
+  }
+}

@@ -94,6 +94,14 @@ if [ "$team_membership_migrate" -eq 0 ]; then
     check
 fi
 
+# Add bot memberships for automatic team assignment cleanup
+semver_compare "$1" "<" "2026.10"
+bot_membership_cleanup=$?
+if [ "$bot_membership_cleanup" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-bot-memberships.py"
+    check
+fi
+
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
 pending_migration_test=$?
@@ -153,6 +161,32 @@ if [ "$gettext_header_settings_migrate" -eq 0 ]; then
     check
 fi
 
+# Exercise the alert lifecycle backfill with dismissed alerts in the old schema.
+semver_compare "$1" "<" "2026.8"
+alert_lifecycle_migrate=$?
+if [ "$alert_lifecycle_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-alerts.py"
+    check
+fi
+
+# Exercise scoped migration on older releases and site-wide migration on 2026.8+.
+semver_compare "5.13" "<=" "$1" && semver_compare "$1" "<" "2026.10"
+contributor_comments_migrate=$?
+if [ "$contributor_comments_migrate" -eq 0 ]; then
+    if semver_compare "2026.8" "<=" "$1"; then
+        export CONTRIBUTOR_TEST_SITEWIDE=1
+    fi
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-contributor-comments.py"
+    check
+fi
+# Migrate XLIFF placeables formats and whitespace handling
+semver_compare "$1" "<" "2026.10"
+xliff_params_migrate=$?
+if [ "$xliff_params_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-xliff-params.py"
+    check
+fi
+
 git reset --hard
 check
 git checkout "$HEAD_COMMIT"
@@ -186,6 +220,12 @@ check
 # Check user team memberships survived through-model migration
 if [ "$team_membership_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-team-membership.py"
+    check
+fi
+
+# Check automatic bot memberships were cleaned up
+if [ "$bot_membership_cleanup" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-bot-memberships.py"
     check
 fi
 
@@ -231,5 +271,20 @@ fi
 if [ "$gettext_header_settings_migrate" -eq 0 ]; then
     # check that the gettext file format header settings have been migrated
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-gettext-header-settings.py"
+    check
+fi
+
+if [ "$alert_lifecycle_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-alerts.py"
+    check
+fi
+
+if [ "$contributor_comments_migrate" -eq 0 ]; then
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-contributor-comments.py"
+    check
+fi
+if [ "$xliff_params_migrate" -eq 0 ]; then
+    # check that XLIFF formats and whitespace handling were migrated
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-xliff-params.py"
     check
 fi
