@@ -4147,6 +4147,28 @@ class RoleAPITest(APIBaseTest):
 
 
 class ProjectAPITest(APIBaseTest):
+    def grant_language_download(self, *, membership_limit: bool = False) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Czech project downloads",
+            language_selection=(
+                SELECTION_ALL if membership_limit else SELECTION_MANUAL
+            ),
+        )
+        group.projects.add(self.project)
+        if not membership_limit:
+            group.languages.add(Language.objects.get(code="cs"))
+        role = Role.objects.create(name="Project language downloads")
+        role.permissions.add(Permission.objects.get(codename="translation.download"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        if membership_limit:
+            TeamMembership.objects.get(user=self.user, group=group).limit_languages.add(
+                Language.objects.get(code="cs")
+            )
+        self.user.clear_permissions_cache()
+
     def attach_component_template(
         self, component: Component, filename: str = "template.pot"
     ) -> None:
@@ -7293,6 +7315,59 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
+    def assert_language_scoped_project_downloads(self) -> None:
+        for name in ("api:project-file", "api:project-language-file"):
+            kwargs = self.project_kwargs
+            request = {"format": "zip", "language_code": "cs"}
+            if name == "api:project-language-file":
+                kwargs = {**kwargs, "language_code": "cs"}
+                request.pop("language_code")
+            with self.subTest(name=name, language="cs"):
+                self.do_request(
+                    name,
+                    kwargs,
+                    method="get",
+                    code=200,
+                    request=request,
+                )
+
+            kwargs = self.project_kwargs
+            request = {"format": "zip", "language_code": "de"}
+            if name == "api:project-language-file":
+                kwargs = {**kwargs, "language_code": "de"}
+                request.pop("language_code")
+            with (
+                self.subTest(name=name, language="de"),
+                patch("weblate.api.views.download_multi") as download,
+            ):
+                self.do_request(
+                    name,
+                    kwargs,
+                    method="get",
+                    code=403,
+                    request=request,
+                )
+                download.assert_not_called()
+
+    def test_download_project_translations_team_language_scope(self) -> None:
+        self.grant_language_download()
+
+        self.assertTrue(self.user.has_perm("translation.download", self.project))
+        self.assert_language_scoped_project_downloads()
+
+    def test_download_project_translations_membership_language_scope(self) -> None:
+        self.grant_language_download(membership_limit=True)
+
+        self.assertFalse(self.user.has_perm("translation.download", self.project))
+        self.assert_language_scoped_project_downloads()
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=403,
+            request={"format": "zip"},
+        )
+
     def test_download_project_translations_language_path(self) -> None:
         response = self.do_request(
             "api:project-language-file",
@@ -7324,18 +7399,47 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_download_project_translations_language_not_present(self) -> None:
-        response = self.do_request(
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.grant_perm_to_user("translation.download", project=self.project)
+        self.user.clear_permissions_cache()
+
+        for name in ("api:project-file", "api:project-language-file"):
+            kwargs = self.project_kwargs
+            request = {"format": "zip", "language_code": "fr"}
+            if name == "api:project-language-file":
+                kwargs = {**kwargs, "language_code": "fr"}
+                request.pop("language_code")
+            with self.subTest(name=name):
+                response = self.do_request(
+                    name,
+                    kwargs,
+                    method="get",
+                    code=200,
+                    request=request,
+                )
+                self.assertEqual(response.headers["content-type"], "application/zip")
+                with zipfile.ZipFile(BytesIO(response.content)) as zf:
+                    self.assertEqual(len(zf.namelist()), 0)
+
+    def test_download_project_translations_language_unknown(self) -> None:
+        self.do_request(
             "api:project-language-file",
-            {**self.project_kwargs, "language_code": "fr"},
+            {**self.project_kwargs, "language_code": "unknown-language"},
             method="get",
-            code=200,
+            code=404,
             superuser=True,
             request={"format": "zip"},
         )
-        self.assertEqual(response.headers["content-type"], "application/zip")
-        with zipfile.ZipFile(BytesIO(response.content)) as zf:
-            # No entries, since there are no translations for 'fr'
-            self.assertEqual(len(zf.namelist()), 0)
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=404,
+            superuser=True,
+            request={"format": "zip", "language_code": "unknown-language"},
+        )
 
     def test_download_project_translations_language_path_converted(self) -> None:
         response = self.do_request(
