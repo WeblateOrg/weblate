@@ -24,7 +24,7 @@ def check_fonts(
     *,
     app_configs: Sequence[AppConfig] | None,
     databases: Sequence[str] | None,
-    **kwargs,
+    **kwargs: object,
 ) -> Iterable[CheckMessage]:
     """Check font rendering."""
     try:

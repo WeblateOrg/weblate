@@ -41,7 +41,7 @@ def sort_key(line: str, case_sensitive: bool) -> str:
     return prefix.lower()
 
 
-def unicode_format(match) -> str:
+def unicode_format(match: re.Match[str]) -> str:
     """
     Format unicode characters.
 
@@ -50,7 +50,7 @@ def unicode_format(match) -> str:
     return f"\\u{match.group(0)[2:].upper()}"
 
 
-def fix_newlines(lines) -> None:
+def fix_newlines(lines: list[str]) -> None:
     """Convert newlines to unix."""
     for i, line in enumerate(lines):
         if line.endswith("\r\n"):
@@ -59,7 +59,7 @@ def fix_newlines(lines) -> None:
             lines[i] = f"{line[:-1]}\n"
 
 
-def format_unicode(lines) -> None:
+def format_unicode(lines: list[str]) -> None:
     """Format unicode characters."""
     for i, line in enumerate(lines):
         if not UNICODE.findall(line):
@@ -67,7 +67,7 @@ def format_unicode(lines) -> None:
         lines[i] = UNICODE.sub(unicode_format, line)
 
 
-def value_quality(value) -> int:
+def value_quality(value: str | None) -> int:
     """Calculate value quality."""
     if not value:
         return 0

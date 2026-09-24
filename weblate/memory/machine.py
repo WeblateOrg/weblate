@@ -17,8 +17,10 @@ from weblate.memory.models import (
 )
 
 if TYPE_CHECKING:
+    from django.db.models import Q
+
     from weblate.machinery.base import DownloadTranslations
-    from weblate.machinery.types import TranslationResultDict
+    from weblate.machinery.types import SettingsDict, TranslationResultDict
 
 PENDING_MEMORY_PENALTY_FACTOR = 0.7
 DIFFERENT_CONTEXT_PENALTY_FACTOR = 0.95
@@ -30,6 +32,15 @@ class WeblateMemory(InternalMachineTranslation):
     name = "Weblate Translation Memory"
     rank_boost = 2
     same_languages = True
+
+    def __init__(
+        self,
+        configuration: SettingsDict,
+        *,
+        additional_component_access: Q | None = None,
+    ) -> None:
+        super().__init__(configuration)
+        self.additional_component_access = additional_component_access
 
     def get_quality(self, text: str, result: Memory, unit) -> int:
         quality = self.comparer.similarity(text, result.source)
@@ -43,10 +54,14 @@ class WeblateMemory(InternalMachineTranslation):
     def format_result(
         self, result: Memory, quality: int, project, user
     ) -> TranslationResultDict:
+        scopes = result.get_scope_list()
         return {
             "text": result.target,
             "quality": quality,
             "service": self.name,
+            "context": result.context
+            if result.is_context_visible(scopes, project=project, user=user)
+            else "",
             "origin": result.get_origin_display(project=project, user=user),
             "source": result.source,
             "show_quality": True,
@@ -72,6 +87,7 @@ class WeblateMemory(InternalMachineTranslation):
             user,
             project,
             project.use_shared_tm,
+            additional_component_access=self.additional_component_access,
         )
         if threshold >= self.max_score:
             scored_results = []

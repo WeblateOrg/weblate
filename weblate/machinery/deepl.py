@@ -19,7 +19,7 @@ from .base import (
     GlossaryAlreadyExistsError,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
-    MachineTranslationError,
+    RephraseMachineTranslationMixin,
     XMLMachineTranslationMixin,
 )
 from .forms import DeepLMachineryForm
@@ -37,8 +37,14 @@ if TYPE_CHECKING:
     )
 
 
+CACHE_EXPIRATION = 24 * 3600
+
+
 class DeepLTranslation(
-    XMLMachineTranslationMixin, GlossaryMachineTranslationMixin, BatchMachineTranslation
+    XMLMachineTranslationMixin,
+    GlossaryMachineTranslationMixin,
+    RephraseMachineTranslationMixin,
+    BatchMachineTranslation,
 ):
     """DeepL (Linguee) machine translation support."""
 
@@ -61,6 +67,25 @@ class DeepLTranslation(
     settings_form = DeepLMachineryForm
     glossary_count_limit = 1000
     glossary_languages_cache_version: ClassVar[int] = 2
+    # map DeepL translate target codes to Write API target_lang values.
+    write_language_map: ClassVar[dict[str, str]] = {
+        "EN": "en-US",
+        "EN-US": "en-US",
+        "EN-GB": "en-GB",
+        "PT": "pt-PT",
+        "PT-PT": "pt-PT",
+        "PT-BR": "pt-BR",
+        "ZH": "zh-Hans",
+        "ZH-HANS": "zh-Hans",
+    }
+
+    @property
+    def is_legacy_api(self) -> bool:
+        return urlsplit(self.settings["url"]).path.rstrip("/").endswith("/v1")
+
+    @property
+    def translation_api_version(self) -> str:
+        return "v1" if self.is_legacy_api else "v2"
 
     @property
     def api_base_url(self):
@@ -73,11 +98,12 @@ class DeepLTranslation(
             and path_parts[-1].startswith("v")
             and path_parts[-1][1:].isdigit()
         ):
-            if path_parts[-1] == "v1":
-                msg = "DeepL API v1 is no longer supported."
-                raise MachineTranslationError(msg)
             parsed = parsed._replace(path="/".join(path_parts[:-1]))
-        if self.settings["key"].endswith(":fx") and parsed.hostname == "api.deepl.com":
+        if (
+            not self.is_legacy_api
+            and self.settings["key"].endswith(":fx")
+            and parsed.hostname == "api.deepl.com"
+        ):
             return urlunsplit(parsed._replace(netloc="api-free.deepl.com"))
         return urlunsplit(parsed)
 
@@ -115,11 +141,52 @@ class DeepLTranslation(
         super().delete_cache()
         cache.delete(self.get_cache_key("glossary_languages"))
         cache.delete(self.get_glossary_languages_cache_key())
+        cache.delete(self.get_write_languages_cache_key())
 
     def get_glossary_languages_cache_key(self) -> str:
         return self.get_cache_key(
             "glossary_languages", parts=(self.glossary_languages_cache_version,)
         )
+
+    def get_write_languages_cache_key(self) -> str:
+        return self.get_cache_key("write_languages")
+
+    @property
+    def is_pro_api(self) -> bool:
+        return urlsplit(self.api_base_url).hostname != "api-free.deepl.com"
+
+    def get_write_languages(self) -> set[str]:
+        cache_key = self.get_write_languages_cache_key()
+        languages_cache = cache.get(cache_key)
+        if languages_cache is not None:
+            return set(languages_cache)
+
+        try:
+            response = self.request(
+                "get",
+                self.get_api_url("v3", "languages"),
+                params={"resource": "write"},
+            )
+        except httpx2.HTTPStatusError as exc:
+            if exc.response.status_code == 404:
+                languages: set[str] = set()
+                cache.set(cache_key, languages, CACHE_EXPIRATION)
+                return languages
+            raise
+        languages = {
+            item["lang"]
+            for item in response.json()
+            if item.get("usable_as_target", False)
+        }
+        cache.set(cache_key, languages, CACHE_EXPIRATION)
+        return languages
+
+    def strip_formality_suffix(self, language: str) -> str:
+        if language.endswith("@FORMAL"):
+            return language.removesuffix("@FORMAL")
+        if language.endswith("@INFORMAL"):
+            return language.removesuffix("@INFORMAL")
+        return language
 
     def get_error_message(self, exc):
         if isinstance(exc, httpx2.HTTPStatusError):
@@ -139,6 +206,9 @@ class DeepLTranslation(
         return super().get_error_message(exc)
 
     def download_languages(self):
+        if self.is_legacy_api:
+            return self.download_legacy_languages()
+
         response = self.request(
             "get",
             self.get_api_url("v3", "languages"),
@@ -168,9 +238,31 @@ class DeepLTranslation(
             for target in target_languages
         )
 
-    def is_supported(self, source_language, target_language):
+    def is_supported(self, source_language, target_language) -> bool:
         """Check whether given language combination is supported."""
         return (source_language, target_language) in self.supported_languages
+
+    def download_legacy_languages(self) -> Iterator[tuple[str, str]]:
+        response = self.request(
+            "get", self.get_api_url("v1", "languages"), params={"type": "source"}
+        )
+        source_languages = {item["language"].upper() for item in response.json()}
+        response = self.request(
+            "get", self.get_api_url("v1", "languages"), params={"type": "target"}
+        )
+        # Plain English is not listed, but is supported.
+        target_languages = {"EN"}
+        for item in response.json():
+            language = item["language"].upper()
+            target_languages.add(language)
+            if item.get("supports_formality"):
+                target_languages.add(f"{language}@FORMAL")
+                target_languages.add(f"{language}@INFORMAL")
+        return (
+            (source, target)
+            for source in source_languages
+            for target in target_languages
+        )
 
     def download_multiple_translations(
         self,
@@ -186,7 +278,7 @@ class DeepLTranslation(
         )
         response = self.request(
             "post",
-            self.get_api_url("v2", "translate"),
+            self.get_api_url(self.translation_api_version, "translate"),
             json=params,
         )
         return self._parse_translations(texts, response.json())
@@ -205,10 +297,31 @@ class DeepLTranslation(
         )
         response = await self.arequest(
             "post",
-            self.get_api_url("v2", "translate"),
+            self.get_api_url(self.translation_api_version, "translate"),
             json=params,
         )
         return self._parse_translations(texts, response.json())
+
+    def is_rephrase_enabled(self) -> bool:
+        return self.is_pro_api
+
+    def get_rephrase_target_language(self, target_language: str) -> str | None:
+        """
+        Map a DeepL translate target language code to Write API form.
+
+        Returns None when Write does not support the language.
+        """
+        code = self.strip_formality_suffix(target_language)
+        write_by_casefold = {
+            lang.casefold(): lang for lang in self.get_write_languages()
+        }
+        for candidate in (self.write_language_map.get(code.upper()), code):
+            if candidate is None:
+                continue
+            matched = write_by_casefold.get(candidate.casefold())
+            if matched is not None:
+                return matched
+        return None
 
     def _prepare_translation_request(
         self,
@@ -258,6 +371,32 @@ class DeepLTranslation(
             ]
         return result
 
+    def download_rephrased_translations(
+        self, texts: list[str], write_lang: str
+    ) -> list[str]:
+        response = self.request(
+            "post",
+            self.get_api_url("v2", "write", "rephrase"),
+            json={
+                "text": texts,
+                "target_lang": write_lang,
+            },
+        )
+        return [item["text"] for item in response.json()["improvements"]]
+
+    async def adownload_rephrased_translations(
+        self, texts: list[str], write_lang: str
+    ) -> list[str]:
+        response = await self.arequest(
+            "post",
+            self.get_api_url("v2", "write", "rephrase"),
+            json={
+                "text": texts,
+                "target_lang": write_lang,
+            },
+        )
+        return [item["text"] for item in response.json()["improvements"]]
+
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
     ) -> str:
@@ -278,6 +417,9 @@ class DeepLTranslation(
         }
 
     def is_glossary_supported(self, source_language: str, target_language: str) -> bool:
+        if self.is_legacy_api:
+            return False
+
         cache_key = self.get_glossary_languages_cache_key()
         languages_cache = cache.get(cache_key)
         if languages_cache is not None:
@@ -300,7 +442,7 @@ class DeepLTranslation(
                 if language["usable_as_target"]
             }
 
-            cache.set(cache_key, (source_languages, target_languages), 24 * 3600)
+            cache.set(cache_key, (source_languages, target_languages), CACHE_EXPIRATION)
 
         source_language = self.get_glossary_language_code(source_language).upper()
         target_language = target_language.upper()
@@ -467,6 +609,6 @@ class DeepLTranslation(
 
     def get_glossary_count_limit(self) -> int:
         # Free tier has lower limit on glossaries
-        if urlsplit(self.api_base_url).hostname == "api-free.deepl.com":
+        if not self.is_pro_api:
             return 1
         return super().get_glossary_count_limit()

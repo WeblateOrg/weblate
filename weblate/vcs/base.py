@@ -58,6 +58,7 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component
     from weblate.utils.validators import ResolvedRepositoryURL
+    from weblate.vcs.params import BaseVCSParam
 
 LOGGER = logging.getLogger("weblate.vcs")
 
@@ -131,6 +132,7 @@ type RepositoryDiagnosisCode = Literal[
     "branch_behind",
     "gerrit_permission",
     "git_lfs_missing_objects",
+    "github_forking_disabled",
     "github_pull_request_creation_restricted",
     "missing_credentials",
     "repository_not_found",
@@ -147,6 +149,10 @@ type RepositoryErrorCode = Literal[
     "api_request_failed_retry",
     "api_request_failed_with_error",
     "api_request_failed_with_error_retry",
+    "automerge_failed",
+    "automerge_failed_retry",
+    "automerge_failed_with_error",
+    "automerge_failed_with_error_retry",
     "github_app_branch_required",
     "github_app_installation_invalid",
     "github_app_installation_missing",
@@ -233,6 +239,18 @@ REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
     ),
     "api_request_failed_with_error_retry": gettext_noop(
         "%(service)s API request failed while creating a pull request (%(status)s): %(error)s Please retry later."
+    ),
+    "automerge_failed": gettext_noop(
+        "%(service)s API request failed while merging a pull request: %(status)s"
+    ),
+    "automerge_failed_retry": gettext_noop(
+        "%(service)s API request failed while merging a pull request: %(status)s Please retry later."
+    ),
+    "automerge_failed_with_error": gettext_noop(
+        "%(service)s API request failed while merging a pull request (%(status)s): %(error)s"
+    ),
+    "automerge_failed_with_error_retry": gettext_noop(
+        "%(service)s API request failed while merging a pull request (%(status)s): %(error)s Please retry later."
     ),
     "github_app_branch_required": gettext_noop(
         "GitHub App repositories must be imported with a branch."
@@ -393,9 +411,10 @@ REPOSITORY_TEMPORARY_MESSAGES = (
     "Too many retries",
     "Connection timed out",
 )
+GITHUB_FORKING_DISABLED_MESSAGE = "The repository exists, but forking is disabled."
 REPOSITORY_PERMISSION_MESSAGES = (
     "denied to",
-    "The repository exists, but forking is disabled.",
+    GITHUB_FORKING_DISABLED_MESSAGE,
     "protected branch hook declined",
     "GH006:",
 )
@@ -664,6 +683,8 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
         diagnoses.append({"code": "ssh_host_key_unverified"})
     if any(message in error for message in REPOSITORY_NOT_FOUND_MESSAGES):
         diagnoses.append({"code": "repository_not_found"})
+    if GITHUB_FORKING_DISABLED_MESSAGE in error:
+        diagnoses.append({"code": "github_forking_disabled"})
     if any(message in error for message in REPOSITORY_PERMISSION_MESSAGES):
         diagnoses.append({"code": "repository_permission"})
     if any(message in error for message in REPOSITORY_GERRIT_PERMISSION_MESSAGES):
@@ -702,6 +723,10 @@ class Repository:
     req_version: ClassVar[str | None] = None
     default_branch: ClassVar[str] = ""
     needs_push_url: ClassVar[bool] = True
+    # Set when the backend supplies credentials for pushing to the pull URL on
+    # its own (an installation token, for example), so pushing straight to the
+    # source repository works without a separate push URL.
+    provides_push_credentials: ClassVar[bool] = False
     supports_push: ClassVar[bool] = True
     pushes_to_different_location: ClassVar[bool] = False
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
@@ -717,6 +742,17 @@ class Repository:
     @classmethod
     def get_identifier(cls) -> str:
         return cls.identifier or cls.name.lower()
+
+    def get_vcs_param(self, param: type[BaseVCSParam]):
+        """Get value of a version control parameter for this repository."""
+        component = self.component
+        return param.get_value(None if component is None else component.vcs_params)
+
+    @classmethod
+    # ruff: ignore[unused-class-method-argument]
+    def get_push_label(cls, component: Component | None = None) -> StrOrPromise:
+        """Describe what pushing does, possibly depending on VCS parameters."""
+        return cls.push_label
 
     def __init__(
         self,
@@ -1117,7 +1153,7 @@ class Repository:
     @classmethod
     def validate_remote_url(cls, url: str) -> ResolvedRepositoryURL | None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level]
 
         from weblate.utils.validators import resolve_repo_url  # ruff: ignore[import-outside-top-level]
 
@@ -1285,7 +1321,7 @@ class Repository:
         """Check whether repository needs commit."""
         raise NotImplementedError
 
-    def count_missing(self):
+    def count_missing(self) -> int:
         """Count missing commits."""
         return len(
             self.log_revisions(self.ref_to_remote.format(self.get_remote_branch_name()))
@@ -1323,11 +1359,11 @@ class Repository:
             return outgoing
         return [revision for revision in outgoing if revision in branch_outgoing]
 
-    def count_outgoing(self, branch: str | None = None):
+    def count_outgoing(self, branch: str | None = None) -> int:
         """Count outgoing commits."""
         return len(self.get_outgoing_revisions(branch))
 
-    def needs_merge(self):
+    def needs_merge(self) -> bool:
         """
         Check whether repository needs merge with upstream.
 
@@ -1436,7 +1472,7 @@ class Repository:
         cls._version_cache.clear()
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False)
 

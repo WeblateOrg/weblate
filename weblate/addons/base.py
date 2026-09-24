@@ -45,6 +45,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterable
 
     from django.forms.boundfield import BoundField
+    from django.urls.resolvers import URLPattern
     from django_stubs_ext import StrOrPromise
 
     from weblate.addons.forms import BaseAddonForm
@@ -158,6 +159,23 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     events: ClassVar[set[AddonEvent]] = set()
     settings_form: type[BaseAddonForm[StoredConfigurationT, Self]] | None = None
     name = ""
+    api_name: str | None = None
+
+    @classmethod
+    def get_api_urls(cls) -> tuple[URLPattern, ...]:
+        """Return named Django URL patterns for this provider's API."""
+        return ()
+
+    @classmethod
+    def api_available(cls, component: Component | None) -> bool:
+        if not cls.api_name:
+            return True
+        return (
+            component is not None
+            and not cls.repo_scope
+            and not component.addon_set.filter(name=cls.name).exists()
+        )
+
     compat: ClassVar[CompatDict] = {}
     multiple = False
     verbose: StrOrPromise = "Base add-on"
@@ -166,6 +184,9 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     repo_scope = False
     needs_component = False
     has_summary = False
+    has_preview = False
+    show_skipped_result = False
+    run_on_configuration = True
     alert: str = ""
     trigger_update = False
     stay_on_create = False
@@ -207,7 +228,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         acting_user: User | None = None,
         **kwargs,
     ) -> Addon:
-        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
         result = Addon(
             project=project,
@@ -357,15 +378,19 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         self.instance.save()
         self.post_configure()
 
+    @property
+    def configured_events(self) -> set[AddonEvent]:
+        return self.events
+
     def post_configure(self, run: bool = True) -> None:
-        from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.tasks import postconfigure_addon  # ruff: ignore[import-outside-top-level]
 
         self.instance.log_debug("configuring events for %s add-on", self.name)
 
         # Configure events to current status
-        self.instance.configure_events(self.events)
+        self.instance.configure_events(self.configured_events)
 
-        if run:
+        if run and self.run_on_configuration:
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 postconfigure_addon(self.instance.pk, self.instance)
             else:
@@ -383,7 +408,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             self.post_configure_run_project(project)
 
     def post_configure_run_project(self, project: Project) -> None:
-        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level]
 
         for component in project.component_set.iterator():
             if self.can_process(component=component):
@@ -400,7 +425,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             )
 
     def post_configure_run_category(self, category: Category) -> None:
-        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level]
 
         for component in category.all_components.iterator():
             if self.can_process(component=component):
@@ -419,7 +444,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     def post_configure_run_component(
         self, component: Component, skip_daily: bool = False
     ) -> None:
-        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.addons.models import execute_addon_event  # ruff: ignore[import-outside-top-level]
 
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
@@ -782,6 +807,17 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
             result=result,
         )
 
+    def preview(
+        self,
+        workflow: object,
+        component_id: int | None,
+        change_id: int | None = None,
+        actor: User | None = None,
+    ) -> dict[str, object]:
+        """Preview an operation without changing application state, if supported."""
+        msg = "This add-on does not support preview."
+        raise NotImplementedError(msg)
+
     def manual_component(
         self,
         component: Component,
@@ -874,12 +910,22 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         return True
 
     def render_repo_filename(
-        self, template: str, translation: Translation
+        self,
+        template: str,
+        translation: Translation | None = None,
+        *,
+        component: Component | None = None,
     ) -> str | None:
-        component = translation.component
+        if translation is not None:
+            component = translation.component
+        if component is None:
+            msg = "A translation or component is required"
+            raise ValueError(msg)
 
         # Render the template
-        filename = render_template(template, translation=translation)
+        filename = render_template(
+            template, translation=translation, component=component
+        )
 
         # Validate filename (not absolute or linking to parent dir)
         try:
@@ -981,7 +1027,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         obj: Component | Project | Category | None,
         request: AuthenticatedHttpRequest,
     ) -> None:
-        from weblate.trans.tasks import perform_update  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.trans.tasks import perform_update  # ruff: ignore[import-outside-top-level]
 
         if cls.trigger_update and isinstance(obj, Component):
             perform_update.delay("Component", obj.pk, auto=True)
@@ -997,7 +1043,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     @cached_property
     def user(self) -> User:
         """Weblate user used to track changes by this add-on."""
-        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
 
         if not self.user_name or not self.user_verbose:
             msg = f"{self.__class__.__name__} is missing user_name and user_verbose!"

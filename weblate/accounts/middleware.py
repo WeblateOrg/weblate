@@ -55,13 +55,14 @@ class AuthenticationMiddleware(OTPMiddleware):
 
     def __call__(self, request: AuthenticatedHttpRequest):
         if self._is_async:
-            return self._acall(request)
+            return self.__acall__(request)
 
         user = self.prepare_request(request)
         response = self.get_response(request)
         return self.finalize_response(request, response, user)
 
-    async def _acall(self, request: AuthenticatedHttpRequest):
+    async def __acall__(self, request: AuthenticatedHttpRequest):  # ruff: ignore[bad-dunder-method-name]
+        # Sentry invokes this entry point directly, bypassing __call__.
         user = await sync_to_async(self.prepare_request, thread_sensitive=True)(request)
         response = await self.get_response(request)
         return await sync_to_async(self.finalize_response, thread_sensitive=True)(

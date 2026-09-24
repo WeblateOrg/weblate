@@ -49,7 +49,7 @@ from weblate.utils.render import (
     validate_render_component,
 )
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
+from weblate.utils.stats import ProjectLanguage, ProjectStats
 from weblate.utils.validators import (
     WeblateURLValidator,
     validate_language_aliases,
@@ -71,7 +71,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Alert, Category
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
-    from weblate.trans.models.translation import TranslationQuerySet
     from weblate.workspaces.models import Workspace
 
 
@@ -182,7 +181,7 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
         queryset = Project.objects.filter(id__in=id_lookup)
         # Fallback value for locking and alerts
         for project in projects:
-            project.__dict__["locked"] = True
+            project.__dict__["locked"] = False
             project.__dict__["has_alerts"] = False
         # Indicate alerts
         for project_id in (
@@ -194,13 +193,15 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
             .distinct()
         ):
             id_lookup[project_id].__dict__["has_alerts"] = True
-        # Filter unlocked projects
+        # Indicate projects where all components are locked. Projects without
+        # components are not locked.
         for project_id in (
-            queryset.filter(component__locked=False)
+            queryset.filter(component__isnull=False)
+            .exclude(component__locked=False)
             .values_list("id", flat=True)
             .distinct()
         ):
-            id_lookup[project_id].__dict__["locked"] = False
+            id_lookup[project_id].__dict__["locked"] = True
 
     # Prefetch source language ids
     key_lookup = {project.source_language_cache_key: project for project in projects}
@@ -211,6 +212,7 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
 
 class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "public_sharing",
         "enforced_2fa",
         "translation_review",
         "source_review",
@@ -316,6 +318,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         verbose_name=gettext_lazy("Access control"),
         help_text=gettext_lazy(
             "How to restrict access to this project is detailed in the documentation."
+        ),
+    )
+    public_sharing = models.BooleanField(
+        verbose_name=gettext_lazy("Public sharing"),
+        default=False,
+        help_text=gettext_lazy(
+            "Allows anonymous access to the engage pages and status widgets "
+            "for Private and Custom projects."
         ),
     )
 
@@ -599,7 +609,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         self.stats = ProjectStats(self)
         self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
-        self.label_cleanups: TranslationQuerySet | None = None
+        self.label_cleanups: set[int] = set()
         self.languages_cache: dict[str, Language] = {}
         self.billing_original_workspace_id = self.__dict__.get(
             "workspace_id", models.DEFERRED
@@ -983,6 +993,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         """Return absolute URL usable for sharing."""
         return get_site_url(reverse("engage", kwargs={"path": self.get_url_path()}))
 
+    @property
+    def is_publicly_shared(self) -> bool:
+        """Whether engage pages and widgets are publicly accessible."""
+        return (
+            self.access_control
+            in {
+                self.ACCESS_PUBLIC,
+                self.ACCESS_PROTECTED,
+            }
+            or self.public_sharing
+        )
+
     @cached_property
     def locked(self) -> bool:
         return self.unlocked_components == 0 and self.locked_components > 0
@@ -1052,11 +1074,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def on_repo_components(self, use_all: bool, func: str, *args, **kwargs) -> bool:
+    def on_repo_components(
+        self,
+        use_all: bool,
+        func: str,
+        *args,
+        repo_components: Iterable[Component] | None = None,
+        **kwargs,
+    ) -> bool:
         """Perform operation on all repository components."""
+        if repo_components is None:
+            repo_components = self.all_repo_components
         generator = (
-            getattr(component, func)(*args, **kwargs)
-            for component in self.all_repo_components
+            getattr(component, func)(*args, **kwargs) for component in repo_components
         )
         if use_all:
             # Call methods on all components as this performs an operation
@@ -1064,56 +1094,125 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # This is status checking, call only needed methods
         return any(generator)
 
-    def commit_pending(self, reason: str, user: User) -> bool:
+    def commit_pending(
+        self,
+        reason: str,
+        user: User,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Commit any pending changes."""
-        return self.on_repo_components(True, "commit_pending", reason, user)
+        return self.on_repo_components(
+            True,
+            "commit_pending",
+            reason,
+            user,
+            repo_components=repo_components,
+        )
 
-    def repo_needs_merge(self) -> bool:
-        return self.on_repo_components(False, "repo_needs_merge")
+    def repo_needs_merge(
+        self, *, repo_components: Iterable[Component] | None = None
+    ) -> bool:
+        return self.on_repo_components(
+            False, "repo_needs_merge", repo_components=repo_components
+        )
 
-    def repo_needs_push(self) -> bool:
-        return self.on_repo_components(False, "repo_needs_push")
+    def repo_needs_push(
+        self, *, repo_components: Iterable[Component] | None = None
+    ) -> bool:
+        return self.on_repo_components(
+            False, "repo_needs_push", repo_components=repo_components
+        )
 
     def do_update(
-        self, request: AuthenticatedHttpRequest | None = None, method: str | None = None
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        method: str | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
     ) -> bool:
         """Update all Git repos."""
-        return self.on_repo_components(True, "do_update", request, method=method)
+        return self.on_repo_components(
+            True,
+            "do_update",
+            request,
+            method=method,
+            repo_components=repo_components,
+        )
 
-    def do_push(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_push(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Push all Git repos."""
-        return self.on_repo_components(True, "do_push", request)
+        return self.on_repo_components(
+            True, "do_push", request, repo_components=repo_components
+        )
 
     def do_reset(
         self,
         request: AuthenticatedHttpRequest | None = None,
         *,
         keep_changes: bool = False,
+        repo_components: Iterable[Component] | None = None,
     ) -> bool:
         """Push all Git repos."""
         return self.on_repo_components(
-            True, "do_reset", request, keep_changes=keep_changes
+            True,
+            "do_reset",
+            request,
+            keep_changes=keep_changes,
+            repo_components=repo_components,
         )
 
-    def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_cleanup(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Push all Git repos."""
-        return self.on_repo_components(True, "do_cleanup", request)
+        return self.on_repo_components(
+            True, "do_cleanup", request, repo_components=repo_components
+        )
 
-    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_file_sync(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Force updating of all files."""
-        return self.on_repo_components(True, "do_file_sync", request)
+        return self.on_repo_components(
+            True, "do_file_sync", request, repo_components=repo_components
+        )
 
-    def do_file_scan(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_file_scan(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Rescanls all VCS repos."""
-        return self.on_repo_components(True, "do_file_scan", request)
+        return self.on_repo_components(
+            True, "do_file_scan", request, repo_components=repo_components
+        )
 
-    def has_push_configuration(self) -> bool:
+    def has_push_configuration(
+        self, *, repo_components: Iterable[Component] | None = None
+    ) -> bool:
         """Check whether any suprojects can push."""
-        return self.on_repo_components(False, "has_push_configuration")
+        return self.on_repo_components(
+            False, "has_push_configuration", repo_components=repo_components
+        )
 
-    def can_push(self) -> bool:
+    def can_push(self, *, repo_components: Iterable[Component] | None = None) -> bool:
         """Check whether any suprojects can push."""
-        return self.on_repo_components(False, "can_push")
+        return self.on_repo_components(
+            False, "can_push", repo_components=repo_components
+        )
 
     @cached_property
     def all_repo_components(self) -> list[Component]:
@@ -1413,29 +1512,50 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.translation import Translation
 
-        translations = Translation.objects.filter(unit__source_unit__labels=label)
-        if self.label_cleanups is None:
-            self.label_cleanups = translations
-        else:
-            self.label_cleanups |= translations
-        prefetch_stats(self.label_cleanups)
+        self.label_cleanups.update(
+            Translation.objects.filter(unit__source_unit__labels=label).values_list(
+                "pk", flat=True
+            )
+        )
 
-    def cleanup_label_stats(self, name: str) -> None:
-        if self.label_cleanups is not None:
-            for translation in self.label_cleanups:
-                translation.stats.remove_stats(f"label:{name}")
+    def cleanup_label_stats(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import update_translation_stats
+
+        if self.label_cleanups:
+            update_translation_stats.delay(sorted(self.label_cleanups))
+            self.label_cleanups.clear()
+
+    def get_existing_target_language_ids(self) -> set[int]:
+        """Languages qualifying for the existing-project-language creation policy."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.translation import Translation
+
+        translations = Translation.objects.filter(
+            component__is_glossary=False
+        ).exclude_source()
+        own = translations.filter(component__project=self).values_list(
+            "language_id", flat=True
+        )
+        shared = translations.filter(component__links=self).values_list(
+            "language_id", flat=True
+        )
+        return set(own.union(shared))
 
     def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
-        """Return a queryset of components within the project that the given user is allowed to add new languages to."""
+        """Return owned components available for language creation or requests."""
         filter_ = Q(is_glossary=True)
         check_effective_new_lang = not user.has_perm("project.edit", self)
         if check_effective_new_lang:
             filter_ |= get_disabled_component_new_language_filter()
 
-        def filter_callback(qs: ComponentQuerySet) -> ComponentQuerySet:
-            return qs.exclude(filter_)
-
-        return self.get_child_components_access(user, filter_callback)
+        return (
+            self.component_set.defer_huge()
+            .filter_access(user)
+            .exclude(filter_)
+            .prefetch()
+            .order()
+        )
 
     def needs_license(self, access_control: int | None = None) -> bool:
         """
@@ -1552,6 +1672,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             )
         if self.commit_policy == CommitPolicyChoices.APPROVED_ONLY:
             return gettext(
-                "Only approved translations are written to the translation file."
+                "For languages with reviews enabled, only approved translations "
+                "are written to the translation file."
             )
         return ""

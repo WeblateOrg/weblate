@@ -2,10 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.db import migrations
 
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
-def migrate_automatically_translated_labels(apps, schema_editor):
+
+def migrate_automatically_translated_labels(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     """
     Migrate the "Automatically translated" label data to the new column.
 
@@ -27,7 +37,7 @@ def migrate_automatically_translated_labels(apps, schema_editor):
     auto_labels.delete()
 
 
-def reverse_migration(apps, schema_editor):
+def reverse_migration(apps: StateApps, schema_editor: BaseDatabaseSchemaEditor) -> None:
     """
     Reverse migration: set automatically_translated back to the label.
 

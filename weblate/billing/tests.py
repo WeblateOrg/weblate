@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import importlib
 import os.path
 from datetime import timedelta
@@ -15,10 +17,10 @@ from django.contrib.messages import get_messages
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
-from django.db import models
+from django.db import connection, models
 from django.template.loader import render_to_string
 from django.test import RequestFactory
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone, translation
 from lxml import html
@@ -42,6 +44,7 @@ from weblate.billing.tasks import (
     inactive_recurring_check,
     notify_expired,
     perform_removal,
+    remove_single_billing,
     schedule_removal,
 )
 from weblate.lang.models import Language
@@ -185,7 +188,7 @@ class BillingTest(BaseTestCase):
         )
 
     @staticmethod
-    def set_alert_timestamp(component, name, timestamp):
+    def set_alert_timestamp(component, name, timestamp) -> None:
         component.add_alert(name)
         component.alert_set.filter(name=name).update(timestamp=timestamp)
 
@@ -329,6 +332,90 @@ class BillingTest(BaseTestCase):
         self.assertContains(response, "btn btn-info")
         self.assertNotContains(response, 'title="Django admin"', status_code=200)
         self.assertNotContains(response, "cog.svg", status_code=200)
+
+    def test_detail_prefetches_project_flags(self) -> None:
+        projects = [self.add_project() for _unused in range(3)]
+        self.add_component(projects[1], "000001")
+        locked_component = self.add_component(projects[2], "000002")
+        Component.objects.filter(pk=locked_component.pk).update(locked=True)
+        self.client.login(username=self.user.username, password="testpassword")
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.billing.get_absolute_url())
+
+        rendered_projects = response.context["billing"].all_projects
+        self.assertCountEqual(rendered_projects, projects)
+        for project in rendered_projects:
+            self.assertIn("has_alerts", project.__dict__)
+            self.assertIn("locked", project.__dict__)
+        self.assertFalse(rendered_projects[0].locked)
+        self.assertFalse(rendered_projects[1].locked)
+        self.assertTrue(rendered_projects[2].locked)
+
+        component_lock_count_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if "COUNT(" in query["sql"] and '"trans_component"."locked"' in query["sql"]
+        ]
+        self.assertEqual(component_lock_count_queries, [])
+
+    def test_detail_prefetches_invoices(self) -> None:
+        Invoice.objects.create(
+            billing=self.billing,
+            start=self.invoice.start - timedelta(days=2),
+            end=self.invoice.start - timedelta(days=1),
+            amount=20,
+            ref="00001",
+        )
+        self.client.login(username=self.user.username, password="testpassword")
+
+        with (
+            patch("weblate.billing.models.os.path.exists", return_value=False),
+            CaptureQueriesContext(connection) as queries,
+        ):
+            response = self.client.get(self.billing.get_absolute_url())
+
+        invoice_filename = self.invoice.filename
+        assert invoice_filename is not None
+        self.assertContains(response, invoice_filename)
+        self.assertNotContains(
+            response, reverse("invoice-download", kwargs={"pk": self.invoice.pk})
+        )
+        invoice_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if '"billing_invoice"' in query["sql"]
+        ]
+        self.assertEqual(len(invoice_queries), 1)
+
+    def test_detail_prefetches_audit_log_users(self) -> None:
+        users = [create_another_user(str(index)) for index in range(3)]
+        for user in users:
+            self.billing.billinglog_set.create(
+                event=BillingEvent.EMAIL,
+                summary="Test audit event",
+                user=user,
+            )
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.login(username=self.user.username, password="testpassword")
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(self.billing.get_absolute_url())
+
+        logs = list(response.context["billing_logs"])
+        self.assertTrue(
+            {user.pk for user in users}.issubset({log.user_id for log in logs})
+        )
+        # ruff: ignore[private-member-access]
+        self.assertTrue(all("user" in log._state.fields_cache for log in logs))
+        log_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if '"billing_billinglog"' in query["sql"]
+        ]
+        self.assertEqual(len(log_queries), 1)
+        self.assertIn('JOIN "weblate_auth_user"', log_queries[0])
 
     def test_can_terminate(self) -> None:
         self.assertTrue(self.billing.can_terminate)
@@ -1365,6 +1452,34 @@ class BillingTest(BaseTestCase):
             mail.outbox.pop().subject, "Your translation project was removed"
         )
 
+    def test_removal_backup_failure_preserves_schedule(self) -> None:
+        project = self.add_project()
+        removal = timezone.now() - timedelta(days=1)
+        self.billing.removal = removal
+        self.billing.save(update_fields=["removal"])
+        billing_log_count = self.billing.billinglog_set.count()
+
+        with (
+            patch(
+                "weblate.billing.tasks.create_project_backup",
+                side_effect=RuntimeError("backup failed"),
+            ),
+            patch(
+                "weblate.billing.tasks.project_removal.delay"
+            ) as project_removal_delay,
+            patch("weblate.billing.tasks.send_notification_email"),
+            self.assertRaisesRegex(RuntimeError, "backup failed"),
+        ):
+            remove_single_billing(self.billing.pk)
+
+        project_removal_delay.assert_not_called()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(self.billing.removal, removal)
+        self.assertEqual(self.billing.billinglog_set.count(), billing_log_count)
+        self.assertEqual(self.billing.count_projects, 1)
+        self.assertTrue(Project.objects.filter(pk=project.pk).exists())
+
     @override_settings(EMAIL_SUBJECT_PREFIX="")
     def test_trial(self) -> None:
         self.billing.state = Billing.STATE_TRIAL
@@ -1583,6 +1698,36 @@ class BillingTest(BaseTestCase):
         self.assertTrue(self.billing.in_limits)
         self.assertEqual(other.count_projects, 1)
         self.assertTrue(other.in_limits)
+
+    def test_merge_head(self) -> None:
+        other = Billing.objects.create(plan=self.billing.plan)
+        project = self.add_project()
+        original_workspace = project.workspace_id
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        url = reverse(
+            "billing-merge", kwargs={"pk": self.billing.pk}, query={"other": other.pk}
+        )
+        get_response = self.client.get(url)
+        self.assertEqual(get_response.status_code, 200)
+        log_count = other.billinglog_set.count()
+        for body in ("", f"other={other.pk}&confirm=1"):
+            with self.subTest(body=body):
+                response = self.client.generic(
+                    "HEAD", url, body, content_type="application/x-www-form-urlencoded"
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.content, b"")
+                self.assertEqual(response["Content-Type"], get_response["Content-Type"])
+                self.assertTrue(Billing.objects.filter(pk=self.billing.pk).exists())
+                project.refresh_from_db()
+                self.assertEqual(project.workspace_id, original_workspace)
+                self.assertEqual(other.billinglog_set.count(), log_count)
+        for method in ("PUT", "PATCH", "DELETE", "OPTIONS"):
+            with self.subTest(method=method):
+                response = self.client.generic(method, url)
+                self.assertEqual(response.status_code, 405)
 
     def test_merge(self) -> None:
         other = Billing.objects.create(plan=self.billing.plan)

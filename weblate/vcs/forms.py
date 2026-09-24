@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, cast
 from urllib.parse import urlparse
 
 from crispy_forms.helper import FormHelper
@@ -17,6 +18,9 @@ from weblate.vcs.github import (
     GITHUB_APP_NAME_MAX_LENGTH,
     normalize_github_app_hostname,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 def clean_github_app_hostname(value: str) -> str:
@@ -50,6 +54,26 @@ class GitHubAppSetupCallbackForm(forms.Form):
 
     def clean_installation_id(self) -> str:
         return str(self.cleaned_data["installation_id"])
+
+
+class GitHubAppMigrationForm(forms.Form):
+    components = forms.MultipleChoiceField(
+        label=gettext_lazy("Components to migrate"),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
+        error_messages={
+            "required": gettext_lazy("Select at least one component to migrate."),
+        },
+    )
+
+    def __init__(
+        self,
+        *args,
+        component_choices: Iterable[tuple[str, str]],
+        **kwargs,
+    ) -> None:
+        super().__init__(*args, **kwargs)
+        field = cast("forms.MultipleChoiceField", self.fields["components"])
+        field.choices = component_choices
 
 
 class GitHubAppRegisterCallbackForm(forms.Form):

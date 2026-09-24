@@ -269,6 +269,27 @@ Configure per project access control, see :ref:`acl` for more details.
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. _project-public_sharing:
+
+Public sharing
+++++++++++++++
+
+Allow anonymous access to the project's engage pages and rendered status
+widgets. This setting applies to :guilabel:`Private` and :guilabel:`Custom`
+projects; :guilabel:`Public` and :guilabel:`Protected` projects are always
+publicly shareable.
+
+Public sharing exposes project and component names, including restricted
+components, together with translation statistics, languages, and progress. It
+does not grant access to project pages, translations, repositories, or the API.
+
+Changing this setting requires the :guilabel:`Manage project access`
+permission. The status widget configuration page continues to use normal
+project access control.
+
+When :setting:`REQUIRE_LOGIN` is enabled, :setting:`PUBLIC_ENGAGE` must also be
+enabled for anonymous access to engage pages.
+
 .. _project-enforced_2fa:
 
 Enforced two-factor authentication
@@ -322,6 +343,35 @@ supports the following options:
 * **Only include approved translations**: Only translations that have been approved by a
   reviewer will be committed. This option requires :ref:`project-translation_review`
   to be enabled.
+
+The approved-only policy applies only to translations with reviews enabled.
+Languages with reviews disabled through :ref:`workflow-customization` commit all
+translations, including those marked as needing editing. Source strings follow
+the same rule using :ref:`project-source_review`.
+
+Components linked to a repository in another project follow their own project's
+commit policy.
+
+If the editor shows “Only approved translations are written to the translation
+file.” or “Approval is required before this translation can be written to the
+translation file.”, the quality filter prevents writing the translation to the
+file until it is approved. This notice does not confirm that your current edit
+was saved; resolve any validation errors before leaving the editor. The project
+policy description qualifies this as “For languages with reviews enabled, only
+approved translations are written to the translation file.” Having permission
+to approve translations does not automatically approve your edits.
+
+For a language that does not use reviews, open its page in the project and
+choose :guilabel:`Settings`. Enable :guilabel:`Customize translation workflow for
+this language in this project`, then turn :guilabel:`Enable reviews` off. This
+requires permission to edit project settings. See :ref:`workflow-customization`.
+With the approved-only policy, this makes all translation states eligible for
+writing to files for that language, including those needing editing.
+
+If reviews are needed, users with both review and bulk-edit permissions can use
+:ref:`bulk-edit` to approve existing translations they have reviewed. Eligibility
+for writing to a translation file does not mean the change is immediately
+committed or pushed; see :ref:`lazy-commit` and :ref:`component-push_on_commit`.
 
 
 .. _project-enable_hooks:
@@ -378,6 +428,7 @@ project.
 
    * :ref:`workspace-inherited-settings`
    * :ref:`component-new_lang`
+   * :ref:`workflow-language-restrictions`
 
 .. _project-language-code-style:
 
@@ -516,6 +567,23 @@ VCS to use, see :ref:`vcs` for details.
 .. seealso::
 
    :ref:`code-hosting-push-options`
+
+.. _component-vcs_params:
+
+Version control parameters
+++++++++++++++++++++++++++
+
+Parameters tuning how Weblate interacts with the repository, for example
+whether to force push or to open pull requests. Only parameters applicable to
+the selected :ref:`component-vcs` are shown, see also :ref:`vcs_params`.
+
+.. note::
+
+   The settings form silently drops parameters which do not apply to the
+   selected version control system, but the REST API rejects them. When
+   changing :ref:`component-vcs` over the API, clear or replace ``vcs_params``
+   in the same request. The same applies to
+   :ref:`component-file_format_params` and :ref:`component-file_format`.
 
 .. _component-repo:
 
@@ -935,6 +1003,11 @@ Point to translation instructions URL
 Create new language file
     User can select language and Weblate automatically creates the file for it
     and translation can begin.
+Create existing project languages; contact maintainers for new languages
+    Users can create translations for languages already used as target languages
+    in another non-glossary component in the project. Other languages are requested
+    from maintainers, who approve them by creating the first target translation.
+    See :ref:`workflow-language-restrictions` for eligibility and API behavior.
 Disable adding new translations
     There will be no option for user to start new translation.
 
@@ -949,6 +1022,7 @@ Disable adding new translations
    * :ref:`workspace-inherited-settings`
    * :ref:`adding-translation`
    * :ref:`component-new_base`
+   * :ref:`workflow-language-restrictions`
 
 .. _component-manage_units:
 
@@ -958,8 +1032,9 @@ Manage strings
 .. versionadded:: 4.5
 
 Configures whether users in Weblate will be allowed to add new strings and
-remove existing ones. Adjust this to match your localization workflow - how the
-new strings are supposed to be introduced.
+remove existing ones. It also enables :ref:`editing source strings and keys
+<edit-source>` in supported formats. Adjust this to match your localization
+workflow — how strings are introduced and maintained.
 
 For bilingual formats, the strings are typically extracted from the source code
 (for example by using :program:`xgettext`) and adding new strings in Weblate
@@ -1054,8 +1129,8 @@ Rebase
    Rebasing can cause you trouble in case of complicated merges, so carefully
    consider whether or not you want to enable them.
 
-   You might need to enable force pushing by choosing :ref:`vcs-git-force-push`
-   as :ref:`component-vcs`, especially when pushing to a different branch.
+   You might need to turn on :ref:`force pushing <vcs-git-force-push>` in
+   :ref:`component-vcs_params`, especially when pushing to a different branch.
 
 Merge
    Upstream repository changes are merged into Weblate one. This setting utilizes
@@ -1168,6 +1243,10 @@ Language filter
 Regular expression used to filter the translation when scanning for file mask.
 It can be used to limit the list of languages managed by Weblate.
 
+The filter also applies when creating a new translation file. In this case,
+it checks the language code generated according to
+:ref:`component-language_code_style`.
+
 .. note::
 
     You need to list language codes as they appear in the filename.
@@ -1187,6 +1266,10 @@ Some examples of filtering:
 +-------------------------------+-----------------------+
 | Include all files (default)   | ``^[^.]+$``           |
 +-------------------------------+-----------------------+
+
+.. seealso::
+
+   :ref:`workflow-language-restrictions`
 
 
 .. _component-key_filter:
@@ -1336,6 +1419,9 @@ Glossaries are best for:
 
    Glossaries are not for regular translations—they are for managing terms only.
 
+Weblate automatically adds missing glossary languages for languages used in the
+project. See :ref:`glossary-language-sync` for details.
+
 You can configure how it will be listed using :ref:`component-glossary_color`.
 
 The glossary will be accessible in all projects defined by :ref:`component-links`.
@@ -1440,6 +1526,11 @@ The following variables are available in the component templates:
     Author of current commit, available only in the commit scope.
 ``{{ addon_name }}``
     Name of currently executed add-on, available only in the add-on commit message.
+
+The :ref:`Statistics generator <addon-weblate.generate.generate>` additionally
+supports a collection of languages and their statistics in component mode.
+Use the ``json`` or ``python`` filter to serialize template values into JSON or
+Python literals, including the necessary quoting and escaping.
 
 The following variables are available in the repository browser or editor templates:
 

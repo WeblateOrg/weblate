@@ -68,6 +68,12 @@ CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
 FULL_NAME_RESTRICT = re.compile(r'[<>"]')
 PLURAL_FORMULA_NUMBER_RE = re.compile(r"\d+")
 
+# Repository URLs are persisted in configuration files by VCS backends. Keep
+# this in sync with the unsafe characters rejected by GitPython's config
+# writer. In particular, urllib silently removes CR and LF while parsing,
+# which would otherwise validate a different value than the one persisted.
+UNSAFE_REPOSITORY_URL_CHARS_RE = re.compile(r"[\r\n\x00]")
+
 ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
 PIL_FORMATS = ["png", "jpeg", "webp", "gif"]
 
@@ -530,7 +536,7 @@ class WeblateURLValidator(URLValidator):
         "https",
     ]
 
-    def __call__(self, value: str | None) -> None:
+    def __call__(self, value: str | None):
         super().__call__(value)
         if value and confusables.is_dangerous(value):
             raise ValidationError(
@@ -914,6 +920,15 @@ class ResolvedRepositoryURL:
     proxy_url: str | None
 
 
+def validate_repo_url_characters(url: str) -> None:
+    """Reject characters unsafe for VCS configuration files."""
+    if UNSAFE_REPOSITORY_URL_CHARS_RE.search(url):
+        raise ValidationError(
+            gettext("Repository URL contains unsafe characters."),
+            code="repository_url_unsafe",
+        )
+
+
 def resolve_repo_hostname(
     hostname: str, *, policy_hostname: str | None = None
 ) -> tuple[str, ...]:
@@ -952,6 +967,7 @@ def resolve_repo_url(
     proxy_url: str | None = None,
 ) -> ResolvedRepositoryURL | None:
     """Validate a repository URL and retain its approved outbound route."""
+    validate_repo_url_characters(url)
     normalized_url = url
     parsed = urlparse(normalized_url)
     implicit_ssh = not parsed.scheme
@@ -1075,7 +1091,7 @@ def validate_repo_url(url: str) -> None:
 
 @deconstructible
 class DomainOrIPValidator:
-    def __call__(self, value: str):
+    def __call__(self, value: str) -> None:
         try:
             validate_ipv46_address(value)
         except ValidationError:

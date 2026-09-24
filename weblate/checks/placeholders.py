@@ -19,11 +19,18 @@ from weblate.utils.errors import report_error
 from weblate.utils.regex import regex_findall, regex_finditer
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from weblate.checks.models import Check
     from weblate.trans.models import Unit
 
 
-def report_regex_timeout(message: str, unit: Unit) -> None:
-    report_error(message, project=unit.translation.component.project)
+def report_regex_timeout(message: str, unit: Unit, error: TimeoutError) -> None:
+    report_error(
+        message,
+        project=unit.translation.component.project,
+        exception=error,
+    )
 
 
 def parse_regex(val):
@@ -83,8 +90,8 @@ class PlaceholderCheck(TargetCheckParametrized):
     def get_match_set(self, value, text: str, unit: Unit) -> set[str] | None:
         try:
             return set(self.get_matches(value, text))
-        except TimeoutError:
-            report_regex_timeout("Placeholder regex check timed out", unit)
+        except TimeoutError as error:
+            report_regex_timeout("Placeholder regex check timed out", unit, error)
             return None
 
     def diff_case_sensitive(self, expected, found):
@@ -111,6 +118,21 @@ class PlaceholderCheck(TargetCheckParametrized):
     def check_target_params(  # type: ignore[override]
         self, sources: list[str], targets: list[str], unit: Unit, value
     ) -> Literal[False] | dict[str, Any]:
+        if unit.has_multiple_values(sources, targets):
+            missing: set[str] = set()
+            extra: set[str] = set()
+            for target in targets:
+                failures = [
+                    self.check_target_params([source], [target], unit, value)
+                    for source in sources
+                ]
+                if failures and all(failures):
+                    for failure in failures:
+                        if failure:
+                            missing.update(failure["missing"])
+                            extra.update(failure["extra"])
+            return {"missing": missing, "extra": extra} if missing or extra else False
+
         expected = self.get_match_set(value, sources[0], unit)
         if expected is None:
             return False
@@ -147,7 +169,7 @@ class PlaceholderCheck(TargetCheckParametrized):
             return {"missing": missing, "extra": extra}
         return False
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
         if not self.has_value(unit):
@@ -172,8 +194,10 @@ class PlaceholderCheck(TargetCheckParametrized):
                     Highlight(match.start(), match.end(), match.group(), kind="grammar")
                     for match in regex_finditer(pattern, source)
                 )
-            except TimeoutError:
-                report_regex_timeout("Placeholder regex highlight timed out", unit)
+            except TimeoutError as error:
+                report_regex_timeout(
+                    "Placeholder regex highlight timed out", unit, error
+                )
                 return
 
         if not spans:
@@ -184,7 +208,7 @@ class PlaceholderCheck(TargetCheckParametrized):
             merge_highlight_spans(source, spans), group_prefix="placeholder"
         )
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         unit = check_obj.unit
         result = self.check_target_unit(
             unit.get_source_plurals(), unit.get_target_plurals(), unit
@@ -226,8 +250,8 @@ class RegexCheck(TargetCheckParametrized):
     ):
         try:
             return any(not regex_findall(value, target) for target in targets)
-        except TimeoutError:
-            report_regex_timeout("Regular expression check timed out", unit)
+        except TimeoutError as error:
+            report_regex_timeout("Regular expression check timed out", unit, error)
             return False
 
     def should_skip(self, unit: Unit) -> bool:
@@ -235,7 +259,7 @@ class RegexCheck(TargetCheckParametrized):
             return True
         return not self.get_value(unit).pattern
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         unit = check_obj.unit
         if not self.has_value(unit):
             return super().get_description(check_obj)

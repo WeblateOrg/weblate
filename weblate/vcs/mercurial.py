@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING, ClassVar, cast
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.utils import format_address
-from weblate.vcs.base import Repository, RepositoryError
+from weblate.vcs.base import Repository, RepositoryError, RepositoryValidationError
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
@@ -29,6 +29,7 @@ if TYPE_CHECKING:
 
 
 VERSION_RE = re.compile(r".*\(version ([^)]*)\).*")
+UNSAFE_CONFIG_CHARS_RE = re.compile(r"[\r\n\x00]")
 
 
 class HgRepository(Repository):
@@ -79,7 +80,7 @@ class HgRepository(Repository):
             return match[1]
         return errormessage
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
         """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, ".hg", "requires"))
 
@@ -131,6 +132,12 @@ class HgRepository(Repository):
 
     @staticmethod
     def set_config_file(filename: str | Path, *values: tuple[str, str, str]) -> None:
+        if any(
+            UNSAFE_CONFIG_CHARS_RE.search(item)
+            for section, option, value in values
+            for item in (section, option, value)
+        ):
+            raise RepositoryValidationError(0, "repository_url_invalid")
         config = RawConfigParser()
         config.read(filename)
         changed = False
@@ -327,7 +334,7 @@ class HgRepository(Repository):
         return bool(self.log_revisions(".::remote(.) - ."))
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         output = cls._popen(["version", "-q"], merge_err=False)
         matches = VERSION_RE.match(output)
@@ -417,13 +424,13 @@ class HgRepository(Repository):
 
         self.branch = branch
 
-    def on_branch(self, branch) -> bool:
+    def on_branch(self, branch: str) -> bool:
         return (
             branch
             == self.execute(["branch"], remote_op="none", merge_err=False).strip()
         )
 
-    def configure_branch(self, branch) -> None:
+    def configure_branch(self, branch: str) -> None:
         """Configure repository branch."""
         if not self.on_branch(branch):
             self.execute(["update", "--", branch], remote_op="none")
@@ -444,7 +451,7 @@ class HgRepository(Repository):
             merge_err=False,
         ).strip()
 
-    def push(self, branch) -> None:
+    def push(self, branch: str) -> None:
         """Push given branch to remote repository."""
         try:
             self.execute(["push", f"--branch={self.branch}"], remote_op="push")

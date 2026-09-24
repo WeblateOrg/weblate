@@ -25,6 +25,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.html import format_html
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
@@ -71,12 +72,11 @@ from weblate.utils.db import (
     measure_database_latency,
 )
 from weblate.utils.encoding import get_encoding_list
-from weblate.utils.errors import report_error
+from weblate.utils.errors import report_error, report_message
 from weblate.utils.filesystem import filesystem_latency_snapshot
 from weblate.utils.requests import fetch_url
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import prefetch_stats
-from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.token import get_token
 from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
@@ -110,12 +110,13 @@ from weblate.wladmin.models import (
     SupportStatus,
     get_support_url,
 )
-from weblate.wladmin.tasks import backup_service, support_status_update
+from weblate.wladmin.tasks import backup, support_status_update
 from weblate.workspaces.models import Workspace
 from weblate.workspaces.views import WorkspaceListBase
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
+    from django.forms import ModelForm
     from django.http.request import QueryDict
     from django_stubs_ext import StrOrPromise
 
@@ -303,7 +304,7 @@ def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
         if "sentry" in request.POST:
             if not can_configure:
                 raise PermissionDenied
-            report_error("Test message", message=True, level="info")
+            report_message("Test message", level="info")
             return redirect("manage-tools")
 
         if "message" in request.POST:
@@ -582,9 +583,7 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
                     service.save()
                     return redirect("manage-backups")
                 if "trigger" in request.POST:
-                    settings_backup.delay()
-                    database_backup.delay([service.pk])
-                    backup_service.delay(pk=service.pk)
+                    backup.delay([service.pk])
                     messages.success(request, gettext("Backup process triggered"))
                     return redirect("manage-backups")
             else:
@@ -752,7 +751,9 @@ def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
         raise Http404
 
     response = HttpResponse(data, content_type="text/plain")
-    response["Content-Disposition"] = f"attachment; filename={filename}"
+    response["Content-Disposition"] = content_disposition_header(
+        as_attachment=True, filename=filename
+    )
     response["Content-Length"] = len(data)
     return response
 
@@ -1097,7 +1098,7 @@ class WorkspaceCreateView(CreateView):
         return super().dispatch(request, *args, **kwargs)
 
     @transaction.atomic
-    def form_valid(self, form: WorkspaceCreateForm) -> HttpResponse:
+    def form_valid(self, form: ModelForm[Workspace]) -> HttpResponse:
         self.object = form.save(commit=False)
         self.object.acting_user = self.request.user
         self.object.save()

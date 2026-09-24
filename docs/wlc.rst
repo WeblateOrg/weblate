@@ -14,6 +14,8 @@ Installation
 
 The :pypi:`Weblate Client <wlc>` is shipped separately and includes the Python
 module.
+The source code is maintained in the `WeblateOrg/wlc repository
+<https://github.com/WeblateOrg/wlc>`_.
 To use the commands below, you need to install :program:`wlc` using pip:
 
 .. code-block:: sh
@@ -37,13 +39,35 @@ Docker usage
 
 The Weblate Client is also available as a Docker image.
 
-The image is published on Docker Hub: https://hub.docker.com/r/weblate/wlc
+Images are published on `Docker Hub <https://hub.docker.com/r/weblate/wlc>`_
+and the `GitHub Container Registry
+<https://github.com/WeblateOrg/wlc/pkgs/container/wlc>`_. The examples below
+use the Docker Hub image name.
 
 Installing:
 
 .. code-block:: sh
 
     docker pull weblate/wlc
+
+The following tags are available:
+
+``latest``
+    Latest stable release.
+Full version, for example ``2.2.0``
+    A specific stable release.
+Major version, for example ``2``
+    Latest stable release in that major series.
+``edge``
+    Current development version from the main branch.
+``edge-YYYY-MM-DD-COMMIT``
+    A specific development snapshot.
+
+To build an image from the source checkout:
+
+.. code-block:: sh
+
+    docker build -t weblate/wlc .
 
 The Docker container uses Weblate Client defaults and connects to the API
 deployed on localhost. Configure the API URL and API key using the normal
@@ -76,12 +100,16 @@ easiest approach is to add your current directory as the
 When the mounted repository provides the API URL in project configuration and
 you pass an unscoped API key to the container, also pin the URL explicitly:
 :envvar:`WLC_KEY` requires :envvar:`WLC_URL`, and :option:`--key` requires
-:option:`--url`.
+:option:`--url`. The same pairing is required for the
+:option:`--allow-insecure-http` and :option:`--allow-insecure-ssl` overrides.
 
 If the configured API URL uses non-local ``http://`` and an API key is
 provided, the container refuses to send the key unless insecure HTTP is
 explicitly enabled. Prefer HTTPS; for legacy deployments, pass
 :option:`--allow-insecure-http` or set :envvar:`WLC_ALLOW_INSECURE_HTTP`.
+TLS certificates are always verified by default, including for loopback URLs.
+Use :option:`--allow-insecure-ssl` or :envvar:`WLC_ALLOW_INSECURE_SSL` only
+when certificate verification can not be enabled.
 
 
 Getting started
@@ -120,6 +148,11 @@ Legacy configuration
 
    The legacy configuration using unscoped ``key`` is no longer supported.
 
+.. versionchanged:: 2.2.0
+
+   Global ``allow_insecure_http`` configuration is no longer supported.
+   Configure an origin in the ``[insecure_http]`` section instead.
+
 Migrate legacy configuration:
 
 .. code-block:: ini
@@ -150,9 +183,9 @@ Commands actually indicate which operation should be performed.
 Description
 +++++++++++
 
-Weblate Client is a Python library and command-line utility to manage Weblate remotely
-using :ref:`api`. The command-line utility can be invoked as :command:`wlc` and is
-built-in on :mod:`wlc`.
+Weblate Client is a Python library and command-line utility to manage Weblate
+remotely using :ref:`api`. Invoke the command-line utility as
+:command:`wlc`; see :mod:`wlc` for the Python API.
 
 Arguments
 ---------
@@ -162,7 +195,18 @@ Weblate instance to use. These must be entered before any command.
 
 .. option:: --format {csv,json,text,html}
 
-    Specify the output format.
+    Specify the output format. The default is ``text``.
+
+.. option:: --version
+
+    Print the program version and exit. The :option:`version` command supports
+    output formatting and can print only the version number.
+
+.. option:: --debug
+
+    Print verbose HTTP communication. Authorization header values are redacted
+    and request bodies are not logged, but query parameters are; do not put
+    secrets in query parameters.
 
 .. option:: --url URL
 
@@ -182,8 +226,15 @@ Weblate instance to use. These must be entered before any command.
     Allow sending API keys over non-local ``http://`` URLs. Prefer HTTPS or
     loopback HTTP instead; this option is intended only for legacy deployments
     where HTTPS is not available. This option only enables insecure HTTP for
-    the current run; omitting it does not disable ``allow_insecure_http`` from
-    configuration.
+    the current run. When the API URL comes from automatically discovered
+    project configuration, this option requires :option:`--url`.
+
+.. option:: --allow-insecure-ssl
+
+    Disable TLS certificate verification for the current run. Certificates are
+    verified by default for every HTTPS URL, including loopback URLs. When the
+    API URL comes from automatically discovered project configuration, this
+    option requires :option:`--url`.
 
 .. option:: --config PATH
 
@@ -192,7 +243,30 @@ Weblate instance to use. These must be entered before any command.
 
 .. option:: --config-section SECTION
 
-    Overrides configuration file section in use, see :ref:`wlc-config`.
+    Selects the configuration file section to use instead of ``[weblate]``, see
+    :ref:`wlc-config`.
+
+Object paths
+------------
+
+Commands that operate on an object accept one of these paths:
+
+``PROJECT``
+    Project slug.
+``PROJECT/COMPONENT``
+    Component slug, including its project.
+``PROJECT/COMPONENT/LANGUAGE``
+    Translation language, including its project and component.
+``UNIT_ID``
+    Numeric translation unit ID. Only commands that explicitly support units
+    accept this form.
+
+Commands that require an object use the ``translation`` setting from
+:ref:`wlc-config` when the path is omitted. The :option:`ls` and
+:option:`download` commands also use this setting before falling back to their
+no-object behavior. For :option:`list-components` and
+:option:`list-translations`, an omitted object always requests an instance-wide
+list.
 
 Commands
 --------
@@ -203,29 +277,48 @@ The following commands are available:
 
     Prints the current version.
 
+    .. option:: --bare
+
+        Prints only the version number.
+
 .. option:: list-languages
 
-    Lists used languages in Weblate.
+    Lists all languages in Weblate.
 
 .. option:: list-projects
 
-    Lists projects in Weblate.
+    Lists all projects in Weblate.
 
 .. option:: list-components
 
-    Lists components in Weblate.
+    Lists all components in Weblate, or components in the specified project.
 
 .. option:: list-translations
 
-    Lists translations in Weblate.
+    Lists all translations in Weblate, or translations in the specified
+    component.
+
+.. option:: list-units
+
+    Lists units in the specified translation.
+
+    .. option:: --query QUERY
+
+        Filters units using the :doc:`search query syntax </user/search>`.
 
 .. option:: show
 
-    Shows Weblate object (translation, component or project).
+    Shows a project, component, translation, or unit.
+
+.. option:: delete
+
+    Deletes a project, component, translation, or unit without a confirmation
+    prompt.
 
 .. option:: ls
 
-    Lists Weblate object (translation, component or project).
+    Lists all projects when no object is specified, components in a project, or
+    translations in a component.
 
 .. option:: commit
 
@@ -257,7 +350,7 @@ The following commands are available:
 
 .. option:: lock-status
 
-    Displays lock status.
+    Displays the lock status of a component.
 
 .. option:: lock
 
@@ -269,20 +362,34 @@ The following commands are available:
 
 .. option:: changes
 
-    Displays changes for a given object.
+    Displays changes for a project, component, or translation.
 
 .. option:: download
 
-    Downloads a translation file.
+    Downloads translation files. For a translation, :program:`wlc` writes the
+    file to :option:`--output` or to redirected standard output. It refuses to
+    write raw file content to an interactive terminal.
 
-    .. option:: --convert
+    For a component or project, :option:`--output` is required and is treated
+    as a directory. :program:`wlc` writes one ZIP archive per component. With
+    no object, it downloads every component in the Weblate instance in the same
+    way.
 
-        Converts file format, if unspecified no conversion happens on the server
-        and the file is downloaded as is to the repository.
+    .. option:: --convert FORMAT
 
-    .. option:: --output
+        Requests conversion to ``FORMAT`` on the server. If unspecified, no
+        conversion happens.
 
-        Specifies file to save output in, if left unspecified it is printed to stdout.
+    .. option:: --output PATH
+
+        Specifies the output file for a translation or output directory for a
+        component, project, or instance-wide download. Use ``-`` to write a
+        translation to standard output.
+
+    .. option:: --no-glossary
+
+        Excludes glossary components from component, project, and instance-wide
+        downloads.
 
 .. option:: upload
 
@@ -290,27 +397,55 @@ The following commands are available:
 
     .. option:: --overwrite
 
-        Overwrite existing translations upon uploading.
+        Overwrites existing translated strings. This is equivalent to
+        ``--conflicts replace-translated``.
 
-    .. option:: --input
+    .. option:: --conflicts {ignore,replace-translated,replace-approved}
 
-        File from which content is read, if left unspecified it is read from stdin.
+        Selects how conflicts with existing translations are handled.
 
-    .. option:: --method
+    .. option:: --input PATH
 
-        Upload method to use, see :ref:`upload-method`.
+        Reads content from ``PATH``. If unspecified or ``-``, content is read
+        from standard input.
 
-    .. option:: --fuzzy
+    .. option:: --method {translate,approve,suggest,fuzzy,replace,source,add}
 
-        Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
+        Upload method to use, see :ref:`upload-method`. The default is
+        ``translate``.
 
-    .. option:: --author-name
+    .. option:: --fuzzy {process,approve}
+
+        Selects processing of fuzzy strings (marked for edit).
+
+    .. option:: --author-name NAME
 
         Author name, to override currently authenticated user
 
-    .. option:: --author-email
+    .. option:: --author-email EMAIL
 
         Author e-mail, to override currently authenticated user
+
+.. option:: edit-unit
+
+    Updates a translation unit. At least one update option is required.
+
+    .. option:: --target TARGET [TARGET ...]
+
+        Sets one or more translated strings.
+
+    .. option:: --state STATE
+
+        Sets the unit state: ``0`` for empty, ``10`` for fuzzy, ``20`` for
+        translated, or ``30`` for approved.
+
+    .. option:: --explanation EXPLANATION
+
+        Sets the string explanation.
+
+    .. option:: --extra-flags FLAGS
+
+        Sets additional string flags.
 
 
 .. hint::
@@ -334,8 +469,12 @@ configuration file from the standard platform-specific locations:
     Global configuration file on Windows in the local profile.
 :file:`~/.config/weblate`
     Global configuration file on Unix-like systems.
+:file:`~/.config/weblate.ini`
+    Alternative global configuration filename on Unix-like systems.
 :file:`/etc/xdg/weblate`
     System-wide fallback configuration file.
+:file:`/etc/xdg/weblate.ini`
+    Alternative system-wide fallback filename.
 
 The program follows the XDG specification, so you can adjust the placement of
 config files by environment variables ``XDG_CONFIG_HOME`` or
@@ -349,6 +488,11 @@ project configuration file from the current directory or its parents:
 
 :file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
     Project configuration file placed in the repository.
+
+Project configuration is loaded after global configuration and overrides
+matching settings. It can select the API URL, default object, request settings,
+and a matching URL-scoped API key, allowing a cloned repository to
+automatically select its Weblate server and translation.
 
 Only the closest project configuration file is loaded. Configuration files in
 farther parent directories are ignored.
@@ -368,25 +512,21 @@ customize this by :option:`--config-section`):
 
 .. describe:: translation
 
-    Path to the default translation - component or project.
-
-.. describe:: allow_insecure_http
-
-    Allow API keys over non-local ``http://`` URLs, defaults to ``false``.
-    Loopback HTTP URLs, such as ``http://127.0.0.1:8000/api/``, remain allowed
-    for local development without this option. Prefer HTTPS instead of enabling
-    this setting. Automatically discovered project configuration files cannot
-    enable this option; set it in user configuration, an explicit
-    :option:`--config` file, :envvar:`WLC_ALLOW_INSECURE_HTTP`, or
-    :option:`--allow-insecure-http`. The setting is cumulative: any trusted
-    source that enables insecure HTTP is enough, and false or unset values from
-    command-line or environment sources do not disable it.
+    Default object path for commands that accept one: a project, component,
+    translation, or numeric unit ID.
 
 .. describe:: retries, timeout, allowed_methods, backoff_factor, status_forcelist
 
-    Optional HTTP retry and timeout settings passed to ``urllib3``.
-    Use ``allowed_methods`` to list the request methods that may be retried.
-    Current :program:`wlc` releases use this setting name in place of the
+    HTTP request retry and timeout settings. ``retries`` defaults to ``0`` and
+    ``backoff_factor`` to ``0``. ``status_forcelist`` is a comma-separated list
+    of HTTP status codes that trigger retries and is empty by default.
+
+    ``allowed_methods`` lists methods that may be retried, separated by commas
+    or whitespace. It defaults to ``HEAD``, ``DELETE``, ``OPTIONS``, ``PUT``,
+    and ``GET``. These retry settings are passed to ``urllib3.util.Retry``.
+
+    ``timeout`` is the request timeout in seconds and defaults to ``300``.
+    Current :program:`wlc` releases use ``allowed_methods`` in place of the
     older ``method_whitelist`` option.
 
 The configuration file is an INI file, for example:
@@ -401,7 +541,6 @@ The configuration file is an INI file, for example:
     backoff_factor = 0.2
     status_forcelist = 429,500,502,503,504
     timeout = 30
-    allow_insecure_http = false
 
 The API keys are stored in the ``[keys]`` section:
 
@@ -413,7 +552,37 @@ The API keys are stored in the ``[keys]`` section:
 This allows you to store keys in your personal settings, while using the
 :file:`.weblate` configuration in the VCS repository so that :program:`wlc`
 knows which server it should talk to. The ``[keys]`` lookup is scoped to the
-exact API URL.
+complete configured API URL, not merely its network origin.
+
+Project configuration can also supply or replace a matching entry in
+``[keys]``. Do not commit valuable API keys to version control; normally keep
+keys in personal configuration and only the API URL and default object in
+project configuration.
+
+Insecure transport exceptions are stored in origin-scoped sections in trusted
+user configuration:
+
+.. code-block:: ini
+
+    [insecure_http]
+    http://legacy.example.com:80 = true
+
+    [insecure_ssl]
+    https://legacy.example.com:443 = true
+
+An origin consists of the scheme, normalized hostname, and effective port. The
+API path is ignored, while different schemes and ports remain isolated. The
+``[insecure_http]`` section allows API keys over non-local HTTP for matching
+origins. The ``[insecure_ssl]`` section disables TLS certificate verification
+for matching origins.
+
+.. versionchanged:: 2.2.0
+
+   TLS certificates are verified for all hosts by default. Insecure HTTP and
+   TLS configuration is scoped to origins. Automatically discovered project
+   configuration can neither add entries to these sections nor enable the
+   removed global settings. User configuration and explicitly selected
+   :option:`--config` files are trusted.
 
 In CI, unscoped keys must pin the API URL explicitly: set both
 :envvar:`WLC_URL` and :envvar:`WLC_KEY`, or use :option:`--url` together with
@@ -430,6 +599,12 @@ Environment variables
    Unscoped API keys require an explicit API URL when project configuration is
    discovered automatically. API keys are rejected over non-local ``http://``
    URLs unless insecure HTTP is explicitly enabled.
+
+.. versionchanged:: 2.2.0
+
+   Insecure HTTP and TLS environment overrides require :envvar:`WLC_URL` when
+   the API URL would otherwise come from automatically discovered project
+   configuration.
 
 The API URL and key can also be configured using environment variables. This is
 especially useful for CI workflows where :envvar:`WLC_URL` pins the destination
@@ -450,12 +625,22 @@ and :envvar:`WLC_KEY` is injected as a secret:
 
    Set to ``1``, ``true``, ``yes``, or ``on`` to allow API keys over non-local
    ``http://`` URLs. Prefer HTTPS or loopback HTTP instead. Other values, such
-   as ``0`` or ``false``, are treated as unset and do not disable
-   ``allow_insecure_http`` from configuration.
+   as ``0`` or ``false``, are treated as unset. When the API URL would otherwise
+   come from automatically discovered project configuration, this variable is
+   accepted only together with :envvar:`WLC_URL`.
 
-The same protection applies to command-line arguments: :option:`--key` is
-accepted with automatically discovered project configuration only when
-:option:`--url` is provided.
+.. envvar:: WLC_ALLOW_INSECURE_SSL
+
+   Set to ``1``, ``true``, ``yes``, or ``on`` to disable TLS certificate
+   verification. Other values, such as ``0`` or ``false``, are treated as
+   unset. When the API URL would otherwise come from automatically discovered
+   project configuration, this variable is accepted only together with
+   :envvar:`WLC_URL`.
+
+The same protection applies to command-line arguments: :option:`--key`,
+:option:`--allow-insecure-http`, and :option:`--allow-insecure-ssl` are accepted
+with automatically discovered project configuration only when :option:`--url`
+is provided.
 
 The API URL and key configuration precedence (highest to lowest) is:
 
@@ -465,12 +650,37 @@ The API URL and key configuration precedence (highest to lowest) is:
    configuration plus the nearest project configuration when
    :option:`--config` is not used.
 
-The insecure HTTP opt-in is enable-only rather than a normal precedence
-setting. It is enabled when :option:`--allow-insecure-http` is passed, when
-:envvar:`WLC_ALLOW_INSECURE_HTTP` has a true value, or when
-``allow_insecure_http`` is enabled in trusted configuration. Automatically
-discovered project configuration cannot enable it; set it in user
-configuration or pass an explicit :option:`--config` file instead.
+The insecure transport opt-ins are enable-only rather than normal precedence
+settings. They are enabled by a command-line or environment override, or by a
+matching origin in the trusted ``[insecure_http]`` or ``[insecure_ssl]``
+section. Automatically discovered project configuration cannot add trusted
+origins.
+
+.. _wlc-security:
+
+Security model
+++++++++++++++
+
+Project configuration is part of the repository workflow and is intentionally
+trusted to select the API endpoint, default object, request settings, and a
+matching URL-scoped API key. Running :program:`wlc` inside a repository
+authorizes its nearest project configuration to select the server that receives
+commands and uploads and supplies displayed or downloaded content. Use an
+explicit trusted :option:`--config` file when this is not desired.
+
+The command-line client accepts API keys from :option:`--key`,
+:envvar:`WLC_KEY`, or the ``[keys]`` section. It does not load HTTP
+authentication from :file:`.netrc` or the file named by ``NETRC``. Credentials
+embedded in API URLs are rejected; use an API key instead. Other Requests
+environment integration, including proxy and CA-bundle variables, remains
+enabled.
+
+The `wlc threat model
+<https://github.com/WeblateOrg/wlc/blob/main/THREAT_MODEL.md>`_ documents the
+complete trust boundaries, security properties, non-goals, and downstream
+responsibilities. A version-matched copy is included in source and wheel
+distributions. Report security issues using the :ref:`Weblate vulnerability
+reporting process <security>`.
 
 Examples
 ++++++++
@@ -480,7 +690,6 @@ Print current program version:
 .. code-block:: sh
 
     $ wlc version
-    version: 0.1
 
 List all projects:
 

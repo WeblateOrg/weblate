@@ -5,8 +5,14 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 from django.db import migrations
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
 
 PROJECT_FALLBACK_LICENSES = {"", "proprietary"}
 IGNORED_COMPONENT_LICENSES = PROJECT_FALLBACK_LICENSES
@@ -92,7 +98,9 @@ def repair_workspace_licenses(project, workspace) -> None:
         workspace.objects.bulk_update(workspace_updates, ("license",), batch_size=1000)
 
 
-def repair_license_inheritance(apps, schema_editor) -> None:
+def repair_license_inheritance(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Component = apps.get_model("trans", "Component")
     Project = apps.get_model("trans", "Project")
     Workspace = apps.get_model("workspaces", "Workspace")

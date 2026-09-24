@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "javascript/\n"
-"POT-Creation-Date: 2026-08-14 01:14-0500\n"
+"POT-Creation-Date: 2026-09-17 20:14-0500\n"
 "PO-Revision-Date: 2026-08-11 06:54+0000\n"
 "Last-Translator: \"Alos (bop2039)\" <bop203948@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
@@ -69,18 +69,6 @@ msgstr "Bunu yok saymak için Cmd+I ardından %s tuşlarına basın."
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "Bunu yok saymak için Ctrl+I ardından %s tuşlarına basın."
 
-msgid "Clone to translation"
-msgstr "Çeviriye kopyala"
-
-msgid "Accept"
-msgstr "Onayla"
-
-msgid "Accept and approve"
-msgstr "Kabul et ve onayla"
-
-msgid "Delete entry"
-msgstr "Kaydı sil"
-
 msgid "No results found"
 msgstr "Sonuç bulunamadı"
 
@@ -89,6 +77,11 @@ msgid "%s matching string"
 msgid_plural "%s matching strings"
 msgstr[0] "%s eşleşen dizge"
 msgstr[1] "%s eşleşen dizge"
+
+msgid ""
+"Your previous search results are no longer available. Refresh results to "
+"continue."
+msgstr ""
 
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr ""
@@ -121,13 +114,18 @@ msgstr "Sunucu yanıtı geçersiz"
 msgid "Server error (%s)"
 msgstr "Sunucu sorunu (%s)"
 
-#, javascript-format
-msgid "There are no pending suggestions from %s in this translation."
+#, fuzzy
+#| msgid "There are no pending suggestions from %s in this translation."
+msgid "There are no pending suggestions from %(username)s in %(translation)s."
 msgstr "Bu çeviride %s kullanıcısının bekleyen önerisi yok."
 
-#, javascript-format
-msgid "This will accept %s suggestion from %s in this translation."
-msgid_plural "This will accept %s suggestions from %s in this translation."
+#, fuzzy
+#| msgid "This will accept %s suggestion from %s in this translation."
+#| msgid_plural "This will accept %s suggestions from %s in this translation."
+msgid ""
+"This will accept %(count)s suggestion from %(username)s in %(translation)s."
+msgid_plural ""
+"This will accept %(count)s suggestions from %(username)s in %(translation)s."
 msgstr[0] "%s öneri (%s kullanıcısına ait) kabul edilecek."
 msgstr[1] "%s öneri (%s kullanıcısına ait) kabul edilecek."
 
@@ -287,6 +285,22 @@ msgstr "Bir resmi yapıştırmak için Ctrl+V veya Command+V tuşlarına basın.
 msgid "No image found in clipboard"
 msgstr "Panoda herhangi bir görsel bulunamadı"
 
+#, fuzzy
+#| msgid "Loading…"
+msgid "Loading screenshots…"
+msgstr "Yükleniyor…"
+
+msgid "Could not load screenshots. Please try again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Adding screenshot…"
+msgstr "Ekran görüntüsüne ekle"
+
+msgid "Could not add screenshot. Please try again."
+msgstr ""
+
 msgid ""
 "A pull or merge request will be created from a branch in the repository."
 msgstr "Depodaki bir daldan bir çekme veya birleştirme isteği oluşturulacak."
@@ -341,6 +355,12 @@ msgid ""
 "Changes will be pushed directly to the default branch of the push repository."
 msgstr "Değişiklikler, itme deposunun varsayılan dalına doğrudan gönderilecek."
 
+msgid "Text copied to clipboard."
+msgstr "Metin panoya kopyalandı."
+
+msgid "Error copying to clipboard."
+msgstr "Oanoya kopyalanırken sorun çıktı."
+
 msgid "Some source strings could not be assigned."
 msgstr "Kimi kaynak dizgeler atanamadı."
 
@@ -356,14 +376,8 @@ msgstr "Bu sütuna göre sırala"
 msgid "Error while loading page:"
 msgstr "Sayfa yüklenirken sorun çıktı:"
 
-msgid "Text copied to clipboard."
-msgstr "Metin panoya kopyalandı."
-
 msgid "Please press Ctrl+C to copy."
 msgstr "Kopyalamak için Ctrl+C tuşlarına basın."
-
-msgid "Error copying to clipboard."
-msgstr "Oanoya kopyalanırken sorun çıktı."
 
 msgid "Search…"
 msgstr "Ara…"
@@ -426,6 +440,18 @@ msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s saat önce"
 msgstr[1] "%s saat önce"
+
+#~ msgid "Clone to translation"
+#~ msgstr "Çeviriye kopyala"
+
+#~ msgid "Accept"
+#~ msgstr "Onayla"
+
+#~ msgid "Accept and approve"
+#~ msgstr "Kabul et ve onayla"
+
+#~ msgid "Delete entry"
+#~ msgstr "Kaydı sil"
 
 #~ msgid "Something went wrong!"
 #~ msgstr "Bir sorun çıktı!"
@@ -576,9 +602,6 @@ msgstr[1] "%s saat önce"
 
 #~ msgid "Copy and save"
 #~ msgstr "Kopyala ve kaydet"
-
-#~ msgid "Add to screenshot"
-#~ msgstr "Ekran görüntüsüne ekle"
 
 #~ msgid "Ctrl/Command+%s"
 #~ msgstr "Ctrl/Command+%s"

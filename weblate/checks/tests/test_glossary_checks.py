@@ -34,7 +34,7 @@ class GlossaryCheckTest(ComponentTestCase):
             language=self.unit.translation.language
         )
 
-    def add_glossary(self, target: str, context="") -> None:
+    def add_glossary(self, target: str, context: str = "") -> None:
         with self.captureOnCommitCallbacks(execute=True):
             self.glossary.add_unit(None, context, "hello", target, author=self.user)
         self.project.invalidate_glossary_cache()

@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from unittest.mock import PropertyMock, patch
 
 from django.contrib.admin.sites import AdminSite
@@ -29,9 +30,15 @@ from weblate.trans.tests.utils import (
     create_test_billing,
     create_test_user,
 )
+from weblate.utils.tests import http_mock
 from weblate.utils.views import UnsupportedPathObjectError, parse_path
+from weblate.vcs.github import GitHubAppCredentials, GitHubInstallation
+from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.admin import WorkspaceAdmin
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
+
+if TYPE_CHECKING:
+    from django.core.handlers.wsgi import WSGIRequest
 
 
 class WorkspaceViewTest(BaseTestCase):
@@ -92,6 +99,16 @@ class WorkspaceViewTest(BaseTestCase):
 
         self.assertContains(response, visible.name)
         self.assertNotContains(response, hidden.name, status_code=200)
+        widget_url = reverse(
+            "widget-image",
+            kwargs={
+                "path": workspace.get_url_path(),
+                "widget": "open",
+                "color": "graph",
+                "extension": "png",
+            },
+        )
+        self.assertContains(response, f'content="http://example.com{widget_url}"')
 
     def test_my_workspaces_lists_only_explicit_assignments(self) -> None:
         user = create_test_user()
@@ -349,6 +366,79 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertIsNone(moved_project_change.workspace_id)
         self.assertEqual(moved_project_change.project_id, moved_project.pk)
         self.assertFalse(Change.objects.filter(pk=workspace_change.pk).exists())
+
+    @http_mock.activate
+    def test_workspace_removal_uninstalls_github_app(self) -> None:
+        """Cascading the installation away must not orphan the app on GitHub."""
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="GitHub removal workspace")
+        workspace.add_owner(user)
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="99999",
+            app_slug="weblate-app",
+            private_key=generate_private_key(),
+            webhook_secret="secret",
+            client_id="Iv1.testclientid",
+            client_secret="client-secret",
+        )
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=workspace,
+        )
+        http_mock.register(
+            "DELETE",
+            "https://api.github.com/app/installations/12345",
+            status_code=204,
+        )
+        remove_url = reverse("workspace-remove", kwargs={"pk": workspace.pk})
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.post(remove_url, {"confirm": workspace.name})
+
+        self.assertRedirects(response, reverse("home"), fetch_redirect_response=False)
+        self.assertFalse(Workspace.objects.filter(pk=workspace.pk).exists())
+        self.assertEqual(
+            [(call.request.method, call.request.url) for call in http_mock.calls],
+            [("DELETE", "https://api.github.com/app/installations/12345")],
+        )
+
+    @http_mock.activate
+    def test_workspace_removal_survives_github_failure(self) -> None:
+        """A GitHub outage must not block removing the workspace."""
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="GitHub failure workspace")
+        workspace.add_owner(user)
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="99999",
+            app_slug="weblate-app",
+            private_key=generate_private_key(),
+            webhook_secret="secret",
+            client_id="Iv1.testclientid",
+            client_secret="client-secret",
+        )
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=workspace,
+        )
+        http_mock.register(
+            "DELETE",
+            "https://api.github.com/app/installations/12345",
+            status_code=500,
+        )
+        remove_url = reverse("workspace-remove", kwargs={"pk": workspace.pk})
+
+        self.client.login(username=user.username, password="testpassword")
+        with patch("weblate.vcs.github.report_error"):
+            response = self.client.post(remove_url, {"confirm": workspace.name})
+
+        self.assertRedirects(response, reverse("home"), fetch_redirect_response=False)
+        self.assertFalse(Workspace.objects.filter(pk=workspace.pk).exists())
 
     def test_workspace_removal_requires_matching_name(self) -> None:
         user = create_test_user()
@@ -942,7 +1032,7 @@ class WorkspaceAdminTest(BaseTestCase):
         self.actor.is_superuser = True
         self.actor.save(update_fields=["is_superuser"])
 
-    def get_request(self):
+    def get_request(self) -> WSGIRequest:
         request = self.factory.post("/")
         request.user = self.actor
         return request

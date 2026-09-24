@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "javascript/\n"
-"POT-Creation-Date: 2026-08-14 01:14-0500\n"
-"PO-Revision-Date: 2026-06-27 05:39+0000\n"
+"POT-Creation-Date: 2026-09-17 20:14-0500\n"
+"PO-Revision-Date: 2026-08-24 13:17+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "javascript/id/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.7.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 msgid "Unsaved changes!"
 msgstr "Perubahan belum disimpan!"
@@ -68,18 +68,6 @@ msgstr "Tekan Cmd+I kemudian %s untuk mengabaikan ini."
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "Tekan Ctrl+I kemudian %s untuk mengabaikan ini."
 
-msgid "Clone to translation"
-msgstr "Gandakan ke terjemahan"
-
-msgid "Accept"
-msgstr "Terima"
-
-msgid "Accept and approve"
-msgstr "Terima dan setujui"
-
-msgid "Delete entry"
-msgstr "Hapus entri"
-
 msgid "No results found"
 msgstr "Tidak ada hasil yang ditemukan"
 
@@ -87,6 +75,11 @@ msgstr "Tidak ada hasil yang ditemukan"
 msgid "%s matching string"
 msgid_plural "%s matching strings"
 msgstr[0] "%s string cocok"
+
+msgid ""
+"Your previous search results are no longer available. Refresh results to "
+"continue."
+msgstr ""
 
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr ""
@@ -119,13 +112,18 @@ msgstr "Respons server tidak valid"
 msgid "Server error (%s)"
 msgstr "Galat server (%s)"
 
-#, javascript-format
-msgid "There are no pending suggestions from %s in this translation."
+#, fuzzy
+#| msgid "There are no pending suggestions from %s in this translation."
+msgid "There are no pending suggestions from %(username)s in %(translation)s."
 msgstr "Tidak ada saran tertunda dari %s dalam terjemahan ini."
 
-#, javascript-format
-msgid "This will accept %s suggestion from %s in this translation."
-msgid_plural "This will accept %s suggestions from %s in this translation."
+#, fuzzy
+#| msgid "This will accept %s suggestion from %s in this translation."
+#| msgid_plural "This will accept %s suggestions from %s in this translation."
+msgid ""
+"This will accept %(count)s suggestion from %(username)s in %(translation)s."
+msgid_plural ""
+"This will accept %(count)s suggestions from %(username)s in %(translation)s."
 msgstr[0] "Tindakan ini akan menerima %s saran dari %s dalam terjemahan ini."
 
 msgid "Accept all suggestions?"
@@ -279,10 +277,26 @@ msgid "Image Pasted!"
 msgstr "Gambar Tertempel!"
 
 msgid "Press Ctrl+V or Command+V to paste an image."
-msgstr ""
+msgstr "Tekan Ctrl+V atau Command+V unttuk menempelkan gambar."
 
 msgid "No image found in clipboard"
 msgstr "Tidak ada gambar di papan klip"
+
+#, fuzzy
+#| msgid "Loading…"
+msgid "Loading screenshots…"
+msgstr "Memuat…"
+
+msgid "Could not load screenshots. Please try again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Adding screenshot…"
+msgstr "Tambah ke tangkapan layar"
+
+msgid "Could not add screenshot. Please try again."
+msgstr ""
 
 msgid ""
 "A pull or merge request will be created from a branch in the repository."
@@ -341,6 +355,12 @@ msgid ""
 msgstr ""
 "Perubahan akan didorong langsung ke branch default dari repositori push."
 
+msgid "Text copied to clipboard."
+msgstr "Disalin ke papan klip."
+
+msgid "Error copying to clipboard."
+msgstr "Galat menyalin ke papan klip."
+
 msgid "Some source strings could not be assigned."
 msgstr "Beberapa string sumber tidak dapat ditugaskan."
 
@@ -356,14 +376,8 @@ msgstr "Sortir kolom ini"
 msgid "Error while loading page:"
 msgstr "Galat ketika memuat laman:"
 
-msgid "Text copied to clipboard."
-msgstr "Disalin ke papan klip."
-
 msgid "Please press Ctrl+C to copy."
 msgstr "Silakan tekan Ctrl+C untuk menyalin."
-
-msgid "Error copying to clipboard."
-msgstr "Galat menyalin ke papan klip."
 
 msgid "Search…"
 msgstr "Cari…"
@@ -423,6 +437,18 @@ msgstr "satu jam yang lalu"
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s jam yang lalu"
+
+#~ msgid "Clone to translation"
+#~ msgstr "Gandakan ke terjemahan"
+
+#~ msgid "Accept"
+#~ msgstr "Terima"
+
+#~ msgid "Accept and approve"
+#~ msgstr "Terima dan setujui"
+
+#~ msgid "Delete entry"
+#~ msgstr "Hapus entri"
 
 #~ msgid "Something went wrong!"
 #~ msgstr "Terjadi kesalahan!"
@@ -571,9 +597,6 @@ msgstr[0] "%s jam yang lalu"
 
 #~ msgid "Copy and save"
 #~ msgstr "Salin dan simpan"
-
-#~ msgid "Add to screenshot"
-#~ msgstr "Tambah ke tangkapan layar"
 
 #~ msgid "Ctrl/Command+%s"
 #~ msgstr "Ctrl/Command+%s"

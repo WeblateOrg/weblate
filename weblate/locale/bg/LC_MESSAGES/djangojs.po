@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "javascript/\n"
-"POT-Creation-Date: 2026-08-14 01:14-0500\n"
-"PO-Revision-Date: 2026-08-13 17:51+0000\n"
+"POT-Creation-Date: 2026-09-17 20:14-0500\n"
+"PO-Revision-Date: 2026-09-14 09:51+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "javascript/bg/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgid "Unsaved changes!"
 msgstr "Незапазени промени!"
@@ -64,18 +64,6 @@ msgstr "Натиснете Cmd + I, а след това %s за затваря�
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "Натиснете Cmd + I, а след това %s за затваряне."
 
-msgid "Clone to translation"
-msgstr "Копиране в превода"
-
-msgid "Accept"
-msgstr "Приемане"
-
-msgid "Accept and approve"
-msgstr "Приемане и одобряване"
-
-msgid "Delete entry"
-msgstr "Изтриване на записа"
-
 msgid "No results found"
 msgstr "Няма намерени резултати"
 
@@ -84,6 +72,13 @@ msgid "%s matching string"
 msgid_plural "%s matching strings"
 msgstr[0] "%s съвпадащ низ"
 msgstr[1] "%s съвпадащи низа"
+
+msgid ""
+"Your previous search results are no longer available. Refresh results to "
+"continue."
+msgstr ""
+"Резултатите от предишното търсене вече не са налични. Опреснете резултатите, "
+"за да продължите."
 
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "Има незапазени промени, наистина ли искате да напуснете?"
@@ -115,15 +110,17 @@ msgstr "Неправилен отговор от сървъра"
 msgid "Server error (%s)"
 msgstr "Сървърна грешка (%s)"
 
-#, javascript-format
-msgid "There are no pending suggestions from %s in this translation."
-msgstr "Няма чакащи предложения от %s в този превод."
+msgid "There are no pending suggestions from %(username)s in %(translation)s."
+msgstr "Няма чакащи предложения от %(username)s в %(translation)s."
 
-#, javascript-format
-msgid "This will accept %s suggestion from %s in this translation."
-msgid_plural "This will accept %s suggestions from %s in this translation."
-msgstr[0] "Така ще приемете %s предложение от %s в този превод."
-msgstr[1] "Така ще приемете %s предложения от %s в този превод."
+msgid ""
+"This will accept %(count)s suggestion from %(username)s in %(translation)s."
+msgid_plural ""
+"This will accept %(count)s suggestions from %(username)s in %(translation)s."
+msgstr[0] ""
+"Така ще приемете %(count)s предложение от %(username)s в %(translation)s."
+msgstr[1] ""
+"Така ще приемете %(count)s предложения от %(username)s в %(translation)s."
 
 msgid "Accept all suggestions?"
 msgstr "Приемане на всички предложения?"
@@ -281,6 +278,22 @@ msgstr "Натиснете Ctrl+V или Command+V, за да поставите
 msgid "No image found in clipboard"
 msgstr "В буфера няма изображение"
 
+#, fuzzy
+#| msgid "Loading…"
+msgid "Loading screenshots…"
+msgstr "Зареждане…"
+
+msgid "Could not load screenshots. Please try again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Adding screenshot…"
+msgstr "Добавяне към екранна снимка"
+
+msgid "Could not add screenshot. Please try again."
+msgstr ""
+
 msgid ""
 "A pull or merge request will be created from a branch in the repository."
 msgstr ""
@@ -341,6 +354,12 @@ msgstr ""
 "Промените ще бъдат изпратени директно към клона по подразбиране в "
 "хранилището за изпращане."
 
+msgid "Text copied to clipboard."
+msgstr "Текстът е копиран."
+
+msgid "Error copying to clipboard."
+msgstr "Грешка при копирането в буфера."
+
 msgid "Some source strings could not be assigned."
 msgstr "Някои изходни низове не могат да бъдат назначени."
 
@@ -356,14 +375,8 @@ msgstr "Сортиране на колоната"
 msgid "Error while loading page:"
 msgstr "Грешка при зареждане на страницата:"
 
-msgid "Text copied to clipboard."
-msgstr "Текстът е копиран."
-
 msgid "Please press Ctrl+C to copy."
 msgstr "За да копирате натиснете Ctrl + C."
-
-msgid "Error copying to clipboard."
-msgstr "Грешка при копирането в буфера."
 
 msgid "Search…"
 msgstr "Търсене…"
@@ -424,6 +437,18 @@ msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "преди %s час"
 msgstr[1] "преди %s часа"
+
+#~ msgid "Clone to translation"
+#~ msgstr "Копиране в превода"
+
+#~ msgid "Accept"
+#~ msgstr "Приемане"
+
+#~ msgid "Accept and approve"
+#~ msgstr "Приемане и одобряване"
+
+#~ msgid "Delete entry"
+#~ msgstr "Изтриване на записа"
 
 #~ msgid "Something went wrong!"
 #~ msgstr "Нещо се обърка!"
@@ -576,9 +601,6 @@ msgstr[1] "преди %s часа"
 
 #~ msgid "Copy and save"
 #~ msgstr "Копиране и запазване"
-
-#~ msgid "Add to screenshot"
-#~ msgstr "Добавяне към екранна снимка"
 
 #~ msgid "Ctrl/Command+%s"
 #~ msgstr "Ctrl/Command+%s"

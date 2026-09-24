@@ -40,6 +40,7 @@ from django.db.models.signals import pre_save
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext
+from packaging.version import InvalidVersion, Version
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.auth.models import (
@@ -107,6 +108,7 @@ ModelT = TypeVar("ModelT", bound="Model")
 PROJECTBACKUP_PREFIX = "projectbackups"
 BackupValue = str | int | bool | dict[str, Any] | list[Any] | None
 PROJECT_BACKUP_FIELDS = (
+    "public_sharing",
     "use_workspace_tm",
     "contribute_workspace_tm",
     "autoclean_tm",
@@ -120,6 +122,7 @@ COMPONENT_BACKUP_FIELDS = (
     "hide_glossary_matches",
     "contribute_project_tm",
     "file_format_params",
+    "vcs_params",
     "screenshot_filemask",
     "key_filter",
     "secondary_language",
@@ -129,6 +132,88 @@ CATEGORY_BACKUP_FIELDS = (
     "check_flags",
     *INHERITABLE_COMPONENT_SETTINGS,
     *INHERITABLE_COMPONENT_FLAGS,
+)
+LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING: dict[
+    str, tuple[str, dict[str, str | int | bool | None]]
+] = {
+    # "old-format": ("new-format", {"new-format-params": "value"}),
+    "csv": (
+        "csv",
+        {"csv_encoding": "auto"},
+    ),
+    "csv-multi-utf-8": (
+        "csv-multi",
+        {"csv_encoding": "utf-8"},
+    ),
+    "csv-simple": (
+        "csv-simple",
+        {"csv_simple_encoding": "auto"},
+    ),
+    "csv-simple-iso": (
+        "csv-simple",
+        {"csv_simple_encoding": "iso-8859-1"},
+    ),
+    "csv-simple-utf-8": (
+        "csv-simple",
+        {"csv_simple_encoding": "utf-8"},
+    ),
+    "csv-utf-8": (
+        "csv",
+        {"csv_encoding": "utf-8"},
+    ),
+    "gwt": (
+        "gwt",
+        {"gwt_encoding": "utf-8"},
+    ),
+    "gwt-iso": (
+        "gwt",
+        {"gwt_encoding": "iso-8859-1"},
+    ),
+    "apple-xliff": ("apple-xliff", {"xml_whitespace_handling": "standard"}),
+    "plainxliff": (
+        "xliff",
+        {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+    ),
+    "poxliff": ("poxliff", {"xml_whitespace_handling": "standard"}),
+    "properties": (
+        "properties",
+        {"properties_encoding": "iso-8859-1"},
+    ),
+    "properties-utf8": (
+        "properties",
+        {"properties_encoding": "utf-8"},
+    ),
+    "properties-utf16": (
+        "properties",
+        {"properties_encoding": "utf-16"},
+    ),
+    "strings": (
+        "strings",
+        {"strings_encoding": "utf-16"},
+    ),
+    "strings-utf8": (
+        "strings",
+        {"strings_encoding": "utf-8"},
+    ),
+    "xliff": (
+        "xliff",
+        {"xliff_placeables": "placeables", "xml_whitespace_handling": "standard"},
+    ),
+    "xliff2": (
+        "xliff2",
+        {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+    ),
+    "xwiki-page-properties": (
+        "xwiki-page-properties",
+        {"properties_encoding": "utf-8"},
+    ),
+    "xliff2-placeables": (
+        "xliff2",
+        {"xliff_placeables": "placeables", "xml_whitespace_handling": "standard"},
+    ),
+}
+LEGACY_XLIFF_IDENTITY_FORMATS = frozenset(
+    {"apple-xliff", "poxliff", "xliff", "xliff2"},
 )
 
 
@@ -141,6 +226,15 @@ def get_project_backup_download_url(name: str) -> str:
     if isinstance(storage, HashedFilesMixin):
         return super(HashedFilesMixin, storage).url(name)
     return storage.url(name)
+
+
+def backup_uses_xliff_format_params(backup_version: str | None) -> bool:
+    if backup_version is None:
+        return False
+    try:
+        return Version(backup_version).release[:2] >= (2026, 10)
+    except InvalidVersion:
+        return False
 
 
 class BackupListDict(TypedDict):
@@ -544,6 +638,54 @@ class ProjectBackup:
             kwargs["secondary_language"] = self.import_language(
                 kwargs["secondary_language"]
             )
+
+    @staticmethod
+    def migrate_component_vcs_settings(component: dict[str, Any]) -> None:
+        """Convert version control settings used by older component backups."""
+        if component["vcs"] == "git-force-push":
+            component["vcs"] = "git"
+            component.setdefault("vcs_params", {})["git_force_push"] = True
+
+    @staticmethod
+    def migrate_component_file_format_params(
+        component: dict[str, Any], *, backup_version: str | None = None
+    ) -> None:
+        """
+        Convert file format settings used by older component backups.
+
+        This replicates the logic in migrations files but for the backups format.
+        """
+        # json_sort_keys was a boolean in backups before 2026.9
+        if (
+            "file_format_params" in component
+            and "json_sort_keys" in component["file_format_params"]
+        ):
+            json_sort_keys = component["file_format_params"]["json_sort_keys"]
+            if isinstance(json_sort_keys, bool):
+                json_sort_keys = "case_sensitive" if json_sort_keys is True else "none"
+                component["file_format_params"]["json_sort_keys"] = json_sort_keys
+
+        # Migrate file format params for legacy formats
+        file_format = component["file_format"]
+        if file_format not in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING:
+            return
+
+        # Skip backup already using XLIFF file format parameters
+        if (
+            file_format in LEGACY_XLIFF_IDENTITY_FORMATS
+            and backup_uses_xliff_format_params(backup_version)
+        ):
+            return
+
+        new_file_format, migrate_params = LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[
+            file_format
+        ]
+
+        component["file_format"] = new_file_format
+        file_format_params = migrate_params | component.setdefault(
+            "file_format_params", {}
+        )
+        component["file_format_params"] = file_format_params
 
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
         """Backup a many to many relation using a unique identifying field of the related object."""
@@ -1519,6 +1661,11 @@ class ProjectBackup:
             with zipfile.open(filename) as handle:
                 data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
+            self.migrate_component_vcs_settings(data["component"])
+            self.migrate_component_file_format_params(
+                data["component"],
+                backup_version=self.data["metadata"].get("version"),
+            )
             self.validate_component_object(zipfile, filename, data)
             self.component_data[filename] = data
         if skip_linked and data["component"]["repo"].startswith("weblate:"):

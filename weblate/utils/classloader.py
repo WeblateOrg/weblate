@@ -61,8 +61,10 @@ class ClassLoader[T]:
         base_class: type[T],
         construct: bool = True,
         collect_errors: bool = False,
+        dependent_settings: tuple[str, ...] = (),
     ) -> None:
         self.name = name
+        self.setting_names = frozenset((name, *dependent_settings))
         self.construct = construct
         self.collect_errors = collect_errors
         self.errors: dict[str, str | Exception] = {}
@@ -178,12 +180,14 @@ class ClassRegistry[T: ClassLoaderProtocol](ClassLoader[type[T]]):
         *,
         base_class: type[T],
         collect_errors: bool = False,
+        dependent_settings: tuple[str, ...] = (),
     ) -> None:
         super().__init__(
             name,
             base_class=base_class,  # type: ignore[arg-type]
             construct=False,
             collect_errors=collect_errors,
+            dependent_settings=dependent_settings,
         )
 
 
@@ -192,5 +196,5 @@ def reset_class_loader_cache(sender, setting: str, **_kwargs) -> None:
     """Invalidate class loader data after setting overrides."""
     del sender
     for instance in list(ClassLoader.instances):
-        if instance.name == setting:
+        if setting in instance.setting_names:
             instance.clear_cache()

@@ -7,6 +7,7 @@ from __future__ import annotations
 import logging
 import time
 from datetime import date, timedelta
+from typing import TYPE_CHECKING
 
 from celery.schedules import crontab
 from django.utils import timezone
@@ -24,6 +25,9 @@ from weblate.trans.models import (
 from weblate.utils.celery import app
 from weblate.utils.stats import iter_prefetch_stats
 from weblate.workspaces.models import Workspace
+
+if TYPE_CHECKING:
+    from celery import Celery
 
 LOGGER = logging.getLogger("weblate.metrics")
 
@@ -186,7 +190,7 @@ def cleanup_metrics() -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(
         crontab(hour=0, minute=1), collect_metrics.s(), name="collect-metrics"
     )

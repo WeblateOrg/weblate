@@ -2,14 +2,20 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 from unittest import TestCase
 
 from django.test import RequestFactory
 
 from weblate.utils.views import get_page_limit
 
+if TYPE_CHECKING:
+    from django.core.handlers.wsgi import WSGIRequest
 
-def fake_request(page, limit):
+
+def fake_request(page: str, limit: str) -> WSGIRequest:
     return RequestFactory().get("/", {"page": page, "limit": limit})
 
 

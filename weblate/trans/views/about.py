@@ -2,9 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from urllib.parse import urlsplit
+
 import httpx2
 from django.core.cache import cache
 from django.db.models import Sum
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext, gettext_lazy
 from django.views.generic import TemplateView
 
@@ -26,9 +32,9 @@ MENU = (
 REPO_URL = "https://api.github.com/repos/WeblateOrg/weblate"
 ACTIVITY_URL = "https://api.github.com/repos/WeblateOrg/weblate/stats/commit_activity"
 FALLBACK_STATS = {
-    "stars": 6010,
-    "issues": 495,
-    "commits": 1703,
+    "stars": 6059,
+    "issues": 499,
+    "commits": 1325,
 }
 
 
@@ -54,7 +60,7 @@ class AboutView(TemplateView):
 
         return context
 
-    def get_template_names(self):
+    def get_template_names(self) -> list[str]:
         return [f"about/{self.page}.html"]
 
 
@@ -128,4 +134,13 @@ class DonateView(AboutView):
 
     def page_context(self, context) -> None:
         context["title"] = gettext("Support Weblate")
+        return_url = self.request.session.pop("support_return_url", "")
+        if (
+            not return_url.startswith("/")
+            or return_url.startswith("//")
+            or not url_has_allowed_host_and_scheme(return_url, allowed_hosts=set())
+            or urlsplit(return_url).path == reverse("donate")
+        ):
+            return_url = reverse("home")
+        context["support_return_url"] = return_url
         context.update(self.get_stats())

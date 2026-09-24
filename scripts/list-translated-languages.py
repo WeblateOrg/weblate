@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from importlib.util import module_from_spec, spec_from_file_location
 
 import httpx2
@@ -13,7 +15,7 @@ URL = "https://hosted.weblate.org/api/components/weblate/application/statistics/
 THRESHOLD = 40
 
 
-def print_language(lang, fmt="{0} ({1})") -> None:
+def print_language(lang: str, fmt: str = "{0} ({1})") -> None:
     """Print language code with its name."""
     locale = Locale(lang)
     print(fmt.format(lang, locale.getDisplayName(locale).capitalize()))

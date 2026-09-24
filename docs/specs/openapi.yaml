@@ -5,8 +5,10 @@ info:
   x-logo:
     url: /static/weblate.svg
   description: "\nThe API is accessible on the ``/api/`` URL and it is based on [Django
-    REST framework](https://www.django-rest-framework.org/).\n\nThe OpenAPI specification
-    is available as feature preview, feedback welcome!\n\n## Authorization\n\n<!--
+    REST framework](https://www.django-rest-framework.org/).\n\nRead-only requests
+    can be made without authentication unless the site requires login.\nAuthenticate
+    using a personal or project token in the `Authorization` header with\nthe `Token`
+    or `Bearer` scheme. API requests are rate limited.\n\n## Authorization\n\n<!--
     Redoc-Inject: <security-definitions> -->\n\n\n    "
   license:
     name: GNU General Public License v3 or later
@@ -15,7 +17,7 @@ paths:
   /api/addons/:
     get:
       operationId: api_addons_list
-      description: Return a list of add-ons.
+      summary: Return a list of add-ons.
       parameters:
       - name: page
         required: false
@@ -170,7 +172,7 @@ paths:
   /api/addons/{id}/:
     get:
       operationId: api_addons_retrieve
-      description: Returns information about add-on information.
+      summary: Returns information about add-on information.
       parameters:
       - in: path
         name: id
@@ -318,7 +320,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_addons_update
-      description: Edit full information about add-on.
+      summary: Edit full information about add-on.
       parameters:
       - in: path
         name: id
@@ -485,7 +487,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_addons_partial_update
-      description: Edit partial information about add-on.
+      summary: Edit partial information about add-on.
       parameters:
       - in: path
         name: id
@@ -651,7 +653,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_addons_destroy
-      description: Delete add-on.
+      summary: Delete add-on.
       parameters:
       - in: path
         name: id
@@ -785,10 +787,179 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+  /api/addons/{id}/preview/:
+    post:
+      operationId: api_addons_preview_create
+      description: Requires add-on management permission.
+      summary: Preview an automation without executing operations.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this add-on.
+        required: true
+      tags:
+      - addons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutomationPreviewRequest'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: The authenticated user does not have permission for this operation.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationPreviewResponse'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/addons/{id}/trigger/:
     post:
       operationId: api_addons_trigger_create
-      description: Trigger manual execution of an add-on that supports manual triggering.
+      summary: Trigger manual execution of an add-on that supports manual triggering.
       parameters:
       - in: path
         name: id
@@ -929,7 +1100,7 @@ paths:
   /api/categories/:
     get:
       operationId: api_categories_list
-      description: List available categories.
+      summary: List available categories.
       parameters:
       - name: page
         required: false
@@ -1083,7 +1254,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_categories_create
-      description: Category API.
+      summary: Create a new category.
       tags:
       - categories
       requestBody:
@@ -1237,7 +1408,7 @@ paths:
   /api/categories/{id}/:
     get:
       operationId: api_categories_retrieve
-      description: Category API.
+      summary: Return information about a category.
       parameters:
       - in: path
         name: id
@@ -1385,7 +1556,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_categories_update
-      description: Edit full information about category.
+      summary: Edit full information about category.
       parameters:
       - in: path
         name: id
@@ -1552,7 +1723,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_categories_partial_update
-      description: Category API.
+      summary: Edit partial information about a category.
       parameters:
       - in: path
         name: id
@@ -1718,7 +1889,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_categories_destroy
-      description: Delete a category.
+      summary: Delete a category.
       parameters:
       - in: query
         name: delete_memory
@@ -1880,7 +2051,7 @@ paths:
   /api/categories/{id}/announcements/:
     get:
       operationId: api_categories_announcements_list
-      description: Return announcements.
+      summary: Return announcements.
       parameters:
       - in: path
         name: id
@@ -2040,7 +2211,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_categories_announcements_create
-      description: Create an announcement.
+      summary: Create an announcement.
       parameters:
       - in: path
         name: id
@@ -2201,7 +2372,7 @@ paths:
   /api/categories/{id}/announcements/{announcement_id}/:
     delete:
       operationId: api_categories_announcements_destroy
-      description: Delete an announcement.
+      summary: Delete an announcement.
       parameters:
       - in: path
         name: announcement_id
@@ -2343,7 +2514,7 @@ paths:
   /api/categories/{id}/reports/:
     get:
       operationId: api_categories_reports_list
-      description: List accessible reports generated directly for this scope.
+      summary: List accessible reports generated directly for this scope.
       parameters:
       - in: path
         name: id
@@ -2488,7 +2659,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_categories_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      summary: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: id
@@ -2635,7 +2807,7 @@ paths:
   /api/categories/{id}/statistics/:
     get:
       operationId: api_categories_statistics_retrieve
-      description: Return statistics for a category.
+      summary: Return statistics for a category.
       parameters:
       - in: path
         name: id
@@ -2785,7 +2957,7 @@ paths:
   /api/changes/:
     get:
       operationId: api_changes_list
-      description: Return a list of translation changes.
+      summary: Return a list of translation changes.
       parameters:
       - in: query
         name: action
@@ -2964,7 +3136,7 @@ paths:
   /api/changes/{id}/:
     get:
       operationId: api_changes_retrieve
-      description: Return information about a translation change.
+      summary: Return information about a translation change.
       parameters:
       - in: path
         name: id
@@ -3113,7 +3285,7 @@ paths:
   /api/component-lists/:
     get:
       operationId: api_component_lists_list
-      description: Return a list of component lists.
+      summary: Return a list of component lists.
       parameters:
       - name: page
         required: false
@@ -3267,7 +3439,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_component_lists_create
-      description: Create a new component list.
+      summary: Create a new component list.
       tags:
       - component-lists
       requestBody:
@@ -3421,7 +3593,7 @@ paths:
   /api/component-lists/{slug}/:
     get:
       operationId: api_component_lists_retrieve
-      description: Return information about component list.
+      summary: Return information about component list.
       parameters:
       - in: path
         name: slug
@@ -3570,7 +3742,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_component_lists_update
-      description: Change the component list parameters.
+      summary: Change the component list parameters.
       parameters:
       - in: path
         name: slug
@@ -3738,7 +3910,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_component_lists_partial_update
-      description: Change the component list parameters.
+      summary: Change the component list parameters.
       parameters:
       - in: path
         name: slug
@@ -3905,7 +4077,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_component_lists_destroy
-      description: Delete the component list.
+      summary: Delete the component list.
       parameters:
       - in: path
         name: slug
@@ -4043,7 +4215,7 @@ paths:
   /api/component-lists/{slug}/components/:
     get:
       operationId: api_component_lists_components_retrieve
-      description: Component lists API.
+      summary: List components in a component list.
       parameters:
       - in: path
         name: slug
@@ -4192,7 +4364,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_component_lists_components_create
-      description: Associate component with a component list.
+      summary: Associate component with a component list.
       parameters:
       - in: path
         name: slug
@@ -4361,7 +4533,7 @@ paths:
   /api/component-lists/{slug}/components/{component_slug}/:
     delete:
       operationId: api_component_lists_components_destroy
-      description: Disassociate a component from the component list.
+      summary: Disassociate a component from the component list.
       parameters:
       - in: path
         name: component_slug
@@ -4504,7 +4676,7 @@ paths:
   /api/components/:
     get:
       operationId: api_components_list
-      description: Return a list of translation components.
+      summary: Return a list of translation components.
       parameters:
       - name: page
         required: false
@@ -4659,7 +4831,7 @@ paths:
   /api/components/{project__slug}/{slug}/:
     get:
       operationId: api_components_retrieve
-      description: Return information about translation component.
+      summary: Return information about translation component.
       parameters:
       - in: path
         name: project__slug
@@ -4815,7 +4987,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_components_update
-      description: Edit a component by a PUT or PATCH request.
+      summary: Edit a component by a PUT or PATCH request.
       parameters:
       - in: path
         name: project__slug
@@ -4990,7 +5162,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_components_partial_update
-      description: Edit a component by a PATCH request.
+      summary: Edit a component by a PATCH request.
       parameters:
       - in: path
         name: project__slug
@@ -5164,7 +5336,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_components_destroy
-      description: Delete a component.
+      summary: Delete a component.
       parameters:
       - in: query
         name: delete_memory
@@ -5334,7 +5506,7 @@ paths:
   /api/components/{project__slug}/{slug}/addons/:
     post:
       operationId: api_components_addons_create
-      description: Translation components API.
+      summary: Create an add-on for this component.
       parameters:
       - in: path
         name: project__slug
@@ -5507,10 +5679,348 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+  /api/components/{project__slug}/{slug}/addons/kotlin-sdk/builds/:
+    post:
+      operationId: api_components_addons_kotlin_sdk_builds_create
+      description: |-
+        The Kotlin SDK API is in beta. No compatibility is guaranteed until the final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and generated resource formats may change without backward compatibility.
+
+        Register resource IDs from a final Android build for the Kotlin SDK CDN add-on. Send application/json using an API token with component.edit permission. Keep the token in the build environment, never in the application.
+
+        The request limit is 5 MiB and 100000 resources combined across strings and plurals, with at least one resource required. Names must match [a-zA-Z_][a-zA-Z0-9_.]*. IDs must belong to app package 0x7f, with one nonzero type ID per resource kind and distinct type IDs for strings and plurals. The same name may appear in both maps with different IDs. Duplicate IDs, invalid names, unknown fields, and unsupported schema versions are rejected with 400.
+
+        Returns 202 for a new registration, 200 for identical existing metadata, or 409 for conflicting metadata or aggregate storage capacity. Publication is asynchronous: poll status_url; manifest_url need not exist yet. Repeat uploads do not extend retention or reactivate retained retired records.
+
+        Add-on configuration maximum_versions defaults to 20 (range 1-100), and maximum_age defaults to 365 days (range 1-730), measured from first registration. Limits apply across all package names. One additional unpublished replacement is allowed. New registrations can retire older unpublished replacements, but published builds are retired for the version limit only after a replacement is published. Failed replacements preserve existing publications; maximum-age expiry still applies independently. Expiry is enforced on registration, publication, and daily cleanup. Hourly maintenance retires publications when the component becomes incompatible; the normal artifact retention window still applies. Retirement immediately clears metadata. Lightweight retired records are deleted on cleanup after 24 hours and successful manifest removal; their identifiers can then be registered again. Failed or interrupted manifest removals are retried hourly. Until removal succeeds, the retired record and its artifact references are retained to prevent path reuse. Mapping immutability is guaranteed only while a registration is retained. The add-on accepts at most 1000 total registration records, including retired records. Metadata is bounded by the per-upload size limit and maximum retained version count plus one replacement, without a separate byte quota. Superseded artifacts are deleted on cleanup after a fixed 24-hour window. Cache manifests for at most one hour (Cache-Control: public, max-age=3600). Translation updates and retirements can take up to one hour to reach clients; use Cache-Control: no-cache when immediate revalidation is preferred. All artifact files, including superseded and incomplete publication output, count towards hard limits of 5 GiB and 10000 files per add-on. The larger artifact allowance accommodates translated text and multiple locales; it does not guarantee capacity for every locale or build combination. A publication exceeding either limit fails before writing new artifacts and preserves the previous manifest. Shared artifacts count only once. The window and storage limits are not configurable. Artifacts are compiled one locale at a time and staged on disk. Per-locale compilation rejects resources whose conservative encoded text and styling estimate exceeds 64 MiB. Preparation uses a separate fixed temporary-storage limit of 5 GiB per publication job, for staged ARSC output, shared by versions with identical resource mappings. Before enabling the add-on, configure the CDN origin to deny access to the .kotlin-sdk-staging directory under LOCALIZE_CDN_PATH; it contains unpublished preparation files. The manifest becomes visible only after its publication intent is committed. Failed or interrupted manifest writes are retried by subsequent publication jobs; artifacts for both old and pending manifests remain protected until replacement succeeds. Registration capacity errors reject new registrations without evicting active builds; identical retries remain accepted. Uninstalling attempts to remove origin files immediately; failed or interrupted removals are retried hourly. Files may remain publicly accessible until cleanup succeeds. Removal does not revoke copies already cached or downloaded by clients.
+
+        Builds receive current component translations matched by resource name and type. Source text and formatting argument compatibility with older builds is the maintainer's responsibility. Strings, plurals, and Android styled text are supported; arrays and resource references are not generated. Untranslated, read-only, and incomplete plural entries are omitted so bundled resources remain available. Unsupported styling fails publication without replacing the previous manifest. CDN output is public, even for private components. Manifests expose packageName and versionCode; ARSC files expose published resource names and their submitted IDs alongside translated text. Do not treat the uploaded mapping as confidential. Access to registration and status endpoints remains permission-controlled.
+
+        Requires the Kotlin SDK CDN add-on (`weblate.cdn.kotlin`) installed directly on the component and `component.edit` permission.
+      summary: Register a Kotlin SDK build
+      parameters:
+      - in: path
+        name: project__slug
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - components
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuildMetadata'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildStatus'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildStatus'
+          description: The request was accepted for asynchronous processing.
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildConflict'
+          description: ''
+  /api/components/{project__slug}/{slug}/addons/kotlin-sdk/builds/{package}/{version}/:
+    get:
+      operationId: api_components_addons_kotlin_sdk_builds_retrieve
+      description: |-
+        The Kotlin SDK API is in beta. No compatibility is guaranteed until the final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and generated resource formats may change without backward compatibility.
+
+        Get the publication state and CDN manifest URL for a registered package/version. Requires component.edit permission. Missing installations or registrations return 404. States are pending, published, failed, and retired. A failed replacement may still have a previous successful manifest. Retired versions remain queryable but their manifests are removed; repeat uploads do not reactivate them. Maximum build age and retained version count are configured on the add-on. Retired metadata is cleared immediately and its lightweight registration record is deleted on cleanup after 24 hours and successful manifest removal. Failed removals are retried hourly; the registration and referenced artifacts are retained until removal succeeds. Superseded artifacts have a fixed 24-hour window, subject to the aggregate artifact storage limits documented on registration.
+
+        Requires the Kotlin SDK CDN add-on (`weblate.cdn.kotlin`) installed directly on the component and `component.edit` permission.
+      summary: Get Kotlin SDK build status
+      parameters:
+      - in: path
+        name: package
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: project__slug
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: version
+        schema:
+          type: integer
+        required: true
+      tags:
+      - components
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildStatus'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/components/{project__slug}/{slug}/announcements/:
     get:
       operationId: api_components_announcements_list
-      description: Return announcements.
+      summary: Return announcements.
       parameters:
       - name: page
         required: false
@@ -5678,7 +6188,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_announcements_create
-      description: Create an announcement.
+      summary: Create an announcement.
       parameters:
       - in: path
         name: project__slug
@@ -5847,7 +6357,7 @@ paths:
   /api/components/{project__slug}/{slug}/announcements/{announcement_id}/:
     delete:
       operationId: api_components_announcements_destroy
-      description: Delete an announcement.
+      summary: Delete an announcement.
       parameters:
       - in: path
         name: announcement_id
@@ -5997,7 +6507,7 @@ paths:
   /api/components/{project__slug}/{slug}/changes/:
     get:
       operationId: api_components_changes_list
-      description: Return a list of component changes.
+      summary: Return a list of component changes.
       parameters:
       - name: page
         required: false
@@ -6166,8 +6676,14 @@ paths:
   /api/components/{project__slug}/{slug}/file/:
     get:
       operationId: api_components_file_retrieve
-      description: Download all translation files in the component.
+      summary: Download all translation files in the component.
       parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+        description: Archive format; defaults to zip. Use zip:CONVERSION to convert
+          files to a supported format.
       - in: path
         name: project__slug
         schema:
@@ -6324,7 +6840,7 @@ paths:
   /api/components/{project__slug}/{slug}/links/:
     get:
       operationId: api_components_links_list
-      description: Return projects linked with a component.
+      summary: Return projects linked with a component.
       parameters:
       - name: page
         required: false
@@ -6492,7 +7008,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_links_create
-      description: Associate project with a component.
+      summary: Associate project with a component.
       parameters:
       - in: path
         name: project__slug
@@ -6661,7 +7177,7 @@ paths:
   /api/components/{project__slug}/{slug}/links/{project_slug}/:
     delete:
       operationId: api_components_links_destroy
-      description: Remove association of a project with a component.
+      summary: Remove association of a project with a component.
       parameters:
       - in: path
         name: project__slug
@@ -6811,7 +7327,7 @@ paths:
   /api/components/{project__slug}/{slug}/lock/:
     get:
       operationId: api_components_lock_retrieve
-      description: Return component lock status.
+      summary: Return component lock status.
       parameters:
       - in: path
         name: project__slug
@@ -6967,7 +7483,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_lock_create
-      description: Sets component lock status.
+      summary: Sets component lock status.
       parameters:
       - in: path
         name: project__slug
@@ -7143,7 +7659,7 @@ paths:
   /api/components/{project__slug}/{slug}/monolingual_base/:
     get:
       operationId: api_components_monolingual_base_retrieve
-      description: Download base file for monolingual translations.
+      summary: Download base file for monolingual translations.
       parameters:
       - in: path
         name: project__slug
@@ -7301,7 +7817,7 @@ paths:
   /api/components/{project__slug}/{slug}/new_template/:
     get:
       operationId: api_components_new_template_retrieve
-      description: Download template file for new translations.
+      summary: Download template file for new translations.
       parameters:
       - in: path
         name: project__slug
@@ -7459,7 +7975,7 @@ paths:
   /api/components/{project__slug}/{slug}/reports/:
     get:
       operationId: api_components_reports_list
-      description: List accessible reports generated directly for this scope.
+      summary: List accessible reports generated directly for this scope.
       parameters:
       - name: page
         required: false
@@ -7612,7 +8128,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      summary: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: project__slug
@@ -7767,7 +8284,9 @@ paths:
   /api/components/{project__slug}/{slug}/repository/:
     get:
       operationId: api_components_repository_retrieve
-      description: Return information about VCS repository status.
+      description: Requires VCS permission on the component that owns the repository,
+        including when accessed through a linked component.
+      summary: Return information about VCS repository status.
       parameters:
       - in: path
         name: project__slug
@@ -7923,7 +8442,9 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_repository_create
-      description: Perform given operation on the VCS repository.
+      description: Requires the requested VCS permission on the component that owns
+        the repository, including when accessed through a linked component.
+      summary: Perform given operation on the VCS repository.
       parameters:
       - in: path
         name: project__slug
@@ -8049,12 +8570,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -8096,10 +8611,22 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/components/{project__slug}/{slug}/screenshots/:
     get:
       operationId: api_components_screenshots_list
-      description: Return a list of component screenshots.
+      summary: Return a list of component screenshots.
       parameters:
       - name: page
         required: false
@@ -8268,7 +8795,7 @@ paths:
   /api/components/{project__slug}/{slug}/statistics/:
     get:
       operationId: api_components_statistics_list
-      description: Return paginated statistics for all translations within component.
+      summary: Return paginated statistics for all translations within component.
       parameters:
       - name: page
         required: false
@@ -8438,7 +8965,7 @@ paths:
   /api/components/{project__slug}/{slug}/translations/:
     get:
       operationId: api_components_translations_list
-      description: Return a list of translation objects in the given component.
+      summary: Return a list of translation objects in the given component.
       parameters:
       - name: page
         required: false
@@ -8606,7 +9133,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_translations_create
-      description: Create a new translation in the given component.
+      summary: Create a new translation in the given component.
       parameters:
       - in: path
         name: project__slug
@@ -8775,7 +9302,8 @@ paths:
   /api/groups/:
     get:
       operationId: api_groups_list
-      description: Groups API.
+      description: Users with group.view or group.edit permission can see all teams.
+      summary: List teams the user can access.
       parameters:
       - name: page
         required: false
@@ -8929,7 +9457,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_groups_create
-      description: Create a new group.
+      summary: Create a new group.
       tags:
       - groups
       requestBody:
@@ -9083,7 +9611,7 @@ paths:
   /api/groups/{id}/:
     get:
       operationId: api_groups_retrieve
-      description: Return information about a group.
+      summary: Return information about a group.
       parameters:
       - in: path
         name: id
@@ -9231,7 +9759,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_groups_update
-      description: Change the group parameters.
+      summary: Change the group parameters.
       parameters:
       - in: path
         name: id
@@ -9398,7 +9926,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_groups_partial_update
-      description: Change the group parameters.
+      summary: Change the group parameters.
       parameters:
       - in: path
         name: id
@@ -9564,7 +10092,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_groups_destroy
-      description: Delete the group.
+      summary: Delete the group.
       parameters:
       - in: path
         name: id
@@ -9701,7 +10229,7 @@ paths:
   /api/groups/{id}/admins/:
     post:
       operationId: api_groups_admins_create
-      description: Make user a group admin.
+      summary: Make user a group admin.
       parameters:
       - in: path
         name: id
@@ -9869,7 +10397,7 @@ paths:
   /api/groups/{id}/admins/{user_pk}/:
     delete:
       operationId: api_groups_admins_destroy
-      description: Delete a user from group admins.
+      summary: Delete a user from group admins.
       parameters:
       - in: path
         name: id
@@ -10011,7 +10539,7 @@ paths:
   /api/groups/{id}/componentlists/:
     post:
       operationId: api_groups_componentlists_create
-      description: Associate componentlists with a group.
+      summary: Associate componentlists with a group.
       parameters:
       - in: path
         name: id
@@ -10179,7 +10707,7 @@ paths:
   /api/groups/{id}/componentlists/{component_list_id}/:
     delete:
       operationId: api_groups_componentlists_destroy
-      description: Delete a componentlist from a group.
+      summary: Delete a componentlist from a group.
       parameters:
       - in: path
         name: component_list_id
@@ -10321,7 +10849,7 @@ paths:
   /api/groups/{id}/components/:
     post:
       operationId: api_groups_components_create
-      description: Associate components with a group.
+      summary: Associate components with a group.
       parameters:
       - in: path
         name: id
@@ -10489,7 +11017,7 @@ paths:
   /api/groups/{id}/components/{component_id}/:
     delete:
       operationId: api_groups_components_destroy
-      description: Delete a component from a group.
+      summary: Delete a component from a group.
       parameters:
       - in: path
         name: component_id
@@ -10631,7 +11159,7 @@ paths:
   /api/groups/{id}/languages/:
     post:
       operationId: api_groups_languages_create
-      description: Associate languages with a group.
+      summary: Associate languages with a group.
       parameters:
       - in: path
         name: id
@@ -10799,7 +11327,7 @@ paths:
   /api/groups/{id}/languages/{language_code}/:
     delete:
       operationId: api_groups_languages_destroy
-      description: Delete a language from a group.
+      summary: Delete a language from a group.
       parameters:
       - in: path
         name: id
@@ -10941,7 +11469,7 @@ paths:
   /api/groups/{id}/projects/:
     post:
       operationId: api_groups_projects_create
-      description: Associate projects with a group.
+      summary: Associate projects with a group.
       parameters:
       - in: path
         name: id
@@ -11109,7 +11637,7 @@ paths:
   /api/groups/{id}/projects/{project_id}/:
     delete:
       operationId: api_groups_projects_destroy
-      description: Delete a project from a group.
+      summary: Delete a project from a group.
       parameters:
       - in: path
         name: id
@@ -11251,7 +11779,7 @@ paths:
   /api/groups/{id}/roles/:
     post:
       operationId: api_groups_roles_create
-      description: Associate roles with a group.
+      summary: Associate roles with a group.
       parameters:
       - in: path
         name: id
@@ -11419,7 +11947,7 @@ paths:
   /api/groups/{id}/roles/{role_id}/:
     delete:
       operationId: api_groups_roles_destroy
-      description: Delete a role from a group.
+      summary: Delete a role from a group.
       parameters:
       - in: path
         name: id
@@ -11561,7 +12089,7 @@ paths:
   /api/languages/:
     get:
       operationId: api_languages_list
-      description: Return a list of all languages the user has access to.
+      summary: Return a list of all languages the user has access to.
       parameters:
       - name: page
         required: false
@@ -11715,7 +12243,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_languages_create
-      description: Create a new language.
+      summary: Create a new language.
       tags:
       - languages
       requestBody:
@@ -11869,7 +12397,7 @@ paths:
   /api/languages/{code}/:
     get:
       operationId: api_languages_retrieve
-      description: Return information about a language.
+      summary: Return information about a language.
       parameters:
       - in: path
         name: code
@@ -12017,7 +12545,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_languages_update
-      description: Change the language parameters.
+      summary: Change the language parameters.
       parameters:
       - in: path
         name: code
@@ -12184,7 +12712,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_languages_partial_update
-      description: Change the language parameters.
+      summary: Change the language parameters.
       parameters:
       - in: path
         name: code
@@ -12350,7 +12878,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_languages_destroy
-      description: Delete the language.
+      summary: Delete the language.
       parameters:
       - in: path
         name: code
@@ -12487,7 +13015,7 @@ paths:
   /api/languages/{code}/statistics/:
     get:
       operationId: api_languages_statistics_retrieve
-      description: Return statistics for a language.
+      summary: Return statistics for a language.
       parameters:
       - in: path
         name: code
@@ -12637,7 +13165,7 @@ paths:
   /api/memory/:
     get:
       operationId: api_memory_list
-      description: Return a list of memory results.
+      summary: Return a list of memory results.
       parameters:
       - name: page
         required: false
@@ -12793,7 +13321,7 @@ paths:
   /api/memory/{id}/:
     get:
       operationId: api_memory_retrieve
-      description: Memory API.
+      summary: Return information about a memory result.
       parameters:
       - in: path
         name: id
@@ -12926,7 +13454,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_memory_destroy
-      description: Delete a memory object.
+      summary: Delete a memory object.
       parameters:
       - in: path
         name: id
@@ -13049,7 +13577,7 @@ paths:
   /api/memory/lookup/:
     post:
       operationId: api_memory_lookup_create
-      description: Look up translation memory matches for the provided source strings.
+      summary: Look up translation memory matches for the provided source strings.
       parameters:
       - in: query
         name: exact
@@ -13221,7 +13749,7 @@ paths:
   /api/metrics/:
     get:
       operationId: api_metrics_retrieve
-      description: Return server metrics.
+      summary: Return server metrics.
       parameters:
       - in: query
         name: format
@@ -13363,7 +13891,7 @@ paths:
   /api/projects/:
     get:
       operationId: api_projects_list
-      description: Return a list of all projects.
+      summary: Return a list of all projects.
       parameters:
       - name: page
         required: false
@@ -13517,7 +14045,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_create
-      description: Create a new project.
+      summary: Create a new project.
       tags:
       - projects
       requestBody:
@@ -13671,7 +14199,7 @@ paths:
   /api/projects/{slug}/:
     get:
       operationId: api_projects_retrieve
-      description: Return information about a project.
+      summary: Return information about a project.
       parameters:
       - in: path
         name: slug
@@ -13820,7 +14348,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_projects_update
-      description: Edit a project by a PUT request.
+      summary: Edit a project by a PUT request.
       parameters:
       - in: path
         name: slug
@@ -13988,7 +14516,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_projects_partial_update
-      description: Edit a project by a PATCH request.
+      summary: Edit a project by a PATCH request.
       parameters:
       - in: path
         name: slug
@@ -14155,7 +14683,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_projects_destroy
-      description: Delete a project.
+      summary: Delete a project.
       parameters:
       - in: path
         name: slug
@@ -14297,7 +14825,7 @@ paths:
   /api/projects/{slug}/addons/:
     post:
       operationId: api_projects_addons_create
-      description: Translation projects API.
+      summary: Create an add-on for this project.
       parameters:
       - in: path
         name: slug
@@ -14466,7 +14994,7 @@ paths:
   /api/projects/{slug}/announcements/:
     get:
       operationId: api_projects_announcements_list
-      description: Return announcements.
+      summary: Return announcements.
       parameters:
       - name: page
         required: false
@@ -14627,7 +15155,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_announcements_create
-      description: Create an announcement.
+      summary: Create an announcement.
       parameters:
       - in: path
         name: slug
@@ -14789,7 +15317,7 @@ paths:
   /api/projects/{slug}/announcements/{announcement_id}/:
     delete:
       operationId: api_projects_announcements_destroy
-      description: Delete an announcement.
+      summary: Delete an announcement.
       parameters:
       - in: path
         name: announcement_id
@@ -14932,7 +15460,7 @@ paths:
   /api/projects/{slug}/backups/:
     get:
       operationId: api_projects_backups_list
-      description: Return a list of project backups.
+      summary: Return a list of project backups.
       parameters:
       - name: page
         required: false
@@ -15093,7 +15621,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_backups_create
-      description: Create a new project backup.
+      summary: Create a new project backup.
       parameters:
       - in: path
         name: slug
@@ -15255,7 +15783,7 @@ paths:
   /api/projects/{slug}/backups/{backup}/:
     get:
       operationId: api_projects_backups_download_retrieve
-      description: Download a project backup.
+      summary: Download a project backup.
       parameters:
       - in: path
         name: backup
@@ -15411,7 +15939,7 @@ paths:
   /api/projects/{slug}/categories/:
     get:
       operationId: api_projects_categories_list
-      description: Return categories for a project.
+      summary: Return categories for a project.
       parameters:
       - name: page
         required: false
@@ -15573,7 +16101,7 @@ paths:
   /api/projects/{slug}/changes/:
     get:
       operationId: api_projects_changes_list
-      description: Return a list of project changes.
+      summary: Return a list of project changes.
       parameters:
       - name: page
         required: false
@@ -15735,7 +16263,7 @@ paths:
   /api/projects/{slug}/components/:
     get:
       operationId: api_projects_components_list
-      description: Return a list of translation components in the given project.
+      summary: Return a list of translation components in the given project.
       parameters:
       - name: page
         required: false
@@ -15896,7 +16424,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_components_create
-      description: Create translation components in the given project.
+      summary: Create translation components in the given project.
       parameters:
       - in: path
         name: slug
@@ -16054,8 +16582,21 @@ paths:
   /api/projects/{slug}/file/:
     get:
       operationId: api_projects_file_retrieve
-      description: Download all translation files in the project.
+      description: The archive defaults to ZIP and can be limited to one language
+        using language_code.
+      summary: Download all translation files in the project.
       parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+        description: Archive format; defaults to zip. Use zip:CONVERSION to convert
+          files to a supported format.
+      - in: query
+        name: language_code
+        schema:
+          type: string
+        description: Include translations only for this language code.
       - in: path
         name: slug
         schema:
@@ -16205,7 +16746,7 @@ paths:
   /api/projects/{slug}/labels/:
     get:
       operationId: api_projects_labels_list
-      description: Return labels for a project.
+      summary: Return labels for a project.
       parameters:
       - name: page
         required: false
@@ -16366,7 +16907,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_labels_create
-      description: Create a label for a project.
+      summary: Create a label for a project.
       parameters:
       - in: path
         name: slug
@@ -16528,7 +17069,7 @@ paths:
   /api/projects/{slug}/labels/{label_id}/:
     delete:
       operationId: api_projects_labels_destroy
-      description: Delete a label from a project.
+      summary: Delete a label from a project.
       parameters:
       - in: path
         name: label_id
@@ -16671,7 +17212,7 @@ paths:
   /api/projects/{slug}/languages/:
     get:
       operationId: api_projects_languages_list
-      description: Return statistics for all languages within a project.
+      summary: Return statistics for all languages within a project.
       parameters:
       - in: path
         name: slug
@@ -16824,7 +17365,7 @@ paths:
   /api/projects/{slug}/languages/{language_code}/announcements/:
     get:
       operationId: api_projects_languages_announcements_list
-      description: Return project language announcements.
+      summary: Return project language announcements.
       parameters:
       - in: path
         name: language_code
@@ -16990,7 +17531,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_languages_announcements_create
-      description: Create a project language announcement.
+      summary: Create a project language announcement.
       parameters:
       - in: path
         name: language_code
@@ -17157,7 +17698,7 @@ paths:
   /api/projects/{slug}/languages/{language_code}/announcements/{announcement_id}/:
     delete:
       operationId: api_projects_languages_announcements_destroy
-      description: Delete a project language announcement.
+      summary: Delete a project language announcement.
       parameters:
       - in: path
         name: announcement_id
@@ -17305,9 +17846,22 @@ paths:
   /api/projects/{slug}/languages/{language_code}/file/:
     get:
       operationId: api_projects_languages_file_retrieve
-      description: Download all component translation files in the project for a specific
+      description: The archive defaults to ZIP, and filter limits included components
+        by a case-insensitive substring of their slug.
+      summary: Download all component translation files in the project for a specific
         language.
       parameters:
+      - in: query
+        name: filter
+        schema:
+          type: string
+        description: Include components whose slugs contain this text, ignoring case.
+      - in: query
+        name: format
+        schema:
+          type: string
+        description: Archive format; defaults to zip. Use zip:CONVERSION to convert
+          files to a supported format.
       - in: path
         name: language_code
         schema:
@@ -17463,7 +18017,7 @@ paths:
   /api/projects/{slug}/lock/:
     get:
       operationId: api_projects_lock_retrieve
-      description: Return project lock status.
+      summary: Return project lock status.
       parameters:
       - in: path
         name: slug
@@ -17612,7 +18166,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_lock_create
-      description: Sets project lock status.
+      summary: Sets project lock status.
       parameters:
       - in: path
         name: slug
@@ -17781,7 +18335,7 @@ paths:
   /api/projects/{slug}/machinery_settings/:
     get:
       operationId: api_projects_machinery_settings_retrieve
-      description: List machinery settings for a project.
+      summary: List machinery settings for a project.
       parameters:
       - in: path
         name: slug
@@ -17940,7 +18494,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_machinery_settings_create
-      description: Install a new machinery service.
+      summary: Install a new machinery service.
       parameters:
       - in: path
         name: slug
@@ -18109,7 +18663,7 @@ paths:
           description: The request was invalid or could not be parsed.
     put:
       operationId: api_projects_machinery_settings_update
-      description: Replace configuration for all services.
+      summary: Replace configuration for all services.
       parameters:
       - in: path
         name: slug
@@ -18276,8 +18830,8 @@ paths:
           description: The request was invalid or could not be parsed.
     patch:
       operationId: api_projects_machinery_settings_partial_update
-      description: Partially update a single service. Leave configuration blank to
-        remove the service.
+      description: Leave configuration blank to remove the service.
+      summary: Partially update a single service.
       parameters:
       - in: path
         name: slug
@@ -18453,7 +19007,7 @@ paths:
   /api/projects/{slug}/metrics/:
     get:
       operationId: api_projects_metrics_retrieve
-      description: Return translation metrics for a project.
+      summary: Return translation metrics for a project.
       parameters:
       - in: query
         name: format
@@ -18696,7 +19250,7 @@ paths:
   /api/projects/{slug}/reports/:
     get:
       operationId: api_projects_reports_list
-      description: List or create reports scoped to a project.
+      summary: List or create reports scoped to a project.
       parameters:
       - name: page
         required: false
@@ -18842,7 +19396,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_reports_create
-      description: List or create reports scoped to a project.
+      summary: List or create reports scoped to a project.
       parameters:
       - in: path
         name: slug
@@ -18990,7 +19544,10 @@ paths:
   /api/projects/{slug}/repository/:
     get:
       operationId: api_projects_repository_retrieve
-      description: Return information about VCS repository status.
+      description: The project response summarizes all eligible repositories and lists
+        included and skipped components. A repository is included only when the caller
+        has VCS permission on its owning component.
+      summary: Return information about VCS repository status.
       parameters:
       - in: path
         name: slug
@@ -19139,7 +19696,10 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_projects_repository_create
-      description: Perform given operation on the VCS repository.
+      description: Process repositories whose owning components grant the requested
+        VCS permission and skip the others. The request is denied when no repository
+        is eligible.
+      summary: Perform given operation on the VCS repository.
       parameters:
       - in: path
         name: slug
@@ -19258,12 +19818,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -19305,10 +19859,22 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/projects/{slug}/statistics/:
     get:
       operationId: api_projects_statistics_retrieve
-      description: Return statistics for a project.
+      summary: Return statistics for a project.
       parameters:
       - in: path
         name: slug
@@ -19459,7 +20025,7 @@ paths:
   /api/reports/:
     get:
       operationId: api_reports_list
-      description: List stored reports accessible to the authenticated user.
+      summary: List stored reports accessible to the authenticated user.
       parameters:
       - in: query
         name: category
@@ -19629,7 +20195,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_reports_create
-      description: Schedule generation of a stored report.
+      description: The reports.view permission authorizes the complete selected scope.
+      summary: Schedule generation of a stored report.
       tags:
       - reports
       requestBody:
@@ -19769,7 +20336,7 @@ paths:
   /api/reports/{id}/:
     get:
       operationId: api_reports_retrieve
-      description: Return report metadata, stored data, and rendered format links.
+      summary: Return report metadata, stored data, and rendered format links.
       parameters:
       - in: path
         name: id
@@ -19903,7 +20470,7 @@ paths:
   /api/reports/{id}/html/:
     get:
       operationId: api_reports_html_retrieve
-      description: Download the report rendered as HTML.
+      summary: Download the report rendered as HTML.
       parameters:
       - in: path
         name: id
@@ -20037,7 +20604,7 @@ paths:
   /api/reports/{id}/json/:
     get:
       operationId: api_reports_json_retrieve
-      description: Download stored report data without report metadata.
+      summary: Download stored report data without report metadata.
       parameters:
       - in: path
         name: id
@@ -20175,7 +20742,7 @@ paths:
   /api/reports/{id}/rst/:
     get:
       operationId: api_reports_rst_retrieve
-      description: Download the report rendered as reStructuredText.
+      summary: Download the report rendered as reStructuredText.
       parameters:
       - in: path
         name: id
@@ -20309,7 +20876,7 @@ paths:
   /api/roles/:
     get:
       operationId: api_roles_list
-      description: Return a list of all roles associated with the user.
+      summary: Return a list of all roles associated with the user.
       parameters:
       - name: page
         required: false
@@ -20463,7 +21030,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_roles_create
-      description: Create a new role.
+      summary: Create a new role.
       tags:
       - roles
       requestBody:
@@ -20617,7 +21184,7 @@ paths:
   /api/roles/{id}/:
     get:
       operationId: api_roles_retrieve
-      description: Return information about a role.
+      summary: Return information about a role.
       parameters:
       - in: path
         name: id
@@ -20765,7 +21332,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_roles_update
-      description: Change the role parameters.
+      summary: Change the role parameters.
       parameters:
       - in: path
         name: id
@@ -20932,7 +21499,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_roles_partial_update
-      description: Change the role parameters.
+      summary: Change the role parameters.
       parameters:
       - in: path
         name: id
@@ -21098,7 +21665,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_roles_destroy
-      description: Delete a role.
+      summary: Delete a role.
       parameters:
       - in: path
         name: id
@@ -21236,10 +21803,11 @@ paths:
     get:
       operationId: api_schema_retrieve
       description: |-
-        OpenApi3 schema for this API. Format can be selected via content negotiation.
+        Format can be selected via content negotiation.
 
         - YAML: application/vnd.oai.openapi
         - JSON: application/vnd.oai.openapi+json
+      summary: OpenApi3 schema for this API.
       parameters:
       - in: query
         name: lang
@@ -21674,7 +22242,7 @@ paths:
   /api/screenshots/:
     get:
       operationId: api_screenshots_list
-      description: Return a list of screenshot string information.
+      summary: Return a list of screenshot string information.
       parameters:
       - name: page
         required: false
@@ -21828,7 +22396,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_screenshots_create
-      description: Create a new screenshot.
+      summary: Create a new screenshot.
       tags:
       - screenshots
       requestBody:
@@ -21982,7 +22550,7 @@ paths:
   /api/screenshots/{id}/:
     get:
       operationId: api_screenshots_retrieve
-      description: Return information about screenshot information.
+      summary: Return information about screenshot information.
       parameters:
       - in: path
         name: id
@@ -22130,7 +22698,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_screenshots_update
-      description: Edit full information about screenshot.
+      summary: Edit full information about screenshot.
       parameters:
       - in: path
         name: id
@@ -22297,7 +22865,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_screenshots_partial_update
-      description: Edit partial information about screenshot.
+      summary: Edit partial information about screenshot.
       parameters:
       - in: path
         name: id
@@ -22463,7 +23031,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_screenshots_destroy
-      description: Delete screenshot.
+      summary: Delete screenshot.
       parameters:
       - in: path
         name: id
@@ -22600,7 +23168,7 @@ paths:
   /api/screenshots/{id}/file/:
     get:
       operationId: api_screenshots_file_retrieve
-      description: Download the screenshot image.
+      summary: Download the screenshot image.
       parameters:
       - in: path
         name: id
@@ -22749,7 +23317,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_screenshots_file_create
-      description: Replace screenshot image.
+      summary: Replace screenshot image.
       parameters:
       - in: path
         name: id
@@ -22902,7 +23470,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_screenshots_file_update
-      description: Replace screenshot image.
+      summary: Replace screenshot image.
       parameters:
       - in: path
         name: id
@@ -23056,7 +23624,7 @@ paths:
   /api/screenshots/{id}/units/:
     post:
       operationId: api_screenshots_units_create
-      description: Associate source string with screenshot.
+      summary: Associate source string with screenshot.
       parameters:
       - in: path
         name: id
@@ -23224,7 +23792,7 @@ paths:
   /api/screenshots/{id}/units/{unit_id}/:
     delete:
       operationId: api_screenshots_units_destroy
-      description: Remove source string association with screenshot.
+      summary: Remove source string association with screenshot.
       parameters:
       - in: path
         name: id
@@ -23366,7 +23934,7 @@ paths:
   /api/search/:
     get:
       operationId: api_search_retrieve
-      description: Return site-wide search results as a list.
+      summary: Return site-wide search results as a list.
       parameters:
       - in: query
         name: q
@@ -23516,7 +24084,7 @@ paths:
   /api/suggestions/:
     get:
       operationId: api_suggestions_list
-      description: Return a list of suggestions.
+      summary: Return a list of suggestions.
       parameters:
       - name: page
         required: false
@@ -23671,7 +24239,7 @@ paths:
   /api/suggestions/{id}/:
     get:
       operationId: api_suggestions_retrieve
-      description: Return information about a suggestion.
+      summary: Return information about a suggestion.
       parameters:
       - in: path
         name: id
@@ -23819,7 +24387,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_suggestions_destroy
-      description: Delete a suggestion.
+      summary: Delete a suggestion.
       parameters:
       - in: path
         name: id
@@ -23956,7 +24524,7 @@ paths:
   /api/suggestions/{id}/accept/:
     post:
       operationId: api_suggestions_accept_create
-      description: Accept a suggestion.
+      summary: Accept a suggestion.
       parameters:
       - in: path
         name: id
@@ -24123,7 +24691,7 @@ paths:
   /api/suggestions/{id}/vote/:
     post:
       operationId: api_suggestions_vote_create
-      description: Vote on a suggestion.
+      summary: Vote on a suggestion.
       parameters:
       - in: path
         name: id
@@ -24291,7 +24859,7 @@ paths:
   /api/tasks/{id}/:
     get:
       operationId: api_tasks_retrieve
-      description: Return information about a task
+      summary: Return information about a task
       parameters:
       - in: path
         name: id
@@ -24424,7 +24992,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_tasks_destroy
-      description: Cancel a running task.
+      summary: Cancel a running task.
       parameters:
       - in: path
         name: id
@@ -24558,10 +25126,12 @@ paths:
                       detail: You do not have permission to perform this action.
                       attr: null
           description: The authenticated user does not have permission for this operation.
+        '409':
+          description: This task cannot be cancelled.
   /api/translations/:
     get:
       operationId: api_translations_list
-      description: Return a list of translations.
+      summary: Return a list of translations.
       parameters:
       - name: page
         required: false
@@ -24716,7 +25286,7 @@ paths:
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/:
     get:
       operationId: api_translations_retrieve
-      description: Return information about a translation.
+      summary: Return information about a translation.
       parameters:
       - in: path
         name: component__project__slug
@@ -24878,7 +25448,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_translations_destroy
-      description: Delete a translation.
+      summary: Delete a translation.
       parameters:
       - in: path
         name: component__project__slug
@@ -25029,7 +25599,7 @@ paths:
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/announcements/:
     get:
       operationId: api_translations_announcements_list
-      description: Return announcements.
+      summary: Return announcements.
       parameters:
       - in: path
         name: component__project__slug
@@ -25203,7 +25773,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_translations_announcements_create
-      description: Create an announcement.
+      summary: Create an announcement.
       parameters:
       - in: path
         name: component__project__slug
@@ -25378,7 +25948,7 @@ paths:
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/announcements/{announcement_id}/:
     delete:
       operationId: api_translations_announcements_destroy
-      description: Delete an announcement.
+      summary: Delete an announcement.
       parameters:
       - in: path
         name: announcement_id
@@ -25534,7 +26104,7 @@ paths:
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/autotranslate/:
     post:
       operationId: api_translations_autotranslate_create
-      description: Trigger automatic translation.
+      summary: Trigger automatic translation.
       parameters:
       - in: path
         name: component__project__slug
@@ -25562,7 +26132,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/AutoTranslateRequest'
         required: true
       security:
       - tokenAuth: []
@@ -25704,7 +26274,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/AutoTranslateResponse'
           description: Successful response.
           headers:
             X-RateLimit-Limit:
@@ -25716,7 +26286,7 @@ paths:
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/changes/:
     get:
       operationId: api_translations_changes_list
-      description: Return a list of translation changes.
+      summary: Return a list of translation changes.
       parameters:
       - in: path
         name: component__project__slug
@@ -25891,7 +26461,9 @@ paths:
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/file/:
     get:
       operationId: api_translations_file_retrieve
-      description: Download translation file.
+      description: Without format, return the file as stored in the repository. With
+        format, convert the file and optionally filter its strings using q.
+      summary: Download translation file.
       parameters:
       - in: path
         name: component__project__slug
@@ -25907,12 +26479,24 @@ paths:
           title: URL slug
           description: Name used in URLs and filenames.
         required: true
+      - in: query
+        name: format
+        schema:
+          type: string
+        description: Convert the stored translation file to this format. Without format,
+          return the file as stored in the repository.
       - in: path
         name: language__code
         schema:
           type: string
           title: Language code
         required: true
+      - in: query
+        name: q
+        schema:
+          type: string
+        description: Filter downloaded strings using a search query. Requires a conversion
+          format; otherwise a nonempty query is rejected.
       tags:
       - translations
       security:
@@ -26054,7 +26638,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_translations_file_create
-      description: Upload new file with translations.
+      summary: Upload new file with translations.
       parameters:
       - in: path
         name: component__project__slug
@@ -26221,7 +26805,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_translations_file_update
-      description: Upload new file with translations.
+      summary: Upload new file with translations.
       parameters:
       - in: path
         name: component__project__slug
@@ -26389,7 +26973,10 @@ paths:
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/repository/:
     get:
       operationId: api_translations_repository_retrieve
-      description: Return information about VCS repository status.
+      description: Requires VCS permission on the owning component, even when this
+        translation is accessed through a linked component. Language-limited permission
+        is insufficient.
+      summary: Return information about VCS repository status.
       parameters:
       - in: path
         name: component__project__slug
@@ -26551,7 +27138,10 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_translations_repository_create
-      description: Perform given operation on the VCS repository.
+      description: Requires the requested VCS permission on the owning component,
+        even when accessed through a linked component. Language-limited permission
+        is insufficient.
+      summary: Perform given operation on the VCS repository.
       parameters:
       - in: path
         name: component__project__slug
@@ -26683,12 +27273,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -26730,10 +27314,22 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/statistics/:
     get:
       operationId: api_translations_statistics_retrieve
-      description: Return detailed translation statistics.
+      summary: Return detailed translation statistics.
       parameters:
       - in: path
         name: component__project__slug
@@ -26897,7 +27493,7 @@ paths:
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/units/:
     get:
       operationId: api_translations_units_list
-      description: Return a list of translation units.
+      summary: Return a list of translation units.
       parameters:
       - in: path
         name: component__project__slug
@@ -27071,7 +27667,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_translations_units_create
-      description: Add a new unit.
+      summary: Add a new unit.
       parameters:
       - in: path
         name: component__project__slug
@@ -27252,7 +27848,7 @@ paths:
   /api/units/:
     get:
       operationId: api_units_list
-      description: Return a list of translation units.
+      summary: Return a list of translation units.
       parameters:
       - name: page
         required: false
@@ -27407,7 +28003,7 @@ paths:
   /api/units/{id}/:
     get:
       operationId: api_units_retrieve
-      description: Return information about translation unit.
+      summary: Return information about translation unit.
       parameters:
       - in: path
         name: id
@@ -27555,7 +28151,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_units_update
-      description: Perform full update on translation unit.
+      summary: Perform full update on translation unit.
       parameters:
       - in: path
         name: id
@@ -27722,7 +28318,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_units_partial_update
-      description: Perform partial update on translation unit.
+      summary: Perform partial update on translation unit.
       parameters:
       - in: path
         name: id
@@ -27888,7 +28484,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_units_destroy
-      description: Delete a translation unit.
+      summary: Delete a translation unit.
       parameters:
       - in: path
         name: id
@@ -28025,7 +28621,7 @@ paths:
   /api/units/{id}/comments/:
     get:
       operationId: api_units_comments_list
-      description: Return a list of comments on the unit.
+      summary: Return a list of comments on the unit.
       parameters:
       - in: path
         name: id
@@ -28185,7 +28781,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_units_comments_create
-      description: Add a comment to the unit.
+      summary: Add a comment to the unit.
       parameters:
       - in: path
         name: id
@@ -28341,7 +28937,175 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnitWrite'
+                $ref: '#/components/schemas/Comment'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+  /api/units/{id}/source/:
+    post:
+      operationId: api_units_source_create
+      summary: Edit the source string associated with a unit.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this string.
+        required: true
+      tags:
+      - units
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnitSource'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: The authenticated user does not have permission for this operation.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Unit'
           description: Successful response.
           headers:
             X-RateLimit-Limit:
@@ -28353,7 +29117,7 @@ paths:
   /api/units/{id}/suggestions/:
     get:
       operationId: api_units_suggestions_list
-      description: Return a list of suggestions on the unit.
+      summary: Return a list of suggestions on the unit.
       parameters:
       - in: path
         name: id
@@ -28513,7 +29277,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_units_suggestions_create
-      description: Add a suggestion to the unit.
+      summary: Add a suggestion to the unit.
       parameters:
       - in: path
         name: id
@@ -28687,7 +29451,7 @@ paths:
   /api/units/{id}/translations/:
     get:
       operationId: api_units_translations_retrieve
-      description: Units API.
+      summary: List target translation units for the given source unit.
       parameters:
       - in: path
         name: id
@@ -28836,11 +29600,17 @@ paths:
   /api/users/:
     get:
       operationId: api_users_list
-      description: |-
-        List of users if you have permissions to see manage users.
-
-        Without a permission you get to see only your own details.
+      description: Users with user.view or user.edit permission can see all users
+        and filter by email; other users see only themselves and cannot filter by
+        email.
+      summary: List users.
       parameters:
+      - in: query
+        name: email
+        schema:
+          type: string
+        description: Filter by exact email address, ignoring case. Requires user.view
+          or user.edit permission; ignored otherwise.
       - in: query
         name: id
         schema:
@@ -28861,6 +29631,11 @@ paths:
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: unit
+        schema:
+          type: integer
+        description: Rank contributors to the given unit first.
       - in: query
         name: username
         schema:
@@ -29005,7 +29780,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_users_create
-      description: Create a new user.
+      summary: Create a new user.
       tags:
       - users
       requestBody:
@@ -29159,7 +29934,7 @@ paths:
   /api/users/{username}/:
     get:
       operationId: api_users_retrieve
-      description: Return information about users.
+      summary: Return information about users.
       parameters:
       - in: path
         name: username
@@ -29308,7 +30083,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_users_update
-      description: Change the user parameters.
+      summary: Change the user parameters.
       parameters:
       - in: path
         name: username
@@ -29476,7 +30251,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_users_partial_update
-      description: Change the user parameters.
+      summary: Change the user parameters.
       parameters:
       - in: path
         name: username
@@ -29643,7 +30418,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_users_destroy
-      description: Delete all user information and mark the user inactive.
+      summary: Delete all user information and mark the user inactive.
       parameters:
       - in: path
         name: username
@@ -29781,7 +30556,7 @@ paths:
   /api/users/{username}/contributions/:
     get:
       operationId: api_users_contributions_list
-      description: List translation contributions of a user.
+      summary: List translation contributions of a user.
       parameters:
       - in: query
         name: id
@@ -29956,7 +30731,7 @@ paths:
   /api/users/{username}/groups/:
     post:
       operationId: api_users_groups_create
-      description: Associate groups with a user.
+      summary: Associate groups with a user.
       parameters:
       - in: path
         name: username
@@ -30124,7 +30899,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_users_groups_destroy
-      description: Remove a user from a group.
+      summary: Remove a user from a group.
       parameters:
       - in: path
         name: username
@@ -30282,7 +31057,7 @@ paths:
   /api/users/{username}/notifications/:
     get:
       operationId: api_users_notifications_list
-      description: List subscriptions of a user.
+      summary: List subscriptions of a user.
       parameters:
       - in: query
         name: id
@@ -30455,7 +31230,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_users_notifications_create
-      description: Associate subscriptions with a user.
+      summary: Associate subscriptions with a user.
       parameters:
       - in: query
         name: id
@@ -30648,7 +31423,7 @@ paths:
   /api/users/{username}/notifications/{subscription_id}/:
     get:
       operationId: api_users_notifications_retrieve
-      description: Get a subscription associated with a user.
+      summary: Get a subscription associated with a user.
       parameters:
       - in: path
         name: subscription_id
@@ -30802,7 +31577,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     put:
       operationId: api_users_notifications_update
-      description: Edit a subscription associated with a user.
+      summary: Edit a subscription associated with a user.
       parameters:
       - in: path
         name: subscription_id
@@ -30975,7 +31750,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     patch:
       operationId: api_users_notifications_partial_update
-      description: Edit a subscription associated with a user.
+      summary: Edit a subscription associated with a user.
       parameters:
       - in: path
         name: subscription_id
@@ -31147,7 +31922,7 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_users_notifications_destroy
-      description: Delete a subscription associated with a user.
+      summary: Delete a subscription associated with a user.
       parameters:
       - in: path
         name: subscription_id
@@ -31290,7 +32065,7 @@ paths:
   /api/users/{username}/statistics/:
     get:
       operationId: api_users_statistics_retrieve
-      description: List statistics of a user.
+      summary: List statistics of a user.
       parameters:
       - in: path
         name: username
@@ -31441,7 +32216,7 @@ paths:
   /hooks/{service}/:
     post:
       operationId: hooks_incoming
-      description: Process incoming webhook from a code-hosting site.
+      summary: Process incoming webhook from a code-hosting site.
       parameters:
       - in: path
         name: service
@@ -31797,7 +32572,25 @@ components:
           type: string
           format: uri
           readOnly: true
+        api_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Current API name declared by the enabled, compatible provider.
+            Null when no API is available.
+          pattern: ^[-a-zA-Z0-9_]+$
+        api_url:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Component-mounted API base URL, including any encoded category
+            path. Null when the provider is disabled, incompatible, or does not declare
+            an API.
       required:
+      - api_name
+      - api_url
       - component
       - id
       - name
@@ -31918,6 +32711,88 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    AutoSourceEnum:
+      enum:
+      - others
+      - mt
+      type: string
+      description: |-
+        * `others` - Other translation components
+        * `mt` - Machine translation
+    AutoTranslateRequest:
+      type: object
+      description: Request body for the autotranslate action.
+      properties:
+        mode:
+          allOf:
+          - $ref: '#/components/schemas/ModeEnum'
+          title: Automatic translation mode
+        q:
+          type: string
+          title: Query
+          description: Please note that translating all strings will discard all existing
+            translations.
+        auto_source:
+          allOf:
+          - $ref: '#/components/schemas/AutoSourceEnum'
+          title: Source of automated translations
+        component:
+          type: string
+          description: Enter a source component ID. With 30 or more eligible source
+            components, a project/component path is also accepted. In that case, component
+            and project operations also accept a component slug from the target project.
+            Leave blank to use eligible components from each target component's project.
+        engines:
+          type: array
+          items:
+            type: string
+          title: Machine translation engines
+        threshold:
+          type: integer
+          maximum: 100
+          minimum: 1
+          title: Score threshold
+      required:
+      - auto_source
+      - mode
+      - q
+      - threshold
+    AutoTranslateResponse:
+      type: object
+      description: Response body for the autotranslate action.
+      properties:
+        details:
+          type: string
+      required:
+      - details
+    AutomationPreviewRequest:
+      type: object
+      properties:
+        workflow: {}
+        component:
+          type: integer
+          minimum: 1
+        change:
+          type: integer
+          minimum: 1
+      required:
+      - component
+      - workflow
+    AutomationPreviewResponse:
+      type: object
+      properties:
+        workflow: {}
+        context: {}
+        trace:
+          type: array
+          items: {}
+        preview:
+          type: boolean
+      required:
+      - context
+      - preview
+      - trace
+      - workflow
     Backup:
       type: object
       properties:
@@ -31995,6 +32870,97 @@ components:
           type: boolean
       required:
       - result
+    BuildConflict:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: The package and version have a different resource mapping,
+            or the add-on has reached its limit of 1000 registration records. Retry
+            new registrations after retired records are cleaned up. Identical retries
+            remain accepted.
+      required:
+      - detail
+    BuildMetadata:
+      type: object
+      properties:
+        schemaVersion:
+          type: integer
+          maximum: 1
+          minimum: 1
+          default: 1
+          description: Metadata format version. Only version 1 is supported.
+        packageName:
+          type: string
+          description: Android application package name from the final installed build.
+            Leading or trailing whitespace is rejected.
+          maxLength: 127
+          pattern: ^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)+$
+        versionCode:
+          type: integer
+          maximum: 2100000000
+          minimum: 1
+          description: Android version code. Together with packageName, identifies
+            an immutable resource mapping.
+        strings:
+          type: object
+          additionalProperties:
+            type: string
+            pattern: ^0x[0-9a-fA-F]{8}$
+          description: 'String resource names mapped to final resource IDs, for example
+            {"welcome": "0x7f090003"}. Defaults to an empty object. Translated values
+            come from Weblate.'
+        plurals:
+          type: object
+          additionalProperties:
+            type: string
+            pattern: ^0x[0-9a-fA-F]{8}$
+          description: 'Plural resource names mapped to final resource IDs, for example
+            {"count": "0x7f080004"}. Defaults to an empty object. Quantities and translated
+            values come from Weblate, not this mapping.'
+      required:
+      - packageName
+      - versionCode
+    BuildStatus:
+      type: object
+      properties:
+        packageName:
+          type: string
+          description: Registered Android application package name.
+        versionCode:
+          type: integer
+          description: Registered Android version code.
+        status:
+          type: string
+          description: 'Publication state: pending, published, failed, or retired.
+            A failed replacement can still have a previous successful manifest. Retired
+            versions do not reactivate on repeat uploads.'
+        error:
+          type: string
+          description: Publication error details, or an empty string when there is
+            no error.
+        manifest_url:
+          type: string
+          format: uri
+          description: Public CDN manifest URL. Publication is asynchronous, so this
+            URL may initially return 404. Retired manifests are removed. The JSON
+            manifest contains schemaVersion (1), packageName, versionCode, and locales
+            keyed by Weblate language code. Each locale contains url (relative to
+            this manifest URL), sha256, and size (bytes) for an immutable ARSC artifact.
+            Revalidate manifests, verify artifact size and hash, and preserve bundled
+            resources on download failure.
+        status_url:
+          type: string
+          format: uri
+          description: Authenticated GET endpoint for polling this registration's
+            publication state.
+      required:
+      - error
+      - manifest_url
+      - packageName
+      - status
+      - status_url
+      - versionCode
     Category:
       type: object
       properties:
@@ -32497,6 +33463,8 @@ components:
           description: Version control system to use to access your repository containing
             translations. You can also choose additional integration with third party
             providers to submit pull/merge requests.
+        vcs_params:
+          title: Version control parameters
         repo:
           type: string
           maxLength: 300
@@ -32792,9 +33760,9 @@ components:
         manage_units:
           type: boolean
           title: Manage strings
-          description: Enables adding and removing strings straight from Weblate.
-            If your strings are extracted from the source code or managed externally
-            you probably want to keep it disabled.
+          description: Enables adding, removing, and editing source strings and keys
+            in Weblate. If your strings are extracted from the source code or managed
+            externally you probably want to keep it disabled.
         enable_suggestions:
           type: boolean
           title: Turn on suggestions
@@ -33594,7 +34562,6 @@ components:
       - nextcloud-json
       - odf
       - php
-      - plainxliff
       - po
       - po-mono
       - poxliff
@@ -33618,7 +34585,6 @@ components:
       - wxl
       - xliff
       - xliff2
-      - xliff2-placeables
       - xlsx
       - xwiki-fullpage
       - xwiki-java-properties
@@ -33665,7 +34631,6 @@ components:
         * `nextcloud-json` - Nextcloud JSON file
         * `odf` - OpenDocument file
         * `php` - PHP strings
-        * `plainxliff` - XLIFF 1.2 translation file
         * `po` - gettext PO file
         * `po-mono` - gettext PO file (monolingual)
         * `poxliff` - XLIFF 1.2 with gettext extensions
@@ -33687,9 +34652,8 @@ components:
         * `txt` - Plain text file
         * `webextension` - WebExtension JSON file
         * `wxl` - WixLocalization file
-        * `xliff` - XLIFF 1.2 with placeables support
+        * `xliff` - XLIFF 1.2 translation file
         * `xliff2` - XLIFF 2.0 translation file
-        * `xliff2-placeables` - XLIFF 2.0 translation file with placeables support
         * `xlsx` - Excel Open XML
         * `xwiki-fullpage` - XWiki Full Page
         * `xwiki-java-properties` - XWiki Java Properties
@@ -34418,6 +35382,18 @@ components:
       - units
       - units_translated
       - users
+    ModeEnum:
+      enum:
+      - suggest
+      - translate
+      - fuzzy
+      - approved
+      type: string
+      description: |-
+        * `suggest` - Add as suggestion
+        * `translate` - Add as translation
+        * `fuzzy` - Add as "Needing edit"
+        * `approved` - Add as approved translation
     MonolingualUnit:
       type: object
       properties:
@@ -34437,15 +35413,17 @@ components:
       - contact
       - url
       - add
+      - existing
       - none
       type: string
       description: |-
         * `contact` - Contact maintainers
         * `url` - Point to translation instructions URL
         * `add` - Create new language file
+        * `existing` - Create existing project languages; contact maintainers for new languages
         * `none` - Disable adding new translations
     NewUnitRequest:
-      oneOf:
+      anyOf:
       - $ref: '#/components/schemas/MonolingualUnit'
       - $ref: '#/components/schemas/BilingualUnit'
       - $ref: '#/components/schemas/BilingualSourceUnit'
@@ -34484,12 +35462,16 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         project:
-          allOf:
-          - $ref: '#/components/schemas/Project'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
         component:
-          allOf:
-          - $ref: '#/components/schemas/Component'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
       required:
       - component
@@ -35114,6 +36096,22 @@ components:
           type: string
           format: uri
           readOnly: true
+        api_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Current API name declared by the enabled, compatible provider.
+            Null when no API is available.
+          pattern: ^[-a-zA-Z0-9_]+$
+        api_url:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Component-mounted API base URL, including any encoded category
+            path. Null when the provider is disabled, incompatible, or does not declare
+            an API.
     PatchedCategory:
       type: object
       properties:
@@ -35342,6 +36340,8 @@ components:
           description: Version control system to use to access your repository containing
             translations. You can also choose additional integration with third party
             providers to submit pull/merge requests.
+        vcs_params:
+          title: Version control parameters
         repo:
           type: string
           maxLength: 300
@@ -35637,9 +36637,9 @@ components:
         manage_units:
           type: boolean
           title: Manage strings
-          description: Enables adding and removing strings straight from Weblate.
-            If your strings are extracted from the source code or managed externally
-            you probably want to keep it disabled.
+          description: Enables adding, removing, and editing source strings and keys
+            in Weblate. If your strings are extracted from the source code or managed
+            externally you probably want to keep it disabled.
         enable_suggestions:
           type: boolean
           title: Turn on suggestions
@@ -35911,12 +36911,16 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         project:
-          allOf:
-          - $ref: '#/components/schemas/Project'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
         component:
-          allOf:
-          - $ref: '#/components/schemas/Component'
+          type:
+          - string
+          - 'null'
+          format: uri
           readOnly: true
     PatchedProject:
       type: object
@@ -36034,6 +37038,10 @@ components:
           description: How to restrict access to this project is detailed in the documentation.
           minimum: -2147483648
           maximum: 2147483647
+        public_sharing:
+          type: boolean
+          description: Allows anonymous access to the engage pages and status widgets
+            for Private and Custom projects.
         use_shared_tm:
           type: boolean
           title: Use shared translation memory
@@ -36276,7 +37284,7 @@ components:
           additionalProperties: {}
     PatchedUnitWrite:
       type: object
-      description: Serializer for updating source unit.
+      description: Serializer for updating a unit and its flags.
       properties:
         target:
           type: array
@@ -36468,6 +37476,8 @@ components:
           title: Visible columns in lists
           description: Choose which statistics columns are shown in project, component,
             and language lists.
+          uniqueItems: true
+          maxItems: 8
         editor_link:
           type: string
           description: Enter a custom URL to be used as link to the source code. You
@@ -36519,7 +37529,6 @@ components:
         dashboard_component_list:
           type:
           - string
-          - 'null'
           - 'null'
           format: uri
           readOnly: true
@@ -36608,14 +37617,14 @@ components:
           type: string
           maxLength: 100
         public_email:
-          oneOf:
+          anyOf:
           - type: string
             format: email
           - type: string
             enum:
             - ''
         commit_email:
-          oneOf:
+          anyOf:
           - type: string
             format: email
           - type: string
@@ -36685,6 +37694,8 @@ components:
           title: Visible columns in lists
           description: Choose which statistics columns are shown in project, component,
             and language lists.
+          uniqueItems: true
+          maxItems: 8
         editor_link:
           type: string
           description: Enter a custom URL to be used as link to the source code. You
@@ -36824,14 +37835,14 @@ components:
           type: string
           maxLength: 100
         public_email:
-          oneOf:
+          anyOf:
           - type: string
             format: email
           - type: string
             enum:
             - ''
         commit_email:
-          oneOf:
+          anyOf:
           - type: string
             format: email
           - type: string
@@ -36955,6 +37966,10 @@ components:
           description: How to restrict access to this project is detailed in the documentation.
           minimum: -2147483648
           maximum: 2147483647
+        public_sharing:
+          type: boolean
+          description: Allows anonymous access to the engage pages and status widgets
+            for Private and Custom projects.
         use_shared_tm:
           type: boolean
           title: Use shared translation memory
@@ -37195,6 +38210,8 @@ components:
           description: Version control system to use to access your repository containing
             translations. You can also choose additional integration with third party
             providers to submit pull/merge requests.
+        vcs_params:
+          title: Version control parameters
         repo:
           type: string
           maxLength: 300
@@ -37490,9 +38507,9 @@ components:
         manage_units:
           type: boolean
           title: Manage strings
-          description: Enables adding and removing strings straight from Weblate.
-            If your strings are extracted from the source code or managed externally
-            you probably want to keep it disabled.
+          description: Enables adding, removing, and editing source strings and keys
+            in Weblate. If your strings are extracted from the source code or managed
+            externally you probably want to keep it disabled.
         enable_suggestions:
           type: boolean
           title: Turn on suggestions
@@ -37649,10 +38666,9 @@ components:
       - locked
     ProjectMachinerySettings:
       type: object
-      properties:
-        service_name:
-          type: object
-          additionalProperties: {}
+      additionalProperties:
+        type: object
+        additionalProperties: {}
     ProjectSelectionEnum:
       enum:
       - 0
@@ -37672,6 +38688,9 @@ components:
       properties:
         operation:
           $ref: '#/components/schemas/OperationEnum'
+        background:
+          type: boolean
+          default: false
       required:
       - operation
     Report:
@@ -37933,6 +38952,21 @@ components:
         needs_push:
           type: boolean
           description: Whether the repository has commits that need to be pushed.
+        included_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components included in the status.
+        skipped_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components skipped from the status.
+        permission_blockers:
+          type: array
+          items:
+            type: string
+          description: Full paths of components preventing access to skipped repositories.
         url:
           type: string
           description: URL to the repository API endpoint.
@@ -37987,8 +39021,28 @@ components:
           type: boolean
         detail:
           type: string
-      required:
-      - result
+        included_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components included in the operation.
+        skipped_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components skipped by the operation.
+        permission_blockers:
+          type: array
+          items:
+            type: string
+          description: Full paths of components preventing access to skipped repositories.
+        task_url:
+          type: string
+          format: uri
+    RepositoryOperationConflict:
+      oneOf:
+      - $ref: '#/components/schemas/RepositoryOperation'
+      - $ref: '#/components/schemas/ErrorResponse423'
     ResultEnum:
       enum:
       - voted
@@ -38467,12 +39521,14 @@ components:
             items: {}
           - type: string
           - type: number
-          - type: integer
           - type: boolean
           - type: 'null'
         log:
           type: string
+        cancellable:
+          type: boolean
       required:
+      - cancellable
       - completed
       - log
       - progress
@@ -38658,6 +39714,10 @@ components:
     Unit:
       type: object
       properties:
+        tbx_terms:
+          type: object
+          additionalProperties: {}
+          readOnly: true
         translation:
           type: string
           format: uri
@@ -38782,14 +39842,30 @@ components:
       - source
       - source_unit
       - target
+      - tbx_terms
       - timestamp
       - translated
       - translation
       - url
       - web_url
+    UnitSource:
+      type: object
+      properties:
+        content_hash:
+          type: integer
+        source:
+          type: array
+          items:
+            type: string
+        context:
+          type: string
+        explanation:
+          type: string
+      required:
+      - content_hash
     UnitWrite:
       type: object
-      description: Serializer for updating source unit.
+      description: Serializer for updating a unit and its flags.
       properties:
         target:
           type: array
@@ -38817,6 +39893,9 @@ components:
     UploadRequest:
       type: object
       properties:
+        ignore_language:
+          type: boolean
+          default: false
         file:
           type: string
           format: uri
@@ -38876,7 +39955,7 @@ components:
       required:
       - group_id
     UserResponse:
-      oneOf:
+      anyOf:
       - $ref: '#/components/schemas/BasicUser'
       - $ref: '#/components/schemas/FullUser'
     UserStatistics:
@@ -39002,7 +40081,6 @@ components:
       - bitbucketserver
       - gerrit
       - git
-      - git-force-push
       - gitea
       - github
       - github-app
@@ -39018,7 +40096,6 @@ components:
         * `bitbucketserver` - Bitbucket Data Center pull request
         * `gerrit` - Gerrit
         * `git` - Git
-        * `git-force-push` - Git with force push
         * `gitea` - Gitea pull request
         * `github` - GitHub pull request
         * `github-app` - GitHub (via Weblate GitHub app)
@@ -39080,53 +40157,57 @@ servers:
 - url: 'http:'
   description: Weblate
 tags:
-- name: root
-  description: The API root entry point.
 - name: users
-  description: Added in version 4.0.
+  description: User accounts, profiles, and related data.
 - name: groups
-  description: Added in version 4.0.
+  description: Teams and their access permissions.
 - name: roles
+  description: Permission roles available to teams.
 - name: languages
+  description: Languages available for translation.
 - name: projects
+  description: Translation projects and their configuration.
 - name: components
+  description: Translation components, their files, and repository operations.
 - name: translations
+  description: Translations of components into individual languages.
 - name: memory
-  description: Added in version 4.14.
+  description: Translation memory entries and matches.
 - name: units
   description: A unit is a single piece of a translation which pairs a source string
     with a corresponding translated string and also contains some related metadata.
     The term is derived from the Translate Toolkit and XLIFF.
 - name: changes
+  description: Recorded changes to translations and other objects.
 - name: screenshots
+  description: Screenshots and their associations with source strings.
 - name: addons
-  description: Added in version 4.4.1.
+  description: Installed add-ons and their configuration.
 - name: component-lists
-  description: Added in version 4.0.
-- name: glossary
-  description: '**Changed in version 4.5:** Glossaries are now stored as regular components,
-    translations and strings, please use respective API instead.'
+  description: Lists of translation components.
 - name: tasks
-  description: |-
-    Added in version 4.4.
-
-    Listing of the tasks is currently not available.
+  description: Background task status and cancellation. Listing tasks is not available.
 - name: statistics
   description: Many endpoints support displaying statistics for their objects.
 - name: metrics
+  description: Translation metrics in CSV and OpenMetrics formats.
 - name: search
-  description: Added in version 4.18.
+  description: Search across projects, components, languages, and users.
 - name: categories
+  description: Categories that group translation components.
+- name: contributions
+  description: Contributions made by a user.
+- name: reports
+  description: Stored reports and report generation.
+- name: schema
+  description: The OpenAPI schema for this API.
+- name: suggestions
+  description: Suggestions for translating strings.
 - name: hooks
   description: |-
     Notification hooks allow external applications to notify Weblate that the VCS repository has been updated.
 
     You can use repository endpoints for projects, components and translations to update individual repositories.
-- name: exports
-  description: Weblate provides various exports to allow you to further process the
-    data.
-- name: rssFeeds
-  description: Changes in translations are exported in RSS feeds.
 - name: webhooks
   description: Notifications sent by Weblate.
 externalDocs:
@@ -39135,8 +40216,9 @@ externalDocs:
 webhooks:
   AddonWebhook:
     post:
+      operationId: addon_webhook_event
+      summary: A webhook event for an add-on
       description: Pushes events to a notification URL.
-      summary: A Webhook event for an addon
       tags:
       - webhooks
       - addons
@@ -39221,69 +40303,12 @@ webhooks:
                   title: Translation context or key for monolingual formats
                   type: string
             examples:
-              AuthenticationFailed:
+              TranslationChanged:
+                summary: Translation changed
                 value:
-                  type: client_error
-                  errors:
-                  - code: authentication_failed
-                    detail: Incorrect authentication credentials.
-                    attr: null
-              NotAuthenticated:
-                value:
-                  type: client_error
-                  errors:
-                  - code: not_authenticated
-                    detail: Authentication credentials were not provided.
-                    attr: null
-              PermissionDenied:
-                value:
-                  type: client_error
-                  errors:
-                  - code: permission_denied
-                    detail: You do not have permission to perform this action.
-                    attr: null
-              NotFound:
-                value:
-                  type: client_error
-                  errors:
-                  - code: not_found
-                    detail: Not found.
-                    attr: null
-              MethodNotAllowed:
-                value:
-                  type: client_error
-                  errors:
-                  - code: method_not_allowed
-                    detail: Method "get" not allowed.
-                    attr: null
-              NotAcceptable:
-                value:
-                  type: client_error
-                  errors:
-                  - code: not_acceptable
-                    detail: Could not satisfy the request Accept header.
-                    attr: null
-              UnsupportedMediaType:
-                value:
-                  type: client_error
-                  errors:
-                  - code: unsupported_media_type
-                    detail: Unsupported media type "application/json" in request.
-                    attr: null
-              Throttled:
-                value:
-                  type: client_error
-                  errors:
-                  - code: throttled
-                    detail: Request was throttled.
-                    attr: null
-              APIException:
-                value:
-                  type: server_error
-                  errors:
-                  - code: error
-                    detail: A server error occurred.
-                    attr: null
+                  change_id: 123
+                  action: Translation changed
+                  timestamp: '2026-01-01T00:00:00Z'
       responses:
         2XX:
           description: No response body

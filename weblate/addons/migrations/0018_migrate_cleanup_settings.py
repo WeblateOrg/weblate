@@ -6,14 +6,20 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.db import migrations
 
 from weblate.addons.events import AddonEvent
 
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
 
 def migrate_cleanup_setting(
-    apps, name: str, configuration: dict[str, int | None]
+    apps: StateApps, name: str, configuration: dict[str, int | None]
 ) -> None:
     Addon = apps.get_model("addons", "Addon")
     Event = apps.get_model("addons", "Event")
@@ -34,7 +40,9 @@ def migrate_cleanup_setting(
         Event.objects.get_or_create(addon=addon, event=int(AddonEvent.EVENT_DAILY))
 
 
-def migrate_cleanup_settings(apps, _schema_editor) -> None:
+def migrate_cleanup_settings(
+    apps: StateApps, _schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     comment_cleanup_days = getattr(settings, "COMMENT_CLEANUP_DAYS", None)
     if comment_cleanup_days and comment_cleanup_days > 0:
         migrate_cleanup_setting(

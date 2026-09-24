@@ -4,6 +4,8 @@
 
 """Tests for data exports."""
 
+from __future__ import annotations
+
 import json
 import os
 import tempfile
@@ -12,6 +14,7 @@ from contextlib import contextmanager, suppress
 from io import StringIO
 from pathlib import Path
 from shutil import copyfile
+from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
@@ -37,6 +40,7 @@ from weblate.trans.backups import (
     COMPONENT_BACKUP_FIELDS,
     PROJECT_BACKUP_FIELDS,
     ProjectBackup,
+    backup_uses_xliff_format_params,
     get_project_backup_download_storage,
     get_project_backup_download_url,
     list_backups,
@@ -70,6 +74,11 @@ from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import Workspace
 
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+    from unittest.mock import Mock
+
+
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 TEST_BACKUP = get_test_file("projectbackup-4.14.zip")
 TEST_BACKUP_DUPLICATE = get_test_file("projectbackup-duplicate.zip")
@@ -77,7 +86,7 @@ TEST_BACKUP_DUPLICATE_FILES = get_test_file("projectbackup-duplicate-files.zip")
 
 
 @contextmanager
-def remove_file_after(filename: str):
+def remove_file_after(filename: str) -> Iterator[None]:
     try:
         yield
     finally:
@@ -141,6 +150,48 @@ class BackupSettingCoverageTest(SimpleTestCase):
                 self.assertLessEqual(set(form._meta.fields), backup_fields)
                 self.assertLessEqual(backup_fields, schema_fields)
 
+    def test_migrate_component_file_format_params_xliff_version_gate(self) -> None:
+        cases = (
+            (
+                "2026.9",
+                "xliff2",
+                {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+            ),
+            (
+                "2026.9.1",
+                "xliff2",
+                {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+            ),
+            ("2026.10.dev0", "xliff2", {}),
+            (
+                "2026.10.dev0",
+                "plainxliff",
+                {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+            ),
+        )
+        for backup_version, file_format, expected_params in cases:
+            with self.subTest(backup_version=backup_version, file_format=file_format):
+                component = {
+                    "file_format": file_format,
+                    "file_format_params": {},
+                }
+                ProjectBackup.migrate_component_file_format_params(
+                    component,
+                    backup_version=backup_version,
+                )
+                expected_format = (
+                    "xliff" if file_format == "plainxliff" else file_format
+                )
+                self.assertEqual(component["file_format"], expected_format)
+                self.assertEqual(component["file_format_params"], expected_params)
+
+    def test_backup_uses_xliff_format_params(self) -> None:
+        self.assertFalse(backup_uses_xliff_format_params(None))
+        self.assertFalse(backup_uses_xliff_format_params("2026.9"))
+        self.assertFalse(backup_uses_xliff_format_params("2026.9.1"))
+        self.assertTrue(backup_uses_xliff_format_params("2026.10.dev0"))
+        self.assertTrue(backup_uses_xliff_format_params("2026.10"))
+
 
 class BackupsTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
@@ -165,13 +216,16 @@ class BackupsTest(ViewTestCase):
         push: str | None = None,
         translation_updates: dict | None = None,
         unit_updates: dict | None = None,
+        component_removals: tuple[str, ...] = (),
         all_components: bool = False,
+        component_slug: str | None = None,
     ) -> str:
         backup = ProjectBackup()
         backup.backup_project(self.project)
 
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
+        slug = component_slug or self.component.slug
 
         with (
             ZipFile(backup.filename, "r") as source_zip,
@@ -182,16 +236,12 @@ class BackupsTest(ViewTestCase):
                     repo is not None
                     and repo.startswith("weblate:")
                     and item.filename.startswith("vcs/")
-                    and (
-                        all_components
-                        or item.filename.startswith(f"vcs/{self.component.slug}/")
-                    )
+                    and (all_components or item.filename.startswith(f"vcs/{slug}/"))
                 ):
                     continue
                 data = source_zip.read(item.filename)
                 if item.filename.startswith("components/") and (
-                    all_components
-                    or item.filename.endswith(f"{self.component.slug}.json")
+                    all_components or item.filename.endswith(f"{slug}.json")
                 ):
                     component_data = json.loads(data.decode("utf-8"))
                     if repo is not None:
@@ -200,6 +250,8 @@ class BackupsTest(ViewTestCase):
                         component_data["component"]["push"] = push
                     if component_updates is not None:
                         component_data["component"].update(component_updates)
+                    for field in component_removals:
+                        component_data["component"].pop(field, None)
                     if translation_updates is not None:
                         component_data["translations"][0].update(translation_updates)
                     if unit_updates is not None:
@@ -229,6 +281,138 @@ class BackupsTest(ViewTestCase):
                 target_zip.writestr(item, data)
 
         return temp_name
+
+    def test_backup_restore_vcs_params(self) -> None:
+        self.component.vcs_params = {"git_force_push": True}
+        self.component.save(update_fields=["vcs_params"])
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_data = json.loads(
+                zipfile.read(f"components/{self.component.slug}.json")
+            )
+        self.assertEqual(
+            component_data["component"]["vcs_params"], {"git_force_push": True}
+        )
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored VCS parameters",
+            project_slug="restored-vcs-parameters",
+            user=self.user,
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_restore_backup_without_vcs_params(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            component_removals=("vcs_params",), all_components=True
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored legacy backup",
+                project_slug="restored-legacy-backup",
+                user=self.user,
+            )
+
+        self.assertEqual(
+            restored.component_set.get(slug=self.component.slug).vcs_params, {}
+        )
+
+    def test_restore_legacy_force_push_vcs(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            component_updates={"vcs": "git-force-push"},
+            component_removals=("vcs_params",),
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored legacy force push",
+                project_slug="restored-legacy-force-push",
+                user=self.user,
+            )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(restored_component.vcs, "git")
+        self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_restore_legacy_file_format(self) -> None:
+        java = self.create_java(project=self.project, name="Java")
+        xliff = self.create_xliff_mono(project=self.project, name="XLIFF")
+
+        cases = (
+            (
+                java.slug,
+                "properties-utf8",
+                "properties",
+                "properties_encoding",
+                "utf-8",
+            ),
+            (xliff.slug, "plainxliff", "xliff", "xliff_placeables", "plain"),
+        )
+        for slug, old_format, new_format, param_name, param_value in cases:
+            with self.subTest(old_format=old_format):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={"file_format": old_format},
+                    component_removals=("file_format_params",),
+                    component_slug=slug,
+                )
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    restore.validate()
+                    restored = restore.restore(
+                        project_name=f"Restored {old_format}",
+                        project_slug=f"restored-{old_format}",
+                        user=self.user,
+                    )
+
+                restored_component = restored.component_set.get(slug=slug)
+                self.assertEqual(restored_component.file_format, new_format)
+                self.assertEqual(
+                    restored_component.file_format_params[param_name], param_value
+                )
+
+    def test_restore_legacy_json_sort_keys(self) -> None:
+        component = self.create_json_mono(
+            project=self.project, name="JSON-sort", suffix="sort-keys"
+        )
+        cases = (
+            (True, "case_sensitive"),
+            (False, "none"),
+            ("none", "none"),
+            ("case_sensitive", "case_sensitive"),
+            ("case_insensitive", "case_insensitive"),
+        )
+        for index, (old_value, new_value) in enumerate(cases):
+            with self.subTest(old_value=old_value):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={
+                        "file_format_params": {"json_sort_keys": old_value}
+                    },
+                    component_slug=component.slug,
+                )
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    restore.validate()
+                    restored = restore.restore(
+                        project_name=f"Restored json sort {index}",
+                        project_slug=f"restored-json-sort-{index}",
+                        user=self.user,
+                    )
+
+                restored_component = restored.component_set.get(slug=component.slug)
+                self.assertEqual(
+                    restored_component.file_format_params["json_sort_keys"], new_value
+                )
 
     def test_backup_creates_history_entry(self) -> None:
         backup = ProjectBackup()
@@ -914,9 +1098,17 @@ class BackupsTest(ViewTestCase):
     def test_backup_settings(self) -> None:
         project = self.project
         project.autoclean_tm = not project.autoclean_tm
+        project.public_sharing = True
         project.enforced_2fa = True
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
-        project.save(update_fields=["autoclean_tm", "enforced_2fa", "commit_policy"])
+        project.save(
+            update_fields=[
+                "autoclean_tm",
+                "public_sharing",
+                "enforced_2fa",
+                "commit_policy",
+            ]
+        )
         component = self.create_po_mono(project=project, name="Backup-settings")
         component.hide_glossary_matches = True
         component.contribute_project_tm = False
@@ -945,6 +1137,7 @@ class BackupsTest(ViewTestCase):
             )["component"]
 
         self.assertEqual(project_data["autoclean_tm"], project.autoclean_tm)
+        self.assertTrue(project_data["public_sharing"])
         self.assertTrue(project_data["enforced_2fa"])
         self.assertEqual(
             project_data["commit_policy"], CommitPolicyChoices.APPROVED_ONLY
@@ -967,6 +1160,7 @@ class BackupsTest(ViewTestCase):
         restored_component = restored.component_set.get(slug=component.slug)
 
         self.assertEqual(restored.autoclean_tm, project.autoclean_tm)
+        self.assertTrue(restored.public_sharing)
         self.assertTrue(restored.enforced_2fa)
         self.assertEqual(restored.commit_policy, CommitPolicyChoices.APPROVED_ONLY)
         self.assertTrue(restored_component.hide_glossary_matches)
@@ -1301,6 +1495,23 @@ class BackupsTest(ViewTestCase):
                     ]
                 },
             )
+
+    def test_restore_rejects_unsafe_repository_urls(self) -> None:
+        for field in ("repo", "push"):
+            with self.subTest(field=field):
+                temp_name = self.write_tampered_component_backup(
+                    **{field: ("ssh://example.com/repository\r[alias]\rlog = !true")}
+                )
+
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    with self.assertRaises(ValidationError) as error:
+                        restore.validate()
+
+                self.assertEqual(
+                    error.exception.message_dict,
+                    {field: ["Repository URL contains unsafe characters."]},
+                )
 
     def test_restore_rejects_invalid_component_slug(self) -> None:
         temp_name = self.write_tampered_component_backup(
@@ -2261,7 +2472,7 @@ class BackupsTest(ViewTestCase):
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     @patch("weblate.trans.views.create.import_project_backup.delay")
-    def test_view_restore_schedules_background_import(self, delay) -> None:
+    def test_view_restore_schedules_background_import(self, delay: Mock) -> None:
         delay.return_value.id = "01234567-89ab-cdef-0123-456789abcdef"
         self.user.is_superuser = True
         self.user.save()

@@ -72,6 +72,11 @@ class PlaceholdersTest(CheckTestCase):
             <span class="hlcheck" data-value="$FOO$">$FOO$</span>
             """,
         )
+        self.assertEqual(
+            self.check.get_plain_description(check),
+            "The following format strings are missing: $URL$\n"
+            "The following format strings are extra: $FOO$",
+        )
 
     def test_whitespace(self) -> None:
         unit = make_unit(

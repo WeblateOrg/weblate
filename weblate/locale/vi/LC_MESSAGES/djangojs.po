@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "javascript/\n"
-"POT-Creation-Date: 2026-08-14 01:14-0500\n"
-"PO-Revision-Date: 2026-08-06 06:15+0000\n"
+"POT-Creation-Date: 2026-09-17 20:14-0500\n"
+"PO-Revision-Date: 2026-09-13 06:51+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "javascript/vi/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.8.1.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgid "Unsaved changes!"
 msgstr "Thay đổi chưa được lưu!"
@@ -67,18 +67,6 @@ msgstr "Nhấn Cmd+I sau đó đến %s để bỏ qua điều này."
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "Nhấn Ctrl+I sau đó đến %s để bỏ qua điều này."
 
-msgid "Clone to translation"
-msgstr "Nhân bản sang bản dịch"
-
-msgid "Accept"
-msgstr "Chấp nhận"
-
-msgid "Accept and approve"
-msgstr "Chấp nhận và phê duyệt"
-
-msgid "Delete entry"
-msgstr "Xóa mục nhập"
-
 msgid "No results found"
 msgstr "Không tìm thấy kết quả"
 
@@ -86,6 +74,13 @@ msgstr "Không tìm thấy kết quả"
 msgid "%s matching string"
 msgid_plural "%s matching strings"
 msgstr[0] "%s chuỗi phù hợp"
+
+msgid ""
+"Your previous search results are no longer available. Refresh results to "
+"continue."
+msgstr ""
+"Kết quả tìm kiếm trước đó của bạn không còn khả dụng. Vui lòng làm mới kết "
+"quả để tiếp tục."
 
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "Có một số thay đổi chưa được lưu, bạn có chắc muốn rời đi không?"
@@ -95,7 +90,7 @@ msgstr "Mã thông báo bảo mật bị thiếu. Vui lòng tải lại trang."
 
 #, javascript-format
 msgid "Loading suggestion count for %s"
-msgstr "Đang tải số lượng gợi ý cho %s"
+msgstr "Đang tải số lượng đề xuất cho %s"
 
 msgid "Bulk accept cancelled."
 msgstr "Chấp nhận hàng loạt đã bị hủy."
@@ -117,13 +112,18 @@ msgstr "Phản hồi máy chủ không hợp lệ"
 msgid "Server error (%s)"
 msgstr "Lỗi máy chủ (%s)"
 
-#, javascript-format
-msgid "There are no pending suggestions from %s in this translation."
+#, fuzzy
+#| msgid "There are no pending suggestions from %s in this translation."
+msgid "There are no pending suggestions from %(username)s in %(translation)s."
 msgstr "Hiện không có đề xuất nào đang chờ xử lý từ %s trong bản dịch này."
 
-#, javascript-format
-msgid "This will accept %s suggestion from %s in this translation."
-msgid_plural "This will accept %s suggestions from %s in this translation."
+#, fuzzy
+#| msgid "This will accept %s suggestion from %s in this translation."
+#| msgid_plural "This will accept %s suggestions from %s in this translation."
+msgid ""
+"This will accept %(count)s suggestion from %(username)s in %(translation)s."
+msgid_plural ""
+"This will accept %(count)s suggestions from %(username)s in %(translation)s."
 msgstr[0] "Chức năng này sẽ chấp nhận %s đề xuất từ %s trong bản dịch này."
 
 msgid "Accept all suggestions?"
@@ -281,6 +281,20 @@ msgstr "Nhấn Ctrl+V hoặc Command+V để dán hình ảnh."
 msgid "No image found in clipboard"
 msgstr "Không tìm thấy hình ảnh trong bảng tạm"
 
+#, fuzzy
+#| msgid "Loading…"
+msgid "Loading screenshots…"
+msgstr "Đang tải…"
+
+msgid "Could not load screenshots. Please try again."
+msgstr ""
+
+msgid "Adding screenshot…"
+msgstr ""
+
+msgid "Could not add screenshot. Please try again."
+msgstr ""
+
 msgid ""
 "A pull or merge request will be created from a branch in the repository."
 msgstr ""
@@ -338,6 +352,12 @@ msgid ""
 msgstr ""
 "Các thay đổi sẽ được đẩy trực tiếp lên nhánh mặc định của kho lưu trữ đẩy."
 
+msgid "Text copied to clipboard."
+msgstr "Đã sao chép văn bản vào bảng tạm."
+
+msgid "Error copying to clipboard."
+msgstr "Lỗi sao chép vào bảng tạm."
+
 msgid "Some source strings could not be assigned."
 msgstr "Một số chuỗi nguồn không thể được gán."
 
@@ -353,14 +373,8 @@ msgstr "Sắp xếp cột này"
 msgid "Error while loading page:"
 msgstr "Lỗi khi tải trang:"
 
-msgid "Text copied to clipboard."
-msgstr "Đã sao chép văn bản vào bảng tạm."
-
 msgid "Please press Ctrl+C to copy."
 msgstr "Vui lòng nhấn Ctrl+C để sao chép."
-
-msgid "Error copying to clipboard."
-msgstr "Lỗi sao chép vào bảng tạm."
 
 msgid "Search…"
 msgstr "Tìm kiếm…"
@@ -417,6 +431,18 @@ msgstr "một giờ trước"
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s giờ trước"
+
+#~ msgid "Clone to translation"
+#~ msgstr "Nhân bản sang bản dịch"
+
+#~ msgid "Accept"
+#~ msgstr "Chấp nhận"
+
+#~ msgid "Accept and approve"
+#~ msgstr "Chấp nhận và phê duyệt"
+
+#~ msgid "Delete entry"
+#~ msgstr "Xóa mục nhập"
 
 #~ msgid "Something went wrong!"
 #~ msgstr "Đã xảy ra lỗi!"

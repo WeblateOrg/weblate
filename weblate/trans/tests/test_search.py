@@ -4,13 +4,19 @@
 
 """Test for search views."""
 
+from __future__ import annotations
+
 import re
 from types import SimpleNamespace
 from unittest.mock import ANY, patch
+from urllib.parse import urlsplit
 
+from django.db import connection
 from django.http import QueryDict
-from django.test.utils import override_settings
+from django.template import Context
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
+from django.utils.html import escape
 
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, User
@@ -18,16 +24,20 @@ from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
+from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import (
     Change,
     Comment,
     Component,
     PendingUnitChange,
+    Project,
     Translation,
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.templatetags.translations import get_translate_url
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.forms import SearchField
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -37,6 +47,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import get_form_data
 from weblate.workspaces.models import Workspace
 
@@ -139,6 +150,216 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": "hello", "page": "x"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
+
+    def test_scoped_listing(self) -> None:
+        workspace = Workspace.objects.create(name="Search workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        language = self.translation.language
+        for obj in (
+            workspace,
+            self.project,
+            category,
+            self.component,
+            language,
+            self.translation,
+            ProjectLanguage(self.project, language),
+            CategoryLanguage(category, language),
+        ):
+            with self.subTest(obj=obj):
+                response = self.client.get(
+                    reverse("search", kwargs={"path": obj.get_url_path()})
+                )
+                self.assertContains(response, "Hello, world!")
+                self.assertTrue(response.context["show_results"])
+                self.assertEqual(response.context["title"], "All strings")
+
+    def test_global_landing(self) -> None:
+        response = self.client.get(reverse("search"))
+        self.assertNotIn("show_results", response.context)
+        response = self.client.get(reverse("search"), {"q": ""})
+        self.assertTrue(response.context["show_results"])
+
+    def test_listing_pagination_and_editor_links(self) -> None:
+        source_unit = self.get_unit().source_unit
+        Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.translation,
+                    id_hash=-10_000_000 - index,
+                    source=f"Page source {index:02}",
+                    target=f"Page target {index:02}",
+                    position=10_000 + index,
+                    source_unit=source_unit,
+                )
+                for index in range(25)
+            ]
+        )
+        url = reverse("search", kwargs=self.kw_translation)
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(
+                url, {"sort_by": "-source", "limit": "10", "page": "2"}
+            )
+        page = response.context["page_obj"]
+        self.assertEqual(page.number, 2)
+        self.assertEqual(len(page.object_list), 10)
+        self.assertTrue(
+            any(
+                'FROM "trans_unit"' in query["sql"]
+                and "LIMIT 10 OFFSET 10" in query["sql"]
+                for query in queries
+            )
+        )
+        self.assertEqual(
+            list(page.object_list),
+            list(self.translation.unit_set.order_by("-source")[10:20]),
+        )
+        self.assertEqual(
+            response.context["total_strings"], self.translation.unit_set.count()
+        )
+        unit = page.object_list[0]
+        self.assertContains(
+            response,
+            f"{self.translate_url}?sort_by=-source&amp;checksum={unit.checksum}",
+        )
+        self.assertContains(response, "sort-up")
+        self.assertNotContains(response, "/browse/")
+
+    def test_source_listing(self) -> None:
+        response = self.client.get(
+            reverse(
+                "search",
+                kwargs={"path": self.component.source_translation.get_url_path()},
+            )
+        )
+        self.assertContains(response, "Hello, world!")
+        self.assertNotContains(response, "<th>Source string</th>")
+        self.assertNotContains(response, "<th>Translation</th>")
+
+    def test_glossary_listing(self) -> None:
+        glossary = self.project.glossaries[0].translation_set.get(
+            language=self.translation.language
+        )
+        url = reverse("search", kwargs={"path": glossary.get_url_path()})
+        self.assertEqual(get_translate_url(Context({"user": self.user}), glossary), url)
+        response = self.client.get(url)
+        self.assertTrue(response.context["show_results"])
+        self.assertEqual(response.context["search_form"].sort_query, "source")
+        self.assertContains(response, f"{glossary.get_absolute_url()}#new")
+        self.client.logout()
+        response = self.client.get(url)
+        self.assertNotContains(response, f"{glossary.get_absolute_url()}#new")
+
+    def test_browse_redirect(self) -> None:
+        url = reverse("browse", kwargs=self.kw_translation)
+        target = reverse("search", kwargs=self.kw_translation)
+        self.assertRedirects(self.client.get(url), target, status_code=301)
+        for params, expected in (
+            ({"offset": "3"}, {"page": "3", "limit": "20"}),
+            ({"offset": "bad"}, {"page": "1", "limit": "20"}),
+            ({"offset": "-1"}, {"page": "1", "limit": "20"}),
+            (
+                {"offset": "3", "page": "2", "limit": "10"},
+                {"page": "2", "limit": "10"},
+            ),
+        ):
+            with self.subTest(params=params):
+                params.update({"q": 'source:"Hello, world!"', "sort_by": "-source"})
+                response = self.client.get(url, params)
+                self.assertEqual(response.status_code, 301)
+                location = urlsplit(response.headers["Location"])
+                self.assertEqual(location.path, target)
+                expected.update({"q": params["q"], "sort_by": "-source"})
+                self.assertEqual(QueryDict(location.query).dict(), expected)
+        response = self.client.get(f"{url}?q=hello&extra=a&extra=b")
+        self.assertEqual(
+            QueryDict(urlsplit(response.headers["Location"]).query).getlist("extra"),
+            ["a", "b"],
+        )
+
+    def test_scoped_translate_action(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        for obj in (
+            self.translation,
+            ProjectLanguage(self.project, self.translation.language),
+            CategoryLanguage(category, self.translation.language),
+        ):
+            with self.subTest(obj=obj):
+                path = obj.get_url_path()
+                response = self.client.get(
+                    reverse("search", kwargs={"path": path}),
+                    {"q": "hello", "sort_by": "-source", "page": "2", "offset": "3"},
+                )
+                location = urlsplit(response.context["translate_url"])
+                self.assertEqual(
+                    location.path, reverse("translate", kwargs={"path": path})
+                )
+                self.assertEqual(
+                    QueryDict(location.query).dict(),
+                    {"q": "hello", "sort_by": "-source"},
+                )
+                self.assertContains(response, "Translate</a>")
+        response = self.client.get(reverse("search", kwargs=self.kw_component))
+        self.assertNotIn("translate_url", response.context)
+
+    def test_scoped_widget_links(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        language = self.translation.language
+        for obj, component in (
+            (self.translation, self.component),
+            (ProjectLanguage(self.project, language), None),
+            (CategoryLanguage(category, language), None),
+        ):
+            with self.subTest(obj=obj):
+                response = self.client.get(
+                    reverse("search", kwargs={"path": obj.get_url_path()})
+                )
+                widget_url = obj.get_widgets_url()
+                badge_links = re.findall(
+                    r'<a href="([^"]+)">\s*<img[^>]+alt="Translation status widgets"',
+                    response.content.decode(),
+                )
+                self.assertEqual(badge_links, [escape(widget_url)])
+                response = self.client.get(widget_url)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    response.context["form"].cleaned_data["lang"], language
+                )
+                self.assertEqual(
+                    response.context["form"].cleaned_data["component"], component
+                )
+
+    def test_invalid_scoped_query(self) -> None:
+        response = self.client.get(
+            reverse("search", kwargs=self.kw_translation), {"q": 'source:r"^(Hello"'}
+        )
+        self.assertContains(response, "Invalid regular expression")
+        self.assertNotIn("show_results", response.context)
+        self.assertNotIn("translate_url", response.context)
+        self.assertNotContains(response, "Hello, world!")
+
+    def test_scoped_listing_rate_limit(self) -> None:
+        with patch("weblate.trans.views.search.check_rate_limit", return_value=False):
+            response = self.client.get(reverse("search", kwargs=self.kw_translation))
+        self.assertContains(response, "Too many search queries")
+        self.assertNotIn("show_results", response.context)
+        self.assertIn("no-store", response.headers["Cache-Control"])
+
+    def test_private_scoped_listing(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.client.logout()
+        response = self.client.get(reverse("search", kwargs=self.kw_translation))
+        self.assertNotEqual(response.status_code, 200)
+        response = self.client.get(reverse("search"), {"q": "hello"})
+        self.assertNotContains(response, "Hello, world!")
 
     def test_language_search(self) -> None:
         """Searching in all projects."""
@@ -294,6 +515,21 @@ class SearchViewTest(ViewTestCase):
 
         self.assertEqual(self.get_search_result_count('comment_author:="testuser"'), 1)
         self.assertEqual(self.get_search_result_count("has:comment"), 1)
+
+    def test_mass_action_filters_require_a_query(self) -> None:
+        for form in (
+            AutoForm(self.component, user=self.user),
+            BulkEditForm(self.user, self.translation),
+        ):
+            with self.subTest(form=type(form).__name__):
+                choices = SearchField("q").get_search_query_choices(form)
+                self.assertNotIn("all", [choice[0] for choice in choices])
+                self.assertTrue(all(choice[2] for choice in choices))
+                self.assertIn("translated", [choice[0] for choice in choices])
+                # Use the bound field's requirement, including runtime overrides.
+                form.fields["q"].required = False
+                choices = SearchField("q").get_search_query_choices(form)
+                self.assertEqual(choices[0][:3], ("all", "All strings", ""))
 
     def test_search_filter_dropdown_includes_comments_by_me(self) -> None:
         response = self.client.get(

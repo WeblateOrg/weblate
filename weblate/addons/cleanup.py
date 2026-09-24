@@ -18,7 +18,7 @@ from weblate.formats.base import TranslationFormat
 from weblate.trans.exceptions import FileParseError
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Category, Component, Project
+    from weblate.trans.models import Category, Component, Project, Translation
 
 
 class BaseCleanupAddon(UpdateBaseAddon):
@@ -77,7 +77,7 @@ class CleanupAddon(BaseCleanupAddon):
 
     def pre_commit(
         self,
-        translation,
+        translation: Translation,
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,

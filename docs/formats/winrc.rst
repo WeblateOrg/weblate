@@ -7,8 +7,6 @@ Windows RC files
 
     Support for Windows RC files has been rewritten.
 
-.. include:: /snippets/format-in-development.rst
-
 .. index::
     pair: RC; file format
 

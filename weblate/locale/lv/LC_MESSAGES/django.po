@@ -11,10 +11,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-07-31 08:24+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"PO-Revision-Date: 2026-09-11 08:25+0000\n"
+"Last-Translator: GitHub webhook <noreply-webhook-github-"
+"integration@weblate.org>\n"
 "Language-Team: Latvian <https://hosted.weblate.org/projects/weblate/"
 "application/lv/>\n"
 "Language: lv\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n % 10 == 0 || n % 100 >= 11 && n % 100 <= "
 "19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -317,6 +317,25 @@ msgstr ""
 msgid "Enter the code from the app"
 msgstr ""
 
+#, fuzzy
+#| msgid "Lock component, preventing translations"
+msgid "Project, category, component, or translation path"
+msgstr "Bloķēt komponentu, aizliegt tulkot"
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Enter a valid object path."
+msgstr "Tulkotās valodas"
+
+msgid "The target does not exist or you cannot access it."
+msgstr ""
+
 #. Translators: Audit log entry
 msgid "Password changed."
 msgstr "Parole mainīta."
@@ -593,6 +612,35 @@ msgstr "Konta darbības"
 msgid "Triggered by {username}."
 msgstr "Ierosināja {username}."
 
+#, fuzzy
+#| msgid "Hosted strings"
+msgid "Total strings"
+msgstr "Mitināto virkņu skaits"
+
+msgid "Unfinished strings"
+msgstr "Nepabeigtās virknes"
+
+msgid "Unfinished words"
+msgstr ""
+
+msgid "Unfinished characters"
+msgstr ""
+
+msgid "Untranslated strings"
+msgstr "Netulkotas"
+
+msgid "Checks"
+msgstr "Kvalitātes pārbaudes"
+
+msgid "Suggestions"
+msgstr "Ieteikumi"
+
+msgid "Comments"
+msgstr "Komentāri"
+
+msgid "Invalid listing column selection."
+msgstr ""
+
 msgid "Interface Language"
 msgstr "Saskarnes valoda"
 
@@ -630,6 +678,16 @@ msgstr ""
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
+msgstr ""
+
+#, fuzzy
+#| msgid "Component lists"
+msgid "Visible columns in lists"
+msgstr "Komponentu saraksti"
+
+msgid ""
+"Choose which statistics columns are shown in project, component, and "
+"language lists."
 msgstr ""
 
 msgid "Editor link"
@@ -801,6 +859,58 @@ msgstr "Izmantot konta e-pastu"
 msgid "Please provide an e-mail address for submitting translations."
 msgstr ""
 
+#, fuzzy
+#| msgid "No new matching source strings found."
+msgid "No matching subscription."
+msgstr "Nav atrasta neviena jauna atbilstoša avota virkne."
+
+#, fuzzy
+#| msgid "Instant notification"
+msgid "Inactive users and bots do not receive notifications."
+msgstr "Nekavējoši paziņot"
+
+msgid "The user cannot access this target."
+msgstr ""
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "The user is not watching this project."
+msgstr "Jūsu konts tika dzēsts."
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+msgid "The project or component subscriptions apply to other targets."
+msgstr ""
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
 msgid "No notification"
 msgstr "Nav paziņojuma"
 
@@ -815,6 +925,25 @@ msgstr "Nosūtīt nedēļas kopsavilkumu"
 
 msgid "Monthly digest"
 msgstr "Nosūtīt mēneša kopsavilkumu"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watching"
+msgid "Watched"
+msgstr "Vēro"
+
+#, fuzzy
+#| msgid "Administrators"
+msgid "Administered"
+msgstr "Administratori"
+
+msgid "Project"
+msgstr "Projekts"
+
+msgid "Component"
+msgstr "Komponents"
 
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
@@ -912,6 +1041,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "Komponentu saraksts"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "Tika pievienots komentārs"
@@ -923,6 +1057,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "Tika pievienots komentārs"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "Jūs tikāt pieminēts komentārā"
@@ -933,6 +1070,11 @@ msgstr "Jūs tikāt pieminēts komentārā"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "Jūs tikāt pieminēts komentārā"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -1000,6 +1142,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "Jauns tulkošanas komponents"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 #, fuzzy
 #| msgid "Announcement"
 msgctxt "Notification name"
@@ -1011,6 +1158,11 @@ msgstr "Paziņojums"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "Paziņojums"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 #, fuzzy
 #| msgid "New translation component"
@@ -1114,7 +1266,7 @@ msgid ""
 "{0}."
 msgstr ""
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 msgid "Use authentication app (TOTP)"
@@ -1176,6 +1328,11 @@ msgstr "Kontakti"
 msgid "Hosting"
 msgstr "Hostings"
 
+#, fuzzy
+#| msgid "Invalid workspace."
+msgid "Invalid trial plan."
+msgstr "Nederīga darbvieta."
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1188,6 +1345,10 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr "Izmēģināt bez maksas"
+
+#, python-format
+msgid "Notification diagnostics for %(user)s"
+msgstr ""
 
 msgid "This user can not be edited."
 msgstr ""
@@ -1339,6 +1500,18 @@ msgstr "Jūsu konts tika dzēsts."
 
 #, python-format
 msgid "The authentication app %s was registered."
+msgstr ""
+
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "Jūs esat ievadījuši nepareizu paroli."
+
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
 msgstr ""
 
 msgid "Second factor sign in"
@@ -1706,6 +1879,18 @@ msgid ""
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
 
+msgid "Keyword entries have to be strings."
+msgstr ""
+
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
 msgid "Do not extract comments"
 msgstr "Neizgūt komentārus"
 
@@ -1743,10 +1928,10 @@ msgstr "Pārvaldīt valodas"
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
 
-msgid "Additional keyword"
+msgid "Additional keywords"
 msgstr ""
 
-msgid "Optional extra keyword passed to xgettext using --keyword."
+msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
 
 msgid "Use keywords exclusively"
@@ -1869,6 +2054,19 @@ msgstr ""
 msgid "Could not determine Sphinx source directory."
 msgstr ""
 
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Perform automatic translation"
+msgid "One file per translation"
+msgstr "Veikt automātisko tulkošanu"
+
+#, fuzzy
+#| msgid "Translation comment"
+msgid "One file per component"
+msgstr "Komentēt tulkojumu"
+
 msgid "Name of generated file"
 msgstr ""
 
@@ -1928,7 +2126,10 @@ msgid "Regular expression to match translation files against"
 msgstr ""
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
 
 msgid "File format"
@@ -1963,6 +2164,18 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshots uploaded"
+msgid "Define the file mask"
+msgstr "Augšupielādētie ekrānšāviņi"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 
 msgid "Language filter"
@@ -2072,7 +2285,25 @@ msgstr ""
 msgid "You can not use a base file for bilingual translation."
 msgstr ""
 
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr ""
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
+msgstr ""
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
 msgstr ""
 
 msgid "This template must include {{ component }}."
@@ -2336,19 +2567,106 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+#, fuzzy
+#| msgid "You have entered an invalid password."
+msgid "ITS rule file is too large."
+msgstr "Jūs esat ievadījuši nepareizu paroli."
+
+msgid "ITS rule file contains too many XPath expressions."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "ITS XPath expression is too long."
 msgstr ""
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Invalid component path."
+msgid "Invalid ITS directory path."
+msgstr "Nederīgs komponenta ceļš."
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+msgid "ITS rule file contains too many elements."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Neatbalstīts datnes formāts."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS locating rule."
+msgstr "Neatbalstīts datnes formāts."
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Neatbalstīts datnes formāts."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+msgid "ITS directories must not contain symbolic links."
+msgstr ""
+
+#, python-format
+msgid "ITS directory does not exist: %(path)s"
+msgstr ""
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not parse JSON: %s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Nevarēja parsēt JSON: %s"
+
+#, fuzzy, python-format
+#| msgid "Could not parse TMX file: %s"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Nevarēja parsēt TMX datni: %s"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+
+msgid "API add-ons must be installed directly on a component."
+msgstr ""
+
+#, fuzzy
+#| msgid "The project is already assigned to this workspace."
+msgid "This add-on is already installed on this component."
+msgstr "Projekts jau piešķirts šai darbvietai."
 
 msgid "This add-on cannot be triggered manually."
 msgstr ""
@@ -2657,13 +2975,13 @@ msgstr ""
 msgid "Please provide a suggestion"
 msgstr "Dzēst ieteikumu"
 
-msgid "Translation text too long!"
-msgstr ""
-
 msgid "Number of plurals does not match"
 msgstr "Daudzskaitļa formu skaits nesakrīt"
 
 msgid "Your suggestion is similar to the current translation!"
+msgstr ""
+
+msgid "Translation text too long!"
 msgstr ""
 
 msgid "Your suggestion already exists!"
@@ -2741,14 +3059,8 @@ msgstr "Jums nav atļauts apstiprināt ieteikumus."
 msgid "This string seems to already exist."
 msgstr ""
 
-msgid "Project"
-msgstr "Projekts"
-
 msgid "Category"
 msgstr "Kategorija"
-
-msgid "Component"
-msgstr "Komponents"
 
 msgid "User"
 msgstr "Lietotājs"
@@ -2839,8 +3151,10 @@ msgid "Manage project access"
 msgstr ""
 
 #. Translators: Permission name
-msgid "Download reports"
-msgstr "Lejupielādēt atskaites"
+#, fuzzy
+#| msgid "Manage users"
+msgid "Manage reports"
+msgstr "Pārvaldīt lietotājus"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -3259,6 +3573,14 @@ msgstr ""
 msgid "User has all possible permissions."
 msgstr ""
 
+msgid "All languages"
+msgstr ""
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr ""
@@ -3307,9 +3629,6 @@ msgid "Component lists"
 msgstr "Komponentu saraksti"
 
 msgid "Language selection"
-msgstr ""
-
-msgid "All languages"
 msgstr ""
 
 msgid "Languages"
@@ -3608,10 +3927,8 @@ msgstr ""
 msgid "Billing plan"
 msgstr ""
 
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "Sācies izmēģinājuma periods."
+msgstr "Atiestatīt izmēģinājuma periodu"
 
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
@@ -3740,8 +4057,41 @@ msgid "Billing event"
 msgstr "Rēķinu plāni"
 
 #, fuzzy
+#| msgid "Monthly"
+msgid "monthly"
+msgstr "Ikmēnesi"
+
+msgid "yearly"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "unknown period"
+msgstr "Nezināma kļūda"
+
+#, fuzzy
 #| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
+msgstr "E-pasts mainīts no {old} uz {new}."
+
+msgid "Payment \"{}\" initiated for \"{}\" ({})."
+msgstr ""
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
+msgstr ""
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
+msgstr ""
+
+msgid "Automatic payment \"{}\" received for \"{}\" ({})."
+msgstr ""
+
+msgid "Payment \"{}\" received for \"{}\" ({})."
+msgstr ""
+
+#, fuzzy
+#| msgid "E-mail changed from {old} to {new}."
+msgid "Merged billing \"{}\" into \"{}\"."
 msgstr "E-pasts mainīts no {old} uz {new}."
 
 msgid ""
@@ -3810,9 +4160,10 @@ msgstr ""
 msgid "Non‑standard characters in Kabyle"
 msgstr ""
 
+#, python-brace-format
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 
 msgid "Trailing space"
@@ -3866,7 +4217,9 @@ msgstr ""
 msgid "Mismatched \\n"
 msgstr ""
 
-msgid "Number of \\n literals in translation does not match source."
+#, fuzzy, python-brace-format
+#| msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "\\n literāļu skaits tulkojumā neatbilst avotam."
 
 msgid "Mismatching line breaks"
@@ -4028,6 +4381,11 @@ msgstr ""
 
 msgid "Use case insensitive placeholders"
 msgstr ""
+
+#, fuzzy
+#| msgid "No workspaces found."
+msgid "Monospace font"
+msgstr "Nav atrasta neviena darbvieta."
 
 msgid "Font family"
 msgstr ""
@@ -4791,9 +5149,10 @@ msgstr "Virkne tiek lietota daudzskaitlī, bet neizmanto daudzskaitļa formas"
 msgid "Ellipsis"
 msgstr ""
 
+#, python-brace-format
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr ""
 
 msgid "Source string length"
@@ -4860,6 +5219,9 @@ msgstr ""
 
 msgid "Font"
 msgstr "Fonts"
+
+msgid "Font has to be in the same project as the font group."
+msgstr ""
 
 msgid "Unsupported file format."
 msgstr "Neatbalstīts datnes formāts."
@@ -5306,6 +5668,22 @@ msgid ""
 "progress. Please try again later."
 msgstr ""
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum size of translation"
+msgid "Maximum retained versions"
+msgstr "Maksimālais tulkojuma izmērs"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr ""
 
@@ -5580,7 +5958,8 @@ msgstr "Konfidencialitātes politika"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr ""
 
-msgid "Please also read the Privacy Policy:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 
 msgid "Submit"
@@ -5599,6 +5978,16 @@ msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
+msgstr ""
+
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
 msgstr ""
 
 msgid "Cookies are used on this site for the following:"
@@ -5909,9 +6298,6 @@ msgstr ""
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
 
-msgid "DeepL API v1 is no longer supported."
-msgstr ""
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr ""
@@ -6054,22 +6440,6 @@ msgid "Ollama model"
 msgstr ""
 
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
 msgstr ""
 
 #, fuzzy
@@ -6372,6 +6742,11 @@ msgstr "Ekrānuzņēmumi"
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Ekrānuzņēmumi"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -6451,6 +6826,11 @@ msgstr "Nav atrasta neviena jauna atbilstoša avota virkne."
 #| msgid "That was not correct, please try again."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "Nepareiza atbilde, mēģiniet vēlreiz."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Dzēst ekrānšāviņu"
 
 msgid "Bad request"
 msgstr ""
@@ -6542,22 +6922,15 @@ msgstr "Par Weblate"
 msgid "Support Weblate"
 msgstr ""
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 #, fuzzy
 #| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Paldies, ka izmantojat Weblate."
 
 #, fuzzy
-#| msgid "Thank you for using Weblate."
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Paldies, ka izmantojat Weblate."
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Dot savu artavu Weblate attīstībā"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -6643,6 +7016,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -6804,7 +7185,6 @@ msgstr ""
 msgid "Verify new e-mail address"
 msgstr "Lietotājvārds vai e-pasts"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr "Reģistrēties"
 
@@ -6859,6 +7239,144 @@ msgstr ""
 msgid "Register new account"
 msgstr ""
 
+#, fuzzy
+#| msgid "Notifications"
+msgid "Notification diagnostics"
+msgstr "Paziņojumi"
+
+msgid "Diagnostics"
+msgstr ""
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "No notification"
+msgid "Check notifications"
+msgstr "Nav paziņojuma"
+
+#, python-format
+msgid "Notification eligibility for %(target)s"
+msgstr ""
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+msgid "Notification"
+msgstr "Paziņojums"
+
+#, fuzzy
+#| msgid "Manage component lists"
+msgid "Inherited project settings"
+msgstr "Pārvaldīt komponentu sarakstus"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component list"
+msgid "Component exceptions"
+msgstr "Komponentu saraksts"
+
+msgid "One-time"
+msgstr "Vienreizējs"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+msgid "Overridden subscriptions"
+msgstr ""
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "Inspect example components:"
+msgstr "Komponenti"
+
+#, fuzzy
+#| msgid "Components"
+msgid "Inspect components:"
+msgstr "Komponenti"
+
+msgid "None"
+msgstr "Neviena"
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "No accessible components or translations in this target."
+msgstr "Jums nav atļauts apstiprināt ieteikumus."
+
+msgid "No matching subscriptions in this scope."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Watched projects"
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "Vērotie projekti - projekti, kuriem es sekoju"
+msgstr[1] "Vērotie projekti - projekti, kuriem es sekoju"
+msgstr[2] "Vērotie projekti - projekti, kuriem es sekoju"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "Vērotie projekti - projekti, kuriem es sekoju"
+
+#, fuzzy
+#| msgid "Notifications"
+msgid "Notification languages"
+msgstr "Paziņojumi"
+
+#, fuzzy, python-format
+#| msgid "Failed to find language %s!"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "Valoda %s netika atrasta!"
+msgstr[1] "Valoda %s netika atrasta!"
+msgstr[2] "Valoda %s netika atrasta!"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Description"
+msgid "Subscriptions"
+msgstr "Apraksts"
+
+msgid "Frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Description"
+msgid "No subscriptions."
+msgstr "Apraksts"
+
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
 
@@ -6910,6 +7428,16 @@ msgstr ""
 
 msgid "Save"
 msgstr "Saglabāt"
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Component lists"
+msgid "Open notification diagnostics"
+msgstr "Komponentu saraksti"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -7308,7 +7836,12 @@ msgstr[0] "Jūsu izmēģinājuma periods beigsies pēc %(days)s dienām."
 msgstr[1] "Jūsu izmēģinājuma periods beigsies pēc %(days)s dienas."
 msgstr[2] "Jūsu izmēģinājuma periods beigsies pēc %(days)s dienām."
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, fuzzy, python-format
+#| msgid ""
+#| "Your trial will run the 640k plan, but you can choose any plan later."
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 "Jūsu izmēģinājuma periodā tiks izmantots 640k plāns, taču vēlāk variet "
 "izvēlēties jebkuru citu plānu."
@@ -7416,15 +7949,6 @@ msgstr ""
 msgid "User ID"
 msgstr ""
 
-msgid "Notification"
-msgstr "Paziņojums"
-
-msgid "Frequency"
-msgstr ""
-
-msgid "One-time"
-msgstr "Vienreizējs"
-
 msgid "Members"
 msgstr "Dalībnieki"
 
@@ -7527,7 +8051,21 @@ msgstr ""
 msgid "Continue"
 msgstr "Turpināt"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Signed in using password."
+msgid "Sign in using a passkey or security key"
+msgstr "Autorizējies, izmantojot paroli."
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -7563,6 +8101,14 @@ msgstr ""
 
 msgid "No components found."
 msgstr "Nav atrasts neviens komponents."
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project"
+msgid "API root"
+msgstr "Projekts"
 
 msgid "Configure add-on"
 msgstr ""
@@ -7725,6 +8271,18 @@ msgstr ""
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 msgid "Percents translated"
@@ -7952,9 +8510,6 @@ msgstr ""
 
 msgid "Browse all languages"
 msgstr ""
-
-msgid "Checks"
-msgstr "Kvalitātes pārbaudes"
 
 #, python-format
 msgid "Failing checks in %(project)s — %(language)s"
@@ -8247,6 +8802,11 @@ msgstr "Pārbaudiet sava rēķina plāna statusu"
 msgid "Browse"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Tulkojuma statuss"
+
 msgid "No strings found!"
 msgstr ""
 
@@ -8271,14 +8831,19 @@ msgstr ""
 msgid "Search and replace"
 msgstr ""
 
+msgid "Post announcement"
+msgstr ""
+
 msgid "Organize or remove"
 msgstr ""
 
 msgid "Browse all changes for this language"
 msgstr ""
 
-msgid "Replace"
-msgstr ""
+#, fuzzy
+#| msgid "Download changes"
+msgid "Review changes"
+msgstr "Nesenās izmaiņas"
 
 msgid "Apply"
 msgstr "Pielietot"
@@ -8287,6 +8852,12 @@ msgstr "Pielietot"
 #| msgid "Components"
 msgid "Browse components"
 msgstr "Komponenti"
+
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
 
 msgid "Announcements"
 msgstr "Jaunumu paziņojumi"
@@ -8321,9 +8892,6 @@ msgstr "Automātiskais tulkojums"
 #| msgid "Add new string"
 msgid "Add new category"
 msgstr "Pievienot jaunu virkni"
-
-msgid "Post announcement"
-msgstr ""
 
 #, fuzzy
 msgid "Browse all category changes"
@@ -8385,9 +8953,6 @@ msgid "Abort the update"
 msgstr ""
 
 msgid "Continue after completion"
-msgstr ""
-
-msgid "Diagnostics"
 msgstr ""
 
 msgid "error"
@@ -8768,6 +9333,37 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Kļūstiet par Weblate atbalstītāju"
 
+#, fuzzy
+#| msgid "New translation component"
+msgid "Some repository operations require additional permissions"
+msgstr "Jauns tulkošanas komponents"
+
+msgid ""
+"Repository operations require permission on the component that owns the "
+"shared repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "Affected components:"
+msgstr "Komponenti"
+
+msgid "You need the following permissions on the repository-owning component:"
+msgstr ""
+
+msgid ""
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
+msgstr ""
+
 msgid "Repository status"
 msgstr ""
 
@@ -8811,6 +9407,9 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
+
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
@@ -8852,17 +9451,15 @@ msgstr[1] "%(count)s komponents atbloķēts"
 msgstr[2] "%(count)s komponenti atbloķēti"
 
 #, fuzzy
-#| msgid "Your account has been removed."
 msgid "Weblate translations are unlocked"
-msgstr "Jūsu konts tika dzēsts."
+msgstr "Weblate tulkojumi atbloķēti"
 
 #, fuzzy
-#| msgid "Your account has been removed."
 msgid "Weblate translations are locked"
-msgstr "Jūsu konts tika dzēsts."
+msgstr "Weblate tulkojumi bloķēti"
 
 msgid "Locking prevents translators from doing changes."
-msgstr ""
+msgstr "Liedz veikt izmaiņas tulkojumos."
 
 msgid "Reset and discard"
 msgstr ""
@@ -9005,6 +9602,11 @@ msgstr ""
 msgid "Repository details"
 msgstr ""
 
+#, fuzzy
+#| msgid "Weblate configuration"
+msgid "Edit repository configuration"
+msgstr "Weblate iestatīšana"
+
 msgid "Repository changes"
 msgstr ""
 
@@ -9043,6 +9645,10 @@ msgid ""
 msgstr ""
 
 msgid "Unmark translation as Needing edit and submit it."
+msgstr ""
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
 msgstr ""
 
 msgid ""
@@ -9120,6 +9726,11 @@ msgstr ""
 
 msgid "Please see a documentation for more info."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation memory"
+msgid "Translation workflow"
+msgstr "Tulkojumu atmiņa"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -9398,10 +10009,6 @@ msgstr ""
 msgid "Component %(component)s was unlocked"
 msgstr ""
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -9635,6 +10242,10 @@ msgstr ""
 msgid "Confirm invitation"
 msgstr ""
 
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr ""
+
 msgid "Source string description"
 msgstr ""
 
@@ -9643,9 +10254,6 @@ msgstr ""
 
 msgid "Screenshot context"
 msgstr ""
-
-msgid "Unfinished strings"
-msgstr "Nepabeigtās virknes"
 
 #. Translators: e-mail subject
 #, python-format
@@ -9802,6 +10410,17 @@ msgstr ""
 msgid "Support expiry"
 msgstr ""
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr ""
 
@@ -9811,8 +10430,10 @@ msgstr ""
 msgid "Unlink support package"
 msgstr ""
 
-msgid "Purchase support package"
-msgstr ""
+#, fuzzy
+#| msgid "Premium self-hosted support"
+msgid "Purchase support"
+msgstr "Premium atbalsts pašizmitinātajām instalācijām"
 
 msgid "Contact customer care"
 msgstr ""
@@ -10343,6 +10964,11 @@ msgid ""
 "language manually."
 msgstr ""
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr ""
 
@@ -10438,6 +11064,16 @@ msgstr "Paldies, ka izmantojat Weblate."
 msgid "Return to dashboard"
 msgstr ""
 
+#, fuzzy
+#| msgid "Thank you for using Weblate."
+msgid "Thank you for contributing translations."
+msgstr "Paldies, ka izmantojat Weblate."
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Ziedot Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -10450,6 +11086,9 @@ msgstr ""
 #| msgid "Overview"
 msgid "Update preview"
 msgstr "Pārskats"
+
+msgid "Replace"
+msgstr ""
 
 msgid "Generated by"
 msgstr "Izveidoja"
@@ -10559,6 +11198,35 @@ msgstr "Nav atrasts neviens ekrānuzņēmums."
 msgid "Add new screenshot"
 msgstr ""
 
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Dzēst ekrānšāviņu"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Selected"
+msgstr "Pievienot ekrānšāviņu"
+
+#, fuzzy
+#| msgid "No new matching source strings found."
+msgid "No matching screenshots available."
+msgstr "Nav atrasta neviena jauna atbilstoša avota virkne."
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot pages"
+msgstr "Ekrānuzņēmumi"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
+msgstr ""
+
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
 msgstr ""
@@ -10662,6 +11330,37 @@ msgstr ""
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translate"
+msgid "Translation quality filter"
+msgstr "Tulkot"
+
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr ""
+
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr ""
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Configure language workflow"
+msgstr "Virknes ierobežojums"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Configure translation quality filter"
+msgstr "Tulkot"
+
 msgid "View details"
 msgstr ""
 
@@ -10730,23 +11429,17 @@ msgstr[2] "%(count)s komentāri"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
+msgid "Support Weblate development"
+msgstr ""
+
+#, fuzzy
+#| msgid "Thank you for using Weblate."
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Paldies, ka izmantojat Weblate."
+
 msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
 
 msgid ""
@@ -10805,12 +11498,6 @@ msgstr ""
 msgid "Weblate repository"
 msgstr ""
 
-msgid "This translation is forbidden."
-msgstr ""
-
-msgid "This term should not be translated."
-msgstr ""
-
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "This translation needs editing."
@@ -10819,8 +11506,27 @@ msgstr "Jūsu konts tika dzēsts."
 msgid "Copy word into translation"
 msgstr ""
 
+msgid "This translation is forbidden."
+msgstr ""
+
+msgid "Forbidden"
+msgstr ""
+
+msgid "This term should not be translated."
+msgstr ""
+
 msgid "Edit glossary term"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation explanation"
+msgstr "Tulkošanas paziņojumi"
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Source explanation"
+msgstr "Virknes ierobežojums"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -11114,20 +11820,8 @@ msgstr "Kārtot šo kolonnu"
 msgid "Unreviewed"
 msgstr ""
 
-msgid "Unfinished words"
-msgstr ""
-
-msgid "Unfinished characters"
-msgstr ""
-
 msgid "Untranslated"
 msgstr "Netulkotas"
-
-msgid "Suggestions"
-msgstr "Ieteikumi"
-
-msgid "Comments"
-msgstr "Komentāri"
 
 msgid "Create translation"
 msgstr ""
@@ -11296,10 +11990,11 @@ msgstr ""
 msgid "Query"
 msgstr ""
 
-msgid ""
-"Don’t worry about messing up the strings. This is a two-step process showing "
-"a preview of edited strings before the actual change is confirmed."
-msgstr ""
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "Refresh results"
+msgstr "Pārvaldīt ekrānšāviņus"
 
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
@@ -11372,6 +12067,30 @@ msgstr "Komentārs izdzēsts."
 #| msgid "Manage screenshots"
 msgid "Report history pagination"
 msgstr "Pārvaldīt ekrānšāviņus"
+
+msgid "Reviews are enabled for this language."
+msgstr ""
+
+msgid "Reviews are disabled for this language."
+msgstr ""
+
+#, python-format
+msgid "Review setting: %(origin)s."
+msgstr ""
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+msgid "Learn how to customize translation workflows."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translation is foo"
+msgid "Configure translation workflow"
+msgstr "Jūsu tulkojums ir neveiksmīgs"
 
 #, python-format
 msgid ""
@@ -11457,9 +12176,10 @@ msgstr ""
 msgid "Vote against"
 msgstr ""
 
-#, python-format
-msgid "Accept all suggestions from %(username)s"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Perform automatic translation"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
+msgstr "Veikt automātisko tulkošanu"
 
 msgid "Accept"
 msgstr "Pieņemt"
@@ -11484,6 +12204,28 @@ msgstr ""
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr ""
+
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+msgid "Already purchased? Link your support package"
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not fetch translation: %s"
+msgid "Term information from the translation file"
+msgstr "Nevarēja iegūt tulkojumu: %s"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Avota virknes"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage languages"
+msgid "Target terms"
+msgstr "Pārvaldīt valodas"
 
 msgid "Translation status"
 msgstr "Tulkojuma statuss"
@@ -11646,6 +12388,16 @@ msgid "Suggested individual language codes"
 msgstr ""
 
 msgid ""
+"Weblate pushed the changes and created the pull request, but could not merge "
+"it automatically."
+msgstr ""
+
+msgid ""
+"Check that the repository allows auto-merge and the selected merge method, "
+"or turn off automatic merging in the version control parameters."
+msgstr ""
+
+msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
@@ -11690,6 +12442,42 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This version control backend cannot enforce private-address restrictions for "
+"the configured URL. Ask the instance administrator to add the trusted "
+"repository hostname to VCS_ALLOW_HOSTS."
+msgstr ""
+
+msgid ""
+"Weblate blocked the repository URL because its destination is not permitted "
+"by this instance. Use a publicly reachable repository URL, or ask the "
+"instance administrator to allow the trusted repository host."
+msgstr ""
+
+msgid ""
+"The configured repository URL is not valid. Check the URL in the component "
+"settings and use a complete repository URL supported by the selected version "
+"control system."
+msgstr ""
+
+msgid ""
+"The repository URL uses a protocol which is not permitted by this instance. "
+"Use HTTPS or SSH, or ask the instance administrator whether another protocol "
+"can be safely enabled."
+msgstr ""
+
+msgid ""
+"Weblate could not resolve the repository destination. Check the hostname and "
+"the instance DNS configuration. Internal or otherwise non-public hosts must "
+"also be explicitly allowed by the instance administrator."
+msgstr ""
+
+msgid ""
+"The repository URL redirect could not be safely followed. Configure the "
+"final repository URL directly; Weblate automatically accepts only verified "
+"permanent redirects on the same host."
+msgstr ""
+
+msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
@@ -11697,6 +12485,21 @@ msgstr ""
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
+msgstr ""
+
+msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Migrate to GitHub App"
+msgstr "Weblate atbalsts"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
 msgstr ""
 
 msgid ""
@@ -11718,6 +12521,12 @@ msgid ""
 msgstr ""
 
 msgid ""
+"The repository references Git LFS objects that are missing from the push "
+"destination. Weblate does not download or upload Git LFS objects, and files "
+"tracked by Git LFS cannot be used as translation files."
+msgstr ""
+
+msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
@@ -11731,7 +12540,7 @@ msgid "You might want to use following URL instead:"
 msgstr ""
 
 msgid ""
-"You might want to choose Git with force push as version control system in "
+"You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
@@ -11820,15 +12629,20 @@ msgstr ""
 msgid "Source"
 msgstr "Avota virkne"
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Remove a string"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Dzēst virkni"
 
 #, fuzzy
 #| msgid "Remove a string"
 msgid "Remove duplicate strings"
 msgstr "Dzēst virkni"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -11838,6 +12652,29 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
+
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -12056,21 +12893,17 @@ msgstr ""
 msgid "Follow using RSS"
 msgstr ""
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr ""
 
-#. Translators: Create a component from existing component
 #, fuzzy
 #| msgid "Translation comment"
 msgid "From an existing component"
 msgstr "Komentēt tulkojumu"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr ""
 
-#. Translators: Create a component using ZIP upload
 msgid "Upload translations files"
 msgstr ""
 
@@ -12078,7 +12911,6 @@ msgstr ""
 msgid "Translate document"
 msgstr ""
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr ""
 
@@ -12420,6 +13252,11 @@ msgstr ""
 msgid "Configure editor"
 msgstr ""
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr ""
 
@@ -12544,16 +13381,28 @@ msgid "Browse all string changes"
 msgstr ""
 
 #, fuzzy
-#| msgid "Suggested translations"
-msgid "Suggested change"
-msgstr "Piedāvātie tulkojumi"
+#| msgctxt "Notification name"
+#| msgid "Contributor made their first translation"
+msgid "Search translation memory"
+msgstr "Tulkotājs veica savu pirmo tulkojumu"
 
 #, fuzzy
-msgid "Origin"
-msgstr "Izcelsme"
+#| msgid "No new matching source strings found."
+msgid "No matching machine translations found."
+msgstr "Nav atrasta neviena jauna atbilstoša avota virkne."
 
-msgid "Similarity"
-msgstr ""
+msgid "Delete entry"
+msgstr "Dzēst ierakstu"
+
+#, fuzzy
+#| msgid "Source"
+msgid "Source:"
+msgstr "Avota virkne"
+
+#, fuzzy
+#| msgid "Comment text"
+msgid "Context:"
+msgstr "Komentāra teksts"
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -12619,11 +13468,6 @@ msgstr "Šī virkne tika automātiski tulkota, izmantojot %(author)s."
 msgid "This string was translated automatically by %(author)s."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translate"
-msgid "Translation quality filter"
-msgstr "Tulkot"
-
 msgid "Add term to glossary"
 msgstr ""
 
@@ -12638,6 +13482,16 @@ msgstr "Vārdnīca"
 
 msgid "No screenshot currently associated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Add existing screenshot"
+msgstr "Pievienot ekrānšāviņu"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Pievienot ekrānšāviņu"
 
 msgid "String information"
 msgstr ""
@@ -12844,6 +13698,81 @@ msgstr ""
 msgid "No connected accounts yet."
 msgstr "Dzēst kontu"
 
+#, fuzzy
+#| msgid "Pending suggestions"
+msgid "Code-hosting integrations"
+msgstr "Neapstiprinātie ieteikumi"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connect or update GitHub account"
+msgstr "Dzēst kontu"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Connected GitHub accounts:"
+msgstr "Dzēst kontu"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "Refresh repositories"
+msgstr "Pārvaldīt ekrānšāviņus"
+
+#, fuzzy
+#| msgid "Components"
+msgid "Migrate selected components"
+msgstr "Komponenti"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Tulkojuma statuss"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Tikai lasāms"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "Repository access needed"
+msgstr "Pārvaldīt ekrānšāviņus"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
 msgid "Register Weblate GitHub App"
 msgstr ""
 
@@ -12936,12 +13865,6 @@ msgstr ""
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage screenshots"
-msgid "Refresh repositories"
-msgstr "Pārvaldīt ekrānšāviņus"
 
 #, python-format
 msgid ""
@@ -13067,9 +13990,27 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, python-format
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, fuzzy, python-format
+#| msgid "%(count)s comment"
+#| msgid_plural "%(count)s comments"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s komentāri"
+msgstr[1] "%(count)s komentārs"
+msgstr[2] "%(count)s komentāri"
 
 msgid "Invitations"
 msgstr ""
@@ -14166,6 +15107,11 @@ msgstr "Šķiet, ka komponents netiek izmantots."
 msgid "Glossary using monolingual files."
 msgstr "Virknes ierobežojums"
 
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Glossary string management is disabled"
+msgstr "Virknes ierobežojums"
+
 msgid "Unused glossary language."
 msgstr "Neizmantotā vārdnīcas valoda."
 
@@ -14191,6 +15137,9 @@ msgstr ""
 msgid "Inexistent files."
 msgstr ""
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
 msgstr "Pretrunīgi repozitorija iestatījumi."
@@ -14210,6 +15159,12 @@ msgstr ""
 #. Translators: Name of an alert
 msgid "Could not update the repository."
 msgstr ""
+
+#. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not recover the repository."
+msgid "Could not merge the pull request automatically."
+msgstr "Nevarēja atgūt repozitoriju."
 
 #. Translators: Name of an alert
 msgid "Repository outdated."
@@ -14270,10 +15225,8 @@ msgstr ""
 msgid "The checksum has to be exactly 16 hexadecimal characters."
 msgstr ""
 
-#, fuzzy
-#| msgid "You have entered an invalid password."
 msgid "The checksum is invalid."
-msgstr "Jūs esat ievadījuši nepareizu paroli."
+msgstr "Kontrolsumma nederīga."
 
 msgid "Too deep nesting of categories!"
 msgstr ""
@@ -14340,10 +15293,8 @@ msgstr ""
 msgid "Referenced unit does not exist."
 msgstr ""
 
-#, fuzzy
-#| msgid "Screenshot image is missing."
 msgid "Screenshot filename is invalid."
-msgstr "Trūkst ekrānuzņēmuma attēla."
+msgstr "Ekrānuzņēmuma datnes nosaukums nederīgs."
 
 #, fuzzy
 #| msgid "Screenshots uploaded"
@@ -14517,9 +15468,6 @@ msgstr ""
 msgid "State"
 msgstr "Statuss"
 
-msgid "All"
-msgstr ""
-
 msgid "Severity"
 msgstr ""
 
@@ -14532,13 +15480,33 @@ msgid "Discovery configuration"
 msgstr "Weblate iestatīšana"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr ""
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 msgid "File mask matches the main component."
@@ -14572,6 +15540,17 @@ msgstr ""
 msgid "Sort JSON keys"
 msgstr "Kārtot JSON atslēgas"
 
+#, fuzzy
+#| msgid "Do not notify"
+msgid "Do not sort"
+msgstr "Neziņot"
+
+msgid "Case-sensitive sort"
+msgstr ""
+
+msgid "Case-insensitive sort"
+msgstr ""
+
 msgid "JSON indentation"
 msgstr ""
 
@@ -14602,6 +15581,24 @@ msgstr ""
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
+msgstr ""
+
+#, fuzzy
+#| msgid "New contributor"
+msgid "Contributor comments"
+msgstr "Jauns līdzautors"
+
+#, fuzzy
+#| msgid "Comment text"
+msgid "Gettext"
+msgstr "Komentāra teksts"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
 msgstr ""
 
 msgid "Keep previous msgids of translated strings"
@@ -14801,9 +15798,6 @@ msgstr ""
 msgid "Read-only strings"
 msgstr ""
 
-msgid "Untranslated strings"
-msgstr "Netulkotas"
-
 msgid "Strings marked for edit"
 msgstr ""
 
@@ -14862,6 +15856,48 @@ msgstr ""
 msgid "Labeled: {}"
 msgstr ""
 
+#. Translators: Glossary term formatting used in a tooltip
+#, python-brace-format
+msgctxt "glossary term"
+msgid "{target} [{source}]"
+msgstr ""
+
+msgid "Forbidden translation:"
+msgid_plural "Forbidden translations:"
+msgstr[0] "Aizliegtie tulkojumi:"
+msgstr[1] "Aizliegts tulkojums:"
+msgstr[2] "Aizliegtie tulkojumi:"
+
+msgid "Untranslatable term:"
+msgid_plural "Untranslatable terms:"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "Glossary term:"
+msgid_plural "Glossary terms:"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgctxt "String state"
+msgid "Dismissed checks:"
+msgstr ""
+
+msgctxt "String state"
+msgid "Commented"
+msgstr ""
+
+msgctxt "String state"
+msgid "Suggested"
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgctxt "String state"
+msgid "Automatically translated"
+msgstr "Automātiskais tulkojums"
+
 msgid "Repository branch is required for this integration."
 msgstr ""
 
@@ -14886,6 +15922,11 @@ msgid "The string you wanted to translate is no longer available."
 msgstr ""
 
 msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr ""
+
+msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
@@ -14900,11 +15941,6 @@ msgstr ""
 #| msgid "Strings limit"
 msgid "Source string explanation"
 msgstr "Virknes ierobežojums"
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation explanation"
-msgstr "Tulkošanas paziņojumi"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -14961,22 +15997,41 @@ msgstr ""
 msgid "Could not find the reverted change."
 msgstr ""
 
+#, fuzzy
+#| msgid "%(count)s comment"
+#| msgid_plural "%(count)s comments"
+msgid "Enter a source component ID."
+msgstr "%(count)s komentāri"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
 
 msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
+"Leave blank to use eligible components from each target component's project."
 msgstr ""
 
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
-msgstr ""
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "Pievienot projektus darbvietai"
 
 msgid "Automatic translation mode"
+msgstr ""
+
+msgid "Add as suggestion"
+msgstr ""
+
+msgid "Add as translation"
+msgstr ""
+
+msgid "Add as \"Needing edit\""
+msgstr ""
+
+msgid "Add as approved translation"
 msgstr ""
 
 msgid ""
@@ -15001,22 +16056,23 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Add projects to workspace"
-msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "Pievienot projektus darbvietai"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "Add projects to workspace"
+msgid "All eligible components in current project"
+msgstr "Pievienot projektus darbvietai"
+
+msgid "Eligible components from each target component's project"
 msgstr ""
 
-msgid "Add as suggestion"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
 msgstr ""
 
-msgid "Add as translation"
-msgstr ""
-
-msgid "Add as \"Needing edit\""
-msgstr ""
-
-msgid "Add as approved translation"
+msgid "You can also enter a project/component path."
 msgstr ""
 
 msgid "Component not found!"
@@ -15220,6 +16276,11 @@ msgstr ""
 
 msgid "The category does not belong to the selected project."
 msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to change project access settings."
+msgstr "Jums nav atļauts apstiprināt ieteikumus."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -15439,6 +16500,10 @@ msgstr ""
 msgid "Create new language file"
 msgstr ""
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 msgid "Disable adding new translations"
 msgstr ""
@@ -15492,6 +16557,16 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Public e-mail"
+msgid "Public sharing"
+msgstr "Publiskais e-pasts"
 
 msgid ""
 "Component or category with the same URL slug already exists at this level."
@@ -15779,6 +16854,11 @@ msgid ""
 "translations. You can also choose additional integration with third party "
 "providers to submit pull/merge requests."
 msgstr ""
+
+#, fuzzy
+#| msgid "File format"
+msgid "Version control parameters"
+msgstr "Faila formāts"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -16313,6 +17393,17 @@ msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr ""
 
+#, python-format
+msgid ""
+"The parameter '%(param)s' is not applicable for the version control system "
+"'%(vcs)s'."
+msgstr ""
+
+msgid ""
+"Pushing without a merge request needs write access to the repository. "
+"Configure a push URL with credentials, or use an SSH repository URL."
+msgstr ""
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -16549,7 +17640,9 @@ msgid ""
 "file."
 msgstr ""
 
-msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr ""
 
 msgid "Could not accept suggestion!"
@@ -16743,6 +17836,32 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
+msgid "Repository operation could not be completed because it remained locked."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "Repository operation could not be completed."
+msgstr "Pārvaldīt ekrānšāviņus"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "Repository operation completed."
+msgstr "Pārvaldīt ekrānšāviņus"
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "Repository operation completed with errors."
+msgstr "Pārvaldīt ekrānšāviņus"
+
 msgid "No suggestions found."
 msgstr "Nav atrasts neviens ieteikums."
 
@@ -16803,53 +17922,11 @@ msgstr "Prioritāte"
 msgid "Priority: Very low"
 msgstr "Prioritāte"
 
-#. Translators: Glossary term formatting used in a tooltip
-#, python-brace-format
-msgctxt "glossary term"
-msgid "{target} [{source}]"
-msgstr ""
-
-msgid "Forbidden translation:"
-msgid_plural "Forbidden translations:"
-msgstr[0] "Aizliegtie tulkojumi:"
-msgstr[1] "Aizliegts tulkojums:"
-msgstr[2] "Aizliegtie tulkojumi:"
-
-msgid "Untranslatable term:"
-msgid_plural "Untranslatable terms:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-msgid "Glossary term:"
-msgid_plural "Glossary terms:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
 msgid "Translated without any problems"
 msgstr ""
 
 msgid "Needs attention"
 msgstr ""
-
-msgctxt "String state"
-msgid "Dismissed checks:"
-msgstr ""
-
-msgctxt "String state"
-msgid "Commented"
-msgstr ""
-
-msgctxt "String state"
-msgid "Suggested"
-msgstr ""
-
-#, fuzzy
-#| msgid "Automatic translation"
-msgctxt "String state"
-msgid "Automatically translated"
-msgstr "Automātiskais tulkojums"
 
 #, python-format
 msgid "string ID %s"
@@ -16886,15 +17963,34 @@ msgstr[1] ""
 msgid "Shared from the %s project."
 msgstr ""
 
-#. Translators: Number format, in millions (mega)
-#, python-format
-msgid "%s M"
+#, fuzzy
+#| msgid "Project"
+msgid "Project settings"
+msgstr "Projekts"
+
+msgid "Site-wide language customization"
 msgstr ""
 
-#. Translators: Number format, in thousands (kilo)
-#, python-format
-msgid "%s k"
+msgid "Project-language customization"
 msgstr ""
+
+msgid "Only approved translations are written to the translation file."
+msgstr ""
+
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr ""
+
+#, fuzzy
+#| msgid "Configure"
+msgid "Configure source reviews"
+msgstr "Pielāgot"
+
+#, fuzzy
+#| msgid "Your translation is foo"
+msgid "Configure translation reviews"
+msgstr "Jūsu tulkojums ir neveiksmīgs"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -17021,6 +18117,14 @@ msgstr ""
 
 #, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
+msgstr "Nezināms datnes formāta parametrs: \"%(param_name)s\"."
+
+msgid "Version control parameters must be a dictionary of key-value pairs."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unknown file format parameter: \"%(param_name)s\"."
+msgid "Unknown version control parameter: \"%(param_name)s\"."
 msgstr "Nezināms datnes formāta parametrs: \"%(param_name)s\"."
 
 msgid "Keys"
@@ -17207,6 +18311,11 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
+
 msgid "Your suggestion is empty!"
 msgstr ""
 
@@ -17290,32 +18399,27 @@ msgstr ""
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
+#, fuzzy
+#| msgid "New translation component"
+msgid "Another repository operation is already in progress."
+msgstr "Jauns tulkošanas komponents"
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-
-msgid "All repositories were pushed."
-msgstr ""
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-
-msgid "All repositories have been cleaned up."
-msgstr ""
-
-msgid "Translation files have been synchronized."
-msgstr ""
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "This repository operation is already queued."
+msgstr "Pārvaldīt ekrānšāviņus"
 
 #, fuzzy
-#| msgid "New translation component"
-msgid "Updates of translations are in progress."
-msgstr "Jauns tulkošanas komponents"
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "Repository operation has been queued."
+msgstr "Pārvaldīt ekrānšāviņus"
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr ""
@@ -17327,14 +18431,6 @@ msgstr ""
 #| msgid "Comment on own translation"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Komentārs par savu tulkojumu"
-
-#, fuzzy
-#| msgid "%(translation)s has been completed"
-msgid "Pending translations are being committed."
-msgstr "%(translation)s – pabeigta"
-
-msgid "All pending translations were committed."
-msgstr ""
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -17500,6 +18596,18 @@ msgstr ""
 #. Translators: Text on OpenGraph image
 msgid "Project {}"
 msgstr ""
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Kategorija"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Workspace"
+msgid "Workspace {}"
+msgstr "Darbvieta"
 
 #. Translators: Text on OpenGraph image
 msgid "Component {}"
@@ -17669,6 +18777,16 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+#. Translators: Number format, in millions (mega)
+#, python-format
+msgid "%s M"
+msgstr ""
+
+#. Translators: Number format, in thousands (kilo)
+#, python-format
+msgid "%s k"
+msgstr ""
+
 msgid "Missing query string."
 msgstr ""
 
@@ -17714,6 +18832,9 @@ msgstr "Nevarēja parsēt JSON: %s"
 #| msgid "Could not parse JSON: %s"
 msgid "Could not resolve the URL domain."
 msgstr "Nevarēja parsēt JSON: %s"
+
+msgid "Parameters must be a dictionary of key-value pairs."
+msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -18034,10 +19155,9 @@ msgstr ""
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid "Event details"
+#, python-format
 msgid "%(detail)s"
-msgstr "Notikuma informācija"
+msgstr "%(detail)s"
 
 #, python-format
 msgid "%(detail)s Please retry later."
@@ -18063,6 +19183,28 @@ msgstr ""
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
+"%(error)s Please retry later."
+msgstr ""
+
+#, python-format
+msgid "%(service)s API request failed while merging a pull request: %(status)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
 
@@ -18259,6 +19401,16 @@ msgstr ""
 msgid "Enter a valid GitHub host."
 msgstr "Tulkotās valodas"
 
+#, fuzzy
+#| msgid "Component list"
+msgid "Components to migrate"
+msgstr "Komponentu saraksts"
+
+#, fuzzy
+#| msgid "New translation component"
+msgid "Select at least one component to migrate."
+msgstr "Jauns tulkošanas komponents"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -18292,6 +19444,9 @@ msgid ""
 "App on the GitHub Marketplace."
 msgstr ""
 
+msgid "This will force push changes to the upstream repository."
+msgstr ""
+
 msgid "This will push changes to the upstream Git repository."
 msgstr ""
 
@@ -18305,9 +19460,6 @@ msgid "This will commit changes to the Subversion repository."
 msgstr ""
 
 msgid "Git with force push"
-msgstr ""
-
-msgid "This will force push changes to the upstream repository."
 msgstr ""
 
 msgid "Azure DevOps pull request"
@@ -18463,6 +19615,55 @@ msgstr "Neapstiprinātie ieteikumi"
 msgid "pending code-hosting installations"
 msgstr "Neapstiprinātie ieteikumi"
 
+msgid "Force push"
+msgstr ""
+
+msgid ""
+"Overwrite the remote branch instead of refusing to push non-fast-forward "
+"changes. Only use this with a repository dedicated to translations, as it "
+"discards upstream commits which are not present in Weblate."
+msgstr ""
+
+msgid "Create merge requests"
+msgstr ""
+
+msgid ""
+"Open a pull or merge request for the translation changes. When turned off, "
+"Weblate pushes to the translated branch directly, which requires write "
+"access to it."
+msgstr ""
+
+msgid "Merge pull requests automatically"
+msgstr ""
+
+msgid ""
+"Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
+"are merged once the required checks pass. Pull requests with nothing to wait "
+"for are merged right away."
+msgstr ""
+
+msgid "Merge method"
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove account"
+msgid "Create a merge commit"
+msgstr "Dzēst kontu"
+
+msgid "Squash and merge"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage screenshots"
+msgid "Rebase and merge"
+msgstr "Pārvaldīt ekrānšāviņus"
+
+msgid ""
+"Method used when merging pull requests automatically. The repository has to "
+"allow it."
+msgstr ""
+
 msgctxt "SSH key type"
 msgid "RSA"
 msgstr ""
@@ -18540,8 +19741,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -18615,6 +19843,28 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr ""
 
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, fuzzy, python-format
+#| msgid "Could not parse JSON: %s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Nevarēja parsēt JSON: %s"
+
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
 msgid "Enter a valid GitHub App name and host."
@@ -18677,13 +19927,16 @@ msgstr ""
 msgid "Header font"
 msgstr ""
 
-msgid "Navigation color (Light, Dark)"
+msgid "Header color (Light, Dark)"
 msgstr ""
 
-msgid "Navigation text color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
 msgstr ""
 
-msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
+msgstr ""
+
+msgid "Header accent color (Light, Dark)"
 msgstr ""
 
 msgid "Hover color (Light, Dark)"
@@ -18749,6 +20002,16 @@ msgid "Backup failed"
 msgstr ""
 
 #. Translators: Backup repository operation
+msgid "Database backup performed"
+msgstr ""
+
+#. Translators: Backup repository operation
+#, fuzzy
+#| msgid "Backups"
+msgid "Database backup failed"
+msgstr "Rezerves kopijas"
+
+#. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
 msgstr ""
 
@@ -18769,7 +20032,6 @@ msgstr ""
 msgid "Return to Weblate"
 msgstr ""
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr ""
 
@@ -18808,38 +20070,70 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Download translation file"
-msgid "Could not activate your installation. Invalid activation state."
+msgid "Could not enable Discover Weblate. Invalid activation state."
 msgstr "Nevarēja aktivizēt jūsu uzstādīto: %s"
 
 #, fuzzy
 #| msgid "Download translation file"
-msgid "Could not activate your installation. Missing activation code."
+msgid "Could not enable Discover Weblate. Missing activation code."
 msgstr "Nevarēja aktivizēt jūsu uzstādīto: %s"
 
 #, fuzzy
 #| msgid "Download translation file"
-msgid "Could not activate your installation. Invalid activation code."
+msgid "Could not enable Discover Weblate. Invalid activation code."
 msgstr "Nevarēja aktivizēt jūsu uzstādīto: %s"
 
-msgid "Could not activate your installation. Please try again later."
-msgstr ""
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Could not enable Discover Weblate. Please try again later."
+msgstr "Nepareiza atbilde, mēģiniet vēlreiz."
 
 msgid ""
-"Could not activate discovery because a support package is already linked."
+"Could not enable Discover Weblate because a support package is already "
+"linked."
 msgstr ""
 
-msgid "Activation completed."
+#, fuzzy
+#| msgid "Discover Weblate"
+msgid "Discover Weblate enabled."
+msgstr "Atklāt Weblate"
+
+msgid "Support status refreshed."
 msgstr ""
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Could not refresh support status. Please try again later."
+msgstr "Nepareiza atbilde, mēģiniet vēlreiz."
+
+msgid "Could not refresh support status. The activation token is invalid."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not get repository status!"
+msgid "Could not refresh support status: %s"
+msgstr "Nevarēja iegūt repozitorija statusu!"
+
+msgid "Support package activated."
+msgstr ""
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "Could not activate the support package. Please try again later."
+msgstr "Nepareiza atbilde, mēģiniet vēlreiz."
 
 msgid ""
-"Could not activate your installation. Please ensure your activation token is "
-"correct."
+"Could not activate the support package. Please ensure the activation token "
+"is correct."
 msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Download translation file"
-msgid "Could not activate your installation: %s"
+msgid "Could not activate the support package: %s"
 msgstr "Nevarēja aktivizēt jūsu uzstādīto: %s"
+
+msgid "Support package unlinked."
+msgstr ""
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
@@ -18904,6 +20198,68 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Jūsu konts tika dzēsts."
 
+#, fuzzy
+#~| msgid "Thank you for using Weblate."
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Paldies, ka izmantojat Weblate."
+
+#, fuzzy
+#~| msgid "Components"
+#~ msgid "Skipped components:"
+#~ msgstr "Komponenti"
+
+#~ msgid "Download reports"
+#~ msgstr "Lejupielādēt atskaites"
+
+#, fuzzy
+#~| msgid "Suggested translations"
+#~ msgid "Suggested change"
+#~ msgstr "Piedāvātie tulkojumi"
+
+#, fuzzy
+#~ msgid "Origin"
+#~ msgstr "Izcelsme"
+
+#, fuzzy
+#~| msgid "New translation component"
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "Jauns tulkošanas komponents"
+
+#, fuzzy
+#~| msgctxt "Access-control role"
+#~| msgid "Manage screenshots"
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Pārvaldīt ekrānšāviņus"
+
+#, fuzzy
+#~| msgid "New translation component"
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "Jauns tulkošanas komponents"
+
+#, fuzzy
+#~| msgid "Comment has been deleted."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Komentārs izdzēsts."
+
+#, fuzzy
+#~| msgid "New translation component"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Jauns tulkošanas komponents"
+
+#, fuzzy
+#~| msgid "%(translation)s has been completed"
+#~ msgid "Pending translations are being committed."
+#~ msgstr "%(translation)s – pabeigta"
+
+#, fuzzy
+#~| msgid "%(translation)s has been completed"
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "%(translation)s – pabeigta"
+
 #~ msgid "Service"
 #~ msgstr "Pakalpojums"
 
@@ -18919,16 +20275,8 @@ msgstr "Jūsu konts tika dzēsts."
 #~ msgid "Repository name"
 #~ msgstr "Pārvaldīt ekrānšāviņus"
 
-#, fuzzy
-#~| msgid "Translation comment"
-#~ msgid "Configure component"
-#~ msgstr "Komentēt tulkojumu"
-
 #~ msgid "Report issue"
 #~ msgstr "Ziņot par problēmu"
-
-#~ msgid "Unknown error"
-#~ msgstr "Nezināma kļūda"
 
 #~ msgid "component"
 #~ msgstr "komponents"
@@ -19029,9 +20377,6 @@ msgstr "Jūsu konts tika dzēsts."
 #~ msgid "Weblate community"
 #~ msgstr "Dzēst komentāru"
 
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Dot savu artavu Weblate attīstībā"
-
 #~ msgid "Info"
 #~ msgstr "Par projektu"
 
@@ -19039,9 +20384,6 @@ msgstr "Jūsu konts tika dzēsts."
 #~| msgid "Could not sign in using password."
 #~ msgid "Could not find matching user!"
 #~ msgstr "Nevarēja autorizēties, izmantojot paroli."
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Ziedot Weblate"
 
 #~ msgid "Invalid image!"
 #~ msgstr "Nederīgs attēls!"
@@ -19075,14 +20417,6 @@ msgstr "Jūsu konts tika dzēsts."
 #~ msgctxt "Name of event in the history"
 #~ msgid "Resolved comment"
 #~ msgstr "Dzēsts komentārs"
-
-#~ msgid "Do not notify"
-#~ msgstr "Neziņot"
-
-#, fuzzy
-#~| msgid "Failed to find language %s!"
-#~ msgid "Could not find matching language!"
-#~ msgstr "Valoda %s netika atrasta!"
 
 #~ msgid "You can add another e-mail address below."
 #~ msgstr "Zemāk varat pievienot vēl kādu e-pasta adresi."

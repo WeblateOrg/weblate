@@ -41,3 +41,16 @@ class SettingsTestCase(TestCase):
         self.assertEqual(
             ["#ffffff", "#000000"], CustomCSSView.split_colors("#ffffff,#000000")
         )
+
+    def test_font_quoting(self) -> None:
+        """Font families are not HTML escaped."""
+        fonts = 'Inter, "Open Sans", sans-serif'
+        Setting.objects.bulk_create(
+            Setting(category=SettingCategory.UI, name=name, value=fonts)
+            for name in ("page_font", "brand_font")
+        )
+        response = self.client.get(reverse("css-custom"))
+        css = response.content.decode()
+        self.assertNotIn("&quot;", css)
+        self.assertIn(f"--bs-font-sans-serif: {fonts} !important;", css)
+        self.assertIn(f"font-family: {fonts};", css)

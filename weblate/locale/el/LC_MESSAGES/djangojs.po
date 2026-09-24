@@ -8,10 +8,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
-"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
-"javascript/\n"
-"POT-Creation-Date: 2026-08-14 01:14-0500\n"
-"PO-Revision-Date: 2026-07-04 00:36+0000\n"
+"Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/javascript/"
+"\n"
+"POT-Creation-Date: 2026-09-17 20:14-0500\n"
+"PO-Revision-Date: 2026-09-19 06:52+0000\n"
 "Last-Translator: Jim Kats <jim-kats@hotmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/javascript/"
 "el/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgid "Unsaved changes!"
 msgstr "Μη αποθηκευμένες αλλαγές!"
@@ -66,18 +66,6 @@ msgstr "Για παράβλεψη πατήστε Cmd+I και %s."
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "Για παράβλεψη πατήστε Ctrl+I και %s."
 
-msgid "Clone to translation"
-msgstr "Κλωνοποίηση στη μετάφραση"
-
-msgid "Accept"
-msgstr "Αποδοχή"
-
-msgid "Accept and approve"
-msgstr "Αποδοχή και έγκριση"
-
-msgid "Delete entry"
-msgstr "Διαγραφή καταχώρησης"
-
 msgid "No results found"
 msgstr "Δεν βρέθηκαν αποτελέσματα"
 
@@ -86,6 +74,11 @@ msgid "%s matching string"
 msgid_plural "%s matching strings"
 msgstr[0] "%s συμβολοσειρά ταιριάζει"
 msgstr[1] "%s συμβολοσειρές ταιριάζουν"
+
+msgid ""
+"Your previous search results are no longer available. Refresh results to "
+"continue."
+msgstr ""
 
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "Υπάρχουν ορισμένες μη αποθηκευμένες αλλαγές, θέλετε σίγουρα να φύγετε;"
@@ -117,13 +110,18 @@ msgstr "Μη έγκυρη απάντηση διακομιστή"
 msgid "Server error (%s)"
 msgstr "Σφάλμα διακομιστή (%s)"
 
-#, javascript-format
-msgid "There are no pending suggestions from %s in this translation."
+#, fuzzy
+#| msgid "There are no pending suggestions from %s in this translation."
+msgid "There are no pending suggestions from %(username)s in %(translation)s."
 msgstr "Δεν υπάρχουν εκκρεμείς προτάσεις από %s σε αυτή την μετάφραση."
 
-#, javascript-format
-msgid "This will accept %s suggestion from %s in this translation."
-msgid_plural "This will accept %s suggestions from %s in this translation."
+#, fuzzy
+#| msgid "This will accept %s suggestion from %s in this translation."
+#| msgid_plural "This will accept %s suggestions from %s in this translation."
+msgid ""
+"This will accept %(count)s suggestion from %(username)s in %(translation)s."
+msgid_plural ""
+"This will accept %(count)s suggestions from %(username)s in %(translation)s."
 msgstr[0] "Αυτό θα αποδεχτεί %s πρόταση από %s σε αυτή την μετάφραση."
 msgstr[1] "Αυτό θα αποδεχτεί %s προτάσεις από %s σε αυτή την μετάφραση."
 
@@ -278,10 +276,22 @@ msgid "Image Pasted!"
 msgstr "Η εικόνα επικολλήθηκε!"
 
 msgid "Press Ctrl+V or Command+V to paste an image."
-msgstr ""
+msgstr "Πατήστε Ctrl+V ή Command+V για να επικολλήσετε μια εικόνα."
 
 msgid "No image found in clipboard"
 msgstr "Δεν βρέθηκε εικόνα στο πρόχειρο"
+
+msgid "Loading screenshots…"
+msgstr "Γίνεται φόρτωση στιγμιοτύπων…"
+
+msgid "Could not load screenshots. Please try again."
+msgstr "Δεν ήταν δυνατή η φόρτωση στιγμιοτύπων. Δοκιμάστε ξανά αργότερα."
+
+msgid "Adding screenshot…"
+msgstr "Γίνεται προσθήκη στιγμιοτύπου…"
+
+msgid "Could not add screenshot. Please try again."
+msgstr "Δεν ήταν δυνατή η προσθήκη στιγμιοτύπου. Δοκιμάστε ξανά αργότερα."
 
 msgid ""
 "A pull or merge request will be created from a branch in the repository."
@@ -328,6 +338,12 @@ msgid ""
 "Changes will be pushed directly to the default branch of the push repository."
 msgstr ""
 
+msgid "Text copied to clipboard."
+msgstr "Το κείμενο αντιγράφηκε στο πρόχειρο."
+
+msgid "Error copying to clipboard."
+msgstr "Σφάλμα αντιγραφής στο πρόχειρο."
+
 msgid "Some source strings could not be assigned."
 msgstr "Κάποια κείμενα προέλευσης δεν μπόρεσαν να ανατεθούν."
 
@@ -343,14 +359,8 @@ msgstr "Ταξινόμηση αυτής της στήλης"
 msgid "Error while loading page:"
 msgstr "Σφάλμα κατά τη φόρτωση της σελίδας:"
 
-msgid "Text copied to clipboard."
-msgstr "Το κείμενο αντιγράφηκε στο πρόχειρο."
-
 msgid "Please press Ctrl+C to copy."
 msgstr "Πατήστε Ctrl + C για αντιγραφή."
-
-msgid "Error copying to clipboard."
-msgstr "Σφάλμα αντιγραφής στο πρόχειρο."
 
 msgid "Search…"
 msgstr "Αναζήτηση…"
@@ -413,6 +423,18 @@ msgid "%s hour ago"
 msgid_plural "%s hours ago"
 msgstr[0] "%s ώρα πριν"
 msgstr[1] "%s ώρες πριν"
+
+#~ msgid "Clone to translation"
+#~ msgstr "Κλωνοποίηση στη μετάφραση"
+
+#~ msgid "Accept"
+#~ msgstr "Αποδοχή"
+
+#~ msgid "Accept and approve"
+#~ msgstr "Αποδοχή και έγκριση"
+
+#~ msgid "Delete entry"
+#~ msgstr "Διαγραφή καταχώρησης"
 
 #~ msgid "Something went wrong!"
 #~ msgstr "Κάτι πήγε στραβά!"
@@ -565,9 +587,6 @@ msgstr[1] "%s ώρες πριν"
 
 #~ msgid "Copy and save"
 #~ msgstr "Αντιγραφή και αποθήκευση"
-
-#~ msgid "Add to screenshot"
-#~ msgstr "Προσθήκη στο στιγμιότυπο"
 
 #~ msgid "Ctrl/Command+%s"
 #~ msgstr "Ctrl/Command+%s"

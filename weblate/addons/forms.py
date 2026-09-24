@@ -29,6 +29,7 @@ from weblate.addons.defaults import (
     DEFAULT_FEDORA_MESSAGING_PUBLISH_TIMEOUT,
     DEFAULT_FEDORA_MESSAGING_RETRY_DELAY,
 )
+from weblate.addons.gettext_rules import resolve_data_dirs, validate_data_dirs
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.actions import ActionEvents
 from weblate.trans.discovery import (
@@ -46,7 +47,12 @@ from weblate.utils.forms import (
     WeblateServiceURLField,
 )
 from weblate.utils.regex import compile_regex, regex_match, regex_sub
-from weblate.utils.render import validate_render, validate_render_translation
+from weblate.utils.render import (
+    validate_render,
+    validate_render_mock,
+    validate_render_translation,
+)
+from weblate.utils.stats import DummyTranslationStats
 from weblate.utils.validators import (
     validate_fedora_messaging_url,
     validate_filename,
@@ -254,14 +260,56 @@ class BaseExtractPotForm(BaseAddonForm):
         return data
 
 
+class KeywordField(forms.CharField):
+    def prepare_value(self, value: object) -> object:
+        if isinstance(value, list) and all(
+            isinstance(keyword, str) for keyword in value
+        ):
+            return "\n".join(value)
+        return super().prepare_value(value)
+
+    def to_python(self, value: object) -> str | None:
+        if isinstance(value, list):
+            if not all(isinstance(keyword, str) for keyword in value):
+                raise forms.ValidationError(
+                    gettext("Keyword entries have to be strings.")
+                )
+            value = "\n".join(value)
+        return super().to_python(value)
+
+
+class GettextDataDirsField(forms.CharField):
+    def prepare_value(self, value: object) -> object:
+        if isinstance(value, list):
+            return "\n".join(validate_data_dirs(value))
+        return super().prepare_value(value)
+
+    def to_python(self, value: object) -> str | None:
+        if isinstance(value, list):
+            value = "\n".join(validate_data_dirs(value))
+        return super().to_python(value)
+
+
 class BaseXgettextExtractPotForm(BaseExtractPotForm):
     public_configuration_fields = BaseExtractPotForm.public_configuration_fields | {
         "checks",
+        "data_dirs",
         "comment_mode",
         "comment_tag",
         "keyword",
         "keyword_exclusive",
     }
+
+    data_dirs = GettextDataDirsField(
+        label=gettext_lazy("ITS data directories"),
+        required=False,
+        widget=forms.Textarea(),
+        help_text=gettext_lazy(
+            "Newline-separated repository-relative directories containing an its "
+            "subdirectory, for example po for po/its. Earlier directories override "
+            "later directories and bundled rules."
+        ),
+    )
 
     COMMENT_MODE_CHOICES = (
         ("off", gettext_lazy("Do not extract comments")),
@@ -301,11 +349,12 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             "Additional xgettext validation checks to enable for extracted messages."
         ),
     )
-    keyword = forms.CharField(
-        label=gettext_lazy("Additional keyword"),
+    keyword = KeywordField(
+        label=gettext_lazy("Additional keywords"),
         required=False,
+        widget=forms.Textarea(),
         help_text=gettext_lazy(
-            "Optional extra keyword passed to xgettext using --keyword."
+            "Newline-separated extra keywords passed to xgettext using --keyword."
         ),
     )
     keyword_exclusive = forms.BooleanField(
@@ -326,6 +375,19 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
 
+    def clean_data_dirs(self) -> list[str]:
+        names = validate_data_dirs(
+            [
+                line.strip()
+                for line in self.cleaned_data.get("data_dirs", "").splitlines()
+                if line.strip()
+            ]
+        )
+        component = self._addon.instance.component
+        if component is not None:
+            resolve_data_dirs(Path(component.full_path), names)
+        return names
+
     def clean_xgettext_options(self, cleaned_data: dict[str, Any]) -> dict[str, Any]:
         comment_mode = cleaned_data.get("comment_mode", "off")
         comment_tag = cleaned_data.get("comment_tag", "").strip()
@@ -335,7 +397,7 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         else:
             comment_tag = ""
         cleaned_data["comment_tag"] = comment_tag
-        cleaned_data["keyword"] = cleaned_data.get("keyword", "").strip()
+        cleaned_data["keyword"] = self.parse_keywords(cleaned_data.get("keyword", ""))
         keyword_exclusive = bool(cleaned_data.get("keyword_exclusive"))
         if keyword_exclusive and not cleaned_data["keyword"]:
             self.add_error(
@@ -347,6 +409,10 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         cleaned_data["keyword_exclusive"] = keyword_exclusive
         cleaned_data["location_mode"] = cleaned_data.get("location_mode", "file")
         return cleaned_data
+
+    @staticmethod
+    def parse_keywords(value: str) -> list[str]:
+        return [line.strip() for line in value.splitlines() if line.strip()]
 
 
 class XgettextExtractPotForm(BaseXgettextExtractPotForm):
@@ -423,6 +489,7 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
             Field("comment_mode"),
             Field("comment_tag"),
             Field("checks"),
+            Field("data_dirs"),
             Field("keyword"),
             Field("keyword_exclusive"),
             Field("location_mode"),
@@ -502,6 +569,7 @@ class MesonExtractPotForm(BaseXgettextExtractPotForm):
             Field("comment_mode"),
             Field("comment_tag"),
             Field("checks"),
+            Field("data_dirs"),
             Field("keyword"),
             Field("keyword_exclusive"),
             Field("location_mode"),
@@ -630,7 +698,20 @@ class SphinxExtractPotForm(BaseExtractPotForm):
 class GenerateForm(
     BaseAddonForm["GenerateFileAddonConfiguration", "GenerateFileAddon"]
 ):
-    public_configuration_fields = frozenset({"filename"})
+    public_configuration_fields = frozenset({"filename", "scope"})
+
+    scope = forms.ChoiceField(
+        label=gettext_lazy("Output scope"),
+        choices=(
+            ("translation", gettext_lazy("One file per translation")),
+            ("component", gettext_lazy("One file per component")),
+        ),
+        initial="translation",
+        required=False,
+    )
+
+    def clean_scope(self):
+        return self.cleaned_data["scope"] or "translation"
 
     filename = forms.CharField(
         label=gettext_lazy("Name of generated file"), required=True
@@ -645,6 +726,7 @@ class GenerateForm(
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
+            Field("scope"),
             Field("filename"),
             Field("template"),
             ContextDiv(
@@ -652,11 +734,30 @@ class GenerateForm(
             ),
         )
 
-    def test_render(self, value) -> None:
-        validate_render_translation(value)
+    def test_render(self, value: str, *, filename: bool = False) -> None:
+        if self.cleaned_data.get("scope") == "component" and filename:
+            validate_render_mock(value)
+        elif self.cleaned_data.get("scope") == "component":
+            validate_render_mock(
+                value,
+                translations=[
+                    {
+                        "language_code": "cs",
+                        "language_name": "Czech",
+                        "language_native_name": "Čeština",
+                        "language_direction": "ltr",
+                        "filename": "cs.po",
+                        "url": "https://example.com/cs/",
+                        "is_source": False,
+                        "stats": DummyTranslationStats(None).get_data(),
+                    }
+                ],
+            )
+        else:
+            validate_render_translation(value)
 
     def clean_filename(self):
-        self.test_render(self.cleaned_data["filename"])
+        self.test_render(self.cleaned_data["filename"], filename=True)
         validate_filename(self.cleaned_data["filename"])
         return self.cleaned_data["filename"]
 
@@ -666,6 +767,7 @@ class GenerateForm(
 
     def serialize_form(self) -> GenerateFileAddonConfiguration:
         return {
+            "scope": self.cleaned_data["scope"],
             "filename": self.cleaned_data["filename"],
             "template": self.cleaned_data["template"],
         }
@@ -789,6 +891,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template",
             "copy_addons",
             "file_format",
+            "filemask_template",
             "intermediate_template",
             "language_regex",
             "match",
@@ -812,6 +915,7 @@ class DiscoveryForm(BaseAddonForm):
         "base_file_template",
         "new_base_template",
         "intermediate_template",
+        "filemask_template",
         "language_regex",
     )
     PRESET_FILENAME_LANGUAGE = "filename-language"
@@ -829,6 +933,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_GETTEXT_LOCALES: {
@@ -838,6 +943,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_COMPLEX_FILENAMES: {
@@ -847,6 +953,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_FILENAME_LANGUAGE: {
@@ -856,6 +963,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_REPEATED_LANGUAGE: {
@@ -865,6 +973,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_SPLIT_ANDROID: {
@@ -874,6 +983,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_MULTIPLE_PATHS: {
@@ -883,6 +993,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
     }
@@ -891,7 +1002,10 @@ class DiscoveryForm(BaseAddonForm):
         label=gettext_lazy("Regular expression to match translation files against"),
         required=True,
         help_text=gettext_lazy(
-            "The regular expression must define named groups for component and language."
+            "The regular expression must define a named group for component. "
+            "Also define a named group for language when matching translation files. "
+            "When the file mask is set, omit language and match the "
+            "monolingual base or new base file instead."
         ),
     )
     file_format = forms.ChoiceField(
@@ -935,6 +1049,18 @@ class DiscoveryForm(BaseAddonForm):
             "used when creating actual source strings. This template must include {{ component }}."
         ),
     )
+    filemask_template = forms.CharField(
+        label=gettext_lazy("Define the file mask"),
+        initial="",
+        required=False,
+        help_text=gettext_lazy(
+            "Leave empty to match translation files directly. When set, discovery "
+            "matches the monolingual base or new base file and uses this template "
+            "as the file mask. Include a language wildcard and "
+            "{{ component }}, for example locale/*/{{ component }}.po or "
+            "docs/{{ component }}_*.md."
+        ),
+    )
 
     language_regex = forms.CharField(
         label=gettext_lazy("Language filter"),
@@ -972,6 +1098,7 @@ class DiscoveryForm(BaseAddonForm):
             Field("base_file_template"),
             Field("new_base_template"),
             Field("intermediate_template"),
+            Field("filemask_template"),
             Field("language_regex"),
             Field("copy_addons"),
             Field("remove"),
@@ -1266,6 +1393,27 @@ class DiscoveryForm(BaseAddonForm):
                         )
                     }
                 )
+            if filemask_template := self.cleaned_data.get("filemask_template"):
+                new_base_template = self.cleaned_data.get("new_base_template")
+                base_file_template = self.cleaned_data.get("base_file_template")
+                errors: dict[str, str] = {}
+                if is_monolingual is False and not new_base_template:
+                    errors["new_base_template"] = gettext(
+                        "Define the base file for new translations when creating components from a template."
+                    )
+                elif is_monolingual is None and not (
+                    base_file_template or new_base_template
+                ):
+                    errors["base_file_template"] = gettext(
+                        "Define a monolingual base or new base filename when creating components from a template."
+                    )
+                if "*" not in filemask_template:
+                    errors["filemask_template"] = gettext(
+                        "The file mask must include a language wildcard (*)."
+                    )
+
+                if errors:
+                    raise forms.ValidationError(errors)
 
         self.cleaned_data["preview"] = False
 
@@ -1281,8 +1429,32 @@ class DiscoveryForm(BaseAddonForm):
 
     def clean_match(self):
         match = self.cleaned_data["match"]
-        validate_re(match, ("component", "language"))
+        if self.create_from_template:
+            validate_re(match, ("component",))
+            if "language" in compile_regex(match).groupindex:
+                raise forms.ValidationError(
+                    gettext(
+                        "Omit the language named group when creating components "
+                        "from a monolingual base or new base file."
+                    )
+                )
+        else:
+            validate_re(match, ("component", "language"))
         return match
+
+    @property
+    def create_from_template(self) -> bool:
+        if "filemask_template" in self.cleaned_data:
+            return bool(self.cleaned_data["filemask_template"])
+        # match is declared before filemask_template, so fall back to raw data
+        # while field-level cleaning is still in progress.
+        data = getattr(self, "data", None)
+        if data is None:
+            return False
+        value = data.get("filemask_template")
+        if value is None:
+            return False
+        return bool(str(value).strip())
 
     @cached_property
     def cleaned_match_re(self):
@@ -1343,6 +1515,9 @@ class DiscoveryForm(BaseAddonForm):
     def clean_intermediate_template(self):
         return self.template_clean("intermediate_template")
 
+    def clean_filemask_template(self):
+        return self.template_clean("filemask_template")
+
 
 class AutoAddonForm(
     BaseAddonForm["AutoTranslateAddonStoredConfiguration", "AutoTranslateAddon"],
@@ -1359,10 +1534,20 @@ class AutoAddonForm(
         instance=None,
         **kwargs,
     ) -> None:
-        BaseAddonForm.__init__(self, user, addon)
+        BaseAddonForm.__init__(self, user, addon, **kwargs)
+        if addon.documentation_build:
+            # Documentation needs declared fields, not database-backed choices.
+            return
         AutoForm.__init__(
-            self, obj=addon.instance.component or addon.instance.project, **kwargs
+            self,
+            obj=addon.instance.component or addon.instance.project,
+            user=user,
+            **kwargs,
         )
+        # Add-ons use management permissions, not the configuring user's review
+        # permission. AutoTranslate applies each target's effective review settings
+        # and falls back to translated when reviews are disabled.
+        self.fields["mode"].choices = self.base_fields["mode"].choices
 
     def serialize_form(self) -> AutoTranslateAddonStoredConfiguration:
         return {
@@ -1379,10 +1564,12 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
     public_configuration_fields = frozenset(
         {
             "add_flags",
+            "add_translation_flags",
             "add_labels",
             "path",
             "q",
             "remove_flags",
+            "remove_translation_flags",
             "remove_labels",
             "state",
         }
@@ -1390,6 +1577,9 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
 
     def __init__(self, user: User | None, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
+        if addon.documentation_build:
+            # Keep state choices, but avoid fetching project labels.
+            kwargs["labels"] = self.fields["add_labels"].queryset
         obj: Project | Component | None = None
         project: Project | None = None
         if addon.instance.component:

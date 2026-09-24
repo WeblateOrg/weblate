@@ -32,7 +32,7 @@
       <tbody>
         {% for service in configured_services %}
           <tr>
-            <td>{% include 'machinery/detail.html' %}</td>
+            <td>{% include "machinery/detail.html" %}</td>
             <td class="bottom-button">
               {% if service.is_enabled or not service.is_available %}
                 <form method="post" action="{{ service.get_absolute_url }}">
@@ -78,11 +78,14 @@
       <tbody>
         {% for service in available_services %}
           <tr>
-            <td>{% include 'machinery/detail.html' %}</td>
+            <td>{% include "machinery/detail.html" %}</td>
             <td class="bottom-button">
               <form method="post" action="{{ service.get_absolute_url }}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary" name="install" value="1">{% translate "Install" %}</button>
+                <button type="submit"
+                        class="btn btn-primary"
+                        name="install"
+                        value="1">{% translate "Install" %}</button>
               </form>
             </td>
           </tr>

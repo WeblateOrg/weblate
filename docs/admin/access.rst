@@ -67,6 +67,10 @@ project.
 
 The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
+Private and Custom projects can make their :ref:`project-public_sharing`
+engage pages and status widgets anonymously accessible without making the rest
+of the project public. Public sharing is disabled by default for these projects.
+
 .. _statistics-access-filtering:
 
 .. note::
@@ -373,13 +377,15 @@ by site-wide or per-project teams by adding another custom team.
 
   1. Remove the permission to translate `Czech` from all users. In the
      default configuration this can be done by altering the `Users`
-     :ref:`default team <default-teams>`.
+     :ref:`default team <default-teams>`. Built-in teams reject this change in
+     the team management UI, use the
+     :ref:`Django admin interface <admin-interface>` instead.
 
      .. list-table:: Group `Users`
          :stub-columns: 1
 
-         * - Language selection
-           - `As defined`
+         * - All languages
+           - Turned off
          * - Languages
            - All but `Czech`
 
@@ -392,8 +398,8 @@ by site-wide or per-project teams by adding another custom team.
            - `Power users`
          * - Project selection
            - `All public projects`
-         * - Language selection
-           - `As defined`
+         * - All languages
+           - Turned off
          * - Languages
            - `Czech`
 
@@ -497,11 +503,29 @@ the following rules:
   those languages. Project-wide, component-wide and global permissions from that
   team are not granted for that member.
 
-- The VCS permissions to commit, push, reset, and update are evaluated for the
-  whole repository. A member needs component-wide permission on the component
-  owning the repository and every component linked to it. This also applies
-  when linked components are in other projects. A per-member language limit
-  therefore cannot grant these permissions.
+- The VCS permissions to commit, push, reset, and update are evaluated on the
+  component that owns the repository. A member needs component-wide permission
+  on that owner, even when starting an operation from a linked component in
+  another project. Permissions on linked components neither grant this authority
+  nor restrict the owner's authorized users. A per-member language limit cannot
+  grant these permissions.
+
+  Linking a component accepts the owner's authority over the shared checkout.
+  Repository operations affect the whole checkout and its linked components.
+  They do not grant access to otherwise inaccessible component pages.
+
+  Project-wide repository status and operations include repositories for which
+  the member has permission on the owner. Other repositories are listed
+  separately and are not inspected or changed. An operation is denied when none
+  of the project's repositories are available to it.
+
+- The :guilabel:`Manage reports` permission applies to the complete selected
+  report scope. It grants access to report data from restricted components and,
+  at workspace scope, private projects even when those descendants are not
+  otherwise visible to the user. Grant it only to users trusted with all report
+  data in that scope. Complete workspace reports are unavailable to regular
+  users until they configure two-factor authentication when any project in the
+  workspace enforces it. Superusers and bot accounts are exempt.
 
 - The :guilabel:`Edit component settings` permission allows administrative
   operations that can affect repository contents. For example, users can choose
@@ -517,7 +541,7 @@ the following rules:
 
 .. hint::
 
-   Use :guilabel:`Language selection` or :guilabel:`Project selection`
+   Use :guilabel:`All languages` or :guilabel:`Project selection`
    to automate inclusion of all languages or projects.
 
 .. image:: /screenshots/team-scope.webp

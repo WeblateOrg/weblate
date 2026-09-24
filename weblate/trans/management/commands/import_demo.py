@@ -10,7 +10,7 @@ from django.test.utils import override_settings
 
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.trans.models import Component, Project
-from weblate.trans.tasks import actual_project_removal
+from weblate.trans.tasks import project_removal
 from weblate.utils.management.base import BaseCommand
 
 if TYPE_CHECKING:
@@ -42,7 +42,7 @@ class Command(BaseCommand):
                     pass
                 else:
                     # Remove without creating a backup
-                    actual_project_removal(project.pk, None)
+                    project_removal.run(project.pk, None, backup=False)
             # Create project
             project = Project.objects.create(
                 name="Demo", slug="demo", web="https://demo.weblate.org/"

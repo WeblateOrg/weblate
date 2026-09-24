@@ -14,6 +14,7 @@ from typing import IO, TYPE_CHECKING, Any, ClassVar, cast, overload
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext
 from pyparsing import ParseException
 from translate.misc.multistring import multistring
@@ -47,6 +48,8 @@ if TYPE_CHECKING:
 
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
+
+MAX_DECLARED_LANGUAGES = 100
 
 ANDROID_CODES = {
     "he": "iw",
@@ -254,6 +257,10 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
     @cached_property
     def flags(self) -> Flags:
         """Return flags or typecomments from units."""
+        return self.get_flags()
+
+    def get_flags(self) -> Flags:
+        """Read explicit flags without populating the derived flags cache."""
         flags = Flags()
         for extra in self.get_extra_flags():
             try:
@@ -333,11 +340,11 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
         """Check whether unit is translated."""
         return self.has_translation()
 
-    def is_approved(self, fallback=False) -> bool:
+    def is_approved(self, fallback: bool = False) -> bool:
         """Check whether unit is approved."""
         return fallback
 
-    def is_fuzzy(self, fallback=False) -> bool:
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         """Check whether unit needs edit."""
         return fallback
 
@@ -391,7 +398,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     format_id: str = ""
     monolingual: bool | None = None
     check_flags: tuple[str, ...] = ()
-    unit_class: type[T] = TranslationUnit  # type: ignore[assignment]
+    unit_class: ClassVar[type[T]] = TranslationUnit  # type: ignore[assignment]
+    unit_class_variants: ClassVar[dict[str, type[T]]] = {}
     autoload: tuple[str, ...] = ()
     can_add_unit: bool = True
     can_delete_unit: bool = True
@@ -402,6 +410,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     create_empty_bilingual: bool = False
     bilingual_class: type[TranslationFormat] | None = None
     create_style = "create"
+    # Increment when existing files must be reparsed after a representation change.
+    parse_version: int = 0
     has_multiple_strings: bool = False
     supports_explanation: bool = False
     supports_plural: bool = False
@@ -427,8 +437,26 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         return cls.supports_plural
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.format_id
+
+    @classmethod
+    # ruff: ignore[unused-class-method-argument]
+    def get_unit_class_variant(
+        cls, file_format_params: FileFormatParams | None = None
+    ) -> str | None:
+        """Return unit class variant name from file format parameters."""
+        return None
+
+    @classmethod
+    def get_unit_class(
+        cls, file_format_params: FileFormatParams | None = None
+    ) -> type[T]:
+        """Return class for wrapping store units."""
+        variant = cls.get_unit_class_variant(file_format_params)
+        if variant is None:
+            return cls.unit_class
+        return cls.unit_class_variants.get(variant, cls.unit_class)
 
     def __init__(
         self,
@@ -482,6 +510,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
                 )
             )
         self.ensure_index()
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        """Return languages explicitly declared in the file, without defaults."""
+        return set()
 
     def get_filenames(self):
         if isinstance(self.storefile, str):
@@ -558,7 +590,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
     def _calculate_string_hash(self, context: str, source: str) -> int:
         """Calculate id hash for a string."""
-        return self.unit_class.calculate_id_hash(
+        return self.get_unit_class(self.file_format_params).calculate_id_hash(
             self.has_template or self.is_template, get_string(source), context
         )
 
@@ -595,7 +627,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         """Return actual store units used for duplicate cleanup."""
         if not self.has_template:
             return self._get_all_bilingual_units()
-        return [self.unit_class(self, unit, unit) for unit in self.all_store_units]
+        return [
+            self.get_unit_class(self.file_format_params)(self, unit, unit)
+            for unit in self.all_store_units
+        ]
 
     def remove_duplicate_units(self) -> list[str] | None:
         """Remove duplicate units from the underlying store."""
@@ -632,6 +667,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         """Update store header if available."""
         return
 
+    def update_contributor(self, author: str) -> bool:
+        """Update contributor comments, returning whether the store needs saving."""
+        return False
+
     @staticmethod
     def save_atomic(
         filename: str,
@@ -664,13 +703,19 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
     @cached_property
     def template_units(self) -> list[T]:
-        return [self.unit_class(self, None, unit) for unit in self.all_store_units]
+        return [
+            self.get_unit_class(self.file_format_params)(self, None, unit)
+            for unit in self.all_store_units
+        ]
 
     def _get_all_bilingual_units(self) -> list[T]:
-        return [self.unit_class(self, unit) for unit in self.all_store_units]
+        return [
+            self.get_unit_class(self.file_format_params)(self, unit)
+            for unit in self.all_store_units
+        ]
 
     def _build_monolingual_unit(self, unit: T) -> T:
-        return self.unit_class(
+        return self.get_unit_class(self.file_format_params)(
             self,
             self.find_unit_template(unit.context, unit.source, unit.id_hash),
             cast("U", unit.template),
@@ -896,6 +941,11 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     ) -> U:
         raise NotImplementedError
 
+    def new_unit_from_unit(self, unit: Unit) -> T:
+        return self.new_unit(
+            unit.context, unit.get_source_plurals(), unit.get_target_plurals()
+        )
+
     def new_unit(
         self,
         key: str,
@@ -917,8 +967,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
                 )[0].unit
         else:
             template_unit = None
-        result = self.unit_class(self, unit, template_unit)
-        mono_unit = self.unit_class(self, None, unit)
+        result = self.get_unit_class(self.file_format_params)(self, unit, template_unit)
+        mono_unit = self.get_unit_class(self.file_format_params)(self, None, unit)
 
         # Update cached lookups
         if "all_units" in self.__dict__:
@@ -957,7 +1007,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
         # Iterate over copy of a list as we are changing it when removing units
         for unit in list(self.all_store_units):
-            if self.unit_class(self, None, unit).context not in existing:
+            if (
+                self.get_unit_class(self.file_format_params)(self, None, unit).context
+                not in existing
+            ):
                 changed = True
                 item = self.delete_unit(unit)
                 if item is not None:
@@ -987,7 +1040,11 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
         # Iterate over copy of a list as we are changing it when removing units
         for ttkit_unit in list(self.all_store_units):
-            target = split_plural(self.unit_class(self, ttkit_unit, ttkit_unit).target)
+            target = split_plural(
+                self.get_unit_class(self.file_format_params)(
+                    self, ttkit_unit, ttkit_unit
+                ).target
+            )
             if not any(target):
                 changed = True
                 item = self.delete_unit(ttkit_unit)
@@ -1134,9 +1191,9 @@ class BaseExporter:
         self.fieldnames = fieldnames
 
     @staticmethod
-    # ruff: ignore[unused-static-method-argument]
     def supports(translation: Translation) -> bool:
-        return True
+        # TBX alternatives require an exporter that preserves independent terms.
+        return translation.component.file_format != "tbx"
 
     @cached_property
     def storage(self):
@@ -1155,7 +1212,7 @@ class BaseExporter:
         return multistring([self.string_filter(plural) for plural in plurals])
 
     @classmethod
-    def get_identifier(cls):
+    def get_identifier(cls) -> str:
         return cls.name
 
     def get_storage(self):
@@ -1267,7 +1324,9 @@ class BaseExporter:
         filename = self.get_filename(filetemplate)
 
         response = HttpResponse(content_type=f"{self.content_type}; charset=utf-8")
-        response["Content-Disposition"] = f"attachment; filename={filename}"
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=filename
+        )
 
         # Save to response
         response.write(self.serialize())

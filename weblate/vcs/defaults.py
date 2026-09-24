@@ -15,7 +15,6 @@ DEFAULT_VCS_BACKENDS: tuple[str, ...] = (
     "weblate.vcs.git.GitLabRepository",
     "weblate.vcs.git.PagureRepository",
     "weblate.vcs.git.LocalRepository",
-    "weblate.vcs.git.GitForcePushRepository",
     "weblate.vcs.git.BitbucketServerRepository",
     "weblate.vcs.git.BitbucketCloudRepository",
     "weblate.vcs.mercurial.HgRepository",

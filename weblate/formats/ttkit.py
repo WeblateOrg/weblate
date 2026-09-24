@@ -26,7 +26,12 @@ from lxml import etree
 from lxml.etree import XMLSyntaxError
 from translate.misc import quote
 from translate.misc.multistring import multistring
-from translate.misc.xml_helpers import setXMLspace
+from translate.misc.xml_helpers import (
+    XML_NS,
+    getXMLspace,
+    normalize_xml_space,
+    setXMLspace,
+)
 from translate.storage.applestrings_xliff import AppleStringsXliffFile
 from translate.storage.base import TranslationStore
 from translate.storage.catkeys import CatkeysFile, CatkeysUnit
@@ -60,6 +65,7 @@ from translate.storage.xliff_common import XliffUnit as TranslateToolkitXliffUni
 
 import weblate.utils.version
 from weblate.formats.base import (
+    MAX_DECLARED_LANGUAGES,
     BaseItem,
     BaseStore,
     BilingualUpdateMixin,
@@ -81,15 +87,20 @@ from weblate.lang.models import Plural
 from weblate.trans.exceptions import is_expected_parse_error
 from weblate.trans.file_format_params import (
     CSVFormulaEscaping,
+    GettextContributorComments,
     GettextLastTranslator,
     GettextRemoveObsolete,
     GettextXGenerator,
+    XliffPlaceables,
+    XMLWhitespaceHandling,
+    get_effective_params_for_file_format,
     get_encoding_param,
 )
 from weblate.trans.util import (
     get_string,
     join_plural,
     rich_to_xliff_string,
+    split_plural,
     xliff_string_to_rich,
 )
 from weblate.utils.commands import get_clean_env
@@ -125,9 +136,73 @@ if TYPE_CHECKING:
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
 XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
+XML_SPACE_ATTR = f"{{{XML_NS}}}space"
 _CSV_MAX_PLURAL_FORMS = 100
 type PoHeaderStore = pofile | PoXliffFile
 type PoHeaderUnit = pounit | PoXliffUnit
+
+
+def _force_normalize_xml_space(node: etree._Element) -> None:
+    r"""
+    Collapse whitespace in a subtree, ignoring nested xml:space=\"preserve\".
+
+    translate-toolkit's normalize_xml_space honors preserve on descendants; this
+    helper clears those attributes first so the normalize policy can override.
+    """
+    for elem in node.iter():
+        if getXMLspace(elem) == "preserve":
+            setXMLspace(elem, "default")
+    normalize_xml_space(node, "default", remove_start=True)
+
+
+def _apply_xml_whitespace_policy(
+    unit: TranslateToolkitXliffUnit,
+    policy: str,
+    *,
+    had_preserve: bool | None = None,
+) -> None:
+    space = getXMLspace(unit.xmlelement)
+    if policy == "standard":
+        # follow xml:space; missing attributes follow the XLIFF/XML default.
+        default_xml_space = "default"
+
+        if had_preserve is False and space == "preserve":
+            node = unit.xmlelement
+            # clear only if it was already set
+            if XML_SPACE_ATTR in node.attrib:
+                del node.attrib[XML_SPACE_ATTR]
+
+    elif policy == "preserve":
+        default_xml_space = "preserve"
+        if space is not None:
+            setXMLspace(unit.xmlelement, "preserve")
+        for language_node in unit.getlanguageNodes():
+            # Only override an explicit non-preserve value so serialization stays
+            # close to historical output for units that had no language-node attribute.
+            space = getXMLspace(language_node)
+            if space is not None and space != "preserve":
+                setXMLspace(language_node, "preserve")
+    else:  # normalize
+        default_xml_space = "default"
+        setXMLspace(unit.xmlelement, "default")
+        for language_node in unit.getlanguageNodes():
+            _force_normalize_xml_space(language_node)
+
+    # _default_xml_space is used internally by translate.storage.xliff_common.XliffUnit
+    unit._default_xml_space = default_xml_space  # ruff: ignore[private-member-access]
+
+
+def _xliff_unit_tree(
+    unit: TranslateToolkitXliffUnit,
+) -> list[TranslateToolkitXliffUnit]:
+    return [unit, *getattr(unit, "units", [])]
+
+
+def _xml_space_preserve_by_id(unit: TranslateToolkitXliffUnit) -> dict[int, bool]:
+    return {
+        id(node): getXMLspace(node.xmlelement) == "preserve"
+        for node in _xliff_unit_tree(unit)
+    }
 
 
 class CSVMetadataError(ValueError):
@@ -286,7 +361,7 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
             return False
         return self.unit.istranslated()
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         """Check whether unit needs editing."""
         if not self.has_unit():
             return fallback
@@ -399,7 +474,7 @@ class KeyValueUnit[U: phpunit | propunit, F: "TTKitFormat"](TTKitUnit[U, F]):
 class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
     TranslationFormat[S, U, T]
 ):
-    unit_class = TTKitUnit  # type: ignore[assignment]
+    unit_class: ClassVar[type[T]] = TTKitUnit  # type: ignore[assignment]
     loader: ClassVar[tuple[str, str] | dict[str, tuple[str, str]] | type[S]] = ("", "")
     set_context_bilingual = True
     # Use settarget/setsource to set language as well
@@ -884,7 +959,7 @@ class PoMonoUnit(PoUnit):
         super().set_target(target)
 
 
-class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F]):
+class XliffUnit[U: TranslateToolkitXliffUnit, F: "BaseXliffFormat"](TTKitUnit[U, F]):
     """
     Wrapper unit for XLIFF.
 
@@ -999,7 +1074,7 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F])
                 if xliff_node is not None:
                     xliff_node.set("state", target_state)
 
-    def is_approved(self, fallback=False):
+    def is_approved(self, fallback: bool = False) -> bool:
         """Check whether unit is approved."""
         if not self.has_unit():
             return fallback
@@ -1041,6 +1116,7 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F])
         self._invalidate_target()
         if isinstance(target, list):
             target = multistring(target)
+        had_preserve_by_id = _xml_space_preserve_by_id(self.unit)
         if self.template is not None:
             if self.parent.is_template:
                 # Use source for monolingual files if editing template
@@ -1050,6 +1126,32 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F])
                 self.unit.source = self.template.source
         # Always set target, even in monolingual template
         self.unit.target = target
+        self.apply_xml_whitespace_policy_to_unit_tree(
+            self.unit,
+            cast(
+                "str",
+                XMLWhitespaceHandling.get_value(self.parent.file_format_params),
+            ),
+            had_preserve_by_id=had_preserve_by_id,
+        )
+
+    def apply_xml_whitespace_policy_to_unit_tree(
+        self,
+        unit: TranslateToolkitXliffUnit,
+        policy: str,
+        *,
+        had_preserve_by_id: dict[int, bool] | None = None,
+    ) -> None:
+        for node in _xliff_unit_tree(unit):
+            _apply_xml_whitespace_policy(
+                node,
+                policy,
+                had_preserve=(
+                    None
+                    if had_preserve_by_id is None
+                    else had_preserve_by_id.get(id(node))
+                ),
+            )
 
     @cached_property
     def source(self):
@@ -1115,6 +1217,7 @@ class RichXliffUnit(XliffUnit):
                     xmlnode.getparent().remove(xmlnode)
             return
         converted: list[StringElem] | list[str]
+        had_preserve_by_id = _xml_space_preserve_by_id(self.unit)
         try:
             converted = xliff_string_to_rich(target)
         except (XMLSyntaxError, TypeError, KeyError):
@@ -1129,6 +1232,14 @@ class RichXliffUnit(XliffUnit):
                 self.unit.rich_source = self.template.rich_source
         # Always set target, even in monolingual template
         self.unit.rich_target = converted
+        self.apply_xml_whitespace_policy_to_unit_tree(
+            self.unit,
+            cast(
+                "str",
+                XMLWhitespaceHandling.get_value(self.parent.file_format_params),
+            ),
+            had_preserve_by_id=had_preserve_by_id,
+        )
 
 
 class FlatXMLUnit(TTKitUnit):
@@ -1594,7 +1705,7 @@ class CSVUnit(MonolingualSimpleUnit):
     def _get_row_plural_form(row: WeblateCSVUnit) -> int:
         return _get_csv_target_plural_form(row)
 
-    def is_fuzzy(self, fallback=False):
+    def is_fuzzy(self, fallback: bool = False) -> bool:
         # Report fuzzy state only if present in the fields
         if "fuzzy" not in self.parent.store.fieldnames:
             return fallback
@@ -1846,6 +1957,22 @@ class BasePoFormat[S: pofile, U: pounit, T: BasePoUnit](
     supports_remove_obsolete_units = True
     additional_states = (STATE_FUZZY,)
 
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        # PO has no standard source-language header. Language-Team and Poedit
+        # headers are not reliable declarations of the translation language.
+        language = None if source else self.store.parseheader().get("Language")
+        return {language} if language else set()
+
+    def update_contributor(self, author: str) -> bool:
+        mode = GettextContributorComments.get_value(self.file_format_params)
+        if mode == "none" or "noreply@weblate.org" in author:
+            return False
+        name, separator, email = author.partition("<")
+        self.store.updatecontributor(
+            name.strip(), email.rstrip(">") if separator else None, spdx=mode == "spdx"
+        )
+        return True
+
     def add_unit(self, unit: TranslationUnit) -> None:
         self.store.require_index()
         # Check if there is matching obsolete unit
@@ -1926,7 +2053,6 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise UpdateError(" ".join(cmd), error) from error
         except subprocess.CalledProcessError as error:
             error_output = error.output + error.stderr
-            report_error("Failed msgmerge")
             raise UpdateError(
                 " ".join(cmd), cleanup_error_message(error_output)
             ) from error
@@ -1990,6 +2116,12 @@ class TS1Format(TranslationFormat[TS1Store, TS1Item, TS1Unit]):
         template_store: TranslationFormat | None,
     ) -> TS1Store:
         return TS1Store(storefile)
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        language = self.store.parser.documentElement.get(
+            "sourcelanguage" if source else "language"
+        )
+        return {language} if language else set()
 
     @staticmethod
     def mimetype() -> str:
@@ -2102,11 +2234,12 @@ class TS2Format(TTKitFormat):
     supports_flags = True
     additional_states = (STATE_FUZZY,)
 
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        language = self.store.header.get("sourcelanguage" if source else "language")
+        return {language} if language else set()
 
-class XliffFormat(TTKitFormat):
-    # Translators: File format name
-    name = gettext_lazy("XLIFF 1.2 translation file")
-    format_id = "plainxliff"
+
+class BaseXliffFormat(TTKitFormat):
     loader = Xliff1File
     supports_plural = True
     supports_descriptions = True
@@ -2115,8 +2248,7 @@ class XliffFormat(TTKitFormat):
     supports_flags = True
     supports_read_only = True
     additional_states = (STATE_FUZZY, STATE_APPROVED)
-    autoload: tuple[str, ...] = ("*.xlf", "*.xliff")
-    unit_class = XliffUnit
+    unit_class: ClassVar[type[XliffUnit]] = XliffUnit
     language_format = "bcp"
     use_settarget = True
     empty_file_template: str | None = """<?xml version="1.0" encoding="UTF-8"?>
@@ -2128,13 +2260,67 @@ class XliffFormat(TTKitFormat):
 </xliff>
 """
 
+    def get_xml_whitespace_handling(self) -> str:
+        return cast("str", XMLWhitespaceHandling.get_value(self.file_format_params))
+
+    def apply_xml_whitespace_policy_to_store(
+        self, store: TranslationStore | None = None
+    ) -> None:
+        policy = self.get_xml_whitespace_handling()
+        target_store = self.store if store is None else store
+        for unit in self.iter_xliff_ttkit_units(target_store):
+            _apply_xml_whitespace_policy(unit, policy)
+
+    def load(
+        self,
+        storefile: str | IO[bytes],
+        template_store: TranslationFormat | None,
+    ):
+        store = super().load(storefile, template_store)
+        self.apply_xml_whitespace_policy_to_store(store)
+        return store
+
+    def save_content(self, handle: IO[bytes]) -> None:
+        """Store content to file after re-applying the whitespace policy."""
+        self.apply_xml_whitespace_policy_to_store()
+        super().save_content(handle)
+
+    def iter_xliff_ttkit_units(
+        self,
+        store: TranslationStore,
+    ) -> Generator[TranslateToolkitXliffUnit]:
+        for unit in store.units:
+            if unit.isobsolete() or unit.isheader():
+                continue
+            child_units = getattr(unit, "units", None)
+            if child_units:
+                yield from child_units
+            else:
+                yield cast("TranslateToolkitXliffUnit", unit)
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        attribute = "source-language" if source else "target-language"
+        result = set()
+        for node in self.store.document.getroot().iterchildren(
+            self.store.namespaced("file")
+        ):
+            if language := node.get(attribute):
+                result.add(language)
+                if len(result) > MAX_DECLARED_LANGUAGES:
+                    break
+        return result
+
     def construct_unit(self, source: str):
         unit = super().construct_unit(source)
         # Make sure new unit is using same namespace as the original
         # file (xliff 1.1/1.2)
         unit.namespace = self.store.namespace
         unit.xmlelement = etree.Element(unit.namespaced(unit.rootNode))
-        setXMLspace(unit.xmlelement, "preserve")
+        policy = self.get_xml_whitespace_handling()
+        if policy == "preserve":
+            setXMLspace(unit.xmlelement, "preserve")
+        elif policy == "normalize":
+            setXMLspace(unit.xmlelement, "default")
         return unit
 
     def create_unit(
@@ -2155,15 +2341,25 @@ class XliffFormat(TTKitFormat):
         return "application/xliff+xml"
 
 
-class RichXliffFormat(XliffFormat):
+class XliffFormat(BaseXliffFormat):
     # Translators: File format name
-    name = gettext_lazy("XLIFF 1.2 with placeables support")
+    name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "xliff"
-    autoload: tuple[str, ...] = ("*.sdlxliff", "*.mxliff")
-    unit_class = RichXliffUnit
+    autoload: tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
+    unit_class: ClassVar[type[XliffUnit]] = RichXliffUnit
+    unit_class_variants: ClassVar[dict[str, type[XliffUnit]]] = {
+        "placeables": RichXliffUnit,
+        "plain": XliffUnit,
+    }
+
+    @classmethod
+    def get_unit_class_variant(
+        cls, file_format_params: FileFormatParams | None = None
+    ) -> str | None:
+        return cast("str", XliffPlaceables.get_value(file_format_params))
 
 
-class PoXliffFormat(PoHeaderMixin, XliffFormat):
+class PoXliffFormat(PoHeaderMixin, BaseXliffFormat):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with gettext extensions")
     format_id = "poxliff"
@@ -2172,7 +2368,7 @@ class PoXliffFormat(PoHeaderMixin, XliffFormat):
     supports_plural: bool = True
 
 
-class AppleXliffFormat(ZeroCLDRPluralMixin, XliffFormat):
+class AppleXliffFormat(ZeroCLDRPluralMixin, BaseXliffFormat):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with Apple extensions")
     format_id = "apple-xliff"
@@ -2189,17 +2385,14 @@ class Xliff2Format(XliffFormat):
     empty_file_template = None
     monolingual = False
 
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        language = self.store.document.getroot().get("srcLang" if source else "trgLang")
+        return {language} if language else set()
+
     @staticmethod
     def extension() -> str:
         """Return most common file extension for format."""
         return "xliff"
-
-
-class RichXliff2Format(Xliff2Format):
-    # Translators: File format name
-    name = gettext_lazy("XLIFF 2.0 translation file with placeables support")
-    format_id = "xliff2-placeables"
-    unit_class = RichXliffUnit
 
 
 class PropertiesBaseFormat[S: propfile, U: propunit, T: PropertiesUnit](
@@ -2433,7 +2626,9 @@ class ContextIdValidationMixin:
         for existing_unit in ttkit_format.all_store_units:
             if parsed_store_contexts is not None:
                 parsed_store_contexts.add(
-                    ttkit_format.unit_class(ttkit_format, None, existing_unit).context
+                    ttkit_format.get_unit_class(ttkit_format.file_format_params)(
+                        ttkit_format, None, existing_unit
+                    ).context
                 )
             existing_parts = existing_unit.get_unitid().parts
             if self.is_context_conflict(context_parts, existing_parts):
@@ -2555,6 +2750,17 @@ class ARBFormat(JSONFormat):
     check_flags = ("icu-message-format",)
     supports_plural: bool = True
     supports_descriptions = True
+
+    def get_declared_languages(self, *, source: bool = False) -> set[str]:
+        if source:
+            return set()
+        return {
+            language
+            for unit in self.store.units
+            if unit.isheader()
+            and isinstance(language := unit.metadata.get("@@locale"), str)
+            and language
+        }
 
 
 class GoTextFormat(JSONFormat):
@@ -2840,7 +3046,7 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
             template.id_hash = store_unit.id_hash
             template.target_plural_forms = store_unit.target_plural_forms
             template.plural_rows = store_unit.plural_rows
-        return self.unit_class(self, store_unit, template)
+        return self.get_unit_class(self.file_format_params)(self, store_unit, template)
 
     def _ensure_plural_fieldnames(self) -> None:
         for field in CSV_PLURAL_FIELDNAMES:
@@ -2911,14 +3117,14 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
 
     def _get_all_bilingual_units(self) -> list[CSVUnit]:
         return [
-            self.unit_class(self, unit)
+            self.get_unit_class(self.file_format_params)(self, unit)
             for unit in self._group_csv_units(self.all_store_units)
         ]
 
     @cached_property
     def template_units(self) -> list[CSVUnit]:
         return [
-            self.unit_class(self, None, unit)
+            self.get_unit_class(self.file_format_params)(self, None, unit)
             for unit in self._group_csv_units(self.all_store_units)
         ]
 
@@ -3146,16 +3352,22 @@ class FlatXMLFormat(TTKitFormat):
     supports_flags: bool = True
 
     def get_format_class_kwargs(self):
+        params = get_effective_params_for_file_format(
+            self.format_id, self.file_format_params
+        )
         return {
-            "root_name": self.file_format_params.get("flatxml_root_name", None),
-            "value_name": self.file_format_params.get("flatxml_value_name", None),
-            "key_name": self.file_format_params.get("flatxml_key_name", None),
+            "root_name": params.get("flatxml_root_name"),
+            "value_name": params.get("flatxml_value_name"),
+            "key_name": params.get("flatxml_key_name"),
         }
 
     def get_unit_class_kwargs(self):
+        params = get_effective_params_for_file_format(
+            self.format_id, self.file_format_params
+        )
         return {
-            "element_name": self.file_format_params.get("flatxml_value_name", None),
-            "attribute_name": self.file_format_params.get("flatxml_key_name", None),
+            "element_name": params.get("flatxml_value_name"),
+            "attribute_name": params.get("flatxml_key_name"),
         }
 
 
@@ -3342,84 +3554,135 @@ class XWikiFullPageFormat(XWikiPagePropertiesFormat):
 
 
 class TBXUnit[U: tbxunit, F: "TBXFormat"](TTKitUnit[U, F]):
-    def _is_usage_node(self, node: etree.Element) -> bool:
-        return (
-            self.unit.namespaced("descrip") == node.tag
-            and node.get("type") == "Usage note"
-        )
+    @classmethod
+    def calculate_id_hash(cls, has_template: bool, source: str, context: str) -> int:
+        # Preserve the identity used before alternatives were exposed.
+        return super().calculate_id_hash(has_template, split_plural(source)[0], context)
+
+    @cached_property
+    def source(self):
+        terms = self.unit.get_source_terms()
+        return get_string([term.text for term in terms]) if terms else super().source
+
+    @cached_property
+    def target(self):
+        terms = self.unit.get_target_terms()
+        return get_string([term.text for term in terms]) if terms else super().target
+
+    @property
+    def tbx_flags(self):
+        return {"explicit": self.get_flags().format(), "read_only": self.is_readonly()}
+
+    @property
+    def tbx_terms(self):
+        from dataclasses import asdict, fields  # ruff: ignore[import-outside-top-level]
+
+        concept_notes: set[tuple[tuple[str, Any], ...]] = set()
+
+        def serialize_terms(terms):
+            language_notes: set[tuple[tuple[str, Any], ...]] = set()
+            result = []
+            for term in terms:
+                notes = []
+                for note in term.notes:
+                    serialized = asdict(note)
+                    scope = serialized.get("scope", "term")
+                    if scope == "concept":
+                        seen = concept_notes
+                    elif scope == "language":
+                        seen = language_notes
+                    else:
+                        notes.append(serialized)
+                        continue
+                    key = tuple(serialized.items())
+                    if key not in seen:
+                        seen.add(key)
+                        notes.append(serialized)
+                result.append(
+                    {
+                        **{
+                            field.name: getattr(term, field.name)
+                            for field in fields(term)
+                            if field.name != "notes"
+                        },
+                        "notes": notes,
+                    }
+                )
+            return result
+
+        return {
+            "source": serialize_terms(self.unit.get_source_terms()),
+            "target": serialize_terms(self.unit.get_target_terms()),
+        }
+
+    def _display_notes(self, *, source=False):
+        terms = self.unit.get_source_terms() if source else self.unit.get_target_terms()
+        if len(terms) == 1:
+            return terms[0].notes
+        return self.unit.get_common_notes(source=source)
 
     @cached_property
     def notes(self):
-        """Return notes or notes from units."""
-        notes = []
-        for origin in ["pos", "developer"]:
-            note = self.unit.getnotes(origin)
-            if note:
-                notes.append(note)
-
-        # ruff: ignore[private-member-access]
-        for node in self.unit._getnotenodes(origin="definition"):
-            if self._is_usage_node(node):
-                # ruff: ignore[private-member-access]
-                notes.append(self.unit._getnodetext(node))
-                break
-
-        return "\n".join(notes)
+        return "\n".join(
+            dict.fromkeys(
+                note.text
+                for note in self._display_notes(source=True)
+                if note.origin in {"pos", "developer"} or note.category == "Usage note"
+            )
+        )
 
     @cached_property
     def context(self):
         return self.unit.xmlelement.get("id") or ""
 
+    def set_target(self, target: str | list[str]) -> None:
+        self.unit.set_target_terms([target] if isinstance(target, str) else target)
+        self._invalidate_target()
+        self.__dict__.pop("source", None)
+
+    def is_translated(self) -> bool:
+        return any(split_plural(self.target))
+
     def set_explanation(self, explanation: str) -> None:
-        if explanation or self.explanation:
-            self.unit.addnote(explanation, origin="translator", position="replace")
+        if explanation != self.explanation:
+            self.unit.set_common_note(explanation)
         self.__dict__.pop("explanation", None)
 
     @cached_property
     def explanation(self) -> str:
-        return self.unit.getnotes("translator")
+        notes = [
+            note for note in self.unit.get_common_notes() if note.origin == "translator"
+        ]
+        local_notes = [note for note in notes if note.scope != "concept"]
+        return "\n".join(dict.fromkeys(note.text for note in local_notes or notes))
 
     def set_source_explanation(self, explanation: str) -> None:
-        if explanation or self.source_explanation:
-            self.unit.addnote(explanation, origin="definition", position="replace")
+        if explanation != self.source_explanation:
+            self.unit.set_common_note(explanation, source=True)
         self.__dict__.pop("source_explanation", None)
 
     @cached_property
     def source_explanation(self) -> str:
-        seen_notes = set()
-        notes = []
-        # ruff: ignore[private-member-access]
-        for node in self.unit._getnotenodes(origin="definition"):
-            # ruff: ignore[private-member-access]
-            if self._is_usage_node(node) or self.unit._is_translation_needed_node(node):
-                continue
-            # ruff: ignore[private-member-access]
-            note = self.unit._getnodetext(node)
-            if note not in seen_notes:
-                notes.append(note)
-                seen_notes.add(note)
-
-        return "\n".join(notes)
+        return "\n".join(
+            dict.fromkeys(
+                note.text
+                for note in self.unit.get_common_notes(source=True)
+                if note.origin == "definition" and note.category != "Usage note"
+            )
+        )
 
     @cached_property
     def flags(self):
         flags = super().flags
-
-        # ruff: ignore[private-member-access]
-        for node in self.unit._getnotenodes(origin="pos"):
-            # each tig in the two langsets in the termEntry can have the
-            # <termNote type="administrativeStatus">, consider forbidden
-            # if either of the two is forbidden/obsolete
-            # ruff: ignore[private-member-access]
-            if self.unit._is_administrative_status_term_node(node):
-                # ruff: ignore[private-member-access]
-                if self.unit._getnodetext(node).strip().lower() in {
-                    "forbidden",
-                    "obsolete",
-                }:
-                    flags.merge("forbidden")
-                break
-
+        if self.is_readonly():
+            flags.merge("read-only")
+        for terms in (self.unit.get_source_terms(), self.unit.get_target_terms()):
+            if terms and all(
+                (term.administrative_status or "").strip().lower()
+                in {"forbidden", "obsolete"}
+                for term in terms
+            ):
+                flags.merge("forbidden")
         return flags
 
 
@@ -3427,6 +3690,8 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("TermBase eXchange file")
     format_id = "tbx"
+    parse_version = 2
+    has_multiple_strings = True
     loader = tbxfile  # type: ignore[assignment]
     autoload: tuple[str, ...] = ("*.tbx",)
     empty_file_template = """<?xml version="1.0"?>
@@ -3446,12 +3711,43 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
 </martif>"""
     unit_class = TBXUnit  # type: ignore[assignment]
     create_empty_bilingual: bool = True
+    can_add_plural_units = True
     use_settarget = True
     monolingual = False
     supports_explanation: bool = True
     supports_descriptions = True
     supports_flags = True
     supports_context = True
+
+    @classmethod
+    def supports_remove_duplicate_units(cls) -> bool:
+        # Each multivalue concept still corresponds to one removable XML node.
+        return cls.can_delete_unit
+
+    def new_unit_from_unit(self, unit):
+        result = super().new_unit_from_unit(unit)
+        if unit.tbx_terms:
+            from weblate.formats.exporters import TBXExporter  # ruff: ignore[import-outside-top-level]
+
+            exporter = TBXExporter(
+                translation=unit.translation,
+                project=unit.translation.component.project,
+                language=unit.translation.language,
+                source_language=unit.translation.component.source_language,
+            )
+            exporter.store_unit_metadata(result.unit, unit)
+            result.invalidate_all_caches()
+        return result
+
+    def create_unit(self, key, source, target=None):
+        sources = [source] if isinstance(source, str) else source
+        targets = [target] if isinstance(target, str) else target or []
+        unit = self.construct_unit(sources[0] if sources else "")
+        if key:
+            unit.setid(key)
+        unit.set_source_terms(sources, self.source_language)
+        unit.set_target_terms(targets, self.language_code)
+        return unit
 
     def __init__(
         self,

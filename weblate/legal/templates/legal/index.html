@@ -10,7 +10,7 @@
 
 {% block content %}
 
-  {% include 'legal/menu.html' %}
+  {% include "legal/menu.html" %}
 
   <div class="card">
     <div class="card-header">
@@ -18,11 +18,17 @@
     </div>
     <div class="card-body">
 
-      {% include 'legal/documents/summary.html' %}
+      {% include "legal/documents/summary.html" %}
 
       {% if terms_url or privacy_url %}
         <p>
-          {% blocktranslate %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktranslate %}
+          {% if terms_url and privacy_url %}
+            {% blocktranslate %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktranslate %}
+          {% elif terms_url %}
+            {% blocktranslate %}This page is based on the General Terms and Conditions, you should still read the original document to fully understand it:{% endblocktranslate %}
+          {% else %}
+            {% blocktranslate %}This page is based on the Privacy Policy, you should still read the original document to fully understand it:{% endblocktranslate %}
+          {% endif %}
         </p>
 
         <ul>

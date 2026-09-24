@@ -25,6 +25,9 @@ if TYPE_CHECKING:
 
     import httpx2
 
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import DownloadTranslations
 
 
@@ -117,7 +120,7 @@ class AlibabaTranslation(MachineTranslation):
 
         super().check_failure(response)
 
-    def download_languages(self):
+    def download_languages(self) -> list[str]:
         """List of supported languages."""
         return [
             "ab",
@@ -338,11 +341,11 @@ class AlibabaTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

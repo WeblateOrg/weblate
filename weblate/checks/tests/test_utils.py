@@ -316,11 +316,11 @@ class HighlightTestCase(SimpleTestCase):
         )
         calls = []
 
-        def replace_first(start):
+        def replace_first(start: int) -> str:
             calls.append(("first", start))
             return "first"
 
-        def replace_second(start):
+        def replace_second(start: int) -> str:
             calls.append(("second", start))
             return "second"
 

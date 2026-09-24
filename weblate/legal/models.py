@@ -61,7 +61,7 @@ class Agreement(models.Model):
             settings.LEGAL_TOS_DATE,  # type: ignore[misc]
         )
 
-    def is_current(self):
+    def is_current(self) -> bool:
         return self.tos == self.current_tos_date()
 
     def make_current(self, request: HttpRequest) -> None:

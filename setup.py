@@ -22,7 +22,9 @@ LOCALE_MASKS = [
 
 
 class WeblateBuildPy(build_py):
-    def find_package_modules(self, package, package_dir):
+    def find_package_modules(
+        self, package: str, package_dir: str
+    ) -> list[tuple[str, str, str]]:
         """Filter settings.py from built module."""
         result = super().find_package_modules(package, package_dir)
         return [

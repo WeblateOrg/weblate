@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 from appconf import AppConf
 from django.db import models
@@ -33,6 +33,9 @@ from .defaults import (
     DEFAULT_VCS_PRIVATE_ALLOWLIST,
     DEFAULT_VCS_RESTRICT_PRIVATE,
 )
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
 
 
 class InstallationProvider(models.TextChoices):
@@ -193,9 +196,22 @@ class VCSConf(AppConf):
 
 class VcsClassLoader(ClassLoader):
     def __init__(self) -> None:
-        super().__init__("VCS_BACKENDS", construct=False, base_class=Repository)
+        super().__init__(
+            "VCS_BACKENDS",
+            construct=False,
+            base_class=Repository,
+            dependent_settings=(
+                "AZURE_DEVOPS_CREDENTIALS",
+                "BITBUCKETCLOUD_CREDENTIALS",
+                "BITBUCKETSERVER_CREDENTIALS",
+                "GITEA_CREDENTIALS",
+                "GITHUB_CREDENTIALS",
+                "GITLAB_CREDENTIALS",
+                "PAGURE_CREDENTIALS",
+            ),
+        )
 
-    def get_unfiltered_choices(self):
+    def get_unfiltered_choices(self) -> list[tuple[str, StrOrPromise]]:
         result = self.get_unfiltered_data()
         return [(x, result[x].name) for x in sorted(result)]
 
@@ -236,6 +252,32 @@ class VcsClassLoader(ClassLoader):
         return {
             vcs.get_identifier()
             for vcs in self.values()
+            if issubclass(vcs, GitMergeRequestBase)
+        }
+
+    @cached_property
+    def unfiltered_data(self) -> dict[str, type[Repository]]:
+        """
+        Load all backends listed in the setting, including unconfigured ones.
+
+        :attr:`data` hides backends whose credentials are not set up, which
+        makes it unsuitable for scoping and validating VCS parameters: those
+        have to give the same answer regardless of credentials.
+        """
+        return super().load_data()
+
+    def get_unfiltered(self, key: str) -> type[Repository] | None:
+        return self.unfiltered_data.get(key)
+
+    @cached_property
+    def unfiltered_merge_request_based(self) -> set[str]:
+        """List merge request backends regardless of their configuration."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.vcs.git import GitMergeRequestBase
+
+        return {
+            identifier
+            for identifier, vcs in self.unfiltered_data.items()
             if issubclass(vcs, GitMergeRequestBase)
         }
 

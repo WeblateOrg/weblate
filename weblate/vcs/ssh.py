@@ -7,6 +7,7 @@ import hashlib
 import os
 import stat
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
+import tempfile
 from base64 import b64decode, b64encode
 from contextlib import suppress
 from time import time
@@ -722,7 +723,18 @@ class SSHWrapper:
             filename = self.path / command
 
             if not filename.exists():
-                filename.write_text(self.get_content(path))
+                with tempfile.NamedTemporaryFile(
+                    mode="w",
+                    encoding="utf-8",
+                    dir=self.path,
+                ) as handle:
+                    handle.write(self.get_content(path))
+                    handle.flush()
+                    os.chmod(
+                        handle.name,
+                        0o755,  # ruff: ignore[bad-file-permissions]
+                    )
+                    os.replace(handle.name, filename)
 
             if not os.access(filename, os.X_OK):
                 filename.chmod(0o755)

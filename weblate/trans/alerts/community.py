@@ -560,3 +560,35 @@ class RecommendedSphinxAddon(AddonRecommendationAlert):
                 if filename.endswith(".rst"):
                     return True
         return False
+
+
+@register
+class RecommendedAIEvaluationAddon(AddonRecommendationAlert):
+    addon = "weblate.ai.quality"
+
+    @classmethod
+    def is_relevant(cls, component: Component) -> bool:
+        from weblate.addons.ai import available_evaluation_services  # ruff: ignore[import-outside-top-level]
+
+        return (
+            not component.is_glossary
+            and super().is_relevant(component)
+            and bool(
+                available_evaluation_services(
+                    component.project.get_machinery_settings()
+                )
+            )
+        )
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        from weblate.addons.ai import available_evaluation_services  # ruff: ignore[import-outside-top-level]
+
+        return {
+            **super().get_dismissal_context(component, details),
+            "services": sorted(
+                available_evaluation_services(
+                    component.project.get_machinery_settings()
+                )
+            ),
+        }

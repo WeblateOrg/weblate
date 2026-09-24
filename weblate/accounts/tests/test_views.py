@@ -29,7 +29,7 @@ from social_core.exceptions import (
 )
 from weblate_schemas import load_schema
 
-from weblate.accounts.forms import ProfileForm
+from weblate.accounts.forms import ProfileForm, UserSettingsForm
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import (
     NOTIFICATIONS,
@@ -37,7 +37,8 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.accounts.views import log_handled_auth_failure
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, Permission, Role, User
+from weblate.billing.defines import TRIAL_PLAN_SLUG
 from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -225,7 +226,7 @@ class ViewTest(RepoTestCase):
     @override_settings(OFFER_HOSTING=True)
     def test_libre(self) -> None:
         """Test for hosting form with enabled hosting."""
-        self.get_user()
+        user = self.get_user()
         self.client.login(username="testuser", password="testpassword")
 
         Plan.objects.create(price=0, slug="libre", name="Libre")
@@ -236,6 +237,8 @@ class ViewTest(RepoTestCase):
         # Creating a trial
         response = self.client.post(reverse("trial"), {"plan": "libre"}, follow=True)
         self.assertContains(response, "Create project")
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
+        self.assertEqual(billing.plan.slug, "libre")
 
     @override_settings(OFFER_HOSTING=False)
     def test_trial_disabled(self) -> None:
@@ -249,7 +252,7 @@ class ViewTest(RepoTestCase):
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_trial(self) -> None:
         """Test for trial form with disabled hosting."""
-        Plan.objects.create(price=1, slug="640k")
+        Plan.objects.create(price=1, slug=TRIAL_PLAN_SLUG)
         user = self.get_user()
         self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("trial"))
@@ -258,10 +261,37 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, "Create project")
         billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
         self.assertTrue(billing.is_trial)
+        self.assertEqual(billing.plan.slug, TRIAL_PLAN_SLUG)
 
         # Repeated attempt should fail
         response = self.client.get(reverse("trial"))
         self.assertRedirects(response, f"{reverse('contact')}?t=trial")
+
+    @override_settings(OFFER_HOSTING=True)
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    def test_trial_plan_validation(self) -> None:
+        Plan.objects.create(name="Trial", price=1, slug=TRIAL_PLAN_SLUG)
+        Plan.objects.create(name="Larger", price=2, slug="10M")
+        user = self.get_user()
+        self.client.login(username=user.username, password="testpassword")
+        billing_count = Billing.objects.count()
+        workspace_count = Workspace.objects.count()
+
+        for plan in ("10M", "missing"):
+            with self.subTest(plan=plan):
+                reset_rate_limit("trial", user=user)
+                response = self.client.post(reverse("trial"), {"plan": plan})
+                self.assertEqual(response.status_code, 400)
+                self.assertContains(response, "Invalid trial plan.", status_code=400)
+                self.assertEqual(Billing.objects.count(), billing_count)
+                self.assertEqual(Workspace.objects.count(), workspace_count)
+                self.assertFalse(user.auditlog_set.filter(activity="trial").exists())
+
+        reset_rate_limit("trial", user=user)
+        response = self.client.post(reverse("trial"), {"plan": TRIAL_PLAN_SLUG})
+        self.assertEqual(response.status_code, 302)
+        billing = Billing.objects.get(workspace__defined_groups__memberships__user=user)
+        self.assertEqual(billing.plan.slug, TRIAL_PLAN_SLUG)
 
     def test_contact_subject(self) -> None:
         # With set subject
@@ -289,6 +319,34 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, user_url)
         response = self.client.get(reverse("user_list"), {"sort_by": "invalid"})
         self.assertContains(response, user_url)
+
+    def test_user_list_bot_visibility(self) -> None:
+        """User listing hides bots unless the caller can view users globally."""
+        user = self.get_user()
+        bot = User.objects.create(
+            username="bot-confidential-project-ui-token",
+            full_name="Confidential UI token",
+            is_bot=True,
+        )
+        self.client.login(username=user.username, password="testpassword")
+
+        response = self.client.get(reverse("user_list"))
+        self.assertNotContains(response, bot.get_absolute_url())
+        response = self.client.get(reverse("user_list"), {"q": bot.username})
+        self.assertNotContains(response, bot.get_absolute_url())
+
+        permission = Permission.objects.get(codename="user.view")
+        role = Role.objects.create(name="View bot users")
+        role.permissions.add(permission)
+        group = Group.objects.create(name="View bot users")
+        group.roles.add(role)
+        user.groups.add(group)
+        user.clear_permissions_cache()
+
+        response = self.client.get(reverse("user_list"))
+        self.assertContains(response, bot.get_absolute_url())
+        response = self.client.get(reverse("user_list"), {"q": bot.username})
+        self.assertContains(response, bot.get_absolute_url())
 
     def test_user(self) -> None:
         """Test user pages."""
@@ -639,7 +697,7 @@ class ViewTest(RepoTestCase):
         )
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
-    def test_login_ratelimit(self, login=False) -> None:
+    def test_login_ratelimit(self, login: bool = False) -> None:
         if login:
             self.test_login()
             user = User.objects.get(username="testuser")
@@ -790,6 +848,45 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(
             self.user.profile.listing_columns, ["total", "untranslated", "checks"]
         )
+
+    def test_profile_listing_columns_rejects_duplicates(self) -> None:
+        original_listing_columns = self.user.profile.listing_columns
+        response = self.client.post(
+            reverse("profile"),
+            {
+                "language": "en",
+                "languages": Language.objects.get(code="cs").id,
+                "secondary_languages": Language.objects.get(code="cs").id,
+                "full_name": "First Last",
+                "email": "weblate@example.org",
+                "username": "testuser",
+                "dashboard_view": Profile.DASHBOARD_WATCHED,
+                "translate_mode": Profile.TRANSLATE_FULL,
+                "zen_mode": Profile.ZEN_VERTICAL,
+                "nearby_strings": 10,
+                "theme": "auto",
+                "listing_columns": ["comments", "comments"],
+                "notifications__0-scope": 0,
+                "notifications__0-project": "",
+                "notifications__0-component": "",
+                "notifications__1-scope": 10,
+                "notifications__1-project": "",
+                "notifications__1-component": "",
+                "notifications__2-scope": 20,
+                "notifications__2-project": "",
+                "notifications__2-component": "",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        form = next(
+            form
+            for form in response.context["all_forms"]
+            if isinstance(form, UserSettingsForm)
+        )
+        self.assertIn("listing_columns", form.errors)
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.listing_columns, original_listing_columns)
 
     def test_profile_group_display_uses_scoped_team_queryset(self) -> None:
         workspace = Workspace.objects.create(name="Profile workspace")
@@ -1101,6 +1198,48 @@ class ProfileTest(FixtureTestCase):
         response = self.client.get(reverse("profile"), {"notify_project": "a"})
         self.assertNotContains(response, "Project: Test")
         self.assertNotContains(response, "Component: Test/Test")
+
+    def test_subscription_hides_inaccessible_scopes(self) -> None:
+        self.project.name = "PRIVATE_TEST_PROJECT_12345"
+        self.project.access_control = self.project.ACCESS_PRIVATE
+        self.project.save(update_fields=["name", "access_control"])
+        self.component.name = "PRIVATE_TEST_COMPONENT_12345"
+        self.component.save(update_fields=["name"])
+        self.project.add_user(self.user, "Translate")
+        subscriptions = [
+            self.user.subscription_set.create(
+                scope=NotificationScope.SCOPE_PROJECT,
+                project=self.project,
+                notification="RepositoryNotification",
+                frequency=NotificationFrequency.FREQ_INSTANT,
+            ),
+            self.user.subscription_set.create(
+                scope=NotificationScope.SCOPE_COMPONENT,
+                component=self.component,
+                notification="LockNotification",
+                frequency=NotificationFrequency.FREQ_INSTANT,
+            ),
+        ]
+
+        with (
+            mock.patch(
+                "weblate.accounts.models.cleanup_inaccessible_subscriptions.delay"
+            ),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.project.remove_user(self.user)
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(self.user.allowed_projects.filter(pk=self.project.pk).exists())
+        self.assertEqual(
+            self.user.subscription_set.filter(
+                pk__in=[subscription.pk for subscription in subscriptions]
+            ).count(),
+            2,
+        )
+        response = self.client.get(reverse("profile"))
+        self.assertNotContains(response, self.project.name)
+        self.assertNotContains(response, self.component.name)
 
     def test_subscription_additional_form_defaults_to_active_scope(self) -> None:
         initial_response = self.client.get(

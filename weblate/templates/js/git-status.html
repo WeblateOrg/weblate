@@ -6,6 +6,7 @@
 {% perm 'vcs.reset' object as user_can_reset_translation %}
 {% perm 'component.lock' object as user_can_lock_component %}
 
+{% include "js/git-repository-restrictions.html" %}
 
 <div class="card">
   <div class="card-header">
@@ -55,10 +56,9 @@
     {% if supports_push %}
       <li class="list-group-item">
         {% if user_can_push_translation %}
-          <a href="#"
-             class="float-end link-post btn btn-primary"
-             data-href="{% url "push" path=object.get_url_path %}"
-             {% if not object.can_push %}disabled="disabled"{% endif %}>{% translate "Push" %}</a>
+          <button type="button"
+                  class="float-end btn btn-primary{% if can_push %} link-post{% endif %}"
+                  {% if can_push %}data-href="{% url "push" path=object.get_url_path %}"{% else %}disabled aria-describedby="push-disabled-reason"{% endif %}>{% translate "Push" %}</button>
         {% endif %}
         <h6 class="mb-1 fw-bold">
           {% blocktranslate count units=outgoing_commits with count=outgoing_commits|intcomma %}{{ count }} outgoing commit{% plural %}{{ count }} outgoing commits{% endblocktranslate %}
@@ -67,6 +67,11 @@
           {% endif %}
         </h6>
         <p class="mb-0">{{ push_label }}</p>
+        {% if not can_push %}
+          <p class="mb-0" id="push-disabled-reason">
+            {% translate "Pushing is disabled because no repository push URL is configured." %}
+          </p>
+        {% endif %}
       </li>
     {% endif %}
     <li class="list-group-item">
@@ -165,7 +170,7 @@
         <p class="mb-0">
           {% translate "Resets Weblate’s repository to match upstream and discards any pending changes in Weblate." %}
           {% translate "Use when you want the upstream to be the authority for translations." %}
-          {% translate "It will discard changes in Weblate repo and bring it in sync with the upstream repository." %}
+          {% translate "Only the configured branch is reset. Other local branches are kept; use Cleanup to remove them." %}
         </p>
       </li>
       <li class="list-group-item">
@@ -177,6 +182,7 @@
         <p class="mb-0">
           {% translate "Resets Weblate’s repository to match upstream and reapplies pending translations onto the reset repository state." %}
           {% translate "Use when you want Weblate to be the authority for translations." %}
+          {% translate "Only the configured branch is reset. Other local branches are kept; use Cleanup to remove them." %}
           {% translate "Missing language files must already exist upstream or Weblate must be able to create them for the component." %}
         </p>
       </li>
@@ -184,11 +190,11 @@
         <a href="#"
            class="float-end link-post btn btn-danger"
            data-href="{% url "cleanup" path=object.get_url_path %}">{% translate "Cleanup" %}</a>
-        <h6 class="mb-1 fw-bold">{% translate "Cleanup all untracked files in the Weblate repository" %}</h6>
+        <h6 class="mb-1 fw-bold">{% translate "Remove untracked files and unused local branches" %}</h6>
         <p class="mb-0">
           {% translate "Cleanup removes all files which are not tracked by the version control from the repository." %}
-          {% translate "It also removes stale branches which are not used by Weblate." %}
-          {% translate "Use when there is some garbage left in the Weblate repository." %}
+          {% translate "For Git repositories, it also deletes all local branches other than the configured branch, including any commits that have not been pushed." %}
+          {% translate "If switching to a branch with rewritten upstream history fails, switch to a working branch, run Cleanup, then switch back to recreate the affected branch from upstream." %}
         </p>
       </li>
       <li class="list-group-item">
@@ -287,6 +293,15 @@
         </td>
       </tr>
     </table>
+    {% with repository_owner=component.effective_repo_component %}
+      {% perm 'component.edit' repository_owner as user_can_edit_repository %}
+      {% if user_can_edit_repository %}
+        <div class="card-footer">
+          <a class="btn btn-primary"
+             href="{% url 'settings' path=repository_owner.get_url_path %}#vcs">{% translate "Edit repository configuration" %}</a>
+        </div>
+      {% endif %}
+    {% endwith %}
   </div>
 {% endfor %}
 

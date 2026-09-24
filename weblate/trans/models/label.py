@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.db import models
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
@@ -11,9 +13,12 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.flags import Flags
 from weblate.utils.colors import ColorChoices
 
+if TYPE_CHECKING:
+    from typing import Self
+
 
 class LabelQuerySet(models.QuerySet["Label", "Label"]):
-    def order(self):
+    def order(self) -> Self:
         return self.order_by("name")
 
 

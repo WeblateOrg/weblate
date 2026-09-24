@@ -11,6 +11,7 @@ from weblate.utils.classloader import ClassLoaderProtocol
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
+    from weblate.checks.base import BaseCheck
     from weblate.trans.models import Unit
 
 
@@ -23,11 +24,11 @@ class AutoFix(ClassLoaderProtocol):
     def name(self) -> StrOrPromise:
         return self.fix_id
 
-    def get_identifier(self):
+    def get_identifier(self) -> str:
         return self.fix_id
 
     @staticmethod
-    def get_related_checks():
+    def get_related_checks() -> list[BaseCheck]:
         return []
 
     def fix_single_target(
@@ -39,10 +40,15 @@ class AutoFix(ClassLoaderProtocol):
     def fix_target(self, target: list[str], unit: Unit) -> tuple[list[str], bool]:
         """Return a target translation array with a single fix applied."""
         source_strings = unit.get_source_plurals()
-        if unit.translation.component.is_multivalue:
-            results = [
-                self.fix_single_target(text, source_strings[0], unit) for text in target
-            ]
+        if unit.has_multiple_values(source_strings, target):
+            results = []
+            for text in target:
+                # Alternatives are unpaired: only apply fixes all sources agree on.
+                fixes = {
+                    self.fix_single_target(text, source, unit)
+                    for source in source_strings
+                }
+                results.append(fixes.pop() if len(fixes) == 1 else (text, False))
         elif len(source_strings) == 1 and len(target) == 1:
             results = [self.fix_single_target(target[0], source_strings[0], unit)]
         else:
