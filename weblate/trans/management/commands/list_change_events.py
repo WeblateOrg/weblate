@@ -11,7 +11,7 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "List change events"
 
-    def handle(self, *args, **options) -> None:
+    def handle(self, *args: object, **options: object) -> None:
         """List change events."""
         self.stdout.write(
             """.. list-table:: Available choices:

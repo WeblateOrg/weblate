@@ -9,9 +9,11 @@ from typing import TYPE_CHECKING, ClassVar
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import AddonEvent, AddonEventOutcome
 from weblate.addons.forms import DiscoveryForm
 from weblate.trans.discovery import ComponentDiscovery
+
+DISCOVERY_LIMIT_ERROR = "Component discovery stopped after exceeding resource limits."
 
 if TYPE_CHECKING:
     from weblate.addons.forms import BaseAddonForm
@@ -44,11 +46,14 @@ class DiscoveryAddon(BaseAddon):
         changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         discovery = self.get_discovery(component)
         discovery.perform(
             remove=self.instance.configuration.get("remove"), background=True
         )
+        if discovery.limit_exceeded:
+            return AddonEventOutcome.error(result=DISCOVERY_LIMIT_ERROR)
+        return None
 
     def get_settings_form(self, user: User | None, **kwargs) -> BaseAddonForm | None:
         """Return configuration form for this addon."""
@@ -63,6 +68,8 @@ class DiscoveryAddon(BaseAddon):
             self.instance.configuration["new_base_template"] = ""
         if "intermediate_template" not in self.instance.configuration:
             self.instance.configuration["intermediate_template"] = ""
+        if "filemask_template" not in self.instance.configuration:
+            self.instance.configuration["filemask_template"] = ""
         return ComponentDiscovery(
             component,
             **ComponentDiscovery.extract_kwargs(self.instance.configuration),

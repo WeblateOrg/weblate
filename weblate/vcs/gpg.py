@@ -19,7 +19,7 @@ GPG_ERRORS: dict[str, str] = {}
 
 
 def gpg_error(name: str, error: Exception, silent: bool = False) -> None:
-    report_error(name)
+    report_error(name, exception=error)
 
     if not silent:
         GPG_ERRORS[name] = (
@@ -59,7 +59,7 @@ def generate_gpg_key() -> str | None:
     return get_gpg_key()
 
 
-def get_gpg_key(silent=False) -> str | None:
+def get_gpg_key(silent: bool = False) -> str | None:
     try:
         result = subprocess.run(
             # ruff: ignore[start-process-with-partial-path]

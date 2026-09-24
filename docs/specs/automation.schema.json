@@ -1,0 +1,617 @@
+{
+  "$comment": "Generated from weblate.automation.schema.SCHEMA using make -C docs update-automation-schema.",
+  "$defs": {
+    "action": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "const": "weblate.automatic_translation"
+            },
+            "id": {
+              "pattern": "^[a-z][a-z0-9_]{0,63}$",
+              "type": "string"
+            },
+            "scope": {
+              "oneOf": [
+                {
+                  "const": "component"
+                },
+                {
+                  "const": "trigger"
+                },
+                {
+                  "pattern": "^result:[a-z][a-z0-9_]{0,63}$",
+                  "type": "string"
+                }
+              ]
+            },
+            "settings": {
+              "additionalProperties": false,
+              "properties": {
+                "auto_source": {
+                  "enum": [
+                    "others",
+                    "mt"
+                  ]
+                },
+                "component": {
+                  "minimum": 1,
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "engines": {
+                  "items": {
+                    "maxLength": 4096,
+                    "type": "string"
+                  },
+                  "maxItems": 100,
+                  "type": "array"
+                },
+                "mode": {
+                  "enum": [
+                    "suggest",
+                    "translate",
+                    "fuzzy",
+                    "approved"
+                  ]
+                },
+                "q": {
+                  "maxLength": 4096,
+                  "type": "string"
+                },
+                "threshold": {
+                  "maximum": 100,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "type": "object"
+            }
+          },
+          "required": [
+            "action",
+            "settings"
+          ],
+          "title": "Automatic translation",
+          "type": "object",
+          "x-version-added": "2026.10"
+        },
+        {
+          "additionalProperties": false,
+          "else": {
+            "properties": {
+              "settings": {
+                "required": [
+                  "q"
+                ]
+              }
+            }
+          },
+          "if": {
+            "properties": {
+              "scope": {
+                "pattern": "^(trigger|result:)"
+              }
+            },
+            "required": [
+              "scope"
+            ]
+          },
+          "properties": {
+            "action": {
+              "const": "weblate.bulk_edit"
+            },
+            "id": {
+              "pattern": "^[a-z][a-z0-9_]{0,63}$",
+              "type": "string"
+            },
+            "scope": {
+              "oneOf": [
+                {
+                  "const": "component"
+                },
+                {
+                  "const": "trigger"
+                },
+                {
+                  "pattern": "^result:[a-z][a-z0-9_]{0,63}$",
+                  "type": "string"
+                }
+              ]
+            },
+            "settings": {
+              "additionalProperties": false,
+              "properties": {
+                "add_flags": {
+                  "maxLength": 4096,
+                  "type": "string"
+                },
+                "add_labels": {
+                  "items": {
+                    "maxLength": 4096,
+                    "type": "string"
+                  },
+                  "maxItems": 100,
+                  "type": "array"
+                },
+                "add_translation_flags": {
+                  "maxLength": 4096,
+                  "type": "string"
+                },
+                "q": {
+                  "maxLength": 4096,
+                  "type": "string"
+                },
+                "remove_flags": {
+                  "maxLength": 4096,
+                  "type": "string"
+                },
+                "remove_labels": {
+                  "items": {
+                    "maxLength": 4096,
+                    "type": "string"
+                  },
+                  "maxItems": 100,
+                  "type": "array"
+                },
+                "remove_translation_flags": {
+                  "maxLength": 4096,
+                  "type": "string"
+                },
+                "state": {
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "type": "object"
+            }
+          },
+          "required": [
+            "action",
+            "settings"
+          ],
+          "title": "Bulk editing",
+          "type": "object",
+          "x-version-added": "2026.10"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "sequence": {
+              "items": {
+                "$ref": "#/$defs/action"
+              },
+              "maxItems": 100,
+              "type": "array"
+            }
+          },
+          "required": [
+            "sequence"
+          ],
+          "title": "Sequence",
+          "type": "object",
+          "x-version-added": "2026.10"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "choose": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "conditions": {
+                    "items": {
+                      "$ref": "#/$defs/condition"
+                    },
+                    "maxItems": 100,
+                    "type": "array"
+                  },
+                  "sequence": {
+                    "items": {
+                      "$ref": "#/$defs/action"
+                    },
+                    "maxItems": 100,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "conditions",
+                  "sequence"
+                ],
+                "type": "object"
+              },
+              "maxItems": 100,
+              "type": "array"
+            },
+            "default": {
+              "items": {
+                "$ref": "#/$defs/action"
+              },
+              "maxItems": 100,
+              "type": "array"
+            }
+          },
+          "required": [
+            "choose"
+          ],
+          "title": "Choose",
+          "type": "object",
+          "x-version-added": "2026.10"
+        }
+      ]
+    },
+    "condition": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "condition": {
+              "enum": [
+                "expression",
+                "component_category",
+                "language",
+                "matching_strings"
+              ]
+            },
+            "value": {
+              "maxLength": 4096,
+              "type": "string"
+            }
+          },
+          "required": [
+            "condition",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "condition": {
+              "const": "change_action"
+            },
+            "value": {
+              "enum": [
+                "update",
+                "complete",
+                "change",
+                "comment",
+                "suggestion",
+                "new",
+                "auto",
+                "accept",
+                "revert",
+                "upload",
+                "new_source",
+                "lock",
+                "unlock",
+                "commit",
+                "push",
+                "reset",
+                "merge",
+                "rebase",
+                "failed_merge",
+                "failed_rebase",
+                "parse_error",
+                "remove_translation",
+                "suggestion_delete",
+                "replace",
+                "failed_push",
+                "suggestion_cleanup",
+                "source_change",
+                "new_unit",
+                "bulk_edit",
+                "access_edit",
+                "add_user",
+                "remove_user",
+                "approve",
+                "marked_edit",
+                "remove_component",
+                "remove_project",
+                "rename_project",
+                "rename_component",
+                "move_component",
+                "new_contributor",
+                "announcement",
+                "alert",
+                "added_language",
+                "requested_language",
+                "create_project",
+                "create_component",
+                "invite_user",
+                "hook",
+                "replace_upload",
+                "license_change",
+                "agreement_change",
+                "screenshot_added",
+                "screenshot_uploaded",
+                "string_repo_update",
+                "addon_create",
+                "addon_change",
+                "addon_remove",
+                "string_remove",
+                "comment_delete",
+                "comment_resolve",
+                "explanation",
+                "remove_category",
+                "rename_category",
+                "move_category",
+                "save_failed",
+                "new_unit_repo",
+                "string_upload_update",
+                "new_unit_upload",
+                "source_upload",
+                "completed_component",
+                "enforced_check",
+                "propagated_edit",
+                "file_upload",
+                "extra_flags",
+                "font_create",
+                "font_change",
+                "font_remove",
+                "force_sync",
+                "force_scan",
+                "screenshot_removed",
+                "label_add",
+                "label_remove",
+                "repo_cleanup",
+                "new_source_upload",
+                "new_source_repo",
+                "project_backup",
+                "project_restore",
+                "component_restore",
+                "user_revert",
+                "project_setting_change",
+                "component_setting_change",
+                "user_access_change",
+                "create_workspace",
+                "workspace_setting_change",
+                "move_project",
+                "remote_update",
+                "failed_remote_update",
+                "alert_dismissed",
+                "alert_reopened"
+              ]
+            }
+          },
+          "required": [
+            "condition",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "condition": {
+              "const": "unit_state"
+            },
+            "value": {
+              "enum": [
+                0,
+                10,
+                11,
+                12,
+                20,
+                30,
+                100
+              ]
+            }
+          },
+          "required": [
+            "condition",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "condition": {
+              "enum": [
+                "and",
+                "or",
+                "not"
+              ]
+            },
+            "conditions": {
+              "items": {
+                "$ref": "#/$defs/condition"
+              },
+              "maxItems": 100,
+              "type": "array"
+            }
+          },
+          "required": [
+            "condition",
+            "conditions"
+          ],
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actions": {
+      "items": {
+        "$ref": "#/$defs/action"
+      },
+      "maxItems": 100,
+      "type": "array"
+    },
+    "conditions": {
+      "items": {
+        "$ref": "#/$defs/condition"
+      },
+      "maxItems": 100,
+      "type": "array"
+    },
+    "triggers": {
+      "items": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "trigger": {
+                "enum": [
+                  "daily",
+                  "component_update",
+                  "post_update",
+                  "post_commit",
+                  "post_push",
+                  "manual"
+                ]
+              }
+            },
+            "required": [
+              "trigger"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "events": {
+                "items": {
+                  "enum": [
+                    "update",
+                    "complete",
+                    "change",
+                    "comment",
+                    "suggestion",
+                    "new",
+                    "auto",
+                    "accept",
+                    "revert",
+                    "upload",
+                    "new_source",
+                    "lock",
+                    "unlock",
+                    "commit",
+                    "push",
+                    "reset",
+                    "merge",
+                    "rebase",
+                    "failed_merge",
+                    "failed_rebase",
+                    "parse_error",
+                    "remove_translation",
+                    "suggestion_delete",
+                    "replace",
+                    "failed_push",
+                    "suggestion_cleanup",
+                    "source_change",
+                    "new_unit",
+                    "bulk_edit",
+                    "access_edit",
+                    "add_user",
+                    "remove_user",
+                    "approve",
+                    "marked_edit",
+                    "remove_component",
+                    "remove_project",
+                    "rename_project",
+                    "rename_component",
+                    "move_component",
+                    "new_contributor",
+                    "announcement",
+                    "alert",
+                    "added_language",
+                    "requested_language",
+                    "create_project",
+                    "create_component",
+                    "invite_user",
+                    "hook",
+                    "replace_upload",
+                    "license_change",
+                    "agreement_change",
+                    "screenshot_added",
+                    "screenshot_uploaded",
+                    "string_repo_update",
+                    "addon_create",
+                    "addon_change",
+                    "addon_remove",
+                    "string_remove",
+                    "comment_delete",
+                    "comment_resolve",
+                    "explanation",
+                    "remove_category",
+                    "rename_category",
+                    "move_category",
+                    "save_failed",
+                    "new_unit_repo",
+                    "string_upload_update",
+                    "new_unit_upload",
+                    "source_upload",
+                    "completed_component",
+                    "enforced_check",
+                    "propagated_edit",
+                    "file_upload",
+                    "extra_flags",
+                    "font_create",
+                    "font_change",
+                    "font_remove",
+                    "force_sync",
+                    "force_scan",
+                    "screenshot_removed",
+                    "label_add",
+                    "label_remove",
+                    "repo_cleanup",
+                    "new_source_upload",
+                    "new_source_repo",
+                    "project_backup",
+                    "project_restore",
+                    "component_restore",
+                    "user_revert",
+                    "project_setting_change",
+                    "component_setting_change",
+                    "user_access_change",
+                    "create_workspace",
+                    "workspace_setting_change",
+                    "move_project",
+                    "remote_update",
+                    "failed_remote_update",
+                    "alert_dismissed",
+                    "alert_reopened"
+                  ]
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "trigger": {
+                "const": "change"
+              }
+            },
+            "required": [
+              "trigger",
+              "events"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 100,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "version": {
+      "const": 1
+    }
+  },
+  "required": [
+    "version",
+    "triggers",
+    "actions"
+  ],
+  "title": "Workflow definition",
+  "type": "object",
+  "x-version-added": "2026.10"
+}

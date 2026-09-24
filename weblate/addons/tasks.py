@@ -42,9 +42,49 @@ from weblate.utils.requests import open_restricted_asset_url
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
+    from celery import Celery
+
+    from weblate.addons.ai import AIEvaluationConfiguration
     from weblate.addons.consistency import LanguageConsistencyAddon
 
 IGNORED_TAGS = {"script", "style"}
+
+
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,), retry_backoff=60)
+def evaluate_quality(
+    addon_id: int,
+    component_ids: list[int],
+    configuration: AIEvaluationConfiguration,
+    *,
+    unit_ids: list[int] | None = None,
+    scheduled: bool = False,
+    activity_log_id: int | None = None,
+) -> None:
+    from weblate.addons.ai import AIEvaluationAddon, evaluate_component  # ruff: ignore[import-outside-top-level]
+    from weblate.machinery.base import MachineTranslationError  # ruff: ignore[import-outside-top-level]
+
+    storage = Addon.objects.filter(pk=addon_id, name=AIEvaluationAddon.name).first()
+    status = AddonActivityLogStatus.SKIPPED
+    results = {}
+    if storage is not None and storage.addon.get_configuration() == configuration:
+        for component in Component.objects.filter(pk__in=component_ids):
+            try:
+                result = evaluate_component(
+                    AIEvaluationAddon(storage),
+                    component,
+                    configuration,
+                    unit_ids,
+                    scheduled=scheduled,
+                )
+            except (MachineTranslationError, httpx2.HTTPError):
+                result = {"evaluated": 0, "failed": 1, "skipped": 0}
+            results[component.full_slug] = result
+            if result["failed"]:
+                status = AddonActivityLogStatus.ERROR
+        if results and status != AddonActivityLogStatus.ERROR:
+            status = AddonActivityLogStatus.SUCCESS
+    if activity_log_id is not None:
+        update_addon_activity_log(activity_log_id, result=results, status=status)
 
 
 def read_component_file(component: Component, filename: str) -> str:
@@ -114,6 +154,8 @@ def parse_cdn_html(addon: Addon, component: Component) -> list[dict[str, str]]:
         )
 
     if errors:
+        for occurrence in errors:
+            occurrence.update(addon=addon.name, addon_id=str(addon.pk))
         component.add_alert("CDNAddonError", occurrences=errors)
     else:
         component.delete_alert("CDNAddonError")
@@ -282,7 +324,9 @@ def daily_addons(modulo: bool = True) -> None:
 
 
 @app.task(trail=False)
-def run_addon_manually(addon_id: int) -> None:
+def run_addon_manually(addon_id: int, user_id: int | None = None) -> None:
+    from weblate.automation.context import manual_actor  # ruff: ignore[import-outside-top-level]
+
     try:
         addon = Addon.objects.select_related("component", "category", "project").get(
             pk=addon_id
@@ -293,7 +337,11 @@ def run_addon_manually(addon_id: int) -> None:
     if not addon.can_run_manually:
         return
 
-    handle_scoped_addon_event([addon], AddonEvent.EVENT_MANUAL, "manual")
+    token = manual_actor.set(user_id)
+    try:
+        handle_scoped_addon_event([addon], AddonEvent.EVENT_MANUAL, "manual")
+    finally:
+        manual_actor.reset(token)
 
 
 def update_addon_activity_log(
@@ -404,7 +452,7 @@ def postconfigure_addon(addon_id: int, addon: Addon | None = None) -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(crontab(minute=45), daily_addons.s(), name="daily-addons")
     sender.add_periodic_task(
         crontab(hour=0, minute=40),  # Not to run on minute 0 to spread the load

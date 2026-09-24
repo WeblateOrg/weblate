@@ -35,9 +35,9 @@ jobs:
       CI_SKIP_SAML: 1
       HOMEBREW_NO_AUTO_UPDATE: '1'
       # renovate-homebrew-brew
-      HOMEBREW_BREW_REF: 1f3abf43a3560d01d2f9bfa6fed5cbba208fded4
+      HOMEBREW_BREW_REF: d28e78518da4ed938fffe176590609cbc4ec0310
       # renovate-homebrew-core
-      HOMEBREW_CORE_REF: bb71705fd502d9d1b6b20be0febe5d4984077336
+      HOMEBREW_CORE_REF: f4d6e03ed1968ee8ad95753f85b8f353412e53b0
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -86,14 +86,14 @@ jobs:
         export CI_DB_USER="$(id -nu)"
         source .venv/bin/activate
         pytest --junitxml=junit.xml --cov=weblate --cov-report=xml --numprocesses=auto weblate
-    - uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+    - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
       with:
         token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]
         flags: unittests
         name: Tests macos
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
-      uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+      uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} # zizmor: ignore[secrets-outside-env]
         report_type: test_results

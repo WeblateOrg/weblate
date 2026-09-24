@@ -2,10 +2,17 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.utils.translation import pgettext_lazy
 from weblate_language_data import languages
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.ambiguous import AMBIGUOUS
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
 
@@ -268,7 +275,7 @@ FORMULA_WITH_ZERO = {
 }
 
 
-def nospace_set(source):
+def nospace_set(source: Iterable[str]) -> set[str]:
     return {item.replace(" ", "") for item in source}
 
 

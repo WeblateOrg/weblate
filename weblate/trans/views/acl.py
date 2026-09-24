@@ -21,7 +21,6 @@ from django.views.decorators.http import require_POST
 
 from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
-from weblate.auth.data import SELECTION_ALL
 from weblate.auth.forms import (
     BulkInviteForm,
     InviteEmailForm,
@@ -128,6 +127,7 @@ def schedule_contribution_cleanup(
 
 @require_POST
 @login_required
+@transaction.atomic
 def set_groups(request: AuthenticatedHttpRequest, project):
     """Change group assignment for a user."""
     obj, form = check_user_form(
@@ -534,7 +534,7 @@ def manage_access(request: AuthenticatedHttpRequest, project):
             ),
             "create_team_form": ProjectTeamForm(
                 project=obj,
-                initial={"language_selection": SELECTION_ALL},
+                initial={"all_languages": True},
                 auto_id="id_project_team_%s",
             ),
             "block_user_form": UserBlockForm(

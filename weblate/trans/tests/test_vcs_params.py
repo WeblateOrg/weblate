@@ -16,7 +16,6 @@ from weblate.lang.models import get_default_lang
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.views import get_form_data
-from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.params import (
     VCS_PARAMS,
     CreateMergeRequest,
@@ -167,8 +166,6 @@ class ComponentVCSParamsTest(ViewTestCase):
         GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}}
     )
     def test_direct_push_accepts_translated_branch(self) -> None:
-        VCS_REGISTRY.clear_cache()
-        self.addCleanup(VCS_REGISTRY.clear_cache)
         self.component.vcs = "github"
         self.component.repo = "https://github.com/WeblateOrg/test.git"
         self.component.push = "https://user:token@github.com/WeblateOrg/test.git"

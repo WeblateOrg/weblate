@@ -46,7 +46,7 @@ from idna import IDNAError
 from idna import encode as idna_encode
 
 from weblate.utils.data import data_dir, data_path
-from weblate.utils.errors import report_error
+from weblate.utils.errors import report_error, report_message
 from weblate.utils.files import (
     is_excluded,
     remove_tree,
@@ -784,7 +784,7 @@ class GitRepository(Repository):
             # Parses 'ref: refs/heads/main\tHEAD'
             return line.split("\t")[0].split("refs/heads/")[1]
 
-        report_error("Could not figure out remote branch", message=True)
+        report_message("Could not figure out remote branch")
         raise RepositoryError(0, "Could not figure out remote branch")
 
     @staticmethod
@@ -1373,7 +1373,7 @@ class GitRepository(Repository):
         ).splitlines()
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False).split()[2]
 
@@ -1452,10 +1452,7 @@ class GitRepository(Repository):
                 'remote "origin"',
                 "fetch",
                 (
-                    dumps(
-                        f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
-                        ensure_ascii=False,
-                    )
+                    f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
                     if fast
                     else "+refs/heads/*:refs/remotes/origin/*"
                 ),
@@ -1467,7 +1464,7 @@ class GitRepository(Repository):
             (
                 f"branch {escaped_branch}",
                 "merge",
-                dumps(f"refs/heads/{branch}", ensure_ascii=False),
+                f"refs/heads/{branch}",
             ),
             *self.get_remote_configure(pull_url, push_url, branch, fast),
         )
@@ -1486,11 +1483,11 @@ class GitRepository(Repository):
             ).splitlines()
         ]
 
-    def has_branch(self, branch):
+    def has_branch(self, branch) -> bool:
         branches = self.list_branches()
         return branch in branches
 
-    def configure_branch(self, branch) -> None:
+    def configure_branch(self, branch: str) -> None:
         """Configure repository branch."""
         branch = self.validate_branch_name(branch)
         # Add branch
@@ -1726,7 +1723,7 @@ class GitWithGerritRepository(GitRepository):
     pushes_to_different_location: ClassVar[bool] = True
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
 
@@ -1766,10 +1763,7 @@ class GitWithGerritRepository(GitRepository):
 
     def get_gerrit_fetch_refspec(self, branch: str) -> str:
         branch = self.get_gerrit_branch_name(branch)
-        return dumps(
-            f"+refs/heads/{branch}:refs/remotes/gerrit/{branch}",
-            ensure_ascii=False,
-        )
+        return f"+refs/heads/{branch}:refs/remotes/gerrit/{branch}"
 
     def get_remote_branch_name(self, branch: str | None = None) -> str:
         branch_name = self.get_gerrit_branch_name(branch or self.branch)
@@ -1781,7 +1775,7 @@ class GitWithGerritRepository(GitRepository):
     def checkout_with_temp_cleanup(self, branch: str) -> None:
         super().checkout_with_temp_cleanup(self.get_gerrit_branch_name(branch))
 
-    def configure_branch(self, branch) -> None:
+    def configure_branch(self, branch: str) -> None:
         review_target = self.validate_review_target(branch)
         super().configure_branch(branch)
         self.branch = review_target
@@ -1792,7 +1786,7 @@ class GitWithGerritRepository(GitRepository):
             ('remote "gerrit"', "tagOpt", "--no-tags"),
         )
 
-    def push(self, branch, *, force: bool | None = None) -> None:
+    def push(self, branch: str, *, force: bool | None = None) -> None:
         target_branch = self.validate_review_target(branch or self.branch)
         if self.needs_push(branch):
             self.configure_gerrit_target_branch(target_branch)
@@ -1826,6 +1820,8 @@ class GitWithGerritRepository(GitRepository):
 
 class SubversionRepository(GitRepository):
     name: ClassVar[StrOrPromise] = "Subversion"
+    # The git-svn helper is installed in Git's exec path rather than PATH. Finding
+    # it would require executing Git, while this check deliberately stays cheap.
     required_commands: ClassVar[tuple[str, ...]] = ("git", "svn")
     default_branch: ClassVar[str] = "master"
     supports_remote_compatibility_validation: ClassVar[bool] = False
@@ -1875,12 +1871,12 @@ class SubversionRepository(GitRepository):
             config.write(handle)
 
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         """Return VCS program version."""
         return cls._popen(["svn", "--version"], merge_err=False).split()[2]
 
     @classmethod
-    def is_stdlayout(cls, url):
+    def is_stdlayout(cls, url) -> bool:
         output = cls._popen(["svn", "ls", url], fullcmd=True).splitlines()
         return "trunk/" in output
 
@@ -2422,7 +2418,7 @@ class GitMergeRequestBase(GitRepository):
     def failed_fork_request(
         self, error: GitAPIRequestError, credentials: GitCredentials
     ) -> NoReturn:
-        report_error("Could not fork repository", message=True)
+        report_message("Could not fork repository")
         raise self.get_fork_failed_error(
             error.error, credentials, error.response
         ) from error
@@ -2741,7 +2737,7 @@ class GitMergeRequestBase(GitRepository):
             f"{response_detail!r}",
             level=logging.WARNING,
         )
-        report_error("Could not create pull request", message=True)
+        report_message("Could not create pull request")
         raise self.get_api_request_failure_error(
             response,
             error,
@@ -2869,7 +2865,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         )
 
         if "project" not in response_data:
-            report_error("Could not fork repository", message=True)
+            report_message("Could not fork repository")
             raise self.get_fork_failed_error(error, credentials, response)
 
         found_fork = self.__find_fork(credentials)
@@ -2904,7 +2900,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             )
 
         if "sshUrl" not in response_data or "remoteUrl" not in response_data:
-            report_error("Could not fork repository", message=True)
+            report_message("Could not fork repository")
             raise self.get_fork_failed_error(error, credentials, response)
 
         self.configure_fork_remote(
@@ -3010,7 +3006,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         response_data, response, error = self.request("get", credentials, forks_url)
 
         if response.status_code != 200:
-            report_error("Could not fork repository", message=True)
+            report_message("Could not fork repository")
             raise self.get_fork_failed_error(error, credentials, response)
 
         return response_data["value"]
@@ -3039,7 +3035,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             data_providers = response_data["dataProviders"]
             return data_providers[org_property]["organizations"][0]["id"]
         except (KeyError, IndexError) as error:
-            report_error("Could not fork repository", message=True)
+            report_message("Could not fork repository")
             raise self.get_fork_failed_error(
                 error_message, credentials, response
             ) from error
@@ -3104,7 +3100,7 @@ class GithubRepository(GitMergeRequestBase):
             "put", credentials, actions_url, json={"enabled": False}
         )
         if response.status_code not in {200, 204}:
-            report_error("Could not disable Actions in fork", message=True)
+            report_message("Could not disable Actions in fork")
             raise RepositoryError(
                 0,
                 "Could not disable Actions in fork: "
@@ -3119,7 +3115,7 @@ class GithubRepository(GitMergeRequestBase):
         # exists in the remote side.
         response_data, response, error = self.request("post", credentials, fork_url)
         if "ssh_url" not in response_data:
-            report_error("Could not fork repository", message=True)
+            report_message("Could not fork repository")
             raise self.get_fork_failed_error(error, credentials, response)
         self.configure_fork_features(credentials, response_data["url"])
         self.configure_fork_remote(
@@ -3394,7 +3390,7 @@ class GithubRepository(GitMergeRequestBase):
             f"{data or response.text[:500]!r}",
             level=logging.WARNING,
         )
-        report_error("Could not merge pull request automatically", message=True)
+        report_message("Could not merge pull request automatically")
         if self.component is not None:
             self.component.handle_automerge_failure(
                 self.get_api_request_failure_error(
@@ -3408,7 +3404,7 @@ class GithubRepository(GitMergeRequestBase):
             f"Enabling automerge via {url} failed: {error.get_message()}",
             level=logging.WARNING,
         )
-        report_error("Could not merge pull request automatically", message=True)
+        report_message("Could not merge pull request automatically")
         if self.component is None:
             return
         stored_error = (
@@ -3494,7 +3490,7 @@ class GiteaRepository(GitMergeRequestBase):
             )
             self.validate_existing_fork(response_data, credentials)
         if "ssh_url" not in response_data:
-            report_error("Could not fork repository", message=True)
+            report_message("Could not fork repository")
             raise self.get_fork_failed_error(error, credentials, response)
         self.configure_fork_remote(
             response_data["ssh_url"], response_data["clone_url"], credentials
@@ -3570,7 +3566,7 @@ class LocalRepository(GitRepository):
     def update_remote(self) -> None:
         return
 
-    def push(self, branch, *, force: bool | None = None) -> None:
+    def push(self, branch: str, *, force: bool | None = None) -> None:
         return
 
     def reset(self) -> None:
@@ -3724,9 +3720,8 @@ class GitLabRepository(GitMergeRequestBase):
         )
         if "id" not in response_data:
             detail = error or response.reason_phrase
-            report_error(
+            report_message(
                 "Could not get GitLab project",
-                message=True,
                 extra_log=f"{response.status_code}: {detail or 'Unknown error'}",
             )
             raise RepositoryInternalError(
@@ -3763,7 +3758,7 @@ class GitLabRepository(GitMergeRequestBase):
             "put", credentials, forked_url, json=access_level_dict
         )
         if "web_url" not in response_data:
-            report_error("Could not modify fork", message=True)
+            report_message("Could not modify fork")
             raise RepositoryError(
                 0,
                 f"Could not modify fork {error or self.get_response_status_message(response)}",
@@ -3779,7 +3774,7 @@ class GitLabRepository(GitMergeRequestBase):
         # Else, create a new fork
         response_data, response, error = self.request("get", credentials, get_fork_url)
         if error:
-            report_error("Could not fork repository", message=True)
+            report_message("Could not fork repository")
             raise self.get_fork_failed_error(error, credentials, response)
         for fork in response_data:
             # Since owned=True returns forks from both the user's repo and the forks
@@ -3809,7 +3804,7 @@ class GitLabRepository(GitMergeRequestBase):
                 "ssh_url_to_repo" not in forked_repo
                 or "http_url_to_repo" not in forked_repo
             ):
-                report_error("Could not fork repository", message=True)
+                report_message("Could not fork repository")
                 raise self.get_fork_failed_error(error, credentials, response)
 
         self.configure_fork_features(credentials, forked_repo["_links"]["self"])
@@ -3901,7 +3896,7 @@ class PagureRepository(GitMergeRequestBase):
 
         error_text = error or ""
         if '" cloned to "' not in error_text and "already exists" not in error_text:
-            report_error("Could not fork repository", message=True)
+            report_message("Could not fork repository")
             raise self.get_fork_failed_error(error, credentials, response)
 
         self.configure_fork_remote(
@@ -3947,7 +3942,7 @@ class PagureRepository(GitMergeRequestBase):
             response_data = {}
 
         if error_message:
-            report_error("Pull request listing failed", message=True)
+            report_message("Pull request listing failed")
             raise RepositoryInternalError(
                 0,
                 (
@@ -4060,7 +4055,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
                     http_url = link["href"]
 
         if not ssh_url or not http_url:
-            report_error("Could not fork repository", message=True)
+            report_message("Could not fork repository")
             raise self.get_fork_failed_error(error_message, credentials, response)
 
         self.configure_fork_remote(ssh_url, http_url, credentials)
@@ -4211,7 +4206,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
             response_data, _response, error = self.request("get", credentials, next_url)
 
             if error:
-                report_error("Could not paginate", message=True)
+                report_message("Could not paginate")
                 raise RepositoryError(
                     0,
                     f"{error_message} {error}",
@@ -4306,7 +4301,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
                 )
 
             if response_data.get("type") == "error" or error:
-                report_error("Could not fork repository", message=True)
+                report_message("Could not fork repository")
                 raise self.get_fork_failed_error(error, credentials, response)
 
             forked_repo = response_data

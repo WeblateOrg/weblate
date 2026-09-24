@@ -6,7 +6,9 @@ from __future__ import annotations
 
 from contextlib import suppress
 from functools import wraps
+from time import monotonic, sleep
 from typing import TYPE_CHECKING
+from uuid import uuid4
 
 from django.conf import settings
 from django.contrib.auth import logout
@@ -21,6 +23,10 @@ from weblate.utils import messages
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
+
+NOTIFY_RATE_LIMIT_LOCK_EXPIRY = 30
+NOTIFY_RATE_LIMIT_LOCK_INTERVAL = 0.01
+NOTIFY_RATE_LIMIT_LOCK_WAIT = 5
 
 if TYPE_CHECKING:
     from django.http import HttpResponse
@@ -180,6 +186,26 @@ class RateLimitBase:
 class RateLimitNotify(RateLimitBase):
     def __init__(self, base_key: str, rate_limits: list[tuple[int, int]]) -> None:
         RateLimitBase.__init__(self, f"notify:rate:{base_key}", rate_limits)
+
+    def is_limit_exceeded(self) -> tuple[bool, str]:
+        if not self.cache_items:
+            return False, ""
+
+        lock_key = f"{self.key}:reservation-lock"
+        lock_value = uuid4().hex
+        deadline = monotonic() + NOTIFY_RATE_LIMIT_LOCK_WAIT
+        while not cache.add(
+            lock_key, lock_value, timeout=NOTIFY_RATE_LIMIT_LOCK_EXPIRY
+        ):
+            if monotonic() >= deadline:
+                return True, "could not reserve notification rate limit"
+            sleep(NOTIFY_RATE_LIMIT_LOCK_INTERVAL)
+
+        try:
+            return super().is_limit_exceeded()
+        finally:
+            if cache.get(lock_key) == lock_value:
+                cache.delete(lock_key)
 
 
 class RateLimitHttpRequest(RateLimitBase):

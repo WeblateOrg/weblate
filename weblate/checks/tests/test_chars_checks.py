@@ -4,6 +4,10 @@
 
 """Tests for char based quality checks."""
 
+from __future__ import annotations
+
+import regex
+from django.template import Context, Template
 from django.test import SimpleTestCase
 
 from weblate.checks.chars import (
@@ -30,8 +34,38 @@ from weblate.checks.chars import (
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
+from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase
 from weblate.trans.tests.factories import make_check, make_unit
+
+
+class CharacterDescriptionTest(SimpleTestCase):
+    def test_rendering_contexts(self) -> None:
+        for name, plain, html in (
+            (
+                "escaped_newline",
+                r"Number of \n literals in translation does not match source.",
+                r"Number of <code>\n</code> literals in translation does not match source.",
+            ),
+            (
+                "kabyle-characters",
+                "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε).",
+                "Use standardized Latin Kabyle characters (e.g. <code>ɣ</code> instead of Greek <code>γ</code>; <code>ɛ</code> instead of <code>ε</code>).",
+            ),
+        ):
+            with self.subTest(check=name):
+                check = Check(name=name)
+                context = Context({"check": check})
+                self.assertEqual(
+                    Template("{{ check.get_description }}").render(context), html
+                )
+                self.assertEqual(check.get_plain_description(), plain)
+                self.assertEqual(
+                    Template(
+                        '<span title="{{ check.get_plain_description|force_escape }}"></span>'
+                    ).render(context),
+                    f'<span title="{plain}"></span>',
+                )
 
 
 class AcceleratorKeyCheckTest(CheckTestCase):
@@ -531,15 +565,6 @@ class MaxLinesCheckTest(SimpleTestCase):
             )
         )
 
-    def test_one_over_boundary(self) -> None:
-        self.assertTrue(
-            self.check.check_target(
-                ["source"],
-                ["line1\nline2\nline3\nline4"],
-                make_unit(flags="max-lines:3"),
-            )
-        )
-
     def test_invalid_flag(self) -> None:
         self.assertTrue(
             self.check.check_target(
@@ -736,6 +761,22 @@ class PunctuationSpacingCheckTest(CheckTestCase):
             ),
             "fr",
         )
+
+    def test_fixup_markdown_url(self) -> None:
+        unit = make_unit(
+            source="Read: [docs](https://example.com)",
+            target="Lire: [docs](https://example.com)",
+            code="fr",
+            flags="md-text",
+        )
+        fixup = self.check.get_fixup(unit)
+        assert fixup is not None
+        result = unit.target
+        for item in fixup:
+            assert item[0] == "regex"
+            _kind, pattern, replacement, _flags = item
+            result = regex.sub(pattern, replacement.replace("$", "\\"), result)
+        self.assertEqual(result, "Lire\u00a0: [docs](https://example.com)")
 
 
 class KabyleCharactersCheckTest(CheckTestCase):

@@ -16,6 +16,8 @@ Currently the following is covered:
 * Repository containing too many outgoing or missing commits
 * Missing licenses
 * Errors when running add-on (see :doc:`/admin/addons`)
+* Unavailable AI evaluation services and recommendations to configure
+  :ref:`addon-weblate.ai.quality` when an LLM service is available
 * Misconfigured monolingual or bilingual translation.
 * Broken :ref:`component`
 * Broken URLs
@@ -26,6 +28,7 @@ Currently the following is covered:
 * Conflicting merge request repository setup
 * Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)
 * Unused glossary languages
+* Disabled string management in local glossaries or glossaries containing terminology
 
 The alerts are updated daily, or on related change (for example when
 :ref:`component` is changed or when repository is updated).
@@ -36,6 +39,12 @@ generate alerts for unreachable project websites.
 
 Alerts are listed on each respective component page as
 :guilabel:`Diagnostics`.
+
+Add-on error diagnostics link to the responsible installation's
+:guilabel:`Configuration` page for users who can manage it, including add-ons
+inherited from a category, project, or site configuration. For AI quality
+evaluation, an unavailable service produces an error diagnostic; provider request
+failures remain in the add-on activity log.
 
 .. _diagnostics-overviews:
 

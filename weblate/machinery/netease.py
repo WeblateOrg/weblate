@@ -17,6 +17,9 @@ from .base import (
 from .forms import KeySecretMachineryForm
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import DownloadTranslations
 
 NETEASE_API_ROOT = "https://jianwai.netease.com/api/text/trans"
@@ -32,11 +35,11 @@ class NeteaseSightTranslation(MachineTranslation):
     language_map: ClassVar[dict[str, str]] = {"zh_Hans": "zh"}
     settings_form = KeySecretMachineryForm
 
-    def download_languages(self):
+    def download_languages(self) -> list[str]:
         """List of supported languages."""
         return ["zh", "en"]
 
-    def get_headers(self):
+    def get_headers(self) -> dict[str, str]:
         """Add authentication headers to request."""
         # ruff: ignore[suspicious-non-cryptographic-random-usage]
         nonce = str(random.randint(1000, 99999999))
@@ -55,11 +58,11 @@ class NeteaseSightTranslation(MachineTranslation):
 
     def download_translations(
         self,
-        source_language,
-        target_language,
+        source_language: str,
+        target_language: str,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

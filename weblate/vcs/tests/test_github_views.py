@@ -5,20 +5,24 @@
 from __future__ import annotations
 
 import json
+from contextlib import contextmanager
 from datetime import timedelta
 from typing import cast
+from unittest.mock import patch
 from urllib.parse import parse_qs, urlencode, urlparse
 
 from asgiref.sync import async_to_sync
 from django.contrib.messages import get_messages
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.db import connection
 from django.test import TestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.trans.models import Project
+from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.site import get_site_url
 from weblate.utils.tests import http_mock
@@ -26,6 +30,7 @@ from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
     GITHUB_APP_MANIFEST_PERMISSIONS,
     GitHubAppCredentials,
+    GithubAppRepository,
     GitHubInstallation,
 )
 from weblate.vcs.models import InstallationProvider, PendingInstallation
@@ -231,6 +236,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             f'id="remove-github-account-{installation.pk}"',
         )
         self.assertContains(response, "Remove connected account?")
+        self.assertContains(response, "will also be uninstalled from GitHub")
         self.assertContains(
             response,
             f'action="{reverse("manage-github-account-remove", kwargs={"pk": installation.pk})}"',
@@ -242,7 +248,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertIn('name="csrfmiddlewaretoken"', html[form_start:form_end])
         self.assertNotContains(response, "onsubmit=")
 
-    def test_install_redirects_to_github(self):
+    def test_install_redirects_to_github(self) -> None:
         location = self._start_install(reverse("github-app-repositories"))
         parsed = urlparse(location)
 
@@ -250,7 +256,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(parsed.path, "/apps/weblate-app/installations/select_target")
         self.assertIn("state", parse_qs(parsed.query))
 
-    def test_install_without_workspace_redirects_with_message(self):
+    def test_install_without_workspace_redirects_with_message(self) -> None:
         self._remove_workspaces()
 
         response = self.client.get(reverse("github-app-install"))
@@ -258,7 +264,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertRedirects(response, reverse("manage-github-accounts"))
         self.assert_missing_workspace_message(response)
 
-    def test_setup_without_workspace_redirects_with_message(self):
+    def test_setup_without_workspace_redirects_with_message(self) -> None:
         self._remove_workspaces()
 
         response = self.client.get(
@@ -276,7 +282,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
         self.assert_missing_workspace_message(response)
 
-    def test_management_overview_uses_single_workspace_for_install_link(self):
+    def test_management_overview_uses_single_workspace_for_install_link(self) -> None:
         response = self.client.get(reverse("manage-github-accounts"))
 
         params = urlencode(
@@ -288,7 +294,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         install_url = f"{reverse('github-app-install')}?{params}"
         self.assertContains(response, install_url.replace("&", "&amp;"))
 
-    def test_account_vcs_integrations_requires_login(self):
+    def test_account_vcs_integrations_requires_login(self) -> None:
         self.client.logout()
 
         response = self.client.get(reverse("account-vcs"))
@@ -296,13 +302,13 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("login"), response["Location"])
 
-    def test_profile_links_account_vcs_integrations(self):
+    def test_profile_links_account_vcs_integrations(self) -> None:
         response = self.client.get(reverse("profile"))
 
         self.assertContains(response, reverse("account-vcs"))
         self.assertContains(response, "Manage code-hosting connections")
 
-    def test_account_vcs_integrations_uses_workspace_scope(self):
+    def test_account_vcs_integrations_uses_workspace_scope(self) -> None:
         user = self.anotheruser
         self.workspace.add_owner(user)
         other_workspace = Workspace.objects.create(name="Other Workspace")
@@ -352,7 +358,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             )
             self.assertContains(response, install_url.replace("&", "&amp;"))
 
-    def test_project_admin_cannot_manage_account_vcs_integrations(self):
+    def test_project_admin_cannot_manage_account_vcs_integrations(self) -> None:
         user = self.anotheruser
         self.project.add_user(user, "Administration")
         installation = GitHubInstallation.objects.create(
@@ -397,7 +403,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
         self.assertEqual(install_response.status_code, 403)
 
-    def test_project_admin_cannot_manage_github_installation(self):
+    def test_project_admin_cannot_manage_github_installation(self) -> None:
         user = self.anotheruser
         self.project.add_user(user, "Administration")
         installation = GitHubInstallation.objects.create(
@@ -423,7 +429,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             self.assertEqual(response.status_code, 403)
         self.assertTrue(GitHubInstallation.objects.filter(pk=installation.pk).exists())
 
-    def test_account_vcs_integrations_filters_selected_workspace(self):
+    def test_account_vcs_integrations_filters_selected_workspace(self) -> None:
         user = self.anotheruser
         self.project.add_user(user, "Administration")
         other_workspace = Workspace.objects.create(name="Other Workspace")
@@ -466,7 +472,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
         self.assertNotContains(response, install_url.replace("&", "&amp;"))
 
-    def test_account_vcs_integrations_accepts_workspace_owner(self):
+    def test_account_vcs_integrations_accepts_workspace_owner(self) -> None:
         owner = User.objects.create_user(
             username="workspace owner",
             email="workspaceowner@example.org",
@@ -483,7 +489,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(response.context["selected_workspace"], self.workspace)
         self.assertContains(response, "Connect GitHub account")
 
-    def test_account_vcs_integrations_shows_unregistered_apps(self):
+    def test_account_vcs_integrations_shows_unregistered_apps(self) -> None:
         GitHubInstallation.objects.create(
             hostname="github.example.com",
             installation_id="12345",
@@ -499,7 +505,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "stale-org")
         self.assertContains(response, "Not registered")
 
-    def test_install_requires_host_selection_with_multiple_configs(self):
+    def test_install_requires_host_selection_with_multiple_configs(self) -> None:
         self._make_credentials(
             hostname="github.example.com",
             app_id="11111",
@@ -536,7 +542,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_connects_installation(self):
+    def test_setup_connects_installation(self) -> None:
         repositories = [_repo_entry("test-org/repo1", default_branch="stable")]
         next_url = "/create/component/#github"
         install_url = self._start_install(next_url)
@@ -579,7 +585,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_connects_personal_installation_for_account_owner(self):
+    def test_setup_connects_personal_installation_for_account_owner(self) -> None:
         repositories = [_repo_entry("octocat/repo1", default_branch="stable")]
         next_url = "/create/component/#github"
         install_url = self._start_install(next_url)
@@ -630,7 +636,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_persists_pending_installation_when_api_not_ready(self):
+    def test_setup_persists_pending_installation_when_api_not_ready(self) -> None:
         next_url = "/create/component/#github"
         install_url = self._start_install(next_url)
         state = parse_qs(urlparse(install_url).query)["state"][0]
@@ -664,7 +670,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertIn("Try connecting the account again later", response_messages[0])
 
     @override_settings(RATELIMIT_GITHUB_SETUP_ATTEMPTS=0)
-    def test_setup_rate_limited(self):
+    def test_setup_rate_limited(self) -> None:
         self.user.is_superuser = False
         self.user.save(update_fields=["is_superuser"])
         self.workspace.add_owner(self.user)
@@ -692,7 +698,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertIn("Try connecting the account again later", response_messages[0])
 
     @http_mock.activate
-    def test_setup_applies_pending_installation_webhook(self):
+    def test_setup_applies_pending_installation_webhook(self) -> None:
         repositories = [_repo_entry("test-org/repo1", default_branch="stable")]
         PendingInstallation.objects.create(
             provider=InstallationProvider.GITHUB,
@@ -734,7 +740,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_ignores_stale_pending_installation_webhook(self):
+    def test_setup_ignores_stale_pending_installation_webhook(self) -> None:
         pending = PendingInstallation.objects.create(
             provider=InstallationProvider.GITHUB,
             hostname="github.com",
@@ -774,7 +780,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         # Expired pending rows are ignored here and left for the periodic cleanup task.
         self.assertTrue(PendingInstallation.objects.filter(pk=pending.pk).exists())
 
-    def test_setup_rejects_missing_oauth_code(self):
+    def test_setup_rejects_missing_oauth_code(self) -> None:
         # Without the install-time OAuth code there is nothing proving the user
         # controls the installation, so the connection is refused outright.
         install_url = self._start_install("/create/component/#github")
@@ -790,7 +796,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             GitHubInstallation.objects.filter(installation_id="12345").exists()
         )
 
-    def test_setup_update_accepts_existing_installation_without_state(self):
+    def test_setup_update_accepts_existing_installation_without_state(self) -> None:
         self.user.is_superuser = False
         self.user.save(update_fields=["is_superuser"])
         self.project.add_user(self.user, "Administration")
@@ -815,7 +821,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         ]
         self.assertEqual(response_messages, ["Connected GitHub account updated."])
 
-    def test_setup_update_rejects_inaccessible_installation_without_state(self):
+    def test_setup_update_rejects_inaccessible_installation_without_state(self) -> None:
         self.user.is_superuser = False
         self.user.save(update_fields=["is_superuser"])
         self.project.add_user(self.user, "Administration")
@@ -839,7 +845,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(len(response_messages), 1)
         self.assertIn("installation link is no longer valid", response_messages[0])
 
-    def test_setup_update_accepts_installation_for_management_user(self):
+    def test_setup_update_accepts_installation_for_management_user(self) -> None:
         # Site-wide managers (management.use) may handle update callbacks for
         # installations in any workspace, not just ones they manage directly.
         self.user.is_superuser = False
@@ -868,7 +874,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(response_messages, ["Connected GitHub account updated."])
 
     @http_mock.activate
-    def test_setup_update_with_state_runs_full_setup(self):
+    def test_setup_update_with_state_runs_full_setup(self) -> None:
         # An update callback that carries a signed Weblate state is a
         # Weblate-initiated install flow and must run the full setup (OAuth
         # verification + repository refresh), not the stateless shortcut.
@@ -897,7 +903,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertIsNotNone(connected.repositories_updated)
 
     @http_mock.activate
-    def test_setup_rejects_malformed_installation_id(self):
+    def test_setup_rejects_malformed_installation_id(self) -> None:
         install_url = self._start_install("/create/component/#github")
         state = parse_qs(urlparse(install_url).query)["state"][0]
 
@@ -921,7 +927,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_rejects_foreign_installation_id(self):
+    def test_setup_rejects_foreign_installation_id(self) -> None:
         # The attacker holds a valid signed state for their own workspace and a
         # valid OAuth code for *their* GitHub account, then swaps in another
         # account's installation ID (67890). ``GET /user/installations`` only
@@ -950,7 +956,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_rejects_personal_installation_for_non_owner(self):
+    def test_setup_rejects_personal_installation_for_non_owner(self) -> None:
         install_url = self._start_install("/create/component/#github")
         state = parse_qs(urlparse(install_url).query)["state"][0]
 
@@ -983,7 +989,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_rejects_org_installation_without_admin_access(self):
+    def test_setup_rejects_org_installation_without_admin_access(self) -> None:
         # ``GET /user/installations`` can list organization installations where
         # the user merely has repository access. Weblate must require the
         # stronger organization-admin installation list before connecting it.
@@ -1013,7 +1019,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
 
     @http_mock.activate
-    def test_setup_rejects_when_code_exchange_fails(self):
+    def test_setup_rejects_when_code_exchange_fails(self) -> None:
         install_url = self._start_install("/create/component/#github")
         state = parse_qs(urlparse(install_url).query)["state"][0]
 
@@ -1032,7 +1038,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             GitHubInstallation.objects.filter(installation_id="12345").exists()
         )
 
-    def test_repository_list_uses_workspace_scope(self):
+    def test_repository_list_uses_workspace_scope(self) -> None:
         user = self.anotheruser
         self.project.add_user(user, "Administration")
         self.client.login(username=user.username, password="testpassword")
@@ -1064,7 +1070,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "test-org/repo1")
         self.assertNotContains(response, "other-org/repo2")
 
-    def test_repository_list_hides_hosts_without_credentials(self):
+    def test_repository_list_hides_hosts_without_credentials(self) -> None:
         GitHubInstallation.objects.create(
             installation_id="12345",
             target_type="Organization",
@@ -1093,7 +1099,65 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "test-org/repo1")
         self.assertNotContains(response, "stale-org/repo2")
 
-    def test_installation_detail_hides_import_link_when_disabled(self):
+    def test_installation_detail_warns_about_affected_components(self) -> None:
+        repo = _repo_entry("test-org/repo1")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo1.git"
+        self.component.save(update_fields=["vcs", "repo"])
+
+        response = self.client.get(
+            reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+        )
+
+        self.assertContains(response, "will lose access to its repository")
+        self.assertContains(response, str(self.component))
+
+    def test_account_list_prefetches_affected_components(self) -> None:
+        """Rendering many removal modals must not query components per row."""
+        repo = _repo_entry("test-org/repo1")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+        for index in range(3):
+            GitHubInstallation.objects.create(
+                installation_id=f"5432{index}",
+                target_type="Organization",
+                target_login=f"other-org-{index}",
+                workspace=Workspace.objects.create(name=f"Workspace {index}"),
+                repositories=[repo],
+            )
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo1.git"
+        self.component.save(update_fields=["vcs", "repo"])
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("account-vcs"))
+
+        self.assertContains(response, "will lose access to its repository")
+        self.assertContains(response, str(self.component))
+        self.assertEqual(
+            len(
+                [
+                    query
+                    for query in queries.captured_queries
+                    if "trans_component" in query["sql"]
+                ]
+            ),
+            1,
+        )
+
+    def test_installation_detail_hides_import_link_when_disabled(self) -> None:
         repo = _repo_entry("test-org/repo1")
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
@@ -1114,7 +1178,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "Unavailable")
         self.assert_installation_remove_modal(response, installation)
 
-    def test_installation_detail_hides_import_link_without_credentials(self):
+    def test_installation_detail_hides_import_link_without_credentials(self) -> None:
         repo = _repo_entry(
             "stale-org/repo2",
             clone_url="https://github.example.com/stale-org/repo2.git",
@@ -1139,7 +1203,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertNotContains(response, _import_url(installation, repo))
         self.assertContains(response, "Unavailable")
 
-    def test_site_manager_can_import_from_installation_detail(self):
+    def test_site_manager_can_import_from_installation_detail(self) -> None:
         manager = User.objects.create_user(
             username="site manager",
             email="sitemanager@example.org",
@@ -1172,7 +1236,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             self.client.session["session_component"]["repo"], repo["clone_url"]
         )
 
-    def test_repository_import_link_preselects_github_app_vcs(self):
+    def test_repository_import_link_preselects_github_app_vcs(self) -> None:
         repo = _repo_entry("test-org/repo1", default_branch="stable")
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
@@ -1193,7 +1257,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, import_path.replace("&", "&amp;"))
         self.assert_installation_remove_modal(response, installation)
 
-    def test_repository_import_uses_create_session(self):
+    def test_repository_import_uses_create_session(self) -> None:
         repo = _repo_entry("test-org/repo1", default_branch="stable")
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
@@ -1235,7 +1299,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(form["repo"].value(), repo["clone_url"])
         self.assertTrue(form.fields["repo"].disabled)
 
-    def test_repository_list_omits_archived_repositories(self):
+    def test_repository_list_omits_archived_repositories(self) -> None:
         GitHubInstallation.objects.create(
             installation_id="12345",
             target_type="Organization",
@@ -1253,7 +1317,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertNotContains(response, "test-org/archived")
 
     @http_mock.activate
-    def test_refresh_repositories_updates_installation(self):
+    def test_refresh_repositories_updates_installation(self) -> None:
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
             target_type="Organization",
@@ -1305,7 +1369,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             ],
         )
 
-    def test_refresh_repositories_rejects_get(self):
+    def test_refresh_repositories_rejects_get(self) -> None:
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
             target_type="Organization",
@@ -1319,12 +1383,53 @@ class GitHubInstallationViewTest(ViewTestCase):
 
         self.assertEqual(response.status_code, 405)
 
-    def test_remove_installation(self):
+    @http_mock.activate
+    def test_remove_installation(self) -> None:
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
             target_type="Organization",
             target_login="test-org",
             workspace=self.workspace,
+        )
+        http_mock.register(
+            "DELETE",
+            "https://api.github.com/app/installations/12345",
+            status_code=202,
+        )
+
+        self.async_client.force_login(self.user)
+        response = async_to_sync(self.async_client.post)(
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("manage-github-accounts"),
+            fetch_redirect_response=False,
+        )
+        self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+        self.assertEqual(
+            [(call.request.method, call.request.url) for call in http_mock.calls],
+            [("DELETE", "https://api.github.com/app/installations/12345")],
+        )
+        response_messages = [
+            str(message) for message in get_messages(response.asgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("uninstalled the Weblate GitHub App", response_messages[0])
+
+    @http_mock.activate
+    def test_remove_installation_accepts_missing_github_installation(self) -> None:
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+        http_mock.register(
+            "DELETE",
+            "https://api.github.com/app/installations/12345",
+            status_code=404,
         )
 
         self.async_client.force_login(self.user)
@@ -1339,7 +1444,153 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
         self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
 
-    def test_remove_installation_rejects_get(self):
+    @http_mock.activate
+    def test_remove_installation_keeps_row_when_github_uninstall_fails(self) -> None:
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+        http_mock.register(
+            "DELETE",
+            "https://api.github.com/app/installations/12345",
+            status_code=500,
+        )
+
+        self.async_client.force_login(self.user)
+        with patch("weblate.vcs.github.report_error") as report_error:
+            response = async_to_sync(self.async_client.post)(
+                reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+            )
+
+        self.assertRedirects(
+            response,
+            reverse("manage-github-accounts"),
+            fetch_redirect_response=False,
+        )
+        self.assertTrue(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args,
+            ("Failed to uninstall connected GitHub account",),
+        )
+        self.assertIsInstance(report_error.call_args.kwargs["exception"], BaseException)
+        response_messages = [
+            str(message) for message in get_messages(response.asgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("connection was not removed", response_messages[0])
+
+    @http_mock.activate
+    def test_remove_installation_accepts_unauthorized_github_app(self) -> None:
+        """A deleted or suspended app must not block removing the connection."""
+        for status_code in (401, 403, 410):
+            with self.subTest(status_code=status_code):
+                installation = GitHubInstallation.objects.create(
+                    installation_id="12345",
+                    target_type="Organization",
+                    target_login="test-org",
+                    workspace=self.workspace,
+                )
+                http_mock.reset()
+                http_mock.register(
+                    "DELETE",
+                    "https://api.github.com/app/installations/12345",
+                    status_code=status_code,
+                )
+
+                self.async_client.force_login(self.user)
+                response = async_to_sync(self.async_client.post)(
+                    reverse(
+                        "manage-github-account-remove", kwargs={"pk": installation.pk}
+                    ),
+                )
+
+                self.assertRedirects(
+                    response,
+                    reverse("manage-github-accounts"),
+                    fetch_redirect_response=False,
+                )
+                self.assertFalse(
+                    GitHubInstallation.objects.filter(pk=installation.pk).exists()
+                )
+                response_messages = [
+                    str(message) for message in get_messages(response.asgi_request)
+                ]
+                self.assertIn(
+                    "no longer grants access to this installation",
+                    response_messages[-1],
+                )
+
+    @http_mock.activate
+    def test_remove_installation_without_app_credentials(self) -> None:
+        """Removal must work even once the app credentials are gone."""
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+        GitHubAppCredentials.objects.all().delete()
+
+        self.async_client.force_login(self.user)
+        response = async_to_sync(self.async_client.post)(
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("manage-github-accounts"),
+            fetch_redirect_response=False,
+        )
+        self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+        self.assertEqual(len(http_mock.calls), 0)
+        response_messages = [
+            str(message) for message in get_messages(response.asgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn(
+            "no longer configured on this Weblate instance", response_messages[0]
+        )
+
+    @http_mock.activate
+    def test_remove_installation_keeps_shared_github_installation(self) -> None:
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+        other_installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=Workspace.objects.create(name="Other GitHub Workspace"),
+        )
+
+        self.async_client.force_login(self.user)
+        response = async_to_sync(self.async_client.post)(
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("manage-github-accounts"),
+            fetch_redirect_response=False,
+        )
+        self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+        self.assertTrue(
+            GitHubInstallation.objects.filter(pk=other_installation.pk).exists()
+        )
+        self.assertEqual(len(http_mock.calls), 0)
+        response_messages = [
+            str(message) for message in get_messages(response.asgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("another workspace still uses it", response_messages[0])
+
+    def test_remove_installation_rejects_get(self) -> None:
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
             target_type="Organization",
@@ -1353,6 +1604,236 @@ class GitHubInstallationViewTest(ViewTestCase):
 
         self.assertEqual(response.status_code, 405)
         self.assertTrue(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+
+    def test_migration_lists_components_and_install_url(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+        )
+        self.component.refresh_from_db()
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        response = self.client.get(url)
+
+        self.assertContains(response, "test-org/repo1")
+        self.assertContains(response, "Repository access needed")
+        install_url = response.context["github_app_install_url"]
+        self.assertTrue(install_url.startswith(reverse("github-app-install")))
+        install_query = parse_qs(urlparse(install_url).query)
+        self.assertEqual(install_query["workspace"], [str(self.workspace.pk)])
+        self.assertEqual(install_query["next"], [url])
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_migration_updates_selected_component(self) -> None:
+        repository = _repo_entry("test-org/repo1")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repository],
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+            push="git@github.com:weblate/repo1.git",
+            push_branch="translations",
+            vcs_params={
+                "git_force_push": True,
+            },
+        )
+        self.component.refresh_from_db()
+        for alert_name in ("GitHubAppMigration", "PushFailure", "UpdateFailure"):
+            self.component.add_alert(alert_name)
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        response = self.client.post(url, {"components": [str(self.component.pk)]})
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "github-app")
+        self.assertEqual(self.component.repo, repository["clone_url"])
+        self.assertEqual(self.component.push, "")
+        self.assertEqual(self.component.push_branch, "")
+        self.assertEqual(
+            self.component.vcs_params,
+            {"create_merge_request": False},
+        )
+        self.assertFalse(
+            self.component.alert_set.filter(
+                name__in=("GitHubAppMigration", "PushFailure", "UpdateFailure")
+            ).exists()
+        )
+
+    @override_settings(
+        CELERY_TASK_ALWAYS_EAGER=False,
+        GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}},
+    )
+    def test_migration_preserves_github_create_merge_request(self) -> None:
+        repository = _repo_entry("test-org/repo1")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repository],
+        )
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        for create_merge_request in (False, True):
+            with self.subTest(create_merge_request=create_merge_request):
+                Component.objects.filter(pk=self.component.pk).update(
+                    vcs="github",
+                    repo="https://github.com/test-org/repo1.git",
+                    vcs_params={"create_merge_request": create_merge_request},
+                )
+
+                response = self.client.post(
+                    url, {"components": [str(self.component.pk)]}
+                )
+
+                self.assertRedirects(response, url, fetch_redirect_response=False)
+                self.component.refresh_from_db()
+                self.assertEqual(self.component.vcs, "github-app")
+                self.assertEqual(
+                    self.component.vcs_params,
+                    {"create_merge_request": create_merge_request},
+                )
+
+    def test_migration_rejects_unavailable_component(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.com/test-org/repo1.git",
+        )
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        response = self.client.post(url, {"components": [str(self.component.pk)]})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(
+            "Select a valid choice",
+            response.context["form"].errors["components"][0],
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "github")
+
+    def test_migration_ignores_archived_repositories(self) -> None:
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1", archived=True)],
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+        )
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.context["available_entries"], [])
+        self.assertEqual(len(response.context["unavailable_entries"]), 1)
+        self.assertContains(response, "Repository access needed")
+
+    def _migrate_with_concurrent_change(self, url, change):
+        """POST the migration form, applying ``change`` just before each lock."""
+        original_locked_for_update = Component.locked_for_update
+
+        @contextmanager
+        def locked_for_update(component, **kwargs):
+            change()
+            with original_locked_for_update(component, **kwargs) as locked:
+                yield locked
+
+        with patch.object(Component, "locked_for_update", locked_for_update):
+            return self.client.post(url, {"components": [str(self.component.pk)]})
+
+    def _setup_migratable_component(self):
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+        )
+        return reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_migration_skips_component_moved_out_of_workspace(self) -> None:
+        url = self._setup_migratable_component()
+
+        response = self._migrate_with_concurrent_change(
+            url,
+            lambda: Project.objects.filter(pk=self.project.pk).update(workspace=None),
+        )
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("no longer available", response_messages[0])
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_migration_skips_component_pointed_elsewhere(self) -> None:
+        url = self._setup_migratable_component()
+
+        response = self._migrate_with_concurrent_change(
+            url,
+            lambda: Component.objects.filter(pk=self.component.pk).update(
+                repo="git@github.com:test-org/other.git"
+            ),
+        )
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("no longer available", response_messages[0])
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_migration_reports_validation_error(self) -> None:
+        url = self._setup_migratable_component()
+
+        with patch.object(
+            GithubAppRepository,
+            "validate_component",
+            side_effect=ValidationError("Repository is not available."),
+        ):
+            response = self.client.post(url, {"components": [str(self.component.pk)]})
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("Repository is not available.", response_messages[0])
+        self.assertIn(self.component.full_slug, response_messages[0])
 
 
 class GitHubAppAccessControlTest(ViewTestCase):
@@ -1451,7 +1932,7 @@ class GitHubAppAccessControlTest(ViewTestCase):
         )["Location"]
         return parse_qs(urlparse(location).query)["state"][0]
 
-    def test_install_requires_login(self):
+    def test_install_requires_login(self) -> None:
         self.client.logout()
         response = self.client.get(
             reverse("github-app-install"),
@@ -1460,13 +1941,25 @@ class GitHubAppAccessControlTest(ViewTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("login"), response["Location"])
 
-    def test_setup_requires_login(self):
+    def test_migration_requires_workspace_access(self) -> None:
+        self.client.login(username=self.other_user.username, password="testpassword")
+
+        response = self.client.get(
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            )
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_setup_requires_login(self) -> None:
         self.client.logout()
         response = self.client.get(reverse("github-app-setup"))
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("login"), response["Location"])
 
-    def test_setup_denied_for_user_managing_a_different_workspace(self):
+    def test_setup_denied_for_user_managing_a_different_workspace(self) -> None:
         # A valid signed state for ``self.workspace`` produced by its admin.
         state = self._start_install(self.user)
 
@@ -1490,7 +1983,7 @@ class GitHubAppAccessControlTest(ViewTestCase):
         )
 
     @http_mock.activate
-    def test_workspace_member_can_import_repo_linked_by_other_user(self):
+    def test_workspace_member_can_import_repo_linked_by_other_user(self) -> None:
         repo = _repo_entry("test-org/repo1", default_branch="stable")
 
         # User A links the GitHub account to the shared workspace.
@@ -1589,7 +2082,7 @@ class GitHubAppManifestViewTest(TestCase):
         msg = "Missing form-action directive"
         raise AssertionError(msg)
 
-    def test_register_submit_posts_directly_to_github_with_csp(self):
+    def test_register_submit_posts_directly_to_github_with_csp(self) -> None:
         for host in ("github.com", "github.example.com", "github"):
             with self.subTest(host=host):
                 response = self._post_register(host=host)
@@ -1613,7 +2106,7 @@ class GitHubAppManifestViewTest(TestCase):
                 form_end = content.index("</form>", form_start)
                 self.assertNotIn("csrfmiddlewaretoken", content[form_start:form_end])
 
-    def test_register_submit_rejects_invalid_host(self):
+    def test_register_submit_rejects_invalid_host(self) -> None:
         for host in (
             "github.com; script-src *",
             "github.com@attacker.example",
@@ -1628,7 +2121,7 @@ class GitHubAppManifestViewTest(TestCase):
                 self.assertRedirects(response, reverse("github-app-register"))
                 self.assertNotIn("github_app_register_nonce", self.client.session)
 
-    def test_register_rejects_prefilled_invalid_host(self):
+    def test_register_rejects_prefilled_invalid_host(self) -> None:
         response = self.client.get(
             reverse("github-app-register"),
             {"host": "github.com@attacker.example"},
@@ -1638,7 +2131,7 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(response.context["hostname"], "github.com")
         self.assertNotContains(response, "attacker.example")
 
-    def test_register_post_sends_expected_manifest_to_github(self):
+    def test_register_post_sends_expected_manifest_to_github(self) -> None:
         url, manifest = self._capture_github_call(
             host="github.com", name="My Weblate", public="1"
         )
@@ -1697,7 +2190,7 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(parsed.path, "/organizations/acme/settings/apps/new")
 
     @override_settings(SITE_TITLE="Acme Translate")
-    def test_register_default_name_uses_site_title(self):
+    def test_register_default_name_uses_site_title(self) -> None:
         response = self.client.get(reverse("github-app-register"))
 
         self.assertEqual(response.context["name"], "Acme Translate (testserver)")
@@ -1705,7 +2198,7 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(manifest["name"], "Acme Translate (testserver)")
 
     @http_mock.activate
-    def test_register_callback_stores_credentials(self):
+    def test_register_callback_stores_credentials(self) -> None:
         http_mock.register(
             "POST",
             "https://api.github.com/app-manifests/tempcode123/conversions",
@@ -1735,7 +2228,7 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertIn("manifest", credentials.private_key)
 
     @http_mock.activate
-    def test_register_callback_quotes_code_path_segment(self):
+    def test_register_callback_quotes_code_path_segment(self) -> None:
         http_mock.register(
             "POST",
             "https://api.github.com/app-manifests/"
@@ -1762,7 +2255,7 @@ class GitHubAppManifestViewTest(TestCase):
         )
 
     @http_mock.activate
-    def test_register_callback_updates_existing(self):
+    def test_register_callback_updates_existing(self) -> None:
         http_mock.register(
             "POST",
             "https://api.github.com/app-manifests/tempcode123/conversions",
@@ -1790,7 +2283,7 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(GitHubAppCredentials.objects.count(), 1)
 
     @http_mock.activate
-    def test_register_callback_reject(self):
+    def test_register_callback_reject(self) -> None:
         response = self.client.get(reverse("github-app-register-callback"))
 
         self.assertRedirects(response, reverse("manage-github-accounts"))
@@ -1820,7 +2313,7 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertRedirects(response, reverse("manage-github-accounts"))
         self.assertFalse(GitHubAppCredentials.objects.exists())
 
-    def test_register_requires_management_configure(self):
+    def test_register_requires_management_configure(self) -> None:
         user = User.objects.create_user(
             username="manager",
             email="manager@example.org",
@@ -1844,7 +2337,7 @@ class GitHubAppManifestViewTest(TestCase):
         response = self.client.get(reverse("github-app-register"))
         self.assertEqual(response.status_code, 200)
 
-    def test_remove_app_requires_management_configure(self):
+    def test_remove_app_requires_management_configure(self) -> None:
         user = User.objects.create_user(
             username="manager",
             email="manager@example.org",
@@ -1878,7 +2371,7 @@ class GitHubAppManifestViewTest(TestCase):
             GitHubAppCredentials.objects.filter(pk=credentials.pk).exists()
         )
 
-    def test_register_form_warns_about_existing_host(self):
+    def test_register_form_warns_about_existing_host(self) -> None:
         GitHubAppCredentials.objects.create(
             hostname="github.com",
             app_id="111",
@@ -1909,14 +2402,14 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(parsed.netloc, "github.example.com")
         self.assertEqual(parsed.path, "/settings/apps/new")
 
-    def test_register_truncates_long_names(self):
+    def test_register_truncates_long_names(self) -> None:
         long_name = "x" * 100
         _url, manifest = self._capture_github_call(host="github.com", name=long_name)
         # GitHub rejects names longer than 34 chars, so the manifest body must
         # already be truncated to the limit.
         self.assertEqual(manifest["name"], "x" * 34)
 
-    def test_credentials_page_renders_remove_app_modal(self):
+    def test_credentials_page_renders_remove_app_modal(self) -> None:
         credentials = GitHubAppCredentials.objects.create(
             hostname="github.com",
             app_id="111",
@@ -1943,7 +2436,7 @@ class GitHubAppManifestViewTest(TestCase):
         )
         self.assertTrue(response.context["apps"][0]["can_remove"])
 
-    def test_credentials_page_disables_remove_app_with_connected_accounts(self):
+    def test_credentials_page_disables_remove_app_with_connected_accounts(self) -> None:
         credentials = GitHubAppCredentials.objects.create(
             hostname="github.com",
             app_id="111",
@@ -1972,7 +2465,7 @@ class GitHubAppManifestViewTest(TestCase):
             f'action="{reverse("manage-github-app-remove", kwargs={"pk": credentials.pk})}"',
         )
 
-    def test_credentials_page_lists_registered_apps(self):
+    def test_credentials_page_lists_registered_apps(self) -> None:
         GitHubAppCredentials.objects.create(
             hostname="github.com",
             app_id="111",
@@ -1998,7 +2491,7 @@ class GitHubAppManifestViewTest(TestCase):
         hostnames = [app["hostname"] for app in response.context["apps"]]
         self.assertEqual(hostnames, ["github.com", "github.example.com"])
 
-    def test_credentials_remove_app_credentials(self):
+    def test_credentials_remove_app_credentials(self) -> None:
         credentials = GitHubAppCredentials.objects.create(
             hostname="github.com",
             app_id="111",
@@ -2023,7 +2516,9 @@ class GitHubAppManifestViewTest(TestCase):
             GitHubAppCredentials.objects.filter(pk=credentials.pk).exists()
         )
 
-    def test_credentials_remove_app_credentials_rejects_connected_accounts(self):
+    def test_credentials_remove_app_credentials_rejects_connected_accounts(
+        self,
+    ) -> None:
         credentials = GitHubAppCredentials.objects.create(
             hostname="github.com",
             app_id="111",

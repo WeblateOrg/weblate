@@ -85,6 +85,8 @@ class Check(models.Model):
     )
     name = models.CharField(max_length=50, choices=CHECKS.get_choices())
     dismissed = models.BooleanField(db_index=True, default=False)
+    # Provider diagnostics and freshness data, not user-editable configuration.
+    metadata = models.JSONField(default=dict, blank=True)
 
     objects = CheckQuerySet.as_manager()
 
@@ -121,6 +123,11 @@ class Check(models.Model):
     def get_description(self) -> StrOrPromise:
         if self.check_obj:
             return self.check_obj.get_description(self)
+        return self.name
+
+    def get_plain_description(self) -> str:
+        if self.check_obj:
+            return self.check_obj.get_plain_description(self)
         return self.name
 
     def get_fixup(self) -> Iterable[FixupType] | None:

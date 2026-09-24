@@ -14,15 +14,21 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+from __future__ import annotations
+
 import os
 import sys
 from importlib import resources
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import sphinx.builders.gettext
 import weblate_fonts
 from matplotlib import font_manager
 from sphinx.util.tags import Tags
+
+if TYPE_CHECKING:
+    from sphinx.application import Sphinx
 
 # -- Path setup --------------------------------------------------------------
 
@@ -41,12 +47,12 @@ sys.path.append(str(weblate_dir))
 
 
 class WeblateTags(Tags):
-    def eval_condition(self, condition):
+    def eval_condition(self, condition: str) -> bool:
         # Exclude blocks marked as not gettext
         return condition != "not gettext"
 
 
-def setup(app) -> None:
+def setup(app: Sphinx) -> None:
     # Monkey patch gettext build tags handling, this is workaround until
     # https://github.com/sphinx-doc/sphinx/issues/13307 is addressed.
     sphinx.builders.gettext.I18nTags = WeblateTags
@@ -82,7 +88,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "2026.9"
+release = "2026.10"
 
 # -- General configuration ---------------------------------------------------
 
@@ -91,6 +97,7 @@ release = "2026.9"
 # ones.
 extensions = [
     "djangodocs",
+    "rubric_permalinks",
     "sphinxcontrib.httpdomain",
     "sphinx.ext.autodoc",
     "autodoc_signature_filter",
@@ -152,6 +159,12 @@ html_theme = "furo"
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "")
 markdown_http_base = html_baseurl.rstrip("/")
 llms_txt_suffix_mode = "replace"
+llms_txt_suppress_unknown_node_warnings = [
+    "graphviz",
+    "admonition",
+    "caption",
+    "abbreviation",
+]
 
 # Tell Jinja2 templates the build is running on Read the Docs
 if os.environ.get("READTHEDOCS", "") == "True":
@@ -162,7 +175,7 @@ if os.environ.get("READTHEDOCS", "") == "True":
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["../weblate/static/"]
+html_static_path = ["../weblate/static/", "_ext/static"]
 
 html_logo = "images/logo-text.svg"
 
@@ -346,7 +359,7 @@ intersphinx_mapping = {
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
     "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),
-    "rtd": ("https://docs.readthedocs.io/en/latest/", None),
+    "rtd": ("https://docs.readthedocs.com/platform/latest/", None),
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
     "drf-standardized-error": (
         "https://drf-standardized-errors.readthedocs.io/en/latest/",
@@ -366,17 +379,23 @@ nitpick_ignore = [
     ("http:obj", "string"),
     ("http:obj", "timestamp"),
     ("http:obj", "file"),
-    # Autodoc renders these standard-library type annotations from wlc
-    # signatures, but intersphinx references for them are disabled here.
+    # Autodoc renders these type annotations from wlc signatures, but their
+    # reference targets are not available in the configured inventories.
     ("py:class", "Path"),
     ("py:class", "builtins.list"),
     ("py:class", "collections.abc.Iterator"),
     ("py:class", "collections.abc.Mapping"),
+    ("py:class", "requests.models.Response"),
+    ("py:class", "wlc.base.LazyObject"),
 ]
 
 # Number of retries and timeout for linkcheck
 linkcheck_retries = 10
 linkcheck_timeout = 10
+linkcheck_anchors_ignore_for_url = [
+    # JavaScript robot checks prevent verifying article anchors
+    r"https://eur-lex\.europa\.eu/",
+]
 linkcheck_ignore = [
     # Local URL to Weblate
     "http://127.0.0.1:8080/",
@@ -402,6 +421,7 @@ linkcheck_ignore = [
     "https://platform.openai.com/docs/models",
     "https://translate.systran.net/en/account",
     "https://api.sap.com/api/translationhub/overview",
+    r"https://www\.enisa\.europa\.eu/topics/product-security/single-reporting-platform-srp/cra-srp-glossary$",
     # Anchor is not there for linkcheck
     "https://hub.docker.com/_/postgres#pgdata",
     "https://github.com/SAML-Toolkits/python3-saml#settings",

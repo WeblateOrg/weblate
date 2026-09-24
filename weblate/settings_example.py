@@ -439,6 +439,9 @@ ROOT_URLCONF = "weblate.urls"
 INSTALLED_APPS = [
     # Weblate apps on top to override Django locales and templates
     "weblate.addons",
+    "weblate.automation",
+    "weblate.kotlin_sdk",
+    "weblate.api",
     "weblate.auth",
     "weblate.checks",
     "weblate_fonts",
@@ -844,6 +847,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # List of enabled addons
 # WEBLATE_ADDONS = (
+#     "weblate.automation.addon.AutomationAddon",
 #     "weblate.addons.gettext.GenerateMoAddon",
 #     "weblate.addons.gettext.UpdateLinguasAddon",
 #     "weblate.addons.gettext.UpdateConfigureAddon",
@@ -852,7 +856,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.addons.gettext.MesonAddon",
 #     "weblate.addons.gettext.DjangoAddon",
 #     "weblate.addons.gettext.SphinxAddon",
-#     "weblate.addons.gettext.GettextAuthorComments",
 #     "weblate.addons.cleanup.CleanupAddon",
 #     "weblate.addons.cleanup.RemoveBlankAddon",
 #     "weblate.addons.cleanup.ResetAddon",
@@ -921,11 +924,13 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # REST framework settings for API
-REST_FRAMEWORK = get_drf_settings(
-    require_login=REQUIRE_LOGIN,
-    anon_throttle="100/day",
-    user_throttle="5000/hour",
-)
+API_RATELIMIT_ANON = "100/day"
+API_RATELIMIT_USER = "5000/hour"
+API_RATELIMIT_USER_OVERRIDES: dict[str, str | None] = {}
+API_RATELIMIT_IP_OVERRIDES: dict[str, str | None] = {}
+# API_RATELIMIT_USER_OVERRIDES = {"automation": "20000/hour"}
+# API_RATELIMIT_IP_OVERRIDES = {"192.0.2.42": None, "198.51.100.0/24": "10000/hour"}
+REST_FRAMEWORK = get_drf_settings(require_login=REQUIRE_LOGIN)
 DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
 SPECTACULAR_SETTINGS = get_spectacular_settings(
     INSTALLED_APPS,
@@ -969,7 +974,7 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_RETRY = True
 
 # Celery settings, it is not recommended to change these
-CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000 if DEBUG else 250000
+CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_TASK_ROUTES = {

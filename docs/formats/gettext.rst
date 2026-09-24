@@ -18,7 +18,6 @@ headers or linking to corresponding source files.
     * :doc:`../devel/sphinx`
     * `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_
     * :doc:`tt:formats/po`
-    * :ref:`addon-weblate.gettext.authors`
     * :ref:`addon-weblate.gettext.configure`
     * :ref:`addon-weblate.gettext.customize`
     * :ref:`addon-weblate.gettext.linguas`
@@ -57,7 +56,35 @@ The header of the PO file is automatically maintained by Weblate.
 It can be configured to include the ``Language-Team``, ``Last-Translator``,
 ``X-Generator`` and ``Report-Msgid-Bugs-To`` headers using the :ref:`file_format_params`.
 
-The header comments also can be updated to contain author names using :ref:`addon-weblate.gettext.authors`.
+.. _gettext-contributor-comments:
+
+Contributor comments
+~~~~~~~~~~~~~~~~~~~~
+
+Use the ``po_contributor_comments`` :ref:`file_format_params` parameter to add
+contributor names and years to PO header comments. Choose ``gettext`` for
+traditional comments or ``spdx`` for SPDX copyright entries. The default,
+``none``, disables contributor updates without removing existing comments.
+This setting works independently of the ``Last-Translator`` header setting.
+
+With ``gettext``, contributor comments look like this:
+
+.. code-block:: po
+
+    # Jane Doe <jane@example.com>, 2024, 2026.
+
+With ``spdx``, the same entry becomes:
+
+.. code-block:: po
+
+    # SPDX-FileCopyrightText: 2024, 2026 Jane Doe <jane@example.com>
+
+On the next commit by an eligible contributor, SPDX mode converts all recognized
+contributor comments, preserves historical contribution years, and adds the
+current year for that contributor. Anonymous Weblate authors are skipped.
+Unrelated comments and copyright notices are preserved. Weblate does not infer
+copyright claims from translated credit strings or add project-specific notices
+or license identifiers; handle these in custom tooling.
 
 Line wrapping
 +++++++++++++

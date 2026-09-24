@@ -19,7 +19,7 @@
              title="{% translate "Copy permalink" %}"
              tabindex="-1">{% icon "link.svg" %}</a>
           <a class="btn btn-link btn-xs"
-             href="{% url 'translate' path=object.get_url_path %}?{{ search_url }}&amp;offset={{ item.offset }}"
+             href="{% url 'translate' path=object.get_url_path %}{% querystring query_params offset=item.offset %}"
              title="{% translate "Open in full editor" %}"
              tabindex="-1">{% icon "pencil-mini.svg" %}</a>
         </div>
@@ -101,7 +101,9 @@
       {% endif %}
       <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %}
           class="translator">
-        <button class="btn btn-light btn-sm hide-sticky" title="{% translate "Collapse" %}">{% icon "close.svg" %}</button>
+        <button class="btn btn-light btn-sm hide-sticky"
+                title="{% translate "Collapse" %}"
+                type="button">{% icon "close.svg" %}</button>
         {% crispy item.form %}
       </td>
     </tr>
@@ -114,7 +116,7 @@
   <tbody>
     <tr>
       <td colspan="3" id="last-section">
-        {% translate 'The translation has come to an end.' as msg %}
+        {% translate "The translation has come to an end." as msg %}
         {% show_message 'info' msg %}
       </td>
     </tr>

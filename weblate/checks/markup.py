@@ -51,10 +51,9 @@ from weblate.utils.html import (
     MD_BROKEN_LINK,
     MD_LINK,
     MD_REFLINK,
-    MD_SYNTAX,
-    MD_SYNTAX_GROUPS,
     HTMLSanitizer,
     extract_html_attributes,
+    iter_markdown_syntax,
 )
 from weblate.utils.xml import parse_xml
 
@@ -73,32 +72,42 @@ if TYPE_CHECKING:
     from .base import FixupType
 
 DOCUTILS_PARSER_LOCK = threading.Lock()
-# Single tag token. Name stops at ], @, whitespace, or = so [url=…] and
-# [codeblock lang=…] pair on the tag name. Pairing is linear (stack), not a
-# DOTALL lazy-dot scan, so unmatched openers and nested tags stay safe.
+# Single tag token. Name stops at [, ], @, whitespace, or = so [url=…] and
+# [codeblock lang=…] pair on the tag name.
 BBCODE_TOKEN = re.compile(
-    r"\[(?P<close>/)?(?P<tag>[^\]@\s=]+)(?P<params>[@\s=][^\]]*)?\]"
+    r"\[(?P<close>/)?(?P<tag>[^\[\]@\s=]+)(?P<params>[@\s=][^\]]*)?\]"
 )
 
 
 def extract_bbcode_pairs(text: str) -> list[tuple[re.Match[str], re.Match[str]]]:
     """Pair BBCode open/close tags in linear time, including nested tags."""
-    stack: list[re.Match[str]] = []
-    pairs: list[tuple[re.Match[str], re.Match[str]]] = []
+    stack: list[tuple[re.Match[str], int | None, int]] = []
+    latest: dict[str, int] = {}
+    pairs: list[tuple[re.Match[str], re.Match[str]] | None] = []
     for token in BBCODE_TOKEN.finditer(text):
         if token.group("close"):
             if token.group("params"):
                 continue
             tag = token.group("tag")
-            for i in range(len(stack) - 1, -1, -1):
-                if stack[i].group("tag") == tag:
-                    pairs.append((stack[i], token))
-                    del stack[i:]
-                    break
+            index = latest.get(tag)
+            if index is None:
+                continue
+            # Each discarded opener is removed only once, even with malformed nesting.
+            while len(stack) > index:
+                opener, previous, pair_index = stack.pop()
+                opener_tag = opener.group("tag")
+                if previous is None:
+                    del latest[opener_tag]
+                else:
+                    latest[opener_tag] = previous
+                if len(stack) == index:
+                    pairs[pair_index] = (opener, token)
         else:
-            stack.append(token)
-    pairs.sort(key=lambda item: item[0].start())
-    return pairs
+            tag = token.group("tag")
+            stack.append((token, latest.get(tag), len(pairs)))
+            latest[tag] = len(stack) - 1
+            pairs.append(None)
+    return [pair for pair in pairs if pair is not None]
 
 
 HTML_ATTRIBUTE_PLACEHOLDER_MATCHES = (
@@ -202,7 +211,7 @@ class RSTRoleMatch(NamedTuple):
     syntax_suffix: str
 
 
-def strip_entities(text):
+def strip_entities(text: str) -> str:
     """Strip all HTML entities (we don't care about them)."""
     return XML_CDATA_MATCH.sub(r"\1", XML_ENTITY_MATCH.sub(" ", text))
 
@@ -312,7 +321,7 @@ class BBCodeCheck(TargetCheck):
         super().__init__()
         self.enable_string = "bbcode-text"
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         src_pairs = extract_bbcode_pairs(source)
         tgt_pairs = extract_bbcode_pairs(target)
         if len(src_pairs) != len(tgt_pairs):
@@ -323,7 +332,7 @@ class BBCodeCheck(TargetCheck):
 
         return src_tags != tgt_tags
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
         for opener, closer in extract_bbcode_pairs(source):
@@ -430,7 +439,7 @@ class XMLTagsCheck(BaseXMLCheck):
     name = gettext_lazy("XML markup")
     description = gettext_lazy("XML tags in translation do not match source.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # Check if source is XML
         try:
             source_tree, wrap = self.detect_xml_wrapping(source)
@@ -450,7 +459,7 @@ class XMLTagsCheck(BaseXMLCheck):
         # Compare tags
         return source_tags != target_tags
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return []
         if not self.can_parse_xml(source):
@@ -553,7 +562,7 @@ class MarkdownRefLinkCheck(MarkdownBaseCheck):
     name = gettext_lazy("Markdown references")
     description = gettext_lazy("Markdown link references do not match source.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         src_match = MD_REFLINK.findall(source)
         if not src_match:
             return False
@@ -570,7 +579,7 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
     name = gettext_lazy("Markdown links")
     description = gettext_lazy("Markdown links do not match source.")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         src_match = MD_LINK.findall(source)
         if not src_match:
             return False
@@ -599,30 +608,19 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
     name = gettext_lazy("Markdown syntax")
     description = gettext_lazy("Markdown syntax does not match source.")
 
-    @staticmethod
-    def extract_match(match):
-        for i in range(6):
-            if match[i]:
-                return match[i]
-        return None
-
-    def check_single(self, source: str, target: str, unit: Unit):
-        src_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(source)}
-        tgt_tags = {self.extract_match(x) for x in MD_SYNTAX.findall(target)}
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        src_tags = {match.value for match in iter_markdown_syntax(source)}
+        tgt_tags = {match.value for match in iter_markdown_syntax(target)}
 
         return src_tags != tgt_tags
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
-        for match in MD_SYNTAX.finditer(source):
-            value = ""
-            for i in range(MD_SYNTAX_GROUPS):
-                value = match.group(i + 1)
-                if value:
-                    break
-            start = match.start()
-            end = match.end()
+        for match in iter_markdown_syntax(source):
+            value = match.value
+            start = match.start
+            end = match.end
             group = f"markdown:{start}:{end}"
             translatable = value != "<"
             forbidden_text = (value[0],) if translatable and len(value) > 1 else ()
@@ -653,7 +651,7 @@ class URLCheck(TargetCheck):
     default_disabled = True
 
     @cached_property
-    def validator(self):
+    def validator(self) -> URLValidator:
         return URLValidator()
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
@@ -673,7 +671,7 @@ class SafeHTMLCheck(TargetCheck):
     default_disabled = True
     extra_enable_strings = ("auto-safe-html",)
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         flags = unit.all_flags
         if not flags.is_active("safe-html", source):
             return False
@@ -983,7 +981,7 @@ class RSTReferencesCheck(PluralResultDescriptionMixin, RSTBaseCheck):
             }
         return False
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
         _references, _counter, highlights = extract_rst_references(source)
@@ -1173,7 +1171,7 @@ class AsciiDocMarkupCheck(PluralResultDescriptionMixin, TargetCheck):
             }
         return False
 
-    def check_highlight(self, source: str, unit: Unit):
+    def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
         yield from iter_asciidoc_highlights(source)

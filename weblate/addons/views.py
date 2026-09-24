@@ -4,10 +4,11 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import redirect
@@ -82,7 +83,9 @@ class AddonList(PathViewMixin, ListView):
         )
 
     @staticmethod
-    def _get_scope_rank(addon: Addon, target: Component | Project | Category | None):
+    def _get_scope_rank(
+        addon: Addon, target: Component | Project | Category | None
+    ) -> int:
         if addon.component:
             if addon.component == target:
                 return 0
@@ -273,6 +276,7 @@ class AddonList(PathViewMixin, ListView):
                     component=component, category=category, project=project
                 )
                 and (x.multiple or x.name not in installed)
+                and x.api_available(component)
             ),
             key=lambda x: x.name,
         )
@@ -307,9 +311,13 @@ class AddonList(PathViewMixin, ListView):
         if addon is None:
             return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
         installed = {x.addon_name for x in self.get_queryset()}
-        if not addon.can_install(
-            component=obj_component, category=obj_category, project=obj_project
-        ) or (name in installed and not addon.multiple):
+        if (
+            not addon.can_install(
+                component=obj_component, category=obj_category, project=obj_project
+            )
+            or (name in installed and not addon.multiple)
+            or not addon.api_available(obj_component)
+        ):
             return self.redirect_list(
                 gettext("Add-on cannot be installed: ”%s”") % name
             )
@@ -322,16 +330,22 @@ class AddonList(PathViewMixin, ListView):
             data=request.POST if "form" in request.POST else None,
         )
         if form is None:
-            addon.create(
-                component=obj_component,
-                category=obj_category,
-                project=obj_project,
-                acting_user=request.user,
-            )
+            try:
+                addon.create(
+                    component=obj_component,
+                    category=obj_category,
+                    project=obj_project,
+                    acting_user=request.user,
+                )
+            except ValidationError as error:
+                return self.redirect_list(" ".join(error.messages))
             return self.redirect_list()
 
         if "form" in request.POST and form.is_valid():
-            instance = form.save()
+            try:
+                instance = form.save()
+            except ValidationError as error:
+                return self.redirect_list(" ".join(error.messages))
             if addon.stay_on_create:
                 messages.info(
                     self.request,
@@ -416,7 +430,7 @@ class AddonDetail(BaseAddonView, UpdateView):
             )
             return redirect(self.get_success_url())
 
-        self.object.schedule_manual_run()
+        self.object.schedule_manual_run(user_id=request.user.pk)
         messages.success(request, gettext("Add-on run has been scheduled."))
         return redirect(self.get_success_url())
 
@@ -437,6 +451,29 @@ class AddonDetail(BaseAddonView, UpdateView):
             return redirect(self.get_success_url())
         if "run" in request.POST:
             return self.trigger_manual_run(request)
+        if "preview" in request.POST and getattr(obj.addon, "has_preview", False):
+            form = self.get_form()
+            preview_result = None
+            if form.is_valid():
+                try:
+                    preview_result = obj.addon.preview(
+                        form.cleaned_data["workflow"],
+                        form.cleaned_data.get("preview_component") or obj.component_id,
+                        form.cleaned_data.get("preview_change"),
+                        actor=request.user,
+                    )
+                except ValidationError as error:
+                    form.add_error(None, error)
+            return self.render_to_response(
+                self.get_context_data(
+                    form=form,
+                    preview_result=json.dumps(
+                        preview_result, indent=2, ensure_ascii=False
+                    )
+                    if preview_result is not None
+                    else None,
+                )
+            )
         return super().post(request, *args, **kwargs)
 
 

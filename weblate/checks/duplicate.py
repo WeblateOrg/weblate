@@ -16,6 +16,7 @@ from weblate.utils.html import format_html_join_comma
 from weblate.utils.unicodechars import NON_WORD_CHARS
 
 if TYPE_CHECKING:
+    from weblate.checks.models import Check
     from weblate.trans.models import Unit
 
 # Regexp for non word chars
@@ -41,8 +42,27 @@ class DuplicateCheck(TargetCheck):
     version_added = "4.1"
 
     def should_skip(self, unit: Unit) -> bool:
-        # Ignore the check for Toki Pona which often uses repeating words
-        if unit.translation.language.is_base({"tok"}):
+        # These languages productively repeat words for grammatical meaning.
+        if unit.translation.language.is_base(
+            {
+                "as",  # Assamese
+                "bn",  # Bengali
+                "gu",  # Gujarati
+                "hi",  # Hindi
+                "kn",  # Kannada
+                "ml",  # Malayalam
+                "mr",  # Marathi
+                "ne",  # Nepali
+                "or",  # Odia
+                "pa",  # Punjabi
+                "sd",  # Sindhi
+                "si",  # Sinhala
+                "ta",  # Tamil
+                "te",  # Telugu; codespell:ignore
+                "tok",  # Toki Pona
+                "ur",  # Urdu
+            }
+        ):
             return True
         return super().should_skip(unit)
 
@@ -91,7 +111,7 @@ class DuplicateCheck(TargetCheck):
 
         return set(target_words) - set(source_words)
 
-    def get_description(self, check_obj):
+    def get_description(self, check_obj: Check):
         duplicate = set()
         unit = check_obj.unit
         source = unit.source_string

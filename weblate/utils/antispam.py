@@ -15,6 +15,6 @@ def is_spam(request: HttpRequest, texts: str | list[str]) -> bool:
     return False
 
 
-def report_spam(text, user_ip, user_agent) -> None:
+def report_spam(text: str, user_ip: str, user_agent: str) -> None:
     """Report spam to external service."""
     # Akismet integration has been removed

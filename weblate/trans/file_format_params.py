@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict, Unpack, cast
 
 from django import forms
@@ -31,7 +32,7 @@ if TYPE_CHECKING:
 
 
 class FileFormatParams(TypedDict, total=False):
-    json_sort_keys: bool
+    json_sort_keys: Literal["none", "case_sensitive", "case_insensitive"]
     json_indent: int
     json_indent_style: Literal["spaces", "tabs"]
     json_use_compact_separators: bool
@@ -44,6 +45,7 @@ class FileFormatParams(TypedDict, total=False):
     po_set_last_translator: bool
     po_set_x_generator: bool
     po_report_msgid_bugs_to: bool
+    po_contributor_comments: Literal["none", "gettext", "spdx"]
     yaml_indent: int
     yaml_line_wrap: int
     yaml_line_break: str
@@ -64,6 +66,8 @@ class FileFormatParams(TypedDict, total=False):
     md_frontmatter_translate_values: bool
     md_no_placeholders: bool
     merge_duplicates: bool
+    xml_whitespace_handling: Literal["standard", "preserve", "normalize"]
+    xliff_placeables: Literal["plain", "placeables"]
 
 
 FileFormatParamKey = Literal[
@@ -81,10 +85,10 @@ FileFormatParamKey = Literal[
     "po_set_last_translator",
     "po_set_x_generator",
     "po_report_msgid_bugs_to",
+    "po_contributor_comments",
     "yaml_indent",
     "yaml_line_wrap",
     "yaml_line_break",
-    "xml_closing_tags",
     "flatxml_root_name",
     "flatxml_value_name",
     "flatxml_key_name",
@@ -100,6 +104,9 @@ FileFormatParamKey = Literal[
     "md_extract_frontmatter",
     "md_frontmatter_translate_values",
     "md_no_placeholders",
+    "xml_closing_tags",
+    "xml_whitespace_handling",
+    "xliff_placeables",
 ]
 
 
@@ -155,6 +162,19 @@ def get_default_params_for_file_format(file_format: str) -> FileFormatParams:
     )
 
 
+def get_effective_params_for_file_format(
+    file_format: str, file_format_params: FileFormatParams | None
+) -> FileFormatParams:
+    """Get normalized effective values for file format parameters."""
+    return cast(
+        "FileFormatParams",
+        {
+            param.name: param.get_value(file_format_params)
+            for param in get_params_for_file_format(file_format)
+        },
+    )
+
+
 def strip_unused_file_format_params(
     file_format: str, file_format_params: FileFormatParams
 ) -> FileFormatParams:
@@ -205,19 +225,51 @@ class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
     )
 
 
+class CaseInsensitiveSortingEncoder(json.JSONEncoder):
+    def __init__(self, *args, **kwargs) -> None:
+        kwargs["sort_keys"] = False
+        super().__init__(*args, **kwargs)
+
+    def encode(self, o: object) -> str:
+        return super().encode(self._sort_keys_case_insensitive(o))
+
+    def _sort_keys_case_insensitive(self, o: object) -> object:
+        if isinstance(o, dict):
+            return {
+                key: self._sort_keys_case_insensitive(value)
+                for key, value in sorted(
+                    o.items(),
+                    key=lambda item: str(item[0]).casefold(),
+                )
+            }
+        if isinstance(o, (list, tuple)):
+            return [self._sort_keys_case_insensitive(item) for item in o]
+        return o
+
+
 @register_file_format_param
 class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     name = "json_sort_keys"
     label = gettext_lazy("Sort JSON keys")
-    field_class = forms.BooleanField
-    default = False
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("none", gettext_lazy("Do not sort")),
+        ("case_sensitive", gettext_lazy("Case-sensitive sort")),
+        ("case_insensitive", gettext_lazy("Case-insensitive sort")),
+    ]
+    default = "none"
 
     def setup_store(
         self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
     ) -> None:
-        cast("JsonFile", store).dump_args["sort_keys"] = self.get_value(
-            file_format_params
-        )
+        dump_args = cast("JsonFile", store).dump_args
+        sort_mode = self.get_value(file_format_params)
+        if sort_mode == "case_sensitive":
+            dump_args["sort_keys"] = True
+        elif sort_mode == "case_insensitive":
+            # turn off JSONFile sorting which uses Python's default key ordering (cae sensitive)
+            dump_args["sort_keys"] = False
+            dump_args["cls"] = CaseInsensitiveSortingEncoder  # type: ignore[typeddict-item]
 
 
 @register_file_format_param
@@ -309,6 +361,24 @@ class GettextPoLineWrap(BaseFileFormatParam):
 
 class BaseGettextFormatParam(BaseFileFormatParam):
     file_formats: Sequence[str] = ("po",)
+
+
+@register_file_format_param
+class GettextContributorComments(BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
+    name = "po_contributor_comments"
+    label = gettext_lazy("Contributor comments")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("none", gettext_lazy("Disabled")),
+        ("gettext", gettext_lazy("Gettext")),
+        ("spdx", gettext_lazy("SPDX")),
+    ]
+    default = "none"
+    help_text = gettext_lazy(
+        "Add contributor names and years to header comments. SPDX also converts "
+        "existing recognized contributor comments to SPDX-FileCopyrightText entries."
+    )
 
 
 @register_file_format_param
@@ -489,6 +559,69 @@ class XMLClosingTags(BaseFileFormatParam):
         cast("LISAfile", store).XMLSelfClosingTags = not self.get_value(
             file_format_params
         )
+
+
+@register_file_format_param
+class XMLWhitespaceHandling(BaseFileFormatParam):
+    name = "xml_whitespace_handling"
+    label = gettext_lazy("Whitespace handling")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        (
+            "standard",
+            gettext_lazy("Follow xml:space"),
+        ),
+        (
+            "preserve",
+            gettext_lazy("Always preserve"),
+        ),
+        (
+            "normalize",
+            gettext_lazy("Always normalize"),
+        ),
+    ]
+    default = "preserve"
+    help_text = gettext_lazy(
+        "Controls how XLIFF whitespace is handled. "
+        "Follow xml:space honors attributes in the file. "
+        "Always preserve keeps all whitespace. "
+        'Always normalize collapses whitespace even when xml:space="preserve" is set.'
+    )
+
+    file_formats = (
+        "xliff",
+        "poxliff",
+        "apple-xliff",
+        "xliff2",
+    )
+
+
+@register_file_format_param
+class XliffPlaceables(BaseFileFormatParam):
+    name = "xliff_placeables"
+    label = gettext_lazy("Placeables support")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        (
+            "plain",
+            gettext_lazy("Plain text only"),
+        ),
+        (
+            "placeables",
+            gettext_lazy("Support placeables"),
+        ),
+    ]
+    default = "placeables"
+    help_text = gettext_lazy(
+        "Controls whether inline XML elements inside XLIFF strings are preserved as editable placeables. "
+        "Plain text only escapes XML markup and treats the content as text. "
+        'With placeables supported, tags such as <x id="name"\\/> or <g> stay in the string and appear as placeholders in the editor'
+    )
+
+    file_formats = (
+        "xliff",
+        "xliff2",
+    )
 
 
 class BaseFlatXMLFormatParam(BaseFileFormatParam):

@@ -9,6 +9,7 @@ import re
 import time
 from collections import defaultdict
 from contextlib import contextmanager, nullcontext, suppress
+from copy import deepcopy
 from dataclasses import dataclass
 from glob import glob
 from itertools import chain
@@ -40,6 +41,7 @@ from django.utils.timezone import localtime, now
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
 
+from weblate.auth.bots import InternalBot
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.base import BilingualUpdateMixin
@@ -73,6 +75,7 @@ from weblate.trans.exceptions import (
 from weblate.trans.fields import RegexField
 from weblate.trans.file_format_params import (
     FILE_FORMATS_PARAMS,
+    get_effective_params_for_file_format,
     get_encoding_param,
 )
 from weblate.trans.inherited_settings import (
@@ -300,20 +303,19 @@ class CommitTaskPayload(TypedDict):
 
 def prefetch_tasks(components):
     """Prefetch update tasks."""
-    lookup = {component.update_key: component for component in components}
-    if lookup:
-        results_dict = cache.get_many(lookup.keys())
-        results: dict[str, AsyncResult] = {
-            value: AsyncResult(value) for value in results_dict.values() if value
-        }
-
-        for item, value in results_dict.items():
-            if not value:
-                continue
-            lookup[item].__dict__["background_task"] = results[value]
-            lookup.pop(item)
-        for component in lookup.values():
-            component.__dict__["background_task"] = None
+    component_list = list(components)
+    keys = {
+        key
+        for component in component_list
+        for key in (component.update_key, component.repository_operation_update_key)
+    }
+    task_ids = cache.get_many(keys)
+    results: dict[str, AsyncResult] = {
+        task_id: AsyncResult(task_id) for task_id in task_ids.values() if task_id
+    }
+    for component in component_list:
+        task_id = component.select_background_task_id(task_ids)
+        component.__dict__["background_task"] = results.get(task_id)
     return components
 
 
@@ -325,9 +327,16 @@ def translation_prefetch_tasks(translations):
 def prefetch_glossary_terms(components) -> None:
     if not components:
         return
-    lookup = {component.glossary_sources_key: component for component in components}
+    lookup = {}
+    for component in components:
+        lookup[component.glossary_sources_key] = (component, "glossary_sources")
+        lookup[f"{component.glossary_sources_key}-index"] = (
+            component,
+            "glossary_source_index",
+        )
     for item, value in cache.get_many(lookup.keys()).items():
-        lookup[item].__dict__["glossary_sources"] = value
+        component, attribute = lookup[item]
+        component.__dict__[attribute] = value
 
 
 class ComponentQuerySet(models.QuerySet["Component", "Component"]):
@@ -881,7 +890,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         verbose_name=gettext_lazy("Manage strings"),
         default=False,
         help_text=gettext_lazy(
-            "Enables adding and removing strings straight from Weblate. If your "
+            "Enables adding, removing, and editing source strings and keys in Weblate. If your "
             "strings are extracted from the source code or managed externally you "
             "probably want to keep it disabled."
         ),
@@ -1269,6 +1278,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             changed_setup = (
                 (old.file_format != self.file_format)
+                or (
+                    get_effective_params_for_file_format(
+                        old.file_format, old.file_format_params
+                    )
+                    != get_effective_params_for_file_format(
+                        self.file_format, self.file_format_params
+                    )
+                )
                 or (old.edit_template != self.edit_template)
                 or (old.new_base != self.new_base)
                 or changed_template
@@ -1276,6 +1293,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             if changed_setup:
                 old.commit_pending("changed setup", None)
+                # Committing pending changes can advance HEAD and persists the
+                # revision without updating this component instance. Fetch the
+                # value directly to preserve the pre-save settings snapshot.
+                self.local_revision = Component.objects.values_list(
+                    "local_revision", flat=True
+                ).get(pk=self.pk)
                 if old.key_filter != self.key_filter:
                     self.drop_key_filter_cache()
 
@@ -1627,14 +1650,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @staticmethod
     def get_repository_maintenance_user() -> User:
         """Return the internal identity for automatic repository maintenance."""
-        # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import User
-
-        return User.objects.get_or_create_bot(
-            scope="weblate",
-            name="repository",
-            verbose="Repository maintenance",
-        )
+        return InternalBot.REPOSITORY.get_user()
 
     def record_repository_redirect_change(
         self,
@@ -1826,13 +1842,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
                     continue
 
-            if not addon.can_install(component=component):
+            if not addon.can_install(component=component) or not addon.api_available(
+                component
+            ):
                 component.log_warning("could not enable addon %s, not compatible", name)
                 continue
 
             component.log_info("enabling addon %s", name)
             # Running is disabled now, it is triggered in after_save
-            addon.create(component=component, run=False, configuration=configuration)
+            try:
+                addon.create(
+                    component=component, run=False, configuration=configuration
+                )
+            except ValidationError as error:
+                component.log_warning("could not enable addon %s: %s", name, error)
 
     def create_glossary(self) -> None:
         project = self.project
@@ -1885,6 +1908,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return f"component-update-{self.pk}"
 
     @cached_property
+    def repository_operation_update_key(self) -> str:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository import get_repository_operation_update_key
+
+        return get_repository_operation_update_key(self.pk)
+
+    @cached_property
     def commit_task_key(self) -> str:
         return f"component-commit-{self.effective_repo_component.pk}"
 
@@ -1893,7 +1923,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return f"component-commit-reschedule-{self.effective_repo_component.pk}"
 
     def delete_background_task(self) -> None:
-        delete_task_metadata(self.background_task_id)
+        delete_task_metadata(cache.get(self.update_key))
         cache.delete(self.update_key)
 
     def store_background_task(self, task=None) -> None:
@@ -1905,9 +1935,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
         store_task_metadata(task.id, component_id=self.pk)
 
     def queue_background_task(self, task, /, *args, **kwargs) -> None:
-        transaction.on_commit(
-            lambda: self.store_background_task(task.delay(*args, **kwargs))
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import (
+            repository_task_deferred_background_tasks,
         )
+
+        def publish() -> None:
+            self.store_background_task(task.delay(*args, **kwargs))
+
+        deferred = repository_task_deferred_background_tasks.get()
+        if deferred is None:
+            transaction.on_commit(publish)
+        else:
+            transaction.on_commit(lambda: deferred.append(publish))
 
     @staticmethod
     def get_current_task_id() -> str | None:
@@ -2002,7 +2042,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @cached_property
     def background_task_id(self):
-        return cache.get(self.update_key)
+        return self.select_background_task_id(
+            cache.get_many((self.update_key, self.repository_operation_update_key))
+        )
+
+    def select_background_task_id(self, task_ids: dict[str, str]) -> str | None:
+        repository_task_id = task_ids.get(self.repository_operation_update_key)
+        background_task_id = task_ids.get(self.update_key)
+        if repository_task_id and background_task_id:
+            if not AsyncResult(repository_task_id).ready():
+                return repository_task_id
+            return background_task_id
+        return repository_task_id or background_task_id
 
     @cached_property
     def background_task(self):
@@ -2024,6 +2075,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if progress is None:
             self.translations_progress += 1
             progress = 100 * self.translations_progress // self.translations_count
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import repository_task_progress_scope
+
+        if (scope := repository_task_progress_scope.get()) is not None:
+            completed, total = scope
+            progress = (100 * completed + progress) // total
         # Store task state
         current_task.update_state(
             state="PROGRESS", meta={"progress": progress, "component": self.pk}
@@ -2033,9 +2090,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if self.translations_count == -1 and self.linked_component:
             self.linked_component.store_log(slug, msg, *args)
             return
-        self.logs.append(f"{slug}: {msg % args}")
+        entry = f"{slug}: {msg % args}"
         if current_task and current_task.request.id:
-            cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.repository_context import (
+                repository_task_inline_followups,
+            )
+
+            task_log_key = f"task-log-{current_task.request.id}"
+            if repository_task_inline_followups.get():
+                self.logs = cache.get(task_log_key, [])
+            self.logs.append(entry)
+            cache.set(task_log_key, self.logs, 2 * 3600)
+        else:
+            self.logs.append(entry)
 
     def log_hook(self, level, msg, *args) -> None:
         if level != "DEBUG":
@@ -2048,7 +2116,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         progress = get_task_progress(task)
         return (progress, cache.get(f"task-log-{task.id}", []))
 
-    def in_progress(self):
+    def in_progress(self) -> bool:
         return (
             not settings.CELERY_TASK_ALWAYS_EAGER
             and self.background_task is not None
@@ -2195,6 +2263,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 location=attributes["location"],
                 explanation=attributes["source_explanation"],
                 flags=attributes["flags"].format(),
+                details={
+                    "tbx_terms": {
+                        side: deepcopy(attributes["tbx_terms"]["source"])
+                        for side in ("source", "target")
+                    },
+                    "tbx_flags": attributes["tbx_flags"],
+                }
+                if attributes["tbx_terms"] is not None
+                else {},
                 num_words=count_words(attributes["source"], self.source_language),
                 state=STATE_TRANSLATED
                 if self.template and self.edit_template
@@ -2293,7 +2370,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         expression = "".join(result)
         return re.compile(f"^{expression}$")
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         parent = self.category or self.project
         return (*parent.get_url_path(), self.slug)
 
@@ -2301,7 +2378,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Return absolute URL for widgets."""
         return f"{self.project.get_widgets_url()}?component={self.pk}"
 
-    def get_share_url(self):
+    def get_share_url(self) -> str:
         """Return absolute shareable URL."""
         return self.project.get_share_url()
 
@@ -2852,7 +2929,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         with self.repository.lock:
             self.repository.configure_branch(self.branch)
 
-    def uses_changed_files(self, changed):
+    def uses_changed_files(self, changed) -> bool:
         """Detect whether list of changed files matches configuration."""
         for filename in [self.template, self.intermediate, self.new_base]:
             if filename and filename in changed:
@@ -2878,6 +2955,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @perform_on_link
     def do_update(self, request: AuthenticatedHttpRequest | None = None, method=None):
         """Perform repository update."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import (
+            RepositoryFollowupLockError,
+            repository_task_inline_followups,
+        )
+
         user = self.get_update_user(request)
         self.translations_progress = 0
         self.translations_count = 0
@@ -2923,17 +3006,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 result = False
 
         if result:
-            # create translation objects for all files
-            parse_error = None
             try:
-                self.create_translations(request=request, user=user)
-            except FileParseError as error:
-                parse_error = error
-
-            # Push after possible merge
-            self.push_if_needed(do_update=False)
-            if parse_error is not None:
-                raise parse_error
+                self.finish_update(request, user)
+            except WeblateLockTimeoutError as error:
+                if repository_task_inline_followups.get():
+                    raise RepositoryFollowupLockError(error, "pull") from error
+                raise
 
         if not self.repo_needs_push():
             self.delete_alert("RepositoryChanges")
@@ -2943,18 +3021,27 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         return result
 
+    def finish_update(
+        self, request: AuthenticatedHttpRequest | None, user: User
+    ) -> None:
+        """Parse and push a repository after a successful pull."""
+        parse_error = None
+        try:
+            self.create_translations(request=request, user=user)
+        except FileParseError as error:
+            parse_error = error
+
+        self.push_if_needed(do_update=False)
+        if parse_error is not None:
+            raise parse_error
+
     def get_update_user(self, request: AuthenticatedHttpRequest | None) -> User:
         """Return user to credit for background update events."""
         user = request.user if request else self.acting_user
         if user is not None:
             return user
 
-        # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import User
-
-        return User.objects.get_or_create_bot(
-            scope="weblate", name="update", verbose="Background update"
-        )
+        return InternalBot.UPDATE.get_user()
 
     @perform_on_link
     def push_if_needed(self, do_update=True) -> None:
@@ -2967,6 +3054,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
         * Configured push
         * Whether there is something to push
         """
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import (
+            repository_task_deferred_auto_push,
+            repository_task_inline_followups,
+            repository_task_suppress_auto_push,
+        )
+
+        if repository_task_suppress_auto_push.get():
+            self.log_info("skipped push: handled by repository operation")
+            return
+        if (deferred := repository_task_deferred_auto_push.get()) is not None:
+            deferred[self.pk] = lambda: self.push_if_needed(do_update=do_update)
+            self.log_info("deferred push: repository operation in progress")
+            return
         if not self.effective_push_on_commit:
             self.log_info("skipped push: push on commit disabled")
             return
@@ -2980,7 +3081,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.count_push_branch_outgoing,
             )
             return
-        if settings.CELERY_TASK_ALWAYS_EAGER:
+        if settings.CELERY_TASK_ALWAYS_EAGER or repository_task_inline_followups.get():
             self.do_push(None, force_commit=False, do_update=do_update)
         else:
             # ruff: ignore[import-outside-top-level]
@@ -2997,12 +3098,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if user is not None:
             return user
 
-        # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import User
-
-        return User.objects.get_or_create_bot(
-            scope="weblate", name="push", verbose="Background push"
-        )
+        return InternalBot.PUSH.get_user()
 
     @perform_on_link
     def push_repo(
@@ -3115,7 +3211,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if do_update:
             # Update the repo
-            self.do_update(request)
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.repository_context import suppress_repository_auto_push
+
+            try:
+                with suppress_repository_auto_push():
+                    self.do_update(request)
+            except FileParseError:
+                self.push_if_needed(do_update=False)
+                raise
 
             # Were all changes merged?
             if not self.pushes_to_different_location and self.repo_needs_merge():
@@ -3152,6 +3256,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         return True
 
+    @transaction.atomic
     def reset_repository_to_remote(
         self,
         request: AuthenticatedHttpRequest | None,
@@ -3224,7 +3329,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> bool:
         """Reset repo to match remote."""
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import perform_commit
+        from weblate.trans.repository_context import (
+            RepositoryFollowupLockError,
+            repository_task_inline_followups,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import perform_commit, perform_component_commit
 
         user = request.user if request else self.acting_user
         try:
@@ -3248,15 +3359,31 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return False
 
         if keep_changes:
-            # Trigger commit and scan in the background
-            self.queue_background_task(
-                perform_commit,
-                self.pk,
-                "reset-sync",
-                user_id=request.user.id if request else None,
-                force_scan=True,
-                previous_head=previous_head,
-            )
+            if repository_task_inline_followups.get():
+                try:
+                    perform_component_commit(
+                        self,
+                        "reset-sync",
+                        user,
+                        force_scan=True,
+                        previous_head=previous_head,
+                    )
+                except WeblateLockTimeoutError as error:
+                    raise RepositoryFollowupLockError(
+                        error,
+                        "reset-keep",
+                        previous_head=previous_head,
+                    ) from error
+            else:
+                # Trigger commit and scan in the background
+                self.queue_background_task(
+                    perform_commit,
+                    self.pk,
+                    "reset-sync",
+                    user_id=request.user.id if request else None,
+                    force_scan=True,
+                    previous_head=previous_head,
+                )
         return True
 
     def get_pending_translation_restore_rollback_revision(
@@ -3454,6 +3581,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         report_error(
             f"Could not recreate missing translation file during {operation_report}",
             project=failed_component.project,
+            exception=error,
         )
         if current_translation is not None:
             failed_component.log_error(
@@ -3601,7 +3729,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
         from weblate.auth.models import get_anonymous
 
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import perform_commit
+        from weblate.trans.repository_context import (
+            RepositoryFollowupLockError,
+            repository_task_inline_followups,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import perform_commit, perform_component_commit
 
         pending: list[PendingUnitChange] = []
         units_to_update: list[Unit] = []
@@ -3690,12 +3824,23 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 reset_repository_on_failure=False,
             ):
                 return False
-            self.queue_background_task(
-                perform_commit,
-                self.pk,
-                "file-sync",
-                user_id=request.user.id if request else None,
-            )
+            if repository_task_inline_followups.get():
+                user = request.user if request else self.acting_user
+
+                def commit_file_sync() -> None:
+                    try:
+                        perform_component_commit(self, "file-sync", user)
+                    except WeblateLockTimeoutError as error:
+                        raise RepositoryFollowupLockError(error, "file-sync") from error
+
+                transaction.on_commit(commit_file_sync)
+            else:
+                self.queue_background_task(
+                    perform_commit,
+                    self.pk,
+                    "file-sync",
+                    user_id=request.user.id if request else None,
+                )
 
         return True
 
@@ -3711,7 +3856,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.create_translations(request=request, force=True)
         return True
 
-    def get_repo_link_url(self):
+    def get_repo_link_url(self) -> str:
         return f"weblate://{'/'.join(self.get_url_path())}"
 
     @cached_property
@@ -3748,19 +3893,35 @@ class Component(  # ruff: ignore[too-many-public-methods]
             translation = translation.component.source_translation
         return translation
 
+    @staticmethod
+    def preload_commit_workflows(translations: list[Translation]) -> None:
+        from weblate.trans.models.project import (  # ruff: ignore[import-outside-top-level]
+            CommitPolicyChoices,
+        )
+
+        by_project: dict[int, list[Translation]] = defaultdict(list)
+        for translation in translations:
+            by_project[translation.component.project_id].append(translation)
+
+        for project_translations in by_project.values():
+            project = project_translations[0].component.project
+            if project.commit_policy != CommitPolicyChoices.APPROVED_ONLY:
+                continue
+            languages = {
+                translation.language_id: project.project_languages[translation.language]
+                for translation in project_translations
+            }
+            project.project_languages.preload_workflow_settings(languages.values())
+            for translation in project_translations:
+                translation.__dict__["workflow_settings"] = languages[
+                    translation.language_id
+                ].workflow_settings
+
     @perform_on_link
     def commit_pending(
         self, reason: str, user: User | None, skip_push: bool = False
     ) -> bool:
         """Check whether there is any translation to be committed."""
-        # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import User
-
-        if user is None:
-            user = User.objects.get_or_create_bot(
-                scope="weblate", name="commit", verbose="Background commit"
-            )
-
         pending_translation_ids = PendingUnitChange.objects.for_component(
             self, apply_filters=True, include_linked=True
         ).values_list("unit__translation_id", flat=True)
@@ -3769,7 +3930,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         translations = sorted(
             Translation.objects.filter(pk__in=pending_translation_ids)
             .distinct()
-            .prefetch_related("component"),
+            .prefetch_related("component__project", "language"),
             key=lambda translation: not translation.is_source,
         )
         components = {}
@@ -3781,13 +3942,22 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if not translations:
             return True
 
+        if user is None:
+            user = InternalBot.COMMIT.get_user()
+
+        translations = [
+            self.reuse_component_for_translation(translation, reuse_source=True)
+            for translation in translations
+        ]
+        # Populate the actual instances used below, including reused source translations.
+        # Per-translation policy checks can then use enable_review without querying
+        # workflow settings once for every language.
+        self.preload_commit_workflows(translations)
+
         # Commit pending changes
         with self.track_local_head_change():
             for translation in translations:
                 self.repository.lock.reacquire()
-                translation = self.reuse_component_for_translation(
-                    translation, reuse_source=True
-                )
                 component = translation.component
                 if component.pk in skipped:
                     # We already failed at this component
@@ -4500,8 +4670,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 preserve_pending_units=preserve_pending_units,
             )
 
-        # When already in a Celery repository task, scan inline so the same
-        # task tracks progress instead of finishing before a nested load task.
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import (
+            repository_task_inline_followups,
+        )
+
+        # Keep scans in the serialized repository task. Lock contention must
+        # propagate to that task so it retains its reservation while retrying.
+        if repository_task_inline_followups.get():
+            return self.create_translations_immediate(
+                force=force,
+                force_scan=force_scan,
+                langs=langs,
+                request=request,
+                user=user,
+                changed_template=changed_template,
+                from_link=from_link,
+                change=change,
+                preserve_pending_units=preserve_pending_units,
+            )
+
+        # Existing Celery VCS tasks scan inline, but retain their established
+        # fallback to a separate load task when the scan lock is contended.
         if current_task and current_task.request.id:
             try:
                 return self.create_translations_immediate(
@@ -4617,6 +4807,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # Store the revision as add-ons might update it later
         current_revision = self.local_revision
+        if version := self.file_format_cls.parse_version:
+            current_revision = f"{current_revision}:{version}"
 
         if (
             self.processed_revision == current_revision
@@ -4859,6 +5051,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             schedule_memory_updates(payloads)
 
     def run_batched_checks(self) -> None:
+        from weblate.automation.context import automation_origin  # ruff: ignore[import-outside-top-level]
+
         source_unit_ids = list(self.updated_sources)
         batched_checks = list(self.batched_checks)
         batch_mode = self.batch_checks
@@ -4873,7 +5067,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # ruff: ignore[import-outside-top-level]
         from weblate.checks.tasks import finalize_component_checks
 
-        if settings.CELERY_TASK_ALWAYS_EAGER:
+        if settings.CELERY_TASK_ALWAYS_EAGER or automation_origin.get():
             finalize_component_checks(
                 self.id,
                 source_unit_ids,
@@ -4904,7 +5098,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @cached_property
     def glossary_sources_key(self) -> str:
-        return f"component-glossary-{self.pk}"
+        return f"component-glossary-v2-{self.pk}"
+
+    @cached_property
+    def glossary_source_index(self):
+        from weblate.glossary.models import get_glossary_source_index  # ruff: ignore[import-outside-top-level]
+
+        key = f"{self.glossary_sources_key}-index"
+        result = cache.get(key)
+        if result is None:
+            result = get_glossary_source_index(self)
+            cache.set(key, result, 24 * 3600)
+        return result
 
     @cached_property
     def glossary_sources(self):
@@ -4920,7 +5125,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def invalidate_glossary_cache(self) -> None:
         if not self.is_glossary:
             return
-        cache.delete(self.glossary_sources_key)
+        cache.delete_many(
+            [self.glossary_sources_key, f"{self.glossary_sources_key}-index"]
+        )
+        self.__dict__.pop("glossary_source_index", None)
         self.project.invalidate_glossary_cache()
         for project in self.cached_links:
             project.invalidate_glossary_cache()
@@ -5140,7 +5348,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Validate new language choices."""
         # Validate if new base is configured or language adding is set
         if (
-            not self.new_base and self.effective_new_lang != "add"
+            not self.new_base and self.effective_new_lang not in {"add", "existing"}
         ) or not self.file_format:
             return
         # File is valid or no file is needed
@@ -5501,6 +5709,38 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     setattr(self, field, "")
                 continue
             errors[field] = self.INTEGRATION_LOCKED_FIELD_MESSAGE
+
+        if errors:
+            raise ValidationError(errors)
+
+    def clean_fields(self, exclude: Collection[str] | None = None) -> None:
+        """Validate inherited settings without changing their stored overrides."""
+        excluded = set(exclude or ())
+        inherited = {
+            name
+            for name in INHERITABLE_COMPONENT_SETTINGS
+            if name not in excluded and self.uses_project_setting(name)
+        }
+        errors: dict[str, list[ValidationError]] = {}
+        try:
+            super().clean_fields(exclude=excluded | inherited)
+        except ValidationError as error:
+            error.update_error_dict(errors)
+
+        for name in inherited:
+            try:
+                value = self.get_effective_setting(name)
+            except ObjectDoesNotExist:
+                # Let relationship validation report missing parents.
+                continue
+            field = cast("models.Field", self._meta.get_field(name))
+            raw_value = value.pk if isinstance(value, models.Model) else value
+            if field.blank and raw_value in field.empty_values:
+                continue
+            try:
+                field.clean(raw_value, self)
+            except ValidationError as error:
+                errors[name] = error.error_list
 
         if errors:
             raise ValidationError(errors)
@@ -6013,11 +6253,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
             pass
         return self.count_repo_outgoing
 
-    def needs_commit(self):
+    def needs_commit(self) -> bool:
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def repo_needs_merge(self):
+    def repo_needs_merge(self) -> bool:
         """Check for unmerged commits from remote repository."""
         return self.count_repo_missing > 0
 
@@ -6236,25 +6476,52 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def is_multivalue(self):
         return self.file_format_cls.has_multiple_strings
 
-    def can_add_new_language(self, user: User | None, fast: bool = False):
+    def get_new_language_action(
+        self,
+        user: User | None,
+        language: Language | None = None,
+        *,
+        existing_language_ids: set[int] | None = None,
+    ) -> str:
+        """Resolve creation policy, optionally using a bulk operation's snapshot."""
+        mode = self.effective_new_lang
+        # Preserve the existing CLI/add-on and component administrator exceptions.
+        if (
+            mode == "add"
+            or user is None
+            or (user.is_bot and user.username.startswith("addon:"))
+            or user.has_perm("component.edit", self)
+        ):
+            return "add"
+        if mode != "existing":
+            return mode
+        # Without a selected language, report general creation capability.
+        if language is None:
+            return "add"
+        if existing_language_ids is None:
+            existing_language_ids = self.project.get_existing_target_language_ids()
+        return "add" if language.pk in existing_language_ids else "contact"
+
+    def can_add_new_language(
+        self,
+        user: User | None,
+        fast: bool = False,
+        *,
+        language: Language | None = None,
+        existing_language_ids: set[int] | None = None,
+    ):
         """
         Check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
         is valid new base.
         """
-        # Consistency and possibly other add-ons
-        if user is not None and user.is_bot and user.username.startswith("addon:"):
-            user = None
-        # The user is None in case of consistency or cli invocation
-        # The component.edit permission is intentional here as it allows overriding
-        # of new_lang configuration for admins and add languages even if adding
-        # for users is not configured.
         self.new_lang_error_message = gettext("Could not add new translation file.")
         if (
-            self.effective_new_lang != "add"
-            and user is not None
-            and not user.has_perm("component.edit", self)
+            self.get_new_language_action(
+                user, language, existing_language_ids=existing_language_ids
+            )
+            != "add"
         ):
             self.new_lang_error_message = gettext(
                 "You do not have permissions to add new translation file."
@@ -6311,6 +6578,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
         send_signal: bool = True,
         create_translations: bool = True,
         show_messages: bool = True,
+        *,
+        existing_language_ids: set[int] | None = None,
     ) -> Translation | None:
         """Create new language file."""
 
@@ -6318,7 +6587,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if show_messages:
                 messages.error(request, message)
 
-        if not self.can_add_new_language(request.user if request else None):
+        if not self.can_add_new_language(
+            request.user if request else None,
+            language=language,
+            existing_language_ids=existing_language_ids,
+        ):
             fail_message(cast("str", self.new_lang_error_message))
             return None
 

@@ -412,6 +412,12 @@ LICENSES = (
         False,
     ),
     (
+        "BSD-ask-to-endorse",
+        "BSD - ask to endorse",
+        "https://spdx.org/licenses/BSD-ask-to-endorse.html",
+        True,
+    ),
+    (
         "BSD-1-Clause",
         "BSD 1-Clause License",
         "https://spdx.org/licenses/BSD-1-Clause.html",
@@ -436,6 +442,12 @@ LICENSES = (
         False,
     ),
     (
+        "BSD-2-Clause-pos-unchanged",
+        "BSD 2-Clause - position unchanged variant",
+        "https://spdx.org/licenses/BSD-2-Clause-pos-unchanged.html",
+        False,
+    ),
+    (
         "BSD-2-Clause-pkgconf-disclaimer",
         "BSD 2-Clause pkgconf disclaimer variant",
         "https://spdx.org/licenses/BSD-2-Clause-pkgconf-disclaimer.html",
@@ -452,6 +464,12 @@ LICENSES = (
         'BSD 3-Clause "New" or "Revised" License',
         "https://spdx.org/licenses/BSD-3-Clause.html",
         True,
+    ),
+    (
+        "BSD-3-Clause-OpenWebUI",
+        "BSD 3-Clause - OpenWebUI variant",
+        "https://spdx.org/licenses/BSD-3-Clause-OpenWebUI.html",
+        False,
     ),
     (
         "BSD-3-Clause-acpica",
@@ -571,6 +589,18 @@ LICENSES = (
         "BSD-Source-beginning-file",
         "BSD Source Code Attribution - beginning of file variant",
         "https://spdx.org/licenses/BSD-Source-beginning-file.html",
+        False,
+    ),
+    (
+        "BSD-Source-alt-GPL",
+        "BSD Source Code Attribution - GPL alternative",
+        "https://spdx.org/licenses/BSD-Source-alt-GPL.html",
+        False,
+    ),
+    (
+        "BSD-Source-Code-no-disclaimer",
+        "BSD Source Code Attribution - no disclaimer",
+        "https://spdx.org/licenses/BSD-Source-Code-no-disclaimer.html",
         False,
     ),
     (
@@ -787,7 +817,7 @@ LICENSES = (
         "CNRI-Python-GPL-Compatible",
         "CNRI Python Open Source GPL Compatible License Agreement",
         "https://spdx.org/licenses/CNRI-Python-GPL-Compatible.html",
-        False,
+        True,
     ),
     (
         "CPOL-1.02",
@@ -1297,7 +1327,7 @@ LICENSES = (
         "curl",
         "curl License",
         "https://spdx.org/licenses/curl.html",
-        False,
+        True,
     ),
     (
         "DL-DE-BY-2.0",
@@ -1567,6 +1597,12 @@ LICENSES = (
         "FDK-AAC",
         "Fraunhofer FDK AAC Codec Library",
         "https://spdx.org/licenses/FDK-AAC.html",
+        False,
+    ),
+    (
+        "FDK-MPEG-H",
+        "Fraunhofer FDK MPEG-H Software",
+        "https://spdx.org/licenses/FDK-MPEG-H.html",
         False,
     ),
     (
@@ -1969,6 +2005,12 @@ LICENSES = (
         "Hippocratic-2.1",
         "Hippocratic License 2.1",
         "https://spdx.org/licenses/Hippocratic-2.1.html",
+        False,
+    ),
+    (
+        "Hippocratic-3.0-core",
+        "Hippocratic License 3.0",
+        "https://spdx.org/licenses/Hippocratic-3.0-core.html",
         False,
     ),
     (
@@ -3325,7 +3367,7 @@ LICENSES = (
         "Python-2.0.1",
         "Python License 2.0.1",
         "https://spdx.org/licenses/Python-2.0.1.html",
-        False,
+        True,
     ),
     (
         "PSF-2.0",

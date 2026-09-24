@@ -6,22 +6,22 @@
   {% if path_object %}
     {% path_object_breadcrumbs path_object %}
     <li class="breadcrumb-item">
-      <a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}">{% translate "Changes" %}</a>
+      <a href="{% url 'changes' path=path_object.get_url_path %}{% querystring query_params %}">{% translate "Changes" %}</a>
     </li>
   {% else %}
     <li class="breadcrumb-item">
-      <a href="{% url 'changes' %}?{{ query_string }}">{% translate "Changes" %}</a>
+      <a href="{% url 'changes' %}{% querystring query_params %}">{% translate "Changes" %}</a>
     </li>
   {% endif %}
 
   <div class="btn-group ms-auto btn-group-settings" role="group">
     {% if debug %}
       {% if path_object %}
-        <a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}&amp;digest=1"
+        <a href="{% url 'changes' path=path_object.get_url_path %}{% querystring query_params digest=1 %}"
            title="{% translate "View notification" %}"
            class="btn btn-link">{% icon "bell.svg" %}</a>
       {% else %}
-        <a href="{% url 'changes' %}?{{ query_string }}&amp;digest=1"
+        <a href="{% url 'changes' %}{% querystring query_params digest=1 %}"
            title="{% translate "View notification" %}"
            class="btn btn-link">{% icon "bell.svg" %}</a>
       {% endif %}
@@ -29,26 +29,38 @@
     {% perm 'change.download' path_object as user_can_download_changes %}
     {% if user_can_download_changes %}
       {% if path_object %}
-        <a href="{% url 'changes-csv' path=path_object.get_url_path %}?{{ query_string }}"
+        <a href="{% url 'changes-csv' path=path_object.get_url_path %}{% querystring query_params %}"
            title="{% translate "Download latest changes as CSV" %}"
            class="btn btn-link">{% icon "download.svg" %}</a>
       {% else %}
-        <a href="{% url 'changes-csv' %}?{{ query_string }}"
+        <a href="{% url 'changes-csv' %}{% querystring query_params %}"
            title="{% translate "Download latest changes as CSV" %}"
            class="btn btn-link">{% icon "download.svg" %}</a>
       {% endif %}
     {% endif %}
-    <a href="{{ changes_rss }}{% if query_string %}?{{ query_string }}{% endif %}"
+    <a href="{{ changes_rss }}{% querystring query_params %}"
        title="{% translate "Follow using RSS" %}"
        class="btn btn-link">{% icon "rss.svg" %}</a>
   </div>
 {% endblock breadcrumbs %}
 
 {% block content %}
-  {% if form.is_valid %}
-    {% include "paginator.html" %}
+  {% if older_cursor or newer_cursor %}
+    <div class="mb-3">
+      {% translate "History navigation above results" as navigation_label %}
+      {% include "trans/change_navigation.html" with show_date_jump=True %}
+    </div>
+  {% else %}
+    <div class="pagination change-date-position d-inline-block mb-3">{% include "trans/change_date.html" %}</div>
+  {% endif %}
+  {% if form.is_valid and date_form.is_valid %}
     {% format_last_changes_content last_changes=object_list user=user %}
-    {% include "paginator.html" %}
+    {% if older_cursor or newer_cursor %}
+      <div class="mb-3">
+        {% translate "History navigation below results" as navigation_label %}
+        {% include "trans/change_navigation.html" %}
+      </div>
+    {% endif %}
   {% endif %}
 
   <form method="get">

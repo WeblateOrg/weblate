@@ -9,26 +9,36 @@ from __future__ import annotations
 import csv
 import json
 from copy import deepcopy
-from io import StringIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 from django.db import transaction
+from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.translation import override as translation_override
 from lxml import etree
 
-from weblate.glossary.models import get_glossary_terms, get_glossary_tsv
+from weblate.formats.ttkit import TBXFormat, TBXUnit
+from weblate.glossary.models import (
+    get_glossary_terms,
+    get_glossary_tsv,
+    get_glossary_tuples,
+)
 from weblate.glossary.tasks import (
     cleanup_stale_glossaries,
     get_stale_glossary_translations,
     sync_terminology,
 )
 from weblate.lang.models import Language
+from weblate.trans.alerts.base import AlertSeverity
+from weblate.trans.alerts.config import GlossaryStringManagementDisabled
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.trans.util import join_plural
 from weblate.utils.hash import calculate_hash
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
@@ -168,7 +178,9 @@ class GlossaryTest(ViewTestCase):
                 params,
             )
 
-    def add_term(self, source, target, context="") -> None:
+    def add_term(
+        self, source, target, context="", extra_flags="", target_flags=""
+    ) -> None:
         id_hash = calculate_hash(source, context)
         source_unit = self.glossary_component.source_translation.unit_set.create(
             source=source,
@@ -177,6 +189,7 @@ class GlossaryTest(ViewTestCase):
             id_hash=id_hash,
             position=1,
             state=STATE_TRANSLATED,
+            extra_flags=extra_flags,
         )
         self.glossary.unit_set.create(
             source=source,
@@ -186,6 +199,7 @@ class GlossaryTest(ViewTestCase):
             id_hash=id_hash,
             position=1,
             state=STATE_TRANSLATED,
+            extra_flags=target_flags,
         )
         self.glossary.invalidate_cache()
 
@@ -262,6 +276,130 @@ class GlossaryTest(ViewTestCase):
             self.glossary.unit_set.filter(target="podpůrná vrstva").exists()
         )
 
+    def test_import_tbx_source_alternatives(self) -> None:
+        content = b"""<martif type="TBX"><text><body><termEntry id="multi-source" weblate-flags="max-length:50">
+<descrip type="Translation needed">No</descrip><descrip type="definition">A program.</descrip><note from="custom">Concept note</note>
+<langSet xml:lang="en"><tig id="source-full"><term>application</term></tig><tig id="source-short"><term>app</term></tig></langSet>
+<langSet xml:lang="cs"><note from="translator">Language note</note><tig id="target-full"><term>aplikace</term><termNote type="administrativeStatus">forbidden</termNote><note from="custom">Term note</note></tig><tig id="target-short"><term>program</term><termNote type="administrativeStatus">forbidden</termNote></tig></langSet>
+</termEntry></body></text></martif>"""
+        expected: TBXUnit = TBXFormat(
+            BytesIO(content), source_language="en", language_code="cs"
+        ).content_units[0]
+        with BytesIO(content) as handle:
+            handle.name = "alternatives.tbx"
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
+                {"file": handle, "method": "add"},
+            )
+        self.assertRedirects(response, self.glossary.get_absolute_url())
+        unit = self.glossary.unit_set.get(context="multi-source")
+        self.assertEqual(unit.get_source_plurals(), ["application", "app"])
+        self.assertEqual(unit.get_target_plurals(), ["aplikace", "program"])
+        self.glossary.commit_pending("test", self.user)
+        self.glossary.drop_store_cache()
+        stored, _ = self.glossary.store.find_unit(unit.context, unit.source)
+        self.assertEqual(stored.source, unit.source)
+        self.assertEqual(stored.target, unit.target)
+        self.assertEqual(unit.tbx_terms, expected.tbx_terms)
+        self.assertEqual(stored.tbx_terms, expected.tbx_terms)
+        self.assertIn("forbidden", unit.all_flags)
+        self.assertIn("forbidden", stored.flags)
+        self.assertIn("read-only", unit.all_flags)
+        self.assertTrue(stored.is_readonly())
+        self.assertEqual(stored.flags.get_value("max-length"), 50)
+
+    def test_import_tbx_duplicate_source_alternatives(self) -> None:
+        content = b"""<martif type="TBX"><text><body>
+<termEntry><langSet xml:lang="en"><tig><term>application</term></tig><tig><term>app</term></tig></langSet><langSet xml:lang="cs"><tig><term>aplikace</term></tig></langSet></termEntry>
+<termEntry><langSet xml:lang="en"><tig><term>application</term></tig><tig><term>program</term></tig></langSet><langSet xml:lang="cs"><tig><term>program</term></tig></langSet></termEntry>
+<termEntry id="distinct"><langSet xml:lang="en"><tig><term>application</term></tig><tig><term>tool</term></tig></langSet><langSet xml:lang="cs"><tig><term>nastroj</term></tig></langSet></termEntry>
+</body></text></martif>"""
+        count = self.glossary.unit_set.count()
+        with BytesIO(content) as handle:
+            handle.name = "duplicates.tbx"
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
+                {"file": handle, "method": "add"},
+            )
+        self.assertRedirects(response, self.glossary.get_absolute_url())
+        self.assertEqual(self.glossary.unit_set.count(), count + 2)
+        unit = self.glossary.unit_set.get(source=join_plural(["application", "app"]))
+        self.assertEqual(unit.target, "aplikace")
+        self.assertEqual(
+            self.glossary.unit_set.get(context="distinct").target, "nastroj"
+        )
+        self.glossary.commit_pending("test", self.user)
+        self.glossary.drop_store_cache()
+        stored, _ = self.glossary.store.find_unit(unit.context, unit.source)
+        self.assertEqual(stored.source, unit.source)
+        self.assertEqual(stored.target, unit.target)
+
+    def test_import_tbx_updates_existing_source_metadata(self) -> None:
+        source_translation = self.glossary_component.source_translation
+        other_translation = self.glossary_component.translation_set.exclude(
+            pk__in=[source_translation.pk, self.glossary.pk]
+        ).first()
+        assert other_translation is not None
+        other_translation.add_unit(
+            None, "shared", "application", "application", author=self.user
+        )
+        self.glossary_component.unload_sources()
+        content = b"""<martif type="TBX"><text><body><termEntry id="shared" weblate-flags="max-length:50">
+<note from="custom">Concept note</note>
+<langSet xml:lang="en"><tig id="full"><term>application</term></tig><tig id="short"><term>app</term><termNote type="administrativeStatus">obsolete</termNote><note from="custom">Alias note</note></tig></langSet>
+<langSet xml:lang="cs"><tig><term>aplikace</term></tig></langSet>
+</termEntry></body></text></martif>"""
+        parsed: TBXUnit = TBXFormat(
+            BytesIO(content), source_language="en", language_code="cs"
+        ).content_units[0]
+        with BytesIO(content) as handle:
+            handle.name = "shared.tbx"
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
+                {"file": handle, "method": "add"},
+            )
+        self.assertRedirects(response, self.glossary.get_absolute_url())
+        source = source_translation.unit_set.get(context="shared")
+        self.assertEqual(source.get_source_plurals(), ["application", "app"])
+        self.assertEqual(source.tbx_terms["source"], parsed.tbx_terms["source"])
+        self.assertEqual(source.tbx_terms["target"], parsed.tbx_terms["source"])
+        self.assertEqual(source.details["tbx_flags"], parsed.tbx_flags)
+        self.assertEqual(source.note, parsed.notes)
+
+    def test_import_tbx_empty_dnt(self) -> None:
+        content = b"""<martif type="TBX"><text><body><termEntry id="empty-dnt">
+<descrip type="Translation needed">No</descrip>
+<langSet xml:lang="en"><tig><term>Brand</term></tig></langSet>
+</termEntry></body></text></martif>"""
+        with BytesIO(content) as handle:
+            handle.name = "dnt.tbx"
+            response = self.client.post(
+                reverse("upload", kwargs={"path": self.glossary.get_url_path()}),
+                {"file": handle, "method": "add"},
+            )
+        self.assertRedirects(response, self.glossary.get_absolute_url())
+        unit = self.glossary.unit_set.get(context="empty-dnt")
+        self.assertFalse(unit.target)
+        self.assertTrue(unit.readonly)
+        self.assertEqual(unit.state, STATE_READONLY)
+
+    def test_create_source_alternatives(self) -> None:
+        sources = ["application", "app"]
+        targets = ["aplikace", "program"]
+        self.glossary.validate_new_unit_data("multi-source", sources, targets)
+        unit = self.glossary.add_unit(
+            None, "multi-source", sources, targets, author=self.user
+        )
+        assert unit is not None
+        self.glossary.commit_pending("test", self.user)
+        self.glossary.drop_store_cache()
+        unit.refresh_from_db()
+        self.assertEqual(unit.get_source_plurals(), sources)
+        self.assertEqual(unit.get_target_plurals(), targets)
+        stored, _ = self.glossary.store.find_unit(unit.context, unit.source)
+        self.assertEqual(stored.source, unit.source)
+        self.assertEqual(stored.target, unit.target)
+
     def test_import_csv(self) -> None:
         # Import file
         response = self.import_file(TEST_CSV)
@@ -293,6 +431,26 @@ class GlossaryTest(ViewTestCase):
 
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 164)
+
+    def test_multivalue_alias_lookup(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term(
+                join_plural(["salutation", "hello"]), join_plural(["ahoj", "nazdar"])
+            )
+        unit = self.get_unit("Hello, world!\n")
+        matches = get_glossary_terms(unit)
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(matches[0].matched_sources, ("hello",))
+        self.assertEqual(
+            [term["text"] for term in matches[0].glossary_targets], ["ahoj", "nazdar"]
+        )
+        self.assertEqual(list(get_glossary_tuples(matches)), [("hello", "ahoj")])
+        unit.source = "A salutation: hello"
+        unit.glossary_terms = None
+        matches = get_glossary_terms(unit)
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(set(matches[0].matched_sources or ()), {"salutation", "hello"})
+        self.assertEqual(len(matches[0].glossary_positions), 2)
 
     def test_get_terms(self) -> None:
         with self.captureOnCommitCallbacks(execute=True):
@@ -343,6 +501,66 @@ class GlossaryTest(ViewTestCase):
                 ("thank you for using Weblate", ((0, 27),)),
             },
         )
+
+    def test_untranslatable_term_label(self) -> None:
+        """Only terms flagged read-only are labelled, also in the source language."""
+        with translation_override("en"):
+            with self.captureOnCommitCallbacks(execute=True):
+                self.add_term("hello", "ahoj")
+                self.add_term("world", "svět", extra_flags="read-only")
+            label = "This term should not be translated."
+
+            # Source strings of a bilingual glossary inherit read-only from the
+            # translation, which must not make every term untranslatable.
+            source_glossary = self.glossary_component.source_translation
+            self.assertTrue(source_glossary.is_readonly)
+            plain = source_glossary.unit_set.get(source="hello")
+            flagged = source_glossary.unit_set.get(source="world")
+            self.assertIn("read-only", plain.all_flags)
+            self.assertFalse(plain.untranslatable)
+            self.assertTrue(flagged.untranslatable)
+
+            source_unit = self.get_unit(language=self.component.source_language.code)
+            for term, expected in ((plain, False), (flagged, True)):
+                rendered = render_to_string(
+                    "snippets/glossary-row.html",
+                    {"item": term, "unit": source_unit, "glossary_row_class": ""},
+                )
+                self.assertEqual(label in rendered, expected)
+
+            for language in ("cs", self.component.source_language.code):
+                with self.subTest(language=language):
+                    unit = self.get_unit(language=language)
+                    response = self.client.get(
+                        unit.translation.get_translate_url(),
+                        {"checksum": unit.checksum},
+                    )
+                    self.assertContains(
+                        response, "ahoj" if language == "cs" else "hello"
+                    )
+                    self.assertContains(response, label, count=1)
+
+    def test_untranslatable_term_cannot_be_discarded(self) -> None:
+        """A source-wide read-only term stays untranslatable in every language."""
+        with self.captureOnCommitCallbacks(execute=True):
+            self.add_term(
+                "world",
+                "planeta",
+                extra_flags="read-only",
+                target_flags="discard:read-only",
+            )
+        term = self.glossary.unit_set.get(source="world")
+        self.assertIn("read-only", term.all_flags)
+        self.assertTrue(term.untranslatable)
+        self.assertEqual(list(get_glossary_tuples([term])), [("world", "world")])
+
+        with translation_override("en"):
+            unit = self.get_unit()
+            response = self.client.get(
+                unit.translation.get_translate_url(), {"checksum": unit.checksum}
+            )
+        self.assertContains(response, "This term should not be translated.")
+        self.assertNotContains(response, "planeta")
 
     def test_substrings(self) -> None:
         self.add_term("reach", "dojet")
@@ -803,6 +1021,130 @@ class GlossaryTest(ViewTestCase):
         sync_terminology(unit.translation.component.id, unit.translation.component)
         self.assertEqual(Unit.objects.count(), start + 4)
         self.assertEqual(unit.unit_set.count(), 4)
+
+    def test_string_management_alert_local(self) -> None:
+        component = self.glossary_component
+        self.assertFalse(GlossaryStringManagementDisabled.check_component(component))
+        component.manage_units = False
+        self.assertTrue(GlossaryStringManagementDisabled.check_component(component))
+        component.is_glossary = False
+        self.assertFalse(GlossaryStringManagementDisabled.check_component(component))
+        component.is_glossary = True
+        component.manage_units = True
+        self.do_add_unit()
+        component.manage_units = False
+        self.assertTrue(GlossaryStringManagementDisabled.check_component(component))
+
+    def test_string_management_alert_remote(self) -> None:
+        self.do_add_unit()
+        component = self.glossary_component
+        component.manage_units = False
+        for repo in ("https://example.com/glossary.git", "weblate://test/test"):
+            with self.subTest(repo=repo):
+                component.repo = repo
+                self.assertFalse(
+                    GlossaryStringManagementDisabled.check_component(component)
+                )
+                self.glossary.unit_set.update(extra_flags="terminology")
+                self.assertFalse(
+                    GlossaryStringManagementDisabled.check_component(component)
+                )
+                sources = component.source_translation.unit_set
+                sources.update(extra_flags="terminology")
+                self.assertTrue(
+                    GlossaryStringManagementDisabled.check_component(component)
+                )
+                sources.update(extra_flags="")
+                self.assertFalse(
+                    GlossaryStringManagementDisabled.check_component(component)
+                )
+
+    def test_string_management_alert_inherited_flags(self) -> None:
+        self.do_add_unit()
+        component = self.glossary_component
+        for field in ("flags", "extra_flags", "translation", "component"):
+            with self.subTest(field=field):
+                if field in {"flags", "extra_flags"}:
+                    model = component.source_translation.unit_set
+                    values: dict[str, str] = {field: "terminology"}
+                elif field == "translation":
+                    model = component.translation_set.filter(
+                        pk=component.source_translation.pk
+                    )
+                    values = {"check_flags": "terminology"}
+                else:
+                    model = type(component).objects.filter(pk=component.pk)
+                    values = {"check_flags": "terminology"}
+                model.update(**values)
+                current = type(component).objects.get(pk=component.pk)
+                current.repo = "https://example.com/glossary.git"
+                current.manage_units = False
+                self.assertTrue(
+                    GlossaryStringManagementDisabled.check_component(current)
+                )
+                model.update(**dict.fromkeys(values, ""))
+
+    def test_string_management_alert_dismissal(self) -> None:
+        self.do_add_unit()
+        component = self.glossary_component
+        component.manage_units = False
+        component.save(update_fields=["manage_units"])
+        name = "GlossaryStringManagementDisabled"
+        update_alerts(component, {name})
+        alert = component.alert_set.get(name=name)
+        self.assertEqual(alert.severity, AlertSeverity.WARNING)
+        self.assertFalse(alert.is_problem)
+        self.assertTrue(alert.dismiss(self.user, "Maintained separately"))
+
+        component.source_translation.unit_set.update(extra_flags="terminology")
+        update_alerts(component, {name})
+        alert.refresh_from_db()
+        self.assertTrue(alert.is_dismissed)
+
+        component.repo = "https://example.com/glossary.git"
+        update_alerts(component, {name})
+        alert.refresh_from_db()
+        self.assertFalse(alert.is_dismissed)
+
+        component.source_translation.unit_set.update(extra_flags="")
+        update_alerts(component, {name})
+        self.assertFalse(component.alert_set.filter(name=name).exists())
+        component.repo = "local:"
+        update_alerts(component, {name})
+        alert = component.alert_set.get(name=name)
+        self.assertFalse(alert.is_dismissed)
+        component.manage_units = True
+        update_alerts(component, {name})
+        self.assertFalse(component.alert_set.filter(name=name).exists())
+
+    def test_string_management_alert_render(self) -> None:
+        component = self.glossary_component
+        component.manage_units = False
+        component.save(update_fields=["manage_units"])
+        name = "GlossaryStringManagementDisabled"
+        update_alerts(component, {name})
+        alert = component.alert_set.get(name=name)
+        self.assertFalse(alert.can_user_dismiss(self.user))
+        self.assertNotIn("Configure", alert.obj.render(self.user))
+        self.make_manager()
+        self.user.clear_permissions_cache()
+        self.assertTrue(alert.can_user_dismiss(self.user))
+        rendered = alert.obj.render(self.user)
+        self.assertIn("This glossary has no remote repository", rendered)
+        self.assertIn(
+            reverse("settings", kwargs={"path": component.get_url_path()})
+            + "#translation",
+            rendered,
+        )
+        self.assertIn(
+            "#glossary-terminology",
+            alert.obj.get_documentation_url(component, self.user),
+        )
+        alert.component.repo = "https://example.com/glossary.git"
+        self.assertIn(
+            "This glossary contains terms marked as terminology",
+            alert.obj.render(self.user),
+        )
 
     def test_terminology_explanation_sync(self) -> None:
         self.make_manager()

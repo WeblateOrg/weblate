@@ -1,0 +1,38 @@
+{% load i18n %}
+
+{% if repository_restrictions %}
+  <div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">{% translate "Some repository operations require additional permissions" %}</h4>
+    <p>{% translate "Repository operations require permission on the component that owns the shared repository." %}</p>
+    {% for restriction, permissions in repository_restrictions %}
+      {% if restriction.project_components %}
+        <p>
+          {% translate "Affected components:" %}
+          {% for component in restriction.project_components %}
+            <a href="{{ component.get_absolute_url }}">{{ component.full_slug }}</a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+      {% endif %}
+      <p>
+        {% if restriction.permission_blockers %}
+          {% translate "You need the following permissions on the repository-owning component:" %}
+          {% for component in restriction.permission_blockers %}
+            <a href="{{ component.get_absolute_url }}">{{ component.full_slug }}</a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        {% else %}
+          {% translate "You need the following permissions on the repository-owning component, which you cannot access:" %}
+        {% endif %}
+      </p>
+      <ul>
+        {% for permission in permissions %}<li>{{ permission }}</li>{% endfor %}
+      </ul>
+      <p>
+        {% if restriction.permission_blockers %}
+          {% translate "Ask an administrator of the owning project to grant these permissions." %}
+        {% else %}
+          {% translate "Ask your project administrator to coordinate access with the repository owner." %}
+        {% endif %}
+      </p>
+    {% endfor %}
+  </div>
+{% endif %}

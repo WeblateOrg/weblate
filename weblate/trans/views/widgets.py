@@ -19,12 +19,18 @@ from django.views.generic import RedirectView
 
 from weblate.lang.models import Language
 from weblate.trans.forms import EngageForm
-from weblate.trans.models import Component, Project, Translation
+from weblate.trans.models import Category, Component, Project, Translation
 from weblate.trans.util import render
 from weblate.trans.widgets import WIDGETS, OpenGraphWidget
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import ProjectLanguage
-from weblate.utils.views import parse_path, show_form_errors, try_set_language
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+from weblate.utils.views import (
+    parse_path,
+    parse_path_for_public_sharing,
+    show_form_errors,
+    try_set_language,
+)
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -157,11 +163,20 @@ def render_widget(
     color: str,
     extension: str,
 ):
-    # We intentionally skip ACL here to allow widget sharing
-    obj = parse_path(
-        None,
+    obj = parse_path_for_public_sharing(
+        request,
         path,
-        (Component, ProjectLanguage, Project, Translation, Language, None),
+        (
+            Component,
+            ProjectLanguage,
+            CategoryLanguage,
+            Category,
+            Workspace,
+            Project,
+            Translation,
+            Language,
+            None,
+        ),
     )
     lang = set_lang = None
     if isinstance(obj, Language):
@@ -172,6 +187,8 @@ def render_widget(
         obj = obj.component
     if isinstance(obj, ProjectLanguage):
         obj = obj.project
+    if isinstance(obj, CategoryLanguage):
+        obj = obj.category
 
     if set_lang:
         if "native" not in request.GET:

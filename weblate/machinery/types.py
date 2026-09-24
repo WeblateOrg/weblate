@@ -70,7 +70,9 @@ class TranslationResultDict(TypedDict):
     show_quality: NotRequired[bool]
     origin: NotRequired[str | None]
     origin_url: NotRequired[str | None]
+    origin_detail: NotRequired[str | None]
     delete_url: NotRequired[str | None]
+    context: NotRequired[str | None]
 
 
 class UnitMemoryResultDict(TypedDict, total=False):

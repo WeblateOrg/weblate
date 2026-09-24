@@ -16,7 +16,7 @@ jobs:
     permissions:
       actions: read
       contents: read
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 40
     concurrency:
       group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
@@ -45,7 +45,7 @@ jobs:
     - name: Run Fuzzers (${{ matrix.sanitizer }})
       id: run
       timeout-minutes: 12
-      uses: ./.github/actions/cflite-run-fuzzers
+      uses: $/.github/actions/cflite-run-fuzzers
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         fuzz-seconds: 180

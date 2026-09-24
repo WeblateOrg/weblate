@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Count, Exists, OuterRef, Prefetch, ProtectedError, Q
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, QueryDict
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -32,6 +32,7 @@ from weblate.trans.views.reports import get_reports_context
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator, show_form_errors
+from weblate.vcs.github import GitHubInstallation, remove_github_installation
 from weblate.workspaces.forms import WorkspaceDeleteForm, WorkspaceSearchForm
 from weblate.workspaces.models import Workspace
 
@@ -177,7 +178,6 @@ class WorkspaceListBase(ListView):
         search_query = ""
         if self.search_form.is_valid():
             search_query = self.search_form.cleaned_data["q"].strip()
-        search_items = (("q", search_query),) if search_query else ()
         result["billing_enabled"] = self.include_billing()
         result["workspace_creation_enabled"] = (
             "weblate.billing" not in settings.INSTALLED_APPS
@@ -185,8 +185,9 @@ class WorkspaceListBase(ListView):
         result["can_add_workspace"] = self.request.user.has_perm("workspace.add")
         result["search_form"] = self.search_form
         result["search_query"] = search_query
-        result["search_items"] = search_items
-        result["query_string"] = urlencode(search_items)
+        result["query_params"] = QueryDict(mutable=True)
+        if search_query:
+            result["query_params"]["q"] = search_query
         result["show_review_columns"] = (
             Project.objects.filter(workspace__in=queryset)
             .filter(Q(source_review=True) | Q(translation_review=True))
@@ -265,7 +266,7 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
                 )
             ),
             "title": workspace.name,
-            "query_string": "",
+            "query_params": QueryDict(),
             "show_review_columns": show_review_columns,
             "search_form": SearchForm(
                 request=request,
@@ -333,6 +334,10 @@ def remove(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect(f"{workspace.get_absolute_url()}#organize")
+
+    # Installations cascade with the workspace, uninstall the App first
+    for installation in GitHubInstallation.objects.filter(workspace=workspace):
+        remove_github_installation(installation, best_effort=True)
 
     try:
         workspace.delete()

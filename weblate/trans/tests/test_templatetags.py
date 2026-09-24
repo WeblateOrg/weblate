@@ -992,8 +992,68 @@ glosář [glossary]">glossary</span>
             """
             Hello
             <span class="hlspace">
-                <span class="space-space" title="NO-BREAK SPACE">
+                <span class="space-nbsp" title="NO-BREAK SPACE">
                     \u00a0
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u202fworld"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-narrow-nbsp" title="NARROW NO-BREAK SPACE">
+                    \u202f
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u2007world"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-nbsp" title="FIGURE SPACE">
+                    \u2007
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u2009world"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-thin" title="THIN SPACE">
+                    \u2009
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u200aworld"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-space" title="HAIR SPACE">
+                    \u200a
                 </span>
             </span>
             world
@@ -1198,7 +1258,9 @@ class DiffTestCase(SimpleTestCase):
 
 class FormatterNestingTestCase(SimpleTestCase):
     class GlossaryTerm:
-        def __init__(self, source: str, target: str, positions: list[tuple[int, int]]):
+        def __init__(
+            self, source: str, target: str, positions: list[tuple[int, int]]
+        ) -> None:
             self.source = source
             self.target = target
             self.glossary_positions = positions
@@ -1375,7 +1437,7 @@ class UploadMethodsHelpTestCase(SimpleTestCase):
 
 
 class ProgressTestCase(SimpleTestCase):
-    def test_review(self):
+    def test_review(self) -> None:
         self.assertHTMLEqual(
             """
 <div class="progress-stacked" title="Needs attention">
@@ -1388,7 +1450,7 @@ class ProgressTestCase(SimpleTestCase):
             str(translation_progress_render(60, 0, 0, 60, True)),
         )
 
-    def test_review_checks(self):
+    def test_review_checks(self) -> None:
         self.assertHTMLEqual(
             """
 <div class="progress-stacked" title="Needs attention">
@@ -1397,7 +1459,7 @@ class ProgressTestCase(SimpleTestCase):
             str(translation_progress_render(60, 0, 0, 0, True)),
         )
 
-    def test_empty(self):
+    def test_empty(self) -> None:
         self.assertHTMLEqual(
             """
 <div class="progress-stacked" title="Needs attention">

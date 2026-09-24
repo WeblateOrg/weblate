@@ -13,6 +13,7 @@ from weblate.addons.events import AddonEvent
 
 if TYPE_CHECKING:
     from weblate.addons.base import CompatDict
+    from weblate.trans.models import Translation
 
 
 class ExampleAddon(BaseAddon):
@@ -35,7 +36,7 @@ class ExampleAddon(BaseAddon):
     # Callback to implement custom behavior
     def pre_commit(
         self,
-        translation,
+        translation: Translation | None,
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,

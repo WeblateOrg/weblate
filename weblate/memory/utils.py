@@ -27,6 +27,6 @@ def parse_category(category):
     return False, False, None, category - CATEGORY_USER_OFFSET
 
 
-def is_valid_memory_entry(*, source: str, target: str, **kwargs):
+def is_valid_memory_entry(*, source: str, target: str, **kwargs) -> bool:
     """Validate whether translation memory entry has content."""
     return any(split_plural(source)) and any(split_plural(target))

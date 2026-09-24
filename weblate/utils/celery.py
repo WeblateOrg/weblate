@@ -15,10 +15,19 @@ from typing import Any
 
 from celery import Celery
 from celery.contrib.django.task import DjangoTask
-from celery.signals import after_setup_logger, before_task_publish, task_failure
+from celery.signals import (
+    after_setup_logger,
+    before_task_publish,
+    task_failure,
+    task_postrun,
+    task_prerun,
+    worker_before_create_process,
+)
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
+
+from weblate.automation.context import automation_origin
 
 # Type annotation compatibility
 # ruff: ignore[unused-lambda-argument]
@@ -48,6 +57,15 @@ app.autodiscover_tasks()
 TASK_METADATA_TTL = 6 * 3600
 
 
+@worker_before_create_process.connect
+def preload_urls_before_fork(**kwargs) -> None:
+    """Load URL patterns in the parent process before forking a worker."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.startup import preload_url_patterns
+
+    preload_url_patterns()
+
+
 def get_task_metadata_key(task_id: str) -> str:
     return f"task-meta-{task_id}"
 
@@ -56,17 +74,34 @@ def store_task_metadata(
     task_id: str | None,
     *,
     component_id: int | None = None,
+    component_ids: list[int] | None = None,
     translation_id: int | None = None,
     user_id: int | None = None,
+    task_kind: str | None = None,
+    cancellable: bool = True,
 ) -> None:
     if not task_id:
         return
-    data = {
-        "component_id": component_id,
-        "translation_id": translation_id,
-    }
+    existing = get_task_metadata(task_id)
+    if existing is None:
+        data: dict[str, Any] = {
+            "component_id": component_id,
+            "translation_id": translation_id,
+        }
+    else:
+        data = existing.copy()
+        if component_id is not None:
+            data["component_id"] = component_id
+        if translation_id is not None:
+            data["translation_id"] = translation_id
+    if component_ids is not None:
+        data["component_ids"] = component_ids
     if user_id is not None:
         data["user_id"] = user_id
+    if task_kind is not None:
+        data["task_kind"] = task_kind
+    if not cancellable:
+        data["cancellable"] = False
     cache.set(
         get_task_metadata_key(task_id),
         data,
@@ -74,7 +109,7 @@ def store_task_metadata(
     )
 
 
-def get_task_metadata(task_id: str) -> dict[str, int | None] | None:
+def get_task_metadata(task_id: str) -> dict[str, Any] | None:
     return cache.get(get_task_metadata_key(task_id))
 
 
@@ -97,6 +132,8 @@ def extract_task_kwargs(body) -> dict[str, Any]:
 def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
     if not isinstance(headers, dict):
         return
+    if origin := automation_origin.get():
+        headers["weblate_automation_origin"] = origin
     task_kwargs = extract_task_kwargs(body)
     component_id = task_kwargs.get("component_id")
     translation_id = task_kwargs.get("translation_id")
@@ -107,6 +144,24 @@ def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
         component_id=component_id,
         translation_id=translation_id,
     )
+
+
+@task_prerun.connect
+def restore_automation_origin(task=None, **kwargs) -> None:
+    if task is not None:
+        headers = task.request.headers or {}
+        origin = headers.get("weblate_automation_origin", automation_origin.get())
+        task.request.automation_origin_token = automation_origin.set(origin)
+
+
+@task_postrun.connect
+def reset_automation_origin(task=None, **kwargs) -> None:
+    if (
+        task is not None
+        and (token := getattr(task.request, "automation_origin_token", None))
+        is not None
+    ):
+        automation_origin.reset(token)
 
 
 @task_failure.connect
@@ -127,14 +182,19 @@ def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
         )
 
     # ruff: ignore[import-outside-top-level]
-    from weblate.utils.errors import report_error
+    from weblate.utils.errors import report_error, report_message
 
-    report_error(
-        f"Failure while executing task {task_id}",
-        skip_error_reporting=True,
-        print_tb=True,
-        level="error",
-    )
+    cause = f"Failure while executing task {task_id}"
+    if exception is None:
+        report_message(cause, skip_error_reporting=True, level="error")
+    else:
+        report_error(
+            cause,
+            exception=exception,
+            skip_error_reporting=True,
+            print_tb=True,
+            level="error",
+        )
 
 
 @app.on_after_configure.connect
@@ -192,7 +252,7 @@ def get_task_progress(task):
     return 0
 
 
-def is_celery_queue_long():
+def is_celery_queue_long() -> bool:
     """
     Check whether celery queue is too long.
 

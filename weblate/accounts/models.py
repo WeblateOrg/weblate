@@ -8,9 +8,12 @@ import datetime
 import logging
 import re
 from datetime import timedelta
+from functools import partial
 from ipaddress import IPv6Network, ip_network
+from threading import Lock
 from typing import TYPE_CHECKING, Any, ClassVar, Literal
 from urllib.parse import urlparse
+from weakref import WeakKeyDictionary
 
 from appconf import AppConf
 from django.conf import settings
@@ -19,10 +22,10 @@ from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
 from django.core.signing import TimestampSigner
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db import models
+from django.db import models, transaction
 from django.db.models import F, Q
 from django.db.models.functions import Upper
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -47,8 +50,8 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
-from weblate.accounts.tasks import notify_auditlog
-from weblate.auth.models import User
+from weblate.accounts.tasks import cleanup_inaccessible_subscriptions, notify_auditlog
+from weblate.auth.models import TeamMembership, User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
 from weblate.trans.models import Change, ComponentList, Translation
@@ -90,6 +93,9 @@ if TYPE_CHECKING:
     from weblate.trans.models import Project, Unit
 
 LOGGER = logging.getLogger("weblate.audit")
+
+SUBSCRIPTION_CLEANUP_BATCHES: WeakKeyDictionary[object, set[int]] = WeakKeyDictionary()
+SUBSCRIPTION_CLEANUP_BATCHES_LOCK = Lock()
 
 
 class WeblateAccountsConf(AppConf):
@@ -213,6 +219,26 @@ class SubscriptionQuerySet(models.QuerySet["Subscription", "Subscription"]):
     def prefetch(self):
         return self.prefetch_related("component", "project")
 
+    def filter_access(self, user: User):
+        """Filter subscriptions to targets accessible to a user."""
+        # Avoid circular imports during model initialization.
+        from weblate.trans.models import (  # ruff: ignore[import-outside-top-level]
+            Component,
+        )
+
+        components = Component.objects.using(self.db).filter_access(user)
+        projects = user.allowed_projects.using(self.db)
+        return self.filter(
+            Q(scope=NotificationScope.SCOPE_COMPONENT, component__in=components)
+            | Q(scope=NotificationScope.SCOPE_PROJECT, project__in=projects)
+            | ~Q(
+                scope__in=(
+                    NotificationScope.SCOPE_COMPONENT,
+                    NotificationScope.SCOPE_PROJECT,
+                )
+            )
+        )
+
 
 class Subscription(models.Model):
     SIGNATURE_MAX_AGE: ClassVar[int] = 24 * 3600
@@ -262,7 +288,7 @@ class Subscription(models.Model):
         )
 
     def get_unsubscribe_url(self) -> str:
-        from django.urls import reverse  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from django.urls import reverse  # ruff: ignore[import-outside-top-level]
 
         # ruff: ignore[import-outside-top-level]
         from django.utils.http import (
@@ -270,6 +296,33 @@ class Subscription(models.Model):
         )
 
         return f"{reverse('unsubscribe')}?{urlencode({'i': self.get_signed_id()})}"
+
+
+def schedule_inaccessible_subscription_cleanup(user_ids: set[int], using: str) -> None:
+    """Schedule cleanup after collecting all users from the deletion origin."""
+    cleanup_inaccessible_subscriptions.delay(sorted(user_ids), using)
+
+
+@receiver(post_delete, sender=TeamMembership)
+def cleanup_subscriptions_after_membership_delete(
+    sender, instance: TeamMembership, using: str, origin=None, **kwargs
+) -> None:
+    """Recheck scoped subscriptions after the complete membership transaction."""
+    if origin is None:
+        origin = instance
+    schedule_cleanup = False
+    with SUBSCRIPTION_CLEANUP_BATCHES_LOCK:
+        user_ids = SUBSCRIPTION_CLEANUP_BATCHES.get(origin)
+        if user_ids is None:
+            user_ids = set()
+            SUBSCRIPTION_CLEANUP_BATCHES[origin] = user_ids
+            schedule_cleanup = True
+        user_ids.add(instance.user_id)
+    if schedule_cleanup:
+        transaction.on_commit(
+            partial(schedule_inaccessible_subscription_cleanup, user_ids, using),
+            using=using,
+        )
 
 
 EXTERNAL_CREATE_ACTIVITY = "external-create"
@@ -1426,7 +1479,10 @@ class Profile(models.Model):
     def _get_second_factors(self) -> Iterable[Device]:
         backend: type[Device]
         for backend in (StaticDevice, TOTPDevice, WebAuthnCredential):
-            yield from backend.objects.filter(user=self.user)
+            devices = backend.objects.filter(user=self.user)
+            if backend is TOTPDevice:
+                devices = devices.filter(confirmed=True)
+            yield from devices
 
     @cached_property
     def second_factors(self) -> list[Device]:
@@ -1466,8 +1522,8 @@ class Profile(models.Model):
 
     def log_2fa_failed(
         self, request: AuthenticatedHttpRequest, device_type: DeviceType
-    ) -> None:
-        AuditLog.objects.create(
+    ) -> AuditLog:
+        return AuditLog.objects.create(
             self.user, request, "twofactor-failed", device_type=device_type
         )
 

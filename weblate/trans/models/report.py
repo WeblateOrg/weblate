@@ -58,6 +58,9 @@ class ReportQuerySet(models.QuerySet["Report", "Report"]):
             ).distinct()
 
         has_2fa = user.is_bot or user.profile.has_2fa
+        report_workspaces = user.workspaces_with_perm("reports.view")
+        if not has_2fa:
+            report_workspaces = report_workspaces.exclude(projects__enforced_2fa=True)
         report_projects = user.projects_with_perm("reports.view").order_by()
         if not has_2fa:
             report_projects = report_projects.filter(enforced_2fa=False)
@@ -92,13 +95,16 @@ class ReportQuerySet(models.QuerySet["Report", "Report"]):
             | Q(component__in=accessible_components)
         )
         permission_access = (
-            Q(workspace_id__in=user.workspace_ids_with_perm("reports.view"))
-            | Q(project__in=report_projects)
+            Q(project__in=report_projects)
             | Q(category__project__in=report_projects)
             | Q(component__in=report_components)
         )
+        workspace_permission_access = Q(workspace__in=report_workspaces)
         creator_access = Q(creator=user, parameters__own_data=True)
-        return self.filter(scope_access & (creator_access | permission_access))
+        return self.filter(
+            (scope_access & (creator_access | permission_access))
+            | workspace_permission_access
+        )
 
 
 class Report(models.Model):
@@ -202,6 +208,12 @@ class Report(models.Model):
     def can_access(self, user: User) -> bool:
         if not user.is_authenticated:
             return False
+        report_permission = bool(user.has_perm("reports.view", self.scope))
+        if self.workspace is not None and report_permission:
+            return True
+        creator_access = (
+            self.creator_id == user.pk and self.parameters.get("own_data") is True
+        )
         if self.workspace is not None and not self.workspace.can_view(user):
             return False
         if (
@@ -216,10 +228,7 @@ class Report(models.Model):
             return False
         if self.component is not None and not user.can_access_component(self.component):
             return False
-        creator_access = (
-            self.creator_id == user.pk and self.parameters.get("own_data") is True
-        )
-        return creator_access or bool(user.has_perm("reports.view", self.scope))
+        return creator_access or report_permission
 
 
 REPORT_KIND_CHOICES = Report.Kind.choices

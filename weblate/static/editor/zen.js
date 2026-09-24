@@ -35,12 +35,26 @@
           headers: { "X-Requested-With": "XMLHttpRequest" },
         })
           .then((response) => {
+            if (response.status === 409) {
+              loader.remove();
+              loadingNext.style.display = "none";
+              addAlert(
+                gettext(
+                  "Your previous search results are no longer available. Refresh results to continue.",
+                ),
+                "info",
+              );
+              return null;
+            }
             if (!response.ok) {
               throw new Error(`HTTP ${response.status}`);
             }
             return response.text();
           })
           .then((data) => {
+            if (data === null) {
+              return;
+            }
             loadingNext.style.display = "none";
 
             const tfoot = document.querySelector(".zen tfoot");

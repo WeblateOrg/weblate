@@ -22,6 +22,14 @@ class CommentViewTest(FixtureTestCase):
         super().setUp()
         self.translation = self.component.translation_set.get(language_code="cs")
 
+    def test_comment_form_preview(self) -> None:
+        unit = self.get_unit()
+        response = self.client.get(unit.get_absolute_url())
+        self.assertContains(
+            response, f'data-preview-url="{reverse("js-markdown-preview")}"'
+        )
+        self.assertContains(response, 'id="id_comment-preview"')
+
     def test_add_target_comment(self) -> None:
         unit = self.get_unit()
 

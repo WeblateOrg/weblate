@@ -26,6 +26,7 @@ from weblate.checks.markup import (
     XMLTagsCheck,
     XMLValidityCheck,
     extract_asciidoc_markup,
+    extract_bbcode_pairs,
     extract_rst_references,
     has_changed_placeholder_attributes,
 )
@@ -163,6 +164,24 @@ class BBCodeCheckTest(CheckTestCase):
                 "bbcode-text",
             ),
         )
+
+    def test_literal_bracket_before_tag(self) -> None:
+        self.do_test(
+            True,
+            ("[[b]bold[/b]]", "[bold]", "bbcode-text"),
+        )
+
+    def test_mismatched_nesting(self) -> None:
+        pairs = extract_bbcode_pairs("[a][b][a]text[/b][/a]")
+        self.assertEqual(
+            [(opener.group(), closer.group()) for opener, closer in pairs],
+            [("[a]", "[/a]"), ("[b]", "[/b]")],
+        )
+
+    def test_many_unmatched_closers(self) -> None:
+        source = "".join(f"[tag{i}]" for i in range(5000))
+        source += "".join(f"[/missing{i}]" for i in range(5000))
+        self.assertEqual(extract_bbcode_pairs(source), [])
 
 
 class XMLValidityCheckTest(CheckTestCase):
@@ -501,6 +520,27 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
                 (71, 72, ">"),
             ],
         )
+
+    def test_code_span_delimiter(self) -> None:
+        self.do_test(True, ("`code`", "``code``", "md-text"))
+
+    def test_code_span_in_autolink(self) -> None:
+        self.do_test(
+            False,
+            (
+                "<https://example.com/`path`>",
+                "<https://example.com/path>",
+                "md-text",
+            ),
+        )
+
+    def test_partially_escaped_code_span(self) -> None:
+        self.do_test(True, (r"\``{danger}`", "{danger}", "md-text"))
+
+    def test_incomplete_code_span(self) -> None:
+        for length in (400, 800, 1600, 100_000):
+            with self.subTest(length=length):
+                self.do_test(False, ("", "`" * length + "X", "md-text"))
 
 
 class URLCheckTest(CheckTestCase):

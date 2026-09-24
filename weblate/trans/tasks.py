@@ -13,23 +13,28 @@ from glob import glob
 from itertools import batched
 from operator import itemgetter
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, cast
 
 from celery import current_task
+from celery.exceptions import Retry
 from celery.schedules import crontab
 from celery.utils.time import get_exponential_backoff_interval
 from django.conf import settings
+from django.contrib.messages import get_messages
+from django.contrib.messages.storage.cookie import CookieStorage
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import Exists, F, OuterRef, Q
+from django.db.models import Exists, F, OuterRef, Prefetch, Q
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext, ngettext, override
+from translate.storage.base import ParseError as TranslateParseError
 
 from weblate.accounts.utils import remove_user
 from weblate.addons.events import AddonActivityLogReason, AddonActivityLogStatus
 from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
+from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
@@ -51,6 +56,28 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.removal import RemovalBatch, removal_batch_context
+from weblate.trans.repository import (
+    RepositoryOperation,
+    RepositoryOperationConflictError,
+    acquire_repository_operation,
+    get_operation_call,
+    get_repository_components,
+    get_repository_operation_permission,
+    keep_repository_operation_reservation,
+    refresh_repository_operation,
+    release_repository_operation,
+    reserve_repository_operation,
+    store_repository_operation_tracking,
+)
+from weblate.trans.repository_context import (
+    RepositoryFollowupLockError,
+    RepositoryOperationFollowup,
+    defer_repository_auto_push,
+    defer_repository_background_tasks,
+    inline_repository_followups,
+    repository_component_progress,
+    suppress_repository_auto_push,
+)
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -61,18 +88,19 @@ from weblate.utils.stats import ProjectLanguage, prefetch_stats
 from weblate.vcs.base import RepositoryError
 
 COMPONENT_MEMORY_CLEANUP_BATCH_SIZE = 1000
+LEGACY_REPOSITORY_LOCK_MAX_RETRIES = 3
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
-    from celery import Task
+    from celery import Celery, Task
 
     from weblate.trans.models.change import RevertUserEditsResult
     from weblate.workspaces.models import Workspace
 
 
-def commit_lock_retries_exhausted() -> bool:
-    """Check whether a commit lock timeout will no longer be retried."""
+def commit_retries_exhausted() -> bool:
+    """Check whether a commit failure will no longer be retried."""
     if not current_task:
         return True
 
@@ -90,6 +118,57 @@ def schedule_deferred_commit(component: Component) -> None:
             force_scan=followup["force_scan"],
             previous_head=followup["previous_head"],
         )
+
+
+def retry_legacy_repository_operation(
+    task: Task,
+    error: RepositoryOperationConflictError | WeblateLockTimeoutError,
+    repository_lock_retries: int,
+) -> None:
+    """Retry reservation conflicts without extending repository lock retries."""
+    retry_kwargs = dict(task.request.kwargs or {})
+    if isinstance(error, WeblateLockTimeoutError):
+        if repository_lock_retries >= LEGACY_REPOSITORY_LOCK_MAX_RETRIES:
+            raise error
+        retry_kwargs["_repository_lock_retries"] = repository_lock_retries + 1
+        retries = repository_lock_retries
+    else:
+        retries = task.request.retries
+    countdown = get_exponential_backoff_interval(
+        factor=600,
+        retries=retries,
+        maximum=3600,
+        full_jitter=True,
+    )
+    raise task.retry(exc=error, countdown=countdown, kwargs=retry_kwargs)
+
+
+def execute_legacy_update(
+    obj: Project | Component,
+    repositories: list[Component],
+    request: AuthenticatedHttpRequest | None,
+    auto: bool,
+) -> tuple[list[Callable[[], None]], dict[int, Callable[[], None]]]:
+    """Run a legacy update and return follow-ups after releasing its reservation."""
+    with (
+        reserve_repository_operation(
+            [component.pk for component in repositories], "pull"
+        ),
+        defer_repository_auto_push() as deferred_pushes,
+        defer_repository_background_tasks() as deferred_tasks,
+        # This is stored as alert, so we can silently ignore some exceptions here.
+        suppress(FileParseError, RepositoryError, FileNotFoundError),
+    ):
+        obj.log_info("Updating remote repository")
+        if (
+            isinstance(obj, Project)
+            or settings.AUTO_UPDATE in {"full", True}
+            or not auto
+        ):
+            obj.do_update(request)
+        else:
+            obj.update_remote_branch(user=obj.get_update_user(request))
+    return deferred_tasks, deferred_pushes
 
 
 def perform_component_commit(
@@ -112,44 +191,43 @@ def perform_component_commit(
             component.create_translations(force=True)
 
 
-@app.task(
-    trail=False,
-    autoretry_for=(WeblateLockTimeoutError,),
-    retry_backoff=600,
-    retry_backoff_max=3600,
-)
+@app.task(bind=True, trail=False, max_retries=None)
 def perform_update(
+    task: Task,
     cls: Literal["Project", "Component"],
     pk: int,
     auto: bool = False,
     obj=None,
     user_id: int = 0,
+    *,
+    _repository_lock_retries: int = 0,
 ) -> None:
     request: AuthenticatedHttpRequest | None = None
     if user_id:
         request = AuthenticatedHttpRequest()
         request.user = User.objects.get(pk=user_id)
-    # This is stored as alert, so we can silently ignore some exceptions here
-    with suppress(FileParseError, RepositoryError, FileNotFoundError):
-        if obj is None:
-            if cls == "Project":
-                obj = Project.objects.get(pk=pk)
-            else:
-                obj = Component.objects.get(pk=pk)
-        obj.log_info("Updating remote repository")
-        if settings.AUTO_UPDATE in {"full", True} or not auto:
-            obj.do_update(request)
+    if obj is None:
+        if cls == "Project":
+            obj = Project.objects.get(pk=pk)
         else:
-            obj.update_remote_branch(user=obj.get_update_user(request))
+            obj = Component.objects.get(pk=pk)
+    repositories, _display_components = get_repository_components(obj)
+    try:
+        deferred_tasks, deferred_pushes = execute_legacy_update(
+            obj, repositories, request, auto
+        )
+    except (RepositoryOperationConflictError, WeblateLockTimeoutError) as error:
+        retry_legacy_repository_operation(task, error, _repository_lock_retries)
+        return
+    for publish in deferred_tasks:
+        publish()
+    for push in deferred_pushes.values():
+        push()
 
 
-@app.task(
-    trail=False,
-    autoretry_for=(WeblateLockTimeoutError,),
-    retry_backoff=600,
-    retry_backoff_max=3600,
-)
+@app.task(bind=True, trail=False, max_retries=None)
 def perform_load(
+    task: Task,
     pk: int,
     *,
     force: bool = False,
@@ -160,6 +238,7 @@ def perform_load(
     change: int | None = None,
     preserve_pending_units: bool = False,
     user_id: int | None = None,
+    _repository_lock_retries: int = 0,
 ) -> None:
     request: AuthenticatedHttpRequest | None = None
     user: User | None = None
@@ -172,22 +251,28 @@ def perform_load(
     except Component.DoesNotExist:
         # Component was removed
         return
-    component.create_translations_immediate(
-        force=force,
-        force_scan=force_scan,
-        langs=langs,
-        changed_template=changed_template,
-        from_link=from_link,
-        change=change,
-        preserve_pending_units=preserve_pending_units,
-        request=request,
-        user=user,
-    )
+    try:
+        with reserve_repository_operation(
+            [component.effective_repo_component.pk], "file-scan"
+        ):
+            component.create_translations_immediate(
+                force=force,
+                force_scan=force_scan,
+                langs=langs,
+                changed_template=changed_template,
+                from_link=from_link,
+                change=change,
+                preserve_pending_units=preserve_pending_units,
+                request=request,
+                user=user,
+            )
+    except (RepositoryOperationConflictError, WeblateLockTimeoutError) as error:
+        retry_legacy_repository_operation(task, error, _repository_lock_retries)
 
 
 @app.task(
     trail=False,
-    autoretry_for=(WeblateLockTimeoutError,),
+    autoretry_for=(WeblateLockTimeoutError, RepositoryOperationConflictError),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
@@ -202,15 +287,22 @@ def perform_commit(
     component = Component.objects.get(pk=pk)
     try:
         user = User.objects.get(pk=user_id) if user_id else None
-        perform_component_commit(
-            component,
-            reason,
-            user,
-            force_scan=force_scan,
-            previous_head=previous_head,
-        )
-    except WeblateLockTimeoutError:
-        if commit_lock_retries_exhausted():
+        with (
+            reserve_repository_operation(
+                [component.effective_repo_component.pk], "commit"
+            ),
+            suppress_repository_auto_push(),
+        ):
+            perform_component_commit(
+                component,
+                reason,
+                user,
+                force_scan=force_scan,
+                previous_head=previous_head,
+            )
+        component.push_if_needed()
+    except (RepositoryOperationConflictError, WeblateLockTimeoutError):
+        if commit_retries_exhausted():
             schedule_deferred_commit(component)
         raise
     except Exception:
@@ -219,15 +311,310 @@ def perform_commit(
     schedule_deferred_commit(component)
 
 
-@app.task(
-    trail=False,
-    autoretry_for=(WeblateLockTimeoutError,),
-    retry_backoff=600,
-    retry_backoff_max=3600,
-)
-def perform_push(pk, *args, **kwargs) -> None:
+@app.task(bind=True, trail=False, max_retries=None)
+def perform_push(
+    task: Task,
+    pk,
+    *args,
+    _repository_lock_retries: int = 0,
+    **kwargs,
+) -> None:
     component = Component.objects.get(pk=pk)
-    component.do_push(*args, **kwargs)
+    try:
+        with reserve_repository_operation(
+            [component.effective_repo_component.pk], "push"
+        ):
+            component.do_push(*args, **kwargs)
+    except (RepositoryOperationConflictError, WeblateLockTimeoutError) as error:
+        retry_legacy_repository_operation(task, error, _repository_lock_retries)
+
+
+@app.task(bind=True, trail=False, max_retries=3)
+def perform_repository_operation(
+    task: Task,
+    *,
+    operation: RepositoryOperation,
+    component_ids: list[int],
+    user_id: int,
+    tracking_component_ids: list[int] | None = None,
+    start_index: int = 0,
+    successful: bool = True,
+    failure_messages: list[str] | None = None,
+    resume_followup: RepositoryOperationFollowup | None = None,
+    followup_previous_head: str | None = None,
+) -> dict[str, dict[str, str] | bool]:
+    """Celery wrapper for a user-requested repository operation."""
+    task_id = str(task.request.id)
+    tracking_component_ids = tracking_component_ids or component_ids
+    reservation_acquired = False
+    release_reservation = True
+    try:
+        acquire_repository_operation(component_ids, operation, task_id)
+        reservation_acquired = True
+        store_repository_operation_tracking(
+            task_id,
+            tracking_component_ids,
+            user_id,
+            authorization_component_ids=tracking_component_ids,
+        )
+        with keep_repository_operation_reservation(
+            component_ids, task_id, tracking_component_ids
+        ):
+            result = execute_repository_operation(
+                task,
+                operation,
+                component_ids,
+                user_id,
+                task_id,
+                start_index=start_index,
+                successful=successful,
+                failure_messages=failure_messages,
+                resume_followup=resume_followup,
+                followup_previous_head=followup_previous_head,
+            )
+    except RepositoryOperationRetryError as retry:
+        if task.max_retries is None or task.request.retries < task.max_retries:
+            refresh_repository_operation(component_ids, task_id, tracking_component_ids)
+            countdown = get_exponential_backoff_interval(
+                factor=600,
+                retries=task.request.retries,
+                maximum=3600,
+                full_jitter=False,
+            )
+            try:
+                task.retry(
+                    exc=retry.error,
+                    countdown=countdown,
+                    kwargs={
+                        "operation": operation,
+                        "component_ids": component_ids,
+                        "tracking_component_ids": tracking_component_ids,
+                        "user_id": user_id,
+                        "start_index": retry.start_index,
+                        "successful": retry.successful,
+                        "failure_messages": retry.failure_messages,
+                        "resume_followup": retry.resume_followup,
+                        "followup_previous_head": retry.followup_previous_head,
+                    },
+                )
+            except Retry:
+                release_reservation = False
+                raise
+        with override(User.objects.get(pk=user_id).profile.language):
+            message = gettext(
+                "Repository operation could not be completed because it remained locked."
+            )
+        return {
+            "result": False,
+            "completion_message": {"level": "error", "text": message},
+        }
+    except (
+        FileParseError,
+        RepositoryError,
+        FileNotFoundError,
+        TranslateParseError,
+        ValueError,
+    ):
+        with override(User.objects.get(pk=user_id).profile.language):
+            message = gettext("Repository operation could not be completed.")
+        return {
+            "result": False,
+            "completion_message": {"level": "error", "text": message},
+        }
+    except PermissionDenied:
+        with override(User.objects.get(pk=user_id).profile.language):
+            message = gettext(
+                "Repository operation could not be completed because access is no longer permitted."
+            )
+        return {
+            "result": False,
+            "completion_message": {"level": "error", "text": message},
+        }
+    else:
+        return result
+    finally:
+        if reservation_acquired and release_reservation:
+            release_repository_operation(component_ids, task_id)
+
+
+class RepositoryOperationRequest(AuthenticatedHttpRequest):
+    """Request carrying the context expected by repository operations."""
+
+    def __init__(self, user: User) -> None:
+        super().__init__()
+        self.user = user
+        self._messages = CookieStorage(self)
+
+
+def execute_repository_operation(
+    task: Task,
+    operation: RepositoryOperation,
+    component_ids: list[int],
+    user_id: int,
+    task_id: str,
+    *,
+    start_index: int = 0,
+    successful: bool = True,
+    failure_messages: list[str] | None = None,
+    resume_followup: RepositoryOperationFollowup | None = None,
+    followup_previous_head: str | None = None,
+) -> dict[str, dict[str, str] | bool]:
+    """Execute the components covered by one repository operation task."""
+    user = User.objects.get(pk=user_id)
+    total = len(component_ids)
+    permission = get_repository_operation_permission(operation)
+    failure_messages = list(failure_messages or ())
+
+    with override(user.profile.language), inline_repository_followups():
+        for index in range(start_index, total):
+            component_id = component_ids[index]
+            completed = index + 1
+            try:
+                component = Component.objects.get(pk=component_id)
+            except Component.DoesNotExist:
+                successful = False
+                resume_followup = None
+                followup_previous_head = None
+            else:
+                if component.effective_repo_component.pk != component_id:
+                    component.log_info(
+                        "skipping repository operation: repository link changed"
+                    )
+                    successful = False
+                    resume_followup = None
+                    followup_previous_head = None
+                else:
+                    if not user.has_perm(permission, component):
+                        raise PermissionDenied
+                    component.acting_user = user
+                    component.log_info("running repository operation: %s", operation)
+                    # Repository methods use request messages for actionable VCS
+                    # failures. Give each operation fresh in-memory storage.
+                    request = RepositoryOperationRequest(user)
+                    method_name, args, kwargs = get_operation_call(operation)
+                    method = getattr(component, method_name)
+                    try:
+                        with repository_component_progress(completed - 1, total):
+                            result = execute_repository_operation_method(
+                                operation,
+                                component,
+                                method,
+                                request,
+                                user,
+                                args,
+                                kwargs,
+                                resume_followup=resume_followup,
+                                followup_previous_head=followup_previous_head,
+                            )
+                            resume_followup = None
+                            followup_previous_head = None
+                    except RepositoryFollowupLockError as error:
+                        raise RepositoryOperationRetryError(
+                            error.error,
+                            start_index=index,
+                            successful=successful,
+                            failure_messages=failure_messages,
+                            resume_followup=error.followup,
+                            followup_previous_head=error.previous_head,
+                        ) from error
+                    except WeblateLockTimeoutError as error:
+                        raise RepositoryOperationRetryError(
+                            error,
+                            start_index=index,
+                            successful=successful,
+                            failure_messages=failure_messages,
+                            resume_followup=resume_followup,
+                            followup_previous_head=followup_previous_head,
+                        ) from error
+                    method_messages = [
+                        str(message) for message in get_messages(request)
+                    ]
+                    for method_message in method_messages:
+                        component.log_info("repository operation: %s", method_message)
+                    if result is False:
+                        successful = False
+                        failure_messages.extend(method_messages)
+            task.update_state(
+                state="PROGRESS",
+                meta={"progress": 100 * completed // total if total else 100},
+            )
+
+        if successful:
+            message = gettext("Repository operation completed.")
+            level = "success"
+        else:
+            message = "\n".join(dict.fromkeys(failure_messages)) or gettext(
+                "Repository operation completed with errors."
+            )
+            level = "error"
+    return {
+        "result": successful,
+        "completion_message": {"level": level, "text": message},
+    }
+
+
+def execute_repository_operation_method(
+    operation: RepositoryOperation,
+    component: Component,
+    method,
+    request: AuthenticatedHttpRequest,
+    user: User,
+    args: tuple[Any, ...],
+    kwargs: dict[str, Any],
+    *,
+    resume_followup: RepositoryOperationFollowup | None,
+    followup_previous_head: str | None,
+) -> bool | None:
+    """Execute one repository method or its already-committed follow-up."""
+    if resume_followup == "file-sync":
+        if operation != resume_followup:
+            raise ValueError(operation)
+        perform_component_commit(component, "file-sync", user)
+        return True
+    if resume_followup == "pull":
+        component.finish_update(request, user)
+        if operation == "push":
+            return component.do_push(request, force_commit=False, do_update=False)
+        return True
+    if resume_followup == "reset-keep":
+        if operation != resume_followup or followup_previous_head is None:
+            raise ValueError(operation)
+        perform_component_commit(
+            component,
+            "reset-sync",
+            user,
+            force_scan=True,
+            previous_head=followup_previous_head,
+        )
+        return True
+    if resume_followup is not None:
+        raise ValueError(resume_followup)
+    if operation == "commit":
+        perform_component_commit(component, "commit", user)
+        return True
+    return cast("bool | None", method(request, *args, **kwargs))
+
+
+class RepositoryOperationRetryError(Exception):
+    """Carry the resume position across a repository task retry."""
+
+    def __init__(
+        self,
+        error: WeblateLockTimeoutError,
+        *,
+        start_index: int,
+        successful: bool,
+        failure_messages: list[str] | None = None,
+        resume_followup: RepositoryOperationFollowup | None = None,
+        followup_previous_head: str | None = None,
+    ) -> None:
+        super().__init__(str(error))
+        self.error = error
+        self.start_index = start_index
+        self.successful = successful
+        self.failure_messages = list(failure_messages or ())
+        self.resume_followup = resume_followup
+        self.followup_previous_head = followup_previous_head
 
 
 @app.task(trail=False)
@@ -487,7 +874,7 @@ def cleanup_suggestions() -> None:
     # Process suggestions
     anonymous_user = get_anonymous()
     suggestions = Suggestion.objects.prefetch_related("unit")
-    for suggestion in suggestions:
+    for suggestion in suggestions.iterator(chunk_size=100):
         with transaction.atomic():
             # Remove suggestions with same text as real translation
             if (
@@ -514,7 +901,7 @@ def cleanup_suggestions() -> None:
 
 @app.task(trail=False)
 def update_remotes() -> None:
-    """Update all remote branches (without attempt to merge)."""
+    """Queue updates of all remote branches (without attempt to merge)."""
     if settings.AUTO_UPDATE not in {"full", "remote", True, False}:
         return
 
@@ -524,8 +911,9 @@ def update_remotes() -> None:
         .annotate(hourmod=F("id") % 24)
         .filter(hourmod=now.hour)
     )
-    for component in components.prefetch().iterator(chunk_size=100):
-        perform_update("Component", -1, auto=True, obj=component)
+    component_ids = components.values_list("pk", flat=True)
+    for component_id in component_ids.iterator(chunk_size=100):
+        perform_update.delay("Component", component_id, auto=True)
 
 
 @app.task(trail=False)
@@ -594,7 +982,7 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
             empty_dir = False
             # Possibly a lock file
             continue
-        if root_is_known_container and path.name in VCS_METADATA_DIRS:
+        if root_is_known_container and path.name.casefold() in VCS_METADATA_DIRS:
             empty_dir = False
             continue
 
@@ -1167,28 +1555,21 @@ def auto_translate_component(
 ) -> dict[str, Any]:
     component_obj = Component.objects.get(pk=component_id)
     user = User.objects.get(pk=user_id) if user_id else None
-    auto = BatchAutoTranslate(
+    from weblate.trans.automation import automatic_translation  # ruff: ignore[import-outside-top-level]
+
+    result = automatic_translation(
         component_obj,
-        user=user,
-        q=q,
-        mode=mode,
-        component_wide=True,
+        {
+            "mode": mode,
+            "q": q,
+            "auto_source": auto_source,
+            "engines": engines,
+            "threshold": threshold,
+            "component": source_component_id,
+        },
+        user,
         enforce_permissions=enforce_permissions,
     )
-    message = auto.perform(
-        auto_source=auto_source,
-        engines=engines,
-        threshold=threshold,
-        source_component_ids=(
-            [source_component_id] if source_component_id is not None else None
-        ),
-    )
-    component_obj.run_batched_checks()
-    result = {
-        "component": component_obj.id,
-        "message": message,
-        "warnings": auto.get_warnings(),
-    }
     return store_auto_translate_activity_log(activity_log_id, result)
 
 
@@ -1242,6 +1623,9 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
 
     component.start_batched_checks()
     source_translation = component.source_translation
+    # Share source data across target translations. Fetch sources again for the
+    # final check pass so it sees changes made while processing targets.
+    source_units = {unit.pk: unit for unit in source_translation.unit_set.all()}
     # Source translation as last
     translations = (
         *component.translation_set.exclude(pk=source_translation.pk).select_related(
@@ -1250,12 +1634,20 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
         source_translation,
     )
     for translation in translations:
-        units = translation.unit_set.prefetch_all_checks()
+        units = translation.unit_set.prefetch_related(
+            Prefetch("check_set", queryset=Check.objects.order(), to_attr="all_checks")
+        )
         if update_state:
             units = units.select_for_update()
         for unit in units:
-            # Reuse object to avoid fetching from the database
-            unit.source_unit.translation = source_translation
+            if not unit.is_source:
+                try:
+                    unit.source_unit = source_units[unit.source_unit_id]
+                except KeyError:
+                    # A source can be added after the initial snapshot. Let the
+                    # relation fetch it, then share it with later translations.
+                    unit.source_unit.translation = source_translation
+                    source_units[unit.source_unit_id] = unit.source_unit
             # Mark this as a batch update to avoid stats update on each unit
             unit.is_batch_update = True
             if update_state:
@@ -1504,7 +1896,7 @@ def cleanup_project_backup_download() -> None:
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
     sender.add_periodic_task(3600, update_remotes.s(), name="update-remotes")
     sender.add_periodic_task(3600, cleanup_repos.s(), name="cleanup-repos")

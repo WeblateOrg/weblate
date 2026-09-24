@@ -61,6 +61,10 @@ The simple execution can look like:
 Local testing of Weblate
 +++++++++++++++++++++++++
 
+For an isolated environment with dependencies and test services already
+configured, use the :ref:`development container <devcontainer>`. Its CLI can
+run the same pytest and lint commands documented below in each Git worktree.
+
 Before running tests, please ensure development dependencies are installed:
 
 .. code-block:: sh

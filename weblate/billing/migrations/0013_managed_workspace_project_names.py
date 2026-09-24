@@ -2,12 +2,23 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.db import DEFAULT_DB_ALIAS, migrations
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
 
 WORKSPACE_NAME_LENGTH = 100
 
 
-def rename_single_project_billing_workspaces(apps, schema_editor) -> None:
+def rename_single_project_billing_workspaces(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Billing = apps.get_model("billing", "Billing")
     Project = apps.get_model("trans", "Project")
     Workspace = apps.get_model("workspaces", "Workspace")
