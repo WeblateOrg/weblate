@@ -1827,7 +1827,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             msg = "Enforced checks has to be a list."
             raise serializers.ValidationError(msg)
         for item in value:
-            if item not in CHECKS:
+            if not isinstance(item, str) or item not in CHECKS:
                 msg = f"Unsupported enforced check: {item}"
                 raise serializers.ValidationError(msg)
         return value
@@ -2337,7 +2337,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             msg = "Enforced checks has to be a list."
             raise serializers.ValidationError(msg)
         for item in value:
-            if item not in CHECKS:
+            if not isinstance(item, str) or item not in CHECKS:
                 msg = f"Unsupported enforced check: {item}"
                 raise serializers.ValidationError(msg)
         return value
@@ -2729,6 +2729,11 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     def create(self, validated_data):
         source_component = validated_data.pop("from_component", None)
+        if (
+            "enforced_checks" in validated_data
+            and "inherit_enforced_checks" not in validated_data
+        ):
+            validated_data["inherit_enforced_checks"] = False
         if source_component is None:
             return super().create(validated_data)
 
@@ -4010,7 +4015,7 @@ class CategorySerializer(RemovableSerializer[Category]):
             msg = "Enforced checks has to be a list."
             raise serializers.ValidationError(msg)
         for item in value:
-            if item not in CHECKS:
+            if not isinstance(item, str) or item not in CHECKS:
                 msg = f"Unsupported enforced check: {item}"
                 raise serializers.ValidationError(msg)
         return value

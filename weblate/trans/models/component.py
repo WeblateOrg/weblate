@@ -84,6 +84,7 @@ from weblate.trans.inherited_settings import (
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
     InheritableLanguageSetting,
+    InheritableListSetting,
     InheritableStringSetting,
     apply_create_inheritance_defaults,
     get_inherit_field_name,
@@ -6406,9 +6407,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> Language | None: ...
 
     @overload
-    def get_effective_setting(self, field: str) -> str | Language | None: ...
+    def get_effective_setting(self, field: InheritableListSetting) -> list[str]: ...
 
-    def get_effective_setting(self, field: str) -> str | Language | None:
+    @overload
+    def get_effective_setting(
+        self, field: str
+    ) -> str | Language | list[str] | None: ...
+
+    def get_effective_setting(self, field: str) -> str | Language | list[str] | None:
         """Return setting value after applying parent inheritance."""
         if self.uses_project_setting(field):
             category = self.category
@@ -6877,7 +6883,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self._glossary_sync_scheduled = False
 
     def get_unused_enforcements(self) -> Iterable[dict | BaseCheck]:
-        for current in self.enforced_checks:
+        for current in self.effective_enforced_checks:
             try:
                 check = CHECKS[current]
             except KeyError:

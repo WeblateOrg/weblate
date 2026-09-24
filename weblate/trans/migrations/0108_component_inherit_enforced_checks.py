@@ -2,11 +2,21 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 # Generated manually
+from typing import TYPE_CHECKING
+
 from django.db import migrations, models
 
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
-def set_inherit_enforced_checks(apps, schema_editor):
+
+def set_inherit_enforced_checks(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Component = apps.get_model("trans", "Component")
     # Components with custom enforced_checks should not inherit
     Component.objects.exclude(enforced_checks=[]).update(inherit_enforced_checks=False)
@@ -16,7 +26,7 @@ def set_inherit_enforced_checks(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0096_change_recent_indexes"),
+        ("trans", "0107_xliff_format_params"),
     ]
 
     operations = [

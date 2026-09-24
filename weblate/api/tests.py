@@ -6996,6 +6996,25 @@ class ProjectAPITest(APIBaseTest):
                 "enforced_checks": ["xxx"],
             },
         )
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.strings",
+                "template": "en.strings",
+                "file_format": "strings",
+                "new_lang": "none",
+                "enforced_checks": [[]],
+            },
+        )
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -7020,6 +7039,8 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(Component.objects.count(), 3)
         component = Component.objects.get(slug="local-project")
         self.assertEqual(component.enforced_checks, ["same"])
+        self.assertFalse(component.inherit_enforced_checks)
+        self.assertEqual(component.effective_enforced_checks, ["same"])
 
     def test_create_component_with_file_format_params(self) -> None:
         payload: dict[str, object] = {

@@ -25,6 +25,7 @@ from weblate.trans.inherited_settings import (
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
     InheritableLanguageSetting,
+    InheritableListSetting,
     InheritableStringSetting,
     get_disabled_component_new_language_filter,
     get_inherit_field_name,
@@ -395,11 +396,12 @@ class Category(
 
     @property
     def effective_enforced_checks(self) -> list[str]:
-        """Return effective enforced checks for the category."""
+        """Effective enforced checks for the category."""
         return cast("list[str]", self.get_effective_setting("enforced_checks"))
 
     def schedule_component_enforced_checks_updates(self) -> None:
         """Trigger enforced checks updates on all components in this category."""
+        # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import update_enforced_checks
 
         for component in self.all_components.iterator():
@@ -516,9 +518,14 @@ class Category(
     ) -> Language | None: ...
 
     @overload
-    def get_effective_setting(self, field: str) -> str | Language | None: ...
+    def get_effective_setting(self, field: InheritableListSetting) -> list[str]: ...
 
-    def get_effective_setting(self, field: str) -> str | Language | None:
+    @overload
+    def get_effective_setting(
+        self, field: str
+    ) -> str | Language | list[str] | None: ...
+
+    def get_effective_setting(self, field: str) -> str | Language | list[str] | None:
         """Return setting value after applying parent inheritance."""
         if self.uses_parent_setting(field):
             return self.settings_parent.get_effective_setting(field)

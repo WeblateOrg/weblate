@@ -6,10 +6,9 @@
 
 from __future__ import annotations
 
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from django.core.exceptions import ValidationError
-from django.test.utils import captureOnCommitCallbacks
 
 from weblate.trans.models import Category, Component, Project, Unit
 from weblate.trans.tests.test_views import ComponentTestCase
@@ -158,18 +157,18 @@ class EnforcedChecksInheritanceTest(ComponentTestCase):
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
     @patch("weblate.trans.tasks.update_enforced_checks.delay_on_commit")
-    def test_workspace_save_schedules_updates(self, mock_delay) -> None:
+    def test_workspace_save_schedules_updates(self, mock_delay: MagicMock) -> None:
         self.workspace.enforced_checks = ["same"]
-        with captureOnCommitCallbacks(execute=True):
+        with self.captureOnCommitCallbacks(execute=True):
             self.workspace.save(update_fields=["enforced_checks"])
         scheduled = {call.args[0] for call in mock_delay.call_args_list}
         self.assertIn(self.component.pk, scheduled)
 
     @patch("weblate.trans.tasks.update_enforced_checks.delay_on_commit")
-    def test_project_save_schedules_updates(self, mock_delay) -> None:
+    def test_project_save_schedules_updates(self, mock_delay: MagicMock) -> None:
         self.project.inherit_enforced_checks = False
         self.project.enforced_checks = ["same"]
-        with captureOnCommitCallbacks(execute=True):
+        with self.captureOnCommitCallbacks(execute=True):
             self.project.save(
                 update_fields=["enforced_checks", "inherit_enforced_checks"]
             )
@@ -177,10 +176,10 @@ class EnforcedChecksInheritanceTest(ComponentTestCase):
         self.assertIn(self.component.pk, scheduled)
 
     @patch("weblate.trans.tasks.update_enforced_checks.delay_on_commit")
-    def test_category_save_schedules_updates(self, mock_delay) -> None:
+    def test_category_save_schedules_updates(self, mock_delay: MagicMock) -> None:
         self.category.inherit_enforced_checks = False
         self.category.enforced_checks = ["same"]
-        with captureOnCommitCallbacks(execute=True):
+        with self.captureOnCommitCallbacks(execute=True):
             self.category.save(
                 update_fields=["enforced_checks", "inherit_enforced_checks"]
             )

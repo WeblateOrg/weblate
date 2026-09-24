@@ -1541,13 +1541,32 @@ onReady(() => {
     if (control.tomselect) {
       return control.tomselect.getValue();
     }
+    if (control.multiple) {
+      return Array.from(control.selectedOptions, (option) => option.value);
+    }
     return control.value;
   };
   const setControlValue = (control, value) => {
+    let nextValue = value;
+    if (control.multiple) {
+      let selected = nextValue;
+      if (typeof selected === "string") {
+        try {
+          selected = JSON.parse(selected || "[]");
+        } catch {
+          selected = [];
+        }
+      }
+      nextValue = Array.isArray(selected) ? selected : [];
+    }
     if (control.tomselect) {
-      control.tomselect.setValue(value, true);
+      control.tomselect.setValue(nextValue, true);
+    } else if (control.multiple) {
+      Array.from(control.options).forEach((option) => {
+        option.selected = nextValue.includes(option.value);
+      });
     } else {
-      control.value = value;
+      control.value = nextValue;
     }
     control.dispatchEvent(new Event("input", { bubbles: true }));
     control.dispatchEvent(new Event("change", { bubbles: true }));
@@ -1605,7 +1624,10 @@ onReady(() => {
       controls.forEach((control) => {
         if (syncValue) {
           if (disabled) {
-            control.dataset.overrideValue = getControlValue(control);
+            const overrideValue = getControlValue(control);
+            control.dataset.overrideValue = control.multiple
+              ? JSON.stringify(overrideValue)
+              : overrideValue;
             setControlValue(control, control.dataset.inheritedValue || "");
           } else {
             setControlDisabled(control, false);

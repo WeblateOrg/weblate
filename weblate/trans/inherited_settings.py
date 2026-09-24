@@ -92,9 +92,9 @@ type InheritableStringSetting = Literal[
     "merge_message",
     "addon_message",
     "pull_message",
-    "enforced_checks",
 ]
 type InheritableLanguageSetting = Literal["secondary_language"]
+type InheritableListSetting = Literal["enforced_checks"]
 
 COMPONENT_MESSAGE_SETTINGS = (
     "commit_message",

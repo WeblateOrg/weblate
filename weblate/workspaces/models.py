@@ -259,10 +259,6 @@ class Workspace(models.Model, CacheKeyMixin):
     def __str__(self) -> str:
         return self.name
 
-    def clean(self) -> None:
-        """Validate workspace settings."""
-        validate_enforced_checks(self.enforced_checks)
-
     def save(self, *args, **kwargs) -> None:
         create_groups = self._state.adding
         update_fields = kwargs.get("update_fields")
@@ -325,6 +321,10 @@ class Workspace(models.Model, CacheKeyMixin):
     def get_absolute_url(self) -> str:
         return reverse("workspace", kwargs={"pk": self.pk})
 
+    def clean(self) -> None:
+        """Validate workspace settings."""
+        validate_enforced_checks(self.enforced_checks)
+
     @property
     def billing_or_none(self) -> Billing | None:
         """Associated billing, or none for unbilled workspaces."""
@@ -367,6 +367,8 @@ class Workspace(models.Model, CacheKeyMixin):
         """Trigger enforced checks updates on all components in this workspace."""
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Component
+
+        # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import update_enforced_checks
 
         for component in Component.objects.filter(project__workspace=self).iterator():

@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     """
     Add enforced checks settings to Project and Category.
 
-    Unlike migration 0097 for Component, no data migration is needed here:
+    Unlike migration 0108 for Component, no data migration is needed here:
     Project and Category did not have an ``enforced_checks`` field before, so
     there is no existing per-object configuration to preserve. Enabling
     inheritance by default means these objects start using the effective value
@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
     """
 
     dependencies = [
-        ("trans", "0097_component_inherit_enforced_checks"),
+        ("trans", "0108_component_inherit_enforced_checks"),
     ]
 
     operations = [

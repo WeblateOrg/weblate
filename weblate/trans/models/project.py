@@ -33,6 +33,7 @@ from weblate.trans.inherited_settings import (
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
     InheritableLanguageSetting,
+    InheritableListSetting,
     InheritableStringSetting,
     get_disabled_component_new_language_filter,
     get_inherit_field_name,
@@ -742,7 +743,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     @property
     def effective_enforced_checks(self) -> list[str]:
-        """Return effective enforced checks for the project."""
+        """Effective enforced checks for the project."""
         return cast("list[str]", self.get_effective_setting("enforced_checks"))
 
     def update_memory_scope_changes(
@@ -807,6 +808,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def schedule_component_enforced_checks_updates(self) -> None:
         """Trigger enforced checks updates on all components in this project."""
+        # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import update_enforced_checks
 
         for component in self.component_set.iterator():
@@ -851,9 +853,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     ) -> Language | None: ...
 
     @overload
-    def get_effective_setting(self, field: str) -> str | Language | None: ...
+    def get_effective_setting(self, field: InheritableListSetting) -> list[str]: ...
 
-    def get_effective_setting(self, field: str) -> str | Language | None:
+    @overload
+    def get_effective_setting(
+        self, field: str
+    ) -> str | Language | list[str] | None: ...
+
+    def get_effective_setting(self, field: str) -> str | Language | list[str] | None:
         """Return setting value after applying workspace inheritance."""
         if self.uses_workspace_setting(field):
             return getattr(self.workspace, field)
