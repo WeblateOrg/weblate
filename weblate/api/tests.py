@@ -116,6 +116,7 @@ from weblate.trans.repository import (
     QueuedRepositoryOperation,
     RepositoryOperationConflictError,
 )
+from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     clear_users_cache,
@@ -13364,6 +13365,129 @@ class TranslationAPITest(APIBaseTest):
 
     def test_autotranslate_json(self) -> None:
         self.test_autotranslate("json")
+
+    def create_autotranslate_target(self) -> tuple[dict[str, str], Unit]:
+        target = self.create_link_existing(
+            name="Automatic translation target",
+            slug="automatic-translation-target",
+        )
+        target_unit = target.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        Unit.objects.filter(
+            translation__component=self.component,
+            translation__language_code="cs",
+            source="Hello, world!\n",
+        ).update(target="Ahoj světe!\n", state=STATE_TRANSLATED)
+        self.grant_perm_to_user("translation.auto", component=target)
+        self.user.clear_permissions_cache()
+        kwargs = {
+            "component__project__slug": target.project.slug,
+            "component__slug": target.slug,
+            "language__code": "cs",
+        }
+        return kwargs, target_unit
+
+    def test_autotranslate_background(self) -> None:
+        kwargs, target_unit = self.create_autotranslate_target()
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        self.addCleanup(cache.delete, get_task_metadata_key(task_id))
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch(
+                "weblate.api.views.auto_translate.delay",
+                return_value=SimpleNamespace(id=task_id),
+            ) as delay,
+        ):
+            response = self.do_request(
+                "api:translation-autotranslate",
+                kwargs,
+                method="post",
+                format="json",
+                request={
+                    "mode": "suggest",
+                    "q": "state:<translated",
+                    "auto_source": "others",
+                    "threshold": "100",
+                    "background": True,
+                },
+                code=202,
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "details": "Automatic translation in progress",
+                "task_url": f"http://example.com/api/tasks/{task_id}/",
+            },
+        )
+        self.assertFalse(target_unit.suggestion_set.exists())
+
+        result = auto_translate(**delay.call_args.kwargs)
+        self.assertIn("Automatic translation completed", result["message"])
+        self.assertEqual(
+            list(target_unit.suggestion_set.values_list("target", flat=True)),
+            ["Ahoj světe!\n"],
+        )
+
+        with patch(
+            "weblate.api.views.AsyncResult",
+            return_value=MagicMock(id=task_id, result=result, state="SUCCESS"),
+        ):
+            response = self.do_request(
+                "api:task-detail", kwargs={"pk": task_id}, method="get", code=200
+            )
+        self.assertTrue(response.data["completed"])
+
+    def test_autotranslate_background_eager(self) -> None:
+        kwargs, target_unit = self.create_autotranslate_target()
+        response = self.do_request(
+            "api:translation-autotranslate",
+            kwargs,
+            method="post",
+            format="json",
+            request={
+                "mode": "suggest",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "threshold": "100",
+                "background": True,
+            },
+            code=200,
+        )
+        self.assertContains(response, "Automatic translation completed")
+        self.assertNotIn("task_url", response.data)
+        self.assertTrue(target_unit.suggestion_set.exists())
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_autotranslate_background_rejected_synchronously(self) -> None:
+        request = {
+            "mode": "suggest",
+            "q": "state:<translated",
+            "auto_source": "others",
+            "threshold": "100",
+            "background": True,
+        }
+        with patch("weblate.api.views.auto_translate.delay") as delay:
+            self.do_request(
+                "api:translation-autotranslate",
+                self.translation_kwargs,
+                method="post",
+                format="json",
+                request=request,
+                code=403,
+            )
+            self.do_request(
+                "api:translation-autotranslate",
+                self.translation_kwargs,
+                method="post",
+                format="json",
+                superuser=True,
+                request=request | {"background": "invalid"},
+                code=400,
+            )
+        delay.assert_not_called()
 
     def test_autotranslate_rejects_restricted_source(self) -> None:
         target = self.create_link_existing(
