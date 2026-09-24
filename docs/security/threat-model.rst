@@ -3,9 +3,9 @@ Weblate threat model
 
 Project: Weblate
 
-Last reviewed for Weblate |release| at commit ``8283fcad69f``.
+Last reviewed for Weblate |release| at commit ``af7a54c07c``.
 
-Date: 2026-09-01.
+Date: 2026-09-24.
 
 Status: Accepted, 2026-09-01.
 
@@ -533,6 +533,15 @@ Input assumptions
      - Trusted local input unless processing Weblate data or project backups.
        *(maintainer)*
      - Restrict shell access to trusted operators. *(maintainer)*
+   * - Deployment configuration
+     - Environment variables, container arguments, mounted configuration,
+       image selection, and workload or orchestration manifests
+     - Trusted local-operator input. Systems that delegate selected deployment
+       values to less-trusted users introduce an external trust boundary;
+       Weblate does not treat those values as untrusted application input.
+       *(maintainer)*
+     - Restrict deployment access to trusted operators and validate delegated
+       values before they reach Weblate. *(maintainer)*
 
 Size and rate assumptions:
 
@@ -989,6 +998,12 @@ Known non-findings
 * A report that a malicious local operator can read configuration, run
   management commands, or alter files is out of model because local operators
   are trusted infrastructure. *(maintainer)*
+* A report that an operator-supplied environment variable, container argument,
+  or mounted configuration can alter generated service configuration is not a
+  vulnerability. These are trusted deployment inputs. A CI/CD, GitOps, PaaS,
+  Helm, or other orchestration layer that lets less-trusted users set selected
+  values owns that delegation boundary and must validate the values before
+  constructing the Weblate workload. *(maintainer)*
 * A report that a downstream application renders a dangerous translation is not
   a Weblate vulnerability unless Weblate itself violates a claimed property
   while storing, checking, reviewing, or displaying that translation.
