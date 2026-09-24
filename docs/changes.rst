@@ -17,6 +17,8 @@ Weblate 2026.10
 * The :ref:`Statistics generator <addon-weblate.generate.generate>` can now produce component-wide locale lists with native language names, text direction, and translation statistics.
 * Added a testing version of :ref:`addon-weblate.cdn.kotlin`.
 * Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
+* Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
+* Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
 
 .. rubric:: Improvements
 
@@ -63,6 +65,7 @@ Weblate 2026.10
 * Fixed the :ref:`search results refresh <search-results-cache>` icon color in themes and on hover.
 * Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as untranslatable when translating in their source language.
 * Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with inherited licenses and other inherited settings.
+* Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
 
 .. rubric:: Compatibility
 
@@ -71,6 +74,7 @@ Weblate 2026.10
 * API throttles now use :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` instead of ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]``.
 * :ref:`API authentication <api-generic>` now rejects unsupported authentication schemes, such as Basic, with HTTP 401, including when a valid browser session is present.
 * Notification subscription API responses now expose ``project`` and ``component`` as nullable URL strings instead of nested objects.
+* The former ``plainxliff`` and ``xliff2-placeables`` file formats are migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the ``xliff_placeables`` :ref:`file_format_params`.
 
 .. rubric:: Upgrading
 

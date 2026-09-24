@@ -896,7 +896,9 @@ def check_unit_edit_source(
             )
         )
     if component.intermediate or not editable_fields(
-        component.file_format, monolingual=component.has_template()
+        component.file_format,
+        monolingual=component.has_template(),
+        file_format_params=component.file_format_params,
     ):
         return Denied(gettext("The file format does not support this."))
     if (

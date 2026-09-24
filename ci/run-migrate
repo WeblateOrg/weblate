@@ -179,6 +179,13 @@ if [ "$contributor_comments_migrate" -eq 0 ]; then
     ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-contributor-comments.py"
     check
 fi
+# Migrate XLIFF placeables formats and whitespace handling
+semver_compare "$1" "<" "2026.10"
+xliff_params_migrate=$?
+if [ "$xliff_params_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-xliff-params.py"
+    check
+fi
 
 git reset --hard
 check
@@ -274,5 +281,10 @@ fi
 
 if [ "$contributor_comments_migrate" -eq 0 ]; then
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-contributor-comments.py"
+    check
+fi
+if [ "$xliff_params_migrate" -eq 0 ]; then
+    # check that XLIFF formats and whitespace handling were migrated
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-xliff-params.py"
     check
 fi

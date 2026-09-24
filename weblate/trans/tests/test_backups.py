@@ -40,6 +40,7 @@ from weblate.trans.backups import (
     COMPONENT_BACKUP_FIELDS,
     PROJECT_BACKUP_FIELDS,
     ProjectBackup,
+    backup_uses_xliff_format_params,
     get_project_backup_download_storage,
     get_project_backup_download_url,
     list_backups,
@@ -148,6 +149,48 @@ class BackupSettingCoverageTest(SimpleTestCase):
                 # ruff: ignore[private-member-access]
                 self.assertLessEqual(set(form._meta.fields), backup_fields)
                 self.assertLessEqual(backup_fields, schema_fields)
+
+    def test_migrate_component_file_format_params_xliff_version_gate(self) -> None:
+        cases = (
+            (
+                "2026.9",
+                "xliff2",
+                {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+            ),
+            (
+                "2026.9.1",
+                "xliff2",
+                {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+            ),
+            ("2026.10.dev0", "xliff2", {}),
+            (
+                "2026.10.dev0",
+                "plainxliff",
+                {"xliff_placeables": "plain", "xml_whitespace_handling": "standard"},
+            ),
+        )
+        for backup_version, file_format, expected_params in cases:
+            with self.subTest(backup_version=backup_version, file_format=file_format):
+                component = {
+                    "file_format": file_format,
+                    "file_format_params": {},
+                }
+                ProjectBackup.migrate_component_file_format_params(
+                    component,
+                    backup_version=backup_version,
+                )
+                expected_format = (
+                    "xliff" if file_format == "plainxliff" else file_format
+                )
+                self.assertEqual(component["file_format"], expected_format)
+                self.assertEqual(component["file_format_params"], expected_params)
+
+    def test_backup_uses_xliff_format_params(self) -> None:
+        self.assertFalse(backup_uses_xliff_format_params(None))
+        self.assertFalse(backup_uses_xliff_format_params("2026.9"))
+        self.assertFalse(backup_uses_xliff_format_params("2026.9.1"))
+        self.assertTrue(backup_uses_xliff_format_params("2026.10.dev0"))
+        self.assertTrue(backup_uses_xliff_format_params("2026.10"))
 
 
 class BackupsTest(ViewTestCase):
@@ -301,6 +344,42 @@ class BackupsTest(ViewTestCase):
         restored_component = restored.component_set.get(slug=self.component.slug)
         self.assertEqual(restored_component.vcs, "git")
         self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_restore_legacy_file_format(self) -> None:
+        java = self.create_java(project=self.project, name="Java")
+        xliff = self.create_xliff_mono(project=self.project, name="XLIFF")
+
+        cases = (
+            (
+                java.slug,
+                "properties-utf8",
+                "properties",
+                "properties_encoding",
+                "utf-8",
+            ),
+            (xliff.slug, "plainxliff", "xliff", "xliff_placeables", "plain"),
+        )
+        for slug, old_format, new_format, param_name, param_value in cases:
+            with self.subTest(old_format=old_format):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={"file_format": old_format},
+                    component_removals=("file_format_params",),
+                    component_slug=slug,
+                )
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    restore.validate()
+                    restored = restore.restore(
+                        project_name=f"Restored {old_format}",
+                        project_slug=f"restored-{old_format}",
+                        user=self.user,
+                    )
+
+                restored_component = restored.component_set.get(slug=slug)
+                self.assertEqual(restored_component.file_format, new_format)
+                self.assertEqual(
+                    restored_component.file_format_params[param_name], param_value
+                )
 
     def test_restore_legacy_json_sort_keys(self) -> None:
         component = self.create_json_mono(
