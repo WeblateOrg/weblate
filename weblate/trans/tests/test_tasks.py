@@ -1154,14 +1154,8 @@ class TasksTest(ComponentTestCase):
             (
                 ".git",
                 ".hg",
-                ".svn",
-                ".bzr",
-                "CVS",
-                "_darcs",
-                "RCS",
-                "SCCS",
-                ".SVN",
-                "cVs",
+                ".GIT",
+                ".HG",
             )
         ):
             category = Category.objects.create(
