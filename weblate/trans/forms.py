@@ -2774,7 +2774,7 @@ class ComponentSettingsForm(
             for field_name in Component.LINKED_REPOSITORY_SETTINGS:
                 data[field_name] = getattr(self.instance, field_name)
 
-        if "file_format_params" in data:
+        if "file_format_params" in data and "file_format" in data:
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
             )
@@ -3015,7 +3015,7 @@ class ComponentCreateForm(
         data = self.cleaned_data
         clean_integration_component_data(self, data)
 
-        if "file_format_params" in data:
+        if "file_format_params" in data and "file_format" in data:
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
             )
@@ -3342,13 +3342,13 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
     )
 
     def render_choice(self, value: DiscoveryResult) -> str:
-        context: dict[str, object] = dict(value.data)
+        context: dict[str, object] = dict(self.get_discovery_data(value))
         try:
-            format_cls = FILE_FORMATS[value["file_format"]]
+            format_cls = FILE_FORMATS[cast("str", context["file_format"])]
             context["file_format_name"] = format_cls.name
             context["valid"] = True
         except KeyError:
-            context["file_format_name"] = value["file_format"]
+            context["file_format_name"] = context["file_format"]
             context["valid"] = False
         context["origin"] = value.meta["origin"]
         return render_to_string("trans/discover-choice.html", context)
@@ -3397,9 +3397,10 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
 
     @staticmethod
     def get_discovery_data(value: DiscoveryResult) -> dict[str, Any]:
-        data = cast("dict[str, Any]", value.match)
+        data = dict(cast("dict[str, Any]", value.match))
         file_format = data.get("file_format")
         file_format_params = data.get("file_format_params")
+
         if file_format_params is None:
             return data
         if not isinstance(file_format, str) or not isinstance(file_format_params, dict):
@@ -4248,9 +4249,11 @@ class SourceEditForm(UnitForm):
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].widget.unit = source_unit
         self.fields["source"].widget.edit_source = True
+        component = source_unit.translation.component
         fields = editable_fields(
-            source_unit.translation.component.file_format,
-            monolingual=source_unit.translation.component.has_template(),
+            component.file_format,
+            monolingual=component.has_template(),
+            file_format_params=component.file_format_params,
         )
         for field in ("source", "context"):
             if field not in fields:

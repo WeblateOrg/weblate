@@ -77,7 +77,9 @@ def edit_source(
         if old == new and explanation == source_unit.explanation:
             return source_unit
         _validate_request(component, old, new)
-        unit_class = component.file_format_cls.unit_class
+        unit_class = component.file_format_cls.get_unit_class(
+            component.file_format_params
+        )
         new_hash = unit_class.calculate_id_hash(
             component.has_template(), new["source"], new["context"]
         )
@@ -125,7 +127,9 @@ def _validate_request(
     component: Component, old: dict[str, str], new: dict[str, str]
 ) -> None:
     fields = editable_fields(
-        component.file_format, monolingual=component.has_template()
+        component.file_format,
+        monolingual=component.has_template(),
+        file_format_params=component.file_format_params,
     )
     for field in ("source", "context"):
         if old[field] != new[field] and field not in fields:

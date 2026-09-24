@@ -9,7 +9,7 @@ import weblate.utils.render
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0106_alter_component_manage_units"),
+        ("trans", "0107_xliff_format_params"),
     ]
 
     operations = [

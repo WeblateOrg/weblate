@@ -10,11 +10,21 @@ from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db.models import F
 from jsonschema import Draft202012Validator
 
+from weblate.addons.ai import (
+    AIEvaluationAddon,
+    available_evaluation_services,
+    effective_evaluator,
+    evaluate_component,
+)
+from weblate.machinery.llm import BaseLLMTranslation
+from weblate.machinery.models import MACHINERY
 from weblate.trans.automation import UnitSelection, automatic_translation, bulk_edit
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Component
+from weblate.utils.forms import QueryField
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -203,6 +213,106 @@ class AutomaticTranslationOperation(AutomationOperation):
         result["warnings"] = [str(warning)[:1024] for warning in warnings[:20]]
         result["warnings_omitted"] = max(0, len(warnings) - 20)
         return result
+
+
+@register
+class AIQualityOperation(AutomationOperation):
+    name = "weblate.ai_quality"
+    title = "AI quality evaluation"
+    version_added = "2026.10"
+    supported_scopes = frozenset({"component", "trigger", "result"})
+    settings_schema = object_schema({"service": STRING, "q": STRING}, ["service"])
+    result_schema = object_schema(
+        {
+            "component": {"type": "integer"},
+            "evaluated": {"type": "integer", "minimum": 0},
+        },
+        ["component", "evaluated"],
+    )
+
+    @classmethod
+    def normalize(
+        cls,
+        settings: dict[str, Any],
+        obj: Component | Project | None,
+        *,
+        scope: str = "component",  # ruff: ignore[unused-class-method-argument]
+    ) -> dict[str, Any]:
+        service = settings["service"]
+        project = obj.project if isinstance(obj, Component) else obj
+        configured = project.get_machinery_settings() if project else None
+        available = (
+            available_evaluation_services(configured)
+            if configured is not None
+            else [
+                key
+                for key, machine in MACHINERY.items()
+                if issubclass(machine, BaseLLMTranslation)
+            ]
+        )
+        if service not in available:
+            msg = "The configured evaluation service is unavailable."
+            raise ValidationError(msg)
+        query = QueryField().clean(settings.get("q", ""))
+        if isinstance(obj, Component):
+            evaluator = effective_evaluator(obj)
+            if (
+                evaluator is None
+                or evaluator.addon.get_configuration()["service"] != service
+            ):
+                msg = "AI quality evaluation requires a matching add-on."
+                raise ValidationError(msg)
+        return {"service": service, "q": query}
+
+    @classmethod
+    def execute(
+        cls,
+        component: Component,
+        settings: dict[str, Any],
+        _user: User | None,
+        *,
+        selection: UnitSelection | None = None,
+        affected: UnitSelection | None = None,
+    ) -> dict[str, Any]:
+        evaluator = effective_evaluator(component)
+        if (
+            evaluator is None
+            or evaluator.addon.get_configuration()["service"] != settings["service"]
+        ):
+            msg = "AI quality evaluation requires a matching add-on."
+            raise ValueError(msg)
+        configuration = evaluator.addon.get_configuration()
+        units = (
+            (selection or UnitSelection())
+            .queryset(component)
+            .exclude(pk=F("source_unit_id"))
+        )
+        if settings["q"]:
+            units = units.search(settings["q"], project=component.project)
+        evaluated: set[int] = set()
+        result = evaluate_component(
+            AIEvaluationAddon(evaluator),
+            component,
+            configuration,
+            units.values_list("pk", flat=True),
+            scheduled=False,
+            evaluated_unit_ids=evaluated,
+        )
+        component.drop_addons_cache()
+        current = effective_evaluator(component)
+        if (
+            current is None
+            or current.pk != evaluator.pk
+            or current.addon.get_configuration() != configuration
+        ):
+            msg = "AI quality evaluation add-on changed during execution."
+            raise ValueError(msg)
+        if result["failed"] or result["skipped"]:
+            msg = "AI quality evaluation was incomplete."
+            raise ValueError(msg)
+        if affected is not None:
+            affected.unit_ids = evaluated
+        return {"component": component.pk, "evaluated": result["evaluated"]}
 
 
 @register
