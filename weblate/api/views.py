@@ -31,6 +31,7 @@ from django.utils.html import format_html
 from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
+from drf_spectacular.serializers import PolymorphicProxySerializerExtension
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiParameter,
@@ -73,6 +74,7 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    AutomationPreviewRequestSerializer,
     AutoTranslateRequestSerializer,
     AutoTranslateResponseSerializer,
     BackupSerializer,
@@ -130,6 +132,7 @@ from weblate.api.serializers import (
     TranslationCreateSerializer,
     TranslationSerializer,
     UnitSerializer,
+    UnitSourceSerializer,
     UnitWriteSerializer,
     UploadRequestSerializer,
     UploadResultSerializer,
@@ -499,6 +502,26 @@ COMPONENT_TRANSLATION_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentTranslationResponseSerializer",
     fields={"data": ComponentTranslationSerializer()},
 )
+
+
+class WeblatePolymorphicProxySerializerExtension(PolymorphicProxySerializerExtension):
+    """
+    Use anyOf for variants that can match more than one serializer.
+
+    FullUser also matches BasicUser, and BilingualSourceUnit can match
+    BilingualUnit. The oneOf emitted without a discriminator would reject
+    values that match both schemas.
+    """
+
+    priority = 0
+
+    def map_serializer(self, auto_schema, direction):
+        schema = super().map_serializer(auto_schema, direction)
+        if self.target.component_name in {"NewUnitRequest", "UserResponse"}:
+            schema["anyOf"] = schema.pop("oneOf")
+        return schema
+
+
 NEW_UNIT_REQUEST_SERIALIZER = PolymorphicProxySerializer(
     component_name="NewUnitRequest",
     serializers=[
@@ -1119,6 +1142,30 @@ def get_delete_memory_option(request: Request) -> bool:
 
 
 @extend_schema_view(
+    list=extend_schema(
+        description=(
+            "List users. Users with user.view or user.edit permission can see all "
+            "users and filter by email; other users see only themselves and "
+            "cannot filter by email."
+        ),
+        parameters=[
+            OpenApiParameter(
+                "email",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Filter by exact email address, ignoring case. Requires "
+                    "user.view or user.edit permission; ignored otherwise."
+                ),
+            ),
+            OpenApiParameter(
+                "unit",
+                int,
+                OpenApiParameter.QUERY,
+                description="Rank contributors to the given unit first.",
+            ),
+        ],
+    ),
     retrieve=extend_schema(
         description="Return information about users.",
         responses=USER_RESPONSE_SERIALIZER,
@@ -1200,6 +1247,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         queryset = queryset.filter_search_access(user)
         queryset = self.filter_queryset(queryset)
+        queryset = self.order_by_contributions(queryset)
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -1208,6 +1256,25 @@ class UserViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    def order_by_contributions(self, queryset):
+        """Rank contributors to the given unit first in user listings."""
+        if "unit" not in self.request.GET or not self.request.user.is_authenticated:
+            return queryset
+        try:
+            unit = Unit.objects.filter_access(self.request.user).get(
+                pk=self.request.GET["unit"]
+            )
+        except (Unit.DoesNotExist, ValueError):
+            return queryset
+        return queryset.annotate(
+            contributed_unit=Exists(
+                Change.objects.filter(user=OuterRef("pk"), unit=unit)
+            ),
+            contributed_translation=Exists(
+                Change.objects.filter(user=OuterRef("pk"), translation=unit.translation)
+            ),
+        ).order_by("-contributed_unit", "-contributed_translation", "id")
 
     def perm_check(
         self,
@@ -1332,7 +1399,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 serializer.save(user=obj)
                 return Response(serializer.data, status=HTTP_201_CREATED)
         self.perm_check(request, obj, allow_self=True)
-        queryset = obj.subscription_set.order_by("id")
+        queryset = obj.subscription_set.filter_access(request.user).order_by("id")
         page = self.paginate_queryset(queryset)
         serializer = NotificationSerializer(
             page, many=True, context={"request": request}
@@ -1367,24 +1434,27 @@ class UserViewSet(viewsets.ModelViewSet):
     ):
         obj = self.get_object()
 
+        self.perm_check(
+            request,
+            obj,
+            allow_self=True,
+            protect_internal=request.method in {"PUT", "PATCH", "DELETE"},
+        )
+
+        queryset = obj.subscription_set
+        if request.method != "DELETE":
+            queryset = queryset.filter_access(request.user)
         try:
-            subscription = obj.subscription_set.get(id=subscription_id)
+            subscription = queryset.get(id=subscription_id)
         except Subscription.DoesNotExist as error:
             msg = "Subscription"
             raise not_found_http404(msg) from error
 
         if request.method == "DELETE":
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
             subscription.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
-        if request.method == "GET":
-            self.perm_check(request, obj, allow_self=True)
-            serializer = NotificationSerializer(
-                subscription, context={"request": request}
-            )
-        else:
-            self.perm_check(request, obj, allow_self=True, protect_internal=True)
+        if request.method in {"PUT", "PATCH"}:
             serializer = NotificationSerializer(
                 subscription,
                 data=request.data,
@@ -1393,6 +1463,10 @@ class UserViewSet(viewsets.ModelViewSet):
             )
             serializer.is_valid(raise_exception=True)
             serializer.save()
+        else:
+            serializer = NotificationSerializer(
+                subscription, context={"request": request}
+            )
 
         return Response(serializer.data, status=HTTP_200_OK)
 
@@ -1452,6 +1526,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(
+    list=extend_schema(
+        description=(
+            "List teams the user can access. Users with group.view or group.edit "
+            "permission can see all teams."
+        )
+    ),
     create=extend_schema(description="Create a new group."),
     retrieve=extend_schema(description="Return information about a group."),
     partial_update=extend_schema(description="Change the group parameters."),
@@ -2177,12 +2257,21 @@ class ProjectViewSet(
         return prefetch_project_flags(cast("list[Project]", page))
 
     @extend_schema(
-        description="Return information about VCS repository status.",
+        description=(
+            "Return information about VCS repository status. The project response "
+            "summarizes all eligible repositories and lists included and skipped "
+            "components. A repository is included only when the caller has VCS "
+            "permission on its owning component."
+        ),
         methods=["get"],
         responses=RepositorySerializer,
     )
     @extend_schema(
-        description="Perform given operation on the VCS repository.",
+        description=(
+            "Perform given operation on the VCS repository. Process repositories "
+            "whose owning components grant the requested VCS permission and skip "
+            "the others. The request is denied when no repository is eligible."
+        ),
         methods=["post"],
         responses=REPOSITORY_OPERATION_RESPONSES,
     )
@@ -2407,6 +2496,7 @@ class ProjectViewSet(
 
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(description="Create an add-on for this project.")
     @action(detail=True, methods=["post"])
     def addons(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -2516,9 +2606,29 @@ class ProjectViewSet(
         )
 
     @extend_schema(
-        description="Download all translation files in the project.",
+        description=(
+            "Download all translation files in the project. The archive defaults "
+            "to ZIP and can be limited to one language using language_code."
+        ),
         methods=["get"],
         responses=binary_download_response_schema("Project translation download."),
+        parameters=[
+            OpenApiParameter(
+                "format",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Archive format; defaults to zip. Use zip:CONVERSION to convert "
+                    "files to a supported format."
+                ),
+            ),
+            OpenApiParameter(
+                "language_code",
+                str,
+                OpenApiParameter.QUERY,
+                description="Include translations only for this language code.",
+            ),
+        ],
     )
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
@@ -2549,7 +2659,8 @@ class ProjectViewSet(
     @extend_schema(
         description=(
             "Download all component translation files in the project for a specific "
-            "language."
+            "language. The archive defaults to ZIP, and filter limits included "
+            "components by a case-insensitive substring of their slug."
         ),
         methods=["get"],
         responses=binary_download_response_schema(
@@ -2557,11 +2668,26 @@ class ProjectViewSet(
         ),
         parameters=[
             OpenApiParameter(
+                "format",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Archive format; defaults to zip. Use zip:CONVERSION to convert "
+                    "files to a supported format."
+                ),
+            ),
+            OpenApiParameter(
                 name="language_code",
                 type=OpenApiTypes.STR,
                 location=OpenApiParameter.PATH,
                 description="Language code for the requested translations.",
-            )
+            ),
+            OpenApiParameter(
+                name="filter",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="Include components whose slugs contain this text, ignoring case.",
+            ),
         ],
     )
     @action(
@@ -2930,12 +3056,20 @@ class ComponentViewSet(
         serializer.save()
 
     @extend_schema(
-        description="Return information about VCS repository status.",
+        description=(
+            "Return information about VCS repository status. Requires VCS "
+            "permission on the component that owns the repository, including "
+            "when accessed through a linked component."
+        ),
         methods=["get"],
         responses=RepositorySerializer,
     )
     @extend_schema(
-        description="Perform given operation on the VCS repository.",
+        description=(
+            "Perform given operation on the VCS repository. Requires the "
+            "requested VCS permission on the component that owns the repository, "
+            "including when accessed through a linked component."
+        ),
         methods=["post"],
         responses=REPOSITORY_OPERATION_RESPONSES,
     )
@@ -3056,6 +3190,15 @@ class ComponentViewSet(
                 message = f"Could not add {language_code!r}!"
                 raise ValidationError({"language_code": message}) from error
 
+            if obj.get_new_language_action(request.user, language) != "add":
+                self.permission_denied(
+                    request,
+                    "This language requires maintainer approval. "
+                    "Request it using the web interface.",
+                )
+            if not obj.can_add_new_language(request.user, language=language):
+                self.permission_denied(request, message=obj.new_lang_error_message)
+
             if source_components:
                 auto_permission = check_auto_translate_permission(
                     request.user,
@@ -3119,6 +3262,7 @@ class ComponentViewSet(
 
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(description="Create an add-on for this component.")
     @action(detail=True, methods=["post"])
     def addons(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -3283,6 +3427,17 @@ class ComponentViewSet(
         description="Download all translation files in the component.",
         methods=["get"],
         responses=binary_download_response_schema("Component translation download."),
+        parameters=[
+            OpenApiParameter(
+                "format",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Archive format; defaults to zip. Use zip:CONVERSION to convert "
+                    "files to a supported format."
+                ),
+            ),
+        ],
     )
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
@@ -3306,6 +3461,7 @@ class ComponentViewSet(
 
 @extend_schema_view(
     list=extend_schema(description="Return a list of memory results."),
+    retrieve=extend_schema(description="Return information about a memory result."),
 )
 class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     """Memory API."""
@@ -3593,12 +3749,22 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         return result
 
     @extend_schema(
-        description="Return information about VCS repository status.",
+        description=(
+            "Return information about VCS repository status. Requires VCS "
+            "permission on the owning component, even when this translation "
+            "is accessed through a linked component. Language-limited "
+            "permission is insufficient."
+        ),
         methods=["get"],
         responses=RepositorySerializer,
     )
     @extend_schema(
-        description="Perform given operation on the VCS repository.",
+        description=(
+            "Perform given operation on the VCS repository. Requires the "
+            "requested VCS permission on the owning component, even when "
+            "accessed through a linked component. Language-limited permission "
+            "is insufficient."
+        ),
         methods=["post"],
         responses=REPOSITORY_OPERATION_RESPONSES,
     )
@@ -3635,9 +3801,33 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             raise
 
     @extend_schema(
-        description="Download translation file.",
+        description=(
+            "Download translation file. Without format, return the file as stored "
+            "in the repository. With format, convert the file and optionally "
+            "filter its strings using q."
+        ),
         methods=["get"],
         responses=binary_download_response_schema("Translation file download."),
+        parameters=[
+            OpenApiParameter(
+                "format",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Convert the stored translation file to this format. Without "
+                    "format, return the file as stored in the repository."
+                ),
+            ),
+            OpenApiParameter(
+                "q",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Filter downloaded strings using a search query. Requires a "
+                    "conversion format; otherwise a nonempty query is rejected."
+                ),
+            ),
+        ],
     )
     @extend_schema(
         description="Upload new file with translations.",
@@ -3657,7 +3847,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
         user = get_request_user(request)
-        if request.method == "GET":
+        if request.method not in {"POST", "PUT"}:
             return self.get_translation_file_response(request, obj, user)
 
         if not (can_upload := user.has_perm("upload.perform", obj)):
@@ -3696,6 +3886,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 author_email,
                 data["method"],
                 data["fuzzy"],
+                ignore_language=data["ignore_language"],
             )
         except PluralFormsMismatchError as error:
             raise ValidationError(
@@ -4030,12 +4221,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     pagination_class = LargePagination
 
     queryset = Unit.objects.none()
+    serializer_class = UnitWriteSerializer
 
     def get_serializer_class(self):
         """Get correct serializer based on action."""
         if self.action in {"list", "retrieve"}:
             return UnitSerializer
-        return UnitWriteSerializer
+        return super().get_serializer_class()
 
     def get_queryset(self):
         return (
@@ -4057,12 +4249,40 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             result = result.search(query_string)
         return result
 
+    @extend_schema(
+        request=UnitSourceSerializer,
+        responses=UnitSerializer,
+        description="Edit the source string associated with a unit.",
+    )
+    @action(detail=True, methods=["post"], serializer_class=UnitSourceSerializer)
+    def source(self, request, **kwargs):
+        from weblate.trans.source_edit import edit_source  # ruff: ignore[import-outside-top-level]
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        try:
+            unit = edit_source(
+                self.get_object(), request.user, **serializer.validated_data
+            )
+        except DjangoValidationError as error:
+            raise ValidationError(
+                error.message_dict if hasattr(error, "message_dict") else error.messages
+            ) from error
+        except WeblateLockTimeoutError:
+            raise LockedError(
+                code="component-locked",
+                detail="The component is busy. Please try again.",
+            ) from None
+        return Response(
+            UnitSerializer(unit, context=self.get_serializer_context()).data
+        )
+
     @transaction.atomic
     # ruff: ignore[complex-structure]
     def perform_update(self, serializer) -> None:
         data = serializer.validated_data
         do_translate = "target" in data or "state" in data
-        do_source = "extra_flags" in data or "explanation" in data or "labels" in data
+        do_source = "explanation" in data or "labels" in data
         unit = serializer.instance
         translation = unit.translation
         request = self.request
@@ -4077,6 +4297,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         ):
             self.permission_denied(
                 request, "Source strings properties can be set only on source strings"
+            )
+
+        if "extra_flags" in data and not user.has_perm("meta:unit.flag", translation):
+            self.permission_denied(
+                request, "You do not have permission to edit string flags."
             )
 
         if do_translate:
@@ -4122,7 +4347,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
         # Update attributes
         if do_source:
-            fields = ["extra_flags", "explanation"]
+            fields = ["explanation"]
             for name in fields:
                 try:
                     setattr(unit, name, data[name])
@@ -4131,6 +4356,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if "labels" in data:
                 unit.save_labels(data["labels"], user)
             unit.save(update_fields=fields)
+
+        if "extra_flags" in data:
+            # Autofixes and enforced checks must see the submitted flags,
+            # including when the target and requested state have not changed.
+            unit = Unit.objects.select_for_update().get(pk=unit.pk)
+            unit.update_extra_flags(data["extra_flags"], user)
+            serializer.instance = unit
 
         # Handle translate
         if do_translate:
@@ -4141,6 +4373,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 # the initial lookup and the locking re-fetch in Unit.translate()
                 msg = "Unit was removed while processing the request"
                 raise Http404(msg) from error
+
+        if do_translate and "extra_flags" in data:
+            # translate() sets the requested content state; restore flag-derived
+            # read-only state and its checks after processing the new target.
+            unit.update_state()
+            unit.run_checks()
+            unit.translation.invalidate_cache()
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a translation unit."""
@@ -4165,6 +4404,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             )
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @extend_schema(
+        description="List target translation units for the given source unit."
+    )
     @action(detail=True, methods=["get"])
     def translations(self, request: Request, *args, **kwargs):
         unit = self.get_object()
@@ -4422,7 +4664,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     )
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
-        if request.method == "GET":
+        if request.method not in {"POST", "PUT"}:
             return self.download_file(obj.image.path, "application/binary")
 
         if not request.user.has_perm("screenshot.edit", obj.translation):
@@ -4627,6 +4869,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     @extend_schema(
         description="Associate component with a component list.", methods=["post"]
     )
+    @extend_schema(description="List components in a component list.", methods=["get"])
     @action(detail=True, methods=["post", "get"])
     def components(self, request: Request, **kwargs):
         obj = self.get_object()
@@ -4685,6 +4928,11 @@ class ComponentListViewSet(viewsets.ModelViewSet):
 
 @extend_schema_view(
     list=extend_schema(description="List available categories."),
+    create=extend_schema(description="Create a new category."),
+    retrieve=extend_schema(description="Return information about a category."),
+    partial_update=extend_schema(
+        description="Edit partial information about a category."
+    ),
     destroy=extend_schema(
         description="Delete a category.",
         parameters=[
@@ -5233,6 +5481,40 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
     serializer_class = AddonSerializer
     request: AuthenticatedRequest  # type: ignore[assignment]
 
+    @extend_schema(
+        description="Preview an automation without executing operations. Requires add-on management permission.",
+        request=AutomationPreviewRequestSerializer,
+        responses={
+            200: inline_serializer(
+                "AutomationPreviewResponse",
+                {
+                    "workflow": serializers.JSONField(),
+                    "context": serializers.JSONField(),
+                    "trace": serializers.ListField(child=serializers.JSONField()),
+                    "preview": serializers.BooleanField(),
+                },
+            )
+        },
+    )
+    @action(detail=True, methods=["post"])
+    def preview(self, request: Request, **kwargs):
+        instance = self.get_object()
+        self.perm_check(request, instance)
+        if not instance.is_valid or not getattr(instance.addon, "has_preview", False):
+            raise ValidationError({"detail": "This add-on does not support preview."})
+        fields = AutomationPreviewRequestSerializer(data=request.data)
+        fields.is_valid(raise_exception=True)
+        try:
+            result = instance.addon.preview(
+                fields.validated_data["workflow"],
+                fields.validated_data["component"],
+                fields.validated_data.get("change"),
+                actor=request.user,
+            )
+        except DjangoValidationError as error:
+            raise ValidationError({"workflow": error.messages}) from error
+        return Response(result)
+
     def get_queryset(self):
         return Addon.objects.filter_access(self.request.user).order_by("id")
 
@@ -5298,7 +5580,7 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
                 {"detail": gettext("This add-on cannot be triggered manually.")}
             )
 
-        instance.schedule_manual_run()
+        instance.schedule_manual_run(user_id=request.user.pk)
 
         return Response(
             {

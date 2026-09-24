@@ -45,6 +45,7 @@ class FileFormatParams(TypedDict, total=False):
     po_set_last_translator: bool
     po_set_x_generator: bool
     po_report_msgid_bugs_to: bool
+    po_contributor_comments: Literal["none", "gettext", "spdx"]
     yaml_indent: int
     yaml_line_wrap: int
     yaml_line_break: str
@@ -65,6 +66,8 @@ class FileFormatParams(TypedDict, total=False):
     md_frontmatter_translate_values: bool
     md_no_placeholders: bool
     merge_duplicates: bool
+    xml_whitespace_handling: Literal["standard", "preserve", "normalize"]
+    xliff_placeables: Literal["plain", "placeables"]
 
 
 FileFormatParamKey = Literal[
@@ -82,10 +85,10 @@ FileFormatParamKey = Literal[
     "po_set_last_translator",
     "po_set_x_generator",
     "po_report_msgid_bugs_to",
+    "po_contributor_comments",
     "yaml_indent",
     "yaml_line_wrap",
     "yaml_line_break",
-    "xml_closing_tags",
     "flatxml_root_name",
     "flatxml_value_name",
     "flatxml_key_name",
@@ -101,6 +104,9 @@ FileFormatParamKey = Literal[
     "md_extract_frontmatter",
     "md_frontmatter_translate_values",
     "md_no_placeholders",
+    "xml_closing_tags",
+    "xml_whitespace_handling",
+    "xliff_placeables",
 ]
 
 
@@ -358,6 +364,24 @@ class BaseGettextFormatParam(BaseFileFormatParam):
 
 
 @register_file_format_param
+class GettextContributorComments(BaseGettextFormatParam):
+    file_formats = ("po", "po-mono")
+    name = "po_contributor_comments"
+    label = gettext_lazy("Contributor comments")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("none", gettext_lazy("Disabled")),
+        ("gettext", gettext_lazy("Gettext")),
+        ("spdx", gettext_lazy("SPDX")),
+    ]
+    default = "none"
+    help_text = gettext_lazy(
+        "Add contributor names and years to header comments. SPDX also converts "
+        "existing recognized contributor comments to SPDX-FileCopyrightText entries."
+    )
+
+
+@register_file_format_param
 class GettextKeepPreviousMsgids(BaseGettextFormatParam):
     name = "po_keep_previous"
     label = gettext_lazy("Keep previous msgids of translated strings")
@@ -535,6 +559,69 @@ class XMLClosingTags(BaseFileFormatParam):
         cast("LISAfile", store).XMLSelfClosingTags = not self.get_value(
             file_format_params
         )
+
+
+@register_file_format_param
+class XMLWhitespaceHandling(BaseFileFormatParam):
+    name = "xml_whitespace_handling"
+    label = gettext_lazy("Whitespace handling")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        (
+            "standard",
+            gettext_lazy("Follow xml:space"),
+        ),
+        (
+            "preserve",
+            gettext_lazy("Always preserve"),
+        ),
+        (
+            "normalize",
+            gettext_lazy("Always normalize"),
+        ),
+    ]
+    default = "preserve"
+    help_text = gettext_lazy(
+        "Controls how XLIFF whitespace is handled. "
+        "Follow xml:space honors attributes in the file. "
+        "Always preserve keeps all whitespace. "
+        'Always normalize collapses whitespace even when xml:space="preserve" is set.'
+    )
+
+    file_formats = (
+        "xliff",
+        "poxliff",
+        "apple-xliff",
+        "xliff2",
+    )
+
+
+@register_file_format_param
+class XliffPlaceables(BaseFileFormatParam):
+    name = "xliff_placeables"
+    label = gettext_lazy("Placeables support")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        (
+            "plain",
+            gettext_lazy("Plain text only"),
+        ),
+        (
+            "placeables",
+            gettext_lazy("Support placeables"),
+        ),
+    ]
+    default = "placeables"
+    help_text = gettext_lazy(
+        "Controls whether inline XML elements inside XLIFF strings are preserved as editable placeables. "
+        "Plain text only escapes XML markup and treats the content as text. "
+        'With placeables supported, tags such as <x id="name"\\/> or <g> stay in the string and appear as placeholders in the editor'
+    )
+
+    file_formats = (
+        "xliff",
+        "xliff2",
+    )
 
 
 class BaseFlatXMLFormatParam(BaseFileFormatParam):

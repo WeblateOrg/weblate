@@ -12,6 +12,7 @@ from tempfile import TemporaryDirectory
 
 from django.core.files.storage import storages
 from django.core.management import call_command
+from django.http import Http404
 from django.test import SimpleTestCase, override_settings
 
 from weblate.urls import redirect_static
@@ -164,3 +165,14 @@ class ManifestStaticFilesTest(SimpleTestCase):
 
         self.assertEqual(response.status_code, 301)
         self.assertEqual(response.url, "/assets/favicon.ico")
+
+    @override_settings(STATIC_URL="/assets/")
+    def test_permanent_static_redirect_uses_allowed_size(self) -> None:
+        response = redirect_static(None, "weblate-%(size)s.png", size="192")
+
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response.url, "/assets/weblate-192.png")
+
+    def test_permanent_static_redirect_rejects_invalid_size(self) -> None:
+        with self.assertRaises(Http404):
+            redirect_static(None, "weblate-%(size)s.png", size="//example.com")

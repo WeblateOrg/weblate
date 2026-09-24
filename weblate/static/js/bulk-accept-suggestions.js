@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
           username,
           preview.total,
           preview.can_approve,
+          this.dataset.translationName,
         );
         if (!confirmed) {
           enableAllButtons(allBtns);
@@ -129,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return responseData;
   }
 
-  function confirmBulkAccept(dialog, username, total, canApprove) {
+  function confirmBulkAccept(dialog, username, total, canApprove, translation) {
     return new Promise((resolve) => {
       let resolved = false;
       const modal = bootstrap.Modal.getOrCreateInstance(dialog.element);
@@ -137,20 +138,22 @@ document.addEventListener("DOMContentLoaded", () => {
       if (total === 0) {
         dialog.body.textContent = interpolate(
           gettext(
-            "There are no pending suggestions from %s in this translation.",
+            "There are no pending suggestions from %(username)s in %(translation)s.",
           ),
-          [username],
+          { username, translation },
+          true,
         );
         dialog.confirmButton.disabled = true;
         dialog.approveButton.disabled = true;
       } else {
         dialog.body.textContent = interpolate(
           ngettext(
-            "This will accept %s suggestion from %s in this translation.",
-            "This will accept %s suggestions from %s in this translation.",
+            "This will accept %(count)s suggestion from %(username)s in %(translation)s.",
+            "This will accept %(count)s suggestions from %(username)s in %(translation)s.",
             total,
           ),
-          [total, username],
+          { count: total, username, translation },
+          true,
         );
         dialog.confirmButton.disabled = false;
         dialog.approveButton.disabled = false;

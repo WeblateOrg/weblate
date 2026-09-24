@@ -4,6 +4,8 @@
 
 """Tests for suggestion views."""
 
+from __future__ import annotations
+
 from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
@@ -508,7 +510,7 @@ class SuggestionsTest(ViewTestCase):
 
 
 class SuggestionModelTest(TestCase):
-    def test_target_list(self):
+    def test_target_list(self) -> None:
         """Test that target_list property correctly splits plurals."""
         sep = "\x1e\x1e"
 

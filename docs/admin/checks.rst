@@ -73,7 +73,8 @@ does not become `[test](../chequeos)`.
 The flags defined on a higher level can be discarded using the
 ``discard:NAME`` syntax. For example, if a component is configured to
 ``safe-html``, you can add ``discard:safe-html`` to the string flags to skip it
-for this particular string.
+for this particular string. Translation flags cannot discard an explicit
+``read-only`` flag set on the source string.
 
 Here is a list of flags currently accepted:
 

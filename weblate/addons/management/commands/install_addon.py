@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING
 
+from django.core.exceptions import ValidationError
 from django.core.management.base import CommandError
 
 from weblate.addons.models import ADDONS, Addon
@@ -65,9 +66,14 @@ class Command(WeblateComponentCommand):
                     self.stderr.write(f"Already installed on {component}")
                 continue
 
-            if not addon.can_install(component=component):
+            if not addon.can_install(component=component) or not addon.api_available(
+                component
+            ):
                 self.stderr.write(f"Can not install on {component}")
                 continue
 
-            addon.create(component=component, configuration=configuration)
+            try:
+                addon.create(component=component, configuration=configuration)
+            except ValidationError as error:
+                raise CommandError(" ".join(error.messages)) from error
             self.stdout.write(f"Successfully installed on {component}")

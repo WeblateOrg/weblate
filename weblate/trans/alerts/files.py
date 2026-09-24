@@ -39,24 +39,37 @@ class DuplicateString(MultiAlert):
         )
 
     def get_analysis(self) -> dict[str, Any]:
-        translations = []
-        seen = set()
+        groups: list[dict[str, Any]] = []
+        translations: dict[int, dict[str, Any]] = {}
         for occurrence in self.occurrences:
             unit = occurrence.get("unit")
             if unit is None:
+                groups.append(
+                    {
+                        "translation": None,
+                        "language": occurrence.get(
+                            "language", occurrence.get("language_code", "")
+                        ),
+                        "occurrences": [occurrence],
+                        "can_cleanup": False,
+                    }
+                )
                 continue
             translation = unit.translation
-            if (
-                not translation.filename
-                or translation.pk in seen
-                or not translation.supports_remove_duplicate_units(
-                    translation.component
-                )
-            ):
-                continue
-            seen.add(translation.pk)
-            translations.append(translation)
-        return {"cleanup_translations": translations}
+            if translation.pk not in translations:
+                group = {
+                    "translation": translation,
+                    "language": translation.language,
+                    "occurrences": [],
+                    "can_cleanup": bool(translation.filename)
+                    and translation.supports_remove_duplicate_units(
+                        translation.component
+                    ),
+                }
+                translations[translation.pk] = group
+                groups.append(group)
+            translations[translation.pk]["occurrences"].append(occurrence)
+        return {"translation_groups": groups}
 
 
 @register

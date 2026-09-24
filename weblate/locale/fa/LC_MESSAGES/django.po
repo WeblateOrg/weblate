@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-03 21:16-0500\n"
-"PO-Revision-Date: 2026-09-03 14:26+0000\n"
+"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"PO-Revision-Date: 2026-09-11 08:22+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/weblate/"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -349,6 +349,25 @@ msgid ""
 msgstr ""
 
 msgid "Enter the code from the app"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Project, category, component, or translation path"
+msgstr "ترجمه"
+
+msgid ""
+"Enter slash-separated slugs, for example project/category/component/cs. "
+"Project and category paths summarize inherited settings and component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Enter a valid object path."
+msgstr "میان‌زبان"
+
+msgid "The target does not exist or you cannot access it."
 msgstr ""
 
 #. Translators: Audit log entry
@@ -919,6 +938,60 @@ msgid "Please provide an e-mail address for submitting translations."
 msgstr "ترجمه"
 
 #, fuzzy
+#| msgid "Source strings"
+msgid "No matching subscription."
+msgstr "رشته های منبع"
+
+#, fuzzy
+#| msgid "Instant notification"
+msgid "Inactive users and bots do not receive notifications."
+msgstr "اعلان بلادرنگ"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "The user cannot access this target."
+msgstr "رشته های منبع"
+
+msgid "This language is not among the user’s notification languages."
+msgstr ""
+
+msgid "This notification ignores watched-project subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "The user is not watching this project."
+msgstr "پروژه‌های تحت نظر"
+
+msgid "No administered-project subscription matches this target."
+msgstr ""
+
+msgid "The project or component subscriptions apply to other targets."
+msgstr ""
+
+msgid "Disabled by the effective subscription."
+msgstr ""
+
+msgid "Eligible when the notification’s event conditions are met."
+msgstr ""
+
+msgid "Requires a corresponding event on this target."
+msgstr ""
+
+#, python-format
+msgid "Instant delivery can be suppressed by: %(notification)s."
+msgstr ""
+
+msgid ""
+"Language-specific events require one of the user’s notification languages."
+msgstr ""
+
+msgid ""
+"This scope is too large to check. Choose a smaller category, a component, or "
+"a translation."
+msgstr ""
+
+#, fuzzy
 #| msgid "Translate"
 msgid "No notification"
 msgstr "ترجمه"
@@ -934,6 +1007,25 @@ msgstr "گزارش هفتگی"
 
 msgid "Monthly digest"
 msgstr "گزارش ماهانه"
+
+msgid "All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Watched"
+msgstr "پروژه‌های تحت نظر"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Administered"
+msgstr "ترجمه"
+
+msgid "Project"
+msgstr "برنامه"
+
+msgid "Component"
+msgstr ""
 
 #, fuzzy
 #| msgid "Translate"
@@ -1043,6 +1135,11 @@ msgctxt "Notification name"
 msgid "Components were translated"
 msgstr "رشته های منبع"
 
+msgid ""
+"Source-string comments ignore notification languages; other comments require "
+"a matching language."
+msgstr ""
+
 #, fuzzy
 #| msgid "Comments made"
 msgctxt "Notification name"
@@ -1055,6 +1152,9 @@ msgctxt "Notification name"
 msgid "Comments were added"
 msgstr "نظرات داده شده"
 
+msgid "The comment must mention this user."
+msgstr ""
+
 #, fuzzy
 #| msgid "Mentioned in comment"
 msgctxt "Notification name"
@@ -1066,6 +1166,11 @@ msgstr "اشاره در نظرات"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
 msgstr "اشاره در نظرات"
+
+msgid ""
+"The user must have contributed to the string or previously participated in "
+"its discussion."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translate"
@@ -1139,6 +1244,11 @@ msgctxt "Notification name"
 msgid "New translation components were created"
 msgstr "جزء ترجمه جدید"
 
+msgid ""
+"The announcement must enable notifications. If it specifies a language, that "
+"language must match the user’s notification languages."
+msgstr ""
+
 #, fuzzy
 #| msgid "Announcement"
 msgctxt "Notification name"
@@ -1150,6 +1260,11 @@ msgstr "اعلامیه"
 msgctxt "Notification name"
 msgid "Announcements were published"
 msgstr "اعلامیه"
+
+msgid ""
+"The alert must be at least a warning and the user must be able to act on it. "
+"Linked-component and project-wide alerts can be deduplicated."
+msgstr ""
 
 #, fuzzy
 #| msgid "Source strings"
@@ -1254,7 +1369,7 @@ msgid ""
 msgstr ""
 "رایانامه شما دیگر متعلق به حساب تایید شده نیست ، به {0} تغییر کرده است."
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 msgid "Use authentication app (TOTP)"
@@ -1316,6 +1431,11 @@ msgstr "ارتباط"
 msgid "Hosting"
 msgstr "میزبانی"
 
+#, fuzzy
+#| msgid "Source strings"
+msgid "Invalid trial plan."
+msgstr "رشته های منبع"
+
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1328,6 +1448,11 @@ msgstr ""
 
 msgid "Gratis trial"
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Source strings"
+msgid "Notification diagnostics for %(user)s"
+msgstr "رشته های منبع"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -1503,6 +1628,13 @@ msgstr "رایانامه فعال‌سازی به این نشانی فرستاد
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr ""
+
+#, fuzzy
+#| msgid "The registration link has been invalidated."
+msgid ""
+"This authentication app registration is no longer valid. Start a new "
+"registration."
+msgstr "پیوند ثبت‌نام اعتبارش را از دست داده است."
 
 msgid ""
 "Too many failed authentication attempts. Please reset your password to "
@@ -1899,6 +2031,17 @@ msgid "Keyword entries have to be strings."
 msgstr "رشته های منبع"
 
 #, fuzzy
+#| msgid "Database latency"
+msgid "ITS data directories"
+msgstr "تأخیر پایگاه داده"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
+
+#, fuzzy
 #| msgid "Source strings"
 msgid "Do not extract comments"
 msgstr "رشته های منبع"
@@ -2082,6 +2225,19 @@ msgstr "ترجمه"
 #| msgid "Translate"
 msgid "Could not determine Sphinx source directory."
 msgstr "ترجمه"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "One file per translation"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "One file per component"
+msgstr "رشته های منبع"
 
 msgid "Name of generated file"
 msgstr ""
@@ -2624,19 +2780,115 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+#, fuzzy
+#| msgid "Entered token is not valid."
+msgid "ITS rule file is too large."
+msgstr "توکن وارد شده صحیح نیست."
+
+#, fuzzy
+#| msgid "Translate"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "ترجمه"
+
+msgid "ITS XPath expression is too long."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "Too many ITS rule files."
 msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Invalid ITS directory path."
+msgstr "رشته های منبع"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "ITS rule file contains too many elements."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "فرمت فایل پشتیبانی‌نمی‌شود."
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS locating rule."
+msgstr "فرمت فایل پشتیبانی‌نمی‌شود."
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "فرمت فایل پشتیبانی‌نمی‌شود."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "ITS directories must not contain symbolic links."
+msgstr "ترجمه"
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "ITS directory does not exist: %(path)s"
+msgstr "ترجمه"
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "ترجمه"
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "ترجمه"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "API add-ons must be installed directly on a component."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "This add-on is already installed on this component."
+msgstr "ترجمه"
 
 msgid "This add-on cannot be triggered manually."
 msgstr ""
@@ -2983,15 +3235,15 @@ msgstr "ترجمه"
 msgid "Please provide a suggestion"
 msgstr "ترجمه"
 
-msgid "Translation text too long!"
-msgstr ""
-
 #, fuzzy
 #| msgid "Translate"
 msgid "Number of plurals does not match"
 msgstr "ترجمه"
 
 msgid "Your suggestion is similar to the current translation!"
+msgstr ""
+
+msgid "Translation text too long!"
 msgstr ""
 
 msgid "Your suggestion already exists!"
@@ -3081,13 +3333,7 @@ msgstr "شما برای دسترسی به این جزء مجوز ندارید!"
 msgid "This string seems to already exist."
 msgstr "ترجمه"
 
-msgid "Project"
-msgstr "برنامه"
-
 msgid "Category"
-msgstr ""
-
-msgid "Component"
 msgstr ""
 
 msgid "User"
@@ -3194,9 +3440,9 @@ msgstr ""
 
 #. Translators: Permission name
 #, fuzzy
-#| msgid "Download"
-msgid "Download reports"
-msgstr "دریافت"
+#| msgid "Source strings"
+msgid "Manage reports"
+msgstr "رشته های منبع"
 
 #. Translators: Permission name
 msgid "Add screenshot"
@@ -4319,9 +4565,10 @@ msgstr "ترجمه"
 msgid "Non‑standard characters in Kabyle"
 msgstr ""
 
+#, python-brace-format
 msgid ""
-"Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
-"instead of ε)."
+"Use standardized Latin Kabyle characters (e.g. {latin_gamma} instead of "
+"Greek {greek_gamma}; {latin_epsilon} instead of {greek_epsilon})."
 msgstr ""
 
 msgid "Trailing space"
@@ -4397,9 +4644,9 @@ msgstr "ترجمه"
 msgid "Mismatched \\n"
 msgstr ""
 
-#, fuzzy
+#, fuzzy, python-brace-format
 #| msgid "Translate"
-msgid "Number of \\n literals in translation does not match source."
+msgid "Number of {newline} literals in translation does not match source."
 msgstr "ترجمه"
 
 msgid "Mismatching line breaks"
@@ -4592,6 +4839,11 @@ msgstr ""
 #| msgid "Translate"
 msgid "Use case insensitive placeholders"
 msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Monospace font"
+msgstr "رشته های منبع"
 
 msgid "Font family"
 msgstr ""
@@ -5425,9 +5677,10 @@ msgstr ""
 msgid "Ellipsis"
 msgstr ""
 
+#, python-brace-format
 msgid ""
-"The string uses three dots ``(...)`` instead of an ellipsis character "
-"``(…)``."
+"The string uses three dots {dots} instead of an ellipsis character "
+"{ellipsis}."
 msgstr ""
 
 #, fuzzy
@@ -5506,6 +5759,9 @@ msgid "Default font is used unless per language override matches."
 msgstr ""
 
 msgid "Font"
+msgstr ""
+
+msgid "Font has to be in the same project as the font group."
 msgstr ""
 
 msgid "Unsupported file format."
@@ -5971,6 +6227,22 @@ msgid ""
 msgstr ""
 "نصب شما فعال نشد. لطفا اطمینان حاصل کنید که کلمه رمز فعال‌سازی شما درست است."
 
+msgid "Maximum build age (days)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Maximum retained versions"
+msgstr "ترجمه"
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
 msgid "Weblate languages"
 msgstr ""
 
@@ -6264,7 +6536,8 @@ msgstr ""
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "موافقت با شرایط خدمت {date}."
 
-msgid "Please also read the Privacy Policy:"
+#, python-format
+msgid "Please also read the <a href=\"%(privacy_url)s\">Privacy Policy</a>."
 msgstr ""
 
 msgid "Submit"
@@ -6283,6 +6556,16 @@ msgid ""
 "This page is based on the General Terms and Conditions and the Privacy "
 "Policy, you should still read the original documents to fully understand "
 "them:"
+msgstr ""
+
+msgid ""
+"This page is based on the General Terms and Conditions, you should still "
+"read the original document to fully understand it:"
+msgstr ""
+
+msgid ""
+"This page is based on the Privacy Policy, you should still read the original "
+"document to fully understand it:"
 msgstr ""
 
 msgid "Cookies are used on this site for the following:"
@@ -6624,9 +6907,6 @@ msgstr ""
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
 
-msgid "DeepL API v1 is no longer supported."
-msgstr ""
-
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
 msgstr ""
@@ -6777,30 +7057,6 @@ msgid "Ollama model"
 msgstr ""
 
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Haiku 4.5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Sonnet 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 5"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5.1"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Opus 4.8"
-msgstr ""
-
-msgctxt "Anthropic model selection"
-msgid "Claude Fable 5"
 msgstr ""
 
 #, fuzzy
@@ -7125,6 +7381,11 @@ msgstr "نماگرفت‌ها"
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "نماگرفت‌ها"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -7204,6 +7465,11 @@ msgstr "هیچ رشته منبع جدید منطبقی یافت نشد."
 #| msgid "Too many messages sent, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr "پیام‌های زیادی ارسال شده است، لطفاً بعداً دوباره امتحان کنید."
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a valid screenshot."
+msgstr "نماگرفت‌ها"
 
 msgid "Bad request"
 msgstr ""
@@ -7327,22 +7593,15 @@ msgstr "درباره وبلیت"
 msgid "Support Weblate"
 msgstr "درباره وبلیت"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 #, fuzzy
 #| msgid "Thank you for using Weblate."
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "بابت استفاده از وب‌لیت سپاسگذاریم."
 
 #, fuzzy
-#| msgid "Thank you for using Weblate."
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "بابت استفاده از وب‌لیت سپاسگذاریم."
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#| msgid "Donate to Weblate"
+msgid "Continue to Weblate"
+msgstr "کمک به وبلت"
 
 #, fuzzy
 #| msgid "GitHub username"
@@ -7436,6 +7695,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -7612,7 +7879,6 @@ msgstr ""
 msgid "Verify new e-mail address"
 msgstr "نام کاربری یا رایانامه"
 
-#. Translators: Register on the site
 msgid "Register"
 msgstr ""
 
@@ -7670,6 +7936,146 @@ msgstr ""
 msgid "Register new account"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translate"
+msgid "Notification diagnostics"
+msgstr "ترجمه"
+
+msgid "Diagnostics"
+msgstr ""
+
+msgid ""
+"Check subscription eligibility for hypothetical events. This does not send "
+"notifications. The user’s own actions do not trigger notifications; event "
+"details, digest content, and delivery rate limits can also affect delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Check notifications"
+msgstr "ترجمه"
+
+#, fuzzy, python-format
+#| msgid "Source strings"
+msgid "Notification eligibility for %(target)s"
+msgstr "رشته های منبع"
+
+msgid ""
+"Inherited project settings are shown once, alongside differences across "
+"accessible components. Choose a component or translation path for detailed "
+"eligibility checks."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Notification"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Inherited project settings"
+msgstr "رشته های منبع"
+
+msgid "Settings and eligibility"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component list"
+msgid "Component exceptions"
+msgstr "فهرست اجزاء"
+
+msgid "One-time"
+msgstr "یک بار"
+
+msgid ""
+"No inherited subscription. Matching settings are listed under component "
+"exceptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Overridden subscriptions"
+msgstr "رشته های منبع"
+
+#, python-format
+msgid "Different settings in %(count)s component."
+msgid_plural "Different settings in %(count)s components."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid ""
+"These components have no matching subscription, so this notification will "
+"not be sent."
+msgstr ""
+
+msgid ""
+"Shared components use subscriptions from their original project, not this "
+"project’s subscriptions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Inspect example components:"
+msgstr "رشته های منبع"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Inspect components:"
+msgstr "رشته های منبع"
+
+msgid "None"
+msgstr "هیچ کدام"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "No accessible components or translations in this target."
+msgstr "ترجمه"
+
+msgid "No matching subscriptions in this scope."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Browse all projects"
+msgid "%(count)s watched project."
+msgid_plural "%(count)s watched projects."
+msgstr[0] "مرور همهٔ پروژه‌ها"
+msgstr[1] "مرور همهٔ پروژه‌ها"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "No watched projects."
+msgstr "پروژه‌های تحت نظر"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Notification languages"
+msgstr "ترجمه"
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "%(count)s notification language."
+msgid_plural "%(count)s notification languages."
+msgstr[0] "ترجمه"
+msgstr[1] "ترجمه"
+
+msgid ""
+"No notification languages selected. Language-filtered notifications will not "
+"be sent."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Subscriptions"
+msgstr "رشته های منبع"
+
+msgid "Frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "No subscriptions."
+msgstr "رشته های منبع"
+
 msgid "Please enable the password authentication to secure your account."
 msgstr ""
 
@@ -7723,6 +8129,16 @@ msgstr ""
 
 msgid "Save"
 msgstr ""
+
+msgid ""
+"Check which subscriptions apply to a project, component, or translation and "
+"what can prevent notification delivery."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Open notification diagnostics"
+msgstr "ترجمه"
 
 msgid ""
 "Add all projects you want to translate to see them as watched projects on "
@@ -8145,7 +8561,10 @@ msgid_plural "Your trial will last %(days)s days."
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Your trial will run the 640k plan, but you can choose any plan later."
+#, python-format
+msgid ""
+"Your trial will run the %(trial_plan)s plan, but you can choose any plan "
+"later."
 msgstr ""
 
 msgid "No credit card is needed, but you can set the payment method anytime."
@@ -8259,17 +8678,6 @@ msgstr ""
 msgid "User ID"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translate"
-msgid "Notification"
-msgstr "ترجمه"
-
-msgid "Frequency"
-msgstr ""
-
-msgid "One-time"
-msgstr "یک بار"
-
 msgid "Members"
 msgstr ""
 
@@ -8379,7 +8787,21 @@ msgstr ""
 msgid "Continue"
 msgstr "ادامه"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Signed in using password."
+msgid "Sign in using a passkey or security key"
+msgstr "وارد شده با استفاده از گذرواژه."
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
@@ -8419,6 +8841,14 @@ msgstr ""
 #| msgid "Source strings"
 msgid "No components found."
 msgstr "رشته های منبع"
+
+msgid "Add-on API base URL:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "API root"
+msgstr "ترجمه"
 
 msgid "Configure add-on"
 msgstr ""
@@ -8604,6 +9034,18 @@ msgstr "هیچ اجزاء منطبق‌ای یافت نشد!"
 msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
+msgstr ""
+
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
 msgstr ""
 
 #, fuzzy
@@ -9186,6 +9628,11 @@ msgstr ""
 msgid "Browse"
 msgstr "مرور"
 
+#, fuzzy
+#| msgid "Translated string"
+msgid "Translation status widgets"
+msgstr "ترجمه رشته"
+
 msgid "No strings found!"
 msgstr "هیچ رشته‌ای یافت نشد!"
 
@@ -9214,6 +9661,9 @@ msgstr "ترجمه‌ها"
 msgid "Search and replace"
 msgstr ""
 
+msgid "Post announcement"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translate"
 msgid "Organize or remove"
@@ -9236,6 +9686,12 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Browse components"
 msgstr "رشته های منبع"
+
+msgid ""
+"The message is shown for all translations in this language within the "
+"category and its subcategories, until its given expiry, or permanently until "
+"it is deleted."
+msgstr ""
 
 msgid "Announcements"
 msgstr ""
@@ -9272,9 +9728,6 @@ msgstr "ترجمه خودکار"
 #| msgid "Interlingua"
 msgid "Add new category"
 msgstr "میان‌زبان"
-
-msgid "Post announcement"
-msgstr ""
 
 #, fuzzy
 #| msgid "Interlingua"
@@ -9349,9 +9802,6 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Continue after completion"
 msgstr "رشته های منبع"
-
-msgid "Diagnostics"
-msgstr ""
 
 #, fuzzy
 #| msgid "Parse error"
@@ -9747,7 +10197,7 @@ msgstr "درباره"
 
 msgctxt "General terms and conditions"
 msgid "Terms"
-msgstr ""
+msgstr "شرایط"
 
 msgctxt "Privacy policy"
 msgid "Privacy"
@@ -9769,25 +10219,37 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "کمک به وبلت"
 
-msgid "Some repositories are not accessible"
-msgstr ""
+#, fuzzy
+#| msgid "Translate"
+msgid "Some repository operations require additional permissions"
+msgstr "ترجمه"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
 #| msgid "Source strings"
-msgid "Skipped components:"
+msgid "Affected components:"
 msgstr "رشته های منبع"
 
-msgid "Permission required on:"
+#, fuzzy
+#| msgid "You do not have permission to access this component!"
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "شما برای دسترسی به این جزء مجوز ندارید!"
+
+msgid ""
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
 msgstr ""
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -9830,6 +10292,9 @@ msgid "(%(count)s missing in the push branch)"
 msgid_plural "(%(count)s missing in the push branch)"
 msgstr[0] "رشته های منبع"
 msgstr[1] "رشته های منبع"
+
+msgid "Pushing is disabled because no repository push URL is configured."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Source strings"
@@ -10042,6 +10507,11 @@ msgstr "ترجمه"
 msgid "Repository details"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translate"
+msgid "Edit repository configuration"
+msgstr "ترجمه"
+
 msgid "Repository changes"
 msgstr ""
 
@@ -10088,6 +10558,10 @@ msgstr ""
 #| msgid "Translate"
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "ترجمه"
+
+msgid ""
+"Approve the translation and save and continue. Only available to reviewers."
+msgstr ""
 
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
@@ -10180,6 +10654,11 @@ msgstr ""
 
 msgid "Please see a documentation for more info."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Translation workflow"
+msgstr "ترجمه"
 
 msgid ""
 "The message is shown for all translations in this project language, until "
@@ -10490,10 +10969,6 @@ msgstr "رشته های منبع"
 msgid "Component %(component)s was unlocked"
 msgstr ""
 
-msgid ""
-"Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
-
 #. Translators: e-mail subject
 #, python-format
 msgid "Digest: %(notification_name)s"
@@ -10754,6 +11229,10 @@ msgstr ""
 msgid "Confirm invitation"
 msgstr "ترجمه"
 
+msgid ""
+"Note: This notification has been truncated as there were over 100 entries."
+msgstr ""
+
 #, fuzzy
 #| msgid "Source strings"
 msgid "Source string description"
@@ -10946,6 +11425,17 @@ msgstr "کمک به وبلت"
 msgid "Support expiry"
 msgstr "کمک به وبلت"
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr ""
 
@@ -10959,8 +11449,10 @@ msgstr "کمک به وبلت"
 msgid "Unlink support package"
 msgstr "کمک به وبلت"
 
-msgid "Purchase support package"
-msgstr ""
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Purchase support"
+msgstr "کمک به وبلت"
 
 msgid "Contact customer care"
 msgstr ""
@@ -11543,6 +12035,11 @@ msgid ""
 "language manually."
 msgstr ""
 
+msgid ""
+"Languages already used as target languages in this project can be added "
+"immediately. Other languages are requested from the project maintainers."
+msgstr ""
+
 msgid "Can't find your language in the list above?"
 msgstr ""
 
@@ -11648,6 +12145,16 @@ msgstr "بابت استفاده از وب‌لیت سپاسگذاریم."
 #, fuzzy
 #| msgid "Donate to Weblate"
 msgid "Return to dashboard"
+msgstr "کمک به وبلت"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Thank you for contributing translations."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
 msgstr "کمک به وبلت"
 
 msgid "Please review and confirm the search and replace results."
@@ -11785,6 +12292,35 @@ msgstr "هیچ رشته‌ای یافت نشد!"
 msgid "Add new screenshot"
 msgstr ""
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Select a screenshot"
+msgstr "نماگرفت‌ها"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Protected"
+msgid "Selected"
+msgstr "حفاظت شده"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "No matching screenshots available."
+msgstr "رشته های منبع"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot pages"
+msgstr "نماگرفت‌ها"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
+msgstr ""
+
 #. Translators: Button to assign string to a screenshot
 #, fuzzy
 #| msgid "Source strings"
@@ -11890,6 +12426,41 @@ msgstr ""
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translate"
+msgid "Translation quality filter"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid ""
+"Approval is required before this translation can be written to the "
+"translation file."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid ""
+"Resolve this translation’s needs-editing state before it can be written to "
+"the translation file."
+msgstr "ترجمه"
+
+#, python-format
+msgid ""
+"Learn how the <a href=\"%(policy_url)s\">translation quality filter</a> "
+"controls which translations are written to files."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Configure language workflow"
+msgstr "رشته های منبع"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Configure translation quality filter"
+msgstr "ترجمه"
+
 msgid "View details"
 msgstr ""
 
@@ -11958,23 +12529,19 @@ msgstr[1] "ترجمه"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Support Weblate development"
+msgstr "درباره وبلیت"
+
+#, fuzzy
+#| msgid "Thank you for using Weblate."
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "بابت استفاده از وب‌لیت سپاسگذاریم."
+
 msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
 
 msgid ""
@@ -12045,16 +12612,6 @@ msgstr "ترجمه"
 
 #, fuzzy
 #| msgid "Translate"
-msgid "This translation is forbidden."
-msgstr "ترجمه"
-
-#, fuzzy
-#| msgid "Translate"
-msgid "This term should not be translated."
-msgstr "ترجمه"
-
-#, fuzzy
-#| msgid "Translate"
 msgid "This translation needs editing."
 msgstr "ترجمه"
 
@@ -12064,9 +12621,34 @@ msgid "Copy word into translation"
 msgstr "ترجمه"
 
 #, fuzzy
+#| msgid "Translate"
+msgid "This translation is forbidden."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Forbidden"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "This term should not be translated."
+msgstr "ترجمه"
+
+#, fuzzy
 #| msgid "Glossary"
 msgid "Edit glossary term"
 msgstr "واژه نامه"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation explanation"
+msgstr "اعلان‌های ترجمه"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source explanation"
+msgstr "رشته های منبع"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -12608,6 +13190,11 @@ msgstr ""
 msgid "Query"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translate"
+msgid "Refresh results"
+msgstr "ترجمه"
+
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
 "will list only your contributions."
@@ -12681,6 +13268,37 @@ msgstr "ترجمه"
 #, fuzzy
 #| msgid "Translate"
 msgid "Report history pagination"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Reviews are enabled for this language."
+msgstr "میان‌زبان"
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Reviews are disabled for this language."
+msgstr "میان‌زبان"
+
+#, fuzzy, python-format
+#| msgid "Review strings"
+msgid "Review setting: %(origin)s."
+msgstr "بازبینی رشته‌ها"
+
+#, python-format
+msgid ""
+"Learn how to <a href=\"%(workflow_url)s\">customize the workflow for this "
+"language</a>."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Learn how to customize translation workflows."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Configure translation workflow"
 msgstr "ترجمه"
 
 #, python-format
@@ -12778,7 +13396,7 @@ msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Accepted invitation from {username}."
-msgid "Accept all suggestions from %(username)s"
+msgid "Accept all suggestions from %(username)s in %(translation)s"
 msgstr "دعوتنامه از {username} تایید شد."
 
 msgid "Accept"
@@ -12807,6 +13425,29 @@ msgstr ""
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "بررسی‌های شکست خورده:"
+
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Already purchased? Link your support package"
+msgstr "کمک به وبلت"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Term information from the translation file"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "رشته‌های منبع"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Target terms"
+msgstr "رشته های منبع"
 
 msgid "Translation status"
 msgstr ""
@@ -13248,15 +13889,20 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "ترجمه"
 
 #, fuzzy
 #| msgid "Remove blank strings"
 msgid "Remove duplicate strings"
 msgstr "برداشتن رشته‌های خالی"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -13271,6 +13917,24 @@ msgstr ""
 msgid ""
 "This component can use the Weblate GitHub App for repository access and pull "
 "requests."
+msgstr ""
+
+msgid ""
+"This glossary has no remote repository, and ‘Manage strings’ is disabled. "
+"You cannot add glossary terms directly in Weblate, and terminology entries "
+"are not automatically added to missing glossary languages."
+msgstr ""
+
+msgid ""
+"This glossary contains terms marked as terminology, but ‘Manage strings’ is "
+"disabled. Weblate will not automatically add these terms to missing glossary "
+"languages."
+msgstr ""
+
+msgid ""
+"Enable ‘Manage strings’ in the component settings to add terms and "
+"synchronize terminology. You can dismiss this warning if the glossary files "
+"are maintained separately."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -13494,21 +14158,17 @@ msgstr ""
 msgid "Follow using RSS"
 msgstr ""
 
-#. Translators: Create a component from version control
 msgid "From version control"
 msgstr ""
 
-#. Translators: Create a component from existing component
 #, fuzzy
 #| msgid "Source strings"
 msgid "From an existing component"
 msgstr "رشته های منبع"
 
-#. Translators: Create a component as additional branch
 msgid "Additional branch"
 msgstr ""
 
-#. Translators: Create a component using ZIP upload
 #, fuzzy
 #| msgid "Translate"
 msgid "Upload translations files"
@@ -13520,7 +14180,6 @@ msgstr "ترجمه"
 msgid "Translate document"
 msgstr "ترجمه"
 
-#. Translators: Create a component from scratch
 msgid "Start from scratch"
 msgstr ""
 
@@ -13889,6 +14548,11 @@ msgstr "حالت زن"
 msgid "Configure editor"
 msgstr ""
 
+msgid ""
+"Search results stay fixed while you translate. Refresh results to show "
+"strings matching the filters now."
+msgstr ""
+
 msgid "Permalink copied to clipboard."
 msgstr ""
 
@@ -14041,15 +14705,27 @@ msgid "Browse all string changes"
 msgstr "میان‌زبان"
 
 #, fuzzy
+#| msgid "Shared translation memory"
+msgid "Search translation memory"
+msgstr "حافظهٔ بازگردانی مشترک"
+
+#, fuzzy
+#| msgid "No new matching source strings found."
+msgid "No matching machine translations found."
+msgstr "هیچ رشته منبع جدید منطبقی یافت نشد."
+
+msgid "Delete entry"
+msgstr "حذف ورودی"
+
+#, fuzzy
 #| msgid "Source strings"
-msgid "Suggested change"
+msgid "Source:"
 msgstr "رشته های منبع"
 
-msgid "Origin"
-msgstr ""
-
-msgid "Similarity"
-msgstr ""
+#, fuzzy
+#| msgid "Source strings"
+msgid "Context:"
+msgstr "رشته های منبع"
 
 #, fuzzy
 #| msgid "Translate"
@@ -14126,11 +14802,6 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "ترجمه"
 
 #, fuzzy
-#| msgid "Translate"
-msgid "Translation quality filter"
-msgstr "ترجمه"
-
-#, fuzzy
 #| msgid "Glossary"
 msgid "Add term to glossary"
 msgstr "واژه نامه"
@@ -14147,6 +14818,16 @@ msgstr "واژه نامه"
 
 msgid "No screenshot currently associated."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Add existing screenshot"
+msgstr "رشته های منبع"
+
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Upload screenshot"
+msgstr "نماگرفت‌ها"
 
 #, fuzzy
 #| msgid "Strings needing action"
@@ -15859,6 +16540,11 @@ msgid "Glossary using monolingual files."
 msgstr "ترجمه"
 
 #, fuzzy
+#| msgid "Source strings"
+msgid "Glossary string management is disabled"
+msgstr "رشته های منبع"
+
+#, fuzzy
 #| msgid "Secondary languages"
 msgid "Unused glossary language."
 msgstr "زبان‌های ثانویه"
@@ -16266,9 +16952,6 @@ msgstr "کنترل نسخه"
 msgid "State"
 msgstr "کمک به وبلت"
 
-msgid "All"
-msgstr ""
-
 msgid "Severity"
 msgstr ""
 
@@ -16394,6 +17077,24 @@ msgstr ""
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
+msgstr ""
+
+#, fuzzy
+#| msgid "New contributor"
+msgid "Contributor comments"
+msgstr "مشارکت‌کننده جدید"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Gettext"
+msgstr "رشته های منبع"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
 msgstr ""
 
 msgid "Keep previous msgids of translated strings"
@@ -16747,6 +17448,11 @@ msgid "The string you wanted to translate is no longer available."
 msgstr ""
 
 msgid ""
+"The string you wanted to translate could not be identified. Please reopen it "
+"and try again."
+msgstr ""
+
+msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
@@ -16761,11 +17467,6 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Source string explanation"
 msgstr "رشته های منبع"
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation explanation"
-msgstr "اعلان‌های ترجمه"
 
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
@@ -16836,24 +17537,48 @@ msgstr "ترجمه"
 msgid "Could not find the reverted change."
 msgstr "ترجمه"
 
+#, fuzzy
+#| msgid "Source strings"
+msgid "Enter a source component ID."
+msgstr "رشته های منبع"
+
+#, python-brace-format
 msgid ""
-"Enter slug of a component to use as source, keep blank to use all components "
-"in the current project."
+"With {count} or more eligible source components, a project/component path is "
+"also accepted. In that case, component and project operations also accept a "
+"component slug from the target project."
 msgstr ""
 
 msgid ""
-"Enter project and component slug or component ID to use as source, keep "
-"blank to use all components in the current workspace."
-msgstr ""
-
-msgid ""
-"Turn on contribution to shared translation memory for the project to get "
-"access to additional components."
+"Leave blank to use eligible components from each target component's project."
 msgstr ""
 
 #, fuzzy
 #| msgid "Translate"
+msgid "Leave blank to use eligible components in the current workspace."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
 msgid "Automatic translation mode"
+msgstr "ترجمه"
+
+msgid "Add as suggestion"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Add as translation"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Add as \"Needing edit\""
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Add as approved translation"
 msgstr "ترجمه"
 
 msgid ""
@@ -16884,29 +17609,24 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translate"
-msgid "All components in current workspace"
+msgid "All eligible components in current workspace"
 msgstr "ترجمه"
 
-msgid "All components in current project"
+#, fuzzy
+#| msgid "Translate"
+msgid "All eligible components in current project"
+msgstr "ترجمه"
+
+msgid "Eligible components from each target component's project"
 msgstr ""
 
-msgid "Add as suggestion"
+msgid ""
+"You can also enter a component slug from the current project or a project/"
+"component path."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translate"
-msgid "Add as translation"
-msgstr "ترجمه"
-
-#, fuzzy
-#| msgid "Translate"
-msgid "Add as \"Needing edit\""
-msgstr "ترجمه"
-
-#, fuzzy
-#| msgid "Translate"
-msgid "Add as approved translation"
-msgstr "ترجمه"
+msgid "You can also enter a project/component path."
+msgstr ""
 
 msgid "Component not found!"
 msgstr "جزء یافت نشد!"
@@ -17125,6 +17845,11 @@ msgstr ""
 
 msgid "The category does not belong to the selected project."
 msgstr ""
+
+#, fuzzy
+#| msgid "You do not have permission to change project access control."
+msgid "You do not have permission to change project access settings."
+msgstr "شما مجوز تغییر کنترل دسترسی پروژه را ندارید."
 
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -17393,6 +18118,10 @@ msgstr ""
 msgid "Create new language file"
 msgstr "میان‌زبان"
 
+msgid ""
+"Create existing project languages; contact maintainers for new languages"
+msgstr ""
+
 #. Translators: Action when adding new translation
 #, fuzzy
 #| msgid "Translate"
@@ -17448,6 +18177,16 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+
+msgid ""
+"Allows anonymous access to the engage pages and status widgets for Private "
+"and Custom projects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Public e-mail"
+msgid "Public sharing"
+msgstr "ایمیل عمومی"
 
 #, fuzzy
 #| msgid "Translate"
@@ -18642,7 +19381,9 @@ msgstr "ترجمه"
 
 #, fuzzy
 #| msgid "Translate"
-msgid "Only approved translations are written to the translation file."
+msgid ""
+"For languages with reviews enabled, only approved translations are written "
+"to the translation file."
 msgstr "ترجمه"
 
 #, fuzzy
@@ -18993,6 +19734,43 @@ msgstr[1] "ترجمه"
 msgid "Shared from the %s project."
 msgstr "پروژه‌های تحت نظر"
 
+#, fuzzy
+#| msgid "Source strings"
+msgid "Project settings"
+msgstr "رشته های منبع"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Site-wide language customization"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Project-language customization"
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Only approved translations are written to the translation file."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Translate"
+msgid ""
+"All translation states, including those needing editing, are eligible to be "
+"written to the translation file."
+msgstr "ترجمه"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Configure source reviews"
+msgstr "رشته های منبع"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Configure translation reviews"
+msgstr "ترجمه"
+
 #, fuzzy, python-format
 #| msgid "Translate"
 msgid "Completed translation with %(count)s string"
@@ -19333,6 +20111,11 @@ msgid_plural ""
 "{checks}"
 msgstr[0] "ترجمه"
 msgstr[1] "ترجمه"
+
+msgid ""
+"Your previous search results are no longer available. The results have been "
+"refreshed."
+msgstr ""
 
 msgid "Your suggestion is empty!"
 msgstr ""
@@ -19681,6 +20464,18 @@ msgstr ""
 #| msgid "Project"
 msgid "Project {}"
 msgstr "پروژه"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Vietnamese"
+msgid "Category {}"
+msgstr "ویتنامی"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Vietnamese"
+msgid "Workspace {}"
+msgstr "ویتنامی"
 
 #. Translators: Text on OpenGraph image
 #, fuzzy
@@ -21101,13 +21896,16 @@ msgstr "صفحه یافت نشد"
 msgid "Header font"
 msgstr ""
 
-msgid "Navigation color (Light, Dark)"
+msgid "Header color (Light, Dark)"
 msgstr ""
 
-msgid "Navigation text color (Light, Dark)"
+msgid "Header text color (Light, Dark)"
 msgstr ""
 
-msgid "Focus color (Light, Dark)"
+msgid "Accent color (Light, Dark)"
+msgstr ""
+
+msgid "Header accent color (Light, Dark)"
 msgstr ""
 
 msgid "Hover color (Light, Dark)"
@@ -21209,7 +22007,6 @@ msgstr ""
 msgid "Return to Weblate"
 msgstr "کمک به وبلت"
 
-#. Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed
 msgid "Import speed documentation"
 msgstr ""
 
@@ -21420,6 +22217,26 @@ msgstr ""
 #| msgid "Translate"
 msgid "The workspace has been removed."
 msgstr "ترجمه"
+
+#, fuzzy
+#~| msgid "Thank you for using Weblate."
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "بابت استفاده از وب‌لیت سپاسگذاریم."
+
+#, fuzzy
+#~| msgid "Source strings"
+#~ msgid "Skipped components:"
+#~ msgstr "رشته های منبع"
+
+#, fuzzy
+#~| msgid "Download"
+#~ msgid "Download reports"
+#~ msgstr "دریافت"
+
+#, fuzzy
+#~| msgid "Source strings"
+#~ msgid "Suggested change"
+#~ msgstr "رشته های منبع"
 
 #, fuzzy
 #~| msgid "Translate"
@@ -21677,19 +22494,9 @@ msgstr "ترجمه"
 #~ msgstr "مشارکت‌کننده جدید"
 
 #, fuzzy
-#~| msgid "Donate to Weblate"
-#~ msgid "Weblate support"
-#~ msgstr "کمک به وبلت"
-
-#, fuzzy
 #~| msgid "Translate"
 #~ msgid "Weblate community"
 #~ msgstr "ترجمه"
-
-#, fuzzy
-#~| msgid "Donate to Weblate"
-#~ msgid "Contribute to Weblate"
-#~ msgstr "کمک به وبلت"
 
 #, fuzzy
 #~| msgid "Translate"
@@ -21725,9 +22532,6 @@ msgstr "ترجمه"
 #~| msgid "String suffix"
 #~ msgid "Variable string suffix"
 #~ msgstr "پسوند ترجمه"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "کمک به وبلت"
 
 #~ msgid "Do not publicly display e-mail address"
 #~ msgstr "ایمیل را به صورت عمومی نمایش نده"
@@ -21877,11 +22681,6 @@ msgstr "ترجمه"
 
 #, fuzzy
 #~| msgid "Translate"
-#~ msgid "Could not find matching language!"
-#~ msgstr "ترجمه"
-
-#, fuzzy
-#~| msgid "Translate"
 #~ msgid "Weblate translations are open"
 #~ msgstr "ترجمه"
 
@@ -22026,11 +22825,6 @@ msgstr "ترجمه"
 #~| msgid "Translate"
 #~ msgid "Prohibit translation"
 #~ msgstr "ترجمه"
-
-#, fuzzy
-#~| msgid "Translated string"
-#~ msgid "Translation string"
-#~ msgstr "ترجمه رشته"
 
 #, fuzzy
 #~| msgid "Translate"

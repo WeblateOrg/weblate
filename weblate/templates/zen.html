@@ -13,7 +13,8 @@
     <a href="{% url 'zen' path=object.get_url_path %}">{% translate "Zen" %}</a>
   </li>
   <a class="float-end ms-auto" href="{{ object.get_widgets_url }}">
-    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+         alt="{% translate "Translation status widgets" %}" />
   </a>
 {% endblock breadcrumbs %}
 
@@ -31,7 +32,7 @@
 
   <div class="btn-group float-end btn-group-settings" role="group">
 
-    <a href="{% url 'translate' path=object.get_url_path %}?{{ search_url }}"
+    <a href="{% url 'translate' path=object.get_url_path %}{% querystring query_params %}"
        data-params="{{ search_url }}"
        title="{% translate "Edit in single string mode" %}"
        class="btn btn-link">{% icon "close.svg" %} {% translate "Exit Zen" %}</a>
@@ -42,8 +43,11 @@
   </div>
 
   <div class="query-container">
-    <form method="get" class="result-page-form">
+    <form method="get" class="result-page-form double-submission">
       {% crispy search_form %}
+      <p id="search-cache-help" class="form-text mb-0">
+        {% translate "Search results stay fixed while you translate. Refresh results to show strings matching the filters now." %}
+      </p>
     </form>
   </div>
 
@@ -53,7 +57,7 @@
       <tr>
         <td colspan="3" class="loading-icon">
           {% loading_icon "next" %}
-          <a href="{% url 'load_zen' path=object.get_url_path %}?{{ search_url }}"
+          <a href="{% url 'load_zen' path=object.get_url_path %}{% querystring query_params %}"
              class="hidden"
              id="zen-load"
              data-offset="{{ offset }}"></a>

@@ -2,16 +2,26 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from itertools import batched
+from typing import TYPE_CHECKING
 
 from django.db import migrations
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
+
 
 BATCH_SIZE = 1000
 JSON_SORT_KEYS = "json_sort_keys"
 NEW_VALUES = frozenset({"none", "case_sensitive", "case_insensitive"})
 
 
-def migrate_json_sort_keys_from_bool_to_choice(apps, schema_editor) -> None:
+def migrate_json_sort_keys_from_bool_to_choice(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Component = apps.get_model("trans", "Component")
 
     def convert(component):
@@ -35,7 +45,9 @@ def migrate_json_sort_keys_from_bool_to_choice(apps, schema_editor) -> None:
         )
 
 
-def reverse_json_sort_keys_to_choice(apps, schema_editor) -> None:
+def reverse_json_sort_keys_to_choice(
+    apps: StateApps, schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Component = apps.get_model("trans", "Component")
 
     def convert(component):

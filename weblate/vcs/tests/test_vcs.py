@@ -140,14 +140,14 @@ class GitNoVersionRepository(GitRepository):
 
 class BrokenGitRepository(GitRepository):
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         msg = "missing git"
         raise FileNotFoundError(msg)
 
 
 class BrokenGitChildRepository(BrokenGitRepository):
     @classmethod
-    def _get_version(cls):
+    def _get_version(cls) -> str:
         return "1.0"
 
 
@@ -2431,8 +2431,29 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.resolve_symlinks("prefix-collision/secrets.po")
 
     def test_resolve_symlinks_rejects_vcs_metadata_path(self) -> None:
+        for path in (
+            ".git/config",
+            ".hg/hgrc",
+            ".svn/wc.db",
+            ".bzr/README",
+            "CVS/Root",
+            "_darcs/patches",
+            "RCS/foo,v",
+            "SCCS/s.1",
+        ):
+            with (
+                self.subTest(path=path),
+                self.assertRaises(RepositoryRestrictedPathError),
+            ):
+                self.repo.resolve_symlinks(path)
+
+    def test_resolve_symlinks_rejects_legacy_metadata_link(self) -> None:
+        metadata = Path(self.repo.path) / "CVS"
+        metadata.mkdir()
+        (metadata / "Root").write_text("metadata", encoding="utf-8")
+        Path(self.repo.path, "cvs_link").symlink_to(metadata, target_is_directory=True)
         with self.assertRaises(RepositoryRestrictedPathError):
-            self.repo.resolve_symlinks(".git/config")
+            self.repo.resolve_symlinks("cvs_link/Root")
 
     def test_resolve_symlinks_allows_missing_excluded_repository_path(self) -> None:
         filename = "dist/appstream/messages.pot"
@@ -5288,6 +5309,23 @@ class VCSHgTest(VCSGitTest):
             self.repo.configure_remote("/pullurl", "/push", "branch")
         self.assertEqual(self.repo.get_config("paths", "default-push"), "/push")
 
+    def test_configure_remote_rejects_unsafe_config_values(self) -> None:
+        filename = Path(self.tempdir, ".hg", "hgrc")
+        original = filename.read_bytes()
+
+        for character in ("\r", "\n", "\x00"):
+            with (
+                self.subTest(character=repr(character)),
+                self.repo.lock,
+                self.assertRaises(RepositoryValidationError),
+            ):
+                self.repo.configure_remote(
+                    f"ssh://example.com/repository{character}[alias]",
+                    "",
+                    "branch",
+                )
+            self.assertEqual(filename.read_bytes(), original)
+
     def test_revision_info(self) -> None:
         # Latest commit
         info = self.repo.get_revision_info(self.repo.last_revision)
@@ -5506,6 +5544,47 @@ remove the file manually to continue.
         with self.assertRaisesRegex(RepositoryError, "ZIP file contains invalid path"):
             LocalRepository.from_zip(target, archive)
         self.assertFalse(os.path.exists(target))
+
+    def test_from_zip_excludes_casefolded_vcs_metadata(self) -> None:
+        metadata_paths = (
+            ".svn/entries",
+            ".bzr/README",
+            "CVS/Root",
+            "_darcs/patches",
+            "RCS/foo,v",
+            "SCCS/s.1",
+            "nested/.SVN/wc.db",
+            "nested/cVs/Entries",
+        )
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            for path in metadata_paths:
+                zipfile.writestr(path, "metadata sentinel")
+            zipfile.writestr(".GIT/config", "[casefold]\nsentinel = true\n")
+            zipfile.writestr(".HG/hgrc", "casefold sentinel")
+            zipfile.writestr("locale/cs.po", "msgid ''\nmsgstr ''\n")
+        archive.seek(0)
+        target = Path(self.tempdir) / "from-zip-casefolded-metadata"
+
+        repo = LocalRepository.from_zip(str(target), archive)
+
+        self.assertTrue(repo.is_valid())
+        self.assertTrue((target / "locale" / "cs.po").is_file())
+        self.assertNotIn(
+            "casefold", (target / ".git" / "config").read_text(encoding="utf-8")
+        )
+        self.assertFalse((target / ".hg" / "hgrc").exists())
+        for path in metadata_paths:
+            with self.subTest(path=path):
+                self.assertFalse((target / path).exists())
+        with repo.lock:
+            committed = repo.execute(
+                ["ls-tree", "-r", "--name-only", "HEAD"], remote_op="none"
+            ).splitlines()
+        self.assertIn("locale/cs.po", committed)
+        for path in (*metadata_paths, ".GIT/config", ".HG/hgrc"):
+            with self.subTest(path=path):
+                self.assertNotIn(path, committed)
 
     def test_from_zip_rejects_too_many_entries(self) -> None:
         archive = BytesIO()

@@ -447,11 +447,18 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
 
     def get_fuzzy_candidates(self, text: str, limit: int = MEMORY_LOOKUP_LIMIT) -> Self:
         lookup_prefix = text[:MEMORY_LOOKUP_PREFIX_LENGTH]
-        return self.alias(
+        queryset = self.alias(
             match_distance=TrigramDistance(
                 Left("source", MEMORY_LOOKUP_PREFIX_LENGTH), lookup_prefix
             )
-        ).order_by("match_distance", "-status", "pk")[:limit]
+        )
+        # Limit by distance before breaking ties: sorting an entire distance
+        # group by status and ID can require scanning the whole language pair.
+        # Membership at the cutoff is intentionally arbitrary for tied matches.
+        candidate_ids = queryset.order_by("match_distance").values("pk")[:limit]
+        return queryset.filter(pk__in=candidate_ids).order_by(
+            "match_distance", "-status", "pk"
+        )[:limit]
 
     def get_full_source_fuzzy_candidates(
         self,
@@ -1089,6 +1096,28 @@ class Memory(models.Model):
         if self.scope_list is None:
             self.scope_list = list(self.scopes.all())
         return self.scope_list
+
+    def is_context_visible(
+        self,
+        scopes: list[MemoryScope],
+        *,
+        project: Project | None,
+        user: User | None,
+    ) -> bool:
+        """Check whether the context can be shown for given project and user."""
+        if project is not None and any(
+            scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE}
+            and scope.project_id == project.id
+            for scope in scopes
+        ):
+            return True
+        if user is not None and any(
+            scope.scope in {MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE}
+            and scope.user_id == user.id
+            for scope in scopes
+        ):
+            return True
+        return any(scope.scope == MemoryScope.SCOPE_GLOBAL_FILE for scope in scopes)
 
     def get_context_origin_display(
         self,

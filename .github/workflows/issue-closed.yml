@@ -23,12 +23,66 @@ jobs:
   apply-label:
     permissions:
       issues: write
+      pull-requests: read
     runs-on: ubuntu-slim
     if: '! github.event.issue.pull_request'
     steps:
     - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
       with:
         script: |
+          const {owner, repo} = context.repo;
+          const number = context.issue.number;
+          let {data: issue} = await github.rest.issues.get({
+            owner, repo, issue_number: number,
+          });
+          if (issue.state !== 'closed') {
+            core.info(`Issue #${number} has reopened, skipping.`);
+            return;
+          }
+          let announceRelease = true;
+          if (issue.state_reason === 'completed') {
+            // Resolve the actual closing PR, not an arbitrary linked PR. Do this
+            // before labeling or commenting so the webhook's stale milestone is unused.
+            const result = await github.graphql(`
+              query($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $number) {
+                    timelineItems(last: 1, itemTypes: [CLOSED_EVENT]) {
+                      nodes {
+                        ... on ClosedEvent {
+                          closer {
+                            __typename
+                            ... on PullRequest {
+                              repository { nameWithOwner }
+                              milestone { number }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `, {owner, repo, number});
+            const closer = result.repository.issue.timelineItems.nodes[0]?.closer;
+            if (
+              closer?.__typename === 'PullRequest' &&
+              closer.repository.nameWithOwner.toLowerCase() === `${owner}/${repo}`.toLowerCase()
+            ) {
+              if (!closer.milestone) {
+                // Preserve the issue milestone, but it is not evidence that the
+                // closing PR's fix will ship in that release.
+                announceRelease = false;
+                core.info('Closing PR has no milestone, skipping the release announcement.');
+              } else if (closer.milestone.number !== issue.milestone?.number) {
+                ({data: issue} = await github.rest.issues.update({
+                  owner, repo, issue_number: number,
+                  milestone: closer.milestone.number,
+                }));
+                core.info(`Updated issue #${number} to milestone ${issue.milestone.title}.`);
+              }
+            }
+          }
           const labels = await github.rest.issues.listLabelsOnIssue({
             issue_number: context.issue.number,
             owner: context.repo.owner,
@@ -46,8 +100,7 @@ jobs:
               })
             }
           }
-          console.log(context.payload);
-          if (context.payload.issue.state_reason == 'completed' && context.payload.issue.milestone && context.payload.issue.milestone.state == 'open') {
+          if (announceRelease && issue.state_reason == 'completed' && issue.milestone && issue.milestone.state == 'open') {
             await github.rest.issues.addLabels({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -61,7 +114,7 @@ jobs:
               body: `
           Thank you for your report — the issue has now been resolved.
 
-          The fix has been merged into the repository and will be included in the upcoming Weblate ${context.payload.issue.milestone.title} release.
+          The fix has been merged into the repository and will be included in the upcoming Weblate ${issue.milestone.title} release.
 
           * If you encounter any issues with the fix, please comment in this thread.
           * If you experience a similar but separate issue, open a new report so we can track it properly.

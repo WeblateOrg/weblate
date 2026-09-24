@@ -2,8 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import io
-from typing import Any, ClassVar, NoReturn, cast
+from typing import TYPE_CHECKING, Any, ClassVar, NoReturn, cast
 from urllib.parse import unquote, urlsplit
 
 import httpx2
@@ -21,6 +23,9 @@ from weblate.trans.forms import QueryField
 from weblate.utils.forms import AssetImageField, SortedSelect
 from weblate.utils.requests import open_restricted_asset_url
 from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
+
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
 
 
 class ScreenshotImageValidationMixin(BaseForm):
@@ -171,20 +176,37 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
         }
 
     def __init__(
-        self, component, data=None, files=None, instance=None, initial=None
+        self, component, user, data=None, files=None, instance=None, initial=None
     ) -> None:
         self.component = component
         super().__init__(data=data, files=files, instance=instance, initial=initial)
 
-        translations = component.translation_set.prefetch_related("language")
+        translations = component.translation_set.select_related("language")
         if initial and "translation" in initial:
             translations = translations.filter(
                 pk__in=(initial["translation"].pk, component.source_translation.pk)
             )
+        permitted_translations = [
+            translation
+            for translation in translations
+            if user.has_perm("screenshot.add", translation)
+        ]
+        self.permitted_translation_ids = {
+            translation.pk for translation in permitted_translations
+        }
         translation_field = cast("LanguageChoiceField", self.fields["translation"])
-        translation_field.queryset = translations
-        # This is overridden from initial arg of the form
-        translation_field.initial = component.source_translation
+        translation_field.queryset = component.translation_set.filter(
+            pk__in=self.permitted_translation_ids
+        ).select_related("language")
+        if permitted_translations:
+            translation_field.initial = next(
+                (
+                    translation
+                    for translation in permitted_translations
+                    if translation.pk == component.source_translation.pk
+                ),
+                permitted_translations[0],
+            )
         translation_field.empty_label = None
         self.fields["image"].required = False
         self.helper = FormHelper(self)
@@ -253,3 +275,22 @@ class ScreenshotListSearchForm(forms.Form):
 
     def urlencode(self):
         return urlencode(self.items())
+
+
+class ScreenshotSelectSearchForm(forms.Form):
+    q = QueryField(
+        parser="screenshot",
+        required=False,
+        label=gettext_lazy("Search screenshots"),
+        widget=forms.SearchInput(attrs={"class": "form-control"}),
+    )
+
+
+class ScreenshotSelectForm(forms.Form):
+    screenshot = forms.ModelChoiceField(
+        queryset=Screenshot.objects.none(), label=gettext_lazy("Screenshot")
+    )
+
+    def __init__(self, screenshots: QuerySet[Screenshot], *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        cast("forms.ModelChoiceField", self.fields["screenshot"]).queryset = screenshots

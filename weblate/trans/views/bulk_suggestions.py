@@ -32,7 +32,7 @@ class BulkAcceptForm(forms.Form):
 
     username = forms.CharField(max_length=150)
 
-    def clean_username(self):
+    def clean_username(self) -> User:
         """Validate and return the user object."""
         username = self.cleaned_data["username"]
         try:

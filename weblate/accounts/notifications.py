@@ -156,9 +156,9 @@ class Notification:
     ) -> None:
         self.outgoing: list[OutgoingEmail] = outgoing
         self.user_ids = user_ids
-        self.subscription_cache: OrderedDict[int | None, list[Subscription]] = (
-            OrderedDict()
-        )
+        self.subscription_cache: OrderedDict[
+            tuple[int | None, bool], list[Subscription]
+        ] = OrderedDict()
         self.child_notify: list[Notification] | None = None
 
     def get_language_filter(
@@ -184,7 +184,9 @@ class Notification:
     def get_periodic_actions(cls) -> Iterable[int]:
         return cls.actions
 
-    def filter_subscriptions(self, project: Project | None) -> list[Subscription]:
+    def filter_subscriptions(
+        self, project: Project | None, *, include_ineligible: bool = False
+    ) -> list[Subscription]:
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.models import Subscription
 
@@ -209,10 +211,12 @@ class Notification:
             query |= Q(scope=NotificationScope.SCOPE_ADMIN) & Q(
                 user__in=User.objects.all_admins(project)
             )
+        if not include_ineligible:
+            result = result.filter(user__is_bot=False, user__is_active=True)
         return list(
             result.filter(query)
-            # Inactive users and bots
-            .filter(Q(user__is_bot=False) & Q(user__is_active=True))
+            # The watched-project join can repeat subscriptions from other scopes.
+            .distinct()
             .order_by("user", "-scope")
             .select_related("user", "user__profile")
             .prefetch_related("user__profile__languages")
@@ -225,14 +229,23 @@ class Notification:
         component: Component | None,
         translation: Translation | None,
         users: list[int] | None,
+        *,
+        include_ineligible: bool = False,
     ) -> Iterable[Subscription]:
-        """Match account, scope, and language in descending subscription priority."""
+        """
+        Match subscriptions in descending priority.
+
+        Diagnostics can retain inactive accounts and unmatched languages to
+        explain why a subscription does not result in delivery.
+        """
         lang_filter: Language | None = self.get_language_filter(change, translation)
-        cache_key: int | None = project.pk if project else None
+        cache_key = (project.pk if project else None, include_ineligible)
         try:
             subscriptions = self.subscription_cache.pop(cache_key)
         except KeyError:
-            subscriptions = self.filter_subscriptions(project)
+            subscriptions = self.filter_subscriptions(
+                project, include_ineligible=include_ineligible
+            )
             if len(self.subscription_cache) >= SUBSCRIPTION_CACHE_SIZE:
                 self.subscription_cache.popitem(last=False)
         self.subscription_cache[cache_key] = subscriptions
@@ -243,7 +256,8 @@ class Notification:
 
             # Languages filter
             if (
-                lang_filter
+                not include_ineligible
+                and lang_filter
                 and lang_filter not in subscription.user.profile.languages.all()
             ):
                 continue

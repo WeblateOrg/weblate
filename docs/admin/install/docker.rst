@@ -588,9 +588,11 @@ Generic settings
 
 .. envvar:: WEBLATE_SITE_DOMAIN
 
-   Configures the site domain. This parameter is required.
+   Configures the site domain. This parameter is required and accepts a
+   hostname or IPv4 address.
 
-   Include port if using a non-standard one.
+   Include a port between 1 and 65535 if using a non-standard one. IPv6
+   addresses are not currently supported.
 
    **Example:**
 
@@ -1144,6 +1146,10 @@ Generic settings
 .. envvar:: WEBLATE_URL_PREFIX
 
    Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`.
+   Leave it empty to serve Weblate at the root, or use slash-separated path
+   segments starting with a slash, for example ``/translations`` or
+   ``/tools/translations``. Each segment can contain ASCII letters, digits,
+   ``_``, and ``-``.
 
 .. envvar:: WEBLATE_STATIC_URL
 
@@ -1227,12 +1233,35 @@ Generic settings
 
    .. versionadded:: 4.11
 
-   Configures API rate limiting. Defaults to ``100/day`` for anonymous and
+   Configures :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`.
+   Defaults to ``100/day`` for anonymous and
    ``5000/hour`` for authenticated users.
 
    .. seealso::
 
       :ref:`api-rate`
+
+.. envvar:: WEBLATE_API_RATELIMIT_USER_OVERRIDES
+.. envvar:: WEBLATE_API_RATELIMIT_IP_OVERRIDES
+
+   .. versionadded:: 2026.10
+
+   JSON mappings configuring :setting:`API_RATELIMIT_USER_OVERRIDES` and
+   :setting:`API_RATELIMIT_IP_OVERRIDES`. Both default to empty objects.
+   Use JSON ``null`` to exempt a user, IP address, or network from API throttling.
+
+   For example, in :file:`compose.override.yaml`:
+
+   .. code-block:: yaml
+
+      services:
+        weblate:
+          environment:
+            WEBLATE_API_RATELIMIT_USER_OVERRIDES: '{"automation":"20000/hour"}'
+            WEBLATE_API_RATELIMIT_IP_OVERRIDES: '{"192.0.2.42":null,"198.51.100.0/24":"10000/hour"}'
+
+   Username rules take precedence over IP rules. See :ref:`api-rate` for
+   counting behavior and proxy configuration requirements.
 
 .. envvar:: WEBLATE_ENABLE_HOOKS
 
@@ -1415,6 +1444,9 @@ Generic settings
    .. versionadded:: 4.16.3
 
    Configures maximal body size accepted by the built-in web server.
+   Use a non-negative integer with an optional ``k``, ``m``, or ``g`` suffix.
+   The suffix is case-insensitive, and ``0`` disables the request body size
+   limit.
 
    .. code-block:: yaml
 
@@ -2677,6 +2709,11 @@ Container settings
    useful to filter incoming HTTP requests using proof-of-work to stop AI
    crawlers. You need to configure `Anubis for Subrequest Authentication`_ to
    make it work.
+
+   Use an ``http://`` or ``https://`` URL with a valid hostname or IPv4 address.
+   The URL can include a port and a simple slash-separated path using ASCII
+   letters, digits, ``_``, and ``-``. Credentials, queries, fragments, and IPv6
+   addresses are not supported.
 
    .. seealso::
 

@@ -11,6 +11,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.utils.translation import gettext
 
+from weblate.checks.flags import Flags
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.lang.models import Language
 from weblate.trans.models import (
@@ -402,7 +403,7 @@ def check_permission(
 def get_repository_permission_components(
     obj: Translation | Component | Project,
 ) -> list[Component]:
-    """Return all components affected by repository operations on an object."""
+    """Return the owners authorizing repository operations on an object."""
     cache_key = "_repository_permission_components"
     cached = obj.__dict__.get(cache_key)
     if cached is not None:
@@ -428,9 +429,7 @@ def get_repository_permission_components(
         raise TypeError(msg)
 
     components = list(
-        Component.objects.filter(
-            Q(pk__in=owner_ids) | Q(linked_component_id__in=owner_ids)
-        )
+        Component.objects.filter(pk__in=owner_ids)
         .select_related("project")
         .only(
             "id",
@@ -463,18 +462,11 @@ def get_project_repository_scopes(
 
     owner_ids = set(project_components_by_owner)
     components = list(
-        Component.objects.filter(
-            Q(pk__in=owner_ids) | Q(linked_component_id__in=owner_ids)
-        ).prefetch(alerts=False)
+        Component.objects.filter(Q(pk__in=owner_ids) | Q(project=project)).prefetch(
+            alerts=False
+        )
     )
     components_by_id = {component.pk: component for component in components}
-    permission_components_by_owner: dict[int, list[Component]] = {
-        owner_id: [] for owner_id in owner_ids
-    }
-    for component in components:
-        owner_id = component.linked_component_id or component.pk
-        permission_components_by_owner[owner_id].append(component)
-
     scopes = tuple(
         ProjectRepositoryScope(
             repository=components_by_id[
@@ -485,7 +477,7 @@ def get_project_repository_scopes(
             project_components=tuple(
                 components_by_id[component_id] for component_id in project_component_ids
             ),
-            permission_components=tuple(permission_components_by_owner[owner_id]),
+            permission_components=(components_by_id[owner_id],),
         )
         for owner_id, project_component_ids in project_components_by_owner.items()
     )
@@ -509,7 +501,7 @@ def check_repository_permission(
     permission: str,
     obj: PermissionObject,
 ) -> bool:
-    """Check permission on every component sharing an affected repository."""
+    """Check permission on the owner of each affected repository."""
     if user.is_superuser:
         return True
     if not isinstance(obj, Translation | Component | Project):
@@ -518,9 +510,6 @@ def check_repository_permission(
         return bool(
             get_project_repository_selection(user, obj, (permission,)).repositories
         )
-    permission_obj = obj.component if isinstance(obj, Translation) else obj
-    if not check_permission(user, permission, permission_obj):
-        return False
     return _check_repository_permission(
         user, permission, get_repository_permission_components(obj)
     )
@@ -887,6 +876,39 @@ def check_manage_units(
             gettext("Adding strings is disabled in the component configuration.")
         )
     return Allowed()
+
+
+@register_perm("meta:unit.edit_source")
+def check_unit_edit_source(
+    user: User, permission: str, obj: Unit
+) -> bool | PermissionResult:
+    from weblate.formats.source_edit import editable_fields  # ruff: ignore[import-outside-top-level]
+
+    source = obj.source_unit
+    translation = source.translation
+    component = translation.component
+    if not component.manage_units or (
+        component.has_template() and not component.edit_template
+    ):
+        return Denied(
+            gettext(
+                "Editing source strings is disabled in the component configuration."
+            )
+        )
+    if component.intermediate or not editable_fields(
+        component.file_format,
+        monolingual=component.has_template(),
+        file_format_params=component.file_format_params,
+    ):
+        return Denied(gettext("The file format does not support this."))
+    if (
+        "read-only" in Flags(source.extra_flags, source.flags)
+        or "read-only" in component.all_flags
+    ):
+        return Denied(gettext("The string is read-only."))
+    if component.is_glossary and not user.has_perm("glossary.edit", translation):
+        return Denied(gettext("You do not have permission to edit this glossary."))
+    return check_can_edit(user, "unit.template", translation)
 
 
 @register_perm("unit.delete")
@@ -1335,18 +1357,21 @@ def check_repository_status(
                 user, obj, REPOSITORY_PERMISSIONS
             ).repositories
         )
-    permission_obj = obj.component if isinstance(obj, Translation) else obj
-    allowed_permissions = tuple(
-        repository_permission
-        for repository_permission in REPOSITORY_PERMISSIONS
-        if check_permission(user, repository_permission, permission_obj)
-    )
-    if not allowed_permissions:
-        return False
-    components = get_repository_permission_components(obj)
     return any(
-        _check_repository_permission(user, repository_permission, components)
-        for repository_permission in allowed_permissions
+        check_repository_permission(user, repository_permission, obj)
+        for repository_permission in REPOSITORY_PERMISSIONS
+    )
+
+
+@register_perm("meta:vcs.maintenance")
+def check_repository_maintenance(
+    user: User, permission: str, obj: Translation | Component | Project
+) -> bool:
+    """Allow local repository managers to see owner permission guidance."""
+    permission_obj = obj.component if isinstance(obj, Translation) else obj
+    return bool(check_repository_status(user, permission, obj)) or any(
+        check_permission(user, repository_permission, permission_obj)
+        for repository_permission in REPOSITORY_PERMISSIONS
     )
 
 

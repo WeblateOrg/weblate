@@ -11,7 +11,8 @@ from typing import TYPE_CHECKING, Literal
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Q, Value
+from django.db.models.functions import Lower
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.plugins.otp_static.models import StaticDevice
@@ -191,8 +192,13 @@ def get_all_user_mails(user: User, entries=None, filter_deliverable=True):
 def invalidate_reset_codes(user=None, entries=None, emails=None) -> None:
     """Invalidate email activation codes for a user."""
     if emails is None:
-        emails = get_all_user_mails(user, entries)
-    Code.objects.filter(email__in=emails).delete()
+        emails = get_all_user_mails(user, entries, filter_deliverable=False)
+    email_query = Q()
+    for email in emails:
+        if email:
+            email_query |= Q(normalized_email=Lower(Value(email)))
+    if email_query:
+        Code.objects.alias(normalized_email=Lower("email")).filter(email_query).delete()
 
 
 def cycle_session_keys(request: AuthenticatedHttpRequest, user: User) -> None:

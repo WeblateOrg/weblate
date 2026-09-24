@@ -4,9 +4,14 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from django.db import migrations
+
+if TYPE_CHECKING:
+    from django.db.backends.base.schema import BaseDatabaseSchemaEditor
+    from django.db.migrations.state import StateApps
 
 FEDORA_MESSAGING_ADDON = "weblate.fedora_messaging.publish"
 DEFAULT_PUBLISH_TIMEOUT = 5
@@ -14,7 +19,7 @@ DEFAULT_CONNECTION_ATTEMPTS = 1
 DEFAULT_RETRY_DELAY = 2
 
 
-def parse_int(value, default: int) -> int:
+def parse_int(value: str | None, default: int) -> int:
     if not value:
         return default
     try:
@@ -44,7 +49,9 @@ def normalize_amqp_url(configuration: dict) -> None:
     configuration.setdefault("retry_delay", parse_int(retry_delay, DEFAULT_RETRY_DELAY))
 
 
-def migrate_fedora_messaging_amqp_url(apps, _schema_editor) -> None:
+def migrate_fedora_messaging_amqp_url(
+    apps: StateApps, _schema_editor: BaseDatabaseSchemaEditor
+) -> None:
     Addon = apps.get_model("addons", "Addon")
 
     for addon in Addon.objects.filter(name=FEDORA_MESSAGING_ADDON):

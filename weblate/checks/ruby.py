@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import re
 
 from django.utils.translation import gettext_lazy
@@ -55,5 +57,5 @@ class RubyFormatCheck(BaseFormatCheck):
     description = gettext_lazy("Ruby format string does not match source.")
     regexp = RUBY_FORMAT_MATCH
 
-    def is_position_based(self, string: str):
+    def is_position_based(self, string: str) -> bool:
         return string != "%" and not re.search(r"[$<{]", string)

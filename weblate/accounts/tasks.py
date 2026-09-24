@@ -7,7 +7,8 @@ from __future__ import annotations
 import logging
 from contextlib import closing
 from datetime import datetime, timedelta
-from email.message import MIMEPart
+from email.policy import default
+from email.utils import make_msgid
 from itertools import batched
 from smtplib import SMTP, SMTPConnectError
 from types import MethodType
@@ -31,7 +32,10 @@ from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+    from email.message import EmailMessage
+    from email.policy import Policy
 
+    from celery import Celery
     from django.core.mail.backends.base import BaseEmailBackend
     from django.db.models import QuerySet
 
@@ -77,6 +81,30 @@ def cleanup_social_auth() -> None:
 
     # Delete old partial data
     Partial.objects.filter(timestamp__lt=age).delete()
+
+
+@app.task(trail=False)
+def cleanup_inaccessible_subscriptions(
+    user_ids: list[int], using: str = "default"
+) -> None:
+    """Remove scoped subscriptions whose targets are no longer accessible."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.models import Subscription
+    from weblate.accounts.notifications import (  # ruff: ignore[import-outside-top-level]
+        NotificationScope,
+    )
+    from weblate.auth.models import User  # ruff: ignore[import-outside-top-level]
+
+    for user in User.objects.using(using).filter(pk__in=user_ids).iterator():
+        subscriptions = Subscription.objects.using(using).filter(
+            models.Q(user=user),
+            scope__in=(
+                NotificationScope.SCOPE_PROJECT,
+                NotificationScope.SCOPE_COMPONENT,
+            ),
+        )
+        accessible = subscriptions.filter_access(user)
+        subscriptions.exclude(pk__in=accessible).delete()
 
 
 @app.task(trail=False)
@@ -415,6 +443,28 @@ def queue_mails(mails: list[OutgoingEmail]) -> None:
         send_mails.delay(mails[offset : offset + EMAIL_BATCH_SIZE])
 
 
+class NotificationEmail(EmailMultiAlternatives):
+    """Keep branding images within the HTML alternative."""
+
+    inline_images: tuple[tuple[str, bytes, str], ...] = ()
+
+    def message(self, *, policy: Policy | None = default) -> EmailMessage:
+        message = super().message(policy=policy)
+        html = message.get_body(preferencelist=("html",))
+        if html is not None and self.inline_images:
+            for name, content, cid in self.inline_images:
+                html.add_related(
+                    content,
+                    maintype="image",
+                    subtype="png",
+                    disposition="inline",
+                    filename=name,
+                    cid=cid,
+                )
+            html.set_param("type", "text/html")
+        return message
+
+
 @app.task(
     trail=False,
     autoretry_for=(SMTPConnectError, OSError),
@@ -423,19 +473,11 @@ def queue_mails(mails: list[OutgoingEmail]) -> None:
 )
 def send_mails(mails: list[OutgoingEmail]) -> None:
     """Send multiple mails in single connection."""
-    images = []
     with start_span(op="email.images"):
-        for name in ("email-logo.png", "email-logo-footer.png"):
-            image = MIMEPart()
-            image.set_content(
-                load_icon(name, auto_prefix=False),
-                maintype="image",
-                subtype="png",
-                disposition="inline",
-                filename=name,
-                cid=f"<{name}@cid.weblate.org>",
-            )
-            images.append(image)
+        images = {
+            name: load_icon(name, auto_prefix=False)
+            for name in ("email-logo.png", "email-logo-footer.png")
+        }
 
     with start_span(op="email.connect"):
         connection = get_connection()
@@ -454,23 +496,28 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
         for mail in mails:
             with start_span(op="email.text"):
                 text = html2text.handle(mail["body"])
-            email = EmailMultiAlternatives(
+            email = NotificationEmail(
                 settings.EMAIL_SUBJECT_PREFIX + mail["subject"],
                 text,
                 to=[mail["address"]],
                 headers=mail["headers"],
                 connection=connection,
             )
-            for image in images:
-                email.attach(image)
-            email.attach_alternative(mail["body"], "text/html")
+            email.inline_images = tuple(
+                (name, content, make_msgid(domain="cid.weblate.org"))
+                for name, content in images.items()
+            )
+            html = mail["body"]
+            for name, _content, cid in email.inline_images:
+                html = html.replace(f"cid:{name}@cid.weblate.org", f"cid:{cid[1:-1]}")
+            email.attach_alternative(html, "text/html")
             with start_span(op="email.send"):
                 LOGGER.debug("sending e-mail to %s", mail["address"])
                 email.send()
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs) -> None:
+def setup_periodic_tasks(sender: Celery, **kwargs: object) -> None:
     sender.add_periodic_task(3600, cleanup_social_auth.s(), name="social-auth-cleanup")
     sender.add_periodic_task(3600, cleanup_auditlog.s(), name="auditlog-cleanup")
     sender.add_periodic_task(

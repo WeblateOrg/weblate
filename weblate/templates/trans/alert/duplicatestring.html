@@ -4,44 +4,53 @@
 
 <p>{% translate "The following occurrences were found:" %}</p>
 
-<table class="table table-sm">
-  <thead>
-    <tr>
-      <th>{% translate "Language" %}</th>
-      <th>{% translate "File" %}</th>
-      <th>{% translate "Source" %}</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for occurrence in occurrences %}
+<div class="table-responsive">
+  <table class="table table-sm">
+    <thead>
       <tr>
-        <td>{{ occurrence.language }}</td>
-        <td>{% if occurrence.unit %}{{ occurrence.unit.translation.filename }}{% endif %}</td>
-        <td>
-          {% if occurrence.unit %}
-            <a href="{{ occurrence.unit.get_absolute_url }}">{% format_unit_source occurrence.unit %}</a>
-          {% else %}
-            {{ occurrence.source }}
-          {% endif %}
-        </td>
+        <th scope="col">{% translate "Language" %}</th>
+        <th scope="col">{% translate "File" %}</th>
+        <th scope="col">{% translate "Source" %}</th>
+        <th scope="col">{% translate "Actions" %}</th>
       </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {% for group in analysis.translation_groups %}
+        <tr>
+          <th scope="row">{{ group.language }}</th>
+          <td>{% if group.translation %}{{ group.translation.filename }}{% endif %}</td>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% for occurrence in group.occurrences %}
+                <li>
+                  {% if occurrence.unit %}
+                    <a href="{{ occurrence.unit.get_absolute_url }}">{% format_unit_source occurrence.unit %}</a>
+                  {% else %}
+                    {{ occurrence.source }}
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td>
+            {% if group.can_cleanup %}
+              {% perm "vcs.reset" group.translation as user_can_cleanup_translation %}
+              {% if user_can_cleanup_translation %}
+                <button type="button"
+                        class="btn btn-danger link-post"
+                        aria-label="{% blocktranslate with language=group.language filename=group.translation.filename %}Remove duplicate strings from {{ language }} ({{ filename }}){% endblocktranslate %}"
+                        data-href="{% url "remove_duplicate_units" path=group.translation.get_url_path %}">{% translate "Remove duplicate strings" %}</button>
+              {% endif %}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 <p>
   {% translate "Please fix this by removing duplicated strings with same identifier from the translation files." %}
 </p>
-
-{% for translation in analysis.cleanup_translations %}
-  {% perm "vcs.reset" translation as user_can_cleanup_translation %}
-  {% if user_can_cleanup_translation %}
-    <p>
-      <a href="#"
-         class="btn btn-danger link-post"
-         data-href="{% url "remove_duplicate_units" path=translation.get_url_path %}">{% translate "Remove duplicate strings" %}</a>
-    </p>
-  {% endif %}
-{% endfor %}
 
 {% include "trans/alert/occurrences-limit.html" %}

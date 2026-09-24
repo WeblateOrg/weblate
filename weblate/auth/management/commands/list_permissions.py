@@ -2,9 +2,16 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from weblate.auth.data import ACL_GROUPS, GLOBAL_PERMISSIONS, GROUPS, PERMISSIONS, ROLES
 from weblate.utils.management.base import BaseCommand
 from weblate.utils.rst import format_table
+
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
 
 GROUP_NAMES = {
     "announcement": "Announcements",
@@ -33,7 +40,7 @@ PERMISSION_NAMES.update(PERMISSIONS)
 class Command(BaseCommand):
     help = "List permissions"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
             "--sections",
             nargs="*",

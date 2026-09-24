@@ -19,40 +19,11 @@ permissions:
 
 jobs:
   api-lint:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     name: API Lint
     env:
-      CI_REDIS_HOST: 127.0.0.1
-      CI_REDIS_PORT: '6379'
-      CI_DB_PASSWORD: weblate
-      CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: '5432'
-      CI_SELENIUM: '1'
-      DJANGO_SETTINGS_MODULE: weblate.settings_test
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
-    services:
-      database:
-        image: postgres:18.6-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: weblate
-        ports:
-        - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      cache:
-        image: valkey/valkey:9.1.2-alpine@sha256:ccfa19b0d743e48927e1c8c14e39e0acb97b5cea347fef0bfe340247fea920cd
-        ports:
-        - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -62,28 +33,31 @@ jobs:
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+    - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.12.10
+        version: 0.12.17
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Used versions
       run: ./ci/print-versions
     - name: Install Python dependencies
       run: ./ci/pip-install latest
-    - name: Prepare database
-      run: ./ci/prepare-database
-    - name: Migrate database
-      run: uv run --frozen ./manage.py migrate --noinput --traceback
     - name: Generate OpenAPI
       run: |
         echo "::add-matcher::.github/matchers/spectacular.json"
         make -C docs update-openapi
         echo "::remove-matcher owner=spectacular::"
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        node-version: 26
+        package-manager-cache: false
+    - name: Install OpenAPI linter
+      working-directory: ./client
+      run: yarn install --frozen-lockfile
     - name: openapi-lint
-      run: npx @redocly/cli lint --format github-actions docs/specs/openapi.yaml
+      run: client/node_modules/.bin/redocly lint --extends recommended-strict --format github-actions docs/specs/openapi.yaml
     - name: Verify OpenAPI spec is up to date
       run: git diff --exit-code
     - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0

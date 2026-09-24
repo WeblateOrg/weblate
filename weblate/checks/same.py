@@ -82,7 +82,7 @@ def strip_string(msg: str) -> str:
     return TEMPLATE_RE.sub("", stripped)
 
 
-def test_word(word, extra_ignore):
+def test_word(word: str, extra_ignore: set[str]) -> bool:
     """Test whether word should be ignored."""
     return (
         len(word) <= 2
@@ -102,7 +102,10 @@ class SameCheck(TargetCheck):
     def should_ignore(self, source: str, unit: Unit) -> bool:
         """Check whether given unit should be ignored."""
         # ruff: ignore[import-outside-top-level]
-        from weblate.glossary.models import get_glossary_terms
+        from weblate.glossary.models import (
+            get_glossary_terms,
+            iter_glossary_alternatives,
+        )
 
         # Ignore some strings based on notes (typically from gettext PO file)
         # - certain docbook tags
@@ -147,8 +150,10 @@ class SameCheck(TargetCheck):
             # Extract untranslatable terms
             terms = [
                 re.escape(term.source)
-                for term in get_glossary_terms(unit, include_variants=False)
-                if "read-only" in term.all_flags
+                for term in iter_glossary_alternatives(
+                    get_glossary_terms(unit, include_variants=False)
+                )
+                if "read-only" in term.all_flags and "forbidden" not in term.all_flags
             ]
             if terms:
                 stripped = re.sub("|".join(terms), "", source, flags=re.IGNORECASE)
@@ -187,7 +192,18 @@ class SameCheck(TargetCheck):
             )
         )
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_target_unit(
+        self, sources: list[str], targets: list[str], unit: Unit
+    ) -> bool:
+        if unit.has_multiple_values(sources, targets):
+            return any(
+                self.check_single(source, target, unit)
+                for target in targets
+                for source in sources
+            )
+        return super().check_target_unit(sources, targets, unit)
+
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # One letter things are usually labels or decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False

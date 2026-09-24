@@ -1,26 +1,52 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n translations %}
+{% load crispy_forms_tags i18n icons permissions static translations %}
+
+{% block extra_script %}
+  <script defer src="{% static 'editor/browse.js' %}"></script>
+{% endblock extra_script %}
 
 {% block breadcrumbs %}
   {% if path_object %}
     {% path_object_breadcrumbs path_object %}
     <li class="breadcrumb-item">
-      <a href="{{ back_url }}#search">{% translate "Search" %}</a>
+      <a href="{% url 'search' path=path_object.get_url_path %}">{% translate "Search" %}</a>
     </li>
   {% else %}
     <li class="breadcrumb-item">
       <a href="{% url 'search' %}">{% translate "Search" %}</a>
     </li>
   {% endif %}
+  {% if has_editor %}
+    <li class="ms-auto">
+      <a href="{{ path_object.get_widgets_url }}">
+        <img src="{% url 'widget-image' path=path_object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+             alt="{% translate "Translation status widgets" %}" />
+      </a>
+    </li>
+  {% endif %}
 {% endblock breadcrumbs %}
 
 {% block content %}
+
+  {% if component %}
+    {% include "snippets/component/state.html" with object=component %}
+  {% endif %}
+  {% if translation %}
+    {% perm 'unit.add' translation as user_can_add_unit %}
+    {% if user_can_add_unit %}
+      <a class="btn btn-link green float-end"
+         href="{{ translation.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ component.get_add_label }}</a>
+    {% endif %}
+  {% endif %}
 
   {% if show_results %}
     <form method="get" class="result-page-form">
       {% crispy search_form %}
     </form>
+    {% if translate_url %}
+      <a class="btn btn-primary" href="{{ translate_url }}">{% translate "Translate" %}</a>
+    {% endif %}
     {% if page_obj.object_list %}
       <div class="search-summary">
         <p>
@@ -30,8 +56,12 @@
           {% endif %}
         </p>
       </div>
-      {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True force_source=True show_translation=True %}
-      {% include "paginator.html" %}
+      {% if translation %}
+        {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True %}
+      {% else %}
+        {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True force_source=True show_translation=True %}
+      {% endif %}
+      <div class="search-pagination">{% include "paginator.html" %}</div>
     {% else %}
       {% translate "No matching strings found." as msg %}
       {% show_message "info" msg %}

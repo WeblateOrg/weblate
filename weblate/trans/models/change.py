@@ -20,6 +20,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from rapidfuzz.distance import DamerauLevenshtein
 
+from weblate.automation.context import automation_origin
 from weblate.trans.actions import (
     ACTIONS_ADDON,
     ACTIONS_CONTENT,
@@ -867,6 +868,8 @@ class Change(models.Model, UserDisplayMixin):
 
         Update Change.fill_in_prefetched together with this one
         """
+        if origin := automation_origin.get():
+            self.details |= {"automation_origin": origin}
         if self.unit:
             self.translation = self.unit.translation
         if self.screenshot:

@@ -2,11 +2,19 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.markup import SafeHTMLCheck
 from weblate.trans.autofixes.base import AutoFix
 from weblate.utils.html import HTMLSanitizer
+
+if TYPE_CHECKING:
+    from weblate.checks.base import BaseCheck
+    from weblate.trans.models import Unit
 
 
 class BleachHTML(AutoFix):
@@ -16,10 +24,12 @@ class BleachHTML(AutoFix):
     name = gettext_lazy("Unsafe HTML")
 
     @staticmethod
-    def get_related_checks():
+    def get_related_checks() -> list[BaseCheck]:
         return [SafeHTMLCheck()]
 
-    def fix_single_target(self, target: str, source: str, unit):
+    def fix_single_target(
+        self, target: str, source: str, unit: Unit
+    ) -> tuple[str, bool]:
         flags = unit.all_flags
         if not flags.is_active("safe-html", source):
             return target, False

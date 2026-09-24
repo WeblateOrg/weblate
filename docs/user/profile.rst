@@ -207,17 +207,32 @@ default value depends on :setting:`DEFAULT_AUTO_WATCH`.
     Sending out notifications is limited, you will not receive more than 1000
     e-mails per day. Any further notifications for you will be discarded.
 
-Administrators with permission to edit users can inspect a user's
-:guilabel:`Notifications` tab to see watched projects, notification languages,
-and subscriptions grouped by scope. Use :guilabel:`Notification debug` to enter
-an object path such as ``project/category/component/cs``. Project and category
-paths include their accessible components and translations. Results explain
-effective and overridden subscriptions for up to 50 targets per page, including
-project, component, and translation targets. Lists of more than five watched
-projects, notification languages, or matching targets show counts instead of
-individual links. Matching-target counts apply to the current results page.
+Open :guilabel:`Notification diagnostics` from your notification settings to
+inspect your own subscriptions. Administrators with management access and
+permission to edit users can open the same page for another user from that
+user's :guilabel:`Edit` tab. The :guilabel:`Overview` tab includes watched
+projects, notification languages, and subscriptions grouped by scope and target.
+In the :guilabel:`Diagnostics` tab, enter an object path such as
+``project/category/component/cs``. Project and category paths summarize inherited
+project settings and exceptions across all accessible
+components. Equivalent component settings are grouped together, with counts and
+up to five example links to inspect individual components. Component paths show
+effective settings and language restrictions; translation paths check the selected
+language specifically. Broad summaries do not enumerate individual translations.
+Summaries are limited to 200 accessible components and 10 original projects
+(including the selected project). For larger scopes, choose a smaller category,
+a component, or a translation; partial summaries are not shown.
+Lists of more than five watched projects or notification languages show counts
+instead of individual links.
 
-The debugger checks eligibility without sending e-mail. Notifications that
+Only events with a matching subscription are shown, including disabled
+subscriptions and subscriptions blocked by language or account conditions.
+Event conditions and overridden subscriptions are shown directly. Subscription
+links highlight the matching row in the :guilabel:`Overview` tab. Component
+example links open diagnostics for that component. Shared components use
+subscriptions from their original project.
+
+The diagnostics check eligibility without sending e-mail. Notifications that
 depend on event details, such as mentions or alerts, are marked as conditional.
 Actual delivery also depends on the event author, digest content, and rate limits.
 

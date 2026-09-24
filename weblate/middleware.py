@@ -93,7 +93,7 @@ class ProxyMiddleware(MiddlewareMixin):
     proxy setup.
     """
 
-    def process_request(self, request: HttpRequest):
+    def process_request(self, request: HttpRequest) -> None:
         # Fake HttpRequest attribute to inject configured
         # site name into build_absolute_uri
         request.__dict__["_current_scheme_host"] = get_site_url()
@@ -161,7 +161,9 @@ class RedirectMiddleware(MiddlewareMixin):
     def fixup_language(self, lang: str) -> Language | None:
         return Language.objects.fuzzy_get_strict(code=lang)
 
-    def fixup_project(self, slug, request: AuthenticatedHttpRequest) -> Project | None:
+    def fixup_project(
+        self, slug: str, request: AuthenticatedHttpRequest
+    ) -> Project | None:
         project: Project | None
         try:
             project = Project.objects.get(slug__iexact=slug)
@@ -212,7 +214,7 @@ class RedirectMiddleware(MiddlewareMixin):
 
     # ruff: ignore[complex-structure]
     def process_exception(
-        self, request: AuthenticatedHttpRequest, exception
+        self, request: AuthenticatedHttpRequest, exception: Exception
     ) -> HttpResponse | None:
         # ruff: ignore[import-outside-top-level]
         from weblate.utils.views import UnsupportedPathObjectError

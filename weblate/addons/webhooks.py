@@ -18,7 +18,7 @@ from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext_lazy, override
-from drf_spectacular.utils import OpenApiResponse, OpenApiWebhook, extend_schema
+from drf_spectacular.utils import OpenApiWebhook
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.addons.base import ChangeBaseAddon
@@ -198,15 +198,34 @@ class WebhookAddon(JSONWebhookBaseAddon):
 
 change_event_webhook = OpenApiWebhook(
     name="AddonWebhook",
-    decorator=extend_schema(
-        summary="A Webhook event for an addon",
-        description="Pushes events to a notification URL.",
-        tags=["webhooks", "addons"],
-        request={"application/json": load_schema("weblate-messaging.schema.json")},
-        responses={
-            "2XX": OpenApiResponse(),
+    # The receiver is not a DRF view. A raw operation keeps API error examples
+    # from being attached to the outgoing webhook request by our AutoSchema.
+    decorator={
+        "post": {
+            "operationId": "addon_webhook_event",
+            "summary": "A webhook event for an add-on",
+            "description": "Pushes events to a notification URL.",
+            "tags": ["webhooks", "addons"],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": load_schema("weblate-messaging.schema.json"),
+                        "examples": {
+                            "TranslationChanged": {
+                                "summary": "Translation changed",
+                                "value": {
+                                    "change_id": 123,
+                                    "action": "Translation changed",
+                                    "timestamp": "2026-01-01T00:00:00Z",
+                                },
+                            }
+                        },
+                    }
+                }
+            },
+            "responses": {"2XX": {"description": "No response body"}},
         },
-    ),
+    },
 )
 
 

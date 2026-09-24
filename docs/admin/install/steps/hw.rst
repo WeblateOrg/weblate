@@ -31,6 +31,26 @@ CPU usage
 
 Many concurrent users increase the amount of needed CPU cores.
 
+Weblate 2026.8 introduced NumPy as a required dependency. On x86-64 systems,
+the optimized NumPy build bundled in the Docker image requires an x86-64-v2
+compatible CPU. Without the required CPU features, NumPy fails to load and
+Weblate cannot start.
+
+Before upgrading, check for the required SSE4.2 CPU feature on the Linux system
+running Docker:
+
+.. code-block:: sh
+
+   grep sse4_2 /proc/cpuinfo
+
+Empty output indicates that a required CPU feature is unavailable. This is a
+preliminary check; finding SSE4.2 does not verify all x86-64-v2 CPU features.
+
+If Docker runs in a virtual machine, run the check inside the guest. Virtual
+machines can hide CPU features supported by the host. Configure the virtual
+machine to expose the required host CPU features, then reboot the guest. If
+the physical CPU lacks the required features, upgrade the hardware.
+
 Storage usage
 +++++++++++++
 
