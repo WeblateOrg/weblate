@@ -39,7 +39,7 @@ class MarkdownLinkTest(SimpleTestCase):
                 source = f"[Link]({destination} {title})"
                 with self.subTest(source=source):
                     match = MD_LINK.fullmatch(source)
-                    self.assertIsNotNone(match)
+                    assert match is not None
                     self.assertEqual(match[3], "https://example.com/")
                     self.assertEqual(match[4], title)
 
