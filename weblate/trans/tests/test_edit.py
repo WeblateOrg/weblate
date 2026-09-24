@@ -35,6 +35,7 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tests.test_views import ViewTestCase
@@ -1890,6 +1891,293 @@ class ZenViewTest(ViewTestCase):
             params,
         )
         self.assertContains(response, "This translation is currently locked.")
+
+    def add_zen_suggestion(self, target: str = "Nazdar svete!\n") -> Suggestion:
+        self.edit_unit("Hello, world!\n", target, suggest="yes")
+        return self.get_unit().suggestion_set.get(target=target)
+
+    def assert_accept_button(self, content: str, pk: int, *, present: bool) -> None:
+        pattern = rf'name="accept"\s+value="{pk}"'
+        if present:
+            self.assertRegex(content, pattern)
+        else:
+            self.assertNotRegex(content, pattern)
+
+    def post_zen_suggestion(self, unit: Unit, **params):
+        response = self.client.post(
+            reverse("zen_suggestion", kwargs=self.kw_translation),
+            {"checksum": unit.checksum, "unit_id": unit.pk, **params},
+        )
+        self.assertEqual(response.status_code, 200)
+        return response.json()
+
+    def test_zen_suggestions_shown(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        response = self.client.get(reverse("zen", kwargs=self.kw_translation))
+        self.assertContains(response, f"row-suggestions-{unit.checksum}")
+        self.assertContains(response, "Nazdar svete!")
+        self.assert_accept_button(
+            response.content.decode(), suggestion.pk, present=True
+        )
+        self.assertContains(
+            response, reverse("zen_suggestion", kwargs=self.kw_translation)
+        )
+
+    def test_zen_suggestions_toggle(self) -> None:
+        # The visibility is remembered client side, the toggle is always there
+        response = self.client.get(reverse("zen", kwargs=self.kw_translation))
+        self.assertContains(response, 'id="zen-toggle-suggestions"')
+
+    def test_zen_suggestions_anonymous(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        self.client.logout()
+        response = self.client.get(reverse("zen", kwargs=self.kw_translation))
+        self.assertContains(response, "Hello, world")
+        # Suggestions are listed, but cannot be acted upon
+        self.assertContains(response, f"row-suggestions-{unit.checksum}")
+        self.assertContains(response, "Nazdar svete!")
+        self.assert_accept_button(
+            response.content.decode(), suggestion.pk, present=False
+        )
+
+    def test_load_zen_suggestions(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        response = self.client.get(reverse("load_zen", kwargs=self.kw_translation))
+        self.assertContains(response, f"row-suggestions-{unit.checksum}")
+        self.assertContains(response, "Nazdar svete!")
+        self.assert_accept_button(
+            response.content.decode(), suggestion.pk, present=True
+        )
+
+    def test_zen_suggestion_accept(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        data = self.post_zen_suggestion(unit, accept=suggestion.pk)
+        self.assertEqual(data["state"], "success")
+        self.assertEqual(data["mode"], "accept")
+        self.assertEqual(data["checksum"], unit.checksum)
+        self.assertFalse(data["has_suggestions"])
+        self.assertEqual(data["suggestions_html"], "")
+        self.assertEqual(data["target"], ["Nazdar svete!\n"])
+        self.assertEqual(data["review"], str(STATE_TRANSLATED))
+        self.assertFalse(data["fuzzy"])
+        self.assertEqual(data["unit_state_class"], "unit-state-translated")
+        unit = self.get_unit()
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+        self.assertEqual(
+            data["translationsum"], hash_to_checksum(unit.get_target_hash())
+        )
+        self.assertNotEqual(data["translationsum"], "")
+        self.assertEqual(Suggestion.objects.count(), 0)
+
+    def test_zen_suggestion_accept_approve(self) -> None:
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        self.make_manager()
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        data = self.post_zen_suggestion(unit, accept_approve=suggestion.pk)
+        self.assertEqual(data["state"], "success")
+        self.assertEqual(data["mode"], "accept_approve")
+        self.assertEqual(data["review"], str(STATE_APPROVED))
+        self.assertEqual(data["unit_state_class"], "unit-state-approved")
+        self.assertEqual(self.get_unit().state, STATE_APPROVED)
+
+    def test_zen_suggestion_accept_edit(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        data = self.post_zen_suggestion(unit, accept_edit=suggestion.pk)
+        self.assertEqual(data["state"], "success")
+        self.assertEqual(data["mode"], "accept_edit")
+        self.assertEqual(data["target"], ["Nazdar svete!\n"])
+        self.assertEqual(self.get_unit().target, "Nazdar svete!\n")
+
+    def test_zen_suggestion_accept_keeps_others(self) -> None:
+        first = self.add_zen_suggestion("Nazdar svete!\n")
+        second = self.add_zen_suggestion("Ahoj svete!\n")
+        unit = self.get_unit()
+        data = self.post_zen_suggestion(unit, accept=first.pk)
+        self.assertTrue(data["has_suggestions"])
+        self.assertIn("Ahoj svete!", data["suggestions_html"])
+        self.assert_accept_button(data["suggestions_html"], second.pk, present=True)
+        self.assert_accept_button(data["suggestions_html"], first.pk, present=False)
+        self.assertEqual(Suggestion.objects.count(), 1)
+
+    def test_zen_suggestion_delete(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        original_target = unit.target
+        data = self.post_zen_suggestion(
+            unit, delete=suggestion.pk, rejection="not good"
+        )
+        self.assertEqual(data["state"], "success")
+        self.assertEqual(data["mode"], "delete")
+        self.assertFalse(data["has_suggestions"])
+        self.assertIsNone(data["target"])
+        self.assertIsNone(data["review"])
+        self.assertEqual(self.get_unit().target, original_target)
+        self.assertEqual(Suggestion.objects.count(), 0)
+        change = Change.objects.filter(action=ActionEvents.SUGGESTION_DELETE).get()
+        self.assertEqual(change.details["rejection_reason"], "not good")
+
+    def test_zen_suggestion_delete_long_rejection(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        data = self.post_zen_suggestion(unit, delete=suggestion.pk, rejection="x" * 201)
+        self.assertEqual(data["state"], "danger")
+        self.assertIsNone(data["mode"])
+        self.assertIn("Rejection reason is too long!", data["messages"][0]["text"])
+        self.assertTrue(data["has_suggestions"])
+        self.assertEqual(Suggestion.objects.count(), 1)
+
+    def test_zen_suggestion_vote(self) -> None:
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            enable_suggestions=True,
+            suggestion_voting=True,
+            suggestion_autoaccept=0,
+        )
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        data = self.post_zen_suggestion(unit, upvote=suggestion.pk)
+        self.assertEqual(data["state"], "success")
+        self.assertEqual(data["mode"], "upvote")
+        self.assertTrue(data["has_suggestions"])
+        self.assertIsNone(data["target"])
+        self.assertIn("1 vote", data["suggestions_html"])
+        self.assertEqual(suggestion.get_num_votes(), 1)
+
+    def test_zen_suggestion_vote_autoaccept(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            enable_suggestions=True,
+            suggestion_voting=True,
+            suggestion_autoaccept=1,
+        )
+        unit = self.get_unit()
+        with self.captureOnCommitCallbacks(execute=True):
+            data = self.post_zen_suggestion(unit, upvote=suggestion.pk)
+        self.assertEqual(data["mode"], "upvote")
+        self.assertFalse(data["has_suggestions"])
+        # The vote accepted the suggestion, so the editor has to be synced
+        self.assertEqual(data["target"], ["Nazdar svete!\n"])
+        self.assertEqual(data["review"], str(STATE_TRANSLATED))
+        self.assertEqual(self.get_unit().target, "Nazdar svete!\n")
+
+    def test_zen_suggestion_invalid_checksum(self) -> None:
+        self.add_zen_suggestion()
+        response = self.client.post(
+            reverse("zen_suggestion", kwargs=self.kw_translation),
+            {"checksum": "invalid", "accept": "1"},
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_zen_suggestion_invalid_id(self) -> None:
+        self.add_zen_suggestion()
+        data = self.post_zen_suggestion(self.get_unit(), accept="0")
+        self.assertEqual(data["state"], "danger")
+        self.assertIsNone(data["mode"])
+        self.assertEqual(data["messages"][0]["text"], "Invalid suggestion!")
+        self.assertEqual(Suggestion.objects.count(), 1)
+
+    def test_zen_suggestion_no_action(self) -> None:
+        self.add_zen_suggestion()
+        data = self.post_zen_suggestion(self.get_unit())
+        self.assertEqual(data["state"], "danger")
+        self.assertEqual(data["messages"][0]["text"], "Invalid suggestion!")
+        self.assertEqual(Suggestion.objects.count(), 1)
+
+    def test_zen_suggestion_denied(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        # Guests can only add suggestions
+        self.user.groups.set([Group.objects.get(name="Guests")])
+        data = self.post_zen_suggestion(unit, accept=suggestion.pk)
+        self.assertEqual(data["state"], "danger")
+        self.assertIsNone(data["mode"])
+        self.assertIn("permission", data["messages"][0]["text"])
+        self.assertTrue(data["has_suggestions"])
+        self.assertEqual(Suggestion.objects.count(), 1)
+
+    def test_zen_suggestion_get_not_allowed(self) -> None:
+        response = self.client.get(
+            reverse("zen_suggestion", kwargs=self.kw_translation)
+        )
+        self.assertEqual(response.status_code, 405)
+
+    def test_zen_suggestion_anonymous(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        self.client.logout()
+        response = self.client.post(
+            reverse("zen_suggestion", kwargs=self.kw_translation),
+            {"checksum": unit.checksum, "unit_id": unit.pk, "accept": suggestion.pk},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response["Location"])
+        self.assertEqual(Suggestion.objects.count(), 1)
+
+    def test_zen_unit(self) -> None:
+        suggestion = self.add_zen_suggestion()
+        unit = self.get_unit()
+        response = self.client.get(
+            reverse("zen_unit", kwargs=self.kw_translation),
+            {"checksum": unit.checksum, "unit_id": unit.pk},
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIsNone(data["mode"])
+        self.assertTrue(data["has_suggestions"])
+        self.assert_accept_button(data["suggestions_html"], suggestion.pk, present=True)
+        self.assertEqual(data["target"], [unit.target])
+        self.assertEqual(data["review"], str(unit.state))
+        self.assertEqual(
+            data["translationsum"], hash_to_checksum(unit.get_target_hash())
+        )
+        # Reading never changes anything
+        self.assertEqual(Suggestion.objects.count(), 1)
+
+    def test_zen_unit_invalid_checksum(self) -> None:
+        response = self.client.get(
+            reverse("zen_unit", kwargs=self.kw_translation),
+            {"checksum": "invalid"},
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_zen_suggestions_query_count(self) -> None:
+        def add_suggested_units(positions: range) -> None:
+            for position in positions:
+                unit = self.create_zen_unit(position)
+                Suggestion.objects.add(
+                    unit, [f"Suggested {position}\n"], None, user=self.anotheruser
+                )
+                Suggestion.objects.add(
+                    unit, [f"Other suggestion {position}\n"], None, user=self.user
+                )
+
+        url = reverse("zen", kwargs=self.kw_translation)
+        params = {"q": "has:suggestion"}
+
+        add_suggested_units(range(5, 8))
+        # Warm up caches so that only per-unit queries are compared
+        self.client.get(url, params)
+        with CaptureQueriesContext(connection) as small:
+            response = self.client.get(url, params)
+        self.assertContains(response, "Suggested 7")
+
+        add_suggested_units(range(8, 17))
+        self.client.get(url, params)
+        with CaptureQueriesContext(connection) as large:
+            response = self.client.get(url, params)
+        self.assertContains(response, "Suggested 16")
+
+        self.assertEqual(len(small), len(large))
 
     def test_browse(self) -> None:
         response = self.client.get(reverse("browse", kwargs=self.kw_translation))

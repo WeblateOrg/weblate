@@ -817,18 +817,7 @@
     delegate(this.editors, "click", ".js-copy-suggestion", (e) => {
       e.preventDefault();
       const btn = e.target.closest(".js-copy-suggestion");
-
-      // Inject data into translation fields (plural-aware)
-      this.translationArea.forEach((el, i) => {
-        const text = btn.getAttribute(`data-text-${i}`);
-
-        // Prevent overwriting with empty/undefined data
-        if (text !== null && text !== "") {
-          replaceValue(el, text);
-        }
-      });
-
-      this.translationArea[0]?.focus();
+      WLT.Utils.copySuggestion(btn, this.translationArea);
     });
   };
 

@@ -2230,13 +2230,17 @@ onReady(() => {
     });
 
   /* Suggestion rejection */
-  document.querySelectorAll(".rejection-reason").forEach((element) => {
-    element.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        this.closest("form").querySelector("[name='delete']")?.click();
-        event.preventDefault();
-      }
-    });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") {
+      return;
+    }
+    const input = event.target.closest?.(".rejection-reason");
+    if (!input) {
+      return;
+    }
+    event.preventDefault();
+    const scope = input.closest(".history-row") ?? input.closest("form");
+    scope?.querySelector("[name='delete']")?.click();
   });
 
   /* Notifications removal */

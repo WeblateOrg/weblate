@@ -1566,12 +1566,14 @@ a.red:hover path {
   clear: both;
 }
 
-.btn-group-settings a {
+.btn-group-settings a,
+.btn-group-settings button {
   color: var(--wl-color-text);
   padding: 10px 15px;
 }
 
-.btn-group-settings a:hover {
+.btn-group-settings a:hover,
+.btn-group-settings button:hover {
   color: var(--wl-navi-color);
 }
 
@@ -2866,6 +2868,43 @@ table.table-simple tbody#glossary-terms .alert-info {
 .zen-unit .list-group-item {
   border-radius: var(--border-radius-sm);
   border: 1px solid var(--wl-color-border-strong);
+}
+
+.zen-suggestions {
+  position: relative;
+}
+
+table.zen.zen-hide-suggestions .zen-suggestions-row {
+  display: none;
+}
+
+.zen-suggestions-container .container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.zen-suggestions-container .container-gapped {
+  gap: 20px;
+}
+
+.zen-suggestions-container .history-row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.zen-suggestions-container .history-data {
+  position: relative;
+  padding-top: 32px;
+}
+
+.zen-suggestions-container .btn-float {
+  top: 28px;
+  right: 0;
+}
+
+[dir="rtl"] .zen-suggestions-container .btn-float {
+  right: auto;
+  left: 0;
 }
 
 .card-header > .card-title > .badge {

@@ -109,6 +109,18 @@
     </tr>
 
 
+    {% if item.unit.suggestions %}
+      <tr id="row-suggestions-{{ item.unit.checksum }}" class="zen-suggestions-row">
+        <td class="unit-state-cell"></td>
+        <td colspan="2" class="zen-suggestions">
+          <div id="suggestions-{{ item.unit.checksum }}" class="zen-suggestions-container">
+            {% include "snippets/zen-suggestions.html" with unit=item.unit suggestion_url=item.suggestion_urls.suggestion_url unit_url=item.suggestion_urls.unit_url %}
+          </div>
+        </td>
+      </tr>
+    {% endif %}
+
+
   </tbody>
 {% endfor %}
 
