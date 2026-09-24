@@ -18,6 +18,7 @@ from weakref import ref
 from arsc_writer import Text
 from django.db import DatabaseError, connections, transaction
 from django.test import SimpleTestCase, TransactionTestCase, override_settings
+from django.urls import reverse
 from django.utils import timezone
 from jsonschema.exceptions import ValidationError as SchemaValidationError
 from rest_framework.test import APIClient, APIRequestFactory
@@ -34,9 +35,10 @@ from weblate.kotlin_sdk.publication import Publication
 from weblate.kotlin_sdk.retention import select_retired_builds
 from weblate.kotlin_sdk.translations import LocaleSnapshot, LocaleValues
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import Component, Translation, Unit
+from weblate.trans.models import Category, Component, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import RepoTestMixin
+from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.unittest import tempdir_setting
 
@@ -727,15 +729,54 @@ class KotlinSDKTest(ViewTestCase):
         self.make_manager()
         addon = self.install()
         response = self.client.get(addon.instance.get_absolute_url())
+        api_url = reverse("addon-api", kwargs={"pk": addon.instance.pk})
+        self.assertContains(response, api_url)
+        self.assertNotContains(response, "Add-on API base URL:")
+        self.assertContains(response, f"serverUrl = &quot;{get_site_url()}&quot;")
+        self.assertContains(response, f"cdnUrl = &quot;{addon.cdn.cdn_base_url}&quot;")
+        self.assertContains(response, f"project = &quot;{self.project.slug}&quot;")
+        self.assertContains(response, f"component = &quot;{self.component.slug}&quot;")
+        self.assertContains(response, "authToken = &quot;INSERT_TOKEN_HERE&quot;")
+        self.assertContains(response, 'data-clipboard-value="weblate {')
         self.assertContains(
             response,
-            f'<code class="text-break">{addon.instance.api_url}</code>',
-            html=True,
+            reverse("manage-access", kwargs={"project": self.project.slug}) + "#api",
+        )
+        self.assertContains(response, addon.cdn.cdn_base_url)
+
+        response = self.client.get(api_url)
+        self.assertTemplateUsed(response, "addons/addon_api.html")
+        self.assertEqual(response.context["addon_page"], "api")
+        self.assertContains(
+            response,
+            f'data-clipboard-value="{addon.instance.api_url}"',
         )
         self.assertNotContains(response, f'href="{addon.instance.api_url}"')
         self.assertContains(response, '<a href="/api/">API root</a>', html=True)
         self.assertContains(response, '/admin/addons.html#addon-weblate-cdn-kotlin"')
         self.assertEqual(self.client.get("/api/").status_code, 200)
+
+        self.client.logout()
+        self.assertEqual(self.client.get(api_url).status_code, 403)
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    def test_integration_in_nested_category(self) -> None:
+        self.make_manager()
+        parent = Category.objects.create(
+            name="Parent", slug="parent", project=self.project
+        )
+        child = Category.objects.create(
+            name="Child", slug="child", category=parent, project=self.project
+        )
+        self.component.category = child
+        self.component.save()
+        addon = self.install()
+
+        response = self.client.get(addon.instance.get_absolute_url())
+        self.assertContains(
+            response,
+            f"component = &quot;parent%2Fchild%2F{self.component.slug}&quot;",
+        )
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     def test_registration_uses_locked_configuration(self) -> None:
