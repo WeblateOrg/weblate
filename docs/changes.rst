@@ -43,6 +43,7 @@ Weblate 2026.10
 * Added monthly instance activity to :ref:`support integration data <support-data>`.
 * Added a separate :ref:`repository browser URL <component-repoweb-translations>` for translation files.
 * Docker startup now reports invalid nginx-related environment values before attempting to start nginx.
+* The automatic translation API can run as a background task. See :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/`.
 
 .. rubric:: Security fixes
 

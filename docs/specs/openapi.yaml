@@ -26283,6 +26283,12 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoTranslateResponse'
+          description: The request was accepted for asynchronous processing.
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/changes/:
     get:
       operationId: api_translations_changes_list
@@ -32752,6 +32758,10 @@ components:
           maximum: 100
           minimum: 1
           title: Score threshold
+        background:
+          type: boolean
+          default: false
+          description: Schedule automatic translation as a background task.
       required:
       - auto_source
       - mode
@@ -32763,6 +32773,10 @@ components:
       properties:
         details:
           type: string
+        task_url:
+          type: string
+          format: uri
+          description: URL for tracking a background automatic translation.
       required:
       - details
     AutomationPreviewRequest:

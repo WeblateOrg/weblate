@@ -75,6 +75,7 @@ from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
     AutomationPreviewRequestSerializer,
+    AutoTranslateBackgroundSerializer,
     AutoTranslateRequestSerializer,
     AutoTranslateResponseSerializer,
     BackupSerializer,
@@ -192,6 +193,7 @@ from weblate.trans.repository import (
     reserve_repository_operation,
 )
 from weblate.trans.tasks import (
+    auto_translate,
     category_removal,
     component_removal,
     create_project_backup,
@@ -4067,7 +4069,10 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         description="Trigger automatic translation.",
         methods=["post"],
         request=AutoTranslateRequestSerializer,
-        responses={HTTP_200_OK: AutoTranslateResponseSerializer},
+        responses={
+            HTTP_200_OK: AutoTranslateResponseSerializer,
+            HTTP_202_ACCEPTED: AutoTranslateResponseSerializer,
+        },
     )
     @action(detail=True, methods=["post"])
     def autotranslate(self, request: Request, **kwargs):
@@ -4097,6 +4102,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 getattr(auto_permission, "reason", "Can not auto translate"),
             )
 
+        background_serializer = AutoTranslateBackgroundSerializer(data=request.data)
+        background_serializer.is_valid(raise_exception=True)
+        if background_serializer.validated_data["background"]:
+            return self.queue_autotranslate(request, translation, autoform)
+
         auto = AutoTranslate(
             user=get_request_user(request),
             translation=translation,
@@ -4118,6 +4128,36 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         return Response(
             data={"details": message},
             status=HTTP_200_OK,
+        )
+
+    def queue_autotranslate(
+        self, request: Request, translation: Translation, autoform: AutoForm
+    ) -> Response:
+        task = auto_translate.delay(
+            translation_id=translation.id,
+            user_id=request.user.id,
+            mode=autoform.cleaned_data["mode"],
+            q=autoform.cleaned_data["q"],
+            auto_source=autoform.cleaned_data["auto_source"],
+            source_component_id=autoform.cleaned_data["component"],
+            engines=autoform.cleaned_data["engines"],
+            threshold=autoform.cleaned_data["threshold"],
+        )
+        # Eager results are not stored in the result backend, so the task URL
+        # would be useless.
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            return Response(data={"details": task.get()["message"]}, status=HTTP_200_OK)
+        store_task_metadata(
+            task.id, translation_id=translation.id, user_id=request.user.id
+        )
+        return Response(
+            data={
+                "details": gettext("Automatic translation in progress"),
+                "task_url": reverse(
+                    "api:task-detail", kwargs={"pk": task.id}, request=request
+                ),
+            },
+            status=HTTP_202_ACCEPTED,
         )
 
     def destroy(self, request: Request, *args, **kwargs):

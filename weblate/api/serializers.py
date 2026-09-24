@@ -4674,10 +4674,23 @@ class AutoTranslateRequestSerializer(serializers.Serializer):
             else:
                 msg = f"Unsupported AutoForm field {name}: {type(field).__name__}"
                 raise TypeError(msg)
+        fields.update(AutoTranslateBackgroundSerializer().get_fields())
         return fields
+
+
+class AutoTranslateBackgroundSerializer(serializers.Serializer):
+    background = serializers.BooleanField(
+        required=False,
+        default=False,
+        help_text="Schedule automatic translation as a background task.",
+    )
 
 
 class AutoTranslateResponseSerializer(serializers.Serializer):
     """Response body for the autotranslate action."""
 
     details = serializers.CharField()
+    task_url = serializers.URLField(
+        required=False,
+        help_text="URL for tracking a background automatic translation.",
+    )
