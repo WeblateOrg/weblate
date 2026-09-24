@@ -21,6 +21,7 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* Automation actions can select strings from the triggering change or a previous action's affected units. See :doc:`admin/automation`.
 * Unified browsing and :ref:`searching strings <search-strings>`, aligned search filters with the status overview, and added direct editor access to language-specific lists and an :guilabel:`All strings` filter.
 * Improved :ref:`translation history <translation-history>` with faster browsing, date navigation, and clearer actions.
 * Improved :ref:`screenshot assignment <add-existing-screenshot>` in the editor with a thumbnail picker, predictable ordering, and removal without reloading.
@@ -42,10 +43,11 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Prevented repository URLs from injecting executable Mercurial configuration.
 * Limited XLIFF language declarations in uploads and the number and size of translation alternatives to prevent resource exhaustion.
 * Enforced language-scoped screenshot permissions and restricted component access in translation consistency and automatic translation workflows.
 * Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
-* Protected version control metadata during component ZIP imports on case-insensitive filesystems and excluded Subversion and Bazaar metadata from repository ZIP downloads and path processing.
+* Unified case-insensitive exclusion of Git, Mercurial, Subversion, Bazaar, CVS, Darcs, RCS, and SCCS metadata during component ZIP imports, repository ZIP downloads, path processing, discovery, and filtered component copies.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
 
 .. rubric:: Bug fixes

@@ -540,22 +540,36 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertTrue(self.discovery.limit_exceeded)
 
     def test_repository_paths_exclude_vcs_metadata(self) -> None:
-        with tempfile.TemporaryDirectory() as tempdir:
-            root = pathlib.Path(tempdir)
-            for dirname in (".git", ".hg", ".svn", ".bzr"):
+        for dirname in (
+            ".git",
+            ".hg",
+            ".svn",
+            ".bzr",
+            "CVS",
+            "_darcs",
+            "RCS",
+            "SCCS",
+            ".SVN",
+            "cVs",
+        ):
+            with (
+                self.subTest(dirname=dirname),
+                tempfile.TemporaryDirectory() as tempdir,
+            ):
+                root = pathlib.Path(tempdir)
                 metadata = root / dirname
                 metadata.mkdir()
                 (metadata / "translation.po").touch()
-            (root / "translation.po").touch()
-            discovery = ComponentDiscovery(
-                self.component,
-                file_format="po",
-                match=r"(?P<language>[^/]*)\.po",
-                name_template="{{ language }}",
-                path=tempdir,
-            )
+                (root / "translation.po").touch()
+                discovery = ComponentDiscovery(
+                    self.component,
+                    file_format="po",
+                    match=r"(?P<language>[^/]*)\.po",
+                    name_template="{{ language }}",
+                    path=tempdir,
+                )
 
-            self.assertEqual(discovery.repository_paths, ["translation.po"])
+                self.assertEqual(discovery.repository_paths, ["translation.po"])
 
     def test_discovery_limit_prevents_removal(self) -> None:
         self.discovery.limit_exceeded = True

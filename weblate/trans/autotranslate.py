@@ -133,6 +133,8 @@ class BaseAutoTranslate:
         )
         self.failure_message: str | None = None
         self.warnings: list[str] = []
+        self.affected_unit_ids: set[int] = set()
+        self.affected_source_unit_ids: set[int] = set()
 
     def get_message(self) -> str:
         if self.updated == 0:
@@ -228,6 +230,8 @@ class AutoTranslate(BaseAutoTranslate):
             )
             if result == SuggestionAddResult.CREATED:
                 self.updated += 1
+                self.affected_unit_ids.add(unit.pk)
+                self.affected_source_unit_ids.add(unit.source_unit_id or unit.pk)
         else:
             if (
                 state == STATE_APPROVED
@@ -239,7 +243,7 @@ class AutoTranslate(BaseAutoTranslate):
             # Ensure deferred changes accumulate on the right Translation instance
             unit.translation = self.translation
             unit.is_batch_update = True
-            unit.translate(
+            saved = unit.translate(
                 user or self.user,
                 target,
                 state,
@@ -248,6 +252,9 @@ class AutoTranslate(BaseAutoTranslate):
                 select_for_update=False,
             )
             self.updated += 1
+            if saved:
+                self.affected_unit_ids.add(unit.pk)
+                self.affected_source_unit_ids.add(unit.source_unit_id or unit.pk)
 
     def post_process(self) -> None:
         if self.updated > 0:
@@ -757,6 +764,10 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 source_component_ids=effective_source_component_ids,
             )
             self.updated += auto_translate.updated
+            self.affected_unit_ids.update(auto_translate.affected_unit_ids)
+            self.affected_source_unit_ids.update(
+                auto_translate.affected_source_unit_ids
+            )
             if auto_translate.failure_message and self.failure_message is None:
                 self.failure_message = auto_translate.failure_message
             for warning in auto_translate.get_warnings():

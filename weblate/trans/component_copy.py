@@ -107,7 +107,9 @@ def replace_component_checkout(
         os.path.join(source_component.full_path, ".git")
     )
     preserve_target_git = component.is_repo_local and not source_has_git_checkout
-    ignore_vcs_metadata = shutil.ignore_patterns(*VCS_METADATA_DIRS)
+
+    def ignore_vcs_metadata(_directory: str, names: list[str]) -> set[str]:
+        return {name for name in names if name.casefold() in VCS_METADATA_DIRS}
 
     with source_component.repository.lock, component.repository.lock:
         os.makedirs(component.full_path, exist_ok=True)

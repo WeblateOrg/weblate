@@ -36,7 +36,7 @@ EDITABLE_STATES = {
 }
 
 
-# ruff: ignore[complex-structure]
+# ruff: ignore[complex-structure, too-many-arguments]
 def bulk_perform(
     user: User | None,
     unit_set: UnitQuerySet,
@@ -51,6 +51,8 @@ def bulk_perform(
     components: QuerySet[Component] | list[Component] | None = None,
     add_translation_flags: str | Flags = "",
     remove_translation_flags: str | Flags = "",
+    affected_unit_ids: set[int] | None = None,
+    affected_source_unit_ids: set[int] | None = None,
 ) -> int:
     matching = unit_set.search(query, project=project)
     if components is None:
@@ -131,6 +133,10 @@ def bulk_perform(
                             )
                         )
                         updated += 1
+                        if affected_unit_ids is not None:
+                            affected_unit_ids.add(unit.pk)
+                        if affected_source_unit_ids is not None:
+                            affected_source_unit_ids.add(unit.source_unit_id or unit.pk)
                         to_update.append(unit)
                         if unit.is_source:
                             source_units.append(unit)
@@ -218,6 +224,10 @@ def bulk_perform(
 
                     if changed:
                         updated += 1
+                        if affected_unit_ids is not None:
+                            affected_unit_ids.add(source_unit.pk)
+                        if affected_source_unit_ids is not None:
+                            affected_source_unit_ids.add(source_unit.pk)
 
             if add_translation_flags or remove_translation_flags:
                 for unit in (
@@ -239,6 +249,10 @@ def bulk_perform(
                         unit.translation.component = component
                         unit.update_extra_flags(flags.format(), user)
                         updated += 1
+                        if affected_unit_ids is not None:
+                            affected_unit_ids.add(unit.pk)
+                        if affected_source_unit_ids is not None:
+                            affected_source_unit_ids.add(unit.source_unit_id or unit.pk)
 
         if prev_updated != updated:
             component.invalidate_cache()

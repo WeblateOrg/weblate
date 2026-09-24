@@ -1496,6 +1496,23 @@ class BackupsTest(ViewTestCase):
                 },
             )
 
+    def test_restore_rejects_unsafe_repository_urls(self) -> None:
+        for field in ("repo", "push"):
+            with self.subTest(field=field):
+                temp_name = self.write_tampered_component_backup(
+                    **{field: ("ssh://example.com/repository\r[alias]\rlog = !true")}
+                )
+
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    with self.assertRaises(ValidationError) as error:
+                        restore.validate()
+
+                self.assertEqual(
+                    error.exception.message_dict,
+                    {field: ["Repository URL contains unsafe characters."]},
+                )
+
     def test_restore_rejects_invalid_component_slug(self) -> None:
         temp_name = self.write_tampered_component_backup(
             component_updates={"slug": "../../outside"}
