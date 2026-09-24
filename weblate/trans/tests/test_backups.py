@@ -112,7 +112,6 @@ class BackupSettingCoverageTest(SimpleTestCase):
                 backup.project_schema["properties"]["project"],
                 PROJECT_BACKUP_FIELDS,
                 {"workspace", "machinery_settings"},
-                set(),
             ),
             # Category hierarchy is represented by the backup object graph.
             (
@@ -121,7 +120,6 @@ class BackupSettingCoverageTest(SimpleTestCase):
                 backup.project_schema["definitions"]["category"],
                 CATEGORY_BACKUP_FIELDS,
                 {"project", "category"},
-                set(),
             ),
             # Component hierarchy is represented by the backup object graph;
             # generated and internal repository revisions are not settings.
@@ -130,27 +128,12 @@ class BackupSettingCoverageTest(SimpleTestCase):
                 ComponentSettingsForm,
                 backup.component_schema["properties"]["component"],
                 COMPONENT_BACKUP_FIELDS,
-                # repoweb_translations is a real, editable model field but
-                # intentionally not yet backed up (see pending_fields below)
-                # -- it must be excluded here too, since this set feeds the
-                # editable_fields-vs-backup_fields check, a different
-                # assertion than the form-fields one pending_fields guards.
                 {
                     "project",
                     "category",
                     "git_export",
                     "processed_revision",
-                    "repoweb_translations",
                 },
-                # repoweb_translations is exposed in the settings form (it's
-                # a real, usable setting) but intentionally NOT yet backed
-                # up: the installed weblate_schemas package doesn't
-                # recognize the field, so including it in backup/restore
-                # breaks schema validation for every project export, not
-                # just this one field. Remove from both sets above once
-                # weblate_schemas ships a release with the field and it's
-                # added back to COMPONENT_BACKUP_FIELDS.
-                {"repoweb_translations"},
             ),
         )
         for (
@@ -159,7 +142,6 @@ class BackupSettingCoverageTest(SimpleTestCase):
             schema,
             extra_fields,
             excluded_fields,
-            pending_fields,
         ) in backup_settings:
             with self.subTest(model=model.__name__):
                 backup_fields = set(schema["required"]) | set(extra_fields)
@@ -176,9 +158,7 @@ class BackupSettingCoverageTest(SimpleTestCase):
                     backup_fields & editable_fields,
                 )
                 # ruff: ignore[private-member-access]
-                self.assertLessEqual(
-                    set(form._meta.fields) - pending_fields, backup_fields
-                )
+                self.assertLessEqual(set(form._meta.fields), backup_fields)
                 self.assertLessEqual(backup_fields, schema_fields)
 
     def test_migrate_component_file_format_params_xliff_version_gate(self) -> None:
@@ -338,6 +318,39 @@ class BackupsTest(ViewTestCase):
 
         restored_component = restored.component_set.get(slug=self.component.slug)
         self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_backup_restore_repoweb_translations(self) -> None:
+        repoweb_translations = (
+            "https://example.com/{{branch}}/{{filename|parentdir}}#L{{line}}"
+        )
+        self.component.repoweb_translations = repoweb_translations
+        self.component.save(update_fields=["repoweb_translations"])
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_data = json.loads(
+                zipfile.read(f"components/{self.component.slug}.json")
+            )
+        self.assertEqual(
+            component_data["component"]["repoweb_translations"],
+            repoweb_translations,
+        )
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored translation repository browser",
+            project_slug="restored-repoweb-translations",
+            user=self.user,
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(
+            restored_component.repoweb_translations,
+            repoweb_translations,
+        )
 
     def test_restore_backup_without_vcs_params(self) -> None:
         temp_name = self.write_tampered_component_backup(
