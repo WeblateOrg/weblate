@@ -40,11 +40,15 @@
     <a href="{% url 'translate' path=object.get_url_path %}{% querystring query_params %}"
        data-params="{{ search_url }}"
        title="{% translate "Edit in single string mode" %}"
-       class="btn btn-link">{% icon "close.svg" %} {% translate "Exit Zen" %}</a>
+       class="btn btn-link">{% icon "close.svg" %} <span class="d-none d-md-inline">{% translate "Exit Zen" %}</span></a>
 
-    <button type="button" class="btn btn-link" id="zen-toggle-suggestions">
+    <button type="button"
+            class="btn btn-link"
+            id="zen-toggle-suggestions"
+            title="{% translate "Hide suggestions" %}"
+            aria-label="{% translate "Hide suggestions" %}">
       {% icon "suggest.svg" %}
-      <span id="zen-toggle-suggestions-label">{% translate "Hide suggestions" %}</span>
+      <span id="zen-toggle-suggestions-label" class="d-none d-md-inline">{% translate "Hide suggestions" %}</span>
     </button>
 
     <a href="{% url 'profile' %}#preferences"

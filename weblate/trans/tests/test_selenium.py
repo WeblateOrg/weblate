@@ -1785,7 +1785,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             return self.driver.find_element(By.CSS_SELECTOR, row_selector)
 
         def toggle_label() -> str:
-            return self.driver.find_element(By.ID, "zen-toggle-suggestions-label").text
+            button = self.driver.find_element(By.ID, "zen-toggle-suggestions")
+            label = self.driver.find_element(By.ID, "zen-toggle-suggestions-label")
+            self.assertEqual(
+                button.get_attribute("aria-label"), label.get_attribute("textContent")
+            )
+            return cast("str", button.get_attribute("aria-label"))
 
         self.assertTrue(suggestions_row().is_displayed())
         self.assertEqual(toggle_label(), "Hide suggestions")

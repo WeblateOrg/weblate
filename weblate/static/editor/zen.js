@@ -567,9 +567,12 @@
 
     const apply = (visible) => {
       table.classList.toggle("zen-hide-suggestions", !visible);
-      label.textContent = visible
+      const text = visible
         ? gettext("Hide suggestions")
         : gettext("Show suggestions");
+      label.textContent = text;
+      button.title = text;
+      button.setAttribute("aria-label", text);
     };
 
     let visible = true;
