@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from typing import cast
 from unittest.mock import MagicMock, patch
 
 from django.core.exceptions import ValidationError
@@ -213,6 +214,17 @@ class EnforcedChecksInheritanceTest(ComponentTestCase):
             ValidationError, "Unsupported enforced check: does-not-exist"
         ):
             self.workspace.full_clean()
+
+    def test_clean_rejects_non_string_checks(self) -> None:
+        invalid_values: tuple[list[object], ...] = ([[]], [{}])
+        for model in (self.component, self.project, self.category, self.workspace):
+            for value in invalid_values:
+                with self.subTest(model=model.__class__.__name__, value=value):
+                    model.enforced_checks = cast("list[str]", value)
+                    with self.assertRaisesMessage(
+                        ValidationError, "Unsupported enforced check:"
+                    ):
+                        model.full_clean()
 
     def test_clean_accepts_known_checks(self) -> None:
         self.workspace.enforced_checks = ["same", "duplicate"]

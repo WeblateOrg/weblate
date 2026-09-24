@@ -94,7 +94,7 @@ def validate_enforced_checks(value: list[str]) -> None:
     from weblate.checks.models import CHECKS
 
     for name in value:
-        if name not in CHECKS:
+        if not isinstance(name, str) or name not in CHECKS:
             raise ValidationError(gettext("Unsupported enforced check: %s") % name)
 
 
