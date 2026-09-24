@@ -242,13 +242,13 @@ class BrokenBrowserURL(BaseAlert):
             return False
         if component.source_language_id is None:
             return False
-        translation = (
-            component.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
-            .exclude(language_id=component.source_language_id)
-            .first()
-        )
 
         if component.repoweb:
+            translation = (
+                component.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
+                .exclude(language_id=component.source_language_id)
+                .first()
+            )
             if translation:
                 allunits = translation.unit_set
             else:
@@ -268,18 +268,9 @@ class BrokenBrowserURL(BaseAlert):
                         return {"link": location_link, "error": location_error}
                     break
 
-        browser_translation = translation
-        if component.repoweb_translations and browser_translation is None:
-            browser_translation = (
-                component.translation_set.exclude(
-                    language_id=component.source_language_id
-                )
-                .exclude(filename="")
-                .first()
-            )
-        if component.repoweb_translations and browser_translation:
+        if component.repoweb_translations:
             location_link = component.get_repoweb_link(
-                browser_translation.filename, "1", is_translation=True
+                component.source_translation.filename, "1", is_translation=True
             )
             if location_link is not None:
                 location_error = _get_validated_uri_error(

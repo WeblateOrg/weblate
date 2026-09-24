@@ -430,7 +430,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(
-            f'href="https://source.example.com/{translation.filename}#L1"',
+            f'href="https://translations.example.com/{translation.filename}#L1"',
             get_html_content(mail.outbox[0]),
         )
 
@@ -459,7 +459,19 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(
-            'href="https://source.example.com/intermediate/en.json#L1"',
+            'href="https://translations.example.com/intermediate/en.json#L1"',
+            get_html_content(mail.outbox[0]),
+        )
+
+    def test_notify_parse_error_translation_browser_fallback(self) -> None:
+        self.component.repoweb = "https://source.example.com/{{filename}}#L{{line}}"
+        self.component.save(update_fields=["repoweb"])
+        translation = self.get_translation()
+        self.trigger_parse_error(translation=translation)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            f'href="https://source.example.com/{translation.filename}#L1"',
             get_html_content(mail.outbox[0]),
         )
 

@@ -204,7 +204,7 @@ class AlertTest(ViewTestCase):
         self.assertEqual(result["error"], "translation browser failure")
         self.assertEqual(
             result["link"],
-            "https://translations.example.com/po-duplicates/de.dpo",
+            f"https://translations.example.com/{self.component.source_translation.filename}",
         )
         self.assertEqual(mocked_uri_error.call_count, 2)
 
@@ -226,7 +226,7 @@ class AlertTest(ViewTestCase):
         self.assertEqual(result["error"], "translation browser failure")
         self.assertEqual(
             result["link"],
-            "https://translations.example.com/po-duplicates/de.dpo",
+            f"https://translations.example.com/{self.component.source_translation.filename}",
         )
         mocked_uri_error.assert_called_once()
 

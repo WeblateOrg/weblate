@@ -646,8 +646,9 @@ Repository browser for translations
 
 URL of repository browser used to display translation files. When empty, the
 :ref:`component-repoweb` URL will be used as a fallback. This is useful when
-the source files and translation files are hosted in different repositories.
-You can use :ref:`markup`.
+source-code files and translation files are hosted in different repositories.
+It applies to all translation files, including source-language, intermediate,
+template, and target files. You can use :ref:`markup`.
 
 For example on GitHub, use something like:
 ``https://github.com/WeblateOrg/translations/blob/{{branch}}/{{filename}}#L{{line}}``
