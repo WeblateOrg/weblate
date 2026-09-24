@@ -40,6 +40,7 @@ Weblate 2026.10
 * Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on configuration.
 * Added monthly instance activity to :ref:`support integration data <support-data>`.
 * :ref:`Suggestions <suggestions>` are shown in the :ref:`zen-mode` and can be accepted, rejected, or voted on in place.
+* Docker startup now reports invalid nginx-related environment values before attempting to start nginx.
 
 .. rubric:: Security fixes
 
