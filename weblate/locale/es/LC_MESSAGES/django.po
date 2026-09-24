@@ -41,7 +41,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-22 16:41+0000\n"
+"PO-Revision-Date: 2026-09-24 14:11+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -133,7 +133,7 @@ msgid "That was not correct, please try again."
 msgstr "Esa respuesta es incorrecta. Inténtelo de nuevo."
 
 msgid "Validation failed, please try again."
-msgstr "Validación incorrecta, por favor inténtelo de nuevo."
+msgstr "Falló la validación; inténtelo de nuevo."
 
 msgid "Subject"
 msgstr "Asunto"
@@ -915,18 +915,15 @@ msgstr "Utilizar el nombre de la cuenta"
 
 msgid "Please provide an e-mail address for submitting translations."
 msgstr ""
-"Por favor, proporcione una dirección de correo electrónico para enviar "
-"traducciones."
+"Proporcione una dirección de correo electrónico para enviar traducciones."
 
 #, fuzzy
 #| msgid "No matching strings found."
 msgid "No matching subscription."
 msgstr "No se han encontrado cadenas que coincidan."
 
-#, fuzzy
-#| msgid "Inactive users can not be assigned to teams."
 msgid "Inactive users and bots do not receive notifications."
-msgstr "Los usuarios inactivos no pueden ser asignados a equipos."
+msgstr "Los usuarios inactivos y los robots no reciben notificaciones."
 
 msgid "The user cannot access this target."
 msgstr "El usuario no puede acceder a este destino."
@@ -5175,20 +5172,14 @@ msgstr "La traducción no iniciaría con un marcador de listado."
 msgid "AsciiDoc markup"
 msgstr "Marcación AsciiDoc"
 
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "La cadena en formato C no coincide con la de origen."
+msgstr "La marcación AsciiDoc no coincide con la del origen."
 
-#, fuzzy
-#| msgid "The following reStructuredText markup is missing: {}"
 msgid "The following AsciiDoc markup is missing: {}"
-msgstr "Faltan los siguientes marcadores reStructuredText: {}"
+msgstr "Falta esta marcación de AsciiDoc: {}"
 
-#, fuzzy
-#| msgid "The following reStructuredText markup is extra: {}"
 msgid "The following AsciiDoc markup is extra: {}"
-msgstr "El siguiente marcaje de reStructuredText es adicional: {}"
+msgstr "Esta marcación AsciiDoc está de más: {}"
 
 msgid "Safe MDX"
 msgstr "Guardar MDX"
@@ -10932,10 +10923,8 @@ msgstr "Latencia de Celery"
 msgid "Not yet measured"
 msgstr "Aún no medido"
 
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data directory latency"
-msgstr "Latencia de base de datos"
+msgstr "Latencia del directorio de datos"
 
 msgid "Not measured"
 msgstr "No medido"
@@ -11150,10 +11139,9 @@ msgstr "Elegir"
 msgid "Translation memory status"
 msgstr "Estado de la memoria de traducción"
 
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "Cantidad de aportaciones a %(project)s"
+msgstr "Número de entradas para %(workspace)s"
 
 #, python-format
 msgid "Number of entries for %(project)s"
@@ -11416,10 +11404,8 @@ msgstr "Volver al panel de control"
 msgid "Thank you for contributing translations."
 msgstr "Gracias por contribuir traducciones."
 
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Donate to Weblate development"
-msgstr "Donar a Weblate"
+msgstr "Donar al desarrollo de Weblate"
 
 msgid "Please review and confirm the search and replace results."
 msgstr "Revise y confirme los resultados de la búsqueda y reemplazo."
@@ -11532,10 +11518,8 @@ msgstr "Ninguna captura encontrada."
 msgid "Add new screenshot"
 msgstr "Añadir captura de pantalla nueva"
 
-#, fuzzy
-#| msgid "Delete screenshot"
 msgid "Select a screenshot"
-msgstr "Borrar captura de pantalla"
+msgstr "Seleccione una captura de pantalla"
 
 msgid ""
 "Source-language screenshots are shown for every translation of this string. "
@@ -11545,10 +11529,8 @@ msgstr ""
 "idioma de origen. El resto de capturas de pantalla solo se muestran para su "
 "propio idioma."
 
-#, fuzzy
-#| msgid "Select"
 msgid "Selected"
-msgstr "Seleccionar"
+msgstr "Seleccionado"
 
 #, fuzzy
 #| msgid "No teams are available."
@@ -12855,7 +12837,7 @@ msgid ""
 "settings and use a complete repository URL supported by the selected version "
 "control system."
 msgstr ""
-"El URL del repositorio configurado no es válida. Compruebe el URL en la "
+"El URL del repositorio configurado no es válido. Compruebe el URL en la "
 "configuración del componente y use un URL de repositorio completo que admita "
 "el sistema de control de versiones seleccionado."
 
@@ -12864,6 +12846,9 @@ msgid ""
 "Use HTTPS or SSH, or ask the instance administrator whether another protocol "
 "can be safely enabled."
 msgstr ""
+"El URL del repositorio usa un protocolo que esta instalación no permite. Use "
+"HTTPS o SSH, o pregunte al personal administrativo si se puede activar otro "
+"protocolo de forma segura."
 
 msgid ""
 "Weblate could not resolve the repository destination. Check the hostname and "
@@ -13148,26 +13133,20 @@ msgstr ""
 "Cualquier proyecto disponible al público debería tener una licencia definida "
 "para indicar qué términos se aplican a las contribuciones."
 
-#, fuzzy
-#| msgid "Please read the following legal documents:"
 msgid "Include the following recommended topics:"
-msgstr "Rogamos que lea los siguientes documentos legales:"
+msgstr "Incluya los temas recomendados siguientes:"
 
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "How contributors should submit translations."
-msgstr "Colaborador nuevo en %(translation)s"
+msgstr "De qué manera los contribuidores deben enviar traducciones."
 
 msgid "What review translators should expect."
-msgstr ""
+msgstr "Qué revisión deben esperar los traductores."
 
 msgid "How to report problems with source strings."
 msgstr "Como reportar incidencias con las cadenas de origen"
 
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Where translations can be tested or when they are released."
-msgstr "Una traducción fue restaurada a un valor anterior."
+msgstr "Dónde se pueden someter a prueba las traducciones o cuándo se publican."
 
 msgid ""
 "Using monolingual files as a glossary is not recommended because adding "
@@ -13528,6 +13507,10 @@ msgid ""
 "from them will become available according to the project and workspace "
 "translation memory access rules unless you also delete it."
 msgstr ""
+"Si esta acción quita componentes restringidos, la memoria de traducción "
+"conservada de dichos componentes quedará disponible acorde a las reglas de "
+"acceso a la memoria de traducción del proyecto y del espacio de trabajo, a "
+"menos que también se la elimine."
 
 msgid "The following translation components will be removed:"
 msgstr "Desaparecerán estos componentes de traducción:"
@@ -18150,15 +18133,12 @@ msgstr ""
 "Utilice el mensaje de solicitud de fusión configurado en el espacio de "
 "trabajo."
 
-#, fuzzy
-#| msgid ""
-#| "Add-ons can also be installed at the project and the component levels."
 msgid ""
 "Shared translation memory can not be enabled while the project has "
 "restricted components."
 msgstr ""
-"Los complementos también se pueden instalar en el alcance del proyecto y de "
-"los componentes."
+"La memoria de traducción compartida no se puede activar cuando el proyecto "
+"tiene componentes restringidos."
 
 msgid ""
 "Translations marked as needing editing are not written to the translation "
@@ -20717,12 +20697,8 @@ msgid "Could not enable Discover Weblate. Invalid activation code."
 msgstr ""
 "No se ha podido activar su instalación. Código de activación no válido."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Please try again later."
-msgstr ""
-"No se ha podido activar su instalación. Por favor, vuelva a intentarlo más "
-"tarde."
+msgstr "No se pudo activar Discover Weblate. Inténtelo de nuevo más tarde."
 
 #, fuzzy
 #| msgid ""
@@ -20742,12 +20718,9 @@ msgstr "Descubrir Weblate"
 msgid "Support status refreshed."
 msgstr "Se actualizó el estado de asistencia."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not refresh support status. Please try again later."
 msgstr ""
-"No se ha podido activar su instalación. Por favor, vuelva a intentarlo más "
-"tarde."
+"No se pudo actualizar el estado de asistencia. Inténtelo de nuevo más tarde."
 
 msgid "Could not refresh support status. The activation token is invalid."
 msgstr ""
@@ -20759,12 +20732,9 @@ msgstr "No se pudo actualizar el estado de asistencia: %s"
 msgid "Support package activated."
 msgstr "Se activó el paquete de asistencia."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate the support package. Please try again later."
 msgstr ""
-"No se ha podido activar su instalación. Por favor, vuelva a intentarlo más "
-"tarde."
+"No se pudo activar el paquete de asistencia. Inténtelo de nuevo más tarde."
 
 #, fuzzy
 #| msgid ""
