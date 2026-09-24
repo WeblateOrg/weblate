@@ -12,19 +12,19 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.addons.automation_definition import (
+from weblate.addons.forms import BaseAddonForm
+from weblate.automation.definition import (
     parse_workflow,
     validate_workflow_size,
     walk,
 )
-from weblate.addons.automation_operations import get_operation
-from weblate.addons.forms import BaseAddonForm
+from weblate.automation.operations import get_operation
 from weblate.utils.forms import QueryField
 
 if TYPE_CHECKING:
-    from weblate.addons.automation import AutomationAddon
     from weblate.addons.models import Addon
     from weblate.auth.models import User
+    from weblate.automation.addon import AutomationAddon
     from weblate.trans.models import Component, Project
 
 

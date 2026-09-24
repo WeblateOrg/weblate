@@ -12,12 +12,12 @@ from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import override
 
-from weblate.addons.automation_expressions import expressions
-from weblate.addons.automation_operations import execute_operation
 from weblate.addons.events import AddonActivityLogStatus
+from weblate.automation.context import automation_origin
+from weblate.automation.expressions import expressions
+from weblate.automation.operations import execute_operation
 from weblate.trans.automation import UnitSelection
 from weblate.trans.models import Unit
-from weblate.utils.automation import automation_origin
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -191,7 +191,7 @@ class Runner:
                 and self.context["unit"]["state"] == value
             )
         if kind == "change_action":
-            from weblate.addons.automation_schema import CHANGE_ACTIONS  # ruff: ignore[import-outside-top-level]
+            from weblate.automation.schema import CHANGE_ACTIONS  # ruff: ignore[import-outside-top-level]
 
             return (
                 self.context["change"] is not None
@@ -329,9 +329,9 @@ class Runner:
 
 @override("en")
 def run_automation(activity_id: int) -> None:
-    from weblate.addons.automation_definition import parse_workflow  # ruff: ignore[import-outside-top-level]
-    from weblate.addons.automation_forms import validate_operations  # ruff: ignore[import-outside-top-level]
     from weblate.addons.models import AddonActivityLog  # ruff: ignore[import-outside-top-level]
+    from weblate.automation.definition import parse_workflow  # ruff: ignore[import-outside-top-level]
+    from weblate.automation.forms import validate_operations  # ruff: ignore[import-outside-top-level]
 
     with transaction.atomic():
         activity = (

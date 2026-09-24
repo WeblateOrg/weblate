@@ -6,8 +6,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from weblate.addons.automation_operations import OPERATIONS, object_schema
 from weblate.addons.events import AddonEvent
+from weblate.automation.operations import OPERATIONS, object_schema
 from weblate.trans.actions import ActionEvents
 from weblate.utils.state import StringState
 
@@ -66,7 +66,7 @@ def action_schema(
 
 SCHEMA = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$comment": "Generated from weblate.addons.automation_schema.SCHEMA using make -C docs update-automation-schema.",
+    "$comment": "Generated from weblate.automation.schema.SCHEMA using make -C docs update-automation-schema.",
     "title": "Workflow definition",
     "x-version-added": "2026.10",
     **object_schema(

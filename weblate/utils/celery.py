@@ -27,7 +27,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
 
-from weblate.utils.automation import automation_origin
+from weblate.automation.context import automation_origin
 
 # Type annotation compatibility
 # ruff: ignore[unused-lambda-argument]

@@ -13,7 +13,7 @@ from unittest.mock import patch
 from django.core.management import call_command
 from django.test import SimpleTestCase
 
-from weblate.addons.automation_schema import SCHEMA, action_schema, object_schema
+from weblate.automation.schema import SCHEMA, action_schema, object_schema
 
 
 class AutomationDocumentationTest(SimpleTestCase):
@@ -56,7 +56,7 @@ class AutomationDocumentationTest(SimpleTestCase):
                 {"oneOf": [{"const": "component"}]},
             )
             with patch(
-                "weblate.addons.management.commands.list_automation.SCHEMA", schema
+                "weblate.automation.management.commands.list_automation.SCHEMA", schema
             ):
                 call_command("list_automation", output=output, stdout=StringIO())
                 updated = output.read_text(encoding="utf-8")

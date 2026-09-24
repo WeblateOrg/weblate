@@ -7,8 +7,8 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any
 
-from weblate.addons.automation_operations import OPERATIONS
-from weblate.addons.automation_schema import CHANGE_ACTIONS, SCHEMA
+from weblate.automation.operations import OPERATIONS
+from weblate.automation.schema import CHANGE_ACTIONS, SCHEMA
 from weblate.utils.management.base import DocGeneratorCommand
 
 if TYPE_CHECKING:
