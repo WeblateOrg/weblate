@@ -110,6 +110,29 @@ def extract_bbcode_pairs(text: str) -> list[tuple[re.Match[str], re.Match[str]]]
     return [pair for pair in pairs if pair is not None]
 
 
+def bbcode_structure(
+    pairs: list[tuple[re.Match[str], re.Match[str]]],
+    signatures: dict[tuple[str, tuple[int, ...]], int],
+) -> tuple[int, ...]:
+    """Identify the tag tree while allowing sibling tags to change order."""
+    children: list[list[int]] = [[] for _ in pairs]
+    roots: list[int] = []
+    stack: list[tuple[int, int]] = []
+    for index, (opener, closer) in enumerate(pairs):
+        while stack and opener.start() >= stack[-1][0]:
+            stack.pop()
+        (children[stack[-1][1]] if stack else roots).append(index)
+        stack.append((closer.end(), index))
+
+    identifiers = [0] * len(pairs)
+    for index in range(len(pairs) - 1, -1, -1):
+        tag = pairs[index][0].group("tag")
+        child_ids = tuple(sorted(identifiers[child] for child in children[index]))
+        key = (tag, child_ids)
+        identifiers[index] = signatures.setdefault(key, len(signatures))
+    return tuple(sorted(identifiers[root] for root in roots))
+
+
 HTML_ATTRIBUTE_PLACEHOLDER_MATCHES = (
     *(rule[0] for rule in FLAG_RULES.values()),
     I18NEXT_MATCH,
@@ -327,10 +350,10 @@ class BBCodeCheck(TargetCheck):
         if len(src_pairs) != len(tgt_pairs):
             return True
 
-        src_tags = {opener.group("tag") for opener, _closer in src_pairs}
-        tgt_tags = {opener.group("tag") for opener, _closer in tgt_pairs}
-
-        return src_tags != tgt_tags
+        signatures: dict[tuple[str, tuple[int, ...]], int] = {}
+        return bbcode_structure(src_pairs, signatures) != bbcode_structure(
+            tgt_pairs, signatures
+        )
 
     def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):

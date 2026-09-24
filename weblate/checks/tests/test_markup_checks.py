@@ -133,6 +133,22 @@ class BBCodeCheckTest(CheckTestCase):
             ),
         )
 
+    def test_reordered_nested_tags(self) -> None:
+        self.do_test(
+            True,
+            ("[b][i]text[/i][/b]", "[i][b]text[/b][/i]", "bbcode-text"),
+        )
+        self.do_test(
+            True,
+            ("[b][i]text[/i][/b]", "[b][/b][i]text[/i]", "bbcode-text"),
+        )
+
+    def test_reordered_sibling_tags(self) -> None:
+        self.do_test(
+            False,
+            ("[b]bold[/b] [i]italic[/i]", "[i]italic[/i] [b]bold[/b]", "bbcode-text"),
+        )
+
     def test_nested_highlight(self) -> None:
         source = "[url=x][b]bold[/b][/url]"
         unit = make_unit(
