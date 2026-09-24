@@ -2164,7 +2164,9 @@ class InheritedSettingsFormMixin(forms.ModelForm):
         )
         return bool(field.clean(value))
 
-    def get_inherited_setting_value(self, field_name: str) -> str | Language | None:
+    def get_inherited_setting_value(
+        self, field_name: str
+    ) -> str | Language | list[str] | None:
         instance = self.instance
         if isinstance(instance, Project) and instance.workspace_id is not None:
             return getattr(instance.workspace, field_name)

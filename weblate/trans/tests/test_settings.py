@@ -1206,6 +1206,8 @@ class SettingsTest(ViewTestCase):
         self.project.use_workspace_tm = True
         self.project.contribute_workspace_tm = True
         self.project.check_flags = "strict-same"
+        self.project.enforced_checks = ["same"]
+        self.project.inherit_enforced_checks = False
         self.project.save()
 
         access_change = self.project.change_set.get(action=ActionEvents.ACCESS_EDIT)
