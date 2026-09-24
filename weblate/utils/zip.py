@@ -72,6 +72,13 @@ def validate_zip_member_type(info: ZipInfo) -> None:
         raise ZipSafetyError(msg)
 
 
+def validate_zip_member_count(zipfile: ZipFile, *, limits: ZipSafetyLimits) -> None:
+    """Validate ZIP member count before per-member processing."""
+    if limits.max_members is not None and len(zipfile.infolist()) > limits.max_members:
+        msg = gettext("The ZIP file contains too many entries.")
+        raise ZipSafetyError(msg)
+
+
 def validate_zip_members(
     zipfile: ZipFile,
     *,
@@ -80,10 +87,8 @@ def validate_zip_members(
     validate_member: Callable[[ZipInfo], None] | None = None,
     skip_member: Callable[[ZipInfo], bool] | None = None,
 ) -> None:
+    validate_zip_member_count(zipfile, limits=limits)
     infos = zipfile.infolist()
-    if limits.max_members is not None and len(infos) > limits.max_members:
-        msg = gettext("The ZIP file contains too many entries.")
-        raise ZipSafetyError(msg)
 
     total_uncompressed_size = 0
     seen_names: set[str] = set()

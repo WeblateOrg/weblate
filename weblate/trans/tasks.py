@@ -81,7 +81,7 @@ from weblate.trans.repository_context import (
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.files import VCS_METADATA_DIRS, remove_tree
+from weblate.utils.files import MANAGED_VCS_METADATA_DIRS, remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage, prefetch_stats
@@ -982,7 +982,10 @@ def cleanup_stale_repos(root: Path | None = None) -> bool:
             empty_dir = False
             # Possibly a lock file
             continue
-        if root_is_known_container and path.name.casefold() in VCS_METADATA_DIRS:
+        if (
+            root_is_known_container
+            and path.name.casefold() in MANAGED_VCS_METADATA_DIRS
+        ):
             empty_dir = False
             continue
 
