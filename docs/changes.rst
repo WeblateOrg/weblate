@@ -45,6 +45,7 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
 * Prevented repository URLs from injecting executable Mercurial configuration.
 * Limited XLIFF language declarations in uploads and the number and size of translation alternatives to prevent resource exhaustion.
 * Enforced language-scoped screenshot permissions and restricted component access in translation consistency and automatic translation workflows.
