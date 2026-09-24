@@ -449,6 +449,10 @@ The following operations are subject to rate limiting:
 Within each scope, the rate limiting is based on sessions when user is signed in
 and on IP address if not.
 
+Strict enforcement across concurrent workers requires a cache backend with
+atomic increment and decrement operations. The standard :ref:`production-cache`
+configuration using Valkey or Redis provides these operations.
+
 For signed-in users, Weblate records the first rejected request during each
 active scope lockout in the :ref:`audit-log`, including the scope and request
 path. Repeated rejections during the same lockout do not create additional
