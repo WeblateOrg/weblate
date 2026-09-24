@@ -72,6 +72,7 @@ Weblate 2026.10
 
 .. rubric:: Upgrading
 
+* Add ``weblate.automation`` to custom :setting:`django:INSTALLED_APPS` before migrating. If :setting:`WEBLATE_ADDONS` explicitly lists the automation add-on, change its import path to ``weblate.automation.addon.AutomationAddon``. The official Docker image includes the new app.
 * Existing :ref:`contributor comments add-ons <addon-weblate.gettext.authors>` migrate to component file format parameters. Remove the obsolete add-on from custom :setting:`WEBLATE_ADDONS` and :setting:`DEFAULT_ADDONS` settings; new components no longer inherit it.
 * Add ``weblate.api`` and ``weblate.kotlin_sdk`` to :setting:`django:INSTALLED_APPS` before migrating. The official Docker image includes both. Installing the Kotlin app does not enable :ref:`CDN publication <addon-weblate.cdn.kotlin>` on any component.
 * In non-Docker settings, move the ``anon_throttle`` and ``user_throttle`` arguments from ``get_drf_settings`` and any custom ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` values to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Existing Docker rate-limit variables still work.

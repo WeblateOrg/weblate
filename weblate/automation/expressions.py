@@ -23,7 +23,7 @@ def expressions(values: list[str], context: dict[str, Any] | None = None) -> lis
         raise ValidationError(gettext("Automation context is too large."))
     try:
         result = subprocess.run(
-            [sys.executable, "-I", str(Path(__file__).with_name("automation_cel.py"))],
+            [sys.executable, "-I", str(Path(__file__).with_name("cel.py"))],
             input=payload,
             capture_output=True,
             timeout=5,

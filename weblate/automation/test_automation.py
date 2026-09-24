@@ -18,29 +18,29 @@ from django.urls import reverse
 from django.utils.translation import override
 from rest_framework.test import APIClient
 
-from weblate.addons import automation_cel
-from weblate.addons.automation import AutomationAddon
-from weblate.addons.automation_definition import parse_workflow
-from weblate.addons.automation_expressions import expressions
-from weblate.addons.automation_forms import AutomationForm, validate_operations
-from weblate.addons.automation_operations import (
+from weblate.addons.events import AddonActivityLogStatus, AddonEvent
+from weblate.addons.models import AddonActivityLog, handle_addon_event
+from weblate.addons.tasks import run_addon_manually
+from weblate.automation import cel as automation_cel
+from weblate.automation.addon import AutomationAddon
+from weblate.automation.context import automation_origin
+from weblate.automation.definition import parse_workflow
+from weblate.automation.expressions import expressions
+from weblate.automation.forms import AutomationForm, validate_operations
+from weblate.automation.operations import (
     OPERATIONS,
     AutomaticTranslationOperation,
     AutomationOperation,
     register,
 )
-from weblate.addons.automation_runner import Runner, execution_context, run_automation
-from weblate.addons.automation_schema import SCHEMA
-from weblate.addons.events import AddonActivityLogStatus, AddonEvent
-from weblate.addons.models import AddonActivityLog, handle_addon_event
-from weblate.addons.tasks import run_addon_manually
+from weblate.automation.runner import Runner, execution_context, run_automation
+from weblate.automation.schema import SCHEMA
 from weblate.machinery.base import MachineTranslationError
 from weblate.trans.actions import ActionEvents
 from weblate.trans.automation import UnitSelection
 from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
 from weblate.trans.models import Change
 from weblate.trans.tests.test_views import ComponentTestCase
-from weblate.utils.automation import automation_origin
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -112,7 +112,7 @@ class DefinitionTest(SimpleTestCase):
         self.assertIn("Invalid result", runner.trace[-1]["error"])
 
     @override_settings(BACKGROUND_TASKS="monthly")
-    @patch("weblate.addons.automation.timezone.now")
+    @patch("weblate.automation.addon.timezone.now")
     def test_monthly_schedule_covers_every_remainder(self, now: Mock) -> None:
         addon = Mock()
         for component_id in range(30, 60):
@@ -147,7 +147,7 @@ class DefinitionTest(SimpleTestCase):
             ):
                 parse_workflow(value)
 
-    @patch("weblate.addons.automation_runner.execute_operation")
+    @patch("weblate.automation.runner.execute_operation")
     def test_runs_can_overlap_without_sharing_results(self, operation: Mock) -> None:
         barrier = Barrier(2, timeout=5)
 
@@ -166,7 +166,7 @@ class DefinitionTest(SimpleTestCase):
         self.assertIsNot(runners[0].context["results"], runners[1].context["results"])
 
     @patch.object(UnitSelection, "count", return_value=10000)
-    @patch("weblate.addons.automation_runner.execute_operation")
+    @patch("weblate.automation.runner.execute_operation")
     def test_large_selection_stays_out_of_result(
         self, operation: Mock, count: Mock
     ) -> None:
@@ -343,7 +343,7 @@ class DefinitionTest(SimpleTestCase):
             with (
                 self.subTest(stderr=stderr),
                 patch(
-                    "weblate.addons.automation_expressions.subprocess.run",
+                    "weblate.automation.expressions.subprocess.run",
                     side_effect=error,
                 ),
                 self.assertRaises(ValidationError) as caught,
@@ -355,7 +355,7 @@ class DefinitionTest(SimpleTestCase):
             )
             self.assertIs(caught.exception.__cause__, error)
 
-    @patch("weblate.addons.automation_runner.execute_operation")
+    @patch("weblate.automation.runner.execute_operation")
     def test_sequence_and_choose(self, operation: Mock) -> None:
         operation.return_value = {"updated": 2}
         workflow = WORKFLOW | {
@@ -386,7 +386,7 @@ class DefinitionTest(SimpleTestCase):
         self.assertEqual(runner.trace[-1]["status"], "skipped")
 
     @patch(
-        "weblate.addons.automation_runner.execute_operation",
+        "weblate.automation.runner.execute_operation",
         side_effect=RuntimeError("failed"),
     )
     def test_failure_stops_actions(self, operation: Mock) -> None:
@@ -395,7 +395,7 @@ class DefinitionTest(SimpleTestCase):
         operation.assert_called_once()
         self.assertEqual(runner.trace[-1]["status"], "skipped")
 
-    @patch("weblate.addons.automation_runner.execute_operation")
+    @patch("weblate.automation.runner.execute_operation")
     def test_preview_unknown_results(self, operation: Mock) -> None:
         workflow = WORKFLOW | {
             "actions": [
@@ -424,7 +424,7 @@ class DefinitionTest(SimpleTestCase):
             sum(step["status"] == "conditional" for step in runner.trace), 2
         )
 
-    @patch("weblate.addons.automation_runner.execute_operation")
+    @patch("weblate.automation.runner.execute_operation")
     def test_preview_scopes(self, operation: Mock) -> None:
         runner = Runner(
             WORKFLOW
@@ -604,7 +604,7 @@ class AutomationTest(ComponentTestCase):
         self.assertIsNone(auto.failure_message)
         self.assertIn("completed", message)
 
-    @patch("weblate.addons.tasks.automation_run.delay_on_commit")
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     @patch("weblate.trans.automation.bulk_edit")
     @patch(
         "weblate.trans.autotranslate.AutoTranslate.process_others",
@@ -733,7 +733,7 @@ class AutomationTest(ComponentTestCase):
 
     def test_repository_dispatch_is_deferred(self) -> None:
         addon = self.install(WORKFLOW | {"triggers": [{"trigger": "post_push"}]})
-        with patch("weblate.addons.tasks.automation_run.delay") as delay:
+        with patch("weblate.automation.tasks.automation_run.delay") as delay:
             with self.captureOnCommitCallbacks(execute=False) as callbacks:
                 handle_addon_event(
                     AddonEvent.EVENT_POST_PUSH,
@@ -752,7 +752,7 @@ class AutomationTest(ComponentTestCase):
             activity.details["result"]["context"]["trigger"]["name"], "post_push"
         )
 
-    @patch("weblate.addons.tasks.automation_run.delay_on_commit")
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     def test_skipped_conditions_are_visible_in_log(self, task: Mock) -> None:
         addon = self.install(
             WORKFLOW
@@ -790,7 +790,7 @@ class AutomationTest(ComponentTestCase):
                 AddonEvent.EVENT_DAILY,
             },
         )
-        with patch("weblate.addons.tasks.automation_run.delay_on_commit") as task:
+        with patch("weblate.automation.tasks.automation_run.delay_on_commit") as task:
             addon.configure(
                 {"workflow": WORKFLOW | {"triggers": [{"trigger": "post_commit"}]}}
             )
@@ -832,7 +832,7 @@ class AutomationTest(ComponentTestCase):
         saved = form.serialize_form()["workflow"]
         self.assertEqual(parse_workflow(saved), saved)
 
-    @patch("weblate.addons.tasks.automation_run.delay_on_commit")
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     def test_manual_snapshot_and_duplicate_delivery(self, task: Mock) -> None:
         addon = self.install()
         run_addon_manually(addon.instance.pk, user_id=self.user.pk)
@@ -842,7 +842,7 @@ class AutomationTest(ComponentTestCase):
         )
         task.assert_called_once_with(activity.pk)
         addon.configure({"workflow": WORKFLOW | {"actions": [AUTO]}})
-        with patch("weblate.addons.automation_runner.execute_operation") as operation:
+        with patch("weblate.automation.runner.execute_operation") as operation:
             run_automation(activity.pk)
             run_automation(activity.pk)
             operation.assert_not_called()
@@ -871,7 +871,7 @@ class AutomationTest(ComponentTestCase):
         changes[0].refresh_from_db()
         self.assertFalse(addon.check_change_action(changes[0]))
 
-    @patch("weblate.addons.tasks.automation_run.delay_on_commit")
+    @patch("weblate.automation.tasks.automation_run.delay_on_commit")
     def test_inherited_manual_runs(self, task: Mock) -> None:
         category = self.create_category(self.project)
         self.component.category = category

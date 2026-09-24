@@ -14,18 +14,18 @@ from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.addons.automation_definition import parse_workflow
-from weblate.addons.automation_forms import AutomationForm, validate_operations
-from weblate.addons.automation_runner import (
-    Runner,
-    execution_context,
-)
-from weblate.addons.automation_schema import CHANGE_ACTIONS, TRIGGERS
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonActivityLogReason, AddonEvent, AddonEventOutcome
 from weblate.auth.models import User
+from weblate.automation.context import automation_origin, manual_actor
+from weblate.automation.definition import parse_workflow
+from weblate.automation.forms import AutomationForm, validate_operations
+from weblate.automation.runner import (
+    Runner,
+    execution_context,
+)
+from weblate.automation.schema import CHANGE_ACTIONS, TRIGGERS
 from weblate.trans.models import Change, Component
-from weblate.utils.automation import automation_origin, manual_actor
 
 if TYPE_CHECKING:
     from weblate.addons.models import AddonActivityLog
@@ -76,7 +76,7 @@ class AutomationAddon(BaseAddon):
         change: Change | None = None,
     ) -> AddonEventOutcome:
         from weblate.addons.models import AddonActivityLog  # ruff: ignore[import-outside-top-level]
-        from weblate.addons.tasks import automation_run  # ruff: ignore[import-outside-top-level]
+        from weblate.automation.tasks import automation_run  # ruff: ignore[import-outside-top-level]
 
         if automation_origin.get() or activity_log_id is None:
             return AddonEventOutcome.skipped(AddonActivityLogReason.NOT_APPLICABLE)

@@ -23,8 +23,8 @@ Documenting automation operations
 ---------------------------------
 
 The :ref:`automation-reference` uses the schema in
-:file:`weblate/addons/automation_schema.py` as its reference source. Built-in
-actions are registered in :file:`weblate/addons/automation_operations.py`, which
+:file:`weblate/automation/schema.py` as its reference source. Built-in
+actions are registered in :file:`weblate/automation/operations.py`, which
 supplies their settings and result schemas, validation, and execution. Keep this
 registry internal; it does not load third-party operations. When adding an action,
 set its title and version added to the Weblate release in which it first appears.

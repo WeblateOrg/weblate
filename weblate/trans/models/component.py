@@ -5051,7 +5051,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             schedule_memory_updates(payloads)
 
     def run_batched_checks(self) -> None:
-        from weblate.utils.automation import automation_origin  # ruff: ignore[import-outside-top-level]
+        from weblate.automation.context import automation_origin  # ruff: ignore[import-outside-top-level]
 
         source_unit_ids = list(self.updated_sources)
         batched_checks = list(self.batched_checks)

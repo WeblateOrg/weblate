@@ -904,6 +904,7 @@ INSTALLED_APPS = [
     "customize",
     # Weblate apps on top to override Django locales and templates
     "weblate.addons",
+    "weblate.automation",
     "weblate.kotlin_sdk",
     "weblate.api",
     "weblate.auth",
