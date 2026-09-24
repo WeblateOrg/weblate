@@ -1842,6 +1842,11 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             validated_data[inherit_field] = has_workspace and field not in initial_data
         return super().create(validated_data)
 
+    def update(self, instance, validated_data):
+        if "enforced_checks" in validated_data:
+            validated_data.setdefault("inherit_enforced_checks", False)
+        return super().update(instance, validated_data)
+
     def get_billing_forced_access_control(
         self, workspace: Workspace | None
     ) -> int | None:
@@ -2745,6 +2750,11 @@ class ComponentSerializer(RemovableSerializer[Component]):
         )
         component.save(force_insert=True)
         return component
+
+    def update(self, instance, validated_data):
+        if "enforced_checks" in validated_data:
+            validated_data.setdefault("inherit_enforced_checks", False)
+        return super().update(instance, validated_data)
 
 
 class NotificationSerializer(serializers.ModelSerializer[Subscription]):
@@ -4052,6 +4062,11 @@ class CategorySerializer(RemovableSerializer[Category]):
                 continue
             validated_data[inherit_field] = field not in initial_data
         return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if "enforced_checks" in validated_data:
+            validated_data.setdefault("inherit_enforced_checks", False)
+        return super().update(instance, validated_data)
 
     def to_internal_value(self, data):
         result = super().to_internal_value(data)
