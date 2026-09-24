@@ -42,6 +42,7 @@ Weblate 2026.10
 * Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on configuration.
 * Added monthly instance activity to :ref:`support integration data <support-data>`.
 * Docker startup now reports invalid nginx-related environment values before attempting to start nginx.
+* :ref:`addon-weblate.git.squash` now supports squashing together per author and language.
 
 .. rubric:: Security fixes
 
