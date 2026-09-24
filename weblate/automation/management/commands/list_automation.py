@@ -7,7 +7,8 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING, Any
 
-from weblate.addons.automation_schema import CHANGE_ACTIONS, SCHEMA
+from weblate.automation.operations import OPERATIONS
+from weblate.automation.schema import CHANGE_ACTIONS, SCHEMA
 from weblate.utils.management.base import DocGeneratorCommand
 
 if TYPE_CHECKING:
@@ -16,6 +17,10 @@ if TYPE_CHECKING:
 
 def describe_parameter(schema: dict[str, Any]) -> str:
     """Describe the public JSON Schema without duplicating parameter definitions."""
+    if "oneOf" in schema:
+        if all(option.get("type") == "object" for option in schema["oneOf"]):
+            return "object"
+        return ", ".join(describe_parameter(option) for option in schema["oneOf"])
     if "$ref" in schema:
         return schema["$ref"].rsplit("/", 1)[-1]
     if "const" in schema:
@@ -68,6 +73,19 @@ class Command(DocGeneratorCommand):
             ]
         )
         self.parameters(lines, schema)
+        if name.startswith("action-") and (operation := OPERATIONS.get(name[7:])):
+            lines.extend(
+                [
+                    "",
+                    ".. list-table:: Result fields",
+                    "   :header-rows: 1",
+                    "",
+                    "   * - Name",
+                    "     - Required",
+                    "     - Type or allowed values",
+                ]
+            )
+            self.parameters(lines, operation.result_schema)
         self.add_section(name, lines)
 
     def parameters(

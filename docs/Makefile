@@ -43,7 +43,7 @@ update-openapi:
 	@WEBLATE_DOCS_OPENAPI_ALL_VCS_CHOICES=1 DJANGO_SETTINGS_MODULE=weblate.settings_test uv run --no-sync ../manage.py spectacular --skip-checks --fail-on-warn --validate > specs/openapi.yaml
 
 update-automation-schema:
-	@DJANGO_SETTINGS_MODULE=weblate.settings_test uv run --no-sync python -c 'import django, json; django.setup(); from weblate.addons.automation_schema import SCHEMA; print(json.dumps(SCHEMA, indent=2, sort_keys=True))' > specs/automation.schema.json
+	@DJANGO_SETTINGS_MODULE=weblate.settings_test uv run --no-sync python -c 'import django, json; django.setup(); from weblate.automation.schema import SCHEMA; print(json.dumps(SCHEMA, indent=2, sort_keys=True))' > specs/automation.schema.json
 
 update-automation-docs:
 	@DJANGO_SETTINGS_MODULE=weblate.settings_test uv run --no-sync ../manage.py list_automation -o admin/automation.rst

@@ -13,8 +13,8 @@ from jsonschema import Draft202012Validator
 from ruamel.yaml import YAML, YAMLError
 from ruamel.yaml.tokens import AliasToken, TagToken
 
-from weblate.addons.automation_expressions import expressions
-from weblate.addons.automation_schema import SCHEMA
+from weblate.automation.expressions import expressions
+from weblate.automation.schema import SCHEMA
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -87,6 +87,26 @@ def parse_workflow(value: object) -> dict[str, Any]:
     ids = [node["id"] for _, node in nodes if "action" in node and "id" in node]
     if len(ids) != len(set(ids)):
         raise ValidationError(gettext("Automation action IDs must be unique."))
+    seen_ids: set[str] = set()
+    for path, node in nodes:
+        if "action" not in node:
+            continue
+        scope = node.get("scope", "component")
+        if scope == "trigger" and (
+            not result["triggers"]
+            or any(trigger["trigger"] != "change" for trigger in result["triggers"])
+        ):
+            raise ValidationError(
+                gettext("%(path)s: trigger scope requires only change triggers.")
+                % {"path": path}
+            )
+        if scope.startswith("result:") and scope[7:] not in seen_ids:
+            raise ValidationError(
+                gettext("%(path)s: result scope requires an earlier action ID.")
+                % {"path": path}
+            )
+        if "id" in node:
+            seen_ids.add(node["id"])
     for path, node in nodes:
         if node.get("condition") == "not" and len(node["conditions"]) != 1:
             raise ValidationError(

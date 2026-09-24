@@ -439,6 +439,7 @@ ROOT_URLCONF = "weblate.urls"
 INSTALLED_APPS = [
     # Weblate apps on top to override Django locales and templates
     "weblate.addons",
+    "weblate.automation",
     "weblate.kotlin_sdk",
     "weblate.api",
     "weblate.auth",
@@ -846,6 +847,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # List of enabled addons
 # WEBLATE_ADDONS = (
+#     "weblate.automation.addon.AutomationAddon",
 #     "weblate.addons.gettext.GenerateMoAddon",
 #     "weblate.addons.gettext.UpdateLinguasAddon",
 #     "weblate.addons.gettext.UpdateConfigureAddon",

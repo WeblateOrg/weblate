@@ -626,7 +626,7 @@ class ComponentDiscovery:
                 except OSError:
                     # Ignore entries which disappear or become inaccessible.
                     continue
-                if is_directory and entry.name in VCS_METADATA_DIRS:
+                if is_directory and entry.name.casefold() in VCS_METADATA_DIRS:
                     continue
                 if not is_path_within_resolved_directory(entry.path, base):
                     continue

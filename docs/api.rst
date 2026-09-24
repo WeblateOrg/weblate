@@ -3287,6 +3287,8 @@ Kotlin SDK builds
    generated resource formats may change without backward compatibility.
 
 The API contract is also documented in the OpenAPI schema at ``/api/schema/``.
+The registration metadata has a :download:`JSON Schema
+</specs/schemas/weblate-kotlin-sdk-build.schema.json>`.
 See :ref:`addon-weblate.cdn.kotlin` for add-on installation, lifecycle settings, and the
 CDN manifest contract.
 

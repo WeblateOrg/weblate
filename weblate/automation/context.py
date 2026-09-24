@@ -6,8 +6,8 @@ from __future__ import annotations
 
 from contextvars import ContextVar
 
-# Kept outside the add-on package so Change can record provenance without
-# importing add-on discovery. Deferred event delivery reads the persisted value.
+# Kept separate from add-on discovery so Change can record provenance without
+# importing add-on models. Deferred event delivery reads the persisted value.
 automation_origin: ContextVar[int | None] = ContextVar(
     "automation_origin", default=None
 )

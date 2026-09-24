@@ -410,6 +410,8 @@ contains ``schemaVersion``, ``packageName``, ``versionCode``, and ``locales``.
 Locale keys are Weblate language codes. Each locale contains a relative ``url``,
 ``sha256``, and byte ``size`` for its ARSC artifact. Resolve relative URLs against
 the manifest URL. Artifact contents do not change after publication.
+The manifest has a :download:`JSON Schema
+</specs/schemas/weblate-kotlin-sdk-manifest.schema.json>`.
 
 Configure the CDN origin to cache manifests for at most one hour (for example,
 ``Cache-Control: public, max-age=3600``), and artifact files with

@@ -6,9 +6,10 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
-from django.utils.translation import override
+from django.db.models import F, Q
 
 from weblate.machinery.base import MachineTranslationError
 from weblate.trans.autotranslate import BatchAutoTranslate
@@ -18,6 +19,30 @@ from weblate.trans.models import Unit
 if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Component
+    from weblate.trans.models.unit import UnitQuerySet
+
+
+@dataclass
+class UnitSelection:
+    """Runtime-only unit selection; source edits also select their target units."""
+
+    unit_ids: set[int] | None = None
+    source_unit_ids: set[int] = field(default_factory=set)
+    expand_source_ids: set[int] = field(default_factory=set)
+
+    def queryset(self, component: Component) -> UnitQuerySet:
+        units = Unit.objects.filter(translation__component=component)
+        if self.unit_ids is None:
+            return units
+        selected = Q(pk__in=self.unit_ids)
+        if self.expand_source_ids:
+            selected |= Q(source_unit_id__in=self.expand_source_ids) & ~Q(
+                pk=F("source_unit_id")
+            )
+        return units.filter(selected)
+
+    def count(self, component: Component) -> int:
+        return self.queryset(component).count()
 
 
 def automatic_translation(
@@ -26,7 +51,16 @@ def automatic_translation(
     user: User | None,
     *,
     enforce_permissions: bool = True,
+    selection: UnitSelection | None = None,
+    affected: UnitSelection | None = None,
 ) -> dict[str, Any]:
+    unit_ids = None
+    if selection is not None and selection.unit_ids is not None:
+        unit_ids = list(
+            selection.queryset(component)
+            .exclude(pk=F("source_unit_id"))
+            .values_list("pk", flat=True)
+        )
     auto = BatchAutoTranslate(
         component,
         user=user,
@@ -34,6 +68,7 @@ def automatic_translation(
         mode=settings["mode"],
         component_wide=True,
         enforce_permissions=enforce_permissions,
+        unit_ids=unit_ids,
     )
     message = auto.perform(
         auto_source=settings["auto_source"],
@@ -46,6 +81,9 @@ def automatic_translation(
     component.run_batched_checks()
     if auto.failure_message:
         raise MachineTranslationError(auto.failure_message)
+    if affected is not None:
+        affected.unit_ids = auto.affected_unit_ids
+        affected.source_unit_ids = auto.affected_source_unit_ids
     return {
         "component": component.pk,
         "updated": auto.updated,
@@ -54,11 +92,20 @@ def automatic_translation(
     }
 
 
-def bulk_edit(component: Component, settings: dict[str, Any]) -> dict[str, Any]:
+def bulk_edit(
+    component: Component,
+    settings: dict[str, Any],
+    selection: UnitSelection | None = None,
+    affected: UnitSelection | None = None,
+) -> dict[str, Any]:
     labels = component.project.label_set
+    if selection is None:
+        selection = UnitSelection()
+    affected_ids: set[int] = set()
+    affected_sources: set[int] = set()
     updated = bulk_perform(
         None,
-        Unit.objects.filter(translation__component=component),
+        selection.queryset(component),
         components=[component],
         query=settings["q"],
         target_state=settings["state"],
@@ -69,24 +116,11 @@ def bulk_edit(component: Component, settings: dict[str, Any]) -> dict[str, Any]:
         add_labels=labels.filter(name__in=settings["add_labels"]),
         remove_labels=labels.filter(name__in=settings["remove_labels"]),
         project=component.project,
+        affected_unit_ids=affected_ids,
+        affected_source_unit_ids=affected_sources,
     )
+    if affected is not None:
+        affected.unit_ids = affected_ids
+        affected.source_unit_ids = affected_sources
+        affected.expand_source_ids = affected_ids & affected_sources
     return {"component": component.pk, "updated": updated}
-
-
-def execute_operation(
-    action: dict[str, Any], component: Component, user: User | None
-) -> dict[str, Any]:
-    # Persisted results must not depend on the worker's active UI language.
-    with override("en"):
-        if action["action"] == "weblate.automatic_translation":
-            result = automatic_translation(
-                component, action["settings"], user, enforce_permissions=False
-            )
-            warnings = result["warnings"]
-            result["warnings"] = [str(warning)[:1024] for warning in warnings[:20]]
-            result["warnings_omitted"] = max(0, len(warnings) - 20)
-            return result
-        if action["action"] == "weblate.bulk_edit":
-            return bulk_edit(component, action["settings"])
-    msg = "Unsupported automation operation"
-    raise ValueError(msg)

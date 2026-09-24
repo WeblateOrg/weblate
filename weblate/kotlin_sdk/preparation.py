@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
 from arsc_writer import generate
+from weblate_schemas import validate_schema
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -56,12 +57,14 @@ class PreparedPublication:
     outputs: dict[str, tuple[Path, int]] = field(default_factory=dict)
 
     def manifest(self, build: BuildInput) -> dict[str, Any]:
-        return {
+        manifest = {
             "schemaVersion": 1,
             "packageName": build.package_name,
             "versionCode": build.version_code,
             "locales": self.locales,
         }
+        validate_schema(manifest, "weblate-kotlin-sdk-manifest.schema.json")
+        return manifest
 
 
 def resource_size(name: str, value: ResourceValue) -> int:

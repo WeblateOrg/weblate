@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 DEFAULT_WEBLATE_ADDONS: tuple[str, ...] = (
-    "weblate.addons.automation.AutomationAddon",
+    "weblate.automation.addon.AutomationAddon",
     "weblate.addons.gettext.GenerateMoAddon",
     "weblate.addons.gettext.UpdateLinguasAddon",
     "weblate.addons.gettext.UpdateConfigureAddon",
