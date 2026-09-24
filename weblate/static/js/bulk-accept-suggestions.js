@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         username: username,
         confirmed: "1",
         return_url: `${window.location.pathname}${window.location.search}${window.location.hash}`,
+        ...(isZen ? { zen: "1" } : {}),
         ...(confirmed === "approve" ? { approve: "1" } : {}),
       });
 
@@ -81,11 +82,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!data.completed) {
         const result = await waitForTask(data.task_url);
-        if (result?.message) {
+        if (typeof result === "string") {
+          const error = interpolate(gettext("Error: %s"), [result]);
+          addAlert(error);
+          showError(this, result);
+        } else if (result?.message) {
           srStatus.textContent = result.message;
         }
       }
-      addAlert(srStatus.textContent, "success");
       document.dispatchEvent(new CustomEvent("weblate:suggestions-changed"));
       enableAllButtons(document.querySelectorAll(".aa-accept-all-btn"));
     } catch (err) {
