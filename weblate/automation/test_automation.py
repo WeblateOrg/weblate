@@ -8,16 +8,20 @@ import json
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
+from pathlib import Path
+from textwrap import dedent
 from threading import Barrier
 from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 from unittest.mock import Mock, call, patch
 
 from django.core.exceptions import ValidationError
+from django.db.models import QuerySet
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 from django.utils.translation import override
 from rest_framework.test import APIClient
 
+from weblate.addons.ai import AIEvaluationAddon
 from weblate.addons.events import AddonActivityLogStatus, AddonEvent
 from weblate.addons.models import AddonActivityLog, handle_addon_event
 from weblate.addons.tasks import run_addon_manually
@@ -29,6 +33,7 @@ from weblate.automation.expressions import expressions
 from weblate.automation.forms import AutomationForm, validate_operations
 from weblate.automation.operations import (
     OPERATIONS,
+    AIQualityOperation,
     AutomaticTranslationOperation,
     AutomationOperation,
     register,
@@ -36,12 +41,19 @@ from weblate.automation.operations import (
 from weblate.automation.runner import Runner, execution_context, run_automation
 from weblate.automation.schema import SCHEMA
 from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.openai import OpenAITranslation
 from weblate.trans.actions import ActionEvents
 from weblate.trans.automation import UnitSelection
 from weblate.trans.autotranslate import AutoTranslate, BatchAutoTranslate
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Unit
 from weblate.trans.tests.test_views import ComponentTestCase
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_TRANSLATED,
+)
 
 if TYPE_CHECKING:
     from weblate.trans.models import Category, Component, Project
@@ -75,13 +87,31 @@ CONTEXT = {
 
 
 class DefinitionTest(SimpleTestCase):
+    def test_ai_quality_cookbook_workflow_parses(self) -> None:
+        documentation = (
+            Path(__file__).resolve().parents[2] / "docs/admin/automation.rst"
+        ).read_text(encoding="utf-8")
+        section = documentation.split(".. _automation-ai-quality-gateway:", 1)[1]
+        example = section.split(".. code-block:: yaml\n\n", 1)[1].split("\n\n", 1)[0]
+        workflow = parse_workflow(dedent(example))
+        self.assertEqual(
+            [action["action"] for action in workflow["actions"]],
+            [
+                "weblate.automatic_translation",
+                "weblate.automatic_translation",
+                "weblate.ai_quality",
+                "weblate.bulk_edit",
+                "weblate.bulk_edit",
+            ],
+        )
+
     def test_operation_registry_drives_action_schema(self) -> None:
         variants = SCHEMA["$defs"]["action"]["oneOf"]
         self.assertEqual(
-            [variant["properties"]["action"]["const"] for variant in variants[:2]],
+            [variant["properties"]["action"]["const"] for variant in variants[:3]],
             list(OPERATIONS),
         )
-        for variant in variants[:2]:
+        for variant in variants[:3]:
             operation = OPERATIONS[variant["properties"]["action"]["const"]]
             self.assertEqual(
                 variant["properties"]["settings"], operation.settings_schema
@@ -940,3 +970,332 @@ class AutomationTest(ComponentTestCase):
             self.install().daily_component(self.component).status,
             AddonActivityLogStatus.SKIPPED,
         )
+
+
+class AIQualityAutomationTest(ComponentTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.service = OpenAITranslation.get_identifier()
+        self.project.machinery_settings = {
+            self.service: {
+                "key": "test",
+                "model": "custom",
+                "custom_model": "test-model",
+            }
+        }
+        self.project.save(update_fields=["machinery_settings"])
+        self.units = list(
+            self.component.translation_set.get(language_code="cs").unit_set.order_by(
+                "pk"
+            )[:2]
+        )
+        for unit in self.units:
+            Unit.objects.filter(pk=unit.pk).update(
+                target=f"Translation {unit.pk}", state=STATE_TRANSLATED
+            )
+        self.addon = AIEvaluationAddon.create(
+            component=self.component,
+            configuration={"service": self.service, "q": "state:>=translated"},
+            run=False,
+        )
+        self.component.drop_addons_cache()
+
+    def quality_action(self, *, query: str = "") -> dict[str, Any]:
+        return {
+            "action": "weblate.ai_quality",
+            "id": "quality",
+            "settings": {"service": self.service, "q": query},
+        }
+
+    def test_component_scope_passes_lazy_selection(self) -> None:
+        settings = AIQualityOperation.normalize(
+            {"service": self.service}, self.component
+        )
+        with patch(
+            "weblate.automation.operations.evaluate_component",
+            return_value={"evaluated": 0, "failed": 0, "skipped": 0},
+        ) as evaluate:
+            AIQualityOperation.execute(self.component, settings, self.user)
+        selected_ids = evaluate.call_args.args[3]
+        self.assertIsInstance(selected_ids, QuerySet)
+
+    def test_quality_routes_only_evaluated_units(self) -> None:
+        clean, problematic = self.units
+        checks = " OR ".join(
+            f"check:ai_{category}"
+            for category in (
+                "accuracy",
+                "fluency",
+                "terminology",
+                "style",
+                "formatting",
+            )
+        )
+        actions = [
+            self.quality_action(query=f"id:{clean.pk} OR id:{problematic.pk}"),
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:quality",
+                "settings": {"q": f"NOT ({checks})", "state": STATE_APPROVED},
+            },
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:quality",
+                "settings": {"q": checks, "state": STATE_NEEDS_CHECKING},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        with patch.object(
+            OpenAITranslation,
+            "evaluate_batch",
+            return_value={
+                clean.pk: [],
+                problematic.pk: [
+                    {
+                        "category": "accuracy",
+                        "severity": "major",
+                        "explanation": "The meaning is reversed.",
+                    }
+                ],
+            },
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual(
+            runner.selections["quality"].unit_ids, {clean.pk, problematic.pk}
+        )
+        self.assertEqual(
+            runner.context["results"]["quality"],
+            {
+                "component": self.component.pk,
+                "evaluated": 2,
+            },
+        )
+        self.assertNotIn("unit_ids", json.dumps(runner.context["results"]))
+        clean.refresh_from_db()
+        problematic.refresh_from_db()
+        self.assertEqual(clean.state, STATE_APPROVED)
+        self.assertEqual(problematic.state, STATE_NEEDS_CHECKING)
+
+    def test_scope_query_and_empty_selection(self) -> None:
+        selected, excluded = self.units
+        action = self.quality_action()
+        settings = AIQualityOperation.normalize(action["settings"], self.component)
+        affected = UnitSelection(set())
+        with patch.object(
+            OpenAITranslation, "evaluate_batch", return_value={selected.pk: []}
+        ) as evaluate:
+            result = AIQualityOperation.execute(
+                self.component,
+                settings,
+                self.user,
+                selection=UnitSelection({selected.pk}),
+                affected=affected,
+            )
+        self.assertEqual(result["evaluated"], 1)
+        self.assertEqual(affected.unit_ids, {selected.pk})
+        evaluate.assert_called_once()
+        self.assertNotIn(excluded.pk, [unit.pk for unit in evaluate.call_args.args[0]])
+        affected = UnitSelection(set())
+        with patch.object(OpenAITranslation, "evaluate_batch") as evaluate:
+            result = AIQualityOperation.execute(
+                self.component,
+                settings,
+                self.user,
+                selection=UnitSelection(set()),
+                affected=affected,
+            )
+        self.assertEqual(result["evaluated"], 0)
+        self.assertEqual(affected.unit_ids, set())
+        evaluate.assert_not_called()
+
+    def test_trigger_scope_expands_source_unit(self) -> None:
+        selected = self.units[0]
+        source = selected.source_unit
+        change = Change.objects.create(
+            unit=source, action=ActionEvents.SOURCE_CHANGE, user=self.user
+        )
+        action = self.quality_action(query=f"id:{selected.pk}") | {"scope": "trigger"}
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "triggers": [{"trigger": "change", "events": ["source_change"]}],
+                    "actions": [action],
+                }
+            ),
+            self.component,
+        )
+        with patch.object(
+            OpenAITranslation, "evaluate_batch", return_value={selected.pk: []}
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "change", change),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual(runner.selections["quality"].unit_ids, {selected.pk})
+
+    def test_result_scope_uses_machine_selection(self) -> None:
+        selected = self.units[0]
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        AUTO | {"id": "machine"},
+                        self.quality_action() | {"scope": "result:machine"},
+                    ]
+                }
+            ),
+            self.component,
+        )
+
+        def translated(
+            _component: Component,
+            _settings: dict[str, Any],
+            _user: object,
+            *,
+            selection: UnitSelection | None,
+            affected: UnitSelection | None,
+        ) -> dict[str, Any]:
+            if affected is not None:
+                affected.unit_ids = {selected.pk}
+            return {
+                "component": self.component.pk,
+                "updated": 1,
+                "message": "Done",
+                "warnings": [],
+                "warnings_omitted": 0,
+            }
+
+        with (
+            patch.object(AutomaticTranslationOperation, "execute", translated),
+            patch.object(
+                OpenAITranslation, "evaluate_batch", return_value={selected.pk: []}
+            ),
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        self.assertEqual(runner.selections["quality"].unit_ids, {selected.pk})
+
+    def test_missing_or_mismatched_evaluator(self) -> None:
+        with self.assertRaises(ValidationError):
+            AIQualityOperation.normalize(
+                {"service": self.service, "q": "("}, self.component
+            )
+        self.addon.instance.delete()
+        self.component.drop_addons_cache()
+        with self.assertRaises(ValidationError):
+            AIQualityOperation.normalize({"service": self.service}, self.component)
+        with self.assertRaises(ValueError):
+            AIQualityOperation.execute(
+                self.component, {"service": self.service, "q": ""}, self.user
+            )
+
+    def test_inherited_evaluator_and_query_intersection(self) -> None:
+        selected, excluded = self.units
+        self.addon.instance.delete()
+        AIEvaluationAddon.create(
+            project=self.project,
+            configuration={"service": self.service, "q": f"id:{selected.pk}"},
+            run=False,
+        )
+        self.component.drop_addons_cache()
+        settings = AIQualityOperation.normalize(
+            {"service": self.service, "q": f"id:{selected.pk} OR id:{excluded.pk}"},
+            self.component,
+        )
+        affected = UnitSelection(set())
+        with patch.object(
+            OpenAITranslation, "evaluate_batch", return_value={selected.pk: []}
+        ) as evaluate:
+            result = AIQualityOperation.execute(
+                self.component, settings, self.user, affected=affected
+            )
+        self.assertEqual(result["evaluated"], 1)
+        self.assertEqual(affected.unit_ids, {selected.pk})
+        evaluate.assert_called_once()
+
+    def test_rate_limited_evaluation_stops_approval(self) -> None:
+        unit = self.units[0]
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        self.quality_action(query=f"id:{unit.pk}"),
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:quality",
+                            "settings": {"state": STATE_APPROVED},
+                        },
+                    ]
+                }
+            ),
+            self.component,
+        )
+        with (
+            patch.object(OpenAITranslation, "is_rate_limited", return_value=True),
+            patch.object(OpenAITranslation, "evaluate_batch") as evaluate,
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.ERROR)
+        evaluate.assert_not_called()
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertEqual(runner.context["results"], {})
+
+    def test_failed_evaluation_stops_approval(self) -> None:
+        unit = self.units[0]
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        self.quality_action(query=f"id:{unit.pk}"),
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:quality",
+                            "settings": {"state": STATE_APPROVED},
+                        },
+                    ]
+                }
+            ),
+            self.component,
+        )
+        with patch.object(
+            OpenAITranslation,
+            "evaluate_batch",
+            side_effect=MachineTranslationError("provider secret response"),
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.ERROR)
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertEqual(runner.trace[-1]["status"], "skipped")
+        self.assertNotIn("provider secret response", json.dumps(runner.result()))
