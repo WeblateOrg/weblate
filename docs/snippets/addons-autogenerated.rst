@@ -1955,6 +1955,7 @@ in one of the following modes:
 * Per language
 * Per file
 * Per author
+* Per author and language
 
 Original commit messages are kept, but authorship is lost unless :guilabel:`Per author` is selected, or
 the commit message is customized to include it.
