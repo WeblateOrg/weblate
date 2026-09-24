@@ -5707,6 +5707,11 @@ class ViewTests(ViewTestCase):
         self.assertNotContains(response, 'name="form"')
         self.assertContains(response, "Configuration")
         self.assertContains(response, "Logs")
+        self.assertNotContains(response, reverse("addon-api", kwargs={"pk": addon.pk}))
+        self.assertEqual(
+            self.client.get(reverse("addon-api", kwargs={"pk": addon.pk})).status_code,
+            404,
+        )
         self.assertNotContains(response, "Components")
         self.assertContains(response, "Danger zone")
         self.assertContains(response, "Uninstall")
