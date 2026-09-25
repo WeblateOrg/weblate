@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING
 from unittest.mock import ANY, patch
 from zipfile import ZipFile
 
+from django.conf import settings
 from django.contrib.messages import ERROR
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -1694,6 +1695,25 @@ class DownloadMultiTest(ViewTestCase):
             reverse("download", kwargs=self.kw_component), {"format": "zip:csv"}
         )
         self.assert_zip(response, "test-test-cs.csv")
+
+    def test_component_with_exporter_disabled(self) -> None:
+        # omit CSV exporter
+        exporters = tuple(
+            path
+            for path in settings.WEBLATE_EXPORTERS
+            if path != "weblate.formats.exporters.CSVExporter"
+        )
+        with override_settings(WEBLATE_EXPORTERS=exporters):
+            response = self.client.get(self.project.get_absolute_url())
+            self.assertNotContains(
+                response, "Download translations as CSV in a ZIP file"
+            )
+            self.assertContains(response, "format=zip:xlsx")
+
+            response = self.client.get(
+                reverse("download", kwargs=self.kw_component), {"format": "zip:csv"}
+            )
+        self.assertEqual(response.status_code, 404)
 
     def test_component_xlsx(self) -> None:
         response = self.client.get(

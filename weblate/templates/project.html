@@ -76,26 +76,13 @@
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
       <ul class="dropdown-menu shadow">
-        <li>
-          <a class="dropdown-item"
-             href="{% url 'download' path=object.get_url_path %}?format=zip"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
-        </li>
-        <li>
-          <a class="dropdown-item"
-             href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
-        </li>
-        <li>
-          <a class="dropdown-item"
-             href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
-        </li>
-        <li>
-          <a class="dropdown-item"
-             href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
-             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
-        </li>
+        {% for format, format_name in available_exporters %}
+          <li>
+            <a class="dropdown-item"
+               href="{% url 'download' path=object.get_url_path %}?format=zip:{{ format }}"
+               title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as {{ format_name }} in a ZIP file{% endblocktranslate %}</a>
+          </li>
+        {% endfor %}
         {% if user_can_upload_translation %}
           <li>
             <a class="dropdown-item"
