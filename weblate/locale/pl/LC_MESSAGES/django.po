@@ -22,9 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-25 04:08+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-09-25 06:33+0000\n"
+"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -1512,16 +1511,11 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "Logowanie dwuskładnikowe"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Authentication service URL"
 msgid "Evaluation service"
-msgstr "Adres URL usługi uwierzytelniania"
+msgstr "Usługa oceny"
 
-#, fuzzy
-#| msgid "Update frequency"
 msgid "Evaluation frequency"
-msgstr "Częstotliwość aktualizacji"
+msgstr "Częstotliwość oceny"
 
 msgid "Disabled"
 msgstr "Wyłączono"
@@ -1535,24 +1529,20 @@ msgstr "Cotygodniowo"
 msgid "Monthly"
 msgstr "Miesięcznie"
 
-#, fuzzy
-#| msgid "Browse all translation changes"
 msgid "Evaluate translation changes"
-msgstr "Przeglądaj wszystkie zmiany tłumaczenia"
+msgstr "Oceń zmiany w tłumaczeniu"
 
-#, fuzzy
-#| msgid "Remote repository updated"
 msgid "Evaluate repository updates"
-msgstr "Zdalne repozytorium zaktualizowane"
+msgstr "Oceń aktualizacje repozytorium"
 
-#, fuzzy
-#| msgid "Plural equation"
 msgid "AI quality evaluation"
-msgstr "Równanie liczby mnogiej"
+msgstr "Ocena jakości AI"
 
 msgid ""
 "Evaluates existing translations using an LLM and records quality checks."
 msgstr ""
+"Ocenia istniejące tłumaczenia przy użyciu modelu LLM i rejestruje wyniki "
+"kontroli jakości."
 
 msgid "Automatic translation"
 msgstr "Tłumaczenie automatyczne"
@@ -3927,18 +3917,14 @@ msgstr "Zamiast tego dodaj ciąg do języka źródłowego."
 msgid "Adding strings is disabled in the component configuration."
 msgstr "Dodawanie ciągów jest wyłączone w konfiguracji komponentu."
 
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Editing source strings is disabled in the component configuration."
-msgstr "Dodawanie ciągów jest wyłączone w konfiguracji komponentu."
+msgstr "Edycja ciągów źródłowych jest wyłączona w konfiguracji komponentu."
 
 msgid "The file format does not support this."
 msgstr "Format pliku tego nie obsługuje."
 
-#, fuzzy
-#| msgid "You do not have permission to edit glossary entries."
 msgid "You do not have permission to edit this glossary."
-msgstr "Nie masz uprawnień do edycji wpisów w słowniku."
+msgstr "Nie masz uprawnień do edycji tego słownika."
 
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
@@ -3997,102 +3983,88 @@ msgstr "Zaproszenie użytkownika zostało usunięte."
 msgid "Accepted invitation to the %s team."
 msgstr "Zaakceptowano zaproszenie do zespołu %s."
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "Automatyczne wykrywanie"
+msgstr "Automatyzacja"
 
 msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
+"Wykonuje uporządkowane operacje tłumaczenia z uwzględnieniem warunków i "
+"rozgałęzień."
 
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "The component is outside this add-on's scope."
-msgstr "Ten komponent jest nieprawidłowo skonfigurowany."
+msgstr "Ten komponent wykracza poza zakres tego dodatku."
 
-#, fuzzy
-#| msgid "Category does not belong to this project."
 msgid "The change does not belong to this component."
-msgstr "Kategoria nie należy do tego projektu."
+msgstr "Ta zmiana nie należy do tego komponentu."
 
-#, fuzzy
-#| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
-msgstr "Tryb automatycznego tłumaczenia"
+msgstr "Zagnieżdżenie automatyzacji jest zbyt głębokie."
 
 msgid "Automation definitions cannot exceed 64 KiB."
-msgstr ""
+msgstr "Definicje automatyzacji nie mogą przekraczać 64 KiB."
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "YAML aliases and tags are not supported."
-msgstr "Wybrane sortowanie nie jest obsługiwane."
+msgstr "Aliasy i znaczniki YAML nie są obsługiwane."
 
-#, fuzzy
-#| msgid "Automatically translated strings"
 msgid "Automation keys must be strings."
-msgstr "Ciągi przetłumaczone automatycznie"
+msgstr "Klucze automatyzacji muszą być ciągami."
 
 msgid "Invalid automation YAML or JSON."
-msgstr ""
+msgstr "Nieprawidłowy kod YAML lub JSON automatyzacji."
 
-#, fuzzy, python-format
-#| msgid "%(email)s: %(error)s"
+#, python-format
 msgid "%(path)s: %(error)s"
-msgstr "%(email)s: %(error)s"
+msgstr "%(path)s: %(error)s"
 
 msgid "Automation exceeds 100 nodes or eight nesting levels."
-msgstr ""
+msgstr "Automatyzacja przekracza 100 węzłów lub osiem poziomów zagnieżdżenia."
 
 msgid "Automation action IDs must be unique."
-msgstr ""
+msgstr "Identyfikatory działań automatyzacji muszą być unikalne."
 
 #, python-format
 msgid "%(path)s: trigger scope requires only change triggers."
-msgstr ""
+msgstr "%(path)s: zakres wyzwalacza wymaga wyłącznie wyzwalaczy zmiany."
 
 #, python-format
 msgid "%(path)s: result scope requires an earlier action ID."
-msgstr ""
+msgstr "%(path)s: zakres wyniku wymaga wcześniejszego identyfikatora działania."
 
 #, python-format
 msgid "%(path)s: not requires exactly one condition."
-msgstr ""
+msgstr "%(path)s: nie wymaga dokładnie jednego warunku."
 
-#, fuzzy
-#| msgid "Automatic component list assignment"
 msgid "Automation context is too large."
-msgstr "Automatyczne przypisywanie listy komponentów"
+msgstr "Kontekst automatyzacji jest zbyt duży."
 
 msgid "CEL validation or evaluation failed or exceeded its resource limit."
 msgstr ""
+"Walidacja lub ocena CEL zakończyła się niepowodzeniem albo przekroczyła "
+"limit zasobów."
 
-#, fuzzy, python-format
-#| msgid "Invalid repository branch: %s"
+#, python-format
 msgid "Invalid CEL condition: %s"
-msgstr "Nieprawidłowa gałąź repozytorium: %s"
+msgstr "Nieprawidłowy warunek CEL: %s"
 
 msgid "Workflow"
 msgstr "Przepływ pracy"
 
 msgid "Enter an automation definition as YAML or JSON."
-msgstr ""
+msgstr "Wpisz definicję automatyzacji w formacie YAML lub JSON."
 
-#, fuzzy
-#| msgid "Create component"
 msgid "Preview component ID"
-msgstr "Utwórz komponent"
+msgstr "Identyfikator komponentu podglądu"
 
 msgid "Required for inherited automations. Used only for preview."
 msgstr ""
+"Wymagane w przypadku dziedziczonych automatyzacji. Używane wyłącznie do "
+"podglądu."
 
-#, fuzzy
-#| msgid "Review changes"
 msgid "Preview change ID"
-msgstr "Przejrzyj zmiany"
+msgstr "Identyfikator zmiany podglądu"
 
 msgid "Optional event context. Used only for preview."
-msgstr ""
+msgstr "Opcjonalny kontekst zdarzenia. Używany tylko do podglądu."
 
 msgid "Additional message"
 msgstr "Wiadomość dodatkowa"
@@ -4278,55 +4250,43 @@ msgid "Cannot merge such a billing."
 msgstr "Nie można scalić takiej płatności."
 
 msgid "Minor"
-msgstr ""
+msgstr "Niewielka"
 
 msgid "Major"
-msgstr ""
+msgstr "Wielka"
 
 msgid "Critical"
-msgstr ""
+msgstr "Krytyczna"
 
 msgid "AI: Accuracy"
-msgstr ""
+msgstr "AI: dokładność"
 
 msgid "The evaluation detected a change in meaning."
-msgstr ""
+msgstr "Ocena wykryła zmianę znaczenia."
 
-#, fuzzy
-#| msgid "Frequency"
 msgid "AI: Fluency"
-msgstr "Częstotliwość"
+msgstr "AI: płynność"
 
-#, fuzzy
-#| msgid "The translation base language is editable."
 msgid "The evaluation detected a language quality issue."
-msgstr "Język bazowy tłumaczenia można edytować."
+msgstr "W trakcie oceny wykryto problem z jakością językową."
 
-#, fuzzy
-#| msgid "Terminology"
 msgid "AI: Terminology"
-msgstr "Terminologia"
+msgstr "AI: terminologia"
 
 msgid "The evaluation detected incorrect terminology."
-msgstr ""
+msgstr "Ocena wykazała nieprawidłową terminologię."
 
 msgid "AI: Style"
-msgstr ""
+msgstr "AI: styl"
 
-#, fuzzy
-#| msgid "The documentation has detailed instructions"
 msgid "The evaluation detected a style or instruction mismatch."
-msgstr "Dokumentacja zawiera szczegółowe instrukcje"
+msgstr "W trakcie oceny wykryto niezgodność stylu lub instrukcji."
 
-#, fuzzy
-#| msgid "Vue I18n formatting"
 msgid "AI: Formatting"
-msgstr "Formatowanie Vue I18n"
+msgstr "AI: formatowanie"
 
-#, fuzzy
-#| msgid "Translation is missing some placeholders."
 msgid "The evaluation detected a formatting or placeholder issue."
-msgstr "W tłumaczeniu brakuje niektórych symboli zastępczych."
+msgstr "Podczas oceny wykryto problem z formatowaniem lub symbolem zastępczym."
 
 msgid "AngularJS interpolation string"
 msgstr "Ciąg znaków interpolacji AngularJS"
@@ -5568,33 +5528,25 @@ msgstr "Wielowartościowy plik CSV"
 
 msgid "Editing Fluent messages with attributes or selectors is not supported."
 msgstr ""
+"Edycja komunikatów Fluent zawierających atrybuty lub selektory nie jest "
+"obsługiwana."
 
-#, fuzzy
-#| msgid "The file format does not support updating source strings."
 msgid "This file format does not support editing keys or context."
-msgstr "Format pliku nie obsługuje aktualizacji ciągów źródłowych."
+msgstr "Ten format pliku nie obsługuje edycji kluczy ani kontekstu."
 
-#, fuzzy
-#| msgid "A user with this e-mail already exists."
 msgid "A string with this identity already exists."
-msgstr "Użytkownik z tym adresem e-mail już istnieje."
+msgstr "Ciąg o tym identyfikatorze już istnieje."
 
-#, fuzzy
-#| msgid "The file format does not support updating source strings."
 msgid "This file format does not support editing source strings."
-msgstr "Format pliku nie obsługuje aktualizacji ciągów źródłowych."
+msgstr "Ten format pliku nie obsługuje edycji ciągów źródłowych."
 
-#, fuzzy
-#| msgid "Update source strings upload is not supported with this format."
 msgid "Editing source strings with inline markup is not supported."
 msgstr ""
-"Przesyłanie ciągów źródłowych aktualizacji nie jest obsługiwane w tym "
-"formacie."
+"Edycja ciągów źródłowych zawierających znaczniki wewnątrztekstowe nie jest "
+"obsługiwana."
 
-#, fuzzy
-#| msgid "This role cannot be assigned to this team."
 msgid "The key cannot be represented in this file format."
-msgstr "Ta rola nie może zostać przypisana temu zespołowi."
+msgstr "Klucza nie można przedstawić w tym formacie pliku."
 
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
@@ -5894,6 +5846,8 @@ msgid ""
 "Retires builds this many days after their first registration. Re-registering "
 "a build does not extend its age."
 msgstr ""
+"Kompilacje są wycofywane po upływie określonej liczby dni od daty pierwszej "
+"rejestracji. Ponowna rejestracja kompilacji nie wydłuża czasu jej istnienia."
 
 msgid "Maximum retained versions"
 msgstr "Maksymalna liczba zachowywanych wersji"
@@ -5902,6 +5856,8 @@ msgid ""
 "Limits retained builds across all package names. A build is retired when "
 "either this limit or the maximum age is reached."
 msgstr ""
+"Ogranicza liczbę zachowywanych kompilacji dla wszystkich nazw pakietów. "
+"Kompilacja jest usuwana po osiągnięciu tego limitu lub maksymalnego wieku."
 
 msgid "Kotlin SDK CDN"
 msgstr "CDN SDK Kotlin"
@@ -8377,13 +8333,12 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Niestety, Twoja przeglądarka nie obsługuje WebAuthn."
 
-#, fuzzy
-#| msgid "Add-ons"
 msgid "Add-on API"
-msgstr "Dodatki"
+msgstr "API dodatku"
 
 msgid "Use this base URL to access the add-on API:"
 msgstr ""
+"Użyj tego bazowego adresu URL, aby uzyskać dostęp do interfejsu API dodatku:"
 
 msgid "API root"
 msgstr "Baza API"
@@ -8392,7 +8347,7 @@ msgid "Configuration"
 msgstr "Konfiguracja"
 
 msgid "API"
-msgstr ""
+msgstr "API"
 
 msgid "Logs"
 msgstr "Dzienniki"
@@ -8421,23 +8376,21 @@ msgstr "Nie znaleziono komponentów."
 msgid "Configure add-on"
 msgstr "Konfiguruj wtyczkę"
 
-#, fuzzy
-#| msgid "Review changes"
 msgid "Preview without changes"
-msgstr "Przejrzyj zmiany"
+msgstr "Przejrzyj bez zmian"
 
 msgid "This add-on has no settings."
 msgstr "Ten dodatek nie ma żadnych ustawień."
 
-#, fuzzy
-#| msgid "Automatically recognize"
 msgid "Automation preview"
-msgstr "Rozpoznaj automatycznie"
+msgstr "Podgląd automatyzacji"
 
 msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
+"Nie wykonano żadnych operacji. Warunki zależne od planowanych zmian są "
+"oznaczone jako nieznane."
 
 msgid "Run add-on"
 msgstr "Uruchom dodatek"
@@ -8645,14 +8598,20 @@ msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
 msgstr ""
+"Informacje na temat konfiguracji wtyczki Gradle i biblioteki znajdziesz w <a "
+"href=\"%(url)s\">repozytorium SDK Kotlin</a>."
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
 msgstr ""
+"Skonfiguruj wtyczkę Gradle dla pakietu SDK języka Kotlin, używając "
+"następujących wartości:"
 
 msgid ""
 "Replace the placeholder with a project-scoped API token that can edit this "
 "component. Keep the token in the build environment."
 msgstr ""
+"Zastąp symbol zastępczy tokenem API o zasięgu projektu, który umożliwia "
+"edycję tego komponentu. Przechowuj token w środowisku kompilowania."
 
 msgid "Create a project token"
 msgstr "Utwórz token projektu"
@@ -9904,6 +9863,8 @@ msgid ""
 "Only the configured branch is reset. Other local branches are kept; use "
 "Cleanup to remove them."
 msgstr ""
+"Resetowana jest tylko skonfigurowana gałąź. Pozostałe gałęzie lokalne są "
+"zachowywane; aby je usunąć, należy użyć funkcji porządkowania."
 
 msgid "Reset and reapply"
 msgstr "Zresetuj i zastosuj ponownie"
@@ -9929,7 +9890,7 @@ msgid "Cleanup"
 msgstr "Oczyszczanie"
 
 msgid "Remove untracked files and unused local branches"
-msgstr ""
+msgstr "Usuń nieśledzone pliki i nieużywane gałęzie lokalne"
 
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
@@ -9942,12 +9903,18 @@ msgid ""
 "For Git repositories, it also deletes all local branches other than the "
 "configured branch, including any commits that have not been pushed."
 msgstr ""
+"W przypadku repozytoriów Git usuwa również wszystkie gałęzie lokalne poza "
+"gałęzią skonfigurowaną, w tym wszelkie commity, które nie zostały wypchnięte."
 
 msgid ""
 "If switching to a branch with rewritten upstream history fails, switch to a "
 "working branch, run Cleanup, then switch back to recreate the affected "
 "branch from upstream."
 msgstr ""
+"Jeśli przejście na gałąź ze zmienioną historią upstream zakończy się "
+"niepowodzeniem, przełącz się na działającą gałąź, uruchom operację "
+"porządkowania, a następnie przełącz się z powrotem, aby odtworzyć daną gałąź "
+"na podstawie upstreamu."
 
 msgid "Synchronize"
 msgstr "Synchronizacja"
@@ -10056,11 +10023,8 @@ msgstr "Zmiany repozytorium"
 msgid "Browse all repository changes"
 msgstr "Przeglądaj wszystkie zmiany w repozytorium"
 
-#, fuzzy
-#| msgctxt "Number of strings"
-#| msgid "Waiting for review"
 msgid "Nothing to preview."
-msgstr "Oczekujące na przegląd"
+msgstr "Nie ma nic do podglądu."
 
 msgid "Shortcut"
 msgstr "Skrót"
@@ -10894,28 +10858,30 @@ msgstr ""
 "prosimy o zapisanie poniżej danych uwierzytelniających."
 
 msgid "Cloud backups for self-hosted Weblate"
-msgstr ""
+msgstr "Kopie zapasowe w chmurze dla samodzielnie hostowanego Weblate"
 
 msgid ""
 "Back up Weblate running in your own environment. No hosting or separate "
 "support subscription is required."
 msgstr ""
+"Wykonaj kopię zapasową instancji Weblate działającej w Twoim własnym "
+"środowisku. Nie jest wymagany hosting ani oddzielna subskrypcja wsparcia "
+"technicznego."
 
 msgid ""
 "Purchase the backup service, enter its activation token below, then turn on "
 "the new backup configuration. Save the backup credentials in a secure place "
 "so you can restore your data."
 msgstr ""
+"Zakup usługę tworzenia kopii zapasowych, wprowadź poniżej jej token "
+"aktywacyjny, a następnie włącz nową konfigurację kopii zapasowych. Zapisz "
+"dane uwierzytelniające w bezpiecznym miejscu, aby móc przywrócić swoje dane."
 
-#, fuzzy
-#| msgid "Add backup service"
 msgid "Buy backup service"
-msgstr "Dodaj usługę tworzenia kopii zapasowych"
+msgstr "Kup usługę tworzenia kopii zapasowych"
 
-#, fuzzy
-#| msgid "Cleaned up backup storage"
 msgid "Add custom backup storage"
-msgstr "Wyczyszczono pamięć kopii zapasowych"
+msgstr "Dodaj własną pamięć masową na kopie zapasowe"
 
 msgid "Commercial"
 msgstr "Hostowanie komercyjne"
@@ -12910,10 +12876,9 @@ msgstr "Zaakceptuj zaproszenie"
 msgid "Create account"
 msgstr "Utwórz konto"
 
-#, fuzzy, python-format
-#| msgid "Configure add-on"
+#, python-format
 msgid "Configure %(addon)s"
-msgstr "Konfiguruj wtyczkę"
+msgstr "Konfiguruj %(addon)s"
 
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate nie mógł uruchomić dodatku skryptowego."
@@ -12929,6 +12894,9 @@ msgid ""
 "service in the add-on configuration, or restore the service in Automatic "
 "suggestions settings."
 msgstr ""
+"Skonfigurowana usługa oceny jest niedostępna. Wybierz skonfigurowaną usługę "
+"LLM w konfiguracji dodatku lub przywróć usługę w ustawieniach automatycznych "
+"sugestii."
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr ""
@@ -13560,15 +13528,11 @@ msgstr[0] "Kopie zapasowe są usuwane po %(keep_days)s dniu."
 msgstr[1] "Kopie zapasowe są usuwane po %(keep_days)s dniach."
 msgstr[2] "Kopie zapasowe są usuwane po %(keep_days)s dniach."
 
-#, fuzzy
-#| msgid "Jump to"
 msgid "Jump to date"
-msgstr "Przejdź do"
+msgstr "Przejdź do daty"
 
-#, fuzzy
-#| msgid "Good"
 msgid "Go"
-msgstr "Dobre"
+msgstr "Idź"
 
 msgid "Changes"
 msgstr "Zmiany"
@@ -13580,22 +13544,19 @@ msgid "Follow using RSS"
 msgstr "Obserwuj za pomocą RSS"
 
 msgid "History navigation above results"
-msgstr ""
+msgstr "Nawigacja po historii nad wynikami"
 
 msgid "History navigation below results"
-msgstr ""
+msgstr "Nawigacja po historii pod wynikami"
 
 msgid "Latest"
-msgstr ""
+msgstr "Ostatnie"
 
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Viewers"
 msgid "Newer"
-msgstr "Wyświetlający"
+msgstr "Nowsze"
 
 msgid "Older"
-msgstr ""
+msgstr "Starsze"
 
 msgid "From version control"
 msgstr "Z kontroli wersji"
@@ -14006,9 +13967,6 @@ msgstr ""
 "przeniesione do innej lokalizacji. Jeśli zawartość repozytorium jest inna, "
 "lepiej utworzyć nowy komponent tłumaczeń."
 
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit source"
 msgstr "Edytuj źródło"
 
@@ -14261,10 +14219,8 @@ msgstr "Obecnie nie podano żadnego objaśnienia."
 msgid "No labels currently set."
 msgstr "Nie ustawiono żadnych etykiet."
 
-#, fuzzy
-#| msgid "Edit label"
 msgid "Edit flags"
-msgstr "Edytuj etykietę"
+msgstr "Edytuj flagi"
 
 msgid "Flags"
 msgstr "Flagi"
@@ -14341,16 +14297,17 @@ msgstr ""
 "<code>%(flags)s</code> jest dziedziczona z %(object)s, ponieważ edycja "
 "ciągów źródłowych jest wyłączona."
 
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Effective flags"
-msgstr "Odziedziczone flagi"
+msgstr "Skuteczne flagi"
 
 msgid ""
 "Changes apply to all languages in this component. Changing source text marks "
 "existing translations as needing editing. Renamed keys may require changes "
 "in your application code."
 msgstr ""
+"Zmiany dotyczą wszystkich języków w tym komponencie. Zmiana tekstu "
+"źródłowego oznacza istniejące tłumaczenia jako wymagające edycji. Zmiana "
+"nazw kluczy może wymagać modyfikacji kodu aplikacji."
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -14892,12 +14849,10 @@ msgid "Embed Code"
 msgstr "Kod osadzenia"
 
 msgid "Write"
-msgstr ""
+msgstr "Pisz"
 
-#, fuzzy
-#| msgid "Review"
 msgid "Preview"
-msgstr "Przegląd"
+msgstr "Przejrzyj"
 
 msgid "Browse all workspace changes"
 msgstr "Przeglądaj wszystkie zmiany obszaru roboczego"
@@ -15593,10 +15548,8 @@ msgstr "Nie udało się zaktualizować pliku POT."
 msgid "POT updates do not update PO files."
 msgstr "Aktualizacje POT nie aktualizują plików PO."
 
-#, fuzzy
-#| msgid "A required file is not available."
 msgid "AI quality evaluation service is unavailable."
-msgstr "Wymagany plik jest niedostępny."
+msgstr "Usługa oceny jakości AI jest niedostępna."
 
 msgid "Information"
 msgstr "Informacje"
@@ -16246,40 +16199,36 @@ msgstr "MAC (\\r)"
 msgid "Include closing tag for blank XML tags"
 msgstr "Dołącz tag zamykający do pustych tagów XML"
 
-#, fuzzy
-#| msgid "Conflict handling"
 msgid "Whitespace handling"
-msgstr "Obsługa konfliktów"
+msgstr "Obsługa białych znaków"
 
 msgid "Follow xml:space"
-msgstr ""
+msgstr "Przestrzegaj xml:space"
 
 msgid "Always preserve"
-msgstr ""
+msgstr "Zawsze zachowuj"
 
 msgid "Always normalize"
-msgstr ""
+msgstr "Zawsze normalizuj"
 
 msgid ""
 "Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
 "in the file. Always preserve keeps all whitespace. Always normalize "
 "collapses whitespace even when xml:space=\"preserve\" is set."
 msgstr ""
+"Określa sposób obsługi białych znaków w formacie XLIFF. Opcja „Przestrzegaj "
+"xml:space” uwzględnia atrybuty zawarte w pliku. Opcja „Zawsze zachowuj” "
+"zachowuje wszystkie białe znaki. Opcja „Zawsze normalizuj” scala białe "
+"znaki, nawet jeśli ustawiono atrybut xml:space=\"preserve\"."
 
-#, fuzzy
-#| msgid "Weblate support"
 msgid "Placeables support"
-msgstr "Wsparcie Weblate"
+msgstr "Obsługa obiektów do umieszczenia"
 
-#, fuzzy
-#| msgid "Plain text file"
 msgid "Plain text only"
-msgstr "Zwykły plik tekstowy"
+msgstr "Tylko zwykły tekst"
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support placeables"
-msgstr "Wesprzyj Weblate"
+msgstr "Obsługuj obiekty do umieszczenia"
 
 msgid ""
 "Controls whether inline XML elements inside XLIFF strings are preserved as "
