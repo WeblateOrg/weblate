@@ -159,6 +159,21 @@ TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
 
+def encode_multipart_form_field(boundary: str, content: str | bytes) -> bytes:
+    if isinstance(content, str):
+        content = content.encode()
+    return b"\r\n".join(
+        [
+            f"--{boundary}".encode(),
+            b'Content-Disposition: form-data; name="file"',
+            b"",
+            content,
+            f"--{boundary}--".encode(),
+            b"",
+        ]
+    )
+
+
 class SettingsAPIFieldsTest(APITestCase):
     def test_settings_fields_are_exposed_in_api(self) -> None:
         for form_class, serializer_class in (
@@ -12881,16 +12896,31 @@ class TranslationAPITest(APIBaseTest):
     @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
     def test_upload_too_big(self) -> None:
         self.authenticate()
-        with open(TEST_PO, "rb") as handle:
-            response = self.client.put(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": handle},
+        content = Path(TEST_PO).read_bytes()
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        with open(TEST_PO, "rb") as file_handle:
+            uploads: tuple[tuple[str, object], ...] = (
+                ("file", file_handle),
+                ("bytes", content),
             )
+            for upload_name, upload in uploads:
+                with self.subTest(upload=upload_name):
+                    if upload_name == "bytes":
+                        response = self.client.generic(
+                            "PUT",
+                            url,
+                            encode_multipart_form_field(BOUNDARY, upload),  # type: ignore[arg-type]
+                            content_type=MULTIPART_CONTENT,
+                        )
+                    else:
+                        response = self.client.put(url, {"file": upload})
 
-        self.assertEqual(response.status_code, 400)
-        self.assertContains(
-            response, "Uploaded translation file is too big.", status_code=400
-        )
+                    self.assertEqual(response.status_code, 400)
+                    self.assertContains(
+                        response,
+                        "Uploaded translation file is too big.",
+                        status_code=400,
+                    )
 
     def test_upload_parse_error(self) -> None:
         self.authenticate()
@@ -13107,11 +13137,39 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_content(self) -> None:
         self.authenticate()
-        response = self.client.put(
-            reverse("api:translation-file", kwargs=self.translation_kwargs),
-            {"file": Path(TEST_PO).read_bytes()},
-        )
-        self.assertEqual(response.status_code, 400)
+        content = Path(TEST_PO).read_bytes()
+        expected = {
+            "accepted": 1,
+            "count": 4,
+            "not_found": 0,
+            "result": True,
+            "skipped": 0,
+            "total": 4,
+        }
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        translation = self.component.translation_set.get(language_code="cs")
+        for upload_name, upload in (("str", content.decode()), ("bytes", content)):
+            with self.subTest(upload=upload_name):
+                unit = translation.unit_set.get(source="Hello, world!\n")
+                unit.target = ""
+                unit.state = STATE_EMPTY
+                unit.save()
+                changes_start = self.component.change_set.count()
+                if isinstance(upload, str):
+                    response = self.client.put(url, {"file": upload})
+                else:
+                    response = self.client.generic(
+                        "PUT",
+                        url,
+                        encode_multipart_form_field(BOUNDARY, upload),
+                        content_type=MULTIPART_CONTENT,
+                    )
+                self.assertEqual(response.data, expected)
+                unit = translation.unit_set.get(source="Hello, world!\n")
+                self.assertEqual(unit.target, "Ahoj světe!\n")
+                self.assertEqual(unit.state, STATE_TRANSLATED)
+                self.assertEqual(self.component.project.stats.suggestions, 0)
+                self.check_upload_changes(changes_start, 2)
 
     def test_upload_conflicts(self) -> None:
         self.authenticate()
@@ -13237,10 +13295,32 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_invalid(self) -> None:
         self.authenticate()
-        response = self.client.put(
-            reverse("api:translation-file", kwargs=self.translation_kwargs)
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        cases: tuple[tuple[str, dict[str, object] | None, bytes | None], ...] = (
+            ("missing", None, None),
+            ("empty_str", {"file": ""}, None),
+            ("empty_bytes", None, encode_multipart_form_field(BOUNDARY, b"")),
         )
-        self.assertEqual(response.status_code, 400)
+        for case_name, data, body in cases:
+            with self.subTest(case=case_name):
+                if body is None:
+                    response = self.client.put(url, data)
+                else:
+                    response = self.client.generic(
+                        "PUT",
+                        url,
+                        body,
+                        content_type=MULTIPART_CONTENT,
+                    )
+                self.assertEqual(response.status_code, 400)
+                if case_name == "missing":
+                    continue
+                self.assertEqual(response.data["errors"][0]["attr"], "file")
+                self.assertEqual(response.data["errors"][0]["code"], "empty")
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "The submitted file is empty.",
+                )
 
     def test_upload_error(self) -> None:
         self.authenticate()

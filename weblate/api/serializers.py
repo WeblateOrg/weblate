@@ -14,6 +14,7 @@ from zipfile import BadZipfile
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.files.base import ContentFile
 from django.db import models, transaction
 from django.db.models import Model, TextChoices
 from django.utils.translation import gettext_lazy
@@ -3010,9 +3011,20 @@ class TranslationCreateSerializer(ReadOnlySerializer):
         return attrs
 
 
+class TranslationUploadFileField(serializers.FileField):
+    def to_internal_value(self, data):
+        if isinstance(data, (str, bytes)):
+            # wrap in ContentFile to allow raw content
+            content = data.encode() if isinstance(data, str) else data
+            if not content:
+                self.fail("empty")
+            data = ContentFile(content, name="upload")
+        return super().to_internal_value(data)
+
+
 class UploadRequestSerializer(ReadOnlySerializer):
     ignore_language = serializers.BooleanField(required=False, default=False)
-    file = serializers.FileField(validators=[validate_translation_upload_size])
+    file = TranslationUploadFileField(validators=[validate_translation_upload_size])
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
     method = serializers.ChoiceField(
