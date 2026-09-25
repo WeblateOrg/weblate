@@ -269,16 +269,24 @@ class BrokenBrowserURL(BaseAlert):
                     break
 
         if component.repoweb_translations:
-            location_link = component.get_repoweb_link(
-                component.source_translation.filename, "1", is_translation=True
-            )
-            if location_link is not None:
-                location_error = _get_validated_uri_error(
-                    location_link,
-                    validators=(WeblateURLValidator(),),
+            translation = (
+                component.translation_set.exclude(
+                    language_id=component.source_language_id
                 )
-                if location_error:
-                    return {"link": location_link, "error": location_error}
+                .exclude(filename="")
+                .first()
+            )
+            if translation:
+                location_link = component.get_repoweb_link(
+                    translation.filename, "1", is_translation=True
+                )
+                if location_link is not None:
+                    location_error = _get_validated_uri_error(
+                        location_link,
+                        validators=(WeblateURLValidator(),),
+                    )
+                    if location_error:
+                        return {"link": location_link, "error": location_error}
         return False
 
 

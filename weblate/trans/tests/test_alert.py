@@ -196,6 +196,16 @@ class AlertTest(ViewTestCase):
         self.component.repoweb_translations = (
             "https://translations.example.com/{{filename}}"
         )
+        translation = (
+            self.component.translation_set.exclude(
+                language_id=self.component.source_language_id
+            )
+            .exclude(filename="")
+            .first()
+        )
+        self.assertIsNotNone(translation)
+        assert translation is not None
+        self.assertEqual(self.component.source_translation.filename, "")
         mocked_uri_error.side_effect = (None, "translation browser failure")
 
         result = BrokenBrowserURL.check_component(self.component)
@@ -204,7 +214,7 @@ class AlertTest(ViewTestCase):
         self.assertEqual(result["error"], "translation browser failure")
         self.assertEqual(
             result["link"],
-            f"https://translations.example.com/{self.component.source_translation.filename}",
+            f"https://translations.example.com/{translation.filename}",
         )
         self.assertEqual(mocked_uri_error.call_count, 2)
 
@@ -219,6 +229,16 @@ class AlertTest(ViewTestCase):
         self.component.repoweb_translations = (
             "https://translations.example.com/{{filename}}"
         )
+        translation = (
+            self.component.translation_set.exclude(
+                language_id=self.component.source_language_id
+            )
+            .exclude(filename="")
+            .first()
+        )
+        self.assertIsNotNone(translation)
+        assert translation is not None
+        self.assertEqual(self.component.source_translation.filename, "")
 
         result = BrokenBrowserURL.check_component(self.component)
 
@@ -226,9 +246,51 @@ class AlertTest(ViewTestCase):
         self.assertEqual(result["error"], "translation browser failure")
         self.assertEqual(
             result["link"],
-            f"https://translations.example.com/{self.component.source_translation.filename}",
+            f"https://translations.example.com/{translation.filename}",
         )
         mocked_uri_error.assert_called_once()
+
+    @patch("weblate.trans.alerts.config._get_validated_uri_error", return_value=None)
+    def test_working_translation_browser_url(self, mocked_uri_error: Mock) -> None:
+        self.component.repoweb = ""
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}"
+        )
+        translation = (
+            self.component.translation_set.exclude(
+                language_id=self.component.source_language_id
+            )
+            .exclude(filename="")
+            .first()
+        )
+        self.assertIsNotNone(translation)
+        assert translation is not None
+
+        result = BrokenBrowserURL.check_component(self.component)
+
+        self.assertIs(result, False)
+        mocked_uri_error.assert_called_once()
+        self.assertEqual(
+            mocked_uri_error.call_args.args[0],
+            f"https://translations.example.com/{translation.filename}",
+        )
+
+    @patch("weblate.trans.alerts.config._get_validated_uri_error")
+    def test_translation_browser_url_without_non_source_translation(
+        self, mocked_uri_error: Mock
+    ) -> None:
+        self.component.repoweb = ""
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}"
+        )
+        self.component.translation_set.exclude(
+            language_id=self.component.source_language_id
+        ).delete()
+
+        result = BrokenBrowserURL.check_component(self.component)
+
+        self.assertIs(result, False)
+        mocked_uri_error.assert_not_called()
 
     def test_alert_class_metadata_does_not_initialize_alert_object(self) -> None:
         details = {"occurrences": [{"language_code": "cs"}]}
