@@ -320,7 +320,12 @@ AVATAR_URL_TEMPLATE
 
 Template to generate avatar URLs. Defaults to ``"{AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"``.
 
-It can contain ``{AVATAR_URL_PREFIX}``, ``{mail_hash}``, ``{querystring}``, and ``{size}``.
+It can contain ``{AVATAR_URL_PREFIX}``, ``{mail_hash}``, ``{querystring}``, ``{username}``, and ``{size}``.
+
+For example, to fetch avatars by username instead of e-mail hash (as needed by
+Codeberg's Forgejo-backed avatar service)::
+
+    AVATAR_URL_TEMPLATE = "{AVATAR_URL_PREFIX}avatar/{username}/{size}"
 
 .. seealso::
 
