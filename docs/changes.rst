@@ -33,6 +33,7 @@ Weblate 2026.10
 * Clarified :ref:`translation quality filters <project-commit_policy>` and effective per-language review settings.
 * Improved :ref:`translation memory <translation-memory>` lookup performance and added match context to :ref:`automatic suggestions <machine-translation>`.
 * Reduced aggregation overhead for the :ref:`inconsistent translations check <check-inconsistent>` on large projects.
+* :ref:`check-md-link` quality check now detects untranslated link titles.
 * :ref:`Automatic translation <auto-translation>` across components now prefers matching source text and context. The :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` can create approved strings, or translated strings when reviews are disabled.
 * Improved checks, fixes, glossary matching, and machine translation for :ref:`multivalue alternatives <format-multivalue>`.
 * :ref:`TBX glossaries <tbx>` now support independent term alternatives and scoped metadata, preserved on export.
