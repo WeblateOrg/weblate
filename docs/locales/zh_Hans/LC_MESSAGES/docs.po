@@ -47,7 +47,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-09-25 02:35+0000\n"
-"PO-Revision-Date: 2026-09-25 08:16+0000\n"
+"PO-Revision-Date: 2026-09-25 10:40+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -2994,12 +2994,10 @@ msgid ""
 "target project before running this action."
 msgstr ""
 
-#, fuzzy
-#| msgid "Added automatic translation add-on to bootstrap translations."
 msgid ""
 "See :ref:`automation-translation-ordering` to follow this pass with a remote "
 "translation service."
-msgstr "添加了自动翻译附加组件来引导翻译。"
+msgstr "查看 :ref:`automation-translation-ordering` 用远程翻译服务照着该流程做。"
 
 msgid "Outputs"
 msgstr "输出"
@@ -3057,7 +3055,7 @@ msgid ""
 msgstr ""
 
 msgid "AI quality evaluation"
-msgstr ""
+msgstr "所有质量评估"
 
 msgid ""
 "Evaluates existing target translations synchronously using the "
@@ -4191,12 +4189,6 @@ msgid ""
 msgstr ""
 "为了确保不翻译内部链接（即 `[test](../checks)` 不变成 `[test](../chequeos)`."
 
-#, fuzzy
-#| msgid ""
-#| "The flags defined on a higher level can be discarded using the "
-#| "``discard:NAME`` syntax. For example, if a component is configured to "
-#| "``safe-html``, you can add ``discard:safe-html`` to the string flags to "
-#| "skip it for this particular string."
 msgid ""
 "The flags defined on a higher level can be discarded using the "
 "``discard:NAME`` syntax. For example, if a component is configured to ``safe-"
@@ -4206,7 +4198,7 @@ msgid ""
 msgstr ""
 "可以用 ``discard:NAME`` 语法忽略更高层级定义的标记。比如，如果部件配置为 "
 "``safe-html``，你可以添加 ``discard:safe-html`` 到字符串标记让这个特定字符串"
-"跳过它。"
+"跳过它。翻译标记不能丢弃源字符串上设置的明确的 ``read-only`` 标记。"
 
 msgid "Here is a list of flags currently accepted:"
 msgstr "以下是目前接受的标记列表："
@@ -6786,16 +6778,6 @@ msgstr "默认为 ``True``。"
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL 和 LOCALIZE_CDN_PATH"
 
-#, fuzzy
-#| msgid ""
-#| "These settings configure the CDN add-ons, including :ref:`addon-"
-#| "weblate.cdn.cdnjs` and :ref:`addon-"
-#| "weblate.cdn.files`. :setting:`LOCALIZE_CDN_URL` defines root URL where "
-#| "the localization CDN is available and :setting:`LOCALIZE_CDN_PATH` "
-#| "defines path where Weblate should store generated files which will be "
-#| "served at the :setting:`LOCALIZE_CDN_URL`. The files are served by your "
-#| "web server or CDN, not by Weblate; see :ref:`cdn-server-security` for "
-#| "secure serving guidance."
 msgid ""
 "These settings configure the CDN add-ons, including :ref:`addon-"
 "weblate.cdn.cdnjs`, :ref:`addon-weblate.cdn.files`, and :ref:`addon-"
@@ -6806,11 +6788,12 @@ msgid ""
 "CDN, not by Weblate; see :ref:`cdn-server-security` for secure serving "
 "guidance."
 msgstr ""
-"这些设置配置 :ref:`addon-weblate.cdn.cdnjs` 和 :ref:`addon-"
-"weblate.cdn.files` 在内的 CDN 附加组件。:setting:`LOCALIZE_CDN_URL` 定义了本"
-"地化 CDN 可用的根 URL，而 :setting:`LOCALIZE_CDN_PATH` 定义了 Weblate 应"
-"把 :setting:`LOCALIZE_CDN_URL` 将提供的生成文件存储在哪个路径。你的 web 服务"
-"器或 CDN 提供这些文件，安全提供指南见 :ref:`cdn-server-security`。"
+"这些设置配置 :ref:`addon-weblate.cdn.cdnjs`、 :ref:`addon-weblate.cdn.files` "
+"、:ref:`addon-weblate.cdn.kotlin` 在内的 CDN 附加组件"
+"。:setting:`LOCALIZE_CDN_URL` 定义了本地化 CDN 可用的根 URL，而 "
+":setting:`LOCALIZE_CDN_PATH` 定义了 Weblate 应把 :setting:`LOCALIZE_CDN_URL` "
+"将提供的生成文件存储在哪个路径。你的 web 服务器或 CDN 提供这些文件，安全提供"
+"指南见 :ref:`cdn-server-security`。"
 
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
 msgstr "在 Hosted Weblate 中，这使用 ``https://weblate-cdn.com/``。"
@@ -11537,12 +11520,10 @@ msgstr "对 :envvar:`WEBLATE_LOG_GELF_HOST` 使用自定义端口，默认为 12
 msgid "Changes the site-title shown in the header of all pages."
 msgstr "更改所有页面页眉上显示的站点标题。"
 
-#, fuzzy
-#| msgid "Configures the site domain. This parameter is required."
 msgid ""
 "Configures the site domain. This parameter is required and accepts a "
 "hostname or IPv4 address."
-msgstr "配置站点域名。此参数为必填项。"
+msgstr "配置站点域名。此参数必填，接受主机名或 IPv4 地址。"
 
 msgid ""
 "Include a port between 1 and 65535 if using a non-standard one. IPv6 "
@@ -16102,10 +16083,8 @@ msgstr "创建新项目"
 msgid "Connecting a GitHub account"
 msgstr "连接 GitHub 账户"
 
-#, fuzzy
-#| msgid "Turning on reviews"
 msgid "Rendering a Markdown preview"
-msgstr "开启审核"
+msgstr "渲染 Markdown 预览"
 
 msgid ""
 "Within each scope, the rate limiting is based on sessions when user is "
@@ -17226,19 +17205,15 @@ msgstr ""
 msgid "Manage strings"
 msgstr "管理字符串"
 
-#, fuzzy
-#| msgid ""
-#| "Configures whether users in Weblate will be allowed to add new strings "
-#| "and remove existing ones. Adjust this to match your localization workflow "
-#| "- how the new strings are supposed to be introduced."
 msgid ""
 "Configures whether users in Weblate will be allowed to add new strings and "
 "remove existing ones. It also enables :ref:`editing source strings and keys "
 "<edit-source>` in supported formats. Adjust this to match your localization "
 "workflow — how strings are introduced and maintained."
 msgstr ""
-"配置Weblate中的用户是否被允许添加新字符串和删除现有字符串。调整这一点以配合你"
-"的本地化工作流程--新字符串应该如何被引入。"
+"配置Weblate中的用户是否被允许添加新字符串和删除现有字符串。它还在支持的格式中"
+"启用 :ref:`编辑源字符串和键 <edit-source>`。调整这一点以配合你的本地化工作流"
+"程——如何引入并维护字符串。"
 
 msgid ""
 "For bilingual formats, the strings are typically extracted from the source "
@@ -19516,12 +19491,8 @@ msgid ""
 "exemptions <api-rate>`, including Docker configuration."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Added support for :ref:`component-mounted add-on APIs <component-addon-"
-#| "api>`."
 msgid "Added :ref:`component-mounted add-on APIs <component-addon-api>`."
-msgstr "新增支持 :ref:`部件挂载的附加组件 API <component-addon-api>` 。"
+msgstr "新增 :ref:`部件挂载的附加组件 API <component-addon-api>` 。"
 
 msgid ""
 "The :ref:`Statistics generator <addon-weblate.generate.generate>` can now "
@@ -19529,10 +19500,8 @@ msgid ""
 "direction, and translation statistics."
 msgstr ""
 
-#, fuzzy
-#| msgid "Added integration with :ref:`discover-weblate`."
 msgid "Added a testing version of :ref:`addon-weblate.cdn.kotlin`."
-msgstr "添加了与 :ref:`discover-weblate` 的集成。"
+msgstr "添加了 :ref:`addon-weblate.cdn.kotlin` 的测试版。"
 
 msgid ""
 "Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a "
@@ -19602,37 +19571,28 @@ msgid ""
 "effective per-language review settings."
 msgstr ""
 
-#, fuzzy
-#| msgid "Improved :ref:`translation-propagation` performance."
 msgid ""
 "Improved :ref:`translation memory <translation-memory>` lookup performance "
 "and added match context to :ref:`automatic suggestions <machine-"
 "translation>`."
-msgstr "改进了 :ref:`translation-propagation` 性能。"
+msgstr ""
+"改进了 :ref:`翻译记忆库 <translation-memory>` 查询性能，新增匹配上下文到 "
+":ref:`自动建议 <machine-translation>`。"
 
-#, fuzzy
-#| msgid ""
-#| "Improved performance of the :ref:`check-inconsistent` check on large "
-#| "projects."
 msgid ""
 "Reduced aggregation overhead for the :ref:`inconsistent translations check "
 "<check-inconsistent>` on large projects."
-msgstr "改进了大型项目 :ref:`check-inconsistent` 检查的性能。"
+msgstr "降低了大型项目 :ref:`不一致译文检查 <check-inconsistent>` 的总开销。"
 
-#, fuzzy
-#| msgid ""
-#| "The :ref:`automatic translation add-on <addon-"
-#| "weblate.autotranslate.autotranslate>` can create approved strings, "
-#| "falling back to translated strings when reviews are disabled for the "
-#| "target language."
 msgid ""
 ":ref:`Automatic translation <auto-translation>` across components now "
 "prefers matching source text and context. The :ref:`automatic translation "
 "add-on <addon-weblate.autotranslate.autotranslate>` can create approved "
 "strings, or translated strings when reviews are disabled."
 msgstr ""
-":ref:`自动翻译附加组件 <addon-weblate.autotranslate.autotranslate>` 可创建已"
-"批准的字符串，当目标语言禁用审核时退回已翻译的字符串。"
+"跨部件 :ref:`自动翻译 <auto-translation>` 现在偏好匹配的原文和上下文"
+"。:ref:`自动翻译附加组件 <addon-weblate.autotranslate.autotranslate>` 可创建"
+"已批准的字符串，或在禁用审核时创建已翻译的字符串。"
 
 msgid ""
 "Improved checks, fixes, glossary matching, and machine translation "
@@ -19681,17 +19641,13 @@ msgid ""
 "attempting to start nginx."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "link to translations; see :http:get:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/`"
 msgid ""
 "The automatic translation API can run as a background task. See :http:post:`/"
 "api/translations/(string:project)/(string:component)/(string:language)/"
 "autotranslate/`."
 msgstr ""
-"链接到翻译；请参见：:http:get:`/api/translations/(string:project)/"
-"(string:component)/(string:language)/`"
+"自动翻译 API 现在能以后台任务形式运行。 见 :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/autotranslate/`。"
 
 msgid "Security fixes"
 msgstr "安全修复"
@@ -19789,13 +19745,12 @@ msgid ""
 "untranslatable when translating in their source language."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgid ""
 "Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with "
 "inherited licenses and other inherited settings."
-msgstr ":ref:`addon-weblate.discovery.discovery` 现在报告跳过的条目。"
+msgstr ""
+"修复了 :ref:`部件发现 <addon-weblate.discovery.discovery>` 继承的许可证和其他"
+"继承的设置的问题。"
 
 msgid ""
 "Backups containing legacy component formats (e.g ``plainxliff``, ``csv-"
@@ -33585,10 +33540,8 @@ msgstr ""
 msgid "Here is an example add-on:"
 msgstr "这里是一个附加组件的示例："
 
-#, fuzzy
-#| msgid "Documentation contributions"
 msgid "Documenting automation operations"
-msgstr "文档贡献"
+msgstr "文档自动操作"
 
 msgid ""
 "The :ref:`automation-reference` uses the schema in :file:`weblate/automation/"
@@ -41729,10 +41682,8 @@ msgid ""
 "the string with ``xml:space=\"preserve\"``:"
 msgstr ""
 
-#, fuzzy
-#| msgid "Whitespace and newlines in XLIFF"
 msgid "Placeables in XLIFF"
-msgstr "XLIFF 中的空格和换行符"
+msgstr "XLIFF 中的占位符"
 
 msgid ""
 "Weblate controls how XML elements inside XLIFF content are handled with the "
@@ -44938,10 +44889,8 @@ msgstr "项目：Weblate"
 msgid "Last reviewed for Weblate |release| at commit ``af7a54c07c``."
 msgstr ""
 
-#, fuzzy
-#| msgid "Weblate 2026.9.1"
 msgid "Date: 2026-09-24."
-msgstr "Weblate 2026.9.1"
+msgstr "日期：2026-09-24."
 
 msgid "Status: Accepted, 2026-09-01."
 msgstr ""
@@ -45721,10 +45670,8 @@ msgstr ""
 msgid "Third-party code is modeled separately. *(maintainer)*"
 msgstr ""
 
-#, fuzzy
-#| msgid "Regular expressions"
 msgid "Declarative automation expressions"
-msgstr "正则表达式"
+msgstr "说明性的自动化表达式"
 
 msgid ""
 "Add-on managers configure ordered Weblate operations and CEL conditions. "
@@ -45964,10 +45911,8 @@ msgstr ""
 msgid "Restrict shell access to trusted operators. *(maintainer)*"
 msgstr ""
 
-#, fuzzy
-#| msgid "Component configuration"
 msgid "Deployment configuration"
-msgstr "部件配置"
+msgstr "部署配置"
 
 msgid ""
 "Environment variables, container arguments, mounted configuration, image "
@@ -48031,18 +47976,14 @@ msgstr "内置附加组件"
 msgid "Add-on ID"
 msgstr "附加组件 ID"
 
-#, fuzzy
-#| msgid "Integration services"
 msgid "Evaluation service"
-msgstr "集成服务"
+msgstr "评估服务"
 
 msgid "Query"
 msgstr "查询"
 
-#, fuzzy
-#| msgid "Update frequency"
 msgid "Evaluation frequency"
-msgstr "更新频率"
+msgstr "评估频率"
 
 msgid "Disabled"
 msgstr "已禁用"
@@ -48053,27 +47994,20 @@ msgstr "每周"
 msgid "Monthly"
 msgstr "每月"
 
-#, fuzzy
-#| msgid "Translation changed"
 msgid "Evaluate translation changes"
-msgstr "修改了译文"
+msgstr "评估译文更改"
 
-#, fuzzy
-#| msgid "Remote repository updated"
 msgid "Evaluate repository updates"
-msgstr "远程仓库已更新"
+msgstr "评估仓库更新"
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
-#| "update`, :ref:`addon-event-daily`, :ref:`addon-event-event-change`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
 "update`, :ref:`addon-event-daily`, :ref:`addon-event-event-"
 "change`, :ref:`addon-event-manual-trigger`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
-"update`, :ref:`addon-event-daily`, :ref:`addon-event-event-change`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, "
+":ref:`addon-event-daily`, :ref:`addon-event-event-change`, :ref:`addon-event-"
+"manual-trigger`"
 
 msgid ""
 "Evaluates existing translations using an LLM and records quality checks."
@@ -48149,10 +48083,8 @@ msgid ""
 "uses the existing :ref:`addons-api` permissions and validation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "自动检测"
+msgstr "自动化"
 
 msgid "Workflow"
 msgstr "工作流"
@@ -48160,27 +48092,19 @@ msgstr "工作流"
 msgid "Enter an automation definition as YAML or JSON."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
-#| "update`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-"
-#| "commit`, :ref:`addon-event-repository-post-remove`, :ref:`addon-event-"
-#| "repository-post-update`"
 msgid ""
 ":ref:`addon-event-component-update`, :ref:`addon-event-daily`, :ref:`addon-"
 "event-event-change`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-"
 "repository-post-commit`, :ref:`addon-event-repository-post-"
 "push`, :ref:`addon-event-repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
-"update`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-"
-"commit`, :ref:`addon-event-repository-post-remove`, :ref:`addon-event-"
-"repository-post-update`"
+":ref:`addon-event-component-update`, :ref:`addon-event-daily`, :ref:`addon-"
+"event-event-change`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-"
+"repository-post-commit`, :ref:`addon-event-repository-post-push`, "
+":ref:`addon-event-repository-post-update`"
 
-#, fuzzy
-#| msgid "Supporting translators with definitions and context."
 msgid "Runs ordered translation operations with conditions and branches."
-msgstr "用定义和上下文支持翻译者。"
+msgstr "运行带条件和分支的井然有序的翻译操作。"
 
 msgid ""
 "Install this add-on on a component, category, project, or site. Inherited "
@@ -48202,14 +48126,10 @@ msgstr ""
 msgid ":ref:`automation-cookbook` for complete examples."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`auto-translation` no longer validates hidden component fields when "
-#| "using machine translation."
 msgid ""
 ":ref:`automation-translation-ordering` for translation memory before machine "
 "translation."
-msgstr ":ref:`auto-translation` 使用机器翻译时不再验证隐藏的部件字段。"
+msgstr "机器翻译前对翻译记忆库的 :ref:`automation-translation-ordering`。"
 
 msgid "Automatic translation mode"
 msgstr "自动翻译模式"
@@ -48374,7 +48294,7 @@ msgstr "最大构建年龄（天）"
 msgid ""
 "Retires builds this many days after their first registration. Re-registering "
 "a build does not extend its age."
-msgstr ""
+msgstr "在版本首次注册指定天数后报废。重新注册版本不会延长其年龄。"
 
 msgid "Maximum retained versions"
 msgstr "最多保留版本数"
@@ -48382,7 +48302,7 @@ msgstr "最多保留版本数"
 msgid ""
 "Limits retained builds across all package names. A build is retired when "
 "either this limit or the maximum age is reached."
-msgstr ""
+msgstr "所有包名最多保留几个版本。当达到此限制或最大年龄是将报废一个版本。"
 
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
@@ -49144,43 +49064,29 @@ msgstr "需要编辑（需要重写）"
 msgid "Needs editing (Needs checking)"
 msgstr "需要编辑（需要检查）"
 
-#, fuzzy
-#| msgid "Returns a list of all languages."
 msgid "Source flags to add — all languages"
-msgstr "返回所有语言的列表。"
+msgstr "要添加的原文标记——所有语言"
 
-#, fuzzy
-#| msgid "Returns a list of all languages."
 msgid "Source flags to remove — all languages"
-msgstr "返回所有语言的列表。"
+msgstr "要删除的原文标记——所有语言"
 
-#, fuzzy
-#| msgid "Translation flags to add"
 msgid "Translation flags to add — matching translations"
-msgstr "要添加的翻译标记"
+msgstr "要添加的译文标记——匹配的译文"
 
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Applies only to matching translations, excluding source strings."
-msgstr "用源字符串填充翻译字符串。"
+msgstr "只应用到匹配的译文，排除源字符串。"
 
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation flags to remove — matching translations"
-msgstr "要删除的翻译标记"
+msgstr "要删除的翻译标记——匹配的译文"
 
 msgid "Removes locally set flags. Inherited flags remain in effect."
 msgstr ""
 
-#, fuzzy
-#| msgid "Returns a list of all languages."
 msgid "Labels to add — all languages"
-msgstr "返回所有语言的列表。"
+msgstr "要添加的标签——所有语言"
 
-#, fuzzy
-#| msgid "Labels to remove"
 msgid "Labels to remove — all languages"
-msgstr "要删除的标签"
+msgstr "要删除的标签——所有语言"
 
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`"
@@ -50678,30 +50584,20 @@ msgstr "忽略所有质量检查。"
 msgid "Skip the :ref:`check-accelerator` quality check."
 msgstr "跳过 :ref:`check-accelerator` 质量检查。"
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-url` quality check."
 msgid "Skip the :ref:`check-ai-accuracy` quality check."
-msgstr "跳过 :ref:`check-url` 质量检查。"
+msgstr "跳过 :ref:`check-ai-accuracy` 质量检查。"
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-length` quality check."
 msgid "Skip the :ref:`check-ai-fluency` quality check."
-msgstr "跳过 :ref:`check-max-length` 质量检查。"
+msgstr "跳过 :ref:`check-ai-fluency` 质量检查。"
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-lua-format` quality check."
 msgid "Skip the :ref:`check-ai-formatting` quality check."
-msgstr "跳过 :ref:`check-lua-format` 质量检查。"
+msgstr "跳过 :ref:`check-ai-formatting` 质量检查。"
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-size` quality check."
 msgid "Skip the :ref:`check-ai-style` quality check."
-msgstr "跳过 :ref:`check-max-size` 质量检查。"
+msgstr "跳过 :ref:`check-ai-style` 质量检查。"
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-end-semicolon` quality check."
 msgid "Skip the :ref:`check-ai-terminology` quality check."
-msgstr "跳过 :ref:`check-end-semicolon` 质量检查。"
+msgstr "跳过 :ref:`check-ai-terminology` 质量检查。"
 
 msgid "Skip the :ref:`check-asciidoc-markup` quality check."
 msgstr "跳过 :ref:`check-asciidoc-markup` 质量检查。"
@@ -51031,31 +50927,25 @@ msgid ""
 msgstr ""
 
 msgid "AI: Fluency"
-msgstr ""
+msgstr "AI：频率"
 
 msgid "The evaluation detected a language quality issue."
-msgstr ""
+msgstr "评估检测到了一个语言质量问题。"
 
-#, fuzzy
-#| msgid "Vue I18n formatting"
 msgid "AI: Formatting"
-msgstr "Vue I18n 格式化"
+msgstr "AI: 格式"
 
-#, fuzzy
-#| msgid "Translation is missing some placeholders."
 msgid "The evaluation detected a formatting or placeholder issue."
-msgstr "译文缺少一些占位符。"
+msgstr "评估检测到一个格式或占位符问题。"
 
 msgid "AI: Style"
 msgstr ""
 
 msgid "The evaluation detected a style or instruction mismatch."
-msgstr ""
+msgstr "评估检测到风格或指令不匹配。"
 
-#, fuzzy
-#| msgid "Terminology"
 msgid "AI: Terminology"
-msgstr "专有名词"
+msgstr "AI：专有名词"
 
 msgid "The evaluation detected incorrect terminology."
 msgstr ""
@@ -53445,15 +53335,11 @@ msgstr "strings_encoding"
 msgid "Encoding used for iOS strings files"
 msgstr "iOS 字符串文件所用的编码"
 
-#, fuzzy
-#| msgid "``xliff2``, ``xliff2-placeables``"
 msgid "xliff_placeables"
-msgstr "``xliff2``, ``xliff2-placeables``"
+msgstr "xliff_placeables"
 
-#, fuzzy
-#| msgid "Weblate support"
 msgid "Placeables support"
-msgstr "Weblate 支持"
+msgstr "占位符支持"
 
 msgid ""
 "Controls whether inline XML elements inside XLIFF strings are preserved as "
@@ -53462,15 +53348,11 @@ msgid ""
 "or <g> stay in the string and appear as placeholders in the editor"
 msgstr ""
 
-#, fuzzy
-#| msgid "Plain text file"
 msgid "Plain text only"
-msgstr "纯文本文件"
+msgstr "仅纯文本"
 
-#, fuzzy
-#| msgid "Supported features"
 msgid "Support placeables"
-msgstr "支持的功能"
+msgstr "支持占位符"
 
 msgid "xml_closing_tags"
 msgstr "xml_closing_tags"
@@ -53481,10 +53363,8 @@ msgstr "包括空白 XML 标记的结束标记"
 msgid "xml_whitespace_handling"
 msgstr ""
 
-#, fuzzy
-#| msgid "Whitespace and newlines in XLIFF"
 msgid "Whitespace handling"
-msgstr "XLIFF 中的空格和换行符"
+msgstr "空白处理"
 
 msgid ""
 "Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
@@ -53670,10 +53550,8 @@ msgstr "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``Approved``, ``Needs editing``"
 msgstr "``已核准``, ``需要编辑``"
 
-#, fuzzy
-#| msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 msgid "``apple-xliff``, ``poxliff``, ``xliff``"
-msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
+msgstr "``apple-xliff``, ``poxliff``, ``xliff``"
 
 msgid "``.xlf``, ``.xliff``"
 msgstr "``.xlf``, ``.xliff``"
@@ -54064,10 +53942,8 @@ msgid ""
 msgstr ""
 "服务自动使用 :ref:`glossary`，见 :ref:`glossary-mt`。API v1 没有术语表集成。"
 
-#, fuzzy
-#| msgid "Reusing existing translations"
 msgid "Rephrasing existing translations"
-msgstr "重用现有翻译"
+msgstr "修改现有译文表述方式"
 
 msgid ""
 "When a string is already translated, Weblate can send the stored target text "
@@ -55708,10 +55584,8 @@ msgstr ""
 "可以上传任何受支持文件格式的文件，但仍建议使用与用于翻译的文件格式相同的文件"
 "格式，否则某些功能可能无法正确翻译。"
 
-#, fuzzy
-#| msgid "Language selection"
 msgid "Language checking"
-msgstr "语言选择"
+msgstr "语言检查"
 
 msgid ""
 "Weblate checks language metadata declared in uploaded files when the format "
@@ -56058,14 +55932,6 @@ msgstr ""
 msgid "Untranslatable terms"
 msgstr "不可翻译的术语"
 
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary term translations ``read-only`` by bulk-"
-#| "editing, typing in the flag, or by using :guilabel:`Tools` "
-#| "↓ :guilabel:`Mark as untranslatable` means they can not be translated. "
-#| "Use this for brand names, product names, domains, technology names, or "
-#| "other terms that should not be changed in other languages. Such terms are "
-#| "visually highlighted in the glossary sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark this "
@@ -56116,13 +55982,6 @@ msgstr ""
 msgid "Terminology"
 msgstr "专有名词"
 
-#, fuzzy
-#| msgid ""
-#| "Flagging certain source-language glossary terms as ``terminology`` by "
-#| "bulk-editing, typing in the flag, or by using :guilabel:`Tools` "
-#| "↓ :guilabel:`Mark as terminology` adds entries for them to all languages "
-#| "in the glossary. Use this for important terms that should be well thought "
-#| "out, and retain a consistent meaning across all languages."
 msgid ""
 "Flagging certain source-language glossary terms as ``terminology`` by bulk-"
 "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark "
@@ -56130,9 +55989,10 @@ msgid ""
 "the glossary. Use this for important terms that should be well thought out, "
 "and retain a consistent meaning across all languages."
 msgstr ""
-"通过批量编辑、键入标志或使用 :guilabel:`工具` ↓ :guilabel:`标记为专有名词` 来"
-"将某些源语言术语表术语标记为 ``terminology`` 以将条目添加到所有语言的术语表"
-"中。将此用于应该经过深思熟虑的重要术语，并在所有语言中保持一致的含义。"
+"通过批量编辑、键入标志或使用 :guilabel:`工具` ↓ :guilabel:`标记为所有语言的专"
+"有名词` 来将某些源语言术语表术语标记为 ``terminology`` 以将条目添加到所有语言"
+"的术语表中。将此用于应该经过深思熟虑的重要术语，并在所有语言中保持一致的含义"
+"。"
 
 msgid ""
 "Enable :ref:`component-manage_units` on the glossary component to "
@@ -57644,10 +57504,8 @@ msgid ""
 "and :ref:`user-comments` when the source text needs clarification."
 msgstr ""
 
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Editing source strings and keys"
-msgstr "编辑源字符串"
+msgstr "编辑源字符串和键"
 
 msgid ""
 "When :ref:`component-manage_units` is enabled and you have permission to "
@@ -57691,10 +57549,8 @@ msgid ""
 "language file are not supported."
 msgstr ""
 
-#, fuzzy
-#| msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
 msgid ":http:post:`/api/units/(int:id)/source/`"
-msgstr "新增 :http:post:`/api/groups/(int:id)/admins/`."
+msgstr ":http:post:`/api/units/(int:id)/source/`"
 
 msgid "Plurals"
 msgstr "复数形式"
@@ -58281,12 +58137,10 @@ msgstr ""
 msgid "Change string state (for example to approve all unreviewed strings)."
 msgstr "更改字符串状态（例如，批准所有未审核的字符串）。"
 
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid ""
 "Adjust source-wide or language-specific translation flags (see :ref:`custom-"
 "checks`)"
-msgstr "调整翻译标记（请参见 :ref:`custom-checks`）"
+msgstr "调整原文或特定语言的翻译标记（请参见 :ref:`custom-checks`）"
 
 msgid "Adjust string labels (see :ref:`labels`)"
 msgstr "调整字符串标签（请参见 :ref:`labels`）"
