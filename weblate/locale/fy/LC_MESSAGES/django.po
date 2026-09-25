@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
 "PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1672,6 +1672,45 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "Download"
 
+#, fuzzy
+#| msgid "Translation license"
+msgid "Evaluation service"
+msgstr "Oersettingslisinsje"
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Disabled"
+msgstr "Oersettingstriem"
+
+msgid "Daily"
+msgstr ""
+
+msgid "Weekly"
+msgstr ""
+
+msgid "Monthly"
+msgstr "Moanliks"
+
+#, fuzzy
+#| msgid "Other translations"
+msgid "Evaluate translation changes"
+msgstr "Oare oersettings"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Evaluate repository updates"
+msgstr "Boarnewiziging"
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr ""
 
@@ -2015,15 +2054,6 @@ msgstr ""
 
 msgid "Update frequency"
 msgstr ""
-
-msgid "Daily"
-msgstr ""
-
-msgid "Weekly"
-msgstr ""
-
-msgid "Monthly"
-msgstr "Moanliks"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3410,6 +3440,11 @@ msgstr "Nije oersetting yn %(translation)s"
 msgid "This string seems to already exist."
 msgstr "Oersettingstriem"
 
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Automatic translation in progress"
+msgstr "Masjineoersetting"
+
 msgid "Category"
 msgstr ""
 
@@ -4391,14 +4426,24 @@ msgstr ""
 msgid "Adding strings is disabled in the component configuration."
 msgstr "Projektynformaasje"
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr ""
+#, fuzzy
+#| msgid "Project Information"
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "Projektynformaasje"
 
 #, fuzzy
 #| msgid "Translation license"
 msgid "The file format does not support this."
 msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid "You do not have permission to edit this glossary."
+msgstr "Nije oersetting yn %(translation)s"
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr ""
 
 #, fuzzy
 #| msgid "Project Information"
@@ -4456,6 +4501,103 @@ msgstr "Oersettingslisinsje"
 #| msgid "Administration"
 msgid "Accepted invitation to the %s team."
 msgstr "Administraasje"
+
+#, fuzzy
+#| msgid "Other translations"
+msgid "Automation"
+msgstr "Oare oersettings"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "The component is outside this add-on's scope."
+msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "The change does not belong to this component."
+msgstr "Projekten"
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Automation nesting is too deep."
+msgstr "Masjineoersetting"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "YAML aliases and tags are not supported."
+msgstr "Oersettingstriem"
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Automation keys must be strings."
+msgstr "Masjineoersetting"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "New translation"
+msgid "%(path)s: %(error)s"
+msgstr "Nije oersetting"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Components"
+msgid "Automation context is too large."
+msgstr "Underdielen"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation file"
+msgid "Invalid CEL condition: %s"
+msgstr "Oersettingstriem"
+
+msgid "Workflow"
+msgstr ""
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Preview component ID"
+msgstr "Oare ûnderdielen"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Preview change ID"
+msgstr "Boarnewiziging"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 #, fuzzy
 #| msgid "Projects"
@@ -4673,6 +4815,53 @@ msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "The evaluation detected a language quality issue."
+msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "glossaries"
+msgid "AI: Terminology"
+msgstr "wurdlisten"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Information"
+msgid "AI: Formatting"
+msgstr "Ynformaasje"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Oersetstatus"
 
 msgid "AngularJS interpolation string"
 msgstr ""
@@ -6182,6 +6371,32 @@ msgstr ""
 msgid "Multivalue CSV file"
 msgstr "JSON-triem"
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "This file format does not support editing keys or context."
+msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "A string with this identity already exists."
+msgstr "Oersettingstriem"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "This file format does not support editing source strings."
+msgstr "Oersettingslisinsje"
+
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "The key cannot be represented in this file format."
+msgstr "Oersettingslisinsje"
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -6231,10 +6446,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "XLIFF-oersettingstriem"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr ""
-
-#. Translators: File format name
 #, fuzzy
 #| msgid "Other translations"
 msgid "XLIFF 1.2 with gettext extensions"
@@ -6250,12 +6461,6 @@ msgstr "Oare oersettings"
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "XLIFF 2.0 translation file"
-msgstr "XLIFF-oersettingstriem"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "XLIFF Translation File"
-msgid "XLIFF 2.0 translation file with placeables support"
 msgstr "XLIFF-oersettingstriem"
 
 #. Translators: File format name
@@ -6549,10 +6754,20 @@ msgstr "Berjochtstyl"
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Maximum retained versions"
 msgstr "Masjineoersetting"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -8875,6 +9090,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr ""
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translated"
 msgctxt "Badge for site title for dedicated instances"
@@ -9175,10 +9394,24 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
+msgid "Add-on API"
+msgstr ""
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "API root"
+msgstr "Projektnamme"
+
 #, fuzzy
 #| msgid "Change password"
 msgid "Configuration"
 msgstr "Wachtwurd wizigjen"
+
+msgid "API"
+msgstr ""
 
 msgid "Logs"
 msgstr ""
@@ -9210,20 +9443,27 @@ msgstr ""
 msgid "No components found."
 msgstr "Underdielen"
 
-msgid "Add-on API base URL:"
-msgstr ""
-
-#, fuzzy
-#| msgid "Project name"
-msgid "API root"
-msgstr "Projektnamme"
-
 #, fuzzy
 #| msgid "Change password"
 msgid "Configure add-on"
 msgstr "Wachtwurd wizigjen"
 
+#, fuzzy
+#| msgid "Source change"
+msgid "Preview without changes"
+msgstr "Boarnewiziging"
+
 msgid "This add-on has no settings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Automation preview"
+msgstr "Oersjoch"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
 msgstr ""
 
 #, fuzzy
@@ -9450,6 +9690,25 @@ msgstr "Projektnamme"
 #| msgid "URL slug"
 msgid "Project URL slug"
 msgstr "URL-slug"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "Create a project token"
+msgstr "Projekten"
 
 #, fuzzy
 #| msgid "Status"
@@ -10020,19 +10279,6 @@ msgstr ""
 msgid "Check your billing status"
 msgstr ""
 
-msgid "Browse"
-msgstr "Ferkenne"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "Oersetstatus"
-
-#, fuzzy
-#| msgid "Machine translation"
-msgid "No strings found!"
-msgstr "Masjineoersetting"
-
 msgid "Insights"
 msgstr ""
 
@@ -10129,6 +10375,11 @@ msgstr "Masjineoersetting"
 #| msgid "Nahuatl languages"
 msgid "Add new category"
 msgstr "Nahuatl talen"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Oersetstatus"
 
 #, fuzzy
 #| msgid "Other translations"
@@ -10783,12 +11034,10 @@ msgstr ""
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
 
-#, fuzzy
-#| msgid "Source change"
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
-msgstr "Boarnewiziging"
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
+msgstr ""
 
 msgid "Reset and reapply"
 msgstr ""
@@ -10809,18 +11058,24 @@ msgstr ""
 msgid "Cleanup"
 msgstr ""
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-msgid "It also removes stale branches which are not used by Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
 msgstr ""
 
-#, fuzzy
-#| msgid "Merge style"
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Berjochtstyl"
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr ""
@@ -10944,6 +11199,11 @@ msgstr "Boarnewiziging"
 #| msgid "Other translations"
 msgid "Browse all repository changes"
 msgstr "Oare oersettings"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Nothing to preview."
+msgstr "Oersettingstriem"
 
 msgid "Shortcut"
 msgstr ""
@@ -11071,9 +11331,6 @@ msgid ""
 "The language definitions are automatically updated by Weblate upon a "
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
-msgstr ""
-
-msgid "Workflow"
 msgstr ""
 
 msgid "Changing plural rules might not have a desired effect."
@@ -11840,8 +12097,29 @@ msgid ""
 "credentials below."
 msgstr ""
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
 msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Merge style"
+msgid "Buy backup service"
+msgstr "Berjochtstyl"
+
+#, fuzzy
+#| msgid "Glossary"
+msgid "Add custom backup storage"
+msgstr "Wurdlist"
 
 #, fuzzy
 #| msgid "Comment"
@@ -12840,6 +13118,9 @@ msgstr "Boarnewiziging"
 msgid "Paste from clipboard"
 msgstr "Oare oersettings"
 
+msgid "Translate"
+msgstr "oerset"
+
 #, fuzzy
 #| msgid "Source change"
 msgid "strings"
@@ -13523,6 +13804,9 @@ msgstr "Beoardielje"
 msgid "Untranslated"
 msgstr "oerset"
 
+msgid "Browse"
+msgstr "Ferkenne"
+
 #, fuzzy
 #| msgid "Other translations"
 msgid "Create translation"
@@ -13532,9 +13816,6 @@ msgstr "Oare oersettings"
 #| msgid "New translation"
 msgid "Cannot add translation right now"
 msgstr "Nije oersetting"
-
-msgid "Translate"
-msgstr "oerset"
 
 msgid "Customized workflow"
 msgstr ""
@@ -14156,6 +14437,11 @@ msgstr "Administraasje"
 msgid "Create account"
 msgstr "Oare ûnderdielen"
 
+#, fuzzy, python-format
+#| msgid "Change password"
+msgid "Configure %(addon)s"
+msgstr "Wachtwurd wizigjen"
+
 msgid "Weblate could not execute script add-on."
 msgstr ""
 
@@ -14166,6 +14452,12 @@ msgstr ""
 #| msgid "Comment"
 msgid "Command"
 msgstr "Opmerking"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation license"
@@ -14706,6 +14998,12 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Jump to date"
+msgstr ""
+
+msgid "Go"
+msgstr ""
+
 msgid "Changes"
 msgstr "Wizigingen"
 
@@ -14715,6 +15013,21 @@ msgid "Download latest changes as CSV"
 msgstr "Oare oersettings"
 
 msgid "Follow using RSS"
+msgstr ""
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Older"
 msgstr ""
 
 #, fuzzy
@@ -15046,11 +15359,6 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Projects"
-msgid "Create a project token"
-msgstr "Projekten"
-
-#, fuzzy
-#| msgid "Projects"
 msgid "Create"
 msgstr "Projekten"
 
@@ -15114,6 +15422,14 @@ msgid ""
 "new repository. This will work just fine if the repository has been moved to "
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source"
+msgid "Edit source"
+msgstr "Boarne"
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
@@ -15435,6 +15751,11 @@ msgstr "Oersettingslisinsje"
 msgid "No labels currently set."
 msgstr ""
 
+#, fuzzy
+#| msgid "Source change"
+msgid "Edit flags"
+msgstr "Boarnewiziging"
+
 msgid "Flags"
 msgstr "Flaggen"
 
@@ -15510,6 +15831,15 @@ msgstr ""
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
+msgstr ""
+
+msgid "Effective flags"
+msgstr ""
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
 msgstr ""
 
 #, fuzzy, python-format
@@ -15641,11 +15971,6 @@ msgstr ""
 msgid "Repositories"
 msgstr "Berjochtstyl"
 
-#, fuzzy
-#| msgid "Translation file"
-msgid "Disabled"
-msgstr "Oersettingstriem"
-
 msgid "Refresh"
 msgstr ""
 
@@ -15755,9 +16080,6 @@ msgstr ""
 #| msgid "Context"
 msgid "Continue to GitHub"
 msgstr "Kontekst"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Overview"
@@ -16059,6 +16381,14 @@ msgstr "Oare oersettings"
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Beoardielje"
 
 #, fuzzy
 #| msgid "Components"
@@ -17068,6 +17398,11 @@ msgstr "Nije oersetting"
 msgid "POT updates do not update PO files."
 msgstr ""
 
+#, fuzzy
+#| msgid "Other translations"
+msgid "AI quality evaluation service is unavailable."
+msgstr "Oare oersettings"
+
 msgid "Information"
 msgstr "Ynformaasje"
 
@@ -17835,6 +18170,46 @@ msgstr ""
 msgid "Include closing tag for blank XML tags"
 msgstr ""
 
+msgid "Whitespace handling"
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Placeables support"
+msgstr "Weblate-stipe"
+
+#, fuzzy
+#| msgid "JSON file"
+msgid "Plain text only"
+msgstr "JSON-triem"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Support placeables"
+msgstr "Oer Weblate"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation file"
 msgid "FlatXML Root name"
@@ -18149,6 +18524,14 @@ msgid ""
 "changes."
 msgstr "Oersetstatus"
 
+#, fuzzy
+#| msgid "Languages"
+msgid "Ignore language mismatch"
+msgstr "Talen"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr ""
 
@@ -18326,6 +18709,34 @@ msgstr ""
 
 msgid "Please choose"
 msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Source flags — all languages"
+msgstr "Boarnewiziging"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "Translation flags — this language"
+msgstr "Oersettingstriem"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation file"
+msgid "Translation flags — %(language)s"
+msgstr "Oersettingstriem"
+
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid "You do not have permission to edit these flags."
+msgstr "Nije oersetting yn %(translation)s"
 
 #, fuzzy
 #| msgid "Translation license"
@@ -18627,6 +19038,11 @@ msgid "Replacement string"
 msgstr ""
 
 #, fuzzy
+#| msgid "Other components"
+msgid "Key or context"
+msgstr "Oare ûnderdielen"
+
+#, fuzzy
 #| msgid "Translation"
 msgid "Translation key"
 msgstr "Tersetting"
@@ -18694,22 +19110,38 @@ msgstr ""
 msgid "Do not change"
 msgstr "Oare oersettings"
 
+msgid "Source flags to add — all languages"
+msgstr ""
+
+msgid "Source flags to remove — all languages"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation file"
-msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Oersettingstriem"
 
 #, fuzzy
 #| msgid "Translation license"
-msgid "Translation flags to remove"
+msgid "Applies only to matching translations, excluding source strings."
 msgstr "Oersettingslisinsje"
 
-msgid "Labels to add"
+#, fuzzy
+#| msgid "Translation license"
+msgid "Translation flags to remove — matching translations"
+msgstr "Oersettingslisinsje"
+
+msgid "Removes locally set flags. Inherited flags remain in effect."
 msgstr ""
 
 #, fuzzy
+#| msgid "Source change"
+msgid "Labels to add — all languages"
+msgstr "Boarnewiziging"
+
+#, fuzzy
 #| msgid "Language"
-msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Taal"
 
 msgid "I accept the contributor license agreement"
@@ -18767,6 +19199,11 @@ msgstr "Nije oersetting yn %(translation)s"
 #| msgid "New translation in %(translation)s"
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Nije oersetting yn %(translation)s"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "The date cannot be in the future."
+msgstr "Boarnewiziging"
 
 #, fuzzy
 #| msgid "Author name"
@@ -19423,9 +19860,9 @@ msgid "Manage strings"
 msgstr "Boarnewiziging"
 
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 
 msgid "Merge style"
@@ -20205,6 +20642,23 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy
+#| msgid "New translation"
+msgid "The uploaded file contains too many language declarations."
+msgstr "Nije oersetting"
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "New translation"
+msgid "Could not parse uploaded file: %s"
+msgstr "Nije oersetting"
+
 #, fuzzy, python-format
 #| msgid "Source change"
 msgid "Could not commit pending changes: %s"
@@ -20213,11 +20667,6 @@ msgstr "Boarnewiziging"
 #, fuzzy, python-brace-format
 #| msgid "New translation"
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "Nije oersetting"
-
-#, fuzzy, python-format
-#| msgid "New translation"
-msgid "Could not parse uploaded file: %s"
 msgstr "Nije oersetting"
 
 #, fuzzy, python-format
@@ -20261,20 +20710,57 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Other translations"
-msgid "Unmark as read-only"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Oare oersettings"
-
-msgid "Mark as read-only"
-msgstr ""
 
 #, fuzzy
 #| msgid "Other translations"
-msgid "Unmark as untranslatable"
+msgid "Unmark as read-only for all languages"
 msgstr "Oare oersettings"
 
 #, fuzzy
+#| msgid "Other translations"
+msgid "Unmark this translation as untranslatable"
+msgstr "Oare oersettings"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Unmark this translation as read-only"
+msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "Nahuatl languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "Nahuatl talen"
+
+#, fuzzy
+#| msgid "Nahuatl languages"
+msgid "Make read-only apply to all languages"
+msgstr "Nahuatl talen"
+
+#, fuzzy
 #| msgid "Machine translation"
-msgid "Mark as untranslatable"
+msgid "Mark this translation as untranslatable"
+msgstr "Masjineoersetting"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Mark this translation as read-only"
+msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Mark as untranslatable for all languages"
+msgstr "Masjineoersetting"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Mark as read-only for all languages"
+msgstr "Boarnewiziging"
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Mark as forbidden translation"
 msgstr "Masjineoersetting"
 
 #, fuzzy
@@ -20283,15 +20769,14 @@ msgid "Unmark as forbidden translation"
 msgstr "Oare oersettings"
 
 #, fuzzy
-#| msgid "Machine translation"
-msgid "Mark as forbidden translation"
-msgstr "Masjineoersetting"
+#| msgid "Source change"
+msgid "Mark as terminology for all languages"
+msgstr "Boarnewiziging"
 
-msgid "Unmark as terminology"
-msgstr ""
-
-msgid "Mark as terminology"
-msgstr ""
+#, fuzzy
+#| msgid "Source change"
+msgid "Unmark as terminology for all languages"
+msgstr "Boarnewiziging"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -20300,6 +20785,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "The source string has changed. Reload it before editing."
+msgstr "Boarnewiziging"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "Oersettingstriem"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "The file format does not support this edit."
+msgstr "Oersettingslisinsje"
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "A translation key is required."
+msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "New translation"
+msgid "Could not find the string in the translation file."
+msgstr "Nije oersetting"
 
 msgid "Insert tab character"
 msgstr ""
@@ -20839,6 +21353,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Wizigingen"
 
+#, fuzzy
+#| msgid "Other components"
+msgid "Invalid history position."
+msgstr "Oare ûnderdielen"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -20898,6 +21417,11 @@ msgid ""
 "refreshed."
 msgstr ""
 
+#, fuzzy
+#| msgid "Machine translation"
+msgid "No strings found!"
+msgstr "Masjineoersetting"
+
 msgid "Your suggestion is empty!"
 msgstr ""
 
@@ -20943,11 +21467,6 @@ msgstr ""
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "Masjineoersetting"
 
-#, fuzzy
-#| msgid "Machine translation"
-msgid "Automatic translation in progress"
-msgstr "Masjineoersetting"
-
 msgid "Posted new comment"
 msgstr ""
 
@@ -20978,6 +21497,16 @@ msgstr "Berjochtstyl"
 #| msgid "Translation license"
 msgid "New string has been added."
 msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "The component is busy. Please try again."
+msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Source string updated."
+msgstr "Boarnewiziging"
 
 #, fuzzy, python-format
 #| msgid "New translation"
@@ -21037,6 +21566,14 @@ msgstr "Nije oersetting yn %(translation)s"
 #| msgid "New translation in %(translation)s"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Nije oersetting yn %(translation)s"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "The text is too long to preview."
+msgstr "Boarnewiziging"
+
+msgid "Too many preview requests, try again later."
+msgstr ""
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -21214,6 +21751,11 @@ msgstr "Oersettingslisinsje"
 
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Could not change string flags!"
+msgstr "Boarnewiziging"
 
 #, fuzzy
 #| msgid "Source change"
@@ -21801,6 +22343,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source"
+msgid "Repository URL contains unsafe characters."
+msgstr "Boarne"
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -23023,6 +23570,23 @@ msgid "The workspace has been removed."
 msgstr "Oersettingslisinsje"
 
 #, fuzzy
+#~| msgid "XLIFF Translation File"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "XLIFF-oersettingstriem"
+
+#, fuzzy
+#~| msgid "Source change"
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr "Boarnewiziging"
+
+#, fuzzy
+#~| msgid "Merge style"
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Berjochtstyl"
+
+#, fuzzy
 #~| msgid "Other components"
 #~ msgid "Skipped components:"
 #~ msgstr "Oare ûnderdielen"
@@ -23556,9 +24120,6 @@ msgstr "Oersettingslisinsje"
 #~ msgid "Translations with contribution"
 #~ msgstr "Oersettingsynstruksjes"
 
-#~ msgid "Weblate support"
-#~ msgstr "Weblate-stipe"
-
 #, fuzzy
 #~| msgid "New comment"
 #~ msgid "Weblate community"
@@ -24045,11 +24606,6 @@ msgstr "Oersettingslisinsje"
 #~ msgstr "oerset"
 
 #, fuzzy
-#~| msgid "Source change"
-#~ msgid "Dismiss for all languages"
-#~ msgstr "Boarnewiziging"
-
-#, fuzzy
 #~| msgid "translated"
 #~ msgctxt "String state"
 #~ msgid "Not translated"
@@ -24477,9 +25033,6 @@ msgstr "Oersettingslisinsje"
 #~| msgid "Source change"
 #~ msgid "Your languages"
 #~ msgstr "Boarnewiziging"
-
-#~ msgid "Review"
-#~ msgstr "Beoardielje"
 
 #~ msgid "Fulltext"
 #~ msgstr "Folsleine tekst"

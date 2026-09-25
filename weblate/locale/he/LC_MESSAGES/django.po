@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
 "PO-Revision-Date: 2026-09-14 09:51+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
@@ -1462,6 +1462,52 @@ msgstr "אם מדובך בך, נא לאפס את הסיסמה שלך כדי לה
 msgid "Second factor sign in"
 msgstr "כניסה עם גורם משני"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Evaluation service"
+msgstr "כתובת שירות אימות"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Evaluation frequency"
+msgstr "תדירות"
+
+#, fuzzy
+#| msgid "Disable"
+msgid "Disabled"
+msgstr "השבתה"
+
+msgid "Daily"
+msgstr ""
+
+#, fuzzy
+#| msgid "Weekly digest"
+msgid "Weekly"
+msgstr "עדכון שבועי מרוכז"
+
+msgid "Monthly"
+msgstr "חודשי"
+
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Evaluate translation changes"
+msgstr "עיון בכל שינויי התרגום"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Evaluate repository updates"
+msgstr "המאגר לא עדכני."
+
+#, fuzzy
+#| msgid "Plural equation"
+msgid "AI quality evaluation"
+msgstr "משוואת רבים"
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr "תרגום אוטומטי"
 
@@ -1796,17 +1842,6 @@ msgstr "מחרוזות שדורשות עריכה (מעורפלות) בדרך כ�
 #| msgid "Frequency"
 msgid "Update frequency"
 msgstr "תדירות"
-
-msgid "Daily"
-msgstr ""
-
-#, fuzzy
-#| msgid "Weekly digest"
-msgid "Weekly"
-msgstr "עדכון שבועי מרוכז"
-
-msgid "Monthly"
-msgstr "חודשי"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3162,6 +3197,9 @@ msgstr "אין לך הרשאות לקבל הצעות."
 msgid "This string seems to already exist."
 msgstr "נראה כי המחרוזת הזאת כבר קיימת."
 
+msgid "Automatic translation in progress"
+msgstr "תרגום אוטומטי מתבצע"
+
 msgid "Category"
 msgstr "קטגוריה"
 
@@ -3956,12 +3994,22 @@ msgstr "להוסיף את המחרוזת לשפת המקור במקום."
 msgid "Adding strings is disabled in the component configuration."
 msgstr "הוספת מחרוזות מושבתת בהגדרות הרכיב."
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr "לא ניתן להסיר את תרגום המינוח, נא להסיר את מחרוזת המקור במקום."
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "הוספת מחרוזות מושבתת בהגדרות הרכיב."
 
 msgid "The file format does not support this."
 msgstr "סוג הקובץ לא תומך בזה."
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to edit this glossary."
+msgstr "אין לך הרשאות לקבל הצעות."
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr "לא ניתן להסיר את תרגום המינוח, נא להסיר את מחרוזת המקור במקום."
 
 msgid "Adding new translations is turned off in the component configuration."
 msgstr "הוספת תרגומים חדשים כבויה בהגדרות הרכיב."
@@ -4012,6 +4060,103 @@ msgstr "ההזמנה למשתמש הוסרה."
 #, python-format
 msgid "Accepted invitation to the %s team."
 msgstr "ההזמנה לצוות %s נענתה בחיוב."
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgid "Automation"
+msgstr "זיהוי אוטומטי"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component is outside this add-on's scope."
+msgstr "רכיב זה לא מוגדר נכון."
+
+#, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change does not belong to this component."
+msgstr "הקטגוריה לא שייכת למיזם הזה."
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automation nesting is too deep."
+msgstr "מצב תרגום אוטומטי"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "המיון שנבחר אינו נתמך."
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Automation keys must be strings."
+msgstr "מחרוזות שתורגמו אוטומטית"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(path)s: %(error)s"
+msgstr "לא ניתן לדחוף את %(component)s‏: %(error_text)s"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Automation context is too large."
+msgstr "הקצאת רשימת רכיבים אוטומטית"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Repository branch"
+msgid "Invalid CEL condition: %s"
+msgstr "ענף מאגר"
+
+msgid "Workflow"
+msgstr "רצף עבודה"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Preview component ID"
+msgstr "יצירת רכיב"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview change ID"
+msgstr "שינויים אחרונים"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "הודעה נוספת"
@@ -4212,6 +4357,57 @@ msgstr "כדי לקטוע חיוב עליך להסיר את כל המיזמים 
 
 msgid "Cannot merge such a billing."
 msgstr "לא ניתן למזג חיוב כזה."
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "AI: Fluency"
+msgstr "תדירות"
+
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "The evaluation detected a language quality issue."
+msgstr "שפת הבסיס זמינה לעריכה."
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "מינוח"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+#, fuzzy
+#| msgid "The documentation has detailed instructions"
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr "בתיעוד יש הנחיות מפורטות"
+
+#, fuzzy
+#| msgid "Vue I18n formatting"
+msgid "AI: Formatting"
+msgstr "תסדיר בינאום של Vue"
+
+#, fuzzy
+#| msgid "Translation is missing some placeholders."
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "לתרגום חסרים ממלאי מקום."
 
 msgid "AngularJS interpolation string"
 msgstr "מחרוזת שזירה של AngularJS"
@@ -5491,6 +5687,34 @@ msgstr "Excel בתצורת XML פתוח"
 msgid "Multivalue CSV file"
 msgstr "קובץ CSV מרובה ערכים"
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "The file format does not support updating source strings."
+msgid "This file format does not support editing keys or context."
+msgstr "סוג הקובץ לא תומך בעדכון מחרוזות מקור."
+
+#, fuzzy
+#| msgid "A user with this e-mail already exists."
+msgid "A string with this identity already exists."
+msgstr "כבר קיים משתמש עם כתובת דוא״ל זו."
+
+#, fuzzy
+#| msgid "The file format does not support updating source strings."
+msgid "This file format does not support editing source strings."
+msgstr "סוג הקובץ לא תומך בעדכון מחרוזות מקור."
+
+#, fuzzy
+#| msgid "Update source strings upload is not supported with this format."
+msgid "Editing source strings with inline markup is not supported."
+msgstr "עדכון העלאת מחרוזות מקור אינו נתמך בתסדיר הזה."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The key cannot be represented in this file format."
+msgstr "שם הקובץ לא יכול להיות נתיב מלא."
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -5534,10 +5758,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "קובץ תרגום XLIFF 1.2"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr "תמיכה ב־XLIFF 1.2 עם ממלאי מקום"
-
-#. Translators: File format name
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF 1.2 עם הרחבות gettext"
 
@@ -5550,10 +5770,6 @@ msgstr "XLIFF 1.2 עם הרחבות gettext"
 #. Translators: File format name
 msgid "XLIFF 2.0 translation file"
 msgstr "קובץ תרגום XLIFF 2.0"
-
-#. Translators: File format name
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "תמיכה בקובץ תרגום XLIFF 2.0 עם תמיכה בממלאי מקום"
 
 #. Translators: File format name
 msgid "Java Properties"
@@ -5792,10 +6008,20 @@ msgstr "לא ניתן לנעול את המאגר, מתבצעת כרגע פעול
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Maximum size of translation"
 msgid "Maximum retained versions"
 msgstr "גודל מרבי לתרגום"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -8023,6 +8249,12 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr "ענן"
 
+#, fuzzy
+#| msgid "Expired"
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "פג תוקף"
+
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
 msgstr "ייעודי"
@@ -8301,9 +8533,25 @@ msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "לרוע המזל, הדפדפן שלך לא תומך ב־WebAuthn."
 
 #, fuzzy
+#| msgid "Add-ons"
+msgid "Add-on API"
+msgstr "תוספים"
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "כתובת בסיס של ה־API:"
+
+#, fuzzy
 #| msgid "Bad configuration"
 msgid "Configuration"
 msgstr "הגדרות שגויות"
+
+msgid "API"
+msgstr ""
 
 #, fuzzy
 #| msgid "View Logs"
@@ -8340,22 +8588,26 @@ msgstr "לא זמין"
 msgid "No components found."
 msgstr "לא צוינו רכיבים"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
-msgid "Add-on API base URL:"
-msgstr "כתובת בסיס ל־API של OpenAI"
-
-#, fuzzy
-#| msgid "API root URL:"
-msgid "API root"
-msgstr "כתובת בסיס של ה־API:"
-
 msgid "Configure add-on"
 msgstr "הגדרת תוסף"
 
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview without changes"
+msgstr "שינויים אחרונים"
+
 msgid "This add-on has no settings."
 msgstr "לתוסף הזה אין הגדרות."
+
+#, fuzzy
+#| msgid "Automatically recognize"
+msgid "Automation preview"
+msgstr "זיהוי אוטומטי"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enable add-on:"
@@ -8549,6 +8801,23 @@ msgstr "שם המיזם"
 
 msgid "Project URL slug"
 msgstr "כתובת מופשטת של מיזם"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+msgid "Create a project token"
+msgstr "יצירת אסימון מיזם"
 
 #, fuzzy
 #| msgid "Review strings"
@@ -9049,17 +9318,6 @@ msgstr "אין לך הרשאות לשנות את בקרת הגישה של המי
 msgid "Check your billing status"
 msgstr "נא לבדוק את מצב החיוב שלך"
 
-msgid "Browse"
-msgstr "עיון"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "מצב תרגום"
-
-msgid "No strings found!"
-msgstr "לא נמצאו מחרוזות!"
-
 msgid "Insights"
 msgstr "תובנות"
 
@@ -9138,6 +9396,11 @@ msgstr "תרגום אוטומטי במרוכז"
 
 msgid "Add new category"
 msgstr "הוספת קטגוריה חדשה"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "מצב תרגום"
 
 #, fuzzy
 #| msgid "Browse all repository changes"
@@ -9784,9 +10047,9 @@ msgid "Use when you want the upstream to be the authority for translations."
 msgstr "מיועד לשימוש כשהמקור הוא הסמכות הבכירה לתרגומים."
 
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
-msgstr "תסלק את השינויים ב־Weblate ותסנכרן מול מאגר המקור."
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
+msgstr ""
 
 msgid "Reset and reapply"
 msgstr "איפוס והחלה מחדש"
@@ -9813,16 +10076,24 @@ msgstr ""
 msgid "Cleanup"
 msgstr "ניקוי"
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr "ניקוי מפנה את כל הקבצים שאינם במעקב על ידי בקרת הגרסאות מהמאגר."
 
-msgid "It also removes stale branches which are not used by Weblate."
-msgstr "הוא מסיר גם ענפים מיושנים ש־Weblate לא משתמש בהם."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
+msgstr ""
 
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "להשתמש כאשר נותר קצת זבל במאגר של Weblate."
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr "סנכרון"
@@ -9950,6 +10221,12 @@ msgstr "שינויים במאגר"
 msgid "Browse all repository changes"
 msgstr "עיון בכל השינויים במאגר"
 
+#, fuzzy
+#| msgctxt "Number of strings"
+#| msgid "Waiting for review"
+msgid "Nothing to preview."
+msgstr "בהמתנה לסקירה"
+
 msgid "Shortcut"
 msgstr "קיצור מקשים"
 
@@ -10056,9 +10333,6 @@ msgstr ""
 "הגדרות השפה מתעדכנות אוטומטית על ידי Weblate בעת הסבת מסד נתונים. עריכות לא "
 "הולמות ודאי תוחזרנה לאחור.<a href=\"%(url)s\">כדי לעיין בתיעוד כדי להבין איך "
 "לטפל בזה כראוי.</a>"
-
-msgid "Workflow"
-msgstr "רצף עבודה"
 
 msgid "Changing plural rules might not have a desired effect."
 msgstr "שינוי כללי הריבוי עשוי לגרום לתופעות לא רצויות."
@@ -10777,8 +11051,29 @@ msgid ""
 "credentials below."
 msgstr "כדי שיתאפשר לך לשחזר את הגיבויים עליך לשמור את פרטי הגישה שלך להלן."
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
+msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Buy backup service"
 msgstr "הוספת שירות גיבוי"
+
+#, fuzzy
+#| msgid "Cleaned up backup storage"
+msgid "Add custom backup storage"
+msgstr "אחסון הגיבוי התפנה"
 
 msgid "Commercial"
 msgstr "מסחרי"
@@ -11665,6 +11960,9 @@ msgstr "חיפוש בתוך מחרוזות מקור"
 msgid "Paste from clipboard"
 msgstr "הדבקה מלוח הגזירים"
 
+msgid "Translate"
+msgstr "תרגום"
+
 msgid "strings"
 msgstr "מחרוזות"
 
@@ -12280,14 +12578,14 @@ msgstr "לא נסקרו"
 msgid "Untranslated"
 msgstr "ללא תרגום"
 
+msgid "Browse"
+msgstr "עיון"
+
 msgid "Create translation"
 msgstr "יצירת תרגום"
 
 msgid "Cannot add translation right now"
 msgstr "לא ניתן להוסיף תרגום כרגע"
-
-msgid "Translate"
-msgstr "תרגום"
 
 msgid "Customized workflow"
 msgstr "רצף עבודה מותאם"
@@ -12866,6 +13164,11 @@ msgstr "אישור ההזמנה"
 msgid "Create account"
 msgstr "יצירת חשבון עם:"
 
+#, fuzzy, python-format
+#| msgid "Configure add-on"
+msgid "Configure %(addon)s"
+msgstr "הגדרת תוסף"
+
 msgid "Weblate could not execute script add-on."
 msgstr "ל־Weblate אין אפשרות להפעיל את תוסף הסקריפטים."
 
@@ -12874,6 +13177,12 @@ msgstr "המופעים הבאים נמצאו:"
 
 msgid "Command"
 msgstr "פקודה"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr "קובצי השפות המתורגמות משתמשים בקודים דו־משמעיים של שפות."
@@ -13445,6 +13754,16 @@ msgstr[1] "גיבויים נמחקים לאחר יומיים."
 msgstr[2] "גיבויים נמחקים לאחר %(keep_days)s ימים."
 msgstr[3] "גיבויים נמחקים לאחר %(keep_days)s ימים."
 
+#, fuzzy
+#| msgid "Jump to"
+msgid "Jump to date"
+msgstr "קפיצה אל"
+
+#, fuzzy
+#| msgid "Good"
+msgid "Go"
+msgstr "טובה"
+
 msgid "Changes"
 msgstr "שינויים"
 
@@ -13453,6 +13772,24 @@ msgstr "הורדת השינויים האחרונים כקובץ CSV"
 
 msgid "Follow using RSS"
 msgstr "מעקב באמצעות RSS"
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "צופים"
+
+msgid "Older"
+msgstr ""
 
 msgid "From version control"
 msgstr "ממערכת ניהול גרסאות"
@@ -13768,9 +14105,6 @@ msgstr[2] ""
 msgstr[3] ""
 "יש %(count)s חברים בצוות הזה. מחיקת הצוות תשפיע על הגישה שלהם למיזם."
 
-msgid "Create a project token"
-msgstr "יצירת אסימון מיזם"
-
 msgid "Create"
 msgstr "יצירה"
 
@@ -13822,6 +14156,15 @@ msgid ""
 msgstr ""
 "בעת שינוי כתובת המאגר, התוכן הקיים ימוזג עם המאגר. פעולה זו תפעל כראוי אם "
 "המאגר עבר למיקום אחר. אם תוכן המאגר שונה, אולי מוטב ליצור רכיב תרגום חדש."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "עריכת מקור"
+
+msgid "Cancel"
+msgstr "ביטול"
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -14089,6 +14432,11 @@ msgstr "לא סופק הסבר עדיין."
 msgid "No labels currently set."
 msgstr "לא הוגדרו תוויות עדיין."
 
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit flags"
+msgstr "עריכת תווית"
+
 msgid "Flags"
 msgstr "דגלונים"
 
@@ -14157,6 +14505,17 @@ msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
 msgstr "<code>%(flags)s</code> התקבל בתורשה מ־%(object)s."
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Effective flags"
+msgstr "דגלונים מירושה"
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
+msgstr ""
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -14277,11 +14636,6 @@ msgstr "ספק"
 msgid "Repositories"
 msgstr "מאגרים"
 
-#, fuzzy
-#| msgid "Disable"
-msgid "Disabled"
-msgstr "השבתה"
-
 msgid "Refresh"
 msgstr ""
 
@@ -14393,9 +14747,6 @@ msgstr "מיזמים רשומים"
 #| msgid "Continue"
 msgid "Continue to GitHub"
 msgstr "המשך"
-
-msgid "Cancel"
-msgstr "ביטול"
 
 #, fuzzy
 #| msgid "Live Preview"
@@ -14694,6 +15045,14 @@ msgstr "קוד ההטמעה הועתק ללוח הגזירים."
 
 msgid "Embed Code"
 msgstr "קוד הטמעה"
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "סקירה"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -15594,6 +15953,11 @@ msgstr "לא ניתן לפענח קובץ TMX:‏ %s"
 msgid "POT updates do not update PO files."
 msgstr ""
 
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "AI quality evaluation service is unavailable."
+msgstr "האסימון שסופק לא תקף."
+
 msgid "Information"
 msgstr "מידע"
 
@@ -16357,6 +16721,48 @@ msgstr "MAC (\\r)"
 msgid "Include closing tag for blank XML tags"
 msgstr "לכלול את תגית הסגירה לתגיות XML ריקות"
 
+#, fuzzy
+#| msgid "Conflict handling"
+msgid "Whitespace handling"
+msgstr "טיפול בסתירות"
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Placeables support"
+msgstr "תמיכה ב־Weblate"
+
+#, fuzzy
+#| msgid "Plain text file"
+msgid "Plain text only"
+msgstr "קובץ טקסט פשוט"
+
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support placeables"
+msgstr "תמיכה ב־Weblate"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 msgid "FlatXML Root name"
 msgstr "שם מקור XML שטוח"
 
@@ -16620,6 +17026,14 @@ msgid ""
 "changes."
 msgstr "תרגום המחרוזת נערך בינתיים. נא לבדוק את השינויים שלך."
 
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Ignore language mismatch"
+msgstr "מגבלת שפות"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr "מצב העלאת קבצים"
 
@@ -16765,6 +17179,34 @@ msgstr "הערת תרגום, דיון עם מתרגמים אחרים"
 
 msgid "Please choose"
 msgstr "נא לבחור"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags — all languages"
+msgstr "לכל השפות"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation language:"
+msgid "Translation flags — this language"
+msgstr "שפת תרגום:"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation language:"
+msgid "Translation flags — %(language)s"
+msgstr "שפת תרגום:"
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to edit these flags."
+msgstr "אין לך הרשאות לקבל הצעות."
 
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
@@ -17040,6 +17482,11 @@ msgstr "מחרוזת תלוית רישיות לחיפוש והחלפה."
 msgid "Replacement string"
 msgstr "מחרוזת החלפה"
 
+#, fuzzy
+#| msgid "Screenshot context"
+msgid "Key or context"
+msgstr "הקשר צילום המסך"
+
 msgid "Translation key"
 msgstr "מפתח תרגום"
 
@@ -17093,16 +17540,38 @@ msgstr "מצב להגדרה"
 msgid "Do not change"
 msgstr "לא לשנות"
 
-msgid "Translation flags to add"
+msgid "Source flags to add — all languages"
+msgstr ""
+
+msgid "Source flags to remove — all languages"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "דגלוני שפה להוספה"
 
-msgid "Translation flags to remove"
+#, fuzzy
+#| msgid "Fills in translation strings with source string."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "ממלא את מחרוזות התרגום במחרוזת המקור."
+
+#, fuzzy
+#| msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
 msgstr "דגלוני שפה להסרה"
 
-msgid "Labels to add"
-msgstr "תוויות להוספה"
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
 
-msgid "Labels to remove"
+#, fuzzy
+#| msgid "For all languages"
+msgid "Labels to add — all languages"
+msgstr "לכל השפות"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "תוויות להסרה"
 
 msgid "I accept the contributor license agreement"
@@ -17144,6 +17613,11 @@ msgstr "נא להקליד את השם המופשט המלא של המיזם וה
 
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "נא להקליד את השם המופשט המלא של הקטגוריה והשפה כדי לאשר."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The date cannot be in the future."
+msgstr "שם הקובץ לא יכול להיות נתיב מלא."
 
 msgid "Author username"
 msgstr "שם המשתמש של המחבר"
@@ -17758,10 +18232,15 @@ msgstr ""
 msgid "Manage strings"
 msgstr "ניהול מחרוזות"
 
+#, fuzzy
+#| msgid ""
+#| "Enables adding and removing strings straight from Weblate. If your "
+#| "strings are extracted from the source code or managed externally you "
+#| "probably want to keep it disabled."
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 "מאפשר הוספת והסרת מחרוזות ישירות מ־Weblate. אם המחרוזות שלך מחולצות אוטומטית "
 "מקוד המקור או מנוהלות חיצונית, עדיף להשבית את האפשרות הזאת."
@@ -18535,6 +19014,23 @@ msgstr "צורות הריבוי בקובץ שהועלה אינן תואמות ל
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "צורות הריבוי בקובץ שהועלה אינן תואמות לתרגום הנוכחי."
 
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains too many language declarations."
+msgstr "קובץ ה־ZIP מכיל יותר מדי רשומות."
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not parse uploaded ZIP file."
+msgid "Could not parse uploaded file: %s"
+msgstr "לא ניתן לפענח את קובץ ה־ZIP שהועלה."
+
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "לא ניתן לקבע שינויים ממתינים: %s"
@@ -18543,11 +19039,6 @@ msgstr "לא ניתן לקבע שינויים ממתינים: %s"
 #| msgid "Could not parse {file}: {error}"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "לא ניתן לפענח את {file}: {error}"
-
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
-msgid "Could not parse uploaded file: %s"
-msgstr "לא ניתן לפענח את קובץ ה־ZIP שהועלה."
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -18588,29 +19079,71 @@ msgstr[1] "לא ניתן להפיץ את המחרוזת הזאת לשני רכי
 msgstr[2] "לא ניתן להפיץ את המחרוזת הזאת ל־%d רכיבים."
 msgstr[3] "לא ניתן להפיץ את המחרוזת הזאת ל־%d רכיבים."
 
-msgid "Unmark as read-only"
-msgstr "ביטול סימון לקריאה בלבד"
-
-msgid "Mark as read-only"
-msgstr "סימון לקריאה בלבד"
-
-msgid "Unmark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "ביטול סימון כזמין לתרגום"
 
-msgid "Mark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as read-only"
+msgid "Unmark as read-only for all languages"
+msgstr "ביטול סימון לקריאה בלבד"
+
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark this translation as untranslatable"
+msgstr "ביטול סימון כזמין לתרגום"
+
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Unmark this translation as read-only"
+msgstr "התרגום הוא לקריאה בלבד."
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "ניהול שפות מתורגמות"
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "ניהול שפות מתורגמות"
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark this translation as untranslatable"
 msgstr "סימון כאסור לתרגום"
 
-msgid "Unmark as forbidden translation"
-msgstr "ביטול הסימון כתרגום אסור"
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Mark this translation as read-only"
+msgstr "התרגום הוא לקריאה בלבד."
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark as untranslatable for all languages"
+msgstr "סימון כאסור לתרגום"
+
+#, fuzzy
+#| msgid "Mark as read-only"
+msgid "Mark as read-only for all languages"
+msgstr "סימון לקריאה בלבד"
 
 msgid "Mark as forbidden translation"
 msgstr "סימון כתרגום אסור"
 
-msgid "Unmark as terminology"
-msgstr "ביטול סימון כמינוח"
+msgid "Unmark as forbidden translation"
+msgstr "ביטול הסימון כתרגום אסור"
 
-msgid "Mark as terminology"
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as terminology for all languages"
 msgstr "סימון כמינוח"
+
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as terminology for all languages"
+msgstr "ביטול סימון כמינוח"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -18619,6 +19152,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The source string has changed. Reload it before editing."
+msgstr "לא ניתן לערוך את מחרוזת המקור."
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "כבר קיים משתמש בשם הזה."
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "The file format does not support this edit."
+msgstr "סוג הקובץ לא תומך בזה."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translation project was removed"
+msgid "A translation key is required."
+msgstr "מיזם התרגום שלך הוסר"
+
+#, fuzzy
+#| msgid "Could not add new translation file."
+msgid "Could not find the string in the translation file."
+msgstr "לא ניתן להוסיף קובץ תרגום חדש."
 
 msgid "Insert tab character"
 msgstr "הוספת התו טאב"
@@ -19166,6 +19728,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "שינויים ב־%s"
 
+#, fuzzy
+#| msgid "Invalid text direction"
+msgid "Invalid history position."
+msgstr "כיוון הטקסט שגוי"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr "התצורה שסופקה שגויה. נא לבדוק את השגיאות להלן."
 
@@ -19231,6 +19798,9 @@ msgid ""
 "refreshed."
 msgstr ""
 
+msgid "No strings found!"
+msgstr "לא נמצאו מחרוזות!"
+
 msgid "Your suggestion is empty!"
 msgstr "ההצעה שלך ריקה!"
 
@@ -19277,9 +19847,6 @@ msgstr "המחרוזת לחיפוש שגויה!"
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "תרגום אוטומטי מתבצע"
 
-msgid "Automatic translation in progress"
-msgstr "תרגום אוטומטי מתבצע"
-
 msgid "Posted new comment"
 msgstr "פורסמה הערה חדשה"
 
@@ -19301,6 +19868,16 @@ msgstr "לא ניתן לנעול את המאגר, מתבצעת כרגע פעול
 
 msgid "New string has been added."
 msgstr "נוספה מחרוזת חדשה."
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "The component is busy. Please try again."
+msgstr "הרכיב הזה נעול כרגע."
+
+#, fuzzy
+#| msgid "Source string added"
+msgid "Source string updated."
+msgstr "נוספה מחרוזת מקור"
 
 #, python-format
 msgid "Could not remove the string: %s"
@@ -19359,6 +19936,16 @@ msgstr "נא לתקן זאת על ידי הסרת אחד מקובצי התרגו
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "נא לתקן זאת על ידי הסרת אחד מקובצי התרגום."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long to preview."
+msgstr "מחרוזת המקור דורשת סקירה."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr "יותר מדי שאילתות חיפוש, נא לנסות שוב מאוחר יותר."
 
 msgid "Component is now locked for translation updates!"
 msgstr "רכיב זה נעול כעת לצורכי עדכון תרגום!"
@@ -19529,6 +20116,11 @@ msgstr "הרכיב הזה נעול כרגע."
 
 msgid "Backup scheduled. It will be available soon."
 msgstr "הגיבוי תוזמן. הוא יהיה זמין בקרוב."
+
+#, fuzzy
+#| msgid "Could not change additional string info!"
+msgid "Could not change string flags!"
+msgstr "לא ניתן לשנות את פרטי המחרוזת הנוספים!"
 
 msgid "Could not change additional string info!"
 msgstr "לא ניתן לשנות את פרטי המחרוזת הנוספים!"
@@ -20058,6 +20650,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr "שם התחום של הכתובת אינו מורשה."
+
+#, fuzzy
+#| msgid "Name contains disallowed characters."
+msgid "Repository URL contains unsafe characters."
+msgstr "השם מכיל מתווים בלתי מורשים."
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -21229,6 +21826,32 @@ msgstr "אי אפשר להסיר את מרחב העבודה כיוון שהוא 
 msgid "The workspace has been removed."
 msgstr "מרחב העבודה הוסר."
 
+#~ msgid "XLIFF 1.2 with placeables support"
+#~ msgstr "תמיכה ב־XLIFF 1.2 עם ממלאי מקום"
+
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "תמיכה בקובץ תרגום XLIFF 2.0 עם תמיכה בממלאי מקום"
+
+#, fuzzy
+#~| msgctxt "Automatic suggestion service configuration"
+#~| msgid "OpenAI API base URL"
+#~ msgid "Add-on API base URL:"
+#~ msgstr "כתובת בסיס ל־API של OpenAI"
+
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr "תסלק את השינויים ב־Weblate ותסנכרן מול מאגר המקור."
+
+#~ msgid "It also removes stale branches which are not used by Weblate."
+#~ msgstr "הוא מסיר גם ענפים מיושנים ש־Weblate לא משתמש בהם."
+
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "להשתמש כאשר נותר קצת זבל במאגר של Weblate."
+
+#~ msgid "Labels to add"
+#~ msgstr "תוויות להוספה"
+
 #~ msgid ""
 #~ "Updates the comment part of the PO file header to include contributor "
 #~ "names and years of contributions."
@@ -21769,9 +22392,6 @@ msgstr "מרחב העבודה הוסר."
 #~ msgid "View all alerts"
 #~ msgstr "הצגת כל ההתראות"
 
-#~ msgid "Automatically recognize"
-#~ msgstr "זיהוי אוטומטי"
-
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "סקירת ההנחיות מרשימת מטלות התרגום של הקהילה."
 
@@ -22153,9 +22773,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "תרגומים שתרמו להם"
-
-#~ msgid "Weblate support"
-#~ msgstr "תמיכה ב־Weblate"
 
 #~ msgid "Weblate community"
 #~ msgstr "קהילת Weblate"
@@ -23131,9 +23748,6 @@ msgstr "מרחב העבודה הוסר."
 #~ "מוודא שלכל הרכיבים בתוך מיזם יש תרגומים לכל שפה מתורגמת שנוספת על ידי "
 #~ "הוספת תרגומים ריקים בשפות שלא נוספו אליהן רכיבים."
 
-#~ msgid "Good"
-#~ msgstr "טובה"
-
 #~ msgid "Please search below to find matching source strings."
 #~ msgstr "נא לחפש להלן כדי למצוא מקורות מקור תואמות."
 
@@ -23714,9 +24328,6 @@ msgstr "מרחב העבודה הוסר."
 #~ msgid "You can now log in using password."
 #~ msgstr "מעתה ניתן להיכנס בעזרת ססמה."
 
-#~ msgid "Plural equation"
-#~ msgstr "משוואת רבים"
-
 #~ msgid "New whiteboard message"
 #~ msgstr "הודעה חדשה בלוח המודעות"
 
@@ -24047,9 +24658,6 @@ msgstr "מרחב העבודה הוסר."
 #~ msgid "Your languages"
 #~ msgstr "השפות שלך"
 
-#~ msgid "Review"
-#~ msgstr "סקירה"
-
 #~ msgid "Search type"
 #~ msgstr "סוג חיפוש"
 
@@ -24317,9 +24925,6 @@ msgstr "מרחב העבודה הוסר."
 
 #~ msgid "Message:"
 #~ msgstr "הודעה:"
-
-#~ msgid "Translation language:"
-#~ msgstr "שפת תרגום:"
 
 #~ msgid "Legend"
 #~ msgstr "מקרא"

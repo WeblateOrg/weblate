@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
 "PO-Revision-Date: 2026-09-11 08:25+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1483,6 +1483,46 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr ""
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Evaluation service"
+msgstr "ავთენტიკაციის სერვისის URL"
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable"
+msgid "Disabled"
+msgstr "გამორთვა"
+
+msgid "Daily"
+msgstr ""
+
+msgid "Weekly"
+msgstr ""
+
+msgid "Monthly"
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate translations are unlocked"
+msgid "Evaluate translation changes"
+msgstr "Weblate-ის თარგმანები განბლოკილია"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Evaluate repository updates"
+msgstr "საცავები"
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr ""
 
@@ -1783,15 +1823,6 @@ msgid ""
 msgstr ""
 
 msgid "Update frequency"
-msgstr ""
-
-msgid "Daily"
-msgstr ""
-
-msgid "Weekly"
-msgstr ""
-
-msgid "Monthly"
 msgstr ""
 
 msgid ""
@@ -3014,6 +3045,9 @@ msgstr ""
 msgid "This string seems to already exist."
 msgstr ""
 
+msgid "Automatic translation in progress"
+msgstr ""
+
 msgid "Category"
 msgstr "კატეგორია"
 
@@ -3814,14 +3848,22 @@ msgstr ""
 msgid "Adding strings is disabled in the component configuration."
 msgstr ""
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
+msgid "Editing source strings is disabled in the component configuration."
 msgstr ""
 
 #, fuzzy
 #| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+#, fuzzy
+#| msgid "Could not fetch translation: %s"
+msgid "You do not have permission to edit this glossary."
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr ""
 
 msgid "Adding new translations is turned off in the component configuration."
 msgstr ""
@@ -3869,6 +3911,96 @@ msgstr ""
 
 #, python-format
 msgid "Accepted invitation to the %s team."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language selection"
+msgid "Automation"
+msgstr "ენების ამორჩევა"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+msgid "The component is outside this add-on's scope."
+msgstr ""
+
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "The change does not belong to this component."
+msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+msgid "Automation nesting is too deep."
+msgstr ""
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "YAML aliases and tags are not supported."
+msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+#, fuzzy
+#| msgid "Automatic translation failed: %s"
+msgid "Automation keys must be strings."
+msgstr "ავტომატური თარგმანის შეცდომა: %s"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "%(path)s: %(error)s"
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+msgid "Automation context is too large."
+msgstr ""
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, python-format
+msgid "Invalid CEL condition: %s"
+msgstr ""
+
+msgid "Workflow"
+msgstr "პროექტის დინება"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Rename component"
+msgid "Preview component ID"
+msgstr "კომპონენტის სახელის გადარქმევა"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Do not change"
+msgid "Preview change ID"
+msgstr "არ შეცვალო"
+
+msgid "Optional event context. Used only for preview."
 msgstr ""
 
 msgid "Additional message"
@@ -4059,6 +4191,51 @@ msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+msgid "The evaluation detected a language quality issue."
+msgstr ""
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "ტერმინოლოჰია"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Information"
+msgid "AI: Formatting"
+msgstr "ინფორმაცია"
+
+#, fuzzy
+#| msgid "Translation explanation"
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "თარგმანის ახსნა"
 
 msgid "AngularJS interpolation string"
 msgstr ""
@@ -5260,6 +5437,28 @@ msgstr ""
 msgid "Multivalue CSV file"
 msgstr ""
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "This file format does not support editing keys or context."
+msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+msgid "A string with this identity already exists."
+msgstr ""
+
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "This file format does not support editing source strings."
+msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+
+msgid "The key cannot be represented in this file format."
+msgstr ""
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -5302,10 +5501,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "XLIFF 1.2 თარგმნის ფაილი"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr ""
-
-#. Translators: File format name
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr ""
 
@@ -5317,12 +5512,6 @@ msgstr ""
 #, fuzzy
 #| msgid "XLIFF 1.2 translation file"
 msgid "XLIFF 2.0 translation file"
-msgstr "XLIFF 1.2 თარგმნის ფაილი"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "XLIFF 1.2 translation file"
-msgid "XLIFF 2.0 translation file with placeables support"
 msgstr "XLIFF 1.2 თარგმნის ფაილი"
 
 #. Translators: File format name
@@ -5568,7 +5757,17 @@ msgstr ""
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 msgid "Maximum retained versions"
+msgstr ""
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
 msgstr ""
 
 msgid "Kotlin SDK CDN"
@@ -7693,6 +7892,12 @@ msgid "Cloud"
 msgstr ""
 
 #, fuzzy
+#| msgid "Expired"
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "ვადაგასული"
+
+#, fuzzy
 #| msgid "Terminated"
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
@@ -7965,9 +8170,25 @@ msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
 #, fuzzy
+#| msgid "Add-ons"
+msgid "Add-on API"
+msgstr "დამატებები"
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "API root"
+msgstr "პროექტის სახელი"
+
+#, fuzzy
 #| msgid "Confirm registration"
 msgid "Configuration"
 msgstr "რეგისტრაციის დადასტურება"
+
+msgid "API"
+msgstr ""
 
 #, fuzzy
 #| msgctxt "Access-control team name"
@@ -8004,18 +8225,25 @@ msgstr "ხელმიუწვდომელია"
 msgid "No components found."
 msgstr "მინიშნებები"
 
-msgid "Add-on API base URL:"
-msgstr ""
-
-#, fuzzy
-#| msgid "Project name"
-msgid "API root"
-msgstr "პროექტის სახელი"
-
 msgid "Configure add-on"
 msgstr ""
 
+#, fuzzy
+#| msgid "Do not change"
+msgid "Preview without changes"
+msgstr "არ შეცვალო"
+
 msgid "This add-on has no settings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Automation preview"
+msgstr "მიმოხილვა"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
 msgstr ""
 
 #, fuzzy
@@ -8211,6 +8439,23 @@ msgid "Project name"
 msgstr "პროექტის სახელი"
 
 msgid "Project URL slug"
+msgstr ""
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+msgid "Create a project token"
 msgstr ""
 
 msgid "Review before installing"
@@ -8715,17 +8960,6 @@ msgstr ""
 msgid "Check your billing status"
 msgstr ""
 
-msgid "Browse"
-msgstr "ნუსხა"
-
-#, fuzzy
-#| msgid "Translation"
-msgid "Translation status widgets"
-msgstr "თარგმანი"
-
-msgid "No strings found!"
-msgstr ""
-
 msgid "Insights"
 msgstr "Insights"
 
@@ -8802,6 +9036,11 @@ msgstr "ავტომატური თარგმანის შეცდ�
 
 msgid "Add new category"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation"
+msgid "Translation status widgets"
+msgstr "თარგმანი"
 
 #, fuzzy
 #| msgid "Browse all watched projects"
@@ -9391,8 +9630,8 @@ msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
 
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
 msgstr ""
 
 msgid "Reset and reapply"
@@ -9414,15 +9653,23 @@ msgstr ""
 msgid "Cleanup"
 msgstr "გასუფთავება"
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-msgid "It also removes stale branches which are not used by Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
 msgstr ""
 
-msgid "Use when there is some garbage left in the Weblate repository."
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
 msgstr ""
 
 msgid "Synchronize"
@@ -9535,6 +9782,9 @@ msgstr ""
 msgid "Browse all repository changes"
 msgstr "ყველა თქვენი პროექტის ნახვა"
 
+msgid "Nothing to preview."
+msgstr ""
+
 msgid "Shortcut"
 msgstr ""
 
@@ -9644,9 +9894,6 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
-
-msgid "Workflow"
-msgstr "პროექტის დინება"
 
 msgid "Changing plural rules might not have a desired effect."
 msgstr ""
@@ -10313,7 +10560,26 @@ msgid ""
 "credentials below."
 msgstr ""
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
+msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Backups"
+msgid "Buy backup service"
+msgstr "მარქაფები"
+
+msgid "Add custom backup storage"
 msgstr ""
 
 msgid "Commercial"
@@ -11177,6 +11443,9 @@ msgstr "საწყისი სტრიქონის გადახედ�
 msgid "Paste from clipboard"
 msgstr "ბუფერში კოპირება"
 
+msgid "Translate"
+msgstr "თარგმნა"
+
 #, fuzzy
 #| msgid "Strings"
 msgid "strings"
@@ -11751,14 +12020,14 @@ msgstr "გადამხედები"
 msgid "Untranslated"
 msgstr "უთარგმნელი"
 
+msgid "Browse"
+msgstr "ნუსხა"
+
 msgid "Create translation"
 msgstr ""
 
 msgid "Cannot add translation right now"
 msgstr ""
-
-msgid "Translate"
-msgstr "თარგმნა"
 
 msgid "Customized workflow"
 msgstr ""
@@ -12301,6 +12570,11 @@ msgstr "Მოწვევის მიღება"
 msgid "Create account"
 msgstr "ანგარიშის წაშლა"
 
+#, fuzzy, python-format
+#| msgid "Confirm registration"
+msgid "Configure %(addon)s"
+msgstr "რეგისტრაციის დადასტურება"
+
 msgid "Weblate could not execute script add-on."
 msgstr ""
 
@@ -12309,6 +12583,12 @@ msgstr ""
 
 msgid "Command"
 msgstr "ბრძანება"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr ""
@@ -12813,6 +13093,14 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] ""
 msgstr[1] ""
 
+#, fuzzy
+#| msgid "Jump to"
+msgid "Jump to date"
+msgstr "გადასვლა"
+
+msgid "Go"
+msgstr ""
+
 msgid "Changes"
 msgstr "ცვლილებები"
 
@@ -12820,6 +13108,24 @@ msgid "Download latest changes as CSV"
 msgstr ""
 
 msgid "Follow using RSS"
+msgstr ""
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "დამთვალიერებლები"
+
+msgid "Older"
 msgstr ""
 
 msgid "From version control"
@@ -13116,9 +13422,6 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Create a project token"
-msgstr ""
-
 msgid "Create"
 msgstr "შექმნა"
 
@@ -13166,6 +13469,15 @@ msgid ""
 "new repository. This will work just fine if the repository has been moved to "
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "წყაროს ჩასწორება"
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
@@ -13421,6 +13733,11 @@ msgstr ""
 msgid "No labels currently set."
 msgstr ""
 
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit flags"
+msgstr "ჭდის ჩასწორება"
+
 msgid "Flags"
 msgstr "ალმები"
 
@@ -13488,6 +13805,15 @@ msgstr ""
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
+msgstr ""
+
+msgid "Effective flags"
+msgstr ""
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
 msgstr ""
 
 #, python-format
@@ -13606,11 +13932,6 @@ msgstr ""
 msgid "Repositories"
 msgstr "საცავები"
 
-#, fuzzy
-#| msgid "Disable"
-msgid "Disabled"
-msgstr "გამორთვა"
-
 msgid "Refresh"
 msgstr ""
 
@@ -13718,9 +14039,6 @@ msgstr ""
 #| msgid "Continue"
 msgid "Continue to GitHub"
 msgstr "გაგრძელება"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Overview"
@@ -14013,6 +14331,15 @@ msgstr "ბუფერში კოპირება"
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Review"
+msgid "Preview"
+msgstr "Მიმოხილვა"
 
 #, fuzzy
 #| msgid "Browse all watched projects"
@@ -14956,6 +15283,9 @@ msgstr "თარგმანის გამოთხოვის შეცდ�
 msgid "POT updates do not update PO files."
 msgstr ""
 
+msgid "AI quality evaluation service is unavailable."
+msgstr ""
+
 msgid "Information"
 msgstr "ინფორმაცია"
 
@@ -15652,6 +15982,42 @@ msgstr ""
 msgid "Include closing tag for blank XML tags"
 msgstr ""
 
+msgid "Whitespace handling"
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Get support"
+msgid "Placeables support"
+msgstr "მხარდაჭერა"
+
+msgid "Plain text only"
+msgstr ""
+
+msgid "Support placeables"
+msgstr ""
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 msgid "FlatXML Root name"
 msgstr ""
 
@@ -15915,6 +16281,14 @@ msgid ""
 "changes."
 msgstr ""
 
+#, fuzzy
+#| msgid "Languages"
+msgid "Ignore language mismatch"
+msgstr "ენები"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr ""
 
@@ -16057,6 +16431,32 @@ msgstr ""
 
 msgid "Please choose"
 msgstr ""
+
+#, fuzzy
+#| msgid "Source language"
+msgid "Source flags — all languages"
+msgstr "საწყისი ენა"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+msgid "Translation flags — this language"
+msgstr ""
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation"
+msgid "Translation flags — %(language)s"
+msgstr "თარგმანი"
+
+#, fuzzy
+#| msgid "Could not fetch translation: %s"
+msgid "You do not have permission to edit these flags."
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -16309,6 +16709,9 @@ msgstr ""
 msgid "Replacement string"
 msgstr "ჩასანაცვლებელი სტრიქონი"
 
+msgid "Key or context"
+msgstr ""
+
 msgid "Translation key"
 msgstr ""
 
@@ -16359,16 +16762,30 @@ msgstr ""
 msgid "Do not change"
 msgstr "არ შეცვალო"
 
-msgid "Translation flags to add"
+msgid "Source flags to add — all languages"
 msgstr ""
 
-msgid "Translation flags to remove"
+msgid "Source flags to remove — all languages"
 msgstr ""
 
-msgid "Labels to add"
+msgid "Translation flags to add — matching translations"
 msgstr ""
 
-msgid "Labels to remove"
+msgid "Applies only to matching translations, excluding source strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not fetch translation: %s"
+msgid "Translation flags to remove — matching translations"
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
+
+msgid "Labels to add — all languages"
+msgstr ""
+
+msgid "Labels to remove — all languages"
 msgstr ""
 
 msgid "I accept the contributor license agreement"
@@ -16409,6 +16826,9 @@ msgid "Please type in the slug of the project and language to confirm."
 msgstr ""
 
 msgid "Please type in the slug of the category and language to confirm."
+msgstr ""
+
+msgid "The date cannot be in the future."
 msgstr ""
 
 msgid "Author username"
@@ -16982,9 +17402,9 @@ msgid "Manage strings"
 msgstr ""
 
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 
 msgid "Merge style"
@@ -17644,6 +18064,21 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+msgid "The uploaded file contains too many language declarations."
+msgstr ""
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch translation: %s"
+msgid "Could not parse uploaded file: %s"
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr ""
@@ -17651,11 +18086,6 @@ msgstr ""
 #, fuzzy, python-brace-format
 #| msgid "Could not fetch translation: %s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
-
-#, fuzzy, python-format
-#| msgid "Could not fetch translation: %s"
-msgid "Could not parse uploaded file: %s"
 msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
 #, fuzzy, python-format
@@ -17695,28 +18125,50 @@ msgid_plural "String could not be propagated to %d components."
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Unmark as read-only"
+msgid "Unmark as untranslatable for all languages"
 msgstr ""
 
-msgid "Mark as read-only"
+msgid "Unmark as read-only for all languages"
 msgstr ""
 
-msgid "Unmark as untranslatable"
+msgid "Unmark this translation as untranslatable"
 msgstr ""
 
-msgid "Mark as untranslatable"
+#, fuzzy
+#| msgid "The translation is read only."
+msgid "Unmark this translation as read-only"
+msgstr "ეს თარგმანი მხოლოდ-კითხვადია."
+
+msgid "Make untranslatable apply to all languages"
 msgstr ""
 
-msgid "Unmark as forbidden translation"
+msgid "Make read-only apply to all languages"
+msgstr ""
+
+msgid "Mark this translation as untranslatable"
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation is read only."
+msgid "Mark this translation as read-only"
+msgstr "ეს თარგმანი მხოლოდ-კითხვადია."
+
+msgid "Mark as untranslatable for all languages"
+msgstr ""
+
+msgid "Mark as read-only for all languages"
 msgstr ""
 
 msgid "Mark as forbidden translation"
 msgstr ""
 
-msgid "Unmark as terminology"
+msgid "Unmark as forbidden translation"
 msgstr ""
 
-msgid "Mark as terminology"
+msgid "Mark as terminology for all languages"
+msgstr ""
+
+msgid "Unmark as terminology for all languages"
 msgstr ""
 
 msgid "Restrict direct editing"
@@ -17726,6 +18178,34 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source string reviews are not enabled."
+msgid "The source string has changed. Reload it before editing."
+msgstr "საწყისი სტრიქონის გადახედვები ჩართული არაა."
+
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr ""
+
+#, fuzzy
+#| msgid "File format does not support this."
+msgid "The file format does not support this edit."
+msgstr "ფაილის ფორმატს ამის მხარდაჭერა არ გააჩნია."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "A translation key is required."
+msgstr "შექმნილია ხალი თარგმანის კომპონენტი"
+
+#, fuzzy
+#| msgid "Could not fetch translation: %s"
+msgid "Could not find the string in the translation file."
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
 msgid "Insert tab character"
 msgstr ""
@@ -18194,6 +18674,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "ცვლილებები"
 
+#, fuzzy
+#| msgid "Rename component"
+msgid "Invalid history position."
+msgstr "კომპონენტის სახელის გადარქმევა"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -18248,6 +18733,9 @@ msgid ""
 "refreshed."
 msgstr ""
 
+msgid "No strings found!"
+msgstr ""
+
 msgid "Your suggestion is empty!"
 msgstr ""
 
@@ -18287,9 +18775,6 @@ msgstr ""
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr ""
 
-msgid "Automatic translation in progress"
-msgstr ""
-
 msgid "Posted new comment"
 msgstr ""
 
@@ -18309,6 +18794,14 @@ msgstr ""
 
 msgid "New string has been added."
 msgstr ""
+
+msgid "The component is busy. Please try again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source string updated."
+msgstr "საწყისი სტრიქონის ახსნა"
 
 #, python-format
 msgid "Could not remove the string: %s"
@@ -18364,6 +18857,14 @@ msgstr ""
 #| msgid "Could not fetch translation: %s"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
+
+#, fuzzy
+#| msgid "Source string reviews are not enabled."
+msgid "The text is too long to preview."
+msgstr "საწყისი სტრიქონის გადახედვები ჩართული არაა."
+
+msgid "Too many preview requests, try again later."
+msgstr ""
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -18512,6 +19013,11 @@ msgstr ""
 
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
+
+#, fuzzy
+#| msgid "Could not fetch translation: %s"
+msgid "Could not change string flags!"
+msgstr "თარგმანის გამოთხოვის შეცდომა: %s"
 
 msgid "Could not change additional string info!"
 msgstr ""
@@ -19018,6 +19524,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Repository URL contains unsafe characters."
+msgstr "საცავები"
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -20129,6 +20640,11 @@ msgstr ""
 #| msgid "Component"
 msgid "The workspace has been removed."
 msgstr "კომპონენტი"
+
+#, fuzzy
+#~| msgid "XLIFF 1.2 translation file"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "XLIFF 1.2 თარგმნის ფაილი"
 
 #, fuzzy
 #~| msgid "Rename component"

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
 "PO-Revision-Date: 2026-09-11 08:22+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1625,6 +1625,49 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "Tuqqna taneggarut"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Evaluation service"
+msgstr "Asesteb"
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable"
+msgid "Disabled"
+msgstr "Sens-it"
+
+msgid "Daily"
+msgstr "Yal ass"
+
+#, fuzzy
+#| msgid "Weekly digest"
+msgid "Weekly"
+msgstr "Agzul n yimalas"
+
+msgid "Monthly"
+msgstr "Yal aggur"
+
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Evaluate translation changes"
+msgstr "Snirem akk ibeddilen n tsuqilt"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Evaluate repository updates"
+msgstr "Akufi d aqbuṛ."
+
+#, fuzzy
+#| msgid "Plural equation"
+msgid "AI quality evaluation"
+msgstr "Tagda n usget"
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr "Tasuqilt tawurmant"
 
@@ -2011,17 +2054,6 @@ msgstr ""
 
 msgid "Update frequency"
 msgstr ""
-
-msgid "Daily"
-msgstr "Yal ass"
-
-#, fuzzy
-#| msgid "Weekly digest"
-msgid "Weekly"
-msgstr "Agzul n yimalas"
-
-msgid "Monthly"
-msgstr "Yal aggur"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3452,6 +3484,9 @@ msgstr "Ur ɣur-k ara tisirag akken ad tqebleḍ isumar!"
 msgid "This string seems to already exist."
 msgstr "Tasuqilt-a temdel."
 
+msgid "Automatic translation in progress"
+msgstr "Tasuqilt tawurmant tetteddu"
+
 msgid "Category"
 msgstr "Taggayt"
 
@@ -4320,14 +4355,24 @@ msgstr ""
 msgid "Adding strings is disabled in the component configuration."
 msgstr "Aɣewwaṛ n usuddis ur yettwasefrak ara"
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr ""
+#, fuzzy
+#| msgid "Unsupported component configuration"
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "Aɣewwaṛ n usuddis ur yettwasefrak ara"
 
 #, fuzzy
 #| msgid "The detected file format is not supported."
 msgid "The file format does not support this."
 msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit this glossary."
+msgstr "Ur ɣur-k ara tisirag akken ad tqebleḍ isumar!"
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr ""
 
 #, fuzzy
 #| msgid "Unsupported component configuration"
@@ -4387,6 +4432,103 @@ msgstr "Imayl n usentem ad yettwazen dagi."
 #| msgid "Send e-mail invitation to the user"
 msgid "Accepted invitation to the %s team."
 msgstr "Azen imayl n tinubga i useqdac"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgid "Automation"
+msgstr "Tifin tawurmant"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component is outside this add-on's scope."
+msgstr "Asuddis-a ur yeswil ara akken iwata."
+
+#, fuzzy
+#| msgid "User has been invited to this project."
+msgid "The change does not belong to this component."
+msgstr "Aseqdac yettwaɛreḍ ɣer usenfaṛ-a."
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automation nesting is too deep."
+msgstr "Askar n tsuqilt tawurmant"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Automation keys must be strings."
+msgstr "Izriren yettwasuqlen s wudem awurman"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(email)s: %(error)s"
+msgid "%(path)s: %(error)s"
+msgstr "%(email)s: %(error)s"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Automation context is too large."
+msgstr "Tikci n tebdart n usuddis tawurmant"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Repository branch"
+msgid "Invalid CEL condition: %s"
+msgstr "Taseṭṭa n ukufi"
+
+msgid "Workflow"
+msgstr "Akala n umahil"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Preview component ID"
+msgstr "Rnu asuddis"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview change ID"
+msgstr "Ibeddilen imaynuten"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "Izen-nniḍen"
@@ -4594,6 +4736,55 @@ msgstr "Akken ad tesḥebseḍ after, issefk ad tekkseḍ meṛṛa isenfaren."
 
 msgid "Cannot merge such a billing."
 msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "The evaluation detected a language quality issue."
+msgstr "Tasuqilt deg tutlayt tamezwarut tettwaẓrag."
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "Amawal"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+#, fuzzy
+#| msgid "Browse the documentation for detailed instructions"
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr "Wali tasemlit ɣef yiwellihen-a"
+
+#, fuzzy
+#| msgid "Vue I18n formatting"
+msgid "AI: Formatting"
+msgstr "Amsal n tmeẓri I18n"
+
+#, fuzzy
+#| msgid "Translation is missing some placeholders"
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Tiṛekkizin n usemselsi ulac-itent deg tsuqilt"
 
 msgid "AngularJS interpolation string"
 msgstr "Azrir n usuffeɣ Angular JS"
@@ -6047,6 +6238,32 @@ msgstr "Excel Open XML"
 msgid "Multivalue CSV file"
 msgstr "Afaylu CSV aḥerfi"
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This file format does not support editing keys or context."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A string with this identity already exists."
+msgstr "Aseqdac s yisem-agi yella yakan."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This file format does not support editing source strings."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation base language can not be edited."
+msgid "The key cannot be represented in this file format."
+msgstr "Tasuqilt deg tutlayt tamezwarut ur tettwaẓrag ara."
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -6092,10 +6309,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "Afaylu n tsuqilt XLIFF"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr ""
-
-#. Translators: File format name
 #, fuzzy
 #| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
@@ -6112,12 +6325,6 @@ msgstr "XLIFF s usiɣzef gettext"
 #| msgid "XLIFF translation file"
 msgid "XLIFF 2.0 translation file"
 msgstr "Afaylu n tsuqilt XLIFF"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "XLIFF translation file with PO extensions"
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "Afaylu n tsuqilt XLIFF s usiɣzef PO"
 
 #. Translators: File format name
 #, fuzzy
@@ -6396,10 +6603,20 @@ msgstr "Ur izmir ara ad isizdeg akufi %s."
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Maximum size of translation"
 msgid "Maximum retained versions"
 msgstr "Teɣzi tafellayt n tsuqilt"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -8796,6 +9013,12 @@ msgid "Cloud"
 msgstr "Asigna"
 
 #, fuzzy
+#| msgid "Expired"
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "Yemmut"
+
+#, fuzzy
 #| msgid "Terminated"
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
@@ -9102,8 +9325,24 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
+#, fuzzy
+#| msgid "Add-ons"
+msgid "Add-on API"
+msgstr "Izegrar"
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "Tansa aẓar n API:"
+
 msgid "Configuration"
 msgstr "Twila"
+
+msgid "API"
+msgstr ""
 
 #, fuzzy
 #| msgctxt "Access-control team name"
@@ -9140,23 +9379,30 @@ msgstr "Ulac"
 msgid "No components found."
 msgstr "Ula d yiwen n usuddis n icudd!"
 
-msgid "Add-on API base URL:"
-msgstr ""
-
-#, fuzzy
-#| msgid "API root URL:"
-msgid "API root"
-msgstr "Tansa aẓar n API:"
-
 #, fuzzy
 #| msgid "Configure addon"
 msgid "Configure add-on"
 msgstr "Sbadu azegrir"
 
 #, fuzzy
+#| msgid "Recent changes"
+msgid "Preview without changes"
+msgstr "Ibeddilen imaynuten"
+
+#, fuzzy
 #| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
 msgstr "Azegrir-a ad isenker askript."
+
+#, fuzzy
+#| msgid "Automatically recognize"
+msgid "Automation preview"
+msgstr "Ad yeɛqel s wudem awurman"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
+msgstr ""
 
 #, fuzzy
 #| msgid "Example addon"
@@ -9385,6 +9631,25 @@ msgstr "Isem n usenfaṛ"
 
 msgid "Project URL slug"
 msgstr "Tansa URL wezzilen n usenfaṛ"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create project"
+msgid "Create a project token"
+msgstr "Rnu asenfaṛ"
 
 #, fuzzy
 #| msgid "Review strings"
@@ -9935,19 +10200,6 @@ msgstr "Ur tesɛiḍ ara tasiregt akken ad tbeddleḍasefrek n unekcum n usenfa�
 msgid "Check your billing status"
 msgstr "Senqed addad n tfaturt-ik"
 
-msgid "Browse"
-msgstr "Snirem"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "Addad n tsuqqilt"
-
-#, fuzzy
-#| msgid "No words found!"
-msgid "No strings found!"
-msgstr "Ur ttwafen ara wawalen!"
-
 msgid "Insights"
 msgstr "Aḍfaṛ"
 
@@ -10033,6 +10285,11 @@ msgstr "Tasuqilt tawurmant"
 #| msgid "Add a user"
 msgid "Add new category"
 msgstr "Rnu aseqdac"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Addad n tsuqqilt"
 
 #, fuzzy
 #| msgid "Browse all translation changes"
@@ -10746,12 +11003,10 @@ msgstr ""
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr "Wablate ur izmir ara ad yesleḍ ifuyla n tsuqilt deg uleqqemn n ukufi."
 
-#, fuzzy
-#| msgid "Commit pending changes to the local repository"
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
-msgstr "Err ibeddilen yettraǧun ɣer teṛcivt n ukufi adigan"
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
+msgstr ""
 
 msgid "Reset and reapply"
 msgstr ""
@@ -10772,18 +11027,24 @@ msgstr ""
 msgid "Cleanup"
 msgstr "Sfeḍ"
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-msgid "It also removes stale branches which are not used by Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
 msgstr ""
 
-#, fuzzy
-#| msgid "Prevent any changes in the local repository"
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Gdel ibeddilen deg ukufi adigan"
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr "Mtawi"
@@ -10923,6 +11184,12 @@ msgstr "Ibeddilen n ukufi"
 msgid "Browse all repository changes"
 msgstr "Snirem akk ibeddilen n tsuqilt"
 
+#, fuzzy
+#| msgctxt "Number of strings"
+#| msgid "Waiting for review"
+msgid "Nothing to preview."
+msgstr "Yettraǧu asenqed"
+
 msgid "Shortcut"
 msgstr "Anegzum"
 
@@ -11052,9 +11319,6 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
-
-msgid "Workflow"
-msgstr "Akala n umahil"
 
 msgid "Changing plural rules might not have a desired effect."
 msgstr ""
@@ -11846,7 +12110,28 @@ msgid ""
 "credentials below."
 msgstr "Ma yella tebɣiḍ ad terreḍ iḥrazen, ttxil ḥrez isulayen n ddaw-a."
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
+msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Buy backup service"
+msgstr "Rnu ameẓlu n uḥraz"
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Add custom backup storage"
 msgstr "Rnu ameẓlu n uḥraz"
 
 #, fuzzy
@@ -12823,6 +13108,9 @@ msgstr "Leqqem izriren iɣbula"
 msgid "Paste from clipboard"
 msgstr "Copier dans le presse-papiers"
 
+msgid "Translate"
+msgstr "Suqel"
+
 msgid "strings"
 msgstr "izriren"
 
@@ -13509,6 +13797,9 @@ msgstr "Cegger"
 msgid "Untranslated"
 msgstr "Ur ittwasuqel ara"
 
+msgid "Browse"
+msgstr "Snirem"
+
 msgid "Create translation"
 msgstr "Rnu tasuqilt"
 
@@ -13516,9 +13807,6 @@ msgstr "Rnu tasuqilt"
 #| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
 msgstr "Ur izmir ara ad yernu afaylu amaynut n tsuqilt."
-
-msgid "Translate"
-msgstr "Suqel"
 
 msgid "Customized workflow"
 msgstr ""
@@ -14108,6 +14396,11 @@ msgstr "Ales tuzna n tinubga"
 msgid "Create account"
 msgstr "Rnu amiḍan amaynut s useqdec n:"
 
+#, fuzzy, python-format
+#| msgid "Configure addon"
+msgid "Configure %(addon)s"
+msgstr "Sbadu azegrir"
+
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate ur yessaweḍ ara d iselkem azegrir n uskript."
 
@@ -14116,6 +14409,12 @@ msgstr "Tineḍruyin-a ttwafent:"
 
 msgid "Command"
 msgstr "Taladna"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 #, fuzzy
 #| msgid ""
@@ -14690,6 +14989,16 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] ""
 msgstr[1] ""
 
+#, fuzzy
+#| msgid "Jump to"
+msgid "Jump to date"
+msgstr "Neggez ɣer"
+
+#, fuzzy
+#| msgid "Good"
+msgid "Go"
+msgstr "Ilha"
+
 msgid "Changes"
 msgstr "Ibeddilen"
 
@@ -14698,6 +15007,24 @@ msgstr "Sader ibeddilen ineggura s umasal CSV"
 
 msgid "Follow using RSS"
 msgstr "Asuddim RSS"
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "Imeɣriyen"
+
+msgid "Older"
+msgstr ""
 
 msgid "From version control"
 msgstr "Seg usefrek n yileqman"
@@ -15028,11 +15355,6 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#, fuzzy
-#| msgid "Create project"
-msgid "Create a project token"
-msgstr "Rnu asenfaṛ"
-
 msgid "Create"
 msgstr "Snulfu-d"
 
@@ -15092,6 +15414,15 @@ msgstr ""
 "Ma tbeddleḍ tansa URL n ukufi, agbur-is ad imezdi d ukufi amaynut. Tamhelt-a "
 "telha ma yella akufi yettumselsi ɣer wadig-nniḍen.Maca ma yella gbur n ukufi "
 "yemgarad, izmerad telhu tmerna n usuddis amaynut n tsuqilt."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "Ẓreg aɣbalu"
+
+msgid "Cancel"
+msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr ""
@@ -15395,6 +15726,11 @@ msgstr "Ulac asegzi i d-yettunefken, akka tura."
 msgid "No labels currently set."
 msgstr "Ulac ula d yiwet n tebzimt!"
 
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit flags"
+msgstr "Ẓreg tabzimt"
+
 msgid "Flags"
 msgstr "Anayen"
 
@@ -15470,6 +15806,15 @@ msgstr ""
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
+msgstr ""
+
+msgid "Effective flags"
+msgstr ""
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
 msgstr ""
 
 #, fuzzy, python-format
@@ -15602,11 +15947,6 @@ msgstr "Asaǧǧaw"
 msgid "Repositories"
 msgstr "Ikufan"
 
-#, fuzzy
-#| msgid "Disable"
-msgid "Disabled"
-msgstr "Sens-it"
-
 msgid "Refresh"
 msgstr ""
 
@@ -15716,9 +16056,6 @@ msgstr ""
 #| msgid "Continue"
 msgid "Continue to GitHub"
 msgstr "Kemmel"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Overview"
@@ -16017,6 +16354,14 @@ msgstr "Tamhelt n ukufi"
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Cegger"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -17024,6 +17369,11 @@ msgstr "Ur izmir ara ad yesleḍ afaylu TMX!"
 msgid "POT updates do not update PO files."
 msgstr ""
 
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "AI quality evaluation service is unavailable."
+msgstr "Tiddest i tsekcmeḍ mačči d tameɣtut."
+
 msgid "Information"
 msgstr "Talɣut"
 
@@ -17799,6 +18149,46 @@ msgstr "MAC (\\r)"
 msgid "Include closing tag for blank XML tags"
 msgstr ""
 
+msgid "Whitespace handling"
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support status"
+msgid "Placeables support"
+msgstr "Addad n tallelt n Weblate"
+
+#, fuzzy
+#| msgid "i18next JSON file"
+msgid "Plain text only"
+msgstr "Afaylu i18next JSON"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Support placeables"
+msgstr "Ɣef Weblate"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 #, fuzzy
 #| msgid "Flat XML file"
 msgid "FlatXML Root name"
@@ -18087,6 +18477,14 @@ msgid ""
 "changes."
 msgstr "Tisuqilin n uzrir-a deg tutlayin-nniḍen"
 
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Ignore language mismatch"
+msgstr "Talast n tutlayin"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr "Askar n usali n ufaylu"
 
@@ -18253,6 +18651,34 @@ msgstr ""
 
 msgid "Please choose"
 msgstr "Ttxil, fren"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags — all languages"
+msgstr "Deg tutlayin akken ma llant"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags — this language"
+msgstr "Ticraḍ n tsuqilt ara ternuḍ"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation flags to add"
+msgid "Translation flags — %(language)s"
+msgstr "Ticraḍ n tsuqilt ara ternuḍ"
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit these flags."
+msgstr "Ur ɣur-k ara tisirag akken ad tqebleḍ isumar!"
 
 #, fuzzy
 #| msgid "This translation is currently locked."
@@ -18528,6 +18954,11 @@ msgstr ""
 msgid "Replacement string"
 msgstr "Izraren n usemselsi"
 
+#, fuzzy
+#| msgid "Screenshot context"
+msgid "Key or context"
+msgstr "Asatal ntuṭṭfa n ugdil"
+
 msgid "Translation key"
 msgstr "Tasuqilt"
 
@@ -18595,16 +19026,38 @@ msgstr "Addad ara tesbaduḍ"
 msgid "Do not change"
 msgstr "Ur ttbeddil ara"
 
-msgid "Translation flags to add"
-msgstr "Ticraḍ n tsuqilt ara ternuḍ"
-
-msgid "Translation flags to remove"
-msgstr "Ticraḍ n tsuqilt ara tekkseḍ"
-
-msgid "Labels to add"
+msgid "Source flags to add — all languages"
 msgstr ""
 
-msgid "Labels to remove"
+msgid "Source flags to remove — all languages"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
+msgstr "Ticraḍ n tsuqilt ara ternuḍ"
+
+#, fuzzy
+#| msgid "This translation is used for source strings."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Tasuqilt-atettwaseqdec i yizrien iɣbula."
+
+#, fuzzy
+#| msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
+msgstr "Ticraḍ n tsuqilt ara tekkseḍ"
+
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Labels to add — all languages"
+msgstr "Deg tutlayin akken ma llant"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Tibzimin ara tekkseḍ"
 
 #, fuzzy
@@ -18662,6 +19115,11 @@ msgstr "Sekcem isem yemmden i tsuqilt aken ad tettwasentem."
 #| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Sekcem isem yemmden i tsuqilt aken ad tettwasentem."
+
+#, fuzzy
+#| msgid "Source string changed"
+msgid "The date cannot be in the future."
+msgstr "Azrir aɣbalu ibeddel"
 
 msgid "Author username"
 msgstr "Isem n useqdac n umeskar"
@@ -19332,9 +19790,9 @@ msgid "Manage strings"
 msgstr "Izriren isuḍas"
 
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 
 msgid "Merge style"
@@ -20103,6 +20561,23 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains too many language declarations."
+msgstr "Afaylu Zip igebren tasuqilt"
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to parse uploaded ZIP file."
+msgid "Could not parse uploaded file: %s"
+msgstr "Ur izmir ara ad yesleḍ afaylu ZIP yulin."
+
 #, fuzzy, python-format
 #| msgid "Failed to find source language!"
 msgid "Could not commit pending changes: %s"
@@ -20111,11 +20586,6 @@ msgstr "Tuccḍa deg unadi n tutlayt n uɣbalu!"
 #, fuzzy, python-brace-format
 #| msgid "Failed to parse uploaded ZIP file."
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "Ur izmir ara ad yesleḍ afaylu ZIP yulin."
-
-#, fuzzy, python-format
-#| msgid "Failed to parse uploaded ZIP file."
-msgid "Could not parse uploaded file: %s"
 msgstr "Ur izmir ara ad yesleḍ afaylu ZIP yulin."
 
 #, fuzzy, python-format
@@ -20168,22 +20638,57 @@ msgstr[1] "Attekki-ik deg tsuqilt-a yesra ad tqebleḍ amtawa n uttekki."
 
 #, fuzzy
 #| msgid "Template for new translations"
-msgid "Unmark as read-only"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Tineɣrufin i tsuqilin timaynutin"
-
-#, fuzzy
-#| msgid "Mark as spam"
-msgid "Mark as read-only"
-msgstr "Creḍ d aspam"
 
 #, fuzzy
 #| msgid "Template for new translations"
-msgid "Unmark as untranslatable"
+msgid "Unmark as read-only for all languages"
 msgstr "Tineɣrufin i tsuqilin timaynutin"
 
 #, fuzzy
+#| msgid "Template for new translations"
+msgid "Unmark this translation as untranslatable"
+msgstr "Tineɣrufin i tsuqilin timaynutin"
+
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Unmark this translation as read-only"
+msgstr "Tasuqilt-a i tɣuṛi kan."
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "Tutlayin yettwasuqlen"
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "Tutlayin yettwasuqlen"
+
+#, fuzzy
 #| msgid "Add as other translation"
-msgid "Mark as untranslatable"
+msgid "Mark this translation as untranslatable"
+msgstr "Rnu-t d tasuqilt-nniḍen"
+
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Mark this translation as read-only"
+msgstr "Tasuqilt-a i tɣuṛi kan."
+
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Mark as untranslatable for all languages"
+msgstr "Rnu-t d tasuqilt-nniḍen"
+
+#, fuzzy
+#| msgid "Mark as spam"
+msgid "Mark as read-only for all languages"
+msgstr "Creḍ d aspam"
+
+#, fuzzy
+#| msgid "Add as other translation"
+msgid "Mark as forbidden translation"
 msgstr "Rnu-t d tasuqilt-nniḍen"
 
 #, fuzzy
@@ -20192,15 +20697,14 @@ msgid "Unmark as forbidden translation"
 msgstr "Tineɣrufin i tsuqilin timaynutin"
 
 #, fuzzy
-#| msgid "Add as other translation"
-msgid "Mark as forbidden translation"
-msgstr "Rnu-t d tasuqilt-nniḍen"
+#| msgid "Dismiss for all languages"
+msgid "Mark as terminology for all languages"
+msgstr "Zgel i meṛṛa tutlayin"
 
-msgid "Unmark as terminology"
-msgstr ""
-
-msgid "Mark as terminology"
-msgstr ""
+#, fuzzy
+#| msgid "Dismiss for all languages"
+msgid "Unmark as terminology for all languages"
+msgstr "Zgel i meṛṛa tutlayin"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -20209,6 +20713,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source string changed"
+msgid "The source string has changed. Reload it before editing."
+msgstr "Azrir aɣbalu ibeddel"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "Aseqdac s yisem-agi yella yakan."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "The file format does not support this edit."
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translation project was removed"
+msgid "A translation key is required."
+msgstr "Asenfaṛ-ik n tsuqilt yettwakkes"
+
+#, fuzzy
+#| msgid "Could not add new translation file."
+msgid "Could not find the string in the translation file."
+msgstr "Ur izmir ara ad yernu afaylu amaynut n tsuqilt."
 
 msgid "Insert tab character"
 msgstr ""
@@ -20749,6 +21282,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Abeddil di %s"
 
+#, fuzzy
+#| msgid "Created component"
+msgid "Invalid history position."
+msgstr "Asuddis yettwarnan"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -20808,6 +21346,11 @@ msgid ""
 "refreshed."
 msgstr ""
 
+#, fuzzy
+#| msgid "No words found!"
+msgid "No strings found!"
+msgstr "Ur ttwafen ara wawalen!"
+
 msgid "Your suggestion is empty!"
 msgstr ""
 
@@ -20851,9 +21394,6 @@ msgstr "Yir azrir n unadi!"
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "Tasuqilt tawurmant tetteddu"
 
-msgid "Automatic translation in progress"
-msgstr "Tasuqilt tawurmant tetteddu"
-
 msgid "Posted new comment"
 msgstr ""
 
@@ -20881,6 +21421,16 @@ msgstr "Ur izmir ara ad isizdeg akufi %s."
 
 msgid "New string has been added."
 msgstr "Azrir amaynut yettwarna."
+
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "The component is busy. Please try again."
+msgstr "Tasuqilt-a temdel yakan."
+
+#, fuzzy
+#| msgid "Source string age"
+msgid "Source string updated."
+msgstr "Awtay n uzrir aneggaru"
 
 #, fuzzy, python-format
 #| msgid "Failed to parse query string: {}"
@@ -20941,6 +21491,16 @@ msgstr "Ttxil seɣti s tukksa n yiwen seg yifuyla n tsuqilt."
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Ttxil seɣti s tukksa n yiwen seg yifuyla n tsuqilt."
+
+#, fuzzy
+#| msgid "Source string changed"
+msgid "The text is too long to preview."
+msgstr "Azrir aɣbalu ibeddel"
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr "Ddeqs n yiznan i yettwaznen, ɛreḍ tikelt-nniḍen ticki."
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -21128,6 +21688,11 @@ msgstr "Tasuqilt-a temdel yakan."
 
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
+
+#, fuzzy
+#| msgid "Edit additional string info"
+msgid "Could not change string flags!"
+msgstr "Beddel talɣut-nniḍen n uzrir n yisekkilen"
 
 #, fuzzy
 #| msgid "Edit additional string info"
@@ -21680,6 +22245,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Number of source characters"
+msgid "Repository URL contains unsafe characters."
+msgstr "Amḍan n yisekkilen iɣbula"
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -22939,6 +23509,23 @@ msgid "The workspace has been removed."
 msgstr "Aɣbalu yettwakkes."
 
 #, fuzzy
+#~| msgid "XLIFF translation file with PO extensions"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "Afaylu n tsuqilt XLIFF s usiɣzef PO"
+
+#, fuzzy
+#~| msgid "Commit pending changes to the local repository"
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr "Err ibeddilen yettraǧun ɣer teṛcivt n ukufi adigan"
+
+#, fuzzy
+#~| msgid "Prevent any changes in the local repository"
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Gdel ibeddilen deg ukufi adigan"
+
+#, fuzzy
 #~| msgid ""
 #~| "Update the comment in the PO file header to include contributor names "
 #~| "and years of contributions."
@@ -23362,9 +23949,6 @@ msgstr "Aɣbalu yettwakkes."
 #~ msgid "View all alerts"
 #~ msgstr "Sken meṛṛa ilɣa"
 
-#~ msgid "Automatically recognize"
-#~ msgstr "Ad yeɛqel s wudem awurman"
-
 #~ msgid "Version control integration"
 #~ msgstr "Aslaɣ akked unagraw n usefrek n yileqman"
 
@@ -23727,11 +24311,6 @@ msgstr "Aɣbalu yettwakkes."
 #~| msgid "Translation instructions"
 #~ msgid "Translations with contribution"
 #~ msgstr "Tinadin n tsuqilt"
-
-#, fuzzy
-#~| msgid "Weblate support status"
-#~ msgid "Weblate support"
-#~ msgstr "Addad n tallelt n Weblate"
 
 #, fuzzy
 #~| msgid "Delete comment"
@@ -24682,18 +25261,12 @@ msgstr "Aɣbalu yettwakkes."
 #~ "Ad yeḍmen akken isuddisen n yiwen n usenfar ttwasuqqlen deg yiwet n "
 #~ "tutlayt."
 
-#~ msgid "Good"
-#~ msgstr "Ilha"
-
 #~ msgid "Please search below to find matching source strings."
 #~ msgstr "Ttxil-a nadi ddaw-a akken ad tafeḍ izriren iɣbula icudden."
 
 #~ msgctxt "String state"
 #~ msgid "Untranslated"
 #~ msgstr "Ur ittwasuqel ara"
-
-#~ msgid "Dismiss for all languages"
-#~ msgstr "Zgel i meṛṛa tutlayin"
 
 #~ msgctxt "String state"
 #~ msgid "Not translated"
@@ -25165,9 +25738,6 @@ msgstr "Aɣbalu yettwakkes."
 #~ msgid "Percent interpolation"
 #~ msgstr "Ileqman"
 
-#~ msgid "Plural equation"
-#~ msgstr "Tagda n usget"
-
 #, fuzzy
 #~| msgid "Additional message"
 #~ msgid "New whiteboard message"
@@ -25319,9 +25889,6 @@ msgstr "Aɣbalu yettwakkes."
 
 #~ msgid "Your languages"
 #~ msgstr "Tutlayin-ik"
-
-#~ msgid "Review"
-#~ msgstr "Cegger"
 
 #~ msgid "Search type"
 #~ msgstr "Anaw n unadi"
