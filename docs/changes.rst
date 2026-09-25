@@ -22,6 +22,7 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* :ref:`LLM automatic suggestions <machine-translation>` now show the model and, for custom API endpoints, the host that produced them.
 * Automation actions can select strings from the triggering change or a previous action's affected units. See :doc:`admin/automation`.
 * Unified browsing and :ref:`searching strings <search-strings>`, aligned search filters with the status overview, and added direct editor access to language-specific lists and an :guilabel:`All strings` filter.
 * Improved :ref:`translation history <translation-history>` with faster browsing, date navigation, and clearer actions.
@@ -43,6 +44,7 @@ Weblate 2026.10
 * Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on configuration.
 * Added monthly instance activity to :ref:`support integration data <support-data>`.
 * Docker startup now reports invalid nginx-related environment values before attempting to start nginx.
+* The automatic translation API can run as a background task. See :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/`.
 
 .. rubric:: Security fixes
 
@@ -51,11 +53,12 @@ Weblate 2026.10
 * Limited XLIFF language declarations in uploads and the number and size of translation alternatives to prevent resource exhaustion.
 * Enforced language-scoped screenshot permissions and restricted component access in translation consistency and automatic translation workflows.
 * Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
-* Unified case-insensitive exclusion of Git, Mercurial, Subversion, Bazaar, CVS, Darcs, RCS, and SCCS metadata during component ZIP imports, repository ZIP downloads, path processing, discovery, and filtered component copies.
+* Protected Git and Mercurial metadata consistently in repository paths and downloads, and excluded known foreign VCS metadata when importing component ZIP files.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
 
 .. rubric:: Bug fixes
 
+* Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
 * Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry instrumentation is enabled.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces, and corrected statistics for nested :ref:`categories <category>` and deleted :ref:`labels`.
 * Fixed MIME nesting and reduced the size of inline branding images in :ref:`notification e-mails <notifications>`.

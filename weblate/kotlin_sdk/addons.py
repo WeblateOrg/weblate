@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, ClassVar
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Field, Layout
 from django import forms
 from django.utils.translation import gettext_lazy
 
@@ -16,6 +18,8 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BaseAddonForm
 from weblate.kotlin_sdk.api import get_api_urls
 from weblate.kotlin_sdk.publication import Publication
+from weblate.utils.forms import ContextDiv
+from weblate.utils.site import get_site_url
 
 if TYPE_CHECKING:
     from django.urls.resolvers import URLPattern
@@ -30,13 +34,50 @@ class KotlinSDKForm(BaseAddonForm):
         min_value=1,
         max_value=730,
         initial=365,
+        help_text=gettext_lazy(
+            "Retires builds this many days after their first registration. "
+            "Re-registering a build does not extend its age."
+        ),
     )
     maximum_versions = forms.IntegerField(
         label=gettext_lazy("Maximum retained versions"),
         min_value=1,
         max_value=100,
         initial=20,
+        help_text=gettext_lazy(
+            "Limits retained builds across all package names. A build is retired "
+            "when either this limit or the maximum age is reached."
+        ),
     )
+
+    def __init__(self, *args, **kwargs) -> None:  # ruff: ignore[missing-type-args, missing-type-kwargs]
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(Field("maximum_age"), Field("maximum_versions"))
+        if self.is_bound and self._addon.instance.pk:
+            component = self._addon.instance.component
+            if component is not None:
+                component_path = "%2F".join(component.get_url_path()[1:])
+                snippet = (
+                    "weblate {\n"
+                    f'    serverUrl = "{get_site_url()}"\n'
+                    f'    cdnUrl = "{self._addon.cdn_base_url}"\n'
+                    '    authToken = "INSERT_TOKEN_HERE"\n'
+                    f'    project = "{component.project.slug}"\n'
+                    f'    component = "{component_path}"\n'
+                    "}"
+                )
+                self.helper.layout.insert(
+                    0,
+                    ContextDiv(
+                        template="addons/kotlin.html",
+                        context={
+                            "snippet": snippet,
+                            "project": component.project,
+                            "user": self.user,
+                        },
+                    ),
+                )
 
 
 class KotlinSDKAddon(CDNBaseAddon):

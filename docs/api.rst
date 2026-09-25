@@ -2629,6 +2629,10 @@ Translations
 
        The ``filter_type`` parameter is no longer supported and filtering is done by the ``q`` parameter.
 
+    .. versionchanged:: 2026.10
+
+       Added the ``background`` parameter.
+
     Trigger automatic translation.
 
     :param project: Project URL slug
@@ -2643,7 +2647,13 @@ Translations
     :<json string component: Component ID (always accepted); when the project has 30 or more eligible source components, a component slug or ``project/component`` path is also accepted; leave blank to use all components in the project
     :<json array engines: Machine translation engines to use when ``auto_source`` is ``mt``
     :<json int threshold: Score threshold for machine translation (1–100)
-    :>json string details: Human-readable summary of the translation result
+    :<json boolean background: Schedule automatic translation as a background task instead of waiting for it to finish. Defaults to ``false``.
+    :>json string details: Human-readable summary of the translation result, or status of a background task
+    :>json string task_url: URL for tracking a background task; see :http:get:`/api/tasks/(str:uuid)/`
+
+    With ``background`` set to ``true``, the endpoint returns ``202 Accepted``
+    once the task is scheduled. Validation and permission errors are still
+    reported immediately.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 

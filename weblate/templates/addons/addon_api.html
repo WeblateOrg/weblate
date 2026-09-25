@@ -1,0 +1,28 @@
+{% extends "addons/addon_base.html" %}
+
+{% load i18n icons translations %}
+
+{% block addon_content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
+        {% translate "Add-on API" %}
+      </h4>
+    </div>
+    <div class="card-body">
+      <p>{% translate "Use this base URL to access the add-on API:" %}</p>
+      <code class="text-break">
+        <button type="button"
+                class="btn btn-link btn-xs float-end"
+                data-clipboard-value="{{ instance.api_url }}"
+                title="{% translate "Copy to clipboard" %}"
+                aria-label="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+        {{ instance.api_url }}
+      </code>
+      <p class="mt-3">
+        <a href="{% url 'api:api-root' %}">{% translate "API root" %}</a>
+      </p>
+    </div>
+  </div>
+{% endblock addon_content %}

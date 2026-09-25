@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-09-18 03:13+0200\n"
-"PO-Revision-Date: 2026-09-22 16:41+0000\n"
+"PO-Revision-Date: 2026-09-23 19:41+0000\n"
 "Last-Translator: Watchman89 <rplatte@hotmail.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -943,25 +943,21 @@ msgid ""
 "Repository operations affect the whole checkout and its linked components. "
 "They do not grant access to otherwise inaccessible component pages."
 msgstr ""
+"Koppelen aan een onderdeel accepteert de authoriteit van de eigenaar over "
+"gedeelde check-out. Opslagruimtebewerkingen beïnvloeden de hele check-out en "
+"de gekoppelde onderdelen. Ze geven geen toegang tot onderdeelpagina's die "
+"anders ontoegankelijk zouden zijn."
 
-#, fuzzy
-#| msgid ""
-#| "Project-wide repository status and operations filter repositories using "
-#| "this rule. Repositories for which the member lacks permission on any "
-#| "linked component are listed separately and are not inspected or changed. "
-#| "An operation is denied when none of the project's repositories are "
-#| "available to it."
 msgid ""
 "Project-wide repository status and operations include repositories for which "
 "the member has permission on the owner. Other repositories are listed "
 "separately and are not inspected or changed. An operation is denied when "
 "none of the project's repositories are available to it."
 msgstr ""
-"Status en operaties van de projectbrede opslagruimte filteren opslagruimtes "
-"met deze regel. Opslagplaatsen waarvoor het lid geen toestemming heeft voor "
-"enig gekoppeld onderdeel zijn los genoemd en worden niet bekeken of "
-"veranderd.Een operatie wordt afgekeurd als geen van de opslagruimtes van het "
-"project beschikbaar is."
+"Status en operaties van de projectbrede opslagruimte omvatten opslagplaatsen "
+"waarvoor het lid toestemming heeft voor de eigenaar. Andere opslagruimtes "
+"zijn los genoemd en worden niet bekeken of veranderd.Een operatie wordt "
+"afgekeurd als geen van de opslagruimtes van het project beschikbaar is."
 
 msgid ""
 "The :guilabel:`Manage reports` permission applies to the complete selected "
@@ -972,6 +968,15 @@ msgid ""
 "regular users until they configure two-factor authentication when any "
 "project in the workspace enforces it. Superusers and bot accounts are exempt."
 msgstr ""
+"De :guilabel:`Beheer rapporten` toestemming is van toepassing op de "
+"reikweidte van het hele geselecteerde rapport. Het geeft toegang tot "
+"rapportgegevnes van beperkte onderdelen en, binnen de reikweidte van een "
+"werkruimte, privéprojecten zelfs als de subonderdelen anders niet zichtbaar "
+"zijn voor de gebruiker. Geef het alleen aan gebruikers die u vertrouwt met "
+"alle rapportgegevens in die reikweidte. Volledige werkruimterapporten zijn "
+"niet beschikbaar voor normale gebruikers tot ze twee-factorauthenticatie in "
+"hebben gesteld als een project in de werkruimte dat verplicht. "
+"Supergebruikers en bot-profielen zijn hiervan uitgezonderd."
 
 msgid ""
 "The :guilabel:`Edit component settings` permission allows administrative "
@@ -1347,6 +1352,16 @@ msgid ""
 "on management permission; it does not require the configuring user to be a "
 "reviewer."
 msgstr ""
+"De :ref:`addon-weblate.autotranslate.autotranslate` modus "
+":guilabel:`Toevoegen als goedgekeurde vertaling` maakt goedgekeurde "
+"tekenreeksen aan wanneer beoordelingen zijn ingeschakeld voor de doeltaal. "
+"Als de projectinstellingen of een taal-werkstroomoverschrijving "
+"beoordelingen uitschakelen maakt het in plaats daarvan vertaalde "
+"tekenreeksen. De ingestelde modus blijft behouden, inclusief voor project-"
+"brede en site-brede add-ons waarvan de doelen andere "
+"beoordelingsinstellingen hebben. Het instellen van deze modus vereist de "
+"gebruikelijke add-on-beheertoestemming; het vereist niet dat de instellende "
+"gebruiker een beoordelaar is."
 
 msgid ""
 "The :ref:`addon-weblate.discovery.discovery` add-on stops with an error if "
@@ -1364,10 +1379,8 @@ msgstr "Overbodige add-ons"
 msgid "Contributors in comment"
 msgstr "Medewerkers in opmerking"
 
-#, fuzzy
-#| msgid "Replaced by :ref:`file_format_params`."
 msgid "Replaced by :ref:`gettext-contributor-comments`."
-msgstr "Vervangen door :ref:`file_format_params`."
+msgstr "Vervangen door :ref:`gettext-contributor-comments`."
 
 msgid ""
 "Existing installations of ``weblate.gettext.authors`` are migrated to the "
@@ -1853,10 +1866,8 @@ msgid ""
 msgstr ""
 "Weergegeven binnen de categorie, inclusief al zijn onderdelen en vertalingen."
 
-#, fuzzy
-#| msgid "Project and language specified"
 msgid "Category and language specified"
-msgstr "Project en taal gespecificeerd"
+msgstr "Categorie en taal ingesteld"
 
 msgid ""
 "Shown on the category-language page and for translations in that language "
@@ -7035,6 +7046,7 @@ msgstr ""
 msgid ""
 "See :ref:`api-rate` for counting behavior and trusted proxy requirements."
 msgstr ""
+"Zie ook :ref:`api-rate` voor het telgedrag van vertrouwde proxyvereisten."
 
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
@@ -8722,10 +8734,8 @@ msgstr ":ref:`Forgejo notificaties <code-hosting-forgejo-notifications>`"
 msgid ":ref:`Gitee notifications <code-hosting-gitee-notifications>`"
 msgstr ":ref:`Gitee notificaties <code-hosting-gitee-notifications>`"
 
-#, fuzzy
-#| msgid "Automatically updating repositories nightly"
 msgid "Automatically updating repositories daily"
-msgstr "Automatisch opslagruimten 's nachts bijwerken"
+msgstr "Dagelijks automatisch opslagruimten bijwerken"
 
 #, fuzzy
 #| msgid ""
@@ -11845,10 +11855,8 @@ msgstr ""
 "Voor het geval u veel CPU-bronnen hebt en problemen met het geheugen "
 "ervaart, probeer het aantal werkers te verkleinen:"
 
-#, fuzzy
-#| msgid "You can also fine-tune individual worker categories:"
 msgid "You can fine-tune the combined worker:"
-msgstr "U kunt ook de categorieën van individuele werkers fijner afstemmen:"
+msgstr "U kunt de gecombineerde werker verfijnen:"
 
 #, fuzzy
 #| msgid "You can also fine-tune individual worker categories:"
@@ -11916,10 +11924,8 @@ msgstr ""
 "compose`` als `docker-compose-split.yml <https://github.com/WeblateOrg/"
 "docker-compose/blob/main/docker-compose-split.yml>`__."
 
-#, fuzzy
-#| msgid "Sample configuration to start Granian"
 msgid "Startup configuration warnings"
-msgstr "Voorbeeld configuratie om Granian op te starten"
+msgstr "Configuratiewaarschuwingen bij opstarten"
 
 msgid ""
 "The Docker container records actionable configuration warnings from startup "
@@ -12567,10 +12573,8 @@ msgid ""
 "throttling."
 msgstr ""
 
-#, fuzzy
-#| msgid "Basic setup using :file:`docker-compose.override.yml`:"
 msgid "For example, in :file:`compose.override.yaml`:"
-msgstr "Basis instelling met :file:`docker-compose.override.yml`:"
+msgstr "Bijvoorbeeld, in :file:`compose.override.yaml`:"
 
 msgid ""
 "Username rules take precedence over IP rules. See :ref:`api-rate` for "
@@ -13534,10 +13538,11 @@ msgstr ""
 "op :envvar:`WEBLATE_WORKERS`."
 
 msgid "Configures the Celery beat scheduler in all worker modes."
-msgstr ""
+msgstr "Stelt de Celery beat-planner in voor alle werkermodi."
 
 msgid "Configures the worker used by ``CELERY_WORKER_MODE=single``."
 msgstr ""
+"Stelt de werker in die gebruikt wordt door ``CELERY_WORKER_MODE=single``."
 
 msgid ""
 "Compatibility alias for ``CELERY_WORKER_MODE=single``. When set to ``1`` "
@@ -13623,7 +13628,7 @@ msgstr ""
 "uitgevoerd."
 
 msgid "Combined Celery worker for all task queues."
-msgstr ""
+msgstr "Gecombineerde Celery-werker voor alle takenwachtrijen."
 
 msgid "Generic Celery worker."
 msgstr "Algemene Celery werker."
@@ -13634,10 +13639,8 @@ msgstr "Vertaalgeheugen Celery-werking."
 msgid "Notifications Celery worker."
 msgstr "Notificaties Celery- werking."
 
-#, fuzzy
-#| msgid "Single-process Celery setup"
 msgid "Single-process Celery worker for all task queues."
-msgstr "Opstelling een-proces Celery"
+msgstr "Één-proces Celery-werker voor alle takenwachtrijen."
 
 msgid "Automatic translation Celery worker."
 msgstr "Automatische vertaling Celery-werking."
@@ -21253,7 +21256,7 @@ msgid "Screenshots"
 msgstr "Schermafdrukken"
 
 msgid "Kotlin SDK builds"
-msgstr ""
+msgstr "Kotlin SDK builds"
 
 msgid ""
 "The Kotlin SDK API is in beta. No compatibility is guaranteed until the "
@@ -21421,10 +21424,8 @@ msgstr ""
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
-#, fuzzy
-#| msgid "Weblate 2026.9.1"
 msgid "Weblate 2026.10"
-msgstr "Weblate 2026.9.1"
+msgstr "Weblate 2026.10"
 
 msgid "*Not yet released.*"
 msgstr "*Nog niet uitgegeven.*"
@@ -21432,11 +21433,11 @@ msgstr "*Nog niet uitgegeven.*"
 msgid "New features"
 msgstr "Nieuwe mogelijkheden"
 
-#, fuzzy
-#| msgid "Added support for component and project removal."
 msgid ""
 "Added support for :ref:`component-mounted add-on APIs <component-addon-api>`."
-msgstr "Ondersteuning toegevoegd voor verwijderen van onderdeel en project."
+msgstr ""
+"Ondersteuning toegevoegd voor :ref:`onderdeel-gemonteerde add-on APIs "
+"<component-addon-api>`."
 
 #, fuzzy
 #| msgid ""
@@ -21733,24 +21734,18 @@ msgstr ""
 msgid "Contributors"
 msgstr "Medewerkers"
 
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "173?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/172?"
 "closed=1>`__."
 msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
-"173?closed=1>`__."
+"172?closed=1>`__."
 
 msgid "Weblate 2026.9.1"
 msgstr "Weblate 2026.9.1"
 
-#, fuzzy
-#| msgid "*Released on September 5th 2025.*"
 msgid "*Released on September 8th 2026.*"
-msgstr "*Uitgegeven op 5 september 2025.*"
+msgstr "*Uitgegeven op 8 september 2026.*"
 
 msgid ""
 "Added per-user :ref:`notification diagnostics <notifications>` for users and "
@@ -24545,10 +24540,8 @@ msgstr ""
 "Michal Čihař, Gersona, Karen Konou, Spyder, mmustafasenoglu, Kartik Ohri, "
 "Shweta Singh"
 
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
 msgid "Michal Čihař, Karen Konou, Shweta Singh, michael\\-smt"
-msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
+msgstr "Michal Čihař, Karen Konou, Shweta Singh, michael\\-smt"
 
 msgid ""
 "ℂ𝕠𝕠𝕠𝕝 \\(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞\\/ℂ𝕠𝕠𝕠𝕝\\), Ldm Public, hoanghuy309, Vaclovas Intas \\"
@@ -24556,10 +24549,8 @@ msgid ""
 "Shahrabani, Любомир Василев, Fjuro, Andrei Stepanov, Arif Budiman, Watchman89"
 msgstr ""
 
-#, fuzzy
-#| msgid "Michal Čihař, Gersona, michael-smt"
 msgid "Michal Čihař, Shweta Singh, michael\\-smt"
-msgstr "Michal Čihař, Gersona, michael-smt"
+msgstr "Michal Čihař, Shweta Singh, michael\\-smt"
 
 msgid ""
 "Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
@@ -37783,10 +37774,8 @@ msgstr ""
 "bewerkingen die opzettelijk een werkende add-on klonen kunnen doorgaan met "
 "het gebruiken van de opgeslagen configuratie."
 
-#, fuzzy
-#| msgid "Component/Interaction"
 msgid "Component-mounted add-on APIs"
-msgstr "Onderdeel/Interactie"
+msgstr "Onderdeel-gemonteerde add-on APIs"
 
 msgid ""
 "Declare an ``api_name`` and return named Django URL patterns from "
@@ -37838,10 +37827,8 @@ msgid ""
 "incompatible."
 msgstr ""
 
-#, fuzzy
-#| msgid "Mobile Kotlin resources"
 msgid "Testing Kotlin SDK resources"
-msgstr "Mobile Kotlin bronnen"
+msgstr "Kotlin SDK-bronnen testen"
 
 msgid ""
 "Run ``uv run pytest weblate/kotlin_sdk/tests.py`` with the :doc:`test "
@@ -39953,7 +39940,7 @@ msgid "To run tests (see :ref:`local-tests` for more details):"
 msgstr "Testen uitvoeren (bekijk :ref:`local-tests` voor meer details):"
 
 msgid "Development container for tests and lint"
-msgstr ""
+msgstr "Ontwikkelingscontainer voor tests en lint"
 
 msgid ""
 "The development container prepares Python dependencies, PostgreSQL, Valkey, "
@@ -40119,6 +40106,7 @@ msgstr ""
 msgid ""
 "To exercise real background workers through complete application journeys:"
 msgstr ""
+"Om echte achtergrondwerkers te laten werken door complete toepassingsreizen:"
 
 msgid ""
 "This is also available as ``./scripts/devcontainer application-test``. It "
@@ -40160,7 +40148,7 @@ msgid ""
 msgstr ""
 
 msgid "To access the application database from inside its container:"
-msgstr ""
+msgstr "Om toegang te krijgen tot de databank vanuit zijn container:"
 
 msgid ""
 "The application service definitions are in :file:`dev-docker/docker-"
@@ -40202,13 +40190,11 @@ msgid ""
 "refreshes dependencies and test assets before running pytest."
 msgstr ""
 
-#, fuzzy
-#| msgid "To display the logs:"
 msgid "To display application logs:"
-msgstr "De logs weergeven:"
+msgstr "Om toepassingslogbestanden te tonen:"
 
 msgid "To stop only the application profile, retaining its data:"
-msgstr ""
+msgstr "Om te stoppen met het toepassingsprofiel, met behoud van de gegevens:"
 
 msgid ""
 "Use ``./scripts/devcontainer stop`` to stop only tests. To stop or destroy "
@@ -41184,10 +41170,8 @@ msgid ""
 "project-specific instructions alongside it."
 msgstr ""
 
-#, fuzzy
-#| msgid "Uploading translations"
 msgid "Welcoming translators"
-msgstr "Vertalingen uploaden"
+msgstr "Vertalers verwelkomen"
 
 msgid ""
 "Set :ref:`project-instructions` to explain where to begin, which components "
@@ -44042,10 +44026,8 @@ msgstr ""
 msgid "Frequently Asked Questions"
 msgstr "Vaak gestelde vragen"
 
-#, fuzzy
-#| msgid "Number of languages user can translate"
 msgid "How do I restrict which languages can be translated?"
-msgstr "Aantal talen die een gebruiker mag vertalen"
+msgstr "Hoe beperk ik werlke talen vertaald kunnen worden?"
 
 msgid ""
 "To prevent users from starting new translations across a project, open the "
@@ -45167,10 +45149,8 @@ msgstr ""
 "indeling voor uw platform, zoals :ref:`gettext`, :ref:`aresource` "
 "of :ref:`stringsdict`."
 
-#, fuzzy
-#| msgid "File formats"
 msgid "Multivalue formats"
-msgstr "Bestandsindelingen"
+msgstr "Meerwaardige formaten"
 
 msgid ""
 "Multivalue formats, such as :ref:`multivalue-csv` and :ref:`tbx`, store "
@@ -45832,10 +45812,10 @@ msgid ""
 msgstr ""
 
 msgid "With ``gettext``, contributor comments look like this:"
-msgstr ""
+msgstr "Met ``gettext`` zien medewerkersopmerkingen er zo uit:"
 
 msgid "With ``spdx``, the same entry becomes:"
-msgstr ""
+msgstr "Met ``spdx`` wordt ditzelfde item:"
 
 msgid ""
 "On the next commit by an eligible contributor, SPDX mode converts all "
@@ -46696,10 +46676,8 @@ msgstr ""
 msgid "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
 msgstr "`TBX op Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
 
-#, fuzzy
-#| msgid "Where data lives"
 msgid "Term alternatives"
-msgstr "Waar de gegevens leven"
+msgstr "Alternatieve termen"
 
 msgid ""
 "Each TBX concept is one string with independent lists of source and target "
@@ -48345,10 +48323,8 @@ msgstr ""
 "zullen deze pagina en de metadata voor de beveiliging van de opslagruimte "
 "worden bijgewerkt met een verwijzing naar de beoordeling en de datum."
 
-#, fuzzy
-#| msgid "Incident categories"
 msgid "Incident reporting"
-msgstr "Categorieën incidenten"
+msgstr "Incidenten rapporteren"
 
 msgid ""
 "This runbook helps the Weblate team handle product-security reports and "
@@ -48365,7 +48341,7 @@ msgid ""
 msgstr ""
 
 msgid "Pick up the incident"
-msgstr ""
+msgstr "Het incident opvolgen"
 
 msgid ""
 "Whoever sees a credible report of active exploitation or a severe security "
@@ -48386,7 +48362,7 @@ msgid ""
 msgstr ""
 
 msgid "Assess the report"
-msgstr ""
+msgstr "Evalueer het rapport"
 
 msgid ""
 "Active exploitation means reliable evidence that a malicious actor has "
@@ -48440,13 +48416,13 @@ msgid ""
 msgstr ""
 
 msgid "Keep one private incident note"
-msgstr ""
+msgstr "Behoud één privé incidentennotitie"
 
 msgid "Copy these fields into the team's private incident record:"
-msgstr ""
+msgstr "Kopiëer deze velden naar het privé incidentendocument van het team:"
 
 msgid "Case ID, summary, handler, backup, and handovers."
-msgstr ""
+msgstr "Geval-ID, samenvatting, contactpersoon, back-up en overhandiging."
 
 msgid ""
 "Product, affected versions or artifact digests, deployments, and known "
@@ -48463,6 +48439,7 @@ msgstr ""
 msgid ""
 "Reporting deadlines, reminders, and any separate privacy-notification tasks."
 msgstr ""
+"Deadlines voor rapportage, herinneringen en losstaande privacymeldingstaken."
 
 msgid ""
 "Investigation timeline, impact, mitigations, and when each corrective or "
@@ -48490,7 +48467,7 @@ msgid ""
 msgstr ""
 
 msgid "Submit and follow up"
-msgstr ""
+msgstr "Indienen en opvolgen"
 
 msgid ""
 "Use the current `ENISA Single Reporting Platform guidance`_ to verify the "
@@ -48577,10 +48554,8 @@ msgid ""
 "obligation has been fulfilled."
 msgstr ""
 
-#, fuzzy
-#| msgid "Warn users on profile upgrade."
 msgid "Warn users and follow up"
-msgstr "Gebruikers waarschuwen bij upgrade profiel."
+msgstr "Gebruikers waarschuwen en opvolgen"
 
 msgid ""
 "Send protective advice without waiting for a fix or full technical "
@@ -48603,10 +48578,8 @@ msgid ""
 "handed over with an owner and due date."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation checks"
 msgid "Preparation checklist"
-msgstr "Controles van vertalingen"
+msgstr "Voorbereidingschecklist"
 
 msgid ""
 "These are setup tasks to complete and record privately. Publishing this "
@@ -48662,7 +48635,7 @@ msgstr ""
 "stappen binnen de organisatie aanpassen aan hun eigen omgeving."
 
 msgid "Handling an incident"
-msgstr ""
+msgstr "Omgaan met een incident"
 
 msgid ""
 "One team member handles the incident and names an available teammate as a "
@@ -48910,10 +48883,8 @@ msgid ""
 "needed while continuing investigation and reporting preparation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Pagure notifications"
 msgid "Personal-data breach notifications"
-msgstr "Pagure notificaties"
+msgstr "Melding van inbreuk op persoonlijke gegevens"
 
 msgid ""
 "The incident handler determines whether Weblate acts as controller or "
@@ -48958,7 +48929,7 @@ msgid ""
 msgstr ""
 
 msgid "The likely consequences of the breach."
-msgstr ""
+msgstr "De waarschijnlijke consequenties van de inbreuk."
 
 msgid ""
 "Measures taken or proposed to address the breach, including measures to "
@@ -49476,10 +49447,8 @@ msgid ""
 "not delay authority reports or protective advice users need."
 msgstr ""
 
-#, fuzzy
-#| msgid "Activity reports"
 msgid "Authority reporting"
-msgstr "Rapporten van activiteiten"
+msgstr "Authoriteitenrapportage"
 
 msgid ""
 "Weblate adopts the following reporting timelines as a voluntary policy "
@@ -49493,36 +49462,32 @@ msgid "Report"
 msgstr "Verslag"
 
 msgid "Deadline"
-msgstr ""
+msgstr "Deadline"
 
-#, fuzzy
-#| msgid "Warning"
 msgid "Early warning"
-msgstr "Waarschuwing"
+msgstr "Vroege waarschuwing"
 
 msgid "Without undue delay, within 24 hours of awareness."
-msgstr ""
+msgstr "Zonder onnodige vertraging, binnen 24 uur van bewustwording."
 
-#, fuzzy
-#| msgid "Gitea notifications"
 msgid "Main notification"
-msgstr "Gitea notificaties"
+msgstr "Hoofdmeldingen"
 
 msgid "Without undue delay, within 72 hours of awareness."
-msgstr ""
+msgstr "Zonder onnodige vertraing, binnen 72 uur van bewustwording."
 
 msgid "Final report for an actively exploited vulnerability"
-msgstr ""
+msgstr "Eindrapport voor een actief misbruikte kwetsbaarheid"
 
 msgid ""
 "Within 14 days after a corrective or mitigating measure becomes available."
 msgstr ""
 
 msgid "Final report for a severe incident"
-msgstr ""
+msgstr "Eindrapport voor een ernstig incident"
 
 msgid "Within one calendar month after the main incident notification."
-msgstr ""
+msgstr "Binnen één kalendermaand na de primaire incidentmelding."
 
 msgid ""
 "Hours include weekends and holidays. Acknowledgment, incident declaration, "
@@ -49546,10 +49511,8 @@ msgid ""
 "see :doc:`incident-reporting`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Gitea notifications"
 msgid "User notifications"
-msgstr "Gitea notificaties"
+msgstr "Gebruikersmeldingen"
 
 msgid ""
 "Weblate informs impacted users of active exploitation or severe security "
@@ -51565,10 +51528,8 @@ msgstr ""
 "rechten door de toepassing worden gecontroleerd. *(documented)* "
 "(source: :doc:`/api`, :doc:`/admin/access`)"
 
-#, fuzzy
-#| msgid "Weblate to local VCS repositories"
 msgid "Weblate to public CDN storage and clients"
-msgstr "Weblate naar lokale VCS-opslagruimten"
+msgstr "Weblate naar openbare CDN-opslag en -clients"
 
 msgid ""
 "Enabling CDN publication deliberately moves selected translations and public "
@@ -51993,16 +51954,14 @@ msgstr ""
 "Uitrollen voor productie beperken dit tot hostnamen voor de instantie. "
 "*(maintainer)*"
 
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`, "
-#| "and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 msgid ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`API_RATELIMIT_USER_OVERRIDES`, :setting:`API_RATELIMIT_IP_OVERRIDES`, :setting:`RATELIMIT_ATTEMPTS`, "
 "and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 msgstr ""
-":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS` "
-"en ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
+":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
+":setting:`API_RATELIMIT_USER_OVERRIDES`, "
+":setting:`API_RATELIMIT_IP_OVERRIDES`, :setting:`RATELIMIT_ATTEMPTS` en "
+"``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 
 msgid ""
 "Rate limits are configurable. *(documented)* (source: :doc:`/api`, :doc:`/"
@@ -53074,17 +53033,15 @@ msgid ""
 msgstr ""
 
 msgid "The deployment offers self-service hosting trials."
-msgstr ""
+msgstr "De distributie biedt self-hosting proefabonnementen aan."
 
 msgid ""
 "An authenticated user can select another public, private, or internal "
 "billing plan when creating a trial."
 msgstr ""
 
-#, fuzzy
-#| msgid "Security-critical when it exposes internal services or metadata."
 msgid "Security-critical when this bypasses paid service limits."
-msgstr "Beveiligingskritiek als het interne services of metadata weergeeft."
+msgstr "Beveiligingskritiek als het betaalde servicelimieten omzeilt."
 
 msgid ""
 "Rate-limited API and web actions enforce configured rate limits. "
@@ -55199,20 +55156,16 @@ msgstr "Maximale leeftijd van build (dagen)"
 msgid "Maximum retained versions"
 msgstr "Maximale aantal behouden versies"
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
-#| "update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
 "update`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-"
 "commit`, :ref:`addon-event-repository-post-remove`, :ref:`addon-event-"
 "repository-post-update`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
-"update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-remove`, :ref:`addon-event-repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, "
+":ref:`addon-event-daily`, :ref:`addon-event-repository-post-commit`, "
+":ref:`addon-event-repository-post-remove`, :ref:`addon-event-repository-post-"
+"update`"
 
 msgid ""
 "Publishes Android string and plural resources for registered Kotlin SDK "
@@ -55258,10 +55211,8 @@ msgid ""
 "responsible for compatibility with older application code."
 msgstr ""
 
-#, fuzzy
-#| msgid "Generic settings"
 msgid "Lifecycle settings"
-msgstr "Generieke instellingen"
+msgstr "Instellingen voor levenscyclus"
 
 msgid ""
 ":guilabel:`Maximum build age (days)` defaults to 365 and accepts 1 through "
@@ -55344,10 +55295,8 @@ msgid ""
 "window still applies."
 msgstr ""
 
-#, fuzzy
-#| msgid "Client secret"
 msgid "CDN client contract"
-msgstr "Clientgeheim"
+msgstr "CDN-client contract"
 
 msgid ""
 "Each build has a stable manifest at ``<CDN base>/<packageName>/<versionCode>/"
@@ -56195,19 +56144,14 @@ msgstr "Naam van gegenereerd bestand"
 msgid "Content of generated file"
 msgstr "Inhoud van gegenereerd bestand"
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
-#| "update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-#| "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
 "update`, :ref:`addon-event-repository-post-add`, :ref:`addon-event-"
 "repository-post-remove`, :ref:`addon-event-repository-pre-commit`"
 msgstr ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
-"update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
-"repository-post-remove`, :ref:`addon-event-repository-post-update`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, "
+":ref:`addon-event-repository-post-add`, :ref:`addon-event-repository-post-"
+"remove`, :ref:`addon-event-repository-pre-commit`"
 
 msgid "Generates a file containing detailed info about the translation status."
 msgstr ""
@@ -56226,10 +56170,8 @@ msgstr "Bijvoorbeeld het maken van een overzichtsbestand voor elke vertaling:"
 msgid "Content"
 msgstr "Inhoud"
 
-#, fuzzy
-#| msgid "Component update"
 msgid "Component-wide output"
-msgstr "Onderdeel bijwerken"
+msgstr "Onderdeel-brede uitvoer"
 
 msgid ""
 "Set :guilabel:`Output scope` to :guilabel:`One file per component` to "
@@ -56252,15 +56194,11 @@ msgid ""
 "ordered by repository language code. Each item provides:"
 msgstr ""
 
-#, fuzzy
-#| msgid "Strings are changed in the repository."
 msgid "``language_code``: the language code used in the repository."
-msgstr "Tekenreeksen worden gewijzigd in de opslagruimte."
+msgstr "``taal_code``: de taalcode die wordt gebruikt in de opslagruimte."
 
-#, fuzzy
-#| msgid "``language`` -- Per language"
 msgid "``language_name``: the English language name."
-msgstr "``language`` -- Per taal"
+msgstr "``taal_naam``: de Engelse naam van de taal."
 
 msgid ""
 "``language_native_name``: the name translated into its own language using "
@@ -56268,18 +56206,16 @@ msgid ""
 msgstr ""
 
 msgid "``language_direction``: ``ltr`` or ``rtl``."
-msgstr ""
+msgstr "``taal_richting``: ``lnr`` of ``rnl``."
 
 msgid "``filename`` and ``url``: the translation filename and Weblate URL."
-msgstr ""
+msgstr "``bestandsnaam`` en ``url``: de vertaalbestandsnaam en Weblate-URL."
 
-#, fuzzy
-#| msgid "Using other Weblate components as a source for translations."
 msgid "``is_source``: whether this is the component's source translation."
-msgstr "Gebruiken van andere onderdelen van Weblate als bron voor vertalingen."
+msgstr "``is_bron``: of dit de bronvertaling van het onderdeel is."
 
 msgid "``stats``: the same statistics available in translation mode."
-msgstr ""
+msgstr "``stats``: dezelfde statistieken zijn beschikbaar in vertalingsmodus."
 
 msgid ""
 "The source translation is included. Templates can exclude it using ``{% if "
@@ -56288,12 +56224,10 @@ msgid ""
 msgstr ""
 
 msgid "For example, generate :file:`locales.json` for a website:"
-msgstr ""
+msgstr "Bijvoorbeeld, maak :file:`locales.json` aan voor een website:"
 
-#, fuzzy
-#| msgid "Add several languages for translation"
 msgid "Or generate :file:`languages.py` for an application:"
-msgstr "Meerdere talen toevoegen om te vertalen"
+msgstr "Of maak een :file:`languages.py` aan voor een toepassing:"
 
 msgid ""
 "The ``json`` and ``python`` filters serialize complete values, including "
@@ -57003,7 +56937,7 @@ msgstr ""
 "paden, voor ze te gebruiken als :file:`POTFILES`."
 
 msgid "Mixed source formats and ITS rules"
-msgstr ""
+msgstr "Gemengde bronformaten en ITS-regels"
 
 msgid ""
 "Leave :guilabel:`xgettext language` blank to extract messages from different "
@@ -57061,6 +56995,9 @@ msgid ""
 "html_node/ITS-Rules.html>`_ and `locating rules <https://www.gnu.org/"
 "software/gettext/manual/html_node/Locating-Rules.html>`_."
 msgstr ""
+"`GNU gettext ITS-regels <https://www.gnu.org/software/gettext/manual/"
+"html_node/ITS-Rules.html>`_ en `locatieregelsrules <https://www.gnu.org/"
+"software/gettext/manual/html_node/Locating-Rules.html>`_."
 
 msgid "Squash Git commits"
 msgstr "Git-commits samenvoegen"
@@ -60803,10 +60740,8 @@ msgstr ""
 "van vertalingen tijdens het herstructureren van bestanden of het herschikken "
 "van tabellen door positieafhankelijke context te verwijderen."
 
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "po_contributor_comments"
-msgstr "Medewerkers in opmerking"
+msgstr "po_contributor_comments"
 
 msgid ""
 "Add contributor names and years to header comments. SPDX also converts "
@@ -61193,10 +61128,8 @@ msgstr ""
 msgid "Service ID"
 msgstr "Service ID"
 
-#, fuzzy
-#| msgid "Maximal score"
 msgid "Maximum score"
-msgstr "Maximale score"
+msgstr "Maximumscore"
 
 msgid "Source language selection"
 msgstr "Brontaal selecteren"
@@ -62650,10 +62583,8 @@ msgstr ":guilabel:`Projectinstellingen bewerken`"
 msgid ":guilabel:`Manage project access`"
 msgstr ":guilabel:`Projecttoegang beheren`"
 
-#, fuzzy
-#| msgid ":guilabel:`Manage repository`"
 msgid ":guilabel:`Manage reports`"
-msgstr ":guilabel:`Opslagruimte beheren`"
+msgstr ":guilabel:`Rapporten beheren`"
 
 msgid ":guilabel:`Add screenshot`"
 msgstr ":guilabel:`Schermafdruk toevoegen`"
@@ -62877,20 +62808,16 @@ msgstr "``squash`` -- Squashen en samenvoegen"
 msgid "``rebase`` -- Rebase and merge"
 msgstr "``rebase`` -- Rebasen en samenvoegen"
 
-#, fuzzy
-#| msgid "Make a test translation"
 msgid "Make your first translation"
-msgstr "Maak een testvertaling"
+msgstr "Maak uw eerste vertaling"
 
 msgid ""
 "You can contribute to a project using your web browser. You do not need to "
 "install Weblate or work with its source code repository."
 msgstr ""
 
-#, fuzzy
-#| msgid "Link to your project on Weblate"
 msgid "Find your project and language"
-msgstr "Link naar uw project op Weblate"
+msgstr "Vind uw project en taal"
 
 msgid ""
 "Follow the translation link from the project you want to help. Projects can "
@@ -62936,10 +62863,8 @@ msgid ""
 "request a translation when available, or contact the maintainers."
 msgstr ""
 
-#, fuzzy
-#| msgid "translated strings"
 msgid "Translate a string"
-msgstr "vertaalde tekenreeksen"
+msgstr "Vertaal een tekenreeks"
 
 msgid ""
 "The editor shows the source text and a field for your translation. Read any "
@@ -62970,7 +62895,7 @@ msgid ""
 msgstr ""
 
 msgid "Choose the action that fits your contribution:"
-msgstr ""
+msgstr "Kies de actie die past bij uw bijdrage:"
 
 msgid ""
 ":guilabel:`Save and continue` saves your translation and opens the next "
@@ -63002,7 +62927,7 @@ msgid ""
 msgstr ""
 
 msgid "Check your work and ask for help"
-msgstr ""
+msgstr "Controleer uw werk en vraag om hulp"
 
 msgid ""
 "Read your translation again after saving. If Weblate reports "
@@ -63023,10 +62948,8 @@ msgid ""
 "comments` and :ref:`report-source`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Code contributions"
 msgid "Keep contributing"
-msgstr "Bijgedragen code"
+msgstr "Blijf bijdragen"
 
 msgid ""
 "Watch projects you want to return to and choose your :ref:`notifications`. "
@@ -64540,10 +64463,8 @@ msgstr ""
 msgid "Searching"
 msgstr "Zoeken"
 
-#, fuzzy
-#| msgid "Variants while translating"
 msgid "Results while translating"
-msgstr "Varianten tijdens vertalen"
+msgstr "Resultaten tijdens vertalen"
 
 msgid ""
 "The translation editor keeps the current search results while you translate. "
@@ -65746,15 +65667,11 @@ msgstr ":kbd:`Cmd+Shift+Enter`"
 msgid "Unmark translation as Needing edit and submit it."
 msgstr "Verwijder vertaling markering \"benodigt wijziging\", en stuur in."
 
-#, fuzzy
-#| msgid ":kbd:`Ctrl+Enter` or"
 msgid ":kbd:`Ctrl+Alt+Enter` or"
-msgstr ":kbd:`Ctrl+Enter` of"
+msgstr ":kbd:`Ctrl+Alt+Enter` of"
 
-#, fuzzy
-#| msgid ":kbd:`Cmd+Enter`"
 msgid ":kbd:`Cmd+Alt+Enter`"
-msgstr ":kbd:`Cmd+Enter`"
+msgstr ":kbd:`Cmd+Alt+Enter`"
 
 msgid ""
 "Approve the translation and save and continue. Only available to reviewers."
@@ -66013,26 +65930,20 @@ msgstr ""
 "Als u directe koppelingen wilt, dan moet de indeling van de vertaling dat "
 "ondersteunen."
 
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Adding an existing screenshot"
-msgstr "Schermafdruk toevoegen"
+msgstr "Een bestaande schermafdruk toevoegen"
 
 msgid ""
 "To link a screenshot that has already been uploaded, open the string in the "
 "translation editor:"
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| ":guilabel:`Add screenshot`, :guilabel:`Delete "
-#| "screenshot`, :guilabel:`Edit screenshot`"
 msgid ""
 "In the :guilabel:`Screenshots` panel, choose :guilabel:`Add existing "
 "screenshot`."
 msgstr ""
-":guilabel:`Schermafdruk toevoegen`, :guilabel:`Schermafdruk "
-"verwijderen`, :guilabel:`Schermafdruk bewerken`"
+"In het :guilabel:`Schermafdruk`-paneel, kies :guilabel:`Bestaande "
+"schermafdruk toevoegen`."
 
 msgid ""
 "Browse the thumbnails, or enter a query in :guilabel:`Search screenshots` "
@@ -66054,6 +65965,7 @@ msgstr ""
 
 msgid "Screenshot picker with a highlighted card marked Selected."
 msgstr ""
+"Schermafdrukselector met een gemarkeerde kaart gemarkeerd met Geselecteerd."
 
 msgid ""
 "The picker shows screenshots from the current component in the source "
@@ -68342,10 +68254,8 @@ msgid ""
 "glossary language synchronization <glossary-language-sync>`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Limit which translation files Weblate discovers"
 msgid "Limit which translation files Weblate discovers or creates"
-msgstr "Beperk welke vertaalbestanden Weblate ontdekt"
+msgstr "Beperk welke vertaalbestanden Weblate ontdekt of aanmaakt"
 
 #, fuzzy
 #| msgid ""
@@ -68743,10 +68653,8 @@ msgstr ""
 "de opstelling: beoordelaars moeten zijn ingeschakeld voor die vertaling en "
 "de aangemelde gebruiker moet het recht voor beoordelen hebben voor die taal."
 
-#, fuzzy
-#| msgid "Translation workflows"
 msgid "Machine translation and LLM workflows"
-msgstr "Werkwijzen voor vertalen"
+msgstr "Machinevertaling en LLM-werkstromen"
 
 msgid ""
 "Machine translation services, including large language model (LLM) services, "
@@ -68772,10 +68680,8 @@ msgid ""
 "strings`."
 msgstr ""
 
-#, fuzzy
-#| msgid "machine translation services"
 msgid "Human translation assisted by services"
-msgstr "services voor machinevertalingen"
+msgstr "Vertaling door mensen geassisteerd door services"
 
 msgid ""
 "Use this workflow when translators should choose when to use machine "
@@ -68790,25 +68696,18 @@ msgid ""
 "translation add-on and can be combined with :ref:`reviews`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Improved translation locking handling."
 msgid "Service translation with human editing"
-msgstr "Verbeterde afhandeling vergrendelen vertaling."
+msgstr "Servicevertaling met bewerking door mensen"
 
 msgid ""
 "Use this workflow to fill translations automatically and let humans improve "
 "them directly."
 msgstr ""
 
-#, fuzzy
-#| msgid ""
-#| "Added guided adding of translation components with automatic detection of "
-#| "translation files."
 msgid ""
 "Select :guilabel:`Add as translation` as the automatic translation mode."
 msgstr ""
-"Begeleid toevoegen van vertaalonderdelen met automatisch detecteren van "
-"vertaalbestanden toegevoegd."
+"Selecteer :guilabel:`Voeg als vertaling toe` alse automatische vertaalmodus."
 
 #, fuzzy
 #| msgid ""
@@ -68821,16 +68720,12 @@ msgstr ""
 "Met :ref:`project-translation_review` ingeschakeld gebeurt het opruimen als "
 "de vertaling is goedgekeurd."
 
-#, fuzzy
-#| msgid ""
-#| "The :ref:`project-commit_policy` determines which translation states are "
-#| "stored in the file."
 msgid ""
 "Set :ref:`project-commit_policy` to :guilabel:`Commit all translations "
 "regardless of quality`."
 msgstr ""
-"The :ref:`project-commit_policy` bepaalt welke statussen van de vertaling "
-"worden opgeslagen in het bestand."
+"Stel :ref:`project-commit_policy` in als :guilabel:`Sla alle vertalingen op "
+"onafhankelijk van kwaliteit`."
 
 msgid ""
 "The service output becomes a translation that humans can edit in the usual "
@@ -68845,10 +68740,8 @@ msgid ""
 "commit_policy` to :guilabel:`Skip translations marked as needing editing`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Suggestion accepted"
 msgid "Service suggestions with human acceptance"
-msgstr "Suggestie aanvaard"
+msgstr "Servicevoorstellen met acceptatie door mensen"
 
 msgid ""
 "Use this workflow when humans should check service output before it becomes "
@@ -68879,10 +68772,8 @@ msgid ""
 "the :ref:`dedicated review workflow <reviews>`."
 msgstr ""
 
-#, fuzzy
-#| msgid "Starting translation into a new language"
 msgid "Service translation with review and a quality gateway"
-msgstr "Nieuwe vertaling in nieuwe taal beginnen"
+msgstr "Servicevertaling met beoordeling en een kwaliteitsgateway"
 
 msgid ""
 "Use this workflow when humans should edit machine translations in Weblate, "
@@ -68900,16 +68791,12 @@ msgstr ""
 "De standaardwaarden voor :ref:`project-translation_review` en :ref:`project-"
 "source_review` kunnen geconfigureerd worden in de instellingen."
 
-#, fuzzy
-#| msgid ""
-#| ":ref:`project-commit_policy` could miss some changes in certain "
-#| "situations."
 msgid ""
 "Set :ref:`project-commit_policy` to :guilabel:`Only include approved "
 "translations`."
 msgstr ""
-":ref:`project-commit_policy` zou in bepaalde situaties sommige wijzigingen "
-"kunnen missen."
+"Stel :ref:`project-commit_policy` in als :guilabel:`Alleen goedgekeurde "
+"vertalingen opnemen`."
 
 msgid ""
 "Generated translations appear as :guilabel:`Waiting for review`. Translators "
@@ -68926,10 +68813,8 @@ msgid ""
 "any :ref:`workflow customization <workflow-customization>` overrides."
 msgstr ""
 
-#, fuzzy
-#| msgid "Removing existing translations"
 msgid "Reusing existing translations"
-msgstr "Bestaande vertalingen verwijderen"
+msgstr "Bestaande vertalingen hergebruiken"
 
 msgid ""
 "Use existing translations to bootstrap a new language or component, then "
