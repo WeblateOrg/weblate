@@ -21,6 +21,8 @@ MODEL_ID_DISPLAY_LIMIT = 80
 
 
 class BaseOpenAITranslation(BaseLLMTranslation):
+    default_api_url: str
+
     def get_runtime_base_url(self) -> str:
         raise NotImplementedError
 
@@ -112,6 +114,7 @@ class BaseOpenAITranslation(BaseLLMTranslation):
 
 class OpenAITranslation(BaseOpenAITranslation):
     name = "OpenAI"
+    default_api_url = "https://api.openai.com/v1"
     trusted_error_hosts: ClassVar[set[str]] = {"api.openai.com"}
 
     version_added = "5.3"
@@ -128,7 +131,7 @@ class OpenAITranslation(BaseOpenAITranslation):
         return {"Authorization": f"Bearer {self.settings['key']}"}
 
     def get_runtime_base_url(self) -> str:
-        return self.settings.get("base_url") or "https://api.openai.com/v1"
+        return self.settings.get("base_url") or self.default_api_url
 
     def get_models_url(self) -> str:
         return self.join_api_url(self.get_runtime_base_url(), "models")

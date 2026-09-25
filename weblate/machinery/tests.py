@@ -5677,6 +5677,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         "style": "",
     }
     TRACE_MODEL: ClassVar[str] = "gpt-5-nano"
+    EXPECTED_ORIGIN: ClassVar[str] = "gpt-5-nano"
 
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
@@ -5757,7 +5758,9 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         machine = self.get_machine()
 
         with patch("weblate.machinery.llm.add_breadcrumb") as mock_add_breadcrumb:
-            machine.download_multiple_translations("en", "fr", [("Hello", None)])
+            translations = machine.download_multiple_translations(
+                "en", "fr", [("Hello", None)]
+            )
 
         model_call = next(
             call
@@ -5766,6 +5769,16 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         )
         self.assertEqual(model_call.kwargs["model"], self.TRACE_MODEL)
         self.assertNotIn("key", model_call.kwargs)
+        self.assertEqual(translations["Hello"][0]["origin"], self.EXPECTED_ORIGIN)
+
+    @http_mock.activate
+    def test_async_translate_origin(self) -> None:
+        self.mock_response()
+        machine = self.get_machine()
+        translations = async_to_sync(machine.adownload_multiple_translations)(
+            "en", "fr", [("Hello", None)]
+        )
+        self.assertEqual(translations["Hello"][0]["origin"], self.EXPECTED_ORIGIN)
 
     def test_translate_sends_unit_context(self) -> None:
         machine = self.get_machine()
@@ -9100,6 +9113,7 @@ class OpenAILLMContextTest(FixtureComponentTestCase):
 
 
 class OpenAICustomTranslationTest(OpenAITranslationTest):
+    EXPECTED_ORIGIN: ClassVar[str] = "gpt-5-nano · custom.example.com"
     CONFIGURATION: ClassVar[SettingsDict] = {
         "key": "x",
         "model": "auto",
@@ -9302,6 +9316,7 @@ class MistralTranslationTest(OpenAITranslationTest):
         "style": "",
     }
     TRACE_MODEL: ClassVar[str] = "ministral-3b-latest"
+    EXPECTED_ORIGIN: ClassVar[str] = "ministral-3b-latest"
 
     @staticmethod
     def mock_models() -> None:
@@ -9360,6 +9375,7 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
         "base_url": "https://custom.example.com/",
     }
     TRACE_MODEL: ClassVar[str] = "ministral-3b-latest"
+    EXPECTED_ORIGIN: ClassVar[str] = "ministral-3b-latest · custom.example.com"
 
     def mock_response(self, content: str = '["Ahoj světe"]') -> None:
         http_mock.register(
@@ -9423,6 +9439,7 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
         "azure_endpoint": "https://my-instance.openai.azure.com",
     }
     TRACE_MODEL: ClassVar[str] = "my-deployment"
+    EXPECTED_ORIGIN: ClassVar[str] = "my-deployment · my-instance.openai.azure.com"
 
     def mock_response(self, content: str = '["Ahoj světe"]') -> None:
         http_mock.register(
@@ -9500,12 +9517,36 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
 
+    @http_mock.activate
+    def test_suggestion_origin(self) -> None:
+        self.mock_response()
+        machine = self.get_machine()
+        translations = machine.download_multiple_translations(
+            self.ENGLISH, self.SUPPORTED, [("Hello", None)]
+        )
+        self.assertEqual(
+            translations["Hello"][0]["origin"], self.CONFIGURATION["model"]
+        )
+
     def test_base_url_path_is_preserved(self) -> None:
         machine = self.MACHINE_CLS(
             {**self.CONFIGURATION, "base_url": "http://localhost:11434/ollama"}
         )
         self.assertEqual(
             machine.get_chat_url(), "http://localhost:11434/ollama/api/chat"
+        )
+
+    def test_custom_endpoint_origin_contains_only_hostname(self) -> None:
+        machine = self.MACHINE_CLS(
+            {
+                **self.CONFIGURATION,
+                "base_url": "https://user:secret@llm.example.com:8443/ollama?token=secret",
+            }
+        )
+        machine._suggestion_model = self.CONFIGURATION["model"]  # ruff: ignore[private-member-access]
+        self.assertEqual(
+            machine.get_suggestion_origin(),
+            f"{self.CONFIGURATION['model']} · llm.example.com",
         )
 
     def mock_error(self) -> None:
@@ -9604,6 +9645,18 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
 
     def mock_empty(self) -> NoReturn:
         self.skipTest("Not tested")
+
+    @http_mock.activate
+    def test_suggestion_origin(self) -> None:
+        self.mock_response()
+        machine = self.get_machine()
+        translations = machine.download_multiple_translations(
+            self.ENGLISH, self.SUPPORTED, [("Hello", None)]
+        )
+        self.assertEqual(
+            translations["Hello"][0]["origin"],
+            self.CONFIGURATION.get("custom_model", self.CONFIGURATION["model"]),
+        )
 
     def mock_error(self) -> None:
         http_mock.register(

@@ -16583,7 +16583,8 @@ paths:
     get:
       operationId: api_projects_file_retrieve
       description: The archive defaults to ZIP and can be limited to one language
-        using language_code.
+        using language_code. Unfiltered downloads require project-wide download permission;
+        language-filtered downloads require permission for that language.
       summary: Download all translation files in the project.
       parameters:
       - in: query
@@ -17847,7 +17848,8 @@ paths:
     get:
       operationId: api_projects_languages_file_retrieve
       description: The archive defaults to ZIP, and filter limits included components
-        by a case-insensitive substring of their slug.
+        by a case-insensitive substring of their slug. Requires download permission
+        for the requested language.
       summary: Download all component translation files in the project for a specific
         language.
       parameters:

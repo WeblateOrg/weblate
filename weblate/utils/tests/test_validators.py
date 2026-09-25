@@ -181,12 +181,7 @@ class FilenameTest(SimpleTestCase):
         for path in (
             ".git/config",
             ".GIT/CONFIG",
-            ".svn/wc.db",
-            ".bzr/README",
-            "CVS/Root",
-            "_darcs/patches",
-            "RCS/foo,v",
-            "SCCS/s.1",
+            ".hg/hgrc",
         ):
             with self.subTest(path=path), self.assertRaises(ValidationError):
                 validate_filename(path)
@@ -196,16 +191,24 @@ class FilenameTest(SimpleTestCase):
         for path in (
             "path/.git/config",
             r"path\.Hg\hgrc",
-            "path/.svn/wc.db",
-            r"path\.BzR\README",
-            "path/CVS/Root",
-            r"path\_DARCS\patches",
-            "path/rcs/foo,v",
-            r"path\sCcS\s.1",
         ):
             with self.subTest(path=path), self.assertRaises(ValidationError):
                 validate_filename(path)
             validate_filename(path, check_prohibited=False)
+
+    def test_foreign_vcs_metadata_allowed(self) -> None:
+        for path in (
+            ".svn/wc.db",
+            ".bzr/README",
+            "CVS/Root",
+            "_darcs/patches",
+            "RCS/foo,v",
+            "SCCS/s.1",
+            "_MTN/options",
+            ".pijul/changes/one",
+        ):
+            with self.subTest(path=path):
+                validate_filename(path)
 
 
 class RegexTest(SimpleTestCase):

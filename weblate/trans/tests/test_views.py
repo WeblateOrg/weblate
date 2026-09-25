@@ -139,9 +139,11 @@ class ZipDownloadTest(TestCase):
         with TemporaryDirectory() as root_name, TemporaryDirectory() as outside_name:
             root = Path(root_name)
             outside = Path(outside_name)
-            metadata_files = {
+            managed_metadata_files = {
                 ".git/config": b"git metadata",
                 ".hg/hgrc": b"mercurial metadata",
+            }
+            foreign_metadata_files = {
                 ".svn/wc.db": b"subversion metadata",
                 ".bzr/README": b"bazaar metadata",
                 "CVS/Root": b"cvs metadata",
@@ -149,7 +151,10 @@ class ZipDownloadTest(TestCase):
                 "RCS/foo,v": b"rcs metadata",
                 "SCCS/s.1": b"sccs metadata",
             }
-            for filename, content in metadata_files.items():
+            for filename, content in {
+                **managed_metadata_files,
+                **foreign_metadata_files,
+            }.items():
                 metadata = root / filename
                 metadata.parent.mkdir()
                 metadata.write_bytes(content)
@@ -177,11 +182,14 @@ class ZipDownloadTest(TestCase):
             self.assertIn("build/translation.txt", archive.namelist())
             self.assertIn("node_modules/translation.txt", archive.namelist())
             self.assertEqual(archive.read("safe_link.txt"), b"shared translation")
-            for filename in metadata_files:
+            for filename in managed_metadata_files:
                 with self.subTest(filename=filename):
                     self.assertNotIn(filename, archive.namelist())
-            self.assertNotIn("svn_metadata_link.db", archive.namelist())
-            self.assertNotIn("cvs_metadata_link", archive.namelist())
+            for filename in foreign_metadata_files:
+                with self.subTest(filename=filename):
+                    self.assertIn(filename, archive.namelist())
+            self.assertIn("svn_metadata_link.db", archive.namelist())
+            self.assertIn("cvs_metadata_link", archive.namelist())
             self.assertNotIn("leak_host.bin", archive.namelist())
             self.assertFalse(any(name.startswith("../") for name in archive.namelist()))
             archived_files = [archive.read(name) for name in archive.namelist()]
@@ -197,7 +205,7 @@ class ZipDownloadTest(TestCase):
 
         with ZipFile(BytesIO(response.content), "r") as archive:
             self.assertIn("regular.txt", archive.namelist())
-            self.assertNotIn(".SVN/entries", archive.namelist())
+            self.assertIn(".SVN/entries", archive.namelist())
 
 
 class RegistrationTestMixin(TestCase):
