@@ -13,6 +13,7 @@ from django.conf import settings
 from django.core.checks import register
 
 from weblate.accounts.avatar import download_avatar_image
+from weblate.accounts.data import NotificationFrequency, NotificationScope
 from weblate.auth.utils import get_auth_keys
 from weblate.utils.checks import weblate_check
 
@@ -58,6 +59,50 @@ def check_avatars(
     except (OSError, CertificateError, httpx2.HTTPError) as error:
         return [weblate_check("weblate.E018", f"Could not download avatar: {error}")]
     return []
+
+
+@register()
+def check_notification_settings(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs: object,
+) -> Iterable[CheckMessage]:
+    # ruff: ignore[import-outside-top-level]
+    from weblate.accounts.notifications import NOTIFICATIONS
+
+    errors: list[str] = []
+    name = "DEFAULT_NOTIFICATIONS"
+
+    if not isinstance(settings.DEFAULT_NOTIFICATIONS, list):
+        errors.append(
+            f"{name} configuration must be a list",
+        )
+    else:
+        for notification in settings.DEFAULT_NOTIFICATIONS:
+            if not isinstance(notification, tuple) or len(notification) != 3:
+                errors.append(
+                    f"Each item in {name} must be a tuple with three entries",
+                )
+            else:
+                scope, frequency, handler = notification
+                if scope not in NotificationScope.values:
+                    errors.append(
+                        f"{name} contains a invalid notification scope {scope}",
+                    )
+                if frequency not in NotificationFrequency.values:
+                    errors.append(
+                        f"{name} contains a invalid notification frequency {frequency}",
+                    )
+                if not isinstance(handler, str):
+                    errors.append(
+                        f"{name} contains a invalid notification handler {handler}",
+                    )
+                if handler not in [n.__name__ for n in NOTIFICATIONS]:
+                    errors.append(
+                        f"{name} contains a unknown notification handler {handler}",
+                    )
+    return [weblate_check("weblate.C051", message) for message in errors]
 
 
 class AccountsConfig(AppConfig):

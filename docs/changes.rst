@@ -19,6 +19,7 @@ Weblate 2026.10
 * Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
 * Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
 * Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
+* Added :setting:`DEFAULT_NOTIFICATIONS` to configure :ref:`notifications` settings for new users.
 
 .. rubric:: Improvements
 

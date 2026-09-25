@@ -44,11 +44,13 @@ from social_django.models import UserSocialAuth
 from unidecode import unidecode
 
 from weblate.accounts.avatar import get_user_display
-from weblate.accounts.data import create_default_notifications
-from weblate.accounts.notifications import (
-    NOTIFICATIONS,
+from weblate.accounts.data import (
     NotificationFrequency,
     NotificationScope,
+    create_default_notifications,
+)
+from weblate.accounts.notifications import (
+    NOTIFICATIONS,
 )
 from weblate.accounts.tasks import cleanup_inaccessible_subscriptions, notify_auditlog
 from weblate.auth.models import TeamMembership, User
@@ -165,6 +167,8 @@ class WeblateAccountsConf(AppConf):
     PASSWORD_RESET_URL = defaults.DEFAULT_PASSWORD_RESET_URL
 
     MAXIMAL_PASSWORD_LENGTH = defaults.DEFAULT_MAXIMAL_PASSWORD_LENGTH
+
+    DEFAULT_NOTIFICATIONS = defaults.DEFAULT_NOTIFICATIONS
 
     # Multi-level rate limiting for email notifications
     # Each tuple contains (max_emails, time_window_seconds)
