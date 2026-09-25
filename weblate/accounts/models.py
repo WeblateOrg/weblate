@@ -107,6 +107,9 @@ class WeblateAccountsConf(AppConf):
     # Avatar URL prefix
     AVATAR_URL_PREFIX = defaults.DEFAULT_AVATAR_URL_PREFIX
 
+    # Avatar URL template
+    AVATAR_URL_TEMPLATE = defaults.DEFAULT_AVATAR_URL_TEMPLATE
+
     # Avatar fallback image
     # See http://en.gravatar.com/site/implement/images/ for available choices
     AVATAR_DEFAULT_IMAGE = defaults.DEFAULT_AVATAR_DEFAULT_IMAGE

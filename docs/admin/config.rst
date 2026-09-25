@@ -311,6 +311,24 @@ Libravatar, as per https://www.libravatar.org/
    * :setting:`ENABLE_AVATARS`
    * :ref:`avatars`
 
+.. setting:: AVATAR_URL_TEMPLATE
+
+AVATAR_URL_TEMPLATE
+-------------------
+
+.. versionadded:: 2026.10
+
+Template to generate avatar URLs. Defaults to ``"{AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"``.
+
+It can contain ``{AVATAR_URL_PREFIX}``, ``{mail_hash}``, ``{querystring}``, and ``{size}``.
+
+.. seealso::
+
+   * :setting:`AVATAR_URL_PREFIX`
+   * :ref:`production-cache-avatar`
+   * :setting:`ENABLE_AVATARS`
+   * :ref:`avatars`
+
 .. setting:: AUTH_TOKEN_VALID
 
 AUTH_TOKEN_VALID

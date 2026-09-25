@@ -34,7 +34,12 @@ def avatar_for_email(email: str, size: int = 80) -> str:
 
     querystring = urlencode({"d": settings.AVATAR_DEFAULT_IMAGE, "s": str(size)})
 
-    return f"{settings.AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"
+    return settings.AVATAR_URL_TEMPLATE.format(
+        AVATAR_URL_PREFIX=settings.AVATAR_URL_PREFIX,
+        mail_hash=mail_hash,
+        querystring=querystring,
+        size=size,
+    )
 
 
 def get_fallback_avatar_url(

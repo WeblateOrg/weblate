@@ -1507,6 +1507,10 @@ AVATAR_URL_PREFIX = get_env_str(
     accounts_defaults.DEFAULT_AVATAR_URL_PREFIX,
     required=ENABLE_AVATARS,
 )
+avatar_url_template_str = get_env_str("WEBLATE_AVATAR_URL_TEMPLATE")
+if avatar_url_template_str is not None:
+    AVATAR_URL_TEMPLATE = avatar_url_template_str
+del avatar_url_template_str
 
 # Default access control
 DEFAULT_ACCESS_CONTROL = get_env_int(
