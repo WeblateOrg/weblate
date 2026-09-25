@@ -22,6 +22,7 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* The project :guilabel:`Files` menu now lists translation download formats from :setting:`WEBLATE_EXPORTERS` instead of a fixed subset.
 * :ref:`LLM automatic suggestions <machine-translation>` now show the model and, for custom API endpoints, the host that produced them.
 * Automation actions can select strings from the triggering change or a previous action's affected units. See :doc:`admin/automation`.
 * Unified browsing and :ref:`searching strings <search-strings>`, aligned search filters with the status overview, and added direct editor access to language-specific lists and an :guilabel:`All strings` filter.

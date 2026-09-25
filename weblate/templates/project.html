@@ -79,7 +79,7 @@
         {% for format, format_name in available_exporters %}
           <li>
             <a class="dropdown-item"
-               href="{% url 'download' path=object.get_url_path %}?format=zip:{{ name }}"
+               href="{% url 'download' path=object.get_url_path %}?format=zip:{{ format }}"
                title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as {{ format_name }} in a ZIP file{% endblocktranslate %}</a>
           </li>
         {% endfor %}
