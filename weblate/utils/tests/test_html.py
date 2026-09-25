@@ -10,7 +10,6 @@ from weblate.checks.flags import Flags
 from weblate.utils.html import (
     AUTO_SAFE_HTML_VOID_TAGS,
     MD_LINK,
-    HTML2Text,
     HTMLAttribute,
     HTMLSanitizer,
     extract_html_attributes,
