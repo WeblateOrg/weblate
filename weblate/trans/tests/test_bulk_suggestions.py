@@ -351,6 +351,32 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertEqual(messages[0].extra_tags, "task:task-bulk-accept")
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_bulk_accept_zen_schedules_task_without_message(self) -> None:
+        """Test that Zen does not get the in progress message."""
+        user = User.objects.create_user(username="zen-spammer", password="test")
+        Suggestion.objects.create(unit=self.unit, target="Zen spam!\n", user=user)
+
+        with patch(
+            "weblate.trans.views.bulk_suggestions."
+            "bulk_accept_user_suggestions_task.delay",
+            return_value=SimpleNamespace(id="task-bulk-zen"),
+        ):
+            response = self.client.post(
+                reverse(
+                    "bulk-accept-user-suggestions",
+                    kwargs={"path": self.translation.get_url_path()},
+                ),
+                {"username": "zen-spammer", "confirmed": "1", "zen": "1"},
+            )
+
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data["success"])
+        self.assertFalse(data["completed"])
+        self.assertEqual(data["task_id"], "task-bulk-zen")
+        self.assertEqual(list(get_messages(response.wsgi_request)), [])
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_bulk_accept_and_approve_schedules_task(self) -> None:
         """Test that accepting and approving schedules approval mode."""
         self.project.translation_review = True

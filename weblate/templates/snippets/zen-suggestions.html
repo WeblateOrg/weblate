@@ -1,0 +1,17 @@
+{% load i18n permissions %}
+
+{% perm 'unit.review' unit as user_can_review %}
+{% perm 'suggestion.add' unit as user_can_suggest %}
+{% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
+{% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
+
+<form action="{{ suggestion_url }}"
+      method="post"
+      class="zen-suggestions-form"
+      data-unit-url="{{ unit_url }}">
+  {% csrf_token %}
+  <input type="hidden" name="unit_id" value="{{ unit.pk }}" />
+  <input type="hidden" name="checksum" value="{{ unit.checksum }}" />
+  <label>{% translate "Suggestions" %}</label>
+  {% include "snippets/suggestions.html" with suggestions=unit.suggestions multi_unit=False %}
+</form>

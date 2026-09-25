@@ -71,6 +71,7 @@ from weblate.trans.models import (
     ContributorAgreement,
     Project,
     Report,
+    Suggestion,
     Translation,
     Unit,
 )
@@ -92,6 +93,7 @@ from weblate.trans.widgets import WIDGETS
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
+from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.vcs.git import LocalRepository
@@ -1730,6 +1732,207 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 """
             )
         )
+
+    def test_zen_suggestions(self) -> None:
+        """Suggestions are handled in place in the Zen editor."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Zen suggestions", slug="zen-suggestions")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        user = self.do_login(superuser=True)
+        first, _ = Suggestion.objects.add(unit, ["Nazdar svete!\n"], None, user=user)
+        second, _ = Suggestion.objects.add(unit, ["Ahoj svete!\n"], None, user=user)
+        assert first is not None
+        assert second is not None
+
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{zen_url}?{urlencode({'q': 'has:suggestion'})}"
+            )
+        row_selector = f"#row-suggestions-{unit.checksum}"
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located((By.CSS_SELECTOR, row_selector))
+        )
+
+        def suggestion_rows() -> list[WebElement]:
+            return self.driver.find_elements(
+                By.CSS_SELECTOR, f"{row_selector} .history-row"
+            )
+
+        def editor() -> WebElement:
+            return self.driver.find_element(
+                By.CSS_SELECTOR,
+                f"#row-edit-{unit.checksum} .translation-editor",
+            )
+
+        def wait_idle() -> None:
+            WebDriverWait(self.driver, 15).until(
+                lambda driver: (
+                    "unit-state-saving"
+                    not in driver.find_element(
+                        By.ID, f"status-{unit.checksum}"
+                    ).get_attribute("class")
+                )
+            )
+
+        self.assertEqual(len(suggestion_rows()), 2)
+
+        # Hiding suggestions is remembered across page loads
+        def suggestions_row() -> WebElement:
+            return self.driver.find_element(By.CSS_SELECTOR, row_selector)
+
+        def toggle_label() -> str:
+            button = self.driver.find_element(By.ID, "zen-toggle-suggestions")
+            label = self.driver.find_element(By.ID, "zen-toggle-suggestions-label")
+            self.assertEqual(
+                button.get_attribute("aria-label"), label.get_attribute("textContent")
+            )
+            return cast("str", button.get_attribute("aria-label"))
+
+        self.assertTrue(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Hide suggestions")
+        self.driver.find_element(By.ID, "zen-toggle-suggestions").click()
+        self.assertFalse(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Show suggestions")
+        self.assertEqual(
+            self.driver.execute_script(
+                "return localStorage.getItem('zen-suggestions');"
+            ),
+            "hidden",
+        )
+        with self.wait_for_page_load():
+            self.driver.refresh()
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located((By.CSS_SELECTOR, row_selector))
+        )
+        self.assertFalse(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Show suggestions")
+        self.driver.find_element(By.ID, "zen-toggle-suggestions").click()
+        self.assertTrue(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Hide suggestions")
+
+        # Cloning fills the editor of this unit and marks it as changed
+        next(
+            button
+            for button in self.driver.find_elements(
+                By.CSS_SELECTOR, f"{row_selector} .js-copy-suggestion"
+            )
+            if button.get_attribute("data-text-0") == "Ahoj svete!\n"
+        ).click()
+        self.assertEqual(editor().get_attribute("value"), "Ahoj svete!\n")
+        self.assertIn("has-changes", editor().get_attribute("class") or "")
+
+        # Accepting with pending edits is refused, they are kept intact
+        self.driver.execute_script(
+            """
+            const form = document.querySelector(arguments[0] + " form");
+            form.requestSubmit(form.querySelector('button[name="accept"]'));
+            """,
+            row_selector,
+        )
+        WebDriverWait(self.driver, 15).until(
+            lambda driver: (
+                "Save or discard your changes before accepting"
+                in driver.find_element(
+                    By.CSS_SELECTOR, "#popup-toasts .bg-warning-subtle .toast-body"
+                ).get_attribute("textContent")
+            )
+        )
+        self.assertEqual(editor().get_attribute("value"), "Ahoj svete!\n")
+        self.assertEqual(len(suggestion_rows()), 2)
+        self.assertEqual(Suggestion.objects.count(), 2)
+
+        # Discard the pending edit
+        self.driver.execute_script(
+            """
+            const editor = arguments[0];
+            editor.value = "";
+            editor.classList.remove("has-changes");
+            document.querySelector("#unsaved-label")?.remove();
+            """,
+            editor(),
+        )
+
+        # Rejecting uses the reason typed next to the clicked suggestion
+        first_row = self.driver.find_element(
+            By.CSS_SELECTOR, f'{row_selector} button[name="delete"][value="{first.pk}"]'
+        ).find_element(By.XPATH, "ancestor::div[contains(@class, 'history-row')]")
+        first_row.find_element(By.CSS_SELECTOR, "input[name=rejection]").send_keys(
+            "not good"
+        )
+        first_row.find_element(By.CSS_SELECTOR, 'button[name="delete"]').click()
+        WebDriverWait(self.driver, 15).until(
+            lambda _driver: len(suggestion_rows()) == 1
+        )
+        wait_idle()
+        self.assertEqual(
+            list(Suggestion.objects.values_list("pk", flat=True)), [second.pk]
+        )
+        change = Change.objects.get(action=ActionEvents.SUGGESTION_DELETE)
+        self.assertEqual(change.details["rejection_reason"], "not good")
+        # Rejecting leaves the editor alone
+        self.assertEqual(editor().get_attribute("value"), "")
+
+        # Accepting updates the row in place
+        self.driver.find_element(
+            By.CSS_SELECTOR, f'{row_selector} button[name="accept"]'
+        ).click()
+        WebDriverWait(self.driver, 15).until_not(
+            presence_of_element_located((By.CSS_SELECTOR, row_selector))
+        )
+        wait_idle()
+        self.assertEqual(Suggestion.objects.count(), 0)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Ahoj svete!\n")
+        self.assertEqual(editor().get_attribute("value"), "Ahoj svete!\n")
+        self.assertNotIn("has-changes", editor().get_attribute("class") or "")
+        self.assertEqual(
+            len(self.driver.find_elements(By.CSS_SELECTOR, "#unsaved-label")), 0
+        )
+        self.assertIn(
+            "unit-state-translated",
+            self.driver.find_element(By.ID, f"status-{unit.checksum}").get_attribute(
+                "class"
+            ),
+        )
+        self.assertEqual(
+            self.driver.find_element(
+                By.CSS_SELECTOR, f"#row-edit-{unit.checksum} input[name=translationsum]"
+            ).get_attribute("value"),
+            hash_to_checksum(unit.get_target_hash()),
+        )
+        self.assertEqual(
+            len(
+                self.driver.find_elements(
+                    By.CSS_SELECTOR, "#popup-toasts .bg-danger-subtle"
+                )
+            ),
+            0,
+        )
+
+        # A subsequent edit saves without a stale translationsum conflict
+        editor().clear()
+        editor().send_keys("Upraveno")
+        self.driver.find_element(By.ID, "id_q").click()
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located(
+                (By.CSS_SELECTOR, f"#row-edit-{unit.checksum}.translation-saved")
+            )
+        )
+        wait_idle()
+        self.assertEqual(
+            len(
+                self.driver.find_elements(
+                    By.CSS_SELECTOR, "#popup-toasts .bg-danger-subtle"
+                )
+            ),
+            0,
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Upraveno\n")
 
     def test_search_preview_scopes_boolean_query(self) -> None:
         project = self.create_component()
