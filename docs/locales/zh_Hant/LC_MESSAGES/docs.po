@@ -42,9 +42,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-09-25 02:35+0000\n"
-"PO-Revision-Date: 2026-09-25 04:14+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-09-25 14:58+0000\n"
+"Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -3148,7 +3147,7 @@ msgid ""
 msgstr ""
 
 msgid "AI quality evaluation"
-msgstr ""
+msgstr "AI 品質評估"
 
 msgid ""
 "Evaluates existing target translations synchronously using the "
@@ -49905,18 +49904,14 @@ msgstr "內建附加元件"
 msgid "Add-on ID"
 msgstr "附加元件 ID"
 
-#, fuzzy
-#| msgid "Integration services"
 msgid "Evaluation service"
-msgstr "整合服務"
+msgstr "評估服務"
 
 msgid "Query"
 msgstr "查詢"
 
-#, fuzzy
-#| msgid "Update frequency"
 msgid "Evaluation frequency"
-msgstr "更新頻率"
+msgstr "評估頻率"
 
 msgid "Disabled"
 msgstr "已停用"
@@ -49927,15 +49922,11 @@ msgstr "每週"
 msgid "Monthly"
 msgstr "每月"
 
-#, fuzzy
-#| msgid "Translation changed"
 msgid "Evaluate translation changes"
-msgstr "變更了翻譯"
+msgstr "翻譯變更時執行評估"
 
-#, fuzzy
-#| msgid "Remote repository updated"
 msgid "Evaluate repository updates"
-msgstr "遠端儲存庫已更新"
+msgstr "儲存庫更新時執行評估"
 
 #, fuzzy
 #| msgid ""
@@ -49951,7 +49942,7 @@ msgstr ""
 
 msgid ""
 "Evaluates existing translations using an LLM and records quality checks."
-msgstr ""
+msgstr "使用 LLM 評估既有翻譯，並記錄品質檢查結果。"
 
 msgid ""
 "This add-on evaluates existing translations using an LLM service configured "
@@ -50023,16 +50014,14 @@ msgid ""
 "uses the existing :ref:`addons-api` permissions and validation."
 msgstr ""
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "自動偵測"
+msgstr "自動化"
 
 msgid "Workflow"
 msgstr "工作流程"
 
 msgid "Enter an automation definition as YAML or JSON."
-msgstr ""
+msgstr "請以 YAML 或 JSON 格式輸入自動化定義。"
 
 #, fuzzy
 #| msgid ""
@@ -50049,10 +50038,8 @@ msgstr ""
 "update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
 "repository-post-remove`, :ref:`addon-event-repository-post-update`"
 
-#, fuzzy
-#| msgid "Supporting translators with definitions and context."
 msgid "Runs ordered translation operations with conditions and branches."
-msgstr "用定義和情境支援翻譯者。"
+msgstr "依序執行翻譯作業，並可設定條件和分支。"
 
 msgid ""
 "Install this add-on on a component, category, project, or site. Inherited "
@@ -50252,7 +50239,7 @@ msgstr "建置結果最長保留天數"
 msgid ""
 "Retires builds this many days after their first registration. Re-registering "
 "a build does not extend its age."
-msgstr ""
+msgstr "建置版本首次註冊後，經過這個天數就會淘汰。重新註冊不會延長其存留期限。"
 
 msgid "Maximum retained versions"
 msgstr "最多保留版本數"
@@ -50261,6 +50248,8 @@ msgid ""
 "Limits retained builds across all package names. A build is retired when "
 "either this limit or the maximum age is reached."
 msgstr ""
+"限制所有套件名稱合計可保留的建置版本數量。達到數量上限或最長存留期限時，建置"
+"版本就會退役。"
 
 #, fuzzy
 #| msgid ""
@@ -51055,43 +51044,29 @@ msgstr "需要編輯(需要重新撰寫)"
 msgid "Needs editing (Needs checking)"
 msgstr "需要編輯(需要檢查)"
 
-#, fuzzy
-#| msgid "Returns a list of all languages."
 msgid "Source flags to add — all languages"
-msgstr "返回所有語言的清單。"
+msgstr "要新增的來源旗標 — 所有語言"
 
-#, fuzzy
-#| msgid "Returns a list of all languages."
 msgid "Source flags to remove — all languages"
-msgstr "返回所有語言的清單。"
+msgstr "要移除的來源旗標 — 所有語言"
 
-#, fuzzy
-#| msgid "Translation flags to add"
 msgid "Translation flags to add — matching translations"
-msgstr "要加入的翻譯旗標"
+msgstr "要新增的翻譯旗標 — 符合條件的翻譯"
 
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Applies only to matching translations, excluding source strings."
-msgstr "用來源字串填充翻譯字串。"
+msgstr "只套用至符合條件的翻譯，不包含來源字串。"
 
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation flags to remove — matching translations"
-msgstr "要移除的翻譯旗標"
+msgstr "要移除的翻譯旗標 — 符合條件的翻譯"
 
 msgid "Removes locally set flags. Inherited flags remain in effect."
-msgstr ""
+msgstr "只會移除翻譯本身設定的旗標；繼承的旗標仍會生效。"
 
-#, fuzzy
-#| msgid "Returns a list of all languages."
 msgid "Labels to add — all languages"
-msgstr "返回所有語言的清單。"
+msgstr "要新增的標籤 — 所有語言"
 
-#, fuzzy
-#| msgid "Labels to remove"
 msgid "Labels to remove — all languages"
-msgstr "要移除的標籤"
+msgstr "要移除的標籤 — 所有語言"
 
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`"
@@ -53021,10 +52996,10 @@ msgstr ""
 "``ignore-accelerator`` 旗標略過該字串的檢查。"
 
 msgid "AI: Accuracy"
-msgstr ""
+msgstr "AI：準確度"
 
 msgid "The evaluation detected a change in meaning."
-msgstr ""
+msgstr "評估發現譯文改變了原意。"
 
 msgid "This check is always enabled but can be ignored using a flag."
 msgstr "此檢查一律啟用，但可以使用旗標略過。"
@@ -53036,34 +53011,28 @@ msgid ""
 msgstr ""
 
 msgid "AI: Fluency"
-msgstr ""
+msgstr "AI：流暢度"
 
 msgid "The evaluation detected a language quality issue."
-msgstr ""
+msgstr "評估發現語言品質有問題。"
 
-#, fuzzy
-#| msgid "Vue I18n formatting"
 msgid "AI: Formatting"
-msgstr "Vue I18n 格式"
+msgstr "AI：格式"
 
-#, fuzzy
-#| msgid "Translation is missing some placeholders."
 msgid "The evaluation detected a formatting or placeholder issue."
-msgstr "翻譯缺少一些佔位符號。"
+msgstr "評估發現格式或佔位符問題。"
 
 msgid "AI: Style"
-msgstr ""
+msgstr "AI：風格"
 
 msgid "The evaluation detected a style or instruction mismatch."
-msgstr ""
+msgstr "評估發現風格或指示不符。"
 
-#, fuzzy
-#| msgid "Terminology"
 msgid "AI: Terminology"
-msgstr "專有名詞"
+msgstr "AI：術語"
 
 msgid "The evaluation detected incorrect terminology."
-msgstr ""
+msgstr "評估發現術語使用不正確。"
 
 msgid "AsciiDoc markup"
 msgstr "AsciiDoc 標記"
@@ -55503,10 +55472,8 @@ msgstr "用於 iOS 字串檔案的編碼方式"
 msgid "xliff_placeables"
 msgstr "``xliff2``, ``xliff2-placeables``"
 
-#, fuzzy
-#| msgid "Weblate support"
 msgid "Placeables support"
-msgstr "Weblate 技術支援"
+msgstr "可置入項目支援"
 
 msgid ""
 "Controls whether inline XML elements inside XLIFF strings are preserved as "
@@ -55514,16 +55481,15 @@ msgid ""
 "content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
 "or <g> stay in the string and appear as placeholders in the editor"
 msgstr ""
+"控制是否將 XLIFF 字串中的內嵌 XML 元素保留為可編輯的可置入項目。「僅限純文字"
+"」會跳脫 XML 標記，並將內容視為一般文字。若支援可置入項目，<x id=\"name\" \\"
+"=\"\"> 或 </x>"
 
-#, fuzzy
-#| msgid "Plain text file"
 msgid "Plain text only"
-msgstr "純文字檔案"
+msgstr "僅限純文字"
 
-#, fuzzy
-#| msgid "Supported features"
 msgid "Support placeables"
-msgstr "支援的功能"
+msgstr "支援可置入項目"
 
 msgid "xml_closing_tags"
 msgstr "xml_closing_tags"
@@ -55534,25 +55500,26 @@ msgstr "包含空白 XML 標記的結束標記"
 msgid "xml_whitespace_handling"
 msgstr ""
 
-#, fuzzy
-#| msgid "Whitespace and newlines in XLIFF"
 msgid "Whitespace handling"
-msgstr "XLIFF 中的空白字元和新行符"
+msgstr "空白字元處理方式"
 
 msgid ""
 "Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
 "in the file. Always preserve keeps all whitespace. Always normalize "
 "collapses whitespace even when xml:space=\"preserve\" is set."
 msgstr ""
+"設定 XLIFF 空白字元的處理方式。「依照 xml:space」會遵循檔案中的屬性；「一律保"
+"留」會保留所有空白字元；「一律正規化」會合併空白字元，即使設定了 "
+"xml:space=\"preserve\" 也一樣。"
 
 msgid "Follow xml:space"
-msgstr ""
+msgstr "依照 xml:space"
 
 msgid "Always preserve"
-msgstr ""
+msgstr "一律保留"
 
 msgid "Always normalize"
-msgstr ""
+msgstr "一律正規化"
 
 msgid "yaml_indent"
 msgstr "yaml_indent"
