@@ -38,6 +38,7 @@ Weblate 2026.10
 * :ref:`TBX glossaries <tbx>` now support independent term alternatives and scoped metadata, preserved on export.
 * The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-weblate.gettext.meson>` add-ons now support bundled XML rules and project-local ITS directories.
 * Added :ref:`uploaded file language checking <upload-ignore_language>` with an override in the upload form and API.
+* Translation file uploads through the API accept form field content without a filename.
 * :ref:`Repository maintenance <repository-maintenance>` now checks permissions on the repository-owning component, links to VCS settings, and disables unavailable push controls.
 * :ref:`SSH repository connections <ssh-repos>` now try IPv4 and IPv6 addresses in a staggered sequence and report failed addresses and ports.
 * Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on configuration.
