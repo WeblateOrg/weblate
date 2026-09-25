@@ -40,9 +40,9 @@ from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.files import (
+    is_managed_vcs_metadata_path,
     is_path_within_resolved_directory,
     is_unsafe_path,
-    is_vcs_metadata_path,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage, prefetch_stats
 from weblate.vcs.git import LocalRepository
@@ -777,7 +777,9 @@ def _is_download_path(
     filename: str, root: str, allowed_roots: list[tuple[Path, Path]]
 ) -> bool:
     relative_filename = os.path.relpath(filename, root)
-    if is_unsafe_path(relative_filename) or is_vcs_metadata_path(relative_filename):
+    if is_unsafe_path(relative_filename) or is_managed_vcs_metadata_path(
+        relative_filename
+    ):
         return False
 
     containing_root = _get_containing_root(filename, allowed_roots)
@@ -794,7 +796,7 @@ def _is_download_path(
     return (
         is_path_within_resolved_directory(filename, resolved_root)
         and not is_unsafe_path(resolved_relative_filename)
-        and not is_vcs_metadata_path(resolved_relative_filename)
+        and not is_managed_vcs_metadata_path(resolved_relative_filename)
     )
 
 

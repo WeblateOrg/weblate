@@ -6,6 +6,7 @@ from __future__ import annotations
 import os
 import shutil
 import stat
+from bisect import bisect_left
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import TYPE_CHECKING
 
@@ -17,7 +18,7 @@ from django.utils.translation import gettext, gettext_lazy, ngettext
 from translation_finder.finder import EXCLUDES
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterable
 
     from django.core.files.base import File
 
@@ -33,8 +34,21 @@ CLIENT_DIR = os.path.join(BASE_DIR, "client")
 EXAMPLES_DIR = os.path.join(BASE_DIR, "weblate", "examples")
 
 PATH_EXCLUDES = [f"/{exclude.casefold()}/" for exclude in EXCLUDES]
-VCS_METADATA_DIRS = frozenset(
-    (".git", ".hg", ".svn", ".bzr", "cvs", "_darcs", "rcs", "sccs")
+MANAGED_VCS_METADATA_DIRS = frozenset((".git", ".hg"))
+ARCHIVE_VCS_METADATA_NAMES = frozenset(
+    (
+        ".git",
+        ".hg",
+        ".svn",
+        ".bzr",
+        "_darcs",
+        "_mtn",
+        ".pijul",
+        ".pc",
+        "_fossil_",
+        ".fslckout",
+        "bitkeeper",
+    )
 )
 REPO_TEMP_DIRNAME = "weblate-tmp"
 
@@ -102,11 +116,78 @@ def should_skip(location: str | os.PathLike[str]) -> bool:
 def is_excluded(path: str) -> bool:
     """Whether path should be excluded from zip extraction."""
     normalized = path.replace("\\", "/").casefold()
-    return (
-        any(exclude in f"/{normalized}/" for exclude in PATH_EXCLUDES)
-        or is_unsafe_path(path)
-        or is_vcs_metadata_path(path)
+    return any(
+        exclude in f"/{normalized}/" for exclude in PATH_EXCLUDES
+    ) or is_unsafe_path(path)
+
+
+def normalize_archive_path(path: str) -> str:
+    """Normalize an archive path for metadata comparisons."""
+    return PurePosixPath(path.replace("\\", "/").casefold()).as_posix()
+
+
+def get_archive_vcs_metadata_members(paths: Iterable[str]) -> frozenset[str]:
+    """Return known VCS metadata members from a working-tree archive."""
+    entries: set[str] = set()
+    metadata_roots: set[str] = set()
+    bitkeeper_parents: set[str] = set()
+
+    for path in paths:
+        normalized = normalize_archive_path(path)
+        entries.add(normalized)
+        parts = PurePosixPath(normalized).parts
+        for index, part in enumerate(parts):
+            # The first metadata root contains the remainder of this entry. Keeping
+            # only that root also bounds retained data independently of path depth.
+            if part in ARCHIVE_VCS_METADATA_NAMES:
+                metadata_roots.add("/".join(parts[: index + 1]))
+                if part == "bitkeeper":
+                    bitkeeper_parents.add("/".join(parts[:index]))
+                break
+            if part == "cvs" and index + 1 < len(parts):
+                if parts[index + 1] in {"entries", "root"}:
+                    metadata_roots.add("/".join(parts[: index + 1]))
+                    break
+            elif part == "cvsroot" and index + 1 < len(parts):
+                if parts[index + 1] in {"config", "loginfo", "modules", "passwd"}:
+                    metadata_roots.add("/".join(parts[: index + 1]))
+                    break
+            elif (part == "rcs" and parts[-1].endswith(",v")) or (
+                part == "sccs" and parts[-1].startswith("s.")
+            ):
+                metadata_roots.add("/".join(parts[: index + 1]))
+                break
+
+    metadata_roots.update(
+        f"{parent}/changeset" if parent else "changeset" for parent in bitkeeper_parents
     )
+
+    sorted_entries = sorted(entries)
+    excluded: set[str] = set()
+    ranges: list[tuple[int, int]] = []
+    for root in metadata_roots:
+        exact = bisect_left(sorted_entries, root)
+        if exact < len(sorted_entries) and sorted_entries[exact] == root:
+            excluded.add(root)
+
+        prefix = f"{root}/"
+        # Descendants form one lexical range between "root/" and "root0".
+        # Store ranges rather than a trie node and ancestor tuple per path segment.
+        start = bisect_left(sorted_entries, prefix)
+        end = bisect_left(sorted_entries, f"{root}0", lo=start)
+        if start < end:
+            ranges.append((start, end))
+
+    range_end = 0
+    for start, end in sorted(ranges):
+        if start > range_end:
+            excluded.update(sorted_entries[start:end])
+            range_end = end
+        elif end > range_end:
+            excluded.update(sorted_entries[range_end:end])
+            range_end = end
+
+    return frozenset(excluded)
 
 
 def is_unsafe_path(path: str) -> bool:
@@ -122,10 +203,15 @@ def is_unsafe_path(path: str) -> bool:
     )
 
 
-def is_vcs_metadata_path(path: str) -> bool:
-    """Whether path points to VCS metadata."""
+def is_managed_vcs_metadata_path(
+    path: str, metadata_dirs: Iterable[str] = MANAGED_VCS_METADATA_DIRS
+) -> bool:
+    """Whether path points to metadata used by a Weblate VCS backend."""
     normalized = path.replace("\\", "/").casefold()
-    return any(part in VCS_METADATA_DIRS for part in PurePosixPath(normalized).parts)
+    normalized_metadata_dirs = {name.casefold() for name in metadata_dirs}
+    return any(
+        part in normalized_metadata_dirs for part in PurePosixPath(normalized).parts
+    )
 
 
 def is_path_within_directory(

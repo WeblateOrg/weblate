@@ -53,7 +53,7 @@ Weblate 2026.10
 * Limited XLIFF language declarations in uploads and the number and size of translation alternatives to prevent resource exhaustion.
 * Enforced language-scoped screenshot permissions and restricted component access in translation consistency and automatic translation workflows.
 * Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
-* Unified case-insensitive exclusion of Git, Mercurial, Subversion, Bazaar, CVS, Darcs, RCS, and SCCS metadata during component ZIP imports, repository ZIP downloads, path processing, discovery, and filtered component copies.
+* Protected Git and Mercurial metadata consistently in repository paths and downloads, and excluded known foreign VCS metadata when importing component ZIP files.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
 
 .. rubric:: Bug fixes

@@ -48,7 +48,9 @@ from idna import encode as idna_encode
 from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error, report_message
 from weblate.utils.files import (
+    get_archive_vcs_metadata_members,
     is_excluded,
+    normalize_archive_path,
     remove_tree,
 )
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
@@ -66,6 +68,7 @@ from weblate.utils.zip import (
     ZipSafetyLimits,
     extract_zip_member,
     iter_safe_zip_members,
+    validate_zip_member_count,
     validate_zip_members,
 )
 from weblate.vcs.base import (
@@ -3641,11 +3644,18 @@ class LocalRepository(GitRepository):
     def from_zip(cls, target: str, zipfile: BinaryIO) -> Self:
         # Extract zip file content, ignoring some files
         with ZipFile(zipfile) as zipobj:
-
-            def skip_member(info: ZipInfo) -> bool:
-                return is_excluded(info.filename)
-
             try:
+                validate_zip_member_count(zipobj, limits=cls.ZIP_IMPORT_LIMITS)
+                vcs_metadata_members = get_archive_vcs_metadata_members(
+                    info.filename for info in zipobj.infolist()
+                )
+
+                def skip_member(info: ZipInfo) -> bool:
+                    normalized = normalize_archive_path(info.filename)
+                    return (
+                        is_excluded(info.filename) or normalized in vcs_metadata_members
+                    )
+
                 validate_zip_members(
                     zipobj,
                     limits=cls.ZIP_IMPORT_LIMITS,
