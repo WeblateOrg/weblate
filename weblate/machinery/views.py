@@ -486,7 +486,7 @@ def format_machinery_translations(
 def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=None):
     translation = unit.translation
     component = translation.component
-    source_translation = component.source_translation
+    source_translation = unit.effective_source_unit.translation
     if not request.user.has_perm("machinery.view", translation):
         raise PermissionDenied
 
@@ -556,7 +556,9 @@ async def translate(request: AuthenticatedHttpRequest, unit_id: int, service: st
     unit = await sync_to_async(get_machinery_unit)(request.user, unit_id)
     translation = await sync_to_async(lambda: unit.translation)()
     component = await sync_to_async(lambda: translation.component)()
-    source_translation = await sync_to_async(lambda: component.source_translation)()
+    source_translation = await sync_to_async(
+        lambda: unit.effective_source_unit.translation
+    )()
     if not await sync_to_async(request.user.has_perm)("machinery.view", translation):
         raise PermissionDenied
 

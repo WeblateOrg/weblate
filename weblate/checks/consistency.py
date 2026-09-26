@@ -43,8 +43,8 @@ class PluralsCheck(TargetCheck):
     def check_target_unit(
         self, sources: list[str], targets: list[str], unit: Unit
     ) -> bool:
-        # Is this plural?
-        if len(sources) == 1:
+        # Required target forms are independent of the effective source's forms.
+        if len(targets) <= 1:
             return False
         # Is at least something translated?
         if targets == len(targets) * [""]:
@@ -120,67 +120,94 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Translation, Unit
 
-        translation_ids_by_plural: dict[int, list[int]] = defaultdict(list)
-        for translation_id, plural_id in Translation.objects.filter(
+        custom_sources = bool(component.project.translation_parent_language_ids)
+        translation_groups: dict[tuple[int, int | None], list[int]] = defaultdict(list)
+        for translation_id, plural_id, source_language_id in Translation.objects.filter(
             component__project=component.project,
             component__allow_translation_propagation=True,
-        ).values_list("id", "plural_id"):
-            translation_ids_by_plural[plural_id].append(translation_id)
+        ).values_list("id", "plural_id", "component__source_language_id"):
+            # Effective source languages can vary within a translation. Canonical
+            # languages can be partitioned here without joining the aggregate query.
+            key = (plural_id, None if custom_sources else source_language_id)
+            translation_groups[key].append(translation_id)
 
-        # Aggregate each plural group separately to avoid joining translations
-        # and keep the aggregation state smaller on large projects.
+        fields = (
+            ("check_source", "context", "check_source_language")
+            if custom_sources
+            else ("id_hash", "check_source_language")
+        )
+        ordering = (
+            (*fields, "plural_id")
+            if custom_sources
+            else ("id_hash", "plural_id", "check_source_language")
+        )
+        # Aggregate each plural group separately to keep the aggregation state
+        # smaller. Ordinary projects need no translation or component joins.
         queries = []
-        for plural_id, translation_ids in translation_ids_by_plural.items():
-            # A single translation cannot have different targets for one id_hash.
-            if len(translation_ids) < 2:
+        for (
+            plural_id,
+            group_source_language_id,
+        ), translation_ids in translation_groups.items():
+            # Custom parents can give distinct canonical identities the same
+            # source even within a single translation.
+            if not custom_sources and len(translation_ids) < 2:
                 continue
+            units = Unit.objects.exclude_blocked(custom_sources=custom_sources).filter(
+                translation_id__in=translation_ids
+            )
+            if custom_sources:
+                units = units.with_effective_source()
+            else:
+                units = units.annotate(
+                    check_source_language=Value(group_source_language_id)
+                )
             queries.append(
-                Unit.objects.filter(translation_id__in=translation_ids)
-                .values("id_hash")
+                units.values(*fields)
                 .annotate(
                     plural_id=Value(plural_id),
                     min_target=Min("target"),
                     max_target=Max("target"),
                 )
                 .filter(min_target__lt=F("max_target"))
-                .order_by("id_hash")[:100]
+                .order_by(*ordering)[:100]
             )
 
         if not queries:
             return []
 
-        # Preserve the global limit and ordering across plural groups. A group's
-        # first 100 matches contain all its possible matches in the global top 100.
+        # A group's first 100 matches contain all its possible matches in the
+        # global top 100. Keep that global limit and deterministic ordering.
         matches = queries[0]
         if len(queries) > 1:
-            matches = matches.union(*queries[1:], all=True).order_by(
-                "id_hash", "plural_id"
-            )[:100]
-
+            matches = matches.union(*queries[1:], all=True).order_by(*ordering)[:100]
         if not matches:
             return []
 
-        id_hashes_by_plural: dict[int, list[int]] = defaultdict(list)
-        for match in matches:
-            id_hashes_by_plural[match["plural_id"]].append(match["id_hash"])
-
-        return (
-            Unit.objects.filter(
-                reduce(
-                    lambda query, item: (
-                        query
-                        | Q(
-                            translation_id__in=translation_ids_by_plural[item[0]],
-                            id_hash__in=item[1],
-                        )
-                    ),
-                    id_hashes_by_plural.items(),
-                    Q(),
+        query = Q()
+        if custom_sources:
+            for match in matches:
+                query |= Q(
+                    translation_id__in=translation_groups[match["plural_id"], None],
+                    **{field: match[field] for field in fields},
                 )
+            return (
+                Unit.objects.exclude_blocked()
+                .with_effective_source()
+                .filter(query)
+                .prefetch()
+                .prefetch_bulk()
             )
-            .prefetch()
-            .prefetch_bulk()
-        )
+
+        id_hashes_by_group: dict[tuple[int, int], list[int]] = defaultdict(list)
+        for match in matches:
+            id_hashes_by_group[
+                match["plural_id"], match["check_source_language"]
+            ].append(match["id_hash"])
+        for key, id_hashes in id_hashes_by_group.items():
+            query |= Q(
+                translation_id__in=translation_groups[key], id_hash__in=id_hashes
+            )
+        return Unit.objects.filter(query).prefetch().prefetch_bulk()
 
 
 class ReusedCheck(TargetCheck, BatchCheckMixin):
@@ -226,7 +253,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
 
         other_sources = (
             Unit.objects.same_target(check_obj.unit)
-            .values_list("source", flat=True)
+            .values_list(F("check_source"), flat=True)
             .distinct()
         )
 
@@ -248,20 +275,25 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Unit
 
-        units = Unit.objects.filter(
+        custom_sources = bool(component.project.translation_parent_language_ids)
+        units = Unit.objects.exclude_blocked(custom_sources=custom_sources).filter(
             translation__component__project=component.project,
             translation__component__allow_translation_propagation=True,
             state__gte=STATE_TRANSLATED,
         )
         # Lower has no effect here, but we want to utilize index
-        units = units.exclude(target__lower__md5=MD5(Value("")))
+        source_units = units.with_effective_source(
+            custom_sources=custom_sources
+        ).exclude(target__lower__md5=MD5(Value("")))
 
         # List strings with different sources
         # Limit this to 20 strings, otherwise the resulting query is too slow
         # Use ordering to make the limit deterministic
         matches = (
-            units.values("target", "translation__plural_id")
-            .annotate(source__count=Count("source", distinct=True))
+            source_units.values(
+                "target", "translation__plural_id", "check_source_language"
+            )
+            .annotate(source__count=Count("check_source", distinct=True))
             .filter(source__count__gt=1)
             .order_by("target__lower__md5")[:20]
         )
@@ -270,7 +302,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             return
 
         result = (
-            units.filter(
+            source_units.filter(
                 reduce(
                     lambda x, y: (
                         x
@@ -278,6 +310,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
                             Q(target__lower__md5=MD5(Lower(Value(y["target"]))))
                             & Q(target=y["target"])
                             & Q(translation__plural_id=y["translation__plural_id"])
+                            & Q(check_source_language=y["check_source_language"])
                         )
                     ),
                     matches,
@@ -289,12 +322,16 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         )
 
         # Filter out case differing source for case insensitive languages
-        found: dict[tuple[str, str], set[str]] = defaultdict(set)
-        remaining: list[tuple[str, Unit]] = []
+        found: dict[tuple[int, int, str], set[str]] = defaultdict(set)
+        remaining: list[tuple[tuple[int, int, str], Unit]] = []
         for unit in result:
             if not unit.translation.language.is_case_sensitive():
-                key = (unit.translation.language.code, unit.target)
-                lower_source = unit.source.lower()
+                key = (
+                    unit.translation.plural_id,
+                    unit.effective_source_language.pk,
+                    unit.target,
+                )
+                lower_source = unit.effective_source.lower()
                 found[key].add(lower_source)
                 remaining.append((key, unit))
             else:
@@ -323,7 +360,9 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
 
     def get_description(self, check_obj):
         unit = check_obj.unit
-        target = self.check_target_unit(unit.source, unit.target, unit)
+        target = self.check_target_unit(
+            unit.get_effective_source_plurals(), unit.get_target_plurals(), unit
+        )
         if not target:
             return super().get_description(check_obj)
         return gettext('Previous translation was "%s".') % target
@@ -370,7 +409,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
 
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
         target = self.check_target_unit(
-            unit.get_source_plurals(), unit.get_target_plurals(), unit
+            unit.get_effective_source_plurals(), unit.get_target_plurals(), unit
         )
         if not target:
             return None

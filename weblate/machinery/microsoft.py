@@ -206,9 +206,9 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
             if "forbidden" in term.all_flags or not term.target:
                 continue
             positions = term.glossary_positions
-            if unit.is_multivalue and text != unit.source:
+            if unit.is_multivalue and text != unit.effective_source:
                 pattern = re.escape(term.source)
-                if unit.translation.component.source_language.uses_whitespace():
+                if unit.effective_source_language.uses_whitespace():
                     pattern = rf"(?<!\w){pattern}(?!\w)"
                 positions = tuple(
                     match.span() for match in re.finditer(pattern, text, re.IGNORECASE)

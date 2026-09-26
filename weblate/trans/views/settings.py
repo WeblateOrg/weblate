@@ -167,19 +167,25 @@ def change_project_language(request: AuthenticatedHttpRequest, obj):
 
     if request.method == "POST":
         settings_form = WorkflowSettingForm(
-            request.POST, instance=instance, project=obj.project
+            request.POST, instance=instance, project=obj.project, language=obj.language
         )
         if settings_form.is_valid():
             settings_form.instance.project = obj.project
             settings_form.instance.language = obj.language
-            settings_form.save()
-            messages.success(request, gettext("Settings saved"))
-            return redirect("settings", path=obj.get_url_path())
+            try:
+                settings_form.save()
+            except ValidationError as error:
+                settings_form.add_error(None, error)
+            else:
+                messages.success(request, gettext("Settings saved"))
+                return redirect("settings", path=obj.get_url_path())
         messages.error(
             request, gettext("Invalid settings. Please check the form for errors.")
         )
     else:
-        settings_form = WorkflowSettingForm(instance=instance, project=obj.project)
+        settings_form = WorkflowSettingForm(
+            instance=instance, project=obj.project, language=obj.language
+        )
 
     return render(
         request,

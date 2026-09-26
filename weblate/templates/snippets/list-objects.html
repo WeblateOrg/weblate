@@ -343,6 +343,9 @@
                 </a>
               {% endif %}
               {% indicate_alerts object %}
+              {% if object.component and not object.is_source and object.workflow_settings.source_language_id %}
+                <span class="badge text-bg-secondary">{% blocktranslate with language=object.effective_source_language %}Source: {{ language }}{% endblocktranslate %}</span>
+              {% endif %}
               {% if custom_workflows and object.pk in custom_workflows %}
                 <span class="badge text-bg-secondary">{% translate "Customized workflow" %}</span>
               {% endif %}

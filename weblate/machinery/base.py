@@ -635,9 +635,14 @@ class BatchMachineTranslation(DocVersionsMixin):
         return hash_to_checksum(calculate_hash(tsv)) if tsv else ""
 
     def get_glossary_cache_part(self, unit: Unit) -> str:
-        # ruff: ignore[import-outside-top-level]
-        from weblate.glossary.models import get_glossary_tsv
+        from weblate.glossary.models import get_glossary_tsv  # ruff: ignore[import-outside-top-level]
 
+        if self.uses_custom_source(unit):
+            return self.tsv_checksum(
+                get_glossary_tsv(
+                    unit.translation, source_language=unit.effective_source_language
+                )
+            )
         return self.tsv_checksum(get_glossary_tsv(unit.translation))
 
     def get_uncached_pending_key(self, index: int, text: str, unit: Unit | None) -> str:
@@ -698,7 +703,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         translation = unit.translation
         try:
             source_language, target_language = self.get_languages(
-                translation.component.source_language, translation.language
+                unit.effective_source_language, translation.language
             )
         except UnsupportedLanguageError:
             unit.translation.log_debug(
@@ -751,6 +756,19 @@ class BatchMachineTranslation(DocVersionsMixin):
 
         return self.get_default_source_language(translation)
 
+    def uses_custom_source(self, unit: Unit) -> bool:
+        """Apply the workflow source only when machinery selects its source automatically."""
+        return (
+            unit.translation_parent_id is not None
+            and self.settings.get("source_language", SourceLanguageChoices.AUTO)
+            == SourceLanguageChoices.AUTO
+        )
+
+    def get_unit_source_language(self, unit: Unit) -> Language:
+        if self.uses_custom_source(unit):
+            return unit.effective_source_language
+        return self.get_source_language(unit.translation)
+
     def _prepare_translate(
         self,
         unit: Unit,
@@ -759,8 +777,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     ):
         translation = unit.translation
         if source_language is None:
-            # Fall back to component source language
-            source_language = self.get_source_language(translation)
+            source_language = self.get_unit_source_language(unit)
         translating_from_source: bool = (
             translation.component.source_language == source_language
         )
@@ -780,7 +797,12 @@ class BatchMachineTranslation(DocVersionsMixin):
 
         self.account_usage(translation.component.project)
 
-        source_plural = source_language.plural
+        source_plural = (
+            unit.effective_source_plural
+            if unit.translation_parent_id
+            and source_language == unit.effective_source_language
+            else source_language.plural
+        )
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
         alternate_units: dict[int, Unit] | None = None
@@ -1225,9 +1247,27 @@ class BatchMachineTranslation(DocVersionsMixin):
         except IndexError:
             return
 
+        if source_language is None and any(
+            self.uses_custom_source(unit) for unit in units
+        ):
+            # Alternate-unit lookup and plural mapping are translation-specific.
+            # Keep canonical fallbacks separate from custom sources as well.
+            groups: dict[tuple[int, Language, int], list[Unit]] = {}
+            for unit in units:
+                key = (
+                    unit.translation_id,
+                    unit.effective_source_language,
+                    unit.effective_source_plural.pk,
+                )
+                groups.setdefault(key, []).append(unit)
+            for (_, group_language, _), group in groups.items():
+                self.batch_translate(
+                    group, user, threshold, source_language=group_language
+                )
+            return
+
         if source_language is None:
-            # Fall back to component source language
-            source_language = self.get_source_language(translation)
+            source_language = self.get_unit_source_language(units[0])
 
         translating_from_source: bool = (
             translation.component.source_language == source_language
@@ -1238,7 +1278,12 @@ class BatchMachineTranslation(DocVersionsMixin):
         except UnsupportedLanguageError:
             return
 
-        source_plural = source_language.plural
+        source_plural = (
+            units[0].effective_source_plural
+            if units[0].translation_parent_id
+            and source_language == units[0].effective_source_language
+            else source_language.plural
+        )
         target_plural = translation.plural
         plural_mapper = PluralMapper(source_plural, target_plural)
         alternate_units: dict[int, Unit] | None = None
@@ -1501,12 +1546,22 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     def get_glossary_count_limit(self) -> int:
         return self.glossary_count_limit
 
+    def get_glossary_tsv(self, source_language: str, unit: Unit) -> str:
+        from weblate.glossary.models import get_glossary_tsv  # ruff: ignore[import-outside-top-level]
+
+        if (
+            self.uses_custom_source(unit)
+            and self.map_language_code(unit.effective_source_language.code)
+            == source_language
+        ):
+            return get_glossary_tsv(
+                unit.translation, source_language=unit.effective_source_language
+            )
+        return get_glossary_tsv(unit.translation)
+
     def get_glossary_id(
         self, source_language: str, target_language: str, unit: Unit | None
     ) -> str | None:
-        # ruff: ignore[import-outside-top-level]
-        from weblate.glossary.models import get_glossary_tsv
-
         if unit is None:
             return None
 
@@ -1517,7 +1572,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
             return None
 
         # Check if there is a glossary
-        glossary_tsv = get_glossary_tsv(translation)
+        glossary_tsv = self.get_glossary_tsv(source_language, unit)
         if not glossary_tsv:
             return None
 

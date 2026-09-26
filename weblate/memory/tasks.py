@@ -18,7 +18,7 @@ from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory, MemoryScope, MemoryScopeMigrationState
 from weblate.memory.utils import is_valid_memory_entry
 from weblate.utils.celery import app
-from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_NEEDS_REWRITING, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from celery import Celery
@@ -99,7 +99,9 @@ def import_memory(project_id: int, component_id: int | None = None) -> None:
                 units = units.exclude(
                     translation__language_id=component.source_language_id
                 )
-            for unit in units.prefetch_related("translation", "translation__language"):
+            for unit in units.prefetch_translation_parent().prefetch_related(
+                "translation__language",
+            ):
                 payload = get_unit_memory_update(unit, None, component, project)
                 if payload is not None:
                     payloads.append(payload)
@@ -138,9 +140,16 @@ def get_unit_memory_update(
         user_id = user.id
         add_user = user.profile.contribute_personal_tm
 
-    source_language: Language = get_machinery_language(component.source_language)
+    if unit.translation_parent_id:
+        snapshot = unit.source_snapshot
+        source_language = get_machinery_language(snapshot.language)
+        source = snapshot.text
+    else:
+        source_language = get_machinery_language(
+            unit.translation.component.source_language
+        )
+        source = unit.source
     target_language: Language = get_machinery_language(unit.translation.language)
-    source = unit.source
     target = unit.target
     origin = component.full_slug
 
@@ -161,7 +170,9 @@ def get_unit_memory_update(
         "component_id": component.id,
         "add_project": component.contribute_project_tm,
         "add_user": add_user,
-        "unit_state": unit.state,
+        "unit_state": STATE_NEEDS_REWRITING
+        if unit.translation_parent_blocked
+        else unit.state,
         "context": unit.context or "",
     }
 

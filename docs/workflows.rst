@@ -25,7 +25,7 @@ Site-wide workflow customization can be done while :ref:`changing-languages`.
 
 Per-project customization can be done on each language page of the project.
 
-All workflow settings can be overridden, the only limitation is that
+Review and suggestion settings can be overridden, the only limitation is that
 :ref:`project-translation_review` needs to be turned on and can only be
 disabled in the per-language customization.
 
@@ -39,6 +39,38 @@ The first existing setting applies:
 
    Please be careful when using site-wide override as that applies to all
    projects (unless they have own overrides for a given language).
+
+.. _workflow-source-language:
+
+Custom source language
+++++++++++++++++++++++
+
+Select :guilabel:`Source language` in a project's language workflow settings to
+translate from another language in the same project. For example, you can
+translate a regional language variant from its parent language. Leave the
+selection empty to use the component's source language.
+
+The selected language's translation is displayed as the source in the editor
+and used for translation checks, automatic translation, and translation memory.
+The original source strings and file identifiers remain unchanged.
+
+Changing a parent translation marks its translated children as needing editing.
+Children are read-only while their parent is untranslated or needs editing,
+including when reviews are disabled. A parent that is translated (waiting for
+review) or approved permits editing. This restriction also applies through
+multiple levels of parent languages. Languages cannot depend on themselves or
+form a cycle.
+
+If a component lacks the selected language or a matching string, Weblate uses
+the component source for that string. Removing a parent preserves child
+translations and switches them to the component source. The setting is retained
+so that adding the parent again restores the relationship. Changing the effective
+source text during either switch marks translated children as needing editing.
+Moving a component applies the destination project's workflow settings.
+
+This setting can only be configured per project and language. Existing
+:ref:`intermediate language <component-intermediate>` configuration continues to
+control the component source.
 
 .. _workflow-language-restrictions:
 

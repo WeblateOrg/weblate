@@ -2918,6 +2918,10 @@ and XLIFF.
     :>json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :>json string web_url: URL where the unit can be edited
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+    :>json string translation_parent: Read-only link to the configured parent unit, or null when using the component source; see :ref:`workflow-source-language`
+    :>json array effective_source: Read-only source text used for translation, including plural forms. The existing ``source`` field continues to contain the canonical file source.
+    :>json array effective_previous_source: Read-only previous source text shown before an effective-source change, including plural forms. The existing ``previous_source`` field retains the canonical file-source value.
+    :>json string effective_source_language: Read-only language code of the effective source, including per-string fallback to the component source
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
     :>json timestamp last_updated: last string update

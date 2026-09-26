@@ -279,13 +279,14 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
     def build_evaluation_request(self, units: list[Unit]) -> tuple[str, str]:
         translation = units[0].translation
-        source_language = translation.component.source_language.code
+        snapshot = units[0].source_snapshot
+        source_language = snapshot.language_code
         target_language = translation.language.code
         fetch_glossary_terms(units, include_variants=False)
         inputs = []
         for unit in units:
             strings = []
-            for index, source in enumerate(unit.get_source_plurals()):
+            for index, source in enumerate(unit.get_effective_source_plurals()):
                 context_source, _specs = self._cleanup_source_variant(source, unit)
                 context = self._get_string_context(
                     context_source,
@@ -305,13 +306,11 @@ class BaseLLMTranslation(BatchMachineTranslation):
         payload = {
             "source_language": source_language,
             "target_language": target_language,
-            "source_language_name": self._get_language_name(
-                translation.component.source_language
-            ),
+            "source_language_name": self._get_language_name(snapshot.language),
             "target_language_name": self._get_language_name(translation.language),
             "units": inputs,
             "glossary": self._get_glossary_entries(units),
-            "source_plural_formula": translation.component.source_translation.plural.plural_form,
+            "source_plural_formula": snapshot.plural.plural_form,
             "target_plural_formula": translation.plural.plural_form,
         }
         prompt = "\n\n".join(
@@ -341,6 +340,14 @@ class BaseLLMTranslation(BatchMachineTranslation):
         ):
             msg = "Evaluation requires a batch of distinct saved units from one translation."
             raise ValueError(msg)
+        groups: dict[int, list[Unit]] = {}
+        for unit in units:
+            groups.setdefault(unit.effective_source_language.pk, []).append(unit)
+        if len(groups) > 1:
+            results = {}
+            for group in groups.values():
+                results.update(self.evaluate_batch(group))
+            return results
         started_cache = self._ensure_secondary_context_cache()
         try:
             prompt, content = self.build_evaluation_request(units)
@@ -633,6 +640,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         if not unit.translated and "read-only" not in flags:
             return None
 
+        # The iterator has already expanded this unit into a source/target pair.
         source = cleanup_glossary_term(unit.source)
         target = source if "read-only" in flags else cleanup_glossary_term(unit.target)
         if not source or not target:
@@ -794,7 +802,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def _find_plural_indexes(cls, source_text: str, unit: Unit) -> list[int]:
         for source_variants in (
             getattr(unit, "plural_map", ()),
-            unit.get_source_plurals(),
+            unit.get_effective_source_plurals(),
         ):
             result: list[int] = []
             for index, source_variant in enumerate(source_variants):
@@ -830,7 +838,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         plural_map = getattr(unit, "plural_map", ())
         if unit.is_multivalue or unit.has_multiple_values(list(plural_map), []):
             return None
-        source_plurals = unit.get_source_plurals()
+        source_plurals = unit.get_effective_source_plurals()
         if not (
             getattr(unit, "is_plural", False)
             or len(source_plurals) > 1
@@ -881,7 +889,9 @@ class BaseLLMTranslation(BatchMachineTranslation):
                     getattr(component, "project", None), "secondary_language", None
                 ),
             )
+        effective_language = getattr(unit, "effective_source_language", None)
         candidates = (
+            effective_language,
             getattr(component, "source_language", None),
             *secondary_candidates,
             getattr(translation, "language", None),
@@ -894,6 +904,10 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 and getattr(language, "code", None) != language_code
             ):
                 continue
+            if language is effective_language:
+                plural = getattr(unit, "effective_source_plural", None)
+                if plural is not None:
+                    return plural
             return getattr(language, "plural", None)
 
         return getattr(getattr(component, "source_language", None), "plural", None)
@@ -1062,7 +1076,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return ()
 
         plural_map = getattr(unit, "plural_map", ())
-        source_plurals = unit.get_source_plurals()
+        source_plurals = unit.get_effective_source_plurals()
         if not (
             getattr(unit, "is_plural", False)
             or len(source_plurals) > 1
@@ -1189,6 +1203,14 @@ class BaseLLMTranslation(BatchMachineTranslation):
             if source_plural is not None and target_plural is not None:
                 return PluralMapper(source_plural, target_plural).map(unit)
             return unit.get_source_plurals()
+
+        parent = getattr(unit, "translation_parent", None)
+        if parent is not None and parent.translation.language.code == source_language:
+            if target_plural is None:
+                return parent.get_target_plurals()
+            return PluralMapper(parent.translation.plural, target_plural).map(
+                unit, parent
+            )
 
         secondary_language = cls._get_effective_secondary_language(component)
         if getattr(secondary_language, "code", None) != source_language:
@@ -1716,7 +1738,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
             return [] if not source_placeholders else None
 
         source_variants = dict.fromkeys(
-            chain(getattr(unit, "plural_map", ()), unit.get_source_plurals())
+            chain(getattr(unit, "plural_map", ()), unit.get_effective_source_plurals())
         )
         matching_specs: list[list[tuple[str, Highlight]]] = []
         for source_variant in source_variants:

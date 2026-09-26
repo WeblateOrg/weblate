@@ -138,17 +138,30 @@ class BooleanOperatorParserTest(TestCase):
         )
 
 
+def source_query(**lookup: str) -> Q:
+    """Build the expected lookup against a parent target or canonical fallback."""
+    return (Q(translation_parent__isnull=True) & Q(**lookup)) | (
+        Q(translation_parent__isnull=False)
+        & Q(
+            **{
+                key.replace("source__", "translation_parent__target__"): value
+                for key, value in lookup.items()
+            }
+        )
+    )
+
+
 class UnitQueryParserTest(SearchTestCase):
     def test_simple(self) -> None:
         self.assert_query(
             "hello world",
             (
-                Q(source__substring="hello")
+                source_query(source__substring="hello")
                 | Q(target__substring="hello")
                 | Q(context__substring="hello")
             )
             & (
-                Q(source__substring="world")
+                source_query(source__substring="world")
                 | Q(target__substring="world")
                 | Q(context__substring="world")
             ),
@@ -156,7 +169,7 @@ class UnitQueryParserTest(SearchTestCase):
 
     def test_quote(self) -> None:
         expected = (
-            Q(source__substring="hello world")
+            source_query(source__substring="hello world")
             | Q(target__substring="hello world")
             | Q(context__substring="hello world")
         )
@@ -208,36 +221,44 @@ class UnitQueryParserTest(SearchTestCase):
     def test_field(self) -> None:
         self.assert_query(
             "source:hello target:world",
-            Q(source__substring="hello") & Q(target__substring="world"),
+            source_query(source__substring="hello") & Q(target__substring="world"),
         )
         self.assert_query("location:hello.c", Q(location__substring="hello.c"))
 
     def test_exact(self) -> None:
-        self.assert_query("source:='hello'", Q(source__exact="hello"))
-        self.assert_query('source:="hello world"', Q(source__exact="hello world"))
-        self.assert_query("source:='hello world'", Q(source__exact="hello world"))
-        self.assert_query("source:=hello", Q(source__exact="hello"))
+        self.assert_query("source:='hello'", source_query(source__exact="hello"))
+        self.assert_query(
+            'source:="hello world"', source_query(source__exact="hello world")
+        )
+        self.assert_query(
+            "source:='hello world'", source_query(source__exact="hello world")
+        )
+        self.assert_query("source:=hello", source_query(source__exact="hello"))
 
     def test_regex(self) -> None:
-        self.assert_query('source:r"^hello"', Q(source__trgm_regex="^hello"))
+        self.assert_query('source:r"^hello"', source_query(source__trgm_regex="^hello"))
         # Invalid regex
         with self.assertRaises(SearchQueryError):
-            self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
+            self.assert_query(
+                'source:r"^(hello"', source_query(source__trgm_regex="^(hello")
+            )
         # Not supported regex on PostgreSQL
         with self.assertRaises(SearchQueryError):
             self.assert_query(
-                'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+                'source:r"^(?i)hello"', source_query(source__trgm_regex="^(?i)hello")
             )
-        self.assert_query('source:r"(?i)^hello"', Q(source__trgm_regex="(?i)^hello"))
+        self.assert_query(
+            'source:r"(?i)^hello"', source_query(source__trgm_regex="(?i)^hello")
+        )
 
     def test_logic(self) -> None:
         self.assert_query(
             "source:hello AND NOT target:world",
-            Q(source__substring="hello") & ~Q(target__substring="world"),
+            source_query(source__substring="hello") & ~Q(target__substring="world"),
         )
         self.assert_query(
             "source:hello OR target:world",
-            Q(source__substring="hello") | Q(target__substring="world"),
+            source_query(source__substring="hello") | Q(target__substring="world"),
         )
 
     def test_empty(self) -> None:
@@ -383,12 +404,18 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "state:translated AND ( source:hello OR source:bar )",
             Q(state=STATE_TRANSLATED)
-            & (Q(source__substring="hello") | Q(source__substring="bar")),
+            & (
+                source_query(source__substring="hello")
+                | source_query(source__substring="bar")
+            ),
         )
         self.assert_query(
             "state:translated AND (source:hello OR source:bar)",
             Q(state=STATE_TRANSLATED)
-            & (Q(source__substring="hello") | Q(source__substring="bar")),
+            & (
+                source_query(source__substring="hello")
+                | source_query(source__substring="bar")
+            ),
         )
 
     def test_priorities(self) -> None:
@@ -464,7 +491,7 @@ class UnitQueryParserTest(SearchTestCase):
     def test_html(self) -> None:
         self.assert_query(
             "<b>bold</b>",
-            Q(source__substring="<b>bold</b>")
+            source_query(source__substring="<b>bold</b>")
             | Q(target__substring="<b>bold</b>")
             | Q(context__substring="<b>bold</b>"),
         )
@@ -616,17 +643,17 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "[one to other]",
             (
-                Q(source__substring="[one")
+                source_query(source__substring="[one")
                 | Q(target__substring="[one")
                 | Q(context__substring="[one")
             )
             & (
-                Q(source__substring="to")
+                source_query(source__substring="to")
                 | Q(target__substring="to")
                 | Q(context__substring="to")
             )
             & (
-                Q(source__substring="other]")
+                source_query(source__substring="other]")
                 | Q(target__substring="other]")
                 | Q(context__substring="other]")
             ),
@@ -718,12 +745,12 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query(
             "to %{_topdir}",
             (
-                Q(source__substring="to")
+                source_query(source__substring="to")
                 | Q(target__substring="to")
                 | Q(context__substring="to")
             )
             & (
-                Q(source__substring="%{_topdir}")
+                source_query(source__substring="%{_topdir}")
                 | Q(target__substring="%{_topdir}")
                 | Q(context__substring="%{_topdir}")
             ),

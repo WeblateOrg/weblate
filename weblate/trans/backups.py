@@ -2405,6 +2405,11 @@ class ProjectBackup:
         if not component.is_repo_link:
             component.configure_repo(pull=False)
 
+        from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+        # Restored unit metadata can refer to workflows absent from the new project.
+        reconcile_component_parents(component)
+
         changes.append(
             Change(
                 component=component,

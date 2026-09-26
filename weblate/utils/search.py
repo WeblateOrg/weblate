@@ -685,6 +685,65 @@ class UnitTermExpr(BaseTermExpr):
         "source_comment_author": "source_unit__comment__user__username",
     }
 
+    def source_field(self, text: str | RegexExpr, context: dict) -> Q:
+        canonical = self.build_field_query("source", text)
+        project = context.get("project")
+        if project is not None and not project.translation_parent_language_ids:
+            return canonical
+        parent = self.build_field_query(
+            "target",
+            text,
+            lambda field, suffix: (
+                "translation_parent__" + self.field_name(field, suffix)
+            ),
+        )
+        return (Q(translation_parent__isnull=True) & canonical) | (
+            Q(translation_parent__isnull=False) & parent
+        )
+
+    def source_comments_query(
+        self,
+        context: dict,
+        *,
+        text: str | RegexExpr | None = None,
+        resolved: bool | None = None,
+        author: bool = False,
+    ) -> Q:
+        relations = ["source_unit"]
+        project = context.get("project")
+        if project is None or project.translation_parent_language_ids:
+            relations.append("translation_parent")
+        result = Q()
+        for relation in relations:
+            query = Q()
+            if text is not None:
+
+                def field_name(
+                    field: str, suffix: str | None, relation: str = relation
+                ) -> str:
+                    return self.field_name(field, suffix).replace(
+                        "source_unit__", f"{relation}__"
+                    )
+
+                query = self.build_field_query(
+                    "source_comment_author" if author else "source_comment",
+                    text,
+                    field_name,
+                )
+            if resolved is not None:
+                query &= Q(**{f"{relation}__comment__resolved": resolved})
+            result |= query
+        return result
+
+    def source_comment_field(self, text: str | RegexExpr, context: dict) -> Q:
+        return self.source_comments_query(context, text=text, resolved=False)
+
+    def resolved_source_comment_field(self, text: str | RegexExpr, context: dict) -> Q:
+        return self.source_comments_query(context, text=text, resolved=True)
+
+    def source_comment_author_field(self, text: str | RegexExpr, context: dict) -> Q:
+        return self.source_comments_query(context, text=text, author=True)
+
     def change_field_name(self, field: str, suffix: str | None = None) -> str:
         if suffix is None:
             suffix = OPERATOR_MAP[self.operator]
@@ -761,9 +820,9 @@ class UnitTermExpr(BaseTermExpr):
         if text in {"resolved-comment", "resolved_comment"}:
             return Q(comment__resolved=True)
         if text in {"source-comment", "source_comment"}:
-            return Q(source_unit__comment__resolved=False)
+            return self.source_comments_query(context, resolved=False)
         if text in {"resolved-source-comment", "resolved_source_comment"}:
-            return Q(source_unit__comment__resolved=True)
+            return self.source_comments_query(context, resolved=True)
         if text in {"check", "failing-check", "failing_check"}:
             return Q(check__dismissed=False)
         if text in {
@@ -791,24 +850,29 @@ class UnitTermExpr(BaseTermExpr):
         if text == "flags":
             return ~Q(source_unit__extra_flags="")
         if text == "glossary":
-            project = context.get("project")
-            if not project:
-                return Q(source__isnull=True)
-            terms = set(
-                chain.from_iterable(
-                    glossary.glossary_sources for glossary in project.glossaries
-                )
-            )
-            if not terms:
-                return Q(source__isnull=True)
-            template = r"[[:<:]]({})[[:>:]]"
-            return Q(
-                source__iregex=template.format(
-                    "|".join(re_escape(term) for term in terms)
-                )
-            )
+            return self.glossary_query(context)
 
         return super().has_field(text, context)
+
+    def glossary_query(self, context: dict) -> Q:
+        project = context.get("project")
+        if not project:
+            return Q(source__isnull=True)
+        terms = set(
+            chain.from_iterable(
+                glossary.glossary_sources for glossary in project.glossaries
+            )
+        )
+        if not terms:
+            return Q(source__isnull=True)
+        template = r"[[:<:]]({})[[:>:]]"
+        pattern = template.format("|".join(re_escape(term) for term in terms))
+        canonical = Q(source__iregex=pattern)
+        if not project.translation_parent_language_ids:
+            return canonical
+        return (Q(translation_parent__isnull=True) & canonical) | Q(
+            translation_parent__target__iregex=pattern
+        )
 
     def convert_source_state(self, text: str) -> int | None:
         return self.convert_state(text)
@@ -963,16 +1027,12 @@ class UnitTermExpr(BaseTermExpr):
             return query & Q(comment__resolved=False)
         if field == "resolved_comment":
             return query & Q(comment__resolved=True)
-        if field == "source_comment":
-            return query & Q(source_unit__comment__resolved=False)
-        if field == "resolved_source_comment":
-            return query & Q(source_unit__comment__resolved=True)
 
         return super().field_extra(field, query, match)
 
     def convert_non_field(self) -> Q:
         return (
-            Q(source__substring=self.match)
+            self.source_field(self.match, {})
             | Q(target__substring=self.match)
             | Q(context__substring=self.match)
         )

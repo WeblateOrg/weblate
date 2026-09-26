@@ -210,7 +210,7 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
             PluralMapper,
         )
 
-        source_plural = unit.translation.component.source_language.plural
+        source_plural = unit.effective_source_plural
         target_plural = unit.translation.plural
         if len(sources) != source_plural.number or len(targets) != target_plural.number:
             for target in targets:
@@ -546,7 +546,7 @@ class PluralResultDescriptionMixin(TargetCheck):
         # Merge plurals
         results: MissingExtraDict = {}
         for result in self.check_target_generator(
-            unit.get_source_plurals(), unit.get_target_plurals(), unit
+            unit.get_effective_source_plurals(), unit.get_target_plurals(), unit
         ):
             if not isinstance(result, dict):
                 continue

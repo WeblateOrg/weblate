@@ -499,7 +499,7 @@ class PluralTextarea(forms.Textarea):
                     char,
                 )
                 for name, char, value in get_special_chars(
-                    language, profile.special_chars, unit.source
+                    language, profile.special_chars, unit.effective_source
                 )
             ),
         )
@@ -526,7 +526,7 @@ class PluralTextarea(forms.Textarea):
             plurals = translation.get_source_plurals()
             values = plurals
         else:
-            plurals = unit.get_source_plurals()
+            plurals = unit.get_effective_source_plurals()
             values = unit.get_target_plurals()
         if isinstance(value, list):
             values = [
@@ -735,7 +735,7 @@ class TranslationForm(UnitForm):
         kwargs["initial"] = {
             "unit_id": unit.pk,
             "checksum": unit.checksum,
-            "contentsum": hash_to_checksum(unit.content_hash),
+            "contentsum": hash_to_checksum(unit.edit_content_hash),
             "translationsum": hash_to_checksum(unit.get_target_hash()),
             "target": unit,
             "fuzzy": unit.fuzzy,
@@ -824,7 +824,7 @@ class TranslationForm(UnitForm):
 
         unit = self.unit
 
-        if self.cleaned_data["contentsum"] != unit.content_hash:
+        if self.cleaned_data["contentsum"] != unit.edit_content_hash:
             raise ValidationError(
                 gettext(
                     "The source string has changed meanwhile. "
@@ -1179,6 +1179,7 @@ class MergeForm(UnitForm):
         unit = self.unit
         translation = unit.translation
         project = translation.component.project
+        custom_sources = bool(project.translation_parent_language_ids)
         try:
             filter_kwargs: dict[str, Any] = {
                 "pk": self.cleaned_data["merge"],
@@ -1186,9 +1187,15 @@ class MergeForm(UnitForm):
                 "translation__language": translation.language,
             }
             if not translation.is_source:
-                filter_kwargs["source"] = unit.source
-            self.cleaned_data["merge_unit"] = Unit.objects.filter_access(self.user).get(
-                **filter_kwargs
+                filter_kwargs["check_source"] = unit.effective_source
+                filter_kwargs["check_source_language"] = (
+                    unit.effective_source_language.pk
+                )
+            self.cleaned_data["merge_unit"] = (
+                Unit.objects.filter_access(self.user)
+                .exclude_blocked(custom_sources=custom_sources)
+                .with_effective_source(custom_sources=custom_sources, select=False)
+                .get(**filter_kwargs)
             )
         except Unit.DoesNotExist as error:
             raise ValidationError(
@@ -4983,6 +4990,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         model = WorkflowSetting
         # ruff: ignore[mutable-class-default]
         fields = [
+            "source_language",
             "translation_review",
             "restrict_direct_editing",
             "enable_suggestions",
@@ -4999,6 +5007,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         prefix=None,
         initial=None,
         project: Project | None = None,
+        language: Language | None = None,
         **kwargs,
     ) -> None:
         if instance is not None:
@@ -5014,6 +5023,21 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         super().__init__(
             data, files, instance=instance, initial=initial, prefix="workflow", **kwargs
         )
+        if project is not None:
+            self.instance.project = project
+        if language is not None:
+            self.instance.language = language
+        if project is None:
+            self.fields.pop("source_language")
+        else:
+            cast("forms.ModelChoiceField", self.fields["source_language"]).queryset = (
+                Language.objects.filter(
+                    Q(translation__component__in=project.child_components)
+                    | Q(pk=self.instance.source_language_id)
+                )
+                .exclude(pk=self.instance.language_id)
+                .distinct()
+            )
         if self.project:
             enable_field = self.fields["enable"]
             enable_field.label = gettext(
@@ -5035,6 +5059,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
                 )
             ),
             Div(
+                *([Field("source_language")] if project is not None else []),
                 Field("translation_review"),
                 Field("restrict_direct_editing"),
                 Field("enable_suggestions"),
@@ -5059,11 +5084,17 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         if self.cleaned_data["enable"]:
             return super().save(commit=commit)
         if self.instance and self.instance.pk:
+            # Validation can clear an omitted source field on a disable request.
+            # Deletion signals need the stored dependency, not the form value.
+            self.instance.refresh_from_db(fields=["source_language"])
             self.instance.delete()
             self.instance = None
         return self.instance
 
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
-        if field.name == "enable":
+        name = cast("forms.BoundField", field).name
+        if name == "enable":
             return ("workflows", "workflow-customization")
+        if name == "source_language":
+            return ("workflows", "workflow-source-language")
         return None

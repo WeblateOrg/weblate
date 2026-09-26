@@ -100,6 +100,7 @@ from weblate.trans.models.alert import Alert
 from weblate.trans.models.audit import log_setting_changes, should_track_field
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
+from weblate.trans.models.source import source_operation_method
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
@@ -4795,6 +4796,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if self.lock.is_locked:
             self.lock.reacquire()
 
+    @source_operation_method
     def _create_translations(  # ruff: ignore[complex-structure, too-many-statements]
         self,
         *,

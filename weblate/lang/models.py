@@ -904,6 +904,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         else:
             self._fixup_plural_types(logger, plurals)
 
+    @transaction.atomic
     def move_language(
         self,
         source: Language,
@@ -913,11 +914,15 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         """Migrate all content from one language to anoother."""
         if logger is None:
             logger = dummy_logger
+        affected_projects: set[int | None] = set(
+            source.component_set.values_list("project_id", flat=True)
+        )
         for translation in source.translation_set.iterator():
             other = translation.component.translation_set.filter(language=target)
             if other.exists():
                 logger(f"Already exists: {translation}")
                 continue
+            affected_projects.add(translation.component.project_id)
             translation.language = target
             translation.save()
         source.announcement_set.update(language=target)
@@ -959,6 +964,19 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
 
         source.memory_source_set.update(source_language=target)
         source.memory_target_set.update(target_language=target)
+
+        # Save individually to validate the resulting dependency graph and reconcile
+        # units after both translation languages and plural forms have been moved.
+        from weblate.trans.models.source import reconcile_project_parents  # ruff: ignore[import-outside-top-level]
+
+        for workflow in source.source_workflow_settings.select_related("project"):
+            affected_projects.add(workflow.project_id)
+            workflow.source_language = (
+                None if workflow.language_id == target.pk else target
+            )
+            workflow.save(update_fields=["source_language"])
+        for project_id in affected_projects:
+            reconcile_project_parents(project_id, force=True)
 
     def _fixup_plural_types(
         self,
@@ -1373,9 +1391,23 @@ class Plural(models.Model):
     def __str__(self) -> str:
         return self.get_type_display()
 
+    @transaction.atomic
     def save(self, *args, **kwargs) -> None:
+        previous = None
+        update_fields = kwargs.get("update_fields")
+        if self.pk and (
+            update_fields is None or {"number", "formula"}.intersection(update_fields)
+        ):
+            previous = (
+                type(self)
+                .objects.filter(pk=self.pk)
+                .values_list("number", "formula")
+                .first()
+            )
         self.type = get_plural_type(self.language.base_code, self.formula)
         super().save(*args, **kwargs)
+        if previous is not None and previous != (self.number, self.formula):
+            self.reconcile_source_dependents()
 
     def get_absolute_url(self) -> str:
         return f"{reverse('show_language', kwargs={'lang': self.language.code})}#information"
@@ -1388,6 +1420,22 @@ class Plural(models.Model):
             )
         except ValidationError as error:
             raise ValidationError({"formula": error}) from error
+
+    def reconcile_source_dependents(self) -> None:
+        """Apply edited rules to custom sources, including canonical fallbacks."""
+        from weblate.trans.models import Component, Unit  # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+        components = Unit.objects.filter(
+            Q(translation_parent__translation__plural=self)
+            | Q(
+                translation_parent__isnull=True,
+                source_unit__translation__plural=self,
+                details__translation_parent__applied__isnull=False,
+            )
+        ).values_list("translation__component_id", flat=True)
+        for component in Component.objects.filter(pk__in=components).order_by("pk"):
+            reconcile_component_parents(component)
 
     @cached_property
     def plural_form(self) -> str:

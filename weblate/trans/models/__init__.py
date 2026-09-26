@@ -40,7 +40,11 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.models.workflow import WorkflowSetting
 from weblate.trans.removal import get_current_removal_batch
-from weblate.trans.signals import user_pre_delete
+from weblate.trans.signals import (
+    component_post_update,
+    translation_post_add,
+    user_pre_delete,
+)
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_tree
 
@@ -279,6 +283,9 @@ def component_topology_after_save(sender, instance: Component, **kwargs) -> None
         before,
         collect_stats_topology(instance.pk, instance.project_id, instance.category_id),
     )
+    from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+    reconcile_component_parents(instance)
 
 
 @receiver(pre_save, sender=ComponentLink)
@@ -448,3 +455,81 @@ def post_delete_linked(sender, instance, **kwargs) -> None:
 def stats_invalidate(sender, instance, **kwargs) -> None:
     """Invalidate stats on new comments or suggestions."""
     instance.unit.invalidate_related_cache()
+
+
+@receiver(component_post_update)
+@receiver(translation_post_add)
+def reconcile_translation_parents(
+    sender, component=None, translation=None, **kwargs
+) -> None:
+    from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+    reconcile_component_parents(
+        component if component is not None else translation.component
+    )
+
+
+@receiver(post_delete, sender=WorkflowSetting)
+def remove_source_workflow(sender, instance, origin, **kwargs) -> None:
+    if not instance.source_language_id or not instance.project_id:
+        return
+    Project.invalidate_translation_parent_cache()
+    if isinstance(origin, Project) or getattr(origin, "model", None) is Project:
+        return
+    from weblate.trans.models.source import reconcile_project_parents  # ruff: ignore[import-outside-top-level]
+
+    reconcile_project_parents(instance.project_id)
+
+
+@receiver(pre_delete, sender=Unit)
+def remember_translation_children(sender, instance, origin, **kwargs) -> None:
+    # Whole-container deletion has no surviving dependencies within the component.
+    origin_model = getattr(origin, "model", type(origin))
+    if origin_model in {Component, Project, Category} or instance.is_source:
+        return
+    # Django sends all pre_delete signals before post_delete. Cache one lookup
+    # per translation on the deletion origin, then release it after the last unit.
+    cache = origin.__dict__.setdefault(
+        "_translation_children_delete_cache",
+        {"translations": {}, "pending": 0, "children": set()},
+    )
+    cache["pending"] += 1
+    translations = cache["translations"]
+    if instance.translation_id not in translations:
+        children: dict[int, list[int]] = {}
+        for parent_id, child_id in Unit.objects.filter(
+            translation_parent__translation_id=instance.translation_id
+        ).values_list("translation_parent_id", "pk"):
+            children.setdefault(parent_id, []).append(child_id)
+        translations[instance.translation_id] = children
+    instance.__dict__["surviving_translation_children"] = translations[
+        instance.translation_id
+    ].get(instance.pk, [])
+
+
+@receiver(post_delete, sender=Unit)
+def detach_translation_children(sender, instance, origin, **kwargs) -> None:
+    if "surviving_translation_children" not in instance.__dict__:
+        return
+    cache = origin.__dict__["_translation_children_delete_cache"]
+    cache["children"].update(instance.__dict__["surviving_translation_children"])
+    cache["pending"] -= 1
+    if cache["pending"]:
+        return
+    del origin.__dict__["_translation_children_delete_cache"]
+    if not cache["children"]:
+        return
+    from weblate.trans.models.source import (  # ruff: ignore[import-outside-top-level]
+        DependencyWork,
+        request_reconciliation,
+    )
+
+    affected: dict[int, set[int]] = {}
+    for pk, component_id in Unit.objects.filter(pk__in=cache["children"]).values_list(
+        "pk", "translation__component_id"
+    ):
+        affected.setdefault(component_id, set()).add(pk)
+    for component in Component.objects.filter(pk__in=affected).order_by("pk"):
+        request_reconciliation(
+            component, DependencyWork(children=affected[component.pk])
+        )

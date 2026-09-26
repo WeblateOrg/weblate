@@ -10,7 +10,7 @@ from celery import current_task
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Case, IntegerField, QuerySet, Value, When
+from django.db.models import Case, F, IntegerField, Q, QuerySet, Value, When
 from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, ngettext
 
@@ -26,6 +26,7 @@ from weblate.trans.models import (
     SuggestionAddResult,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.util import is_plural, split_plural
 from weblate.utils.state import (
@@ -208,7 +209,9 @@ class AutoTranslate(BaseAutoTranslate):
             units = units.filter(pk__in=self.unit_ids)
         if self.mode == "suggest":
             units = units.filter(suggestion__isnull=True)
-        return units.search(self.q, parser="unit")
+        return units.search(
+            self.q, parser="unit", project=self.translation.component.project
+        )
 
     def get_task_meta(self) -> dict[str, Any]:
         return {"translation": self.translation.pk}
@@ -267,7 +270,11 @@ class AutoTranslate(BaseAutoTranslate):
                 self.user.profile.increase_count("translated", self.updated)
 
     def collect_other_translations(
-        self, filtered_sources, component_ids: list[int]
+        self,
+        filtered_sources,
+        component_ids: list[int],
+        *,
+        source_field: str = "source",
     ) -> tuple[dict[tuple[str, str], list[str]], dict[str, list[str]]]:
         """Collect context matches and source fallbacks preserving source priority."""
         translations: dict[str, list[str]] = {}
@@ -295,7 +302,7 @@ class AutoTranslate(BaseAutoTranslate):
 
         source_units = filtered_sources.values_list(
             "translation__component_id",
-            "source",
+            source_field,
             "context",
             "target",
             "translation_id",
@@ -358,7 +365,25 @@ class AutoTranslate(BaseAutoTranslate):
         # translations. The lower-MD5 lookup matches the trans_unit_target_md5
         # index and keeps this exclusion cheap on large components.
         sources = sources.exclude(target__lower__md5=MD5(Value("")))
-        source_language = self.translation.component.source_language
+        project = self.translation.component.project
+        custom_sources = bool(project.translation_parent_language_ids)
+        if custom_sources:
+            target_units = self.get_units().annotate(
+                reuse_source=Unit.objects.effective_source_expression(),
+                reuse_language=Unit.objects.effective_source_language_expression(),
+            )
+            source_language_ids = set(
+                target_units.values_list("reuse_language", flat=True)
+            )
+            if not source_language_ids:
+                source_language_ids.add(self.translation.effective_source_language.pk)
+        else:
+            language_id = self.translation.component.source_language_id
+            target_units = self.get_units().annotate(
+                reuse_source=F("source"), reuse_language=Value(language_id)
+            )
+            source_language_ids = {language_id}
+        donor_custom_sources = custom_sources
         component_ids = list(dict.fromkeys(source_component_ids or []))
         if component_ids:
             source_components = list(components.filter(id__in=component_ids))
@@ -366,6 +391,17 @@ class AutoTranslate(BaseAutoTranslate):
             if len(component_map) != len(component_ids):
                 msg = "Component not found."
                 raise Component.DoesNotExist(msg)
+
+            other_project_ids = {
+                component.project_id
+                for component in source_components
+                if component.project_id != project.pk
+            }
+            if not donor_custom_sources and other_project_ids:
+                donor_custom_sources = WorkflowSetting.objects.filter(
+                    project_id__in=other_project_ids,
+                    source_language__isnull=False,
+                ).exists()
 
             for component_id in component_ids:
                 component = component_map[component_id]
@@ -375,16 +411,23 @@ class AutoTranslate(BaseAutoTranslate):
                 ):
                     msg = "Project has disabled contribution to shared translation memory."
                     raise PermissionDenied(msg)
-                if component.source_language != source_language:
+                if component.source_language_id not in source_language_ids and not (
+                    donor_custom_sources
+                    and Unit.objects.filter(
+                        translation__component=component,
+                        translation__language=self.translation.language,
+                        translation_parent__translation__language_id__in=source_language_ids,
+                    ).exists()
+                ):
                     msg = "Component have different source languages."
                     raise PermissionDenied(msg)
             sources = sources.filter(translation__component_id__in=component_ids)
         else:
-            project = self.translation.component.project
             sources = sources.filter(
                 translation__component__project=project,
-                translation__component__source_language=source_language,
             ).exclude(translation=self.translation)
+
+        sources = sources.exclude_blocked(custom_sources=donor_custom_sources)
 
         # Use memory_db for the query in case it exists. This is supposed
         # to be a read-only replica for offloading expensive translation
@@ -392,27 +435,58 @@ class AutoTranslate(BaseAutoTranslate):
         if "memory_db" in settings.DATABASES:
             sources = sources.using("memory_db")
 
-        # Get source MD5s
+        for language_id in source_language_ids:
+            self.process_others_language(
+                sources,
+                target_units.filter(reuse_language=language_id),
+                component_ids,
+                language_id,
+                custom_sources=donor_custom_sources,
+            )
+        self.post_process()
+
+    def process_others_language(
+        self,
+        sources,
+        target_units,
+        component_ids: list[int],
+        language_id: int,
+        *,
+        custom_sources: bool,
+    ) -> None:
+        """Reuse translations whose effective source text and language match."""
         source_md5s = list(
-            self.get_units()
-            .annotate(source__lower__md5=MD5(Lower("source")))
-            .values_list("source__lower__md5", flat=True)
+            target_units.annotate(reuse_md5=MD5(Lower("reuse_source"))).values_list(
+                "reuse_md5", flat=True
+            )
         )
-
-        # Fetch available translations
-        filtered_sources = sources.filter(source__lower__md5__in=source_md5s)
+        if custom_sources:
+            # Keep the indexed canonical-source and parent-target lookups separate.
+            filtered_sources = sources.filter(
+                Q(
+                    translation_parent__isnull=True,
+                    translation__component__source_language_id=language_id,
+                    source__lower__md5__in=source_md5s,
+                )
+                | Q(
+                    translation_parent__translation__language_id=language_id,
+                    translation_parent__target__lower__md5__in=source_md5s,
+                )
+            ).annotate(reuse_source=Unit.objects.effective_source_expression())
+        else:
+            filtered_sources = sources.filter(
+                translation__component__source_language_id=language_id,
+                source__lower__md5__in=source_md5s,
+            ).annotate(reuse_source=F("source"))
         context_translations, translations = self.collect_other_translations(
-            filtered_sources, component_ids
+            filtered_sources, component_ids, source_field="reuse_source"
         )
 
-        # Fetch translated unit IDs
-        # Cannot use get_units() directly as SELECT FOR UPDATE cannot be used with JOIN
+        # Resolve IDs before locking: the effective-source lookup uses nullable joins.
         unit_ids = list(
-            self.get_units()
+            target_units.annotate(reuse_md5=MD5(Lower("reuse_source")))
             .filter(
-                source__lower__md5__in=[
-                    MD5(Lower(Value(translation))) for translation in translations
-                ]
+                reuse_md5__in=[MD5(Lower(Value(source))) for source in translations]
             )
             .values_list("id", flat=True)
         )
@@ -423,32 +497,30 @@ class AutoTranslate(BaseAutoTranslate):
             .select_for_update()
         )
         self.progress_steps = len(units)
-
         for pos, unit in enumerate(units):
-            # Get update
+            source = unit.effective_source
             try:
                 target = context_translations.get(
-                    (unit.source, unit.context), translations[unit.source]
+                    (source, unit.context), translations[source]
                 )
             except KeyError:
-                # Happens due to case-insensitive lookup
+                # The indexed lookup is case-insensitive; require an exact match.
                 continue
-
             self.set_progress(pos)
-
-            # No save if translation is same or unit does not exist
             if unit.state == self.target_state and unit.target == target:
                 continue
-            # Copy translation
             self.update(unit, self.target_state, target)
-
-        self.post_process()
 
     def fetch_mt(
         self, engines_list: list[str], threshold: int
     ) -> dict[int, UnitMemoryResultDict]:
         """Get the translations."""
-        units: list[Unit] = list(self.get_units().select_related("source_unit"))
+        queryset = self.get_units()
+        if self.translation.component.project.translation_parent_language_ids:
+            queryset = queryset.prefetch_source()
+        else:
+            queryset = queryset.select_related("source_unit")
+        units: list[Unit] = list(queryset)
         num_units = len(units)
 
         machinery_settings = self.translation.component.project.get_machinery_settings()
@@ -658,6 +730,41 @@ class BatchAutoTranslate(BaseAutoTranslate):
             check_auto_translate_permission(self.user, translation, self.mode)
         )
 
+    def _get_workspace_effective_sources(
+        self, selected_ids: list[int] | None
+    ) -> dict[tuple[int, int], list[int]] | None:
+        """Match workspace donors by target language and actual effective sources."""
+        if self.workspace_source_component_ids is None:
+            return None
+        workspace_ids = {
+            component_id
+            for ids in self.workspace_source_component_ids.values()
+            for component_id in ids
+        }
+        donor_ids = sorted(workspace_ids) if selected_ids is None else selected_ids
+        component_ids = workspace_ids | set(donor_ids)
+        if not WorkflowSetting.objects.filter(
+            project__component__pk__in=component_ids,
+            source_language__isnull=False,
+        ).exists():
+            return None
+
+        donors: dict[tuple[int, int], list[int]] = {}
+        for target_language, source_language, component_id in (
+            Unit.objects.filter(translation__component_id__in=donor_ids)
+            .with_effective_source()
+            .values_list(
+                "translation__language_id",
+                "check_source_language",
+                "translation__component_id",
+            )
+            .distinct()
+        ):
+            donors.setdefault((target_language, source_language), []).append(
+                component_id
+            )
+        return donors
+
     def perform(
         self,
         *,
@@ -668,8 +775,14 @@ class BatchAutoTranslate(BaseAutoTranslate):
     ) -> str:
         selected_workspace_source_component_ids: dict[int, list[int]] | None = None
         self.failure_message = None
+        workspace_effective_sources = (
+            self._get_workspace_effective_sources(source_component_ids)
+            if auto_source == "others"
+            else None
+        )
         if (
             auto_source == "others"
+            and workspace_effective_sources is None
             and source_component_ids is not None
             and self.workspace_source_component_ids is not None
         ):
@@ -706,7 +819,33 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 and self.workspace_source_component_ids is not None
             ):
                 source_language_id = translation.component.source_language_id
-                if selected_workspace_source_component_ids is None:
+                if workspace_effective_sources is not None:
+                    source_languages = set(
+                        auto_translate.get_units()
+                        .with_effective_source()
+                        .values_list("check_source_language", flat=True)
+                        .distinct()
+                    ) or {translation.effective_source_language.pk}
+                    effective_source_component_ids = list(
+                        dict.fromkeys(
+                            component_id
+                            for language_id in source_languages
+                            for component_id in workspace_effective_sources.get(
+                                (translation.language_id, language_id), []
+                            )
+                        )
+                    )
+                    if (
+                        not effective_source_component_ids
+                        and source_component_ids is not None
+                    ):
+                        self.add_warning(
+                            gettext(
+                                "Automatic translation skipped some translations because "
+                                "selected source components use a different source language."
+                            )
+                        )
+                elif selected_workspace_source_component_ids is None:
                     effective_source_component_ids = (
                         []
                         if source_language_id is None
@@ -745,7 +884,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
                     if component_id != translation.component_id
                 ]
                 if not effective_source_component_ids:
-                    if selected_workspace_source_component_ids is not None:
+                    if source_component_ids is not None:
                         self.set_progress(pos)
                         continue
                     self.add_warning(

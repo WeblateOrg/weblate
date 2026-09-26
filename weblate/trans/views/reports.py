@@ -43,6 +43,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.source_snapshot import SourceSnapshot
 from weblate.trans.translator_analysis import analyze_translator_work
 from weblate.trans.util import count_words, redirect_param
 from weblate.utils.celery import store_task_metadata
@@ -324,7 +325,7 @@ def get_match_quality(unit: Unit) -> int:
 def add_unit_to_bucket(bucket: dict[str, Any], unit: Unit) -> None:
     bucket["count"] += 1
     bucket["words"] += unit.num_words
-    bucket["chars"] += len(unit.source)
+    bucket["chars"] += len(unit.effective_source)
 
 
 def process_cost_estimate_matches(
@@ -410,7 +411,7 @@ def generate_cost_estimate(
         "threshold": tm_threshold,
         "buckets": [buckets[bucket] for bucket, _rate_field in COST_BUCKETS],
     }
-    seen_sources: set[tuple[int, int, int]] = set()
+    seen_sources: set[tuple[int, int, str]] = set()
     match_batches: dict[tuple[int, int, int], list[Unit]] = defaultdict(list)
     service = WeblateMemory(
         {},
@@ -421,23 +422,25 @@ def generate_cost_estimate(
         get_cost_estimate_units(language_code, entity)
         .search(q, parser="unit")
         .prefetch()
+        .prefetch_translation_parent()
         .order()
         .iterator(chunk_size=1000)
     ):
         translation = unit.translation
-        component = translation.component
-        key = (
-            component.source_language_id,
-            translation.language_id,
-            unit.id_hash,
-        )
+        if unit.translation_parent_id:
+            snapshot = unit.source_snapshot
+            source_language_id, source = snapshot.language_id, snapshot.text
+        else:
+            source_language_id = translation.component.source_language_id
+            source = unit.source
+        key = (source_language_id, translation.language_id, source)
         if key in seen_sources:
             add_unit_to_bucket(buckets["repetition"], unit)
             continue
 
         seen_sources.add(key)
         match_key = (
-            component.source_language_id,
+            source_language_id,
             translation.language_id,
             translation.plural_id,
         )
@@ -737,7 +740,7 @@ def generate_counts(
         changes = changes.for_category(category)
     if counting_mode == CountsReportsForm.COUNTING_MODE_UNIQUE:
         changes = changes.order_by("-timestamp", "-pk")
-    changes = changes.prefetch_related("author", "language", "unit")
+    changes = changes.prefetch_related("author", "language", "unit__translation_parent")
     seen_changes = set()
     for change in changes:
         author = change.author
@@ -765,8 +768,13 @@ def generate_counts(
                 continue
             seen_changes.add(deduplicated_key)
 
-        src_chars = len(unit.source)
-        src_words = unit.num_words
+        if snapshot_data := change.details.get("source_snapshot"):
+            snapshot = SourceSnapshot.from_dict(snapshot_data)
+            src_chars = len(snapshot.text)
+            src_words = count_words(snapshot.text, snapshot.language)
+        else:
+            src_chars = len(unit.effective_source)
+            src_words = unit.num_words
         tgt_chars = len(change.target)
         tgt_words = count_words(change.target, change.language)
         edits = change.get_distance()

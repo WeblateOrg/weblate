@@ -362,6 +362,8 @@ class ConsistencyCheckTest(ComponentTestCase):
         )
         self.assertNotIn('"TRANS_COMPONENT"', aggregate_sql)
         self.assertNotIn('"TRANS_TRANSLATION"', aggregate_sql)
+        self.assertNotIn("COALESCE(", aggregate_sql)
+        self.assertNotIn("'BLOCKED'", aggregate_sql)
         self.assertIn('"TRANS_UNIT"."TRANSLATION_ID" IN', aggregate_sql)
 
         unit_sql = next(

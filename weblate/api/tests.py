@@ -14289,6 +14289,98 @@ class TranslationAPITest(APIBaseTest):
 
 
 class UnitAPITest(APIBaseTest):
+    def test_report_requires_effective_parent_permission(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        parent.translate(self.user, "Parent source", STATE_TRANSLATED)
+        self.project.source_review = True
+        self.project.save(update_fields=["source_review"])
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        self.user.groups.clear()
+        self.grant_perm_to_user(
+            "comment.add", group_name="Child comments", component=self.component
+        )
+        membership = TeamMembership.objects.get(
+            user=self.user, group__name="Child comments"
+        )
+        membership.limit_languages.add(unit.translation.language)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("comment.add", unit.translation))
+        self.assertFalse(self.user.has_perm("comment.add", parent.translation))
+        url = reverse("api:unit-comments", kwargs={"pk": unit.pk})
+        self.do_request(
+            url,
+            method="post",
+            request={"scope": "report", "comment": "Parent issue"},
+            code=403,
+        )
+        parent.refresh_from_db()
+        self.assertEqual(parent.state, STATE_TRANSLATED)
+        self.assertFalse(parent.comment_set.exists())
+        self.do_request(
+            url,
+            method="post",
+            request={"scope": "translation", "comment": "Child comment"},
+            code=201,
+        )
+        membership.limit_languages.add(parent.translation.language)
+        self.user.clear_permissions_cache()
+        self.do_request(
+            url,
+            method="post",
+            request={"scope": "report", "comment": "Parent issue"},
+            code=201,
+        )
+        parent.refresh_from_db()
+        self.assertEqual(parent.state, STATE_NEEDS_REWRITING)
+        self.assertTrue(parent.comment_set.filter(comment="Parent issue").exists())
+
+    def test_custom_source_language(self) -> None:
+        unit = self.component.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=unit.id_hash
+        )
+        parent.translate(self.user, "Hallo, Welt!", STATE_TRANSLATED)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            source_language=parent.translation.language,
+        )
+        response = self.do_request(
+            "api:unit-detail", kwargs={"pk": unit.pk}, method="get", code=200
+        )
+        self.assertEqual(response.data["source"], [unit.source])
+        self.assertEqual(response.data["effective_source"], parent.get_target_plurals())
+        self.assertEqual(response.data["effective_source_language"], "de")
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "target": ["Ahoj"],
+                "state": STATE_TRANSLATED,
+                "translation_parent": None,
+                "effective_source": ["Changed"],
+                "effective_previous_source": ["Forged previous source"],
+            },
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.translation_parent_id, parent.pk)
+        self.assertEqual(unit.effective_source, parent.target)
+        self.assertEqual(unit.effective_previous_source, "")
+
     def test_list_units(self) -> None:
         response = self.client.get(reverse("api:unit-list"))
         self.assertEqual(response.data["count"], 16)

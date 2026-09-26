@@ -65,6 +65,7 @@ from weblate.trans.file_format_params import (
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
+from weblate.trans.models.source import source_operation_method
 from weblate.trans.models.suggestion import Suggestion, SuggestionAddResult
 from weblate.trans.models.unit import UNIT_METADATA_UPDATE_FIELDS, Unit
 from weblate.trans.signals import (
@@ -779,6 +780,7 @@ class Translation(
 
         return dbunits, updated
 
+    @source_operation_method
     def check_sync(
         self,
         force: bool = False,
@@ -893,6 +895,13 @@ class Translation(
         # further consumers as no further consumer is expected after this and
         # we do not want to parse the file again.
         self.__dict__["store"] = None
+        if (
+            not self.component.batch_checks
+            and self.component.project.translation_parent_language_ids
+        ):
+            from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+            reconcile_component_parents(self.component)
         return True
 
     def store_update_changes(self) -> None:
@@ -1431,12 +1440,18 @@ class Translation(
             exception=error,
         )
 
+    def _mark_failed_unit(self, unit: Unit) -> None:
+        """Demote a failed save and block translations which depend on it."""
+        from weblate.trans.models.source import propagate_parent_change  # ruff: ignore[import-outside-top-level]
+
+        unit.state = STATE_FUZZY
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+        propagate_parent_change(self, unit.pk)
+
     def _store_failed_unit_update(
         self, unit: Unit, pending_change: PendingUnitChange, error: Exception
     ) -> None:
-        unit.state = STATE_FUZZY
-        # Use update instead of hitting expensive save()
-        Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+        self._mark_failed_unit(unit)
         unit.change_set.create(
             action=ActionEvents.SAVE_FAILED,
             target=self.component.get_parse_error_message(error),
@@ -1686,9 +1701,7 @@ class Translation(
                         project=self.component.project,
                         skip_error_reporting=True,
                     )
-                    unit.state = STATE_FUZZY
-                    # Use update instead of hitting expensive save()
-                    Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
+                    self._mark_failed_unit(unit)
                     unit.change_set.create(
                         action=ActionEvents.SAVE_FAILED,
                         target="Could not find string in the translation file",
@@ -1790,6 +1803,33 @@ class Translation(
     @cached_property
     def workflow_settings(self):
         return self.component.project.project_languages[self.language].workflow_settings
+
+    @property
+    def has_custom_source(self) -> bool:
+        if self.is_source:
+            return False
+        workflow = self.workflow_settings
+        return bool(workflow and workflow.project_id and workflow.source_language_id)
+
+    @cached_property
+    def effective_source_translation(self) -> Translation:
+        if not self.is_source:
+            workflow = self.workflow_settings
+            if (
+                workflow is not None
+                and workflow.project_id
+                and workflow.source_language_id
+            ):
+                parent = self.component.translation_set.filter(
+                    language_id=workflow.source_language_id
+                ).first()
+                if parent is not None:
+                    return parent
+        return self.component.source_translation
+
+    @property
+    def effective_source_language(self) -> Language:
+        return self.effective_source_translation.language
 
     @cached_property
     def enable_review(self):
@@ -3113,6 +3153,7 @@ class Translation(
                 )
 
     @transaction.atomic
+    @source_operation_method
     def sync_terminology(self) -> None:
         if not self.is_source or not self.component.manage_units:
             return
@@ -3141,6 +3182,10 @@ class Translation(
         if added:
             self.store_update_changes()
             self.component.invalidate_cache()
+            if self.component.project.translation_parent_language_ids:
+                from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
+
+                reconcile_component_parents(self.component)
 
     def _validate_new_unit_context(self, context: str) -> None:
         if not context:

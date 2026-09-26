@@ -120,10 +120,16 @@
               {% endif %}
 
               <!-- source change -->
-              {% if unit.previous_source and unit.fuzzy %}
+              {% if unit.effective_previous_source and unit.fuzzy %}
                 <div class="form-group">
                   <label>{% translate "Source change" %}</label>
-                  {% format_unit_source unit diff=unit.previous_source %}
+                  {% get_source_changes unit as source_changes %}
+                  {% for source_change in source_changes %}
+                    {% if source_change.label %}
+                      <div>{{ source_change.label }} — <span class="language">{{ source_change.language }}</span></div>
+                    {% endif %}
+                    {% format_unit_source unit value=source_change.value language=source_change.language plural=source_change.plural diff=source_change.diff %}
+                  {% endfor %}
                 </div>
               {% endif %}
 
@@ -180,8 +186,8 @@
                         </div>
                       {% endif %}
                       <a class="language"
-                         href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
-                      {% if not unit.source_unit.translated %}
+                         href="{{ unit.effective_source_unit.get_absolute_url }}">{{ unit.effective_source_language }}</a>
+                      {% if not unit.effective_source_unit.translated %}
                         <span class="badge text-bg-secondary">{% translate "The source string needs review." %}</span>
                       {% endif %}
                       {% if unit.translation.component.project.source_review %}
@@ -827,7 +833,7 @@
                       {% if unit.translation.is_source %}
                         <th colspan="2">{{ unit.translation.language }}</th>
                       {% else %}
-                        <th>{{ unit.translation.component.source_language }}</th>
+                        <th>{{ unit.effective_source_language }}</th>
                         <th>{{ unit.translation.language }}</th>
                       {% endif %}
                       <th class="glossary-badge-cell" aria-label="{% translate 'Glossary' %}"></th>

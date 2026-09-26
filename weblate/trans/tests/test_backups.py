@@ -61,6 +61,7 @@ from weblate.trans.models import (
     Suggestion,
     Unit,
     Vote,
+    WorkflowSetting,
 )
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
@@ -70,6 +71,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import Workspace
@@ -1411,6 +1413,87 @@ class BackupsTest(ViewTestCase):
             all(call.kwargs.get("create") is False for call in resolver.call_args_list)
         )
         self.assertEqual(Language.objects.count(), language_count)
+
+    def test_restore_reconciles_dependency_metadata_without_workflows(self) -> None:
+        child = self.translation.unit_set.order_by("pk")[0]
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        parent.translate(self.user, "", STATE_EMPTY)
+        child.translate(self.user, "Child translation", STATE_TRANSLATED)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=child.translation.language,
+            source_language=parent.translation.language,
+        )
+        child.refresh_from_db()
+        self.assertEqual(child.state, STATE_READONLY)
+        self.assertTrue(child.details["translation_parent"]["blocked"])
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+        self.assertFalse(WorkflowSetting.objects.filter(project=restored).exists())
+        restored_child = (
+            restored.component_set.get(slug=self.component.slug)
+            .translation_set.get(language=child.translation.language)
+            .unit_set.get(id_hash=child.id_hash)
+        )
+        self.assertIsNone(restored_child.translation_parent_id)
+        self.assertFalse(restored_child.translation_parent_blocked)
+        self.assertEqual(restored_child.state, STATE_TRANSLATED)
+        self.assertEqual(restored_child.target, child.target)
+        self.assertEqual(restored_child.effective_source, child.source)
+        self.assertNotIn("translation_parent", restored_child.details)
+
+    def test_restore_reconciles_existing_source_workflow(self) -> None:
+        child = self.translation.unit_set.order_by("pk")[0]
+        parent = self.component.translation_set.get(language_code="de").unit_set.get(
+            id_hash=child.id_hash
+        )
+        parent.translate(self.user, "", STATE_EMPTY)
+        child.translate(self.user, "Child translation", STATE_TRANSLATED)
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        original_restore = ProjectBackup.restore_component
+
+        def restore_with_workflow(restoring, zipfile, data, actor, changes):
+            # Seed an existing workflow before the component's bulk restore.
+            WorkflowSetting.objects.bulk_create(
+                [
+                    WorkflowSetting(
+                        project=restoring.project,
+                        language=child.translation.language,
+                        source_language=parent.translation.language,
+                    )
+                ],
+                ignore_conflicts=True,
+            )
+            Project.invalidate_translation_parent_cache()
+            return original_restore(restoring, zipfile, data, actor, changes)
+
+        with patch.object(
+            ProjectBackup, "restore_component", new=restore_with_workflow
+        ):
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+        component = restored.component_set.get(slug=self.component.slug)
+        restored_child = component.translation_set.get(
+            language=child.translation.language
+        ).unit_set.get(id_hash=child.id_hash)
+        restored_parent = component.translation_set.get(
+            language=parent.translation.language
+        ).unit_set.get(id_hash=child.id_hash)
+        self.assertEqual(restored_child.translation_parent_id, restored_parent.pk)
+        self.assertEqual(restored_child.effective_source, "")
+        self.assertEqual(restored_child.state, STATE_READONLY)
+        self.assertTrue(restored_child.translation_parent_blocked)
 
     def test_restore_synthesizes_source_translation_check_flags(self) -> None:
         source = self.component.source_translation

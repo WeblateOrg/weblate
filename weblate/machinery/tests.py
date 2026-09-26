@@ -9913,6 +9913,27 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
 
 
 class WeblateTranslationTest(FixtureComponentTestCase):
+    def test_regular_source_query_keeps_indexed_lookup(self) -> None:
+        unit = self.get_unit(language="cs")
+        machine = WeblateTranslation({})
+        base = machine.get_base_queryset(
+            self.user,
+            unit.translation.component.source_language,
+            unit.translation.language,
+        )
+        sql = str(base.query).upper()
+        self.assertNotIn("COALESCE", sql)
+        self.assertNotIn('LEFT OUTER JOIN "TRANS_UNIT"', sql)
+        self.assertIn('"TRANSLATION_PARENT_ID" IS NULL', sql)
+        self.assertEqual(
+            set(base.values_list("pk", flat=True)),
+            set(
+                Unit.objects.filter(
+                    translation=unit.translation, state__gte=STATE_TRANSLATED
+                ).values_list("pk", flat=True)
+            ),
+        )
+
     def test_multivalue_candidates(self) -> None:
         unit = self.get_unit(language="cs")
         type(unit.translation.component).objects.filter(
@@ -10435,6 +10456,9 @@ class ViewsTest(FixtureTestCase):
 
     def test_memory_includes_context(self) -> None:
         """The JSON payload carries the memory context for the editor."""
+        Setting.objects.create(
+            category=SettingCategory.MT, name=WeblateMemory.get_identifier(), value={}
+        )
         unit = self.get_unit()
         Memory.objects.create(
             source_language=Language.objects.get(code="en"),
@@ -10623,44 +10647,6 @@ class ViewsTest(FixtureTestCase):
 
 
 class WeblateTranslationLookupTest(SimpleTestCase):
-    @patch("weblate.machinery.weblatetm.Unit.objects")
-    @patch("weblate.machinery.weblatetm.Translation.objects")
-    def test_get_base_queryset_uses_translation_subquery(
-        self, translation_objects: Mock, unit_objects: Mock
-    ) -> None:
-        machine = WeblateTranslation({})
-        user = MagicMock()
-        translations_using = MagicMock()
-        translations = MagicMock()
-        filtered_translations = MagicMock()
-        translation_ids = MagicMock()
-        units_using = MagicMock()
-        queryset = MagicMock()
-
-        translation_objects.using.return_value = translations_using
-        translations_using.all.return_value = translations
-        translations.filter_access.return_value = filtered_translations
-        filtered_translations.filter.return_value = translation_ids
-        translation_ids.values.return_value = "translation-subquery"
-        unit_objects.using.return_value = units_using
-        units_using.filter.return_value = queryset
-
-        result = machine.get_base_queryset(user, "en", "cs")
-
-        self.assertEqual(result, queryset)
-        translation_objects.using.assert_called_once_with("default")
-        translations.filter_access.assert_called_once_with(user)
-        filtered_translations.filter.assert_called_once_with(
-            component__source_language="en",
-            language="cs",
-        )
-        translation_ids.values.assert_called_once_with("id")
-        unit_objects.using.assert_called_once_with("default")
-        units_using.filter.assert_called_once_with(
-            state__gte=STATE_TRANSLATED,
-            translation_id__in="translation-subquery",
-        )
-
     @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
     def test_get_matching_units_uses_fuzzy_lookup(self, adjust_threshold: Mock) -> None:
         machine = WeblateTranslation({})
