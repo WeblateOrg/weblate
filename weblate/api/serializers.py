@@ -2072,6 +2072,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
         "new_base",
         "file_format",
         "repoweb",
+        "repoweb_translations",
         "merge_style",
         "auto_lock_error",
         "language_regex",
@@ -2271,6 +2272,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "effective_enforced_checks",
             "restricted",
             "repoweb",
+            "repoweb_translations",
             "report_source_bugs",
             "merge_style",
             "commit_message",
@@ -2366,6 +2368,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             result["git_export"] = None
             result["push_branch"] = None
             result["repoweb"] = None
+            result["repoweb_translations"] = None
             result["linked_component"] = None
         return result
 

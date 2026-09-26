@@ -791,7 +791,10 @@ class ParseErrorNotification(Notification):
         )
         if change and change.component:
             context["details"]["filelink"] = change.component.get_repoweb_link(
-                change.details.get("filename"), "1", user=context["user"]
+                change.details.get("filename"),
+                "1",
+                user=context["user"],
+                is_translation=True,
             )
         return context
 

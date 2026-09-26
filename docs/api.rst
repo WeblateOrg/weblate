@@ -1829,6 +1829,7 @@ Components
     :>json array effective_enforced_checks: Enforced checks currently applied to the component (read-only).
     :>json string restricted: :ref:`component-restricted`
     :>json string repoweb: :ref:`component-repoweb`
+    :>json string repoweb_translations: :ref:`component-repoweb-translations`
     :>json string report_source_bugs: :ref:`component-report_source_bugs`
     :>json string merge_style: :ref:`component-merge_style`
     :>json string commit_message: :ref:`component-commit_message`

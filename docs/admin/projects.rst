@@ -639,6 +639,24 @@ might want to strip leading directory by ``parentdir`` filter (see
 
    * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
 
+.. _component-repoweb-translations:
+
+Repository browser for translations
+++++++++++++++++++++++++++++++++++++++
+
+URL of repository browser used to display translation files. When empty, the
+:ref:`component-repoweb` URL will be used as a fallback. This is useful when
+source-code files and translation files are hosted in different repositories.
+It applies to all translation files, including source-language, intermediate,
+template, and target files. You can use :ref:`markup`.
+
+For example on GitHub, use something like:
+``https://github.com/WeblateOrg/translations/blob/{{branch}}/{{filename}}#L{{line}}``
+
+.. seealso::
+
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+
 .. _component-git_export:
 
 Exported repository URL
