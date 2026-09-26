@@ -1281,6 +1281,12 @@ Generic settings
 
    Configures :setting:`AVATAR_URL_PREFIX`.
 
+.. envvar:: WEBLATE_AVATAR_URL_TEMPLATE
+
+   .. versionadded:: 2026.10
+
+   Configures :setting:`AVATAR_URL_TEMPLATE`.
+
 .. envvar:: WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 
    .. versionadded:: 4.9

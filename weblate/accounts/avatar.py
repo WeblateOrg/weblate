@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
 
 
-def avatar_for_email(email: str, size: int = 80) -> str:
+def avatar_for_email(email: str, username: str, size: int = 80) -> str:
     """Generate url for avatar."""
     # Safely handle blank e-mail
     if not email:
@@ -34,7 +34,13 @@ def avatar_for_email(email: str, size: int = 80) -> str:
 
     querystring = urlencode({"d": settings.AVATAR_DEFAULT_IMAGE, "s": str(size)})
 
-    return f"{settings.AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"
+    return settings.AVATAR_URL_TEMPLATE.format(
+        AVATAR_URL_PREFIX=settings.AVATAR_URL_PREFIX,
+        mail_hash=mail_hash,
+        querystring=querystring,
+        username=username,
+        size=size,
+    )
 
 
 def get_fallback_avatar_url(
@@ -67,7 +73,7 @@ def get_avatar_image(user: User, size: int) -> bytes:
     image = cache.get(cache_key)
     if image is None:
         try:
-            image = download_avatar_image(user.email, size)
+            image = download_avatar_image(user.email, username, size)
             cache.set(cache_key, image)
         except (OSError, CertificateError, httpx2.HTTPError):
             report_error(f"Could not fetch avatar for {username}")
@@ -76,9 +82,9 @@ def get_avatar_image(user: User, size: int) -> bytes:
     return image
 
 
-def download_avatar_image(email: str, size: int) -> bytes:
+def download_avatar_image(email: str, username: str, size: int) -> bytes:
     """Download avatar image from remote server."""
-    url = avatar_for_email(email, size)
+    url = avatar_for_email(email, username, size)
     response = fetch_url("get", url, timeout=1.0)
     return response.content
 

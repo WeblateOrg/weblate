@@ -54,7 +54,7 @@ def check_avatars(
     if not settings.ENABLE_AVATARS:
         return []
     try:
-        download_avatar_image("noreply@weblate.org", 32)
+        download_avatar_image("noreply@weblate.org", settings.ANONYMOUS_USER_NAME, 32)
     except (OSError, CertificateError, httpx2.HTTPError) as error:
         return [weblate_check("weblate.E018", f"Could not download avatar: {error}")]
     return []
