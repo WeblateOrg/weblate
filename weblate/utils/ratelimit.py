@@ -158,16 +158,15 @@ class RateLimitBase:
         ]
 
     def is_limit_exceeded(self) -> tuple[bool, str]:
-        # Check all without decrementing
         for cache_item in self.cache_items:
-            if cache_item.count_remaining <= 0:
+            remaining = cache_item.decrement()
+            if remaining <= 0:
+                # Keep rejected attempts consumed. Rolling them back could add
+                # capacity to a new generation if this bucket expires meanwhile.
                 return (
                     True,
                     f"rate limit exceeded ({cache_item.attempts}/{cache_item.window}s)",
                 )
-        # If we get here, we can allow the operation - so decrement all counters
-        for cache_item in self.cache_items:
-            cache_item.decrement()
         return False, ""
 
     def touch(self, timeout: int) -> None:
@@ -202,6 +201,14 @@ class RateLimitNotify(RateLimitBase):
             sleep(NOTIFY_RATE_LIMIT_LOCK_INTERVAL)
 
         try:
+            # Notification rate limits can have multiple buckets. The lock makes
+            # checking all buckets before consuming capacity safe.
+            for cache_item in self.cache_items:
+                if cache_item.count_remaining <= 1:
+                    return (
+                        True,
+                        f"rate limit exceeded ({cache_item.attempts}/{cache_item.window}s)",
+                    )
             return super().is_limit_exceeded()
         finally:
             if cache.get(lock_key) == lock_value:
@@ -264,19 +271,33 @@ class CacheCounterItem:
         self.cache_key = f"{base_key}:{attempts}:{window}"
         self.attempts = attempts
         self.window = window
-        cache.add(self.cache_key, attempts, window)
+        # The extra sentinel value distinguishes the last allowed decrement
+        # from an exhausted Memcached counter, which saturates at zero.
+        cache.add(self.cache_key, attempts + 1, window)
 
     @property
     def count_remaining(self) -> int:
-        return cache.get(self.cache_key, 0)
+        remaining = cache.get(self.cache_key)
+        if remaining is None:
+            cache.add(self.cache_key, self.attempts + 1, self.window)
+            remaining = cache.get(self.cache_key)
+        return remaining if remaining is not None else 0
 
     def increment(self) -> None:
         with suppress(ValueError):
             cache.incr(self.cache_key)
 
-    def decrement(self) -> None:
-        with suppress(ValueError):
-            cache.decr(self.cache_key)
+    def decrement(self) -> int:
+        for _unused in range(2):
+            try:
+                remaining = cache.decr(self.cache_key)
+            except ValueError:
+                # The item can expire or be evicted between initialization and use.
+                cache.add(self.cache_key, self.attempts + 1, self.window)
+            else:
+                # A cache configured to ignore backend errors can return None.
+                return remaining if remaining is not None else -1
+        return -1
 
     def touch(self, timeout: int) -> None:
         cache.touch(self.cache_key, timeout)

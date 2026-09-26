@@ -4,16 +4,6 @@
 
 {% block addon_content %}
 
-  {% if instance.api_url %}
-    <p>
-      {% translate "Add-on API base URL:" %} <code class="text-break">{{ instance.api_url }}</code>
-    </p>
-    <p>
-      <a href="{% url 'api:api-root' %}">{% translate "API root" %}</a>
-      {% documentation_icon 'admin/addons' addon.doc_anchor %}
-    </p>
-  {% endif %}
-
   {% if form %}
     <form method="post" id="addon-form">
       <div class="card">

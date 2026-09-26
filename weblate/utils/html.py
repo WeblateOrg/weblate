@@ -14,9 +14,9 @@ from typing import TYPE_CHECKING, Any, NamedTuple
 import nh3
 from django.utils.html import format_html, format_html_join
 from django.utils.translation import pgettext
-from html2text import HTML2Text as _HTML2Text
 from lxml.etree import HTMLParser
 from lxml.html.defs import tags as lxml_html_tags
+from turbohtml import Element, PlainText, Text, parse
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -35,7 +35,9 @@ MD_LINK = re.compile(
     \[((?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]               # Link text
     \(
         \s*(<)?([\s\S]*?)(?(2)>)                                # URL
-        (?:\s+['"]([\s\S]*?)['"])?\s*                           # Title
+        (?:\s+(
+            "(?:\\.|[^"\\])*" | '(?:\\.|[^'\\])*' | \((?:\\.|[^()\\])*\)
+        ))?\s*                                                 # Title, including delimiters
     \)
     |
     <(https?://[^>]+)>                                          # URL
@@ -564,30 +566,76 @@ class HTMLSanitizer:
         return text
 
 
-# Map tags to open and closing text
-WEBLATE_TAGS = {
-    # Word diff syntax for text changes
-    "ins": ("{+", "+}"),
-    "del": ("[-", "-]"),
-}
+MAIL_TEXT_OPTIONS = PlainText(width=78, links="inline", images=False, layout="strict")
 
 
-class HTML2Text(_HTML2Text):
-    def __init__(self, bodywidth: int = 78) -> None:
-        super().__init__(bodywidth=bodywidth)
-        # Use Unicode characters instead of their ascii pseudo-replacements
-        self.unicode_snob = True
-        #  Do not include any formatting for images
-        self.ignore_images = True
-        # Pad the cells to equal column width in tables
-        self.pad_tables = True
+def _table_colspan(cell: Element) -> int:
+    colspan = cell.attrs.get("colspan")
+    return max(1, int(colspan)) if isinstance(colspan, str) and colspan.isdigit() else 1
 
-    def handle_tag(self, tag: str, attrs: dict[str, str | None], start: bool) -> None:
-        # Special handling for certain tags
-        if tag in WEBLATE_TAGS:
-            self.o(WEBLATE_TAGS[tag][not start])
-            return
-        super().handle_tag(tag, attrs, start)
+
+def html_to_mail_text(html: str) -> str:
+    """Render notification HTML as plain text, retaining Weblate diff notation."""
+    document = parse(html)
+
+    for element in document.select("ins, del"):
+        opening, closing = ("{+", "+}") if element.tag == "ins" else ("[-", "-]")
+        element.insert_before(Text(opening))
+        element.insert_after(Text(closing))
+        element.unwrap()
+
+    for table in document.select("table"):
+        if all(
+            len(line) <= 78 for line in table.to_text(MAIL_TEXT_OPTIONS).splitlines()
+        ):
+            continue
+        header_row = table.select_one("thead tr")
+        headers = []
+        if header_row is not None:
+            for cell in header_row.select("th"):
+                headers.extend(
+                    [cell.to_text(MAIL_TEXT_OPTIONS).strip()] * _table_colspan(cell)
+                )
+        rows = []
+        for row in table.select("tr"):
+            if row == header_row:
+                continue
+            cells = row.select("th, td")
+            if cells:
+                content: list[Element | Text]
+                if headers:
+                    content = []
+                    column = 0
+                    for cell in cells:
+                        if content:
+                            content.append(Element("br"))
+                        span = _table_colspan(cell)
+                        label = (
+                            headers[column]
+                            if span == 1 and column < len(headers)
+                            else ""
+                        )
+                        value = cell.to_text(MAIL_TEXT_OPTIONS).strip()
+                        content.append(Text(f"{label}: {value}" if label else value))
+                        column += span
+                else:
+                    values = [cell.to_text(MAIL_TEXT_OPTIONS).strip() for cell in cells]
+                    content = [
+                        Text(
+                            f"{values[0]}: {'; '.join(values[1:])}"
+                            if len(values) > 1
+                            else values[0]
+                        )
+                    ]
+                rows.append(
+                    Element(
+                        "p",
+                        children=content,
+                    )
+                )
+        table.replace_with(Element("div", children=rows))
+
+    return document.to_text(MAIL_TEXT_OPTIONS)
 
 
 def mail_quote_char(text: str) -> str | SafeString:

@@ -16583,7 +16583,8 @@ paths:
     get:
       operationId: api_projects_file_retrieve
       description: The archive defaults to ZIP and can be limited to one language
-        using language_code.
+        using language_code. Unfiltered downloads require project-wide download permission;
+        language-filtered downloads require permission for that language.
       summary: Download all translation files in the project.
       parameters:
       - in: query
@@ -17847,7 +17848,8 @@ paths:
     get:
       operationId: api_projects_languages_file_retrieve
       description: The archive defaults to ZIP, and filter limits included components
-        by a case-insensitive substring of their slug.
+        by a case-insensitive substring of their slug. Requires download permission
+        for the requested language.
       summary: Download all component translation files in the project for a specific
         language.
       parameters:
@@ -26283,6 +26285,12 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoTranslateResponse'
+          description: The request was accepted for asynchronous processing.
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/changes/:
     get:
       operationId: api_translations_changes_list
@@ -32752,6 +32760,10 @@ components:
           maximum: 100
           minimum: 1
           title: Score threshold
+        background:
+          type: boolean
+          default: false
+          description: Schedule automatic translation as a background task.
       required:
       - auto_source
       - mode
@@ -32763,6 +32775,10 @@ components:
       properties:
         details:
           type: string
+        task_url:
+          type: string
+          format: uri
+          description: URL for tracking a background automatic translation.
       required:
       - details
     AutomationPreviewRequest:
@@ -33159,6 +33175,16 @@ components:
         effective_pull_message:
           type: string
           readOnly: true
+        enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the parent category, project or
+            workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
       required:
       - announcements_url
       - effective_add_message
@@ -33167,6 +33193,7 @@ components:
       - effective_check_flags
       - effective_commit_message
       - effective_delete_message
+      - effective_enforced_checks
       - effective_language_code_style
       - effective_license
       - effective_merge_message
@@ -33639,6 +33666,14 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the project, category or workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
         restricted:
           type: boolean
           title: Restricted component
@@ -33874,6 +33909,7 @@ components:
       - effective_check_flags
       - effective_commit_message
       - effective_delete_message
+      - effective_enforced_checks
       - effective_language_code_style
       - effective_license
       - effective_merge_message
@@ -36310,6 +36346,16 @@ components:
         effective_pull_message:
           type: string
           readOnly: true
+        enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the parent category, project or
+            workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
     PatchedComponent:
       type: object
       properties:
@@ -36516,6 +36562,14 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the project, category or workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
         restricted:
           type: boolean
           title: Restricted component
@@ -37223,6 +37277,15 @@ components:
         announcements_url:
           type: string
           format: uri
+          readOnly: true
+        enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
           readOnly: true
     PatchedRole:
       type: object
@@ -38152,6 +38215,15 @@ components:
           type: string
           format: uri
           readOnly: true
+        enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
       required:
       - announcements_url
       - categories_url
@@ -38163,6 +38235,7 @@ components:
       - effective_check_flags
       - effective_commit_message
       - effective_delete_message
+      - effective_enforced_checks
       - effective_language_code_style
       - effective_license
       - effective_merge_message
@@ -38386,6 +38459,14 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the project, category or workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
         restricted:
           type: boolean
           title: Restricted component
@@ -38621,6 +38702,7 @@ components:
       - effective_check_flags
       - effective_commit_message
       - effective_delete_message
+      - effective_enforced_checks
       - effective_language_code_style
       - effective_license
       - effective_merge_message

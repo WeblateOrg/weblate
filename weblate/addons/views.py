@@ -477,6 +477,17 @@ class AddonDetail(BaseAddonView, UpdateView):
         return super().post(request, *args, **kwargs)
 
 
+class AddonAPI(BaseAddonView):
+    template_name_suffix = "_api"
+    addon_page = "api"
+
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        if self.object.api_url is None:
+            raise Http404
+        return result
+
+
 class AddonLogs(BaseAddonView):
     template_name_suffix = "_logs"
     addon_page = "logs"
