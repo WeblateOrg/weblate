@@ -7,12 +7,12 @@ requires = [
 
 [dependency-groups]
 dev = [
-  {include-group = "docs"},
-  {include-group = "lint"},
-  {include-group = "sbom"},
-  {include-group = "scripts"},
-  {include-group = "test"},
-  {include-group = "types"}
+  { include-group = "docs" },
+  { include-group = "lint" },
+  { include-group = "sbom" },
+  { include-group = "scripts" },
+  { include-group = "test" },
+  { include-group = "types" }
 ]
 docs = [
   "furo==2025.12.19",
@@ -34,8 +34,8 @@ fuzzing = [
   "atheris==3.1.0"
 ]
 lint = [
-  {include-group = "pre-commit"},
-  {include-group = "pylint"}
+  { include-group = "pre-commit" },
+  { include-group = "pylint" }
 ]
 package-build = [
   "setuptools==84.0.0",
@@ -98,7 +98,7 @@ types = [
 
 [project]
 authors = [
-  {email = "michal@weblate.org", name = "Michal Čihař"}
+  { email = "michal@weblate.org", name = "Michal Čihař" }
 ]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
@@ -107,14 +107,14 @@ classifiers = [
   "Intended Audience :: Developers",
   "Intended Audience :: System Administrators",
   "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python",
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
-  "Programming Language :: Python",
-  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
   "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
   "Topic :: Software Development :: Internationalization",
   "Topic :: Software Development :: Localization"
 ]
@@ -576,6 +576,10 @@ FAIL_INVALID_TEMPLATE_VARS = true
 # The single quote is used intentionall to be sorted by toml-sort at the end
 # what is needed to make them match as the last match is used.
 filterwarnings = [
+  # Triggered when Selenium can not be started
+  'default:Selenium error:UserWarning',
+  # TODO: these might be worth investigating
+  'default:unclosed:ResourceWarning',
   # Treat all unfiltered warnings as errors
   "error",
   # Warning in the third-party module (drf_spectacular)
@@ -593,11 +597,7 @@ filterwarnings = [
   # There is no way to address this in a backwards compatible way
   "ignore:Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata:Warning",
   # Warning in the third-party module (borg)
-  "ignore:Version._version:DeprecationWarning:borg",
-  # Triggered when Selenium can not be started
-  'default:Selenium error:UserWarning',
-  # TODO: these might be worth investigating
-  'default:unclosed:ResourceWarning'
+  "ignore:Version._version:DeprecationWarning:borg"
 ]
 python_files = ["test_*.py", "tests.py"]
 
@@ -622,6 +622,10 @@ future-annotations = true
 # WONTFIX - not fixable in current codebase, might be better to go for noqa
 ignore = [
   "ambiguous-unicode-character-string",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
+  'avoidable-escaped-quote',  # CONFIG: formatter
+  'bad-quotes-docstring',  # CONFIG: formatter
+  'bad-quotes-inline-string',  # CONFIG: formatter
+  'bad-quotes-multiline-string',  # CONFIG: formatter
   "blind-except",  # WONTFIX: Do not catch blind exception: `Exception`, third-party modules do not have defined exceptions
   "COM",  # CONFIG: No trailing commas
   "docstring-missing-exception",  # TODO: Raised exception missing from docstring
@@ -641,8 +645,10 @@ ignore = [
   "PTH",  # TODO: Not using pathlib
   "raise-vanilla-args",  # WONTFIX: Avoid specifying long messages outside the exception class
   "redefined-loop-name",  # TODO: overwriting variables inside loop
+  'single-line-implicit-string-concatenation',  # CONFIG: formatter
   "stdlib-module-shadowing",  # WONTFIX: Module is shadowing a Python builtin module
   "subprocess-without-shell-equals-true",  # CONFIG: we do not want to use shell on subprocess
+  'tab-indentation',  # CONFIG: formatter
   "undocumented-magic-method",  # TODO: Missing docstring in magic method
   "undocumented-public-class",  # TODO: Missing docstring in public class
   "undocumented-public-function",  # TODO: Missing docstring in public function
@@ -653,13 +659,7 @@ ignore = [
   "undocumented-public-package",  # TODO: Missing docstring in public package
   "unused-function-argument",  # TODO: Unused function argument (mostly for API compatibility)
   "unused-method-argument",  # TODO: Unused method argument (mostly for API compatibility)
-  "whitespace-before-punctuation",  # CONFIG: formatter
-  'avoidable-escaped-quote',  # CONFIG: formatter
-  'bad-quotes-docstring',  # CONFIG: formatter
-  'bad-quotes-inline-string',  # CONFIG: formatter
-  'bad-quotes-multiline-string',  # CONFIG: formatter
-  'single-line-implicit-string-concatenation',  # CONFIG: formatter
-  'tab-indentation'  # CONFIG: formatter
+  "whitespace-before-punctuation"  # CONFIG: formatter
 ]
 preview = true
 select = ["ALL"]
