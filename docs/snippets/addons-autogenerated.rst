@@ -1938,6 +1938,8 @@ Squash Git commits
                 |                     |                                            |      - Per file                                                                                                                                                   |
                 |                     |                                            |    * - ``author``                                                                                                                                                 |
                 |                     |                                            |      - Per author                                                                                                                                                 |
+                |                     |                                            |    * - ``author-language``                                                                                                                                        |
+                |                     |                                            |      - Per author and language                                                                                                                                    |
                 +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``append_trailers`` | Append trailers to squashed commit message | Trailer lines are lines that look similar to RFC 822 e-mail headers, at the end of the otherwise free-form part of a commit message, such as 'Co-authored-by: …'. |
                 +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1962,6 +1964,7 @@ in one of the following modes:
 * Per language
 * Per file
 * Per author
+* Per author and language
 
 Original commit messages are kept, but authorship is lost unless :guilabel:`Per author` is selected, or
 the commit message is customized to include it.
