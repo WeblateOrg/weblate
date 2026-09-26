@@ -209,7 +209,6 @@ def enforce_language_consistency(
                 continue
             component.commit_pending("language consistency", None)
             for language in missing:
-                component.refresh_lock()
                 new_lang = component.add_new_language(
                     language,
                     fake_request,  # type: ignore[arg-type]
@@ -266,7 +265,6 @@ def language_consistency(
         )
 
 
-@transaction.atomic
 def enforce_language_consistency_task(
     addon_id: int,
     language_ids: list[int],

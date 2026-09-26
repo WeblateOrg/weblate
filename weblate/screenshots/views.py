@@ -241,9 +241,9 @@ def ensure_tesseract_language(lang: str) -> None:
     with (
         WeblateLock(
             scope="screenshots:tesseract:download",
+            timeout=600,
             key=0,
             slug="screenshots:tesseract:download",
-            timeout=600,
         ),
         start_span(op="ocr.models"),
     ):

@@ -2644,9 +2644,9 @@ class GitMergeRequestBase(GitRepository):
         cache_id = self.request_time_cache_key
         lock = WeblateLock(
             scope="vcs:api:throttle",
+            timeout=5,
             key=vcs_id,
             slug=vcs_id,
-            timeout=3 * max(settings.VCS_API_DELAY, 10),
         )
         try:
             do_retry, response_data, response, invalid_error_response = (
@@ -2664,7 +2664,6 @@ class GitMergeRequestBase(GitRepository):
             )
         except WeblateLockTimeoutError:
             do_retry = True
-
         if do_retry:
             retry += 1
             if retry > 10:
