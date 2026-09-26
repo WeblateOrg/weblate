@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
 "PO-Revision-Date: 2026-09-11 08:22+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1438,6 +1438,45 @@ msgstr "ប្រសិនបើវាជាអ្នក សូមកំណត�
 msgid "Second factor sign in"
 msgstr "ការចូលដោយកត្តាទីពីរ"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Evaluation service"
+msgstr "ការផ្ទៀងផ្ទាត់ភាពត្រឹមត្រូវ"
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Disabled"
+msgstr "បកប្រែ"
+
+msgid "Daily"
+msgstr ""
+
+msgid "Weekly"
+msgstr ""
+
+msgid "Monthly"
+msgstr "ប្រចាំខែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Evaluate translation changes"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Evaluate repository updates"
+msgstr "ឃ្លាំង​មានដែនកំណត់"
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr "ការបកប្រែស្វ័យប្រវត្តិ"
 
@@ -1747,15 +1786,6 @@ msgstr ""
 
 msgid "Update frequency"
 msgstr ""
-
-msgid "Daily"
-msgstr ""
-
-msgid "Weekly"
-msgstr ""
-
-msgid "Monthly"
-msgstr "ប្រចាំខែ"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3094,6 +3124,11 @@ msgid "This string seems to already exist."
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
 #, fuzzy
+#| msgid "Translate"
+msgid "Automatic translation in progress"
+msgstr "បកប្រែ"
+
+#, fuzzy
 msgid "Category"
 msgstr "ប្រភេទ"
 
@@ -4008,14 +4043,24 @@ msgstr ""
 msgid "Adding strings is disabled in the component configuration."
 msgstr "ព័ត៌មាន​លម្អិត​"
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr ""
+#, fuzzy
+#| msgid "Information"
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "ព័ត៌មាន​លម្អិត​"
 
 #, fuzzy
 #| msgid "Translation status"
 msgid "The file format does not support this."
 msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "You do not have permission to edit this glossary."
+msgstr "បកប្រែ"
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr ""
 
 #, fuzzy
 #| msgid "Information"
@@ -4073,6 +4118,99 @@ msgstr "ការធ្វើឱ្យអ៊ីម៉ែលសកម្ម ន�
 #| msgid "Authentication"
 msgid "Accepted invitation to the %s team."
 msgstr "ការផ្ទៀងផ្ទាត់ភាពត្រឹមត្រូវ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Automation"
+msgstr "បកប្រែ"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+msgid "The component is outside this add-on's scope."
+msgstr ""
+
+#, fuzzy
+#| msgid "Per project data"
+msgid "The change does not belong to this component."
+msgstr "ក្នុង​មួយ​ទិន្នន័យនៃ​គម្រោង​"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Automation nesting is too deep."
+msgstr "បកប្រែ"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "ការតម្រៀបដែលបានជ្រើសរើសមិនត្រូវបានគាំទ្រទេ។"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Automation keys must be strings."
+msgstr "បកប្រែ"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "%(path)s: %(error)s"
+msgstr "បកប្រែ"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+msgid "Automation context is too large."
+msgstr ""
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Invalid CEL condition: %s"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+msgid "Workflow"
+msgstr ""
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Preview component ID"
+msgstr "បកប្រែ"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Download"
+msgid "Preview change ID"
+msgstr "ការទាញយក"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "សារបន្ថែម"
@@ -4268,6 +4406,53 @@ msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The evaluation detected a language quality issue."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Glossary"
+msgid "AI: Terminology"
+msgstr "សទ្ទា​នុក្រម​"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Information"
+msgid "AI: Formatting"
+msgstr "ព័ត៌មាន​លម្អិត​"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "ស្ថានភាព​ការបកប្រែ"
 
 msgid "AngularJS interpolation string"
 msgstr ""
@@ -5689,6 +5874,32 @@ msgstr ""
 msgid "Multivalue CSV file"
 msgstr ""
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "This file format does not support editing keys or context."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "A string with this identity already exists."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "This file format does not support editing source strings."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "The key cannot be represented in this file format."
+msgstr "ប្រភព​ខ្សែអក្សរ"
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -5734,10 +5945,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr ""
-
-#. Translators: File format name
 #, fuzzy
 #| msgid "Translate"
 msgid "XLIFF 1.2 with gettext extensions"
@@ -5753,12 +5960,6 @@ msgstr "បកប្រែ"
 #, fuzzy
 #| msgid "Translation status"
 msgid "XLIFF 2.0 translation file"
-msgstr "ស្ថានភាព​ការបកប្រែ"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "Translation status"
-msgid "XLIFF 2.0 translation file with placeables support"
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
 #. Translators: File format name
@@ -6010,10 +6211,20 @@ msgstr ""
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation status"
 msgid "Maximum retained versions"
 msgstr "ស្ថានភាព​ការបកប្រែ"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -8241,6 +8452,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr ""
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr ""
+
 #, fuzzy
 #| msgid "Per project data"
 msgctxt "Badge for site title for dedicated instances"
@@ -8528,10 +8743,24 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
+msgid "Add-on API"
+msgstr ""
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "API root"
+msgstr "ភាសា​មាន​ដែនកំណត់​"
+
 #, fuzzy
 #| msgid "Translate"
 msgid "Configuration"
 msgstr "បកប្រែ"
+
+msgid "API"
+msgstr ""
 
 #, fuzzy
 #| msgid "View"
@@ -8565,18 +8794,25 @@ msgstr ""
 msgid "No components found."
 msgstr "បកប្រែ"
 
-msgid "Add-on API base URL:"
-msgstr ""
-
-#, fuzzy
-#| msgid "Languages limit"
-msgid "API root"
-msgstr "ភាសា​មាន​ដែនកំណត់​"
-
 msgid "Configure add-on"
 msgstr ""
 
+#, fuzzy
+#| msgid "Download"
+msgid "Preview without changes"
+msgstr "ការទាញយក"
+
 msgid "This add-on has no settings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Automation preview"
+msgstr "ប្រភព​ខ្សែអក្សរ"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
 msgstr ""
 
 #, fuzzy
@@ -8794,6 +9030,25 @@ msgstr ""
 #| msgid "Projects limit"
 msgid "Project URL slug"
 msgstr "គម្រោង​មានដែនកំណត់"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+#, fuzzy
+#| msgid "Per project data"
+msgid "Create a project token"
+msgstr "ក្នុង​មួយ​ទិន្នន័យនៃ​គម្រោង​"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -9336,19 +9591,6 @@ msgstr ""
 msgid "Check your billing status"
 msgstr "ពិនិត្យស្ថានភាពវិក្កយបត្ររបស់អ្នក"
 
-msgid "Browse"
-msgstr ""
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "ស្ថានភាពការបកប្រែ"
-
-#, fuzzy
-#| msgid "No matching checks found!"
-msgid "No strings found!"
-msgstr "ការ​ពិនិត្យ​ដែលផ្គូផ្គងរកមិនឃេីញ!"
-
 msgid "Insights"
 msgstr ""
 
@@ -9441,6 +9683,11 @@ msgstr "បកប្រែ"
 #| msgid "Interlingua"
 msgid "Add new category"
 msgstr "អីនធើលីង"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "ស្ថានភាពការបកប្រែ"
 
 #, fuzzy
 #| msgid "Interlingua"
@@ -10051,8 +10298,8 @@ msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
 
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
 msgstr ""
 
 msgid "Reset and reapply"
@@ -10074,18 +10321,24 @@ msgstr ""
 msgid "Cleanup"
 msgstr ""
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-msgid "It also removes stale branches which are not used by Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translate"
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "បកប្រែ"
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr ""
@@ -10205,6 +10458,9 @@ msgstr ""
 #| msgid "Interlingua"
 msgid "Browse all repository changes"
 msgstr "អីនធើលីង"
+
+msgid "Nothing to preview."
+msgstr ""
 
 msgid "Shortcut"
 msgstr ""
@@ -10328,9 +10584,6 @@ msgid ""
 "The language definitions are automatically updated by Weblate upon a "
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
-msgstr ""
-
-msgid "Workflow"
 msgstr ""
 
 msgid "Changing plural rules might not have a desired effect."
@@ -11070,8 +11323,29 @@ msgid ""
 "credentials below."
 msgstr ""
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
 msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repositories limit"
+msgid "Buy backup service"
+msgstr "ឃ្លាំង​មានដែនកំណត់"
+
+#, fuzzy
+#| msgid "Glossary"
+msgid "Add custom backup storage"
+msgstr "សទ្ទា​នុក្រម​"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -12015,6 +12289,9 @@ msgstr "ប្រភព​ខ្សែអក្សរ"
 msgid "Paste from clipboard"
 msgstr "ប្រតិបត្តិការនៃឃ្លាំង"
 
+msgid "Translate"
+msgstr "បកប្រែ"
+
 #, fuzzy
 #| msgid "Strings"
 msgid "strings"
@@ -12666,6 +12943,9 @@ msgstr ""
 msgid "Untranslated"
 msgstr "បកប្រែ"
 
+msgid "Browse"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translate"
 msgid "Create translation"
@@ -12674,9 +12954,6 @@ msgstr "បកប្រែ"
 #, fuzzy
 #| msgid "Translate"
 msgid "Cannot add translation right now"
-msgstr "បកប្រែ"
-
-msgid "Translate"
 msgstr "បកប្រែ"
 
 msgid "Customized workflow"
@@ -13275,6 +13552,11 @@ msgstr "ការផ្ទៀងផ្ទាត់ភាពត្រឹមត្
 msgid "Create account"
 msgstr "បកប្រែ"
 
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "Configure %(addon)s"
+msgstr "បកប្រែ"
+
 msgid "Weblate could not execute script add-on."
 msgstr ""
 
@@ -13285,6 +13567,12 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Command"
 msgstr "ប្រភព​ខ្សែអក្សរ"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
@@ -13811,6 +14099,12 @@ msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] ""
 
+msgid "Jump to date"
+msgstr ""
+
+msgid "Go"
+msgstr ""
+
 msgid "Changes"
 msgstr ""
 
@@ -13818,6 +14112,23 @@ msgid "Download latest changes as CSV"
 msgstr ""
 
 msgid "Follow using RSS"
+msgstr ""
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgid "View"
+msgid "Newer"
+msgstr "មេីល"
+
+msgid "Older"
 msgstr ""
 
 msgid "From version control"
@@ -14133,11 +14444,6 @@ msgstr[0] ""
 
 #, fuzzy
 #| msgid "Per project data"
-msgid "Create a project token"
-msgstr "ក្នុង​មួយ​ទិន្នន័យនៃ​គម្រោង​"
-
-#, fuzzy
-#| msgid "Per project data"
 msgid "Create"
 msgstr "ក្នុង​មួយ​ទិន្នន័យនៃ​គម្រោង​"
 
@@ -14197,6 +14503,14 @@ msgid ""
 "new repository. This will work just fine if the repository has been moved to "
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Edit source"
+msgstr "ប្រភព​ខ្សែអក្សរ"
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
@@ -14495,6 +14809,11 @@ msgstr ""
 msgid "No labels currently set."
 msgstr ""
 
+#, fuzzy
+#| msgid "Source strings"
+msgid "Edit flags"
+msgstr "ប្រភព​ខ្សែអក្សរ"
+
 msgid "Flags"
 msgstr ""
 
@@ -14566,6 +14885,15 @@ msgstr ""
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
+msgstr ""
+
+msgid "Effective flags"
+msgstr ""
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
 msgstr ""
 
 #, fuzzy, python-format
@@ -14691,11 +15019,6 @@ msgstr ""
 msgid "Repositories"
 msgstr "ឃ្លាំង​មានដែនកំណត់"
 
-#, fuzzy
-#| msgid "Translate"
-msgid "Disabled"
-msgstr "បកប្រែ"
-
 msgid "Refresh"
 msgstr ""
 
@@ -14805,9 +15128,6 @@ msgstr ""
 #| msgid "Contribute to Weblate"
 msgid "Continue to GitHub"
 msgstr "អ្នក​រួមចំណែក ជាមួយ​Weblate"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Source strings"
@@ -15103,6 +15423,14 @@ msgstr "ប្រតិបត្តិការនៃឃ្លាំង"
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Preview"
+msgstr "ប្រភព​ខ្សែអក្សរ"
 
 #, fuzzy
 #| msgid "Interlingua"
@@ -16078,6 +16406,11 @@ msgstr "បកប្រែ"
 msgid "POT updates do not update PO files."
 msgstr ""
 
+#, fuzzy
+#| msgid "A required file is not available."
+msgid "AI quality evaluation service is unavailable."
+msgstr "ឯកសារដែលត្រូវការមិនមានទេ។"
+
 msgid "Information"
 msgstr "ព័ត៌មាន"
 
@@ -16828,6 +17161,44 @@ msgstr ""
 msgid "Include closing tag for blank XML tags"
 msgstr ""
 
+msgid "Whitespace handling"
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Get support"
+msgid "Placeables support"
+msgstr "ទទួលយកការគាំទ្រ"
+
+msgid "Plain text only"
+msgstr ""
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Support placeables"
+msgstr "បរិច្ចាកទៅកាន់Weblate"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 msgid "FlatXML Root name"
 msgstr ""
 
@@ -17125,6 +17496,14 @@ msgid ""
 "changes."
 msgstr ""
 
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Ignore language mismatch"
+msgstr "​កំហិត​ភាសា"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr ""
 
@@ -17296,6 +17675,34 @@ msgstr ""
 
 msgid "Please choose"
 msgstr ""
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Source flags — all languages"
+msgstr "អីនធើលីង"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation flags — this language"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Translation flags — %(language)s"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "You do not have permission to edit these flags."
+msgstr "បកប្រែ"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -17580,6 +17987,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translate"
+msgid "Key or context"
+msgstr "ដោះស្រាយមតិ"
+
+#, fuzzy
+#| msgid "Translate"
 msgid "Translation key"
 msgstr "បកប្រែ"
 
@@ -17642,22 +18054,38 @@ msgstr "បរិច្ចាកទៅកាន់Weblate"
 msgid "Do not change"
 msgstr "ការទាញយក"
 
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation flags to add"
-msgstr "ស្ថានភាព​ការបកប្រែ"
+msgid "Source flags to add — all languages"
+msgstr ""
 
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation flags to remove"
-msgstr "ស្ថានភាព​ការបកប្រែ"
-
-msgid "Labels to add"
+msgid "Source flags to remove — all languages"
 msgstr ""
 
 #, fuzzy
+#| msgid "Translation status"
+msgid "Translation flags to add — matching translations"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation flags to remove — matching translations"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Labels to add — all languages"
+msgstr "អីនធើលីង"
+
+#, fuzzy
 #| msgid "Languages limit"
-msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "ភាសា​មាន​ដែនកំណត់​"
 
 msgid "I accept the contributor license agreement"
@@ -17713,6 +18141,11 @@ msgstr "បកប្រែ"
 #| msgid "Translate"
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "This user can not be edited."
+msgid "The date cannot be in the future."
+msgstr "អ្នកប្រើនេះមិនអាចកែសម្រួលបានទេ។"
 
 #, fuzzy
 #| msgid "Username"
@@ -18345,9 +18778,9 @@ msgid "Manage strings"
 msgstr "ប្រភព​ខ្សែអក្សរ"
 
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 
 msgid "Merge style"
@@ -19089,6 +19522,23 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "The uploaded file contains too many language declarations."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translate"
+msgid "Could not parse uploaded file: %s"
+msgstr "បកប្រែ"
+
 #, fuzzy, python-format
 #| msgid "Source strings"
 msgid "Could not commit pending changes: %s"
@@ -19097,11 +19547,6 @@ msgstr "ប្រភព​ខ្សែអក្សរ"
 #, fuzzy, python-brace-format
 #| msgid "Translate"
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "បកប្រែ"
-
-#, fuzzy, python-format
-#| msgid "Translate"
-msgid "Could not parse uploaded file: %s"
 msgstr "បកប្រែ"
 
 #, fuzzy, python-format
@@ -19144,20 +19589,57 @@ msgstr[0] ""
 
 #, fuzzy
 #| msgid "Translate"
-msgid "Unmark as read-only"
-msgstr "បកប្រែ"
-
-msgid "Mark as read-only"
-msgstr ""
-
-#, fuzzy
-#| msgid "Translate"
-msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "បកប្រែ"
 
 #, fuzzy
 #| msgid "Translate"
-msgid "Mark as untranslatable"
+msgid "Unmark as read-only for all languages"
+msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Unmark this translation as untranslatable"
+msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Unmark this translation as read-only"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Make untranslatable apply to all languages"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Make read-only apply to all languages"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Mark this translation as untranslatable"
+msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Mark this translation as read-only"
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Mark as untranslatable for all languages"
+msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Mark as read-only for all languages"
+msgstr "អីនធើលីង"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Mark as forbidden translation"
 msgstr "បកប្រែ"
 
 #, fuzzy
@@ -19166,15 +19648,14 @@ msgid "Unmark as forbidden translation"
 msgstr "បកប្រែ"
 
 #, fuzzy
-#| msgid "Translate"
-msgid "Mark as forbidden translation"
-msgstr "បកប្រែ"
+#| msgid "Interlingua"
+msgid "Mark as terminology for all languages"
+msgstr "អីនធើលីង"
 
-msgid "Unmark as terminology"
-msgstr ""
-
-msgid "Mark as terminology"
-msgstr ""
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Unmark as terminology for all languages"
+msgstr "អីនធើលីង"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -19183,6 +19664,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "The source string has changed. Reload it before editing."
+msgstr "ប្រភព​ខ្សែអក្សរ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The file format does not support this edit."
+msgstr "ស្ថានភាព​ការបកប្រែ"
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "A translation key is required."
+msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Could not find the string in the translation file."
+msgstr "បកប្រែ"
 
 msgid "Insert tab character"
 msgstr ""
@@ -19695,6 +20205,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "បានផ្លាស់ប្ដូរខ្សែអក្សរ"
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid history position."
+msgstr "ការជ្រើសរើសជួរឈរបញ្ជីមិនត្រឹមត្រូវទេ។"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -19750,6 +20265,11 @@ msgid ""
 "refreshed."
 msgstr ""
 
+#, fuzzy
+#| msgid "No matching checks found!"
+msgid "No strings found!"
+msgstr "ការ​ពិនិត្យ​ដែលផ្គូផ្គងរកមិនឃេីញ!"
+
 msgid "Your suggestion is empty!"
 msgstr ""
 
@@ -19793,11 +20313,6 @@ msgstr ""
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "បកប្រែ"
 
-#, fuzzy
-#| msgid "Translate"
-msgid "Automatic translation in progress"
-msgstr "បកប្រែ"
-
 msgid "Posted new comment"
 msgstr ""
 
@@ -19823,6 +20338,16 @@ msgstr ""
 
 msgid "New string has been added."
 msgstr ""
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "The component is busy. Please try again."
+msgstr "ចម្លើយមិនត្រឹមត្រូវទេ សូមព្យាយាមម្តងទៀត។"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source string updated."
+msgstr "ប្រភព​ខ្សែអក្សរ"
 
 #, fuzzy, python-format
 #| msgid "Source strings"
@@ -19882,6 +20407,16 @@ msgstr "បកប្រែ"
 #| msgid "Translate"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "បកប្រែ"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "The text is too long to preview."
+msgstr "ប្រភព​ខ្សែអក្សរ"
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr "បានផ្ញើសារច្រើនពេក សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។"
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -20053,6 +20588,11 @@ msgstr ""
 
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Could not change string flags!"
+msgstr "ប្រភព​ខ្សែអក្សរ"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -20631,6 +21171,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translate"
+msgid "Repository URL contains unsafe characters."
+msgstr "បកប្រែ"
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -21798,6 +22343,16 @@ msgid "The workspace has been removed."
 msgstr "ស្ថានភាព​ការបកប្រែ"
 
 #, fuzzy
+#~| msgid "Translation status"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "ស្ថានភាព​ការបកប្រែ"
+
+#, fuzzy
+#~| msgid "Translate"
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "បកប្រែ"
+
+#, fuzzy
 #~| msgid "Translate"
 #~ msgid "Skipped components:"
 #~ msgstr "បកប្រែ"
@@ -22318,11 +22873,6 @@ msgstr "ស្ថានភាព​ការបកប្រែ"
 #~ msgctxt "String state"
 #~ msgid "Untranslated"
 #~ msgstr "បកប្រែ"
-
-#, fuzzy
-#~| msgid "Interlingua"
-#~ msgid "Dismiss for all languages"
-#~ msgstr "អីនធើលីង"
 
 #, fuzzy
 #~| msgid "translate"

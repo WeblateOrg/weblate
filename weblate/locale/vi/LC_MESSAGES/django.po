@@ -19,9 +19,10 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-24 11:46+0000\n"
-"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"PO-Revision-Date: 2026-09-25 04:08+0000\n"
+"Last-Translator: GitHub webhook <noreply-webhook-github-"
+"integration@weblate.org>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -1486,6 +1487,46 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "Đăng nhập hai bước"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Evaluation service"
+msgstr "URL dịch vụ xác thực"
+
+#, fuzzy
+#| msgid "Update frequency"
+msgid "Evaluation frequency"
+msgstr "Tần suất cập nhật"
+
+msgid "Disabled"
+msgstr "Đã tắt"
+
+msgid "Daily"
+msgstr "Hằng ngày"
+
+msgid "Weekly"
+msgstr "Hàng tuần"
+
+msgid "Monthly"
+msgstr "Hàng tháng"
+
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Evaluate translation changes"
+msgstr "Duyệt tất cả thay đổi bản dịch"
+
+#, fuzzy
+#| msgid "Remote repository updated"
+msgid "Evaluate repository updates"
+msgstr "Kho lưu trữ từ xa đã được cập nhật"
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr "Dịch tự động"
 
@@ -1810,15 +1851,6 @@ msgstr ""
 
 msgid "Update frequency"
 msgstr "Tần suất cập nhật"
-
-msgid "Daily"
-msgstr "Hằng ngày"
-
-msgid "Weekly"
-msgstr "Hàng tuần"
-
-msgid "Monthly"
-msgstr "Hàng tháng"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3084,6 +3116,9 @@ msgstr "Bạn không có quyền phê duyệt chuỗi ký tự."
 msgid "This string seems to already exist."
 msgstr "Chuỗi này dường như đã tồn tại."
 
+msgid "Automatic translation in progress"
+msgstr "Dịch tự động đang tiến hành"
+
 msgid "Category"
 msgstr "Danh mục"
 
@@ -3858,13 +3893,23 @@ msgstr "Thay vào đó, thêm chuỗi vào ngôn ngữ nguồn."
 msgid "Adding strings is disabled in the component configuration."
 msgstr "Tính năng thêm chuỗi bị vô hiệu hóa trong cấu hình thành phần."
 
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "Tính năng thêm chuỗi bị vô hiệu hóa trong cấu hình thành phần."
+
+msgid "The file format does not support this."
+msgstr "Định dạng tập tin không hỗ trợ điều này."
+
+#, fuzzy
+#| msgid "You do not have permission to edit glossary entries."
+msgid "You do not have permission to edit this glossary."
+msgstr "Bạn không có quyền chỉnh sửa các mục trong bảng thuật ngữ."
+
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
 "Không thể loại bỏ bản dịch thuật ngữ. Thay vào đó, hãy loại bỏ chuỗi nguồn."
-
-msgid "The file format does not support this."
-msgstr "Định dạng tập tin không hỗ trợ điều này."
 
 msgid "Adding new translations is turned off in the component configuration."
 msgstr "Tính năng thêm bản dịch mới bị tắt trong cấu hình thành phần."
@@ -3917,6 +3962,103 @@ msgstr "Lời mời của người dùng đã bị xóa."
 #, python-format
 msgid "Accepted invitation to the %s team."
 msgstr "Đã chấp nhận lời mời vào nhóm %s."
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgid "Automation"
+msgstr "Tự động nhận diện"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component is outside this add-on's scope."
+msgstr "Thành phần này được thiết lập không chính xác."
+
+#, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change does not belong to this component."
+msgstr "Danh mục này không thuộc dự án này."
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automation nesting is too deep."
+msgstr "Chế độ dịch tự động"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "Không hỗ trợ cách sắp xếp đã chọn."
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Automation keys must be strings."
+msgstr "Các chuỗi được dịch tự động"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(email)s: %(error)s"
+msgid "%(path)s: %(error)s"
+msgstr "%(email)s: %(error)s"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Automation context is too large."
+msgstr "Tự động gán danh sách thành phần"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid repository branch: %s"
+msgid "Invalid CEL condition: %s"
+msgstr "Nhánh kho lưu trữ không hợp lệ: %s"
+
+msgid "Workflow"
+msgstr "Quy trình làm việc"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Preview component ID"
+msgstr "Tạo thành phần"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview change ID"
+msgstr "Xem xét các thay đổi"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "Tin nhắn bổ sung"
@@ -4098,6 +4240,57 @@ msgstr "Để chấm dứt thanh toán bạn phải xóa tất cả các dự á
 
 msgid "Cannot merge such a billing."
 msgstr "Không thể gộp các hóa đơn như vậy."
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "AI: Fluency"
+msgstr "Tần suất"
+
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "The evaluation detected a language quality issue."
+msgstr "Ngôn ngữ cơ sở của bản dịch có thể chỉnh sửa được."
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "Thuật ngữ"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+#, fuzzy
+#| msgid "The documentation has detailed instructions"
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr "Tài liệu có hướng dẫn chi tiết"
+
+#, fuzzy
+#| msgid "Vue I18n formatting"
+msgid "AI: Formatting"
+msgstr "Định dạng Vue I18n"
+
+#, fuzzy
+#| msgid "Translation is missing some placeholders."
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Bản dịch còn thiếu một số chỗ giữ chỗ."
 
 msgid "AngularJS interpolation string"
 msgstr "Chuỗi nội suy trong AngularJS"
@@ -5314,6 +5507,35 @@ msgstr "Excel Open XML"
 msgid "Multivalue CSV file"
 msgstr "Tệp CSV nhiều giá trị"
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "The file format does not support updating source strings."
+msgid "This file format does not support editing keys or context."
+msgstr "Định dạng tệp không hỗ trợ cập nhật chuỗi nguồn."
+
+#, fuzzy
+#| msgid "A user with this e-mail already exists."
+msgid "A string with this identity already exists."
+msgstr "Đã có người dùng với địa chỉ email này."
+
+#, fuzzy
+#| msgid "The file format does not support updating source strings."
+msgid "This file format does not support editing source strings."
+msgstr "Định dạng tệp không hỗ trợ cập nhật chuỗi nguồn."
+
+#, fuzzy
+#| msgid "Update source strings upload is not supported with this format."
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+"Việc cập nhật chuỗi nguồn để tải lên không được hỗ trợ với định dạng này."
+
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "The key cannot be represented in this file format."
+msgstr "Vai trò này không thể được giao cho nhóm này."
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr "Dữ liệu mô tả dạng số nhiều không hợp lệ trong tệp CSV: %s"
@@ -5354,10 +5576,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "Tệp phiên dịch XLIFF 1.2"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr "XLIFF 1.2 hỗ trợ các phần tử có thể thay thế"
-
-#. Translators: File format name
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF 1.2 với các tiện ích mở rộng gettext"
 
@@ -5368,10 +5586,6 @@ msgstr "XLIFF 1.2 với các tiện ích mở rộng của Apple"
 #. Translators: File format name
 msgid "XLIFF 2.0 translation file"
 msgstr "Tệp phiên dịch XLIFF 2.0"
-
-#. Translators: File format name
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "Tệp phiên dịch XLIFF 2.0 hỗ trợ các phần tử có thể thay thế"
 
 #. Translators: File format name
 msgid "Java Properties"
@@ -5618,10 +5832,20 @@ msgstr ""
 msgid "Maximum build age (days)"
 msgstr "Số lần thay đổi tối đa mỗi ngày"
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Maximum line length"
 msgid "Maximum retained versions"
 msgstr "Độ dài dòng tối đa"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -6961,9 +7185,9 @@ msgid ""
 "If you cannot use your passkey or security key, or any other configured "
 "verification method, contact the site administrator for help."
 msgstr ""
-"Nếu bạn không thể sử dụng khóa truy cập hoặc khóa bảo mật, hoặc bất kỳ phương "
-"thức xác minh nào khác đã được cấu hình, hãy liên hệ với quản trị viên trang "
-"web để được trợ giúp."
+"Nếu bạn không thể sử dụng khóa truy cập hoặc khóa bảo mật, hoặc bất kỳ "
+"phương thức xác minh nào khác đã được cấu hình, hãy liên hệ với quản trị "
+"viên trang web để được trợ giúp."
 
 msgid "Your profile"
 msgstr "Hồ sơ của bạn"
@@ -7786,6 +8010,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr "Đám mây"
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "Hết hạn"
+
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
 msgstr "Chuyên dụng"
@@ -8038,15 +8266,30 @@ msgid ""
 "have timed out or been canceled, or your credential may be unavailable on "
 "this device. Try again or use another verification method if available."
 msgstr ""
-"Không thể hoàn tất xác minh khóa truy cập hoặc khóa bảo mật. Yêu cầu có thể đã "
-"hết thời gian hoặc bị hủy, hoặc thông tin đăng nhập của bạn không khả dụng trên "
-"thiết bị này. Hãy thử lại hoặc sử dụng phương thức xác minh khác nếu có."
+"Không thể hoàn tất xác minh khóa truy cập hoặc khóa bảo mật. Yêu cầu có thể "
+"đã hết thời gian hoặc bị hủy, hoặc thông tin đăng nhập của bạn không khả "
+"dụng trên thiết bị này. Hãy thử lại hoặc sử dụng phương thức xác minh khác "
+"nếu có."
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Rất tiếc, trình duyệt của bạn không hỗ trợ WebAuthn."
 
+#, fuzzy
+#| msgid "Add-ons"
+msgid "Add-on API"
+msgstr "Tiện ích bổ sung"
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+msgid "API root"
+msgstr "Gốc API"
+
 msgid "Configuration"
 msgstr "Cấu hình"
+
+msgid "API"
+msgstr ""
 
 msgid "Logs"
 msgstr "Nhật ký"
@@ -8072,17 +8315,26 @@ msgstr "Không tương thích"
 msgid "No components found."
 msgstr "Không tìm thấy thành phần nào."
 
-msgid "Add-on API base URL:"
-msgstr "URL cơ sở API của tiện ích bổ sung:"
-
-msgid "API root"
-msgstr "Gốc API"
-
 msgid "Configure add-on"
 msgstr "Cấu hình tiện ích bổ sung"
 
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview without changes"
+msgstr "Xem xét các thay đổi"
+
 msgid "This add-on has no settings."
 msgstr "Tiện ích bổ sung này không có cài đặt."
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgid "Automation preview"
+msgstr "Tự động nhận diện"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
+msgstr ""
 
 msgid "Run add-on"
 msgstr "Chạy tiện ích bổ sung"
@@ -8275,6 +8527,23 @@ msgstr "Tên dự án"
 
 msgid "Project URL slug"
 msgstr "Slug URL dự án"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+msgid "Create a project token"
+msgstr "Tạo mã thông báo dự án"
 
 msgid "Review before installing"
 msgstr "Xem xét kỹ trước khi cài đặt"
@@ -8766,17 +9035,6 @@ msgstr "Bạn không có quyền thay đổi quyền truy cập dự án."
 msgid "Check your billing status"
 msgstr "Kiểm tra trạng thái thanh toán của bạn"
 
-msgid "Browse"
-msgstr "Duyệt"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "Trạng thái bản dịch"
-
-msgid "No strings found!"
-msgstr "Không tìm thấy chuỗi nào!"
-
 msgid "Insights"
 msgstr "Báo cáo"
 
@@ -8851,6 +9109,11 @@ msgstr "Dịch tự động hàng loạt"
 
 msgid "Add new category"
 msgstr "Thêm danh mục mới"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Trạng thái bản dịch"
 
 msgid "Browse all category changes"
 msgstr "Xem tất cả các thay đổi trong danh mục"
@@ -9444,11 +9707,9 @@ msgstr ""
 "Sử dụng khi bạn muốn nguồn gốc bản dịch trở thành nguồn tham khảo chính thức."
 
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
 msgstr ""
-"Thao tác này sẽ loại bỏ các thay đổi trong kho lưu trữ Weblate và đồng bộ "
-"hóa chúng với kho lưu trữ gốc."
 
 msgid "Reset and reapply"
 msgstr "Đặt lại và áp dụng lại"
@@ -9474,6 +9735,9 @@ msgstr ""
 msgid "Cleanup"
 msgstr "Xoá"
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
@@ -9481,11 +9745,16 @@ msgstr ""
 "Việc dọn dẹp sẽ xóa tất cả các tệp không được kiểm soát phiên bản theo dõi "
 "khỏi kho lưu trữ."
 
-msgid "It also removes stale branches which are not used by Weblate."
-msgstr "Nó cũng loại bỏ các nhánh lỗi thời không được Weblate sử dụng."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
+msgstr ""
 
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Sử dụng khi còn sót lại một số tệp rác trong kho lưu trữ Weblate."
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr "Đồng bộ"
@@ -9592,6 +9861,12 @@ msgstr "Thay đổi kho lưu trữ"
 
 msgid "Browse all repository changes"
 msgstr "Xem tất cả các thay đổi trong kho lưu trữ"
+
+#, fuzzy
+#| msgctxt "Number of strings"
+#| msgid "Waiting for review"
+msgid "Nothing to preview."
+msgstr "Đang chờ đánh giá"
 
 msgid "Shortcut"
 msgstr "Lối tắt"
@@ -9704,9 +9979,6 @@ msgstr ""
 "Các định nghĩa ngôn ngữ được Weblate tự động cập nhật khi cơ sở dữ liệu được "
 "di chuyển. Các chỉnh sửa không chính xác có thể sẽ bị hoàn tác. <a "
 "href=\"%(url)s\">Tham khảo tài liệu về cách xử lý đúng cách vấn đề này.</a>"
-
-msgid "Workflow"
-msgstr "Quy trình làm việc"
 
 msgid "Changing plural rules might not have a desired effect."
 msgstr ""
@@ -10414,8 +10686,29 @@ msgstr ""
 "Trong trường hợp bạn muốn khôi phục bản sao lưu, vui lòng ghi lại thông tin "
 "đăng nhập bên dưới."
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
+msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Buy backup service"
 msgstr "Thêm dịch vụ sao lưu"
+
+#, fuzzy
+#| msgid "Cleaned up backup storage"
+msgid "Add custom backup storage"
+msgstr "Đã dọn dẹp bộ nhớ sao lưu"
 
 msgid "Commercial"
 msgstr "Thương mại"
@@ -11242,6 +11535,9 @@ msgstr "Chọn tất cả chuỗi nguồn"
 msgid "Paste from clipboard"
 msgstr "Dán từ bảng tạm"
 
+msgid "Translate"
+msgstr "Dịch"
+
 msgid "strings"
 msgstr "chuỗi"
 
@@ -11828,14 +12124,14 @@ msgstr "Chưa đánh giá"
 msgid "Untranslated"
 msgstr "Chưa dịch"
 
+msgid "Browse"
+msgstr "Duyệt"
+
 msgid "Create translation"
 msgstr "Tạo bản dịch"
 
 msgid "Cannot add translation right now"
 msgstr "Hiện tại chưa thể thêm bản dịch"
-
-msgid "Translate"
-msgstr "Dịch"
 
 msgid "Customized workflow"
 msgstr "Quy trình làm việc tùy chỉnh"
@@ -12368,6 +12664,11 @@ msgstr "Chấp nhận lời mời"
 msgid "Create account"
 msgstr "Tạo tài khoản"
 
+#, fuzzy, python-format
+#| msgid "Configure add-on"
+msgid "Configure %(addon)s"
+msgstr "Cấu hình tiện ích bổ sung"
+
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate không thể thực thi tiện ích bổ sung tập lệnh."
 
@@ -12376,6 +12677,12 @@ msgstr "Các trường hợp sau đây đã được phát hiện:"
 
 msgid "Command"
 msgstr "Lệnh"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr ""
@@ -12989,6 +13296,14 @@ msgid "Backups are removed after %(keep_days)s day."
 msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] "Các bản sao lưu sẽ bị xóa sau %(keep_days)s ngày."
 
+#, fuzzy
+#| msgid "Jump to"
+msgid "Jump to date"
+msgstr "Chuyển đến"
+
+msgid "Go"
+msgstr ""
+
 msgid "Changes"
 msgstr "Thay đổi"
 
@@ -12997,6 +13312,24 @@ msgstr "Tải xuống các thay đổi mới nhất dưới dạng CSV"
 
 msgid "Follow using RSS"
 msgstr "Theo dõi bằng RSS"
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "Người xem"
+
+msgid "Older"
+msgstr ""
 
 msgid "From version control"
 msgstr "Từ kiểm soát phiên bản"
@@ -13339,9 +13672,6 @@ msgstr[0] ""
 "Nhóm này có %(count)s thành viên. Việc xóa nhóm có thể ảnh hưởng đến quyền "
 "truy cập của họ vào dự án."
 
-msgid "Create a project token"
-msgstr "Tạo mã thông báo dự án"
-
 msgid "Create"
 msgstr "Tạo"
 
@@ -13396,6 +13726,15 @@ msgstr ""
 "trữ mới. Điều này sẽ hoạt động tốt nếu kho lưu trữ đã được di chuyển đến một "
 "vị trí khác. Nếu nội dung kho lưu trữ khác nhau, có lẽ nên tạo một thành "
 "phần dịch thuật mới."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "Chỉnh sửa nguồn"
+
+msgid "Cancel"
+msgstr "Hủy bỏ"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "Tìm hiểu thêm về cách triển khai các thay đổi từ Weblate."
@@ -13639,6 +13978,11 @@ msgstr "Không có sự giải thích nào hiện tại được cung cấp."
 msgid "No labels currently set."
 msgstr "Hiện chưa có nhãn nào được thiết lập."
 
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit flags"
+msgstr "Sửa nhãn"
+
 msgid "Flags"
 msgstr "Cờ"
 
@@ -13711,6 +14055,17 @@ msgid ""
 msgstr ""
 "<code>%(flags)s</code> được thừa hưởng từ %(object)s vì chức năng chỉnh sửa "
 "chuỗi nguồn bị vô hiệu hóa."
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Effective flags"
+msgstr "Cờ kế thừa"
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
+msgstr ""
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -13842,9 +14197,6 @@ msgstr "ID Nhà cung cấp"
 msgid "Repositories"
 msgstr "Kho lưu trữ"
 
-msgid "Disabled"
-msgstr "Đã tắt"
-
 msgid "Refresh"
 msgstr "Làm mới"
 
@@ -13952,9 +14304,6 @@ msgstr "Sự kiện đã đăng ký"
 
 msgid "Continue to GitHub"
 msgstr "Tiếp tục đến GitHub"
-
-msgid "Cancel"
-msgstr "Hủy bỏ"
 
 msgid "Manifest preview"
 msgstr "Xem trước tệp kê khai"
@@ -14246,6 +14595,15 @@ msgstr "Mã nhúng đã được sao chép vào bảng nhớ tạm."
 
 msgid "Embed Code"
 msgstr "Mã Nhúng"
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Review"
+msgid "Preview"
+msgstr "Đánh Giá"
 
 msgid "Browse all workspace changes"
 msgstr "Xem tất cả các thay đổi trong không gian làm việc"
@@ -14947,6 +15305,11 @@ msgstr "Không thể cập nhật tệp POT."
 msgid "POT updates do not update PO files."
 msgstr "Việc cập nhật POT không cập nhật các tệp PO."
 
+#, fuzzy
+#| msgid "A required file is not available."
+msgid "AI quality evaluation service is unavailable."
+msgstr "Tệp được yêu cầu không có sẵn."
+
 msgid "Information"
 msgstr "Thông tin"
 
@@ -15588,6 +15951,48 @@ msgstr "MAC (\\r)"
 msgid "Include closing tag for blank XML tags"
 msgstr "Bao gồm thẻ đóng cho các thẻ XML trống"
 
+#, fuzzy
+#| msgid "Conflict handling"
+msgid "Whitespace handling"
+msgstr "Xử lý xung đột"
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Notification on any translation"
+msgid "Placeables support"
+msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+
+#, fuzzy
+#| msgid "Plain text file"
+msgid "Plain text only"
+msgstr "Tệp văn bản thuần túy"
+
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support placeables"
+msgstr "Hỗ trợ Weblate"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 msgid "FlatXML Root name"
 msgstr "Tên gốc FlatXML"
 
@@ -15846,6 +16251,14 @@ msgid ""
 msgstr ""
 "Bản dịch của chuỗi đã thay đổi. Vui lòng kiểm tra lại các thay đổi của bạn."
 
+#, fuzzy
+#| msgid "No language limit"
+msgid "Ignore language mismatch"
+msgstr "Không giới hạn ngôn ngữ"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr "Chế độ tải lên tập tin"
 
@@ -15989,6 +16402,34 @@ msgstr "Bình luận về bản dịch, thảo luận với các dịch giả kh
 
 msgid "Please choose"
 msgstr "Vui lòng chọn"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags — all languages"
+msgstr "Dành cho tất cả các ngôn ngữ"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags — this language"
+msgstr "Các cờ dịch cần thêm"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation flags to add"
+msgid "Translation flags — %(language)s"
+msgstr "Các cờ dịch cần thêm"
+
+#, fuzzy
+#| msgid "You do not have permission to edit source strings."
+msgid "You do not have permission to edit these flags."
+msgstr "Bạn không có quyền chỉnh sửa chuỗi nguồn."
 
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -16238,6 +16679,11 @@ msgstr "Chuỗi ký tự phân biệt chữ hoa chữ thường để tìm kiế
 msgid "Replacement string"
 msgstr "Chuỗi thay thế"
 
+#, fuzzy
+#| msgid "Screenshot context"
+msgid "Key or context"
+msgstr "Ngữ cảnh ảnh chụp màn hình"
+
 msgid "Translation key"
 msgstr "Khóa dịch thuật"
 
@@ -16295,16 +16741,38 @@ msgstr "Trạng thái cần thiết lập"
 msgid "Do not change"
 msgstr "Đừng thay đổi"
 
-msgid "Translation flags to add"
+msgid "Source flags to add — all languages"
+msgstr ""
+
+msgid "Source flags to remove — all languages"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Các cờ dịch cần thêm"
 
-msgid "Translation flags to remove"
+#, fuzzy
+#| msgid "Fills in translation strings with source string."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Điền chuỗi bản dịch bằng chuỗi nguồn."
+
+#, fuzzy
+#| msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
 msgstr "Các cờ dịch cần xóa"
 
-msgid "Labels to add"
-msgstr "Nhãn để thêm"
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
 
-msgid "Labels to remove"
+#, fuzzy
+#| msgid "For all languages"
+msgid "Labels to add — all languages"
+msgstr "Dành cho tất cả các ngôn ngữ"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Nhãn để xóa"
 
 msgid "I accept the contributor license agreement"
@@ -16346,6 +16814,11 @@ msgstr "Vui lòng nhập tên dự án và ngôn ngữ để xác nhận."
 
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Vui lòng nhập mã định danh mục và ngôn ngữ để xác nhận."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The date cannot be in the future."
+msgstr "Tên tệp không được là đường dẫn tuyệt đối."
 
 msgid "Author username"
 msgstr "Tên người dùng tác giả"
@@ -16965,10 +17438,15 @@ msgstr "Sử dụng kiểu mã ngôn ngữ được định cấu hình trong da
 msgid "Manage strings"
 msgstr "Quản lý chuỗi"
 
+#, fuzzy
+#| msgid ""
+#| "Enables adding and removing strings straight from Weblate. If your "
+#| "strings are extracted from the source code or managed externally you "
+#| "probably want to keep it disabled."
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 "Cho phép thêm và xóa chuỗi trực tiếp từ Weblate. Nếu chuỗi của bạn được "
 "trích xuất từ mã nguồn hoặc được quản lý bên ngoài, có lẽ bạn nên tắt chức "
@@ -17738,6 +18216,22 @@ msgstr "Dạng số nhiều %d trong tệp đã tải lên nằm ngoài phạm v
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Dạng số nhiều %d trong tệp đã tải lên bị thiếu."
 
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains too many language declarations."
+msgstr "Tệp ZIP chứa quá nhiều mục."
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, python-format
+msgid "Could not parse uploaded file: %s"
+msgstr "Không thể phân tích tệp đã tải lên: %s"
+
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Không thể lưu các thay đổi đang chờ xử lý: %s"
@@ -17746,10 +18240,6 @@ msgstr "Không thể lưu các thay đổi đang chờ xử lý: %s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr ""
 "Không thể phân tích cú pháp tệp đã tải lên dưới dạng {file_format}: {error}"
-
-#, python-format
-msgid "Could not parse uploaded file: %s"
-msgstr "Không thể phân tích tệp đã tải lên: %s"
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -17788,29 +18278,71 @@ msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] "Không thể lan truyền chuỗi đến %d thành phần."
 
-msgid "Unmark as read-only"
-msgstr "Bỏ chọn chế độ chỉ đọc"
-
-msgid "Mark as read-only"
-msgstr "Đánh dấu là chỉ đọc"
-
-msgid "Unmark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Bỏ đánh dấu là không thể dịch"
 
-msgid "Mark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as read-only"
+msgid "Unmark as read-only for all languages"
+msgstr "Bỏ chọn chế độ chỉ đọc"
+
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark this translation as untranslatable"
+msgstr "Bỏ đánh dấu là không thể dịch"
+
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Unmark this translation as read-only"
+msgstr "Bản dịch chỉ có thể đọc."
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "Quản lý các ngôn ngữ đã dịch"
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "Quản lý các ngôn ngữ đã dịch"
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark this translation as untranslatable"
 msgstr "Đánh dấu là không thể dịch"
 
-msgid "Unmark as forbidden translation"
-msgstr "Bỏ đánh dấu là bản dịch bị cấm"
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Mark this translation as read-only"
+msgstr "Bản dịch chỉ có thể đọc."
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark as untranslatable for all languages"
+msgstr "Đánh dấu là không thể dịch"
+
+#, fuzzy
+#| msgid "Mark as read-only"
+msgid "Mark as read-only for all languages"
+msgstr "Đánh dấu là chỉ đọc"
 
 msgid "Mark as forbidden translation"
 msgstr "Đánh dấu là bản dịch bị cấm"
 
-msgid "Unmark as terminology"
-msgstr "Bỏ đánh dấu là thuật ngữ"
+msgid "Unmark as forbidden translation"
+msgstr "Bỏ đánh dấu là bản dịch bị cấm"
 
-msgid "Mark as terminology"
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as terminology for all languages"
 msgstr "Đánh dấu là thuật ngữ"
+
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as terminology for all languages"
+msgstr "Bỏ đánh dấu là thuật ngữ"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -17821,6 +18353,35 @@ msgid ""
 msgstr ""
 "Chỉ những người dùng có quyền “Chỉnh sửa chuỗi khi đề xuất được thực thi” "
 "mới có thể thực hiện thay đổi trực tiếp."
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The source string has changed. Reload it before editing."
+msgstr "Chuỗi nguồn không thể chỉnh sửa."
+
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "Đã có một nhóm với tên này tồn tại trong không gian làm việc này."
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "The file format does not support this edit."
+msgstr "Định dạng tập tin không hỗ trợ điều này."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "A translation project was removed."
+msgid "A translation key is required."
+msgstr "Một dự án dịch đã bị xóa bỏ."
+
+#, fuzzy
+#| msgid "Could not add new translation file."
+msgid "Could not find the string in the translation file."
+msgstr "Không thể thêm tệp dịch mới."
 
 msgid "Insert tab character"
 msgstr "Chèn ký tự tab"
@@ -18288,6 +18849,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Các thay đổi trong %s"
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid history position."
+msgstr "Lựa chọn cột danh sách không hợp lệ."
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 "Cấu hình được cung cấp không chính xác. Vui lòng kiểm tra các lỗi bên dưới."
@@ -18346,6 +18912,9 @@ msgid ""
 "refreshed."
 msgstr ""
 
+msgid "No strings found!"
+msgstr "Không tìm thấy chuỗi nào!"
+
 msgid "Your suggestion is empty!"
 msgstr "Đề xuất của bạn trống!"
 
@@ -18385,9 +18954,6 @@ msgstr "Chuỗi tìm kiếm không hợp lệ!"
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "Không thể bắt đầu dịch tự động vì mục tiêu đã bị khóa."
 
-msgid "Automatic translation in progress"
-msgstr "Dịch tự động đang tiến hành"
-
 msgid "Posted new comment"
 msgstr "Đã đăng bình luận mới"
 
@@ -18409,6 +18975,16 @@ msgstr ""
 
 msgid "New string has been added."
 msgstr "Đã thêm chuỗi mới."
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "The component is busy. Please try again."
+msgstr "Thành phần này đã được chia sẻ trong %s."
+
+#, fuzzy
+#| msgid "Source string added"
+msgid "Source string updated."
+msgstr "Chuỗi nguồn đã được thêm"
 
 #, python-format
 msgid "Could not remove the string: %s"
@@ -18454,6 +19030,16 @@ msgstr "Các chuỗi ký tự không sử dụng đã được xóa khỏi tệp
 
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Các chuỗi ký tự lỗi thời đã được xóa khỏi tệp dịch."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long to preview."
+msgstr "Chuỗi nguồn cần được đánh giá."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr "Quá nhiều truy vấn tìm kiếm, vui lòng thử lại sau."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Thành phần hiện đã bị khóa để cập nhật bản dịch!"
@@ -18593,6 +19179,11 @@ msgstr "Thành phần này đã được chia sẻ trong %s."
 
 msgid "Backup scheduled. It will be available soon."
 msgstr "Quá trình sao lưu đã được lên lịch. Bản sao lưu sẽ sớm được hoàn tất."
+
+#, fuzzy
+#| msgid "Could not change additional string info!"
+msgid "Could not change string flags!"
+msgstr "Không thể thay đổi thông tin chuỗi bổ sung!"
 
 msgid "Could not change additional string info!"
 msgstr "Không thể thay đổi thông tin chuỗi bổ sung!"
@@ -19086,6 +19677,11 @@ msgstr "URL của Fediverse phải liên kết đến hồ sơ người dùng Fe
 
 msgid "URL domain is not allowed."
 msgstr "Tên miền URL không được phép."
+
+#, fuzzy
+#| msgid "Name contains disallowed characters."
+msgid "Repository URL contains unsafe characters."
+msgstr "Tên chứa các ký tự không được phép."
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -20242,6 +20838,31 @@ msgstr "Không thể xóa không gian làm việc vì nó vẫn đang được s
 msgid "The workspace has been removed."
 msgstr "Không gian làm việc đã bị xóa."
 
+#~ msgid "XLIFF 1.2 with placeables support"
+#~ msgstr "XLIFF 1.2 hỗ trợ các phần tử có thể thay thế"
+
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "Tệp phiên dịch XLIFF 2.0 hỗ trợ các phần tử có thể thay thế"
+
+#~ msgid "Add-on API base URL:"
+#~ msgstr "URL cơ sở API của tiện ích bổ sung:"
+
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr ""
+#~ "Thao tác này sẽ loại bỏ các thay đổi trong kho lưu trữ Weblate và đồng bộ "
+#~ "hóa chúng với kho lưu trữ gốc."
+
+#~ msgid "It also removes stale branches which are not used by Weblate."
+#~ msgstr "Nó cũng loại bỏ các nhánh lỗi thời không được Weblate sử dụng."
+
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Sử dụng khi còn sót lại một số tệp rác trong kho lưu trữ Weblate."
+
+#~ msgid "Labels to add"
+#~ msgstr "Nhãn để thêm"
+
 #~ msgid ""
 #~ "Updates the comment part of the PO file header to include contributor "
 #~ "names and years of contributions."
@@ -20730,11 +21351,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~ msgid "Return to the component"
 #~ msgstr "Đã tạo mới khóa SSH."
 
-#, fuzzy
-#~| msgid "Automatic detection"
-#~ msgid "Automatically recognize"
-#~ msgstr "Tự động nhận diện"
-
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr "Hướng dẫn xem xét từ danh sách kiểm tra bản địa hóa cộng đồng."
 
@@ -20907,11 +21523,6 @@ msgstr "Không gian làm việc đã bị xóa."
 #~| msgid "PHP strings"
 #~ msgid "Translations with contribution"
 #~ msgstr "PHP strings"
-
-#, fuzzy
-#~| msgid "Notification on any translation"
-#~ msgid "Weblate support"
-#~ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #, fuzzy
 #~| msgid "XLIFF Translation File"

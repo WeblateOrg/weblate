@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-11 08:22+0000\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -1598,6 +1598,49 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "Siste innlogging"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Evaluation service"
+msgstr "Identitetsbekreftelse"
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "disabled"
+msgid "Disabled"
+msgstr "Skru av"
+
+msgid "Daily"
+msgstr ""
+
+#, fuzzy
+#| msgid "Weekly digest"
+msgid "Weekly"
+msgstr "Ukentlig sammendrag"
+
+msgid "Monthly"
+msgstr "Månedlig"
+
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Evaluate translation changes"
+msgstr "Bla gjennom alle oversettelsesendringer"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Evaluate repository updates"
+msgstr "Kodelager er utdatert."
+
+#, fuzzy
+#| msgid "Plural equation"
+msgid "AI quality evaluation"
+msgstr "Flertallsfaktor"
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr "Automatisk oversettelse"
 
@@ -1977,17 +2020,6 @@ msgstr ""
 
 msgid "Update frequency"
 msgstr ""
-
-msgid "Daily"
-msgstr ""
-
-#, fuzzy
-#| msgid "Weekly digest"
-msgid "Weekly"
-msgstr "Ukentlig sammendrag"
-
-msgid "Monthly"
-msgstr "Månedlig"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3394,6 +3426,9 @@ msgstr "Du har ikke rettighet til å godta forslag!"
 msgid "This string seems to already exist."
 msgstr "Denne strengen ser ut til å finnes allerede."
 
+msgid "Automatic translation in progress"
+msgstr "Automatisk oversettelse pågår"
+
 msgid "Category"
 msgstr "Kategori"
 
@@ -4264,15 +4299,25 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr "Ustøttet komponentoppsett"
 
 #, fuzzy
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr ""
-"Kan ikke fjerne terminologioversettelse. Fjern kildestrengen istedenfor."
+#| msgid "Unsupported component configuration"
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "Ustøttet komponentoppsett"
 
 #, fuzzy
 #| msgid "The detected file format is not supported."
 msgid "The file format does not support this."
 msgstr "Oppdaget filformat støttes ikke."
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit this glossary."
+msgstr "Du har ikke rettighet til å godta forslag!"
+
+#, fuzzy
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr ""
+"Kan ikke fjerne terminologioversettelse. Fjern kildestrengen istedenfor."
 
 #, fuzzy
 #| msgid "Unsupported component configuration"
@@ -4333,6 +4378,103 @@ msgstr "E-post med brukerinvitasjon ble sendt."
 #| msgid "Resend e-mail invitation to the user"
 msgid "Accepted invitation to the %s team."
 msgstr "Send e-postinvitasjon til brukeren på ny"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgid "Automation"
+msgstr "Automatisk gjenkjenning"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component is outside this add-on's scope."
+msgstr "Denne komponenten er satt opp feil."
+
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "The change does not belong to this component."
+msgstr "Bruker har blitt blokkert i dette prosjektet."
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automation nesting is too deep."
+msgstr "Automatisk oversettelsesmodus"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "Den valgte sorteringen støttes ikke."
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automation keys must be strings."
+msgstr "Automatisk oversettelse"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to parse file %(file)s: %(error)s"
+msgid "%(path)s: %(error)s"
+msgstr "Kunne inne analysere filen %(file)s: %(error)s"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Automation context is too large."
+msgstr "Automatisk komponentlistetildeling"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Repository branch"
+msgid "Invalid CEL condition: %s"
+msgstr "Kodelagergren"
+
+msgid "Workflow"
+msgstr "Arbeidsflyt"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Preview component ID"
+msgstr "Opprett komponent"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview change ID"
+msgstr "Nylige endringer"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "Tilleggsmelding"
@@ -4541,6 +4683,57 @@ msgstr "For å oppheve betaling, må du først fjerne alle prosjektene."
 #, fuzzy
 msgid "Cannot merge such a billing."
 msgstr "Endring av %s tillates ikke for innebygde grupper."
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+#, fuzzy
+#| msgid "Vertical"
+msgid "Critical"
+msgstr "Loddrett"
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "The evaluation detected a language quality issue."
+msgstr "Oversettelsens grunnspråk kan redigeres."
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "Terminologi"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+#, fuzzy
+#| msgid "The documentation has detailed instructions"
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr "Dokumentasjonen har detaljerte instruksjoner"
+
+#, fuzzy
+#| msgid "Vue I18n formatting"
+msgid "AI: Formatting"
+msgstr "Vue I18n-formatering"
+
+#, fuzzy
+#| msgid "Translation is missing some placeholders"
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Oversettelsen mangler noen plassholdere"
 
 msgid "AngularJS interpolation string"
 msgstr "AngularJS interpoleringsstreng"
@@ -5962,6 +6155,34 @@ msgstr "Excel Open XML"
 msgid "Multivalue CSV file"
 msgstr "Enkel CSV-fil"
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This file format does not support editing keys or context."
+msgstr "Oppdaget filformat støttes ikke."
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A string with this identity already exists."
+msgstr "En bruker med det brukernavnet finnes allerede."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "This file format does not support editing source strings."
+msgstr "Oppdaget filformat støttes ikke."
+
+#, fuzzy
+#| msgid "Editing template is not supported with this file format."
+msgid "Editing source strings with inline markup is not supported."
+msgstr "Redigeringsmal er ikke støttet med dette filformatet."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The key cannot be represented in this file format."
+msgstr "Filnavnet kan ikke være en absolutt sti."
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -6008,11 +6229,6 @@ msgstr "XLIFF-oversettelsesfil"
 
 #. Translators: File format name
 #, fuzzy
-msgid "XLIFF 1.2 with placeables support"
-msgstr "XLIFF med støtte for plasserbare"
-
-#. Translators: File format name
-#, fuzzy
 #| msgid "XLIFF 1.1 with gettext extensions"
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF 1.1 med gettext-endelser"
@@ -6028,11 +6244,6 @@ msgstr "XLIFF 1.1 med gettext-endelser"
 #| msgid "XLIFF translation file"
 msgid "XLIFF 2.0 translation file"
 msgstr "XLIFF-oversettelsesfil"
-
-#. Translators: File format name
-#, fuzzy
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "XLIFF med støtte for plasserbare"
 
 #. Translators: File format name
 #, fuzzy
@@ -6299,10 +6510,20 @@ msgstr "Kan ikke låse kodelageret, siden en annen operasjon pågår."
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Maximum size of translation"
 msgid "Maximum retained versions"
 msgstr "Maksimal størrelse på oversettelse"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -8748,6 +8969,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr "Sky"
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "Utløpt"
+
 #, fuzzy
 #| msgid "Terminated"
 msgctxt "Badge for site title for dedicated instances"
@@ -9053,8 +9278,24 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
+#, fuzzy
+#| msgid "Add-ons"
+msgid "Add-on API"
+msgstr "Tillegg"
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "API-ets rotnettadresse:"
+
 msgid "Configuration"
 msgstr "Oppsett"
+
+msgid "API"
+msgstr ""
 
 #, fuzzy
 #| msgctxt "Access-control team name"
@@ -9091,21 +9332,28 @@ msgstr "Ikke tilgjengelig"
 msgid "No components found."
 msgstr "Fant ingen komponenter!"
 
-msgid "Add-on API base URL:"
-msgstr ""
-
-#, fuzzy
-#| msgid "API root URL:"
-msgid "API root"
-msgstr "API-ets rotnettadresse:"
-
 msgid "Configure add-on"
 msgstr "Sett opp tillegget"
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview without changes"
+msgstr "Nylige endringer"
 
 #, fuzzy
 #| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
 msgstr "Dette tillegget kjører et skript."
+
+#, fuzzy
+#| msgid "Automatically recognize"
+msgid "Automation preview"
+msgstr "Automatisk gjenkjenning"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enable add-on:"
@@ -9316,6 +9564,23 @@ msgstr "Prosjektnavn"
 
 msgid "Project URL slug"
 msgstr "Prosjektnettadresse-betegnelse"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+msgid "Create a project token"
+msgstr "Opprett et prosjektsymbol"
 
 msgid "Review before installing"
 msgstr "Gjennomgå før installering"
@@ -9856,17 +10121,6 @@ msgstr "Du har ikke rettigheter til å endre tilgangskontroll for prosjektet."
 msgid "Check your billing status"
 msgstr "Sjekk faktureringsstatus"
 
-msgid "Browse"
-msgstr "Bla gjennom"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "Oversettelsesstatus"
-
-msgid "No strings found!"
-msgstr "Ingen samsvarende strenger."
-
 msgid "Insights"
 msgstr "Innsikt"
 
@@ -9961,6 +10215,11 @@ msgstr "Automatisk oversettelse"
 #| msgid "Add new user"
 msgid "Add new category"
 msgstr "Legg til ny bruker"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Oversettelsesstatus"
 
 #, fuzzy
 #| msgid "Browse all changes"
@@ -10638,14 +10897,10 @@ msgstr ""
 "Weblate kunne ikke tolke oversettelsesfilene under oppdatering av "
 "oversettelsene."
 
-#, fuzzy
-#| msgid ""
-#| "This will commit any pending changes present in Weblate and not in the "
-#| "repository."
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
-msgstr "Bekreft endringer i Weblate-kodelageret"
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
+msgstr ""
 
 msgid "Reset and reapply"
 msgstr ""
@@ -10674,19 +10929,24 @@ msgstr ""
 msgid "Cleanup"
 msgstr "Opprydding"
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-#, fuzzy
-msgid "It also removes stale branches which are not used by Weblate."
-msgstr "Det fjerner også inaktive forgreninger som ikke brukes av Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
+msgstr ""
 
-#, fuzzy
-#| msgid "Prevent any changes in the Weblate repository"
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Forhindre endringer i Weblate-kodelageret"
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 #, fuzzy
 msgid "Synchronize"
@@ -10828,6 +11088,12 @@ msgstr "Kodelagerendringer"
 msgid "Browse all repository changes"
 msgstr "Bla gjennom alle endringer"
 
+#, fuzzy
+#| msgctxt "Number of strings"
+#| msgid "Waiting for review"
+msgid "Nothing to preview."
+msgstr "Til gjennomgang"
+
 msgid "Shortcut"
 msgstr ""
 
@@ -10956,9 +11222,6 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
-
-msgid "Workflow"
-msgstr "Arbeidsflyt"
 
 msgid "Changing plural rules might not have a desired effect."
 msgstr ""
@@ -11729,8 +11992,29 @@ msgstr ""
 "I fall du ønsker å være i stand til å gjenopprette sikkerhetskopiene, kan du "
 "bite deg merke i identitetsdetaljene nedenfor."
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
+msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Buy backup service"
 msgstr "Legg til sikkerhetskopitjeneste"
+
+#, fuzzy
+#| msgid "Cleaned up backup storage"
+msgid "Add custom backup storage"
+msgstr "Renset sikkerhetskopilager"
 
 msgid "Commercial"
 msgstr "Kommersiell"
@@ -12722,6 +13006,9 @@ msgstr "Søk i kildestrenger"
 msgid "Paste from clipboard"
 msgstr "Kopier til utklippstavle"
 
+msgid "Translate"
+msgstr "Oversett"
+
 #, fuzzy
 #| msgid "Strings"
 msgid "strings"
@@ -13403,6 +13690,9 @@ msgstr "gjennomgå"
 msgid "Untranslated"
 msgstr "Ikke oversatt"
 
+msgid "Browse"
+msgstr "Bla gjennom"
+
 msgid "Create translation"
 msgstr "Opprett oversettelse"
 
@@ -13410,9 +13700,6 @@ msgstr "Opprett oversettelse"
 #| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
 msgstr "Kunne ikke legge til ny oversettelsesfil."
-
-msgid "Translate"
-msgstr "Oversett"
 
 #, fuzzy
 #| msgid "Customize download"
@@ -14027,6 +14314,11 @@ msgstr "Send invitasjon på ny"
 msgid "Create account"
 msgstr "Opprett konto ved bruk av:"
 
+#, fuzzy, python-format
+#| msgid "Configure add-on"
+msgid "Configure %(addon)s"
+msgstr "Sett opp tillegget"
+
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate kunne ikke kjøre skript-tillegget."
 
@@ -14035,6 +14327,12 @@ msgstr "Figurerer følgende steder:"
 
 msgid "Command"
 msgstr "Kommando"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr "Filer for oversatte språk bruker tvetydige språkkoder."
@@ -14646,6 +14944,16 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] "Sikkerhetskopier fjernes etter %(keep_days)s dag."
 msgstr[1] "Sikkerhetskopier fjernes etter %(keep_days)s dager."
 
+#, fuzzy
+#| msgid "Jump to"
+msgid "Jump to date"
+msgstr "Hopp til"
+
+#, fuzzy
+#| msgid "Good"
+msgid "Go"
+msgstr "Bra"
+
 msgid "Changes"
 msgstr "Endringer"
 
@@ -14654,6 +14962,24 @@ msgstr "Last ned siste endringer som CSV"
 
 msgid "Follow using RSS"
 msgstr "Bruk RSS til å følge med"
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "Seere"
+
+msgid "Older"
+msgstr ""
 
 msgid "From version control"
 msgstr "Fra versjonskontroll"
@@ -14993,9 +15319,6 @@ msgstr[1] ""
 "Det er %(count)s medlemmer i denne gruppen. Sletting av laget kan ha "
 "innvirkning på tilgangen deres."
 
-msgid "Create a project token"
-msgstr "Opprett et prosjektsymbol"
-
 msgid "Create"
 msgstr "Opprett"
 
@@ -15059,6 +15382,15 @@ msgstr ""
 "flettet med det nye kodelageret. Dette fungerer helt fint hvis kodelageret "
 "har blitt flyttet til en annen plassering. Hvis kodelagerinnholdet er "
 "annerledes, kan det være bedre å opprette en ny oversettelseskomponent."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "Rediger kilde"
+
+msgid "Cancel"
+msgstr ""
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -15348,6 +15680,11 @@ msgstr "Ingen forklaring er gitt."
 msgid "No labels currently set."
 msgstr "Mangler etiketter."
 
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit flags"
+msgstr "Rediger etikett"
+
 msgid "Flags"
 msgstr "Flagg"
 
@@ -15424,6 +15761,17 @@ msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
 msgstr "<code>%(flags)s</code> er nedarvet fra %(object)s."
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Effective flags"
+msgstr "Arvede flagg"
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
+msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Add variant of this string"
@@ -15558,11 +15906,6 @@ msgstr "Tilbyder"
 msgid "Repositories"
 msgstr "Kodelager"
 
-#, fuzzy
-#| msgid "disabled"
-msgid "Disabled"
-msgstr "Skru av"
-
 msgid "Refresh"
 msgstr ""
 
@@ -15674,9 +16017,6 @@ msgstr "Abonnerte prosjekter"
 #| msgid "Continue"
 msgid "Continue to GitHub"
 msgstr "Fortsett"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Overview"
@@ -15988,6 +16328,14 @@ msgstr "Kodelagernettadresse kopiert til utklippstavle."
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Gjennomgang"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -16961,6 +17309,11 @@ msgstr "Klarte ikke å tolke TMX-fil!"
 msgid "POT updates do not update PO files."
 msgstr ""
 
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "AI quality evaluation service is unavailable."
+msgstr "Den angitte token er ikke gyldig."
+
 msgid "Information"
 msgstr "Informasjon"
 
@@ -17753,6 +18106,48 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Inkluder avsluttende tagg for blanke XML-tagger"
 
 #, fuzzy
+#| msgid "Conflict handling"
+msgid "Whitespace handling"
+msgstr "Konflikthåndtering"
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Placeables support"
+msgstr "Weblate hjelp"
+
+#, fuzzy
+#| msgid "Plain text file"
+msgid "Plain text only"
+msgstr "Klartekstfil"
+
+#, fuzzy
+#| msgid "Support Weblate at {0}"
+msgid "Support placeables"
+msgstr "Støtt Weblate på {0}"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
+#, fuzzy
 #| msgid "Flat XML file"
 msgid "FlatXML Root name"
 msgstr "Flat XML-fil"
@@ -18043,6 +18438,14 @@ msgstr ""
 "Oversettelsen av strengen har blitt endret i mellomtiden. Sjekk endringene "
 "dine."
 
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Ignore language mismatch"
+msgstr "Grense for antall språk"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr "Filopplastingsmodus"
 
@@ -18208,6 +18611,34 @@ msgstr "Oversettelseskommentar, diskusjoner med andre oversettere"
 
 msgid "Please choose"
 msgstr "Velg"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags — all languages"
+msgstr "For alle språk"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation language:"
+msgid "Translation flags — this language"
+msgstr "Oversettelsesspråk:"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation language:"
+msgid "Translation flags — %(language)s"
+msgstr "Oversettelsesspråk:"
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit these flags."
+msgstr "Du har ikke rettighet til å godta forslag!"
 
 #, fuzzy
 #| msgid "This translation is currently locked."
@@ -18500,6 +18931,11 @@ msgstr "Store/små bokstaver sensitiv streng å søke etter og erstatte."
 msgid "Replacement string"
 msgstr "Erstatningsstreng"
 
+#, fuzzy
+#| msgid "Screenshot context"
+msgid "Key or context"
+msgstr "Skjermbildekontekst"
+
 msgid "Translation key"
 msgstr "Oversettelsesnøkkel"
 
@@ -18563,16 +18999,38 @@ msgstr "Tilstand å sette"
 msgid "Do not change"
 msgstr "Ikke endre"
 
-msgid "Translation flags to add"
+msgid "Source flags to add — all languages"
+msgstr ""
+
+msgid "Source flags to remove — all languages"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Oversettelsesflagg å legge til"
 
-msgid "Translation flags to remove"
+#, fuzzy
+#| msgid "Fills in translation strings with source string."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Fyller inn oversettelsesstrenger med kildestreng."
+
+#, fuzzy
+#| msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
 msgstr "Oversettelsesflagg å fjerne"
 
-msgid "Labels to add"
-msgstr "Etiketter å legge til"
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
 
-msgid "Labels to remove"
+#, fuzzy
+#| msgid "For all languages"
+msgid "Labels to add — all languages"
+msgstr "For alle språk"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Etiketter å fjerne"
 
 #, fuzzy
@@ -18620,6 +19078,11 @@ msgstr "Skriv inn hele prosjektets og språkets betegnelse for å bekrefte."
 #| msgid "Please type in the slug of the project and language to confirm."
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Skriv inn hele prosjektets og språkets betegnelse for å bekrefte."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The date cannot be in the future."
+msgstr "Filnavnet kan ikke være en absolutt sti."
 
 msgid "Author username"
 msgstr "Forfatterbrukernavn"
@@ -19334,9 +19797,9 @@ msgstr "Håndter strenger"
 
 #, fuzzy
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 "Skru av tillegg og fjerning av strenger i Weblate hvis disse utledes fra "
 "kildekoden eller håndteres eksternt."
@@ -20151,6 +20614,23 @@ msgstr ""
 "Flertallsformer i den opplastede filen stemmer ikke med den gjeldende "
 "oversettelsen."
 
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains too many language declarations."
+msgstr "ZIP-fil inneholdende oversettelser"
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to parse uploaded ZIP file."
+msgid "Could not parse uploaded file: %s"
+msgstr "Klarte ikke å tolke opplastet ZIP-fil."
+
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Kunne ikke sende inn ventende endringer: %s"
@@ -20159,11 +20639,6 @@ msgstr "Kunne ikke sende inn ventende endringer: %s"
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Kunne inne analysere filen %(file)s: %(error)s"
-
-#, fuzzy, python-format
-#| msgid "Failed to parse uploaded ZIP file."
-msgid "Could not parse uploaded file: %s"
-msgstr "Klarte ikke å tolke opplastet ZIP-fil."
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -20220,35 +20695,69 @@ msgstr[0] ""
 msgstr[1] ""
 "Bidrag til denne oversettelsen krever at du samtykker til bidragsyteravtalen."
 
-msgid "Unmark as read-only"
-msgstr "Opphev skrivebeskyttelsesmerking"
-
-msgid "Mark as read-only"
-msgstr "Marker som skrivebeskyttet"
-
 #, fuzzy
 #| msgid "Unmark as forbidden translation"
-msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Opphev merking som forbudt oversettelse"
 
 #, fuzzy
+#| msgid "Unmark as read-only"
+msgid "Unmark as read-only for all languages"
+msgstr "Opphev skrivebeskyttelsesmerking"
+
+#, fuzzy
+#| msgid "Unmark as forbidden translation"
+msgid "Unmark this translation as untranslatable"
+msgstr "Opphev merking som forbudt oversettelse"
+
+#, fuzzy
+#| msgid "The translation is read only."
+msgid "Unmark this translation as read-only"
+msgstr "Oversettelsen er skrivebeskyttet."
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "Håndter oversatte språk"
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "Håndter oversatte språk"
+
+#, fuzzy
 #| msgid "Mark as forbidden translation"
-msgid "Mark as untranslatable"
+msgid "Mark this translation as untranslatable"
+msgstr "Marker som forbudt oversettelse"
+
+#, fuzzy
+#| msgid "The translation is read only."
+msgid "Mark this translation as read-only"
+msgstr "Oversettelsen er skrivebeskyttet."
+
+#, fuzzy
+#| msgid "Mark as forbidden translation"
+msgid "Mark as untranslatable for all languages"
+msgstr "Marker som forbudt oversettelse"
+
+#, fuzzy
+#| msgid "Mark as read-only"
+msgid "Mark as read-only for all languages"
+msgstr "Marker som skrivebeskyttet"
+
+msgid "Mark as forbidden translation"
 msgstr "Marker som forbudt oversettelse"
 
 msgid "Unmark as forbidden translation"
 msgstr "Opphev merking som forbudt oversettelse"
 
-msgid "Mark as forbidden translation"
-msgstr "Marker som forbudt oversettelse"
-
 #, fuzzy
-msgid "Unmark as terminology"
-msgstr "Opphev terminologimerking"
-
-#, fuzzy
-msgid "Mark as terminology"
+msgid "Mark as terminology for all languages"
 msgstr "Marker som terminologi"
+
+#, fuzzy
+msgid "Unmark as terminology for all languages"
+msgstr "Opphev terminologimerking"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -20257,6 +20766,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The source string has changed. Reload it before editing."
+msgstr "Kildestrengen kan ikke redigeres."
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "En bruker med det brukernavnet finnes allerede."
+
+#, fuzzy
+#| msgid "The detected file format is not supported."
+msgid "The file format does not support this edit."
+msgstr "Oppdaget filformat støttes ikke."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translation project was removed"
+msgid "A translation key is required."
+msgstr "Oversettelsesprosjektet ditt ble fjernet"
+
+#, fuzzy
+#| msgid "Could not add new translation file."
+msgid "Could not find the string in the translation file."
+msgstr "Kunne ikke legge til ny oversettelsesfil."
 
 msgid "Insert tab character"
 msgstr "Sett inn tabulatortegn"
@@ -20803,6 +21341,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Forandringer i %s"
 
+#, fuzzy
+#| msgid "Created component"
+msgid "Invalid history position."
+msgstr "Begrenset komponent"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -20876,6 +21419,9 @@ msgid ""
 "refreshed."
 msgstr ""
 
+msgid "No strings found!"
+msgstr "Ingen samsvarende strenger."
+
 msgid "Your suggestion is empty!"
 msgstr "Forslaget ditt er tomt!"
 
@@ -20921,9 +21467,6 @@ msgstr "Ugyldig søkestreng!"
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "Automatisk oversettelse hoppet over fordi målet ikke lenger finnes."
 
-msgid "Automatic translation in progress"
-msgstr "Automatisk oversettelse pågår"
-
 msgid "Posted new comment"
 msgstr "Postet ny kommentar"
 
@@ -20951,6 +21494,16 @@ msgstr "Kan ikke låse kodelageret, siden en annen operasjon pågår."
 
 msgid "New string has been added."
 msgstr "Ny streng lagt til."
+
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "The component is busy. Please try again."
+msgstr "Oversettelsen er for tiden låst."
+
+#, fuzzy
+#| msgid "Source string added"
+msgid "Source string updated."
+msgstr "Kildestreng lagt til"
 
 #, fuzzy, python-format
 #| msgid "Failed to remove the string: %s"
@@ -21014,6 +21567,16 @@ msgstr "Fiks dette ved å fjerne én av oversettelsesfilene."
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Fiks dette ved å fjerne én av oversettelsesfilene."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long to preview."
+msgstr "Kildestrengen trenger å gjennomgås."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr "For mange søk sendt, prøv igjen senere."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Komponenten er nå låst for oversettelseoppdateringer!"
@@ -21205,6 +21768,11 @@ msgstr "Oversettelsen er for tiden låst."
 #, fuzzy
 msgid "Backup scheduled. It will be available soon."
 msgstr "Sikkerhetskopi anmodet. Den vil bli tilgjengelig snart."
+
+#, fuzzy
+#| msgid "Failed to change additional string info!"
+msgid "Could not change string flags!"
+msgstr "Klarte ikke å redigere ytterligere strenginfo!"
 
 #, fuzzy
 #| msgid "Failed to change additional string info!"
@@ -21761,6 +22329,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Name consists only of disallowed characters."
+msgid "Repository URL contains unsafe characters."
+msgstr "Navnet inneholder kun tegn som ikke tillates."
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -23068,6 +23641,35 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Kilden er blitt fjernet."
 
+#, fuzzy
+#~ msgid "XLIFF 1.2 with placeables support"
+#~ msgstr "XLIFF med støtte for plasserbare"
+
+#, fuzzy
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "XLIFF med støtte for plasserbare"
+
+#, fuzzy
+#~| msgid ""
+#~| "This will commit any pending changes present in Weblate and not in the "
+#~| "repository."
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr "Bekreft endringer i Weblate-kodelageret"
+
+#, fuzzy
+#~ msgid "It also removes stale branches which are not used by Weblate."
+#~ msgstr "Det fjerner også inaktive forgreninger som ikke brukes av Weblate."
+
+#, fuzzy
+#~| msgid "Prevent any changes in the Weblate repository"
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Forhindre endringer i Weblate-kodelageret"
+
+#~ msgid "Labels to add"
+#~ msgstr "Etiketter å legge til"
+
 #~ msgid ""
 #~ "Updates the comment part of the PO file header to include contributor "
 #~ "names and years of contributions."
@@ -23528,9 +24130,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgid "View all alerts"
 #~ msgstr "Vis alle varsler"
 
-#~ msgid "Automatically recognize"
-#~ msgstr "Automatisk gjenkjenning"
-
 #, fuzzy
 #~| msgid "Unmet guidelines from the community localization checklist:"
 #~ msgid "Review guidelines from the community localization checklist."
@@ -23932,9 +24531,6 @@ msgstr "Kilden er blitt fjernet."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "Oversettelsesbidrag"
-
-#~ msgid "Weblate support"
-#~ msgstr "Weblate hjelp"
 
 #, fuzzy
 #~| msgid "Delete comment"
@@ -25021,9 +25617,6 @@ msgstr "Kilden er blitt fjernet."
 #~ "Sikrer at alle komponentene i ett prosjekt har oversettelser for hvert "
 #~ "språk som oversettes."
 
-#~ msgid "Good"
-#~ msgstr "Bra"
-
 #~ msgid "Please search below to find matching source strings."
 #~ msgstr "Søk nedenfor for å finne samsvarende kildestrenger."
 
@@ -25601,9 +26194,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgid "You can now log in using password."
 #~ msgstr "Du kan nå logge inn med passord."
 
-#~ msgid "Plural equation"
-#~ msgstr "Flertallsfaktor"
-
 #~ msgid "New whiteboard message"
 #~ msgstr "Ny tavlemelding"
 
@@ -25950,9 +26540,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgid "Your languages"
 #~ msgstr "Dine språk"
 
-#~ msgid "Review"
-#~ msgstr "Gjennomgang"
-
 #~ msgid "Search type"
 #~ msgstr "Søketype"
 
@@ -26231,9 +26818,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgid "Message:"
 #~ msgstr "Melding:"
 
-#~ msgid "Translation language:"
-#~ msgstr "Oversettelsesspråk:"
-
 #~ msgid ""
 #~ "Automatic detection might fail for some formats and is slightly slower."
 #~ msgstr ""
@@ -26311,9 +26895,6 @@ msgstr "Kilden er blitt fjernet."
 #~ msgstr ""
 #~ "Se vår dokumentasjon for instruks om hvordan man rapporterer om "
 #~ "sikkerhetshull i vår plattform."
-
-#~ msgid "Vertical"
-#~ msgstr "Loddrett"
 
 #~ msgid "Horizontal"
 #~ msgstr "Vannrett"
