@@ -5,6 +5,7 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added :ref:`enforced-check inheritance <component-enforced_checks>` at workspace, project, category, and component level.
 * DeepL automatic suggestions can include a rephrased version of an existing translation via the DeepL Write API (Pro plans and supported languages only). See :ref:`mt-deepl-rephrase`.
 * Added the :ref:`Automation add-on <addon-weblate.automation.automation>` for conditional translation and editing workflows. See :doc:`admin/automation`.
 * Source strings and translation keys can now be :ref:`edited <edit-source>` in the editor and REST API while preserving translations and history.

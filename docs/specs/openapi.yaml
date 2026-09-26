@@ -33175,6 +33175,16 @@ components:
         effective_pull_message:
           type: string
           readOnly: true
+        enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the parent category, project or
+            workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
       required:
       - announcements_url
       - effective_add_message
@@ -33183,6 +33193,7 @@ components:
       - effective_check_flags
       - effective_commit_message
       - effective_delete_message
+      - effective_enforced_checks
       - effective_language_code_style
       - effective_license
       - effective_merge_message
@@ -33655,6 +33666,14 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the project, category or workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
         restricted:
           type: boolean
           title: Restricted component
@@ -33890,6 +33909,7 @@ components:
       - effective_check_flags
       - effective_commit_message
       - effective_delete_message
+      - effective_enforced_checks
       - effective_language_code_style
       - effective_license
       - effective_merge_message
@@ -36326,6 +36346,16 @@ components:
         effective_pull_message:
           type: string
           readOnly: true
+        enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the parent category, project or
+            workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
     PatchedComponent:
       type: object
       properties:
@@ -36532,6 +36562,14 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the project, category or workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
         restricted:
           type: boolean
           title: Restricted component
@@ -37239,6 +37277,15 @@ components:
         announcements_url:
           type: string
           format: uri
+          readOnly: true
+        enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
           readOnly: true
     PatchedRole:
       type: object
@@ -38168,6 +38215,15 @@ components:
           type: string
           format: uri
           readOnly: true
+        enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
       required:
       - announcements_url
       - categories_url
@@ -38179,6 +38235,7 @@ components:
       - effective_check_flags
       - effective_commit_message
       - effective_delete_message
+      - effective_enforced_checks
       - effective_language_code_style
       - effective_license
       - effective_merge_message
@@ -38402,6 +38459,14 @@ components:
           minimum: -2147483648
           maximum: 2147483647
         enforced_checks: {}
+        inherit_enforced_checks:
+          type: boolean
+          description: Inherit enforced checks from the project, category or workspace.
+        effective_enforced_checks:
+          type: array
+          items:
+            type: string
+          readOnly: true
         restricted:
           type: boolean
           title: Restricted component
@@ -38637,6 +38702,7 @@ components:
       - effective_check_flags
       - effective_commit_message
       - effective_delete_message
+      - effective_enforced_checks
       - effective_language_code_style
       - effective_license
       - effective_merge_message

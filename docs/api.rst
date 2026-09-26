@@ -1065,6 +1065,9 @@ Projects
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string license: :ref:`project-license`
+    :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+    :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the workspace.
+    :>json array effective_enforced_checks: Enforced checks currently applied to the project (read-only).
     :>json integer access_control: :ref:`project-access_control`
     :>json boolean public_sharing: :ref:`project-public_sharing`
     :>json boolean use_shared_tm: :ref:`project-use_shared_tm`
@@ -1821,7 +1824,9 @@ Components
     :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string check_flags: :ref:`component-check_flags`
     :>json string priority: :ref:`component-priority`
-    :>json string enforced_checks: :ref:`component-enforced_checks`
+    :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+    :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the category, project, or workspace.
+    :>json array effective_enforced_checks: Enforced checks currently applied to the component (read-only).
     :>json string restricted: :ref:`component-restricted`
     :>json string repoweb: :ref:`component-repoweb`
     :>json string report_source_bugs: :ref:`component-report_source_bugs`
@@ -3733,6 +3738,9 @@ Categories
    :>json str slug: Slug of category.
    :>json str project: Link to a project.
    :>json str category: Link to a parent category.
+   :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+   :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the parent category, project, or workspace.
+   :>json array effective_enforced_checks: Enforced checks currently applied to the category (read-only).
    :>json string announcements_url: URL to announcements; see :http:get:`/api/categories/(int:id)/announcements/`
    :>json string reports_url: URL to list or generate scoped reports; see :http:get:`/api/categories/(int:id)/reports/`
 

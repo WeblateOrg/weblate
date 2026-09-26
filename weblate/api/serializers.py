@@ -1656,6 +1656,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     effective_addon_message = serializers.SerializerMethodField()
     effective_pull_message = serializers.SerializerMethodField()
     effective_check_flags = serializers.SerializerMethodField()
+    effective_enforced_checks = serializers.SerializerMethodField()
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-components", lookup_field="slug"
@@ -1693,6 +1694,12 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     locked = serializers.BooleanField(read_only=True)
     announcements_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-announcements", lookup_field="slug"
+    )
+
+    enforced_checks = serializers.JSONField(required=False)
+    inherit_enforced_checks = serializers.BooleanField(
+        required=False,
+        help_text=gettext_lazy("Inherit enforced checks from the workspace."),
     )
 
     class Meta:
@@ -1767,6 +1774,9 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "machinery_settings",
             "locked",
             "announcements_url",
+            "enforced_checks",
+            "inherit_enforced_checks",
+            "effective_enforced_checks",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
@@ -1809,6 +1819,19 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     def get_effective_check_flags(self, obj: Project) -> str:
         return obj.effective_check_flags.format()
 
+    def get_effective_enforced_checks(self, obj: Project) -> list[str]:
+        return obj.get_effective_setting("enforced_checks")
+
+    def validate_enforced_checks(self, value):
+        if not isinstance(value, list):
+            msg = "Enforced checks has to be a list."
+            raise serializers.ValidationError(msg)
+        for item in value:
+            if not isinstance(item, str) or item not in CHECKS:
+                msg = f"Unsupported enforced check: {item}"
+                raise serializers.ValidationError(msg)
+        return value
+
     def create(self, validated_data):
         has_workspace = validated_data.get("workspace") is not None
         initial_data = getattr(self, "initial_data", {})
@@ -1818,6 +1841,11 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                 continue
             validated_data[inherit_field] = has_workspace and field not in initial_data
         return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if "enforced_checks" in validated_data:
+            validated_data.setdefault("inherit_enforced_checks", False)
+        return super().update(instance, validated_data)
 
     def get_billing_forced_access_control(
         self, workspace: Workspace | None
@@ -2086,6 +2114,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
     effective_addon_message = serializers.SerializerMethodField()
     effective_pull_message = serializers.SerializerMethodField()
     effective_check_flags = serializers.SerializerMethodField()
+    effective_enforced_checks = serializers.SerializerMethodField()
     announcements_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-announcements", lookup_field=("project__slug", "slug")
     )
@@ -2118,6 +2147,12 @@ class ComponentSerializer(RemovableSerializer[Component]):
     disable_autoshare = serializers.BooleanField(required=False)
 
     enforced_checks = serializers.JSONField(required=False)
+    inherit_enforced_checks = serializers.BooleanField(
+        required=False,
+        help_text=gettext_lazy(
+            "Inherit enforced checks from the project, category or workspace."
+        ),
+    )
 
     category = serializers.HyperlinkedRelatedField(
         view_name="api:category-detail",
@@ -2178,6 +2213,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
     def get_effective_check_flags(self, obj: Component) -> str:
         return obj.all_flags.format()
 
+    def get_effective_enforced_checks(self, obj: Component) -> list[str]:
+        return obj.get_effective_setting("enforced_checks")
+
     class Meta:
         model = Component
         fields: tuple[str, ...] = (
@@ -2229,6 +2267,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "effective_check_flags",
             "priority",
             "enforced_checks",
+            "inherit_enforced_checks",
+            "effective_enforced_checks",
             "restricted",
             "repoweb",
             "report_source_bugs",
@@ -2302,7 +2342,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             msg = "Enforced checks has to be a list."
             raise serializers.ValidationError(msg)
         for item in value:
-            if item not in CHECKS:
+            if not isinstance(item, str) or item not in CHECKS:
                 msg = f"Unsupported enforced check: {item}"
                 raise serializers.ValidationError(msg)
         return value
@@ -2694,6 +2734,11 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     def create(self, validated_data):
         source_component = validated_data.pop("from_component", None)
+        if (
+            "enforced_checks" in validated_data
+            and "inherit_enforced_checks" not in validated_data
+        ):
+            validated_data["inherit_enforced_checks"] = False
         if source_component is None:
             return super().create(validated_data)
 
@@ -2705,6 +2750,11 @@ class ComponentSerializer(RemovableSerializer[Component]):
         )
         component.save(force_insert=True)
         return component
+
+    def update(self, instance, validated_data):
+        if "enforced_checks" in validated_data:
+            validated_data.setdefault("inherit_enforced_checks", False)
+        return super().update(instance, validated_data)
 
 
 class NotificationSerializer(serializers.ModelSerializer[Subscription]):
@@ -3865,6 +3915,15 @@ class CategorySerializer(RemovableSerializer[Category]):
     effective_addon_message = serializers.SerializerMethodField()
     effective_pull_message = serializers.SerializerMethodField()
     effective_check_flags = serializers.SerializerMethodField()
+    effective_enforced_checks = serializers.SerializerMethodField()
+
+    enforced_checks = serializers.JSONField(required=False)
+    inherit_enforced_checks = serializers.BooleanField(
+        required=False,
+        help_text=gettext_lazy(
+            "Inherit enforced checks from the parent category, project or workspace."
+        ),
+    )
 
     class Meta:
         model = Category
@@ -3913,6 +3972,9 @@ class CategorySerializer(RemovableSerializer[Category]):
             "pull_message",
             "inherit_pull_message",
             "effective_pull_message",
+            "enforced_checks",
+            "inherit_enforced_checks",
+            "effective_enforced_checks",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:category-detail"},
@@ -3955,6 +4017,19 @@ class CategorySerializer(RemovableSerializer[Category]):
     def get_effective_check_flags(self, obj: Category) -> str:
         return obj.effective_check_flags.format()
 
+    def get_effective_enforced_checks(self, obj: Category) -> list[str]:
+        return obj.get_effective_setting("enforced_checks")
+
+    def validate_enforced_checks(self, value):
+        if not isinstance(value, list):
+            msg = "Enforced checks has to be a list."
+            raise serializers.ValidationError(msg)
+        for item in value:
+            if not isinstance(item, str) or item not in CHECKS:
+                msg = f"Unsupported enforced check: {item}"
+                raise serializers.ValidationError(msg)
+        return value
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         request = self.context.get("request")
@@ -3987,6 +4062,11 @@ class CategorySerializer(RemovableSerializer[Category]):
                 continue
             validated_data[inherit_field] = field not in initial_data
         return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if "enforced_checks" in validated_data:
+            validated_data.setdefault("inherit_enforced_checks", False)
+        return super().update(instance, validated_data)
 
     def to_internal_value(self, data):
         result = super().to_internal_value(data)
