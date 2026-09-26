@@ -46,4 +46,28 @@
     </div>
   </form>
 
+  {% if machinery_errors %}
+    <div class="card">
+      <div class="card-header text-bg-warning">
+        <h4 class="card-title">{% translate "Recent errors" %}</h4>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>{% translate "Timestamp" %}</th>
+            <th>{% translate "Error" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for error in machinery_errors %}
+            <tr>
+              <td class="text-nowrap">{{ error.timestamp }}</td>
+              <td><code>{{ error.error }}</code></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+
 {% endblock content %}

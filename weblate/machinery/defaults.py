@@ -34,3 +34,5 @@ DEFAULT_WEBLATE_MACHINERY: tuple[str, ...] = (
     "weblate.memory.machine.WeblateMemory",
     "weblate.machinery.cyrtranslit.CyrTranslitTranslation",
 )
+
+DEFAULT_MACHINERY_ERROR_KEEP_DAYS = 30
