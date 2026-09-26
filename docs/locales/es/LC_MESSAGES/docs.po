@@ -32,14 +32,16 @@
 # "ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝)" <coool@mail.lv>, 2026.
 # Lito Parra <lito.15@proton.me>, 2026.
 # Adolfo Jayme Barrientos <fito@libreoffice.org>, 2026.
+# Deleted User <noreply+36847@weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
-"POT-Creation-Date: 2026-09-18 03:13+0200\n"
-"PO-Revision-Date: 2026-09-22 15:03+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
+"POT-Creation-Date: 2026-09-25 02:35+0000\n"
+"PO-Revision-Date: 2026-09-25 04:12+0000\n"
+"Last-Translator: Automatic translation add-on <noreply-addon-"
+"autotranslate@weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -1302,6 +1304,11 @@ msgstr ""
 "resultados se registran en el registro de actividad del complemento."
 
 msgid ""
+"Add-ons that expose a component API show its base URL on the add-"
+"on's :guilabel:`API` tab, alongside a link to the API root."
+msgstr ""
+
+msgid ""
 "The :ref:`addon-weblate.autotranslate.autotranslate` mode :guilabel:`Add as "
 "approved translation` creates approved strings when reviews are enabled for "
 "the target language. If the project settings or a language workflow override "
@@ -1949,11 +1956,11 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
-"Por defecto, Weblate confía en los servicios de autenticación de terceros "
-"para proporcionar una dirección de correo electrónico validada. Si algunos "
-"de los servicios que deseas utilizar no lo soportan, por favor, ejecuta la "
-"validación del correo electrónico en el lado de Weblate configurando "
-"FORCE_EMAIL_VALIDATION para ellos. Por ejemplo:"
+"De forma predeterminada, Weblate recurre a servicios de autenticación de "
+"terceros para proporcionar una dirección de correo electrónico validada. Si "
+"alguno de los servicios que quiere usar no admite esta función, aplique la "
+"validación de correo electrónico desde Weblate configurando "
+"FORCE_EMAIL_VALIDATION para dichos servicios. Por ejemplo:"
 
 msgid ""
 "Enabling individual backends is quite easy, it's just a matter of adding an "
@@ -2685,6 +2692,1120 @@ msgstr ""
 "Los permisos de un equipo con autenticación de dos factores forzada no se "
 "aplicarán a los usuarios que no la tengan configurada."
 
+msgid "Automation reference and cookbook"
+msgstr ""
+
+msgid ""
+"The :ref:`addon-weblate.automation.automation` add-on runs declarative "
+"workflows using existing Weblate operations. This page describes the "
+"workflow structure, triggers, conditions, and actions. See :ref:`automation-"
+"cookbook` for complete examples, including :ref:`automation-translation-"
+"ordering`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Plural definitions"
+msgid "Workflow definition"
+msgstr "Definiciones de plurales"
+
+msgid "Parameters"
+msgstr "Parámetros"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Required"
+msgstr ""
+
+msgid "Type or allowed values"
+msgstr ""
+
+msgid "Yes"
+msgstr "Sí"
+
+msgid "List of (object); maximum items 100; unique items"
+msgstr ""
+
+msgid "No"
+msgstr "No"
+
+msgid "List of (condition); maximum items 100"
+msgstr ""
+
+msgid "List of (action); maximum items 100"
+msgstr ""
+
+msgid ""
+"Enter YAML or JSON in the add-on's :guilabel:`Workflow` field. The API "
+"accepts the same structure as the ``workflow`` member of ``configuration``. "
+"The :download:`JSON Schema </specs/automation.schema.json>` describes this "
+"representation independently of the editor. Unknown keys are rejected."
+msgstr ""
+
+msgid ""
+"``version`` identifies the workflow schema version, not the Weblate release. "
+"List the events to subscribe to in ``triggers``, conditions that must pass "
+"before any action runs in ``conditions``, and the ordered operations in "
+"``actions``. Omitting ``conditions`` is equivalent to an empty list. Empty "
+"``triggers`` allows manual execution only; empty ``actions`` performs no "
+"operations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Equivalent expressions"
+msgid "Literal settings and expressions"
+msgstr "Expresiones equivalentes"
+
+msgid ""
+"Action settings are literal YAML/JSON values. Only the ``value`` of an "
+"``expression`` condition is evaluated as CEL. Queries, engine IDs, labels, "
+"and other settings do not support CEL expressions, variable substitution, or "
+"template syntax such as ``{{ unit.id }}``. A query containing that syntax is "
+"not expanded. Use :ref:`automation-action-choose` to select actions with "
+"different fixed settings. Actions select strings using their ``scope`` and "
+"optional query."
+msgstr ""
+
+#, fuzzy
+#| msgid "Starting spaces"
+msgid "String scope"
+msgstr "Espacios iniciales"
+
+msgid ""
+"Set ``scope`` on an action to choose its starting selection. ``component`` "
+"is the default and retains the existing component-wide behavior. ``trigger`` "
+"uses the unit affected by a change event; a source-unit change selects its "
+"corresponding target-language units. ``result:ID`` uses units actually "
+"changed or given new suggestions by an earlier action with that ``id``. For "
+"an AI quality action, it uses units successfully evaluated by that action. "
+"Set ``settings.q`` to filter the selected units further. For ``trigger`` and "
+"``result:ID``, omitting ``q`` selects the whole scope."
+msgstr ""
+
+msgid ""
+"For example, a translation action with ``id: machine`` and ``scope: "
+"trigger`` can be followed by a bulk edit with ``scope: result:machine``. The "
+"second action sees only units affected by the first. Source-level edits can "
+"select the corresponding target units in a later action."
+msgstr ""
+
+msgid ""
+"Workflows using ``scope: trigger`` can declare only change triggers. A "
+"change without a unit, or a manual run without change context, fails if "
+"execution reaches that action. A ``result:ID`` action fails if its "
+"referenced action did not run, for example because a branch was skipped. "
+"Preview marks result scopes as conditional because earlier actions have not "
+"run."
+msgstr ""
+
+msgid ""
+"Selections are kept only while the run is active. The activity log records "
+"affected counts and scoped unit counts (before the ``q`` filter), but does "
+"not store the full unit ID lists."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation context"
+msgid "Execution context"
+msgstr "Contexto de la traducción"
+
+msgid ""
+"CEL conditions can access the following fields. Context is captured when the "
+"run is scheduled, and only ``results`` changes between actions. In "
+"particular, ``unit.state`` is a snapshot; use ``matching_strings`` for "
+"current database state. Timestamps are strings, not CEL timestamp objects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Context"
+msgid "Context fields"
+msgstr "Contexto"
+
+msgid "Field"
+msgstr "Campo"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Meaning"
+msgstr "Significado"
+
+msgid "integer"
+msgstr "integer"
+
+#, fuzzy
+#| msgid "A component alert was triggered."
+msgid "Target component ID; always present."
+msgstr "Se desencadenó una alerta de componente."
+
+#, fuzzy
+#| msgid "Strings"
+msgid "string"
+msgstr "Cadenas"
+
+#, fuzzy
+#| msgid "Component slug"
+msgid "Target component slug."
+msgstr "Indicación del componente"
+
+#, fuzzy
+#| msgid "Project slug, see :ref:`project-slug`."
+msgid "Project slug, not a project object."
+msgstr "Indicador de proyecto, consulte :ref:`project-slug`."
+
+msgid "string or null"
+msgstr ""
+
+#, fuzzy
+#| msgid "Fixed some API URLs for categorized components."
+msgid "Category slug; null for an uncategorized component."
+msgstr "Se corrigieron algunas URL del API para componentes categorizados."
+
+msgid "Event language ID, when language is available."
+msgstr ""
+
+msgid "Event language code, when language is available."
+msgstr ""
+
+msgid "Event unit ID, when unit is available."
+msgstr ""
+
+msgid "Captured string state; see :ref:`automation-string-states`."
+msgstr ""
+
+#, fuzzy
+#| msgid "percentage of translated characters"
+msgid "Source text, truncated to 4,096 characters."
+msgstr "porcentaje de caracteres traducidos"
+
+msgid "Target text, truncated to 4,096 characters."
+msgstr ""
+
+msgid "Triggering change ID, when change is available."
+msgstr ""
+
+msgid "Numeric ActionEvents value, not the lowercase event name."
+msgstr ""
+
+msgid "Change timestamp in ISO 8601 format with a timezone offset."
+msgstr ""
+
+msgid "Recorded actor ID, when actor is available."
+msgstr ""
+
+msgid "Recorded actor username."
+msgstr ""
+
+msgid "Trigger identifier such as change, daily, or manual."
+msgstr ""
+
+msgid ""
+"Change timestamp, or scheduling time for other triggers; ISO 8601 with a "
+"timezone offset."
+msgstr ""
+
+msgid "Component local revision recorded when scheduled; null if unavailable."
+msgstr ""
+
+msgid "list of integers or null"
+msgstr ""
+
+msgid ""
+"Currently a one-element list when the change references a unit; otherwise "
+"null."
+msgstr ""
+
+msgid "Source-unit IDs corresponding to ``trigger.unit_ids``; otherwise null."
+msgstr ""
+
+#, fuzzy
+#| msgid "Object"
+msgid "object"
+msgstr "Asunto"
+
+msgid "Initially empty; maps action IDs to successful operation outputs."
+msgstr ""
+
+msgid "Availability depends on the trigger:"
+msgstr ""
+
+msgid ""
+"``change`` supplies ``change``. It supplies ``unit`` and ``language`` only "
+"when the change references them, and ``actor`` from the change's user or, if "
+"absent, its author. Any of those optional objects can be null."
+msgstr ""
+
+msgid ""
+"``manual`` supplies ``actor`` when initiated by a user through the UI or "
+"API. Other manual entry points may have no actor. ``change``, ``unit``, and "
+"``language`` are null."
+msgstr ""
+
+msgid ""
+"``daily``, ``component_update``, ``post_update``, ``post_commit``, and "
+"``post_push`` have null ``actor``, ``change``, ``unit``, and ``language``."
+msgstr ""
+
+msgid ""
+"A preview with a change ID uses that change's context and ``trigger.name`` "
+"of ``change``. Without one, it uses manual context."
+msgstr ""
+
+msgid ""
+"When an object is null, its child fields cannot be accessed directly. For "
+"example, use ``unit != null && unit.state == 10`` or ``language != null && "
+"language.code == \"de\"``. Prefer the typed ``unit_state``, ``language``, "
+"and ``change_action`` conditions when possible; they handle missing context "
+"and event-name conversion for you. See :ref:`automation-event-example`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Authentication and permissions."
+msgid "Execution identity and permissions"
+msgstr "Autenticación y permisos."
+
+msgid ""
+"The usual add-on management permission authorizes configuration, preview, "
+"and manual execution. ``actor`` records who caused an event; it does not "
+"select the account or permissions used to perform actions. Changing a "
+"condition on ``actor`` only determines whether the workflow runs."
+msgstr ""
+
+msgid ""
+"Operations execute with the add-on's authority within its configured scope, "
+"not with the triggering user's individual translation permissions. Automatic "
+"translation receives the Automation add-on bot as its execution user and "
+"does not apply per-user operation permission checks. Reused translations can "
+"retain their original author attribution. Bulk editing calls the shared "
+"operation without a user, rather than impersonating the recorded actor. The "
+"activity context retains the actor separately from translation change "
+"attribution."
+msgstr ""
+
+msgid ""
+"Before a queued run executes, Weblate checks that the add-on is still valid "
+"and the component still belongs to its scope. The queued definition and "
+"event context are snapshots: editing the workflow after scheduling does not "
+"change that run. Operation settings are validated again against the target "
+"component at execution."
+msgstr ""
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Testing and execution"
+msgstr "Dirección del texto"
+
+msgid ""
+"Use :guilabel:`Preview without changes` to validate a workflow and inspect "
+"its conditions and planned actions. Inherited automations require a preview "
+"component ID. An optional change ID supplies event context and must belong "
+"to that component. Preview neither calls translation services nor changes "
+"strings. Conditions that depend on unexecuted action results or changed "
+"strings are marked unknown, and their branches are shown as conditional. "
+"Use :guilabel:`Run now` for real execution. The :ref:`addons-api` provides "
+"equivalent preview and run operations."
+msgstr ""
+
+msgid ""
+"Runs use ordinary Celery tasks and existing operation locks. Separate runs "
+"may overlap; there are no execution modes or parallel action blocks. The "
+"activity log records the definition, context, conditions, actions, and "
+"failures. An error stops later actions without rolling back completed work. "
+"Runs are not automatically replayed; after a worker is forcibly terminated, "
+"a pending log can remain and must be inspected before manually starting "
+"another run. Changes originating from an automation, including follow-up "
+"tasks, do not start other automation runs."
+msgstr ""
+
+#, fuzzy
+#| msgid "Validation and testing"
+msgid "Validation and limits"
+msgstr "Validación y testeo"
+
+msgid ""
+"Workflows must contain JSON-compatible values with string mapping keys. YAML "
+"aliases, explicit tags, duplicate mapping keys, non-finite numbers, and "
+"native YAML date/timestamp values are rejected. Quote a date if a string is "
+"intended. Unknown fields are rejected, and action IDs must be unique across "
+"the entire workflow, including mutually exclusive branches. Missing required "
+"fields and wrong value types are errors; for example, ``state`` must be an "
+"integer, not ``\"10\"``. Nested mappings and lists also have a structural "
+"depth limit of 32."
+msgstr ""
+
+msgid ""
+"Generated parameter tables show list limits, uniqueness requirements, "
+"numeric bounds, and string patterns from the schema. Item constraints in "
+"parentheses apply to each list element. The workflow-wide node and nesting "
+"limits below still apply even when each individual list is within its limit."
+msgstr ""
+
+msgid ""
+"Definitions are limited to 64 KiB both as submitted and as ASCII-escaped "
+"JSON after operation defaults are applied, 100 action/condition nodes, and "
+"eight nesting levels. CEL expressions are limited to 4,096 characters and "
+"evaluated in a helper process with two seconds of CPU time and five seconds "
+"of wall time per invocation. The helper also limits virtual address space to "
+"512 MiB except on macOS, where no memory cap is enforced. The helper fails "
+"closed if a required operating-system resource limit cannot be applied. The "
+"pinned CEL runtime provides native wheels; Linux installations require a "
+"supported glibc platform. No runtime settings or separate service are "
+"required. Use :ref:`own-addon` for unrestricted custom Python logic on self-"
+"hosted installations."
+msgstr ""
+
+msgid "Triggers"
+msgstr "Disparadores"
+
+msgid ""
+"Each trigger is an object in the workflow's ``triggers`` list. An instance "
+"can subscribe to multiple triggers. Manual execution is always available, "
+"even when ``manual`` is absent from the list."
+msgstr ""
+
+#, fuzzy
+#| msgid "Daily"
+msgid "daily"
+msgstr "Diariamente"
+
+msgid ""
+"Runs on :ref:`addon-event-daily`, respecting :setting:`BACKGROUND_TASKS`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Component update"
+msgid "component_update"
+msgstr "Actualización de componente"
+
+msgid ""
+"Runs on :ref:`addon-event-component-update`, after Weblate updates the "
+"component."
+msgstr ""
+
+#, fuzzy
+#| msgid "Component update"
+msgid "post_update"
+msgstr "Actualización de componente"
+
+#, fuzzy
+#| msgid ""
+#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-"
+#| "update`"
+msgid "Runs on :ref:`addon-event-repository-post-update`."
+msgstr ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-"
+"update`"
+
+#, fuzzy
+#| msgid "Post comment"
+msgid "post_commit"
+msgstr "Declarar comentario"
+
+#, fuzzy
+#| msgid ""
+#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-"
+#| "commit`"
+msgid "Runs on :ref:`addon-event-repository-post-commit`."
+msgstr ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-"
+"commit`"
+
+#, fuzzy
+#| msgid "No push"
+msgid "post_push"
+msgstr "No enviar"
+
+#, fuzzy
+#| msgid ""
+#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-"
+#| "update`"
+msgid "Runs on :ref:`addon-event-repository-post-push`."
+msgstr ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-"
+"update`"
+
+msgid "manual"
+msgstr ""
+
+msgid ""
+"Runs when an administrator selects :guilabel:`Run now`, or requests manual "
+"execution through the :ref:`addons-api`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Changes"
+msgid "change"
+msgstr "Cambios"
+
+msgid ""
+"List of (Event name from :ref:`change-actions`); minimum items 1; unique "
+"items"
+msgstr ""
+
+msgid ""
+"Subscribes to the selected :ref:`change-actions`. Use lowercase "
+"``ActionEvents`` names with underscores, for example ``source_change`` or "
+"``new_source_repo``. These distinguish edits in Weblate from uploads and "
+"repository imports; ``source_change`` alone does not cover all three. Only "
+"changes associated with a component can start a run."
+msgstr ""
+
+msgid "Conditions"
+msgstr "Condiciones"
+
+msgid ""
+"Every condition in a list must pass. A false workflow-level condition skips "
+"the run. Conditions can also select a :ref:`automation-action-choose` "
+"branch. Conditions concerning unavailable language, unit, or change context "
+"return false. An empty condition list passes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Regular expression"
+msgid "expression"
+msgstr "Expresión regular"
+
+msgid "string; maximum length 4096"
+msgstr ""
+
+msgid ""
+"Evaluates ``value`` as CEL and requires a boolean result. CEL supports "
+"arithmetic, comparisons, standard functions, and comprehensions, but cannot "
+"call Python or access the database, network, or filesystem. Expressions can "
+"use the captured execution context and outputs of earlier actions, for "
+"example ``results.machine.updated > 0``. Missing fields or expression errors "
+"fail the run."
+msgstr ""
+
+#, fuzzy
+#| msgid "Components and categories"
+msgid "component_category"
+msgstr "Componentes y categorías"
+
+msgid "Compares the triggering component's category slug with ``value``."
+msgstr ""
+
+#, fuzzy
+#| msgid "Languages"
+msgid "language"
+msgstr "Idiomas"
+
+msgid ""
+"Compares the event's language code with ``value``. This tests the trigger "
+"context; it does not restrict subsequent actions to that language. Use an "
+"action's search query to restrict the strings it processes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Updating strings"
+msgid "matching_strings"
+msgstr "Actualizar cadenas"
+
+msgid ""
+"Passes when the component currently contains at least one string matching "
+"the :ref:`search query <search-strings>` in ``value``. The query runs when "
+"the condition is evaluated, so it can observe changes made by earlier "
+"actions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Change period"
+msgid "change_action"
+msgstr "Período del cambio"
+
+msgid "Event name from :ref:`change-actions`"
+msgstr ""
+
+msgid ""
+"Compares the triggering change's action with ``value``. Use the lowercase "
+"event name, as for :ref:`automation-trigger-change`."
+msgstr ""
+
+msgid "unit_state"
+msgstr ""
+
+msgid "``0``, ``10``, ``11``, ``12``, ``20``, ``30``, ``100``"
+msgstr ""
+
+msgid ""
+"Compares the triggering unit's captured state with the integer ``value``. It "
+"uses the event snapshot, not a new query of the unit after earlier actions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Yandex"
+msgid "and"
+msgstr "Yandex"
+
+msgid ""
+"Passes when every nested condition passes. Evaluation stops at the first "
+"false condition. An empty list passes."
+msgstr ""
+
+msgid "or"
+msgstr "o"
+
+msgid ""
+"Passes when any nested condition passes. Evaluation stops at the first true "
+"condition. An empty list does not pass."
+msgstr ""
+
+#, fuzzy
+#| msgid "no"
+msgid "not"
+msgstr "no"
+
+msgid ""
+"Negates exactly one nested condition. Empty lists and lists containing "
+"multiple conditions are invalid."
+msgstr ""
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid ""
+"Actions run in list order. Each operation and its batched checks finish "
+"before the next action starts. Actions target the component; "
+"use :ref:`search-strings` queries to narrow them. Queries are evaluated when "
+"each action executes."
+msgstr ""
+
+msgid ""
+"Optional unique action IDs expose outputs as ``results.<id>``. An ID starts "
+"with a lowercase letter and contains up to 64 lowercase letters, digits, or "
+"underscores. After a successful operation, its output is stored in the "
+"activity log and, when it has an ID, in ``results.<id>`` for later CEL "
+"conditions. For example, ``results.memory.updated > 0`` tests whether the "
+"``memory`` action reported updates. Outputs belong to the current run and "
+"are not shared with other runs."
+msgstr ""
+
+msgid ""
+"Skipped, failed, and previewed operations do not create result entries. If "
+"an action might be skipped, guard access with a presence check such as "
+"``has(results.memory) && results.memory.updated > 0``. A failed operation "
+"records an error in the trace and stops later actions; its partial changes "
+"are not rolled back. Actions without IDs still record their outputs in the "
+"activity log."
+msgstr ""
+
+msgid ""
+"The YAML examples below are items to place in the workflow's ``actions`` "
+"list. The cookbook provides complete workflow definitions."
+msgstr ""
+
+msgid ""
+"Settings and queries are validated against the target component before "
+"execution. For inherited workflows, labels must exist in each target project "
+"and selected engines must be enabled there."
+msgstr ""
+
+msgid "Automatic translation"
+msgstr "Traducción automática"
+
+msgid "string; pattern ``^[a-z][a-z0-9_]{0,63}$``"
+msgstr ""
+
+msgid ""
+"``\"component\"``, ``\"trigger\"``, string; pattern ``^result:[a-z][a-z0-9_]"
+"{0,63}$``"
+msgstr ""
+
+msgid "``\"suggest\"``, ``\"translate\"``, ``\"fuzzy\"``, ``\"approved\"``"
+msgstr ""
+
+#, fuzzy
+#| msgid "``.po``, ``.pot``"
+msgid "``\"others\"``, ``\"mt\"``"
+msgstr "``.po``, ``.pot``"
+
+msgid "integer or null; minimum 1"
+msgstr ""
+
+msgid "List of (string; maximum length 4096); maximum items 100"
+msgstr ""
+
+msgid "integer; minimum 1; maximum 100"
+msgstr ""
+
+#, fuzzy
+#| msgid "Screenshot fields"
+msgid "Result fields"
+msgstr "Campos de captura de pantalla"
+
+msgid "List of (string; maximum length 1024); maximum items 20"
+msgstr ""
+
+msgid "integer; minimum 0"
+msgstr ""
+
+msgid ""
+"Runs :ref:`auto-translation` synchronously. ``auto_source: others`` reuses "
+"translations from other components, optionally restricted by the source "
+"``component`` ID. ``auto_source: mt`` uses the service IDs in ``engines``; "
+"translation memory and AI services use the same mechanism as other providers."
+msgstr ""
+
+msgid ""
+"Defaults are ``auto_source: others``, ``mode: suggest``, ``q: state:"
+"<translated``, ``threshold: 80``, no source component restriction, and an "
+"empty engine list. For a scoped action, omitted ``q`` selects its whole "
+"scope instead. Provide configured engine IDs when selecting ``mt``."
+msgstr ""
+
+msgid ""
+"``mode`` selects suggestions (``suggest``), translations (``translate``), "
+"strings needing editing (``fuzzy``), or approved translations "
+"(``approved``). Approval follows each language's effective review settings. "
+"``threshold`` is a minimum score from 1 to 100 for services; each service "
+"has its own maximum score."
+msgstr ""
+
+#, fuzzy
+#| msgid "Example:"
+msgid "Example"
+msgstr "Ejemplo:"
+
+msgid ""
+"Apply local translation memory matches scoring at least 95 to strings still "
+"needing translation. Enable :ref:`mt-weblate-translation-memory` in the "
+"target project before running this action."
+msgstr ""
+
+#, fuzzy
+#| msgid "Added automatic translation add-on to bootstrap translations."
+msgid ""
+"See :ref:`automation-translation-ordering` to follow this pass with a remote "
+"translation service."
+msgstr ""
+"Se agregó un complemento de traducción automática a las traducciones de "
+"bootstrap."
+
+#, fuzzy
+#| msgid "slug of component"
+msgid "Outputs"
+msgstr "indicador de componente"
+
+msgid "``component`` (integer)"
+msgstr ""
+
+msgid "ID of the component processed, not the optional source component."
+msgstr ""
+
+msgid "``updated`` (integer)"
+msgstr ""
+
+msgid ""
+"Number of translation updates or new suggestions reported across the "
+"component's languages. In suggestion mode, this counts newly created "
+"suggestions, not strings whose translation state changed. A translation that "
+"exceeds the string's maximum length can also become a suggestion, even in "
+"translation mode. Zero means the operation reported no updates; it is not an "
+"error by itself."
+msgstr ""
+
+#, fuzzy
+#| msgid "target string"
+msgid "``message`` (string)"
+msgstr "cadena de destino"
+
+msgid ""
+"Human-readable completion summary in English. Use ``updated`` for conditions "
+"instead of parsing this message."
+msgstr ""
+
+#, fuzzy
+#| msgid "Handling duplicate strings"
+msgid "``warnings`` (list of strings)"
+msgstr "Manipula cadenas duplicadas"
+
+msgid ""
+"Warnings reported by automatic translation, or an empty list when none were "
+"reported. At most 20 messages are retained, each truncated to 1,024 "
+"characters. A successful action can still have warnings; inspect them when "
+"fewer strings were translated than expected."
+msgstr ""
+
+msgid "``warnings_omitted`` (integer)"
+msgstr ""
+
+msgid ""
+"Number of warning messages omitted beyond the first 20. This does not count "
+"characters removed from retained messages."
+msgstr ""
+
+msgid "For example, a successful run might record:"
+msgstr ""
+
+msgid ""
+"A later condition can access these fields through ``results.memory``, for "
+"example ``results.memory.updated > 0 && size(results.memory.warnings) == 0``."
+msgstr ""
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing target translations synchronously using the "
+"effective :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>`. "
+"The required ``service`` must match that add-on's evaluation service and be "
+"configured for the target project. The optional ``q`` filters the action's "
+"scope further; the add-on's own query and eligibility rules still apply. "
+"Empty scoped selections make no provider requests."
+msgstr ""
+
+msgid ""
+"Each evaluated string is available to a later ``result:ID`` action when this "
+"action has an ``id``. ``evaluated`` counts those strings; unit IDs are kept "
+"only during the run. The action stops later steps if a request fails, is "
+"rate limited, or its response is discarded because the string changed during "
+"evaluation. Earlier successful batches can retain their findings, so a later "
+"run may reevaluate them. See :ref:`automation-ai-quality-gateway` for a "
+"complete translation and review workflow."
+msgstr ""
+
+msgid "Bulk editing"
+msgstr "Edición en masa"
+
+msgid ""
+"Uses the same operation as :ref:`addon-weblate.flags.bulk`. For component "
+"scope, ``q`` is required and selects strings using :ref:`search-strings`. "
+"For trigger and result scopes, ``q`` is optional and filters the selected "
+"strings. ``state`` sets an integer string state, or leaves it unchanged with "
+"-1 (the default)."
+msgstr ""
+
+msgid "String states"
+msgstr "Estados de cadena"
+
+#, fuzzy
+#| msgid "Supported values are:"
+msgid "State values"
+msgstr "Los valores admitidos son:"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Accepted as a bulk-edit target"
+msgstr ""
+
+#, fuzzy
+#| msgid "License changed"
+msgid "Leave unchanged"
+msgstr "Licencia cambiada"
+
+msgid "Yes; default, not an actual unit state"
+msgstr ""
+
+msgid "Empty"
+msgstr "Vacía"
+
+msgid "Needs editing"
+msgstr "Necesita edición"
+
+#, fuzzy
+#| msgid "Needs editing (Needs rewriting)"
+msgid "Needs editing (needs rewriting)"
+msgstr "Necesita edición (Necesita reescritura)"
+
+#, fuzzy
+#| msgid "Needs editing (Needs checking)"
+msgid "Needs editing (needs checking)"
+msgstr "Necesita edición (Necesita revisión)"
+
+msgid "Translated"
+msgstr "Traducido"
+
+msgid "Approved"
+msgstr "Aprobadas"
+
+msgid "Read-only"
+msgstr "De solo lectura"
+
+msgid ""
+"The ``unit_state`` condition accepts actual unit states, including 0 and "
+"100, but not -1. Bulk editing only changes eligible editable strings; "
+"selecting a read-only string does not make it editable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search in labels."
+msgid "Flags and labels"
+msgstr "Buscar en las etiquetas."
+
+msgid ""
+"Flag settings are strings containing flags to add or remove. Label settings "
+"are lists of label names. Flag defaults are empty strings and label defaults "
+"are empty lists. Source flags and labels affect all languages, just as with "
+"the bulk-edit add-on; translation flags affect the matching translations, "
+"excluding source strings. Removing a translation flag removes its local "
+"setting; inherited flags remain in effect."
+msgstr ""
+
+msgid ""
+"Use comma-separated flags, with colon-separated parameters, for example "
+"``add_translation_flags: \"max-length:100, check-glossary\"``. To remove a "
+"parameterized flag, specify its name, for example "
+"``remove_translation_flags: \"max-length\"``. See :ref:`custom-checks` for "
+"quoting rules and :ref:`checks` for available checks. Labels use YAML/JSON "
+"lists of existing project label names, for example ``add_labels: [needs-"
+"attention]``; this does not create a label."
+msgstr ""
+
+msgid ""
+"Mark currently translated German strings as needing editing, leaving other "
+"languages and approved strings outside the query unchanged:"
+msgstr ""
+
+msgid ""
+"See :ref:`automation-conditional-actions` for a conditional bulk-edit "
+"example."
+msgstr ""
+
+#, fuzzy
+#| msgid "Deletes the component list."
+msgid "ID of the component processed."
+msgstr "Elimina la lista de componentes."
+
+msgid ""
+"Count reported by the bulk-edit operation. State changes, changes to source "
+"flags or labels, and changes to translation flags contribute separately. "
+"When an action combines these operations, the same string can contribute "
+"more than once; this is not a count of distinct affected strings. Source "
+"flag and label changes are counted per source string, rather than once per "
+"language. Zero means the operation made no changes."
+msgstr ""
+
+msgid ""
+"For example, an action that only changes the states of three strings returns:"
+msgstr ""
+
+msgid ""
+"A later condition can test ``results.marked_for_edit.updated > 0``. This "
+"output does not contain unit IDs or a list of the changed strings. A later "
+"action must select its strings with its own query."
+msgstr ""
+
+msgid "Sequence"
+msgstr ""
+
+msgid ""
+"Groups an ordered list of actions. A sequence finishes before the next "
+"sibling action starts. It can contain operations, further sequences, "
+"and :ref:`automation-action-choose` blocks. It does not introduce parallel "
+"execution."
+msgstr ""
+
+msgid ""
+"Group two translation passes: reuse other components first, then apply local "
+"translation memory to strings still needing translation."
+msgstr ""
+
+msgid ""
+"A sequence has no output object and does not accept an ``id``. Its "
+"successful child actions expose their individual outputs in the shared "
+"``results`` object, including to subsequent children and actions outside the "
+"sequence. In this example, those entries are ``results.reused`` and "
+"``results.memory``; there is no combined update count. A failing child stops "
+"the remaining actions."
+msgstr ""
+
+msgid "Choose"
+msgstr "Elegir"
+
+msgid "List of (object); maximum items 100"
+msgstr ""
+
+msgid ""
+"Evaluates branches in order and executes the first branch whose "
+"``conditions`` all pass. Each branch requires both ``conditions`` and "
+"``sequence``. Later branches are skipped after a match, even if the matching "
+"sequence is empty."
+msgstr ""
+
+msgid ""
+"If no branch matches, ``default`` runs. Omitting ``default`` is equivalent "
+"to an empty action list."
+msgstr ""
+
+msgid ""
+"For components in the ``frontend`` category, mark translated German strings "
+"as needing editing. Other components take the empty default branch."
+msgstr ""
+
+msgid ""
+"See :ref:`automation-conditional-actions` for a branch that uses an earlier "
+"action's output instead of the component category."
+msgstr ""
+
+msgid ""
+"A choose block has no output object and does not accept an ``id``. Only "
+"successful operations in the selected branch or default branch create result "
+"entries. Branch conditions and skipped actions are recorded in the activity "
+"trace. In this example, ``results.frontend_edit`` exists only if the "
+"category matches and the bulk edit succeeds. A later condition can safely "
+"check ``has(results.frontend_edit) && results.frontend_edit.updated > 0``. "
+"Preview records planned or conditional actions, without creating their "
+"outputs."
+msgstr ""
+
+msgid "Cookbook"
+msgstr ""
+
+#, fuzzy
+#| msgid "Huge translation memory with machine translation."
+msgid "Apply translation memory before machine translation"
+msgstr "Enorme memoria de traducción que ofrece traducciones automáticas."
+
+msgid ""
+"Use separate automatic translation actions to give one source priority over "
+"another. This example first applies local translation memory matches scoring "
+"at least 95, then asks DeepL to translate only strings still needing "
+"translation."
+msgstr ""
+
+msgid ""
+"Enable :ref:`mt-weblate-translation-memory` and configure :ref:`mt-deepl` in "
+"the target project's :ref:`machine-translation-setup`. Install the "
+"Automation add-on and enter this workflow:"
+msgstr ""
+
+msgid ""
+"The first action finishes before the second action selects its strings. Both "
+"use ``mode: translate``, so a successful first-pass translation no longer "
+"matches ``state:<translated`` and is not sent to DeepL by the second action. "
+"Existing translated or approved strings are excluded from both passes. "
+"Untranslated strings and strings needing editing are eligible; use "
+"``state:empty`` in both actions if only untranslated strings should be "
+"processed."
+msgstr ""
+
+msgid ""
+"Each threshold applies only to its action. Set the memory threshold to 100 "
+"to accept only exact matches, or lower it to accept less similar matches "
+"before trying the remote service. Machine translation scores are service-"
+"specific: choose a threshold no higher than the service's documented maximum "
+"score. Replace ``deepl`` with another configured service ID to use a "
+"different provider, including an AI service."
+msgstr ""
+
+msgid ""
+"Keep one engine per action when the order matters. Putting both IDs in one "
+"``engines`` list uses the existing :ref:`mt-translation-services-priority`, "
+"not the list order. To try additional providers, append another action with "
+"its own engine, threshold, and the same query. To reuse translations from "
+"other Weblate components first, prepend an action using ``auto_source: "
+"others`` instead of ``auto_source: mt`` and omit ``engines``."
+msgstr ""
+
+msgid ""
+"Changing a pass to ``mode: suggest`` leaves the string state unchanged; "
+"``mode: fuzzy`` leaves it needing editing. Neither excludes its results from "
+"a later ``state:<translated`` pass. Keep ``mode: translate`` when the "
+"intention is to retain each successful pass's translations."
+msgstr ""
+
+msgid ""
+"Use :guilabel:`Preview without changes` to validate the workflow before "
+"using :guilabel:`Run now`. Preview does not call translation services or "
+"predict their results. After a real run, inspect the activity log for each "
+"action's ``updated`` count and warnings. A service failure that stops the "
+"workflow is recorded as an error; later actions do not run."
+msgstr ""
+
+msgid ""
+"Remove or disable overlapping Automatic translation add-ons when replacing "
+"them with this workflow. Ordering applies within a single automation run; "
+"separate add-ons and concurrent runs can still overlap. The ``daily`` "
+"trigger respects :setting:`BACKGROUND_TASKS`. Use ``triggers: []`` for "
+"manual execution only."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Manage translation memory"
+msgid "Evaluate AI translations before approval"
+msgstr "Gestionar la memoria de traducción"
+
+msgid ""
+"This workflow runs after repository component updates or source edits in "
+"Weblate. It applies translation memory first, translates remaining strings "
+"with OpenAI, and evaluates only strings changed by the OpenAI action. Clean "
+"strings are approved; strings with AI quality findings are marked as needing "
+"checking. Configure the translation memory and OpenAI services in the target "
+"project. Install the :ref:`addon-weblate.ai.quality` add-on with OpenAI as "
+"its evaluation service and its query including translated strings. Its "
+"service must match ``settings.service`` below."
+msgstr ""
+
+msgid ""
+"The quality action uses the intersection of its scope, the add-on query, and "
+"its optional ``settings.q``. It stops the workflow if evaluation fails or "
+"skips any batch, so incomplete results never reach the approval action. Its "
+"result scope contains only units successfully evaluated in this run. State "
+"``12`` is :guilabel:`Needs editing (Needs checking)`; reviewers can inspect "
+"the findings and revise those translations. The five ``check:ai_*`` filters "
+"select non-dismissed findings. Disable the add-on's evaluation frequency and "
+"its change and update triggers if only this workflow should initiate "
+"evaluation."
+msgstr ""
+
+msgid "Run an action only when a translation pass updates strings"
+msgstr ""
+
+msgid ""
+"Action IDs make outputs available to later conditions. For example, append "
+"the following item to the previous workflow's ``actions`` list to mark "
+"translations from the component as needing editing when the machine "
+"translation pass updated at least one string:"
+msgstr ""
+
+msgid ""
+"The bulk-edit query selects all currently translated strings in the "
+"component, including translations that existed before the run and memory "
+"matches. It does not select only the strings updated by ``machine``. Narrow "
+"the query to the intended strings before using this example. String state "
+"``10`` means needing editing; it does not approve or request review of "
+"translations."
+msgstr ""
+
+msgid ""
+"``choose`` executes only the first branch whose conditions pass. Here, the "
+"empty ``default`` performs no action when the translation pass updated no "
+"strings. During preview, the condition is unknown because ``machine`` has "
+"not executed."
+msgstr ""
+
+#, fuzzy
+#| msgid "translated strings"
+msgid "Translate after source changes"
+msgstr "cadenas traducidas"
+
+msgid ""
+"This complete workflow listens for source edits in Weblate and new source "
+"strings from the repository. It runs only for categorized components "
+"matching either ``frontend`` or ``backend``, and only when the change "
+"includes a nonempty unit. The action reuses other components' translations "
+"for German strings needing translation."
+msgstr ""
+
+msgid ""
+"The null guard makes changes without a unit safely skip the workflow. It "
+"also means :guilabel:`Run now` skips this workflow, because real manual "
+"execution has no unit context. To inspect the event-driven path without "
+"changing strings, use :guilabel:`Preview without changes` with a change ID "
+"belonging to the target component."
+msgstr ""
+
+msgid ""
+"The action's query targets all matching German strings in the component, not "
+"only the unit from the triggering change. ``trigger.unit_ids`` provides "
+"context for conditions; it is not automatically applied to operations and "
+"cannot be interpolated into ``q``. The listed events do not cover every kind "
+"of source update; select additional :ref:`change-actions` if the workflow "
+"should also respond to uploads or other changes."
+msgstr ""
+
 msgid "Backing up and moving Weblate"
 msgstr "Respaldar y trasladar Weblate"
 
@@ -2850,23 +3971,39 @@ msgstr ""
 msgid "Weblate provisioned backup storage"
 msgstr "Almacenamiento de copia de seguridad proporcionado por Weblate"
 
+#, fuzzy
+#| msgid ""
+#| "The easiest way of backing up your Weblate instance is purchasing the "
+#| "`backup service at weblate.org <https://weblate.org/support/#backup>`_. "
+#| "This is how you get it running:"
 msgid ""
 "The easiest way of backing up your Weblate instance is purchasing the "
-"`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
-"is how you get it running:"
+"`backup service at weblate.org <https://weblate.org/support/#backup>`_. It "
+"is available for Weblate running in your own environment and does not "
+"require a hosting or separate support subscription."
 msgstr ""
 "La forma más sencilla de hacer una copia de seguridad de su instancia de "
 "Weblate es adquirir el `servicio de copia de seguridad en weblate.org "
 "<https://weblate.org/support/#backup>`_. Así es como se pone en marcha:"
 
-msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
-msgstr ""
-"Compre el `Servicio de copia de seguridad` en https://welate.org/support/"
-"#backup."
+#, fuzzy
+#| msgid "The version you are running"
+msgid "This is how you get it running:"
+msgstr "La versión que está ejecutándose"
 
 msgid ""
-"Enter the obtained key in the management interface, see :ref:`activate-"
-"support`."
+"In the management interface, open :guilabel:`Backups` and "
+"select :guilabel:`Buy backup service`, or `purchase the backup service "
+"directly <https://weblate.org/subscription/new/?plan=backup>`_."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Enter the obtained key in the management interface, see :ref:`activate-"
+#| "support`."
+msgid ""
+"Enter the obtained activation token in :guilabel:`Activate support package` "
+"on the :guilabel:`Backups` page, see :ref:`activate-support`."
 msgstr ""
 "Introduzca la clave obtenida en la interfaz de gestión, "
 "consulte :ref:`activate-support`."
@@ -2883,8 +4020,12 @@ msgstr ""
 "Active la nueva configuración de las copias de respaldo desde la "
 "pestaña :guilabel:`Backups`."
 
+#, fuzzy
+#| msgid ""
+#| "Backup your Borg credentials to be able to restore the backups, "
+#| "see :ref:`borg-keys`."
 msgid ""
-"Backup your Borg credentials to be able to restore the backups, "
+"Back up your Borg credentials to be able to restore the backups, "
 "see :ref:`borg-keys`."
 msgstr ""
 "Haga una copia de respaldo de sus credenciales de Borg para poder restaurar "
@@ -3599,11 +4740,18 @@ msgstr ""
 "Para garantizar que los enlaces internos no se traduzcan (es decir, que "
 "`[test](../checks)` no se convierta en `[test](../chequeos)`."
 
+#, fuzzy
+#| msgid ""
+#| "The flags defined on a higher level can be discarded using the "
+#| "``discard:NAME`` syntax. For example, if a component is configured to "
+#| "``safe-html``, you can add ``discard:safe-html`` to the string flags to "
+#| "skip it for this particular string."
 msgid ""
 "The flags defined on a higher level can be discarded using the "
 "``discard:NAME`` syntax. For example, if a component is configured to ``safe-"
 "html``, you can add ``discard:safe-html`` to the string flags to skip it for "
-"this particular string."
+"this particular string. Translation flags cannot discard an explicit ``read-"
+"only`` flag set on the source string."
 msgstr ""
 "Los indicadores definidos en un nivel más alto puede ser descartado "
 "utilizando la sintaxis ``discard:NAME``. Por ejemplo, si un componente está "
@@ -5095,8 +6243,8 @@ msgstr "Configuración"
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
-"Todos los ajustes se almacenan en :file:`settings.py` (como es habitual en "
-"Django)."
+"Todas las configuraciones se guardan en el archivo :file:`settings.py` (como "
+"es habitual en Django)."
 
 msgid ""
 "After changing any of these settings, you need to restart Weblate — both "
@@ -5116,8 +6264,8 @@ msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
-"Por favor, consulta también :doc:`La documentación de Django <django:ref/"
-"settings>` para conocer los parámetros de configuración del propio Django."
+"Consulte también :doc:`la documentación de Django <django:ref/settings>` "
+"para conocer los parámetros de configuración del propio Django."
 
 msgid ""
 "Configures where contact form sends e-mails. If not configured, e-mail "
@@ -5166,7 +6314,7 @@ msgstr ""
 
 msgid "Defaults to ``[\"*\"]``, which allows all domains."
 msgstr ""
-"Lo predeterminado para ``[\"*\"]``, lo cual concede todos los dominios."
+"El valor predeterminado es ``[\"*\"]``, lo que permite todos los dominios."
 
 msgid "**Example**"
 msgstr "**Ejemplo**"
@@ -5208,16 +6356,6 @@ msgstr ""
 msgid "Defaults to ``[]``."
 msgstr "Su valor predeterminado es ``[]``."
 
-#, fuzzy
-#| msgid ""
-#| "The allowlist affects project-managed machinery in two ways: it permits "
-#| "the configured endpoint during outbound validation, and it marks matching "
-#| "hosts as trusted when deciding whether remote provider error details or "
-#| "response bodies can be shown to the user. For direct connections, runtime "
-#| "checks still reject destinations that resolve to private or otherwise non-"
-#| "public addresses. When an HTTP(S) proxy is used, runtime validation falls "
-#| "back to hostname validation and does not perform the same local DNS or "
-#| "peer-IP checks."
 msgid ""
 "The allowlist affects project-managed machinery in two ways: it permits the "
 "configured endpoint during outbound validation, and it marks matching hosts "
@@ -5228,16 +6366,17 @@ msgid ""
 "whose network destinations are trusted. When a configured :ref:`http-proxy` "
 "is used, the proxy is trusted to resolve the destination hostname."
 msgstr ""
-"La lista de los concedidos afecta a la maquinaria gestionada por proyecto de "
-"dos maneras: permitir el punto final configurado durante validación externa, "
-"y lo marca los host coincidentes como confiados cuando decida si los "
-"detalles del error del proveedor remoto o responde los cuerpos pueden ser "
-"mostrados al usuario. Para las conexiones directas, las comprobaciones en "
-"tiempo de ejecución siguen rechazando los destinos que se resuelven en "
-"direcciones privadas o que no sean públicas. Cuando se utiliza un proxy "
-"HTTP(S), la validación en tiempo de ejecución recurre a la validación del "
-"nombre de host y no realiza las mismas comprobaciones de DNS local o la "
-"pareja de IP."
+"La lista de permitidos afecta a la maquinaria gestionada por el proyecto de "
+"dos maneras: permite el extremo configurado durante la validación de salida "
+"y marca los anfitriones coincidentes como de confianza a la hora de decidir "
+"si se pueden mostrar al usuario los detalles de los errores de los "
+"proveedores remotos o los cuerpos de las respuestas. Los anfitriones "
+"coincidentes también quedan exentos de las restricciones de destinos "
+"privados. En el caso de las conexiones directas, Weblate no resuelve, fija "
+"ni verifica la dirección del par de los anfitriones coincidentes. Añada "
+"únicamente anfitriones o dominios cuyos destinos de red sean de confianza. "
+"Cuando se utiliza un :ref:`http-proxy` configurado, se confía en que el "
+"«proxy» resuelva el nombre de anfitrión de destino."
 
 msgid ""
 "Configures size limit in bytes for fetching or uploading assets into "
@@ -6520,10 +7659,20 @@ msgstr "Su valor predeterminado es ``True``."
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
 msgstr "LOCALIZE_CDN_URL y LOCALIZE_CDN_PATH"
 
+#, fuzzy
+#| msgid ""
+#| "These settings configure the CDN add-ons, including :ref:`addon-"
+#| "weblate.cdn.cdnjs` and :ref:`addon-"
+#| "weblate.cdn.files`. :setting:`LOCALIZE_CDN_URL` defines root URL where "
+#| "the localization CDN is available and :setting:`LOCALIZE_CDN_PATH` "
+#| "defines path where Weblate should store generated files which will be "
+#| "served at the :setting:`LOCALIZE_CDN_URL`. The files are served by your "
+#| "web server or CDN, not by Weblate; see :ref:`cdn-server-security` for "
+#| "secure serving guidance."
 msgid ""
 "These settings configure the CDN add-ons, including :ref:`addon-"
-"weblate.cdn.cdnjs` and :ref:`addon-"
-"weblate.cdn.files`. :setting:`LOCALIZE_CDN_URL` defines root URL where the "
+"weblate.cdn.cdnjs`, :ref:`addon-weblate.cdn.files`, and :ref:`addon-"
+"weblate.cdn.kotlin`. :setting:`LOCALIZE_CDN_URL` defines root URL where the "
 "localization CDN is available and :setting:`LOCALIZE_CDN_PATH` defines path "
 "where Weblate should store generated files which will be served at "
 "the :setting:`LOCALIZE_CDN_URL`. The files are served by your web server or "
@@ -8427,6 +9576,31 @@ msgstr ""
 "Ejecute una vez el purgado de PO sin habilitar retirada de cadena obsoleta "
 "automática."
 
+msgid ""
+"For Git repositories, both reset actions affect only the "
+"configured :ref:`component-branch`. They do not reset or remove other local "
+"branches. :guilabel:`Cleanup` deletes all other local branches, including "
+"any commits that have not been pushed, and removes untracked files. It does "
+"not delete branches from the upstream repository."
+msgstr ""
+
+msgid ""
+"If you replace an upstream branch with unrelated history, switching to it in "
+"Weblate can fail because Weblate reuses its existing local branch and tries "
+"to merge or rebase it. Resetting while another branch is configured does not "
+"fix that inactive local branch. For example, resetting ``master`` leaves an "
+"old local ``dev`` branch unchanged."
+msgstr ""
+
+msgid ""
+"If no local changes on the affected branch need to be kept, configure a "
+"working branch, run :guilabel:`Cleanup` from :guilabel:`Repository "
+"maintenance`, and wait for it to finish. Then switch to the affected branch "
+"again. Weblate creates it afresh from upstream. If the affected branch is "
+"already configured, use :guilabel:`Reset and discard` to replace its local "
+"history with upstream instead."
+msgstr ""
+
 msgid "Reset and reapply recovery behavior"
 msgstr "Restablecer y volver a aplicar el comportamiento"
 
@@ -8870,9 +10044,6 @@ msgstr ""
 "La comprobación :ref:`check-inconsistent` se activa siempre que las cadenas "
 "sean diferentes. Puede utilizarla para revisar manualmente esas diferencias "
 "y elegir la traducción correcta."
-
-msgid "Automatic translation"
-msgstr "Traducción automática"
 
 msgid ""
 "Automatic translation based on different components can be way to "
@@ -9941,8 +11112,8 @@ msgid ""
 "Connectivity to database server, please check Django's documentation for "
 "more details."
 msgstr ""
-"Conectividad al servidor de base de datos, por favor revise la documentación "
-"de Django para más detalles."
+"Conexión con el servidor de la base de datos; consulte la documentación de "
+"Django para obtener más detalles."
 
 msgid ""
 "Disable this for any production server. With debug mode enabled, Django will "
@@ -11106,7 +12277,7 @@ msgstr ""
 "y :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 
 msgid "Google Cloud Error Reporting"
-msgstr "Partes de error en Google Cloud"
+msgstr "Notificación de errores de Google Cloud"
 
 msgid ""
 "Weblate can report handled server errors to `Google Cloud Error Reporting`_. "
@@ -11155,16 +12326,17 @@ msgstr ""
 "y :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 
 msgid "Rollbar"
-msgstr "Revertir"
+msgstr "Rollbar"
 
+#, fuzzy
 msgid ""
 "Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use "
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
-"Weblate tiene mantenimiento integrado para`Rollbar <https://rollbar.com/>`_. "
-"Para usarlo, basta con seguir las instrucciones para `Notificador de barra "
-"de desplazamiento para Python <https://docs.rollbar.com/docs/python/>`_."
+"Weblate tiene compatibilidad incorporada con`Rollbar <https://rollbar.com/"
+">`_. Para usarla, basta con seguir las instrucciones del `notificador de "
+"Rollbar para Python <https://docs.rollbar.com/docs/python/>`_."
 
 msgid "In short, you need to adjust :file:`settings.py`:"
 msgstr "En resumen, necesitas ajustar :file:`settings.py`:"
@@ -11534,6 +12706,7 @@ msgstr ""
 msgid "Automatic SSL certificates using Let’s Encrypt"
 msgstr "Certificados SSL automáticos con Let’s Encrypt"
 
+#, fuzzy
 msgid ""
 "In case you want to use `Let’s Encrypt <https://letsencrypt.org/>`_ "
 "automatically generated SSL certificates on public installation, you need to "
@@ -11936,11 +13109,17 @@ msgstr ""
 "Modifica el título del sitio que se muestra en la cabecera de todas las "
 "páginas."
 
-msgid "Configures the site domain. This parameter is required."
+#, fuzzy
+#| msgid "Configures the site domain. This parameter is required."
+msgid ""
+"Configures the site domain. This parameter is required and accepts a "
+"hostname or IPv4 address."
 msgstr "Configura el dominio del sitio. Este parámetro es obligatorio."
 
-msgid "Include port if using a non-standard one."
-msgstr "Incluir el puerto si se usa uno no estándar."
+msgid ""
+"Include a port between 1 and 65535 if using a non-standard one. IPv6 "
+"addresses are not currently supported."
+msgstr ""
 
 msgid ""
 "Configures the site-admin's name and e-mail. It is used for "
@@ -12391,10 +13570,12 @@ msgstr ""
 "consulte :setting:`WEBLATE_GPG_IDENTITY`."
 
 msgid ""
-"Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
+"Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`. "
+"Leave it empty to serve Weblate at the root, or use slash-separated path "
+"segments starting with a slash, for example ``/translations`` or ``/tools/"
+"translations``. Each segment can contain ASCII letters, digits, ``_``, and "
+"``-``."
 msgstr ""
-"Configura prefijo de URL donde Weblate está ejecutándose, "
-"consulte :setting:`URL_PREFIX`."
 
 msgid ""
 "Configures URL prefix for static files served from :setting:`CACHE_DIR`."
@@ -12560,9 +13741,11 @@ msgstr "Permite solicitudes CORS al API desde todos los orígenes."
 msgid "Configures :setting:`WEBSITE_ALERTS_ENABLED`."
 msgstr "Configura :setting:`WEBSITE_ALERTS_ENABLED`."
 
-msgid "Configures maximal body size accepted by the built-in web server."
+msgid ""
+"Configures maximal body size accepted by the built-in web server. Use a non-"
+"negative integer with an optional ``k``, ``m``, or ``g`` suffix. The suffix "
+"is case-insensitive, and ``0`` disables the request body size limit."
 msgstr ""
-"Configura el tamaño máximo de cuerpo aceptado por el servidor web integrado."
 
 msgid ""
 "This variable intentionally lacks ``WEBLATE_`` prefix as it is shared with "
@@ -12914,6 +14097,7 @@ msgstr ""
 "Deshabilita la autenticación de correo electrónico cuando se establece en "
 "cualquier valor. Consulte :ref:`disable-email-auth`."
 
+#, fuzzy
 msgid ""
 "Minimal password score as evaluated by the `zxcvbn <https://github.com/"
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
@@ -12953,6 +14137,7 @@ msgstr ""
 "Puerto del servidor PostgreSQL. El valor predeterminado es ninguno (usa el "
 "valor predeterminado)."
 
+#, fuzzy
 msgid ""
 "Configure how PostgreSQL handles SSL in connection to the server, for "
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/docs/"
@@ -13547,6 +14732,13 @@ msgstr ""
 "autenticación. Esto puede ser útil para filtrar solicitudes HTTP entrantes "
 "utilizando prueba de trabajo para detener orugas de IA. Necesita configurar "
 "`Anubis para Autenticación Subsolicitada`_ para hacer que funcione."
+
+msgid ""
+"Use an ``http://`` or ``https://`` URL with a valid hostname or IPv4 "
+"address. The URL can include a port and a simple slash-separated path using "
+"ASCII letters, digits, ``_``, and ``-``. Credentials, queries, fragments, "
+"and IPv6 addresses are not supported."
+msgstr ""
 
 msgid "`Anubis`_"
 msgstr "`Anubis`_"
@@ -14262,9 +15454,6 @@ msgid ""
 msgstr ""
 "La plantilla ya está disponible para su selección mediante la consola web o "
 "la CLI."
-
-msgid "Parameters"
-msgstr "Parámetros"
 
 msgid ""
 "The parameters that you can override are listed in the parameters section of "
@@ -15237,6 +16426,12 @@ msgstr ""
 "servicio que produzca una traducción. Se aceptan traducciones con una "
 "puntuación superior a la actual."
 
+msgid ""
+"For explicit ordering and a separate score threshold for each service, "
+"use :ref:`automation-translation-ordering`. This workflow completes one "
+"translation pass before selecting the strings for the next service."
+msgstr ""
+
 msgid "Source strings for the machine translation"
 msgstr "Cadenas de origen para la traducción automática"
 
@@ -15801,6 +16996,13 @@ msgid ""
 msgstr ""
 "Enumera los complementos en reStructuredText como plantilla para :doc:`/"
 "admin/addons`."
+
+msgid ""
+"Generates the :doc:`automation reference </admin/automation>` from the "
+"workflow JSON Schema, including action names, parameters, and introduction "
+"versions. With ``--output``, replaces generated blocks while preserving "
+"manual descriptions and cookbook examples outside those blocks."
+msgstr ""
 
 msgid ""
 "Lists permissions in reStructuredText as a template for :doc:`/admin/access`."
@@ -17197,9 +18399,6 @@ msgstr ""
 msgid "The following operations are subject to rate limiting:"
 msgstr "Las operaciones siguientes son asunto para tipo limitado:"
 
-msgid "Name"
-msgstr "Nombre"
-
 msgid "Scope"
 msgstr "Alcance"
 
@@ -17241,6 +18440,11 @@ msgstr "Crear un proyecto nuevo"
 
 msgid "Connecting a GitHub account"
 msgstr "Conectando una cuenta GitHub"
+
+#, fuzzy
+#| msgid "Turning on reviews"
+msgid "Rendering a Markdown preview"
+msgstr "Activar las revisiones"
 
 msgid ""
 "Within each scope, the rate limiting is based on sessions when user is "
@@ -18565,10 +19769,16 @@ msgstr ""
 msgid "Manage strings"
 msgstr "Gestionar cadenas"
 
+#, fuzzy
+#| msgid ""
+#| "Configures whether users in Weblate will be allowed to add new strings "
+#| "and remove existing ones. Adjust this to match your localization workflow "
+#| "- how the new strings are supposed to be introduced."
 msgid ""
 "Configures whether users in Weblate will be allowed to add new strings and "
-"remove existing ones. Adjust this to match your localization workflow - how "
-"the new strings are supposed to be introduced."
+"remove existing ones. It also enables :ref:`editing source strings and keys "
+"<edit-source>` in supported formats. Adjust this to match your localization "
+"workflow — how strings are introduced and maintained."
 msgstr ""
 "Configura si los usuarios de Weblate podrán añadir nuevas cadenas y eliminar "
 "las existentes. Ajuste esta opción para que coincida con su flujo de trabajo "
@@ -19458,6 +20668,13 @@ msgstr ""
 "actual relativa a las asistencias ofertadas en <https://weblate.org/es/"
 "support/>."
 
+msgid ""
+"The :ref:`cloudbackup` service is also available separately for self-hosted "
+"installations. It does not require a hosting or separate support "
+"subscription. You can purchase it from the :guilabel:`Backups` page in the "
+"management interface."
+msgstr ""
+
 msgid "Integrating support"
 msgstr "Integración de asistencia"
 
@@ -19843,6 +21060,24 @@ msgstr ""
 "Los indicadores de cadena también se heredan de :ref:`component-check_flags` "
 "en :ref:`component` y los indicadores del archivo de traducción "
 "(consulte :doc:`/formats`)."
+
+msgid ""
+"Use :guilabel:`Source flags — all languages` to configure every translation "
+"of a string, and :guilabel:`Translation flags` to configure the current "
+"language. Translation flags override source values such as ``max-length`` "
+"and ``max-size``. Removing a local value restores the inherited value. An "
+"explicit ``read-only`` flag on the source applies to every language and "
+"cannot be discarded by a translation."
+msgstr ""
+
+msgid ""
+"The :guilabel:`Tools` menu can mark one translation or all languages read-"
+"only. When a translation is already read-only, choose :guilabel:`Make read-"
+"only apply to all languages` to move its flag to the source. Removing source-"
+"wide read-only preserves independently set translation flags. Editing flags "
+"requires source editing permission, or glossary editing permission for "
+"glossary entries, in each affected language."
+msgstr ""
 
 msgid "Explanation"
 msgstr "Explicación"
@@ -20838,15 +22073,6 @@ msgstr ""
 "El API además está documentado utilizando OpenAPI 3.1 en la URL ``/api/"
 "schema/``, puede examinar en ``/api/docs/``."
 
-msgid ""
-"OpenAPI is available as a feature preview. The documentation is most likely "
-"incomplete at this point and subject to change. Please consult the "
-"documentation below for more detailed information on the API."
-msgstr ""
-"OpenAPI está disponible como una característica anticipada. La documentación "
-"es más probable incompleta en este punto y el asunto puede cambiar. Consulte "
-"la documentación antes para más información detallada en el API."
-
 msgid "Authentication and generic parameters"
 msgstr "Autenticación y parámetros genéricos"
 
@@ -21131,8 +22357,9 @@ msgstr ""
 
 msgid ""
 "The API contract is also documented in the OpenAPI schema at ``/api/schema/"
-"``. See :ref:`addon-weblate.cdn.kotlin` for add-on installation, lifecycle "
-"settings, and the CDN manifest contract."
+"``. The registration metadata has a :download:`JSON Schema </specs/schemas/"
+"weblate-kotlin-sdk-build.schema.json>`. See :ref:`addon-weblate.cdn.kotlin` "
+"for add-on installation, lifecycle settings, and the CDN manifest contract."
 msgstr ""
 
 msgid "Component lists"
@@ -21270,38 +22497,41 @@ msgstr "*No publicada aún.*"
 msgid "New features"
 msgstr "Características nuevas"
 
-#, fuzzy
-#| msgid "Added support for component and project removal."
 msgid ""
-"Added support for :ref:`component-mounted add-on APIs <component-addon-api>`."
-msgstr "Agregada asistencia para retirada de componente y proyecto."
-
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`addon-weblate.cdn.files` to publish translation files to the "
-#| "configured CDN."
-msgid ""
-"Added :ref:`addon-weblate.cdn.kotlin` with build registration, runtime "
-"Android translations, and configurable version retention."
-msgstr ""
-"Añadido :ref:`addon-weblate.cdn.files` para publicar archivos de traducción "
-"al CDN configurado."
-
-msgid ""
-"The :ref:`Statistics generator <addon-weblate.generate.generate>` can "
-"generate component-wide locale lists with native language names, text "
-"direction, and translation statistics."
+"DeepL automatic suggestions can include a rephrased version of an existing "
+"translation via the DeepL Write API (Pro plans and supported languages "
+"only). See :ref:`mt-deepl-rephrase`."
 msgstr ""
 
 msgid ""
-"Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a "
-"PO file format parameter, replacing the contributor comments add-on."
+"Added the :ref:`Automation add-on <addon-weblate.automation.automation>` for "
+"conditional translation and editing workflows. See :doc:`admin/automation`."
+msgstr ""
+
+msgid ""
+"Source strings and translation keys can now be :ref:`edited <edit-source>` "
+"in the editor and REST API while preserving translations and history."
+msgstr ""
+
+msgid ""
+"Added an :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>` that "
+"records quality checks for existing translations."
+msgstr ""
+
+msgid ""
+"Added language-specific :ref:`string flags <additional-flags>` to the "
+"editor, Tools menu, bulk editing, and REST API."
 msgstr ""
 
 msgid ""
 "Added an inherited :ref:`language creation policy <workflow-language-"
-"restrictions>` allowing existing project target languages while requesting "
-"maintainer approval for new languages."
+"restrictions>` that allows existing project target languages and requires "
+"approval for new ones."
+msgstr ""
+
+msgid ""
+"Added a guided :ref:`first translation <translator-start>` and advice "
+"for :doc:`building a translators community <devel/community>`."
 msgstr ""
 
 msgid ""
@@ -21309,52 +22539,108 @@ msgid ""
 "exemptions <api-rate>`, including Docker configuration."
 msgstr ""
 
+#, fuzzy
+#| msgid "Added support for component and project removal."
+msgid "Added :ref:`component-mounted add-on APIs <component-addon-api>`."
+msgstr "Agregada asistencia para retirada de componente y proyecto."
+
+msgid ""
+"The :ref:`Statistics generator <addon-weblate.generate.generate>` can now "
+"produce component-wide locale lists with native language names, text "
+"direction, and translation statistics."
+msgstr ""
+
+#, fuzzy
+#| msgid "Added integration with :ref:`discover-weblate`."
+msgid "Added a testing version of :ref:`addon-weblate.cdn.kotlin`."
+msgstr "Se sumó Integración con :ref:`discover-weblate`."
+
+msgid ""
+"Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a "
+"PO file format parameter, replacing the contributor comments add-on."
+msgstr ""
+
+msgid ""
+"Added the ``xml_whitespace_handling`` :ref:`file_format_params` "
+"for :ref:`xliff` to follow ``xml:space``, always preserve, or always "
+"normalize whitespace."
+msgstr ""
+
+msgid ""
+"Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` "
+"and :doc:`/formats/xliff2` to choose between plain text and placeables "
+"handling."
+msgstr ""
+
 msgid "Improvements"
 msgstr "Mejoras"
 
 msgid ""
-"Improved checks, automatic fixes, glossary matching, and machine translation "
-"for :ref:`independent alternatives in multivalue formats <format-"
-"multivalue>`."
+":ref:`LLM automatic suggestions <machine-translation>` now show the model "
+"and, for custom API endpoints, the host that produced them."
 msgstr ""
 
 msgid ""
-"Added a thumbnail picker to associate existing :ref:`screenshots <add-"
-"existing-screenshot>` with a string from the translation editor."
+"Automation actions can select strings from the triggering change or a "
+"previous action's affected units. See :doc:`admin/automation`."
 msgstr ""
 
 msgid ""
-":ref:`Repository maintenance <repository-maintenance>` now checks "
-"permissions on the repository-owning component and explains where missing "
-"permissions are required."
+"Unified browsing and :ref:`searching strings <search-strings>`, aligned "
+"search filters with the status overview, and added direct editor access to "
+"language-specific lists and an :guilabel:`All strings` filter."
 msgstr ""
 
 msgid ""
-"Added a guided :ref:`first translation <translator-start>` and practical "
-"advice for :doc:`building a translators community <devel/community>`."
+"Improved :ref:`translation history <translation-history>` with faster "
+"browsing, date navigation, and clearer actions."
 msgstr ""
 
 msgid ""
-":ref:`Automatic translation <auto-translation>` using other components now "
-"prefers translations with matching source text and context."
+"Improved :ref:`screenshot assignment <add-existing-screenshot>` in the "
+"editor with a thumbnail picker, predictable ordering, and removal without "
+"reloading."
 msgstr ""
 
 msgid ""
-"Aligned :ref:`string search filters <search-strings>` with the status "
-"overview's order and colors, and added an :guilabel:`All strings` option to "
-"clear the query."
+"The editor now distinguishes whitespace in source and translation strings, "
+"supports the :ref:`font-monospace <custom-checks>` flag, and accepts "
+"decimal :ref:`font-spacing <custom-checks>` values."
 msgstr ""
 
 msgid ""
-"Added monthly instance activity to the :ref:`data sent with support "
-"integration <support-data>` for activity monitoring and discovery ranking."
+"Added a Markdown preview to :ref:`comments <user-comments>`, explanations, "
+"announcements, and project instructions."
 msgstr ""
 
 msgid ""
-"Improved :ref:`repository maintenance <repository-maintenance>` with "
-"disabled push controls when push configuration is missing and direct links "
-"to component VCS settings."
+"Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and "
+"continue."
 msgstr ""
+
+msgid ""
+"Clarified :ref:`translation quality filters <project-commit_policy>` and "
+"effective per-language review settings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Improved :ref:`translation-propagation` performance."
+msgid ""
+"Improved :ref:`translation memory <translation-memory>` lookup performance "
+"and added match context to :ref:`automatic suggestions <machine-"
+"translation>`."
+msgstr "Mejora del rendimiento de :ref:`translation-propagation`."
+
+#, fuzzy
+#| msgid ""
+#| "Improved performance of the :ref:`check-inconsistent` check on large "
+#| "projects."
+msgid ""
+"Reduced aggregation overhead for the :ref:`inconsistent translations check "
+"<check-inconsistent>` on large projects."
+msgstr ""
+"Se mejoró el desempeño de las comprobaciones de :ref:`check-inconsistent` en "
+"proyectos grandes."
 
 #, fuzzy
 #| msgid ""
@@ -21362,86 +22648,105 @@ msgstr ""
 #| "automate translating of newly added strings which are already translated "
 #| "in another component."
 msgid ""
-"The :ref:`automatic translation add-on <addon-"
-"weblate.autotranslate.autotranslate>` can create approved strings, falling "
-"back to translated strings when reviews are disabled for the target language."
+":ref:`Automatic translation <auto-translation>` across components now "
+"prefers matching source text and context. The :ref:`automatic translation "
+"add-on <addon-weblate.autotranslate.autotranslate>` can create approved "
+"strings, or translated strings when reviews are disabled."
 msgstr ""
 "Puede utilizar el complemento :ref:`addon-"
 "weblate.autotranslate.autotranslate` para traducción automática de cadenas "
 "nuevamente añadidas las cuales ya están traducidas en otro componente."
 
 msgid ""
-"Added independent term alternatives and scoped metadata to :ref:`TBX "
-"glossaries <tbx>`, including metadata-preserving TBX exports."
+"Improved checks, fixes, glossary matching, and machine translation "
+"for :ref:`multivalue alternatives <format-multivalue>`."
 msgstr ""
 
 msgid ""
-"Whitespace characters are now rendered consistently in the source string "
-"display and the translation editor, and different kinds of whitespace are "
-"now distinguishable from each other."
-msgstr ""
-
-msgid ""
-"Added a :ref:`font-monospace <custom-checks>` flag to display a string in "
-"the translation editor using a monospace font, useful for aligning command-"
-"line or terminal output."
-msgstr ""
-
-msgid ""
-"History :guilabel:`View details` and :guilabel:`Revert` actions are larger, "
-"more widely spaced, and show a hover and focus background."
-msgstr ""
-
-msgid ""
-"Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and "
-"save and continue."
-msgstr ""
-
-msgid ""
-"Clarified :ref:`translation quality filter <project-commit_policy>` "
-"explanations and effective per-language review settings, with links to "
-"workflow configuration."
-msgstr ""
-
-msgid ""
-"Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use "
-"the same layout as suggestions, and it now shows the :ref:`translation "
-"memory <translation-memory>` context of each match."
+":ref:`TBX glossaries <tbx>` now support independent term alternatives and "
+"scoped metadata, preserved on export."
 msgstr ""
 
 msgid ""
 "The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-"
-"weblate.gettext.meson>` extraction add-ons now bundle common XML translation "
-"rules and support project-local ITS directories for extracting mixed source "
-"formats into a shared POT."
+"weblate.gettext.meson>` add-ons now support bundled XML rules and project-"
+"local ITS directories."
 msgstr ""
+
+msgid ""
+"Added :ref:`uploaded file language checking <upload-ignore_language>` with "
+"an override in the upload form and API."
+msgstr ""
+
+msgid ""
+":ref:`Repository maintenance <repository-maintenance>` now checks "
+"permissions on the repository-owning component, links to VCS settings, and "
+"disables unavailable push controls."
+msgstr ""
+
+msgid ""
+":ref:`SSH repository connections <ssh-repos>` now try IPv4 and IPv6 "
+"addresses in a staggered sequence and report failed addresses and ports."
+msgstr ""
+
+msgid ""
+"Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on "
+"configuration."
+msgstr ""
+
+msgid ""
+"Added monthly instance activity to :ref:`support integration data <support-"
+"data>`."
+msgstr ""
+
+msgid ""
+"Docker startup now reports invalid nginx-related environment values before "
+"attempting to start nginx."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "link to translations; see :http:get:`/api/translations/(string:project)/"
+#| "(string:component)/(string:language)/`"
+msgid ""
+"The automatic translation API can run as a background task. See :http:post:`/"
+"api/translations/(string:project)/(string:component)/(string:language)/"
+"autotranslate/`."
+msgstr ""
+"enlace a traducciones; consulte :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 msgid "Security fixes"
 msgstr "Correcciones de seguridad"
 
 msgid ""
-"Prevented project API tokens from inheriting permissions through automatic "
-"team assignments."
-msgstr ""
-
-#, fuzzy
-#| msgid ""
-#| "Fixed plurals handling in automatic translation from other components."
-msgid ""
-"Ensured translation consistency and automatic translation workflows respect "
-"restricted component access."
-msgstr ""
-"Se corrigió el tratamiento de los plurales en la traducción automática desde "
-"otros componentes."
-
-msgid ""
-"Limited the number and aggregate size of alternatives accepted by the "
-"translation editor."
+"Invalidated outstanding password reset links after password changes "
+"regardless of e-mail address casing."
 msgstr ""
 
 msgid ""
-"Prevented component ZIP imports from overwriting version control metadata on "
-"case-insensitive filesystems."
+"Prevented repository URLs from injecting executable Mercurial configuration."
+msgstr ""
+
+msgid ""
+"Limited XLIFF language declarations in uploads and the number and size of "
+"translation alternatives to prevent resource exhaustion."
+msgstr ""
+
+msgid ""
+"Enforced language-scoped screenshot permissions and restricted component "
+"access in translation consistency and automatic translation workflows."
+msgstr ""
+
+msgid ""
+"Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions "
+"through automatic team assignments."
+msgstr ""
+
+msgid ""
+"Unified case-insensitive exclusion of Git, Mercurial, Subversion, Bazaar, "
+"CVS, Darcs, RCS, and SCCS metadata during component ZIP imports, repository "
+"ZIP downloads, path processing, discovery, and filtered component copies."
 msgstr ""
 
 msgid ""
@@ -21453,40 +22758,43 @@ msgid "Bug fixes"
 msgstr "Correcciones de defectos"
 
 msgid ""
-":ref:`mt-anthropic` machine translation now preserves the path component of "
-"a custom base URL, so API gateways which serve the messages endpoint below a "
-"path prefix are reachable."
+"Improved plain-text :ref:`notification e-mails <notifications>` with "
+"readable links and tables instead of Markdown."
 msgstr ""
 
 msgid ""
-"Improved :ref:`SSH repository connections <ssh-repos>` for hosts with "
-"unreachable addresses by staggering IPv4 and IPv6 connection attempts and "
-"reporting failed addresses and the destination port."
+"Fixed authentication initialization with :ref:`running-granian-asgi` when "
+"Sentry instrumentation is enabled."
 msgstr ""
 
 msgid ""
 "Fixed :ref:`status widgets <promotion>` for categories, category-language "
-"pages, and workspaces."
+"pages, and workspaces, and corrected statistics for nested :ref:`categories "
+"<category>` and deleted :ref:`labels`."
 msgstr ""
 
 msgid ""
-"Fixed double-counted statistics in nested :ref:`categories <category>` and "
-"stale statistics after deleting :ref:`labels`."
+"Fixed MIME nesting and reduced the size of inline branding images "
+"in :ref:`notification e-mails <notifications>`."
+msgstr ""
+
+msgid ":ref:`mt-anthropic` now preserves path prefixes in custom base URLs."
 msgstr ""
 
 msgid ""
-"Fixed MIME nesting of inline branding images in :ref:`notification e-mails "
-"<notifications>` and reduced their size without changing image quality."
+"Fixed false positives in the :ref:`consecutive duplicated words check <check-"
+"duplicate>` for South Asian languages and prevented the :ref:`punctuation "
+"spacing check <check-punctuation-spacing>` from inserting spaces in URLs."
 msgstr ""
 
 msgid ""
-"Fixed false positives from the :ref:`consecutive duplicated words check "
-"<check-duplicate>` in South Asian languages with grammatical word repetition."
+"Fixed the :ref:`maximum size check <check-max-size>` preview shifting text "
+"when ``font-spacing`` is set."
 msgstr ""
 
 msgid ""
-"Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` failing "
-"when the warning directory is missing or inaccessible."
+"Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` when "
+"the warning directory is missing or inaccessible."
 msgstr ""
 
 msgid ""
@@ -21495,24 +22803,48 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Fixed the :ref:`punctuation spacing check <check-punctuation-spacing>` fix "
-"button adding a space inside URLs such as Markdown links."
+"Fixed the :ref:`search results refresh <search-results-cache>` icon color in "
+"themes and on hover."
+msgstr ""
+
+msgid ""
+"Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as "
+"untranslatable when translating in their source language."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
+msgid ""
+"Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with "
+"inherited licenses and other inherited settings."
+msgstr ""
+":ref:`addon-weblate.discovery.discovery` ahora genera partes de apuntes "
+"omitidos."
+
+msgid ""
+"Backups containing legacy component formats (e.g ``plainxliff``, ``csv-"
+"utf-8``) are now correctly restored."
 msgstr ""
 
 msgid "Compatibility"
 msgstr "Compatibilidad"
 
 msgid ""
-"Existing :ref:`project API tokens <api-tokens>` lose permissions from non-"
-"project teams during upgrade. Assign any required permissions using project-"
-"specific teams."
+"An explicit source-wide ``read-only`` flag now takes precedence over "
+"translation flags. Remove it from the source to allow editing."
 msgstr ""
 
 msgid ""
-"API throttles now read :setting:`API_RATELIMIT_ANON` "
-"and :setting:`API_RATELIMIT_USER` directly; "
-"``REST_FRAMEWORK[\"DEFAULT_THROTTLE_RATES\"]`` is no longer used by "
-"Weblate's throttle classes."
+"Existing :ref:`project API tokens <api-tokens>` lose permissions inherited "
+"from non-project teams. Assign required permissions through project-specific "
+"teams."
+msgstr ""
+
+msgid ""
+"API throttles now use :setting:`API_RATELIMIT_ANON` "
+"and :setting:`API_RATELIMIT_USER` instead of "
+"``REST_FRAMEWORK[\"DEFAULT_THROTTLE_RATES\"]``."
 msgstr ""
 
 msgid ""
@@ -21526,48 +22858,48 @@ msgid ""
 "``component`` as nullable URL strings instead of nested objects."
 msgstr ""
 
+msgid ""
+"The former ``plainxliff`` and ``xliff2-placeables`` file formats are "
+"migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the "
+"``xliff_placeables`` :ref:`file_format_params`."
+msgstr ""
+
 msgid "Upgrading"
 msgstr "Mejora"
 
 msgid ""
+"Add ``weblate.automation`` to custom :setting:`django:INSTALLED_APPS` before "
+"migrating. If :setting:`WEBLATE_ADDONS` explicitly lists the automation add-"
+"on, change its import path to ``weblate.automation.addon.AutomationAddon``. "
+"The official Docker image includes the new app."
+msgstr ""
+
+msgid ""
 "Existing :ref:`contributor comments add-ons <addon-weblate.gettext.authors>` "
-"are migrated to component file format parameters. Remove the obsolete add-on "
-"from custom :setting:`WEBLATE_ADDONS` and :setting:`DEFAULT_ADDONS` "
-"settings; inherited add-on behavior no longer applies to new components."
-msgstr ""
-
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS`; "
-#| "``weblate.metrics`` should be added."
-msgid ""
-"There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.api`` "
-"should be added."
-msgstr ""
-"Hay un cambio en :setting:`django:INSTALLED_APPS`; ``weblate.metrics`` sería "
-"añadido."
-
-msgid ""
-"Add ``weblate.kotlin_sdk`` to :setting:`django:INSTALLED_APPS` before "
-"running database migrations. The official Docker image includes it "
-"automatically. This app provides :ref:`addon-weblate.cdn.kotlin`; installing "
-"the app does not enable CDN publication on any component."
+"migrate to component file format parameters. Remove the obsolete add-on from "
+"custom :setting:`WEBLATE_ADDONS` and :setting:`DEFAULT_ADDONS` settings; new "
+"components no longer inherit it."
 msgstr ""
 
 msgid ""
-"In non-Docker settings, remove the ``anon_throttle`` and ``user_throttle`` "
-"arguments from ``get_drf_settings`` and assign those rates "
-"to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Migrate "
-"any custom ``REST_FRAMEWORK[\"DEFAULT_THROTTLE_RATES\"][\"anon\"]`` or "
-"``[\"user\"]`` values to these settings as well. Existing Docker rate-limit "
-"environment variables continue to work."
+"Add ``weblate.api`` and ``weblate.kotlin_sdk`` "
+"to :setting:`django:INSTALLED_APPS` before migrating. The official Docker "
+"image includes both. Installing the Kotlin app does not enable :ref:`CDN "
+"publication <addon-weblate.cdn.kotlin>` on any component."
+msgstr ""
+
+msgid ""
+"In non-Docker settings, move the ``anon_throttle`` and ``user_throttle`` "
+"arguments from ``get_drf_settings`` and any custom "
+"``REST_FRAMEWORK[\"DEFAULT_THROTTLE_RATES\"]`` values "
+"to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Existing "
+"Docker rate-limit variables still work."
 msgstr ""
 
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr ""
-"Por favor, siga: :ref:`generic-upgrade-instructions` para realizar la "
-"actualización."
+"Siga las :ref:`generic-upgrade-instructions` para realizar la actualización."
 
 msgid "Contributors"
 msgstr "Colaboradores"
@@ -35374,6 +36706,7 @@ msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
 msgstr ""
 "Errores de validación mejorados en :doc:`/api`, consulte :ref:`api-errors`."
 
+#, fuzzy
 msgid ""
 "Any language changed into an alias in `Weblate language data <https://"
 "github.com/WeblateOrg/language-data/>`__ is now reflected in all existing "
@@ -37604,6 +38937,40 @@ msgstr ""
 msgid "Here is an example add-on:"
 msgstr "He aquí un complemento de ejemplo:"
 
+#, fuzzy
+#| msgid "Documentation contributions"
+msgid "Documenting automation operations"
+msgstr "Contribuidores de documentación"
+
+msgid ""
+"The :ref:`automation-reference` uses the schema in :file:`weblate/automation/"
+"schema.py` as its reference source. Built-in actions are registered "
+"in :file:`weblate/automation/operations.py`, which supplies their settings "
+"and result schemas, validation, and execution. Keep this registry internal; "
+"it does not load third-party operations. When adding an action, set its "
+"title and version added to the Weblate release in which it first appears. "
+"Preserve that version when extending the action later. Control blocks keep "
+"their ``title`` and ``x-version-added`` metadata in the workflow schema."
+msgstr ""
+
+msgid ""
+"Declare the action's supported string scopes in its registry entry. The "
+"default is ``component``; opt in to ``trigger`` and ``result`` when "
+"execution accepts the runtime unit selection. Pass the scope to "
+"normalization so query defaults and requirements match the selection. Report "
+"affected unit IDs through the runtime collector, not the public result "
+"schema or activity log."
+msgstr ""
+
+msgid ""
+"Run ``make -C docs update-automation-schema update-automation-docs`` to "
+"update the downloadable schema and reference. Add explanations and examples "
+"after the corresponding ``AUTOGENERATED END`` marker in :file:`docs/admin/"
+"automation.rst`. The :wladmin:`list_automation` generator preserves this "
+"manual content. Keep section identifiers stable so descriptions remain "
+"attached to their operations."
+msgstr ""
+
 msgid "Typing add-on configuration"
 msgstr "Tecleando configuración del complemento"
 
@@ -37680,6 +39047,11 @@ msgid ""
 "are registered for every provider enabled in :setting:`WEBLATE_ADDONS`, "
 "regardless of whether the add-on is installed on a component."
 msgstr ""
+"Declara un ``api_name`` y devuelve pautas de URL de Django con ese nombre "
+"desde ``get_api_urls()``. Use convertidores habituales de Django y vistas "
+"DRF. Las pautas se registran para cada proveedor activado "
+"en :setting:`WEBLATE_ADDONS`, independientemente de si el complemento está "
+"instalado en un componente."
 
 msgid ""
 "Routes are mounted under ``/api/components/<project>/<component>/addons/"
@@ -37716,6 +39088,17 @@ msgid ""
 "registrations must rebuild their URL configuration and clear Django's URL "
 "caches."
 msgstr ""
+"Utilice la validación estándar del serializador DRF en los métodos de vista. "
+"Documente el contrato completo mediante "
+"``drf_spectacular.utils.extend_schema`` y el texto de ayuda de los campos "
+"del serializador: OpenAPI detecta las mismas vistas que se utilizan para el "
+"enrutamiento en tiempo de ejecución. Invierta los puntos finales utilizando "
+"``api:<nombre_api>:<nombre_pauta>``, proporcionando ``project__slug``, "
+"``slug`` y cualquier parámetro del extremo. Los nombres de las API son "
+"contratos públicos y deben permanecer estables ante los cambios de "
+"implementación. Reinicie Weblate tras modificar el registro del proveedor; "
+"las pruebas que anulen los registros deben reconstruir su configuración de "
+"URL y vaciar las antememorias de URL de Django."
 
 msgid ""
 "The existing ``/api/addons/<id>/`` management API remains available. Its "
@@ -38056,8 +39439,9 @@ msgid ""
 "Event: A pattern of repeated violation which the Community Moderators have "
 "tried to address with warnings, or a single serious violation."
 msgstr ""
-"Suceso: un patrón de violación repetida la cual los Moderadores de la "
-"Comunidad ha intentado dirigir con avisos, o una única violación seria."
+"Incidente: un historial de infracciones repetidas que los moderadores "
+"comunitarios han intentado abordar con advertencias, o una única infracción "
+"grave."
 
 msgid ""
 "Consequence: A private written warning with conditions for return from "
@@ -38089,10 +39473,11 @@ msgid ""
 "Community Moderators determine there is no way to keep the community safe "
 "with this person as a member."
 msgstr ""
-"Suceso: un patrón de código de conducta repetido que otros pasos en la "
-"escala ha fallado o resuelto, o una violación tan seria que los Moderadores "
-"de la Comunidad determina que no hay manera para mantener la comunidad "
-"segura con esta persona como un miembro."
+"Incidente: un historial de infracciones repetidas del código de conducta que "
+"no se ha podido resolver mediante otras medidas de la escala de "
+"intervención, o una infracción tan grave que los moderadores comunitarios "
+"determinan que no hay forma de garantizar la seguridad de la comunidad con "
+"esta persona como miembro."
 
 msgid ""
 "Consequence: Access to all community spaces, tools, and communication "
@@ -38100,14 +39485,14 @@ msgid ""
 "should have strong reasoning behind them, and should only be resorted to if "
 "working through other remedies has failed to change the behavior."
 msgstr ""
-"Consecuencia: Se elimina el acceso a todos los espacios, herramientas y "
-"canales de comunicación de la comunidad. En general, las prohibiciones "
-"permanentes deben utilizarse con poca frecuencia, deben estar justificadas y "
-"solo deben aplicarse si otras soluciones no han logrado cambiar el "
-"comportamiento."
+"Consecuencia: se retira el acceso a todos los espacios comunitarios, "
+"herramientas y canales de comunicación. En general, las expulsiones "
+"permanentes deben utilizarse en contadas ocasiones, deben estar respaldadas "
+"por argumentos sólidos y solo debe recurrirse a ellas si otras medidas no "
+"han logrado modificar el comportamiento."
 
 msgid "Repair: There is no possible repair in cases of this severity."
-msgstr "Reparación: No hay reparación posible en casos de esta gravedad."
+msgstr "Reparación: no hay reparación posible en casos de esta gravedad."
 
 msgid ""
 "This enforcement ladder is intended as a guideline. It does not limit the "
@@ -38152,6 +39537,7 @@ msgstr ""
 "Ética y tiene licencia CC BY-SA 4.0. Para ver una copia de esta licencia, "
 "visite https://creativecommons.org/licenses/by-sa/4.0/."
 
+#, fuzzy
 msgid ""
 "For answers to common questions about Contributor Covenant, see the FAQ at "
 "https://www.contributor-covenant.org/faq. Translations are provided at "
@@ -38915,6 +40301,7 @@ msgstr ""
 msgid "Translating Weblate"
 msgstr "Traducir Weblate"
 
+#, fuzzy
 msgid ""
 "Weblate is continually being `translated <https://hosted.weblate.org/>`_ "
 "using Weblate itself. Feel free to take your part in the effort of making "
@@ -38953,6 +40340,7 @@ msgstr ""
 msgid "Funding Weblate development"
 msgstr "Financiación del desarrollo de Weblate"
 
+#, fuzzy
 msgid ""
 "You can boost Weblate’s development by donating. Funds collected on "
 "donations are used to enable gratis hosting for libre software projects and "
@@ -40905,6 +42293,11 @@ msgstr "Faltan licencias"
 msgid "Errors when running add-on (see :doc:`/admin/addons`)"
 msgstr "Error al ejecutar complemento (consulte :doc:`/admin/addons`)"
 
+msgid ""
+"Unavailable AI evaluation services and recommendations to "
+"configure :ref:`addon-weblate.ai.quality` when an LLM service is available"
+msgstr ""
+
 #, fuzzy
 #| msgid "Misconfigured monolingual translation."
 msgid "Misconfigured monolingual or bilingual translation."
@@ -40969,6 +42362,14 @@ msgid ""
 msgstr ""
 "Las alertas aparecen en la página de cada componente correspondiente, como "
 "« :guilabel:`» y «Diagnósticos»`."
+
+msgid ""
+"Add-on error diagnostics link to the responsible "
+"installation's :guilabel:`Configuration` page for users who can manage it, "
+"including add-ons inherited from a category, project, or site configuration. "
+"For AI quality evaluation, an unavailable service produces an error "
+"diagnostic; provider request failures remain in the add-on activity log."
+msgstr ""
 
 #, fuzzy
 msgid "Project and workspace diagnostics overviews"
@@ -41475,12 +42876,6 @@ msgstr ""
 "los siguientes campos al crear el componente (consulte :ref:`component` para "
 "obtener una descripción detallada de los campos):"
 
-msgid "Field"
-msgstr "Campo"
-
-msgid "Value"
-msgstr "Valor"
-
 msgid "URL of the VCS repository with your project"
 msgstr "La URL del repositorio VCS con su proyecto"
 
@@ -41597,7 +42992,7 @@ msgid ""
 msgstr "Las traducciones traducidas sobre este umbral será incluida en el CDN."
 
 msgid "CSS selector"
-msgstr "Selector de CSS"
+msgstr "Selector CSS"
 
 msgid ""
 "Configures which strings from the HTML documents are translatable, "
@@ -44951,9 +46346,6 @@ msgstr ""
 "intermediate` para incluir cadenas proporcionadas por los desarrolladores, "
 "pero que no se puedan usar tal como están en las cadenas finales."
 
-msgid "String states"
-msgstr "Estados de cadena"
-
 msgid ""
 "Many file formats only differentiate \"Untranslated\" and \"Translated\" "
 "strings. With some formats it is possible to store more fine-grained state "
@@ -46921,6 +48313,7 @@ msgstr ""
 ":doc:`/formats/xliff2` es un formato diferente y no es compatible hacia "
 "atrás con XLIFF 1.2."
 
+#, fuzzy
 msgid ""
 "XML-based format created to standardize translation files, but in the end it "
 "is one of `many standards <https://xkcd.com/927/>`_, in this area."
@@ -46943,17 +48336,9 @@ msgid "`XLIFF 1.2 translation file`"
 msgstr "`Archivo de traducción XLIFF 1.2`"
 
 msgid ""
-"Simple XLIFF file where content of the elements is stored as plain text (all "
-"XML elements being escaped)."
+"Standard XLIFF file. Placeables handling is controlled by the "
+"``xliff_placeables`` :ref:`file_format_params`."
 msgstr ""
-"Archivo simple de XLIFF donde el contenido de los elementos es almacenado "
-"como texto plano (todos los elementos XML siendo escapados)."
-
-msgid "`XLIFF 1.2 with placeables support`"
-msgstr "`XLIFF 1.2 con soporte colocables`"
-
-msgid "Standard XLIFF supporting placeables and other XML elements."
-msgstr "XLIFF estándar admitiendo archivos colocables y otros elementos XML."
 
 msgid "`XLIFF 1.2 with gettext extensions`"
 msgstr "`XLIFF 1.2 con extensión de gettext`"
@@ -47056,13 +48441,47 @@ msgid "Whitespace and newlines in XLIFF"
 msgstr "Espacios en blanco y nuevas líneas en XLIFF"
 
 msgid ""
-"Generally types or amounts of whitespace is not differentiated between in "
-"XML formats. If you want to keep it, you have to add the "
-"``xml:space=\"preserve\"`` flag to the string."
+"Weblate controls how whitespaces are handled with the "
+"``xml_whitespace_handling`` :ref:`file_format_params` for XLIFF components:"
 msgstr ""
-"Generalmente, no se distingue entre tipos o cantidades de espacios en blanco "
-"en los formatos XML. Si desea conservarlos, debe agregar el indicador "
-"``xml:space=\"preserve\"`` a la cadena."
+
+msgid ""
+":guilabel:`Follow xml:space` — honor ``xml:space`` attributes in the file "
+"(and the XLIFF default when the attribute is missing)."
+msgstr ""
+
+msgid ""
+":guilabel:`Always preserve` — keep all whitespace and set "
+"``xml:space=\"preserve\"`` on units (Weblate's default for new units)."
+msgstr ""
+
+msgid ""
+":guilabel:`Always normalize` — collapse whitespace even when the file sets "
+"``xml:space=\"preserve\"``."
+msgstr ""
+
+msgid ""
+"To keep newlines or surrounding spaces when following ``xml:space``, mark "
+"the string with ``xml:space=\"preserve\"``:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Whitespace and newlines in XLIFF"
+msgid "Placeables in XLIFF"
+msgstr "Espacios en blanco y nuevas líneas en XLIFF"
+
+msgid ""
+"Weblate controls how XML elements inside XLIFF content are handled with the "
+"``xliff_placeables`` :ref:`file_format_params`:"
+msgstr ""
+
+msgid ":guilabel:`Plain text` — escape XML elements in the content."
+msgstr ""
+
+msgid ""
+":guilabel:`Placeables` — preserve placeables and other XML elements (the "
+"default). Tags then appear as placeholders in the editor."
+msgstr ""
 
 msgid "Specifying translation flags"
 msgstr "Especificar indicadores de traducción"
@@ -47159,11 +48578,20 @@ msgstr ""
 "`XML Localization Interchange File Format (XLIFF) 2.0` actualmente solo está "
 "mantenido como bilingual."
 
-msgid "`XLIFF 2.0 translation file`"
-msgstr "`Archivo de traducción XLIFF 2.0`"
+msgid ""
+"Weblate supports XLIFF 2.0 as a single file format. Placeables handling is "
+"controlled by the ``xliff_placeables`` :ref:`file_format_params`:"
+msgstr ""
 
-msgid "`XLIFF 2.0 with placeables support`"
-msgstr "`XLIFF 2.0 con soporte para archivos colocables`"
+msgid ""
+":guilabel:`Plain text` — escape XML elements in the content (the historical "
+"default for existing XLIFF 2.0 components)."
+msgstr ""
+
+msgid ""
+":guilabel:`Placeables` — preserve placeables and other XML elements (the "
+"default for new components). Tags then appear as placeholders in the editor."
+msgstr ""
 
 msgid "`XML Localization Interchange File Format (XLIFF) 2.0`_ specification"
 msgstr ""
@@ -51114,10 +52542,8 @@ msgstr "Actualizaciones de seguridad"
 msgid "Direct upgrade support"
 msgstr "Asistencia para mejora de versión directa"
 
-#, fuzzy
-#| msgid "Weblate stable release"
 msgid "Latest Weblate release"
-msgstr "Versión estable de Weblate"
+msgstr "Versión más reciente de Weblate"
 
 msgid "Guaranteed."
 msgstr "Garantizado."
@@ -51180,11 +52606,11 @@ msgid "Project: Weblate"
 msgstr "Proyecto: Weblate"
 
 #, fuzzy
-msgid "Last reviewed for Weblate |release| at commit ``8283fcad69f``."
+msgid "Last reviewed for Weblate |release| at commit ``af7a54c07c``."
 msgstr "Última revisión para Weblate |release| en el commit ``491e79010b2``."
 
 #, fuzzy
-msgid "Date: 2026-09-01."
+msgid "Date: 2026-09-24."
 msgstr "Fecha: 2026-05-14."
 
 #, fuzzy
@@ -52367,6 +53793,31 @@ msgid "Third-party code is modeled separately. *(maintainer)*"
 msgstr "El código de terceros se modela por separado. *(mantenedor)*"
 
 #, fuzzy
+#| msgid "Regular expressions"
+msgid "Declarative automation expressions"
+msgstr "Expresiones regulares"
+
+msgid ""
+"Add-on managers configure ordered Weblate operations and CEL conditions. "
+"*(documented)* (source: :ref:`automation-workflows`)"
+msgstr ""
+
+msgid ""
+"Expressions receive JSON context rather than application objects. A resource-"
+"limited helper process parses and evaluates CEL without custom function "
+"bindings; workflows cannot supply Python code. This is a distinct expression-"
+"evaluation boundary, not a sandbox for arbitrary Python. On macOS, the "
+"helper enforces CPU and wall-time limits but no memory cap, so expressions "
+"can exhaust memory within those time limits. *(maintainer)*"
+msgstr ""
+
+msgid ""
+"Existing add-on management authority governs mutations. Operation scopes, "
+"validation, and automation-origin suppression constrain declarative runs; "
+"custom Python add-ons retain their separate trust model. *(maintainer)*"
+msgstr ""
+
+#, fuzzy
 #| msgid "Key Assumptions"
 msgid "Input assumptions"
 msgstr "Supuestos Clave"
@@ -52650,6 +54101,27 @@ msgstr ""
 msgid "Restrict shell access to trusted operators. *(maintainer)*"
 msgstr ""
 
+#, fuzzy
+#| msgid "Component configuration"
+msgid "Deployment configuration"
+msgstr "Configuración de componentes"
+
+msgid ""
+"Environment variables, container arguments, mounted configuration, image "
+"selection, and workload or orchestration manifests"
+msgstr ""
+
+msgid ""
+"Trusted local-operator input. Systems that delegate selected deployment "
+"values to less-trusted users introduce an external trust boundary; Weblate "
+"does not treat those values as untrusted application input. *(maintainer)*"
+msgstr ""
+
+msgid ""
+"Restrict deployment access to trusted operators and validate delegated "
+"values before they reach Weblate. *(maintainer)*"
+msgstr ""
+
 msgid "Size and rate assumptions:"
 msgstr "Tamaño y tipo de asunciones:"
 
@@ -52828,9 +54300,6 @@ msgstr "Características admitidas"
 
 msgid "Property"
 msgstr "Propiedad"
-
-msgid "Conditions"
-msgstr "Condiciones"
 
 msgid "Violation symptom"
 msgstr ""
@@ -53475,6 +54944,15 @@ msgstr ""
 "ajusta al modelo, ya que los operadores locales forman parte de la "
 "infraestructura de confianza. *(responsable del mantenimiento)*"
 
+msgid ""
+"A report that an operator-supplied environment variable, container argument, "
+"or mounted configuration can alter generated service configuration is not a "
+"vulnerability. These are trusted deployment inputs. A CI/CD, GitOps, PaaS, "
+"Helm, or other orchestration layer that lets less-trusted users set selected "
+"values owns that delegation boundary and must validate the values before "
+"constructing the Weblate workload. *(maintainer)*"
+msgstr ""
+
 #, fuzzy
 msgid ""
 "A report that a downstream application renders a dangerous translation is "
@@ -53531,9 +55009,6 @@ msgstr "Definiciones de idioma"
 
 msgid "Disposition"
 msgstr "Disposición"
-
-msgid "Meaning"
-msgstr "Significado"
 
 #, fuzzy
 #| msgid "License"
@@ -54090,9 +55565,6 @@ msgstr "Archivo Nextcloud JSON"
 msgid "OpenDocument file"
 msgstr "Archivo OpenDocument"
 
-msgid "XLIFF 1.2 translation file"
-msgstr "Archivo de traducción XLIFF 1.2"
-
 msgid "gettext PO file"
 msgstr "Archivo PO de gettext"
 
@@ -54150,14 +55622,11 @@ msgstr "Archivo de traducción de Qt Linguist (versión 1)"
 msgid "WebExtension JSON file"
 msgstr "Archivo JSON de WebExtension"
 
-msgid "XLIFF 1.2 with placeables support"
-msgstr "XLIFF 1.2 con compatibilidad con colocables"
+msgid "XLIFF 1.2 translation file"
+msgstr "Archivo de traducción XLIFF 1.2"
 
 msgid "XLIFF 2.0 translation file"
 msgstr "Archivo de traducción XLIFF 2.0"
-
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "Archivo de traducción en XLIFF 2.0 con mantenimiento colocable"
 
 msgid "XWiki Full Page"
 msgstr "Página Completa de XWiki"
@@ -54834,6 +56303,186 @@ msgstr "Complementos integrados"
 msgid "Add-on ID"
 msgstr "ID del complemento"
 
+#, fuzzy
+#| msgid "Integration services"
+msgid "Evaluation service"
+msgstr "Servicios de integración"
+
+msgid "Query"
+msgstr "Consulta"
+
+#, fuzzy
+#| msgid "Update frequency"
+msgid "Evaluation frequency"
+msgstr "Frecuencia de actualización"
+
+msgid "Disabled"
+msgstr "Deshabilitado"
+
+msgid "Weekly"
+msgstr "Semanalmente"
+
+msgid "Monthly"
+msgstr "Mensualmente"
+
+#, fuzzy
+#| msgid "Translation changed"
+msgid "Evaluate translation changes"
+msgstr "Traducción modificada"
+
+#, fuzzy
+#| msgid "Remote repository updated"
+msgid "Evaluate repository updates"
+msgstr "Repositorio remoto actualizado"
+
+#, fuzzy
+#| msgid ""
+#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
+#| "update`, :ref:`addon-event-daily`, :ref:`addon-event-event-change`"
+msgid ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
+"update`, :ref:`addon-event-daily`, :ref:`addon-event-event-"
+"change`, :ref:`addon-event-manual-trigger`"
+msgstr ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
+"update`, :ref:`addon-event-daily`, :ref:`addon-event-event-change`"
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
+msgid ""
+"This add-on evaluates existing translations using an LLM service configured "
+"under :ref:`machine-translation`. It does not generate suggestions or change "
+"translations. Choose an :guilabel:`Evaluation service` from the configured "
+"LLM services; credentials and project overrides are reused."
+msgstr ""
+
+msgid ""
+"The :guilabel:`Query` selects strings using the normal search syntax. By "
+"default, translated strings are selected. Source strings, read-only strings, "
+"and glossary entries are excluded. Each request includes all translation "
+"plural forms, source text, language information, string context, glossary "
+"terms, placeholders, and configured translation instructions. This data is "
+"sent to the selected provider."
+msgstr ""
+
+msgid ""
+"Requests group strings from the same translation in file order, using the "
+"service's automatic translation batch size (currently 20 strings for built-"
+"in LLM services). All plural forms of a string stay together. Related "
+"strings share context, allowing the evaluator to check meaning and "
+"terminology across the batch. Batching reduces the number of provider "
+"requests for scheduled, manual, and change-triggered runs; it does not skip "
+"unchanged strings."
+msgstr ""
+
+msgid ""
+":guilabel:`Evaluation frequency` defaults to weekly. Daily and monthly "
+"schedules are also available; disabled turns off scheduled evaluation. "
+"Background processing must be enabled. A successful full run starts the next "
+"interval. Manual runs bypass the interval. Enable :guilabel:`Evaluate "
+"translation changes` or :guilabel:`Evaluate repository updates` to "
+"additionally evaluate after those events. Installation does not immediately "
+"contact the provider. Each run can incur provider costs, including "
+"reevaluation of unchanged translations."
+msgstr ""
+
+msgid ""
+"Evaluation runs in background tasks, with results and failure counts "
+"recorded in the existing add-on activity log. Failed requests retain "
+"existing valid findings and are tried again only by a subsequent run. "
+"Evaluation shares the service's automatic translation cooldown: rate-limit "
+"responses activate it, and batches are skipped while it is active. More "
+"specific installations take precedence: component, nearest category, "
+"project, then site-wide."
+msgstr ""
+
+msgid ""
+"Findings appear as standard checks for accuracy, fluency, terminology, "
+"style, and formatting. Each finding includes a minor, major, or critical "
+"severity and an explanation. Multiple findings in one category share a "
+"check, so ignoring that check ignores the whole category for the string. "
+"Existing search filters and API search work, for example "
+"``check:ai_accuracy``. Translation flags such as ``ignore-ai-accuracy`` "
+"disable a category; ``ignore-all-checks`` disables all checks."
+msgstr ""
+
+msgid ""
+"Changing the source or translation removes outdated findings. Results "
+"received after any source or translation in their batch changes are "
+"discarded for the whole batch. A failed or malformed response also leaves "
+"existing findings for the whole batch unchanged; other batches can still "
+"complete. Incomplete runs do not advance the scheduled evaluation date. "
+"Reevaluation of unchanged content preserves ignored categories, and a "
+"successful evaluation removes categories that no longer have findings. "
+"Removing or reconfiguring the add-on clears its findings. Evaluator metadata "
+"is internal and cannot be edited through the API; the add-on configuration "
+"uses the existing :ref:`addons-api` permissions and validation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgid "Automation"
+msgstr "Detección automática"
+
+msgid "Workflow"
+msgstr "Flujo de trabajo"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
+#| "update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
+#| "repository-post-remove`, :ref:`addon-event-repository-post-update`"
+msgid ""
+":ref:`addon-event-component-update`, :ref:`addon-event-daily`, :ref:`addon-"
+"event-event-change`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-"
+"repository-post-commit`, :ref:`addon-event-repository-post-"
+"push`, :ref:`addon-event-repository-post-update`"
+msgstr ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
+"update`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-"
+"repository-post-remove`, :ref:`addon-event-repository-post-update`"
+
+#, fuzzy
+#| msgid "Supporting translators with definitions and context."
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr "Mantener traductores con definiciones y contexto."
+
+msgid ""
+"Install this add-on on a component, category, project, or site. Inherited "
+"instances run separately for each component. Multiple instances can be "
+"installed. Configuring, previewing, and running an automation requires the "
+"usual add-on management permission. Saving its configuration does not "
+"execute it."
+msgstr ""
+
+msgid ""
+"Enter YAML or JSON in :guilabel:`Workflow`. Use :guilabel:`Preview without "
+"changes` to validate it and inspect planned actions, then :guilabel:`Run "
+"now` for real execution. Results appear in the add-on activity log."
+msgstr ""
+
+msgid ":ref:`automation-workflows` for the script definition and reference."
+msgstr ""
+
+msgid ":ref:`automation-cookbook` for complete examples."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| ":ref:`auto-translation` no longer validates hidden component fields when "
+#| "using machine translation."
+msgid ""
+":ref:`automation-translation-ordering` for translation memory before machine "
+"translation."
+msgstr ""
+":ref:`auto-translation` no valida por más tiempo campos de componente "
+"ocultos cuando utilizan traducción por máquina."
+
 msgid "Automatic translation mode"
 msgstr "Modo de traducción automatizada"
 
@@ -54848,9 +56497,6 @@ msgstr "Añadir como «pendiente de editar»"
 
 msgid "Add as approved translation"
 msgstr "Añadir como traducción aprobada"
-
-msgid "Query"
-msgstr "Consulta"
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -54878,9 +56524,6 @@ msgstr ""
 msgid "Score threshold"
 msgstr "Umbral de puntuación"
 
-msgid "Triggers"
-msgstr "Disparadores"
-
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
 "update`, :ref:`addon-event-daily`, :ref:`addon-event-event-change`"
@@ -54895,6 +56538,16 @@ msgstr ""
 "Traduce automáticamente las cadenas mediante traducción automática u otros "
 "componentes."
 
+msgid ""
+"To control translation order, use the :ref:`addon-"
+"weblate.automation.automation` add-on with a separate action for each pass. "
+"Follow the :ref:`automation-translation-ordering` cookbook example to apply "
+"local translation memory first and send only the remaining strings to a "
+"machine translation service. Selecting multiple engines here uses :ref:`mt-"
+"translation-services-priority`; installation order of separate add-ons does "
+"not define an execution sequence."
+msgstr ""
+
 msgid "JavaScript localization CDN"
 msgstr "CDN de regionalización de JavaScript"
 
@@ -54902,11 +56555,11 @@ msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr ""
-"El porcentaje de cadenas traducidas que deben ser presentadas para "
-"traducción a ser incluidas."
+"El porcentaje de cadenas traducidas que debe haber para que la traducción se "
+"incluya."
 
 msgid "CSS selector to detect localizable elements."
-msgstr "Selector de CSS para detectar elementos regionalizables."
+msgstr "Selector CSS para detectar elementos regionalizables."
 
 msgid "Name of cookie which stores language preference."
 msgstr "Nombre de la «cookie» que almacena la preferencia de idioma."
@@ -54999,15 +56652,25 @@ msgid ""
 msgstr ""
 
 msgid "Kotlin SDK CDN"
-msgstr ""
+msgstr "CDN del SDK de Kotlin"
 
 msgid "Maximum build age (days)"
+msgstr ""
+
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
 msgstr ""
 
 #, fuzzy
 #| msgid "Maximum line length"
 msgid "Maximum retained versions"
 msgstr "Longitud máxima de renglón"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 #, fuzzy
 #| msgid ""
@@ -55042,11 +56705,20 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Use the API URL shown on the add-on configuration page to submit build "
-"metadata to its ``builds/`` endpoint. Authenticate with a Weblate API token "
-"whose user can edit the component. Keep that token in the build environment, "
-"not in the application. See :ref:`kotlin-sdk-build-api` for the request and "
-"response format."
+"Copy the Gradle plugin configuration from the add-on configuration page. It "
+"includes the Weblate server URL, public CDN URL, project slug, and component "
+"path (with any category path URL-encoded). Replace the placeholder with a "
+"project-scoped API token whose permissions allow editing the component. "
+"Project administrators can create one in the project's :guilabel:`API "
+"access` tab; see :ref:`project-api`. Keep that token in the build "
+"environment, not in the application. The add-on's API tab shows the API base "
+"URL; submit build metadata to its ``builds/`` endpoint. See :ref:`kotlin-sdk-"
+"build-api` for the request and response format."
+msgstr ""
+
+msgid ""
+"For Gradle plugin and library setup, see the `Kotlin SDK repository <https://"
+"github.com/WeblateOrg/kotlin-sdk/>`__."
 msgstr ""
 
 msgid ""
@@ -55163,7 +56835,9 @@ msgid ""
 "``packageName``, ``versionCode``, and ``locales``. Locale keys are Weblate "
 "language codes. Each locale contains a relative ``url``, ``sha256``, and "
 "byte ``size`` for its ARSC artifact. Resolve relative URLs against the "
-"manifest URL. Artifact contents do not change after publication."
+"manifest URL. Artifact contents do not change after publication. The "
+"manifest has a :download:`JSON Schema </specs/schemas/weblate-kotlin-sdk-"
+"manifest.schema.json>`."
 msgstr ""
 
 msgid ""
@@ -55834,31 +57508,48 @@ msgstr "Estado que definir"
 msgid "Do not change"
 msgstr "No cambiar"
 
-msgid "Needs editing"
-msgstr "Necesita edición"
-
 msgid "Needs editing (Needs rewriting)"
 msgstr "Necesita edición (Necesita reescritura)"
 
 msgid "Needs editing (Needs checking)"
 msgstr "Necesita edición (Necesita revisión)"
 
-msgid "Translated"
-msgstr "Traducido"
+#, fuzzy
+#| msgid "Returns a list of all languages."
+msgid "Source flags to add — all languages"
+msgstr "Devuelve un listado de todos los idiomas."
 
-msgid "Approved"
-msgstr "Aprobadas"
+#, fuzzy
+#| msgid "Returns a list of all languages."
+msgid "Source flags to remove — all languages"
+msgstr "Devuelve un listado de todos los idiomas."
 
-msgid "Translation flags to add"
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Indicadores de traducción que añadir"
 
-msgid "Translation flags to remove"
+#, fuzzy
+#| msgid "Fills in translation strings with source string."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Completa las cadenas de traducción con las de origen."
+
+#, fuzzy
+#| msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
 msgstr "Indicadores de traducción que quitar"
 
-msgid "Labels to add"
-msgstr "Etiquetas que añadir"
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
 
-msgid "Labels to remove"
+#, fuzzy
+#| msgid "Returns a list of all languages."
+msgid "Labels to add — all languages"
+msgstr "Devuelve un listado de todos los idiomas."
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Etiquetas que quitar"
 
 msgid ""
@@ -55877,6 +57568,9 @@ msgstr "Etiquetar cadenas nuevas automáticamente"
 msgid "Search query"
 msgstr "Consulta de búsqueda"
 
+msgid "Labels to add"
+msgstr "Etiquetas que añadir"
+
 msgid "*recent*"
 msgstr "*reciente*"
 
@@ -55884,6 +57578,9 @@ msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgstr ""
 "Marcar todas las cadenas del registro de cambios de :ref:`appstore` como de "
 "solo lectura"
+
+msgid "Translation flags to add"
+msgstr "Indicadores de traducción que añadir"
 
 msgid "Marking certain strings read-only"
 msgstr "Marcar determinadas cadenas como de solo lectura"
@@ -55970,15 +57667,11 @@ msgstr "Generador de estadísticas"
 msgid "Output scope"
 msgstr "indicador de componente"
 
-#, fuzzy
-#| msgid "Detailed per translation stats."
 msgid "One file per translation"
-msgstr "Estadísticas detalladas por traducción."
+msgstr "Un archivo por traducción"
 
-#, fuzzy
-#| msgid "name of component"
 msgid "One file per component"
-msgstr "nombre del componente"
+msgstr "Un archivo por componente"
 
 msgid "Name of generated file"
 msgstr "Nombre del archivo generado"
@@ -56278,12 +57971,6 @@ msgstr ""
 "Con qué frecuencia el complemento debe actualizar el archivo POT cuando se "
 "actualiza el componente."
 
-msgid "Weekly"
-msgstr "Semanalmente"
-
-msgid "Monthly"
-msgstr "Mensualmente"
-
 msgid "Normalize POT header"
 msgstr "Normalizar cabecera de POT"
 
@@ -56354,7 +58041,7 @@ msgid "Update POT file (Meson)"
 msgstr "Actualiza el archivo POT (Meson)"
 
 msgid "ITS data directories"
-msgstr ""
+msgstr "Directorios de datos ITS"
 
 msgid ""
 "Newline-separated repository-relative directories containing an its "
@@ -56373,13 +58060,13 @@ msgstr ""
 "solo comentarios marcados con una etiquete específica."
 
 msgid "Do not extract comments"
-msgstr "No extrae comentarios"
+msgstr "No extraer comentarios"
 
 msgid "Extract all comments"
-msgstr "Extrae todos los comentarios"
+msgstr "Extraer todos los comentarios"
 
 msgid "Extract comments with tag"
-msgstr "Extrae comentarios con etiqueta"
+msgstr "Extraer comentarios con etiqueta"
 
 msgid "Comment tag"
 msgstr "Etiqueta de comentario"
@@ -56412,15 +58099,13 @@ msgstr "boletín‐unicode"
 msgid "Additional keywords"
 msgstr "Palabras clave adicionales"
 
-#, fuzzy
-#| msgid "Optional extra keyword passed to xgettext using --keyword."
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
-"Palabra clave adicional extra opcional pasada a xgettext utilizando --"
-"keyword."
+"Palabras clave adicionales, separadas por saltos de renglón, que se pasan a "
+"xgettext mediante la opción --keyword."
 
 msgid "Use keywords exclusively"
-msgstr "Utilice palabras clave exclusivamente"
+msgstr "Usar palabras clave exclusivamente"
 
 msgid ""
 "When enabled, passes ``--keyword`` without a value to xgettext before the "
@@ -56625,14 +58310,14 @@ msgid ""
 "Choose whether xgettext should read source files from glob patterns or from "
 "a POTFILES/POTFILES.in manifest."
 msgstr ""
-"Elija si xgettext leería archivos origen desde patrones glob o desde un "
-"manifiesto POTFILES/POTFILES.in."
+"Elija si xgettext debe leer los archivos de origen a partir de pautas glob o "
+"de un manifiesto POTFILES/POTFILES.in."
 
 msgid "Source file patterns"
-msgstr "Patrones de archivo origen"
+msgstr "Pautas de archivo de origen"
 
 msgid "POTFILES manifest"
-msgstr "POTFILES declarado"
+msgstr "Manifiesto POTFILES"
 
 msgid "xgettext language"
 msgstr "idioma de xgettext"
@@ -57546,6 +59231,31 @@ msgid "Skip the :ref:`check-accelerator` quality check."
 msgstr "Pasa por alto la comprobación de calidad :ref:`check-accelerator`."
 
 #, fuzzy
+#| msgid "Skip the :ref:`check-url` quality check."
+msgid "Skip the :ref:`check-ai-accuracy` quality check."
+msgstr "Pasa por alto la comprobación de calidad :ref:`check-url`."
+
+#, fuzzy
+#| msgid "Skip the :ref:`check-max-length` quality check."
+msgid "Skip the :ref:`check-ai-fluency` quality check."
+msgstr "Pasa por alto la comprobación de calidad :ref:`check-max-length`."
+
+#, fuzzy
+#| msgid "Skip the :ref:`check-lua-format` quality check."
+msgid "Skip the :ref:`check-ai-formatting` quality check."
+msgstr "Pasa por alto la comprobación de calidad :ref:`check-lua-format`."
+
+#, fuzzy
+#| msgid "Skip the :ref:`check-max-size` quality check."
+msgid "Skip the :ref:`check-ai-style` quality check."
+msgstr "Pasa por alto la comprobación de calidad :ref:`check-max-size`."
+
+#, fuzzy
+#| msgid "Skip the :ref:`check-end-semicolon` quality check."
+msgid "Skip the :ref:`check-ai-terminology` quality check."
+msgstr "Pasa por alto la comprobación de calidad :ref:`check-end-semicolon`."
+
+#, fuzzy
 #| msgid "Skip the :ref:`check-kashida` quality check."
 msgid "Skip the :ref:`check-asciidoc-markup` quality check."
 msgstr "Pasa por alto la comprobación de calidad :ref:`check-kashida`."
@@ -57897,13 +59607,58 @@ msgid ""
 "the check for such strings."
 msgstr ""
 
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "This check is always enabled but can be ignored using a flag."
+msgstr ""
+"Esta comprobación siempre está habilitada pero puede ser descartada "
+"utilizando un indicador."
+
+msgid ""
+"This check is populated only when the :ref:`AI quality evaluation add-on "
+"<addon-weblate.ai.quality>` runs. Regular quality check processing does not "
+"trigger AI evaluation."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+msgid "The evaluation detected a language quality issue."
+msgstr ""
+
+#, fuzzy
+#| msgid "Vue I18n formatting"
+msgid "AI: Formatting"
+msgstr "Formato de Vue I18n"
+
+#, fuzzy
+#| msgid "Translation is missing some placeholders."
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "A la traducción le faltan algunos sustitutivos."
+
+msgid "AI: Style"
+msgstr ""
+
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "Terminología"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
 msgid "AsciiDoc markup"
 msgstr "Marcación AsciiDoc"
 
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "La cadena en formato C no coincide con la de origen."
+msgstr "La marcación AsciiDoc no coincide con la del origen."
 
 msgid "File formats automatically enabling this check"
 msgstr "Formatos de archivo que habilitan automáticamente esta comprobación"
@@ -57965,11 +59720,6 @@ msgid ""
 "Characters surrounding XML tags in translation do not align with source."
 msgstr ""
 "Caracteres rodeando etiquetas XML en traducción no alinea con el original."
-
-msgid "This check is always enabled but can be ignored using a flag."
-msgstr ""
-"Esta comprobación siempre está habilitada pero puede ser descartada "
-"utilizando un indicador."
 
 msgid ""
 "Checks that the characters surrounding an XML tag are consistent between "
@@ -60493,9 +62243,6 @@ msgid ""
 "existing recognized contributor comments to SPDX-FileCopyrightText entries."
 msgstr ""
 
-msgid "Disabled"
-msgstr "Deshabilitado"
-
 msgid "Gettext"
 msgstr "Gettext"
 
@@ -60615,11 +62362,61 @@ msgstr "strings_encoding"
 msgid "Encoding used for iOS strings files"
 msgstr "Codificación utilizada para archivos con cadenas iOS"
 
+#, fuzzy
+#| msgid "``xliff2``, ``xliff2-placeables``"
+msgid "xliff_placeables"
+msgstr "``xliff2``, ``xliff2-situables``"
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Placeables support"
+msgstr "Asistencia de Weblate"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Plain text file"
+msgid "Plain text only"
+msgstr "Archivo de texto sin formato"
+
+#, fuzzy
+#| msgid "Supported features"
+msgid "Support placeables"
+msgstr "Características admitidas"
+
 msgid "xml_closing_tags"
 msgstr "xml_closing_tags"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Incluir etiqueta de cierre para etiquetas XML vacías"
+
+msgid "xml_whitespace_handling"
+msgstr ""
+
+#, fuzzy
+#| msgid "Whitespace and newlines in XLIFF"
+msgid "Whitespace handling"
+msgstr "Espacios en blanco y nuevas líneas en XLIFF"
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
 
 msgid "yaml_indent"
 msgstr "yaml_indent"
@@ -60802,14 +62599,13 @@ msgstr "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``Approved``, ``Needs editing``"
 msgstr "``Aprobado``, ``Necesita editar``"
 
-msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
+#, fuzzy
+#| msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
+msgid "``apple-xliff``, ``poxliff``, ``xliff``"
 msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 
 msgid "``.xlf``, ``.xliff``"
 msgstr "``.xlf``, ``.xliff``"
-
-msgid "``xliff2``, ``xliff2-placeables``"
-msgstr "``xliff2``, ``xliff2-situables``"
 
 #, fuzzy
 #| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
@@ -61276,6 +63072,31 @@ msgid ""
 "Glossary integration is not available with API v1."
 msgstr ""
 "El servicio utiliza automáticamente :ref:`glossary`, ver :ref:`glossary-mt`."
+
+#, fuzzy
+#| msgid "Removing existing translations"
+msgid "Rephrasing existing translations"
+msgstr "Eliminar traducciones existentes"
+
+msgid ""
+"When a string is already translated, Weblate can send the stored target text "
+"to the DeepL Write API ``/v2/write/rephrase`` endpoint and show the improved "
+"text as an additional machine translation suggestion."
+msgstr ""
+
+msgid ""
+"This requires a DeepL API Pro subscription using ``https://api.deepl.com/``. "
+"Rephrasing is skipped when using the free API endpoint."
+msgstr ""
+
+msgid ""
+"Only languages supported by the DeepL Write API are eligible. The stored "
+"translation is sent as plain text, without the XML placeholder handling used "
+"for DeepL translation. Rephrase suggestions use a slightly lower score than "
+"DeepL translations so automatic translation keeps preferring the translate "
+"result. Successful rephrases are cached; this still performs an extra API "
+"request on cache miss and may increase API usage and billing."
+msgstr ""
 
 msgid "`DeepL translator <https://www.deepl.com/translator>`_"
 msgstr "`Traducción de DeepL <https://www.deepl.com/translator>`_"
@@ -61909,6 +63730,7 @@ msgstr ""
 "`Qué es SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
 "translation-hub/what-is-sap-translation-hub>`_"
 
+#, fuzzy
 msgid ""
 "`SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_"
 msgstr ""
@@ -62586,10 +64408,8 @@ msgstr ""
 msgid "merge_request_automerge"
 msgstr "merge_request_automerge"
 
-#, fuzzy
-#| msgid "Label new strings automatically"
 msgid "Merge pull requests automatically"
-msgstr "Etiquetar cadenas nuevas automáticamente"
+msgstr "Fusionar solicitudes de extracción automáticamente"
 
 msgid ""
 "Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
@@ -62904,6 +64724,17 @@ msgstr ""
 "específicos para cada idioma. Por favor, genere un parte si detecta algún "
 "error."
 
+msgid ""
+"AI quality checks are populated asynchronously by the :ref:`AI quality "
+"evaluation add-on <addon-weblate.ai.quality>`. Each category groups the "
+"evaluator's findings, including their severity and explanation, and uses the "
+"same filtering and ignore controls as other checks. AI evaluation runs only "
+"during add-on runs, according to its configured triggers. Regular quality "
+"check processing does not contact the evaluator or create new AI findings; "
+"it only retains existing findings or removes them when the source or "
+"translation changes."
+msgstr ""
+
 msgid "Downloading and uploading translations"
 msgstr "Descargar y cargar traducciones"
 
@@ -63077,6 +64908,28 @@ msgstr ""
 "recomienda utilizar el mismo formato de archivo que el utilizado para la "
 "traducción; de lo contrario, algunas funciones podrían no convertirse "
 "apropiadamente."
+
+#, fuzzy
+#| msgid "Language selection"
+msgid "Language checking"
+msgstr "Selección de idioma"
+
+msgid ""
+"Weblate checks language metadata declared in uploaded files when the format "
+"provides it, including PO, XLIFF, Qt Linguist, and ARB files. Uploads "
+"declaring a different language are rejected. Known language aliases and "
+"variants sharing a base language are accepted, for example Portuguese and "
+"Brazilian Portuguese. Files without recognized language metadata can still "
+"be uploaded. Weblate does not infer the language from the filename or "
+"translated text."
+msgstr ""
+
+msgid ""
+"Select :guilabel:`Ignore language mismatch` to upload a file despite a "
+"language mismatch. This does not bypass other upload checks or permissions. "
+"When updating source strings, Weblate checks the declared source language "
+"instead of the target language."
+msgstr ""
 
 msgid "Import methods"
 msgstr "Métodos de importación"
@@ -63400,9 +65253,6 @@ msgstr ""
 msgid "Glossary entry types"
 msgstr "Términos del glosario"
 
-msgid "Type"
-msgstr "Tipo"
-
 msgid "Purpose"
 msgstr "Propósito"
 
@@ -63466,11 +65316,11 @@ msgstr "Términos intraducibles"
 #| "sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
-"typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
-"untranslatable` means they can not be translated. Use this for brand names, "
-"product names, domains, technology names, or other terms that should not be "
-"changed in other languages. Such terms are visually highlighted in the "
-"glossary sidebar."
+"typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark this "
+"translation as untranslatable` means they cannot be translated. Use this for "
+"brand names, product names, domains, technology names, or other terms that "
+"should not be changed in other languages. Such terms are visually "
+"highlighted in the glossary sidebar."
 msgstr ""
 "Indicar cierto glosario de traducciones terminológicas de ``read-only`` por "
 "edición en bruto, tecleando en el indicador, o utilizando :guilabel:`Tools` "
@@ -63478,6 +65328,14 @@ msgstr ""
 "Utilice esto para nombrar nombres de marca u otros términos que no serían "
 "cambiados en otros idiomas. Tales términos son resaltados en la barra "
 "lateral del glosario."
+
+msgid ""
+"To keep a term unchanged in every language, use :guilabel:`Mark as "
+"untranslatable for all languages`. If the current translation is already "
+"untranslatable, :guilabel:`Make untranslatable apply to all languages` moves "
+"that flag to the source. Forbidden translations are language-specific; "
+"terminology remains source-wide."
+msgstr ""
 
 msgid ""
 "The ``read-only`` flag is enough when the glossary entry already exists in "
@@ -63520,9 +65378,9 @@ msgstr "Terminología"
 msgid ""
 "Flagging certain source-language glossary terms as ``terminology`` by bulk-"
 "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark "
-"as terminology` adds entries for them to all languages in the glossary. Use "
-"this for important terms that should be well thought out, and retain a "
-"consistent meaning across all languages."
+"as terminology for all languages` adds entries for them to all languages in "
+"the glossary. Use this for important terms that should be well thought out, "
+"and retain a consistent meaning across all languages."
 msgstr ""
 "Marcar ciertos términos del glosario como ``terminología`` mediante la "
 "edición masiva, escribiendo la marca o utilizando :guilabel:`Herramientas` "
@@ -64433,6 +66291,20 @@ msgid "String search supports the shared query syntax above."
 msgstr ""
 
 msgid ""
+"Browsing and searching strings use the same list. Opening a scoped list "
+"without query parameters shows all strings in that scope. The global search "
+"page shows the search form until you submit it. Existing browse links "
+"redirect to search."
+msgstr ""
+
+msgid ""
+"When searching a translation, a project language, or a category language, "
+"select :guilabel:`Translate` to open the translation editor with the current "
+"query and sorting. Project-language and category-language searches let you "
+"review matching strings across components."
+msgstr ""
+
+msgid ""
 "When no field is defined, the lookup happens on source, target, and context "
 "strings."
 msgstr ""
@@ -65099,9 +66971,11 @@ msgstr ""
 
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
-"users by using ``@username``. Mention a maintainer or another translator "
-"when you need them to see a follow-up question; they can reply in the "
-"same :guilabel:`Comments` tab."
+"users by using ``@username``. Use the :guilabel:`Preview` tab above the "
+"comment field to see how the Markdown and mentions will render before "
+"posting. Mention a maintainer or another translator when you need them to "
+"see a follow-up question; they can reply in the same :guilabel:`Comments` "
+"tab."
 msgstr ""
 
 msgid ""
@@ -65277,6 +67151,58 @@ msgid ""
 "translator judgment, so use :ref:`source-context`, :doc:`/user/glossary`, "
 "and :ref:`user-comments` when the source text needs clarification."
 msgstr ""
+
+#, fuzzy
+#| msgid "Edit source strings"
+msgid "Editing source strings and keys"
+msgstr "Editar cadenas de origen"
+
+msgid ""
+"When :ref:`component-manage_units` is enabled and you have permission to "
+"edit source strings, choose :guilabel:`Tools` → :guilabel:`Edit source` in "
+"the translation editor. You can open this dialog from any language. Changes "
+"apply to the source string and its existing translations within the "
+"component."
+msgstr ""
+
+msgid ""
+"The dialog lets you change the source text, supported key or context, and "
+"source explanation. Existing translations, history, comments, labels, and "
+"suggestions are retained. Changing source text marks existing translations "
+"as needing editing. Changing only the key, context, or explanation preserves "
+"their states. Renaming a key may require corresponding changes in your "
+"application code."
+msgstr ""
+
+msgid ""
+"Changes are written to translation files through the normal pending-change "
+"queue and follow the project's commit policy. Keys used by pending edits "
+"remain reserved until those edits are written. Weblate rejects collisions "
+"rather than merging strings. Reload the editor if another user has changed "
+"the source since you opened the dialog."
+msgstr ""
+
+msgid ""
+"Source editing supports PO, TBX, plain XLIFF 1.2, XLIFF 2.0, and Apple "
+"XLIFF. Key editing supports JSON (plain, nested, ARB, WebExtension, and "
+"i18next), YAML, Ruby YAML, TOML, Go-i18n TOML, Java properties, GWT, PHP, "
+"DTD, Android, RESX, and simple Fluent messages. These monolingual formats "
+"also support source-text editing. PO contexts and TBX keys are editable; "
+"composite XLIFF keys are not."
+msgstr ""
+
+msgid ""
+"YAML and TOML keys can be renamed within their existing mapping, but cannot "
+"be moved between mappings or renamed inside arrays. Editing source text with "
+"unsupported inline markup, changing the number of plural forms or "
+"terminology alternatives, and editing components with an intermediate "
+"language file are not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
+msgid ":http:post:`/api/units/(int:id)/source/`"
+msgstr "Añadido :http:post:`/api/groups/(int:id)/admins/`."
 
 msgid "Plurals"
 msgstr "Plurales"
@@ -65687,6 +67613,8 @@ msgid ""
 "To link a screenshot that has already been uploaded, open the string in the "
 "translation editor:"
 msgstr ""
+"Para enlazar a una captura de pantalla que ya se haya cargado, abra la "
+"cadena en el editor de traducción:"
 
 #, fuzzy
 #| msgid ""
@@ -65747,6 +67675,22 @@ msgstr ""
 "del componente) en la base de datos, y puede ser revertido. Opcionalmente, "
 "las traducciones pueden ser además revertidas en la versión subyacente del "
 "sistema de control de versiones."
+
+msgid ""
+"In the changes browser, use :guilabel:`Older` and :guilabel:`Newer` to "
+"browse history, or :guilabel:`Latest` to return to the newest matching "
+"changes. :guilabel:`Jump to date` starts with the latest changes on or "
+"before the selected date. You can then browse in either direction, keeping "
+"your search filters. Use :guilabel:`Date range` to restrict results to a "
+"particular period."
+msgstr ""
+
+msgid ""
+"CSV downloads and RSS feeds use the search filters, not your browsing "
+"position or jump date. CSV downloads contain up to 2,000 matching changes, "
+"and RSS feeds contain the latest 10. Old numbered page links open the latest "
+"matching changes."
+msgstr ""
 
 msgid "Translated string length"
 msgstr "Longitud de la cadena traducida"
@@ -65961,11 +67905,23 @@ msgid "Change string state (for example to approve all unreviewed strings)."
 msgstr ""
 "Modifica estado de cadena (p.e. para aprobar todas las cadenas no revisadas)."
 
-msgid "Adjust translation flags (see :ref:`custom-checks`)"
+#, fuzzy
+#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
+msgid ""
+"Adjust source-wide or language-specific translation flags (see :ref:`custom-"
+"checks`)"
 msgstr "Ajusta los indicadores de traducción (consulte :ref:`custom-checks`)"
 
 msgid "Adjust string labels (see :ref:`labels`)"
 msgstr "Ajusta cadenas de etiquetas (consulte :ref:`labels`)"
+
+msgid ""
+"Source flag and label operations affect all languages of matching strings. "
+"Translation flag operations affect only matching translations and skip "
+"source strings. Removing translation flags removes local values; inherited "
+"flags remain in effect. To mark matching translations read-only, add ``read-"
+"only`` under :guilabel:`Translation flags to add — matching translations`."
+msgstr ""
 
 #, fuzzy
 #| msgid ""
@@ -67989,9 +69945,6 @@ msgid "This state is only available when reviews are enabled."
 msgstr ""
 "Este estado solo está disponible cuando están activadas las revisiones."
 
-msgid "Read-only"
-msgstr "De solo lectura"
-
 msgid ""
 "String is read-only as a result of having ``read-only`` :ref:`flag <custom-"
 "checks>`, being a non-editable source string, or marked such in the "
@@ -68389,6 +70342,40 @@ msgid ""
 "any :ref:`workflow customization <workflow-customization>` overrides."
 msgstr ""
 
+msgid "AI-assisted quality evaluation"
+msgstr ""
+
+msgid ""
+"Use the :ref:`addon-weblate.ai.quality` add-on to check existing human or "
+"machine translations for accuracy, fluency, terminology, style, and "
+"formatting. It records quality checks without editing translations or "
+"approving them."
+msgstr ""
+
+msgid ""
+"Configure an LLM service under :guilabel:`Automatic suggestions`, then "
+"install :guilabel:`AI quality evaluation` and select "
+"the :guilabel:`Evaluation service`. Choose a query to limit the translations "
+"evaluated. Run the add-on manually, choose an :guilabel:`Evaluation "
+"frequency`, or enable evaluation after translation changes or repository "
+"updates. Installation does not run evaluation. See the add-on documentation "
+"for provider costs and the data sent to the service."
+msgstr ""
+
+msgid ""
+"Translators and reviewers can inspect the findings in the editor or search "
+"for checks such as ``check:ai_accuracy``. Correct the translation or ignore "
+"a finding when appropriate. Combine this with :ref:`reviews` when human "
+"approval is required; AI evaluation does not replace approval or change the "
+"translation quality filter used for repository commits."
+msgstr ""
+
+msgid ""
+"The component's :guilabel:`Diagnostics` recommends the add-on when an LLM "
+"service is configured. If the selected service becomes unavailable, an error "
+"diagnostic links maintainers to the installed add-on's configuration."
+msgstr ""
+
 #, fuzzy
 #| msgid "Removing existing translations"
 msgid "Reusing existing translations"
@@ -68516,6 +70503,103 @@ msgstr ""
 "caso, la etiqueta :guilabel:`Source needs review` se adjunta a las cadenas "
 "del parte por los traductores. Debe revisar dichas cadenas y editarlas en el "
 "código fuente o eliminar la etiqueta."
+
+#~ msgid ""
+#~ "Purchase the `Backup service` on https://weblate.org/support/#backup."
+#~ msgstr ""
+#~ "Compre el `Servicio de copia de seguridad` en https://welate.org/support/"
+#~ "#backup."
+
+#~ msgid "Include port if using a non-standard one."
+#~ msgstr "Incluir el puerto si se usa uno no estándar."
+
+#~ msgid ""
+#~ "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
+#~ msgstr ""
+#~ "Configura prefijo de URL donde Weblate está ejecutándose, "
+#~ "consulte :setting:`URL_PREFIX`."
+
+#~ msgid "Configures maximal body size accepted by the built-in web server."
+#~ msgstr ""
+#~ "Configura el tamaño máximo de cuerpo aceptado por el servidor web "
+#~ "integrado."
+
+#~ msgid ""
+#~ "OpenAPI is available as a feature preview. The documentation is most "
+#~ "likely incomplete at this point and subject to change. Please consult the "
+#~ "documentation below for more detailed information on the API."
+#~ msgstr ""
+#~ "OpenAPI está disponible como una característica anticipada. La "
+#~ "documentación es más probable incompleta en este punto y el asunto puede "
+#~ "cambiar. Consulte la documentación antes para más información detallada "
+#~ "en el API."
+
+#, fuzzy
+#~| msgid ""
+#~| "Added :ref:`addon-weblate.cdn.files` to publish translation files to the "
+#~| "configured CDN."
+#~ msgid ""
+#~ "Added :ref:`addon-weblate.cdn.kotlin` with build registration, runtime "
+#~ "Android translations, and configurable version retention."
+#~ msgstr ""
+#~ "Añadido :ref:`addon-weblate.cdn.files` para publicar archivos de "
+#~ "traducción al CDN configurado."
+
+#, fuzzy
+#~| msgid ""
+#~| "Fixed plurals handling in automatic translation from other components."
+#~ msgid ""
+#~ "Ensured translation consistency and automatic translation workflows "
+#~ "respect restricted component access."
+#~ msgstr ""
+#~ "Se corrigió el tratamiento de los plurales en la traducción automática "
+#~ "desde otros componentes."
+
+#, fuzzy
+#~| msgid ""
+#~| "There is a change in :setting:`django:INSTALLED_APPS`; "
+#~| "``weblate.metrics`` should be added."
+#~ msgid ""
+#~ "There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.api`` "
+#~ "should be added."
+#~ msgstr ""
+#~ "Hay un cambio en :setting:`django:INSTALLED_APPS`; ``weblate.metrics`` "
+#~ "sería añadido."
+
+#~ msgid ""
+#~ "Simple XLIFF file where content of the elements is stored as plain text "
+#~ "(all XML elements being escaped)."
+#~ msgstr ""
+#~ "Archivo simple de XLIFF donde el contenido de los elementos es almacenado "
+#~ "como texto plano (todos los elementos XML siendo escapados)."
+
+#~ msgid "`XLIFF 1.2 with placeables support`"
+#~ msgstr "`XLIFF 1.2 con soporte colocables`"
+
+#~ msgid "Standard XLIFF supporting placeables and other XML elements."
+#~ msgstr ""
+#~ "XLIFF estándar admitiendo archivos colocables y otros elementos XML."
+
+#~ msgid ""
+#~ "Generally types or amounts of whitespace is not differentiated between in "
+#~ "XML formats. If you want to keep it, you have to add the "
+#~ "``xml:space=\"preserve\"`` flag to the string."
+#~ msgstr ""
+#~ "Generalmente, no se distingue entre tipos o cantidades de espacios en "
+#~ "blanco en los formatos XML. Si desea conservarlos, debe agregar el "
+#~ "indicador ``xml:space=\"preserve\"`` a la cadena."
+
+#~ msgid "`XLIFF 2.0 translation file`"
+#~ msgstr "`Archivo de traducción XLIFF 2.0`"
+
+#~ msgid "`XLIFF 2.0 with placeables support`"
+#~ msgstr "`XLIFF 2.0 con soporte para archivos colocables`"
+
+#~ msgid "XLIFF 1.2 with placeables support"
+#~ msgstr "XLIFF 1.2 con compatibilidad con colocables"
+
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "Archivo de traducción en XLIFF 2.0 con mantenimiento colocable"
 
 #~ msgid ""
 #~ "Disables semiannual support status check and redirecting superusers upon "
@@ -69207,9 +71291,6 @@ msgstr ""
 
 #~ msgid "Path to the default translation - component or project."
 #~ msgstr "Ruta para la traducción por defecto - componente o proyecto."
-
-#~ msgid "Language selection"
-#~ msgstr "Selección de idioma"
 
 #~ msgid "`As defined`"
 #~ msgstr "`Como se ha definido`"
@@ -70188,13 +72269,6 @@ msgstr ""
 #~ "Added :ref:`mdx` support for translating Markdown text while preserving "
 #~ "JSX syntax."
 #~ msgstr "Agregó soporte para traducir e importar archivos CSV."
-
-#, fuzzy
-#~| msgid "Improved :ref:`translation-propagation` performance."
-#~ msgid ""
-#~ "Improved :ref:`LLM translation context <llm-translation-context>` for "
-#~ "automatic suggestions."
-#~ msgstr "Mejora del rendimiento de :ref:`translation-propagation`."
 
 #~ msgid ""
 #~ "**Scope:** Core Weblate web application, its interactions with user "
@@ -71322,9 +73396,6 @@ msgstr ""
 #~ "Las organizaciones pueden alojar Weblate en jurisdicciones específicas "
 #~ "(por ejemplo, UE, India, China) para garantizar el cumplimiento de las "
 #~ "leyes de localización de datos."
-
-#~ msgid "Weblate support"
-#~ msgstr "Asistencia de Weblate"
 
 #~ msgid "Minimization, consent, erasure, auditability, locality"
 #~ msgstr "Minimización, consentimiento, borrado, auditabilidad, localidad"
@@ -72724,13 +74795,6 @@ msgstr ""
 #~ msgid "List translations with contributions from a user."
 #~ msgstr "Listado de traducciones con contribuciones desde un usuario."
 
-#~ msgid ""
-#~ "link to translations; see :http:get:`/api/translations/(string:project)/"
-#~ "(string:component)/(string:language)/`"
-#~ msgstr ""
-#~ "enlace a traducciones; consulte :http:get:`/api/translations/"
-#~ "(string:project)/(string:component)/(string:language)/`"
-
 #~ msgid "List subscriptions of a user."
 #~ msgstr "Listado de suscripciones de un usuario."
 
@@ -72936,9 +75000,6 @@ msgstr ""
 
 #~ msgid "Deletes the role."
 #~ msgstr "Elimina el rol."
-
-#~ msgid "Returns a list of all languages."
-#~ msgstr "Devuelve un listado de todos los idiomas."
 
 #~ msgid ""
 #~ "Language object attributes are documented at :http:get:`/api/languages/"
@@ -73266,9 +75327,6 @@ msgstr ""
 
 #~ msgid "type label_id"
 #~ msgstr "teclee label_id"
-
-#~ msgid "integer"
-#~ msgstr "integer"
 
 #~ msgid "Returns contributor credits for a project."
 #~ msgstr "Devuelve reconocimientos de contribuidor para un proyecto."
@@ -73923,9 +75981,6 @@ msgstr ""
 #~ msgid "previous source string used for fuzzy matching"
 #~ msgstr "cadena de origen previa a la utilizada para la coincidencia difusa"
 
-#~ msgid "target string"
-#~ msgstr "cadena de destino"
-
 #~ msgid "unique identifier of the unit"
 #~ msgstr "identificador único de la unidad"
 
@@ -74264,9 +76319,6 @@ msgstr ""
 #~ msgid "automatic assignment rules"
 #~ msgstr "reglas de asignación automáticas"
 
-#~ msgid "Deletes the component list."
-#~ msgstr "Elimina la lista de componentes."
-
 #~ msgid "param slug"
 #~ msgstr "indicador paramétrico"
 
@@ -74321,9 +76373,6 @@ msgstr ""
 
 #~ msgid "number of translated characters"
 #~ msgstr "número de caracteres traducidos"
-
-#~ msgid "percentage of translated characters"
-#~ msgstr "porcentaje de caracteres traducidos"
 
 #~ msgid "number of fuzzy (marked for edit) words"
 #~ msgstr "número de palabras difusas (marcadas para editar)"
@@ -76970,11 +79019,6 @@ msgstr ""
 #~ msgid "*The Translation Memory Item*"
 #~ msgstr "Memoria de traducción"
 
-#, fuzzy
-#~| msgid "Object"
-#~ msgid "*object*"
-#~ msgstr "Asunto"
-
 #~ msgid "**category**"
 #~ msgstr "**category**"
 
@@ -77002,11 +79046,6 @@ msgstr ""
 #~| msgid "name of component"
 #~ msgid "Filename or component name"
 #~ msgstr "nombre del componente"
-
-#, fuzzy
-#~| msgid "Strings"
-#~ msgid "*string*"
-#~ msgstr "Cadenas"
 
 #~ msgid "project/component"
 #~ msgstr "proyecto/componente"
@@ -77272,11 +79311,6 @@ msgstr ""
 #~| msgid "Change ID"
 #~ msgid "*Change ID*"
 #~ msgstr "Identificador de cambio"
-
-#, fuzzy
-#~| msgid "Change period"
-#~ msgid "*Change Action*"
-#~ msgstr "Período del cambio"
 
 #, fuzzy
 #~| msgid "``target``"
@@ -79853,9 +81887,3 @@ msgstr ""
 #~| msgid "Manage users (global)"
 #~ msgid "Manage announcements (global)"
 #~ msgstr "Gestionar usuarios (global)"
-
-#, fuzzy
-#~| msgctxt "Access-control role"
-#~| msgid "Manage translation memory"
-#~ msgid "Manage translation memory (global)"
-#~ msgstr "Gestionar la memoria de traducción"

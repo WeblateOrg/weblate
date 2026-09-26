@@ -1,0 +1,17 @@
+{% load i18n icons permissions %}
+
+<div class="form-group">
+  <h5 class="fs-6 fw-bold lh-base d-inline-block mb-0">{% translate "Integration instructions" %}</h5>
+
+  <p>{% blocktranslate with url="https://github.com/WeblateOrg/kotlin-sdk/" %}See the <a href="{{ url }}">Kotlin SDK repository</a> for Gradle plugin and library setup.{% endblocktranslate %}</p>
+  <p>{% translate "Configure the Kotlin SDK Gradle plugin with these values:" %}</p>
+  <pre class="text-break"><button type="button" class="btn btn-link btn-xs float-end" data-clipboard-value="{{ snippet }}" title="{% translate "Copy to clipboard" %}" aria-label="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button><code>{{ snippet }}</code></pre>
+
+  <p>
+    {% translate "Replace the placeholder with a project-scoped API token that can edit this component. Keep the token in the build environment." %}
+    {% perm 'project.permissions' project as can_manage_project_access %}
+    {% if can_manage_project_access %}
+      <a href="{% url 'manage-access' project=project.slug %}#api">{% translate "Create a project token" %}</a>
+    {% endif %}
+  </p>
+</div>

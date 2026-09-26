@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-11 04:04+0000\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Kurdish (Sorani) <https://hosted.weblate.org/projects/weblate/"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -1653,6 +1653,47 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "دوایین لیستی"
 
+#, fuzzy
+#| msgid "Authentication"
+msgid "Evaluation service"
+msgstr "سەلماندن"
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Disabled"
+msgstr "پڕۆژە بەڕێبراوەکان"
+
+msgid "Daily"
+msgstr ""
+
+#, fuzzy
+#| msgid "Weekly digest"
+msgid "Weekly"
+msgstr "هەرسکردنی هەفتانە"
+
+msgid "Monthly"
+msgstr "مانگانە"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Evaluate translation changes"
+msgstr "زمانە وەرگێڕدراوەکان"
+
+#, fuzzy
+#| msgid "Reset repository to upstream"
+msgid "Evaluate repository updates"
+msgstr "دووبارە ڕێکخستنەوەی کۆگا بۆ سەرەوەی سترایم"
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr "وەرگێڕانی ئۆتۆماتیکی"
 
@@ -2036,17 +2077,6 @@ msgstr ""
 
 msgid "Update frequency"
 msgstr ""
-
-msgid "Daily"
-msgstr ""
-
-#, fuzzy
-#| msgid "Weekly digest"
-msgid "Weekly"
-msgstr "هەرسکردنی هەفتانە"
-
-msgid "Monthly"
-msgstr "مانگانە"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3445,6 +3475,11 @@ msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەر�
 msgid "This string seems to already exist."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Automatic translation in progress"
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
 msgid "Category"
 msgstr ""
 
@@ -4320,14 +4355,24 @@ msgstr ""
 msgid "Adding strings is disabled in the component configuration."
 msgstr "زانیاری"
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr ""
+#, fuzzy
+#| msgid "Information"
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "زانیاری"
 
 #, fuzzy
 #| msgid "Translation is now locked for you."
 msgid "The file format does not support this."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "You do not have permission to edit this glossary."
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr ""
 
 #, fuzzy
 #| msgid "Information"
@@ -4387,6 +4432,103 @@ msgstr "نامەی چالاکردن لێرەوە دەنێردرێت."
 #| msgid "Administration"
 msgid "Accepted invitation to the %s team."
 msgstr "کارگێڕی"
+
+#, fuzzy
+#| msgid "Automatic suggestions"
+msgid "Automation"
+msgstr "پێشنیارە خۆکارەکان"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The component is outside this add-on's scope."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "The change does not belong to this component."
+msgstr "پڕۆژە بەڕێبراوەکان"
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Automation nesting is too deep."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Chosen sorting is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "ڕیزکردنی هەڵبژێردراو پشتیوانی کراو نیە."
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automation keys must be strings."
+msgstr "وەرگێڕانی ئۆتۆماتیکی"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to change a priority!"
+msgid "%(path)s: %(error)s"
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic group assignments"
+msgid "Automation context is too large."
+msgstr "ئەرکە خۆکارەکانی دەستە"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Invalid CEL condition: %s"
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid "Workflow"
+msgstr ""
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Preview component ID"
+msgstr "سڕینەوەی ئەم هەژمارە"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "License"
+msgid "Preview change ID"
+msgstr "مۆڵەت"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "نامەی زیادە"
@@ -4590,6 +4732,53 @@ msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The evaluation detected a language quality issue."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Add glossary entry"
+msgid "AI: Terminology"
+msgstr "زیادکردنی داخڵکردنی فەرهەنگ"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Information"
+msgid "AI: Formatting"
+msgstr "زانیاری"
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
 
 msgid "AngularJS interpolation string"
 msgstr ""
@@ -6062,6 +6251,32 @@ msgstr ""
 msgid "Multivalue CSV file"
 msgstr ""
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "This file format does not support editing keys or context."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid "A string with this identity already exists."
+msgstr "بەکارهێنەرێک بەو ناوی بەکارهێنەرەوە پێشتر هەیە."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "This file format does not support editing source strings."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The key cannot be represented in this file format."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -6109,10 +6324,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "ڕەوشی وەرگێڕان"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr ""
-
-#. Translators: File format name
 #, fuzzy
 #| msgid "Suggested translations"
 msgid "XLIFF 1.2 with gettext extensions"
@@ -6129,12 +6340,6 @@ msgstr "وەرگێڕانە پێشنیارکراوەکان"
 #| msgid "Translation status"
 msgid "XLIFF 2.0 translation file"
 msgstr "ڕەوشی وەرگێڕان"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "Suggested translations"
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 #. Translators: File format name
 #, fuzzy
@@ -6415,10 +6620,20 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Suggested translations"
 msgid "Maximum retained versions"
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -8741,6 +8956,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr ""
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "بەسەرچوو"
+
 #, fuzzy
 #| msgid "Terminated"
 msgctxt "Badge for site title for dedicated instances"
@@ -9047,10 +9266,24 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
+msgid "Add-on API"
+msgstr ""
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "API root"
+msgstr "ناوی پرۆژە"
+
 #, fuzzy
 #| msgid "Current password"
 msgid "Configuration"
 msgstr "تێپەڕەوشەی ئێستا"
+
+msgid "API"
+msgstr ""
 
 #, fuzzy
 #| msgctxt "Access-control team name"
@@ -9087,23 +9320,30 @@ msgstr "بەردەست نییە"
 msgid "No components found."
 msgstr "لە لیستی پێکهاتە"
 
-msgid "Add-on API base URL:"
-msgstr ""
-
-#, fuzzy
-#| msgid "Project name"
-msgid "API root"
-msgstr "ناوی پرۆژە"
-
 #, fuzzy
 #| msgid "Current password"
 msgid "Configure add-on"
 msgstr "تێپەڕەوشەی ئێستا"
 
 #, fuzzy
+#| msgid "License"
+msgid "Preview without changes"
+msgstr "مۆڵەت"
+
+#, fuzzy
 #| msgid "This add-on executes a script."
 msgid "This add-on has no settings."
 msgstr "ئەم زیادکراوە دەقێک جێبەجێ دەکات."
+
+#, fuzzy
+#| msgid "Automatic group assignments"
+msgid "Automation preview"
+msgstr "ئەرکە خۆکارەکانی دەستە"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
+msgstr ""
 
 #, fuzzy
 #| msgid "Documentation"
@@ -9338,6 +9578,25 @@ msgstr "ناوی پرۆژە"
 #| msgid "Projects"
 msgid "Project URL slug"
 msgstr "پڕۆژەکان"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Create a project token"
+msgstr "پڕۆژە بەڕێبراوەکان"
 
 #, fuzzy
 #| msgid "Review strings"
@@ -9908,19 +10167,6 @@ msgstr ""
 msgid "Check your billing status"
 msgstr "پشکنینی باری پسوڵە"
 
-msgid "Browse"
-msgstr "گەڕان"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "ڕەوشی وەرگێڕان"
-
-#, fuzzy
-#| msgid "No words found!"
-msgid "No strings found!"
-msgstr "هیچ وشەیەک نەدۆزرایەوە!"
-
 msgid "Insights"
 msgstr ""
 
@@ -10015,6 +10261,11 @@ msgstr "وەرگێڕانی ئۆتۆماتیکی"
 #| msgid "Translated languages"
 msgid "Add new category"
 msgstr "زمانە وەرگێڕدراوەکان"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "ڕەوشی وەرگێڕان"
 
 #, fuzzy
 #| msgid "Your languages"
@@ -10661,12 +10912,10 @@ msgstr ""
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
 
-#, fuzzy
-#| msgid "Failed to change a priority!"
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
-msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
+msgstr ""
 
 msgid "Reset and reapply"
 msgstr ""
@@ -10687,18 +10936,24 @@ msgstr ""
 msgid "Cleanup"
 msgstr ""
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-msgid "It also removes stale branches which are not used by Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
 msgstr ""
 
-#, fuzzy
-#| msgid "Failed to change a priority!"
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr ""
@@ -10822,6 +11077,11 @@ msgstr ""
 #| msgid "Your languages"
 msgid "Browse all repository changes"
 msgstr "زمانی تۆ"
+
+#, fuzzy
+#| msgid "Mailing list"
+msgid "Nothing to preview."
+msgstr "پێڕستی نامەیی"
 
 msgid "Shortcut"
 msgstr ""
@@ -10949,9 +11209,6 @@ msgid ""
 "The language definitions are automatically updated by Weblate upon a "
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
-msgstr ""
-
-msgid "Workflow"
 msgstr ""
 
 msgid "Changing plural rules might not have a desired effect."
@@ -11715,8 +11972,29 @@ msgid ""
 "credentials below."
 msgstr ""
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
 msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Buy backup service"
+msgstr "سەرپەرشتیکردنی وەشان"
+
+#, fuzzy
+#| msgid "Import glossary"
+msgid "Add custom backup storage"
+msgstr "هاوردەکردنی فەرهەنگۆک"
 
 #, fuzzy
 #| msgid "Source words"
@@ -12712,6 +12990,9 @@ msgstr "وشەکانی سەرچاوە"
 msgid "Paste from clipboard"
 msgstr "ئەمبراسیۆن"
 
+msgid "Translate"
+msgstr "وەرگێڕان"
+
 #, fuzzy
 #| msgid "Source words"
 msgid "strings"
@@ -13401,6 +13682,9 @@ msgstr "پێداچوونەوەکان"
 msgid "Untranslated"
 msgstr "وەرگێڕدراو"
 
+msgid "Browse"
+msgstr "گەڕان"
+
 #, fuzzy
 #| msgid "Suggested translations"
 msgid "Create translation"
@@ -13410,9 +13694,6 @@ msgstr "وەرگێڕانە پێشنیارکراوەکان"
 #| msgid "Failed to change a priority!"
 msgid "Cannot add translation right now"
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
-
-msgid "Translate"
-msgstr "وەرگێڕان"
 
 msgid "Customized workflow"
 msgstr ""
@@ -14025,6 +14306,11 @@ msgstr "کارگێڕی"
 msgid "Create account"
 msgstr "سڕینەوەی ئەم هەژمارە"
 
+#, fuzzy, python-format
+#| msgid "Current password"
+msgid "Configure %(addon)s"
+msgstr "تێپەڕەوشەی ئێستا"
+
 msgid "Weblate could not execute script add-on."
 msgstr ""
 
@@ -14035,6 +14321,12 @@ msgstr ""
 #| msgid "Source words"
 msgid "Command"
 msgstr "وشەکانی سەرچاوە"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation is now locked for you."
@@ -14577,6 +14869,12 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Jump to date"
+msgstr ""
+
+msgid "Go"
+msgstr ""
+
 msgid "Changes"
 msgstr "گۆڕانکارییەکان"
 
@@ -14586,6 +14884,24 @@ msgid "Download latest changes as CSV"
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
 msgid "Follow using RSS"
+msgstr ""
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "بینەران"
+
+msgid "Older"
 msgstr ""
 
 #, fuzzy
@@ -14918,11 +15234,6 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Managed projects"
-msgid "Create a project token"
-msgstr "پڕۆژە بەڕێبراوەکان"
-
-#, fuzzy
-#| msgid "Managed projects"
 msgid "Create"
 msgstr "پڕۆژە بەڕێبراوەکان"
 
@@ -14986,6 +15297,15 @@ msgid ""
 "new repository. This will work just fine if the repository has been moved to "
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "دەستکاریکردنی سەرچاوە"
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
@@ -15307,6 +15627,11 @@ msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کر�
 msgid "No labels currently set."
 msgstr ""
 
+#, fuzzy
+#| msgid "Edit strings"
+msgid "Edit flags"
+msgstr "دەسکاریکردنی زنجیرەکان"
+
 msgid "Flags"
 msgstr ""
 
@@ -15381,6 +15706,15 @@ msgstr ""
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
+msgstr ""
+
+msgid "Effective flags"
+msgstr ""
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
 msgstr ""
 
 #, fuzzy, python-format
@@ -15510,11 +15844,6 @@ msgstr "دابینکەر"
 msgid "Repositories"
 msgstr "سەرپەرشتیکردنی وەشان"
 
-#, fuzzy
-#| msgid "Managed projects"
-msgid "Disabled"
-msgstr "پڕۆژە بەڕێبراوەکان"
-
 msgid "Refresh"
 msgstr ""
 
@@ -15624,9 +15953,6 @@ msgstr ""
 #| msgid "Donate to Weblate"
 msgid "Continue to GitHub"
 msgstr "بەخشین بۆ وێبلەیت"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Enable suggestions"
@@ -15926,6 +16252,14 @@ msgstr "ئەمبراسیۆن"
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "پێداچوونەوە"
 
 #, fuzzy
 #| msgid "Your languages"
@@ -16923,6 +17257,11 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 msgid "POT updates do not update PO files."
 msgstr ""
 
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "AI quality evaluation service is unavailable."
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
 msgid "Information"
 msgstr "زانیاری"
 
@@ -17699,6 +18038,46 @@ msgstr "MAC (\\r)"
 msgid "Include closing tag for blank XML tags"
 msgstr ""
 
+msgid "Whitespace handling"
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Placeables support"
+msgstr "پاڵپشتی وێبلەیت"
+
+#, fuzzy
+#| msgid "Profile"
+msgid "Plain text only"
+msgstr "پرۆفایل"
+
+#, fuzzy
+#| msgid "About Weblate"
+msgid "Support placeables"
+msgstr "دەربارەی وێبلەیت"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 #, fuzzy
 #| msgid "Profile"
 msgid "FlatXML Root name"
@@ -18010,6 +18389,14 @@ msgid ""
 "changes."
 msgstr "وەرگێڕان ئێستا کراوەیە بۆ بەڕۆژکردنی وەگێڕان."
 
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Ignore language mismatch"
+msgstr "سنووری زمانەکان"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr ""
 
@@ -18187,6 +18574,34 @@ msgstr ""
 
 msgid "Please choose"
 msgstr ""
+
+#, fuzzy
+#| msgid "Your languages"
+msgid "Source flags — all languages"
+msgstr "زمانی تۆ"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation flags — this language"
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Translation flags — %(language)s"
+msgstr "ڕەوشی وەرگێڕان"
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "You do not have permission to edit these flags."
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
 #, fuzzy
 #| msgid "Translation is now locked for you."
@@ -18483,6 +18898,11 @@ msgid "Replacement string"
 msgstr ""
 
 #, fuzzy
+#| msgid "Delete this account"
+msgid "Key or context"
+msgstr "سڕینەوەی ئەم هەژمارە"
+
+#, fuzzy
 #| msgid "Translation"
 msgid "Translation key"
 msgstr "وەرگێڕان"
@@ -18548,22 +18968,38 @@ msgstr "بەخشین بۆ وێبلەیت"
 msgid "Do not change"
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation flags to add"
-msgstr "ڕەوشی وەرگێڕان"
+msgid "Source flags to add — all languages"
+msgstr ""
 
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation flags to remove"
-msgstr "ڕەوشی وەرگێڕان"
-
-msgid "Labels to add"
+msgid "Source flags to remove — all languages"
 msgstr ""
 
 #, fuzzy
+#| msgid "Translation status"
+msgid "Translation flags to add — matching translations"
+msgstr "ڕەوشی وەرگێڕان"
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation flags to remove — matching translations"
+msgstr "ڕەوشی وەرگێڕان"
+
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your languages"
+msgid "Labels to add — all languages"
+msgstr "زمانی تۆ"
+
+#, fuzzy
 #| msgid "Suggestion voting"
-msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "دەنگدانی پێشنیار"
 
 #, fuzzy
@@ -18623,6 +19059,11 @@ msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەر�
 #| msgid "Project is now open for translation updates."
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
+#| msgid "Source words"
+msgid "The date cannot be in the future."
+msgstr "وشەکانی سەرچاوە"
 
 #, fuzzy
 #| msgid "Username"
@@ -19293,9 +19734,9 @@ msgid "Manage strings"
 msgstr "وشەکانی سەرچاوە"
 
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 
 msgid "Merge style"
@@ -20067,6 +20508,23 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "The uploaded file contains too many language declarations."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to change a priority!"
+msgid "Could not parse uploaded file: %s"
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
 #, fuzzy, python-format
 #| msgid "Failed to change a priority!"
 msgid "Could not commit pending changes: %s"
@@ -20075,11 +20533,6 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 #, fuzzy, python-brace-format
 #| msgid "Failed to change a priority!"
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
-
-#, fuzzy, python-format
-#| msgid "Failed to change a priority!"
-msgid "Could not parse uploaded file: %s"
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 #, fuzzy, python-format
@@ -20123,20 +20576,57 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Project is now open for translation updates."
-msgid "Unmark as read-only"
-msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
-
-msgid "Mark as read-only"
-msgstr ""
-
-#, fuzzy
-#| msgid "Project is now open for translation updates."
-msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
 #, fuzzy
 #| msgid "Project is now open for translation updates."
-msgid "Mark as untranslatable"
+msgid "Unmark as read-only for all languages"
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "Unmark this translation as untranslatable"
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Unmark this translation as read-only"
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "زمانە وەرگێڕدراوەکان"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "زمانە وەرگێڕدراوەکان"
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "Mark this translation as untranslatable"
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "Mark this translation as read-only"
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "Mark as untranslatable for all languages"
+msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
+#| msgid "Your languages"
+msgid "Mark as read-only for all languages"
+msgstr "زمانی تۆ"
+
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "Mark as forbidden translation"
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
 #, fuzzy
@@ -20145,15 +20635,14 @@ msgid "Unmark as forbidden translation"
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
 #, fuzzy
-#| msgid "Project is now open for translation updates."
-msgid "Mark as forbidden translation"
-msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+#| msgid "Your languages"
+msgid "Mark as terminology for all languages"
+msgstr "زمانی تۆ"
 
-msgid "Unmark as terminology"
-msgstr ""
-
-msgid "Mark as terminology"
-msgstr ""
+#, fuzzy
+#| msgid "Your languages"
+msgid "Unmark as terminology for all languages"
+msgstr "زمانی تۆ"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -20162,6 +20651,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source words"
+msgid "The source string has changed. Reload it before editing."
+msgstr "وشەکانی سەرچاوە"
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "بەکارهێنەرێک بەو ناوی بەکارهێنەرەوە پێشتر هەیە."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The file format does not support this edit."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "A translation key is required."
+msgstr "هەژمارەکەت سڕدرایەوە."
+
+#, fuzzy
+#| msgid "Failed to change a priority!"
+msgid "Could not find the string in the translation file."
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 msgid "Insert tab character"
 msgstr ""
@@ -20687,6 +21205,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "گۆڕانەکانی دوا ساڵ"
 
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Invalid history position."
+msgstr "سڕینەوەی ئەم هەژمارە"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -20744,6 +21267,11 @@ msgid ""
 "refreshed."
 msgstr ""
 
+#, fuzzy
+#| msgid "No words found!"
+msgid "No strings found!"
+msgstr "هیچ وشەیەک نەدۆزرایەوە!"
+
 msgid "Your suggestion is empty!"
 msgstr ""
 
@@ -20787,11 +21315,6 @@ msgstr ""
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "وەرگێڕانە پێشنیارکراوەکان"
 
-#, fuzzy
-#| msgid "Suggested translations"
-msgid "Automatic translation in progress"
-msgstr "وەرگێڕانە پێشنیارکراوەکان"
-
 msgid "Posted new comment"
 msgstr ""
 
@@ -20821,6 +21344,16 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 #| msgid "Translation is now locked for you."
 msgid "New string has been added."
 msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Translation is now locked for you."
+msgid "The component is busy. Please try again."
+msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#| msgid "Source words"
+msgid "Source string updated."
+msgstr "وشەکانی سەرچاوە"
 
 #, fuzzy, python-format
 #| msgid "Autoaccept suggestions"
@@ -20880,6 +21413,16 @@ msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەر�
 #| msgid "Project is now open for translation updates."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
+
+#, fuzzy
+#| msgid "Source words"
+msgid "The text is too long to preview."
+msgstr "وشەکانی سەرچاوە"
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr "نامەی زۆر نێردراو، تکایە دواتر دووبارە هەوڵدەوە."
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -21065,6 +21608,11 @@ msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کر�
 
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source words"
+msgid "Could not change string flags!"
+msgstr "وشەکانی سەرچاوە"
 
 #, fuzzy
 #| msgid "Source words"
@@ -21647,6 +22195,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Your languages"
+msgid "Repository URL contains unsafe characters."
+msgstr "زمانی تۆ"
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -22881,6 +23434,23 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "هەژمارەکەت سڕدرایەوە."
 
+#, fuzzy
+#~| msgid "Suggested translations"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#~| msgid "Failed to change a priority!"
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, fuzzy
+#~| msgid "Failed to change a priority!"
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
 #~ msgid ""
 #~ "Updates the comment part of the PO file header to include contributor "
 #~ "names and years of contributions."
@@ -23176,11 +23746,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~ msgstr "بینین"
 
 #, fuzzy
-#~| msgid "Automatic group assignments"
-#~ msgid "Automatically recognize"
-#~ msgstr "ئەرکە خۆکارەکانی دەستە"
-
-#, fuzzy
 #~| msgid "Translation status"
 #~ msgid "Version control integration"
 #~ msgstr "ڕەوشی وەرگێڕان"
@@ -23331,9 +23896,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~| msgid "Projects limit"
 #~ msgid "Translations with contribution"
 #~ msgstr "سنووری پڕۆژەکان"
-
-#~ msgid "Weblate support"
-#~ msgstr "پاڵپشتی وێبلەیت"
 
 #, fuzzy
 #~| msgid "Delete comment"
@@ -23766,11 +24328,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~ msgstr "وەرگێڕدراو"
 
 #, fuzzy
-#~| msgid "Your languages"
-#~ msgid "Dismiss for all languages"
-#~ msgstr "زمانی تۆ"
-
-#, fuzzy
 #~| msgid "translated"
 #~ msgctxt "String state"
 #~ msgid "Not translated"
@@ -24119,9 +24676,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 
 #~ msgid "Your languages"
 #~ msgstr "زمانی تۆ"
-
-#~ msgid "Review"
-#~ msgstr "پێداچوونەوە"
 
 #, fuzzy
 #~| msgid "Change my password"

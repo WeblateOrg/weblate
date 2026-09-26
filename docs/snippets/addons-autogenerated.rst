@@ -294,11 +294,11 @@ Kotlin SDK CDN
 .. versionadded:: 2026.10
 
 :Add-on ID: ``weblate.cdn.kotlin``
-:Configuration: +----------------------+---------------------------+--+
-                | ``maximum_age``      | Maximum build age (days)  |  |
-                +----------------------+---------------------------+--+
-                | ``maximum_versions`` | Maximum retained versions |  |
-                +----------------------+---------------------------+--+
+:Configuration: +----------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``maximum_age``      | Maximum build age (days)  | Retires builds this many days after their first registration. Re-registering a build does not extend its age.             |
+                +----------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``maximum_versions`` | Maximum retained versions | Limits retained builds across all package names. A build is retired when either this limit or the maximum age is reached. |
+                +----------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-repository-post-remove`, :ref:`addon-event-repository-post-update`
 
@@ -321,10 +321,19 @@ names and their submitted IDs alongside translated text. Do not treat the
 uploaded resource mapping as confidential; enable publication only when this
 disclosure is intended. Registration and status API access remains permission-controlled.
 
-Use the API URL shown on the add-on configuration page to submit build metadata
-to its ``builds/`` endpoint. Authenticate with a Weblate API token whose user can
-edit the component. Keep that token in the build environment, not in the application.
-See :ref:`kotlin-sdk-build-api` for the request and response format.
+Copy the Gradle plugin configuration from the add-on configuration page. It
+includes the Weblate server URL, public CDN URL, project slug, and component
+path (with any category path URL-encoded). Replace the placeholder with a
+project-scoped API token whose permissions allow editing the component. Project
+administrators can create one in the project's :guilabel:`API access` tab; see
+:ref:`project-api`.
+Keep that token in the build environment, not in the application. The add-on's
+API tab shows the API base URL; submit build metadata to its ``builds/``
+endpoint. See
+:ref:`kotlin-sdk-build-api` for the request and response format.
+
+For Gradle plugin and library setup, see the `Kotlin SDK repository
+<https://github.com/WeblateOrg/kotlin-sdk/>`__.
 
 The add-on matches resource names and types from registered builds to current
 component translations. Strings, plurals, and Android styled text are supported.

@@ -26,7 +26,7 @@ from social_django.models import Code, Partial
 
 from weblate.utils.celery import app
 from weblate.utils.errors import report_error
-from weblate.utils.html import HTML2Text
+from weblate.utils.html import html_to_mail_text
 from weblate.utils.icons import load_icon
 from weblate.utils.tracing import start_span
 
@@ -490,12 +490,10 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
             return
         connection = monkey_patch_smtp_logging(connection)
 
-    html2text = HTML2Text()
-
     with closing(connection):
         for mail in mails:
             with start_span(op="email.text"):
-                text = html2text.handle(mail["body"])
+                text = html_to_mail_text(mail["body"])
             email = NotificationEmail(
                 settings.EMAIL_SUBJECT_PREFIX + mail["subject"],
                 text,

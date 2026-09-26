@@ -10,6 +10,13 @@
            {% if addon_page == "configuration" %}aria-current="page"{% endif %}
            href="{% url 'addon-detail' pk=instance.pk %}">{% translate "Configuration" %}</a>
       </li>
+      {% if instance.api_url %}
+        <li class="nav-item">
+          <a class="nav-link{% if addon_page == "api" %} active{% endif %}"
+             {% if addon_page == "api" %}aria-current="page"{% endif %}
+             href="{% url 'addon-api' pk=instance.pk %}">{% translate "API" %}</a>
+        </li>
+      {% endif %}
       <li class="nav-item">
         <a class="nav-link{% if addon_page == "logs" %} active{% endif %}"
            {% if addon_page == "logs" %}aria-current="page"{% endif %}

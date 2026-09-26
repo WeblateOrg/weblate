@@ -1065,6 +1065,9 @@ Projects
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string license: :ref:`project-license`
+    :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+    :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the workspace.
+    :>json array effective_enforced_checks: Enforced checks currently applied to the project (read-only).
     :>json integer access_control: :ref:`project-access_control`
     :>json boolean public_sharing: :ref:`project-public_sharing`
     :>json boolean use_shared_tm: :ref:`project-use_shared_tm`
@@ -1198,7 +1201,7 @@ Projects
 
     .. versionadded:: 5.5
 
-    Downloads all available translations associated with the project as an archive file using the requested format and language.
+    Downloads all available translations associated with the project as an archive file using the requested format and language. An unfiltered archive requires project-wide download permission. When ``language_code`` is specified, download permission is evaluated for that language.
 
     :param project: Project URL slug
     :type project: string
@@ -1639,7 +1642,7 @@ Projects
 
        Added ability to download ZIP file of all components translations in a project for 1 specific language.
 
-    Download a ZIP file of all translation files for a specified ``language_code`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`).
+    Download a ZIP file of all translation files for a specified ``language_code`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`). Download permission is evaluated for the requested language.
 
     :param project: Project URL slug
     :type project: string
@@ -1653,8 +1656,8 @@ Projects
         Possible responses:
 
         - ``200 OK`` with the ZIP file of translations for the specified language across all components in the project. If no components have translations for the specified language, an empty ZIP file will be returned.
-        - ``403 Forbidden`` if the user does not have permission to the project.
-        - ``404 Not Found`` if the project slug does not exist.
+        - ``403 Forbidden`` if the user does not have download permission for the requested language.
+        - ``404 Not Found`` if the project slug or language code does not exist.
 
 .. http:get:: /api/projects/(string:project)/languages/(string:language_code)/announcements/
 
@@ -1821,7 +1824,9 @@ Components
     :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string check_flags: :ref:`component-check_flags`
     :>json string priority: :ref:`component-priority`
-    :>json string enforced_checks: :ref:`component-enforced_checks`
+    :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+    :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the category, project, or workspace.
+    :>json array effective_enforced_checks: Enforced checks currently applied to the component (read-only).
     :>json string restricted: :ref:`component-restricted`
     :>json string repoweb: :ref:`component-repoweb`
     :>json string report_source_bugs: :ref:`component-report_source_bugs`
@@ -2629,6 +2634,10 @@ Translations
 
        The ``filter_type`` parameter is no longer supported and filtering is done by the ``q`` parameter.
 
+    .. versionchanged:: 2026.10
+
+       Added the ``background`` parameter.
+
     Trigger automatic translation.
 
     :param project: Project URL slug
@@ -2643,7 +2652,13 @@ Translations
     :<json string component: Component ID (always accepted); when the project has 30 or more eligible source components, a component slug or ``project/component`` path is also accepted; leave blank to use all components in the project
     :<json array engines: Machine translation engines to use when ``auto_source`` is ``mt``
     :<json int threshold: Score threshold for machine translation (1–100)
-    :>json string details: Human-readable summary of the translation result
+    :<json boolean background: Schedule automatic translation as a background task instead of waiting for it to finish. Defaults to ``false``.
+    :>json string details: Human-readable summary of the translation result, or status of a background task
+    :>json string task_url: URL for tracking a background task; see :http:get:`/api/tasks/(str:uuid)/`
+
+    With ``background`` set to ``true``, the endpoint returns ``202 Accepted``
+    once the task is scheduled. Validation and permission errors are still
+    reported immediately.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -3723,6 +3738,9 @@ Categories
    :>json str slug: Slug of category.
    :>json str project: Link to a project.
    :>json str category: Link to a parent category.
+   :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+   :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the parent category, project, or workspace.
+   :>json array effective_enforced_checks: Enforced checks currently applied to the category (read-only).
    :>json string announcements_url: URL to announcements; see :http:get:`/api/categories/(int:id)/announcements/`
    :>json string reports_url: URL to list or generate scoped reports; see :http:get:`/api/categories/(int:id)/reports/`
 

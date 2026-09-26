@@ -1969,7 +1969,15 @@ class SendMailsTest(SimpleTestCase):
             self.assertEqual(message.get_content_type(), "multipart/alternative")
             plain, related = message.iter_parts()
             self.assertEqual(plain.get_content_type(), "text/plain")
-            self.assertIn(subject, plain.get_content())
+            plain_text = plain.get_content()
+            self.assertIn(subject, plain_text)
+            self.assertIn(
+                "Weblate, the libre continuous localization system. "
+                "(https://weblate.org/)",
+                plain_text,
+            )
+            self.assertNotIn("**", plain_text)
+            self.assertNotIn("cid:email-logo", plain_text)
             self.assertEqual(related.get_content_type(), "multipart/related")
             self.assertEqual(related.get_param("type"), "text/html")
             html, *images = related.iter_parts()
@@ -1977,6 +1985,7 @@ class SendMailsTest(SimpleTestCase):
             self.assertIn(subject, html.get_content())
             self.assertEqual(len(images), 2)
             content_ids = set()
+            expected_html = body
             for name, image in zip(
                 ("email-logo.png", "email-logo-footer.png"), images, strict=True
             ):
@@ -1991,7 +2000,14 @@ class SendMailsTest(SimpleTestCase):
                 self.assertTrue(cid.startswith("<") and cid.endswith(">"))
                 self.assertIn(f"cid:{cid[1:-1]}", html.get_content())
                 self.assertNotIn(f"cid:{name}@cid.weblate.org", html.get_content())
+                expected_html = expected_html.replace(
+                    f"cid:{name}@cid.weblate.org", f"cid:{cid[1:-1]}"
+                )
                 content_ids.add(cid)
+            self.assertEqual(
+                html.get_content().replace("\r\n", "\n").rstrip("\n"),
+                expected_html.rstrip("\n"),
+            )
             self.assertEqual(len(content_ids), 2)
             self.assertTrue(content_ids.isdisjoint(previous_ids))
             previous_ids.update(content_ids)

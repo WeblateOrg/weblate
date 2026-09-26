@@ -116,6 +116,7 @@ from weblate.trans.repository import (
     QueuedRepositoryOperation,
     RepositoryOperationConflictError,
 )
+from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     clear_users_cache,
@@ -3820,21 +3821,46 @@ class GroupAPITest(APIBaseTest):
 
 
 class ComponentCopyTest(APITestCase):
+    def test_replace_component_checkout_protects_non_local_git_metadata(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as source_dir,
+            tempfile.TemporaryDirectory() as target_dir,
+        ):
+            for filename, content in (
+                (".git/config", "source config"),
+                (".git/hooks/pre-commit", "malicious hook"),
+                (".hg/hgrc", "source metadata"),
+                ("messages.po", "copied"),
+            ):
+                path = Path(source_dir, filename)
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(content, encoding="utf-8")
+            target_config = Path(target_dir, ".git", "config")
+            target_config.parent.mkdir(parents=True)
+            target_config.write_text("target config", encoding="utf-8")
+
+            source_component = SimpleNamespace(
+                full_path=source_dir,
+                repository=SimpleNamespace(lock=nullcontext(), metadata_dir_name=".hg"),
+            )
+            target_component = SimpleNamespace(
+                full_path=target_dir,
+                is_repo_local=False,
+                repository=SimpleNamespace(lock=nullcontext()),
+            )
+
+            self.assertTrue(
+                replace_component_checkout(target_component, source_component)
+            )
+            self.assertEqual(target_config.read_text(encoding="utf-8"), "target config")
+            self.assertFalse(Path(target_dir, ".git", "hooks", "pre-commit").exists())
+            self.assertFalse(Path(target_dir, ".hg").exists())
+            self.assertTrue(Path(target_dir, "messages.po").is_file())
+
     def test_replace_component_checkout_preserves_local_git_for_non_git_source(
         self,
     ) -> None:
-        for metadata_dirs in (
-            (
-                ".hg",
-                ".svn",
-                ".bzr",
-                "CVS",
-                "_darcs",
-                "RCS",
-                "SCCS",
-            ),
-            (".SVN",),
-        ):
+        for metadata_dirs in ((".hg",), (".HG",)):
             with (
                 tempfile.TemporaryDirectory() as source_dir,
                 tempfile.TemporaryDirectory() as target_dir,
@@ -3842,12 +3868,20 @@ class ComponentCopyTest(APITestCase):
                 for dirname in metadata_dirs:
                     os.makedirs(os.path.join(source_dir, dirname))
                 os.makedirs(os.path.join(target_dir, ".git"))
+                Path(source_dir, ".git").write_text(
+                    "source collision", encoding="utf-8"
+                )
                 Path(source_dir, "messages.po").write_text("copied", encoding="utf-8")
+                Path(target_dir, ".git", "config").write_text(
+                    "target metadata", encoding="utf-8"
+                )
                 Path(target_dir, "stale.po").write_text("stale", encoding="utf-8")
 
                 source_component = SimpleNamespace(
                     full_path=source_dir,
-                    repository=SimpleNamespace(lock=nullcontext()),
+                    repository=SimpleNamespace(
+                        lock=nullcontext(), metadata_dir_name=".hg"
+                    ),
                 )
                 target_component = SimpleNamespace(
                     full_path=target_dir,
@@ -3859,6 +3893,11 @@ class ComponentCopyTest(APITestCase):
                     replace_component_checkout(target_component, source_component)
                 )
                 self.assertTrue(Path(target_dir, ".git").is_dir())
+                self.assertEqual(
+                    Path(target_dir, ".git", "config").read_text(encoding="utf-8"),
+                    "target metadata",
+                )
+                self.assertFalse(Path(target_dir, ".git", ".git").exists())
                 for dirname in metadata_dirs:
                     self.assertFalse(Path(target_dir, dirname).exists())
                 self.assertTrue(Path(target_dir, "messages.po").is_file())
@@ -3874,7 +3913,10 @@ class ComponentCopyTest(APITestCase):
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text("copied", encoding="utf-8")
             source = SimpleNamespace(
-                full_path=source_dir, repository=SimpleNamespace(lock=nullcontext())
+                full_path=source_dir,
+                repository=SimpleNamespace(
+                    lock=nullcontext(), metadata_dir_name=".git"
+                ),
             )
             target = SimpleNamespace(
                 full_path=target_dir,
@@ -4105,6 +4147,28 @@ class RoleAPITest(APIBaseTest):
 
 
 class ProjectAPITest(APIBaseTest):
+    def grant_language_download(self, *, membership_limit: bool = False) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Czech project downloads",
+            language_selection=(
+                SELECTION_ALL if membership_limit else SELECTION_MANUAL
+            ),
+        )
+        group.projects.add(self.project)
+        if not membership_limit:
+            group.languages.add(Language.objects.get(code="cs"))
+        role = Role.objects.create(name="Project language downloads")
+        role.permissions.add(Permission.objects.get(codename="translation.download"))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        if membership_limit:
+            TeamMembership.objects.get(user=self.user, group=group).limit_languages.add(
+                Language.objects.get(code="cs")
+            )
+        self.user.clear_permissions_cache()
+
     def attach_component_template(
         self, component: Component, filename: str = "template.pot"
     ) -> None:
@@ -6369,6 +6433,35 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(self.project.commit_message, "API project commit")
         self.assertFalse(self.project.inherit_commit_message)
 
+    def test_patch_empty_enforced_checks_overrides_inheritance(self) -> None:
+        workspace = Workspace.objects.create(
+            name="API workspace", enforced_checks=["same"]
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace, enforced_checks=[], inherit_enforced_checks=True
+        )
+
+        for request, inherited in (
+            ({"enforced_checks": [], "inherit_enforced_checks": True}, True),
+            ({"enforced_checks": []}, False),
+        ):
+            response = self.do_request(
+                "api:project-detail",
+                self.project_kwargs,
+                method="patch",
+                superuser=True,
+                format="json",
+                request=request,
+            )
+            self.assertEqual(response.data["enforced_checks"], [])
+            self.assertEqual(response.data["inherit_enforced_checks"], inherited)
+            self.assertEqual(
+                response.data["effective_enforced_checks"],
+                ["same"] if inherited else [],
+            )
+            self.project.refresh_from_db()
+            self.assertEqual(self.project.inherit_enforced_checks, inherited)
+
     def test_patch_workspace_move(self) -> None:
         current_workspace = Workspace.objects.create(name="Current workspace")
         target_workspace = Workspace.objects.create(name="Target workspace")
@@ -6996,6 +7089,25 @@ class ProjectAPITest(APIBaseTest):
                 "enforced_checks": ["xxx"],
             },
         )
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.strings",
+                "template": "en.strings",
+                "file_format": "strings",
+                "new_lang": "none",
+                "enforced_checks": [[]],
+            },
+        )
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -7020,6 +7132,8 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(Component.objects.count(), 3)
         component = Component.objects.get(slug="local-project")
         self.assertEqual(component.enforced_checks, ["same"])
+        self.assertFalse(component.inherit_enforced_checks)
+        self.assertEqual(component.effective_enforced_checks, ["same"])
 
     def test_create_component_with_file_format_params(self) -> None:
         payload: dict[str, object] = {
@@ -7251,6 +7365,59 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
+    def assert_language_scoped_project_downloads(self) -> None:
+        for name in ("api:project-file", "api:project-language-file"):
+            kwargs = self.project_kwargs
+            request = {"format": "zip", "language_code": "cs"}
+            if name == "api:project-language-file":
+                kwargs = {**kwargs, "language_code": "cs"}
+                request.pop("language_code")
+            with self.subTest(name=name, language="cs"):
+                self.do_request(
+                    name,
+                    kwargs,
+                    method="get",
+                    code=200,
+                    request=request,
+                )
+
+            kwargs = self.project_kwargs
+            request = {"format": "zip", "language_code": "de"}
+            if name == "api:project-language-file":
+                kwargs = {**kwargs, "language_code": "de"}
+                request.pop("language_code")
+            with (
+                self.subTest(name=name, language="de"),
+                patch("weblate.api.views.download_multi") as download,
+            ):
+                self.do_request(
+                    name,
+                    kwargs,
+                    method="get",
+                    code=403,
+                    request=request,
+                )
+                download.assert_not_called()
+
+    def test_download_project_translations_team_language_scope(self) -> None:
+        self.grant_language_download()
+
+        self.assertTrue(self.user.has_perm("translation.download", self.project))
+        self.assert_language_scoped_project_downloads()
+
+    def test_download_project_translations_membership_language_scope(self) -> None:
+        self.grant_language_download(membership_limit=True)
+
+        self.assertFalse(self.user.has_perm("translation.download", self.project))
+        self.assert_language_scoped_project_downloads()
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=403,
+            request={"format": "zip"},
+        )
+
     def test_download_project_translations_language_path(self) -> None:
         response = self.do_request(
             "api:project-language-file",
@@ -7282,18 +7449,47 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_download_project_translations_language_not_present(self) -> None:
-        response = self.do_request(
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.grant_perm_to_user("translation.download", project=self.project)
+        self.user.clear_permissions_cache()
+
+        for name in ("api:project-file", "api:project-language-file"):
+            kwargs = self.project_kwargs
+            request = {"format": "zip", "language_code": "fr"}
+            if name == "api:project-language-file":
+                kwargs = {**kwargs, "language_code": "fr"}
+                request.pop("language_code")
+            with self.subTest(name=name):
+                response = self.do_request(
+                    name,
+                    kwargs,
+                    method="get",
+                    code=200,
+                    request=request,
+                )
+                self.assertEqual(response.headers["content-type"], "application/zip")
+                with zipfile.ZipFile(BytesIO(response.content)) as zf:
+                    self.assertEqual(len(zf.namelist()), 0)
+
+    def test_download_project_translations_language_unknown(self) -> None:
+        self.do_request(
             "api:project-language-file",
-            {**self.project_kwargs, "language_code": "fr"},
+            {**self.project_kwargs, "language_code": "unknown-language"},
             method="get",
-            code=200,
+            code=404,
             superuser=True,
             request={"format": "zip"},
         )
-        self.assertEqual(response.headers["content-type"], "application/zip")
-        with zipfile.ZipFile(BytesIO(response.content)) as zf:
-            # No entries, since there are no translations for 'fr'
-            self.assertEqual(len(zf.namelist()), 0)
+        self.do_request(
+            "api:project-file",
+            self.project_kwargs,
+            method="get",
+            code=404,
+            superuser=True,
+            request={"format": "zip", "language_code": "unknown-language"},
+        )
 
     def test_download_project_translations_language_path_converted(self) -> None:
         response = self.do_request(
@@ -8446,7 +8642,7 @@ class ComponentAPITest(APIBaseTest):
         with zipfile.ZipFile(BytesIO(response.content)) as zf:
             self.assertNotIn("leak_host.bin", zf.namelist())
             for filename in (*metadata_paths, "cvs_link"):
-                self.assertNotIn(filename, zf.namelist())
+                self.assertIn(filename, zf.namelist())
             self.assertIn("title.txt", zf.namelist())
             archived_files = [zf.read(name) for name in zf.namelist()]
 
@@ -8797,6 +8993,35 @@ class ComponentAPITest(APIBaseTest):
         self.component.refresh_from_db()
         self.assertEqual(self.component.commit_message, "API component commit")
         self.assertFalse(self.component.inherit_commit_message)
+
+    def test_patch_empty_enforced_checks_overrides_inheritance(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            enforced_checks=["same"], inherit_enforced_checks=False
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            enforced_checks=[], inherit_enforced_checks=True
+        )
+
+        for request, inherited in (
+            ({"enforced_checks": [], "inherit_enforced_checks": True}, True),
+            ({"enforced_checks": []}, False),
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                superuser=True,
+                format="json",
+                request=request,
+            )
+            self.assertEqual(response.data["enforced_checks"], [])
+            self.assertEqual(response.data["inherit_enforced_checks"], inherited)
+            self.assertEqual(
+                response.data["effective_enforced_checks"],
+                ["same"] if inherited else [],
+            )
+            self.component.refresh_from_db()
+            self.assertEqual(self.component.inherit_enforced_checks, inherited)
 
     def test_patch_locks_component_before_serializer_validation(self) -> None:
         events: list[tuple[str, int]] = []
@@ -13365,6 +13590,129 @@ class TranslationAPITest(APIBaseTest):
     def test_autotranslate_json(self) -> None:
         self.test_autotranslate("json")
 
+    def create_autotranslate_target(self) -> tuple[dict[str, str], Unit]:
+        target = self.create_link_existing(
+            name="Automatic translation target",
+            slug="automatic-translation-target",
+        )
+        target_unit = target.translation_set.get(language_code="cs").unit_set.get(
+            source="Hello, world!\n"
+        )
+        Unit.objects.filter(
+            translation__component=self.component,
+            translation__language_code="cs",
+            source="Hello, world!\n",
+        ).update(target="Ahoj světe!\n", state=STATE_TRANSLATED)
+        self.grant_perm_to_user("translation.auto", component=target)
+        self.user.clear_permissions_cache()
+        kwargs = {
+            "component__project__slug": target.project.slug,
+            "component__slug": target.slug,
+            "language__code": "cs",
+        }
+        return kwargs, target_unit
+
+    def test_autotranslate_background(self) -> None:
+        kwargs, target_unit = self.create_autotranslate_target()
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        self.addCleanup(cache.delete, get_task_metadata_key(task_id))
+
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch(
+                "weblate.api.views.auto_translate.delay",
+                return_value=SimpleNamespace(id=task_id),
+            ) as delay,
+        ):
+            response = self.do_request(
+                "api:translation-autotranslate",
+                kwargs,
+                method="post",
+                format="json",
+                request={
+                    "mode": "suggest",
+                    "q": "state:<translated",
+                    "auto_source": "others",
+                    "threshold": "100",
+                    "background": True,
+                },
+                code=202,
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "details": "Automatic translation in progress",
+                "task_url": f"http://example.com/api/tasks/{task_id}/",
+            },
+        )
+        self.assertFalse(target_unit.suggestion_set.exists())
+
+        result = auto_translate(**delay.call_args.kwargs)
+        self.assertIn("Automatic translation completed", result["message"])
+        self.assertEqual(
+            list(target_unit.suggestion_set.values_list("target", flat=True)),
+            ["Ahoj světe!\n"],
+        )
+
+        with patch(
+            "weblate.api.views.AsyncResult",
+            return_value=MagicMock(id=task_id, result=result, state="SUCCESS"),
+        ):
+            response = self.do_request(
+                "api:task-detail", kwargs={"pk": task_id}, method="get", code=200
+            )
+        self.assertTrue(response.data["completed"])
+
+    def test_autotranslate_background_eager(self) -> None:
+        kwargs, target_unit = self.create_autotranslate_target()
+        response = self.do_request(
+            "api:translation-autotranslate",
+            kwargs,
+            method="post",
+            format="json",
+            request={
+                "mode": "suggest",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "threshold": "100",
+                "background": True,
+            },
+            code=200,
+        )
+        self.assertContains(response, "Automatic translation completed")
+        self.assertNotIn("task_url", response.data)
+        self.assertTrue(target_unit.suggestion_set.exists())
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_autotranslate_background_rejected_synchronously(self) -> None:
+        request = {
+            "mode": "suggest",
+            "q": "state:<translated",
+            "auto_source": "others",
+            "threshold": "100",
+            "background": True,
+        }
+        with patch("weblate.api.views.auto_translate.delay") as delay:
+            self.do_request(
+                "api:translation-autotranslate",
+                self.translation_kwargs,
+                method="post",
+                format="json",
+                request=request,
+                code=403,
+            )
+            self.do_request(
+                "api:translation-autotranslate",
+                self.translation_kwargs,
+                method="post",
+                format="json",
+                superuser=True,
+                request=request | {"background": "invalid"},
+                code=400,
+            )
+        delay.assert_not_called()
+
     def test_autotranslate_rejects_restricted_source(self) -> None:
         target = self.create_link_existing(
             name="Automatic translation target",
@@ -17346,6 +17694,33 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(
             response.data["effective_commit_message"], "Patched category commit"
         )
+
+    def test_patch_empty_enforced_checks_overrides_inheritance(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            enforced_checks=["same"], inherit_enforced_checks=False
+        )
+        created = self.api_create_category()
+        self.assertTrue(created.data["inherit_enforced_checks"])
+
+        for request, inherited in (
+            ({"enforced_checks": [], "inherit_enforced_checks": True}, True),
+            ({"enforced_checks": []}, False),
+        ):
+            response = self.do_request(
+                created.data["url"],
+                method="patch",
+                superuser=True,
+                format="json",
+                request=request,
+            )
+            self.assertEqual(response.data["enforced_checks"], [])
+            self.assertEqual(response.data["inherit_enforced_checks"], inherited)
+            self.assertEqual(
+                response.data["effective_enforced_checks"],
+                ["same"] if inherited else [],
+            )
+            category = Category.objects.get(pk=created.data["id"])
+            self.assertEqual(category.inherit_enforced_checks, inherited)
 
     def test_patch_keeps_parent_category_when_omitted(self) -> None:
         parent_response = self.api_create_category()
