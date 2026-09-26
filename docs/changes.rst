@@ -60,6 +60,7 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, nested, and multiline tags.
 * Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
 * Project language archive downloads in the REST API now honor language-scoped download permissions consistently with the web interface.
 * Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry instrumentation is enabled.

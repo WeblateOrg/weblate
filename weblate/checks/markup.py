@@ -73,9 +73,67 @@ if TYPE_CHECKING:
     from .base import FixupType
 
 DOCUTILS_PARSER_LOCK = threading.Lock()
-BBCODE_MATCH = re.compile(
-    r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
+# Single tag token. Name stops at [, ], @, whitespace, or = so [url=…] and
+# [codeblock lang=…] pair on the tag name.
+BBCODE_TOKEN = re.compile(
+    r"\[(?P<close>/)?(?P<tag>[^\[\]@\s=]+)(?P<params>[@\s=][^\]]*)?\]"
 )
+
+
+def extract_bbcode_pairs(text: str) -> list[tuple[re.Match[str], re.Match[str]]]:
+    """Pair BBCode open/close tags in linear time, including nested tags."""
+    stack: list[tuple[re.Match[str], int | None, int]] = []
+    latest: dict[str, int] = {}
+    pairs: list[tuple[re.Match[str], re.Match[str]] | None] = []
+    for token in BBCODE_TOKEN.finditer(text):
+        if token.group("close"):
+            if token.group("params"):
+                continue
+            tag = token.group("tag")
+            index = latest.get(tag)
+            if index is None:
+                continue
+            # Each discarded opener is removed only once, even with malformed nesting.
+            while len(stack) > index:
+                opener, previous, pair_index = stack.pop()
+                opener_tag = opener.group("tag")
+                if previous is None:
+                    del latest[opener_tag]
+                else:
+                    latest[opener_tag] = previous
+                if len(stack) == index:
+                    pairs[pair_index] = (opener, token)
+        else:
+            tag = token.group("tag")
+            stack.append((token, latest.get(tag), len(pairs)))
+            latest[tag] = len(stack) - 1
+            pairs.append(None)
+    return [pair for pair in pairs if pair is not None]
+
+
+def bbcode_structure(
+    pairs: list[tuple[re.Match[str], re.Match[str]]],
+    signatures: dict[tuple[str, tuple[int, ...]], int],
+) -> tuple[int, ...]:
+    """Identify the tag tree while allowing sibling tags to change order."""
+    children: list[list[int]] = [[] for _ in pairs]
+    roots: list[int] = []
+    stack: list[tuple[int, int]] = []
+    for index, (opener, closer) in enumerate(pairs):
+        while stack and opener.start() >= stack[-1][0]:
+            stack.pop()
+        (children[stack[-1][1]] if stack else roots).append(index)
+        stack.append((closer.end(), index))
+
+    identifiers = [0] * len(pairs)
+    for index in range(len(pairs) - 1, -1, -1):
+        tag = pairs[index][0].group("tag")
+        child_ids = tuple(sorted(identifiers[child] for child in children[index]))
+        key = (tag, child_ids)
+        identifiers[index] = signatures.setdefault(key, len(signatures))
+    return tuple(sorted(identifiers[root] for root in roots))
+
+
 HTML_ATTRIBUTE_PLACEHOLDER_MATCHES = (
     *(rule[0] for rule in FLAG_RULES.values()),
     I18NEXT_MATCH,
@@ -288,34 +346,39 @@ class BBCodeCheck(TargetCheck):
         self.enable_string = "bbcode-text"
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
-        # Parse source
-        src_match = BBCODE_MATCH.findall(source)
-
-        # Parse target
-        tgt_match = BBCODE_MATCH.findall(target)
-        if len(src_match) != len(tgt_match):
+        src_pairs = extract_bbcode_pairs(source)
+        tgt_pairs = extract_bbcode_pairs(target)
+        if len(src_pairs) != len(tgt_pairs):
             return True
 
-        src_tags = {x[1] for x in src_match}
-        tgt_tags = {x[1] for x in tgt_match}
-
-        return src_tags != tgt_tags
+        signatures: dict[tuple[str, tuple[int, ...]], int] = {}
+        return bbcode_structure(src_pairs, signatures) != bbcode_structure(
+            tgt_pairs, signatures
+        )
 
     def check_highlight(self, source: str, unit: Unit) -> Iterable[Highlight]:
         if self.should_skip(unit):
             return
-        for match in BBCODE_MATCH.finditer(source):
-            group = f"bbcode:{match.start()}:{match.end()}"
-            for tag in ("start", "end"):
-                yield Highlight(
-                    match.start(tag),
-                    match.end(tag),
-                    match.group(tag),
-                    kind="markup",
-                    group=group,
-                    translatable=True,
-                    forbidden_text=("[", "]"),
-                )
+        for opener, closer in extract_bbcode_pairs(source):
+            group = f"bbcode:{opener.start()}:{closer.end()}"
+            yield Highlight(
+                opener.start(),
+                opener.end(),
+                opener.group(0),
+                kind="markup",
+                group=group,
+                translatable=True,
+                forbidden_text=("[", "]"),
+            )
+            yield Highlight(
+                closer.start(),
+                closer.end(),
+                closer.group(0),
+                kind="markup",
+                group=group,
+                translatable=True,
+                forbidden_text=("[", "]"),
+            )
 
 
 class BaseXMLCheck(TargetCheck):
