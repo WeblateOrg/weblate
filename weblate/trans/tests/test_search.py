@@ -143,6 +143,45 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(response, "No matching strings found.")
         self.do_search_url(reverse("search"))
 
+    @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
+    def test_bulk_edit_selection_rendering(self) -> None:
+        url = reverse("search", kwargs={"path": self.translation.get_url_path()})
+
+        # No bulk edit permission
+        response = self.client.get(url, {"q": "hello"})
+        self.assertNotContains(response, 'id="bulk-edit-form"')
+
+        self.make_manager()
+        response = self.client.get(url, {"q": "hello"})
+        self.assertContains(response, 'id="bulk-edit-form"')
+        self.assertContains(response, 'form="bulk-edit-form"')
+        self.assertContains(response, 'name="units"')
+        self.assertContains(response, "bulk-edit-toggle-selection")
+        bulk_form = response.context["bulk_state_form"]
+        self.assertFalse(bulk_form.fields["q"].required)
+        self.assertIn("units", bulk_form.fields)
+        # The form is rendered without a crispy form tag, it still has to
+        # include the CSRF token to be submittable
+        form_html = re.search(
+            r'<form id="bulk-edit-form".*?</form>',
+            response.content.decode(),
+            re.DOTALL,
+        )
+        self.assertIsNotNone(form_html)
+        self.assertIn("csrfmiddlewaretoken", form_html.group(0))
+
+        # Not offered for scopes which do not support bulk edit
+        response = self.client.get(reverse("search"), {"q": "hello"})
+        self.assertNotContains(response, 'id="bulk-edit-form"')
+        response = self.client.get(
+            reverse(
+                "search",
+                kwargs={"path": self.translation.language.get_url_path()},
+            ),
+            {"q": "hello"},
+        )
+        self.assertNotContains(response, 'id="bulk-edit-form"')
+
     def test_pagination(self) -> None:
         response = self.client.get(reverse("search"), {"q": "hello", "page": "1"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
@@ -1183,6 +1222,86 @@ class BulkEditTest(ViewTestCase):
                 },
             )
         )
+
+    def test_bulk_edit_selected_units(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": [self.unit.pk], "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
+
+    def test_bulk_edit_selected_units_multiple(self) -> None:
+        other = self.get_unit("Thank you for using Weblate.")
+        other.state = STATE_FUZZY
+        other.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": [self.unit.pk, other.pk], "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 2 strings were updated.")
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
+        other.refresh_from_db()
+        self.assertEqual(other.state, STATE_TRANSLATED)
+
+    def test_bulk_edit_selected_units_outside_scope(self) -> None:
+        other = self.get_unit(language="de")
+        other.state = STATE_FUZZY
+        other.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": [other.pk], "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        other.refresh_from_db()
+        self.assertEqual(other.state, STATE_FUZZY)
+
+    def test_bulk_edit_selected_units_invalid(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": ["invalid"], "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Could not process form!")
+        self.assertEqual(self.get_unit().state, STATE_FUZZY)
+
+    def test_bulk_edit_requires_query_or_units(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Could not process form!")
+        self.assertContains(response, "Select strings to edit or enter a search query.")
+        self.assertEqual(self.get_unit().state, STATE_FUZZY)
+
+    def test_bulk_edit_next_redirect(self) -> None:
+        next_url = "{}?q=state%3Aneeds-editing&page=1".format(
+            reverse("search", kwargs=self.kw_translation)
+        )
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": [self.unit.pk], "state": STATE_TRANSLATED, "next": next_url},
+        )
+        self.assertRedirects(response, next_url)
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
+
+    def test_bulk_edit_next_redirect_invalid(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "units": [self.unit.pk],
+                "state": STATE_TRANSLATED,
+                "next": "https://example.net/evil",
+            },
+        )
+        self.assertRedirects(response, self.translation.get_absolute_url())
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
 
     def test_bulk_edit_fuzzy_alias_includes_substates(self) -> None:
         self.unit.state = STATE_NEEDS_REWRITING
