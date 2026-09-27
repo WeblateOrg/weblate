@@ -6,8 +6,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.db import transaction
-from django.db.models import F, Q
+from django.db.models import F
 
+from weblate.checks.ai import evaluation_fingerprint
 from weblate.checks.flags import Flags, FlagsValidator
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Unit
@@ -21,10 +22,9 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from datetime import datetime
-
     from django.db.models import QuerySet
 
+    from weblate.addons.ai import EvaluatedUnitSnapshot, EvaluationSnapshot
     from weblate.auth.models import User
     from weblate.trans.models import Label, Project
     from weblate.trans.models.unit import UnitQuerySet
@@ -39,21 +39,35 @@ EDITABLE_STATES = {
 
 
 def exclude_stale_units(
-    units: UnitQuerySet, expected_versions: dict[int, datetime]
+    units: UnitQuerySet, expected_snapshots: dict[int, EvaluatedUnitSnapshot]
 ) -> UnitQuerySet:
     """Lock evaluation inputs and exclude units changed since evaluation."""
-    current_versions = {
-        unit.pk: unit.last_updated
-        for unit in Unit.objects.filter(pk__in=expected_versions)
+    locked_ids = set(expected_snapshots)
+    locked_ids.update(
+        snapshot.source_unit_id for snapshot in expected_snapshots.values()
+    )
+    current = {
+        unit.pk: unit
+        for unit in Unit.objects.filter(pk__in=locked_ids)
         .order_by("pk")
         .select_for_update()
     }
+
+    def changed(unit: Unit | None, snapshot: EvaluationSnapshot) -> bool:
+        return (
+            unit is None
+            or unit.last_updated != snapshot.last_updated
+            or evaluation_fingerprint(unit) != snapshot.fingerprint
+        )
+
     stale_ids = {
-        pk
-        for pk, version in expected_versions.items()
-        if current_versions.get(pk) != version
+        unit_id
+        for unit_id, snapshot in expected_snapshots.items()
+        if changed(current.get(unit_id), snapshot.unit)
+        or current[unit_id].source_unit_id != snapshot.source_unit_id
+        or changed(current.get(snapshot.source_unit_id), snapshot.source_unit)
     }
-    return units.exclude(Q(pk__in=stale_ids) | Q(source_unit_id__in=stale_ids))
+    return units.exclude(pk__in=stale_ids)
 
 
 # ruff: ignore[complex-structure, too-many-arguments]
@@ -71,7 +85,7 @@ def bulk_perform(
     components: QuerySet[Component] | list[Component] | None = None,
     add_translation_flags: str | Flags = "",
     remove_translation_flags: str | Flags = "",
-    expected_unit_versions: dict[int, datetime] | None = None,
+    expected_unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None,
     affected_unit_ids: set[int] | None = None,
     affected_source_unit_ids: set[int] | None = None,
 ) -> int:
@@ -98,9 +112,9 @@ def bulk_perform(
         component.start_batched_checks()
         with transaction.atomic():
             component_units = matching.filter(translation__component=component)
-            if expected_unit_versions:
+            if expected_unit_snapshots:
                 component_units = exclude_stale_units(
-                    component_units, expected_unit_versions
+                    component_units, expected_unit_snapshots
                 )
 
             # Snapshot matching translations before state/source changes alter the query.

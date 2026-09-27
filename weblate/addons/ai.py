@@ -362,6 +362,13 @@ class EvaluationSnapshot:
     last_updated: datetime
 
 
+@dataclass(frozen=True)
+class EvaluatedUnitSnapshot:
+    unit: EvaluationSnapshot
+    source_unit_id: int
+    source_unit: EvaluationSnapshot
+
+
 def evaluation_snapshot(unit: Unit) -> EvaluationSnapshot:
     return EvaluationSnapshot(evaluation_fingerprint(unit), unit.last_updated)
 
@@ -469,7 +476,7 @@ def evaluate_component(
     unit_ids: Iterable[int] | None,
     *,
     scheduled: bool,
-    evaluated_unit_snapshots: dict[int, EvaluationSnapshot] | None = None,
+    evaluated_unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None,
 ) -> dict[str, int]:
     from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
@@ -528,7 +535,16 @@ def evaluate_component(
             if store_evaluation_batch(addon, batch, issues, configuration, snapshots):
                 result["evaluated"] += len(batch)
                 if evaluated_unit_snapshots is not None:
-                    evaluated_unit_snapshots.update(snapshots)
+                    evaluated_unit_snapshots.update(
+                        {
+                            unit.pk: EvaluatedUnitSnapshot(
+                                unit=snapshots[unit.pk],
+                                source_unit_id=unit.source_unit.pk,
+                                source_unit=snapshots[unit.source_unit.pk],
+                            )
+                            for unit in batch
+                        }
+                    )
             else:
                 result["skipped"] += len(batch)
         if unit_ids is None and not result["failed"] and not result["skipped"]:

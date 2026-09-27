@@ -56,6 +56,8 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
+
     from weblate.trans.models import Category, Component, Project
 
 
@@ -1125,6 +1127,92 @@ class AIQualityAutomationTest(ComponentTestCase):
         unchanged.refresh_from_db()
         self.assertEqual(changed.state, STATE_TRANSLATED)
         self.assertEqual(unchanged.state, STATE_APPROVED)
+
+    def test_quality_keeps_successful_units_after_query_changes(self) -> None:
+        unit = self.units[0]
+        unit.check_set.create(name="ai_accuracy")
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        self.quality_action(query="check:ai_accuracy"),
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:quality",
+                            "settings": {"state": STATE_APPROVED},
+                        },
+                    ]
+                }
+            ),
+            self.component,
+        )
+        with patch.object(
+            OpenAITranslation, "evaluate_batch", return_value={unit.pk: []}
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_APPROVED)
+        self.assertEqual(runner.selections["quality"].unit_ids, {unit.pk})
+
+    def test_quality_preserves_snapshot_for_each_shared_source(self) -> None:
+        stale, current = self.units
+        stale.refresh_from_db()
+        current.refresh_from_db()
+        current.source_unit_id = stale.source_unit_id
+        current.save(update_fields=["source_unit"])
+
+        def batches(_units: object, _batch_size: int) -> Iterator[list[Unit]]:
+            yield [stale]
+            Unit.objects.filter(pk=stale.source_unit_id).update(
+                context="Changed source context"
+            )
+            current.source_unit.refresh_from_db()
+            yield [current]
+
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        self.quality_action(),
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:quality",
+                            "settings": {"state": STATE_APPROVED},
+                        },
+                    ]
+                }
+            ),
+            self.component,
+        )
+        with (
+            patch("weblate.addons.ai.evaluation_batches", batches),
+            patch.object(
+                OpenAITranslation,
+                "evaluate_batch",
+                side_effect=lambda batch: {batch[0].pk: []},
+            ),
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+
+        stale.refresh_from_db()
+        current.refresh_from_db()
+        self.assertEqual(stale.state, STATE_TRANSLATED)
+        self.assertEqual(current.state, STATE_APPROVED)
 
     def test_scope_query_and_empty_selection(self) -> None:
         selected, excluded = self.units
