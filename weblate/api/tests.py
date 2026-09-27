@@ -6438,7 +6438,9 @@ class ProjectAPITest(APIBaseTest):
             name="API workspace", enforced_checks=["same"]
         )
         Project.objects.filter(pk=self.project.pk).update(
-            workspace=workspace, enforced_checks=[], inherit_enforced_checks=True
+            workspace=workspace,
+            enforced_checks=["duplicate"],
+            inherit_enforced_checks=False,
         )
 
         for request, inherited in (
@@ -9036,7 +9038,7 @@ class ComponentAPITest(APIBaseTest):
             enforced_checks=["same"], inherit_enforced_checks=False
         )
         Component.objects.filter(pk=self.component.pk).update(
-            enforced_checks=[], inherit_enforced_checks=True
+            enforced_checks=["duplicate"], inherit_enforced_checks=False
         )
 
         for request, inherited in (
@@ -17737,7 +17739,9 @@ class CategoryAPITest(APIBaseTest):
             enforced_checks=["same"], inherit_enforced_checks=False
         )
         created = self.api_create_category()
-        self.assertTrue(created.data["inherit_enforced_checks"])
+        Category.objects.filter(pk=created.data["id"]).update(
+            enforced_checks=["duplicate"], inherit_enforced_checks=False
+        )
 
         for request, inherited in (
             ({"enforced_checks": [], "inherit_enforced_checks": True}, True),

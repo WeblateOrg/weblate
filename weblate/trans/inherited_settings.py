@@ -118,6 +118,16 @@ def get_inheritable_setting_value(obj: object, field: str) -> object:
     return getattr(obj, field)
 
 
+def should_disable_inheritance(obj: object, old: object, field: str) -> bool:
+    """Check whether changing a setting should disable its inheritance."""
+    return get_inheritable_setting_value(old, field) != get_inheritable_setting_value(
+        obj, field
+    ) and not (
+        field == "enforced_checks"
+        and getattr(obj, "preserve_enforced_checks_inheritance", False)
+    )
+
+
 INHERITABLE_COMPONENT_FLAGS = tuple(
     get_inherit_field_name(field) for field in INHERITABLE_COMPONENT_SETTINGS
 )
