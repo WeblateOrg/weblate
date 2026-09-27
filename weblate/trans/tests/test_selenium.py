@@ -1780,7 +1780,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.assertEqual(len(suggestion_rows()), 2)
 
-        # Hiding suggestions is remembered across page loads
+        # Suggestions are hidden by default, the choice is remembered
         def suggestions_row() -> WebElement:
             return self.driver.find_element(By.CSS_SELECTOR, row_selector)
 
@@ -1792,6 +1792,22 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             )
             return cast("str", button.get_attribute("aria-label"))
 
+        self.assertFalse(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Show suggestions")
+        self.driver.find_element(By.ID, "zen-toggle-suggestions").click()
+        self.assertTrue(suggestions_row().is_displayed())
+        self.assertEqual(toggle_label(), "Hide suggestions")
+        self.assertEqual(
+            self.driver.execute_script(
+                "return localStorage.getItem('zen-suggestions');"
+            ),
+            "shown",
+        )
+        with self.wait_for_page_load():
+            self.driver.refresh()
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located((By.CSS_SELECTOR, row_selector))
+        )
         self.assertTrue(suggestions_row().is_displayed())
         self.assertEqual(toggle_label(), "Hide suggestions")
         self.driver.find_element(By.ID, "zen-toggle-suggestions").click()
@@ -1803,16 +1819,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ),
             "hidden",
         )
-        with self.wait_for_page_load():
-            self.driver.refresh()
-        WebDriverWait(self.driver, 15).until(
-            presence_of_element_located((By.CSS_SELECTOR, row_selector))
-        )
-        self.assertFalse(suggestions_row().is_displayed())
-        self.assertEqual(toggle_label(), "Show suggestions")
         self.driver.find_element(By.ID, "zen-toggle-suggestions").click()
         self.assertTrue(suggestions_row().is_displayed())
-        self.assertEqual(toggle_label(), "Hide suggestions")
 
         # Cloning fills the editor of this unit and marks it as changed
         next(

@@ -45,10 +45,10 @@
     <button type="button"
             class="btn btn-link"
             id="zen-toggle-suggestions"
-            title="{% translate "Hide suggestions" %}"
-            aria-label="{% translate "Hide suggestions" %}">
+            title="{% translate "Show suggestions" %}"
+            aria-label="{% translate "Show suggestions" %}">
       {% icon "suggest.svg" %}
-      <span id="zen-toggle-suggestions-label" class="d-none d-md-inline">{% translate "Hide suggestions" %}</span>
+      <span id="zen-toggle-suggestions-label" class="d-none d-md-inline">{% translate "Show suggestions" %}</span>
     </button>
 
     <a href="{% url 'profile' %}#preferences"
@@ -65,7 +65,7 @@
     </form>
   </div>
 
-  <table class="zen table table-sm {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">
+  <table class="zen zen-hide-suggestions table table-sm {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">
     {% include "zen-units.html" %}
     <tfoot>
       <tr>

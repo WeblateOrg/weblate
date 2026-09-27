@@ -1984,8 +1984,10 @@ class ZenViewTest(ViewTestCase):
 
     def test_zen_suggestions_toggle(self) -> None:
         # The visibility is remembered client side, the toggle is always there
+        # and suggestions are hidden until shown
         response = self.client.get(reverse("zen", kwargs=self.kw_translation))
         self.assertContains(response, 'id="zen-toggle-suggestions"')
+        self.assertContains(response, "zen-hide-suggestions")
 
     def test_zen_suggestions_anonymous(self) -> None:
         suggestion = self.add_zen_suggestion()

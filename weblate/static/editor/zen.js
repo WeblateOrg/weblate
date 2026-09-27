@@ -575,11 +575,11 @@
       button.setAttribute("aria-label", text);
     };
 
-    let visible = true;
+    let visible = false;
     try {
-      visible = localStorage.getItem(SUGGESTIONS_STORAGE_KEY) !== "hidden";
+      visible = localStorage.getItem(SUGGESTIONS_STORAGE_KEY) === "shown";
     } catch (_error) {
-      /* Local storage can be unavailable, keep suggestions shown */
+      /* Local storage can be unavailable, keep suggestions hidden */
     }
     apply(visible);
 
