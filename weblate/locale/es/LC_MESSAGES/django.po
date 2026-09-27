@@ -41,9 +41,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-25 04:08+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-09-27 06:43+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -381,7 +380,7 @@ msgstr "Se ha cambiado la contraseña."
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Se excedió el límite de solicitudes para {scope} en {path}."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -2069,8 +2068,8 @@ msgid ""
 "Newline-separated repository-relative glob patterns for files to extract "
 "with xgettext."
 msgstr ""
-"Patrones nueva línea separada en repositorio-relativo para archivos en "
-"extracción con xgettext."
+"Pautas glob relativas al repositorio, separadas por saltos de renglón, para "
+"los archivos que se van a extraer con xgettext."
 
 msgid "POTFILES path"
 msgstr "Ruta de POTFILES"
@@ -2756,24 +2755,20 @@ msgstr ""
 msgid "ITS document rules require a target."
 msgstr "Las reglas de documento ITS requieren un destino."
 
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported ITS rule namespace."
-msgstr "Formato de archivo incompatible."
+msgstr "No se admite el espacio de nombres de reglas ITS."
 
 msgid "External ITS rule references are not allowed."
-msgstr ""
+msgstr "No se permiten referencias a reglas ITS externas."
 
 msgid "ITS targets must name a rule in the same directory."
-msgstr ""
+msgstr "Los destinos ITS deben nombrar una regla en el mismo directorio."
 
 msgid "ITS target is missing or is a symbolic link."
 msgstr "El destino ITS no existe o es un enlace simbólico."
 
-#, fuzzy
-#| msgid "ZIP file contains unsupported symbolic links."
 msgid "ITS directories must not contain symbolic links."
-msgstr "El archivador ZIP contiene enlaces simbólicos no admitidos."
+msgstr "Los directorios ITS no deben contener enlaces simbólicos."
 
 #, python-format
 msgid "ITS directory does not exist: %(path)s"
@@ -4057,10 +4052,8 @@ msgstr "Se ha eliminado la invitación del usuario."
 msgid "Accepted invitation to the %s team."
 msgstr "Invitación aceptada para el equipo %s."
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "Detección automática"
+msgstr "Automatización"
 
 msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
@@ -4255,7 +4248,7 @@ msgstr "N/D"
 
 #. Translators: Whether the package is inside displayed (soft) limits
 msgid "In display limits"
-msgstr "En los límites de presentación"
+msgstr "En los límites de visualización"
 
 #, python-format
 msgid "Contains %d project"
@@ -4352,41 +4345,35 @@ msgid "Critical"
 msgstr "Crítico"
 
 msgid "AI: Accuracy"
-msgstr ""
+msgstr "IA: precisión"
 
 msgid "The evaluation detected a change in meaning."
 msgstr ""
 
-#, fuzzy
-#| msgid "Frequency"
 msgid "AI: Fluency"
-msgstr "Frecuencia"
+msgstr "IA: fluidez"
 
 #, fuzzy
 #| msgid "The translation base language is editable."
 msgid "The evaluation detected a language quality issue."
 msgstr "El idioma base de la traducción se puede editar."
 
-#, fuzzy
-#| msgid "Terminology"
 msgid "AI: Terminology"
-msgstr "Terminología"
+msgstr "IA: terminología"
 
 msgid "The evaluation detected incorrect terminology."
 msgstr ""
 
 msgid "AI: Style"
-msgstr ""
+msgstr "IA: estilo"
 
 #, fuzzy
 #| msgid "The documentation has detailed instructions"
 msgid "The evaluation detected a style or instruction mismatch."
 msgstr "La documentación brinda instrucciones detalladas"
 
-#, fuzzy
-#| msgid "Vue I18n formatting"
 msgid "AI: Formatting"
-msgstr "Formato de Vue I18n"
+msgstr "IA: formato"
 
 #, fuzzy
 #| msgid "Translation is missing some placeholders."
@@ -4412,7 +4399,7 @@ msgid "Could not parse {} flag: {}"
 msgstr "No se pudo interpretar el indicador {}: {}"
 
 msgid "Accelerator key"
-msgstr "Tecla acelerador"
+msgstr "Tecla aceleradora"
 
 msgid "Source and translation contain inconsistent accelerator keys."
 msgstr ""
@@ -5438,14 +5425,12 @@ msgstr ""
 msgid "Source string length"
 msgstr "Longitud de la cadena de origen"
 
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"La cadena original es demasiado larga para caber con la longitud máxima "
-"configurada."
+"La cadena de origen se acerca o supera la longitud máxima configurada para "
+"las traducciones."
 
 msgid "Multiple failing checks"
 msgstr "Varias comprobaciones no superadas"
@@ -6920,7 +6905,7 @@ msgid "Monolingual format not supported for memory upload"
 msgstr "El formato monolingüe no es compatible con la carga de memoria"
 
 msgid "Missing source or target language in file!"
-msgstr "¡Falta el idioma de origen o de destino en el archivo!"
+msgstr "Falta el idioma de origen o de destino en el archivo."
 
 msgctxt "Translation memory category"
 msgid "Project: {}"
@@ -6952,6 +6937,9 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Se eliminaron las entradas de la memoria de traducción creadas a partir de "
+"las traducciones actuales y se regenerarán en segundo plano. Las entradas "
+"cargadas se conservaron."
 
 #, fuzzy
 #| msgid ""
@@ -7138,7 +7126,7 @@ msgstr "No se han encontrado nuevas cadenas de origen que coincidan."
 
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr ""
-"Los datos de OCR no pudo ser descargados. Inténtelo de nuevo más tarde."
+"No se pudieron descargar los datos de OCR. Inténtelo de nuevo más tarde."
 
 msgid "Select a valid screenshot."
 msgstr "Seleccione una captura de pantalla válida."
@@ -7657,8 +7645,8 @@ msgstr "Suscripciones de prueba"
 #, python-format
 msgid "Different settings in %(count)s component."
 msgid_plural "Different settings in %(count)s components."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Configuraciones diferentes en %(count)s componente."
+msgstr[1] "Configuraciones diferentes en %(count)s componentes."
 
 msgid ""
 "These components have no matching subscription, so this notification will "
@@ -7713,6 +7701,8 @@ msgid ""
 "No notification languages selected. Language-filtered notifications will not "
 "be sent."
 msgstr ""
+"No se seleccionó ningún idioma de notificación. No se enviarán las "
+"notificaciones filtradas por idioma."
 
 msgid "Subscriptions"
 msgstr "Suscripciones"
@@ -8044,10 +8034,10 @@ msgstr ""
 "los nuevos códigos."
 
 msgid "Your old codes will become invalid and won't work anymore."
-msgstr "Tus antiguos códigos dejarán de ser válidos y de funcionar."
+msgstr "Sus códigos antiguos dejarán de ser válidos y ya no funcionarán."
 
 msgid "Back to account settings"
-msgstr "Volver a los ajustes de la cuenta"
+msgstr "Volver a la configuración de la cuenta"
 
 msgid "Redirecting you to the authentication provider."
 msgstr "Lo redirigiremos al proveedor de autenticación."
@@ -12109,15 +12099,13 @@ msgid "This translation needs editing."
 msgstr "Esta traducción necesita editar."
 
 msgid "Copy word into translation"
-msgstr "Copiar la palabra en la traducción"
+msgstr "Copiar palabra en la traducción"
 
 msgid "This translation is forbidden."
 msgstr "Esta traducción está prohibida."
 
-#, fuzzy
-#| msgid "Hidden"
 msgid "Forbidden"
-msgstr "Oculto"
+msgstr "Prohibida"
 
 msgid "This term should not be translated."
 msgstr "Este término no debería traducirse."
@@ -12946,7 +12934,7 @@ msgstr "Dejar de monitorizar %(project)s"
 
 #, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "Personalizar notificaciones sobre %(object)s"
+msgstr "Personalizar notificaciones de %(object)s"
 
 #, python-format
 msgid "Mute notifications for %(object)s"
@@ -13633,15 +13621,11 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] "Los respaldos se eliminan tras %(keep_days)s día."
 msgstr[1] "Los respaldos se eliminan tras %(keep_days)s días."
 
-#, fuzzy
-#| msgid "Jump to"
 msgid "Jump to date"
-msgstr "Saltar a"
+msgstr "Saltar a fecha"
 
-#, fuzzy
-#| msgid "Good"
 msgid "Go"
-msgstr "Buenas"
+msgstr "Ir"
 
 msgid "Changes"
 msgstr "Cambios"
@@ -13659,7 +13643,7 @@ msgid "History navigation below results"
 msgstr ""
 
 msgid "Latest"
-msgstr ""
+msgstr "Más recientes"
 
 #, fuzzy
 #| msgctxt "Access-control team name"
@@ -14952,10 +14936,8 @@ msgstr "Código de incrustación"
 msgid "Write"
 msgstr ""
 
-#, fuzzy
-#| msgid "Review"
 msgid "Preview"
-msgstr "Revisión"
+msgstr "Previsualización"
 
 msgid "Browse all workspace changes"
 msgstr "Ver todos los cambios del espacio de trabajo"
@@ -15683,14 +15665,15 @@ msgid ""
 "Outbound translation delivery is manual. Configure a push URL or a pull or "
 "merge request integration to automate it."
 msgstr ""
+"La entrega de las traducciones salientes se efectúa de forma manual. Para "
+"automatizar el proceso, configure un URL de inserción o una integración "
+"mediante solicitud de extracción o fusión."
 
 msgid "Define translation instructions to help translators."
 msgstr "Defina instrucciones de traducción para ayuda de traductores."
 
-#, fuzzy
-#| msgid "Source strings with screenshots"
 msgid "Improve source string screenshot coverage."
-msgstr "Cadenas origen con capturas de pantalla"
+msgstr "Mejore la cobertura de capturas de pantalla de las cadenas de origen."
 
 msgid "Use flags to indicate special strings in your translation."
 msgstr "Utilice indicadores para señalar cadenas especiales en su traducción."
@@ -15901,10 +15884,8 @@ msgstr "Duplicar URL amigable de categoría."
 msgid "Duplicate label name."
 msgstr "Nombre de etiqueta duplicado."
 
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate team name."
-msgstr "Traducción duplicada."
+msgstr "Nombre de equipo duplicado."
 
 msgid "Screenshot image is missing."
 msgstr "La imagen de captura está ausente."
@@ -15922,17 +15903,11 @@ msgstr ""
 msgid "Duplicate component slug."
 msgstr "Duplicar URL amigable del componente."
 
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate translation identifier."
-msgstr "Traducción duplicada."
+msgstr "Identificador de traducción duplicado."
 
-#, fuzzy
-#| msgid "The component has to define a gettext template for new translations."
 msgid "Component has to contain exactly one source translation."
-msgstr ""
-"El componente tiene que definir una plantilla gettext para traducciones "
-"nuevas."
+msgstr "El componente debe contener exactamente una traducción de origen."
 
 msgid "Referenced translation does not exist."
 msgstr "La traducción referida no existe."
@@ -16330,10 +16305,10 @@ msgid "Follow xml:space"
 msgstr ""
 
 msgid "Always preserve"
-msgstr ""
+msgstr "Siempre conservar"
 
 msgid "Always normalize"
-msgstr ""
+msgstr "Siempre normalizar"
 
 msgid ""
 "Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
@@ -18796,15 +18771,11 @@ msgstr "Marcar como traducción prohibida"
 msgid "Unmark as forbidden translation"
 msgstr "Desmarcar como traducción prohibida"
 
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Mark as terminology for all languages"
-msgstr "Marcar como terminología"
+msgstr "Marcar como terminología para todos los idiomas"
 
-#, fuzzy
-#| msgid "Unmark as terminology"
 msgid "Unmark as terminology for all languages"
-msgstr "Desmarcar como terminología"
+msgstr "Desmarcar como terminología para todos los idiomas"
 
 msgid "Restrict direct editing"
 msgstr "Restringir edición directa"
@@ -18825,18 +18796,14 @@ msgid ""
 "A string with this identity already exists or is awaiting a file update."
 msgstr "Un equipo con ese nombre ya existe en este espacio de trabajo."
 
-#, fuzzy
-#| msgid "The file format does not support this."
 msgid "The file format does not support this edit."
-msgstr "El formato del archivo no lo admite."
+msgstr "El formato del archivo no admite esta modificación."
 
 msgid "Keep the existing number of nonempty source forms."
 msgstr ""
 
-#, fuzzy
-#| msgid "A translation project was removed."
 msgid "A translation key is required."
-msgstr "Se quitó un proyecto de traducción."
+msgstr "Se requiere una clave de traducción."
 
 #, fuzzy
 #| msgid "Could not add new translation file."
@@ -18844,7 +18811,7 @@ msgid "Could not find the string in the translation file."
 msgstr "No se pudo añadir el archivo de traducción nuevo."
 
 msgid "Insert tab character"
-msgstr "Insertar tabulador"
+msgstr "Insertar tabulación"
 
 msgid "Insert new line"
 msgstr "Insertar salto de renglón"
@@ -19259,11 +19226,11 @@ msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
 msgstr[0] ""
-"El idioma %(language)s nuevo no pudo ser añadido a %(count)d componente. "
-"Compruebe la configuración del componente."
+"No se pudo añadir el idioma %(language)s a %(count)d componente. Compruebe "
+"la configuración del componente."
 msgstr[1] ""
-"El idioma %(language)s nuevo no pudo ser añadido a los %(count)d "
-"componentes. Compruebe la configuración de los componentes."
+"No se pudo añadir el idioma %(language)s a %(count)d componentes. Compruebe "
+"la configuración de los componentes."
 
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
@@ -19536,10 +19503,8 @@ msgstr "Se quitaron las cadenas no usadas del archivo de traducción."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Se quitaron las cadenas obsoletas del archivo de traducción."
 
-#, fuzzy
-#| msgid "The source string needs review."
 msgid "The text is too long to preview."
-msgstr "Es necesario revisar la cadena de origen."
+msgstr "El texto es demasiado extenso para previsualizarlo."
 
 #, fuzzy
 #| msgid "Too many search queries, please try again later."
@@ -20151,7 +20116,8 @@ msgid "Syntax error in language aliases."
 msgstr "Error de sintaxis en los alias de idiomas."
 
 msgid "This URL is prohibited because it matches a restricted pattern."
-msgstr "Esta URL está prohibida porque coincide un patrón restringido."
+msgstr ""
+"Este URL está prohibido porque se corresponde con una pauta restringida."
 
 msgid "This URL is prohibited because it uses a restricted host."
 msgstr "Esta URL está prohibida porque utiliza un host restringido."
