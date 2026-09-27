@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 from unittest.mock import Mock, call, patch
 
 from django.core.exceptions import ValidationError
-from django.db.models import QuerySet
+from django.db.models import F, QuerySet
 from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 from django.utils.translation import override
@@ -1127,6 +1127,69 @@ class AIQualityAutomationTest(ComponentTestCase):
         unchanged.refresh_from_db()
         self.assertEqual(changed.state, STATE_TRANSLATED)
         self.assertEqual(unchanged.state, STATE_APPROVED)
+
+    def test_quality_does_not_route_companions_from_stale_batch(self) -> None:
+        changed, companion = self.units
+        later = (
+            self.component.translation_set.get(language_code="cs")
+            .unit_set.exclude(pk__in={changed.pk, companion.pk})
+            .exclude(pk=F("source_unit_id"))
+            .order_by("pk")
+            .first()
+        )
+        if later is None:
+            self.fail("Expected a third translation unit")
+        Unit.objects.filter(pk=later.pk).update(
+            target="Later batch", state=STATE_TRANSLATED
+        )
+        changed.refresh_from_db()
+        companion.refresh_from_db()
+        later.refresh_from_db()
+        query = " OR ".join(f"id:{unit.pk}" for unit in (changed, companion, later))
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        self.quality_action(query=query),
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:quality",
+                            "settings": {"state": STATE_APPROVED},
+                        },
+                    ]
+                }
+            ),
+            self.component,
+        )
+        calls = 0
+
+        def evaluate(batch: list[Unit]) -> dict[int, list]:
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                changed.target = "Changed after shared batch"
+                changed.save()
+            return {unit.pk: [] for unit in batch}
+
+        with (
+            patch.object(OpenAITranslation, "batch_size", 2),
+            patch.object(OpenAITranslation, "evaluate_batch", side_effect=evaluate),
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+
+        changed.refresh_from_db()
+        companion.refresh_from_db()
+        later.refresh_from_db()
+        self.assertEqual(changed.state, STATE_TRANSLATED)
+        self.assertEqual(companion.state, STATE_TRANSLATED)
+        self.assertEqual(later.state, STATE_APPROVED)
 
     def test_quality_keeps_successful_units_after_query_changes(self) -> None:
         unit = self.units[0]

@@ -367,6 +367,7 @@ class EvaluatedUnitSnapshot:
     unit: EvaluationSnapshot
     source_unit_id: int
     source_unit: EvaluationSnapshot
+    batch: tuple[tuple[int, EvaluationSnapshot], ...]
 
 
 def evaluation_snapshot(unit: Unit) -> EvaluationSnapshot:
@@ -535,12 +536,14 @@ def evaluate_component(
             if store_evaluation_batch(addon, batch, issues, configuration, snapshots):
                 result["evaluated"] += len(batch)
                 if evaluated_unit_snapshots is not None:
+                    batch_snapshots = tuple(snapshots.items())
                     evaluated_unit_snapshots.update(
                         {
                             unit.pk: EvaluatedUnitSnapshot(
                                 unit=snapshots[unit.pk],
                                 source_unit_id=unit.source_unit.pk,
                                 source_unit=snapshots[unit.source_unit.pk],
+                                batch=batch_snapshots,
                             )
                             for unit in batch
                         }

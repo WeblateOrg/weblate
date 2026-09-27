@@ -43,22 +43,18 @@ def exclude_stale_units(
 ) -> UnitQuerySet:
     """Lock evaluation inputs and exclude units changed since evaluation."""
     locked_ids = set(expected_snapshots)
-    locked_ids.update(
-        snapshot.source_unit_id for snapshot in expected_snapshots.values()
-    )
+    for snapshot in expected_snapshots.values():
+        locked_ids.update(unit_id for unit_id, _unit in snapshot.batch)
     current = {
         unit.pk: unit
         for unit in Unit.objects.filter(pk__in=locked_ids)
         .order_by("pk")
+        .select_related("translation")
         .select_for_update()
     }
 
     def changed(unit: Unit | None, snapshot: EvaluationSnapshot) -> bool:
-        return (
-            unit is None
-            or unit.last_updated != snapshot.last_updated
-            or evaluation_fingerprint(unit) != snapshot.fingerprint
-        )
+        return unit is None or evaluation_fingerprint(unit) != snapshot.fingerprint
 
     stale_ids = {
         unit_id
@@ -66,6 +62,10 @@ def exclude_stale_units(
         if changed(current.get(unit_id), snapshot.unit)
         or current[unit_id].source_unit_id != snapshot.source_unit_id
         or changed(current.get(snapshot.source_unit_id), snapshot.source_unit)
+        or any(
+            changed(current.get(batch_unit_id), batch_snapshot)
+            for batch_unit_id, batch_snapshot in snapshot.batch
+        )
     }
     return units.exclude(pk__in=stale_ids)
 
