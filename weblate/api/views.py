@@ -2610,7 +2610,9 @@ class ProjectViewSet(
     @extend_schema(
         description=(
             "Download all translation files in the project. The archive defaults "
-            "to ZIP and can be limited to one language using language_code."
+            "to ZIP and can be limited to one language using language_code. "
+            "Unfiltered downloads require project-wide download permission; "
+            "language-filtered downloads require permission for that language."
         ),
         methods=["get"],
         responses=binary_download_response_schema("Project translation download."),
@@ -2635,17 +2637,25 @@ class ProjectViewSet(
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
         instance = self.get_object()
+        requested_language = request.query_params.get("language_code", None)
 
-        if not request.user.has_perm("translation.download", instance):
+        if requested_language:
+            language = get_object_or_404(Language, code=requested_language)
+            can_download = self.can_download_project_language(
+                request.user, instance, language
+            )
+        else:
+            language = None
+            can_download = request.user.has_perm("translation.download", instance)
+        if not can_download:
             raise PermissionDenied
 
         components = instance.component_set.filter_access(request.user)
         requested_format = request.query_params.get("format", "zip")
-        requested_language = request.query_params.get("language_code", None)
 
-        if requested_language:
+        if language:
             translations = Translation.objects.filter(
-                language__code=requested_language, component__in=components
+                language=language, component__in=components
             )
         else:
             translations = Translation.objects.filter(component__in=components)
@@ -2658,11 +2668,25 @@ class ProjectViewSet(
             name=instance.slug,
         )
 
+    @staticmethod
+    def can_download_project_language(
+        user: User, project: Project, language: Language
+    ) -> bool:
+        permission_obj = ProjectLanguage(project, language)
+        if user.has_perm("translation.download", permission_obj):
+            return True
+        # Project-wide permission can produce the documented empty archive when
+        # the language has no translations against which to evaluate permission.
+        return not permission_obj.has_action_translations and bool(
+            user.has_perm("translation.download", project)
+        )
+
     @extend_schema(
         description=(
             "Download all component translation files in the project for a specific "
             "language. The archive defaults to ZIP, and filter limits included "
-            "components by a case-insensitive substring of their slug."
+            "components by a case-insensitive substring of their slug. Requires "
+            "download permission for the requested language."
         ),
         methods=["get"],
         responses=binary_download_response_schema(
@@ -2699,8 +2723,9 @@ class ProjectViewSet(
     )
     def language_file(self, request: Request, language_code: str, **kwargs):
         instance = self.get_object()
+        language = get_object_or_404(Language, code=language_code)
 
-        if not request.user.has_perm("translation.download", instance):
+        if not self.can_download_project_language(request.user, instance, language):
             raise PermissionDenied
 
         components = instance.component_set.filter_access(request.user)
@@ -2713,7 +2738,7 @@ class ProjectViewSet(
         requested_format = request.query_params.get("format", "zip")
 
         translations = Translation.objects.filter(
-            language__code=language_code, component__in=components
+            language=language, component__in=components
         )
 
         return download_multi(

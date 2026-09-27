@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import re
 import threading
-from collections import Counter
+from collections import Counter, defaultdict, deque
 from functools import cache, lru_cache
 from itertools import chain
 from types import SimpleNamespace
@@ -46,6 +46,7 @@ from weblate.checks.format import (
     PERCENT_MATCH,
     VUE_MATCH,
 )
+from weblate.checks.same import SameCheck
 from weblate.checks.utils import pair_markup_highlights
 from weblate.utils.html import (
     MD_BROKEN_LINK,
@@ -555,7 +556,39 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
         link_start = (".", "#", "{")
         tgt_anchors = {x[2] for x in tgt_match if x[2] and x[2][0] in link_start}
         src_anchors = {x[2] for x in src_match if x[2] and x[2][0] in link_start}
-        return tgt_anchors != src_anchors
+        if tgt_anchors != src_anchors:
+            return True
+        if not any(match[3] for match in chain(src_match, tgt_match)):
+            return False
+
+        # Match destinations first to allow links to be reordered. Pair any
+        # remaining links in document order, as remote URLs can be localized.
+        destinations: defaultdict[str, deque[int]] = defaultdict(deque)
+        for index, match in enumerate(tgt_match):
+            destinations[match[2]].append(index)
+        pairs = {}
+        for index, match in enumerate(src_match):
+            if destinations[match[2]]:
+                pairs[index] = destinations[match[2]].popleft()
+        used = set(pairs.values())
+        pairs.update(
+            zip(
+                (index for index in range(len(src_match)) if index not in pairs),
+                (index for index in range(len(tgt_match)) if index not in used),
+                strict=True,
+            )
+        )
+        same = SameCheck()
+        check_unchanged = not same.should_skip(unit)
+        for src_index, tgt_index in pairs.items():
+            src_title = src_match[src_index][3][1:-1]
+            tgt_title = tgt_match[tgt_index][3][1:-1]
+            if bool(src_title) != bool(tgt_title) or (
+                check_unchanged and same.check_single(src_title, tgt_title, unit)
+            ):
+                return True
+
+        return False
 
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
         if MD_BROKEN_LINK.findall(unit.target):

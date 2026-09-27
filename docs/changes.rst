@@ -5,6 +5,7 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added :ref:`enforced-check inheritance <component-enforced_checks>` at workspace, project, category, and component level.
 * DeepL automatic suggestions can include a rephrased version of an existing translation via the DeepL Write API (Pro plans and supported languages only). See :ref:`mt-deepl-rephrase`.
 * Added the :ref:`Automation add-on <addon-weblate.automation.automation>` for conditional translation and editing workflows. See :doc:`admin/automation`.
 * Source strings and translation keys can now be :ref:`edited <edit-source>` in the editor and REST API while preserving translations and history.
@@ -34,6 +35,7 @@ Weblate 2026.10
 * Clarified :ref:`translation quality filters <project-commit_policy>` and effective per-language review settings.
 * Improved :ref:`translation memory <translation-memory>` lookup performance and added match context to :ref:`automatic suggestions <machine-translation>`.
 * Reduced aggregation overhead for the :ref:`inconsistent translations check <check-inconsistent>` on large projects.
+* :ref:`check-md-link` quality check now detects untranslated link titles.
 * :ref:`Automatic translation <auto-translation>` across components now prefers matching source text and context. The :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` can create approved strings, or translated strings when reviews are disabled.
 * Improved checks, fixes, glossary matching, and machine translation for :ref:`multivalue alternatives <format-multivalue>`.
 * :ref:`TBX glossaries <tbx>` now support independent term alternatives and scoped metadata, preserved on export.
@@ -43,12 +45,14 @@ Weblate 2026.10
 * :ref:`SSH repository connections <ssh-repos>` now try IPv4 and IPv6 addresses in a staggered sequence and report failed addresses and ports.
 * Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on configuration.
 * Added monthly instance activity to :ref:`support integration data <support-data>`.
+* Added a separate :ref:`repository browser URL <component-repoweb-translations>` for translation files.
 * Docker startup now reports invalid nginx-related environment values before attempting to start nginx.
 * The automatic translation API can run as a background task. See :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/`.
 
 .. rubric:: Security fixes
 
 * Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
+* Prevented concurrent requests from exceeding configured web action rate limits.
 * Prevented repository URLs from injecting executable Mercurial configuration.
 * Limited XLIFF language declarations in uploads and the number and size of translation alternatives to prevent resource exhaustion.
 * Enforced language-scoped screenshot permissions and restricted component access in translation consistency and automatic translation workflows.
@@ -59,6 +63,7 @@ Weblate 2026.10
 .. rubric:: Bug fixes
 
 * Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
+* Project language archive downloads in the REST API now honor language-scoped download permissions consistently with the web interface.
 * Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry instrumentation is enabled.
 * Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces, and corrected statistics for nested :ref:`categories <category>` and deleted :ref:`labels`.
 * Fixed MIME nesting and reduced the size of inline branding images in :ref:`notification e-mails <notifications>`.

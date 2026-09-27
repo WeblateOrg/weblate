@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-11 08:21+0000\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"PO-Revision-Date: 2026-09-25 04:08+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
@@ -1499,6 +1499,50 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "İkinci adımla oturum açma"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Evaluation service"
+msgstr "Kimlik doğrulama hizmeti adresi"
+
+#, fuzzy
+#| msgid "Update frequency"
+msgid "Evaluation frequency"
+msgstr "Güncelleme sıklığı"
+
+#, fuzzy
+#| msgid "Disable"
+msgid "Disabled"
+msgstr "Kullanımdan kaldır"
+
+msgid "Daily"
+msgstr "Günlük"
+
+msgid "Weekly"
+msgstr "Haftalık"
+
+msgid "Monthly"
+msgstr "Aylık"
+
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Evaluate translation changes"
+msgstr "Tüm çeviri değişikliklerine göz at"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Evaluate repository updates"
+msgstr "Depo güncel değil."
+
+#, fuzzy
+#| msgid "Plural equation"
+msgid "AI quality evaluation"
+msgstr "Çoğul eşitlik"
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr "Kendiliğinden çeviri"
 
@@ -1829,15 +1873,6 @@ msgstr ""
 
 msgid "Update frequency"
 msgstr "Güncelleme sıklığı"
-
-msgid "Daily"
-msgstr "Günlük"
-
-msgid "Weekly"
-msgstr "Haftalık"
-
-msgid "Monthly"
-msgstr "Aylık"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3188,6 +3223,9 @@ msgstr "Önerileri kabul etme izniniz yok."
 msgid "This string seems to already exist."
 msgstr "Bu dizge zaten var gibi görünüyor."
 
+msgid "Automatic translation in progress"
+msgstr "Kendiliğinden çeviri yapılıyor"
+
 msgid "Category"
 msgstr "Kategori"
 
@@ -3982,12 +4020,22 @@ msgstr "Bunun yerine dizgeyi kaynak dile ekleyin."
 msgid "Adding strings is disabled in the component configuration."
 msgstr "Dizge ekleme özelliği bileşen yapılandırmasından kapatılmış."
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr "Terim çevirisi silinemez. Onun yerine kaynak dizgeyi silin."
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "Dizge ekleme özelliği bileşen yapılandırmasından kapatılmış."
 
 msgid "The file format does not support this."
 msgstr "Dosya biçimi bunu desteklenmiyor."
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to edit this glossary."
+msgstr "Önerileri kabul etme izniniz yok."
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr "Terim çevirisi silinemez. Onun yerine kaynak dizgeyi silin."
 
 msgid "Adding new translations is turned off in the component configuration."
 msgstr "Çeviri ekleme özelliği bileşen yapılandırmasından kapatılmış."
@@ -4036,6 +4084,103 @@ msgstr "Kullanıcı daveti kaldırıldı."
 #, python-format
 msgid "Accepted invitation to the %s team."
 msgstr "%s takımının daveti kabul edildi."
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgid "Automation"
+msgstr "Kendiliğinden algılama"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component is outside this add-on's scope."
+msgstr "Bu bileşen yanlış ayarlanmış."
+
+#, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change does not belong to this component."
+msgstr "Kategori bu projeye ait değil."
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automation nesting is too deep."
+msgstr "Kendiliğinden çeviri kipi"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "Seçilmiş sıralama desteklenmiyor."
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Automation keys must be strings."
+msgstr "Kendiliğinden çevrilmiş dizgeler"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(email)s: %(error)s"
+msgid "%(path)s: %(error)s"
+msgstr "%(email)s: %(error)s"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Automation context is too large."
+msgstr "Kendiliğinden bileşen listesi ataması"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid repository branch: %s"
+msgid "Invalid CEL condition: %s"
+msgstr "Depo dalı geçersiz: %s"
+
+msgid "Workflow"
+msgstr "İş akışı"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Preview component ID"
+msgstr "Bileşen oluştur"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview change ID"
+msgstr "Son değişiklikler"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "Ek ileti"
@@ -4229,6 +4374,57 @@ msgstr "Faturalamayı sonlandırmadan önce tüm projeleri kaldırmalısınız."
 
 msgid "Cannot merge such a billing."
 msgstr "Böyle bir faturalama aktarılamaz."
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr "Kritik"
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "AI: Fluency"
+msgstr "Sıklık"
+
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "The evaluation detected a language quality issue."
+msgstr "Çeviri temel dili düzenlenebilir."
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "Terminoloji"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+#, fuzzy
+#| msgid "The documentation has detailed instructions"
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr "Belgelerde ayrıntılı yönergeleri bulabilirsiniz"
+
+#, fuzzy
+#| msgid "Vue I18n formatting"
+msgid "AI: Formatting"
+msgstr "Vue I18n biçimlendirmesi"
+
+#, fuzzy
+#| msgid "Translation is missing some placeholders."
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Çeviride bazı yer belirticiler eksik."
 
 msgid "AngularJS interpolation string"
 msgstr "AngularJS araya ekleme dizgesi"
@@ -5532,6 +5728,34 @@ msgstr "Excel Open XML"
 msgid "Multivalue CSV file"
 msgstr "Çok değerli CSV dosyası"
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "The file format does not support updating source strings."
+msgid "This file format does not support editing keys or context."
+msgstr "Dosya biçimi kaynak dizgelerin güncellenmesini desteklenmiyor."
+
+#, fuzzy
+#| msgid "A user with this e-mail already exists."
+msgid "A string with this identity already exists."
+msgstr "Bu e-posta adresini kullanan bir kullanıcı zaten var."
+
+#, fuzzy
+#| msgid "The file format does not support updating source strings."
+msgid "This file format does not support editing source strings."
+msgstr "Dosya biçimi kaynak dizgelerin güncellenmesini desteklenmiyor."
+
+#, fuzzy
+#| msgid "Update source strings upload is not supported with this format."
+msgid "Editing source strings with inline markup is not supported."
+msgstr "Bu biçimde güncelleme kaynağı dizgelerinin yüklenmesi desteklenmiyor."
+
+#, fuzzy
+#| msgid "The anonymous user can not be assigned to teams."
+msgid "The key cannot be represented in this file format."
+msgstr "Anonim kullanıcı takımlara atanamaz."
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -5575,10 +5799,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "XLIFF 1.2 çeviri dosyası"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr "Yerleştirilebilir ögeler desteği olan XLIFF 1.2"
-
-#. Translators: File format name
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "gettext eklentileriyle XLIFF 1.2"
 
@@ -5589,10 +5809,6 @@ msgstr "Apple eklentileriyle XLIFF 1.2"
 #. Translators: File format name
 msgid "XLIFF 2.0 translation file"
 msgstr "XLIFF 2.0 çeviri dosyası"
-
-#. Translators: File format name
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "Yerleştirilebilir ögeler desteği olan XLIFF 2.0"
 
 #. Translators: File format name
 msgid "Java Properties"
@@ -5839,10 +6055,20 @@ msgstr ""
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Maximum size of translation"
 msgid "Maximum retained versions"
 msgstr "Çevirinin en fazla uzunluğu"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -8134,6 +8360,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr "Bulut"
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "Süresi dolmuş"
+
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
 msgstr "Ayrılmış"
@@ -8406,8 +8636,24 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Ne yazık ki, tarayıcınızda WebAuthn desteği yok."
 
+#, fuzzy
+#| msgid "Add-ons"
+msgid "Add-on API"
+msgstr "Eklentiler"
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "API kök adresi:"
+
 msgid "Configuration"
 msgstr "Yapılandırma"
+
+msgid "API"
+msgstr ""
 
 #, fuzzy
 #| msgid "View Logs"
@@ -8441,22 +8687,26 @@ msgstr "Yok"
 msgid "No components found."
 msgstr "Herhangi bir bileşen belirtilmemiş"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
-msgid "Add-on API base URL:"
-msgstr "OpenAI API temel adresi"
-
-#, fuzzy
-#| msgid "API root URL:"
-msgid "API root"
-msgstr "API kök adresi:"
-
 msgid "Configure add-on"
 msgstr "Eklentiyi yapılandır"
 
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview without changes"
+msgstr "Son değişiklikler"
+
 msgid "This add-on has no settings."
 msgstr "Bu eklentinin herhangi bir ayarı yok."
+
+#, fuzzy
+#| msgid "Automatically recognize"
+msgid "Automation preview"
+msgstr "Kendiliğinden tanı"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enable add-on:"
@@ -8645,6 +8895,23 @@ msgstr "Proje adı"
 
 msgid "Project URL slug"
 msgstr "Proje adresi kısaltması"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+msgid "Create a project token"
+msgstr "Bir proje kodu oluştur"
 
 msgid "Review before installing"
 msgstr "Kurmadan önce gözden geçirin"
@@ -9169,17 +9436,6 @@ msgstr "Proje erişim denetimini değiştirme izniniz yok."
 msgid "Check your billing status"
 msgstr "Faturalama durumunuzu denetleyin"
 
-msgid "Browse"
-msgstr "Göz at"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "Çeviri durumu"
-
-msgid "No strings found!"
-msgstr "Herhangi bir dizge bulunamadı!"
-
 msgid "Insights"
 msgstr "İçgörüler"
 
@@ -9258,6 +9514,11 @@ msgstr "Toplu kendiliğinden çeviri"
 
 msgid "Add new category"
 msgstr "Yeni kategori ekle"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Çeviri durumu"
 
 #, fuzzy
 #| msgid "Browse all repository changes"
@@ -9887,10 +10148,9 @@ msgstr ""
 "kullanın."
 
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
 msgstr ""
-"Weblate deposundaki değişiklikleri atar ve yukarı akış deposuyla eşitler."
 
 msgid "Reset and reapply"
 msgstr "Sıfırla ve yeniden uygula"
@@ -9917,6 +10177,9 @@ msgstr ""
 msgid "Cleanup"
 msgstr "Temizle"
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
@@ -9924,11 +10187,16 @@ msgstr ""
 "Temizleme, sürüm denetimi tarafından izlenmeyen tüm dosyaları depodan "
 "kaldırır."
 
-msgid "It also removes stale branches which are not used by Weblate."
-msgstr "Ayrıca, Weblate tarafından kullanılmayan eski dalları da kaldırır."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
+msgstr ""
 
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Weblate deposunda herhangi bir gereksiz öge kaldığında kullanın."
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr "Eşitle"
@@ -10064,6 +10332,12 @@ msgstr "Depo değişiklikleri"
 msgid "Browse all repository changes"
 msgstr "Tüm depo değişikliklerine göz at"
 
+#, fuzzy
+#| msgctxt "Number of strings"
+#| msgid "Waiting for review"
+msgid "Nothing to preview."
+msgstr "Onaylanmayı bekleyen"
+
 msgid "Shortcut"
 msgstr "Kısayol"
 
@@ -10175,9 +10449,6 @@ msgstr ""
 "kendiliğinden güncellenir. Yanlış düzenlemeler büyük olasılıkla geri "
 "alınacaktır<a href=\"%(url)s\">. Bunun doğru şekilde yapılması için "
 "belgelere bakın.</a>"
-
-msgid "Workflow"
-msgstr "İş akışı"
 
 msgid "Changing plural rules might not have a desired effect."
 msgstr "Çoğul kurallarının değiştirilmesi istenilen etkiyi yaratmayabilir."
@@ -10901,8 +11172,29 @@ msgstr ""
 "Yedekleri geri yüklemek istemeniz durumuna karşı, lütfen aşağıdaki kimlik "
 "doğrulama bilgilerini kaydedin."
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
+msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Buy backup service"
 msgstr "Yedekleme hizmeti ekle"
+
+#, fuzzy
+#| msgid "Cleaned up backup storage"
+msgid "Add custom backup storage"
+msgstr "Yedekleme depolama alanı temizlendi"
 
 msgid "Commercial"
 msgstr "Ticari"
@@ -11811,6 +12103,9 @@ msgstr "Kaynak satırlarında ara"
 msgid "Paste from clipboard"
 msgstr "Panodan yapıştır"
 
+msgid "Translate"
+msgstr "Çevir"
+
 msgid "strings"
 msgstr "dizge"
 
@@ -12440,14 +12735,14 @@ msgstr "Onaylanmamış"
 msgid "Untranslated"
 msgstr "Çevrilmemiş"
 
+msgid "Browse"
+msgstr "Göz at"
+
 msgid "Create translation"
 msgstr "Çeviri oluştur"
 
 msgid "Cannot add translation right now"
 msgstr "Şu anda çeviri eklenemez"
-
-msgid "Translate"
-msgstr "Çevir"
 
 msgid "Customized workflow"
 msgstr "Özelleştirilmiş iş akışı"
@@ -13026,6 +13321,11 @@ msgstr "Daveti kabul et"
 msgid "Create account"
 msgstr "Şununla bir hesap açın:"
 
+#, fuzzy, python-format
+#| msgid "Configure add-on"
+msgid "Configure %(addon)s"
+msgstr "Eklentiyi yapılandır"
+
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate betik eklentisini çalıştıramadı."
 
@@ -13034,6 +13334,12 @@ msgstr "Şu kullanımlar bulundu:"
 
 msgid "Command"
 msgstr "Komut"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr "Çevrilmiş dillerin dosyalarında belirsiz dil kodları kullanılıyor."
@@ -13627,6 +13933,16 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] "Yedekler %(keep_days)s gün sonra kaldırılır."
 msgstr[1] "Yedekler %(keep_days)s gün sonra kaldırılır."
 
+#, fuzzy
+#| msgid "Jump to"
+msgid "Jump to date"
+msgstr "Şuna atla"
+
+#, fuzzy
+#| msgid "Good"
+msgid "Go"
+msgstr "İyi"
+
 msgid "Changes"
 msgstr "Değişiklikler"
 
@@ -13635,6 +13951,24 @@ msgstr "Son değişiklikleri CSV olarak indir"
 
 msgid "Follow using RSS"
 msgstr "RSS kullanarak izle"
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "Görüntüleyiciler"
+
+msgid "Older"
+msgstr ""
 
 msgid "From version control"
 msgstr "Sürüm denetiminden"
@@ -13973,9 +14307,6 @@ msgstr[1] ""
 "Bu takımın %(count)s üyesi var. Takımın silinmesi, projeye erişimlerini "
 "etkileyebilir."
 
-msgid "Create a project token"
-msgstr "Bir proje kodu oluştur"
-
 msgid "Create"
 msgstr "Oluştur"
 
@@ -14030,6 +14361,15 @@ msgstr ""
 "Depo adresini değiştirirken var olan içerik yeni depoyla birleştirilecek. Bu "
 "işlem, depo farklı bir konuma taşındığında sorunsuz yapılır. Depo içeriği "
 "farklıysa yeni çeviri bileşeni oluşturmak daha iyi olabilir."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "Kaynağı düzenle"
+
+msgid "Cancel"
+msgstr "İptal"
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -14282,6 +14622,11 @@ msgstr "Henüz yapılmış bir açıklama yok."
 msgid "No labels currently set."
 msgstr "Henüz ayarlanmış bir etiket yok."
 
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit flags"
+msgstr "Etiketi düzenle"
+
 msgid "Flags"
 msgstr "İmler"
 
@@ -14354,6 +14699,17 @@ msgid ""
 msgstr ""
 "<code>%(flags)s</code>, %(object)s nesnesinden devralındı çünkü kaynak "
 "dizgeler düzenleme özelliği kapatılmış."
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Effective flags"
+msgstr "Devralınan imler"
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
+msgstr ""
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -14482,11 +14838,6 @@ msgstr "Sağlayıcı"
 msgid "Repositories"
 msgstr "Depolar"
 
-#, fuzzy
-#| msgid "Disable"
-msgid "Disabled"
-msgstr "Kullanımdan kaldır"
-
 msgid "Refresh"
 msgstr ""
 
@@ -14598,9 +14949,6 @@ msgstr "Abone olunmuş projeler"
 #| msgid "Continue"
 msgid "Continue to GitHub"
 msgstr "İlerle"
-
-msgid "Cancel"
-msgstr "İptal"
 
 #, fuzzy
 #| msgid "Live Preview"
@@ -14899,6 +15247,14 @@ msgstr "Yerleştirme kodu panoya kopyalandı."
 
 msgid "Embed Code"
 msgstr "Yerleştirme kodu"
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Gözden geçir"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -15787,6 +16143,11 @@ msgstr "POT dosyası güncellenemedi."
 msgid "POT updates do not update PO files."
 msgstr "POT güncellemeleri PO dosyalarını güncellemez."
 
+#, fuzzy
+#| msgid "A required file is not available."
+msgid "AI quality evaluation service is unavailable."
+msgstr "Gerekli bir dosya yok."
+
 msgid "Information"
 msgstr "Bilgiler"
 
@@ -16539,6 +16900,48 @@ msgstr "MAC (\\r)"
 msgid "Include closing tag for blank XML tags"
 msgstr "Boş XML kod imlerine kapanış kod imini ekler"
 
+#, fuzzy
+#| msgid "Conflict handling"
+msgid "Whitespace handling"
+msgstr "Çakışma yönetimi"
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Placeables support"
+msgstr "Weblate desteği"
+
+#, fuzzy
+#| msgid "Plain text file"
+msgid "Plain text only"
+msgstr "Düz metin dosyası"
+
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support placeables"
+msgstr "Weblate projesini destekleyin"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 msgid "FlatXML Root name"
 msgstr "FlatXML kök adı"
 
@@ -16801,6 +17204,14 @@ msgid ""
 msgstr ""
 "Bu arada dizgenin çevirisi değişmiş. Lütfen değişikliklerinizi denetleyin."
 
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Ignore language mismatch"
+msgstr "Dil sınırı"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr "Dosya yükleme kipi"
 
@@ -16949,6 +17360,34 @@ msgstr "Çeviri yorumu, diğer çevirmenler ile tartışmalar"
 
 msgid "Please choose"
 msgstr "Lütfen seçin"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags — all languages"
+msgstr "Tüm diller için"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation language:"
+msgid "Translation flags — this language"
+msgstr "Çeviri dili:"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation language:"
+msgid "Translation flags — %(language)s"
+msgstr "Çeviri dili:"
+
+#, fuzzy
+#| msgid "You do not have permission to accept suggestions."
+msgid "You do not have permission to edit these flags."
+msgstr "Önerileri kabul etme izniniz yok."
 
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -17223,6 +17662,11 @@ msgstr ""
 msgid "Replacement string"
 msgstr "Değiştirilecek dizge"
 
+#, fuzzy
+#| msgid "Screenshot context"
+msgid "Key or context"
+msgstr "Bağlamın ekran görüntüsü"
+
 msgid "Translation key"
 msgstr "Çeviri anahtarı"
 
@@ -17279,16 +17723,38 @@ msgstr "Ayarlanacak durum"
 msgid "Do not change"
 msgstr "Değiştirilmesin"
 
-msgid "Translation flags to add"
+msgid "Source flags to add — all languages"
+msgstr ""
+
+msgid "Source flags to remove — all languages"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Eklenecek çeviri imleri"
 
-msgid "Translation flags to remove"
+#, fuzzy
+#| msgid "Fills in translation strings with source string."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Çeviri dizgelerini kaynak dizgeler ile doldurur."
+
+#, fuzzy
+#| msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
 msgstr "Kaldırılacak çeviri imleri"
 
-msgid "Labels to add"
-msgstr "Eklenecek etiketler"
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
 
-msgid "Labels to remove"
+#, fuzzy
+#| msgid "For all languages"
+msgid "Labels to add — all languages"
+msgstr "Tüm diller için"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Kaldırılacak etiketler"
 
 msgid "I accept the contributor license agreement"
@@ -17330,6 +17796,11 @@ msgstr "Onaylamak için lütfen dili ve projenin kısaltmasını yazın."
 
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Onaylamak için lütfen dili ve kategorinin kısaltmasını yazın."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The date cannot be in the future."
+msgstr "Dosya adı mutlak bir yol olamaz."
 
 msgid "Author username"
 msgstr "Katkıda bulunanın kullanıcı adı"
@@ -17981,10 +18452,15 @@ msgstr ""
 msgid "Manage strings"
 msgstr "Dizge yönetimi"
 
+#, fuzzy
+#| msgid ""
+#| "Enables adding and removing strings straight from Weblate. If your "
+#| "strings are extracted from the source code or managed externally you "
+#| "probably want to keep it disabled."
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 "Dizgelerin doğrudan Weblate üzerinden eklenmesini ve kaldırılmasını sağlar. "
 "Dizgeleriniz kaynak koddan çıkarılmışsa ya da dışarıdan yönetiliyorsa, bu "
@@ -18815,6 +19291,22 @@ msgstr "Yüklenen dosyanın çoğul biçimleri geçerli çeviri ile eşleşmiyor
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Yüklenen dosyanın çoğul biçimleri geçerli çeviri ile eşleşmiyor."
 
+#, fuzzy
+#| msgid "The ZIP file contains too many entries."
+msgid "The uploaded file contains too many language declarations."
+msgstr "ZIP dosyasında çok sayıda kayıt var."
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, python-format
+msgid "Could not parse uploaded file: %s"
+msgstr "Yüklenen dosya işlenemedi: %s"
+
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Bekleyen değişiklikler işlenemedi: %s"
@@ -18822,10 +19314,6 @@ msgstr "Bekleyen değişiklikler işlenemedi: %s"
 #, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Yüklenen dosya {file_format} olarak işlenemedi: {error}"
-
-#, python-format
-msgid "Could not parse uploaded file: %s"
-msgstr "Yüklenen dosya işlenemedi: %s"
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -18863,29 +19351,71 @@ msgid_plural "String could not be propagated to %d components."
 msgstr[0] "Dizge %d bileşene yayılamadı."
 msgstr[1] "Dizge %d bileşene yayılamadı."
 
-msgid "Unmark as read-only"
-msgstr "Salt okunur imini kaldır"
-
-msgid "Mark as read-only"
-msgstr "Salt okunur olarak imle"
-
-msgid "Unmark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Çevrilemez imini kaldır"
 
-msgid "Mark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as read-only"
+msgid "Unmark as read-only for all languages"
+msgstr "Salt okunur imini kaldır"
+
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark this translation as untranslatable"
+msgstr "Çevrilemez imini kaldır"
+
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Unmark this translation as read-only"
+msgstr "Çeviri salt okunur."
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "Çevrilen dilleri yönet"
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "Çevrilen dilleri yönet"
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark this translation as untranslatable"
 msgstr "Çevrilemez olarak imle"
 
-msgid "Unmark as forbidden translation"
-msgstr "Yasaklanmış çeviri imini kaldır"
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Mark this translation as read-only"
+msgstr "Çeviri salt okunur."
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark as untranslatable for all languages"
+msgstr "Çevrilemez olarak imle"
+
+#, fuzzy
+#| msgid "Mark as read-only"
+msgid "Mark as read-only for all languages"
+msgstr "Salt okunur olarak imle"
 
 msgid "Mark as forbidden translation"
 msgstr "Yasaklanmış çeviri olarak imle"
 
-msgid "Unmark as terminology"
-msgstr "Terminoloji imini kaldır"
+msgid "Unmark as forbidden translation"
+msgstr "Yasaklanmış çeviri imini kaldır"
 
-msgid "Mark as terminology"
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as terminology for all languages"
 msgstr "Terminoloji olarak imle"
+
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as terminology for all languages"
+msgstr "Terminoloji imini kaldır"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -18894,6 +19424,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The source string has changed. Reload it before editing."
+msgstr "Kaynak dizge düzenlenemez."
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "Aynı adlı bir kullanıcı zaten var."
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "The file format does not support this edit."
+msgstr "Dosya biçimi bunu desteklenmiyor."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translation project was removed"
+msgid "A translation key is required."
+msgstr "Çeviri projeniz silindi"
+
+#, fuzzy
+#| msgid "Could not add new translation file."
+msgid "Could not find the string in the translation file."
+msgstr "Yeni çeviri dosyası eklenemedi."
 
 msgid "Insert tab character"
 msgstr "Sekme karakteri ekle"
@@ -19420,6 +19979,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "%s içindeki değişiklikler"
 
+#, fuzzy
+#| msgid "Invalid text direction"
+msgid "Invalid history position."
+msgstr "Geçersiz metin yönü"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr "Sağlanan yapılandırma yanlış. Lütfen aşağıdaki hataları kontrol edin."
 
@@ -19480,6 +20044,9 @@ msgid ""
 "refreshed."
 msgstr ""
 
+msgid "No strings found!"
+msgstr "Herhangi bir dizge bulunamadı!"
+
 msgid "Your suggestion is empty!"
 msgstr "Öneriniz boş!"
 
@@ -19525,9 +20092,6 @@ msgstr "Arama dizgesi geçersiz!"
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "Hedef artık var olmadığından kendiliğinden çeviri atlandı."
 
-msgid "Automatic translation in progress"
-msgstr "Kendiliğinden çeviri yapılıyor"
-
 msgid "Posted new comment"
 msgstr "Yeni yorum gönderildi"
 
@@ -19549,6 +20113,16 @@ msgstr ""
 
 msgid "New string has been added."
 msgstr "Yeni dizge eklendi."
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "The component is busy. Please try again."
+msgstr "Bu bileşen şu anda %s içinde zaten paylaşılıyor."
+
+#, fuzzy
+#| msgid "Source string added"
+msgid "Source string updated."
+msgstr "Kaynak dizge eklendi"
 
 #, python-format
 msgid "Could not remove the string: %s"
@@ -19611,6 +20185,17 @@ msgstr "Lütfen çeviri dosyalarından birini kaldırarak bu sorunu düzeltin."
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Lütfen çeviri dosyalarından birini kaldırarak bu sorunu düzeltin."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long to preview."
+msgstr "Kaynak dizgenin onaylanması gerekli."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr ""
+"Çok sayıda arama sorgusu gönderildi. Lütfen bir süre sonra yeniden deneyin."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Bileşen kilitli ve çeviriler güncellenemez!"
@@ -19779,6 +20364,11 @@ msgstr "Bu bileşen şu anda %s içinde zaten paylaşılıyor."
 
 msgid "Backup scheduled. It will be available soon."
 msgstr "Yedekleme zamanlandı. Kısa süre sonra hazır olacak."
+
+#, fuzzy
+#| msgid "Could not change additional string info!"
+msgid "Could not change string flags!"
+msgstr "Ek dizge bilgileri değiştirilemedi!"
 
 msgid "Could not change additional string info!"
 msgstr "Ek dizge bilgileri değiştirilemedi!"
@@ -20309,6 +20899,11 @@ msgstr "Fediverse adresi bir Fediverse kullanıcı profili olmalıdır."
 
 msgid "URL domain is not allowed."
 msgstr "Adres etki alanına izin verilmiyor."
+
+#, fuzzy
+#| msgid "Name contains disallowed characters."
+msgid "Repository URL contains unsafe characters."
+msgstr "Ad içinde izin verilmeyen karakterler var."
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -21543,6 +22138,33 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Kaynak silindi."
 
+#~ msgid "XLIFF 1.2 with placeables support"
+#~ msgstr "Yerleştirilebilir ögeler desteği olan XLIFF 1.2"
+
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "Yerleştirilebilir ögeler desteği olan XLIFF 2.0"
+
+#, fuzzy
+#~| msgctxt "Automatic suggestion service configuration"
+#~| msgid "OpenAI API base URL"
+#~ msgid "Add-on API base URL:"
+#~ msgstr "OpenAI API temel adresi"
+
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr ""
+#~ "Weblate deposundaki değişiklikleri atar ve yukarı akış deposuyla eşitler."
+
+#~ msgid "It also removes stale branches which are not used by Weblate."
+#~ msgstr "Ayrıca, Weblate tarafından kullanılmayan eski dalları da kaldırır."
+
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Weblate deposunda herhangi bir gereksiz öge kaldığında kullanın."
+
+#~ msgid "Labels to add"
+#~ msgstr "Eklenecek etiketler"
+
 #~ msgid ""
 #~ "Updates the comment part of the PO file header to include contributor "
 #~ "names and years of contributions."
@@ -22082,9 +22704,6 @@ msgstr "Kaynak silindi."
 #~ msgid "View all alerts"
 #~ msgstr "Tüm uyarıları görüntüle"
 
-#~ msgid "Automatically recognize"
-#~ msgstr "Kendiliğinden tanı"
-
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr ""
 #~ "Topluluk yerelleştirme denetim listesindeki yönergeleri gözden geçirin."
@@ -22454,9 +23073,6 @@ msgstr "Kaynak silindi."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "Katkıda bulunulan çeviriler"
-
-#~ msgid "Weblate support"
-#~ msgstr "Weblate desteği"
 
 #~ msgid "Weblate community"
 #~ msgstr "Weblate topluluğu"
@@ -23475,9 +24091,6 @@ msgstr "Kaynak silindi."
 #~ "içindeki tüm bileşenlerin eklenen her çevrilmiş dil için çevirileri "
 #~ "olmasını sağlar."
 
-#~ msgid "Good"
-#~ msgstr "İyi"
-
 #~ msgid "Please search below to find matching source strings."
 #~ msgstr "Lütfen eşleşen kaynak dizgileri bulmak için aşağıda arayın."
 
@@ -24057,9 +24670,6 @@ msgstr "Kaynak silindi."
 #~ msgid "You can now log in using password."
 #~ msgstr "Şimdi parolanızı kullanarak oturum açabilirsiniz."
 
-#~ msgid "Plural equation"
-#~ msgstr "Çoğul eşitlik"
-
 #~ msgid "New whiteboard message"
 #~ msgstr "Yeni beyaz tahta iletisi"
 
@@ -24407,9 +25017,6 @@ msgstr "Kaynak silindi."
 #~ msgid "Your languages"
 #~ msgstr "Dilinizdekiler"
 
-#~ msgid "Review"
-#~ msgstr "Gözden geçir"
-
 #~ msgid "Search type"
 #~ msgstr "Arama türü"
 
@@ -24681,9 +25288,6 @@ msgstr "Kaynak silindi."
 #~ msgid "Message:"
 #~ msgstr "İleti:"
 
-#~ msgid "Translation language:"
-#~ msgstr "Çeviri dili:"
-
 #~ msgid ""
 #~ "Automatic detection might fail for some formats and is slightly slower."
 #~ msgstr ""
@@ -24760,9 +25364,6 @@ msgstr "Kaynak silindi."
 #~ msgstr ""
 #~ "Lütfen platformumuzdaki güvenlik zayıflıklarının nasıl bildirileceğiyle "
 #~ "ilgili yönergeler için belgelerimize bakın."
-
-#~ msgid "Vertical"
-#~ msgstr "Dikey"
 
 #~ msgid "Horizontal"
 #~ msgstr "Yatay"
