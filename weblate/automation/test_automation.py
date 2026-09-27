@@ -1084,6 +1084,48 @@ class AIQualityAutomationTest(ComponentTestCase):
         self.assertEqual(clean.state, STATE_APPROVED)
         self.assertEqual(problematic.state, STATE_NEEDS_CHECKING)
 
+    def test_quality_does_not_route_unit_changed_after_evaluation(self) -> None:
+        changed, unchanged = self.units
+        changed.refresh_from_db()
+        unchanged.refresh_from_db()
+        actions = [
+            self.quality_action(),
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:quality",
+                "settings": {"state": STATE_APPROVED},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        calls = 0
+
+        def evaluate(batch: list[Unit]) -> dict[int, list]:
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                changed.target = "Changed after evaluation"
+                changed.save()
+            return {unit.pk: [] for unit in batch}
+
+        with (
+            patch.object(OpenAITranslation, "batch_size", 1),
+            patch.object(OpenAITranslation, "evaluate_batch", side_effect=evaluate),
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+
+        changed.refresh_from_db()
+        unchanged.refresh_from_db()
+        self.assertEqual(changed.state, STATE_TRANSLATED)
+        self.assertEqual(unchanged.state, STATE_APPROVED)
+
     def test_scope_query_and_empty_selection(self) -> None:
         selected, excluded = self.units
         action = self.quality_action()

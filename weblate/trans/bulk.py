@@ -6,7 +6,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, Q
 
 from weblate.checks.flags import Flags, FlagsValidator
 from weblate.trans.actions import ActionEvents
@@ -21,6 +21,8 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
+    from datetime import datetime
+
     from django.db.models import QuerySet
 
     from weblate.auth.models import User
@@ -34,6 +36,24 @@ EDITABLE_STATES = {
     STATE_TRANSLATED,
     STATE_APPROVED,
 }
+
+
+def exclude_stale_units(
+    units: UnitQuerySet, expected_versions: dict[int, datetime]
+) -> UnitQuerySet:
+    """Lock evaluation inputs and exclude units changed since evaluation."""
+    current_versions = {
+        unit.pk: unit.last_updated
+        for unit in Unit.objects.filter(pk__in=expected_versions)
+        .order_by("pk")
+        .select_for_update()
+    }
+    stale_ids = {
+        pk
+        for pk, version in expected_versions.items()
+        if current_versions.get(pk) != version
+    }
+    return units.exclude(Q(pk__in=stale_ids) | Q(source_unit_id__in=stale_ids))
 
 
 # ruff: ignore[complex-structure, too-many-arguments]
@@ -51,6 +71,7 @@ def bulk_perform(
     components: QuerySet[Component] | list[Component] | None = None,
     add_translation_flags: str | Flags = "",
     remove_translation_flags: str | Flags = "",
+    expected_unit_versions: dict[int, datetime] | None = None,
     affected_unit_ids: set[int] | None = None,
     affected_source_unit_ids: set[int] | None = None,
 ) -> int:
@@ -77,6 +98,10 @@ def bulk_perform(
         component.start_batched_checks()
         with transaction.atomic():
             component_units = matching.filter(translation__component=component)
+            if expected_unit_versions:
+                component_units = exclude_stale_units(
+                    component_units, expected_unit_versions
+                )
 
             # Snapshot matching translations before state/source changes alter the query.
             translation_unit_ids = (

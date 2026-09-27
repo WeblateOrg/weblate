@@ -17,6 +17,8 @@ from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
 
 if TYPE_CHECKING:
+    from datetime import datetime
+
     from weblate.auth.models import User
     from weblate.trans.models import Component
     from weblate.trans.models.unit import UnitQuerySet
@@ -29,6 +31,7 @@ class UnitSelection:
     unit_ids: set[int] | None = None
     source_unit_ids: set[int] = field(default_factory=set)
     expand_source_ids: set[int] = field(default_factory=set)
+    unit_versions: dict[int, datetime] = field(default_factory=dict)
 
     def queryset(self, component: Component) -> UnitQuerySet:
         units = Unit.objects.filter(translation__component=component)
@@ -116,6 +119,7 @@ def bulk_edit(
         add_labels=labels.filter(name__in=settings["add_labels"]),
         remove_labels=labels.filter(name__in=settings["remove_labels"]),
         project=component.project,
+        expected_unit_versions=selection.unit_versions,
         affected_unit_ids=affected_ids,
         affected_source_unit_ids=affected_sources,
     )

@@ -15,6 +15,7 @@ from jsonschema import Draft202012Validator
 
 from weblate.addons.ai import (
     AIEvaluationAddon,
+    EvaluationSnapshot,
     available_evaluation_services,
     effective_evaluator,
     evaluate_component,
@@ -289,14 +290,14 @@ class AIQualityOperation(AutomationOperation):
         )
         if settings["q"]:
             units = units.search(settings["q"], project=component.project)
-        evaluated: set[int] = set()
+        evaluated: dict[int, EvaluationSnapshot] = {}
         result = evaluate_component(
             AIEvaluationAddon(evaluator),
             component,
             configuration,
             units.values_list("pk", flat=True),
             scheduled=False,
-            evaluated_unit_ids=evaluated,
+            evaluated_unit_snapshots=evaluated,
         )
         component.drop_addons_cache()
         current = effective_evaluator(component)
@@ -311,7 +312,12 @@ class AIQualityOperation(AutomationOperation):
             msg = "AI quality evaluation was incomplete."
             raise ValueError(msg)
         if affected is not None:
-            affected.unit_ids = evaluated
+            affected.unit_ids = set(
+                units.filter(pk__in=evaluated).values_list("pk", flat=True)
+            )
+            affected.unit_versions = {
+                pk: snapshot.last_updated for pk, snapshot in evaluated.items()
+            }
         return {"component": component.pk, "evaluated": result["evaluated"]}
 
 

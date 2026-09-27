@@ -469,7 +469,7 @@ def evaluate_component(
     unit_ids: Iterable[int] | None,
     *,
     scheduled: bool,
-    evaluated_unit_ids: set[int] | None = None,
+    evaluated_unit_snapshots: dict[int, EvaluationSnapshot] | None = None,
 ) -> dict[str, int]:
     from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
@@ -527,8 +527,8 @@ def evaluate_component(
                 continue
             if store_evaluation_batch(addon, batch, issues, configuration, snapshots):
                 result["evaluated"] += len(batch)
-                if evaluated_unit_ids is not None:
-                    evaluated_unit_ids.update(unit.pk for unit in batch)
+                if evaluated_unit_snapshots is not None:
+                    evaluated_unit_snapshots.update(snapshots)
             else:
                 result["skipped"] += len(batch)
         if unit_ids is None and not result["failed"] and not result["skipped"]:
