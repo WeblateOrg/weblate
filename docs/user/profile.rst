@@ -187,8 +187,9 @@ The :guilabel:`Translation activity summary` notification is digest-only and
 summarizes added, updated, translated, approved, needs editing, and unfinished
 strings.
 
-Each periodic notification e-mail contains entries from all matching projects,
-up to 100 entries, and indicates when additional entries were omitted.
+Each periodic notification e-mail contains entries from all matching projects.
+Listings of individual changes contain up to 100 entries and indicate when
+additional entries were omitted, while grouped summaries are not limited.
 
 You can toggle notifications for watched projects and administered projects and it
 can be further tweaked (or muted) per project and component. Visit the component

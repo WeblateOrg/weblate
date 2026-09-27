@@ -78,6 +78,7 @@ Weblate 2026.10
 * Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` when the warning directory is missing or inaccessible.
 * Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when migrating dismissed component alerts from releases before 2026.8.
 * Fixed the :ref:`search results refresh <search-results-cache>` icon color in themes and on hover.
+* Fixed truncated grouped summaries in :ref:`notification e-mails <notifications>`; the 100 entries limit now applies only to listings of individual changes.
 * Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as untranslatable when translating in their source language.
 * Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with inherited licenses and other inherited settings.
 * Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
