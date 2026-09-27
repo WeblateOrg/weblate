@@ -33,6 +33,7 @@ from weblate.trans.inherited_settings import (
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
     InheritableLanguageSetting,
+    InheritableListSetting,
     InheritableStringSetting,
     get_disabled_component_new_language_filter,
     get_inherit_field_name,
@@ -40,7 +41,7 @@ from weblate.trans.inherited_settings import (
 )
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.audit import log_setting_changes, should_track_field
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import validate_check_flags, validate_enforced_checks
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.lock import WeblateLock
 from weblate.utils.render import (
@@ -223,6 +224,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         "use_workspace_tm",
         "contribute_workspace_tm",
         "check_flags",
+        "enforced_checks",
+        "inherit_enforced_checks",
     )
 
     ACCESS_PUBLIC = 0
@@ -393,6 +396,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         ),
         validators=[validate_check_flags],
         blank=True,
+    )
+    enforced_checks = models.JSONField(
+        verbose_name=gettext_lazy("Enforced checks"),
+        help_text=gettext_lazy("List of checks which can not be dismissed."),
+        default=list,
+        blank=True,
+    )
+    inherit_enforced_checks = models.BooleanField(
+        default=True,
+        verbose_name=gettext_lazy("Inherit enforced checks"),
+        help_text=gettext_lazy("Use enforced checks from the workspace."),
     )
     license = models.CharField(
         verbose_name=gettext_lazy("Translation license"),
@@ -684,6 +698,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 transaction.on_commit(
                     lambda: self.schedule_component_check_updates(update_state=True)
                 )
+            if old.effective_enforced_checks != self.effective_enforced_checks:
+                transaction.on_commit(self.schedule_component_enforced_checks_updates)
             update_tm = self.update_memory_scope_changes(
                 old,
                 old_effective_contribute_workspace_tm,
@@ -724,6 +740,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if workspace is None:
             return False
         return workspace.contribute_workspace_tm
+
+    @property
+    def effective_enforced_checks(self) -> list[str]:
+        """Effective enforced checks for the project."""
+        return cast("list[str]", self.get_effective_setting("enforced_checks"))
 
     def update_memory_scope_changes(
         self,
@@ -785,6 +806,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         for component in self.component_set.iterator():
             component.schedule_update_checks(update_state=update_state)
 
+    def schedule_component_enforced_checks_updates(self) -> None:
+        """Trigger enforced checks updates on all components in this project."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import update_enforced_checks
+
+        for component in self.component_set.iterator():
+            update_enforced_checks.delay_on_commit(component.pk)
+
     def clean(self) -> None:
         super().clean()
         if (
@@ -800,6 +829,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     )
                 }
             )
+        validate_enforced_checks(self.enforced_checks)
         if self.web:
             try:
                 validate_project_web(self.web, project_slug=self.slug or None)
@@ -823,9 +853,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     ) -> Language | None: ...
 
     @overload
-    def get_effective_setting(self, field: str) -> str | Language | None: ...
+    def get_effective_setting(self, field: InheritableListSetting) -> list[str]: ...
 
-    def get_effective_setting(self, field: str) -> str | Language | None:
+    @overload
+    def get_effective_setting(
+        self, field: str
+    ) -> str | Language | list[str] | None: ...
+
+    def get_effective_setting(self, field: str) -> str | Language | list[str] | None:
         """Return setting value after applying workspace inheritance."""
         if self.uses_workspace_setting(field):
             return getattr(self.workspace, field)

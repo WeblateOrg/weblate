@@ -32,6 +32,69 @@ if TYPE_CHECKING:
     from translation_finder.discovery.result import ResultDict
 
 
+class RepositoryImportDiscoveryTest(SimpleTestCase):
+    def test_with_component_retains_discovery_results(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            tempfile.TemporaryDirectory() as component_dir,
+        ):
+            translation = pathlib.Path(tempdir, "new-component", "cs.po")
+            translation.parent.mkdir()
+            translation.touch()
+            discovery = ComponentDiscovery.for_repository_import(
+                path=tempdir,
+                file_format="po",
+                match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                name_template="{{ component }}",
+            )
+            expected = discovery.matched_components
+            component = MagicMock(spec=Component, full_path=component_dir)
+
+            attached = discovery.with_component(component)
+
+            self.assertIs(attached.component, component)
+            self.assertEqual(attached.matched_components, expected)
+
+    def test_filters_managed_vcs_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            root = pathlib.Path(tempdir)
+            for filename in (
+                ".git/metadata.po",
+                ".hg/metadata.po",
+                ".svn/metadata.po",
+                "nested/.git",
+                "translation.po",
+            ):
+                path = root / filename
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.touch()
+
+            discovery = ComponentDiscovery.for_repository_import(
+                path=tempdir,
+                file_format="po",
+                match=r"(?P<language>[^/]*)\.po",
+                name_template="{{ language }}",
+            )
+
+            self.assertNotIn(".git/metadata.po", discovery.repository_paths)
+            self.assertNotIn(".hg/metadata.po", discovery.repository_paths)
+            self.assertNotIn("nested/.git", discovery.repository_paths)
+            self.assertIn(".svn/metadata.po", discovery.repository_paths)
+            self.assertIn("translation.po", discovery.repository_paths)
+
+    def test_rejects_component_operation(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            discovery = ComponentDiscovery.for_repository_import(
+                path=tempdir,
+                file_format="po",
+                match=r"(?P<language>[^/]*)\.po",
+                name_template="{{ language }}",
+            )
+
+            with self.assertRaisesRegex(RuntimeError, "does not have a component"):
+                discovery.perform()
+
+
 class ComponentDiscoveryTest(RepoTestCase):
     def setUp(self) -> None:
         super().setUp()
@@ -540,18 +603,9 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertTrue(self.discovery.limit_exceeded)
 
     def test_repository_paths_exclude_vcs_metadata(self) -> None:
-        for dirname in (
-            ".git",
-            ".hg",
-            ".svn",
-            ".bzr",
-            "CVS",
-            "_darcs",
-            "RCS",
-            "SCCS",
-            ".SVN",
-            "cVs",
-        ):
+        metadata_dir_name = self.component.repository.metadata_dir_name
+        assert metadata_dir_name is not None
+        for dirname in (metadata_dir_name, metadata_dir_name.upper()):
             with (
                 self.subTest(dirname=dirname),
                 tempfile.TemporaryDirectory() as tempdir,
@@ -570,6 +624,21 @@ class ComponentDiscoveryTest(RepoTestCase):
                 )
 
                 self.assertEqual(discovery.repository_paths, ["translation.po"])
+
+    def test_repository_paths_include_foreign_vcs_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            metadata = pathlib.Path(tempdir, ".svn")
+            metadata.mkdir()
+            (metadata / "translation.po").touch()
+            discovery = ComponentDiscovery(
+                self.component,
+                file_format="po",
+                match=r"(?P<language>[^/]*)\.po",
+                name_template="{{ language }}",
+                path=tempdir,
+            )
+
+            self.assertIn(".svn/translation.po", discovery.repository_paths)
 
     def test_discovery_limit_prevents_removal(self) -> None:
         self.discovery.limit_exceeded = True

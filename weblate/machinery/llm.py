@@ -13,7 +13,7 @@ from collections import Counter, defaultdict
 from itertools import chain
 from operator import itemgetter
 from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict, TypeGuard
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlsplit
 
 from asgiref.sync import sync_to_async
 from django.utils.html import strip_tags
@@ -269,6 +269,7 @@ class LLMStringPayload(LLMStringContext):
 
 class BaseLLMTranslation(BatchMachineTranslation):
     settings_form: type[LLMBasicMachineryForm]
+    default_api_url: str | None = None
     max_score = 90
     request_timeout = 120
     glossary_support = True
@@ -356,6 +357,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def __init__(self, configuration: SettingsDict) -> None:
         super().__init__(configuration)
         self._secondary_context_cache: dict[tuple[int, int], Unit | None] | None = None
+        self._suggestion_model: str | None = None
 
     def is_supported(self, source_language, target_language) -> bool:
         return True
@@ -410,13 +412,29 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
     def get_traced_model(self) -> str:
         model = self.get_model()
+        self._suggestion_model = model
         add_breadcrumb(self.name, "model", model=model)
         return model
 
     async def aget_traced_model(self) -> str:
         model = await self.aget_model()
+        self._suggestion_model = model
         add_breadcrumb(self.name, "model", model=model)
         return model
+
+    def get_suggestion_origin(self) -> str | None:
+        if self._suggestion_model is None:
+            return None
+        api_url = self.settings.get("base_url")
+        if self.default_api_url is None:
+            api_url = self.settings.get("azure_endpoint", api_url)
+        if (
+            api_url
+            and api_url.rstrip("/") != (self.default_api_url or "").rstrip("/")
+            and (hostname := urlsplit(api_url).hostname)
+        ):
+            return f"{self._suggestion_model} · {hostname}"
+        return self._suggestion_model
 
     @staticmethod
     def _normalize_context_text(text: str | None) -> str:
@@ -2583,14 +2601,16 @@ class BaseLLMTranslation(BatchMachineTranslation):
             self.log_handled_error(msg, extra_log=translations_string)
             raise MachineTranslationError(msg) from error
 
+        origin = self.get_suggestion_origin()
         for index, translation in enumerate(translations):
             text = sources[index][0]
-            result[text].append(
-                {
-                    "text": translation,
-                    "quality": self.max_score,
-                    "service": self.name,
-                    "source": text,
-                }
-            )
+            item: TranslationResultDict = {
+                "text": translation,
+                "quality": self.max_score,
+                "service": self.name,
+                "source": text,
+            }
+            if origin is not None:
+                item["origin"] = origin
+            result[text].append(item)
         return result

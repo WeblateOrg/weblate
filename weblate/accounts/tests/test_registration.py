@@ -1678,6 +1678,42 @@ class CookieRegistrationTest(BaseRegistrationTest):
         self.assertIsNone(DjangoStorage.partial.load(partial_token))
         self.assertIsNone(DjangoStorage.code.get_code(verification_code))
 
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_invalidated_on_password_change_case_insensitive(self) -> None:
+        user = User.objects.create_user("testuser", "test@example.com", "old-password")
+        social = user.social_auth.create(provider="email", uid=user.email)
+        VerifiedEmail.objects.create(social=social, email=user.email)
+
+        response = self.client.post(
+            reverse("password_reset"), {"email": "TEST@example.com"}
+        )
+        self.assertRedirects(response, reverse("email-sent"))
+        reset_url = self.assert_registration_mailbox(
+            "[Weblate] Password reset on Weblate"
+        )
+
+        authenticated_client = Client()
+        self.assertTrue(
+            authenticated_client.login(username=user.username, password="old-password")
+        )
+        response = authenticated_client.post(
+            reverse("password"),
+            {
+                "password": "old-password",
+                "new_password1": "new-secure-password",
+                "new_password2": "new-secure-password",
+            },
+        )
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+
+        response = self.confirm_registration_url(reset_url, follow=True)
+
+        self.assertRedirects(response, reverse("login"))
+        self.assertContains(response, "confirmation link probably expired")
+        self.assertNotIn("perform_reset", self.client.session)
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("new-secure-password"))
+
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_double_link(self) -> None:
         """Test that verification link works just once."""

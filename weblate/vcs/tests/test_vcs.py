@@ -2431,29 +2431,16 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.repo.resolve_symlinks("prefix-collision/secrets.po")
 
     def test_resolve_symlinks_rejects_vcs_metadata_path(self) -> None:
-        for path in (
-            ".git/config",
-            ".hg/hgrc",
-            ".svn/wc.db",
-            ".bzr/README",
-            "CVS/Root",
-            "_darcs/patches",
-            "RCS/foo,v",
-            "SCCS/s.1",
-        ):
-            with (
-                self.subTest(path=path),
-                self.assertRaises(RepositoryRestrictedPathError),
-            ):
-                self.repo.resolve_symlinks(path)
+        path = f"{self.repo.metadata_dir_name}/config"
+        with self.assertRaises(RepositoryRestrictedPathError):
+            self.repo.resolve_symlinks(path)
 
-    def test_resolve_symlinks_rejects_legacy_metadata_link(self) -> None:
+    def test_resolve_symlinks_allows_foreign_metadata_link(self) -> None:
         metadata = Path(self.repo.path) / "CVS"
         metadata.mkdir()
         (metadata / "Root").write_text("metadata", encoding="utf-8")
         Path(self.repo.path, "cvs_link").symlink_to(metadata, target_is_directory=True)
-        with self.assertRaises(RepositoryRestrictedPathError):
-            self.repo.resolve_symlinks("cvs_link/Root")
+        self.assertEqual(self.repo.resolve_symlinks("cvs_link/Root"), "CVS/Root")
 
     def test_resolve_symlinks_allows_missing_excluded_repository_path(self) -> None:
         filename = "dist/appstream/messages.pot"
@@ -5553,6 +5540,14 @@ remove the file manually to continue.
             "_darcs/patches",
             "RCS/foo,v",
             "SCCS/s.1",
+            "CVSROOT/passwd",
+            "_FOSSIL_",
+            ".fslckout",
+            "_MTN/options",
+            ".pijul/changes/one",
+            ".pc/patch.diff/file",
+            "BitKeeper/etc/config",
+            "ChangeSet/1.1",
             "nested/.SVN/wc.db",
             "nested/cVs/Entries",
         )
@@ -5586,6 +5581,29 @@ remove the file manually to continue.
             with self.subTest(path=path):
                 self.assertNotIn(path, committed)
 
+    def test_from_zip_preserves_similar_vcs_names(self) -> None:
+        ordinary_paths = (
+            "CVS/translation.po",
+            "CVSROOT/translation.po",
+            "RCS/translation.po",
+            "SCCS/translation.po",
+            "ChangeSet/translation.po",
+            "BK/current",
+        )
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            for path in ordinary_paths:
+                zipfile.writestr(path, "ordinary content")
+        archive.seek(0)
+        target = Path(self.tempdir) / "from-zip-similar-vcs-names"
+
+        repo = LocalRepository.from_zip(str(target), archive)
+
+        self.assertTrue(repo.is_valid())
+        for path in ordinary_paths:
+            with self.subTest(path=path):
+                self.assertTrue((target / path).is_file())
+
     def test_from_zip_rejects_too_many_entries(self) -> None:
         archive = BytesIO()
         with ZipFile(archive, "w") as zipfile:
@@ -5600,9 +5618,13 @@ remove the file manually to continue.
                 "ZIP_IMPORT_LIMITS",
                 ZipSafetyLimits(max_members=1),
             ),
+            patch(
+                "weblate.vcs.git.get_archive_vcs_metadata_members"
+            ) as metadata_members,
             self.assertRaisesRegex(RepositoryError, "contains too many entries"),
         ):
             LocalRepository.from_zip(target, archive)
+        metadata_members.assert_not_called()
 
     def test_from_zip_rejects_compressed_large_entry(self) -> None:
         archive = BytesIO()

@@ -997,7 +997,10 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             newchecks > oldchecks
             or
             # Any enforced check?
-            (component.enforced_checks and newchecks & set(component.enforced_checks))
+            (
+                component.effective_enforced_checks
+                and newchecks & set(component.effective_enforced_checks)
+            )
         )
     ):
         # Show message to user
@@ -1509,6 +1512,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
                 "1",
                 unit,
                 user,
+                is_translation=True,
             ),
         },
     )

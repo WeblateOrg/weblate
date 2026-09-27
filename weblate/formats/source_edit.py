@@ -15,11 +15,13 @@ from django.utils.translation import gettext
 from translate.misc.multistring import multistring
 
 from weblate.formats.base import UnitNotFoundError
+from weblate.trans.file_format_params import XliffPlaceables
 from weblate.trans.util import split_plural
 
 if TYPE_CHECKING:
     from weblate.formats.base import TranslationFormat, TranslationUnit
     from weblate.formats.ttkit import BaseTTKitFormat
+    from weblate.trans.file_format_params import FileFormatParams
 
 # Capabilities deliberately do not inherit from a related format's implementation.
 KEY_FORMATS = frozenset(
@@ -43,15 +45,28 @@ KEY_FORMATS = frozenset(
         "fluent",
     }
 )
-SOURCE_FORMATS = frozenset({"po", "tbx", "plainxliff", "xliff2", "apple-xliff"})
+SOURCE_FORMATS = frozenset({"po", "tbx", "apple-xliff"})
 CONTEXT_FORMATS = KEY_FORMATS | {"po", "tbx"}
 
 
-def editable_fields(format_id: str, *, monolingual: bool) -> set[str]:
+def editable_fields(
+    format_id: str,
+    *,
+    monolingual: bool,
+    file_format_params: FileFormatParams | None = None,
+) -> set[str]:
+    source_formats = SOURCE_FORMATS
+    if (
+        format_id in {"xliff", "xliff2"}
+        and XliffPlaceables.get_value(file_format_params) == "plain"
+    ):
+        # source editing is supported for plain XLIFF formats
+        source_formats |= {format_id}
+
     fields = set()
-    if format_id in (KEY_FORMATS if monolingual else SOURCE_FORMATS):
+    if format_id in (KEY_FORMATS if monolingual else source_formats):
         fields.add("source")
-    if format_id in CONTEXT_FORMATS and (monolingual or format_id in SOURCE_FORMATS):
+    if format_id in CONTEXT_FORMATS and (monolingual or format_id in source_formats):
         fields.add("context")
     return fields
 
@@ -73,8 +88,9 @@ def find_identity(
     """Find physical entries even when their template has already been renamed."""
     if not (store.has_template or store.is_template):
         return store.find_unit(identity["context"], identity["source"])[0]
+    unit_class = store.get_unit_class(store.file_format_params)
     for raw in store.all_store_units:
-        unit = store.unit_class(store, raw, raw)
+        unit = unit_class(store, raw, raw)
         if unit.context == identity["context"]:
             return unit
     raise UnitNotFoundError(identity["context"], identity["source"])
@@ -87,7 +103,11 @@ def edit_identity(
 ) -> None:
     """Mutate an existing toolkit entry without reconstructing its metadata."""
     monolingual = store.has_template or store.is_template
-    fields = editable_fields(store.format_id, monolingual=monolingual)
+    fields = editable_fields(
+        store.format_id,
+        monolingual=monolingual,
+        file_format_params=store.file_format_params,
+    )
     context = identity["context"]
     if store.format_id == "fluent" and any(
         part.name or part.top_branch.child_nodes for part in unit.unit.get_parts() or []
@@ -107,11 +127,10 @@ def edit_identity(
                     )
                 }
             )
+        unit_class = store.get_unit_class(store.file_format_params)
         for raw in store.all_store_units:
             other = (
-                store.unit_class(store, raw, raw)
-                if monolingual
-                else store.unit_class(store, raw)
+                unit_class(store, raw, raw) if monolingual else unit_class(store, raw)
             )
             if (
                 raw is not unit.unit

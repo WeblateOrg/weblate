@@ -15,8 +15,9 @@ from django.test.utils import override_settings
 from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.authtoken.models import Token
+from social_django.models import Code
 
-from weblate.accounts.models import format_private_commit_data
+from weblate.accounts.models import VerifiedEmail, format_private_commit_data
 from weblate.accounts.pipeline import slugify_username
 from weblate.accounts.tasks import cleanup_auditlog, cleanup_social_auth
 from weblate.accounts.utils import (
@@ -29,6 +30,7 @@ from weblate.accounts.utils import (
     SESSION_EXPIRY_SCOPE_SAML,
     adjust_session_expiry,
     get_session_expiry_refresh_seconds,
+    invalidate_reset_codes,
     lock_user,
 )
 from weblate.auth.models import User
@@ -63,6 +65,31 @@ class LockUserTest(TestCase):
         lock_user(self.user, "locked", regenerate_api_key=False)
 
         self.assertEqual(Token.objects.get(user=self.user).key, self.old_token)
+
+
+class ResetCodeTest(TestCase):
+    def test_invalidate_reset_codes_case_insensitive(self) -> None:
+        user = User.objects.create_user(
+            username="testuser", email="user@İ.com", password="testpassword"
+        )
+        # Preserve the Unicode casing as it can exist in older account data.
+        User.objects.filter(pk=user.pk).update(email="user@İ.com")
+        user.refresh_from_db()
+        social = user.social_auth.create(provider="email", uid=user.email)
+        VerifiedEmail.objects.create(
+            social=social,
+            email="secondary@example.net",
+            is_deliverable=False,
+        )
+        Code.objects.create(email="user@İ.com", code="primary")
+        Code.objects.create(email="SECONDARY@example.net", code="secondary")
+        Code.objects.create(email="other@example.com", code="unrelated")
+
+        invalidate_reset_codes(user)
+
+        self.assertEqual(
+            set(Code.objects.values_list("code", flat=True)), {"unrelated"}
+        )
 
 
 class SessionExpiryTest(TestCase):

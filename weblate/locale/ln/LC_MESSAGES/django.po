@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-11 08:22+0000\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Lingala <https://hosted.weblate.org/projects/weblate/"
@@ -1648,6 +1648,45 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "Ebandela ya masakola"
 
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Evaluation service"
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Additional message"
+msgid "Disabled"
+msgstr "Nkomá ya kobakisa"
+
+msgid "Daily"
+msgstr ""
+
+msgid "Weekly"
+msgstr ""
+
+msgid "Monthly"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Evaluate translation changes"
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "VCS repositories"
+msgid "Evaluate repository updates"
+msgstr "Bibómbelo bya VCS"
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr ""
 
@@ -1980,15 +2019,6 @@ msgid ""
 msgstr ""
 
 msgid "Update frequency"
-msgstr ""
-
-msgid "Daily"
-msgstr ""
-
-msgid "Weekly"
-msgstr ""
-
-msgid "Monthly"
 msgstr ""
 
 msgid ""
@@ -3348,6 +3378,11 @@ msgstr "Kobanda libóngoli lokótá la sika"
 msgid "This string seems to already exist."
 msgstr "Nkótá ibóngolámí"
 
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Automatic translation in progress"
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
 msgid "Category"
 msgstr ""
 
@@ -4282,14 +4317,22 @@ msgstr ""
 msgid "Adding strings is disabled in the component configuration."
 msgstr ""
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
+msgid "Editing source strings is disabled in the component configuration."
 msgstr ""
 
 #, fuzzy
 #| msgid "Translated languages"
 msgid "The file format does not support this."
 msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Start new translation"
+msgid "You do not have permission to edit this glossary."
+msgstr "Kobanda libóngoli lokótá la sika"
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr ""
 
 msgid "Adding new translations is turned off in the component configuration."
 msgstr ""
@@ -4343,6 +4386,99 @@ msgstr "Nkótá ibóngolámí"
 #| msgid "Weblate administration"
 msgid "Accepted invitation to the %s team."
 msgstr "Boyángeli bwa Weblate"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Automation"
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+msgid "The component is outside this add-on's scope."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "The change does not belong to this component."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Automation nesting is too deep."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "YAML aliases and tags are not supported."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Automation keys must be strings."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Watched translations"
+msgid "%(path)s: %(error)s"
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+msgid "Automation context is too large."
+msgstr ""
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translated languages"
+msgid "Invalid CEL condition: %s"
+msgstr "Nkótá ibóngolámí"
+
+msgid "Workflow"
+msgstr ""
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Preview component ID"
+msgstr "Motángo mwa masakola"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string changed"
+msgid "Preview change ID"
+msgstr "Ebandela ya masakola ebongwání"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "Nkomá ya kobakisa"
@@ -4541,6 +4677,53 @@ msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Start new translation"
+msgid "The evaluation detected a language quality issue."
+msgstr "Kobanda libóngoli lokótá la sika"
+
+#, fuzzy
+#| msgid "Add host key"
+msgid "AI: Terminology"
+msgstr "Kobakisa lifungóla lya moyambi"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr ""
+
+#, fuzzy
+#| msgid "More information"
+msgid "AI: Formatting"
+msgstr "Nsango ebelé"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Nkótá ibóngolámí"
 
 msgid "AngularJS interpolation string"
 msgstr ""
@@ -5984,6 +6167,32 @@ msgstr ""
 msgid "Multivalue CSV file"
 msgstr ""
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "This file format does not support editing keys or context."
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "A string with this identity already exists."
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "This file format does not support editing source strings."
+msgstr "Nkótá ibóngolámí"
+
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source string changed"
+msgid "The key cannot be represented in this file format."
+msgstr "Ebandela ya masakola ebongwání"
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -6031,10 +6240,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "Nkótá ibóngolámí"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr ""
-
-#. Translators: File format name
 #, fuzzy
 #| msgid "Watched translations"
 msgid "XLIFF 1.2 with gettext extensions"
@@ -6051,12 +6256,6 @@ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 #| msgid "Translated languages"
 msgid "XLIFF 2.0 translation file"
 msgstr "Nkótá ibóngolámí"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "Watched translations"
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
 #. Translators: File format name
 #, fuzzy
@@ -6331,10 +6530,20 @@ msgstr "Nkomá ebelé etíndámí, bolímbisi meká nsima!"
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Maximum retained versions"
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -8633,6 +8842,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr ""
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "Elekí"
+
 #, fuzzy
 #| msgid "Remove"
 msgctxt "Badge for site title for dedicated instances"
@@ -8928,10 +9141,24 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
+msgid "Add-on API"
+msgstr ""
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Languages"
+msgid "API root"
+msgstr "Nkótá"
+
 #, fuzzy
 #| msgid "Current password"
 msgid "Configuration"
 msgstr "Loloba lwa bolekisi la sikáwa"
+
+msgid "API"
+msgstr ""
 
 msgid "Logs"
 msgstr ""
@@ -8963,20 +9190,27 @@ msgstr ""
 msgid "No components found."
 msgstr "Motángo mwa masakola"
 
-msgid "Add-on API base URL:"
-msgstr ""
-
-#, fuzzy
-#| msgid "Languages"
-msgid "API root"
-msgstr "Nkótá"
-
 #, fuzzy
 #| msgid "Current password"
 msgid "Configure add-on"
 msgstr "Loloba lwa bolekisi la sikáwa"
 
+#, fuzzy
+#| msgid "Source string changed"
+msgid "Preview without changes"
+msgstr "Ebandela ya masakola ebongwání"
+
 msgid "This add-on has no settings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Automation preview"
+msgstr "Ebandela ya masakola"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
 msgstr ""
 
 #, fuzzy
@@ -9194,6 +9428,25 @@ msgstr ""
 
 msgid "Project URL slug"
 msgstr ""
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+#, fuzzy
+#| msgid "Remove"
+msgid "Create a project token"
+msgstr "Kolongola"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -9748,19 +10001,6 @@ msgstr ""
 msgid "Check your billing status"
 msgstr ""
 
-msgid "Browse"
-msgstr ""
-
-#, fuzzy
-#| msgid "Start new translation"
-msgid "Translation status widgets"
-msgstr "Kobanda libóngoli lokótá la sika"
-
-#, fuzzy
-#| msgid "Source string changed"
-msgid "No strings found!"
-msgstr "Ebandela ya masakola ebongwání"
-
 msgid "Insights"
 msgstr ""
 
@@ -9850,6 +10090,11 @@ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 #| msgid "Add new user"
 msgid "Add new category"
 msgstr "Kobakisa mosáleli mwa sika"
+
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Translation status widgets"
+msgstr "Kobanda libóngoli lokótá la sika"
 
 #, fuzzy
 msgid "Browse all category changes"
@@ -10484,8 +10729,8 @@ msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
 
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
 msgstr ""
 
 msgid "Reset and reapply"
@@ -10507,18 +10752,24 @@ msgstr ""
 msgid "Cleanup"
 msgstr ""
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-msgid "It also removes stale branches which are not used by Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
 msgstr ""
 
-#, fuzzy
-#| msgid "Watched translations"
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr ""
@@ -10637,6 +10888,9 @@ msgstr ""
 #, fuzzy
 msgid "Browse all repository changes"
 msgstr "Nkótá Arabic"
+
+msgid "Nothing to preview."
+msgstr ""
 
 msgid "Shortcut"
 msgstr ""
@@ -10760,9 +11014,6 @@ msgid ""
 "The language definitions are automatically updated by Weblate upon a "
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
-msgstr ""
-
-msgid "Workflow"
 msgstr ""
 
 msgid "Changing plural rules might not have a desired effect."
@@ -11507,8 +11758,29 @@ msgid ""
 "credentials below."
 msgstr ""
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
 msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "VCS repositories"
+msgid "Buy backup service"
+msgstr "Bibómbelo bya VCS"
+
+#, fuzzy
+#| msgid "Add host key"
+msgid "Add custom backup storage"
+msgstr "Kobakisa lifungóla lya moyambi"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -12461,6 +12733,9 @@ msgstr "Ebandela ya masakola"
 msgid "Paste from clipboard"
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
+msgid "Translate"
+msgstr ""
+
 #, fuzzy
 #| msgid "Source strings"
 msgid "strings"
@@ -13116,6 +13391,9 @@ msgstr ""
 msgid "Untranslated"
 msgstr "Nkótá ibóngolámí"
 
+msgid "Browse"
+msgstr ""
+
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Create translation"
@@ -13125,9 +13403,6 @@ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 #| msgid "Watched translations"
 msgid "Cannot add translation right now"
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
-
-msgid "Translate"
-msgstr ""
 
 msgid "Customized workflow"
 msgstr ""
@@ -13735,6 +14010,11 @@ msgstr "Boyángeli bwa Weblate"
 msgid "Create account"
 msgstr "Motángo mwa masakola"
 
+#, fuzzy, python-format
+#| msgid "Current password"
+msgid "Configure %(addon)s"
+msgstr "Loloba lwa bolekisi la sikáwa"
+
 msgid "Weblate could not execute script add-on."
 msgstr ""
 
@@ -13745,6 +14025,12 @@ msgstr ""
 #| msgid "Source strings"
 msgid "Command"
 msgstr "Ebandela ya masakola"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Start new translation"
@@ -14272,6 +14558,12 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Jump to date"
+msgstr ""
+
+msgid "Go"
+msgstr ""
+
 #, fuzzy
 #| msgid "Change"
 msgid "Changes"
@@ -14281,6 +14573,21 @@ msgid "Download latest changes as CSV"
 msgstr ""
 
 msgid "Follow using RSS"
+msgstr ""
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Older"
 msgstr ""
 
 msgid "From version control"
@@ -14604,11 +14911,6 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Remove"
-msgid "Create a project token"
-msgstr "Kolongola"
-
-#, fuzzy
-#| msgid "Remove"
 msgid "Create"
 msgstr "Kolongola"
 
@@ -14668,6 +14970,14 @@ msgid ""
 "new repository. This will work just fine if the repository has been moved to "
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Edit source"
+msgstr "Ebandela ya masakola"
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
@@ -14975,6 +15285,11 @@ msgstr ""
 msgid "No labels currently set."
 msgstr ""
 
+#, fuzzy
+#| msgid "Source strings"
+msgid "Edit flags"
+msgstr "Ebandela ya masakola"
+
 msgid "Flags"
 msgstr ""
 
@@ -15046,6 +15361,15 @@ msgstr ""
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
+msgstr ""
+
+msgid "Effective flags"
+msgstr ""
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
 msgstr ""
 
 #, fuzzy, python-format
@@ -15171,11 +15495,6 @@ msgstr ""
 msgid "Repositories"
 msgstr "Bibómbelo bya VCS"
 
-#, fuzzy
-#| msgid "Additional message"
-msgid "Disabled"
-msgstr "Nkomá ya kobakisa"
-
 msgid "Refresh"
 msgstr ""
 
@@ -15285,9 +15604,6 @@ msgstr ""
 #| msgid "Watched translations"
 msgid "Continue to GitHub"
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Source strings"
@@ -15585,6 +15901,14 @@ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Preview"
+msgstr "Ebandela ya masakola"
 
 #, fuzzy
 msgid "Browse all workspace changes"
@@ -16557,6 +16881,11 @@ msgid "POT updates do not update PO files."
 msgstr ""
 
 #, fuzzy
+#| msgid "Start new translation"
+msgid "AI quality evaluation service is unavailable."
+msgstr "Kobanda libóngoli lokótá la sika"
+
+#, fuzzy
 #| msgid "More information"
 msgid "Information"
 msgstr "Nsango ebelé"
@@ -17299,6 +17628,46 @@ msgstr ""
 msgid "Include closing tag for blank XML tags"
 msgstr ""
 
+msgid "Whitespace handling"
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Placeables support"
+msgstr "Ndelo ya masakola"
+
+#, fuzzy
+#| msgid "Generate SSH key"
+msgid "Plain text only"
+msgstr "Kosála lifungóla SSH"
+
+#, fuzzy
+#| msgid "Strings limit"
+msgid "Support placeables"
+msgstr "Ndelo ya masakola"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 #, fuzzy
 #| msgid "Generate SSH key"
 msgid "FlatXML Root name"
@@ -17609,6 +17978,14 @@ msgid ""
 "changes."
 msgstr ""
 
+#, fuzzy
+#| msgid "Your languages"
+msgid "Ignore language mismatch"
+msgstr "Nkótá ya yɔ̌"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr ""
 
@@ -17780,6 +18157,33 @@ msgstr ""
 
 msgid "Please choose"
 msgstr ""
+
+#, fuzzy
+msgid "Source flags — all languages"
+msgstr "Nkótá Arabic"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Translation flags — this language"
+msgstr "Nkótá ibóngolámí"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translated languages"
+msgid "Translation flags — %(language)s"
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Start new translation"
+msgid "You do not have permission to edit these flags."
+msgstr "Kobanda libóngoli lokótá la sika"
 
 #, fuzzy
 #| msgid "Number of strings"
@@ -18058,6 +18462,11 @@ msgstr ""
 msgid "Replacement string"
 msgstr ""
 
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Key or context"
+msgstr "Motángo mwa masakola"
+
 msgid "Translation key"
 msgstr ""
 
@@ -18120,22 +18529,37 @@ msgstr ""
 msgid "Do not change"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translated languages"
-msgid "Translation flags to add"
-msgstr "Nkótá ibóngolámí"
+msgid "Source flags to add — all languages"
+msgstr ""
 
-#, fuzzy
-#| msgid "Translated languages"
-msgid "Translation flags to remove"
-msgstr "Nkótá ibóngolámí"
-
-msgid "Labels to add"
+msgid "Source flags to remove — all languages"
 msgstr ""
 
 #, fuzzy
+#| msgid "Translated languages"
+msgid "Translation flags to add — matching translations"
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Kobanda libóngoli lokótá la sika"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Translation flags to remove — matching translations"
+msgstr "Nkótá ibóngolámí"
+
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
+
+#, fuzzy
+msgid "Labels to add — all languages"
+msgstr "Nkótá Arabic"
+
+#, fuzzy
 #| msgid "Languages"
-msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Nkótá"
 
 msgid "I accept the contributor license agreement"
@@ -18193,6 +18617,11 @@ msgstr "Pɔná nkótá iye okokí kobóngola."
 #| msgid "Choose languages to which you can translate."
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Pɔná nkótá iye okokí kobóngola."
+
+#, fuzzy
+#| msgid "Source string changed"
+msgid "The date cannot be in the future."
+msgstr "Ebandela ya masakola ebongwání"
 
 #, fuzzy
 #| msgid "Username"
@@ -18845,9 +19274,9 @@ msgid "Manage strings"
 msgstr "Ebandela ya masakola"
 
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 
 msgid "Merge style"
@@ -19605,6 +20034,23 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy
+#| msgid "Watched translations"
+msgid "The uploaded file contains too many language declarations."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Watched translations"
+msgid "Could not parse uploaded file: %s"
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
 #, fuzzy, python-format
 #| msgid "Source strings"
 msgid "Could not commit pending changes: %s"
@@ -19613,11 +20059,6 @@ msgstr "Ebandela ya masakola"
 #, fuzzy, python-brace-format
 #| msgid "Watched translations"
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
-
-#, fuzzy, python-format
-#| msgid "Watched translations"
-msgid "Could not parse uploaded file: %s"
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
 #, fuzzy, python-format
@@ -19662,20 +20103,56 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Start new translation"
-msgid "Unmark as read-only"
-msgstr "Kobanda libóngoli lokótá la sika"
-
-msgid "Mark as read-only"
-msgstr ""
-
-#, fuzzy
-#| msgid "Start new translation"
-msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Kobanda libóngoli lokótá la sika"
 
 #, fuzzy
 #| msgid "Start new translation"
-msgid "Mark as untranslatable"
+msgid "Unmark as read-only for all languages"
+msgstr "Kobanda libóngoli lokótá la sika"
+
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Unmark this translation as untranslatable"
+msgstr "Kobanda libóngoli lokótá la sika"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Unmark this translation as read-only"
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Mark this translation as untranslatable"
+msgstr "Kobanda libóngoli lokótá la sika"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Mark this translation as read-only"
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Mark as untranslatable for all languages"
+msgstr "Kobanda libóngoli lokótá la sika"
+
+#, fuzzy
+msgid "Mark as read-only for all languages"
+msgstr "Nkótá Arabic"
+
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Mark as forbidden translation"
 msgstr "Kobanda libóngoli lokótá la sika"
 
 #, fuzzy
@@ -19684,15 +20161,12 @@ msgid "Unmark as forbidden translation"
 msgstr "Kobanda libóngoli lokótá la sika"
 
 #, fuzzy
-#| msgid "Start new translation"
-msgid "Mark as forbidden translation"
-msgstr "Kobanda libóngoli lokótá la sika"
+msgid "Mark as terminology for all languages"
+msgstr "Nkótá Arabic"
 
-msgid "Unmark as terminology"
-msgstr ""
-
-msgid "Mark as terminology"
-msgstr ""
+#, fuzzy
+msgid "Unmark as terminology for all languages"
+msgstr "Nkótá Arabic"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -19701,6 +20175,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source string changed"
+msgid "The source string has changed. Reload it before editing."
+msgstr "Ebandela ya masakola ebongwání"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "Nkótá ibóngolámí"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "The file format does not support this edit."
+msgstr "Nkótá ibóngolámí"
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "A translation key is required."
+msgstr "Kɔ́nti na yɔ̌ elongolámí."
+
+#, fuzzy
+#| msgid "Watched translations"
+msgid "Could not find the string in the translation file."
+msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
 msgid "Insert tab character"
 msgstr ""
@@ -20211,6 +20714,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Mabóngoli na mobú mwa nsúka"
 
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Invalid history position."
+msgstr "Motángo mwa masakola"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -20268,6 +20776,11 @@ msgid ""
 "refreshed."
 msgstr ""
 
+#, fuzzy
+#| msgid "Source string changed"
+msgid "No strings found!"
+msgstr "Ebandela ya masakola ebongwání"
+
 msgid "Your suggestion is empty!"
 msgstr ""
 
@@ -20311,11 +20824,6 @@ msgstr ""
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
-#, fuzzy
-#| msgid "Watched translations"
-msgid "Automatic translation in progress"
-msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
-
 msgid "Posted new comment"
 msgstr ""
 
@@ -20345,6 +20853,16 @@ msgstr "Nkomá ebelé etíndámí, bolímbisi meká nsima!"
 #| msgid "Password has been changed."
 msgid "New string has been added."
 msgstr "Loloba lwa bolekisi lobóngwaní."
+
+#, fuzzy
+#| msgid "That was not correct, please try again."
+msgid "The component is busy. Please try again."
+msgstr "Ezalákí malamu tɛ́, bolímbisi meká lisúsu."
+
+#, fuzzy
+#| msgid "Source string changed"
+msgid "Source string updated."
+msgstr "Ebandela ya masakola ebongwání"
 
 #, fuzzy, python-format
 #| msgid "Source strings"
@@ -20404,6 +20922,16 @@ msgstr "Pɔná nkótá iye okokí kobóngola."
 #| msgid "Choose languages to which you can translate."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Pɔná nkótá iye okokí kobóngola."
+
+#, fuzzy
+#| msgid "Source string changed"
+msgid "The text is too long to preview."
+msgstr "Ebandela ya masakola ebongwání"
+
+#, fuzzy
+#| msgid "Too many messages sent, please try again later!"
+msgid "Too many preview requests, try again later."
+msgstr "Nkomá ebelé etíndámí, bolímbisi meká nsima!"
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -20576,6 +21104,11 @@ msgstr ""
 
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Could not change string flags!"
+msgstr "Ebandela ya masakola"
 
 #, fuzzy
 #| msgid "Source strings"
@@ -21151,6 +21684,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Number of strings"
+msgid "Repository URL contains unsafe characters."
+msgstr "Motángo mwa masakola"
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -22325,6 +22863,16 @@ msgid "The workspace has been removed."
 msgstr "Nkótá ibóngolámí"
 
 #, fuzzy
+#~| msgid "Watched translations"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
+#~| msgid "Watched translations"
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
+
+#, fuzzy
 #~| msgid "Thanks for using Weblate!"
 #~ msgid "Welcome and thank you for choosing Weblate"
 #~ msgstr "Botɔ́ndi mpɔ̂ na bosáleli Weblate!"
@@ -22883,10 +23431,6 @@ msgstr "Nkótá ibóngolámí"
 #~ msgstr "Nkótá ibóngolámí"
 
 #, fuzzy
-#~ msgid "Dismiss for all languages"
-#~ msgstr "Nkótá Arabic"
-
-#, fuzzy
 #~| msgid "Translated languages"
 #~ msgctxt "String state"
 #~ msgid "Not translated"
@@ -22975,11 +23519,6 @@ msgstr "Nkótá ibóngolámí"
 #~| msgid "Start new translation"
 #~ msgid "Base file for new translations not found."
 #~ msgstr "Kobanda libóngoli lokótá la sika"
-
-#, fuzzy
-#~| msgid "Watched translations"
-#~ msgid "Use machine translation services"
-#~ msgstr "Mabóngoli lokótá makɛ́ngɛlámí"
 
 #, fuzzy
 #~| msgid "Translated languages"

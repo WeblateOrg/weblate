@@ -286,6 +286,11 @@ real_patterns = [
         name="addon-logs",
     ),
     path(
+        "addon/<int:pk>/api/",
+        weblate.addons.views.AddonAPI.as_view(),
+        name="addon-api",
+    ),
+    path(
         "addon/<int:pk>/components/",
         weblate.addons.views.AddonComponents.as_view(),
         name="addon-components",

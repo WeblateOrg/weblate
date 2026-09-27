@@ -13,8 +13,10 @@ from unittest import mock
 from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core import mail
+from django.core.cache import cache
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
+from django.utils import timezone
 from jsonschema import validate
 from requests.exceptions import HTTPError
 from rest_framework.authtoken.models import Token
@@ -49,9 +51,11 @@ from weblate.trans.tests.utils import (
     social_core_modify_settings,
     social_core_override_settings,
 )
+from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.zammad import ZammadError
+from weblate.wladmin.models import SupportStatus
 from weblate.workspaces.models import Workspace
 
 CONTACT_DATA = {
@@ -494,6 +498,34 @@ class ViewTest(RepoTestCase):
         # Logout
         response = self.client.post(reverse("logout"))
         self.assertContains(response, "Thank you for using Weblate")
+
+    def test_login_support_badge(self) -> None:
+        cases = (
+            ("community", True, "dedicated.example", "Expired"),
+            ("community", True, "self-hosted.example", "Expired"),
+            ("hosted", True, "dedicated.example", "Dedicated"),
+            ("hosted", True, "hosted.weblate.org", "Cloud"),
+            ("community", False, "self-hosted.example", "Self-hosted"),
+        )
+        for name, has_subscription, domain, badge in cases:
+            with (
+                self.subTest(badge=badge, domain=domain),
+                override_settings(SITE_DOMAIN=domain),
+            ):
+                SupportStatus.objects.filter(enabled=True).update(enabled=False)
+                SupportStatus.objects.create(
+                    name=name,
+                    secret="test-secret",
+                    expiry=timezone.now(),
+                    has_subscription=has_subscription,
+                )
+                cache.delete(SUPPORT_STATUS_CACHE_KEY)
+
+                response = self.client.get(reverse("login"))
+
+                self.assertContains(response, f">{badge}</span>")
+                if badge == "Expired":
+                    self.assertNotContains(response, ">Self-hosted</span>")
 
     def test_login_next_redirect(self) -> None:
         user = self.get_user()

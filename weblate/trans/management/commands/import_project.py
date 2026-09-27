@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import contextlib
 import os
 import re
 import tempfile
@@ -126,7 +127,6 @@ class Command(BaseCommand):
         self.new_base_template: str
         self.vcs: str
         self.push_url: str
-        self.discovery: ComponentDiscovery | None = None
         self.logger = LOGGER
         self.push_on_commit = True
 
@@ -235,58 +235,62 @@ class Command(BaseCommand):
             except Component.DoesNotExist as error:
                 msg = f"Component {repo!r} not found, please create it first!"
                 raise CommandError(msg) from error
+            discovery = self.get_component_discovery(component)
+            self.validate_discovery(discovery)
         else:
-            component = self.import_initial(project, repo, branch)
+            component, preview = self.import_initial(project, repo, branch)
+            discovery = preview.with_component(component)
 
-        discovery = self.get_discovery(component)
         discovery.perform()
 
-    def get_discovery(self, component, path=None):
-        """Return discovery object after doing basic sanity check."""
-        if self.discovery is not None:
-            self.discovery.component = component
-        else:
-            self.discovery = ComponentDiscovery(
-                component,
-                match=self.filemask,
-                name_template=self.name_template,
-                language_regex=self.language_regex,
-                base_file_template=self.base_file_template,
-                new_base_template=self.new_base_template,
-                file_format=self.file_format,
-                path=path,
-            )
-            self.logger.info(
-                "Found %d matching files", len(self.discovery.matched_files)
-            )
+    def get_component_discovery(self, component: Component) -> ComponentDiscovery:
+        """Return discovery for an existing component."""
+        return ComponentDiscovery(
+            component,
+            match=self.filemask,
+            name_template=self.name_template,
+            language_regex=self.language_regex,
+            base_file_template=self.base_file_template,
+            new_base_template=self.new_base_template,
+            file_format=self.file_format,
+        )
 
-            if not self.discovery.matched_files:
-                msg = "Your mask did not match any files!"
-                raise CommandError(msg)
+    def validate_discovery(self, discovery: ComponentDiscovery) -> None:
+        """Perform basic discovery sanity checks."""
+        self.logger.info("Found %d matching files", len(discovery.matched_files))
 
-            self.logger.info(
-                "Found %d components", len(self.discovery.matched_components)
+        if not discovery.matched_files:
+            msg = "Your mask did not match any files!"
+            raise CommandError(msg)
+
+        self.logger.info("Found %d components", len(discovery.matched_components))
+        langs = set()
+        for match in discovery.matched_components.values():
+            langs.update(match["languages"])
+        self.logger.info("Found %d languages", len(langs))
+
+        # Do some basic sanity check on languages
+        if not Language.objects.filter(code__in=langs).exists():
+            msg = (
+                "None of matched languages exists, maybe you have mixed * and ** "
+                "in the mask?"
             )
-            langs = set()
-            for match in self.discovery.matched_components.values():
-                langs.update(match["languages"])
-            self.logger.info("Found %d languages", len(langs))
-
-            # Do some basic sanity check on languages
-            if not Language.objects.filter(code__in=langs).exists():
-                msg = (
-                    "None of matched languages exists, maybe you have "
-                    "mixed * and ** in the mask?"
-                )
-                raise CommandError(msg)
-        return self.discovery
+            raise CommandError(msg)
 
     def import_initial(self, project, repo, branch):
         """Import the first repository of a project."""
         # Checkout git to temporary dir
         workdir = self.checkout_tmp(project, repo, branch)
-        # Create fake discovery without existing component
-        discovery = self.get_discovery(None, workdir)
+        discovery = ComponentDiscovery.for_repository_import(
+            path=workdir,
+            match=self.filemask,
+            name_template=self.name_template,
+            language_regex=self.language_regex,
+            base_file_template=self.base_file_template,
+            new_base_template=self.new_base_template,
+            file_format=self.file_format,
+        )
+        self.validate_discovery(discovery)
 
         components = project.component_set.all()
 
@@ -312,16 +316,21 @@ class Command(BaseCommand):
             if component is None:
                 match = next(iter(discovery.matched_components.values()))
 
-        try:
-            if component is None:
+        if component is None:
+            with contextlib.suppress(Component.DoesNotExist):
                 component = components.get(slug=match["slug"])
+
+        if component is not None:
             self.logger.warning(
                 "Component %s already exists, skipping and using it "
                 "as a main component",
                 match["slug"],
             )
             remove_tree(workdir)
-        except Component.DoesNotExist:
+            if not component.do_update():
+                msg = f"Could not update existing component {component.full_slug}"
+                raise CommandError(msg)
+        else:
             self.logger.info("Creating component %s as main one", match["slug"])
 
             # Rename gitrepository to new name
@@ -342,4 +351,4 @@ class Command(BaseCommand):
                 license=self.license,
             )
 
-        return component
+        return component, discovery

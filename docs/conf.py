@@ -456,7 +456,7 @@ autodoc_mock_imports = [
     "django",
     "unidecode",
     "nh3",
-    "html2text",
+    "turbohtml",
     "weblate_language_data",
     "celery",
     "sentry_sdk",

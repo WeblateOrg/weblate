@@ -20,6 +20,7 @@ class AnthropicTranslation(BaseLLMTranslation):
     """
 
     name = "Anthropic"
+    default_api_url = "https://api.anthropic.com"
     trusted_error_hosts: ClassVar[set[str]] = {"api.anthropic.com"}
     end_point = "v1/messages"
     settings_form = AnthropicMachineryForm
@@ -90,9 +91,7 @@ class AnthropicTranslation(BaseLLMTranslation):
         }
 
     def get_chat_url(self) -> str:
-        base_url = (
-            self.settings.get("base_url") or "https://api.anthropic.com"
-        ).rstrip("/")
+        base_url = (self.settings.get("base_url") or self.default_api_url).rstrip("/")
         # The endpoint carries the API version, so strip it from the base URL
         # to accept configurations which spell it out there as well.
         version = self.end_point.partition("/")[0]

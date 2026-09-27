@@ -1589,7 +1589,8 @@ LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH
 --------------------------------------
 
 These settings configure the CDN add-ons, including
-:ref:`addon-weblate.cdn.cdnjs` and :ref:`addon-weblate.cdn.files`.
+:ref:`addon-weblate.cdn.cdnjs`, :ref:`addon-weblate.cdn.files`, and
+:ref:`addon-weblate.cdn.kotlin`.
 :setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is
 available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should
 store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
@@ -1604,6 +1605,7 @@ The files are served by your web server or CDN, not by Weblate; see
 
    * :ref:`addon-weblate.cdn.cdnjs`
    * :ref:`addon-weblate.cdn.files`
+   * :ref:`addon-weblate.cdn.kotlin`
 
 .. setting:: PIWIK_SITE_ID
 .. setting:: MATOMO_SITE_ID

@@ -28,12 +28,16 @@ from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
 from weblate.utils.errors import report_error
-from weblate.utils.files import VCS_METADATA_DIRS, is_path_within_resolved_directory
+from weblate.utils.files import (
+    is_managed_vcs_metadata_path,
+    is_path_within_resolved_directory,
+)
 from weblate.utils.regex import compile_regex, regex_match
 from weblate.utils.render import render_template
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Mapping
+    from typing import Self
 
     from translation_finder import DiscoveryResult
 
@@ -481,14 +485,72 @@ class ComponentDiscovery:
         path: str | None = None,
         copy_addons: bool = True,
     ) -> None:
+        self._initialize(
+            component,
+            match=match,
+            name_template=name_template,
+            file_format=file_format,
+            language_regex=language_regex,
+            base_file_template=base_file_template,
+            new_base_template=new_base_template,
+            intermediate_template=intermediate_template,
+            filemask_template=filemask_template,
+            path=component.full_path if path is None else path,
+            copy_addons=copy_addons,
+        )
+
+    @classmethod
+    def for_repository_import(
+        cls,
+        *,
+        path: str,
+        match: str,
+        name_template: str,
+        file_format: str,
+        language_regex: str = "^[^.]+$",
+        base_file_template: str = "",
+        new_base_template: str = "",
+        intermediate_template: str = "",
+        filemask_template: str = "",
+        copy_addons: bool = True,
+    ) -> Self:
+        """Create discovery for inspecting a repository before a component exists."""
+        instance = cls.__new__(cls)
+        instance._initialize(  # ruff: ignore[private-member-access]
+            None,
+            match=match,
+            name_template=name_template,
+            file_format=file_format,
+            language_regex=language_regex,
+            base_file_template=base_file_template,
+            new_base_template=new_base_template,
+            intermediate_template=intermediate_template,
+            filemask_template=filemask_template,
+            path=path,
+            copy_addons=copy_addons,
+        )
+        return instance
+
+    def _initialize(
+        self,
+        component: Component | None,
+        *,
+        match: str,
+        name_template: str,
+        file_format: str,
+        language_regex: str,
+        base_file_template: str,
+        new_base_template: str,
+        intermediate_template: str,
+        filemask_template: str,
+        path: str,
+        copy_addons: bool,
+    ) -> None:
         self.component = component
         self.match = match
         self.errors: list[tuple[DiscoveryErrorMatch, str]] = []
         self.limit_exceeded = False
-        if path is None:
-            self.path = self.component.full_path
-        else:
-            self.path = path
+        self.path = path
         self.path_match = self.compile_match(match)
         self.name_template = name_template
         self.base_file_template = base_file_template
@@ -499,6 +561,41 @@ class ComponentDiscovery:
         self.language_match = compile_regex(language_regex)
         self.file_format = file_format
         self.copy_addons = copy_addons
+
+    def _require_component(self) -> Component:
+        if self.component is None:
+            msg = "Repository import discovery does not have a component"
+            raise RuntimeError(msg)
+        return self.component
+
+    def with_component(self, component: Component) -> Self:
+        """Return component discovery retaining repository inspection results."""
+        if self.component is not None:
+            msg = "Component discovery already has a component"
+            raise RuntimeError(msg)
+        discovery = type(self)(
+            component,
+            match=self.match,
+            name_template=self.name_template,
+            file_format=self.file_format,
+            language_regex=self.language_re,
+            base_file_template=self.base_file_template,
+            new_base_template=self.new_base_template,
+            intermediate_template=self.intermediate_template,
+            filemask_template=self.filemask_template,
+            copy_addons=self.copy_addons,
+        )
+        discovery.errors = self.errors.copy()
+        discovery.limit_exceeded = self.limit_exceeded
+        for name in (
+            "repository_paths",
+            "matches",
+            "matched_files",
+            "matched_components",
+        ):
+            if name in self.__dict__:
+                discovery.__dict__[name] = self.__dict__[name]
+        return discovery
 
     @property
     def create_from_template(self) -> bool:
@@ -626,7 +723,7 @@ class ComponentDiscovery:
                 except OSError:
                     # Ignore entries which disappear or become inaccessible.
                     continue
-                if is_directory and entry.name.casefold() in VCS_METADATA_DIRS:
+                if is_managed_vcs_metadata_path(entry.name):
                     continue
                 if not is_path_within_resolved_directory(entry.path, base):
                     continue
@@ -1070,8 +1167,9 @@ class ComponentDiscovery:
         return deleted
 
     def get_skip_reason(self, match):
+        component = self._require_component()
         # Skip matches to main component
-        if match["mask"] == self.component.filemask:
+        if match["mask"] == component.filemask:
             return gettext("File mask matches the main component.")
 
         for param in ("base_file", "new_base", "intermediate"):
@@ -1079,7 +1177,7 @@ class ComponentDiscovery:
             if not name:
                 continue
             try:
-                fullname = self.component.get_validated_component_filename(name)
+                fullname = component.get_validated_component_filename(name)
             except ValidationError:
                 fullname = None
             if not fullname or not os.path.exists(fullname):
@@ -1091,6 +1189,7 @@ class ComponentDiscovery:
         return None
 
     def perform(self, preview=False, remove=False, background=False):
+        main = self._require_component()
         created: list[tuple[DiscoveryMatch, Component | None]] = []
         matched: list[tuple[DiscoveryMatch, Component]] = []
         deleted: list[tuple[None, Component]] = []
@@ -1101,7 +1200,6 @@ class ComponentDiscovery:
         if self.limit_exceeded:
             return created, matched, deleted, skipped
 
-        main = self.component
         category_components = main.project.component_set.filter(category=main.category)
         existing_children: dict[str, Component] = {
             component.filemask: component for component in main.linked_children.all()

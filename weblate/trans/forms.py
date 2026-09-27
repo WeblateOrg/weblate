@@ -2164,7 +2164,9 @@ class InheritedSettingsFormMixin(forms.ModelForm):
         )
         return bool(field.clean(value))
 
-    def get_inherited_setting_value(self, field_name: str) -> str | Language | None:
+    def get_inherited_setting_value(
+        self, field_name: str
+    ) -> str | Language | list[str] | None:
         instance = self.instance
         if isinstance(instance, Project) and instance.workspace_id is not None:
             return getattr(instance.workspace, field_name)
@@ -2491,6 +2493,7 @@ class ComponentSettingsForm(
             "priority",
             "check_flags",
             "enforced_checks",
+            "inherit_enforced_checks",
             "inherit_commit_message",
             "commit_message",
             "inherit_add_message",
@@ -2510,6 +2513,7 @@ class ComponentSettingsForm(
             "push",
             "push_branch",
             "repoweb",
+            "repoweb_translations",
             "push_on_commit",
             "commit_pending_age",
             "merge_style",
@@ -2618,7 +2622,7 @@ class ComponentSettingsForm(
                         "manage_units",
                         "check_flags",
                         "variant_regex",
-                        "enforced_checks",
+                        InheritedSetting("enforced_checks"),
                         InheritedSetting("secondary_language"),
                     ),
                     css_id="translation",
@@ -2638,6 +2642,7 @@ class ComponentSettingsForm(
                             context={"vcs_push_categories": get_vcs_push_categories()},
                         ),
                         "repoweb",
+                        "repoweb_translations",
                     ),
                     Fieldset(
                         gettext("Version control settings"),
@@ -2772,7 +2777,7 @@ class ComponentSettingsForm(
             for field_name in Component.LINKED_REPOSITORY_SETTINGS:
                 data[field_name] = getattr(self.instance, field_name)
 
-        if "file_format_params" in data:
+        if "file_format_params" in data and "file_format" in data:
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
             )
@@ -2796,6 +2801,7 @@ class ComponentCreateForm(
         "license",
         "new_lang",
         "language_code_style",
+        "enforced_checks",
     )
 
     detected_license = forms.CharField(required=False, widget=forms.HiddenInput)
@@ -2824,6 +2830,7 @@ class ComponentCreateForm(
             "push",
             "push_branch",
             "repoweb",
+            "repoweb_translations",
             "file_format",
             "file_format_params",
             "filemask",
@@ -2910,6 +2917,7 @@ class ComponentCreateForm(
             ),
             "vcs_params",
             "repoweb",
+            "repoweb_translations",
             "file_format",
             "file_format_params",
             "filemask",
@@ -3011,7 +3019,7 @@ class ComponentCreateForm(
         data = self.cleaned_data
         clean_integration_component_data(self, data)
 
-        if "file_format_params" in data:
+        if "file_format_params" in data and "file_format" in data:
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
             )
@@ -3026,7 +3034,7 @@ class ComponentCreateForm(
         )
         if repository_redirect_change is not None:
             self.instance.repository_redirect_changes = [repository_redirect_change]
-        for field in ("license", "new_lang", "language_code_style"):
+        for field in ("license", "new_lang", "language_code_style", "enforced_checks"):
             if self.disables_inheritance_for_explicit_setting(field):
                 setattr(self.instance, get_inherit_field_name(field), False)
 
@@ -3338,13 +3346,13 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
     )
 
     def render_choice(self, value: DiscoveryResult) -> str:
-        context: dict[str, object] = dict(value.data)
+        context: dict[str, object] = dict(self.get_discovery_data(value))
         try:
-            format_cls = FILE_FORMATS[value["file_format"]]
+            format_cls = FILE_FORMATS[cast("str", context["file_format"])]
             context["file_format_name"] = format_cls.name
             context["valid"] = True
         except KeyError:
-            context["file_format_name"] = value["file_format"]
+            context["file_format_name"] = context["file_format"]
             context["valid"] = False
         context["origin"] = value.meta["origin"]
         return render_to_string("trans/discover-choice.html", context)
@@ -3393,9 +3401,10 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
 
     @staticmethod
     def get_discovery_data(value: DiscoveryResult) -> dict[str, Any]:
-        data = cast("dict[str, Any]", value.match)
+        data = dict(cast("dict[str, Any]", value.match))
         file_format = data.get("file_format")
         file_format_params = data.get("file_format_params")
+
         if file_format_params is None:
             return data
         if not isinstance(file_format, str) or not isinstance(file_format_params, dict):
@@ -3566,6 +3575,8 @@ class CategorySettingsForm(
             "inherit_agreement",
             "agreement",
             "check_flags",
+            "enforced_checks",
+            "inherit_enforced_checks",
             "inherit_secondary_language",
             "secondary_language",
             "inherit_new_lang",
@@ -3587,9 +3598,14 @@ class CategorySettingsForm(
         )
         # ruff: ignore[mutable-class-default]
         widgets = {
+            "enforced_checks": SelectChecksWidget,
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
+        }
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
+            "enforced_checks": SelectChecksField,
         }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
@@ -3620,6 +3636,7 @@ class CategorySettingsForm(
                 Tab(
                     gettext("Workflow"),
                     "check_flags",
+                    InheritedSetting("enforced_checks"),
                     InheritedSetting("secondary_language"),
                     InheritedSetting("new_lang"),
                     InheritedSetting("language_code_style"),
@@ -3682,6 +3699,8 @@ class ProjectSettingsForm(
             "source_review",
             "commit_policy",
             "check_flags",
+            "enforced_checks",
+            "inherit_enforced_checks",
             "inherit_commit_message",
             "commit_message",
             "inherit_add_message",
@@ -3700,6 +3719,7 @@ class ProjectSettingsForm(
             "access_control": forms.RadioSelect,
             "instructions": MarkdownTextarea,
             "language_aliases": forms.TextInput,
+            "enforced_checks": SelectChecksWidget,
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
@@ -3707,6 +3727,7 @@ class ProjectSettingsForm(
         # ruff: ignore[mutable-class-default]
         field_classes = {
             "check_flags": FlagField,
+            "enforced_checks": SelectChecksField,
         }
 
     def clean(self) -> None:
@@ -3866,6 +3887,7 @@ class ProjectSettingsForm(
                     "contribute_workspace_tm",
                     "autoclean_tm",
                     "check_flags",
+                    InheritedSetting("enforced_checks"),
                     "enable_hooks",
                     "language_aliases",
                     InheritedSetting("secondary_language"),
@@ -4244,9 +4266,11 @@ class SourceEditForm(UnitForm):
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].widget.unit = source_unit
         self.fields["source"].widget.edit_source = True
+        component = source_unit.translation.component
         fields = editable_fields(
-            source_unit.translation.component.file_format,
-            monolingual=source_unit.translation.component.has_template(),
+            component.file_format,
+            monolingual=component.has_template(),
+            file_format_params=component.file_format_params,
         )
         for field in ("source", "context"):
             if field not in fields:

@@ -23,6 +23,7 @@ class OllamaTranslation(BaseLLMTranslation):
     """
 
     name = "Ollama"
+    default_api_url = "http://localhost:11434"
     end_point = "/api/chat"
     settings_form = OllamaMachineryForm
     version_added = "5.15"

@@ -9,11 +9,12 @@ from django.test import SimpleTestCase
 from weblate.checks.flags import Flags
 from weblate.utils.html import (
     AUTO_SAFE_HTML_VOID_TAGS,
-    HTML2Text,
+    MD_LINK,
     HTMLAttribute,
     HTMLSanitizer,
     extract_html_attributes,
     extract_html_tags,
+    html_to_mail_text,
     is_auto_safe_html_source,
     iter_markdown_autolinks,
     iter_markdown_code_spans,
@@ -22,6 +23,25 @@ from weblate.utils.html import (
     mail_quote_value,
     serialize_mdx_void_elements,
 )
+
+
+class MarkdownLinkTest(SimpleTestCase):
+    def test_title(self) -> None:
+        for title in (
+            '"Translation platform"',
+            "'Translation platform'",
+            "(Translation platform)",
+            '"A (translation) platform"',
+            '"A \\"translation\\" platform"',
+            "(A \\(translation\\) platform)",
+        ):
+            for destination in ("https://example.com/", "<https://example.com/>"):
+                source = f"[Link]({destination} {title})"
+                with self.subTest(source=source):
+                    match = MD_LINK.fullmatch(source)
+                    assert match is not None
+                    self.assertEqual(match[3], "https://example.com/")
+                    self.assertEqual(match[4], title)
 
 
 class HTMLSanitizerTestCase(SimpleTestCase):
@@ -230,65 +250,140 @@ class HtmlTestCase(SimpleTestCase):
             is_auto_safe_html_source('<input disabled disabled="">', Flags())
         )
 
-    def test_html2text_simple(self) -> None:
-        html2text = HTML2Text()
-        self.assertEqual(html2text.handle("<b>text</b>"), "**text**\n\n")
-
-    def test_html2text_img(self) -> None:
-        html2text = HTML2Text()
+    def test_mail_text_simple(self) -> None:
+        self.assertEqual(html_to_mail_text("<b>text</b>"), "text")
         self.assertEqual(
-            html2text.handle("<b>text<img src='text.png' /></b>"), "**text**\n\n"
+            html_to_mail_text("<b>text<img src='text.png' alt='image' /></b>"),
+            "text",
         )
 
-    def test_html2text_wrap(self) -> None:
-        html2text = HTML2Text()
-        self.assertEqual(
-            html2text.handle("text " * 20),
-            """text text text text text text text text text text text text text text text
-text text text text text
+    def test_mail_text_wrap(self) -> None:
+        result = html_to_mail_text(f"<p>{'text ' * 40}</p>")
+        self.assertTrue(all(len(line) <= 79 for line in result.splitlines()))
+        self.assertEqual(result.replace("\n", " ").split(), ["text"] * 40)
 
-""",
+    def test_mail_text_table(self) -> None:
+        result = html_to_mail_text(
+            "<table><tr><td>1</td><td>2</td></tr>"
+            "<tr><td>very long text</td><td>other text</td></tr></table>"
+        )
+        self.assertIn("very long text", result)
+        self.assertIn("other text", result)
+        self.assertNotIn("|", result)
+
+    def test_mail_text_wide_table_preserves_headers(self) -> None:
+        url = (
+            "https://example.com/projects/example/component/search/?q=state:translated"
+        )
+        result = html_to_mail_text(
+            "<table><thead><tr>"
+            "<th>Translation</th><th>Added</th><th>Updated</th>"
+            "<th>Translated</th><th>Approved</th>"
+            "<th>Needs editing</th><th>Unfinished</th>"
+            "</tr></thead><tbody><tr>"
+            "<td>Czech</td>"
+            f"<td><a href='{url}'>2</a></td>"
+            "<td>0</td><td>3</td><td>4</td><td>5</td><td>6</td>"
+            "</tr></tbody></table>"
+        )
+        for labeled_value in (
+            "Translation: Czech",
+            "Added: 2",
+            "Updated: 0",
+            "Translated: 3",
+            "Approved: 4",
+            "Needs editing: 5",
+            "Unfinished: 6",
+        ):
+            self.assertIn(labeled_value, result)
+        self.assertIn(url, result)
+        self.assertNotIn("|", result)
+        self.assertNotIn("Translation: Translation", result)
+
+    def test_mail_text_wide_table_colspan_header(self) -> None:
+        url = (
+            "https://example.com/projects/example/component/search/?q=state:unfinished"
+        )
+        result = html_to_mail_text(
+            "<table><thead><tr><th>Translation</th>"
+            "<th colspan='2'>Unfinished strings</th></tr></thead>"
+            "<tr><td>Czech</td><td>12</td>"
+            f"<td><a href='{url}'>View</a></td></tr></table>"
+        )
+        self.assertIn("Translation: Czech", result)
+        self.assertIn("Unfinished strings: 12", result)
+        self.assertIn("Unfinished strings: View", result)
+        self.assertIn(url, result)
+
+    def test_mail_text_wide_table_body_colspan(self) -> None:
+        output = "subprocess stdout: " + "diagnostic output " * 8
+        result = html_to_mail_text(
+            "<table><thead><tr><th>Command</th><th>Error</th></tr></thead>"
+            "<tbody><tr><td>./run-script</td><td>Execution failed</td></tr>"
+            f"<tr><td colspan='2'><pre>{output}</pre></td></tr></tbody></table>"
+        )
+        self.assertIn("Command: ./run-script", result)
+        self.assertIn("Error: Execution failed", result)
+        self.assertIn("subprocess stdout:", result)
+        self.assertNotIn("Command: subprocess stdout:", result)
+        self.assertNotIn("Error: subprocess stdout:", result)
+
+    def test_mail_text_wide_table_body_colspan_advances_column(self) -> None:
+        output = "shared diagnostic output " * 6
+        result = html_to_mail_text(
+            "<table><thead><tr><th>First</th><th>Second</th><th>Third</th>"
+            "</tr></thead><tr>"
+            f"<td colspan='2'>{output}</td><td>final value</td>"
+            "</tr></table>"
+        )
+        self.assertIn("shared diagnostic output", result)
+        self.assertNotIn("First: shared diagnostic output", result)
+        self.assertIn("Third: final value", result)
+
+    def test_mail_text_notification(self) -> None:
+        url = "https://example.com/projects/example/component/?q=state:translated"
+        result = html_to_mail_text(
+            "<h1>Alert triggered</h1>"
+            "<p>See <a href='https://example.com/docs'>Documentation</a>.</p>"
+            "<ul><li>First alert</li><li>Second alert</li></ul>"
+            "<h2>Component Information</h2>"
+            "<table><tr><td>Translated strings</td>"
+            f"<td><a href='{url}'>339</a></td>"
+            f"<td><a href='{url}'>75%</a></td></tr></table>"
+            "<img src='cid:email-logo.png@cid.weblate.org' alt='Weblate'>"
+        )
+        self.assertIn("Alert triggered", result)
+        self.assertIn("Documentation (https://example.com/docs)", result)
+        self.assertIn("First alert", result)
+        self.assertIn("Second alert", result)
+        self.assertIn("Translated strings", result)
+        self.assertIn("Translated strings: 339", result)
+        self.assertIn("75%", result)
+        self.assertEqual(result.count(f"({url})"), 2)
+        self.assertNotIn("# ", result)
+        self.assertNotIn("**", result)
+        self.assertNotIn("[Documentation]", result)
+        self.assertNotIn("|", result)
+        self.assertNotIn("cid:email-logo", result)
+        self.assertTrue(
+            all(len(line) <= 79 or url in line for line in result.splitlines())
         )
 
-    def test_html2text_table(self) -> None:
-        html2text = HTML2Text()
-        self.assertEqual(
-            html2text.handle(
-                """
-<table>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-    </tr>
-    <tr>
-        <td>very long text</td>
-        <td>other text</td>
-    </tr>
-</table>
-"""
-            ),
-            """| 1              | 2          |
-|----------------|------------|
-| very long text | other text |
+    def test_mail_text_url_not_wrapped(self) -> None:
+        url = "https://example.com/" + "path/" * 20
+        result = html_to_mail_text(f"<p><a href='{url}'>Documentation</a></p>")
+        self.assertIn(url, result)
 
-
-""",
-        )
-
-    def test_html2text_diff(self) -> None:
-        html2text = HTML2Text()
+    def test_mail_text_diff(self) -> None:
         self.assertEqual(
-            html2text.handle("text<ins>add</ins><del>remove</del>"),
-            "text{+add+}[-remove-]\n\n",
+            html_to_mail_text("text<ins>add</ins><del>remove</del>"),
+            "text{+add+}[-remove-]",
         )
         self.assertEqual(
-            html2text.handle("text <ins>add</ins><del>remove</del>"),
-            "text {+add+}[-remove-]\n\n",
+            html_to_mail_text("text <ins>add</ins><del>remove</del>"),
+            "text {+add+}[-remove-]",
         )
-        self.assertEqual(
-            html2text.handle("text<ins> </ins>"),
-            "text{+ +}\n\n",
-        )
+        self.assertEqual(html_to_mail_text("text<ins> </ins>"), "text{+ +}")
 
 
 class MailQuoteTestCase(SimpleTestCase):

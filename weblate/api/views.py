@@ -75,6 +75,7 @@ from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
     AutomationPreviewRequestSerializer,
+    AutoTranslateBackgroundSerializer,
     AutoTranslateRequestSerializer,
     AutoTranslateResponseSerializer,
     BackupSerializer,
@@ -192,6 +193,7 @@ from weblate.trans.repository import (
     reserve_repository_operation,
 )
 from weblate.trans.tasks import (
+    auto_translate,
     category_removal,
     component_removal,
     create_project_backup,
@@ -2608,7 +2610,9 @@ class ProjectViewSet(
     @extend_schema(
         description=(
             "Download all translation files in the project. The archive defaults "
-            "to ZIP and can be limited to one language using language_code."
+            "to ZIP and can be limited to one language using language_code. "
+            "Unfiltered downloads require project-wide download permission; "
+            "language-filtered downloads require permission for that language."
         ),
         methods=["get"],
         responses=binary_download_response_schema("Project translation download."),
@@ -2633,17 +2637,25 @@ class ProjectViewSet(
     @action(detail=True, methods=["get"])
     def file(self, request: Request, **kwargs):
         instance = self.get_object()
+        requested_language = request.query_params.get("language_code", None)
 
-        if not request.user.has_perm("translation.download", instance):
+        if requested_language:
+            language = get_object_or_404(Language, code=requested_language)
+            can_download = self.can_download_project_language(
+                request.user, instance, language
+            )
+        else:
+            language = None
+            can_download = request.user.has_perm("translation.download", instance)
+        if not can_download:
             raise PermissionDenied
 
         components = instance.component_set.filter_access(request.user)
         requested_format = request.query_params.get("format", "zip")
-        requested_language = request.query_params.get("language_code", None)
 
-        if requested_language:
+        if language:
             translations = Translation.objects.filter(
-                language__code=requested_language, component__in=components
+                language=language, component__in=components
             )
         else:
             translations = Translation.objects.filter(component__in=components)
@@ -2656,11 +2668,25 @@ class ProjectViewSet(
             name=instance.slug,
         )
 
+    @staticmethod
+    def can_download_project_language(
+        user: User, project: Project, language: Language
+    ) -> bool:
+        permission_obj = ProjectLanguage(project, language)
+        if user.has_perm("translation.download", permission_obj):
+            return True
+        # Project-wide permission can produce the documented empty archive when
+        # the language has no translations against which to evaluate permission.
+        return not permission_obj.has_action_translations and bool(
+            user.has_perm("translation.download", project)
+        )
+
     @extend_schema(
         description=(
             "Download all component translation files in the project for a specific "
             "language. The archive defaults to ZIP, and filter limits included "
-            "components by a case-insensitive substring of their slug."
+            "components by a case-insensitive substring of their slug. Requires "
+            "download permission for the requested language."
         ),
         methods=["get"],
         responses=binary_download_response_schema(
@@ -2697,8 +2723,9 @@ class ProjectViewSet(
     )
     def language_file(self, request: Request, language_code: str, **kwargs):
         instance = self.get_object()
+        language = get_object_or_404(Language, code=language_code)
 
-        if not request.user.has_perm("translation.download", instance):
+        if not self.can_download_project_language(request.user, instance, language):
             raise PermissionDenied
 
         components = instance.component_set.filter_access(request.user)
@@ -2711,7 +2738,7 @@ class ProjectViewSet(
         requested_format = request.query_params.get("format", "zip")
 
         translations = Translation.objects.filter(
-            language__code=language_code, component__in=components
+            language=language, component__in=components
         )
 
         return download_multi(
@@ -4067,7 +4094,10 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         description="Trigger automatic translation.",
         methods=["post"],
         request=AutoTranslateRequestSerializer,
-        responses={HTTP_200_OK: AutoTranslateResponseSerializer},
+        responses={
+            HTTP_200_OK: AutoTranslateResponseSerializer,
+            HTTP_202_ACCEPTED: AutoTranslateResponseSerializer,
+        },
     )
     @action(detail=True, methods=["post"])
     def autotranslate(self, request: Request, **kwargs):
@@ -4097,6 +4127,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 getattr(auto_permission, "reason", "Can not auto translate"),
             )
 
+        background_serializer = AutoTranslateBackgroundSerializer(data=request.data)
+        background_serializer.is_valid(raise_exception=True)
+        if background_serializer.validated_data["background"]:
+            return self.queue_autotranslate(request, translation, autoform)
+
         auto = AutoTranslate(
             user=get_request_user(request),
             translation=translation,
@@ -4118,6 +4153,36 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         return Response(
             data={"details": message},
             status=HTTP_200_OK,
+        )
+
+    def queue_autotranslate(
+        self, request: Request, translation: Translation, autoform: AutoForm
+    ) -> Response:
+        task = auto_translate.delay(
+            translation_id=translation.id,
+            user_id=request.user.id,
+            mode=autoform.cleaned_data["mode"],
+            q=autoform.cleaned_data["q"],
+            auto_source=autoform.cleaned_data["auto_source"],
+            source_component_id=autoform.cleaned_data["component"],
+            engines=autoform.cleaned_data["engines"],
+            threshold=autoform.cleaned_data["threshold"],
+        )
+        # Eager results are not stored in the result backend, so the task URL
+        # would be useless.
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            return Response(data={"details": task.get()["message"]}, status=HTTP_200_OK)
+        store_task_metadata(
+            task.id, translation_id=translation.id, user_id=request.user.id
+        )
+        return Response(
+            data={
+                "details": gettext("Automatic translation in progress"),
+                "task_url": reverse(
+                    "api:task-detail", kwargs={"pk": task.id}, request=request
+                ),
+            },
+            status=HTTP_202_ACCEPTED,
         )
 
     def destroy(self, request: Request, *args, **kwargs):
