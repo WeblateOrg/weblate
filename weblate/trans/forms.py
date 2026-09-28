@@ -4601,7 +4601,7 @@ class BulkEditForm(forms.Form):
             self.helper.layout.append(InlineCheckboxes("remove_labels"))
 
     def clean(self):
-        cleaned_data = super().clean()
+        cleaned_data = super().clean() or {}
         if "units" not in self.fields:
             return cleaned_data
         if not cleaned_data.get("q") and not cleaned_data.get("units"):

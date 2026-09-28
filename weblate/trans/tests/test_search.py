@@ -170,7 +170,7 @@ class SearchViewTest(ViewTestCase):
             response.content.decode(),
             re.DOTALL,
         )
-        self.assertIsNotNone(form_html)
+        assert form_html is not None
         self.assertIn("csrfmiddlewaretoken", form_html.group(0))
         # One field for the whole selection, not one per listed string
         response = self.client.get(url, {"q": "state:empty"})
