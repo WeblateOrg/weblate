@@ -37,6 +37,7 @@ class VCSParams(TypedDict, total=False):
     create_merge_request: bool
     merge_request_automerge: bool
     merge_request_merge_method: Literal["merge", "squash", "rebase"]
+    push_after_update: bool
 
 
 VCSParamKey = Literal[
@@ -44,6 +45,7 @@ VCSParamKey = Literal[
     "create_merge_request",
     "merge_request_automerge",
     "merge_request_merge_method",
+    "push_after_update",
 ]
 
 
@@ -162,3 +164,27 @@ class MergeRequestMergeMethod(BaseGitHubMergeRequestParam):
         "Method used when merging pull requests automatically. The repository has to "
         "allow it."
     )
+
+
+@register_vcs_param
+class PushAfterUpdate(BaseVCSParam):
+    name = "push_after_update"
+    label = gettext_lazy("Push after update")
+    field_class = forms.BooleanField
+    default = True
+    help_text = gettext_lazy(
+        "Push pending changes right after updating the repository from upstream. "
+        "When turned off, Weblate pushes only after committing translations, so "
+        "upstream changes alone never trigger a push."
+    )
+
+    @classproperty
+    def vcs_backends(self) -> Sequence[str]:  # type: ignore[override]
+        # ruff: ignore[import-outside-top-level]
+        from weblate.vcs.models import VCS_REGISTRY
+
+        return sorted(
+            identifier
+            for identifier, vcs in VCS_REGISTRY.unfiltered_data.items()
+            if vcs.supports_push
+        )

@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import pathlib
 from concurrent.futures import ThreadPoolExecutor
+from tempfile import TemporaryDirectory
 from threading import Event
 from types import SimpleNamespace
 from typing import cast
@@ -2316,6 +2317,80 @@ class ComponentValidationTest(RepoTestCase):
             component.get_lang_code("po/cs/pages/C_and_C++.po"),
             "cs",
         )
+
+
+class ComponentPushAfterUpdateTest(RepoTestCase):
+    """Test pushing after a repository update."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.component = self.create_component()
+
+    def do_update(self, *, needs_commit: bool) -> Mock:
+        with (
+            patch.object(self.component, "configure_repo"),
+            patch.object(self.component, "update_remote_branch", return_value=True),
+            patch.object(self.component, "configure_branch"),
+            patch.object(self.component, "repo_needs_merge", return_value=True),
+            patch.object(
+                self.component, "needs_commit_upstream", return_value=needs_commit
+            ),
+            patch.object(self.component, "commit_pending") as commit_pending,
+            patch.object(self.component, "update_branch", return_value=True),
+            patch.object(self.component, "create_translations"),
+            patch.object(self.component, "push_if_needed") as push_if_needed,
+        ):
+            self.assertTrue(self.component.do_update())
+        self.assertEqual(commit_pending.called, needs_commit)
+        return push_if_needed
+
+    def test_pushes_by_default(self) -> None:
+        push_if_needed = self.do_update(needs_commit=False)
+        push_if_needed.assert_called_once_with(do_update=False)
+
+    def test_skips_push_for_upstream_changes(self) -> None:
+        self.component.vcs_params = {"push_after_update": False}
+        push_if_needed = self.do_update(needs_commit=False)
+        push_if_needed.assert_not_called()
+
+    def test_pushes_committed_translations(self) -> None:
+        self.component.vcs_params = {"push_after_update": False}
+        push_if_needed = self.do_update(needs_commit=True)
+        push_if_needed.assert_called_once_with(do_update=False)
+
+    def update_with_upstream_change(self, vcs_params: dict[str, bool]) -> None:
+        # Weblate commit which is not upstream, as after a squash merge.
+        with self.component.repository.lock:
+            pathlib.Path(self.component.full_path, "README.md").write_text(
+                "Local\n", encoding="utf-8"
+            )
+            self.component.repository.commit("Local", files=["README.md"])
+        # Unrelated upstream change.
+        with TemporaryDirectory() as workdir:
+            repository = GitRepository.clone(
+                self.git_repo_path, workdir, self.component.branch
+            )
+            pathlib.Path(workdir, "upstream").write_text("Upstream\n", encoding="utf-8")
+            with repository.lock:
+                repository.set_committer("Test", "test@example.com")
+                repository.commit(
+                    "Upstream", "Test <test@example.com>", timezone.now(), ["upstream"]
+                )
+                repository.push("")
+        self.component.merge_style = "merge"
+        self.component.push_on_commit = True
+        self.component.vcs_params = vcs_params
+        self.component.save()
+
+        self.assertTrue(self.component.do_update())
+
+    def test_upstream_change_pushes_by_default(self) -> None:
+        self.update_with_upstream_change({})
+        self.assertFalse(self.component.repo_needs_push())
+
+    def test_upstream_change_does_not_push(self) -> None:
+        self.update_with_upstream_change({"push_after_update": False})
+        self.assertTrue(self.component.repo_needs_push())
 
 
 class ComponentErrorTest(RepoTestCase):

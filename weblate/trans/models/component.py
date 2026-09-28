@@ -200,7 +200,7 @@ from weblate.vcs.git import (
     LocalRepository,
 )
 from weblate.vcs.models import VCS_REGISTRY
-from weblate.vcs.params import VCS_PARAMS, CreateMergeRequest
+from weblate.vcs.params import VCS_PARAMS, CreateMergeRequest, PushAfterUpdate
 from weblate.vcs.ssh import add_host_key
 
 if TYPE_CHECKING:
@@ -3037,7 +3037,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 return True
 
             # commit possible pending changes if needed
-            if self.needs_commit_upstream():
+            committed_pending = self.needs_commit_upstream()
+            if committed_pending:
                 self.commit_pending("update", user, skip_push=True)
 
             # update local branch
@@ -3054,7 +3055,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if result:
             try:
-                self.finish_update(request, user)
+                self.finish_update(request, user, committed_pending=committed_pending)
             except WeblateLockTimeoutError as error:
                 if repository_task_inline_followups.get():
                     raise RepositoryFollowupLockError(error, "pull") from error
@@ -3069,16 +3070,29 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return result
 
     def finish_update(
-        self, request: AuthenticatedHttpRequest | None, user: User
+        self,
+        request: AuthenticatedHttpRequest | None,
+        user: User,
+        *,
+        committed_pending: bool = True,
     ) -> None:
-        """Parse and push a repository after a successful pull."""
+        """
+        Parse and push a repository after a successful pull.
+
+        ``committed_pending`` tells whether the update committed pending
+        translations; without them, pushing is skipped when the
+        :class:`~weblate.vcs.params.PushAfterUpdate` parameter is turned off.
+        """
         parse_error = None
         try:
             self.create_translations(request=request, user=user)
         except FileParseError as error:
             parse_error = error
 
-        self.push_if_needed(do_update=False)
+        if committed_pending or self.repository.get_vcs_param(PushAfterUpdate):
+            self.push_if_needed(do_update=False)
+        else:
+            self.log_info("skipped push: push after update disabled")
         if parse_error is not None:
             raise parse_error
 
