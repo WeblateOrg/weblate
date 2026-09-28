@@ -154,9 +154,12 @@ class SearchViewTest(ViewTestCase):
         self.make_manager()
         response = self.client.get(url, {"q": "hello"})
         self.assertContains(response, 'id="bulk-edit-form"')
-        self.assertContains(response, 'form="bulk-edit-form"')
-        self.assertContains(response, 'name="units"')
+        self.assertContains(response, "bulk-edit-select")
         self.assertContains(response, "bulk-edit-toggle-selection")
+        # The selection is posted as a single field, the checkboxes themselves
+        # are not part of the form, see test_bulk_edit_selected_units_single_field
+        self.assertContains(response, 'id="bulk-edit-selected-units"')
+        self.assertNotContains(response, 'form="bulk-edit-form"')
         bulk_form = response.context["bulk_state_form"]
         self.assertFalse(bulk_form.fields["q"].required)
         self.assertIn("units", bulk_form.fields)
@@ -169,6 +172,11 @@ class SearchViewTest(ViewTestCase):
         )
         self.assertIsNotNone(form_html)
         self.assertIn("csrfmiddlewaretoken", form_html.group(0))
+        # One field for the whole selection, not one per listed string
+        response = self.client.get(url, {"q": "state:empty"})
+        content = response.content.decode()
+        self.assertGreater(content.count('bulk-edit-select"'), 1)
+        self.assertEqual(content.count('name="units"'), 1)
 
         # Not offered for scopes which do not support bulk edit
         response = self.client.get(reverse("search"), {"q": "hello"})
@@ -1247,6 +1255,30 @@ class BulkEditTest(ViewTestCase):
         other.refresh_from_db()
         self.assertEqual(other.state, STATE_TRANSLATED)
 
+    def test_bulk_edit_selected_units_single_field(self) -> None:
+        """
+        Selection is posted as one comma separated field.
+
+        One field per string would exceed DATA_UPLOAD_MAX_NUMBER_FIELDS on a
+        full page, as the maximal page size matches it.
+        """
+        other = self.get_unit("Thank you for using Weblate.")
+        other.state = STATE_FUZZY
+        other.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "units": f"{self.unit.pk},{other.pk}",
+                "state": STATE_TRANSLATED,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 2 strings were updated.")
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
+        other.refresh_from_db()
+        self.assertEqual(other.state, STATE_TRANSLATED)
+
     def test_bulk_edit_selected_units_outside_scope(self) -> None:
         other = self.get_unit(language="de")
         other.state = STATE_FUZZY
@@ -1281,9 +1313,8 @@ class BulkEditTest(ViewTestCase):
         self.assertEqual(self.get_unit().state, STATE_FUZZY)
 
     def test_bulk_edit_next_redirect(self) -> None:
-        next_url = "{}?q=state%3Aneeds-editing&page=1".format(
-            reverse("search", kwargs=self.kw_translation)
-        )
+        search_url = reverse("search", kwargs=self.kw_translation)
+        next_url = f"{search_url}?q=state%3Aneeds-editing&page=1"
         response = self.client.post(
             reverse("bulk-edit", kwargs=self.kw_translation),
             {"units": [self.unit.pk], "state": STATE_TRANSLATED, "next": next_url},

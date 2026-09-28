@@ -4464,9 +4464,15 @@ class UnitSelectionField(forms.Field):
         if not value:
             return []
         if isinstance(value, str):
-            value = value.split(",")
+            value = [value]
+        items = [
+            stripped
+            for item in value
+            for part in str(item).split(",")
+            if (stripped := part.strip())
+        ]
         try:
-            return sorted({int(item) for item in value if str(item).strip()})
+            return sorted({int(item) for item in items})
         except (TypeError, ValueError) as error:
             raise ValidationError(
                 gettext("Invalid string selection!"), code="invalid"
@@ -4607,7 +4613,8 @@ class BulkEditForm(forms.Form):
     def get_query(self) -> str:
         """Return search query matching the strings to be edited."""
         if units := self.cleaned_data.get("units"):
-            return "id:{}".format(",".join(str(unit) for unit in units))
+            selection = ",".join(str(unit) for unit in units)
+            return f"id:{selection}"
         return self.cleaned_data["q"]
 
 

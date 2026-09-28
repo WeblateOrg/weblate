@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const submit = document.getElementById("bulk-edit-submit");
   const counter = document.getElementById("bulk-edit-selection-count");
   const toggle = document.getElementById("bulk-edit-toggle-selection");
+  const selectedUnits = document.getElementById("bulk-edit-selected-units");
 
   function allCheckboxes() {
     return document.querySelectorAll(".table-embed-units .bulk-edit-select");
@@ -25,8 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateControls() {
     const total = allCheckboxes().length;
-    const selected = selectedCheckboxes().length;
+    const checked = selectedCheckboxes();
+    const selected = checked.length;
 
+    if (selectedUnits !== null) {
+      selectedUnits.value = Array.from(
+        checked,
+        (checkbox) => checkbox.value,
+      ).join(",");
+    }
     if (submit !== null) {
       submit.disabled = selected === 0;
     }
