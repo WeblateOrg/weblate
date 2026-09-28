@@ -50,6 +50,7 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Prevented project access managers from assigning users to site-wide teams associated with the project.
 * Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
 * Prevented concurrent requests from exceeding configured web action rate limits.
 * Prevented repository URLs from injecting executable Mercurial configuration.
