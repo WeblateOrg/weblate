@@ -21,6 +21,7 @@ from weblate.accounts.models import VerifiedEmail
 from weblate.auth.models import (
     Group,
     Invitation,
+    Permission,
     Role,
     TeamMembership,
     User,
@@ -68,6 +69,14 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
     def add_acl(self) -> None:
         """Add user to ACL."""
         self.project.add_user(self.user, "Translate")
+
+    def create_sitewide_project_group(self) -> Group:
+        role = Role.objects.create(name="Site-wide user manager")
+        role.permissions.add(Permission.objects.get(codename="user.edit"))
+        group = Group.objects.create(name="Site-wide project team")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        return group
 
     def test_acl_denied(self) -> None:
         """No access to the project without ACL."""
@@ -287,6 +296,49 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertContains(response, "id_project_add_user_limit_languages")
         self.assertContains(response, "id_project_invite_limit_languages")
         self.assertContains(response, "id_project_bulk_invite_limit_languages")
+
+    def test_invite_forms_exclude_sitewide_project_group(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        group = self.create_sitewide_project_group()
+
+        response = self.client.get(self.access_url)
+
+        for context_name in (
+            "invite_user_form",
+            "invite_email_form",
+            "bulk_invite_form",
+        ):
+            self.assertNotIn(
+                group,
+                response.context[context_name].fields["group"].queryset,
+            )
+
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_invite_forms_reject_sitewide_project_group(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        group = self.create_sitewide_project_group()
+
+        requests = (
+            (
+                "add-user",
+                {"user": self.second_user.username, "group": group.pk},
+            ),
+            (
+                "invite-user",
+                {"email": "single@example.com", "group": group.pk},
+            ),
+            (
+                "invite-user",
+                {"emails": "bulk@example.com", "group": group.pk},
+            ),
+        )
+        for view_name, data in requests:
+            response = self.client.post(
+                reverse(view_name, kwargs=self.kw_project), data
+            )
+            self.assertRedirects(response, self.access_url)
+            self.assertFalse(Invitation.objects.exists())
+            self.assertFalse(group.memberships.exists())
 
     def test_limit_languages_form_uses_model_validation(self) -> None:
         language = Language.objects.get(code="cs")
