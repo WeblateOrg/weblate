@@ -9,7 +9,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0103_project_public_sharing"),
+        ("trans", "0110_component_repoweb_translations"),
     ]
 
     operations = [
@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             model_name="component",
             name="pull_request_url",
             field=models.URLField(
-                blank=True, default="", editable=False, max_length=300
+                blank=True, default="", editable=False, max_length=2048
             ),
         ),
     ]

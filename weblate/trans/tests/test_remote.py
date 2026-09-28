@@ -154,6 +154,36 @@ class MultiRepoTest(ViewTestCase):
         self.component.refresh_from_db()
         self.assertEqual(self.component.pull_request_url, pull_request_url)
 
+    def test_push_validates_pull_request_url(self) -> None:
+        for url in (
+            "javascript:alert(1)",
+            "ftp://example.com/pull/1",
+            "https://example.com/" + "a" * 2048,
+            {"url": "https://example.com/pull/1"},
+        ):
+            with (
+                self.subTest(url=url),
+                patch.object(type(self.component.repository), "push", return_value=url),
+            ):
+                self.assertTrue(self.component.push_repo(self.request, self.user))
+                self.component.refresh_from_db()
+                self.assertEqual(self.component.pull_request_url, "")
+
+    def test_push_stores_long_pull_request_url(self) -> None:
+        url = "https://example.com/" + "a" * 300 + "/pull/123"
+        with patch.object(type(self.component.repository), "push", return_value=url):
+            self.assertTrue(self.component.push_repo(self.request, self.user))
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.pull_request_url, url)
+
+    def test_push_branch_change_clears_pull_request_url(self) -> None:
+        self.component.pull_request_url = "https://example.com/pull/1"
+        self.component.save(update_fields=["pull_request_url"])
+        self.component.push_branch = "new-push-branch"
+        self.component.save(update_fields=["push_branch"])
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.pull_request_url, "")
+
     def assert_background_update_user(self, change) -> None:
         self.assertIsNotNone(change.user)
         self.assertEqual(change.user.username, "weblate:update")

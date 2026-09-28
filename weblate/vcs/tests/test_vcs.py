@@ -2938,6 +2938,49 @@ class VCSGiteaTest(VCSGitUpstreamTest):
     _sets_push = False
     _repo_override = "https://try.gitea.io/WeblateOrg/test.git"
 
+    @http_mock.activate
+    def test_pull_request_returns_browser_url(self) -> None:
+        url = "https://example.com/team/repo/pull/1"
+        credentials = self.repo.get_credentials()
+        self.mock_pull_request_response(
+            {"url": "https://example.com/api/pulls/1", "html_url": url}, 201
+        )
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            url,
+        )
+
+    @http_mock.activate
+    def test_existing_pull_request_returns_browser_url(self) -> None:
+        url = "https://example.com/team/repo/pull/1"
+        credentials = self.repo.get_credentials()
+        self.mock_pull_request_response(
+            {"message": "pull request already exists for these targets"}, 409
+        )
+        http_mock.register(
+            "GET",
+            f"{credentials['url']}/pulls",
+            json=[
+                {
+                    "head": {"ref": "weblate", "repo": {"full_name": "other/repo"}},
+                    "base": {"ref": "main"},
+                    "html_url": "https://wrong.example.com/",
+                },
+                {
+                    "head": {
+                        "ref": "weblate",
+                        "repo": {"full_name": "WeblateOrg/test"},
+                    },
+                    "base": {"ref": "main"},
+                    "html_url": url,
+                },
+            ],
+        )
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            url,
+        )
+
     def mock_responses(self, pr_response, pr_status=200) -> None:
         """
         Mock response helper function.
@@ -3269,6 +3312,43 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
     _sets_push = False
     _mock_push_to_fork = None
     _repo_override = "https://dev.azure.com/organization/WeblateOrg/test.git"
+
+    @http_mock.activate
+    def test_pull_request_returns_browser_url(self) -> None:
+        url = "https://example.com/team/repo/pull/1"
+        credentials = self.repo.get_credentials()
+        self.mock_responses(
+            {
+                "url": "https://example.com/api/pulls/1",
+                "_links": {"web": {"href": url}},
+            },
+            201,
+        )
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            url,
+        )
+
+    @http_mock.activate
+    def test_existing_pull_request_returns_browser_url(self) -> None:
+        credentials = self.repo.get_credentials()
+        self.mock_responses({"message": "TF401179"}, 409)
+        http_mock.register(
+            "GET",
+            f"{credentials['url']}/pullrequests",
+            json={
+                "value": [
+                    {
+                        "repository": {"webUrl": "https://example.com/team/repo"},
+                        "pullRequestId": 1,
+                    }
+                ]
+            },
+        )
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            "https://example.com/team/repo/pullrequest/1",
+        )
 
     def setUp(self) -> None:
         super().setUp()
@@ -4295,6 +4375,67 @@ class VCSGitLabTest(VCSGitUpstreamTest):
     _sets_push = False
     _repo_override = "https://gitlab.com/WeblateOrg/test.git"
 
+    @http_mock.activate
+    def test_pull_request_returns_browser_url(self) -> None:
+        url = "https://example.com/team/repo/pull/1"
+        credentials = self.repo.get_credentials()
+        self.mock_pr_responses({"web_url": url}, 201)
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            url,
+        )
+
+    @http_mock.activate
+    def test_gitlab_existing_request_url(self) -> None:
+        url = "https://gitlab.example.com/team/repo/-/merge_requests/1"
+        credentials = self.repo.get_credentials()
+        fork_url = "https://gitlab.com/api/v4/projects/10"
+        http_mock.register("GET", credentials["url"], json={"id": 42})
+        http_mock.register(
+            "POST",
+            f"{fork_url}/merge_requests",
+            json={"message": "Already exists"},
+            status_code=409,
+        )
+        http_mock.register(
+            "GET",
+            f"{fork_url}/merge_requests",
+            json=[
+                {"target_project_id": 99, "web_url": "https://wrong.example.com/"},
+                {"target_project_id": 42, "web_url": url},
+            ],
+        )
+        with patch.object(self.repo, "get_forked_url", return_value=fork_url):
+            self.assertEqual(
+                self.repo.create_pull_request(credentials, "main", "bot", "weblate"),
+                url,
+            )
+        params = http_mock.calls[-1].request.url.params
+        self.assertEqual(params["source_branch"], "weblate")
+        self.assertEqual(params["target_branch"], "main")
+
+    def test_existing_request_lookup_failure(self) -> None:
+        for result in (
+            ({}, MagicMock(status_code=500), "Unavailable"),
+            ({"unexpected": "data"}, MagicMock(status_code=200), ""),
+        ):
+            with patch.object(self.repo, "request", return_value=result):
+                self.assertEqual(
+                    self.repo.list_pull_requests_for_url(
+                        self.repo.get_credentials(), "https://example.com/api", {}
+                    ),
+                    [],
+                )
+        with patch.object(
+            self.repo, "request", side_effect=RepositoryError(0, "Unavailable")
+        ):
+            self.assertEqual(
+                self.repo.list_pull_requests_for_url(
+                    self.repo.get_credentials(), "https://example.com/api", {}
+                ),
+                [],
+            )
+
     def mock_fork_responses(self, get_forks, repo_state=200) -> None:
         if repo_state == 409:
             # Response to mock existing of repo with duplicate name
@@ -4986,6 +5127,31 @@ class VCSPagureTest(VCSGitUpstreamTest):
     _vcs = "git"
     _sets_push = False
     _repo_override = "https://pagure.io/testrepo.git"
+
+    @http_mock.activate
+    def test_pull_request_returns_browser_url(self) -> None:
+        url = "https://example.com/team/repo/pull/1"
+        credentials = self.repo.get_credentials()
+        self.mock_responses({}, {"total_requests": 0})
+        http_mock.replace(
+            "POST",
+            f"{credentials['url']}/{credentials['slug']}/pull-request/new",
+            json={"id": 1, "full_url": url},
+        )
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            url,
+        )
+
+    @http_mock.activate
+    def test_existing_pull_request_returns_browser_url(self) -> None:
+        url = "https://example.com/team/repo/pull/1"
+        credentials = self.repo.get_credentials()
+        self.mock_responses({}, {"total_requests": 1, "requests": [{"full_url": url}]})
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            url,
+        )
 
     def mock_responses(self, pr_response: dict, existing_response: dict) -> None:
         """Mock response helper function."""
@@ -5724,6 +5890,58 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         },
     }
 
+    @http_mock.activate
+    def test_pull_request_returns_browser_url(self) -> None:
+        url = "https://example.com/team/repo/pull/1"
+        credentials = self.repo.get_credentials()
+        self.repo.bb_fork = self._bb_fork_stub
+        self.mock_repo_response(200)
+        self.mock_reviewer_response(200, "weblate")
+        http_mock.register(
+            "POST",
+            f"{credentials['url']}/pull-requests",
+            json={"id": 1, "links": {"self": [{"href": url}]}},
+        )
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            url,
+        )
+
+    @http_mock.activate
+    def test_existing_pull_request_returns_browser_url(self) -> None:
+        url = "https://example.com/team/repo/pull/1"
+        credentials = self.repo.get_credentials()
+        self.repo.bb_fork = self._bb_fork_stub
+        self.mock_repo_response(200)
+        self.mock_reviewer_response(200, "weblate")
+        self.mock_pr_response(409)
+        http_mock.register(
+            "GET",
+            f"{credentials['url']}/pull-requests",
+            json={
+                "values": [
+                    {
+                        "fromRef": {
+                            "id": "refs/heads/weblate",
+                            "repository": {"id": 2},
+                        },
+                        "links": {"self": [{"href": "https://wrong.example.com/"}]},
+                    },
+                    {
+                        "fromRef": {
+                            "id": "refs/heads/weblate",
+                            "repository": {"id": self._bb_fork_stub["id"]},
+                        },
+                        "links": {"self": [{"href": url}]},
+                    },
+                ]
+            },
+        )
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            url,
+        )
+
     def mock_fork_response(self, status: int) -> None:
         body: dict[str, Any] = {}
         if status == 201:
@@ -6031,6 +6249,21 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
     _sets_push = False
     _apihost = "bitbucket.org"
     _repo_override = "git@bitbucket.org:WeblateOrg/test.git"
+
+    @http_mock.activate
+    def test_pull_request_returns_browser_url(self) -> None:
+        url = "https://example.com/team/repo/pull/1"
+        credentials = self.repo.get_credentials()
+        self.mock_responses()
+        http_mock.replace(
+            "POST",
+            f"{credentials['url']}/pullrequests",
+            json={"links": {"html": {"href": url}}},
+        )
+        self.assertEqual(
+            self.repo.create_pull_request(credentials, "main", "origin", "weblate"),
+            url,
+        )
 
     def mock_responses(self) -> None:
         """

@@ -2484,6 +2484,30 @@ class GitMergeRequestBase(GitRepository):
         """
         raise NotImplementedError
 
+    def list_pull_requests_for_url(
+        self,
+        credentials: GitCredentials,
+        url: str,
+        params: dict[str, str],
+        result_key: str | None = None,
+    ) -> list[dict]:
+        """Look up existing requests without failing an already successful push."""
+        try:
+            data, _response, error = self.request(
+                "get", credentials, url, params=params
+            )
+        except RepositoryError:
+            return []
+        if error:
+            return []
+        if result_key is not None:
+            data = data.get(result_key, []) if isinstance(data, dict) else []
+        return (
+            [item for item in data if isinstance(item, dict)]
+            if isinstance(data, list)
+            else []
+        )
+
     def get_merge_message(self):
         component = self.component
         if component is None:
@@ -2940,7 +2964,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         fork_remote: str,
         fork_branch: str,
         retry_fork: bool = True,
-    ) -> None:
+    ) -> str | None:
         pr_url = f"{credentials['url']}/pullrequests"
         title, description = self.get_merge_message()
 
@@ -2974,9 +2998,29 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             error_text = error_message or ""
             # Gracefully handle pull request already exists
             if "TF401179" in error_text:
-                return
+                params = {
+                    "searchCriteria.status": "active",
+                    "searchCriteria.sourceRefName": f"refs/heads/{fork_branch}",
+                    "searchCriteria.targetRefName": f"refs/heads/{origin_branch}",
+                }
+                if fork_remote != "origin":
+                    params["searchCriteria.sourceRepositoryId"] = forked_id
+                requests = self.list_pull_requests_for_url(
+                    credentials, pr_url, params, "value"
+                )
+                return self.get_pull_request_web_url(requests[0]) if requests else None
 
             self.failed_pull_request(error_message, pr_url, response, response_data)
+
+        return self.get_pull_request_web_url(response_data)
+
+    @staticmethod
+    def get_pull_request_web_url(data: dict) -> str | None:
+        web_url = data.get("repository", {}).get("webUrl")
+        request_id = data.get("pullRequestId")
+        if web_url and request_id:
+            return f"{web_url}/pullrequest/{request_id}"
+        return data.get("_links", {}).get("web", {}).get("href")
 
     def __get_forked_id(self, credentials: GitCredentials, remote: str) -> str:
         """
@@ -3551,7 +3595,7 @@ class GiteaRepository(GitMergeRequestBase):
         fork_remote: str,
         fork_branch: str,
         retry_fork: bool = True,
-    ) -> None:
+    ) -> str | None:
         """
         Create pull request.
 
@@ -3586,9 +3630,25 @@ class GiteaRepository(GitMergeRequestBase):
             error_text = error_message or ""
             # Gracefully handle pull request already exists
             if "pull request already exists for these targets" in error_text:
-                return
+                for existing in self.list_pull_requests_for_url(
+                    credentials, pr_url, {"state": "open"}
+                ):
+                    source = existing.get("head", {})
+                    owner = (
+                        credentials["owner"] if fork_remote == "origin" else fork_remote
+                    )
+                    if (
+                        source.get("ref") == fork_branch
+                        and source.get("repo", {}).get("full_name")
+                        == f"{owner}/{credentials['slug']}"
+                        and existing.get("base", {}).get("ref") == origin_branch
+                    ):
+                        return existing.get("html_url")
+                return None
 
             self.failed_pull_request(error_message, pr_url, response, response_data)
+
+        return response_data.get("html_url")
 
 
 class LocalRepository(GitRepository):
@@ -3875,7 +3935,7 @@ class GitLabRepository(GitMergeRequestBase):
         fork_remote: str,
         fork_branch: str,
         retry_fork: bool = True,
-    ) -> None:
+    ) -> str | None:
         """
         Create pull request.
 
@@ -3903,13 +3963,34 @@ class GitLabRepository(GitMergeRequestBase):
             response_data, response, error = self.request(
                 "post", credentials, pr_url, data=request
             )
-        except GitAPIRequestError as error:
+        except GitAPIRequestError as request_error:
             self.failed_pull_request(
-                error.error, pr_url, error.response, error.response_data
+                request_error.error,
+                pr_url,
+                request_error.response,
+                request_error.response_data,
             )
 
-        if "web_url" not in response_data and response.status_code != 409:
+        if response.status_code == 409:
+            for existing in self.list_pull_requests_for_url(
+                credentials,
+                pr_url,
+                {
+                    "state": "opened",
+                    "source_branch": fork_branch,
+                    "target_branch": origin_branch,
+                    "scope": "all",
+                },
+            ):
+                if (
+                    target_project_id is None
+                    or existing.get("target_project_id") == target_project_id
+                ):
+                    return existing.get("web_url")
+            return None
+        if "web_url" not in response_data:
             self.failed_pull_request(error, pr_url, response, response_data)
+        return response_data.get("web_url")
 
 
 class PagureRepository(GitMergeRequestBase):
@@ -3967,7 +4048,7 @@ class PagureRepository(GitMergeRequestBase):
         fork_remote: str,
         fork_branch: str,
         retry_fork: bool = True,
-    ) -> None:
+    ) -> str | None:
         """
         Create pull request.
 
@@ -4009,8 +4090,13 @@ class PagureRepository(GitMergeRequestBase):
             )
 
         if response_data["total_requests"] > 0:
-            # Open pull request from us is already there
-            return
+            # Open pull request from us is already there.
+            requests = response_data.get("requests", [])
+            return (
+                self.get_pull_request_web_url(requests[0], pr_list_url)
+                if requests
+                else None
+            )
 
         title, description = self.get_merge_message()
         request = {
@@ -4036,6 +4122,19 @@ class PagureRepository(GitMergeRequestBase):
             self.failed_pull_request(
                 error_message, pr_create_url, response, response_data
             )
+
+        return self.get_pull_request_web_url(response_data, pr_list_url)
+
+    @staticmethod
+    def get_pull_request_web_url(data: dict, list_url: str) -> str | None:
+        if data.get("full_url"):
+            return data["full_url"]
+        if data.get("id"):
+            repo_url = list_url.removesuffix("/pull-requests").replace(
+                "/api/0/", "/", 1
+            )
+            return f"{repo_url}/pull-request/{data['id']}"
+        return None
 
 
 class BitbucketServerRepository(GitMergeRequestBase):
@@ -4145,7 +4244,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         fork_remote: str,
         fork_branch: str,
         retry_fork: bool = True,
-    ) -> None:
+    ) -> str | None:
         # Make sure there's always a fork reference
         if not self.bb_fork:
             self.create_fork(credentials)
@@ -4193,8 +4292,31 @@ class BitbucketServerRepository(GitMergeRequestBase):
                 "Only one pull request may be open for a given source and target branch"
             )
             if pr_exist_message in (error_message or ""):
-                return
+                for existing in self.list_pull_requests_for_url(
+                    credentials,
+                    pr_url,
+                    {
+                        "state": "OPEN",
+                        "direction": "INCOMING",
+                        "at": f"refs/heads/{origin_branch}",
+                    },
+                    "values",
+                ):
+                    source = existing.get("fromRef", {})
+                    if (
+                        source.get("id") == request_body["fromRef"]["id"]
+                        and source.get("repository", {}).get("id") == self.bb_fork["id"]
+                    ):
+                        return self.get_pull_request_web_url(existing)
+                return None
             self.failed_pull_request(error_message, pr_url, response, response_data)
+
+        return self.get_pull_request_web_url(response_data)
+
+    @staticmethod
+    def get_pull_request_web_url(data: dict) -> str | None:
+        links = data.get("links", {}).get("self", [])
+        return links[0].get("href") if links else None
 
 
 class BitbucketCloudRepository(GitMergeRequestBase):
@@ -4278,7 +4400,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         fork_remote: str,
         fork_branch: str,
         retry_fork: bool = True,
-    ) -> None:
+    ) -> str | None:
         """
         Create pull request on Bitbucket Cloud.
 
@@ -4307,9 +4429,12 @@ class BitbucketCloudRepository(GitMergeRequestBase):
             response_data, response, error = self.request(
                 "post", credentials, pr_url, json=payload
             )
-        except GitAPIRequestError as error:
+        except GitAPIRequestError as request_error:
             self.failed_pull_request(
-                error.error, pr_url, error.response, error.response_data
+                request_error.error,
+                pr_url,
+                request_error.response,
+                request_error.response_data,
             )
         # Bitbucket Cloud handles Pull request already exists
         # and just returns its data
@@ -4317,9 +4442,10 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         if response_data.get("type") == "error" or error:
             # gracefully handle nothing to merge case
             if "There are no changes to be pulled" in (error or ""):
-                return
+                return None
 
             self.failed_pull_request(error, pr_url, response, response_data)
+        return response_data.get("links", {}).get("html", {}).get("href")
 
     def create_fork(self, credentials: GitCredentials) -> None:
         """
