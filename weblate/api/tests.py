@@ -694,6 +694,13 @@ class UserAPITest(APIBaseTest):
         # Short search should return no results
         response = self.client.get(reverse("api:user-list"), {"username": "a"})
         self.assertEqual(response.data["count"], 0)
+        # Surrounding whitespace cannot bypass the minimum prefix length.
+        for prefix in ("  ", " a "):
+            with self.subTest(prefix=prefix):
+                response = self.client.get(
+                    reverse("api:user-list"), {"username": prefix}
+                )
+                self.assertEqual(response.data["count"], 0)
 
     def test_filter_bot_user(self) -> None:
         """Unprivileged searches do not list bot users."""

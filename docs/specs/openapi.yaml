@@ -30078,9 +30078,11 @@ paths:
   /api/users/:
     get:
       operationId: api_users_list
-      description: Users with user.view or user.edit permission can see all users
-        and filter by email; other users see only themselves and cannot filter by
-        email.
+      description: Unauthenticated users receive no results. Authenticated users without
+        user.view or user.edit permission see only themselves unless they search by
+        a username prefix of at least two characters after trimming surrounding whitespace;
+        such searches return basic information about matching non-bot users. Users
+        with either permission can list all users and receive detailed information.
       summary: List users.
       parameters:
       - in: query
@@ -30118,6 +30120,10 @@ paths:
         name: username
         schema:
           type: string
+        description: Filter by username prefix. Authenticated users without user.view
+          or user.edit permission must supply at least two characters after trimming
+          surrounding whitespace; their searches exclude bot accounts other than their
+          own account.
       tags:
       - users
       security:
@@ -30247,7 +30253,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedFullUserList'
+                $ref: '#/components/schemas/PaginatedUserResponseList'
           description: Successful response.
           headers:
             X-RateLimit-Limit:
@@ -36273,27 +36279,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ComponentTranslation'
-    PaginatedFullUserList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          format: uri
-          example: http://api.example.org/accounts/?page=4
-        previous:
-          type: string
-          format: uri
-          example: http://api.example.org/accounts/?page=2
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/FullUser'
     PaginatedGroupList:
       type: object
       required:
@@ -36588,6 +36573,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Unit'
+    PaginatedUserResponseList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
     PatchedAddon:
       type: object
       properties:
