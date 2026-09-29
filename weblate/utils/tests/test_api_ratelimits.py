@@ -90,6 +90,31 @@ class ApiRateLimitTest(SimpleTestCase):
         self.assertEqual(self.request(username="automation").status_code, 200)
         self.assertEqual(self.request(username="automation").status_code, 429)
 
+    def test_forwarded_for_ignored(self) -> None:
+        for forwarded in (
+            "6.6.6.6",
+            "7.7.7.7",
+            " 6.6.6.6, 198.51.100.1 ",
+        ):
+            with self.subTest(forwarded=forwarded):
+                request = self.factory.get(
+                    "/api/",
+                    REMOTE_ADDR="192.0.2.42",
+                    HTTP_X_FORWARDED_FOR=forwarded,
+                )
+                self.assertEqual(AnonRateThrottle().get_ident(request), "192.0.2.42")
+
+        self.assertEqual(self.request(forwarded="6.6.6.6").status_code, 200)
+        self.assertEqual(self.request(forwarded="7.7.7.7").status_code, 429)
+
+    def test_remote_addresses_have_separate_budgets(self) -> None:
+        self.assertEqual(
+            self.request("192.0.2.42", forwarded="6.6.6.6").status_code, 200
+        )
+        self.assertEqual(
+            self.request("192.0.2.43", forwarded="6.6.6.6").status_code, 200
+        )
+
     @override_settings(API_RATELIMIT_ANON="2/day", API_RATELIMIT_USER="2/hour")
     def test_direct_settings(self) -> None:
         for username in (None, "automation"):
@@ -219,6 +244,25 @@ class ApiRateLimitTest(SimpleTestCase):
             "198.51.100.1", forwarded="192.0.2.42, 198.51.100.2", proxy=True
         )
         self.assertEqual(response["X-RateLimit-Limit"], "1")
+
+    @override_settings(
+        IP_BEHIND_REVERSE_PROXY=True,
+        IP_PROXY_HEADER="HTTP_X_FORWARDED_FOR",
+        IP_PROXY_OFFSET=-1,
+    )
+    def test_proxy_addresses_have_separate_budgets(self) -> None:
+        self.assertEqual(
+            self.request(
+                "198.51.100.1", forwarded="192.0.2.42", proxy=True
+            ).status_code,
+            200,
+        )
+        self.assertEqual(
+            self.request(
+                "198.51.100.1", forwarded="192.0.2.43", proxy=True
+            ).status_code,
+            200,
+        )
 
     def test_invalid_configuration(self) -> None:
         invalid: list[tuple[str, object]] = [
