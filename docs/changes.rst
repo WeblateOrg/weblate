@@ -59,7 +59,7 @@ Weblate 2026.10
 * Prevented concurrent requests from exceeding configured web action rate limits.
 * Prevented repository URLs from injecting executable Mercurial configuration.
 * Limited XLIFF language declarations in uploads and the number and size of translation alternatives to prevent resource exhaustion.
-* Enforced language-scoped screenshot permissions and restricted component access in translation consistency and automatic translation workflows.
+* Enforced language-scoped screenshot permissions and restricted component access in translation consistency and direct automatic translation workflows.
 * Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
 * Protected Git and Mercurial metadata consistently in repository paths and downloads, and excluded known foreign VCS metadata when importing component ZIP files.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
@@ -67,6 +67,7 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* Made eligible automatic-translation sources consistent across web, API, and Automation add-on configuration.
 * Suppressed OpenSSH post-quantum key exchange warnings that obscured errors from :ref:`SSH repositories <ssh-repos>`.
 * Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, nested, and multiline tags.
 * Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
