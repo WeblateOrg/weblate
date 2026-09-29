@@ -1039,6 +1039,13 @@ version which contains aliases for previously unknown languages that have been
 created with the :samp:`(generated)` suffix. It moves all content from the `source`
 language to the `target` one.
 
+If both languages have a translation in the same component, or different
+workflow settings or font overrides for the same scope, the move is skipped
+without changing either language. Resolve the reported conflict before retrying.
+Identical workflow settings and font overrides are consolidated. Automatic
+language updates use the same checks and continue with other languages when a
+move is skipped.
+
 Example:
 
 .. code-block:: sh

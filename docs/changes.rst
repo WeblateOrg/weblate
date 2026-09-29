@@ -69,6 +69,7 @@ Weblate 2026.10
 .. rubric:: Bug fixes
 
 * Made eligible automatic-translation sources consistent across web, API, and Automation add-on configuration.
+* Fixed :wladmin:`move_language` and automatic language alias updates to preserve language-specific settings and permission limits, and detect conflicting translations or settings before moving content.
 * Suppressed OpenSSH post-quantum key exchange warnings that obscured errors from :ref:`SSH repositories <ssh-repos>`.
 * Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, nested, and multiline tags.
 * Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
