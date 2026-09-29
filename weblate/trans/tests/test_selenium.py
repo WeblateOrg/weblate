@@ -94,7 +94,7 @@ from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.hash import hash_to_checksum
-from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import GlobalStats, ProjectLanguage
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.ssh import ssh_file
@@ -1583,6 +1583,66 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                         .strip()
                     )
                     self.assertEqual(int(count), translation.unit_set.count())
+
+    def test_bulk_edit_selection(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="Bulk selection", slug="bulk-selection")
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        user = self.do_login(superuser=True)
+        for offset, unit in enumerate(translation.unit_set.order_by("position")[:2]):
+            unit.translate(user, f"Ahoj {offset}", STATE_TRANSLATED)
+        search_url = (
+            f"{self.live_server_url}"
+            f"{reverse('search', kwargs={'path': translation.get_url_path()})}"
+        )
+        with self.wait_for_page_load():
+            self.driver.get(f"{search_url}?q=state%3Atranslated")
+
+        checkboxes = self.driver.find_elements(
+            By.CSS_SELECTOR, ".table-embed-units .bulk-edit-select"
+        )
+        self.assertTrue(checkboxes)
+        toggle = self.driver.find_element(By.ID, "bulk-edit-toggle-selection")
+        submit = self.driver.find_element(By.ID, "bulk-edit-submit")
+        counter = self.driver.find_element(By.ID, "bulk-edit-selection-count")
+        self.assertFalse(submit.is_enabled())
+        self.assertEqual(counter.text, "No strings selected")
+
+        # Selecting a single string
+        self.click(checkboxes[0])
+        self.assertTrue(submit.is_enabled())
+        self.assertEqual(counter.text, "1 string selected")
+        self.assertEqual(toggle.get_property("indeterminate"), len(checkboxes) > 1)
+
+        # Selecting all strings on the page
+        self.click(toggle)
+        self.assertTrue(all(checkbox.is_selected() for checkbox in checkboxes))
+        self.assertEqual(counter.text, f"{len(checkboxes)} strings selected")
+        self.assertFalse(toggle.get_property("indeterminate"))
+        self.screenshot("bulk-edit-selection.png")
+
+        # Unselecting all strings on the page
+        self.click(toggle)
+        self.assertFalse(any(checkbox.is_selected() for checkbox in checkboxes))
+        self.assertFalse(submit.is_enabled())
+        self.assertEqual(counter.text, "No strings selected")
+
+        # Applying an operation to the selected string
+        unit = Unit.objects.get(pk=int(checkboxes[0].get_attribute("value")))
+        self.click(checkboxes[0])
+        Select(self.driver.find_element(By.ID, "id_bulk_state")).select_by_visible_text(
+            "Needs editing"
+        )
+        with self.wait_for_page_load():
+            self.click(submit)
+        self.assertEqual(self.driver.current_url, f"{search_url}?q=state%3Atranslated")
+        self.assert_text_contains(
+            ".alert", "Bulk edit completed, 1 string was updated."
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_FUZZY)
 
     def test_translation_search_refresh(self) -> None:
         """Refresh and query Enter replace results; navigation preserves them."""

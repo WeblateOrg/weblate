@@ -28,13 +28,14 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.trans.models.unit import fill_in_source_translation
-from weblate.trans.util import render
+from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     get_paginator,
     import_message,
+    optional_form,
     parse_path_units,
     show_form_errors,
 )
@@ -46,6 +47,15 @@ if TYPE_CHECKING:
 
 SEARCH_SUMMARY_MAX_STRINGS = 1_000
 SEARCH_REPLACE_PREVIEW_LIMIT = 250
+BULK_EDIT_TYPES = (
+    Translation,
+    Component,
+    Project,
+    ProjectLanguage,
+    Category,
+    CategoryLanguage,
+    Workspace,
+)
 
 
 def browse(request: AuthenticatedHttpRequest, path):
@@ -253,6 +263,24 @@ def search(request: AuthenticatedHttpRequest, path=None):
                 f"{reverse('translate', kwargs={'path': obj.get_url_path()})}"
                 f"?{search_form.urlencode()}"
             )
+        if isinstance(obj, BULK_EDIT_TYPES):
+            bulk_state_form = optional_form(
+                BulkEditForm,
+                request.user,
+                "unit.bulk_edit",
+                obj,
+                user=request.user,
+                obj=obj,
+                project=context.get("project"),
+                selection=True,
+            )
+            if bulk_state_form is not None:
+                context["bulk_state_form"] = bulk_state_form
+                # Render selection checkboxes in the listing
+                context["selection_template"] = "snippets/bulk-edit-selection.html"
+                context["selection_header_template"] = (
+                    "snippets/bulk-edit-selection-header.html"
+                )
     elif is_ratelimited:
         messages.error(
             request, gettext("Too many search queries, please try again later.")
@@ -268,36 +296,31 @@ def search(request: AuthenticatedHttpRequest, path=None):
 @require_POST
 @never_cache
 def bulk_edit(request: AuthenticatedHttpRequest, path):
-    obj, unit_set, context = parse_path_units(
-        request,
-        path,
-        (
-            Translation,
-            Component,
-            Project,
-            ProjectLanguage,
-            Category,
-            CategoryLanguage,
-            Workspace,
-        ),
-    )
+    obj, unit_set, context = parse_path_units(request, path, BULK_EDIT_TYPES)
 
     if not request.user.has_perm("unit.bulk_edit", obj) or not request.user.has_perm(
         "unit.edit", obj
     ):
         raise PermissionDenied
 
-    form = BulkEditForm(request.user, obj, request.POST, project=context.get("project"))
+    form = BulkEditForm(
+        request.user,
+        obj,
+        request.POST,
+        project=context.get("project"),
+        selection=True,
+    )
+    next_url = request.POST.get("next")
 
     if not form.is_valid():
         messages.error(request, gettext("Could not process form!"))
         show_form_errors(request, form)
-        return redirect(obj)
+        return redirect_next(next_url, obj)
 
     updated = bulk_perform(
         request.user,
         unit_set,
-        query=form.cleaned_data["q"],
+        query=form.get_query(),
         target_state=form.cleaned_data["state"],
         add_flags=form.cleaned_data["add_flags"],
         remove_flags=form.cleaned_data["remove_flags"],
@@ -320,4 +343,4 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
         ),
     )
 
-    return redirect(obj)
+    return redirect_next(next_url, obj)

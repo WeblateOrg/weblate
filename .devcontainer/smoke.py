@@ -187,7 +187,7 @@ def smoke_applications(worktrees: list[Path]) -> None:
     for index, mapping in enumerate(urls):
         deadline = time.monotonic() + 30
         while True:
-            with urlopen(mapping["mailbox"] + "email", timeout=10) as response:  # ruff: ignore[suspicious-url-open-usage]
+            with urlopen(mapping["mailbox"] + "api/email", timeout=10) as response:  # ruff: ignore[suspicious-url-open-usage]
                 messages = json.load(response)
             subjects = {message["subject"] for message in messages}
             if f"QA app-{1 - index}" in subjects:

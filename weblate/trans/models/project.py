@@ -37,7 +37,7 @@ from weblate.trans.inherited_settings import (
     InheritableStringSetting,
     get_disabled_component_new_language_filter,
     get_inherit_field_name,
-    get_inheritable_setting_value,
+    should_disable_inheritance,
 )
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.audit import log_setting_changes, should_track_field
@@ -640,9 +640,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             old_effective_check_flags = old.effective_check_flags.format()
             update_fields_set = None if update_fields is None else set(update_fields)
             for field in INHERITABLE_COMPONENT_SETTINGS:
-                if get_inheritable_setting_value(
-                    old, field
-                ) != get_inheritable_setting_value(self, field):
+                if should_disable_inheritance(self, old, field):
                     inherit = get_inherit_field_name(field)
                     setattr(self, inherit, False)
                     if update_fields_set is not None:

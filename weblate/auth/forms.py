@@ -232,7 +232,7 @@ class BaseInviteForm:
     def setup_group_field(self, project) -> None:
         self.project = project
         if project:
-            self.fields["group"].queryset = project.group_set.select_related(
+            self.fields["group"].queryset = project.defined_groups.select_related(
                 "defining_project", "defining_workspace"
             ).order()
         else:
