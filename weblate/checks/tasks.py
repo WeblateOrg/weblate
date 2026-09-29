@@ -4,13 +4,225 @@
 
 from __future__ import annotations
 
-from django.db import transaction
+from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Literal, TypedDict
+
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError, OperationalError, transaction
+from django.db.models import Value
+from django.db.models.functions import MD5, Lower
 
 from weblate.checks.base import BatchCheckMixin
-from weblate.checks.models import CHECKS
-from weblate.trans.models import Component
+from weblate.checks.models import CHECKS, Check
+from weblate.trans.models import Component, Project, Unit
+from weblate.trans.util import split_plural
 from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeoutError
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Translation
+
+
+class PropagatedCheckGroup(TypedDict):
+    check: str
+    scope: Literal["source", "target"]
+    source_language_id: int | None
+    language_id: int
+    plural_id: int
+    source: str
+    context: str
+    target: str
+
+
+@dataclass
+class PendingCheckRefresh:
+    """Collect refreshes within one savepoint without retaining model instances."""
+
+    project_id: int
+    groups: list[PropagatedCheckGroup] = field(default_factory=list)
+    group_keys: set[tuple[object, ...]] = field(default_factory=set)
+    unit_ids: set[int] = field(default_factory=set)
+
+    def __call__(self) -> None:
+        refresh_propagated_checks.delay(
+            self.project_id, self.groups, sorted(self.unit_ids)
+        )
+
+
+def schedule_propagated_checks(
+    unit: Unit, checks: set[str], *, refresh_unit: bool = False
+) -> None:
+    component = unit.translation.component
+    connection = transaction.get_connection()
+    pending = None
+    # Never merge into an outer savepoint's callback: a rollback of the inner
+    # savepoint must discard its refreshes as well as its changes.
+    for savepoints, callback, _robust in connection.run_on_commit:
+        if (
+            savepoints == set(connection.savepoint_ids)
+            and isinstance(callback, PendingCheckRefresh)
+            and callback.project_id == component.project_id
+        ):
+            pending = callback
+            break
+    if pending is None:
+        pending = PendingCheckRefresh(component.project_id)
+    if refresh_unit:
+        pending.unit_ids.add(unit.pk)
+
+    for check in sorted(checks):
+        scope = CHECKS[check].propagates
+        if scope is None:
+            continue
+        states = [
+            {
+                "source": unit.old_unit["source"],
+                "context": unit.old_unit["context"],
+                "target": unit.old_unit["target"],
+            },
+            {"source": unit.source, "context": unit.context, "target": unit.target},
+        ]
+        for state in states:
+            group: PropagatedCheckGroup = {
+                "check": check,
+                "scope": scope,
+                "source_language_id": component.source_language_id,
+                "language_id": unit.translation.language_id,
+                "plural_id": unit.translation.plural_id,
+                "source": state.get("source", unit.source),
+                "context": state.get("context", unit.context),
+                "target": state.get("target", unit.target),
+            }
+            if scope == "source":
+                group["target"] = ""
+            else:
+                if not any(split_plural(group["target"])):
+                    continue
+                group["source"] = group["context"] = ""
+                # Target groups are shared by translations with the same plural.
+                group["language_id"] = 0
+            key = tuple(group.values())
+            if key not in pending.group_keys:
+                pending.group_keys.add(key)
+                pending.groups.append(group)
+    if (pending.groups or pending.unit_ids) and not any(
+        callback is pending for _, callback, _ in connection.run_on_commit
+    ):
+        transaction.on_commit(pending)
+
+
+@transaction.atomic
+def _store_propagated_checks(
+    check_id: str, create: list[Check], remove: list[int]
+) -> None:
+    create.sort(key=lambda check: (check.unit_id, check.name))
+    Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
+    Check.objects.filter(unit_id__in=remove, name=check_id).delete()
+
+
+@app.task(
+    trail=False,
+    autoretry_for=(
+        WeblateLockTimeoutError,
+        OperationalError,
+        IntegrityError,
+        ObjectDoesNotExist,
+    ),
+    retry_backoff=60,
+)
+def refresh_propagated_checks(
+    project_id: int,
+    groups: list[PropagatedCheckGroup],
+    unit_ids: list[int] | None = None,
+) -> None:
+    try:
+        project = Project.objects.get(pk=project_id)
+    except Project.DoesNotExist:
+        return
+    # Commit warning changes in chunks so the worker does not hold row locks
+    # for the entire group and block concurrent translation saves.
+    with project.checks_lock:
+        project.log_info("refreshing %d propagated check groups", len(groups))
+        translations: dict[int, Translation] = {}
+        sources: set[int] = set()
+        # Text propagation has already changed these units' content. They need
+        # their own checks updated, in addition to related propagated warnings.
+        if unit_ids:
+            for unit in (
+                Unit.objects.filter(
+                    pk__in=unit_ids, translation__component__project_id=project_id
+                )
+                .prefetch()
+                .prefetch_source()
+                .prefetch_all_checks()
+                .iterator(chunk_size=500)
+            ):
+                with transaction.atomic():
+                    unit.is_batch_update = True
+                    unit.run_checks(skip_propagate=True)
+                translations[unit.translation_id] = unit.translation
+                if unit.source_unit_id is not None:
+                    sources.add(unit.source_unit_id)
+        for group in groups:
+            check = CHECKS.get(group["check"])
+            if check is None or check.propagates != group["scope"]:
+                continue
+            if check.propagates == "target" and not any(split_plural(group["target"])):
+                continue
+            units = Unit.objects.filter(
+                translation__component__project_id=project_id,
+                translation__component__source_language_id=group["source_language_id"],
+                translation__component__allow_translation_propagation=True,
+                translation__plural_id=group["plural_id"],
+            )
+            if check.propagates == "source":
+                units = units.filter(
+                    translation__language_id=group["language_id"],
+                    source=group["source"],
+                    context=group["context"],
+                    source__lower__md5=MD5(Lower(Value(group["source"]))),
+                    context__lower__md5=MD5(Lower(Value(group["context"]))),
+                )
+            else:
+                units = units.filter(
+                    target=group["target"],
+                    target__lower__md5=MD5(Lower(Value(group["target"]))),
+                )
+            units = units.prefetch().prefetch_source().prefetch_all_checks()
+            create = []
+            remove = []
+            for unit, failed in check.evaluate_propagated(units):
+                # Also repair derived source warnings and stats on a retry
+                # after an earlier attempt committed only some chunks.
+                translations[unit.translation_id] = unit.translation
+                if not unit.is_source and unit.source_unit_id is not None:
+                    sources.add(unit.source_unit_id)
+                existing = check.check_id in unit.all_checks_names
+                if existing == failed:
+                    continue
+                if failed:
+                    create.append(Check(unit_id=unit.pk, name=check.check_id))
+                else:
+                    remove.append(unit.pk)
+                if len(create) + len(remove) >= 500:
+                    _store_propagated_checks(check.check_id, create, remove)
+                    create = []
+                    remove = []
+            _store_propagated_checks(check.check_id, create, remove)
+        for source in (
+            Unit.objects.filter(pk__in=sources)
+            .prefetch()
+            .prefetch_all_checks()
+            .iterator(chunk_size=500)
+        ):
+            with transaction.atomic():
+                source.is_batch_update = True
+                source.run_checks(skip_propagate=True)
+            translations[source.translation_id] = source.translation
+        with transaction.atomic():
+            for translation in translations.values():
+                translation.require_full_stats_rebuild()
+                translation.invalidate_cache()
 
 
 def _perform_batched_checks(component: Component, checks: list[str]) -> None:

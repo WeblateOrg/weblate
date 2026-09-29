@@ -2045,18 +2045,33 @@ class EditComplexTest(ViewTestCase):
         )
         self.create_link_existing()
         self.assertEqual(set(units.values_list("target", flat=True)), {""})
-        self.edit_unit("Thank you for using Weblate.", "Díky za použití Weblate")
-        self.assertEqual(
-            set(units.values_list("target", flat=True)), {"Díky za použití Weblate"}
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Thank you for using Weblate.", "Díky za použití Weblate")
+            self.assertEqual(
+                set(units.values_list("target", flat=True)), {"Díky za použití Weblate"}
+            )
+            edited_unit = self.get_unit("Thank you for using Weblate.")
+            self.assertEqual(edited_unit.all_checks_names, {"end_stop"})
+            self.assertEqual(
+                [unit.all_checks_names for unit in units.exclude(pk=edited_unit.pk)],
+                [set()],
+            )
         self.assertEqual(
             [unit.all_checks_names for unit in units.iterator()],
             [{"end_stop"}, {"end_stop"}],
         )
-        self.edit_unit("Thank you for using Weblate.", "Díky za použití Weblate.")
-        self.assertEqual(
-            set(units.values_list("target", flat=True)), {"Díky za použití Weblate."}
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Thank you for using Weblate.", "Díky za použití Weblate.")
+            self.assertEqual(
+                set(units.values_list("target", flat=True)),
+                {"Díky za použití Weblate."},
+            )
+            edited_unit = self.get_unit("Thank you for using Weblate.")
+            self.assertEqual(edited_unit.all_checks_names, set())
+            self.assertEqual(
+                [unit.all_checks_names for unit in units.exclude(pk=edited_unit.pk)],
+                [{"end_stop"}],
+            )
         self.assertEqual(
             [unit.all_checks_names for unit in units.iterator()], [set(), set()]
         )

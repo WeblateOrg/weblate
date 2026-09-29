@@ -32,6 +32,7 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Component, Unit
+    from weblate.trans.models.unit import UnitQuerySet
 
     from .flags import Flags
     from .models import Check
@@ -128,6 +129,38 @@ class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
         if unit.readonly and not self.ignore_readonly:
             return False
         return self.ignore_untranslated and (not unit.state or unit.readonly)
+
+    def applies_to_propagated_unit(self, unit: Unit) -> bool:
+        """Use the same check selection as an ordinary unit check update."""
+        from weblate.checks.models import CHECKS  # ruff: ignore[import-outside-top-level]
+
+        if unit.translation.component.is_glossary:
+            checks = CHECKS.glossary
+        elif unit.is_source:
+            checks = CHECKS.source
+        elif unit.readonly:
+            return False
+        elif unit.state:
+            checks = CHECKS.target
+        else:
+            checks = CHECKS.target_untranslated
+        return self.check_id in checks
+
+    def evaluate_propagated(self, units: UnitQuerySet) -> Iterable[tuple[Unit, bool]]:
+        """Evaluate just this check; custom checks can override for bulk evaluation."""
+        for unit in units.iterator(chunk_size=500):
+            failed = False
+            if self.applies_to_propagated_unit(unit):
+                sources = unit.get_source_plurals()
+                if unit.is_source and not unit.translation.component.is_glossary:
+                    failed = bool(self.check_source(sources, unit))
+                else:
+                    failed = bool(
+                        self.check_target_with_flags(
+                            sources, unit.get_target_plurals(), unit, unit.all_flags
+                        )
+                    )
+            yield unit, failed
 
     def should_display(self, unit: Unit) -> bool:
         """Display the check always, not only when failing."""

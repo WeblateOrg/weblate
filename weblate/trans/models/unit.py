@@ -4,11 +4,10 @@
 
 from __future__ import annotations
 
-import operator
 import re
 from copy import deepcopy
-from functools import partial, reduce
-from typing import TYPE_CHECKING, Any, Literal, TypedDict
+from functools import partial
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
@@ -1890,6 +1889,14 @@ class Unit(models.Model, LoggerMixin):
                 last_updated=self.last_updated,
             )
 
+            from weblate.checks.tasks import schedule_propagated_checks  # ruff: ignore[import-outside-top-level]
+
+            propagated_checks = {
+                name for name, check in CHECKS.items() if check.propagates
+            }
+            for unit in to_update:
+                schedule_propagated_checks(unit, propagated_checks, refresh_unit=True)
+
             # Postprocess changes and generate change objects
             changes = [
                 unit.post_save(
@@ -2324,7 +2331,7 @@ class Unit(models.Model, LoggerMixin):
             return len(self._prefetched_objects_cache["labels"])
         return self.labels.count()
 
-    def run_checks(  # ruff: ignore[complex-structure, too-many-branches]
+    def run_checks(  # ruff: ignore[complex-structure]
         self, *, force_propagate: bool = False, skip_propagate: bool = False
     ) -> None:
         """Update checks for this unit."""
@@ -2354,9 +2361,19 @@ class Unit(models.Model, LoggerMixin):
             target_checks = True
 
         # Initial propagation setup
-        propagation: set[Literal["source", "target"]] = set()
+        propagation: set[str] = set()
         if force_propagate:
-            propagation.add("source")
+            propagation.update(
+                name for name, check in CHECKS.items() if check.propagates == "source"
+            )
+        if not skip_propagate and not component.batch_checks:
+            for name, check in CHECKS.items():
+                if check.propagates and any(
+                    self.old_unit.get(field, getattr(self, field))
+                    != getattr(self, field)
+                    for field in ("source", "context", "target", "state")
+                ):
+                    propagation.add(name)
 
         # Run all checks
         if checks:
@@ -2376,7 +2393,7 @@ class Unit(models.Model, LoggerMixin):
                             # Create new check
                             create.append(Check(unit=self, dismissed=False, name=check))
                             if check_obj.propagates and not skip_propagate:
-                                propagation.add(check_obj.propagates)
+                                propagation.add(check)
             else:
                 # Source checks mostly use the base skip logic; compute flags once.
                 all_flags = self.all_flags
@@ -2391,7 +2408,7 @@ class Unit(models.Model, LoggerMixin):
                             # Create new check
                             create.append(Check(unit=self, dismissed=False, name=check))
                             if check_obj.propagates and not skip_propagate:
-                                propagation.add(check_obj.propagates)
+                                propagation.add(check)
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
@@ -2400,62 +2417,17 @@ class Unit(models.Model, LoggerMixin):
         if old_checks:
             Check.objects.filter(unit=self, name__in=old_checks).delete()
             if not skip_propagate:
-                for check_name in old_checks:
-                    try:
-                        check_obj = CHECKS[check_name]
-                    except KeyError:
-                        # Skip disabled/removed checks
-                        continue
-                    if check_obj.propagates:
-                        self.translation.require_full_stats_rebuild()
-                        if check_obj.propagates == "source":
-                            propagated_units = self.propagated_units
-                            values = set(
-                                propagated_units.values_list("target", flat=True)
-                            )
-                        elif check_obj.propagates == "target":
-                            propagated_units = Unit.objects.same_target(
-                                self, self.old_unit["target"]
-                            )
-                            values = set(
-                                propagated_units.values_list("source", flat=True)
-                            )
-                        else:
-                            message = f"Unsupported propagation: {check_obj.propagates}"
-                            raise ValueError(message)
+                propagation.update(
+                    name
+                    for name in old_checks
+                    if (removed_check := CHECKS.get(name)) is not None
+                    and removed_check.propagates
+                )
 
-                        if len(values) == 1:
-                            for other in propagated_units:
-                                other.check_set.filter(name=check_name).delete()
-                                if (
-                                    other.translation != self.translation
-                                    or other.source != self.source
-                                ):
-                                    other.translation.invalidate_cache()
-                                other.clear_checks_cache()
+        if propagation and not skip_propagate:
+            from weblate.checks.tasks import schedule_propagated_checks  # ruff: ignore[import-outside-top-level]
 
-        # Propagate checks which need it (for example consistency)
-        if propagation:
-            self.translation.require_full_stats_rebuild()
-            querymap: dict[Literal["source", "target"], UnitQuerySet] = {
-                "source": self.propagated_units,
-                "target": Unit.objects.same_target(self),
-            }
-            propagated_units: UnitQuerySet = reduce(
-                operator.or_, (querymap[item] for item in propagation)
-            )
-            propagated_units = propagated_units.distinct().prefetch_all_checks()
-
-            for unit in propagated_units:
-                with start_span(op="unit.propagate_check", name=f"{unit.pk}"):
-                    try:
-                        unit.run_checks(force_propagate=False, skip_propagate=True)
-                    except Unit.DoesNotExist:
-                        # This can happen in some corner cases like changing
-                        # source language of a project - the source language is
-                        # changed first and then components are updated. But
-                        # not all are yet updated and this spans across them.
-                        continue
+            schedule_propagated_checks(self, propagation)
 
         # Trigger source checks on target check update (multiple failing checks)
         if (create or old_checks) and not self.is_source:
@@ -2464,7 +2436,7 @@ class Unit(models.Model, LoggerMixin):
                 self.source_unit.translation.component = self.translation.component
                 self.translation.component.updated_sources.add(self.source_unit.id)
             else:
-                self.source_unit.run_checks()
+                self.source_unit.run_checks(skip_propagate=skip_propagate)
 
         current_checks = (existing_checks - old_checks) | {
             check.name for check in create

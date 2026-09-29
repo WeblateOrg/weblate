@@ -11,6 +11,11 @@ the user:
 
 .. image:: /screenshots/checks.webp
 
+Checks on the edited string update immediately. Related warnings for
+:ref:`inconsistent translations <check-inconsistent>` and
+:ref:`reused translations <check-reused>` update in the background, so warnings
+and statistics on other strings can briefly reflect the previous translation.
+
 
 .. _autofix:
 
