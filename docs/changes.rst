@@ -21,9 +21,11 @@ Weblate 2026.10
 * Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
 * Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
 * Added a configurable :setting:`AVATAR_URL_TEMPLATE` to support alternative avatar providers, such as fetching by username instead of e-mail hash.
+* Added selecting individual strings from the :ref:`string list <search-strings>` for :ref:`bulk-edit`.
 
 .. rubric:: Improvements
 
+* The project :guilabel:`Files` menu now lists translation download formats from :setting:`WEBLATE_EXPORTERS` instead of a fixed subset.
 * :ref:`LLM automatic suggestions <machine-translation>` now show the model and, for custom API endpoints, the host that produced them.
 * Automation actions can select strings from the triggering change or a previous action's affected units. See :doc:`admin/automation`.
 * Unified browsing and :ref:`searching strings <search-strings>`, aligned search filters with the status overview, and added direct editor access to language-specific lists and an :guilabel:`All strings` filter.
@@ -51,6 +53,7 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Prevented project access managers from assigning users to site-wide teams associated with the project.
 * Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
 * Prevented concurrent requests from exceeding configured web action rate limits.
 * Prevented repository URLs from injecting executable Mercurial configuration.
@@ -59,9 +62,11 @@ Weblate 2026.10
 * Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
 * Protected Git and Mercurial metadata consistently in repository paths and downloads, and excluded known foreign VCS metadata when importing component ZIP files.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
+* Rate-limited password-reset requests for unknown e-mail addresses.
 
 .. rubric:: Bug fixes
 
+* Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, nested, and multiline tags.
 * Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
 * Project language archive downloads in the REST API now honor language-scoped download permissions consistently with the web interface.
 * Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry instrumentation is enabled.

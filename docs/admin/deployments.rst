@@ -48,3 +48,13 @@ It also is possible to use the command-line interface:
 .. code-block:: sh
 
     yunohost app install weblate
+
+Weblate with MASH
+-----------------
+
+The `MASH <https://github.com/mother-of-all-self-hosting/mash-playbook>`_ Ansible
+playbook can install Weblate as a Docker container, together with the
+PostgreSQL, Valkey, and Traefik services it depends on. See the
+`Weblate page in the MASH documentation
+<https://github.com/mother-of-all-self-hosting/mash-playbook/blob/main/docs/services/weblate.md>`_
+for the configuration to add to your inventory.

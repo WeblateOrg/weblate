@@ -1227,7 +1227,6 @@ Generic settings
       * :setting:`RATELIMIT_WINDOW`
       * :setting:`RATELIMIT_LOCKOUT`
 
-
 .. envvar:: WEBLATE_API_RATELIMIT_ANON
 .. envvar:: WEBLATE_API_RATELIMIT_USER
 

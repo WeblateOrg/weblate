@@ -1845,7 +1845,13 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     def update(self, instance, validated_data):
         if "enforced_checks" in validated_data:
             validated_data.setdefault("inherit_enforced_checks", False)
-        return super().update(instance, validated_data)
+        instance.preserve_enforced_checks_inheritance = validated_data.get(
+            "inherit_enforced_checks"
+        )
+        try:
+            return super().update(instance, validated_data)
+        finally:
+            del instance.preserve_enforced_checks_inheritance
 
     def get_billing_forced_access_control(
         self, workspace: Workspace | None
@@ -2757,7 +2763,13 @@ class ComponentSerializer(RemovableSerializer[Component]):
     def update(self, instance, validated_data):
         if "enforced_checks" in validated_data:
             validated_data.setdefault("inherit_enforced_checks", False)
-        return super().update(instance, validated_data)
+        instance.preserve_enforced_checks_inheritance = validated_data.get(
+            "inherit_enforced_checks"
+        )
+        try:
+            return super().update(instance, validated_data)
+        finally:
+            del instance.preserve_enforced_checks_inheritance
 
 
 class NotificationSerializer(serializers.ModelSerializer[Subscription]):
@@ -4069,7 +4081,13 @@ class CategorySerializer(RemovableSerializer[Category]):
     def update(self, instance, validated_data):
         if "enforced_checks" in validated_data:
             validated_data.setdefault("inherit_enforced_checks", False)
-        return super().update(instance, validated_data)
+        instance.preserve_enforced_checks_inheritance = validated_data.get(
+            "inherit_enforced_checks"
+        )
+        try:
+            return super().update(instance, validated_data)
+        finally:
+            del instance.preserve_enforced_checks_inheritance
 
     def to_internal_value(self, data):
         result = super().to_internal_value(data)
