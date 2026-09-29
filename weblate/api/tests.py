@@ -8159,6 +8159,22 @@ class ComponentAPITest(APIBaseTest):
             "https://example.com/translations/{{filename}}#L{{line}}",
         )
 
+    def test_patch_component_push_on_update(self) -> None:
+        self.assertTrue(self.component.push_on_update)
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"push_on_update": False},
+        )
+
+        self.component.refresh_from_db()
+        self.assertFalse(response.data["push_on_update"])
+        self.assertFalse(self.component.push_on_update)
+
     def test_patch_component_repoweb_translations_validation(self) -> None:
         response = self.do_request(
             "api:component-detail",

@@ -22,7 +22,6 @@ from weblate.vcs.params import (
     GitForcePush,
     MergeRequestAutomerge,
     MergeRequestMergeMethod,
-    PushAfterUpdate,
     get_default_params_for_vcs,
     get_params_for_vcs,
     get_vcs_param_for_name,
@@ -33,7 +32,7 @@ from weblate.vcs.params import (
 class VCSParamsRegistryTest(SimpleTestCase):
     def test_git_scope(self) -> None:
         names = {param.name for param in get_params_for_vcs("git")}
-        self.assertEqual(names, {"git_force_push", "push_after_update"})
+        self.assertEqual(names, {"git_force_push"})
 
     def test_github_scope(self) -> None:
         names = {param.name for param in get_params_for_vcs("github")}
@@ -43,29 +42,20 @@ class VCSParamsRegistryTest(SimpleTestCase):
                 "create_merge_request",
                 "merge_request_automerge",
                 "merge_request_merge_method",
-                "push_after_update",
             },
         )
 
-    def test_mercurial_scope(self) -> None:
-        names = {param.name for param in get_params_for_vcs("mercurial")}
-        self.assertEqual(names, {"push_after_update"})
-
-    def test_local_has_no_params(self) -> None:
-        self.assertEqual(get_params_for_vcs("local"), [])
+    def test_mercurial_has_no_params(self) -> None:
+        self.assertEqual(get_params_for_vcs("mercurial"), [])
 
     def test_defaults(self) -> None:
-        self.assertEqual(
-            get_default_params_for_vcs("git"),
-            {"git_force_push": False, "push_after_update": True},
-        )
+        self.assertEqual(get_default_params_for_vcs("git"), {"git_force_push": False})
         self.assertEqual(
             get_default_params_for_vcs("github"),
             {
                 "create_merge_request": True,
                 "merge_request_automerge": False,
                 "merge_request_merge_method": "merge",
-                "push_after_update": True,
             },
         )
 
@@ -125,10 +115,6 @@ class VCSParamsRegistryTest(SimpleTestCase):
         self.assertIs(GitForcePush.get_value({"git_force_push": "true"}), True)
         self.assertIs(
             MergeRequestAutomerge.get_value({"merge_request_automerge": "false"}),
-            False,
-        )
-        self.assertIs(
-            PushAfterUpdate.get_value({"push_after_update": "false"}),
             False,
         )
 

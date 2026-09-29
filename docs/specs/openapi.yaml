@@ -33823,6 +33823,11 @@ components:
         push_on_commit:
           type: boolean
           description: Whether the repository should be pushed upstream on every commit.
+        push_on_update:
+          type: boolean
+          description: Whether the repository should be pushed upstream after updating
+            it, even when the update did not commit any translations. When turned
+            off, commits made by the update are pushed with the next translation commit.
         commit_pending_age:
           type: integer
           maximum: 2160
@@ -36727,6 +36732,11 @@ components:
         push_on_commit:
           type: boolean
           description: Whether the repository should be pushed upstream on every commit.
+        push_on_update:
+          type: boolean
+          description: Whether the repository should be pushed upstream after updating
+            it, even when the update did not commit any translations. When turned
+            off, commits made by the update are pushed with the next translation commit.
         commit_pending_age:
           type: integer
           maximum: 2160
@@ -38632,6 +38642,11 @@ components:
         push_on_commit:
           type: boolean
           description: Whether the repository should be pushed upstream on every commit.
+        push_on_update:
+          type: boolean
+          description: Whether the repository should be pushed upstream after updating
+            it, even when the update did not commit any translations. When turned
+            off, commits made by the update are pushed with the next translation commit.
         commit_pending_age:
           type: integer
           maximum: 2160
