@@ -88,7 +88,7 @@ from weblate.trans.inherited_settings import (
     InheritableStringSetting,
     apply_create_inheritance_defaults,
     get_inherit_field_name,
-    get_inheritable_setting_value,
+    should_disable_inheritance,
 )
 from weblate.trans.mixins import (
     CacheKeyMixin,
@@ -1622,9 +1622,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> set[str] | None:
         update_fields_set = None if update_fields is None else set(update_fields)
         for field in INHERITABLE_COMPONENT_SETTINGS:
-            if get_inheritable_setting_value(
-                old, field
-            ) != get_inheritable_setting_value(self, field):
+            if should_disable_inheritance(self, old, field):
                 inherit = get_inherit_field_name(field)
                 setattr(self, inherit, False)
                 if update_fields_set is not None:

@@ -15,7 +15,7 @@ extraction tests when refreshing a rule pair.
 | Files | Upstream version | Source |
 | --- | --- | --- |
 | polkit.* | 127 | <https://github.com/polkit-org/polkit/tree/127/gettext/its> |
-| metainfo.* | v1.2.0 | <https://github.com/ximion/appstream/tree/v1.2.0/data/its> |
+| metainfo.* | v1.2.1 | <https://github.com/ximion/appstream/tree/v1.2.1/data/its> |
 | gschema.* | 2.90.0 | <https://github.com/GNOME/glib/tree/2.90.0/gio> |
 | gtkbuilder.* | 3.24.52 | <https://github.com/GNOME/gtk/tree/3.24.52/gtk> |
 | shared-mime-info.* | 2.5.1 | <https://gitlab.freedesktop.org/xdg/shared-mime-info/-/tree/2.5.1/data/its> |

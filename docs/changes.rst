@@ -24,6 +24,7 @@ Weblate 2026.10
 .. rubric:: Improvements
 
 * :ref:`Repository maintenance <repository-maintenance>` now links to the latest pull or merge request opened by Weblate.
+* The project :guilabel:`Files` menu now lists translation download formats from :setting:`WEBLATE_EXPORTERS` instead of a fixed subset.
 * :ref:`LLM automatic suggestions <machine-translation>` now show the model and, for custom API endpoints, the host that produced them.
 * Automation actions can select strings from the triggering change or a previous action's affected units. See :doc:`admin/automation`.
 * Unified browsing and :ref:`searching strings <search-strings>`, aligned search filters with the status overview, and added direct editor access to language-specific lists and an :guilabel:`All strings` filter.
@@ -51,6 +52,7 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Prevented project access managers from assigning users to site-wide teams associated with the project.
 * Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
 * Prevented concurrent requests from exceeding configured web action rate limits.
 * Prevented repository URLs from injecting executable Mercurial configuration.
