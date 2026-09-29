@@ -1680,6 +1680,7 @@ class GitRepository(Repository):
             remote_op="push",
             environment=self.get_auth_environment(),
         )
+        # pylint: disable-next=useless-return
         return None
 
     def unshallow(self) -> None:
