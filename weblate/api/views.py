@@ -4294,12 +4294,12 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         if self.action in {"list", "retrieve"}:
             return UnitSerializer
         if self.action == "screenshots":
-            # GET (list) and POST (associate) need different shapes, so
+            # GET/HEAD (list) and POST (associate) need different shapes, so
             # this one action can't be satisfied by a single
             # serializer_class= on the @action decorator.
-            if self.request.method == "GET":
-                return ScreenshotSerializer
-            return UnitScreenshotAssociationSerializer
+            if self.request.method == "POST":
+                return UnitScreenshotAssociationSerializer
+            return ScreenshotSerializer
         return super().get_serializer_class()
 
     def get_queryset(self):
@@ -4513,52 +4513,48 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     def screenshots(self, request: Request, **kwargs):
         unit = self.get_object()
 
-        if request.method == "GET":
-            queryset = (
-                Screenshot.objects.filter_access(request.user)
-                .filter(units=unit)
-                .select_related(
-                    "translation__component__project", "translation__language"
+        if request.method == "POST":
+            if not request.user.has_perm("screenshot.edit", unit.translation):
+                raise PermissionDenied
+
+            # Validate through the serializer (not a manual int() coercion) so a
+            # non-integral value such as 5.7 is rejected instead of silently
+            # truncated to 5.
+            request_serializer = UnitScreenshotAssociationSerializer(data=request.data)
+            request_serializer.is_valid(raise_exception=True)
+            screenshot_id = request_serializer.validated_data["screenshot_id"]
+
+            try:
+                # select_for_update() serializes concurrent requests for the same
+                # screenshot, so two racing POSTs can't both observe "not yet
+                # associated" and both record a SCREENSHOT_ADDED change.
+                screenshot = (
+                    Screenshot.objects.filter_access(request.user)
+                    .select_for_update(of=("self",))
+                    .get(translation=unit.translation, pk=screenshot_id)
                 )
-                .prefetch_related("units")
-                .order_by("id")
-            )
-            page = self.paginate_queryset(queryset)
-            serializer = ScreenshotSerializer(
-                page, many=True, context={"request": request}
-            )
-            return self.get_paginated_response(serializer.data)
+            except Screenshot.DoesNotExist as error:
+                msg = "screenshot_id"
+                raise not_found_validation_error(msg, "Screenshot") from error
 
-        if not request.user.has_perm("screenshot.edit", unit.translation):
-            raise PermissionDenied
+            # Idempotent: avoid creating a duplicate SCREENSHOT_ADDED change entry
+            # when the association already exists (for example on a client retry).
+            if not screenshot.units.filter(pk=unit.pk).exists():
+                screenshot.add_unit(unit, user=request.user)
+            serializer = ScreenshotSerializer(screenshot, context={"request": request})
 
-        # Validate through the serializer (not a manual int() coercion) so a
-        # non-integral value such as 5.7 is rejected instead of silently
-        # truncated to 5.
-        request_serializer = UnitScreenshotAssociationSerializer(data=request.data)
-        request_serializer.is_valid(raise_exception=True)
-        screenshot_id = request_serializer.validated_data["screenshot_id"]
+            return Response(serializer.data, status=HTTP_200_OK)
 
-        try:
-            # select_for_update() serializes concurrent requests for the same
-            # screenshot, so two racing POSTs can't both observe "not yet
-            # associated" and both record a SCREENSHOT_ADDED change.
-            screenshot = (
-                Screenshot.objects.filter_access(request.user)
-                .select_for_update(of=("self",))
-                .get(translation=unit.translation, pk=screenshot_id)
-            )
-        except Screenshot.DoesNotExist as error:
-            msg = "screenshot_id"
-            raise not_found_validation_error(msg, "Screenshot") from error
-
-        # Idempotent: avoid creating a duplicate SCREENSHOT_ADDED change entry
-        # when the association already exists (for example on a client retry).
-        if not screenshot.units.filter(pk=unit.pk).exists():
-            screenshot.add_unit(unit, user=request.user)
-        serializer = ScreenshotSerializer(screenshot, context={"request": request})
-
-        return Response(serializer.data, status=HTTP_200_OK)
+        queryset = (
+            Screenshot.objects.filter_access(request.user)
+            .filter(units=unit)
+            .select_related("translation__component__project", "translation__language")
+            .prefetch_related("units")
+            .order_by("id")
+        )
+        page = self.paginate_queryset(queryset)
+        serializer = ScreenshotSerializer(page, many=True, context={"request": request})
+        return self.get_paginated_response(serializer.data)
 
     @extend_schema(
         description="Remove screenshot association with unit.",

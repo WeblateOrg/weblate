@@ -14364,6 +14364,48 @@ class UnitAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 1)
         self.assertIn(str(shot.pk), response.data["results"][0]["url"])
 
+    def test_head_unit_screenshots(self) -> None:
+        unit = self.component.source_translation.unit_set.all()[0]
+        shot = Screenshot.objects.create(
+            name="Obrazek", translation=self.component.source_translation
+        )
+        shot.add_unit(unit)
+        unassociated = Screenshot.objects.create(
+            name="Other screenshot", translation=self.component.source_translation
+        )
+        url = reverse("api:unit-screenshots", kwargs={"pk": unit.pk})
+        changes = Change.objects.count()
+        for superuser in (False, True):
+            self.authenticate(superuser)
+            if not superuser:
+                self.user.groups.clear()
+            self.user.clear_permissions_cache()
+            self.assertEqual(
+                bool(self.user.has_perm("screenshot.edit", unit.translation)), superuser
+            )
+            get_response = self.client.get(url)
+            self.assertEqual(get_response.status_code, 200)
+            for body in ("", json.dumps({"screenshot_id": unassociated.pk})):
+                with self.subTest(superuser=superuser, body=body):
+                    response = self.client.generic(
+                        "HEAD", url, body, content_type="application/json"
+                    )
+                    self.assertEqual(response.status_code, get_response.status_code)
+                    self.assertEqual(response.content, b"")
+                    for header in ("Content-Type", "Content-Length", "Allow", "Vary"):
+                        self.assertEqual(response.get(header), get_response.get(header))
+                    self.assertEqual(list(shot.units.all()), [unit])
+                    self.assertFalse(unassociated.units.exists())
+                    self.assertEqual(Change.objects.count(), changes)
+
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_permissions_cache()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertEqual(self.client.head(url).status_code, 404)
+
     def test_unit_add_screenshot_denied(self) -> None:
         unit = self.component.source_translation.unit_set.all()[0]
         shot = Screenshot.objects.create(
