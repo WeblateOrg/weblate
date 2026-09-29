@@ -41,7 +41,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-27 06:43+0000\n"
+"PO-Revision-Date: 2026-09-30 07:51+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -1881,8 +1881,8 @@ msgstr "Edición en masa"
 
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr ""
-"Edite los indicadores, las etiquetas o los estados de las cadenas de manera "
-"masiva."
+"Edite los modificadores, las etiquetas o los estados de las cadenas de "
+"manera masiva."
 
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr ""
@@ -2102,7 +2102,7 @@ msgid ""
 msgstr ""
 "Preconfiguración incorporada para el argumento xgettext, compatible con la "
 "integración de gettext de Meson. La preconfiguración de GLib añade las "
-"opciones de palabra clave y de indicador de formato que utiliza la "
+"opciones de palabra clave y de modificador de formato que utiliza la "
 "herramienta auxiliar de gettext de Meson."
 
 msgid ""
@@ -2294,6 +2294,11 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
+"Déjelo en blanco para que se busquen directamente los archivos de "
+"traducción. Cuando se activa, la detección coincide con el archivo base "
+"monolingüe o con el archivo base nuevo y usa esta plantilla como máscara de "
+"archivos. Incluya un comodín de idioma y {{ component }}; por ejemplo, "
+"locale/*/{{ component }}.po o docs/{{ component }}_*.md."
 
 msgid "Language filter"
 msgstr "Filtro de idioma"
@@ -2701,28 +2706,20 @@ msgstr ""
 "Actualiza la plantilla gettext utilizando el constructor gettext de Sphinx "
 "sin cargar la configuración del proyecto."
 
-#, fuzzy
-#| msgid "Uploaded file is too big."
 msgid "ITS rule file is too large."
-msgstr "El archivo cargado es demasiado grande."
+msgstr "El archivo de reglas ITS es demasiado grande."
 
-#, fuzzy
-#| msgid "The ZIP file contains too many entries."
 msgid "ITS rule file contains too many XPath expressions."
-msgstr "El archivo ZIP contiene demasiadas entradas."
+msgstr "El archivo de reglas ITS contiene demasiadas expresiones XPath."
 
-#, fuzzy
-#| msgid "The provided secret is too long."
 msgid "ITS XPath expression is too long."
-msgstr "El secreto proporcionado es muy extenso."
+msgstr "La expresión XPath ITS es demasiado extensa."
 
 msgid "Too many ITS rule files."
 msgstr "Hay demasiados archivos de reglas de ITS."
 
-#, fuzzy
-#| msgid "No source files are configured."
 msgid "ITS rule files are too large."
-msgstr "No está configurado ningún archivo de origen."
+msgstr "Los archivos de reglas ITS son demasiado grandes."
 
 msgid "ITS directories must be a list of strings."
 msgstr "Los directorios ITS deben ser una lista de cadenas."
@@ -2797,10 +2794,8 @@ msgstr "Aplanar las consignaciones de Git antes de insertar los cambios."
 msgid "API add-ons must be installed directly on a component."
 msgstr "El complemento solo puede instalarse en el componente."
 
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "This add-on is already installed on this component."
-msgstr "El complemento solo puede instalarse en el componente."
+msgstr "Este complemento ya está instalado en este componente."
 
 msgid "This add-on cannot be triggered manually."
 msgstr "Este complemento no puede provocarse manualmente."
@@ -2981,7 +2976,7 @@ msgid "Invalid component path."
 msgstr "Ruta de componente no válida."
 
 msgid "URL slug"
-msgstr "Indicador de URL"
+msgstr "URL amigable"
 
 msgid "Name used in URLs and filenames."
 msgstr "Nombre utilizado en los URL y nombres de archivo."
@@ -3989,10 +3984,8 @@ msgstr ""
 msgid "The file format does not support this."
 msgstr "El formato del archivo no lo admite."
 
-#, fuzzy
-#| msgid "You do not have permission to edit glossary entries."
 msgid "You do not have permission to edit this glossary."
-msgstr "No tiene permiso para editar entradas de glosario."
+msgstr "No tiene permiso para editar este glosario."
 
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
@@ -4063,42 +4056,34 @@ msgstr ""
 msgid "The component is outside this add-on's scope."
 msgstr "Este componente está configurado de manera incorrecta."
 
-#, fuzzy
-#| msgid "Category does not belong to this project."
 msgid "The change does not belong to this component."
-msgstr "La categoría no pertenece a este proyecto."
+msgstr "La modificación no corresponde a este componente."
 
-#, fuzzy
-#| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
-msgstr "Modo de traducción automatizada"
+msgstr "El anidamiento de la automatización es demasiado profundo."
 
 msgid "Automation definitions cannot exceed 64 KiB."
 msgstr ""
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "YAML aliases and tags are not supported."
-msgstr "No se admite el orden elegido."
+msgstr "No se admiten alias ni etiquetas YAML."
 
-#, fuzzy
-#| msgid "Automatically translated strings"
 msgid "Automation keys must be strings."
-msgstr "Cadenas traducidas automáticamente"
+msgstr "Las claves de automatización deben ser cadenas."
 
 msgid "Invalid automation YAML or JSON."
 msgstr ""
 
-#, fuzzy, python-format
-#| msgid "%(email)s: %(error)s"
+#, python-format
 msgid "%(path)s: %(error)s"
-msgstr "%(email)s: %(error)s"
+msgstr "%(path)s: %(error)s"
 
 msgid "Automation exceeds 100 nodes or eight nesting levels."
-msgstr ""
+msgstr "La automatización supera los 100 nodos u ocho niveles de anidación."
 
 msgid "Automation action IDs must be unique."
 msgstr ""
+"Los identificadores de las acciones de automatización deben ser unívocos."
 
 #, python-format
 msgid "%(path)s: trigger scope requires only change triggers."
@@ -4309,10 +4294,8 @@ msgstr "Se recibió un pago domiciliado «{}» para «{}» ({})."
 msgid "Payment \"{}\" received for \"{}\" ({})."
 msgstr "Se recibió un pago «{}» para «{}» ({})."
 
-#, fuzzy
-#| msgid "Changed from \"{}\" to \"{}\"."
 msgid "Merged billing \"{}\" into \"{}\"."
-msgstr "Modificado desde \"{}\" a \"{}\"."
+msgstr "Se fusionó la factura «{}» con «{}»."
 
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
@@ -4353,10 +4336,9 @@ msgstr ""
 msgid "AI: Fluency"
 msgstr "IA: fluidez"
 
-#, fuzzy
-#| msgid "The translation base language is editable."
 msgid "The evaluation detected a language quality issue."
-msgstr "El idioma base de la traducción se puede editar."
+msgstr ""
+"La evaluación detectó un problema relacionado con la calidad del lenguaje."
 
 msgid "AI: Terminology"
 msgstr "IA: terminología"
@@ -4396,7 +4378,7 @@ msgid "The following errors were found:"
 msgstr "Se han encontrado los siguientes errores:"
 
 msgid "Could not parse {} flag: {}"
-msgstr "No se pudo interpretar el indicador {}: {}"
+msgstr "No se pudo interpretar el modificador {}: {}"
 
 msgid "Accelerator key"
 msgstr "Tecla aceleradora"
@@ -4663,7 +4645,7 @@ msgid "Font spacing"
 msgstr "Espaciado de letra"
 
 msgid "ICU MessageFormat flags"
-msgstr "Indicadores MessageFormat de ICU"
+msgstr "Modificadores MessageFormat de ICU"
 
 msgid "ICU MessageFormat tag prefix"
 msgstr "Prefijo de etiqueta MessageFormat de ICU"
@@ -4681,23 +4663,23 @@ msgid "Fluent type"
 msgstr "Tipo de Fluent"
 
 msgid "Discard flag"
-msgstr "Descartar indicador"
+msgstr "Descartar modificador"
 
 #, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "El indicador de traducción no es válido: «%s»"
+msgstr "Modificador de traducción no válido: «%s»"
 
 #, python-format
 msgid "The translation flag has no parameters: \"%s\""
-msgstr "El indicador de traducción no tiene ningún parámetro: «%s»"
+msgstr "El modificador de traducción no tiene ningún parámetro: «%s»"
 
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "El indicador de traducción tiene parámetros incorrectos: «%s»"
+msgstr "El modificador de traducción tiene parámetros incorrectos: «%s»"
 
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Al indicador de traducción le faltan parámetros: «%s»"
+msgstr "Al modificador de traducción le faltan parámetros: «%s»"
 
 msgid "Format"
 msgstr "Formato"
@@ -5630,30 +5612,22 @@ msgstr "Multivalor de archivo CSV"
 msgid "Editing Fluent messages with attributes or selectors is not supported."
 msgstr ""
 
-#, fuzzy
-#| msgid "The file format does not support updating source strings."
 msgid "This file format does not support editing keys or context."
-msgstr "El formato de archivo no admite la actualización de cadenas de origen."
+msgstr "Este formato de archivo no permite editar claves ni contexto."
 
-#, fuzzy
-#| msgid "A user with this e-mail already exists."
 msgid "A string with this identity already exists."
-msgstr "Ya existe un usuario con ese correo electrónico."
+msgstr "Ya existe una cadena con esta identidad."
 
-#, fuzzy
-#| msgid "The file format does not support updating source strings."
 msgid "This file format does not support editing source strings."
-msgstr "El formato de archivo no admite la actualización de cadenas de origen."
+msgstr "Este formato de archivo no permite editar las cadenas de origen."
 
 #, fuzzy
 #| msgid "Update source strings upload is not supported with this format."
 msgid "Editing source strings with inline markup is not supported."
 msgstr "Las cadenas de origen actuales no están admitidas con este formato."
 
-#, fuzzy
-#| msgid "This role cannot be assigned to this team."
 msgid "The key cannot be represented in this file format."
-msgstr "No se puede asignar este rol a este equipo."
+msgstr "La clave no se puede representar en este formato de archivo."
 
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
@@ -8040,7 +8014,7 @@ msgid "Back to account settings"
 msgstr "Volver a la configuración de la cuenta"
 
 msgid "Redirecting you to the authentication provider."
-msgstr "Lo redirigiremos al proveedor de autenticación."
+msgstr "Le redirigiremos al proveedor de autenticación."
 
 msgid "Registration without a password:"
 msgstr "Registro sin una contraseña:"
@@ -9817,6 +9791,8 @@ msgid ""
 "Repository operations require permission on the component that owns the "
 "shared repository."
 msgstr ""
+"Las operaciones del repositorio requieren permiso en el componente al que "
+"pertenece el repositorio compartido."
 
 msgid "Affected components:"
 msgstr "Componentes afectados:"
@@ -9830,14 +9806,20 @@ msgid ""
 "You need the following permissions on the repository-owning component, which "
 "you cannot access:"
 msgstr ""
+"Necesita los permisos siguientes en el componente propietario del "
+"repositorio, al que no puede acceder:"
 
 msgid "Ask an administrator of the owning project to grant these permissions."
 msgstr ""
+"Pida al personal administrativo del proyecto propietario que le otorgue "
+"estos permisos."
 
 msgid ""
 "Ask your project administrator to coordinate access with the repository "
 "owner."
 msgstr ""
+"Pida al personal administrativo del proyecto que coordine el acceso con el "
+"propietario del repositorio."
 
 msgid "Repository status"
 msgstr "Estado del repositorio"
@@ -10107,11 +10089,8 @@ msgstr "Cambios del repositorio"
 msgid "Browse all repository changes"
 msgstr "Examinar todos los cambios del repositorio"
 
-#, fuzzy
-#| msgctxt "Number of strings"
-#| msgid "Waiting for review"
 msgid "Nothing to preview."
-msgstr "Revisión pendiente"
+msgstr "No hay nada que previsualizar."
 
 msgid "Shortcut"
 msgstr "Atajo"
@@ -10959,10 +10938,8 @@ msgid ""
 "so you can restore your data."
 msgstr ""
 
-#, fuzzy
-#| msgid "Add backup service"
 msgid "Buy backup service"
-msgstr "Añadir servicio de respaldos"
+msgstr "Comprar servicio de respaldos"
 
 #, fuzzy
 #| msgid "Cleaned up backup storage"
@@ -10993,10 +10970,8 @@ msgstr "Límites del paquete de ayudas"
 msgid "Support expiry"
 msgstr "Caducidad de asistencia"
 
-#, fuzzy
-#| msgid "Professional support"
 msgid "Professional support for your organization"
-msgstr "Mantenimiento profesional"
+msgstr "Asistencia profesional para su organización"
 
 msgid ""
 "Purchase professional support for expert help with setup, maintenance, and "
@@ -11018,10 +10993,8 @@ msgstr "Desenlaza paquete mantenido y deshabilita Discover Weblate"
 msgid "Unlink support package"
 msgstr "Desenlaza paquete mantenido"
 
-#, fuzzy
-#| msgid "Purchase support package"
 msgid "Purchase support"
-msgstr "Comprar paquete de asistencia"
+msgstr "Comprar asistencia"
 
 msgid "Contact customer care"
 msgstr "Contactar con atención al cliente"
@@ -11053,10 +11026,10 @@ msgid "Your Weblate is not listed on weblate.org"
 msgstr "Su Weblate no está catalogado en weblate.org"
 
 msgid "Disable discovery"
-msgstr "Desactivar descubrimiento"
+msgstr "Desactivar detección"
 
 msgid "Enable discovery"
-msgstr "Activar descubrimiento"
+msgstr "Activar detección"
 
 msgid "Manage your listing"
 msgstr "Gestionar su mención"
@@ -12037,7 +12010,7 @@ msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
 "La longitud máxima de la cadena la determina la cadena de origen o sus "
-"indicadores."
+"modificadores."
 
 msgid "Clone to translation"
 msgstr "Clonar a traducción"
@@ -12662,20 +12635,15 @@ msgstr "No se ha generado ningún informe aún."
 msgid "Report history pagination"
 msgstr "Paginación del historial de informes"
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are enabled for this language."
-msgstr "No existen glosarios definidos para este idioma."
+msgstr "Las revisiones están activadas en este idioma."
 
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "Reviews are disabled for this language."
-msgstr "No existen glosarios definidos para este idioma."
+msgstr "Las revisiones están desactivadas en este idioma."
 
-#, fuzzy, python-format
-#| msgid "Review strings"
+#, python-format
 msgid "Review setting: %(origin)s."
-msgstr "Revisar cadenas"
+msgstr "Configuración de revisiones: %(origin)s."
 
 #, python-format
 msgid ""
@@ -12696,24 +12664,24 @@ msgid ""
 "<a href=\"%(url)s\">Organize the project</a> to change its URL slug, move "
 "it, or remove it."
 msgstr ""
-"<a href=\"%(url)s\">Organizar el proyecto</a> para cambiar su indicador URL, "
-"moverlo o eliminarlo."
+"<a href=\"%(url)s\">Organice el proyecto</a> para cambiar su URL amigable, "
+"moverlo o quitarlo."
 
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the component</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
-"<a href=\"%(url)s\">Organizar el componente</a> para cambiar su indicador "
-"URL, moverlo o eliminarlo."
+"<a href=\"%(url)s\">Organice el componente</a> para cambiar su URL amigable, "
+"moverlo o quitarlo."
 
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Organize the category</a> to change its URL slug, move "
 "or remove it."
 msgstr ""
-"<a href=\"%(url)s\">Organiza la categoría</a> para cambiar su indicador URL, "
-"moverlo o eliminarlo."
+"<a href=\"%(url)s\">Organice la categoría</a> para cambiar su URL amigable, "
+"moverla o quitarla."
 
 msgid "Community"
 msgstr "Comunidad"
@@ -13562,35 +13530,36 @@ msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code> flag."
 msgstr ""
-"El control de calidad %(check)s se aplica, pero no se activa con <code>el "
-"indicador %(flag)s</code>."
+"Se hace cumplir la comprobación de calidad %(check)s, pero no está activada "
+"por medio del modificador <code>%(flag)s</code>."
 
 msgid ""
 "The check can be turned on by adding the corresponding flag to string or "
 "component flags."
 msgstr ""
-"La comprobación se puede activar añadiendo el indicador correspondiente a "
-"los indicadores de cadena o de componente."
+"La comprobación se puede activar añadiendo el modificador correspondiente a "
+"los modificadores de cadena o de componente."
 
 msgid ""
 "The glossary contains languages not used by any regular component in this "
 "project."
 msgstr ""
-"La globalidad contiene idiomas no utilizados por ningún componente usual en "
-"ese proyecto."
+"El glosario contiene idiomas que no utiliza ningún componente normal en este "
+"proyecto."
 
 msgid ""
 "Remove the glossary language if it is no longer needed, or add matching "
 "translations to regular components if the glossary should be used."
 msgstr ""
-"Retira el idioma global si no es recibido más, o añada traducciones "
-"coincidentes para componentes normales si el glosario sería utilizado."
+"Quite el idioma del glosario si ya no es necesario, o bien, añada las "
+"traducciones correspondientes a los componentes normales si se va a usar el "
+"glosario."
 
 #, python-format
 msgid "One screenshot has no string assigned to it."
 msgid_plural "%(count)s screenshots have no string assigned to them."
-msgstr[0] "Una captura de pantalla no tiene un texto asignado."
-msgstr[1] "%(count)s capturas de pantalla no tienen un texto asignado."
+msgstr[0] "A una captura de pantalla no se le ha asignado ninguna cadena."
+msgstr[1] "A %(count)s capturas de pantalla no se les ha asignado ninguna cadena."
 
 msgid "Manage screenshots"
 msgstr "Gestionar capturas de pantalla"
@@ -13610,7 +13579,7 @@ msgid "There are currently no backups."
 msgstr "Actualmente no hay respaldos."
 
 msgid "Trigger backup"
-msgstr "Activar respaldo"
+msgstr "Desencadenar respaldo"
 
 msgid "Backup will be generated in the background."
 msgstr "La copia de respaldo se generará en segundo plano."
@@ -14023,7 +13992,7 @@ msgid "This is your personal API key, do not share it with anybody else."
 msgstr "Esta es su clave personal del API; no la comparta con nadie."
 
 msgid "Error while loading form:"
-msgstr "Error al cargar formulario:"
+msgstr "Error al cargar el formulario:"
 
 msgid "Import translation project"
 msgstr "Importar el proyecto de traducción"
@@ -14067,11 +14036,8 @@ msgstr ""
 "ha movido a una ubicación diferente. Si el contenido del repositorio es "
 "diferente, podría ser mejor crear un componente de traducción nuevo."
 
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Edit source"
 msgid "Edit source"
-msgstr "Editar fuente"
+msgstr "Editar origen"
 
 msgid "Cancel"
 msgstr "Cancelar"
@@ -14227,7 +14193,7 @@ msgid "Context:"
 msgstr "Contexto:"
 
 msgid "Remove selected translation memory entries"
-msgstr "Retira apuntes de memoria de traducción seleccionados"
+msgstr "Quitar entradas seleccionadas de la memoria de traducción"
 
 msgid "New comment"
 msgstr "Comentario nuevo"
@@ -14257,8 +14223,8 @@ msgstr "Para todos los idiomas"
 
 msgid "Selecting this option will set the corresponding ignore flag."
 msgstr ""
-"Al seleccionar esta opción, se establecerá el indicador de ignorar al "
-"contribuidor."
+"Al seleccionar esta opción, se activará el modificador de ignorar "
+"correspondiente."
 
 msgid "Reset"
 msgstr "Restablecer"
@@ -14323,10 +14289,10 @@ msgid "Edit flags"
 msgstr "Editar etiqueta"
 
 msgid "Flags"
-msgstr "Indicadores"
+msgstr "Modificadores"
 
 msgid "No flags currently set."
-msgstr "No se ha establecido ningún indicador actualmente."
+msgstr "No se ha establecido ningún modificador actualmente."
 
 msgid "Unit identifier"
 msgstr "Identificador de unidad"
@@ -14361,7 +14327,7 @@ msgid "pending"
 msgstr "pendiente"
 
 msgid "Inherited flags"
-msgstr "Indicadores heredados"
+msgstr "Modificadores heredados"
 
 #, python-format
 msgid "<code>%(flags)s</code> was extracted from %(filename)s."
@@ -14395,10 +14361,8 @@ msgstr ""
 "<code>%(flags)s</code> se hereda desde %(object)s porque está inhabilitada "
 "la edición de cadenas fuente."
 
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Effective flags"
-msgstr "Indicadores heredados"
+msgstr "Modificadores efectivos"
 
 msgid ""
 "Changes apply to all languages in this component. Changing source text marks "
@@ -15457,10 +15421,10 @@ msgid "File uploaded"
 msgstr "Archivo subido"
 
 msgid "Additional source-string flags were updated."
-msgstr "Se actualizaron indicadores adicionales de la cadena de origen."
+msgstr "Se actualizaron modificadores adicionales de la cadena de origen."
 
 msgid "Extra flags updated"
-msgstr "Indicadores adicionales actualizados"
+msgstr "Modificadores adicionales actualizados"
 
 msgid "A font was uploaded."
 msgstr "Una tipografía fue subida."
@@ -15641,12 +15605,10 @@ msgstr "No se pudo actualizar el archivo POT."
 
 #. Translators: Name of an alert
 msgid "POT updates do not update PO files."
-msgstr "Actualización de POT no actualiza archivos PO."
+msgstr "Las actualizaciones del POT no actualizan los archivos PO."
 
-#, fuzzy
-#| msgid "A required file is not available."
 msgid "AI quality evaluation service is unavailable."
-msgstr "Un archivo requerido no está disponible."
+msgstr "El servicio de evaluación de la calidad por IA no está disponible."
 
 msgid "Information"
 msgstr "Información"
@@ -15676,14 +15638,15 @@ msgid "Improve source string screenshot coverage."
 msgstr "Mejore la cobertura de capturas de pantalla de las cadenas de origen."
 
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Utilice indicadores para señalar cadenas especiales en su traducción."
+msgstr "Utilice modificadores para señalar cadenas especiales en su traducción."
 
 msgid ""
 "Add safe-html or auto-safe-html flag to avoid dangerous HTML from "
 "translators for strings which are rendered as HTML."
 msgstr ""
-"Añade indicadores de safe‐html o auto‐safe‐html para evitar HTML peligroso "
-"desde traductores para cadenas las cuales son representadas como HTML."
+"Añada el modificador safe-html o auto-safe-html para evitar que los "
+"traductores incluyan HTML peligroso en las cadenas que se representan como "
+"HTML."
 
 msgid "Recommended add-on"
 msgstr "Complemento recomendado"
@@ -15740,10 +15703,8 @@ msgstr "Componente parece no utilizado."
 msgid "Glossary using monolingual files."
 msgstr "El glosario utiliza archivos monolingües."
 
-#, fuzzy
-#| msgid "Source string editing is disabled."
 msgid "Glossary string management is disabled"
-msgstr "La edición de cadenas de origen está desactivada."
+msgstr "La gestión de cadenas del glosario está desactivada"
 
 msgid "Unused glossary language."
 msgstr "Glosario de idioma no utilizado."
@@ -15794,10 +15755,8 @@ msgid "Could not update the repository."
 msgstr "No se pudo actualizar el repositorio."
 
 #. Translators: Name of an alert
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not merge the pull request automatically."
-msgstr "No se pudo fusionar el repositorio."
+msgstr "No se pudo fusionar automáticamente la solicitud de extracción."
 
 #. Translators: Name of an alert
 msgid "Repository outdated."
@@ -16079,17 +16038,13 @@ msgid "Actionable by me"
 msgstr "Me puedo encargar"
 
 msgid "Discovery configuration"
-msgstr "Configuración de descubrimiento"
+msgstr "Configuración de detección"
 
-#, fuzzy
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
 msgstr ""
-"Se omitió el componente %(component)s porque su repositorio asociado no está "
-"disponible."
+"La detección de componentes se detuvo porque el repositorio contiene "
+"demasiadas rutas."
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
@@ -16109,14 +16064,15 @@ msgid ""
 "Component discovery stopped because matching translation files would require "
 "too many comparisons."
 msgstr ""
+"La detección de componentes se detuvo porque los archivos de traducción "
+"coincidentes requerirían demasiadas comparaciones."
 
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
 "The file mask used for discovery is too complex and took too long to "
 "evaluate."
 msgstr ""
-"La expresión regular es demasiado compleja y toma mucho tiempo para evaluar."
+"La máscara de archivos usada para la detección es demasiado compleja y tardó "
+"demasiado en procesarse."
 
 #, python-format
 msgid ""
@@ -16718,20 +16674,14 @@ msgstr "Motores de máquinas de traducción"
 msgid "Score threshold"
 msgstr "Umbral de puntuación"
 
-#, fuzzy
-#| msgid "All components in current workspace"
 msgid "All eligible components in current workspace"
-msgstr "Todos los componentes en el espacio de trabajo actual"
+msgstr "Todos los componentes elegibles en el espacio de trabajo actual"
 
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All eligible components in current project"
-msgstr "Todos los componentes en el proyecto actual"
+msgstr "Todos los componentes elegibles en el proyecto actual"
 
-#, fuzzy
-#| msgid "All components in current project"
 msgid "Eligible components from each target component's project"
-msgstr "Todos los componentes en el proyecto actual"
+msgstr "Componentes elegibles del proyecto de cada componente objetivo"
 
 msgid ""
 "You can also enter a component slug from the current project or a project/"
@@ -17112,20 +17062,16 @@ msgstr ""
 msgid "Source flags to remove — all languages"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation flags to add"
 msgid "Translation flags to add — matching translations"
-msgstr "Indicadores de traducción que añadir"
+msgstr "Modificadores de traducción que añadir: traducciones coincidentes"
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
 msgid "Applies only to matching translations, excluding source strings."
 msgstr "Completa las cadenas de traducción con las de origen."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation flags to remove — matching translations"
-msgstr "Indicadores de traducción que quitar"
+msgstr "Modificadores de traducción que quitar: traducciones coincidentes"
 
 msgid "Removes locally set flags. Inherited flags remain in effect."
 msgstr ""
@@ -17372,7 +17318,7 @@ msgid "Display name"
 msgstr "Nombre que mostrar"
 
 msgid "Translation flags"
-msgstr "Indicadores de traducción"
+msgstr "Modificadores de traducción"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
@@ -18388,14 +18334,15 @@ msgstr "Expresión regular del proyecto"
 
 msgid "Regular expression which is used to match project slug."
 msgstr ""
-"Expresión regular la cual es utilizada para cotejar indicador de proyecto."
+"Expresión regular que se utiliza para hacer coincidir el URL amigable del "
+"proyecto."
 
 msgid "Component regular expression"
 msgstr "Expresión regular del componente"
 
 msgid "Regular expression which is used to match component slug."
 msgstr ""
-"Expresión regular la cual es utilizada para cotejar con el indicador del "
+"Expresión regular que se utiliza para hacer coincidir el URL amigable del "
 "componente."
 
 msgid "Component list to assign"
@@ -19122,7 +19069,7 @@ msgstr ""
 
 #, python-format
 msgid "Could not parse flags: %s"
-msgstr "No se pudieron procesar los indicadores: %s"
+msgstr "No se pudieron interpretar los modificadores: %s"
 
 #, python-format
 msgid ""
