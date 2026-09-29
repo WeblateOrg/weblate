@@ -1950,6 +1950,39 @@ class ZenViewTest(ViewTestCase):
         )
         self.assertContains(response, "This translation is currently locked.")
 
+    def test_save_zen_suggestions(self) -> None:
+        self.add_zen_suggestion()
+        unit = self.get_unit()
+        response = self.client.post(
+            reverse("save_zen", kwargs=self.kw_translation),
+            {
+                "checksum": unit.checksum,
+                "contentsum": hash_to_checksum(unit.content_hash),
+                "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "target_0": "Nazdar!\n",
+                "review": "20",
+            },
+        )
+        data = response.json()
+        self.assertTrue(data["has_suggestions"])
+        # The suggestion diff is rendered against the saved target
+        self.assertIn("Suggested change:", data["suggestions_html"])
+        self.assertIn("<ins>", data["suggestions_html"])
+
+    def test_save_zen_no_suggestions(self) -> None:
+        unit = self.get_unit()
+        response = self.client.post(
+            reverse("save_zen", kwargs=self.kw_translation),
+            {
+                "checksum": unit.checksum,
+                "contentsum": hash_to_checksum(unit.content_hash),
+                "translationsum": hash_to_checksum(unit.get_target_hash()),
+                "target_0": "Nazdar!\n",
+                "review": "20",
+            },
+        )
+        self.assertNotIn("has_suggestions", response.json())
+
     def add_zen_suggestion(self, target: str = "Nazdar svete!\n") -> Suggestion:
         self.edit_unit("Hello, world!\n", target, suggest="yes")
         return self.get_unit().suggestion_set.get(target=target)

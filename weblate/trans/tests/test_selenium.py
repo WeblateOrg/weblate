@@ -1884,6 +1884,43 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Rejecting leaves the editor alone
         self.assertEqual(editor().get_attribute("value"), "")
 
+        # Saving refreshes the suggestion diff against the new target, moving
+        # into the suggestions keeps the typed rejection reason and focus
+        def diff_insertions() -> str:
+            return "".join(
+                cast("str", element.get_attribute("textContent"))
+                for element in self.driver.find_elements(
+                    By.CSS_SELECTOR, f"{row_selector} .comment-content ins"
+                )
+            )
+
+        self.assertIn("Ahoj", diff_insertions())
+        editor().send_keys("Ahoj")
+        rejection = self.driver.find_element(
+            By.CSS_SELECTOR, f"{row_selector} input[name=rejection]"
+        )
+        rejection.click()
+        rejection.send_keys("typed")
+        WebDriverWait(self.driver, 15).until(
+            presence_of_element_located(
+                (By.CSS_SELECTOR, f"#row-edit-{unit.checksum}.translation-saved")
+            )
+        )
+        wait_idle()
+        self.assertNotIn("Ahoj", diff_insertions())
+        self.assertIn("svete", diff_insertions())
+        rejection = self.driver.find_element(
+            By.CSS_SELECTOR, f"{row_selector} input[name=rejection]"
+        )
+        self.assertEqual(rejection.get_attribute("value"), "typed")
+        self.assertEqual(self.driver.switch_to.active_element, rejection)
+        rejection.clear()
+        # Let the later edit wait for its own save
+        self.driver.execute_script(
+            "arguments[0].classList.remove('translation-saved');",
+            self.driver.find_element(By.ID, f"row-edit-{unit.checksum}"),
+        )
+
         # Accepting updates the row in place
         self.driver.find_element(
             By.CSS_SELECTOR, f'{row_selector} button[name="accept"]'

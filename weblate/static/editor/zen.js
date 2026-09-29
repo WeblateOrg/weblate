@@ -303,6 +303,11 @@
             sum.value = data.translationsum;
           }
         }
+
+        // Suggestion diffs are against the saved target
+        if ("has_suggestions" in data) {
+          updateZenSuggestions(row.closest(".zen-unit"), data);
+        }
       })
       .catch((err) => {
         addAlert(err.message);
@@ -420,6 +425,53 @@
       });
   }
 
+  /* Replace the suggestions block of a Zen row with the rendered one */
+  function updateZenSuggestions(unit, data) {
+    if (!unit) {
+      return;
+    }
+    const container = unit.querySelector(".zen-suggestions-container");
+    if (data.has_suggestions) {
+      if (container) {
+        const suggestionKey = (el) =>
+          el.closest(".history-row")?.querySelector("button[value]")?.value;
+        const rejections = new Map();
+        for (const input of container.querySelectorAll(
+          "input[name=rejection]",
+        )) {
+          if (input.value) {
+            rejections.set(suggestionKey(input), input.value);
+          }
+        }
+        const active = container.contains(document.activeElement)
+          ? document.activeElement
+          : null;
+        const activeKey = active ? suggestionKey(active) : undefined;
+        const activeName = active?.getAttribute("name");
+
+        container.innerHTML = data.suggestions_html;
+        initHighlight(container);
+
+        for (const input of container.querySelectorAll(
+          "input[name=rejection]",
+        )) {
+          const value = rejections.get(suggestionKey(input));
+          if (value !== undefined) {
+            input.value = value;
+          }
+        }
+        if (activeKey !== undefined && activeName) {
+          const row = container
+            .querySelector(`button[value="${CSS.escape(activeKey)}"]`)
+            ?.closest(".history-row");
+          row?.querySelector(`[name="${CSS.escape(activeName)}"]`)?.focus();
+        }
+      }
+    } else {
+      unit.querySelector(".zen-suggestions-row")?.remove();
+    }
+  }
+
   /* Resync a Zen row from the JSON payload of the zen unit endpoints */
   function applyZenUnitData(unit, data) {
     for (const val of data.messages) {
@@ -428,16 +480,7 @@
 
     const checksum = data.checksum;
 
-    // Suggestions block
-    const container = unit.querySelector(".zen-suggestions-container");
-    if (data.has_suggestions) {
-      if (container) {
-        container.innerHTML = data.suggestions_html;
-        initHighlight(container);
-      }
-    } else {
-      unit.querySelector(".zen-suggestions-row")?.remove();
-    }
+    updateZenSuggestions(unit, data);
 
     // State cell
     const statusdiv = getStatusCell(unit, checksum);

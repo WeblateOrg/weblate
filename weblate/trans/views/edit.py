@@ -1898,6 +1898,10 @@ def save_zen(request: AuthenticatedHttpRequest, path):
         "unit_state_class": unit_state_class(unit) if unit else "",
         "unit_state_title": unit_state_title(unit) if unit else "",
     }
+    if translationsum and unit.suggestion_set.exists():
+        _unit, suggestions_html = render_zen_suggestions(request, unit_set, unit)
+        response["suggestions_html"] = suggestions_html
+        response["has_suggestions"] = bool(suggestions_html)
 
     return JsonResponse(data=response)
 
@@ -1923,6 +1927,20 @@ def collect_zen_messages(request) -> tuple[list[dict[str, str]], str]:
     return result, state
 
 
+def render_zen_suggestions(
+    request: AuthenticatedHttpRequest, unit_set: UnitQuerySet, unit: Unit
+) -> tuple[Unit, str]:
+    """Render the Zen suggestions block of a unit against its current target."""
+    unit = unit_set.prefetch_full(suggestion_details=True).get(pk=unit.pk)
+    if not unit.suggestions:
+        return unit, ""
+    return unit, render_to_string(
+        "snippets/zen-suggestions.html",
+        {"unit": unit, **get_zen_suggestion_urls(unit)},
+        request=request,
+    )
+
+
 def render_zen_unit_response(
     request: AuthenticatedHttpRequest,
     unit_set: UnitQuerySet,
@@ -1933,17 +1951,10 @@ def render_zen_unit_response(
     previous_target_hash: int | None = None,
 ) -> JsonResponse:
     """Build the JSON payload used to resync a Zen row in place."""
-    unit = unit_set.prefetch_full(suggestion_details=True).get(pk=unit.pk)
+    unit, suggestions_html = render_zen_suggestions(request, unit_set, unit)
     if previous_target_hash is not None:
         sync_target = sync_target or unit.get_target_hash() != previous_target_hash
     zen_messages, state = collect_zen_messages(request)
-    suggestions_html = ""
-    if unit.suggestions:
-        suggestions_html = render_to_string(
-            "snippets/zen-suggestions.html",
-            {"unit": unit, **get_zen_suggestion_urls(unit)},
-            request=request,
-        )
     return JsonResponse(
         data={
             "messages": zen_messages,
