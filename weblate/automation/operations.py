@@ -43,12 +43,15 @@ def lock_evaluation_context(component: Component) -> Component:
         list(
             Category.objects.filter(project=project).order_by("pk").select_for_update()
         )
+        components = list(
+            Component.objects.filter(project=project).order_by("pk").select_for_update()
+        )
         translations = list(
-            Translation.objects.filter(component=component)
+            Translation.objects.filter(component__project=project)
             .order_by("pk")
             .select_for_update()
         )
-        language_ids = {component.source_language_id}
+        language_ids = {item.source_language_id for item in components}
         language_ids.update(item.language_id for item in translations)
         if component.effective_secondary_language is not None:
             language_ids.add(component.effective_secondary_language.pk)
