@@ -329,7 +329,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return self.evaluate_batch([unit])[unit.pk]
 
     def get_evaluation_dependencies(self, units: list[Unit]) -> list[Unit]:
-        """Return secondary-language units included in evaluation requests."""
+        """Return related units included in evaluation requests."""
         dependencies: dict[int, Unit] = {}
         for unit in units:
             component = unit.translation.component
@@ -348,6 +348,22 @@ class BaseLLMTranslation(BatchMachineTranslation):
             )
             if secondary_unit is not None:
                 dependencies[secondary_unit.pk] = secondary_unit
+        fetch_glossary_terms(units, include_variants=False)
+        included: set[str] = set()
+        for term in iter_glossary_alternatives(
+            chain.from_iterable(
+                get_glossary_terms(unit, include_variants=False) for unit in units
+            )
+        ):
+            entry = self._get_glossary_entry(term)
+            if entry is None:
+                continue
+            cache_key = json.dumps(entry, sort_keys=True)
+            if cache_key in included:
+                continue
+            included.add(cache_key)
+            dependencies[term.pk] = term
+            dependencies[term.source_unit.pk] = term.source_unit
         return list(dependencies.values())
 
     def evaluate_batch(self, units: list[Unit]) -> dict[int, list[EvaluationIssue]]:

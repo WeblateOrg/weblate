@@ -77,7 +77,7 @@ def exclude_stale_units(
             for batch_unit_id, batch_snapshot in snapshot.batch
         )
     }
-    return units.exclude(pk__in=stale_ids)
+    return units.filter(pk__in=expected_snapshots).exclude(pk__in=stale_ids)
 
 
 def refresh_evaluation_snapshots(
