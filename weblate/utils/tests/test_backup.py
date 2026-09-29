@@ -37,6 +37,7 @@ from weblate.utils.tasks import (
     settings_backup,
 )
 from weblate.utils.unittest import tempdir_setting
+from weblate.vcs.ssh import SSH_WRAPPER
 from weblate.wladmin.models import BackupService
 
 if TYPE_CHECKING:
@@ -170,10 +171,10 @@ class RunBorgTest(SimpleTestCase):
 
         self.assertEqual(borg_result, BorgResult("warning output", returncode=1))
 
-    def test_run_borg_disables_weak_crypto_warning(self) -> None:
+    def test_run_borg_uses_shared_ssh_wrapper(self) -> None:
         result = subprocess.CompletedProcess(["borg", "create"], 0, "")
         with (
-            patch("weblate.utils.backup.SSH_WRAPPER.create"),
+            patch("weblate.utils.backup.SSH_WRAPPER.create") as create,
             patch("weblate.utils.backup.subprocess.run", return_value=result) as run,
         ):
             run_borg(["create"])
@@ -181,15 +182,8 @@ class RunBorgTest(SimpleTestCase):
         borg_command = run.call_args.args[0]
         ssh_command = shlex.split(borg_command[2])
         self.assertEqual(borg_command[:2], ["borg", "--rsh"])
-        self.assertEqual(
-            ssh_command[-4:],
-            [
-                "-o",
-                "IgnoreUnknown=WarnWeakCrypto",
-                "-o",
-                "WarnWeakCrypto=no-pq-kex",
-            ],
-        )
+        self.assertEqual(ssh_command, [SSH_WRAPPER.filename.as_posix()])
+        create.assert_called_once_with()
 
     def test_run_borg_reports_silent_failure(self) -> None:
         result = subprocess.CompletedProcess(["borg", "create"], 2, "")

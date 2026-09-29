@@ -97,6 +97,29 @@ class SSHTest(TestCase):
 
     @tempdir_setting("CACHE_DIR")
     @tempdir_setting("DATA_DIR")
+    def test_ssh_wrapper_warning_configuration(self) -> None:
+        if shutil.which("ssh") is None:
+            self.skipTest("OpenSSH is not installed")
+
+        wrapper = SSHWrapper()
+        wrapper.create()
+        result = subprocess.run(
+            [wrapper.filename.as_posix(), "-G", "-T", "--", "git.example"],
+            check=True,
+            text=True,
+            capture_output=True,
+        )
+        configuration = dict(line.split(" ", 1) for line in result.stdout.splitlines())
+
+        self.assertEqual(configuration["hostname"], "git.example")
+        self.assertEqual(configuration["ignoreunknown"], "WarnWeakCrypto")
+        # Clients predating OpenSSH 10.1 ignore the unsupported option.
+        if "warnweakcrypto" in configuration:
+            # OpenSSH normalizes the no-pq-kex alias to no in its configuration dump.
+            self.assertEqual(configuration["warnweakcrypto"], "no")
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
     def test_create_ssh_wrapper_concurrently(self) -> None:
         wrapper = SSHWrapper()
         filename = wrapper.filename
