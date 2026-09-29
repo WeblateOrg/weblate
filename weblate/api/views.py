@@ -4293,13 +4293,6 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         """Get correct serializer based on action."""
         if self.action in {"list", "retrieve"}:
             return UnitSerializer
-        if self.action == "screenshots":
-            # GET/HEAD (list) and POST (associate) need different shapes, so
-            # this one action can't be satisfied by a single
-            # serializer_class= on the @action decorator.
-            if self.request.method == "POST":
-                return UnitScreenshotAssociationSerializer
-            return ScreenshotSerializer
         return super().get_serializer_class()
 
     def get_queryset(self):
@@ -4505,10 +4498,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     @extend_schema(
         description="Associate screenshot with unit.",
         methods=["post"],
-        request=UnitScreenshotAssociationSerializer,
         responses=ScreenshotSerializer,
     )
-    @action(detail=True, methods=["get", "post"])
+    @action(
+        detail=True,
+        methods=["get", "post"],
+        serializer_class=UnitScreenshotAssociationSerializer,
+    )
     @transaction.atomic
     def screenshots(self, request: Request, **kwargs):
         unit = self.get_object()
@@ -4520,7 +4516,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             # Validate through the serializer (not a manual int() coercion) so a
             # non-integral value such as 5.7 is rejected instead of silently
             # truncated to 5.
-            request_serializer = UnitScreenshotAssociationSerializer(data=request.data)
+            request_serializer = self.get_serializer(data=request.data)
             request_serializer.is_valid(raise_exception=True)
             screenshot_id = request_serializer.validated_data["screenshot_id"]
 
