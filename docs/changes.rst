@@ -60,6 +60,7 @@ Weblate 2026.10
 * Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
 * Protected Git and Mercurial metadata consistently in repository paths and downloads, and excluded known foreign VCS metadata when importing component ZIP files.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
+* Rate-limited password-reset requests for unknown e-mail addresses.
 
 .. rubric:: Bug fixes
 
