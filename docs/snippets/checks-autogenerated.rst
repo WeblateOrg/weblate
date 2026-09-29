@@ -202,6 +202,7 @@ BBCode represents simple markup, like for example highlighting important parts o
 message in bold font, or italics.
 
 This check ensures they are also found in translation.
+It recognizes parameters on opening tags, nested tags, and markup spanning lines.
 
 .. note::
 

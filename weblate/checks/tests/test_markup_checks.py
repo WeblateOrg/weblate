@@ -26,6 +26,7 @@ from weblate.checks.markup import (
     XMLTagsCheck,
     XMLValidityCheck,
     extract_asciidoc_markup,
+    extract_bbcode_pairs,
     extract_rst_references,
     has_changed_placeholder_attributes,
 )
@@ -47,6 +48,156 @@ class BBCodeCheckTest(CheckTestCase):
             "[a]string[/a]",
             [(0, 3, "[a]"), (9, 13, "[/a]")],
         )
+
+    def test_parameterized_url(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[url=https://weblate.org]Weblate[/url]",
+                "[url=https://weblate.org]Weblate[/url]",
+                "bbcode-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "[url=https://weblate.org]Weblate[/url]",
+                "Weblate",
+                "bbcode-text",
+            ),
+        )
+
+    def test_parameterized_codeblock(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[codeblock lang=csharp]print()[/codeblock]",
+                "[codeblock lang=csharp]print()[/codeblock]",
+                "bbcode-text",
+            ),
+        )
+
+    def test_multiline_block(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[custom]My\nString[/custom]",
+                "[custom]My\nString[/custom]",
+                "bbcode-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "[custom]My\nString[/custom]",
+                "My\nString",
+                "bbcode-text",
+            ),
+        )
+
+    def test_parameterized_highlight(self) -> None:
+        source = "[url=https://weblate.org]Weblate[/url]"
+        unit = make_unit(
+            None,
+            "bbcode-text",
+            self.default_lang,
+            source=source,
+        )
+        highlights = list(self.check.check_highlight(source, unit))
+        self.assertEqual(
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
+            [
+                (0, 25, "[url=https://weblate.org]"),
+                (32, 38, "[/url]"),
+            ],
+        )
+
+    def test_nested_parameterized(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[url=x][b]bold[/b][/url]",
+                "[url=x][b]bold[/b][/url]",
+                "bbcode-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "[url=x][b]bold[/b][/url]",
+                "[url=x]bold[/url]",
+                "bbcode-text",
+            ),
+        )
+
+    def test_reordered_nested_tags(self) -> None:
+        self.do_test(
+            True,
+            ("[b][i]text[/i][/b]", "[i][b]text[/b][/i]", "bbcode-text"),
+        )
+        self.do_test(
+            True,
+            ("[b][i]text[/i][/b]", "[b][/b][i]text[/i]", "bbcode-text"),
+        )
+
+    def test_reordered_sibling_tags(self) -> None:
+        self.do_test(
+            False,
+            ("[b]bold[/b] [i]italic[/i]", "[i]italic[/i] [b]bold[/b]", "bbcode-text"),
+        )
+
+    def test_nested_highlight(self) -> None:
+        source = "[url=x][b]bold[/b][/url]"
+        unit = make_unit(
+            None,
+            "bbcode-text",
+            self.default_lang,
+            source=source,
+        )
+        highlights = list(self.check.check_highlight(source, unit))
+        self.assertEqual(
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
+            [
+                (0, 7, "[url=x]"),
+                (18, 24, "[/url]"),
+                (7, 10, "[b]"),
+                (14, 18, "[/b]"),
+            ],
+        )
+
+    def test_parameterized_closer_ignored(self) -> None:
+        self.do_test(
+            True,
+            (
+                "[url]Weblate[/url]",
+                "[url]Weblate[/url=https://weblate.org]",
+                "bbcode-text",
+            ),
+        )
+
+    def test_literal_bracket_before_tag(self) -> None:
+        self.do_test(
+            True,
+            ("[[b]bold[/b]]", "[bold]", "bbcode-text"),
+        )
+
+    def test_mismatched_nesting(self) -> None:
+        pairs = extract_bbcode_pairs("[a][b][a]text[/b][/a]")
+        self.assertEqual(
+            [(opener.group(), closer.group()) for opener, closer in pairs],
+            [("[a]", "[/a]"), ("[b]", "[/b]")],
+        )
+
+    def test_many_unmatched_closers(self) -> None:
+        source = "".join(f"[tag{i}]" for i in range(5000))
+        source += "".join(f"[/missing{i}]" for i in range(5000))
+        self.assertEqual(extract_bbcode_pairs(source), [])
 
 
 class XMLValidityCheckTest(CheckTestCase):
