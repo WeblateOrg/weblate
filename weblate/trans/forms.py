@@ -4455,6 +4455,30 @@ def get_new_unit_form(
     )
 
 
+class UnitSelectionField(forms.Field):
+    """List of string IDs as posted by the selection checkboxes."""
+
+    widget = forms.MultipleHiddenInput
+
+    def to_python(self, value) -> list[int]:
+        if not value:
+            return []
+        if isinstance(value, str):
+            value = [value]
+        items = [
+            stripped
+            for item in value
+            for part in str(item).split(",")
+            if (stripped := part.strip())
+        ]
+        try:
+            return sorted({int(item) for item in items})
+        except (TypeError, ValueError) as error:
+            raise ValidationError(
+                gettext("Invalid string selection!"), code="invalid"
+            ) from error
+
+
 class BulkEditForm(forms.Form):
     q = QueryField(required=True)
     state = forms.ChoiceField(
@@ -4511,12 +4535,16 @@ class BulkEditForm(forms.Form):
     ) -> None:
         project = kwargs.pop("project", None)
         labels = kwargs.pop("labels", None)
+        selection = kwargs.pop("selection", False)
         kwargs["auto_id"] = "id_bulk_%s"
         if obj is not None:
             kwargs["initial"] = {
                 "path": getattr(obj, "full_slug", "/".join(obj.get_url_path()))
             }
         super().__init__(*args, **kwargs)
+        if selection:
+            self.fields["q"].required = False
+            self.fields["units"] = UnitSelectionField(required=False)
         if labels is None:
             # Labels are project-scoped, so non-project bulk edit scopes do not
             # offer label operations to avoid applying labels across projects.
@@ -4548,19 +4576,46 @@ class BulkEditForm(forms.Form):
 
         self.helper = FormHelper(self)
         self.helper.form_tag = False
-        self.helper.layout = Layout(
-            Div(template="snippets/bulk-help.html"),
-            SearchField("q"),
-            Field("path"),
-            Field("state"),
-            Field("add_flags"),
-            Field("remove_flags"),
-            Field("add_translation_flags"),
-            Field("remove_translation_flags"),
-        )
+        if selection:
+            self.helper.layout = Layout(
+                Div(template="snippets/bulk-selection-help.html"),
+                Field("state"),
+                Field("add_flags"),
+                Field("remove_flags"),
+                Field("add_translation_flags"),
+                Field("remove_translation_flags"),
+            )
+        else:
+            self.helper.layout = Layout(
+                Div(template="snippets/bulk-help.html"),
+                SearchField("q"),
+                Field("path"),
+                Field("state"),
+                Field("add_flags"),
+                Field("remove_flags"),
+                Field("add_translation_flags"),
+                Field("remove_translation_flags"),
+            )
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))
             self.helper.layout.append(InlineCheckboxes("remove_labels"))
+
+    def clean(self):
+        cleaned_data = super().clean() or {}
+        if "units" not in self.fields:
+            return cleaned_data
+        if not cleaned_data.get("q") and not cleaned_data.get("units"):
+            raise ValidationError(
+                gettext("Select strings to edit or enter a search query.")
+            )
+        return cleaned_data
+
+    def get_query(self) -> str:
+        """Return search query matching the strings to be edited."""
+        if units := self.cleaned_data.get("units"):
+            selection = ",".join(str(unit) for unit in units)
+            return f"id:{selection}"
+        return self.cleaned_data["q"]
 
 
 class ContributorAgreementForm(forms.Form):

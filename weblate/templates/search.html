@@ -4,6 +4,7 @@
 
 {% block extra_script %}
   <script defer src="{% static 'editor/browse.js' %}"></script>
+  <script defer src="{% static 'js/bulk-edit-selection.js' %}"></script>
 {% endblock extra_script %}
 
 {% block breadcrumbs %}
@@ -62,6 +63,35 @@
         {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True force_source=True show_translation=True %}
       {% endif %}
       <div class="search-pagination">{% include "paginator.html" %}</div>
+      {% if bulk_state_form %}
+        <form id="bulk-edit-form"
+              action="{% url 'bulk-edit' path=path_object.get_url_path %}"
+              method="post"
+              enctype="multipart/form-data">
+          <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+          <input type="hidden" name="units" id="bulk-edit-selected-units" value="" />
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+                {% translate "Bulk edit selected strings" %}
+              </h4>
+            </div>
+            <div class="card-body">
+              <p id="bulk-edit-selection-count"
+                 role="status"
+                 aria-live="polite">{% translate "No strings selected" %}</p>
+              {% crispy bulk_state_form %}
+            </div>
+            <div class="card-footer">
+              <button type="submit"
+                      id="bulk-edit-submit"
+                      class="btn btn-primary"
+                      disabled>{% translate "Apply" %}</button>
+            </div>
+          </div>
+        </form>
+      {% endif %}
     {% else %}
       {% translate "No matching strings found." as msg %}
       {% show_message "info" msg %}
