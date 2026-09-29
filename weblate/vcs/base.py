@@ -41,9 +41,9 @@ from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.files import (
     REPO_TEMP_DIRNAME,
+    is_managed_vcs_metadata_path,
     is_path_within_resolved_directory,
     is_unsafe_path,
-    is_vcs_metadata_path,
     remove_tree,
 )
 from weblate.utils.lock import WeblateLock
@@ -895,7 +895,12 @@ class Repository:
         relative_path = os.path.relpath(real_path, repository_path)
 
         resolved_path = path_separator(relative_path)
-        if is_unsafe_path(resolved_path) or is_vcs_metadata_path(resolved_path):
+        metadata_dirs = (
+            () if self.metadata_dir_name is None else (self.metadata_dir_name,)
+        )
+        if is_unsafe_path(resolved_path) or is_managed_vcs_metadata_path(
+            resolved_path, metadata_dirs
+        ):
             msg = "Link to a restricted location"
             raise RepositoryRestrictedPathError(msg)
 
@@ -1291,8 +1296,13 @@ class Repository:
         """Return status of the repository."""
         return self.execute(self._cmd_status, remote_op="none", needs_lock=False)
 
-    def push(self, branch: str) -> None:
-        """Push given branch to remote repository."""
+    def push(self, branch: str) -> str | None:
+        """
+        Push given branch to remote repository.
+
+        Returns the web URL of a pull/merge request opened as part of the push,
+        or ``None`` when the backend does not open one (or does not expose it).
+        """
         raise NotImplementedError
 
     def unshallow(self) -> None:

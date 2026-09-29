@@ -155,6 +155,7 @@ class AutoTranslateAddon(
                 translation_id=translation_id,
                 activity_log_id=activity_log_id,
                 activity_log_task_count=activity_log_task_count,
+                # Saved add-on configuration is the durable authorization.
                 enforce_permissions=False,
             )
         else:
@@ -168,6 +169,7 @@ class AutoTranslateAddon(
                 source_component_id=source_component_id,
                 user_id=task_user_id,
                 activity_log_id=activity_log_id,
+                # Saved add-on configuration is the durable authorization.
                 enforce_permissions=False,
             )
         return AddonEventOutcome.pending()

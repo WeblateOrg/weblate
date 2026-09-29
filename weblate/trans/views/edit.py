@@ -6,7 +6,6 @@ from __future__ import annotations
 import contextlib
 import json
 import time
-from math import ceil
 from typing import TYPE_CHECKING, Any, NamedTuple, Protocol, TypedDict, cast
 
 from django.conf import settings
@@ -24,6 +23,7 @@ from django.http import (
     QueryDict,
 )
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
@@ -53,7 +53,9 @@ from weblate.trans.forms import (
     MergeForm,
     PositionSearchForm,
     RevertForm,
+    SourceEditForm,
     TranslationForm,
+    UnitFlagsForm,
     ZenTranslationForm,
     get_new_unit_form,
 )
@@ -91,7 +93,7 @@ from weblate.workspaces.models import Workspace
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import (
         Project,
     )
@@ -99,6 +101,15 @@ if TYPE_CHECKING:
 
 SESSION_SEARCH_CACHE_TTL = 1800
 ZEN_PAGE_SIZE = 20
+SUGGESTION_ACTIONS = (
+    "accept",
+    "accept_edit",
+    "accept_approve",
+    "delete",
+    "spam",
+    "upvote",
+    "downvote",
+)
 DELETE_UNIT_LOCKED_MESSAGE = gettext_lazy(
     "Could not remove the string because another background operation is in progress. Please try again later."
 )
@@ -181,7 +192,7 @@ def format_newly_failing_checks_message(check_names: set[str]) -> str:
     ).format(checks=format_html_join_comma("{}", list_to_tuples(ordered_checks)))
 
 
-def get_other_units(unit):
+def get_other_units(user: User, unit: Unit):
     """Return other units to show while translating."""
     with start_span(op="unit.others", name=f"{unit.pk}"):
         result: dict[str, Any] = {
@@ -228,7 +239,8 @@ def get_other_units(unit):
             matches = query | target_matches
 
         units = (
-            Unit.objects.filter(
+            Unit.objects.filter_access(user)
+            .filter(
                 translation__component__project=component.project,
                 translation__language=translation.language,
             )
@@ -985,7 +997,10 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
             newchecks > oldchecks
             or
             # Any enforced check?
-            (component.enforced_checks and newchecks & set(component.enforced_checks))
+            (
+                component.effective_enforced_checks
+                and newchecks & set(component.effective_enforced_checks)
+            )
         )
     ):
         # Show message to user
@@ -1029,7 +1044,7 @@ def handle_translate(
 
 def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
     """Handle unit merging."""
-    mergeform = MergeForm(unit, request.POST)
+    mergeform = MergeForm(request.user, unit, request.POST)
     if not mergeform.is_valid():
         show_form_errors(request, mergeform)
         return None
@@ -1114,73 +1129,60 @@ def check_suggest_permissions(
     return True
 
 
-def handle_suggestions(
-    request: AuthenticatedHttpRequest, unit, this_unit_url, next_unit_url
-):
-    """Handle suggestion deleting/accepting."""
-    sugid = ""
-    params = (
-        "accept",
-        "accept_edit",
-        "accept_approve",
-        "delete",
-        "spam",
-        "upvote",
-        "downvote",
-    )
-    redirect_url = this_unit_url
-    mode = None
-
+def perform_suggestion_action(
+    request: AuthenticatedHttpRequest, unit: Unit
+) -> str | None:
+    """Apply the suggestion action requested in POST data."""
     # Parse suggestion ID
-    for param in params:
-        if param in request.POST:
-            sugid = request.POST[param]
-            mode = param
-            break
+    mode = next((param for param in SUGGESTION_ACTIONS if param in request.POST), None)
+    if mode is None:
+        messages.error(request, gettext("Invalid suggestion!"))
+        return None
 
     # Fetch suggestion
     try:
-        suggestion = Suggestion.objects.get(pk=int(sugid), unit=unit)
+        suggestion = Suggestion.objects.get(pk=int(request.POST[mode]), unit=unit)
     except (Suggestion.DoesNotExist, ValueError):
         messages.error(request, gettext("Invalid suggestion!"))
-        return HttpResponseRedirect(this_unit_url)
+        return None
 
     # Permissions check
     if not check_suggest_permissions(request, mode, unit, suggestion):
-        return HttpResponseRedirect(this_unit_url)
+        return None
 
     # Perform operation
-    if (
-        "accept" in request.POST
-        or "accept_edit" in request.POST
-        or "accept_approve" in request.POST
-    ):
+    if mode in {"accept", "accept_edit", "accept_approve"}:
         suggestion.accept(
             request,
-            state=STATE_APPROVED
-            if "accept_approve" in request.POST
-            else STATE_TRANSLATED,
+            state=STATE_APPROVED if mode == "accept_approve" else STATE_TRANSLATED,
         )
-        if "accept_edit" not in request.POST:
-            redirect_url = next_unit_url
-    elif "delete" in request.POST or "spam" in request.POST:
+    elif mode in {"delete", "spam"}:
         rejection_reason = request.POST.get("rejection", "")
         if len(rejection_reason) > SUGGESTION_REJECTION_REASON_LENGTH:
             messages.error(request, gettext("Rejection reason is too long!"))
-        else:
-            suggestion.delete_log(
-                request.user,
-                is_spam="spam" in request.POST,
-                rejection_reason=rejection_reason,
-                old=unit.target,
-            )
-    elif "upvote" in request.POST:
+            return None
+        suggestion.delete_log(
+            request.user,
+            is_spam=mode == "spam",
+            rejection_reason=rejection_reason,
+            old=unit.target,
+        )
+    elif mode == "upvote":
         suggestion.add_vote(request, Vote.POSITIVE)
-        redirect_url = next_unit_url
-    elif "downvote" in request.POST:
+    elif mode == "downvote":
         suggestion.add_vote(request, Vote.NEGATIVE)
 
-    return HttpResponseRedirect(redirect_url)
+    return mode
+
+
+def handle_suggestions(
+    request: AuthenticatedHttpRequest, unit, this_unit_url, next_unit_url
+):
+    """Handle suggestion deleting/accepting in the full editor."""
+    mode = perform_suggestion_action(request, unit)
+    if mode in {"accept", "accept_approve", "upvote"}:
+        return HttpResponseRedirect(next_unit_url)
+    return HttpResponseRedirect(this_unit_url)
 
 
 def handle_component_shift_notice(
@@ -1379,15 +1381,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     response = None
 
     if request.method == "POST" and "merge" not in request.POST:
-        if (
-            "accept" in request.POST
-            or "accept_edit" in request.POST
-            or "accept_approve" in request.POST
-            or "delete" in request.POST
-            or "spam" in request.POST
-            or "upvote" in request.POST
-            or "downvote" in request.POST
-        ):
+        if not set(SUGGESTION_ACTIONS).isdisjoint(request.POST):
             # Handle accepting/deleting suggestions
             response = handle_suggestions(request, unit, this_unit_url, next_unit_url)
         else:
@@ -1428,7 +1422,9 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     screenshot_form = None
     if user.has_perm("screenshot.add", unit.translation):
         screenshot_form = ScreenshotForm(
-            unit.translation.component, initial={"translation": unit.translation}
+            unit.translation.component,
+            user,
+            initial={"translation": unit.translation},
         )
 
     glossaries, addable_glossary_ids = get_addable_glossaries(unit, user)
@@ -1464,7 +1460,9 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
             "nearby": unit.nearby(user.profile.nearby_strings),
             "nearby_keys": unit.nearby_keys(user.profile.nearby_strings),
             "can_go_next_section": offset + user.profile.nearby_strings <= num_results,
-            "others": get_other_units(unit) if user.is_authenticated else {"total": 0},
+            "others": (
+                get_other_units(user, unit) if user.is_authenticated else {"total": 0}
+            ),
             "search_url": search_result["url"],
             "query_params": QueryDict(search_result["url"]),
             "search_query": search_result["query"],
@@ -1476,7 +1474,14 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
                 unit.translation,
                 initial={"scope": "global" if unit.is_source else "translation"},
             ),
-            "context_form": ContextForm(instance=unit.source_unit, user=user),
+            "context_form": ContextForm(
+                instance=unit.source_unit, user=user, include_flags=False
+            ),
+            "source_edit_form": SourceEditForm(unit, user)
+            if user.has_perm("meta:unit.edit_source", unit)
+            else None,
+            "flags_form": UnitFlagsForm(unit=unit, user=user),
+            "flag_actions": unit.get_flag_actions(user),
             "search_form": search_result["form"].reset_offset(),
             "can_refresh_search": True,
             "secondary": secondary,
@@ -1507,6 +1512,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
                 "1",
                 unit,
                 user,
+                is_translation=True,
             ),
         },
     )
@@ -1726,11 +1732,14 @@ def get_zen_unitdata(
     if isinstance(search_result, HttpResponse):
         return search_result, None
 
-    units = unit_set.prefetch_full().get_ordered(search_result["ids"])
+    units = unit_set.prefetch_full(suggestion_details=True).get_ordered(
+        search_result["ids"]
+    )
     fill_in_source_translation(units)
     prepare_glossary_terms(units, project)
 
     form_actions = {}
+    suggestion_urls: dict[int, dict[str, str]] = {}
 
     def get_form_action(unit):
         try:
@@ -1742,6 +1751,14 @@ def get_zen_unitdata(
             )
             form_actions[unit.translation_id] = form_action
             return form_action
+
+    def get_suggestion_urls(unit):
+        try:
+            return suggestion_urls[unit.translation_id]
+        except KeyError:
+            urls = get_zen_suggestion_urls(unit)
+            suggestion_urls[unit.translation_id] = urls
+            return urls
 
     unitdata = [
         {
@@ -1757,6 +1774,7 @@ def get_zen_unitdata(
                 unit,
                 form_action=get_form_action(unit),
             ),
+            "suggestion_urls": get_suggestion_urls(unit),
             "offset": search_result["offset"] + pos,
             "glossary": get_glossary_terms(unit),
         }
@@ -1764,6 +1782,15 @@ def get_zen_unitdata(
     ]
 
     return search_result, unitdata
+
+
+def get_zen_suggestion_urls(unit: Unit) -> dict[str, str]:
+    """Return endpoint URLs used by the Zen suggestions form of a unit."""
+    path = unit.translation.get_url_path()
+    return {
+        "suggestion_url": reverse("zen_suggestion", kwargs={"path": path}),
+        "unit_url": reverse("zen_unit", kwargs={"path": path}),
+    }
 
 
 def zen(request: AuthenticatedHttpRequest, path):
@@ -1863,29 +1890,132 @@ def save_zen(request: AuthenticatedHttpRequest, path):
 
         translationsum = hash_to_checksum(unit.get_target_hash())
 
+    zen_messages, state = collect_zen_messages(request)
     response: dict[str, Any] = {
-        "messages": [],
-        "state": "success",
+        "messages": zen_messages,
+        "state": state,
         "translationsum": translationsum,
         "unit_state_class": unit_state_class(unit) if unit else "",
         "unit_state_title": unit_state_title(unit) if unit else "",
     }
-
-    storage = get_messages(request)
-    if storage:
-        response["messages"] = [
-            {"tags": m.tags, "kind": get_message_kind(m.tags), "text": m.message}
-            for m in storage
-        ]
-        tags = {m.tags for m in storage}
-        if "error" in tags:
-            response["state"] = "danger"
-        elif "warning" in tags:
-            response["state"] = "warning"
-        elif "info" in tags:
-            response["state"] = "info"
+    if translationsum and unit.suggestion_set.exists():
+        _unit, suggestions_html = render_zen_suggestions(request, unit_set, unit)
+        response["suggestions_html"] = suggestions_html
+        response["has_suggestions"] = bool(suggestions_html)
 
     return JsonResponse(data=response)
+
+
+def collect_zen_messages(request) -> tuple[list[dict[str, str]], str]:
+    """Drain message storage into a JSON-serializable list plus overall state."""
+    storage = get_messages(request)
+    if not storage:
+        return [], "success"
+    result = [
+        {"tags": m.tags, "kind": get_message_kind(m.tags), "text": m.message}
+        for m in storage
+    ]
+    tags = {m.tags for m in storage}
+    if "error" in tags:
+        state = "danger"
+    elif "warning" in tags:
+        state = "warning"
+    elif "info" in tags:
+        state = "info"
+    else:
+        state = "success"
+    return result, state
+
+
+def render_zen_suggestions(
+    request: AuthenticatedHttpRequest, unit_set: UnitQuerySet, unit: Unit
+) -> tuple[Unit, str]:
+    """Render the Zen suggestions block of a unit against its current target."""
+    unit = unit_set.prefetch_full(suggestion_details=True).get(pk=unit.pk)
+    if not unit.suggestions:
+        return unit, ""
+    return unit, render_to_string(
+        "snippets/zen-suggestions.html",
+        {"unit": unit, **get_zen_suggestion_urls(unit)},
+        request=request,
+    )
+
+
+def render_zen_unit_response(
+    request: AuthenticatedHttpRequest,
+    unit_set: UnitQuerySet,
+    unit: Unit,
+    *,
+    mode: str | None = None,
+    sync_target: bool,
+    previous_target_hash: int | None = None,
+) -> JsonResponse:
+    """Build the JSON payload used to resync a Zen row in place."""
+    unit, suggestions_html = render_zen_suggestions(request, unit_set, unit)
+    if previous_target_hash is not None:
+        sync_target = sync_target or unit.get_target_hash() != previous_target_hash
+    zen_messages, state = collect_zen_messages(request)
+    return JsonResponse(
+        data={
+            "messages": zen_messages,
+            "state": state,
+            "mode": mode,
+            "checksum": unit.checksum,
+            "suggestions_html": suggestions_html,
+            "has_suggestions": bool(unit.suggestions),
+            "unit_state_class": unit_state_class(unit),
+            "unit_state_title": unit_state_title(unit),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "target": unit.get_target_plurals() if sync_target else None,
+            "review": str(unit.state) if sync_target else None,
+            "fuzzy": unit.fuzzy,
+        }
+    )
+
+
+@login_required
+@require_POST
+@transaction.atomic
+def zen_suggestion(request: AuthenticatedHttpRequest, path):
+    """Handle a suggestion action from the Zen editor."""
+    _obj, unit_set, _context = parse_path_units(
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+    )
+
+    checksum_form = ChecksumForm(unit_set, request.POST)
+    if not checksum_form.is_valid():
+        show_form_errors(request, checksum_form)
+        return HttpResponseBadRequest("Invalid checksum")
+
+    unit = checksum_form.cleaned_data["unit"]
+    target_hash = unit.get_target_hash()
+    mode = perform_suggestion_action(request, unit)
+
+    return render_zen_unit_response(
+        request,
+        unit_set,
+        unit,
+        mode=mode,
+        sync_target=mode in {"accept", "accept_edit", "accept_approve"},
+        previous_target_hash=target_hash,
+    )
+
+
+@login_required
+def zen_unit(request: AuthenticatedHttpRequest, path):
+    """Return the current state of a unit for the Zen editor."""
+    _obj, unit_set, _context = parse_path_units(
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
+    )
+
+    checksum_form = ChecksumForm(unit_set, request.GET)
+    if not checksum_form.is_valid():
+        show_form_errors(request, checksum_form)
+        return HttpResponseBadRequest("Invalid checksum")
+
+    return render_zen_unit_response(
+        request, unit_set, checksum_form.cleaned_data["unit"], sync_target=True
+    )
 
 
 @require_POST
@@ -1922,6 +2052,39 @@ def new_unit(request: AuthenticatedHttpRequest, path):
 
 @login_required
 @require_POST
+def edit_source_unit(request: AuthenticatedHttpRequest, unit_id):
+    from weblate.trans.source_edit import edit_source  # ruff: ignore[import-outside-top-level]
+
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=unit_id)
+    if not request.user.has_perm("meta:unit.edit_source", unit):
+        raise PermissionDenied
+    form = SourceEditForm(unit, request.user, request.POST)
+    if form.is_valid():
+        try:
+            edit_source(unit, request.user, **form.cleaned_data)
+        except ValidationError as error:
+            if hasattr(error, "message_dict"):
+                for field, errors in error.message_dict.items():
+                    form.add_error(field if field in form.fields else None, errors)
+            else:
+                form.add_error(None, error)
+        except WeblateLockTimeoutError:
+            form.add_error(None, gettext("The component is busy. Please try again."))
+        else:
+            cleanup_session(request.session, delete_all=True)
+            unit.refresh_from_db()
+            messages.success(request, gettext("Source string updated."))
+            return redirect(unit)
+    return render(
+        request,
+        "trans/source_edit.html",
+        {"unit": unit, "form": form, "object": unit.translation},
+        status=400,
+    )
+
+
+@login_required
+@require_POST
 @transaction.atomic
 def delete_unit(request: AuthenticatedHttpRequest, unit_id):
     """Delete unit."""
@@ -1943,46 +2106,3 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
     # Remove cached search results as we've just removed one of the unit there
     cleanup_session(request.session, delete_all=True)
     return redirect_next(request.POST.get("next"), unit.translation)
-
-
-def browse(request: AuthenticatedHttpRequest, path):
-    """Strings browsing."""
-    obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage, CategoryLanguage)
-    )
-    project = context["project"]
-    search_result = SearchNavigation(
-        obj, project, unit_set, request, blank=True, use_cache=False
-    ).search()
-    offset = search_result["offset"]
-    page = 20
-    units = unit_set.prefetch_full().get_ordered(
-        search_result["ids"][(offset - 1) * page : (offset - 1) * page + page]
-    )
-
-    base_unit_url = f"{reverse('browse', kwargs={'path': obj.get_url_path()})}?{search_result['url']}&offset="
-    num_results = ceil(len(search_result["ids"]) / page)
-
-    return render(
-        request,
-        "browse.html",
-        {
-            "object": obj,
-            "path_object": obj,
-            "project": project,
-            "component": obj.component if isinstance(obj, Translation) else None,
-            "units": units,
-            "search_query": search_result["query"],
-            "query_params": QueryDict(search_result["url"]),
-            "search_form": search_result["form"].reset_offset(),
-            "filter_count": num_results,
-            "filter_pos": offset,
-            "first_unit_url": f"{base_unit_url}1",
-            "last_unit_url": base_unit_url + str(num_results),
-            "next_unit_url": base_unit_url + str(offset + 1)
-            if offset < num_results
-            else None,
-            "prev_unit_url": base_unit_url + str(offset - 1) if offset > 1 else None,
-            "is_in_browse": True,
-        },
-    )

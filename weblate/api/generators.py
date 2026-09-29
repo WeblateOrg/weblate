@@ -4,6 +4,9 @@
 
 from __future__ import annotations
 
+import re
+from typing import Any
+
 from drf_spectacular.generators import SchemaGenerator
 from drf_standardized_errors.openapi import AutoSchema
 
@@ -26,6 +29,30 @@ class WeblateSchemaGenerator(SchemaGenerator):
 
 class WeblateAutoSchema(AutoSchema):
     path_regex: str
+
+    def get_operation(
+        self, path, path_regex, path_prefix, method, registry
+    ) -> dict[str, Any] | None:
+        operation = super().get_operation(
+            path, path_regex, path_prefix, method, registry
+        )
+        if operation and (description := operation.get("description")):
+            summary = operation.get("summary", "")
+            if summary and description.startswith(summary):
+                remaining = description[len(summary) :].lstrip()
+                if remaining:
+                    operation["description"] = remaining
+                else:
+                    operation.pop("description")
+        return operation
+
+    def get_summary(self) -> str | None:
+        if summary := super().get_summary():
+            return summary
+        description = self.get_description().strip()
+        if not description:
+            return None
+        return re.split(r"(?<=[.!?])\s+", description, maxsplit=1)[0]
 
     def _resolve_path_parameters(self, variables):
         """Resolve Weblate's generic and numeric router path expressions."""

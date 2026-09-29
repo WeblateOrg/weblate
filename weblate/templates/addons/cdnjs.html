@@ -1,14 +1,15 @@
 {% load i18n icons %}
 
 <div class="form-group">
-  <label>{% translate "Integration instructions" %}</label>
+  <h5 class="fs-6 fw-bold lh-base d-inline-block mb-0">{% translate "Integration instructions" %}</h5>
 
   <p>{% translate "Include following snippet to load the localization from the CDN:" %}</p>
   <code>
     <button type="button"
             class="btn btn-link btn-xs float-end"
             data-clipboard-value='&lt;script src="{{ url }}" async&gt;&lt;/script&gt;'
-            title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+            title="{% translate "Copy to clipboard" %}"
+            aria-label="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
     &lt;script src="{{ url }}" async&gt;&lt;/script&gt;
   </code>
 

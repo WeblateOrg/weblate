@@ -447,11 +447,18 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
 
     def get_fuzzy_candidates(self, text: str, limit: int = MEMORY_LOOKUP_LIMIT) -> Self:
         lookup_prefix = text[:MEMORY_LOOKUP_PREFIX_LENGTH]
-        return self.alias(
+        queryset = self.alias(
             match_distance=TrigramDistance(
                 Left("source", MEMORY_LOOKUP_PREFIX_LENGTH), lookup_prefix
             )
-        ).order_by("match_distance", "-status", "pk")[:limit]
+        )
+        # Limit by distance before breaking ties: sorting an entire distance
+        # group by status and ID can require scanning the whole language pair.
+        # Membership at the cutoff is intentionally arbitrary for tied matches.
+        candidate_ids = queryset.order_by("match_distance").values("pk")[:limit]
+        return queryset.filter(pk__in=candidate_ids).order_by(
+            "match_distance", "-status", "pk"
+        )[:limit]
 
     def get_full_source_fuzzy_candidates(
         self,

@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import os
 import pathlib
 import shutil
@@ -28,6 +30,69 @@ from weblate.utils.files import remove_tree
 
 if TYPE_CHECKING:
     from translation_finder.discovery.result import ResultDict
+
+
+class RepositoryImportDiscoveryTest(SimpleTestCase):
+    def test_with_component_retains_discovery_results(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            tempfile.TemporaryDirectory() as component_dir,
+        ):
+            translation = pathlib.Path(tempdir, "new-component", "cs.po")
+            translation.parent.mkdir()
+            translation.touch()
+            discovery = ComponentDiscovery.for_repository_import(
+                path=tempdir,
+                file_format="po",
+                match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                name_template="{{ component }}",
+            )
+            expected = discovery.matched_components
+            component = MagicMock(spec=Component, full_path=component_dir)
+
+            attached = discovery.with_component(component)
+
+            self.assertIs(attached.component, component)
+            self.assertEqual(attached.matched_components, expected)
+
+    def test_filters_managed_vcs_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            root = pathlib.Path(tempdir)
+            for filename in (
+                ".git/metadata.po",
+                ".hg/metadata.po",
+                ".svn/metadata.po",
+                "nested/.git",
+                "translation.po",
+            ):
+                path = root / filename
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.touch()
+
+            discovery = ComponentDiscovery.for_repository_import(
+                path=tempdir,
+                file_format="po",
+                match=r"(?P<language>[^/]*)\.po",
+                name_template="{{ language }}",
+            )
+
+            self.assertNotIn(".git/metadata.po", discovery.repository_paths)
+            self.assertNotIn(".hg/metadata.po", discovery.repository_paths)
+            self.assertNotIn("nested/.git", discovery.repository_paths)
+            self.assertIn(".svn/metadata.po", discovery.repository_paths)
+            self.assertIn("translation.po", discovery.repository_paths)
+
+    def test_rejects_component_operation(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            discovery = ComponentDiscovery.for_repository_import(
+                path=tempdir,
+                file_format="po",
+                match=r"(?P<language>[^/]*)\.po",
+                name_template="{{ language }}",
+            )
+
+            with self.assertRaisesRegex(RuntimeError, "does not have a component"):
+                discovery.perform()
 
 
 class ComponentDiscoveryTest(RepoTestCase):
@@ -538,12 +603,33 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertTrue(self.discovery.limit_exceeded)
 
     def test_repository_paths_exclude_vcs_metadata(self) -> None:
+        metadata_dir_name = self.component.repository.metadata_dir_name
+        assert metadata_dir_name is not None
+        for dirname in (metadata_dir_name, metadata_dir_name.upper()):
+            with (
+                self.subTest(dirname=dirname),
+                tempfile.TemporaryDirectory() as tempdir,
+            ):
+                root = pathlib.Path(tempdir)
+                metadata = root / dirname
+                metadata.mkdir()
+                (metadata / "translation.po").touch()
+                (root / "translation.po").touch()
+                discovery = ComponentDiscovery(
+                    self.component,
+                    file_format="po",
+                    match=r"(?P<language>[^/]*)\.po",
+                    name_template="{{ language }}",
+                    path=tempdir,
+                )
+
+                self.assertEqual(discovery.repository_paths, ["translation.po"])
+
+    def test_repository_paths_include_foreign_vcs_metadata(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
-            root = pathlib.Path(tempdir)
-            metadata = root / ".git"
+            metadata = pathlib.Path(tempdir, ".svn")
             metadata.mkdir()
-            (metadata / "config").touch()
-            (root / "translation.po").touch()
+            (metadata / "translation.po").touch()
             discovery = ComponentDiscovery(
                 self.component,
                 file_format="po",
@@ -552,7 +638,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                 path=tempdir,
             )
 
-            self.assertEqual(discovery.repository_paths, ["translation.po"])
+            self.assertIn(".svn/translation.po", discovery.repository_paths)
 
     def test_discovery_limit_prevents_removal(self) -> None:
         self.discovery.limit_exceeded = True
@@ -633,6 +719,71 @@ class ComponentDiscoveryTest(RepoTestCase):
                 ),
             )
         )
+
+    def test_create_component_with_inherited_settings(self) -> None:
+        project = self.component.project
+        project.license = "CC-BY-SA-4.0"
+        project.commit_message = "Inherited commit message"
+        project.save(update_fields=["license", "commit_message"])
+        Component.objects.filter(pk=self.component.pk).update(
+            license="",
+            inherit_license=True,
+            commit_message="",
+            inherit_commit_message=True,
+        )
+        self.component.refresh_from_db()
+        match = self.discovery.matched_components["second-po/*.po"]
+
+        for preview in (True, False):
+            with self.subTest(preview=preview):
+                component = self.discovery.create_component(
+                    self.component,
+                    match,
+                    preview=preview,
+                    existing_slugs=set(),
+                    existing_names=set(),
+                )
+                if not preview:
+                    component.refresh_from_db()
+                self.assertEqual(component.license, "")
+                self.assertTrue(component.inherit_license)
+                self.assertEqual(component.effective_license, "CC-BY-SA-4.0")
+                self.assertEqual(component.commit_message, "")
+                self.assertTrue(component.inherit_commit_message)
+                self.assertEqual(
+                    component.effective_commit_message, "Inherited commit message"
+                )
+
+        project.license = "MIT"
+        project.save(update_fields=["license"])
+        component.refresh_from_db()
+        self.assertEqual(component.effective_license, "MIT")
+
+    def test_create_component_background_with_inherited_license(self) -> None:
+        project = self.component.project
+        project.license = "CC-BY-SA-4.0"
+        project.save(update_fields=["license"])
+        Component.objects.filter(pk=self.component.pk).update(
+            license="", inherit_license=True
+        )
+        self.component.refresh_from_db()
+        match = self.discovery.matched_components["second-po/*.po"]
+
+        with patch("weblate.trans.discovery.create_component.delay") as delay:
+            self.discovery.create_component(
+                self.component,
+                match,
+                background=True,
+                existing_slugs=set(),
+                existing_names=set(),
+            )
+
+        delay.assert_called_once()
+        result = create_component(**delay.call_args.kwargs)
+        component = Component.objects.get(pk=result["component"])
+        self.assertEqual(component.license, "")
+        self.assertTrue(component.inherit_license)
+        self.assertEqual(component.effective_license, "CC-BY-SA-4.0")
 
     def test_create_component_preview_applies_inheritance_defaults(self) -> None:
         self.component.project.license = "GPL-3.0-or-later"

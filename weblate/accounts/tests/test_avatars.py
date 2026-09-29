@@ -5,6 +5,7 @@
 """Tests for user handling."""
 
 from io import BytesIO
+from typing import cast
 from unittest.mock import patch
 
 import httpx2
@@ -30,8 +31,25 @@ class AvatarTest(FixtureTestCase):
         self.user.save()
 
     def test_avatar_for_email(self) -> None:
-        url = avatar.avatar_for_email(self.user.email, size=32)
+        email = cast("str", self.user.email)
+        url = avatar.avatar_for_email(email, self.user.username, size=32)
         self.assertEqual(TEST_URL, url)
+
+    @override_settings(AVATAR_URL_TEMPLATE="{AVATAR_URL_PREFIX}u/{mail_hash}/{size}")
+    def test_avatar_for_email_custom_template(self) -> None:
+        email = cast("str", self.user.email)
+        url = avatar.avatar_for_email(email, self.user.username, size=32)
+        self.assertEqual(
+            "https://www.gravatar.com/u/55502f40dc8b7c769880b10874abc9d0/32", url
+        )
+
+    @override_settings(
+        AVATAR_URL_TEMPLATE="{AVATAR_URL_PREFIX}avatar/{username}/{size}"
+    )
+    def test_avatar_for_email_custom_template_username(self) -> None:
+        email = cast("str", self.user.email)
+        url = avatar.avatar_for_email(email, self.user.username, size=32)
+        self.assertEqual("https://www.gravatar.com/avatar/testuser/32", url)
 
     @override_settings(STATIC_URL="https://cdn.example.com/static/")
     def test_fallback_avatar_uses_stable_url(self) -> None:

@@ -217,7 +217,7 @@ def get_parser() -> ParserElement:
 
     re_range = Combine(lbrack + SkipTo(rbrack, ignore=escaped_char) + rbrack)
     re_literal = escaped_char | one_of(list(re_literal_char))
-    re_non_capture_group = Suppress(Regex(r"\?[aiLmsux:-]"))
+    re_non_capture_group = Regex(r"\?[aiLmsux:-]")
     re_dot = Literal(".")
     re_boundary = cflex | dollar
     repetition = (
@@ -231,6 +231,9 @@ def get_parser() -> ParserElement:
     re_macro.set_parse_action(handle_macro)
     re_dot.set_parse_action(handle_dot)
     re_boundary.set_parse_action(handle_boundary)
+    # Keep an operand for flag-only groups such as (?i), which infix_notation
+    # cannot parse when their entire contents are suppressed.
+    re_non_capture_group.set_parse_action(handle_boundary)
 
     re_term = (
         re_boundary | re_literal | re_range | re_macro | re_dot | re_non_capture_group

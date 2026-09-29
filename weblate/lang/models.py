@@ -151,6 +151,8 @@ def get_default_lang() -> int:
 
 
 class LanguageQuerySet(models.QuerySet["Language", "Language"]):
+    _CACHE_COMPLETE_KEY = "complete"
+
     @staticmethod
     def _cache_result_key(code: str) -> str:
         return f"result:{code}"
@@ -168,7 +170,7 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
         return f"name:{name.lower()}"
 
     def build_fuzzy_get_cache(self) -> dict[str, Language | str]:
-        cache: dict[str, Language | str] = {}
+        cache: dict[str, Language | str] = {self._CACHE_COMPLETE_KEY: ""}
         lowered: dict[str, list[Language]] = defaultdict(list)
         names: dict[str, list[Language]] = defaultdict(list)
 
@@ -270,7 +272,9 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
             if newcode in ALIASES:
                 testcode = ALIASES[newcode]
                 ret = self._cache_get(cache, self._cache_exact_key(testcode))
-                if not isinstance(ret, Language):
+                if not isinstance(ret, Language) and self._CACHE_COMPLETE_KEY not in (
+                    cache or {}
+                ):
                     ret = self.try_get(code=testcode)
                 if ret is not None:
                     return ret
@@ -354,6 +358,8 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
             if cache is not None:
                 cache[self._cache_result_key(code)] = result
             return result
+        if cache is not None and self._CACHE_COMPLETE_KEY in cache:
+            return self.normalize_variant_code(code)[1]
 
         lookups = [
             # First try getting language as is (case-sensitive)

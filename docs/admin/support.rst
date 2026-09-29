@@ -7,6 +7,10 @@ Hosting subscribers receive priority support at no extra charge.
 Prepaid help packages are available for everyone, including self-hosting users.
 Find info about current support offerings at https://weblate.org/support.
 
+The :ref:`cloudbackup` service is also available separately for self-hosted
+installations. It does not require a hosting or separate support subscription.
+You can purchase it from the :guilabel:`Backups` page in the management interface.
+
 .. _activate-support:
 
 Integrating support
@@ -59,6 +63,18 @@ Integration services
 .. hint::
 
    Purchased support packages are already activated upon purchase and can be used without integrating them.
+
+For installations without integrated support, the management page offers
+professional support for setup, maintenance, and troubleshooting. If you have
+already purchased support, link your package there so the installation can
+recognize it.
+
+Superusers also receive a support reminder after login, at most once every
+180 days per account. Use :guilabel:`Continue to Weblate` to return to the page
+you were opening. The reminder does not apply to ordinary translators. Set
+:setting:`SUPPORT_STATUS_CHECK` to ``False`` to disable this redirect, including
+on community installations that do not need professional support. Docker
+installations can use :envvar:`WEBLATE_SUPPORT_STATUS_CHECK`.
 
 .. _support-contact:
 

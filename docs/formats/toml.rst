@@ -3,8 +3,6 @@ TOML
 
 .. versionadded:: 5.15
 
-.. include:: /snippets/format-in-development.rst
-
 TOML is a generic format like :doc:`/formats/yaml` or :doc:`/formats/json` and can be used to localize applications.
 
 Weblate supports TOML in several variants:

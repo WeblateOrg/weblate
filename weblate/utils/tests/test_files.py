@@ -18,11 +18,12 @@ from django.test import SimpleTestCase
 
 from weblate.utils.files import (
     REPO_TEMP_DIRNAME,
+    get_archive_vcs_metadata_members,
     get_repo_temp_dir,
     is_excluded,
+    is_managed_vcs_metadata_path,
     is_path_within_directory,
     is_unsafe_path,
-    is_vcs_metadata_path,
     read_file_bytes,
     remove_tree,
     should_skip,
@@ -95,14 +96,87 @@ class FilesTestCase(SimpleTestCase):
             with self.subTest(path=path):
                 self.assertTrue(is_excluded(path))
 
+    def test_managed_metadata_paths_are_excluded(self) -> None:
+        for name in (".git", ".hg"):
+            for spelling in (name, name.upper(), name.lower(), name.title()):
+                for path in (
+                    spelling,
+                    f"nested/{spelling}/data",
+                    f"nested\\{spelling}\\data",
+                ):
+                    with self.subTest(path=path):
+                        self.assertTrue(is_managed_vcs_metadata_path(path))
+                        self.assertTrue(is_excluded(path))
+
+    def test_archive_vcs_metadata_members(self) -> None:
+        metadata = (
+            ".svn/entries",
+            ".bzr/README",
+            "CVS/Root",
+            "CVS/Entries/file",
+            "CVSROOT/passwd",
+            "_darcs/patches",
+            "RCS/foo,v",
+            "SCCS/s.foo",
+            "_FOSSIL_",
+            ".fslckout",
+            "_MTN/options",
+            ".pijul/changes/one",
+            ".pc/patch.diff/file",
+            "BitKeeper/etc/config",
+            "ChangeSet/1.1",
+        )
+        ordinary = (
+            "CVS/translation.po",
+            "CVSROOT/translation.po",
+            "RCS/translation.po",
+            "SCCS/translation.po",
+            "ChangeSet/translation.po",
+            "BK/current",
+        )
+
+        excluded = get_archive_vcs_metadata_members(metadata)
+
+        self.assertEqual(excluded, frozenset(path.casefold() for path in metadata))
+        self.assertEqual(get_archive_vcs_metadata_members(ordinary), frozenset())
+
+    def test_archive_vcs_metadata_members_many_roots(self) -> None:
+        paths = tuple(
+            path
+            for index in range(10_000)
+            for path in (f"root-{index}/.svn/entries", f"root-{index}/regular.po")
+        )
+
+        excluded = get_archive_vcs_metadata_members(paths)
+
+        self.assertEqual(len(excluded), 10_000)
+        self.assertNotIn("root-9999/regular.po", excluded)
+
+    def test_archive_vcs_metadata_members_deep_path(self) -> None:
+        prefix = "/".join("d" for _index in range(5_000))
+        metadata = f"{prefix}/.svn/entries"
+        ordinary = f"{prefix}/regular.po"
+
+        excluded = get_archive_vcs_metadata_members((metadata, ordinary))
+
+        self.assertEqual(excluded, frozenset((metadata,)))
+
     def test_is_excluded_preserves_mixed_case_excludes(self) -> None:
         self.assertTrue(is_excluded(".DS_Store"))
         self.assertTrue(is_excluded("__MACOSX/metadata"))
 
     def test_is_excluded_allows_similar_names(self) -> None:
-        for path in (".gitignore", ".hgignore", "docs/.gitish/config"):
+        for path in (
+            ".gitignore",
+            ".hgignore",
+            "docs/.gitish/config",
+            "CVS-backup/Root",
+            ".svnignore",
+            "docs/my_darcs/file",
+        ):
             with self.subTest(path=path):
                 self.assertFalse(is_excluded(path))
+                self.assertFalse(is_managed_vcs_metadata_path(path))
 
     def test_is_unsafe_path(self) -> None:
         self.assertTrue(is_unsafe_path("../outside.po"))
@@ -110,14 +184,22 @@ class FilesTestCase(SimpleTestCase):
         self.assertTrue(is_unsafe_path(r"C:\temp\escape.po"))
         self.assertFalse(is_unsafe_path("build/translation.txt"))
 
-    def test_is_vcs_metadata_path(self) -> None:
-        self.assertTrue(is_vcs_metadata_path(".git/config"))
-        self.assertTrue(is_vcs_metadata_path("path/.hg/hgrc"))
-        self.assertTrue(is_vcs_metadata_path(".GIT/CONFIG"))
-        self.assertTrue(is_vcs_metadata_path(r"path\.Hg\hgrc"))
-        self.assertFalse(is_vcs_metadata_path("build/translation.txt"))
-        self.assertFalse(is_vcs_metadata_path("node_modules/translation.txt"))
-        self.assertFalse(is_vcs_metadata_path("docs/.gitish/config"))
+    def test_is_managed_vcs_metadata_path(self) -> None:
+        for path in (
+            ".git/config",
+            "path/.hg/hgrc",
+            ".GIT/CONFIG",
+            r"path\.Hg\hgrc",
+        ):
+            with self.subTest(path=path):
+                self.assertTrue(is_managed_vcs_metadata_path(path))
+        self.assertFalse(is_managed_vcs_metadata_path("build/translation.txt"))
+        self.assertFalse(is_managed_vcs_metadata_path("node_modules/translation.txt"))
+        self.assertFalse(is_managed_vcs_metadata_path("docs/.gitish/config"))
+        self.assertFalse(is_managed_vcs_metadata_path(".svn/wc.db"))
+        self.assertFalse(is_managed_vcs_metadata_path("path/CVS/Root"))
+        self.assertFalse(is_managed_vcs_metadata_path("docs/.svnignore"))
+        self.assertFalse(is_managed_vcs_metadata_path("docs/.bzrignore"))
 
     def test_is_path_within_directory_accepts_descendants(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:

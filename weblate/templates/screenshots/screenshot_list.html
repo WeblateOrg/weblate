@@ -35,9 +35,6 @@
 
 {% block content %}
 
-  {% perm 'screenshot.delete' object as user_can_delete_screenshot %}
-  {% perm 'screenshot.edit' object as user_can_edit_screenshot %}
-
   <div class="tab-content">
     <div class="tab-pane {% if not add_form_active %}active{% endif %}"
          id="screenshots-list">
@@ -165,6 +162,8 @@
       {% if object_list %}
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-3">
           {% for screenshot in object_list %}
+            {% perm 'screenshot.delete' screenshot.translation as user_can_delete_screenshot %}
+            {% perm 'screenshot.edit' screenshot.translation as user_can_edit_screenshot %}
             <div class="col">
               <article class="card h-100">
                 <div class="card-body d-flex flex-column">

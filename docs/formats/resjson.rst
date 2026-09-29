@@ -3,8 +3,6 @@ JavaScript Resource Files (RESJSON)
 
 .. versionadded:: 5.15
 
-.. include:: /snippets/format-in-development.rst
-
 JSON-based format used in Windows Store apps that use JavaScript and HTML. Sometimes it is also referred as Windows JSON.
 
 .. seealso::

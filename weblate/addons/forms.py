@@ -1534,9 +1534,21 @@ class AutoAddonForm(
         instance=None,
         **kwargs,
     ) -> None:
-        BaseAddonForm.__init__(self, user, addon)
+        BaseAddonForm.__init__(self, user, addon, **kwargs)
+        if addon.documentation_build:
+            # Documentation needs declared fields, not database-backed choices.
+            return
+        obj = addon.instance.component or addon.instance.project
+        if obj is None and addon.instance.category is not None:
+            obj = addon.instance.category.project
         AutoForm.__init__(
-            self, obj=addon.instance.component or addon.instance.project, **kwargs
+            self,
+            obj=obj,
+            # Add-on configuration is a durable administrative capability. Its
+            # source scope is not delegated from the configuring user's direct
+            # component visibility and continues to work after permission changes.
+            user=None,
+            **kwargs,
         )
         # Add-ons use management permissions, not the configuring user's review
         # permission. AutoTranslate applies each target's effective review settings
@@ -1558,10 +1570,12 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
     public_configuration_fields = frozenset(
         {
             "add_flags",
+            "add_translation_flags",
             "add_labels",
             "path",
             "q",
             "remove_flags",
+            "remove_translation_flags",
             "remove_labels",
             "state",
         }
@@ -1569,6 +1583,9 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
 
     def __init__(self, user: User | None, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
+        if addon.documentation_build:
+            # Keep state choices, but avoid fetching project labels.
+            kwargs["labels"] = self.fields["add_labels"].queryset
         obj: Project | Component | None = None
         project: Project | None = None
         if addon.instance.component:

@@ -1699,6 +1699,36 @@ class BillingTest(BaseTestCase):
         self.assertEqual(other.count_projects, 1)
         self.assertTrue(other.in_limits)
 
+    def test_merge_head(self) -> None:
+        other = Billing.objects.create(plan=self.billing.plan)
+        project = self.add_project()
+        original_workspace = project.workspace_id
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.force_login(self.user)
+        url = reverse(
+            "billing-merge", kwargs={"pk": self.billing.pk}, query={"other": other.pk}
+        )
+        get_response = self.client.get(url)
+        self.assertEqual(get_response.status_code, 200)
+        log_count = other.billinglog_set.count()
+        for body in ("", f"other={other.pk}&confirm=1"):
+            with self.subTest(body=body):
+                response = self.client.generic(
+                    "HEAD", url, body, content_type="application/x-www-form-urlencoded"
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.content, b"")
+                self.assertEqual(response["Content-Type"], get_response["Content-Type"])
+                self.assertTrue(Billing.objects.filter(pk=self.billing.pk).exists())
+                project.refresh_from_db()
+                self.assertEqual(project.workspace_id, original_workspace)
+                self.assertEqual(other.billinglog_set.count(), log_count)
+        for method in ("PUT", "PATCH", "DELETE", "OPTIONS"):
+            with self.subTest(method=method):
+                response = self.client.generic(method, url)
+                self.assertEqual(response.status_code, 405)
+
     def test_merge(self) -> None:
         other = Billing.objects.create(plan=self.billing.plan)
         project = self.add_project()

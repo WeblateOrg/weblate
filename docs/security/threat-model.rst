@@ -3,9 +3,9 @@ Weblate threat model
 
 Project: Weblate
 
-Last reviewed for Weblate |release| at commit ``8283fcad69f``.
+Last reviewed for Weblate |release| at commit ``af7a54c07c``.
 
-Date: 2026-09-01.
+Date: 2026-09-24.
 
 Status: Accepted, 2026-09-01.
 
@@ -428,6 +428,19 @@ Build-time and configuration variants
      - Custom code can add new trust boundaries and security properties outside
        this model. *(maintainer)*
      - Third-party code is modeled separately. *(maintainer)*
+   * - Declarative automation expressions
+     - Add-on managers configure ordered Weblate operations and CEL conditions.
+       *(documented)* (source: :ref:`automation-workflows`)
+     - Expressions receive JSON context rather than application objects. A
+       resource-limited helper process parses and evaluates CEL without custom
+       function bindings; workflows cannot supply Python code. This is a distinct
+       expression-evaluation boundary, not a sandbox for arbitrary Python.
+       On macOS, the helper enforces CPU and wall-time limits but no memory cap,
+       so expressions can exhaust memory within those time limits.
+       *(maintainer)*
+     - Existing add-on management authority governs mutations. Operation scopes,
+       validation, and automation-origin suppression constrain declarative runs;
+       custom Python add-ons retain their separate trust model. *(maintainer)*
 
 Input assumptions
 -----------------
@@ -520,6 +533,15 @@ Input assumptions
      - Trusted local input unless processing Weblate data or project backups.
        *(maintainer)*
      - Restrict shell access to trusted operators. *(maintainer)*
+   * - Deployment configuration
+     - Environment variables, container arguments, mounted configuration,
+       image selection, and workload or orchestration manifests
+     - Trusted local-operator input. Systems that delegate selected deployment
+       values to less-trusted users introduce an external trust boundary;
+       Weblate does not treat those values as untrusted application input.
+       *(maintainer)*
+     - Restrict deployment access to trusted operators and validate delegated
+       values before they reach Weblate. *(maintainer)*
 
 Size and rate assumptions:
 
@@ -621,6 +643,15 @@ Security properties Weblate provides
        configure operations that can affect repository contents, for example by
        selecting files through component settings, configuring add-ons, or
        enabling force pushes and pull-request behavior through :ref:`vcs_params`.
+       Add-ons are persistent administrative configuration: project and category
+       add-ons operate on compatible restricted descendants, while component
+       add-ons can consume cross-component inputs documented by the add-on.
+       Their service identities and configured authority do not depend on the
+       configuring user's later account or permission state. Project backups
+       similarly contain every component in the project, including restricted
+       components. Consequently, component restrictions protect ordinary direct
+       access but are not an isolation boundary against these documented
+       administrative capabilities.
        Users with management rights for a workspace are trusted to connect and
        remove its GitHub App installations; removing the final workspace
        connection can uninstall the App from GitHub. GitHub App component
@@ -970,12 +1001,25 @@ Known non-findings
   selected parent scope. That permission intentionally authorizes the complete
   report scope. *(documented)* (source: :doc:`/devel/reporting`,
   :doc:`/admin/access`)
+* A report that a project administrator can obtain restricted descendants from
+  a complete project backup, or that an add-on manager can configure a core
+  add-on to process its documented restricted descendants or cross-component
+  inputs, is not a vulnerability. These are persistent administrative
+  capabilities and do not inherit the configuring user's direct component
+  visibility. *(documented)* (source: :ref:`addons`, :ref:`projectbackup`,
+  :doc:`/admin/access`)
 * A report against third-party add-on behavior is not a Weblate core
   vulnerability unless the report shows Weblate's permission or installation
   boundaries are bypassed. *(maintainer)*
 * A report that a malicious local operator can read configuration, run
   management commands, or alter files is out of model because local operators
   are trusted infrastructure. *(maintainer)*
+* A report that an operator-supplied environment variable, container argument,
+  or mounted configuration can alter generated service configuration is not a
+  vulnerability. These are trusted deployment inputs. A CI/CD, GitOps, PaaS,
+  Helm, or other orchestration layer that lets less-trusted users set selected
+  values owns that delegation boundary and must validate the values before
+  constructing the Weblate workload. *(maintainer)*
 * A report that a downstream application renders a dangerous translation is not
   a Weblate vulnerability unless Weblate itself violates a claimed property
   while storing, checking, reviewing, or displaying that translation.

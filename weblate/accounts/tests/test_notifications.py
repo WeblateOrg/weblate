@@ -56,7 +56,14 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Announcement, Change, Comment, Project, Suggestion
+from weblate.trans.models import (
+    Announcement,
+    Change,
+    Comment,
+    Project,
+    Suggestion,
+    Translation,
+)
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
     RegistrationTestMixin,
@@ -368,17 +375,44 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Check mail
         self.validate_notifications(2, "[Weblate] Repository operation in Test/Test")
 
-    def test_notify_parse_error(self) -> None:
-        change = self.create_with_callbacks(
-            self.get_translation().change_set,
-            details={"error_message": "Failed merge", "filename": "test/file.po"},
-            action=ActionEvents.PARSE_ERROR,
+    def configure_repository_browsers(self) -> None:
+        self.component.repoweb = "https://source.example.com/{{filename}}#L{{line}}"
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}#L{{line}}"
         )
-        self.assertIn("test/file.po", change.get_details_display())
-        self.assertIn("Failed merge", change.get_details_display())
+        self.component.save(update_fields=["repoweb", "repoweb_translations"])
+
+    def trigger_parse_error(
+        self,
+        translation: Translation | None = None,
+        filename: str | None = None,
+    ) -> Change:
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.handle_parse_error(
+                ValueError("Failed parse"),
+                translation=translation,
+                filename=filename,
+                reraise=False,
+            )
+        return self.component.change_set.filter(action=ActionEvents.PARSE_ERROR).latest(
+            "pk"
+        )
+
+    def test_notify_parse_error(self) -> None:
+        self.configure_repository_browsers()
+        translation = self.get_translation()
+        change = self.trigger_parse_error(translation=translation)
+        self.assertEqual(change.translation, translation)
+        self.assertEqual(change.details["filename"], translation.filename)
+        self.assertIn(translation.filename, change.get_details_display())
+        self.assertIn("Failed parse", change.get_details_display())
 
         # Check mail
         self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            f'href="https://translations.example.com/{translation.filename}#L1"',
+            get_html_content(mail.outbox[0]),
+        )
 
         # Add project owner
         self.component.project.add_user(self.anotheruser, "Administration")
@@ -386,6 +420,60 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(3, "[Weblate] Parse error in Test/Test")
+
+    def test_notify_source_parse_error(self) -> None:
+        self.configure_repository_browsers()
+        translation = self.component.source_translation
+        change = self.trigger_parse_error(translation=translation)
+        self.assertEqual(change.translation, translation)
+        self.assertEqual(change.details["filename"], translation.filename)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            f'href="https://translations.example.com/{translation.filename}#L1"',
+            get_html_content(mail.outbox[0]),
+        )
+
+    def test_notify_intermediate_parse_error(self) -> None:
+        self.configure_repository_browsers()
+        self.component.intermediate = "intermediate/dev.json"
+        self.component.save(update_fields=["intermediate"])
+        change = self.trigger_parse_error(filename=self.component.intermediate)
+        self.assertIsNone(change.translation)
+        self.assertEqual(change.details["filename"], self.component.intermediate)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            'href="https://translations.example.com/intermediate/dev.json#L1"',
+            get_html_content(mail.outbox[0]),
+        )
+
+    def test_notify_template_parse_error(self) -> None:
+        self.configure_repository_browsers()
+        self.component.intermediate = "intermediate/dev.json"
+        self.component.template = "intermediate/en.json"
+        self.component.save(update_fields=["intermediate", "template"])
+        change = self.trigger_parse_error(filename=self.component.template)
+        self.assertIsNone(change.translation)
+        self.assertEqual(change.details["filename"], self.component.template)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            'href="https://translations.example.com/intermediate/en.json#L1"',
+            get_html_content(mail.outbox[0]),
+        )
+
+    def test_notify_parse_error_translation_browser_fallback(self) -> None:
+        self.component.repoweb = "https://source.example.com/{{filename}}#L{{line}}"
+        self.component.save(update_fields=["repoweb"])
+        translation = self.get_translation()
+        self.trigger_parse_error(translation=translation)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            f'href="https://source.example.com/{translation.filename}#L1"',
+            get_html_content(mail.outbox[0]),
+        )
 
     def test_notify_new_string(self) -> None:
         unit = self.get_unit()
@@ -1586,7 +1674,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             ordered=False,
         )
 
-    def test_summary_collection_is_bounded(self) -> None:
+    def test_summary_collection_is_not_bounded(self) -> None:
         translations = [
             SimpleNamespace(pk=translation_id, component=self.component)
             for translation_id in range(DIGEST_MAX_ITEMS + 1)
@@ -1605,9 +1693,63 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         self.assertEqual(send_digest.call_count, 1)
         self.assertEqual(
-            len(send_digest.call_args.kwargs["summaries"]), DIGEST_MAX_ITEMS
+            len(send_digest.call_args.kwargs["summaries"]), DIGEST_MAX_ITEMS + 1
         )
-        self.assertTrue(send_digest.call_args.kwargs["overlimit"])
+        self.assertFalse(send_digest.call_args.kwargs["overlimit"])
+        self.assertEqual(
+            send_digest.call_args.kwargs["extracontext"]["total_count"],
+            DIGEST_MAX_ITEMS + 1,
+        )
+
+    def test_activity_summary_collection_is_not_bounded(self) -> None:
+        translations = [
+            SimpleNamespace(
+                pk=translation_id,
+                stats=SimpleNamespace(todo=0),
+                get_translate_url=lambda: "https://example.com/translate/",
+            )
+            for translation_id in range(DIGEST_MAX_ITEMS + 1)
+        ]
+        rows = [
+            {
+                "project_id": self.project.pk,
+                "translation_id": translation.pk,
+                "action": ActionEvents.CHANGE,
+                "user_id": None,
+                "count": 1,
+            }
+            for translation in translations
+        ]
+        notification = TranslationActivitySummaryNotification([])
+        with (
+            patch.object(
+                TranslationActivitySummaryNotification,
+                "get_activity_change_rows",
+                return_value=SimpleNamespace(
+                    # ruff: ignore[unused-lambda-argument]
+                    iterator=lambda chunk_size: iter(rows)
+                ),
+            ),
+            patch(
+                "weblate.accounts.notifications.prefetch_stats",
+                return_value=translations,
+            ),
+            patch.object(
+                notification, "get_activity_summary_users", return_value=[self.user]
+            ),
+            patch.object(notification, "send_digest") as send_digest,
+        ):
+            notification.notify_activity_summary(
+                NotificationFrequency.FREQ_WEEKLY,
+                since=timezone.now() - timedelta(weeks=1),
+                until=timezone.now(),
+            )
+
+        self.assertEqual(send_digest.call_count, 1)
+        self.assertEqual(
+            len(send_digest.call_args.kwargs["summaries"]), DIGEST_MAX_ITEMS + 1
+        )
+        self.assertFalse(send_digest.call_args.kwargs["overlimit"])
         self.assertEqual(
             send_digest.call_args.kwargs["extracontext"]["total_count"],
             DIGEST_MAX_ITEMS + 1,
@@ -1969,7 +2111,15 @@ class SendMailsTest(SimpleTestCase):
             self.assertEqual(message.get_content_type(), "multipart/alternative")
             plain, related = message.iter_parts()
             self.assertEqual(plain.get_content_type(), "text/plain")
-            self.assertIn(subject, plain.get_content())
+            plain_text = plain.get_content()
+            self.assertIn(subject, plain_text)
+            self.assertIn(
+                "Weblate, the libre continuous localization system. "
+                "(https://weblate.org/)",
+                plain_text,
+            )
+            self.assertNotIn("**", plain_text)
+            self.assertNotIn("cid:email-logo", plain_text)
             self.assertEqual(related.get_content_type(), "multipart/related")
             self.assertEqual(related.get_param("type"), "text/html")
             html, *images = related.iter_parts()
@@ -1977,6 +2127,7 @@ class SendMailsTest(SimpleTestCase):
             self.assertIn(subject, html.get_content())
             self.assertEqual(len(images), 2)
             content_ids = set()
+            expected_html = body
             for name, image in zip(
                 ("email-logo.png", "email-logo-footer.png"), images, strict=True
             ):
@@ -1991,7 +2142,14 @@ class SendMailsTest(SimpleTestCase):
                 self.assertTrue(cid.startswith("<") and cid.endswith(">"))
                 self.assertIn(f"cid:{cid[1:-1]}", html.get_content())
                 self.assertNotIn(f"cid:{name}@cid.weblate.org", html.get_content())
+                expected_html = expected_html.replace(
+                    f"cid:{name}@cid.weblate.org", f"cid:{cid[1:-1]}"
+                )
                 content_ids.add(cid)
+            self.assertEqual(
+                html.get_content().replace("\r\n", "\n").rstrip("\n"),
+                expected_html.rstrip("\n"),
+            )
             self.assertEqual(len(content_ids), 2)
             self.assertTrue(content_ids.isdisjoint(previous_ids))
             previous_ids.update(content_ids)

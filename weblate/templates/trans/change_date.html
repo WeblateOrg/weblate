@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<button type="button"
+        class="page-link change-date-toggle"
+        aria-controls="change-date-form"
+        aria-expanded="false"
+        hidden>{% translate "Jump to date" %}</button>
+<form method="get"
+      id="change-date-form"
+      class="change-date-form"
+      data-has-errors="{{ date_form.date.errors|yesno:'true,false' }}">
+  {% for key, values in query_params.lists %}
+    {% for value in values %}<input type="hidden" name="{{ key }}" value="{{ value }}" />{% endfor %}
+  {% endfor %}
+  <label for="{{ date_form.date.id_for_label }}" class="visually-hidden">{{ date_form.date.label }}</label>
+  <div class="d-flex flex-nowrap">
+    {{ date_form.date }}
+    <button type="submit" class="page-link rounded-0 green">{% translate "Go" %}</button>
+  </div>
+  {% if date_form.date.errors %}
+    <div id="{{ date_form.date.auto_id }}_error" class="invalid-feedback d-block px-2">
+      {% for error in date_form.date.errors %}<div>{{ error }}</div>{% endfor %}
+    </div>
+  {% endif %}
+</form>

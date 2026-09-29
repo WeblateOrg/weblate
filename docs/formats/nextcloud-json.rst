@@ -3,8 +3,6 @@ Nextcloud Apps JSON files
 
 .. versionadded:: 5.15
 
-.. include:: /snippets/format-in-development.rst
-
 JSON-based format used in Nextcloud Apps that use JavaScript and HTML.
 
 .. seealso::

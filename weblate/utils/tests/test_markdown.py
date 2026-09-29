@@ -7,10 +7,30 @@ from unittest.mock import patch
 from django.test import SimpleTestCase, TestCase
 
 from weblate.auth.models import User
-from weblate.utils.markdown import get_mention_users, render_markdown
+from weblate.utils.markdown import MAX_MENTION_USERS, get_mention_users, render_markdown
 
 
 class MarkdownTestCase(SimpleTestCase):
+    def test_get_mentions_deduplicated_and_limited(self) -> None:
+        mentions = ["@Duplicate", "@DUPLICATE", "@duplicate"]
+        mentions.extend(f"@user{index}" for index in range(MAX_MENTION_USERS))
+
+        with patch("weblate.utils.markdown.User.objects.filter") as filter_mock:
+            get_mention_users(" ".join(mentions))
+
+        filter_mock.assert_called_once()
+        query = filter_mock.call_args.args[0]
+        self.assertEqual(
+            query.children,
+            [
+                ("username", "Duplicate"),
+                *(
+                    ("username", f"user{index}")
+                    for index in range(MAX_MENTION_USERS - 1)
+                ),
+            ],
+        )
+
     def test_link(self) -> None:
         self.assertEqual(
             '<p><a rel="ugc" target="_blank" '
@@ -203,7 +223,7 @@ class MarkdownMentionTestCase(TestCase):
         )
 
     def test_get_mentions_case_insensitive(self) -> None:
-        user = User.objects.create(username="testuser", full_name="Full Name")
+        user = User.objects.create(username="TestUser", full_name="Full Name")
         self.assertEqual(
             {user.pk},
             set(
@@ -211,6 +231,13 @@ class MarkdownMentionTestCase(TestCase):
                     "pk", flat=True
                 )
             ),
+        )
+
+    def test_get_mentions_preserves_unicode_spelling(self) -> None:
+        user = User.objects.create(username="İ", full_name="Full Name")
+        self.assertEqual(
+            {user.pk},
+            set(get_mention_users("@İ").values_list("pk", flat=True)),
         )
 
     def test_get_mentions_non_mention(self) -> None:

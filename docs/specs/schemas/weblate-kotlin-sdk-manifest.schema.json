@@ -1,0 +1,61 @@
+{
+  "$id": "https://weblate.org/schemas/weblate-kotlin-sdk-manifest.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Kotlin SDK CDN manifest",
+  "description": "Published ARSC artifacts for one registered Android build.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "packageName",
+    "versionCode",
+    "locales"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "packageName": {
+      "type": "string",
+      "maxLength": 127,
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z][A-Za-z0-9_]*)+$(?![\\s\\S])"
+    },
+    "versionCode": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2100000000
+    },
+    "locales": {
+      "type": "object",
+      "description": "Artifacts keyed by Weblate language code; an empty object is allowed.",
+      "propertyNames": {
+        "minLength": 1
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "url",
+          "sha256",
+          "size"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "pattern": "^\\.\\./\\.\\./artifacts/[0-9a-f]{64}\\.arsc$(?![\\s\\S])",
+            "description": "Artifact URL relative to the manifest URL."
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$(?![\\s\\S])"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Artifact size in bytes."
+          }
+        }
+      }
+    }
+  }
+}

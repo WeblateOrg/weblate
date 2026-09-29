@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
-"PO-Revision-Date: 2026-09-11 04:04+0000\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Belarusian (Latin script) <https://hosted.weblate.org/"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -1336,7 +1336,9 @@ msgid ""
 msgstr ""
 "Vaš email boĺš nie naliežyć da pravieranaha konta, jon byŭ zmienieny da {0}."
 
-msgid "Use security key (WebAuthn)"
+#, fuzzy
+#| msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr "Skary'stajczesya klyuchom (WebAuthn)"
 
 msgid "Use authentication app (TOTP)"
@@ -1629,6 +1631,50 @@ msgstr ""
 
 msgid "Second factor sign in"
 msgstr "Apošnі ŭvachod"
+
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Evaluation service"
+msgstr "Aŭtentifіkakizha"
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Disable"
+msgid "Disabled"
+msgstr "adkliučanazha"
+
+msgid "Daily"
+msgstr ""
+
+#, fuzzy
+#| msgid "Weekly digest"
+msgid "Weekly"
+msgstr "SHtoty'dnyovaya zvodka"
+
+msgid "Monthly"
+msgstr "Štomiesiac"
+
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Evaluate translation changes"
+msgstr "Prahliadzieć usie zmieny ŭ pierakladzie"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Evaluate repository updates"
+msgstr "Zastarely repazitoryj."
+
+#, fuzzy
+#| msgid "Plural equation"
+msgid "AI quality evaluation"
+msgstr "Formula množnaha lіku"
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
 
 msgid "Automatic translation"
 msgstr "Aŭtamatyčny pieraklad"
@@ -2017,17 +2063,6 @@ msgstr ""
 msgid "Update frequency"
 msgstr ""
 
-msgid "Daily"
-msgstr ""
-
-#, fuzzy
-#| msgid "Weekly digest"
-msgid "Weekly"
-msgstr "SHtoty'dnyovaya zvodka"
-
-msgid "Monthly"
-msgstr "Štomiesiac"
-
 msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
@@ -2078,6 +2113,17 @@ msgstr ""
 #| msgid "Failed to evaluate plural equation: {}"
 msgid "Keyword entries have to be strings."
 msgstr "Nie ŭdalosia viličić množnuzhu formu: {}"
+
+#, fuzzy
+#| msgid "Database latency"
+msgid "ITS data directories"
+msgstr "Siervier bazi danich"
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
 
 #, fuzzy
 #| msgid "Could not add comment!"
@@ -2262,6 +2308,19 @@ msgstr "Xіbny' shablon dlya novy'x perakladaў."
 #| msgid "Could not create project directory: %s"
 msgid "Could not determine Sphinx source directory."
 msgstr "Nie ŭdalosia stvaryć dyrektoryju prajekta: %s"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Add as approved translation"
+msgid "One file per translation"
+msgstr "Dadać, jak zacvierdžany pieraklad"
+
+#, fuzzy
+#| msgid "Organize component"
+msgid "One file per component"
+msgstr "Stvarić kampanient"
 
 msgid "Name of generated file"
 msgstr "Nazva zhienieravanaha fajla"
@@ -2842,21 +2901,117 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
-msgstr "Udzieĺniki ŭ kamientary"
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "ITS rule file is too large."
+msgstr "Pieraklad zzhaŭliazhekka niekarektnim XML-fajlam"
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Fajl ZIP z perakladamі"
+
+msgid "ITS XPath expression is too long."
 msgstr ""
-"Abnaўlyae kamentar u zagaloўku PO-fajla dlya ўklyuche'nnya іmya ўdzel'nіka і "
-"gadoў udzelu."
+
+msgid "Too many ITS rule files."
+msgstr ""
+
+#, fuzzy
+#| msgid "No source strings are currently assigned!"
+msgid "ITS rule files are too large."
+msgstr "Niama zviazanych zychodnych radkoŭ!"
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Invalid ITS directory path."
+msgstr "Abmezhavany' kampanent"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "ITS rule file contains too many elements."
+msgstr "Fajl ZIP z perakladamі"
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule content."
+msgstr "Niepadtrymlivajemy farmat fajla."
+
+#, fuzzy
+#| msgid "Unsupported file!"
+msgid "Unsupported ITS locating rule."
+msgstr "Niepadtrymlivajemy fajl!"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Unsupported file format."
+msgid "Unsupported ITS rule namespace."
+msgstr "Niepadtrymlivajemy farmat fajla."
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "The component contains several duplicated translation strings."
+msgid "ITS directories must not contain symbolic links."
+msgstr "Kampanient zmiaščaje niekaĺki dubliavanych radkoŭ pierakladu."
+
+#, fuzzy, python-format
+#| msgid "This translation is currently locked."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "Heti pieraklad zablakavani."
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to parse file %(file)s: %(error)s"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Nie ŭdalosia pračitać fajl [X27X]: [X37X]"
+
+#, fuzzy, python-format
+#| msgid "Failed to parse TMX file!"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Nie ŭdalosia razabrać TMX-fajl!"
 
 msgid "Squash Git commits"
 msgstr "Abjadnać Git-fiksacyi"
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Abjadnać Git-fiksacyi pierad šturchanniem zmien."
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "API add-ons must be installed directly on a component."
+msgstr "Isnuzhe niekaĺki papiaredžanniaŭ dlia hetaha kampanienta"
+
+#, fuzzy
+#| msgid "The add-on can only be installed on the component."
+msgid "This add-on is already installed on this component."
+msgstr "Isnuzhe niekaĺki papiaredžanniaŭ dlia hetaha kampanienta"
 
 #, fuzzy
 #| msgid "This add-on has no settings."
@@ -3316,6 +3471,9 @@ msgstr "Vam nie dastaje pravoŭ, kab prymać prapanovy!"
 
 msgid "This string seems to already exist."
 msgstr "Takі radok uzho іsnue."
+
+msgid "Automatic translation in progress"
+msgstr "Aўtamaty'chny' peraklad padchas vy'kanannya"
 
 msgid "Category"
 msgstr "Katehoryja"
@@ -4139,12 +4297,22 @@ msgstr "Zamest ge'taga dadajcze radok u zy'xodnuyu movu."
 msgid "Adding strings is disabled in the component configuration."
 msgstr "Niepadtrimlivazhemi farmat fajla."
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr ""
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "Niepadtrimlivazhemi farmat fajla."
 
 msgid "The file format does not support this."
 msgstr "Heti pieraklad zablakavani."
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit this glossary."
+msgstr "Vam nie dastaje pravoŭ, kab prymać prapanovy!"
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr ""
 
 msgid "Adding new translations is turned off in the component configuration."
 msgstr "Niepadtrimlivazhemi farmat fajla."
@@ -4198,6 +4366,103 @@ msgstr "Na heti adras budzie adpraŭliena pakvierdžannie."
 #| msgid "Administration"
 msgid "Accepted invitation to the %s team."
 msgstr "Administravannie"
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgid "Automation"
+msgstr "Aŭtamatyčnaje vyjaŭliennie"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component is outside this add-on's scope."
+msgstr "Ge'ty' kampanent ustalyavany' czі naladzhany' nekare'ktna."
+
+#, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change does not belong to this component."
+msgstr "Karistaĺnіk biŭ dadadzieni da hetaha prazhektu."
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automation nesting is too deep."
+msgstr "Re'zhy'm aўtamaty'chnaga perakladu"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "Zmianiennie sіstemi kіravannia viersіzhamі nie padtrimlіvazhekka!"
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Automation keys must be strings."
+msgstr "Aŭtamatični pieraklad"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to parse file %(file)s: %(error)s"
+msgid "%(path)s: %(error)s"
+msgstr "Nie ŭdalosia pračitać fajl [X27X]: [X37X]"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Automation context is too large."
+msgstr "Aŭtamatyčnaje pryznačennie spisa kampanientaŭ"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Repository branch"
+msgid "Invalid CEL condition: %s"
+msgstr "Adhalіnavannie repazіtoryja"
+
+msgid "Workflow"
+msgstr "Praczoўny' pracze's"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Preview component ID"
+msgstr "Stvaryć kampanient"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview change ID"
+msgstr "Niadaŭnіja zmieny"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "Dadatkovaje paviedamliennie"
@@ -4410,6 +4675,55 @@ msgstr ""
 #| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
 msgstr "Nieĺha zmianić aŭtentifikakizhu dlia dema!"
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "The evaluation detected a language quality issue."
+msgstr "Bazavuyu movu perakladu mozhna re'dagavacz'."
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "Te'rmіnalogіya"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+#, fuzzy
+#| msgid "The documentation has detailed instructions"
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr "Zviarnikiesia da dakumientaki za padrabiaznimi instrukkizhami"
+
+#, fuzzy
+#| msgid "Vue I18n formatting"
+msgid "AI: Formatting"
+msgstr "Farmatavanne Vue I18n"
+
+#, fuzzy
+#| msgid "Translation is missing some placeholders"
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Peraklady' z adsutny'mі kіroўny'mі sіmvalamі"
 
 msgid "AngularJS interpolation string"
 msgstr "Radok interpaliacyi AngularJS"
@@ -4733,6 +5047,11 @@ msgstr "Іhnaravanizha pravierkі"
 
 msgid "Use case insensitive placeholders"
 msgstr "Adsotak pierakladzienaha"
+
+#, fuzzy
+#| msgid "No invoices found."
+msgid "Monospace font"
+msgstr "Rachunkaŭ nie znojdziena."
 
 msgid "Font family"
 msgstr "Syamejstva shry'ftoў"
@@ -5803,6 +6122,36 @@ msgstr "Excel Open XML"
 msgid "Multivalue CSV file"
 msgstr "Prosti fajl KSV"
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "This file format does not support editing keys or context."
+msgstr "Heti pieraklad zablakavani."
+
+#, fuzzy
+#| msgid "A user with this e-mail already exists."
+msgid "A string with this identity already exists."
+msgstr "Karistaĺnik z takim imiem ŭžo isnuzhe."
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "This file format does not support editing source strings."
+msgstr "Heti pieraklad zablakavani."
+
+#, fuzzy
+#| msgid ""
+#| "You can edit this later, as with any other string in the source language."
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+"Vy možacie adredahavać heta pazniej, jak i inšyja radki zychodnaj movy."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The key cannot be represented in this file format."
+msgstr "Nazva fajla ne mozha by'cz' absalyutny'm shlyaxam."
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -5846,10 +6195,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "Fajl pierakladu XLIFF"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr "XLIFF z padtry'mkaj razmyashche'nnya"
-
-#. Translators: File format name
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF z gettext-paširenniami"
 
@@ -5864,12 +6209,6 @@ msgstr "XLIFF z gettext-paširenniami"
 #| msgid "XLIFF 1.2 translation file"
 msgid "XLIFF 2.0 translation file"
 msgstr "Fajl pierakladu XLIFF"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "XLIFF 1.2 with placeables support"
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "XLIFF z padtry'mkaj razmyashche'nnya"
 
 #. Translators: File format name
 #, fuzzy
@@ -6117,6 +6456,32 @@ msgid ""
 "progress. Please try again later."
 msgstr ""
 "Nie atrimalasia zablakavać repazitorij bo vikonvazhekka іnšazha apierakizha."
+
+msgid "Maximum build age (days)"
+msgstr ""
+
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
+#, fuzzy
+#| msgid "Maximum size of translation"
+msgid "Maximum retained versions"
+msgstr "Maksіmal'ny' pamer perakladu"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
 
 msgid "Weblate languages"
 msgstr "Movy Weblate"
@@ -7229,6 +7594,11 @@ msgstr "Zdymki ekrana"
 msgid "Sort by"
 msgstr "Sartavacz' pa"
 
+#, fuzzy
+#| msgid "Screenshots"
+msgid "Screenshot"
+msgstr "Zdymki ekrana"
+
 msgid "Screenshot name"
 msgstr "Nazva zdymka ekrana"
 
@@ -7313,6 +7683,11 @@ msgstr "Nie znojdziena novych adpaviednych zychodnych radkoŭ."
 msgid "OCR data could not be downloaded. Please try again later."
 msgstr ""
 "Adpraўlena zanadta shmat pavedamlennyaў. Kalі laska, pasprabujcze paznej."
+
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a valid screenshot."
+msgstr "Vydalić zdymak ekrana"
 
 msgid "Bad request"
 msgstr "Xіbny' zapy't"
@@ -7420,18 +7795,13 @@ msgstr "Pra Weblate"
 msgid "Support Weblate"
 msgstr "Padtrimajkie Veblate na {0}"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr "Dziakuzhem za karistannie sistemaj Veblate."
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr "Dziakuzhem za karistannie sistemaj Veblate."
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "Contribute to Weblate"
+msgid "Continue to Weblate"
+msgstr "Zrabіć uniosak dlia Weblate"
 
 msgctxt "Label on donate page"
 msgid "GitHub star"
@@ -7520,6 +7890,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -8383,6 +8761,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr "Voblaka"
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "Skončany"
+
 #, fuzzy
 #| msgid "Terminated"
 msgctxt "Badge for site title for dedicated instances"
@@ -8648,16 +9030,44 @@ msgstr ""
 msgid "Continue"
 msgstr "Pradoŭžyć"
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "Signed in using password."
+msgid "Sign in using a passkey or security key"
+msgstr "Uvajshoў vy'kary'stoўvayuchy' parol'."
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
+msgid "Add-on API"
+msgstr ""
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "Karniavy URL API:"
+
 #, fuzzy
 #| msgid "Bad configuration"
 msgid "Configuration"
 msgstr "Niaslušnaja kanfіhuracyja"
+
+msgid "API"
+msgstr ""
 
 #, fuzzy
 #| msgid "View Logs"
@@ -8694,8 +9104,23 @@ msgstr "Niama adpaviednych kampanientaŭ!"
 msgid "Configure add-on"
 msgstr "Naladzić dadatak"
 
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview without changes"
+msgstr "Niadaŭnіja zmieny"
+
 msgid "This add-on has no settings."
 msgstr "Heti dadatak vikonvazhe skenar."
+
+#, fuzzy
+#| msgid "Automatically recognize"
+msgid "Automation preview"
+msgstr "Aŭtamatyčnaje razpaznavannie"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enable add-on:"
@@ -8869,6 +9294,18 @@ msgstr ""
 "Vy možacie vykarystoŭvać Django-šablony jak u nazvie fajla, tak i ŭ "
 "zmiescie, napryklad:"
 
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
+
 msgid "Percents translated"
 msgstr "Adsotak pierakladzienaha"
 
@@ -8889,6 +9326,23 @@ msgstr "Іmia prajekta"
 
 msgid "Project URL slug"
 msgstr "URL-forma prajekta"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+msgid "Create a project token"
+msgstr "Stvarić prazhekt"
 
 #, fuzzy
 #| msgid "Review strings"
@@ -9421,12 +9875,6 @@ msgstr "Vam nie dastaje pravoŭ, kab zmianić pravy dostupu da prajekta."
 msgid "Check your billing status"
 msgstr "Praviercie stan vašych aplat"
 
-msgid "Browse"
-msgstr "Prahliadzieć"
-
-msgid "No strings found!"
-msgstr "Žadnaha slova nie znojdziena!"
-
 msgid "Insights"
 msgstr "Ahliady"
 
@@ -9509,6 +9957,11 @@ msgstr "Aŭtamatyčny pieraklad"
 
 msgid "Add new category"
 msgstr "Dadać novaha karistaĺnіka"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Stan pierakladu"
 
 #, fuzzy
 #| msgid "Browse all string changes"
@@ -10021,28 +10474,37 @@ msgid "Become a Weblate supporter"
 msgstr "Padtrimka Veblate"
 
 #, fuzzy
-#| msgid "Visible to everybody."
-msgid "Some repositories are not accessible"
-msgstr "Bachacz' use."
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Some repository operations require additional permissions"
+msgstr ""
+"Nie atrimalasia zablakavać repazitorij bo vikonvazhekka іnšazha apierakizha."
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
 
 #, fuzzy
-#| msgid "Other components"
-msgid "Skipped components:"
-msgstr "Іnšyja kampanienty"
+#| msgid "Create component"
+msgid "Affected components:"
+msgstr "Stvaryć kampanient"
 
 #, fuzzy
-#| msgid "Permission Denied"
-msgid "Permission required on:"
-msgstr "U dostupie admoŭliena"
+#| msgid "You do not have permission to access this component."
+msgid "You need the following permissions on the repository-owning component:"
+msgstr "U vas nyama pravoў dlya dostupu da ge'taga kampanenta."
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
+
+msgid ""
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10166,14 +10628,10 @@ msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
 "Veblate nie zmoh razabrać fajli pierakladu pri abnaŭlienni pierakladaŭ."
 
-#, fuzzy
-#| msgid ""
-#| "This will commit any pending changes present in Weblate and not in the "
-#| "repository."
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
-msgstr "Uklaskі ŭsie zmieni ŭ lakaĺni repazіtorij"
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
+msgstr ""
 
 msgid "Reset and reapply"
 msgstr ""
@@ -10196,16 +10654,24 @@ msgstr ""
 msgid "Cleanup"
 msgstr "Ačyscić"
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-msgid "It also removes stale branches which are not used by Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
 msgstr ""
 
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Praduchіlіć liubizha zmieni ŭ lakaĺnim repazіtoriі"
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr ""
@@ -10338,6 +10804,12 @@ msgstr "Zmieny repazitoryja"
 msgid "Browse all repository changes"
 msgstr "Prahliadzieć usie zmieni"
 
+#, fuzzy
+#| msgctxt "Number of strings"
+#| msgid "Waiting for review"
+msgid "Nothing to preview."
+msgstr "Čakaje pierahliadu"
+
 msgid "Shortcut"
 msgstr ""
 
@@ -10440,9 +10912,6 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
-
-msgid "Workflow"
-msgstr "Praczoўny' pracze's"
 
 msgid "Changing plural rules might not have a desired effect."
 msgstr ""
@@ -11199,7 +11668,28 @@ msgstr ""
 "Kalі laska, zapіshy'cze nіzhe'j ўlіkovy'ya dany'ya, kab adnavіcz' vashy'ya "
 "re'zervovy'ya kopіі, kalі spatre'bіczcza."
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
+msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Buy backup service"
+msgstr "Dadacz' sluzhbu re'zervovaga kapіyavannya"
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Add custom backup storage"
 msgstr "Dadacz' sluzhbu re'zervovaga kapіyavannya"
 
 msgid "Commercial"
@@ -11226,6 +11716,17 @@ msgstr "Kiravać dostupam da prazhektu"
 msgid "Support expiry"
 msgstr "Te'rmіn padtry'mkі"
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 msgid "Manage support package"
 msgstr "Kіravacz' paketam padtry'mkі"
 
@@ -11239,7 +11740,9 @@ msgstr "Kіravacz' paketam padtry'mkі"
 msgid "Unlink support package"
 msgstr "Kіravacz' paketam padtry'mkі"
 
-msgid "Purchase support package"
+#, fuzzy
+#| msgid "Purchase support package"
+msgid "Purchase support"
 msgstr "Naby'cz' paket padtry'mkі"
 
 msgid "Contact customer care"
@@ -11915,6 +12418,16 @@ msgstr "Dziakuzhem za karistannie sistemaj Veblate."
 msgid "Return to dashboard"
 msgstr "Pakazvać na haloŭnaj"
 
+#, fuzzy
+#| msgid "New contributor in %(translation)s"
+msgid "Thank you for contributing translations."
+msgstr "Novy daradca ŭ %(translation)s"
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Donate to Weblate development"
+msgstr "Zrabіć uniosak dlia Weblate"
+
 msgid "Please review and confirm the search and replace results."
 msgstr "Kali laska, prahliadzicie i pacvierdzicie vyniki pošuku i zamieny."
 
@@ -12049,6 +12562,36 @@ msgstr "Žadnaha slova nie znojdziena!"
 msgid "Add new screenshot"
 msgstr "Dadać novy zdymak ekrana"
 
+#, fuzzy
+#| msgid "Delete screenshot"
+msgid "Select a screenshot"
+msgstr "Vydalić zdymak ekrana"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "CSS selector"
+msgid "Selected"
+msgstr "Vy'bar CSS"
+
+#, fuzzy
+#| msgid "Not available"
+msgid "No matching screenshots available."
+msgstr "Nie dastupnaje"
+
+#, fuzzy
+#| msgid "Screenshot name"
+msgid "Screenshot pages"
+msgstr "Nazva zdymka ekrana"
+
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "Page %(current)s of %(total)s"
+msgstr "Vykarystana %(used)s z %(total)s"
+
 #. Translators: Button to assign string to a screenshot
 msgid "Add to screenshot"
 msgstr "Dadać zdimak ekrana"
@@ -12065,6 +12608,9 @@ msgstr "Šukać u kliučach"
 
 msgid "Paste from clipboard"
 msgstr "Adhalіnavannie repazіtorizha"
+
+msgid "Translate"
+msgstr "Pieraklascі"
 
 msgid "strings"
 msgstr "Radkі"
@@ -12292,24 +12838,20 @@ msgstr[2] "Josć %(count)s radkoŭ dlia pierahliadu."
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support Weblate development"
+msgstr "Padtrimajkie Veblate na {0}"
+
+#, fuzzy
+#| msgid "Thank you for using Weblate"
+msgid "Thank you for using Weblate and contributing translations."
+msgstr "Dziakuzhem za karistannie sistemaj Veblate."
+
 msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
 msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
-
-msgid "Purchase a support package"
-msgstr "Kiravać dostupam da prazhektu"
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12369,12 +12911,6 @@ msgstr "Aposhnі ўnyosak na Weblate"
 msgid "Weblate repository"
 msgstr "Re'pazіtory'j Weblate"
 
-msgid "This translation is forbidden."
-msgstr "Heti pieraklad zablakavani."
-
-msgid "This term should not be translated."
-msgstr "Ge'ty' te'rmіn nepatre'bna perakladacz'."
-
 #, fuzzy
 #| msgid "This translation is locked."
 msgid "This translation needs editing."
@@ -12383,8 +12919,27 @@ msgstr "Ge'ty' peraklad zablakavany'."
 msgid "Copy word into translation"
 msgstr "Skapijavać slova ŭ pieraklad"
 
+msgid "This translation is forbidden."
+msgstr "Heti pieraklad zablakavani."
+
+#, fuzzy
+#| msgid "Hidden"
+msgid "Forbidden"
+msgstr "Schavany"
+
+msgid "This term should not be translated."
+msgstr "Ge'ty' te'rmіn nepatre'bna perakladacz'."
+
 msgid "Edit glossary term"
 msgstr "Redahavać zapis u hlasari"
+
+msgid "Translation explanation"
+msgstr "Apaviaščenni pierakladu"
+
+#, fuzzy
+#| msgid "Source string explanation"
+msgid "Source explanation"
+msgstr "Mieskaznachodžannie radka-zichodnіka"
 
 msgid "Glossary translation explanation"
 msgstr "Apaviaščenni pierakladu"
@@ -12687,14 +13242,14 @@ msgstr "prahliadzieć"
 msgid "Untranslated"
 msgstr "Ne perakladzena"
 
+msgid "Browse"
+msgstr "Prahliadzieć"
+
 msgid "Create translation"
 msgstr "Stvary'cz' peraklad"
 
 msgid "Cannot add translation right now"
 msgstr "Nie ŭdalosia razabrać fajli pierakladu."
-
-msgid "Translate"
-msgstr "Pieraklascі"
 
 msgid "Customized workflow"
 msgstr "Naladzić spampoŭku"
@@ -13095,6 +13650,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Niaprojdzienizha pravierkі"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Purchase a support package"
+msgid "Already purchased? Link your support package"
+msgstr "Kiravać dostupam da prazhektu"
+
+#, fuzzy
+#| msgid "Forces writing all strings to the translation files."
+msgid "Term information from the translation file"
+msgstr "Skіnuć usie zmieni ŭ lakaĺnim repazіtoriі"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source terms"
+msgstr "Zychdnyja radki"
+
+#, fuzzy
+#| msgid "Target string"
+msgid "Target terms"
+msgstr "Metavizha radki"
+
 msgid "Translation status"
 msgstr "Stan pierakladu"
 
@@ -13250,6 +13828,11 @@ msgstr "Administravannie"
 msgid "Create account"
 msgstr "Stvary'cz' ulіkovy' zapіs pry' dapamoze:"
 
+#, fuzzy, python-format
+#| msgid "Configure add-on"
+msgid "Configure %(addon)s"
+msgstr "Naladzić dadatak"
+
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate nie moža vykanać skrypt dadatku."
 
@@ -13258,6 +13841,12 @@ msgstr "Znojdzieny nastupnyja ŭvachodžanni:"
 
 msgid "Command"
 msgstr "Kamanda"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr ""
@@ -13536,17 +14125,22 @@ msgstr "Kampanient zmiaščaje niekaĺki dubliavanych radkoŭ pierakladu."
 msgid "Source"
 msgstr "Kliuč"
 
+#, fuzzy, python-format
+#| msgid "Forces writing all strings to the translation files."
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Skіnuć usie zmieni ŭ lakaĺnim repazіtoriі"
+
+#, fuzzy
+#| msgid "Remove blank strings"
+msgid "Remove duplicate strings"
+msgstr "Vy'dalіcze pusty'ya radkі"
+
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
 "Kali laska, vypraŭcie heta vydalienniem dubliavanych radkoŭ z tym samym "
 "identyfikataram z fajlaŭ pierakladu."
-
-#, fuzzy
-#| msgid "Remove blank strings"
-msgid "Remove duplicate strings"
-msgstr "Vy'dalіcze pusty'ya radkі"
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -13814,6 +14408,16 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
+#, fuzzy
+#| msgid "Jump to"
+msgid "Jump to date"
+msgstr "Perajsczі da"
+
+#, fuzzy
+#| msgid "Good"
+msgid "Go"
+msgstr "Dobra"
+
 msgid "Changes"
 msgstr "Zmieny"
 
@@ -13822,6 +14426,24 @@ msgstr "Sciahnuć apošnija zmieny jak CSV"
 
 msgid "Follow using RSS"
 msgstr "Sačyć vykarystoŭvajučy RSS"
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "Hliedačy"
+
+msgid "Older"
+msgstr ""
 
 msgid "From version control"
 msgstr "Z sіste'my' kantrolyu versіj"
@@ -14165,9 +14787,6 @@ msgstr[2] ""
 "Ge'taya kamanda zmyashchae %(count)s chlenaў. Vy'dalenne kamandy' mozha "
 "paўply'vacz' na іx dostup da praekta."
 
-msgid "Create a project token"
-msgstr "Stvarić prazhekt"
-
 msgid "Create"
 msgstr "Stvorani a"
 
@@ -14220,6 +14839,15 @@ msgstr ""
 "zmiescivam novaha repazitoryja. Heta budzie vydatna pracavać, kali "
 "repazitoryj byŭ pieramieščany ŭ inšaje miesca. Kali zmiesciva repazitoryjaŭ "
 "adroznivajecca, moža być liepš stvaryć novy kampanient pierakladu."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "Redahavannie zychodnaha radka"
+
+msgid "Cancel"
+msgstr ""
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -14471,6 +15099,16 @@ msgstr "Praglyadzecz' glasary'j %(name)s"
 msgid "No screenshot currently associated."
 msgstr "Nyama zvyazany'x zdy'mkaў e'krana."
 
+#, fuzzy
+#| msgid "Add to screenshot"
+msgid "Add existing screenshot"
+msgstr "Dadać zdimak ekrana"
+
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Upload screenshot"
+msgstr "Dadać zdymak ekrana"
+
 msgid "String information"
 msgstr "Іnfarmakizha pra krinіku"
 
@@ -14479,6 +15117,11 @@ msgstr "Na dadzeny' momant tlumache'nnі adsutnіchayucz'."
 
 msgid "No labels currently set."
 msgstr "Zaraz ne vy'znachana nіvodnaj admeczіny'."
+
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit flags"
+msgstr "Re'dagavacz' admeczіnu"
 
 msgid "Flags"
 msgstr "Paznakі"
@@ -14545,6 +15188,17 @@ msgstr ""
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
+msgstr ""
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Effective flags"
+msgstr "Adznakі pravierkі"
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
 msgstr ""
 
 #, python-format
@@ -14671,11 +15325,6 @@ msgstr "Adras"
 msgid "Repositories"
 msgstr "Re'pazіtory'і"
 
-#, fuzzy
-#| msgid "Disable"
-msgid "Disabled"
-msgstr "adkliučanazha"
-
 msgid "Refresh"
 msgstr ""
 
@@ -14787,9 +15436,6 @@ msgstr "Prajekty, na jakіja vy padpіsanyja"
 #| msgid "Continue"
 msgid "Continue to GitHub"
 msgstr "Pradoŭžyć"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Overview"
@@ -15099,6 +15745,14 @@ msgstr "Adhalіnavannie repazіtorizha"
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Review"
+msgid "Preview"
+msgstr "Prahliad"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -16023,6 +16677,11 @@ msgstr "Nie ŭdalosia razabrać TMX-fajl!"
 msgid "POT updates do not update PO files."
 msgstr ""
 
+#, fuzzy
+#| msgid "The entered token is not valid."
+msgid "AI quality evaluation service is unavailable."
+msgstr "Pieraklad zzhaŭliazhekka niekarektnim XML-fajlam"
+
 msgid "Information"
 msgstr "Іnfarmacyja"
 
@@ -16691,6 +17350,24 @@ msgstr ""
 "novaga radka, a z parametram --no-wrap yon peranosіcz' tol'kі paslya sіmvala "
 "novaga radka."
 
+#, fuzzy
+#| msgid "Contributors in comment"
+msgid "Contributor comments"
+msgstr "Udzieĺniki ŭ kamientary"
+
+#, fuzzy
+#| msgid "gettext PO"
+msgid "Gettext"
+msgstr "gettext PO"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
 msgid "Keep previous msgids of translated strings"
 msgstr "Zaxoўvacz' papyare'dnіya msgid perakladzeny'x radkoў"
 
@@ -16788,6 +17465,48 @@ msgstr "MAC (\\r)"
 
 msgid "Include closing tag for blank XML tags"
 msgstr "Uklyuchy'cze zachy'nyal'ny' te'g dlya pusty'x te'gaў XML"
+
+#, fuzzy
+#| msgid "Conflict handling"
+msgid "Whitespace handling"
+msgstr "Vy'rashe'nne kanflіktaў"
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Placeables support"
+msgstr "Padtrymka Weblate"
+
+#, fuzzy
+#| msgid "Plain text file"
+msgid "Plain text only"
+msgstr "Fajl i18next JSON"
+
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support placeables"
+msgstr "Padtrimajkie Veblate na {0}"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
 
 #, fuzzy
 #| msgid "Flat XML file"
@@ -17052,9 +17771,6 @@ msgstr ""
 msgid "Source string explanation"
 msgstr "Mieskaznachodžannie radka-zichodnіka"
 
-msgid "Translation explanation"
-msgstr "Apaviaščenni pierakladu"
-
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
 "Zichodni radok zmianiŭsia za heti čas. Kali laska, pravierkie vaši zmieni."
@@ -17064,6 +17780,14 @@ msgid ""
 "changes."
 msgstr ""
 "Pieraklad radka zmianiŭsia za heti čas. Kali laska, pravierkie vaši zmieni."
+
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Ignore language mismatch"
+msgstr "Abmiežavannie moŭ"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
 
 msgid "File upload mode"
 msgstr "Re'zhy'm zapampoўkі fajla"
@@ -17211,6 +17935,34 @@ msgstr "Kamientar pierakladu, abmierkavannі z іnšymі pierakladčykamі"
 
 msgid "Please choose"
 msgstr "Kali laska, abiarycie"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags — all languages"
+msgstr "Prahliadzieć zmieni dlia ŭsich moŭ"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation change:"
+msgid "Translation flags — this language"
+msgstr "Zmiena ŭ pierakladzie:"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation change:"
+msgid "Translation flags — %(language)s"
+msgstr "Zmiena ŭ pierakladzie:"
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit these flags."
+msgstr "Vam nie dastaje pravoŭ, kab prymać prapanovy!"
 
 #, fuzzy
 #| msgid "Navigate to the first translation in the current search."
@@ -17488,6 +18240,11 @@ msgstr ""
 msgid "Replacement string"
 msgstr "Radok zamieny"
 
+#, fuzzy
+#| msgid "Screenshot context"
+msgid "Key or context"
+msgstr "Kantekst zdymka ekrana"
+
 msgid "Translation key"
 msgstr "Kliuč pierakladu"
 
@@ -17546,16 +18303,38 @@ msgstr "Stan dlia ŭstanaŭliennia"
 msgid "Do not change"
 msgstr "Ne zmyanyacz'"
 
-msgid "Translation flags to add"
+msgid "Source flags to add — all languages"
+msgstr ""
+
+msgid "Source flags to remove — all languages"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Adznakі perakladu dlya dadannya"
 
-msgid "Translation flags to remove"
+#, fuzzy
+#| msgid "Fills in translation strings with source string."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Zapaўnyae peraklad dany'mі z zy'xodny'x radkoў."
+
+#, fuzzy
+#| msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
 msgstr "Adznakі perakladu dlya vy'dalennya"
 
-msgid "Labels to add"
-msgstr "Admeczіny' dlya dadannya"
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
 
-msgid "Labels to remove"
+#, fuzzy
+#| msgid "For all languages"
+msgid "Labels to add — all languages"
+msgstr "Prahliadzieć zmieni dlia ŭsich moŭ"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Admeczіny' dlya vy'dalennya"
 
 msgid "I accept the contributor license agreement"
@@ -17602,6 +18381,11 @@ msgstr "Kali laska, uviadzikie nazvu pierakladu dlia pakviardžennia."
 
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Kali laska, uviadzikie nazvu pierakladu dlia pakviardžennia."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The date cannot be in the future."
+msgstr "Nazva fajla ne mozha by'cz' absalyutny'm shlyaxam."
 
 msgid "Author username"
 msgstr "Іmya kary'stal'nіka aўtara"
@@ -18286,9 +19070,9 @@ msgid "Manage strings"
 msgstr "Metavizha radki"
 
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 
 msgid "Merge style"
@@ -19094,6 +19878,23 @@ msgstr ""
 "Formy' mnozhnaga lіku z zapampavanaga fajla ne adpavyadayucz' byaguchamu "
 "perakladu."
 
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains too many language declarations."
+msgstr "Fajl ZIP z perakladamі"
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not parse uploaded ZIP file."
+msgid "Could not parse uploaded file: %s"
+msgstr "Nie ŭdalosia razabrać TMX-fajl!"
+
 #, fuzzy, python-format
 #| msgid "Commit pending changes"
 msgid "Could not commit pending changes: %s"
@@ -19103,11 +19904,6 @@ msgstr "Zapisać čarhu zmien"
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Nie ŭdalosia pračitać fajl %(file)s: %(error)s"
-
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
-msgid "Could not parse uploaded file: %s"
-msgstr "Nie ŭdalosia razabrać TMX-fajl!"
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -19163,29 +19959,71 @@ msgstr[2] ""
 "Udziel u hetim pierakladzie patrabuzhe ad vas zhodi z pahadnienniem z "
 "udzieĺnikam."
 
-msgid "Unmark as read-only"
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Bazavi fajl dlia novich pierakladaŭ"
 
-msgid "Mark as read-only"
+#, fuzzy
+#| msgid "Unmark as read-only"
+msgid "Unmark as read-only for all languages"
+msgstr "Bazavi fajl dlia novich pierakladaŭ"
+
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark this translation as untranslatable"
+msgstr "Bazavi fajl dlia novich pierakladaŭ"
+
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Unmark this translation as read-only"
+msgstr "Heti pieraklad zablakavani."
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "Kіravanne movamі perakladu"
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "Kіravanne movamі perakladu"
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark this translation as untranslatable"
+msgstr "Dadać zhak іnši pieraklad"
+
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Mark this translation as read-only"
+msgstr "Heti pieraklad zablakavani."
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark as untranslatable for all languages"
+msgstr "Dadać zhak іnši pieraklad"
+
+#, fuzzy
+#| msgid "Mark as read-only"
+msgid "Mark as read-only for all languages"
 msgstr "Adznačić zhak spam"
 
-msgid "Unmark as untranslatable"
-msgstr "Bazavi fajl dlia novich pierakladaŭ"
-
-msgid "Mark as untranslatable"
+msgid "Mark as forbidden translation"
 msgstr "Dadać zhak іnši pieraklad"
 
 msgid "Unmark as forbidden translation"
 msgstr "Bazavi fajl dlia novich pierakladaŭ"
 
-msgid "Mark as forbidden translation"
-msgstr "Dadać zhak іnši pieraklad"
+#, fuzzy
+#| msgid "Browse all language changes"
+msgid "Mark as terminology for all languages"
+msgstr "Prahliadzieć zmieny dlia ŭsich moŭ"
 
-msgid "Unmark as terminology"
-msgstr ""
-
-msgid "Mark as terminology"
-msgstr ""
+#, fuzzy
+#| msgid "Browse all language changes"
+msgid "Unmark as terminology for all languages"
+msgstr "Prahliadzieć zmieny dlia ŭsich moŭ"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -19194,6 +20032,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The source string has changed. Reload it before editing."
+msgstr "Zy'xodny' radok nel'ga re'dagavacz'."
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "Karystaĺnik z takim imiem ŭžo isnuje."
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "The file format does not support this edit."
+msgstr "Heti pieraklad zablakavani."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translation project was removed"
+msgid "A translation key is required."
+msgstr "Vash praekt perakladu by'ў vy'daleny'"
+
+#, fuzzy
+#| msgid "Could not add new translation file."
+msgid "Could not find the string in the translation file."
+msgstr "Ne atry'malasya dadacz' novy' fajl perakladu."
 
 msgid "Insert tab character"
 msgstr "Ustavіć znak tabuliacyі"
@@ -19734,6 +20601,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Zmieny ŭ %s"
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Invalid history position."
+msgstr "Abmezhavany' kampanent"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -19803,6 +20675,9 @@ msgid ""
 "refreshed."
 msgstr ""
 
+msgid "No strings found!"
+msgstr "Žadnaha slova nie znojdziena!"
+
 msgid "Your suggestion is empty!"
 msgstr "Prapanova pustaja!"
 
@@ -19848,9 +20723,6 @@ msgstr "Chіbnaje pošukavaje zapytannie!"
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "Aўtamaty'chny' peraklad padchas vy'kanannya"
 
-msgid "Automatic translation in progress"
-msgstr "Aўtamaty'chny' peraklad padchas vy'kanannya"
-
 msgid "Posted new comment"
 msgstr "Apublіkavany novy kamientaryj"
 
@@ -19873,6 +20745,16 @@ msgstr ""
 
 msgid "New string has been added."
 msgstr "Novy radok dadadzieny."
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "The component is busy. Please try again."
+msgstr "Heti pieraklad zablakavani."
+
+#, fuzzy
+#| msgid "Source string added"
+msgid "Source string updated."
+msgstr "Uzrost radka-zichodnіka"
 
 #, fuzzy, python-format
 #| msgid "Failed to evaluate plural equation: {}"
@@ -19938,6 +20820,16 @@ msgstr "Vy'praўcze ge'ta, vy'dalіўshy' adzіn z fajlaў perakladu."
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Vy'praўcze ge'ta, vy'dalіўshy' adzіn z fajlaў perakladu."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long to preview."
+msgstr "Radok-zichodnik zmienieni"
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr "Zanadta šmat pašukovych zapytaŭ. Kali laska, pasprabujcie pazniej."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Kampanient zablakіravany dlia abnaŭliennia pierakladu!"
@@ -20109,6 +21001,11 @@ msgstr "Heti pieraklad zablakavani."
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
 
+#, fuzzy
+#| msgid "Could not change additional string info!"
+msgid "Could not change string flags!"
+msgstr "Pravić zichodni radok"
+
 msgid "Could not change additional string info!"
 msgstr "Pravić zichodni radok"
 
@@ -20127,6 +21024,18 @@ msgstr "Pane'l'"
 #. Translators: Text on OpenGraph image
 msgid "Project {}"
 msgstr "Praekt {}"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Category"
+msgid "Category {}"
+msgstr "Katehoryja"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Spaces"
+msgid "Workspace {}"
+msgstr "Pragaly'"
 
 #. Translators: Text on OpenGraph image
 msgid "Component {}"
@@ -20651,6 +21560,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Name consists only of disallowed characters."
+msgid "Repository URL contains unsafe characters."
+msgstr "Nazva skladaeczcza tol'kі z zabaroneny'x sіmvalaў."
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -21916,6 +22830,54 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Krynica byla vydaliena."
 
+#~ msgid "XLIFF 1.2 with placeables support"
+#~ msgstr "XLIFF z padtry'mkaj razmyashche'nnya"
+
+#, fuzzy
+#~| msgid "XLIFF 1.2 with placeables support"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "XLIFF z padtry'mkaj razmyashche'nnya"
+
+#, fuzzy
+#~| msgid ""
+#~| "This will commit any pending changes present in Weblate and not in the "
+#~| "repository."
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr "Uklaskі ŭsie zmieni ŭ lakaĺni repazіtorij"
+
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Praduchіlіć liubizha zmieni ŭ lakaĺnim repazіtoriі"
+
+#~ msgid "Labels to add"
+#~ msgstr "Admeczіny' dlya dadannya"
+
+#~ msgid ""
+#~ "Updates the comment part of the PO file header to include contributor "
+#~ "names and years of contributions."
+#~ msgstr ""
+#~ "Abnaўlyae kamentar u zagaloўku PO-fajla dlya ўklyuche'nnya іmya "
+#~ "ўdzel'nіka і gadoў udzelu."
+
+#~ msgid "Welcome and thank you for choosing Weblate"
+#~ msgstr "Dziakuzhem za karistannie sistemaj Veblate."
+
+#, fuzzy
+#~| msgid "Visible to everybody."
+#~ msgid "Some repositories are not accessible"
+#~ msgstr "Bachacz' use."
+
+#, fuzzy
+#~| msgid "Other components"
+#~ msgid "Skipped components:"
+#~ msgstr "Іnšyja kampanienty"
+
+#, fuzzy
+#~| msgid "Permission Denied"
+#~ msgid "Permission required on:"
+#~ msgstr "U dostupie admoŭliena"
+
 #~ msgid "Download reports"
 #~ msgstr "Sciahnuć spravazdačy"
 
@@ -22319,9 +23281,6 @@ msgstr "Krynica byla vydaliena."
 #~ msgid "View all alerts"
 #~ msgstr "Praglyadzecz' use papyare'dzhannі"
 
-#~ msgid "Automatically recognize"
-#~ msgstr "Aŭtamatyčnaje razpaznavannie"
-
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr ""
 #~ "Nyavy'kanany'ya re'kamendaczy'і z kantrol'naga spіsa lakalіzaczy'і "
@@ -22704,16 +23663,10 @@ msgstr "Krynica byla vydaliena."
 #~ msgid "Translations with contribution"
 #~ msgstr "Іnstrukkiі dlia pierakladu"
 
-#~ msgid "Weblate support"
-#~ msgstr "Padtrymka Weblate"
-
 #, fuzzy
 #~| msgid "Delete comment"
 #~ msgid "Weblate community"
 #~ msgstr "Vydalić kamientar"
-
-#~ msgid "Contribute to Weblate"
-#~ msgstr "Zrabіć uniosak dlia Weblate"
 
 #, fuzzy
 #~| msgid "Weblate keys"
@@ -22850,9 +23803,6 @@ msgstr "Krynica byla vydaliena."
 
 #~ msgid "Variable string suffix"
 #~ msgstr "Zmenny' sufіks radka"
-
-#~ msgid "Donate to Weblate"
-#~ msgstr "Zrabіć uniosak dlia Weblate"
 
 #~ msgid ""
 #~ "Weblate is libre software created by volunteers, and accepts donations."
@@ -23828,9 +24778,6 @@ msgstr "Krynica byla vydaliena."
 #~ "Hety dadatak harantuje, što ŭsie kampanienty ŭ miežach adnaho prajekta "
 #~ "pierakladzieny na adnyja i tyja ž movy."
 
-#~ msgid "Good"
-#~ msgstr "Dobra"
-
 #~ msgid "Please search below to find matching source strings."
 #~ msgstr ""
 #~ "Kali laska, šukajcie nižej, kab znajsci adpaviednyja zychodnyja radki."
@@ -23841,11 +24788,6 @@ msgstr "Krynica byla vydaliena."
 #~ msgctxt "String state"
 #~ msgid "Untranslated"
 #~ msgstr "Niepierakladziena"
-
-#, fuzzy
-#~| msgid "Browse all language changes"
-#~ msgid "Dismiss for all languages"
-#~ msgstr "Prahliadzieć zmieny dlia ŭsich moŭ"
 
 #, fuzzy
 #~| msgid "Not translated"
@@ -24432,9 +25374,6 @@ msgstr "Krynica byla vydaliena."
 #~ msgid "Percent interpolation"
 #~ msgstr "Nalady sistemy kantroliu viersij"
 
-#~ msgid "Plural equation"
-#~ msgstr "Formula množnaha lіku"
-
 #, fuzzy
 #~| msgid "Whiteboard message"
 #~ msgid "New whiteboard message"
@@ -24821,9 +25760,6 @@ msgstr "Krynica byla vydaliena."
 #~ msgid "Your languages"
 #~ msgstr "Vašy movy"
 
-#~ msgid "Review"
-#~ msgstr "Prahliad"
-
 #~ msgid "Search type"
 #~ msgstr "Typ pošuku"
 
@@ -25092,11 +26028,6 @@ msgstr "Krynica byla vydaliena."
 #~ msgid "Message:"
 #~ msgstr "Paviedamliennie"
 
-#, fuzzy
-#~| msgid "Translation change:"
-#~ msgid "Translation language:"
-#~ msgstr "Zmiena ŭ pierakladzie:"
-
 #~ msgid ""
 #~ "Automatic detection might fail for some formats and is slightly slower."
 #~ msgstr ""
@@ -25204,9 +26135,6 @@ msgstr "Krynica byla vydaliena."
 #~ msgstr ""
 #~ "Kab tiestavać Weblate na hetym dema-sierviery, vy možacie zajsci pad "
 #~ "nastupnymi karystaĺnikami:"
-
-#~ msgid "Hidden"
-#~ msgstr "Schavany"
 
 #~ msgid "This site runs %(weblate_name_link)s demo server."
 #~ msgstr "Pracuje na dema-sierviery %(weblate_name_link)s."

@@ -169,7 +169,7 @@ real_patterns = [
     ),
     path(
         "browse/<object_path:path>/",
-        weblate.trans.views.edit.browse,
+        weblate.trans.views.search.browse,
         name="browse",
     ),
     path(
@@ -196,6 +196,11 @@ real_patterns = [
         "upload/<object_path:path>/",
         weblate.trans.views.files.upload,
         name="upload",
+    ),
+    path(
+        "unit/<int:unit_id>/source/",
+        weblate.trans.views.edit.edit_source_unit,
+        name="edit-source-unit",
     ),
     path(
         "unit/<int:unit_id>/delete/",
@@ -279,6 +284,11 @@ real_patterns = [
         "addon/<int:pk>/logs/",
         weblate.addons.views.AddonLogs.as_view(),
         name="addon-logs",
+    ),
+    path(
+        "addon/<int:pk>/api/",
+        weblate.addons.views.AddonAPI.as_view(),
+        name="addon-api",
     ),
     path(
         "addon/<int:pk>/components/",
@@ -917,6 +927,11 @@ real_patterns = [
         name="js-unit-translations",
     ),
     path(
+        "js/markdown-preview/",
+        weblate.trans.views.js.markdown_preview,
+        name="js-markdown-preview",
+    ),
+    path(
         "js/access/<name:project>/user/<int:user_id>/groups/",
         weblate.trans.views.acl.project_user_groups,
         name="js-project-user-groups",
@@ -940,6 +955,16 @@ real_patterns = [
         "js/save-zen/<object_path:path>/",
         weblate.trans.views.edit.save_zen,
         name="save_zen",
+    ),
+    path(
+        "js/zen-suggestion/<object_path:path>/",
+        weblate.trans.views.edit.zen_suggestion,
+        name="zen_suggestion",
+    ),
+    path(
+        "js/zen-unit/<object_path:path>/",
+        weblate.trans.views.edit.zen_unit,
+        name="zen_unit",
     ),
     # Glossary add
     path(

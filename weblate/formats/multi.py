@@ -99,7 +99,9 @@ class MultiUnit(TranslationUnit):
         while len(target) > len(self.units):
             new = self.parent.create_unit(self.context, self.units[0].source)
             self.units.append(
-                self.parent.unit_class(self.parent, new, self.units[0].template)
+                self.parent.get_unit_class(self.parent.file_format_params)(
+                    self.parent, new, self.units[0].template
+                )
             )
             self.parent.store.addunit(new)
 
@@ -157,13 +159,25 @@ class MultiFormatMixin(TranslationFormat):
         try:
             matching = self._template_index[unit.id_hash]
         except KeyError:
-            return MultiUnit(self, self.unit_class(self, None, unit.units[0].template))
+            return MultiUnit(
+                self,
+                self.get_unit_class(self.file_format_params)(
+                    self, None, unit.units[0].template
+                ),
+            )
         matching_units = [unit.template for unit in matching.units]
         result = MultiUnit(
-            self, self.unit_class(self, matching_units[0], unit.units[0].template)
+            self,
+            self.get_unit_class(self.file_format_params)(
+                self, matching_units[0], unit.units[0].template
+            ),
         )
         for extra in matching_units[1:]:
-            result.merge(self.unit_class(self, extra, unit.units[0].template))
+            result.merge(
+                self.get_unit_class(self.file_format_params)(
+                    self, extra, unit.units[0].template
+                )
+            )
         return result
 
     def _get_all_monolingual_units(self):

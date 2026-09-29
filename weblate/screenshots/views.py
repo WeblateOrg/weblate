@@ -493,18 +493,31 @@ class ScreenshotList(PathViewMixin, ListView):  # type: ignore[misc]
             "assigned_query": urlencode({"q": "has:string"}),
             "unassigned_query": urlencode({"q": "NOT has:string"}),
         }
-        if self.request.user.has_perm("screenshot.add", self.path_object):
-            if self._add_form is not None:
-                result["add_form"] = self._add_form
-            else:
-                result["add_form"] = ScreenshotForm(self.path_object)
+        if self._add_form is None:
+            add_form = ScreenshotForm(self.path_object, self.request.user)
+        else:
+            add_form = self._add_form
+        if add_form.permitted_translation_ids:
+            result["add_form"] = add_form
         return result
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         component = self.path_object
-        if not request.user.has_perm("screenshot.add", component):
+        self._add_form = ScreenshotForm(
+            component, request.user, request.POST, request.FILES
+        )
+        if not self._add_form.permitted_translation_ids:
             raise PermissionDenied
-        self._add_form = ScreenshotForm(component, request.POST, request.FILES)
+        try:
+            translation_id = int(request.POST["translation"])
+        except (KeyError, ValueError):
+            pass
+        else:
+            if (
+                translation_id not in self._add_form.permitted_translation_ids
+                and component.translation_set.filter(pk=translation_id).exists()
+            ):
+                raise PermissionDenied
         if self._add_form.is_valid():
             obj = Screenshot.objects.create(
                 user=request.user, **self._add_form.cleaned_data
@@ -564,8 +577,8 @@ class ScreenshotDetail(ScreenshotBaseView):
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        component = result["object"].translation.component
-        if self.request.user.has_perm("screenshot.edit", component):
+        translation = result["object"].translation
+        if self.request.user.has_perm("screenshot.edit", translation):
             if self._edit_form is not None:
                 result["edit_form"] = self._edit_form
             else:
@@ -616,7 +629,7 @@ def delete_screenshot(request: AuthenticatedHttpRequest, pk):
 
 def get_screenshot(request: AuthenticatedHttpRequest, pk):
     obj = get_object_or_404(Screenshot.objects.filter_access(request.user), pk=pk)
-    if not request.user.has_perm("screenshot.edit", obj.translation.component):
+    if not request.user.has_perm("screenshot.edit", obj.translation):
         raise PermissionDenied
     return obj
 
@@ -629,7 +642,7 @@ async def aget_screenshot(request: AuthenticatedHttpRequest, pk):
         ),
         pk=pk,
     )
-    if not request.user.has_perm("screenshot.edit", obj.translation.component):
+    if not request.user.has_perm("screenshot.edit", obj.translation):
         raise PermissionDenied
     return obj
 
@@ -638,14 +651,24 @@ async def aget_screenshot(request: AuthenticatedHttpRequest, pk):
 @login_required
 async def remove_source(request: AuthenticatedHttpRequest, pk):
     obj = await aget_screenshot(request, pk)
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
 
     try:
         unit = await obj.translation.unit_set.aget(pk=int(request.POST["source"]))
-    except (Unit.DoesNotExist, ValueError):
-        messages.error(request, gettext("Invalid unit."))
+    except (Unit.DoesNotExist, ValueError, KeyError):
+        error = gettext("Invalid unit.")
+        if is_ajax:
+            return JsonResponse(
+                data={"responseCode": 400, "status": False, "error": error},
+                status=400,
+            )
+        messages.error(request, error)
         return redirect(obj)
 
     await obj.aremove_unit(unit, user=request.user)
+
+    if is_ajax:
+        return JsonResponse(data={"responseCode": 200, "status": True})
 
     messages.success(request, gettext("Source has been removed."))
 
@@ -869,11 +892,13 @@ def select_screenshot(request: AuthenticatedHttpRequest, unit_id: int) -> HttpRe
     )
     component = unit.translation.component
     request.user.check_access_component(component)
-    if not request.user.has_perm("screenshot.edit", component):
+    if not request.user.has_perm("screenshot.edit", unit.translation):
         raise PermissionDenied
     source_unit = unit.source_unit
-    screenshots = Screenshot.objects.filter_access(request.user).filter(
-        translation_id__in={unit.translation_id, source_unit.translation_id}
+    screenshots = (
+        Screenshot.objects.filter_access(request.user)
+        .filter(translation_id__in={unit.translation_id, source_unit.translation_id})
+        .select_related("translation__component__project")
     )
     if request.method == "POST":
         form = ScreenshotSelectForm(screenshots, request.POST)
@@ -882,14 +907,23 @@ def select_screenshot(request: AuthenticatedHttpRequest, unit_id: int) -> HttpRe
                 {"error": gettext("Select a valid screenshot.")}, status=400
             )
         screenshot = form.cleaned_data["screenshot"]
-        target = (
-            source_unit
-            if screenshot.translation_id == source_unit.translation_id
-            else unit
-        )
         # Serialize submissions so retries do not duplicate change events.
         with transaction.atomic():
-            screenshot = Screenshot.objects.select_for_update().get(pk=screenshot.pk)
+            screenshot = (
+                Screenshot.objects.select_for_update()
+                .select_related("translation__component__project")
+                .get(pk=screenshot.pk)
+            )
+            if screenshot.translation_id not in {
+                unit.translation_id,
+                source_unit.translation_id,
+            } or not request.user.has_perm("screenshot.edit", screenshot.translation):
+                raise PermissionDenied
+            target = (
+                source_unit
+                if screenshot.translation_id == source_unit.translation_id
+                else unit
+            )
             if not screenshot.units.filter(pk=target.pk).exists():
                 screenshot.add_unit(target, user=request.user)
         return JsonResponse({"success": True})
@@ -897,7 +931,14 @@ def select_screenshot(request: AuthenticatedHttpRequest, unit_id: int) -> HttpRe
     search_form = ScreenshotSelectSearchForm(
         request.GET, auto_id="screenshot-picker-%s"
     )
-    screenshots = screenshots.exclude(units__in={unit.pk, source_unit.pk})
+    permitted_translation_ids = {
+        translation.pk
+        for translation in (unit.translation, source_unit.translation)
+        if request.user.has_perm("screenshot.edit", translation)
+    }
+    screenshots = screenshots.filter(
+        translation_id__in=permitted_translation_ids
+    ).exclude(units__in={unit.pk, source_unit.pk})
     if search_form.is_valid():
         if query := search_form.cleaned_data["q"]:
             filters, annotations = parse_query(

@@ -155,6 +155,29 @@
 
   {% endfor %}
 
+  {% if not support_status.is_dedicated and not support_status.backup_repository %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          {% documentation_icon 'admin/backup' 'cloudbackup' right=True %}
+          {% translate "Cloud backups for self-hosted Weblate" %}
+        </h4>
+      </div>
+      <div class="card-body">
+        <p>
+          {% translate "Back up Weblate running in your own environment. No hosting or separate support subscription is required." %}
+        </p>
+        <p>
+          {% translate "Purchase the backup service, enter its activation token below, then turn on the new backup configuration. Save the backup credentials in a secure place so you can restore your data." %}
+        </p>
+      </div>
+      <div class="card-footer">
+        <a href="https://weblate.org/subscription/new/?plan=backup"
+           class="btn btn-primary">{% translate "Buy backup service" %}</a>
+      </div>
+    </div>
+  {% endif %}
+
   {% include "manage/snippets/activation-form.html" %}
 
   <form method="post">
@@ -162,7 +185,7 @@
       <div class="card-header">
         <h4 class="card-title">
           {% documentation_icon 'admin/backup' 'custombackup' right=True %}
-          {% translate "Add backup service" %}
+          {% translate "Add custom backup storage" %}
         </h4>
       </div>
       <div class="card-body">{% crispy form %}</div>

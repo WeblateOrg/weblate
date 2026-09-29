@@ -105,13 +105,21 @@ def replace_component_checkout(
     source_has_git_checkout = os.path.isdir(
         os.path.join(source_component.full_path, ".git")
     )
-    preserve_target_git = component.is_repo_local and not source_has_git_checkout
-    ignore_vcs_metadata = shutil.ignore_patterns(".git", ".hg", ".svn", ".bzr")
+    retain_target_git = not component.is_repo_local or not source_has_git_checkout
+    source_metadata_dir = source_component.repository.metadata_dir_name
+    ignored_metadata_dirs = (
+        set() if source_metadata_dir is None else {source_metadata_dir.casefold()}
+    )
+    if retain_target_git:
+        ignored_metadata_dirs.add(".git")
+
+    def ignore_vcs_metadata(_directory: str, names: list[str]) -> set[str]:
+        return {name for name in names if name.casefold() in ignored_metadata_dirs}
 
     with source_component.repository.lock, component.repository.lock:
         os.makedirs(component.full_path, exist_ok=True)
         for entry in os.listdir(component.full_path):
-            if entry == ".git" and (not component.is_repo_local or preserve_target_git):
+            if entry == ".git" and retain_target_git:
                 continue
             target_name = os.path.join(component.full_path, entry)
             if os.path.isdir(target_name) and not os.path.islink(target_name):
@@ -122,9 +130,7 @@ def replace_component_checkout(
             source_component.full_path,
             component.full_path,
             dirs_exist_ok=True,
-            ignore=ignore_vcs_metadata
-            if not component.is_repo_local or preserve_target_git
-            else None,
+            ignore=ignore_vcs_metadata if retain_target_git else None,
             symlinks=True,
         )
 

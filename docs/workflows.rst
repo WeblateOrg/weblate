@@ -421,6 +421,30 @@ The translation quality filter provides that gateway. Keep reviews enabled
 for every language that should follow this workflow; check any
 :ref:`workflow customization <workflow-customization>` overrides.
 
+AI-assisted quality evaluation
+++++++++++++++++++++++++++++++
+
+Use the :ref:`addon-weblate.ai.quality` add-on to check existing human or
+machine translations for accuracy, fluency, terminology, style, and formatting.
+It records quality checks without editing translations or approving them.
+
+Configure an LLM service under :guilabel:`Automatic suggestions`, then install
+:guilabel:`AI quality evaluation` and select the :guilabel:`Evaluation service`.
+Choose a query to limit the translations evaluated. Run the add-on manually,
+choose an :guilabel:`Evaluation frequency`, or enable evaluation after
+translation changes or repository updates. Installation does not run evaluation.
+See the add-on documentation for provider costs and the data sent to the service.
+
+Translators and reviewers can inspect the findings in the editor or search for
+checks such as ``check:ai_accuracy``. Correct the translation or ignore a finding
+when appropriate. Combine this with :ref:`reviews` when human approval is
+required; AI evaluation does not replace approval or change the translation
+quality filter used for repository commits.
+
+The component's :guilabel:`Diagnostics` recommends the add-on when an LLM service
+is configured. If the selected service becomes unavailable, an error diagnostic
+links maintainers to the installed add-on's configuration.
+
 .. _translation-reuse-workflow:
 
 Reusing existing translations

@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
 from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.http import QueryDict
@@ -28,10 +29,11 @@ from django.utils.translation import override as translation_override
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
-from weblate.auth.models import Group, Permission, Role
+from weblate.auth.models import Group, Permission, Role, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, MultiAlert
+from weblate.trans.alerts.config import BrokenBrowserURL
 from weblate.trans.alerts.files import DuplicateString
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.alerts.vcs import RepositoryErrorAlert, UpdateFailure
@@ -187,6 +189,108 @@ class AlertTest(ViewTestCase):
         return self.client.get(
             reverse("js-diagnostics", kwargs={"path": obj.get_url_path()}), data
         )
+
+    @patch("weblate.trans.alerts.config._get_validated_uri_error")
+    def test_broken_translation_browser_url(self, mocked_uri_error: Mock) -> None:
+        self.component.repoweb = "https://source.example.com/{{filename}}"
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}"
+        )
+        translation = (
+            self.component.translation_set.exclude(
+                language_id=self.component.source_language_id
+            )
+            .exclude(filename="")
+            .first()
+        )
+        self.assertIsNotNone(translation)
+        assert translation is not None
+        self.assertEqual(self.component.source_translation.filename, "")
+        mocked_uri_error.side_effect = (None, "translation browser failure")
+
+        result = BrokenBrowserURL.check_component(self.component)
+
+        assert isinstance(result, dict)
+        self.assertEqual(result["error"], "translation browser failure")
+        self.assertEqual(
+            result["link"],
+            f"https://translations.example.com/{translation.filename}",
+        )
+        self.assertEqual(mocked_uri_error.call_count, 2)
+
+    @patch(
+        "weblate.trans.alerts.config._get_validated_uri_error",
+        return_value="translation browser failure",
+    )
+    def test_broken_translation_browser_url_without_source_browser(
+        self, mocked_uri_error: Mock
+    ) -> None:
+        self.component.repoweb = ""
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}"
+        )
+        translation = (
+            self.component.translation_set.exclude(
+                language_id=self.component.source_language_id
+            )
+            .exclude(filename="")
+            .first()
+        )
+        self.assertIsNotNone(translation)
+        assert translation is not None
+        self.assertEqual(self.component.source_translation.filename, "")
+
+        result = BrokenBrowserURL.check_component(self.component)
+
+        assert isinstance(result, dict)
+        self.assertEqual(result["error"], "translation browser failure")
+        self.assertEqual(
+            result["link"],
+            f"https://translations.example.com/{translation.filename}",
+        )
+        mocked_uri_error.assert_called_once()
+
+    @patch("weblate.trans.alerts.config._get_validated_uri_error", return_value=None)
+    def test_working_translation_browser_url(self, mocked_uri_error: Mock) -> None:
+        self.component.repoweb = ""
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}"
+        )
+        translation = (
+            self.component.translation_set.exclude(
+                language_id=self.component.source_language_id
+            )
+            .exclude(filename="")
+            .first()
+        )
+        self.assertIsNotNone(translation)
+        assert translation is not None
+
+        result = BrokenBrowserURL.check_component(self.component)
+
+        self.assertIs(result, False)
+        mocked_uri_error.assert_called_once()
+        self.assertEqual(
+            mocked_uri_error.call_args.args[0],
+            f"https://translations.example.com/{translation.filename}",
+        )
+
+    @patch("weblate.trans.alerts.config._get_validated_uri_error")
+    def test_translation_browser_url_without_non_source_translation(
+        self, mocked_uri_error: Mock
+    ) -> None:
+        self.component.repoweb = ""
+        self.component.repoweb_translations = (
+            "https://translations.example.com/{{filename}}"
+        )
+        self.component.translation_set.exclude(
+            language_id=self.component.source_language_id
+        ).delete()
+
+        result = BrokenBrowserURL.check_component(self.component)
+
+        self.assertIs(result, False)
+        mocked_uri_error.assert_not_called()
 
     def test_alert_class_metadata_does_not_initialize_alert_object(self) -> None:
         details = {"occurrences": [{"language_code": "cs"}]}
@@ -398,6 +502,91 @@ class AlertTest(ViewTestCase):
         self.assertIn(
             "DuplicateString", {group.name for group in context["diagnostics"]}
         )
+
+    @override_settings(
+        WEBLATE_ADDONS=(
+            *settings.WEBLATE_ADDONS,
+            "weblate.addons.example_pre.ExamplePreAddon",
+        )
+    )
+    def test_addon_error_configuration_links(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Category", slug="category"
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        self.user.is_superuser = True
+        for name, addon_name in (
+            ("AddonScriptError", "weblate.example.pre"),
+            ("MsgmergeAddonError", "weblate.gettext.msgmerge"),
+            ("ExtractPotAddonError", "weblate.gettext.xgettext"),
+            ("CDNAddonError", "weblate.cdn.cdnjs"),
+            ("AIEvaluationUnavailable", "weblate.ai.quality"),
+        ):
+            for scope in (
+                {"component": self.component},
+                {"category": category},
+                {"project": self.project},
+                {},
+            ):
+                with self.subTest(name=name, scope=scope):
+                    addon = Addon.objects.create(name=addon_name, **scope)
+                    self.component.drop_addons_cache()
+                    for identity in (
+                        {},
+                        {"addon": addon.name, "addon_id": str(addon.pk)},
+                    ):
+                        occurrence = {
+                            "command": "test",
+                            "error": "failure",
+                            "output": "",
+                            "filename": "test.html",
+                            **identity,
+                        }
+                        self.component.add_alert(name, occurrences=[occurrence])
+                        alert = self.component.alert_set.get(name=name)
+                        self.assertIn(addon.get_absolute_url(), alert.render(self.user))
+                        self.assertNotIn(
+                            addon.get_absolute_url(), alert.render(get_anonymous())
+                        )
+                    self.component.add_alert(
+                        name, occurrences=[{**occurrence, "addon_id": "-1"}]
+                    )
+                    self.assertNotIn(
+                        addon.get_absolute_url(),
+                        self.component.alert_set.get(name=name).render(self.user),
+                    )
+                    url = addon.get_absolute_url()
+                    Addon.objects.filter(pk=addon.pk).delete()
+                    self.component.drop_addons_cache()
+                    self.assertNotIn(url, alert.render(self.user))
+
+    @patch.object(MsgmergeAddon, "repo_scope", True)
+    def test_repository_addon_error_configuration_link(self) -> None:
+        owner = self._create_component(
+            "po", "other/*.po", project=self.project, name="Other"
+        )
+        Component.objects.filter(pk=self.component.pk).update(linked_component=owner)
+        self.component.refresh_from_db()
+        addon = Addon.objects.create(
+            name="weblate.gettext.msgmerge", component=owner, repo_scope=True
+        )
+        self.component.drop_addons_cache()
+        self.component.add_alert(
+            "MsgmergeAddonError",
+            occurrences=[
+                {
+                    "addon": addon.name,
+                    "addon_id": str(addon.pk),
+                    "command": "msgmerge",
+                    "error": "failure",
+                    "output": "",
+                }
+            ],
+        )
+        self.user.is_superuser = True
+        alert = self.component.alert_set.get(name="MsgmergeAddonError")
+        self.assertIn(addon.get_absolute_url(), alert.render(self.user))
 
     def test_project_diagnostics_bulk_loads_actionable_addons(self) -> None:
         other = self._create_component(

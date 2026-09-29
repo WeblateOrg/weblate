@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -14,57 +14,117 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
-from weblate.checks.flags import Flags
-from weblate.trans.forms import ContextForm, MatrixLanguageForm
+from weblate.trans.forms import ContextForm, MatrixLanguageForm, UnitFlagsForm
 from weblate.trans.models import Component, Unit
 from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
 from weblate.utils.views import parse_path, show_form_errors
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+
+
+def get_locked_unit(user: User, pk: int) -> Unit:
+    """Lock a unit and its source in the same order for every context edit."""
+    unit = get_object_or_404(Unit.objects.filter_access(user), pk=pk)
+    # Lock both units in a consistent order for all scoped operations.
+    locked = {
+        item.pk: item
+        for item in Unit.objects.filter(pk__in={unit.pk, unit.source_unit_id})
+        .order_by("pk")
+        .select_for_update()
+    }
+    if not {unit.pk, unit.source_unit_id}.issubset(locked):
+        msg = "Unit was removed while processing the request"
+        raise Http404(msg)
+    unit = locked[unit.pk]
+    unit.source_unit = locked[cast("int", unit.source_unit_id)]
+    return unit
 
 
 @require_POST
 @login_required
 @transaction.atomic
 def edit_context(request: AuthenticatedHttpRequest, pk):
-    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=pk)
-    if not unit.is_source and not unit.translation.component.is_glossary:
-        msg = "Non source unit!"
-        raise Http404(msg)
+    unit = get_locked_unit(request.user, pk)
+    source = unit.source_unit
 
-    do_add = "addflag" in request.POST
-    if do_add or "removeflag" in request.POST:
-        if not request.user.has_perm("meta:unit.flag", unit.translation):
-            raise PermissionDenied
-        flag = request.POST.get("addflag", request.POST.get("removeflag"))
-        flags = unit.get_unit_flags()
-        if (
-            flag in {"terminology", "forbidden", "read-only"}
-            and not unit.is_source
-            and flag not in flags
+    operations = {"addflag", "removeflag", "promoteflag"} & request.POST.keys()
+    if operations:
+        if len(operations) != 1:
+            msg = "Invalid flag action"
+            raise Http404(msg)
+        action = operations.pop()
+        flag = request.POST[action]
+        scope = request.POST.get("scope", "source" if unit.is_source else "translation")
+        if scope not in {"source", "translation"} or flag not in {
+            "read-only",
+            "forbidden",
+            "terminology",
+        }:
+            msg = "Invalid flag action"
+            raise Http404(msg)
+        if flag != "read-only" and not unit.translation.component.is_glossary:
+            msg = "Invalid glossary flag"
+            raise Http404(msg)
+        if flag == "terminology" and scope != "source":
+            msg = "Terminology is source-wide"
+            raise Http404(msg)
+        if action == "promoteflag" and (
+            flag != "read-only" or unit.is_source or scope != "source"
         ):
-            unit = unit.source_unit
-            flags = Flags(unit.extra_flags)
-        if do_add:
-            flags.merge(flag)
-        else:
-            flags.remove(flag)
-        new_flags = flags.format()
-        if new_flags != unit.extra_flags:
-            unit.update_extra_flags(new_flags, request.user)
-    else:
-        if not request.user.has_perm("source.edit", unit.translation):
+            msg = "Invalid flag promotion"
+            raise Http404(msg)
+        target = source if scope == "source" else unit
+        targets = [source, unit] if action == "promoteflag" else [target]
+        if not all(
+            request.user.has_perm("meta:unit.flag", item.translation)
+            for item in targets
+        ):
             raise PermissionDenied
-
-        form = ContextForm(request.POST, instance=unit, user=request.user)
-
+        flags = target.get_unit_flags()
+        if action == "removeflag":
+            flags.remove(flag)
+        else:
+            flags.merge(flag)
+        target.update_extra_flags(flags.format(), request.user)
+        if action == "promoteflag":
+            # The source save has updated this translation's derived state.
+            unit.refresh_from_db()
+            unit.source_unit = source
+            unit.store_old_unit(unit)
+            flags = unit.get_unit_flags()
+            flags.remove(flag)
+            unit.update_extra_flags(flags.format(), request.user)
+    elif "edit_flags" in request.POST:
+        if not any(
+            request.user.has_perm("meta:unit.flag", item.translation)
+            for item in (source, unit)
+        ):
+            raise PermissionDenied
+        form = UnitFlagsForm(request.POST, unit=unit, user=request.user)
         if form.is_valid():
             form.save()
         else:
-            messages.error(request, gettext("Could not change additional string info!"))
+            messages.error(request, gettext("Could not change string flags!"))
             show_form_errors(request, form)
+    else:
+        if not unit.is_source and not unit.translation.component.is_glossary:
+            msg = "Non source unit!"
+            raise Http404(msg)
+        if not request.user.has_perm("source.edit", unit.translation):
+            raise PermissionDenied
+        context_form = ContextForm(
+            request.POST,
+            instance=unit,
+            user=request.user,
+            include_flags="extra_flags" in request.POST,
+        )
+        if context_form.is_valid():
+            context_form.save()
+        else:
+            messages.error(request, gettext("Could not change additional string info!"))
+            show_form_errors(request, context_form)
 
     return redirect_next(request.POST.get("next"), unit.get_absolute_url())
 

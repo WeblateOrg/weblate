@@ -5,7 +5,9 @@
   <span class="badge text-bg-info">{% translate "Cloud" context "Badge for site title for Hosted Weblate" %}</span>
 {% else %}
   {{ site_title }}
-  {% if support_status.is_dedicated %}
+  {% if support_status.has_expired_support %}
+    <span class="badge text-bg-danger">{% translate "Expired" context "Badge for site title for expired subscriptions" %}</span>
+  {% elif support_status.is_dedicated %}
     <span class="badge text-bg-primary">{% translate "Dedicated" context "Badge for site title for dedicated instances" %}</span>
   {% else %}
     <span class="badge text-bg-secondary">{% translate "Self-hosted" context "Badge for site title for self-hosted instances" %}</span>

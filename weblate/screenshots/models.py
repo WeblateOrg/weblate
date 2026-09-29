@@ -19,7 +19,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
-from weblate.auth.models import User
+from weblate.auth.bots import InternalBot
 from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.actions import ActionEvents
@@ -35,6 +35,7 @@ from weblate.vcs.base import RepositorySymlinkError
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
+    from weblate.auth.models import User
     from weblate.trans.models import Component
 
 
@@ -254,9 +255,7 @@ def sync_screenshots_from_repo(
     **kwargs,
 ) -> None:
     if user is None:
-        user = User.objects.get_or_create_bot(
-            scope="weblate", name="screenshots", verbose="Screenshots from repository"
-        )
+        user = InternalBot.SCREENSHOTS.get_user()
     changed_files = list(changed_files)
 
     screenshots = Screenshot.objects.filter(

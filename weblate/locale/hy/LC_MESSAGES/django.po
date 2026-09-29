@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-10 22:51-0500\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
 "PO-Revision-Date: 2026-07-25 07:17+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1360,7 +1360,7 @@ msgid ""
 "{0}."
 msgstr ""
 
-msgid "Use security key (WebAuthn)"
+msgid "Use a passkey or security key (WebAuthn)"
 msgstr ""
 
 #, fuzzy
@@ -1640,6 +1640,45 @@ msgstr ""
 #| msgid "Download"
 msgid "Second factor sign in"
 msgstr "Ներբեռնել"
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Evaluation service"
+msgstr "Վավերացում"
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Disabled"
+msgstr "Կառավարվող նախագծեր"
+
+msgid "Daily"
+msgstr ""
+
+msgid "Weekly"
+msgstr ""
+
+msgid "Monthly"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Evaluate translation changes"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "VCS repositories"
+msgid "Evaluate repository updates"
+msgstr "VCS պահեստարաններ"
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
 
 msgid "Automatic translation"
 msgstr ""
@@ -1980,15 +2019,6 @@ msgstr ""
 msgid "Update frequency"
 msgstr ""
 
-msgid "Daily"
-msgstr ""
-
-msgid "Weekly"
-msgstr ""
-
-msgid "Monthly"
-msgstr ""
-
 msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
@@ -2035,6 +2065,15 @@ msgstr ""
 #| msgid "Search"
 msgid "Keyword entries have to be strings."
 msgstr "Որոնում"
+
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
+msgstr ""
 
 #, fuzzy
 #| msgid "Managed projects"
@@ -2217,6 +2256,19 @@ msgstr "Կառավարվող նախագծեր"
 #| msgid "Failed merge on repository"
 msgid "Could not determine Sphinx source directory."
 msgstr "Պահեստարանի միաձուլումը ձախողվեց"
+
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "New password (again)"
+msgid "One file per translation"
+msgstr "Նոր գաղտնաբառ (նորից)"
+
+#, fuzzy
+#| msgid "Project name"
+msgid "One file per component"
+msgstr "Նախագծի անվանում"
 
 #, fuzzy
 #| msgid "Generate"
@@ -2765,19 +2817,115 @@ msgid ""
 "project configuration."
 msgstr ""
 
-msgid "Contributors in comment"
+#, fuzzy
+#| msgid "Managed projects"
+msgid "ITS rule file is too large."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "ITS rule file contains too many XPath expressions."
+msgstr "Կառավարվող նախագծեր"
+
+msgid "ITS XPath expression is too long."
 msgstr ""
 
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
+msgid "Too many ITS rule files."
 msgstr ""
+
+msgid "ITS rule files are too large."
+msgstr ""
+
+msgid "ITS directories must be a list of strings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Invalid ITS directory path."
+msgstr "Նախագծի անվանում"
+
+msgid "ITS rules must not contain a document type."
+msgstr ""
+
+msgid "Invalid ITS rule document root."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "ITS rule file contains too many elements."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Status"
+msgid "Unsupported ITS rule content."
+msgstr "Կարգավիճակ"
+
+#, fuzzy
+#| msgid "Status"
+msgid "Unsupported ITS locating rule."
+msgstr "Կարգավիճակ"
+
+msgid "ITS locating rules require a pattern."
+msgstr ""
+
+msgid "ITS locating rules require a target or a document rule."
+msgstr ""
+
+msgid "ITS document rules require a target."
+msgstr ""
+
+#, fuzzy
+#| msgid "Status"
+msgid "Unsupported ITS rule namespace."
+msgstr "Կարգավիճակ"
+
+msgid "External ITS rule references are not allowed."
+msgstr ""
+
+msgid "ITS targets must name a rule in the same directory."
+msgstr ""
+
+msgid "ITS target is missing or is a symbolic link."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "ITS directories must not contain symbolic links."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy, python-format
+#| msgid "Your account has been removed."
+msgid "ITS directory does not exist: %(path)s"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+msgid "ITS rules must be regular files, not symbolic links."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Managed projects"
+msgid "Invalid ITS rule %(path)s: %(error)s"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy, python-format
+#| msgid "Managed projects"
+msgid "Could not parse ITS rule: %(path)s"
+msgstr "Կառավարվող նախագծեր"
 
 msgid "Squash Git commits"
 msgstr ""
 
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "API add-ons must be installed directly on a component."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "This add-on is already installed on this component."
+msgstr "Ձեր հաշիվը ջնջվել է։"
 
 msgid "This add-on cannot be triggered manually."
 msgstr ""
@@ -3224,6 +3372,11 @@ msgstr "Կառավարվող նախագծեր"
 #| msgid "Your account has been removed."
 msgid "This string seems to already exist."
 msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Automatic translation in progress"
+msgstr "Կառավարվող նախագծեր"
 
 msgid "Category"
 msgstr ""
@@ -4210,14 +4363,24 @@ msgstr ""
 msgid "Adding strings is disabled in the component configuration."
 msgstr "Տեղեկություններ"
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr ""
+#, fuzzy
+#| msgid "Information"
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "Տեղեկություններ"
 
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "The file format does not support this."
 msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "You do not have permission to edit this glossary."
+msgstr "Կառավարվող նախագծեր"
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr ""
 
 #, fuzzy
 #| msgid "Information"
@@ -4275,6 +4438,101 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 #| msgid "Administration"
 msgid "Accepted invitation to the %s team."
 msgstr "Կառավարում"
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Automation"
+msgstr "Տարբերակներ"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "The component is outside this add-on's scope."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "The change does not belong to this component."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Automation nesting is too deep."
+msgstr "Կառավարվող նախագծեր"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "YAML aliases and tags are not supported."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Automation keys must be strings."
+msgstr "Կառավարվող նախագծեր"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Managed projects"
+msgid "%(path)s: %(error)s"
+msgstr "Կառավարվող նախագծեր"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+msgid "Automation context is too large."
+msgstr ""
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Your account has been removed."
+msgid "Invalid CEL condition: %s"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+msgid "Workflow"
+msgstr ""
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Preview component ID"
+msgstr "Նախագծի անվանում"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "License"
+msgid "Preview change ID"
+msgstr "Արտոնագիր"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 #, fuzzy
 #| msgid "Managed projects"
@@ -4482,6 +4740,53 @@ msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "The evaluation detected a language quality issue."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Glossary"
+msgid "AI: Terminology"
+msgstr "Բառարան"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Information"
+msgid "AI: Formatting"
+msgstr "Տեղեկություններ"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Ձեր հաշիվը ջնջվել է։"
 
 msgid "AngularJS interpolation string"
 msgstr ""
@@ -4827,6 +5132,11 @@ msgstr ""
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Use case insensitive placeholders"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Monospace font"
 msgstr "Կառավարվող նախագծեր"
 
 msgid "Font family"
@@ -5923,6 +6233,32 @@ msgstr ""
 msgid "Multivalue CSV file"
 msgstr ""
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "This file format does not support editing keys or context."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "A string with this identity already exists."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "This file format does not support editing source strings."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "The key cannot be represented in this file format."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -5970,10 +6306,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr ""
-
-#. Translators: File format name
 #, fuzzy
 #| msgid "Managed projects"
 msgid "XLIFF 1.2 with gettext extensions"
@@ -5990,12 +6322,6 @@ msgstr "Կառավարվող նախագծեր"
 #| msgid "Your account has been removed."
 msgid "XLIFF 2.0 translation file"
 msgstr "Ձեր հաշիվը ջնջվել է։"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "Managed projects"
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "Կառավարվող նախագծեր"
 
 #. Translators: File format name
 msgid "Java Properties"
@@ -6267,6 +6593,32 @@ msgid ""
 "Could not add the glossary term because another background operation is in "
 "progress. Please try again later."
 msgstr "Սկզբնակոդի պահեստարան"
+
+msgid "Maximum build age (days)"
+msgstr ""
+
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Maximum retained versions"
+msgstr "Կառավարվող նախագծեր"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
 
 msgid "Weblate languages"
 msgstr "Weblate-ի լեզուներ"
@@ -7424,6 +7776,11 @@ msgstr "Կառավարվող նախագծեր"
 msgid "Sort by"
 msgstr ""
 
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Screenshot"
+msgstr "Կառավարվող նախագծեր"
+
 msgid "Screenshot name"
 msgstr ""
 
@@ -7505,6 +7862,11 @@ msgstr "Կառավարվող նախագծեր"
 #, fuzzy
 #| msgid "Managed projects"
 msgid "OCR data could not be downloaded. Please try again later."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Select a valid screenshot."
 msgstr "Կառավարվող նախագծեր"
 
 msgid "Bad request"
@@ -7631,18 +7993,13 @@ msgstr ""
 msgid "Support Weblate"
 msgstr "Կարգավիճակ"
 
-msgid "Help <strong>Weblate</strong> keep thriving"
-msgstr ""
-
 msgid "Welcome and thank you for supporting Weblate"
 msgstr ""
 
-msgid "Welcome and thank you for choosing Weblate"
-msgstr ""
-
-msgid ""
-"the privacy-respecting localization platform committed to open-source values."
-msgstr ""
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Continue to Weblate"
+msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
 #| msgid "Username"
@@ -7735,6 +8092,14 @@ msgid "Second factor sign-in"
 msgstr ""
 
 msgid "Please complete your sign-in using second factor credential."
+msgstr ""
+
+msgid "Other ways to verify your identity"
+msgstr ""
+
+msgid ""
+"If you cannot use your passkey or security key, or any other configured "
+"verification method, contact the site administrator for help."
 msgstr ""
 
 msgid "Your profile"
@@ -8582,6 +8947,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr ""
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr ""
+
 #, fuzzy
 #| msgid "Managed projects"
 msgctxt "Badge for site title for dedicated instances"
@@ -8858,16 +9227,44 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
-msgid "Sign in using the security key"
+msgid ""
+"Use a device where your passkey is available, or connect your registered "
+"security key. Your passkey might not be available on a new computer or in a "
+"different browser."
+msgstr ""
+
+#, fuzzy
+#| msgid "New password"
+msgid "Sign in using a passkey or security key"
+msgstr "Նոր գաղտնաբառ"
+
+msgid ""
+"Passkey or security key verification could not be completed. The request may "
+"have timed out or been canceled, or your credential may be unavailable on "
+"this device. Try again or use another verification method if available."
 msgstr ""
 
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
+msgid "Add-on API"
+msgstr ""
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "API root"
+msgstr "Նախագծի անվանում"
+
 #, fuzzy
 #| msgid "Change password"
 msgid "Configuration"
 msgstr "Փոխել գաղտնաբառը"
+
+msgid "API"
+msgstr ""
 
 msgid "Logs"
 msgstr ""
@@ -8904,7 +9301,22 @@ msgstr "Միջերեսի լեզու"
 msgid "Configure add-on"
 msgstr "Փոխել գաղտնաբառը"
 
+#, fuzzy
+#| msgid "License"
+msgid "Preview without changes"
+msgstr "Արտոնագիր"
+
 msgid "This add-on has no settings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Automation preview"
+msgstr "Ակնարկ"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
 msgstr ""
 
 #, fuzzy
@@ -9089,6 +9501,18 @@ msgid ""
 "example:"
 msgstr ""
 
+msgid ""
+"In component mode, loop over translations to access each language’s metadata "
+"and statistics. Use the json or python filter to serialize values in "
+"generated files."
+msgstr ""
+
+msgid ""
+"The translation variables below are available directly in translation mode, "
+"or on each item in component mode. Component and project variables are "
+"available in both modes."
+msgstr ""
+
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Percents translated"
@@ -9117,6 +9541,25 @@ msgstr "Նախագծի անվանում"
 #| msgid "Project name"
 msgid "Project URL slug"
 msgstr "Նախագծի անվանում"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Create a project token"
+msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
 #| msgid "Status"
@@ -9696,14 +10139,6 @@ msgstr ""
 msgid "Check your billing status"
 msgstr ""
 
-msgid "Browse"
-msgstr "Դիտարկում"
-
-#, fuzzy
-#| msgid "Managed projects"
-msgid "No strings found!"
-msgstr "Կառավարվող նախագծեր"
-
 msgid "Insights"
 msgstr ""
 
@@ -9798,6 +10233,11 @@ msgstr "Կառավարվող նախագծեր"
 #| msgid "Interface Language"
 msgid "Add new category"
 msgstr "Միջերեսի լեզու"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Translation status widgets"
+msgstr "Ձեր հաշիվը ջնջվել է։"
 
 #, fuzzy
 #| msgid "Weblate languages"
@@ -10295,27 +10735,36 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Կարգավիճակ"
 
-msgid "Some repositories are not accessible"
-msgstr ""
+#, fuzzy
+msgid "Some repository operations require additional permissions"
+msgstr "Սկզբնակոդի պահեստարան"
 
 msgid ""
-"Each operation below excludes repositories unless you have the required "
-"permission on every component sharing them."
+"Repository operations require permission on the component that owns the "
+"shared repository."
 msgstr ""
+
+#, fuzzy
+#| msgid "Project name"
+msgid "Affected components:"
+msgstr "Նախագծի անվանում"
 
 #, fuzzy
 #| msgid "Managed projects"
-msgid "Skipped components:"
+msgid "You need the following permissions on the repository-owning component:"
 msgstr "Կառավարվող նախագծեր"
 
-#, fuzzy
-#| msgid "Versions"
-msgid "Permission required on:"
-msgstr "Տարբերակներ"
+msgid ""
+"You need the following permissions on the repository-owning component, which "
+"you cannot access:"
+msgstr ""
+
+msgid "Ask an administrator of the owning project to grant these permissions."
+msgstr ""
 
 msgid ""
-"A repository was skipped because one or more of its components are not "
-"accessible."
+"Ask your project administrator to coordinate access with the repository "
+"owner."
 msgstr ""
 
 msgid "Repository status"
@@ -10432,12 +10881,10 @@ msgstr ""
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
 
-#, fuzzy
-#| msgid "Update VCS repository"
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
-msgstr "Արդիացնել VCS պահեստարանը"
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
+msgstr ""
 
 msgid "Reset and reapply"
 msgstr ""
@@ -10458,18 +10905,24 @@ msgstr ""
 msgid "Cleanup"
 msgstr ""
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-msgid "It also removes stale branches which are not used by Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
 msgstr ""
 
-#, fuzzy
-#| msgid "Update VCS repository"
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Արդիացնել VCS պահեստարանը"
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr ""
@@ -10591,6 +11044,11 @@ msgstr ""
 #| msgid "Weblate languages"
 msgid "Browse all repository changes"
 msgstr "Weblate-ի լեզուներ"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Nothing to preview."
+msgstr "Կառավարվող նախագծեր"
 
 msgid "Shortcut"
 msgstr ""
@@ -10718,9 +11176,6 @@ msgid ""
 "The language definitions are automatically updated by Weblate upon a "
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
-msgstr ""
-
-msgid "Workflow"
 msgstr ""
 
 msgid "Changing plural rules might not have a desired effect."
@@ -11480,8 +11935,29 @@ msgid ""
 "credentials below."
 msgstr ""
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
 msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset repository"
+msgid "Buy backup service"
+msgstr "Վերակայել պահեստարանը"
+
+#, fuzzy
+#| msgid "Glossary"
+msgid "Add custom backup storage"
+msgstr "Բառարան"
 
 #, fuzzy
 #| msgid "Comment"
@@ -11519,6 +11995,17 @@ msgstr "Կառավարվող նախագծեր"
 msgid "Support expiry"
 msgstr ""
 
+msgid "Professional support for your organization"
+msgstr ""
+
+msgid ""
+"Purchase professional support for expert help with setup, maintenance, and "
+"troubleshooting."
+msgstr ""
+
+msgid "Your subscription also funds the ongoing development of Weblate."
+msgstr ""
+
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Manage support package"
@@ -11534,8 +12021,10 @@ msgstr "Կառավարվող նախագծեր"
 msgid "Unlink support package"
 msgstr "Կառավարվող նախագծեր"
 
-msgid "Purchase support package"
-msgstr ""
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Purchase support"
+msgstr "Կառավարվող նախագծեր"
 
 msgid "Contact customer care"
 msgstr ""
@@ -12250,6 +12739,14 @@ msgstr ""
 msgid "Return to dashboard"
 msgstr "Կառավարվող նախագծեր"
 
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Thank you for contributing translations."
+msgstr "Կառավարվող նախագծեր"
+
+msgid "Donate to Weblate development"
+msgstr ""
+
 msgid "Please review and confirm the search and replace results."
 msgstr ""
 
@@ -12385,6 +12882,35 @@ msgstr "Կառավարվող նախագծեր"
 msgid "Add new screenshot"
 msgstr ""
 
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Select a screenshot"
+msgstr "Կառավարվող նախագծեր"
+
+msgid ""
+"Source-language screenshots are shown for every translation of this string. "
+"Other screenshots are shown only for their language."
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Selected"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "No matching screenshots available."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Screenshot pages"
+msgstr "Կառավարվող նախագծեր"
+
+#, python-format
+msgid "Page %(current)s of %(total)s"
+msgstr ""
+
 #. Translators: Button to assign string to a screenshot
 #, fuzzy
 #| msgid "Managed projects"
@@ -12405,6 +12931,9 @@ msgstr "Որոնում"
 #| msgid "Managed projects"
 msgid "Paste from clipboard"
 msgstr "Կառավարվող նախագծեր"
+
+msgid "Translate"
+msgstr ""
 
 #, fuzzy
 #| msgid "Search"
@@ -12596,26 +13125,20 @@ msgstr[1] "Կառավարվող նախագծեր"
 msgid "No diagnostics match the selected filters."
 msgstr ""
 
-msgid ""
-"While Weblate remains free for all users, its development requires "
-"continuous investment."
-msgstr ""
-
-msgid "We prioritize your privacy; we never display ads or sell your data."
-msgstr ""
-
-msgid ""
-"The invaluable support of the community through subscriptions and donations "
-"ensures that Weblate continues to grow and thrive."
-msgstr ""
-
-msgid "Join us in shaping the future of localization and contribute today!"
-msgstr ""
+#, fuzzy
+#| msgid "Status"
+msgid "Support Weblate development"
+msgstr "Կարգավիճակ"
 
 #, fuzzy
 #| msgid "Managed projects"
-msgid "Purchase a support package"
+msgid "Thank you for using Weblate and contributing translations."
 msgstr "Կառավարվող նախագծեր"
+
+msgid ""
+"If you would like to give more, an optional donation funds development and "
+"maintenance of Weblate itself."
+msgstr ""
 
 msgid ""
 "The maximal string length is determined from the source string or flags."
@@ -12686,16 +13209,6 @@ msgstr "Սկզբնակոդի պահեստարան"
 
 #, fuzzy
 #| msgid "Your account has been removed."
-msgid "This translation is forbidden."
-msgstr "Ձեր հաշիվը ջնջվել է։"
-
-#, fuzzy
-#| msgid "Versions"
-msgid "This term should not be translated."
-msgstr "Տարբերակներ"
-
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "This translation needs editing."
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
@@ -12705,9 +13218,34 @@ msgid "Copy word into translation"
 msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
+#| msgid "Your account has been removed."
+msgid "This translation is forbidden."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Forbidden"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Versions"
+msgid "This term should not be translated."
+msgstr "Տարբերակներ"
+
+#, fuzzy
 #| msgid "Glossary"
 msgid "Edit glossary term"
 msgstr "Բառարան"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Translation explanation"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Source explanation"
+msgstr "Որոնում"
 
 #, fuzzy
 #| msgid "Your account has been removed."
@@ -13076,6 +13614,9 @@ msgstr "Ակնարկ"
 msgid "Untranslated"
 msgstr "Կառավարվող նախագծեր"
 
+msgid "Browse"
+msgstr "Դիտարկում"
+
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Create translation"
@@ -13085,9 +13626,6 @@ msgstr "Կառավարվող նախագծեր"
 #| msgid "Managed projects"
 msgid "Cannot add translation right now"
 msgstr "Կառավարվող նախագծեր"
-
-msgid "Translate"
-msgstr ""
 
 msgid "Customized workflow"
 msgstr ""
@@ -13513,6 +14051,29 @@ msgctxt "String state"
 msgid "Failing checks:"
 msgstr "Կառավարվող նախագծեր"
 
+msgid "Using Weblate in your organization?"
+msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Already purchased? Link your support package"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Update VCS repository"
+msgid "Term information from the translation file"
+msgstr "Արդիացնել VCS պահեստարանը"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Source terms"
+msgstr "Որոնում"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Target terms"
+msgstr "Որոնում"
+
 msgid "Translation status"
 msgstr ""
 
@@ -13676,6 +14237,11 @@ msgstr "Կառավարում"
 msgid "Create account"
 msgstr "Նախագծի անվանում"
 
+#, fuzzy, python-format
+#| msgid "Change password"
+msgid "Configure %(addon)s"
+msgstr "Փոխել գաղտնաբառը"
+
 msgid "Weblate could not execute script add-on."
 msgstr ""
 
@@ -13686,6 +14252,12 @@ msgstr ""
 #| msgid "Comment"
 msgid "Command"
 msgstr "Մեկնաբանություն"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 #, fuzzy
 #| msgid "Your account has been removed."
@@ -13958,15 +14530,20 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-msgid ""
-"Please fix this by removing duplicated strings with same identifier from the "
-"translation files."
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Update VCS repository"
+msgid "Remove duplicate strings from %(language)s (%(filename)s)"
+msgstr "Արդիացնել VCS պահեստարանը"
 
 #, fuzzy
 #| msgid "Status"
 msgid "Remove duplicate strings"
 msgstr "Կարգավիճակ"
+
+msgid ""
+"Please fix this by removing duplicated strings with same identifier from the "
+"translation files."
+msgstr ""
 
 msgid ""
 "This component updates the POT file automatically, but does not update the "
@@ -14217,6 +14794,12 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Jump to date"
+msgstr ""
+
+msgid "Go"
+msgstr ""
+
 #, fuzzy
 #| msgid "Change password"
 msgid "Changes"
@@ -14228,6 +14811,21 @@ msgid "Download latest changes as CSV"
 msgstr "Կառավարվող նախագծեր"
 
 msgid "Follow using RSS"
+msgstr ""
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Older"
 msgstr ""
 
 #, fuzzy
@@ -14557,11 +15155,6 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Managed projects"
-msgid "Create a project token"
-msgstr "Կառավարվող նախագծեր"
-
-#, fuzzy
-#| msgid "Managed projects"
 msgid "Create"
 msgstr "Կառավարվող նախագծեր"
 
@@ -14623,6 +15216,14 @@ msgid ""
 "new repository. This will work just fine if the repository has been moved to "
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Edit source"
+msgstr "Որոնում"
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
@@ -14921,6 +15522,16 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Managed projects"
+msgid "Add existing screenshot"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Upload screenshot"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
 msgid "String information"
 msgstr "Կառավարվող նախագծեր"
 
@@ -14931,6 +15542,11 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 
 msgid "No labels currently set."
 msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Edit flags"
+msgstr "Որոնում"
 
 msgid "Flags"
 msgstr ""
@@ -15005,6 +15621,15 @@ msgstr ""
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
+msgstr ""
+
+msgid "Effective flags"
+msgstr ""
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
 msgstr ""
 
 #, fuzzy, python-format
@@ -15132,11 +15757,6 @@ msgstr ""
 msgid "Repositories"
 msgstr "VCS պահեստարաններ"
 
-#, fuzzy
-#| msgid "Managed projects"
-msgid "Disabled"
-msgstr "Կառավարվող նախագծեր"
-
 msgid "Refresh"
 msgstr ""
 
@@ -15248,9 +15868,6 @@ msgstr "Բաժանորդագրված նախագծեր"
 #| msgid "Managed projects"
 msgid "Continue to GitHub"
 msgstr "Կառավարվող նախագծեր"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Overview"
@@ -15548,6 +16165,14 @@ msgstr "Կառավարվող նախագծեր"
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Overview"
+msgid "Preview"
+msgstr "Ակնարկ"
 
 #, fuzzy
 #| msgid "Weblate languages"
@@ -16542,6 +17167,11 @@ msgstr "Կառավարվող նախագծեր"
 msgid "POT updates do not update PO files."
 msgstr ""
 
+#, fuzzy
+#| msgid "Managed projects"
+msgid "AI quality evaluation service is unavailable."
+msgstr "Կառավարվող նախագծեր"
+
 msgid "Information"
 msgstr "Տեղեկություններ"
 
@@ -17203,6 +17833,24 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Managed projects"
+msgid "Contributor comments"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Gettext"
+msgstr "Մեկնաբանություն"
+
+msgid "SPDX"
+msgstr ""
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
+#, fuzzy
 #| msgid "Search"
 msgid "Keep previous msgids of translated strings"
 msgstr "Որոնում"
@@ -17286,6 +17934,46 @@ msgid "MAC (\\r)"
 msgstr ""
 
 msgid "Include closing tag for blank XML tags"
+msgstr ""
+
+msgid "Whitespace handling"
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Statistics"
+msgid "Placeables support"
+msgstr "Վիճակագրություն"
+
+#, fuzzy
+#| msgid "Generate"
+msgid "Plain text only"
+msgstr "Ստեղծել"
+
+#, fuzzy
+#| msgid "Status"
+msgid "Support placeables"
+msgstr "Կարգավիճակ"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
 msgstr ""
 
 #, fuzzy
@@ -17586,11 +18274,6 @@ msgstr ""
 msgid "Source string explanation"
 msgstr "Որոնում"
 
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Translation explanation"
-msgstr "Ձեր հաշիվը ջնջվել է։"
-
 msgid "The source string has changed meanwhile. Please check your changes."
 msgstr ""
 
@@ -17600,6 +18283,14 @@ msgid ""
 "The translation of the string has changed meanwhile. Please check your "
 "changes."
 msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Languages"
+msgid "Ignore language mismatch"
+msgstr "Լեզուներ"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
 
 msgid "File upload mode"
 msgstr ""
@@ -17774,6 +18465,34 @@ msgstr ""
 
 msgid "Please choose"
 msgstr ""
+
+#, fuzzy
+#| msgid "Weblate languages"
+msgid "Source flags — all languages"
+msgstr "Weblate-ի լեզուներ"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Translation flags — this language"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Your account has been removed."
+msgid "Translation flags — %(language)s"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "You do not have permission to edit these flags."
+msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
 #| msgid "Your account has been removed."
@@ -18067,6 +18786,11 @@ msgid "Replacement string"
 msgstr ""
 
 #, fuzzy
+#| msgid "Project name"
+msgid "Key or context"
+msgstr "Նախագծի անվանում"
+
+#, fuzzy
 #| msgid "Your account has been removed."
 msgid "Translation key"
 msgstr "Ձեր հաշիվը ջնջվել է։"
@@ -18132,22 +18856,38 @@ msgstr ""
 msgid "Do not change"
 msgstr "Կառավարվող նախագծեր"
 
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Translation flags to add"
-msgstr "Ձեր հաշիվը ջնջվել է։"
+msgid "Source flags to add — all languages"
+msgstr ""
 
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Translation flags to remove"
-msgstr "Ձեր հաշիվը ջնջվել է։"
-
-msgid "Labels to add"
+msgid "Source flags to remove — all languages"
 msgstr ""
 
 #, fuzzy
+#| msgid "Your account has been removed."
+msgid "Translation flags to add — matching translations"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Translation flags to remove — matching translations"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate languages"
+msgid "Labels to add — all languages"
+msgstr "Weblate-ի լեզուներ"
+
+#, fuzzy
 #| msgid "Language"
-msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Լեզու"
 
 msgid "I accept the contributor license agreement"
@@ -18205,6 +18945,11 @@ msgstr "Կառավարվող նախագծեր"
 #| msgid "Managed projects"
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Search"
+msgid "The date cannot be in the future."
+msgstr "Որոնում"
 
 #, fuzzy
 #| msgid "Username"
@@ -18857,9 +19602,9 @@ msgid "Manage strings"
 msgstr "Որոնում"
 
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 
 msgid "Merge style"
@@ -19628,6 +20373,23 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+#, fuzzy
+#| msgid "Managed projects"
+msgid "The uploaded file contains too many language declarations."
+msgstr "Կառավարվող նախագծեր"
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Managed projects"
+msgid "Could not parse uploaded file: %s"
+msgstr "Կառավարվող նախագծեր"
+
 #, fuzzy, python-format
 #| msgid "Interface Language"
 msgid "Could not commit pending changes: %s"
@@ -19636,11 +20398,6 @@ msgstr "Միջերեսի լեզու"
 #, fuzzy, python-brace-format
 #| msgid "Managed projects"
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "Կառավարվող նախագծեր"
-
-#, fuzzy, python-format
-#| msgid "Managed projects"
-msgid "Could not parse uploaded file: %s"
 msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy, python-format
@@ -19684,20 +20441,57 @@ msgstr[1] ""
 
 #, fuzzy
 #| msgid "Managed projects"
-msgid "Unmark as read-only"
-msgstr "Կառավարվող նախագծեր"
-
-msgid "Mark as read-only"
-msgstr ""
-
-#, fuzzy
-#| msgid "Managed projects"
-msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
 #| msgid "Managed projects"
-msgid "Mark as untranslatable"
+msgid "Unmark as read-only for all languages"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Unmark this translation as untranslatable"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Unmark this translation as read-only"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Interface Language"
+msgid "Make untranslatable apply to all languages"
+msgstr "Միջերեսի լեզու"
+
+#, fuzzy
+#| msgid "Interface Language"
+msgid "Make read-only apply to all languages"
+msgstr "Միջերեսի լեզու"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Mark this translation as untranslatable"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Mark this translation as read-only"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Mark as untranslatable for all languages"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Weblate languages"
+msgid "Mark as read-only for all languages"
+msgstr "Weblate-ի լեզուներ"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Mark as forbidden translation"
 msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
@@ -19706,15 +20500,14 @@ msgid "Unmark as forbidden translation"
 msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
-#| msgid "Managed projects"
-msgid "Mark as forbidden translation"
-msgstr "Կառավարվող նախագծեր"
+#| msgid "Weblate languages"
+msgid "Mark as terminology for all languages"
+msgstr "Weblate-ի լեզուներ"
 
-msgid "Unmark as terminology"
-msgstr ""
-
-msgid "Mark as terminology"
-msgstr ""
+#, fuzzy
+#| msgid "Weblate languages"
+msgid "Unmark as terminology for all languages"
+msgstr "Weblate-ի լեզուներ"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -19723,6 +20516,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "The source string has changed. Reload it before editing."
+msgstr "Որոնում"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "The file format does not support this edit."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "A translation key is required."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Could not find the string in the translation file."
+msgstr "Կառավարվող նախագծեր"
 
 msgid "Insert tab character"
 msgstr ""
@@ -20249,6 +21071,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Որոնում"
 
+#, fuzzy
+#| msgid "Project name"
+msgid "Invalid history position."
+msgstr "Նախագծի անվանում"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -20306,6 +21133,11 @@ msgid ""
 "refreshed."
 msgstr ""
 
+#, fuzzy
+#| msgid "Managed projects"
+msgid "No strings found!"
+msgstr "Կառավարվող նախագծեր"
+
 msgid "Your suggestion is empty!"
 msgstr ""
 
@@ -20349,11 +21181,6 @@ msgstr ""
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "Կառավարվող նախագծեր"
 
-#, fuzzy
-#| msgid "Managed projects"
-msgid "Automatic translation in progress"
-msgstr "Կառավարվող նախագծեր"
-
 msgid "Posted new comment"
 msgstr ""
 
@@ -20382,6 +21209,16 @@ msgstr "Սկզբնակոդի պահեստարան"
 #| msgid "Your account has been removed."
 msgid "New string has been added."
 msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "The component is busy. Please try again."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Search"
+msgid "Source string updated."
+msgstr "Որոնում"
 
 #, fuzzy, python-format
 #| msgid "Search"
@@ -20439,6 +21276,14 @@ msgstr "Կառավարվող նախագծեր"
 #| msgid "Managed projects"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Search"
+msgid "The text is too long to preview."
+msgstr "Որոնում"
+
+msgid "Too many preview requests, try again later."
+msgstr ""
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -20617,6 +21462,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Search"
+msgid "Could not change string flags!"
+msgstr "Որոնում"
+
+#, fuzzy
+#| msgid "Search"
 msgid "Could not change additional string info!"
 msgstr "Որոնում"
 
@@ -20641,6 +21491,18 @@ msgstr ""
 #| msgid "Project"
 msgid "Project {}"
 msgstr "Նախագծի"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Full name"
+msgid "Category {}"
+msgstr "Ամբողջական անուն"
+
+#. Translators: Text on OpenGraph image
+#, fuzzy
+#| msgid "Weblate languages"
+msgid "Workspace {}"
+msgstr "Weblate-ի լեզուներ"
 
 #. Translators: Text on OpenGraph image
 #, fuzzy
@@ -21187,6 +22049,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Repository URL contains unsafe characters."
+msgstr "Որոնում"
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -22392,6 +23259,33 @@ msgid "The workspace has been removed."
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
 #, fuzzy
+#~| msgid "Managed projects"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#~| msgid "Update VCS repository"
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr "Արդիացնել VCS պահեստարանը"
+
+#, fuzzy
+#~| msgid "Update VCS repository"
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Արդիացնել VCS պահեստարանը"
+
+#, fuzzy
+#~| msgid "Managed projects"
+#~ msgid "Skipped components:"
+#~ msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#~| msgid "Versions"
+#~ msgid "Permission required on:"
+#~ msgstr "Տարբերակներ"
+
+#, fuzzy
 #~| msgid "Download"
 #~ msgid "Download reports"
 #~ msgstr "Ներբեռնել"
@@ -22702,11 +23596,6 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 #~| msgid "Project name"
 #~ msgid "Translations with contribution"
 #~ msgstr "Նախագծի անվանում"
-
-#, fuzzy
-#~| msgid "Statistics"
-#~ msgid "Weblate support"
-#~ msgstr "Վիճակագրություն"
 
 #, fuzzy
 #~| msgid "Delete"
@@ -23020,11 +23909,6 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 #~ msgctxt "String state"
 #~ msgid "Untranslated"
 #~ msgstr "Կառավարվող նախագծեր"
-
-#, fuzzy
-#~| msgid "Weblate languages"
-#~ msgid "Dismiss for all languages"
-#~ msgstr "Weblate-ի լեզուներ"
 
 #, fuzzy
 #~| msgid "Managed projects"

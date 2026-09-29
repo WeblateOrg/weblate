@@ -5,6 +5,11 @@
 from __future__ import annotations
 
 DEFAULT_CHECK_LIST: tuple[str, ...] = (
+    "weblate.checks.ai.AIAccuracyCheck",
+    "weblate.checks.ai.AIFluencyCheck",
+    "weblate.checks.ai.AITerminologyCheck",
+    "weblate.checks.ai.AIStyleCheck",
+    "weblate.checks.ai.AIFormattingCheck",
     "weblate.checks.same.SameCheck",
     "weblate.checks.chars.AcceleratorKeyCheck",
     "weblate.checks.chars.BeginNewlineCheck",

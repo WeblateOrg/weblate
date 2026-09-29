@@ -40,7 +40,11 @@ from weblate.trans.util import cleanup_path
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
-from weblate.utils.files import is_unsafe_path, is_vcs_metadata_path, read_file_bytes
+from weblate.utils.files import (
+    is_managed_vcs_metadata_path,
+    is_unsafe_path,
+    read_file_bytes,
+)
 from weblate.utils.outbound import (
     get_environment_proxy,
     is_allowlisted_hostname,
@@ -67,6 +71,12 @@ CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
 # Block certain characters from full name
 FULL_NAME_RESTRICT = re.compile(r'[<>"]')
 PLURAL_FORMULA_NUMBER_RE = re.compile(r"\d+")
+
+# Repository URLs are persisted in configuration files by VCS backends. Keep
+# this in sync with the unsafe characters rejected by GitPython's config
+# writer. In particular, urllib silently removes CR and LF while parsing,
+# which would otherwise validate a different value than the one persisted.
+UNSAFE_REPOSITORY_URL_CHARS_RE = re.compile(r"[\r\n\x00]")
 
 ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
 PIL_FORMATS = ["png", "jpeg", "webp", "gif"]
@@ -369,7 +379,9 @@ def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
                 "Maybe you want to use: {}"
             ).format(cleaned)
         )
-    if check_prohibited and (is_unsafe_path(cleaned) or is_vcs_metadata_path(cleaned)):
+    if check_prohibited and (
+        is_unsafe_path(cleaned) or is_managed_vcs_metadata_path(cleaned)
+    ):
         raise ValidationError(gettext("The filename contains a prohibited folder."))
 
 
@@ -914,6 +926,15 @@ class ResolvedRepositoryURL:
     proxy_url: str | None
 
 
+def validate_repo_url_characters(url: str) -> None:
+    """Reject characters unsafe for VCS configuration files."""
+    if UNSAFE_REPOSITORY_URL_CHARS_RE.search(url):
+        raise ValidationError(
+            gettext("Repository URL contains unsafe characters."),
+            code="repository_url_unsafe",
+        )
+
+
 def resolve_repo_hostname(
     hostname: str, *, policy_hostname: str | None = None
 ) -> tuple[str, ...]:
@@ -952,6 +973,7 @@ def resolve_repo_url(
     proxy_url: str | None = None,
 ) -> ResolvedRepositoryURL | None:
     """Validate a repository URL and retain its approved outbound route."""
+    validate_repo_url_characters(url)
     normalized_url = url
     parsed = urlparse(normalized_url)
     implicit_ssh = not parsed.scheme

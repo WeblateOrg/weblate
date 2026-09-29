@@ -999,6 +999,31 @@ class GitNoChangeComponentTest(GitNoChangeProjectTest):
 
     TEST_TYPE = "component"
 
+    def test_status_shows_pull_request_url(self) -> None:
+        pull_request_url = "https://example.com/WeblateOrg/test/pull/1"
+        self.component.pull_request_url = pull_request_url
+        self.component.save(update_fields=["pull_request_url"])
+
+        response = self.client.get(self.get_test_url("git_status"))
+
+        self.assertContains(response, f'href="{pull_request_url}"')
+
+    def test_status_shows_linked_pull_request_url(self) -> None:
+        url = "https://example.com/WeblateOrg/test/pull/1"
+        self.component.pull_request_url = url
+        self.component.save(update_fields=["pull_request_url"])
+        linked = self.create_link_existing()
+        response = self.client.get(
+            reverse("git_status", kwargs={"path": linked.get_url_path()})
+        )
+        self.assertContains(response, f'href="{url}"')
+
+    def test_status_hides_unsafe_pull_request_url(self) -> None:
+        self.component.pull_request_url = "javascript:alert(1)"
+        self.component.save(update_fields=["pull_request_url"])
+        response = self.client.get(self.get_test_url("git_status"))
+        self.assertNotContains(response, "javascript:alert(1)")
+
 
 class GitNoChangeTranslationTest(GitNoChangeProjectTest):
     """Testing of translation git manipulations."""

@@ -87,6 +87,12 @@ remote: Host key verification failed.
 class ComponentTest(RepoTestCase):
     """Component object testing."""
 
+    def test_commit_pending_without_changes_does_not_fetch_bot(self) -> None:
+        component = self.create_component()
+        with patch("weblate.auth.models.User.objects.get_or_create_bot") as get_bot:
+            self.assertTrue(component.commit_pending("test", None))
+        get_bot.assert_not_called()
+
     def test_commit_pending_uses_linked_project_policy(self) -> None:
         component = self.create_component()
         project = component.project
@@ -4164,6 +4170,35 @@ class ComponentRepoWebTestCase(FixtureTestCase):
 
     def test_blank(self) -> None:
         self.assertIsNone(self.get_url())
+
+    def test_translations_provided(self) -> None:
+        self.component.repoweb = (
+            "https://example.com/source/{{branch}}/f/{{filename}}#_{{line}}"
+        )
+        self.component.repoweb_translations = (
+            "https://example.com/translations/{{branch}}/f/{{filename}}#_{{line}}"
+        )
+        self.assertEqual(
+            "https://example.com/source/main/f/test.py#_42",
+            self.component.get_repoweb_link("test.py", "42", user=self.user),
+        )
+        self.assertEqual(
+            "https://example.com/translations/main/f/test.po#_1",
+            self.component.get_repoweb_link(
+                "test.po", "1", user=self.user, is_translation=True
+            ),
+        )
+
+    def test_translations_fallback(self) -> None:
+        self.component.repoweb = (
+            "https://example.com/source/{{branch}}/f/{{filename}}#_{{line}}"
+        )
+        self.assertEqual(
+            "https://example.com/source/main/f/test.po#_1",
+            self.component.get_repoweb_link(
+                "test.po", "1", user=self.user, is_translation=True
+            ),
+        )
 
     def test_repo_link_generation_bitbucket(self) -> None:
         """Test changing repo attribute to check repo generation links."""

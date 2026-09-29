@@ -20,8 +20,10 @@ from typing import TYPE_CHECKING, cast
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
+from jsonschema.exceptions import ValidationError as SchemaValidationError
 from lxml import etree
 from translate.storage.base import ParseError as TranslateParseError
+from weblate_schemas import validate_schema
 
 from weblate.addons.events import AddonEventOutcome
 from weblate.kotlin_sdk.preparation import (
@@ -237,7 +239,11 @@ class Publication:
             manifest = build.pending_manifest
             artifacts_valid = False
             try:  # ruff: ignore[too-many-statements-in-try-clause]
+                validate_schema(manifest, "weblate-kotlin-sdk-manifest.schema.json")
                 for locale in manifest["locales"].values():
+                    if locale["url"] != f"../../artifacts/{locale['sha256']}.arsc":
+                        msg = "Kotlin SDK manifest has an invalid artifact URL."
+                        raise OSError(msg)  # ruff: ignore[raise-within-try]
                     path = Path(self.cdn.cdn_path(f"artifacts/{locale['sha256']}.arsc"))
                     if path.stat().st_size != locale["size"]:
                         msg = "Staged Kotlin SDK artifact has an invalid size."
@@ -247,7 +253,7 @@ class Publication:
                     f"{build.package_name}/{build.version_code}/manifest.json",
                     json.dumps(manifest, sort_keys=True),
                 )
-            except OSError as error:
+            except (OSError, SchemaValidationError) as error:
                 if not artifacts_valid:
                     build.pending_manifest = {}
                 build.status, build.error = "failed", str(error)

@@ -355,13 +355,13 @@ def prepare_glossary_alternatives(unit):
                 if note["text"] not in notes and not already_rendered:
                     notes.append(note["text"])
     unit.glossary_sources = sources
-    readonly = "read-only" in unit.all_flags
+    untranslatable = unit.untranslatable
     unit.glossary_target_language = (
         unit.translation.component.source_language
-        if readonly
+        if untranslatable
         else unit.translation.language
     )
-    targets = sources if readonly else term_records(unit)
+    targets = sources if untranslatable else term_records(unit)
     forbidden = "forbidden" in unit.all_flags or all(
         term_forbidden(record) for record in sources
     )
@@ -380,7 +380,7 @@ def iter_glossary_alternatives(units, *, allow_readonly_aliases: bool = False):
 
             sources = unit.get_source_plurals()
             targets = unit.get_target_plurals()
-            if "read-only" in unit.all_flags:
+            if unit.untranslatable:
                 pairs = [(source, source) for source in sources]
             elif len(sources) == 1 and len(targets) == 1:
                 pairs = [(sources[0], targets[0])]
@@ -412,11 +412,13 @@ def iter_glossary_alternatives(units, *, allow_readonly_aliases: bool = False):
             sources = [
                 record for record in sources if record["text"].lower() in matched
             ]
-        readonly = "read-only" in unit.all_flags
-        targets = glossary_source_records(unit) if readonly else term_records(unit)
+        untranslatable = unit.untranslatable
+        targets = (
+            glossary_source_records(unit) if untranslatable else term_records(unit)
+        )
         for source in sources:
             for target in (
-                [source] if readonly and not allow_readonly_aliases else targets
+                [source] if untranslatable and not allow_readonly_aliases else targets
             ):
                 item = copy(unit)
                 item.source = source["text"]
@@ -424,7 +426,7 @@ def iter_glossary_alternatives(units, *, allow_readonly_aliases: bool = False):
                 item.all_flags = Flags(unit.all_flags)
                 if term_forbidden(source) or term_forbidden(target):
                     item.all_flags.merge("forbidden")
-                records = [source] if readonly else [source, target]
+                records = [source] if untranslatable else [source, target]
                 notes = [
                     note["text"]
                     for record in records
@@ -480,16 +482,12 @@ def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
         if "forbidden" in unit.all_flags:
             continue
 
-        if not unit.translated and "read-only" not in unit.all_flags:
+        if not unit.translated and not unit.untranslatable:
             continue
 
         # Cleanup strings
         source = cleanup_glossary_term(unit.source)
-        target = (
-            source
-            if "read-only" in unit.all_flags
-            else cleanup_glossary_term(unit.target)
-        )
+        target = source if unit.untranslatable else cleanup_glossary_term(unit.target)
 
         # Skip blanks and duplicates
         if not source or not target or source in included:

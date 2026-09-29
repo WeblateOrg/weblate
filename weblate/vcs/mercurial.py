@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING, ClassVar, cast
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.utils import format_address
-from weblate.vcs.base import Repository, RepositoryError
+from weblate.vcs.base import Repository, RepositoryError, RepositoryValidationError
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
@@ -29,6 +29,7 @@ if TYPE_CHECKING:
 
 
 VERSION_RE = re.compile(r".*\(version ([^)]*)\).*")
+UNSAFE_CONFIG_CHARS_RE = re.compile(r"[\r\n\x00]")
 
 
 class HgRepository(Repository):
@@ -131,6 +132,12 @@ class HgRepository(Repository):
 
     @staticmethod
     def set_config_file(filename: str | Path, *values: tuple[str, str, str]) -> None:
+        if any(
+            UNSAFE_CONFIG_CHARS_RE.search(item)
+            for section, option, value in values
+            for item in (section, option, value)
+        ):
+            raise RepositoryValidationError(0, "repository_url_invalid")
         config = RawConfigParser()
         config.read(filename)
         changed = False

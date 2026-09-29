@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import re
 import threading
+from math import isfinite
 from typing import TYPE_CHECKING
 
 from pyparsing import Optional, QuotedString, Regex, ZeroOrMore
@@ -37,6 +38,16 @@ def length_validation(length: int):
             raise ValueError(msg)
 
     return validate_length
+
+
+def validate_float(val) -> None:
+    try:
+        if not isfinite(float(val)):
+            msg = "Not a number"
+            raise ValueError(msg)
+    except OverflowError:
+        msg = "Outside of valid range"
+        raise ValueError(msg) from OverflowError
 
 
 def multi_value_flag(

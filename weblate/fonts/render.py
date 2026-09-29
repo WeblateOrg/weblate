@@ -517,6 +517,20 @@ def measure_multiline(
     )
 
 
+def _padded_line_height(font_properties: FontProperties) -> float:
+    """Full line height a fixed-linespacing Text artist reserves, in pixels."""
+    figure = Figure(dpi=RENDER_DPI)
+    artist = figure.text(
+        0,
+        0,
+        "Ag",
+        fontproperties=font_properties,
+        linespacing=1,
+        parse_math=False,
+    )
+    return artist.get_window_extent(get_renderer()).height
+
+
 def wrap_text(
     text: str,
     width: int,
@@ -826,6 +840,11 @@ def draw_text(
 
     lines = split_explicit_lines(text)
     _unused_width, line_height = measure_multiline(["Ag"], font_properties)
+    # Match the Text artist layout: with a fixed line spacing Matplotlib pads
+    # every line to the full font height, distributing the slack evenly above
+    # and below the glyphs. The raw string metrics alone place tracked text
+    # higher than the untracked rendering of the same string.
+    full_height = _padded_line_height(font_properties)
     for line_number, line in enumerate(lines):
         if not line:
             continue
@@ -840,12 +859,16 @@ def draw_text(
         _line_width, glyph_height, descent = renderer.get_text_width_height_descent(
             line or "Ag", font_properties, ismath=False
         )
+        ascent = glyph_height - descent
+        half_leading = (full_height - glyph_height) / 2
+        padded_ascent = ascent + half_leading
+        padded_descent = descent + half_leading
         if verticalalignment == "top":
-            baseline_from_top = glyph_height - descent
+            baseline_from_top = padded_ascent
         elif verticalalignment == "center":
-            baseline_from_top = (glyph_height - descent) / 2
+            baseline_from_top = (padded_ascent - padded_descent) / 2
         elif verticalalignment == "bottom":
-            baseline_from_top = -descent
+            baseline_from_top = -padded_descent
         else:
             baseline_from_top = 0
         baseline_y = height - y - baseline_from_top - line_number * line_height

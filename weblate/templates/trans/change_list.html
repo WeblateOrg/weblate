@@ -45,10 +45,22 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-  {% if form.is_valid %}
-    {% include "paginator.html" %}
+  {% if older_cursor or newer_cursor %}
+    <div class="mb-3">
+      {% translate "History navigation above results" as navigation_label %}
+      {% include "trans/change_navigation.html" with show_date_jump=True %}
+    </div>
+  {% else %}
+    <div class="pagination change-date-position d-inline-block mb-3">{% include "trans/change_date.html" %}</div>
+  {% endif %}
+  {% if form.is_valid and date_form.is_valid %}
     {% format_last_changes_content last_changes=object_list user=user %}
-    {% include "paginator.html" %}
+    {% if older_cursor or newer_cursor %}
+      <div class="mb-3">
+        {% translate "History navigation below results" as navigation_label %}
+        {% include "trans/change_navigation.html" %}
+      </div>
+    {% endif %}
   {% endif %}
 
   <form method="get">

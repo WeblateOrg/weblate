@@ -1501,6 +1501,13 @@ thead th {
   fill: var(--wl-navi-color);
 }
 
+/* Outline buttons change text color on hover and in the dark theme, so their
+ * icons follow it by default. Zero specificity keeps explicit icon colors such
+ * as .green or .search-icon in charge. */
+:where(.btn-outline-primary, .btn-outline-secondary) path {
+  fill: currentColor;
+}
+
 .green path {
   fill: var(--wl-color-link);
 }
@@ -1568,12 +1575,14 @@ a.red:hover path {
   clear: both;
 }
 
-.btn-group-settings a {
+.btn-group-settings a,
+.btn-group-settings button {
   color: var(--wl-color-text);
   padding: 10px 15px;
 }
 
-.btn-group-settings a:hover {
+.btn-group-settings a:hover,
+.btn-group-settings button:hover {
   color: var(--wl-navi-color);
 }
 
@@ -1583,6 +1592,10 @@ a.red:hover path {
 
 svg {
   vertical-align: middle;
+}
+
+.math-captcha svg {
+  fill: currentColor;
 }
 
 .unit-pagination svg,
@@ -2124,6 +2137,36 @@ input.color_edit:checked + label {
   display: block;
 }
 
+.markdown-editor-nav {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-editor-nav .nav-link {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.markdown-editor-nav .nav-link svg {
+  height: 1em;
+  width: 1em;
+}
+
+.markdown-editor-nav .nav-link path {
+  fill: currentColor;
+}
+
+.markdown-preview {
+  padding: 0.5em;
+  border: 1px solid var(--wl-color-border-input);
+  border-radius: 4px;
+  overflow-wrap: anywhere;
+}
+
+.markdown-preview pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 .editor-wrap > textarea,
 .editor-wrap > .highlighted-output {
   position: absolute;
@@ -2317,6 +2360,10 @@ a[rel~="ugc"]:not(.btn):focus {
   width: 6px;
   padding: 0px !important;
   min-width: 6px;
+}
+.unit-selection-cell {
+  width: 1%;
+  white-space: nowrap;
 }
 .unit-state-translated {
   background-color: #158068 !important;
@@ -2774,9 +2821,15 @@ table.table-simple tbody#glossary-terms > tr.glossary-striped > td {
 }
 
 table.table-simple tbody#glossary-terms td {
-  word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: normal;
   white-space: normal;
 }
+
+#glossary-terms td.source:not([colspan]) {
+  width: 40%;
+}
+
 table.table-simple tbody#glossary-terms .alert-info {
   margin-bottom: 0px;
 }
@@ -2809,7 +2862,13 @@ table.table-simple tbody#glossary-terms .alert-info {
 }
 
 @container (max-width: 350px) {
-  #glossary-terms .glossary-badge-cell {
+  /* Keep four columns so detail rows with colspan="4" have matching edges. */
+  .glossary-table-container .glossary-badge-cell {
+    width: 0;
+    padding-inline: 0;
+  }
+
+  #glossary-terms .glossary-badge-cell > * {
     display: none;
   }
 
@@ -2913,6 +2972,59 @@ table.table-simple tbody#glossary-terms .alert-info {
 .zen-unit .list-group-item {
   border-radius: var(--border-radius-sm);
   border: 1px solid var(--wl-color-border-strong);
+}
+
+.zen-suggestions {
+  position: relative;
+}
+
+table.zen.zen-hide-suggestions .zen-suggestions-row {
+  display: none;
+}
+
+.zen-suggestions-indicator {
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.zen-suggestions-indicator:hover {
+  filter: brightness(0.85);
+}
+
+.zen-suggestions-indicator svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: -0.125em;
+}
+
+.zen-suggestions-container .container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.zen-suggestions-container .container-gapped {
+  gap: 20px;
+}
+
+.zen-suggestions-container .history-row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.zen-suggestions-container .history-data {
+  position: relative;
+  padding-top: 32px;
+}
+
+.zen-suggestions-container .btn-float {
+  top: 28px;
+  right: 0;
+}
+
+[dir="rtl"] .zen-suggestions-container .btn-float {
+  right: auto;
+  left: 0;
 }
 
 .card-header > .card-title > .badge {

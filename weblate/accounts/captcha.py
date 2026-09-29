@@ -94,7 +94,12 @@ class MathCaptcha:
     def display(self):
         """Unicode for display."""
         parts = self.question.split()
-        return format_html("{} {} {}", parts[0], operator_display(parts[1]), parts[2])
+        return format_html(
+            '<span class="math-captcha">{} {} {}</span>',
+            parts[0],
+            operator_display(parts[1]),
+            parts[2],
+        )
 
 
 def eval_expr(expr):

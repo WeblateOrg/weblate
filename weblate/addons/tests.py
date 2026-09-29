@@ -542,7 +542,7 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
 
         addon.instance.schedule_manual_run()
 
-        mocked_delay.assert_called_once_with(addon.instance.pk)
+        mocked_delay.assert_called_once_with(addon.instance.pk, user_id=None)
 
     def test_run_addon_manually(self) -> None:
         addon = ManualResultAddon.create(component=self.component, run=False)
@@ -715,7 +715,7 @@ class XgettextExtractPotFormTest(SimpleTestCase):
         self.addCleanup(shutil.rmtree, outside_dir, True)
         os.symlink(outside_dir, Path(repository_dir) / "po")
 
-        repository = SimpleNamespace(path=repository_dir)
+        repository = SimpleNamespace(path=repository_dir, metadata_dir_name=None)
         repository.resolve_symlinks = lambda path: Repository.resolve_symlinks(
             repository, path
         )
@@ -752,7 +752,7 @@ class XgettextExtractPotFormTest(SimpleTestCase):
 class GettextRepositoryPathValidationTest(SimpleTestCase):
     @staticmethod
     def build_fake_component(repository_dir: str, *, new_base: str) -> Component:
-        repository = SimpleNamespace(path=repository_dir)
+        repository = SimpleNamespace(path=repository_dir, metadata_dir_name=None)
         repository.resolve_symlinks = lambda path: Repository.resolve_symlinks(
             repository, path
         )
@@ -5686,7 +5686,7 @@ class ViewTests(ViewTestCase):
 
         response = self.client.post(addon.get_absolute_url(), {"run": "1"})
 
-        mocked_delay.assert_called_once_with(addon.pk)
+        mocked_delay.assert_called_once_with(addon.pk, user_id=self.user.pk)
         self.assertRedirects(
             response, addon.get_absolute_url(), fetch_redirect_response=False
         )
@@ -5707,6 +5707,11 @@ class ViewTests(ViewTestCase):
         self.assertNotContains(response, 'name="form"')
         self.assertContains(response, "Configuration")
         self.assertContains(response, "Logs")
+        self.assertNotContains(response, reverse("addon-api", kwargs={"pk": addon.pk}))
+        self.assertEqual(
+            self.client.get(reverse("addon-api", kwargs={"pk": addon.pk})).status_code,
+            404,
+        )
         self.assertNotContains(response, "Components")
         self.assertContains(response, "Danger zone")
         self.assertContains(response, "Uninstall")
@@ -7184,12 +7189,14 @@ class LanguageConsistencyTest(ComponentTestCase):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
-        self.create_ts(
+        restricted = self.create_ts(
             name="TS",
             new_lang="add",
             new_base="ts/cs.ts",
             project=self.project,
         )
+        restricted.restricted = True
+        restricted.save(update_fields=["restricted"])
 
         preview = self.get_preview_addon(
             project=self.project
@@ -8224,6 +8231,34 @@ class TestRemoval(ComponentTestCase):
 
 
 class AutoTranslateAddonTest(ComponentTestCase):
+    def test_category_source_scope(self) -> None:
+        category = self.create_category(self.project)
+        outside_project = self.create_project(name="Outside", slug="outside")
+        outside_project.contribute_shared_tm = False
+        outside_project.save(update_fields=["contribute_shared_tm"])
+        outside_component = self.create_po(
+            name="Restricted outside source",
+            slug="restricted-outside-source",
+            project=outside_project,
+            restricted=True,
+        )
+        addon = AutoTranslateAddon(Addon(category=category))
+        configuration = {
+            "component": outside_component.pk,
+            "q": "state:empty",
+            "auto_source": "others",
+            "engines": [],
+            "threshold": 80,
+            "mode": "translated",
+        }
+
+        form = AutoAddonForm(self.user, addon, data=configuration)
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("component", form.errors)
+        self.assertIn(self.component, form.components)
+        self.assertNotIn(outside_component, form.components)
+
     def test_approved_mode_configuration(self) -> None:
         configuration = {
             "component": "",
@@ -9159,6 +9194,26 @@ class BulkEditAddonTest(ViewTestCase):
         addon.component_update(self.component)
         self.assertEqual(label.unit_set.count(), 1)
 
+    def test_translation_flags(self) -> None:
+        unit = self.get_unit()
+        addon = BulkEditAddon.create(
+            component=self.component,
+            configuration={
+                "q": f"language:{unit.translation.language.code}",
+                "state": -1,
+                "add_labels": [],
+                "remove_labels": [],
+                "add_flags": "",
+                "remove_flags": "",
+                "add_translation_flags": "read-only",
+                "remove_translation_flags": "",
+            },
+        )
+        addon.component_update(self.component)
+        unit.refresh_from_db()
+        self.assertTrue(unit.readonly)
+        self.assertEqual(unit.source_unit.extra_flags, "")
+
     def test_create(self) -> None:
         self.user.is_superuser = True
         self.user.save()
@@ -9427,6 +9482,10 @@ class CDNJSAddonTest(ViewTestCase):
 
         self.assertEqual(len(errors), 1)
         self.assertIn("CDN unavailable", errors[0]["error"])
+        alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertEqual(
+            alert.details["occurrences"][0]["addon_id"], str(addon.instance.pk)
+        )
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -12243,7 +12302,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertContains(response, "Installed 1 add-on")
 
 
-class TestCommand(ComponentTestCase):
+class TestCommand(SimpleTestCase):
     def test_list_addons(self) -> None:
         output = StringIO()
         call_command("list_addons", stdout=output)

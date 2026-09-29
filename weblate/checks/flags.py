@@ -23,6 +23,7 @@ from weblate.checks.parser import (
     length_validation,
     multi_value_flag,
     single_value_flag,
+    validate_float,
 )
 from weblate.fonts.utils import get_font_weight
 from weblate.trans.autofixes import AUTOFIXES
@@ -139,7 +140,7 @@ TYPED_FLAGS_ARGS["font-size"] = single_value_flag(int)
 TYPED_FLAGS["font-weight"] = gettext_lazy("Font weight")
 TYPED_FLAGS_ARGS["font-weight"] = single_value_flag(get_font_weight)
 TYPED_FLAGS["font-spacing"] = gettext_lazy("Font spacing")
-TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(int)
+TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(float, validate_float)
 TYPED_FLAGS["icu-flags"] = gettext_lazy("ICU MessageFormat flags")
 TYPED_FLAGS_ARGS["icu-flags"] = multi_value_flag(str)
 TYPED_FLAGS["icu-tag-prefix"] = gettext_lazy("ICU MessageFormat tag prefix")

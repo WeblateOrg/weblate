@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from concurrent.futures import ThreadPoolExecutor
-from threading import Lock
+from threading import Barrier, Lock
 from time import sleep
 from unittest.mock import patch
 
 from django.conf import settings
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.backends.signed_cookies import SessionStore
+from django.core.cache import cache
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.test import RequestFactory, SimpleTestCase, TestCase
@@ -18,6 +19,7 @@ from django.test.utils import override_settings
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import User
 from weblate.utils.ratelimit import (
+    CacheCounterItem,
     RateLimitBase,
     RateLimitNotify,
     check_rate_limit,
@@ -72,6 +74,41 @@ class RateLimitTest(SimpleTestCase):
             self.assertTrue(check_rate_limit("test", request))
 
         self.assertFalse(check_rate_limit("test", request))
+
+    @override_settings(RATELIMIT_ATTEMPTS=5, RATELIMIT_WINDOW=60, RATELIMIT_LOCKOUT=60)
+    def test_concurrent_limit(self) -> None:
+        scope = "concurrent-test"
+        request = self.get_request()
+        reset_rate_limit(scope, request)
+        requests = [self.get_request() for _unused in range(10)]
+        barrier = Barrier(len(requests))
+        original_get = cache.get
+
+        def synchronized_get(
+            key: str, default: object = None, version: int | None = None
+        ) -> object:
+            value = original_get(key, default, version=version)
+            # Synchronize the old check-then-decrement implementation so this
+            # test deterministically catches concurrent over-reservation.
+            if scope in key:
+                barrier.wait(timeout=5)
+            return value
+
+        with (
+            patch.object(cache, "get", side_effect=synchronized_get),
+            ThreadPoolExecutor(max_workers=len(requests)) as executor,
+        ):
+            results = list(
+                executor.map(
+                    lambda concurrent_request: check_rate_limit(
+                        scope, concurrent_request
+                    ),
+                    requests,
+                )
+            )
+
+        self.assertEqual(results.count(True), settings.RATELIMIT_ATTEMPTS)
+        self.assertEqual(results.count(False), 5)
 
     @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=2, RATELIMIT_LOCKOUT=1)
     def test_window(self) -> None:
@@ -138,6 +175,33 @@ class RateLimitUserTest(RateLimitTest):
         request = super().get_request()
         request.user = User()
         return request
+
+
+class CacheCounterItemTest(SimpleTestCase):
+    def test_decrement_recreates_missing_counter(self) -> None:
+        item = CacheCounterItem("missing-counter-test", 5, 60)
+        cache.delete(item.cache_key)
+
+        self.assertEqual(item.decrement(), 5)
+
+    def test_memcached_saturated_counter_is_rejected(self) -> None:
+        limiter = RateLimitBase("memcached-saturation-test", [(1, 60)])
+
+        with patch.object(cache, "decr", side_effect=[1, 0, 0]):
+            self.assertFalse(limiter.is_limit_exceeded()[0])
+            self.assertTrue(limiter.is_limit_exceeded()[0])
+            self.assertTrue(limiter.is_limit_exceeded()[0])
+
+    def test_rejected_reservation_is_not_rolled_back(self) -> None:
+        limiter = RateLimitBase("rejected-reservation-test", [(1, 60)])
+
+        with (
+            patch.object(CacheCounterItem, "decrement", return_value=0),
+            patch.object(CacheCounterItem, "increment") as increment,
+        ):
+            self.assertTrue(limiter.is_limit_exceeded()[0])
+
+        increment.assert_not_called()
 
 
 @override_settings(
@@ -333,7 +397,6 @@ class RateLimitHttpBehaviorTest(SimpleTestCase):
         scope = "revert-case-one"
         request = self.get_request()
         self.assertTrue(check_rate_limit(scope, request))
-        self.assertFalse(check_rate_limit(scope, request))
         revert_rate_limit(scope, request)
         self.assertTrue(check_rate_limit(scope, request))
         self.assertFalse(check_rate_limit(scope, request))

@@ -45,7 +45,7 @@ REQUIRES = [
     "kombu",
     "translation-finder",
     "weblate-language-data",
-    "html2text",
+    "turbohtml",
     "matplotlib",
     "diff-match-patch",
     "requests",

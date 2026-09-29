@@ -111,7 +111,17 @@ class ManageMiddleware(MiddlewareMixin):
             self.trigger_check()
 
     def process_request(self, request: AuthenticatedHttpRequest):
-        if request.session.pop("redirect_to_donate", False):
+        if (
+            request.session.get("redirect_to_donate", False)
+            and request.method == "GET"
+            and "text/html" in request.headers.get("Accept", "")
+            and request.accepts("text/html")
+            and request.headers.get("X-Requested-With") != "XMLHttpRequest"
+            and request.headers.get("Sec-Fetch-Dest", "document") == "document"
+            and not request.path.startswith(reverse("api:api-root"))
+        ):
+            request.session.pop("redirect_to_donate")
+            request.session["support_return_url"] = request.get_full_path()
             AuditLog.objects.create(request.user, request, "donate")
             request.__dict__["_skip_configuration_health_check"] = True
             return redirect(reverse("donate"))

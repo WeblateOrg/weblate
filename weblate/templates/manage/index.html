@@ -67,6 +67,15 @@
         </tr>
       {% endif %}
     </table>
+    {% if not support_status.has_support %}
+      <div class="card-body">
+        <h5>{% translate "Professional support for your organization" %}</h5>
+        <p>
+          {% translate "Purchase professional support for expert help with setup, maintenance, and troubleshooting." %}
+          {% translate "Your subscription also funds the ongoing development of Weblate." %}
+        </p>
+      </div>
+    {% endif %}
     <div class="card-footer">
       {% if support.secret %}
         <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage support package" %}</a>
@@ -82,8 +91,7 @@
         </a>
       {% endif %}
       {% if support.name == "community" %}
-        <a href="{{ support_url }}" class="btn btn-primary">{% translate "Purchase support package" %}</a>
-        <a href="{{ donate_url }}" class="btn btn-primary">{% translate "Give to Weblate" %}</a>
+        <a href="{{ support_url }}" class="btn btn-primary">{% translate "Purchase support" %}</a>
       {% endif %}
     </div>
   </div>

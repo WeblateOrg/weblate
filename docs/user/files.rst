@@ -100,6 +100,23 @@ features might not be translated properly.
    * :ref:`formats`
    * :doc:`/user/files`
 
+.. _upload-ignore_language:
+
+Language checking
++++++++++++++++++
+
+Weblate checks language metadata declared in uploaded files when the format
+provides it, including PO, XLIFF, Qt Linguist, and ARB files. Uploads declaring
+a different language are rejected. Known language aliases and variants sharing
+a base language are accepted, for example Portuguese and Brazilian Portuguese.
+Files without recognized language metadata can still be uploaded. Weblate does
+not infer the language from the filename or translated text.
+
+Select :guilabel:`Ignore language mismatch` to upload a file despite a language
+mismatch. This does not bypass other upload checks or permissions. When updating
+source strings, Weblate checks the declared source language instead of the target
+language.
+
 .. _upload-method:
 
 Import methods

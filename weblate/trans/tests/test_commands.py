@@ -18,6 +18,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
+from django.utils import timezone
 
 from weblate.accounts.models import Profile
 from weblate.runner import main
@@ -40,6 +41,7 @@ from weblate.trans.tests.utils import (
     get_test_file,
     require_github,
 )
+from weblate.vcs.git import GitRepository
 from weblate.vcs.mercurial import HgRepository
 from weblate.vcs.params import VCS_PARAMS, BaseVCSParam, register_vcs_param
 
@@ -314,6 +316,30 @@ class ImportProjectTest(RepoTestCase):
                 "import_project", "test", self.git_repo_path, "main", "**/*.po"
             )
         self.assertEqual(project.component_set.count(), 5)
+
+    def test_re_import_uses_fresh_checkout_discovery(self) -> None:
+        project = self.create_project()
+        self.do_import()
+        self.assertEqual(project.component_set.count(), 5)
+
+        with TemporaryDirectory() as workdir:
+            repository = GitRepository.clone(self.git_repo_path, workdir, "main")
+            translation = Path(workdir, "new-component", "cs.po")
+            translation.parent.mkdir()
+            translation.write_text('msgid ""\nmsgstr ""\n', encoding="utf-8")
+            with repository.lock:
+                repository.set_committer("Test", "test@example.com")
+                repository.commit(
+                    "Add component",
+                    "Test <test@example.com>",
+                    timezone.now(),
+                    ["new-component/cs.po"],
+                )
+                repository.push("")
+
+        self.do_import()
+
+        self.assertEqual(project.component_set.count(), 6)
 
     def test_import_against_existing(self) -> None:
         """Test importing with a weblate:// URL."""

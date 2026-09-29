@@ -5,15 +5,23 @@ Weblate 2026.10
 
 .. rubric:: New features
 
-* Added support for :ref:`component-mounted add-on APIs <component-addon-api>`.
-
-* Added :ref:`addon-weblate.cdn.kotlin` with build registration, runtime Android translations, and configurable version retention.
-
-* The :ref:`Statistics generator <addon-weblate.generate.generate>` can generate component-wide locale lists with native language names, text direction, and translation statistics.
-
-* Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
-* Added an inherited :ref:`language creation policy <workflow-language-restrictions>` allowing existing project target languages while requesting maintainer approval for new languages.
+* Added :ref:`enforced-check inheritance <component-enforced_checks>` at workspace, project, category, and component level.
+* DeepL automatic suggestions can include a rephrased version of an existing translation via the DeepL Write API (Pro plans and supported languages only). See :ref:`mt-deepl-rephrase`.
+* Added the :ref:`Automation add-on <addon-weblate.automation.automation>` for conditional translation and editing workflows. See :doc:`admin/automation`.
+* Source strings and translation keys can now be :ref:`edited <edit-source>` in the editor and REST API while preserving translations and history.
+* Added an :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>` that records quality checks for existing translations.
+* Added language-specific :ref:`string flags <additional-flags>` to the editor, Tools menu, bulk editing, and REST API.
+* Added an inherited :ref:`language creation policy <workflow-language-restrictions>` that allows existing project target languages and requires approval for new ones.
+* Added a guided :ref:`first translation <translator-start>` and advice for :doc:`building a translators community <devel/community>`.
 * Added configurable per-user and IP/network :ref:`API rate limits and exemptions <api-rate>`, including Docker configuration.
+* Added :ref:`component-mounted add-on APIs <component-addon-api>`.
+* The :ref:`Statistics generator <addon-weblate.generate.generate>` can now produce component-wide locale lists with native language names, text direction, and translation statistics.
+* Added a testing version of :ref:`addon-weblate.cdn.kotlin`.
+* Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
+* Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
+* Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
+* Added a configurable :setting:`AVATAR_URL_TEMPLATE` to support alternative avatar providers, such as fetching by username instead of e-mail hash.
+* Added selecting individual strings from the :ref:`string list <search-strings>` for :ref:`bulk-edit`.
 
 .. rubric:: Improvements
 
@@ -37,36 +45,83 @@ Weblate 2026.10
 * Clarified :ref:`translation quality filter <project-commit_policy>` explanations and effective per-language review settings, with links to workflow configuration.
 * Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use the same layout as suggestions, and it now shows the :ref:`translation memory <translation-memory>` context of each match.
 * The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-weblate.gettext.meson>` extraction add-ons now bundle common XML translation rules and support project-local ITS directories for extracting mixed source formats into a shared POT.
+* :ref:`Repository maintenance <repository-maintenance>` now links to the latest pull or merge request opened by Weblate.
+* The project :guilabel:`Files` menu now lists translation download formats from :setting:`WEBLATE_EXPORTERS` instead of a fixed subset.
+* :ref:`LLM automatic suggestions <machine-translation>` now show the model and, for custom API endpoints, the host that produced them.
+* Automation actions can select strings from the triggering change or a previous action's affected units. See :doc:`admin/automation`.
+* Unified browsing and :ref:`searching strings <search-strings>`, aligned search filters with the status overview, and added direct editor access to language-specific lists and an :guilabel:`All strings` filter.
+* Improved :ref:`translation history <translation-history>` with faster browsing, date navigation, and clearer actions.
+* Improved :ref:`screenshot assignment <add-existing-screenshot>` in the editor with a thumbnail picker, predictable ordering, and removal without reloading.
+* The editor now distinguishes whitespace in source and translation strings, supports the :ref:`font-monospace <custom-checks>` flag, and accepts decimal :ref:`font-spacing <custom-checks>` values.
+* Added a Markdown preview to :ref:`comments <user-comments>`, explanations, announcements, and project instructions.
+* Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and continue.
+* Clarified :ref:`translation quality filters <project-commit_policy>` and effective per-language review settings.
+* Improved :ref:`translation memory <translation-memory>` lookup performance and added match context to :ref:`automatic suggestions <machine-translation>`.
+* Reduced aggregation overhead for the :ref:`inconsistent translations check <check-inconsistent>` on large projects.
+* :ref:`check-md-link` quality check now detects untranslated link titles.
+* :ref:`Automatic translation <auto-translation>` across components now prefers matching source text and context. The :ref:`automatic translation add-on <addon-weblate.autotranslate.autotranslate>` can create approved strings, or translated strings when reviews are disabled.
+* Improved checks, fixes, glossary matching, and machine translation for :ref:`multivalue alternatives <format-multivalue>`.
+* :ref:`TBX glossaries <tbx>` now support independent term alternatives and scoped metadata, preserved on export.
+* The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-weblate.gettext.meson>` add-ons now support bundled XML rules and project-local ITS directories.
+* Added :ref:`uploaded file language checking <upload-ignore_language>` with an override in the upload form and API.
+* :ref:`Repository maintenance <repository-maintenance>` now checks permissions on the repository-owning component, links to VCS settings, and disables unavailable push controls.
+* :ref:`SSH repository connections <ssh-repos>` now try IPv4 and IPv6 addresses in a staggered sequence and report failed addresses and ports.
+* Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on configuration.
+* Added monthly instance activity to :ref:`support integration data <support-data>`.
+* :ref:`Suggestions <suggestions>` can be shown in the :ref:`zen-mode` and accepted, rejected, or voted on in place.
+* Added a separate :ref:`repository browser URL <component-repoweb-translations>` for translation files.
+* Docker startup now reports invalid nginx-related environment values before attempting to start nginx.
+* The automatic translation API can run as a background task. See :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/`.
 
 .. rubric:: Security fixes
 
-* Limited the number and aggregate size of alternatives accepted by the translation editor.
-* Prevented component ZIP imports from overwriting version control metadata on case-insensitive filesystems.
-* Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API.
+* Prevented project access managers from assigning users to site-wide teams associated with the project.
+* Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
+* Prevented concurrent requests from exceeding configured web action rate limits.
+* Prevented repository URLs from injecting executable Mercurial configuration.
+* Limited XLIFF language declarations in uploads and the number and size of translation alternatives to prevent resource exhaustion.
+* Enforced language-scoped screenshot permissions and restricted component access in translation consistency and direct automatic translation workflows.
+* Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
+* Protected Git and Mercurial metadata consistently in repository paths and downloads, and excluded known foreign VCS metadata when importing component ZIP files.
+* Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
+* Rate-limited password-reset requests for unknown e-mail addresses.
 
 .. rubric:: Bug fixes
 
-* Improved :ref:`SSH repository connections <ssh-repos>` for hosts with unreachable addresses by staggering IPv4 and IPv6 connection attempts and reporting failed addresses and the destination port.
-* Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces.
-* Fixed double-counted statistics in nested :ref:`categories <category>` and stale statistics after deleting :ref:`labels`.
-* Fixed MIME nesting of inline branding images in :ref:`notification e-mails <notifications>` and reduced their size without changing image quality.
-* Fixed false positives from the :ref:`consecutive duplicated words check <check-duplicate>` in South Asian languages with grammatical word repetition.
-* Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` failing when the warning directory is missing or inaccessible.
+* Made eligible automatic-translation sources consistent across web, API, and Automation add-on configuration.
+* Suppressed OpenSSH post-quantum key exchange warnings that obscured errors from :ref:`SSH repositories <ssh-repos>`.
+* Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, nested, and multiline tags.
+* Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
+* Project language archive downloads in the REST API now honor language-scoped download permissions consistently with the web interface.
+* Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry instrumentation is enabled.
+* Fixed :ref:`status widgets <promotion>` for categories, category-language pages, and workspaces, and corrected statistics for nested :ref:`categories <category>` and deleted :ref:`labels`.
+* Fixed MIME nesting and reduced the size of inline branding images in :ref:`notification e-mails <notifications>`.
+* :ref:`mt-anthropic` now preserves path prefixes in custom base URLs.
+* Fixed false positives in the :ref:`consecutive duplicated words check <check-duplicate>` for South Asian languages and prevented the :ref:`punctuation spacing check <check-punctuation-spacing>` from inserting spaces in URLs.
+* Fixed the :ref:`maximum size check <check-max-size>` preview shifting text when ``font-spacing`` is set.
+* Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` when the warning directory is missing or inaccessible.
 * Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when migrating dismissed component alerts from releases before 2026.8.
-* Fixed the :ref:`punctuation spacing check <check-punctuation-spacing>` fix button adding a space inside URLs such as Markdown links.
+* Fixed the :ref:`search results refresh <search-results-cache>` icon color in themes and on hover.
+* Fixed truncated grouped summaries in :ref:`notification e-mails <notifications>`; the 100 entries limit now applies only to listings of individual changes.
+* Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as untranslatable when translating in their source language.
+* Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with inherited licenses and other inherited settings.
+* Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
 
 .. rubric:: Compatibility
 
-* API throttles now read :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` directly; ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` is no longer used by Weblate's throttle classes.
+* An explicit source-wide ``read-only`` flag now takes precedence over translation flags. Remove it from the source to allow editing.
+* Existing :ref:`project API tokens <api-tokens>` lose permissions inherited from non-project teams. Assign required permissions through project-specific teams.
+* API throttles now use :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER` instead of ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]``.
 * :ref:`API authentication <api-generic>` now rejects unsupported authentication schemes, such as Basic, with HTTP 401, including when a valid browser session is present.
 * Notification subscription API responses now expose ``project`` and ``component`` as nullable URL strings instead of nested objects.
+* The former ``plainxliff`` and ``xliff2-placeables`` file formats are migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the ``xliff_placeables`` :ref:`file_format_params`.
 
 .. rubric:: Upgrading
 
-* Existing :ref:`contributor comments add-ons <addon-weblate.gettext.authors>` are migrated to component file format parameters. Remove the obsolete add-on from custom :setting:`WEBLATE_ADDONS` and :setting:`DEFAULT_ADDONS` settings; inherited add-on behavior no longer applies to new components.
-* There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.api`` should be added.
-* Add ``weblate.kotlin_sdk`` to :setting:`django:INSTALLED_APPS` before running database migrations. The official Docker image includes it automatically. This app provides :ref:`addon-weblate.cdn.kotlin`; installing the app does not enable CDN publication on any component.
-* In non-Docker settings, remove the ``anon_throttle`` and ``user_throttle`` arguments from ``get_drf_settings`` and assign those rates to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Migrate any custom ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]["anon"]`` or ``["user"]`` values to these settings as well. Existing Docker rate-limit environment variables continue to work.
+* Add ``weblate.automation`` to custom :setting:`django:INSTALLED_APPS` before migrating. If :setting:`WEBLATE_ADDONS` explicitly lists the automation add-on, change its import path to ``weblate.automation.addon.AutomationAddon``. The official Docker image includes the new app.
+* Existing :ref:`contributor comments add-ons <addon-weblate.gettext.authors>` migrate to component file format parameters. Remove the obsolete add-on from custom :setting:`WEBLATE_ADDONS` and :setting:`DEFAULT_ADDONS` settings; new components no longer inherit it.
+* Add ``weblate.api`` and ``weblate.kotlin_sdk`` to :setting:`django:INSTALLED_APPS` before migrating. The official Docker image includes both. Installing the Kotlin app does not enable :ref:`CDN publication <addon-weblate.cdn.kotlin>` on any component.
+* In non-Docker settings, move the ``anon_throttle`` and ``user_throttle`` arguments from ``get_drf_settings`` and any custom ``REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"]`` values to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Existing Docker rate-limit variables still work.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 

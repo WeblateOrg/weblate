@@ -88,7 +88,8 @@
 
     {% for unit in units %}
       {% querystring embed_query checksum=unit.checksum as unit_query %}
-      <tr class="{% if current_unit.id == unit.id %}current_translation{% endif %}">
+      <tr class="{% if current_unit.id == unit.id %}current_translation{% endif %}"
+          data-unit-id="{{ unit.pk }}">
         {% if selection_template %}
           <td class="unit-selection-cell">{% include selection_template %}</td>
         {% endif %}

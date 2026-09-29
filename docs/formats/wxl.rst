@@ -3,8 +3,6 @@ WixLocalization file
 
 .. versionadded:: 5.16.1
 
-.. include:: /snippets/format-in-development.rst
-
 WixLocalization (WXL) files are language files used to localize translatable text, dialogs, menus,
 for WiX Toolset.
 

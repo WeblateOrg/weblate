@@ -17,6 +17,10 @@ class FileParseError(WeblateError):
     """File parse error."""
 
 
+class LanguageMismatchError(FileParseError):
+    """The uploaded file declares a different language."""
+
+
 class PluralFormsMismatchError(WeblateError):
     """Plural forms do not match the language."""
 

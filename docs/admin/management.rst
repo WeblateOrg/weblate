@@ -828,6 +828,16 @@ Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`.
 
    :doc:`/contributing/documentation`
 
+list_automation
+---------------
+
+.. weblate-admin:: list_automation
+
+Generates the :doc:`automation reference </admin/automation>` from the workflow
+JSON Schema, including action names, parameters, and introduction versions.
+With ``--output``, replaces generated blocks while preserving manual descriptions
+and cookbook examples outside those blocks.
+
 list_permissions
 ----------------
 

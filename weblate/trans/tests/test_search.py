@@ -9,10 +9,14 @@ from __future__ import annotations
 import re
 from types import SimpleNamespace
 from unittest.mock import ANY, patch
+from urllib.parse import urlsplit
 
+from django.db import connection
 from django.http import QueryDict
-from django.test.utils import override_settings
+from django.template import Context
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
+from django.utils.html import escape
 
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role, User
@@ -26,10 +30,12 @@ from weblate.trans.models import (
     Comment,
     Component,
     PendingUnitChange,
+    Project,
     Translation,
     Unit,
     WorkflowSetting,
 )
+from weblate.trans.templatetags.translations import get_translate_url
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.forms import SearchField
 from weblate.utils.ratelimit import reset_rate_limit
@@ -41,6 +47,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import get_form_data
 from weblate.workspaces.models import Workspace
 
@@ -136,6 +143,53 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(response, "No matching strings found.")
         self.do_search_url(reverse("search"))
 
+    @override_settings(RATELIMIT_SEARCH_ATTEMPTS=20000)
+    def test_bulk_edit_selection_rendering(self) -> None:
+        url = reverse("search", kwargs={"path": self.translation.get_url_path()})
+
+        # No bulk edit permission
+        response = self.client.get(url, {"q": "hello"})
+        self.assertNotContains(response, 'id="bulk-edit-form"')
+
+        self.make_manager()
+        response = self.client.get(url, {"q": "hello"})
+        self.assertContains(response, 'id="bulk-edit-form"')
+        self.assertContains(response, "bulk-edit-select")
+        self.assertContains(response, "bulk-edit-toggle-selection")
+        # The selection is posted as a single field, the checkboxes themselves
+        # are not part of the form, see test_bulk_edit_selected_units_single_field
+        self.assertContains(response, 'id="bulk-edit-selected-units"')
+        self.assertNotContains(response, 'form="bulk-edit-form"')
+        bulk_form = response.context["bulk_state_form"]
+        self.assertFalse(bulk_form.fields["q"].required)
+        self.assertIn("units", bulk_form.fields)
+        # The form is rendered without a crispy form tag, it still has to
+        # include the CSRF token to be submittable
+        form_html = re.search(
+            r'<form id="bulk-edit-form".*?</form>',
+            response.content.decode(),
+            re.DOTALL,
+        )
+        assert form_html is not None
+        self.assertIn("csrfmiddlewaretoken", form_html.group(0))
+        # One field for the whole selection, not one per listed string
+        response = self.client.get(url, {"q": "state:empty"})
+        content = response.content.decode()
+        self.assertGreater(content.count('bulk-edit-select"'), 1)
+        self.assertEqual(content.count('name="units"'), 1)
+
+        # Not offered for scopes which do not support bulk edit
+        response = self.client.get(reverse("search"), {"q": "hello"})
+        self.assertNotContains(response, 'id="bulk-edit-form"')
+        response = self.client.get(
+            reverse(
+                "search",
+                kwargs={"path": self.translation.language.get_url_path()},
+            ),
+            {"q": "hello"},
+        )
+        self.assertNotContains(response, 'id="bulk-edit-form"')
+
     def test_pagination(self) -> None:
         response = self.client.get(reverse("search"), {"q": "hello", "page": "1"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
@@ -143,6 +197,216 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": "hello", "page": "x"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
+
+    def test_scoped_listing(self) -> None:
+        workspace = Workspace.objects.create(name="Search workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        language = self.translation.language
+        for obj in (
+            workspace,
+            self.project,
+            category,
+            self.component,
+            language,
+            self.translation,
+            ProjectLanguage(self.project, language),
+            CategoryLanguage(category, language),
+        ):
+            with self.subTest(obj=obj):
+                response = self.client.get(
+                    reverse("search", kwargs={"path": obj.get_url_path()})
+                )
+                self.assertContains(response, "Hello, world!")
+                self.assertTrue(response.context["show_results"])
+                self.assertEqual(response.context["title"], "All strings")
+
+    def test_global_landing(self) -> None:
+        response = self.client.get(reverse("search"))
+        self.assertNotIn("show_results", response.context)
+        response = self.client.get(reverse("search"), {"q": ""})
+        self.assertTrue(response.context["show_results"])
+
+    def test_listing_pagination_and_editor_links(self) -> None:
+        source_unit = self.get_unit().source_unit
+        Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.translation,
+                    id_hash=-10_000_000 - index,
+                    source=f"Page source {index:02}",
+                    target=f"Page target {index:02}",
+                    position=10_000 + index,
+                    source_unit=source_unit,
+                )
+                for index in range(25)
+            ]
+        )
+        url = reverse("search", kwargs=self.kw_translation)
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(
+                url, {"sort_by": "-source", "limit": "10", "page": "2"}
+            )
+        page = response.context["page_obj"]
+        self.assertEqual(page.number, 2)
+        self.assertEqual(len(page.object_list), 10)
+        self.assertTrue(
+            any(
+                'FROM "trans_unit"' in query["sql"]
+                and "LIMIT 10 OFFSET 10" in query["sql"]
+                for query in queries
+            )
+        )
+        self.assertEqual(
+            list(page.object_list),
+            list(self.translation.unit_set.order_by("-source")[10:20]),
+        )
+        self.assertEqual(
+            response.context["total_strings"], self.translation.unit_set.count()
+        )
+        unit = page.object_list[0]
+        self.assertContains(
+            response,
+            f"{self.translate_url}?sort_by=-source&amp;checksum={unit.checksum}",
+        )
+        self.assertContains(response, "sort-up")
+        self.assertNotContains(response, "/browse/")
+
+    def test_source_listing(self) -> None:
+        response = self.client.get(
+            reverse(
+                "search",
+                kwargs={"path": self.component.source_translation.get_url_path()},
+            )
+        )
+        self.assertContains(response, "Hello, world!")
+        self.assertNotContains(response, "<th>Source string</th>")
+        self.assertNotContains(response, "<th>Translation</th>")
+
+    def test_glossary_listing(self) -> None:
+        glossary = self.project.glossaries[0].translation_set.get(
+            language=self.translation.language
+        )
+        url = reverse("search", kwargs={"path": glossary.get_url_path()})
+        self.assertEqual(get_translate_url(Context({"user": self.user}), glossary), url)
+        response = self.client.get(url)
+        self.assertTrue(response.context["show_results"])
+        self.assertEqual(response.context["search_form"].sort_query, "source")
+        self.assertContains(response, f"{glossary.get_absolute_url()}#new")
+        self.client.logout()
+        response = self.client.get(url)
+        self.assertNotContains(response, f"{glossary.get_absolute_url()}#new")
+
+    def test_browse_redirect(self) -> None:
+        url = reverse("browse", kwargs=self.kw_translation)
+        target = reverse("search", kwargs=self.kw_translation)
+        self.assertRedirects(self.client.get(url), target, status_code=301)
+        for params, expected in (
+            ({"offset": "3"}, {"page": "3", "limit": "20"}),
+            ({"offset": "bad"}, {"page": "1", "limit": "20"}),
+            ({"offset": "-1"}, {"page": "1", "limit": "20"}),
+            (
+                {"offset": "3", "page": "2", "limit": "10"},
+                {"page": "2", "limit": "10"},
+            ),
+        ):
+            with self.subTest(params=params):
+                params.update({"q": 'source:"Hello, world!"', "sort_by": "-source"})
+                response = self.client.get(url, params)
+                self.assertEqual(response.status_code, 301)
+                location = urlsplit(response.headers["Location"])
+                self.assertEqual(location.path, target)
+                expected.update({"q": params["q"], "sort_by": "-source"})
+                self.assertEqual(QueryDict(location.query).dict(), expected)
+        response = self.client.get(f"{url}?q=hello&extra=a&extra=b")
+        self.assertEqual(
+            QueryDict(urlsplit(response.headers["Location"]).query).getlist("extra"),
+            ["a", "b"],
+        )
+
+    def test_scoped_translate_action(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        for obj in (
+            self.translation,
+            ProjectLanguage(self.project, self.translation.language),
+            CategoryLanguage(category, self.translation.language),
+        ):
+            with self.subTest(obj=obj):
+                path = obj.get_url_path()
+                response = self.client.get(
+                    reverse("search", kwargs={"path": path}),
+                    {"q": "hello", "sort_by": "-source", "page": "2", "offset": "3"},
+                )
+                location = urlsplit(response.context["translate_url"])
+                self.assertEqual(
+                    location.path, reverse("translate", kwargs={"path": path})
+                )
+                self.assertEqual(
+                    QueryDict(location.query).dict(),
+                    {"q": "hello", "sort_by": "-source"},
+                )
+                self.assertContains(response, "Translate</a>")
+        response = self.client.get(reverse("search", kwargs=self.kw_component))
+        self.assertNotIn("translate_url", response.context)
+
+    def test_scoped_widget_links(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        language = self.translation.language
+        for obj, component in (
+            (self.translation, self.component),
+            (ProjectLanguage(self.project, language), None),
+            (CategoryLanguage(category, language), None),
+        ):
+            with self.subTest(obj=obj):
+                response = self.client.get(
+                    reverse("search", kwargs={"path": obj.get_url_path()})
+                )
+                widget_url = obj.get_widgets_url()
+                badge_links = re.findall(
+                    r'<a href="([^"]+)">\s*<img[^>]+alt="Translation status widgets"',
+                    response.content.decode(),
+                )
+                self.assertEqual(badge_links, [escape(widget_url)])
+                response = self.client.get(widget_url)
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    response.context["form"].cleaned_data["lang"], language
+                )
+                self.assertEqual(
+                    response.context["form"].cleaned_data["component"], component
+                )
+
+    def test_invalid_scoped_query(self) -> None:
+        response = self.client.get(
+            reverse("search", kwargs=self.kw_translation), {"q": 'source:r"^(Hello"'}
+        )
+        self.assertContains(response, "Invalid regular expression")
+        self.assertNotIn("show_results", response.context)
+        self.assertNotIn("translate_url", response.context)
+        self.assertNotContains(response, "Hello, world!")
+
+    def test_scoped_listing_rate_limit(self) -> None:
+        with patch("weblate.trans.views.search.check_rate_limit", return_value=False):
+            response = self.client.get(reverse("search", kwargs=self.kw_translation))
+        self.assertContains(response, "Too many search queries")
+        self.assertNotIn("show_results", response.context)
+        self.assertIn("no-store", response.headers["Cache-Control"])
+
+    def test_private_scoped_listing(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.client.logout()
+        response = self.client.get(reverse("search", kwargs=self.kw_translation))
+        self.assertNotEqual(response.status_code, 200)
+        response = self.client.get(reverse("search"), {"q": "hello"})
+        self.assertNotContains(response, "Hello, world!")
 
     def test_language_search(self) -> None:
         """Searching in all projects."""
@@ -966,6 +1230,109 @@ class BulkEditTest(ViewTestCase):
                 },
             )
         )
+
+    def test_bulk_edit_selected_units(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": [self.unit.pk], "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
+
+    def test_bulk_edit_selected_units_multiple(self) -> None:
+        other = self.get_unit("Thank you for using Weblate.")
+        other.state = STATE_FUZZY
+        other.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": [self.unit.pk, other.pk], "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 2 strings were updated.")
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
+        other.refresh_from_db()
+        self.assertEqual(other.state, STATE_TRANSLATED)
+
+    def test_bulk_edit_selected_units_single_field(self) -> None:
+        """
+        Selection is posted as one comma separated field.
+
+        One field per string would exceed DATA_UPLOAD_MAX_NUMBER_FIELDS on a
+        full page, as the maximal page size matches it.
+        """
+        other = self.get_unit("Thank you for using Weblate.")
+        other.state = STATE_FUZZY
+        other.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "units": f"{self.unit.pk},{other.pk}",
+                "state": STATE_TRANSLATED,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 2 strings were updated.")
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
+        other.refresh_from_db()
+        self.assertEqual(other.state, STATE_TRANSLATED)
+
+    def test_bulk_edit_selected_units_outside_scope(self) -> None:
+        other = self.get_unit(language="de")
+        other.state = STATE_FUZZY
+        other.save(update_fields=["state"])
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": [other.pk], "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, no strings were updated.")
+        other.refresh_from_db()
+        self.assertEqual(other.state, STATE_FUZZY)
+
+    def test_bulk_edit_selected_units_invalid(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": ["invalid"], "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Could not process form!")
+        self.assertEqual(self.get_unit().state, STATE_FUZZY)
+
+    def test_bulk_edit_requires_query_or_units(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Could not process form!")
+        self.assertContains(response, "Select strings to edit or enter a search query.")
+        self.assertEqual(self.get_unit().state, STATE_FUZZY)
+
+    def test_bulk_edit_next_redirect(self) -> None:
+        search_url = reverse("search", kwargs=self.kw_translation)
+        next_url = f"{search_url}?q=state%3Aneeds-editing&page=1"
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"units": [self.unit.pk], "state": STATE_TRANSLATED, "next": next_url},
+        )
+        self.assertRedirects(response, next_url)
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
+
+    def test_bulk_edit_next_redirect_invalid(self) -> None:
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {
+                "units": [self.unit.pk],
+                "state": STATE_TRANSLATED,
+                "next": "https://example.net/evil",
+            },
+        )
+        self.assertRedirects(response, self.translation.get_absolute_url())
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
 
     def test_bulk_edit_fuzzy_alias_includes_substates(self) -> None:
         self.unit.state = STATE_NEEDS_REWRITING

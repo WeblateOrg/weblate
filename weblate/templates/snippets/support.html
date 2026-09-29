@@ -1,0 +1,19 @@
+{% load i18n %}
+
+<h2>{% translate "Using Weblate in your organization?" %}</h2>
+<p>
+  {% translate "Purchase professional support for expert help with setup, maintenance, and troubleshooting." %}
+  {% translate "Your subscription also funds the ongoing development of Weblate." %}
+</p>
+<p class="buttons py-3">
+  <a href="{{ support_url }}"
+     class="btn {% if user.is_superuser %}btn-primary btn-lg{% else %}btn-outline-primary{% endif %}">{% translate "Purchase support" %}</a>
+  {% if user.is_superuser %}
+    <a href="{{ support_return_url }}" class="btn btn-outline-primary btn-lg">{% translate "Continue to Weblate" %}</a>
+  {% endif %}
+</p>
+{% if user.is_superuser %}
+  <p>
+    <a href="{% url 'manage' %}">{% translate "Already purchased? Link your support package" %}</a>
+  </p>
+{% endif %}

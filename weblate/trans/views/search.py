@@ -12,6 +12,7 @@ from django.db import transaction
 from django.db.models import Sum
 from django.http import QueryDict
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
@@ -27,13 +28,14 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.trans.models.unit import fill_in_source_translation
-from weblate.trans.util import render
+from weblate.trans.util import redirect_next, render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     get_paginator,
     import_message,
+    optional_form,
     parse_path_units,
     show_form_errors,
 )
@@ -45,6 +47,32 @@ if TYPE_CHECKING:
 
 SEARCH_SUMMARY_MAX_STRINGS = 1_000
 SEARCH_REPLACE_PREVIEW_LIMIT = 250
+BULK_EDIT_TYPES = (
+    Translation,
+    Component,
+    Project,
+    ProjectLanguage,
+    Category,
+    CategoryLanguage,
+    Workspace,
+)
+
+
+def browse(request: AuthenticatedHttpRequest, path):
+    """Redirect legacy string lists to search, preserving their pagination."""
+    params = request.GET.copy()
+    if "offset" in params:
+        if "page" not in params:
+            try:
+                params["page"] = str(max(1, int(params.get("offset", "1"))))
+            except ValueError:
+                params["page"] = "1"
+            params["limit"] = "20"
+        del params["offset"]
+    url = reverse("search", kwargs={"path": path})
+    if params:
+        url = f"{url}?{params.urlencode()}"
+    return redirect(url, permanent=True)
 
 
 @login_required
@@ -185,9 +213,15 @@ def search(request: AuthenticatedHttpRequest, path=None):
 
     search_form = SearchForm(request=request, data=request.GET, obj=obj)
     context["search_form"] = search_form
-    context["back_url"] = obj.get_absolute_url() if obj is not None else None
+    context["has_editor"] = isinstance(
+        obj, (Translation, ProjectLanguage, CategoryLanguage)
+    )
 
-    if not is_ratelimited and request.GET and search_form.is_valid():
+    if (
+        not is_ratelimited
+        and (obj is not None or request.GET)
+        and search_form.is_valid()
+    ):
         # This is ugly way to hide query builder when showing results
         search_form = SearchForm(
             request=request, data=request.GET, show_builder=False, obj=obj
@@ -214,13 +248,39 @@ def search(request: AuthenticatedHttpRequest, path=None):
                 "show_results": True,
                 "page_obj": units,
                 "path_object": obj,
-                "title": gettext("Search for %s") % (search_form.cleaned_data["q"]),
+                "title": gettext("Search for %s") % search_form.cleaned_data["q"]
+                if search_form.cleaned_data["q"]
+                else gettext("All strings"),
                 "query_params": QueryDict(search_form.urlencode()),
                 "search_query": search_form.cleaned_data["q"],
+                "sort_query": search_form.sort_query,
                 "total_strings": total_strings,
                 "total_words": total_words,
             }
         )
+        if isinstance(obj, (Translation, ProjectLanguage, CategoryLanguage)):
+            context["translate_url"] = (
+                f"{reverse('translate', kwargs={'path': obj.get_url_path()})}"
+                f"?{search_form.urlencode()}"
+            )
+        if isinstance(obj, BULK_EDIT_TYPES):
+            bulk_state_form = optional_form(
+                BulkEditForm,
+                request.user,
+                "unit.bulk_edit",
+                obj,
+                user=request.user,
+                obj=obj,
+                project=context.get("project"),
+                selection=True,
+            )
+            if bulk_state_form is not None:
+                context["bulk_state_form"] = bulk_state_form
+                # Render selection checkboxes in the listing
+                context["selection_template"] = "snippets/bulk-edit-selection.html"
+                context["selection_header_template"] = (
+                    "snippets/bulk-edit-selection-header.html"
+                )
     elif is_ratelimited:
         messages.error(
             request, gettext("Too many search queries, please try again later.")
@@ -236,39 +296,36 @@ def search(request: AuthenticatedHttpRequest, path=None):
 @require_POST
 @never_cache
 def bulk_edit(request: AuthenticatedHttpRequest, path):
-    obj, unit_set, context = parse_path_units(
-        request,
-        path,
-        (
-            Translation,
-            Component,
-            Project,
-            ProjectLanguage,
-            Category,
-            CategoryLanguage,
-            Workspace,
-        ),
-    )
+    obj, unit_set, context = parse_path_units(request, path, BULK_EDIT_TYPES)
 
     if not request.user.has_perm("unit.bulk_edit", obj) or not request.user.has_perm(
         "unit.edit", obj
     ):
         raise PermissionDenied
 
-    form = BulkEditForm(request.user, obj, request.POST, project=context.get("project"))
+    form = BulkEditForm(
+        request.user,
+        obj,
+        request.POST,
+        project=context.get("project"),
+        selection=True,
+    )
+    next_url = request.POST.get("next")
 
     if not form.is_valid():
         messages.error(request, gettext("Could not process form!"))
         show_form_errors(request, form)
-        return redirect(obj)
+        return redirect_next(next_url, obj)
 
     updated = bulk_perform(
         request.user,
         unit_set,
-        query=form.cleaned_data["q"],
+        query=form.get_query(),
         target_state=form.cleaned_data["state"],
         add_flags=form.cleaned_data["add_flags"],
         remove_flags=form.cleaned_data["remove_flags"],
+        add_translation_flags=form.cleaned_data["add_translation_flags"],
+        remove_translation_flags=form.cleaned_data["remove_translation_flags"],
         add_labels=form.cleaned_data["add_labels"],
         remove_labels=form.cleaned_data["remove_labels"],
         project=context.get("project"),
@@ -286,4 +343,4 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
         ),
     )
 
-    return redirect(obj)
+    return redirect_next(next_url, obj)

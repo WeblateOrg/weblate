@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
-"POT-Creation-Date: 2026-09-11 05:51+0200\n"
+"POT-Creation-Date: 2026-09-25 02:35+0000\n"
 "PO-Revision-Date: 2026-04-21 03:41+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Macedonian <https://hosted.weblate.org/projects/weblate/"
@@ -727,19 +727,25 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The VCS permissions to commit, push, reset, and update are evaluated for the "
-"whole repository. A member needs component-wide permission on the component "
-"owning the repository and every component linked to it. This also applies "
-"when linked components are in other projects. A per-member language limit "
-"therefore cannot grant these permissions."
+"The VCS permissions to commit, push, reset, and update are evaluated on the "
+"component that owns the repository. A member needs component-wide permission "
+"on that owner, even when starting an operation from a linked component in "
+"another project. Permissions on linked components neither grant this "
+"authority nor restrict the owner's authorized users. A per-member language "
+"limit cannot grant these permissions."
 msgstr ""
 
 msgid ""
-"Project-wide repository status and operations filter repositories using this "
-"rule. Repositories for which the member lacks permission on any linked "
-"component are listed separately and are not inspected or changed. An "
-"operation is denied when none of the project's repositories are available to "
-"it."
+"Linking a component accepts the owner's authority over the shared checkout. "
+"Repository operations affect the whole checkout and its linked components. "
+"They do not grant access to otherwise inaccessible component pages."
+msgstr ""
+
+msgid ""
+"Project-wide repository status and operations include repositories for which "
+"the member has permission on the owner. Other repositories are listed "
+"separately and are not inspected or changed. An operation is denied when "
+"none of the project's repositories are available to it."
 msgstr ""
 
 msgid ""
@@ -1028,6 +1034,11 @@ msgid ""
 msgstr ""
 
 msgid ""
+"Add-ons that expose a component API show its base URL on the add-"
+"on's :guilabel:`API` tab, alongside a link to the API root."
+msgstr ""
+
+msgid ""
 "The :ref:`addon-weblate.autotranslate.autotranslate` mode :guilabel:`Add as "
 "approved translation` creates approved strings when reviews are enabled for "
 "the target language. If the project settings or a language workflow override "
@@ -1052,6 +1063,30 @@ msgstr ""
 #| msgid "Delete"
 msgid "Obsolete add-ons"
 msgstr "Избриши"
+
+msgid "Contributors in comment"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Replaced by :ref:`gettext-contributor-comments`."
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Existing installations of ``weblate.gettext.authors`` are migrated to the "
+"``gettext`` value of the ``po_contributor_comments`` file format parameter "
+"for each affected PO component. This includes components covered by "
+"category-, project-, and site-wide installations. New components default to "
+"disabled unless their file format parameters are copied from another "
+"component."
+msgstr ""
+
+msgid ""
+"Remove ``weblate.addons.gettext.GettextAuthorComments`` from "
+"custom :setting:`WEBLATE_ADDONS` lists and ``weblate.gettext.authors`` "
+"entries from :setting:`DEFAULT_ADDONS`. Configure :ref:`gettext-contributor-"
+"comments` instead."
+msgstr ""
 
 msgid "Customize XML output"
 msgstr ""
@@ -2000,6 +2035,20 @@ msgid ""
 "factor of authentication, and these only validate user presence."
 msgstr ""
 
+msgid ""
+"When signing in on a new computer or in a different browser, your passkey "
+"might not be available. Use a device where the passkey is available, or "
+"connect your registered security key. A verification error can mean that the "
+"request timed out, was canceled, or that the credential is unavailable; it "
+"does not identify the exact cause."
+msgstr ""
+
+msgid ""
+"You can also select another configured verification method on the sign-in "
+"page, such as :guilabel:`Use recovery codes`. If you cannot use any "
+"configured method, contact the site administrator for help."
+msgstr ""
+
 #, fuzzy
 #| msgid "Authentication"
 msgid "Authenticator apps (TOTP)"
@@ -2054,6 +2103,1095 @@ msgstr ""
 msgid ""
 "The permissions of a team with enforced two-factor authentication won't be "
 "applied to users who do not have it configured."
+msgstr ""
+
+msgid "Automation reference and cookbook"
+msgstr ""
+
+msgid ""
+"The :ref:`addon-weblate.automation.automation` add-on runs declarative "
+"workflows using existing Weblate operations. This page describes the "
+"workflow structure, triggers, conditions, and actions. See :ref:`automation-"
+"cookbook` for complete examples, including :ref:`automation-translation-"
+"ordering`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Workflow definition"
+msgstr "Преведувачки известувања"
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Required"
+msgstr ""
+
+msgid "Type or allowed values"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "List of (object); maximum items 100; unique items"
+msgstr ""
+
+#, fuzzy
+#| msgid "None"
+msgid "No"
+msgstr "Никој"
+
+msgid "List of (condition); maximum items 100"
+msgstr ""
+
+msgid "List of (action); maximum items 100"
+msgstr ""
+
+msgid ""
+"Enter YAML or JSON in the add-on's :guilabel:`Workflow` field. The API "
+"accepts the same structure as the ``workflow`` member of ``configuration``. "
+"The :download:`JSON Schema </specs/automation.schema.json>` describes this "
+"representation independently of the editor. Unknown keys are rejected."
+msgstr ""
+
+msgid ""
+"``version`` identifies the workflow schema version, not the Weblate release. "
+"List the events to subscribe to in ``triggers``, conditions that must pass "
+"before any action runs in ``conditions``, and the ordered operations in "
+"``actions``. Omitting ``conditions`` is equivalent to an empty list. Empty "
+"``triggers`` allows manual execution only; empty ``actions`` performs no "
+"operations."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Literal settings and expressions"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Action settings are literal YAML/JSON values. Only the ``value`` of an "
+"``expression`` condition is evaluated as CEL. Queries, engine IDs, labels, "
+"and other settings do not support CEL expressions, variable substitution, or "
+"template syntax such as ``{{ unit.id }}``. A query containing that syntax is "
+"not expanded. Use :ref:`automation-action-choose` to select actions with "
+"different fixed settings. Actions select strings using their ``scope`` and "
+"optional query."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "String scope"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Set ``scope`` on an action to choose its starting selection. ``component`` "
+"is the default and retains the existing component-wide behavior. ``trigger`` "
+"uses the unit affected by a change event; a source-unit change selects its "
+"corresponding target-language units. ``result:ID`` uses units actually "
+"changed or given new suggestions by an earlier action with that ``id``. For "
+"an AI quality action, it uses units successfully evaluated by that action. "
+"Set ``settings.q`` to filter the selected units further. For ``trigger`` and "
+"``result:ID``, omitting ``q`` selects the whole scope."
+msgstr ""
+
+msgid ""
+"For example, a translation action with ``id: machine`` and ``scope: "
+"trigger`` can be followed by a bulk edit with ``scope: result:machine``. The "
+"second action sees only units affected by the first. Source-level edits can "
+"select the corresponding target units in a later action."
+msgstr ""
+
+msgid ""
+"Workflows using ``scope: trigger`` can declare only change triggers. A "
+"change without a unit, or a manual run without change context, fails if "
+"execution reaches that action. A ``result:ID`` action fails if its "
+"referenced action did not run, for example because a branch was skipped. "
+"Preview marks result scopes as conditional because earlier actions have not "
+"run."
+msgstr ""
+
+msgid ""
+"Selections are kept only while the run is active. The activity log records "
+"affected counts and scoped unit counts (before the ``q`` filter), but does "
+"not store the full unit ID lists."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Execution context"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"CEL conditions can access the following fields. Context is captured when the "
+"run is scheduled, and only ``results`` changes between actions. In "
+"particular, ``unit.state`` is a snapshot; use ``matching_strings`` for "
+"current database state. Timestamps are strings, not CEL timestamp objects."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Context fields"
+msgstr "Преведувачки известувања"
+
+msgid "Field"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Meaning"
+msgstr ""
+
+msgid "integer"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Target component ID; always present."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "string"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Target component slug."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Project slug, not a project object."
+msgstr "Преведувачки известувања"
+
+msgid "string or null"
+msgstr ""
+
+msgid "Category slug; null for an uncategorized component."
+msgstr ""
+
+msgid "Event language ID, when language is available."
+msgstr ""
+
+msgid "Event language code, when language is available."
+msgstr ""
+
+msgid "Event unit ID, when unit is available."
+msgstr ""
+
+msgid "Captured string state; see :ref:`automation-string-states`."
+msgstr ""
+
+msgid "Source text, truncated to 4,096 characters."
+msgstr ""
+
+msgid "Target text, truncated to 4,096 characters."
+msgstr ""
+
+msgid "Triggering change ID, when change is available."
+msgstr ""
+
+msgid "Numeric ActionEvents value, not the lowercase event name."
+msgstr ""
+
+msgid "Change timestamp in ISO 8601 format with a timezone offset."
+msgstr ""
+
+msgid "Recorded actor ID, when actor is available."
+msgstr ""
+
+msgid "Recorded actor username."
+msgstr ""
+
+msgid "Trigger identifier such as change, daily, or manual."
+msgstr ""
+
+msgid ""
+"Change timestamp, or scheduling time for other triggers; ISO 8601 with a "
+"timezone offset."
+msgstr ""
+
+msgid "Component local revision recorded when scheduled; null if unavailable."
+msgstr ""
+
+msgid "list of integers or null"
+msgstr ""
+
+msgid ""
+"Currently a one-element list when the change references a unit; otherwise "
+"null."
+msgstr ""
+
+msgid "Source-unit IDs corresponding to ``trigger.unit_ids``; otherwise null."
+msgstr ""
+
+#, fuzzy
+#| msgid "Subject"
+msgid "object"
+msgstr "Предмет"
+
+msgid "Initially empty; maps action IDs to successful operation outputs."
+msgstr ""
+
+msgid "Availability depends on the trigger:"
+msgstr ""
+
+msgid ""
+"``change`` supplies ``change``. It supplies ``unit`` and ``language`` only "
+"when the change references them, and ``actor`` from the change's user or, if "
+"absent, its author. Any of those optional objects can be null."
+msgstr ""
+
+msgid ""
+"``manual`` supplies ``actor`` when initiated by a user through the UI or "
+"API. Other manual entry points may have no actor. ``change``, ``unit``, and "
+"``language`` are null."
+msgstr ""
+
+msgid ""
+"``daily``, ``component_update``, ``post_update``, ``post_commit``, and "
+"``post_push`` have null ``actor``, ``change``, ``unit``, and ``language``."
+msgstr ""
+
+msgid ""
+"A preview with a change ID uses that change's context and ``trigger.name`` "
+"of ``change``. Without one, it uses manual context."
+msgstr ""
+
+msgid ""
+"When an object is null, its child fields cannot be accessed directly. For "
+"example, use ``unit != null && unit.state == 10`` or ``language != null && "
+"language.code == \"de\"``. Prefer the typed ``unit_state``, ``language``, "
+"and ``change_action`` conditions when possible; they handle missing context "
+"and event-name conversion for you. See :ref:`automation-event-example`."
+msgstr ""
+
+msgid "Execution identity and permissions"
+msgstr ""
+
+msgid ""
+"The usual add-on management permission authorizes configuration, preview, "
+"and manual execution. ``actor`` records who caused an event; it does not "
+"select the account or permissions used to perform actions. Changing a "
+"condition on ``actor`` only determines whether the workflow runs."
+msgstr ""
+
+msgid ""
+"Operations execute with the add-on's authority within its configured scope, "
+"not with the triggering user's individual translation permissions. Automatic "
+"translation receives the Automation add-on bot as its execution user and "
+"does not apply per-user operation permission checks. Reused translations can "
+"retain their original author attribution. Bulk editing calls the shared "
+"operation without a user, rather than impersonating the recorded actor. The "
+"activity context retains the actor separately from translation change "
+"attribution."
+msgstr ""
+
+msgid ""
+"Before a queued run executes, Weblate checks that the add-on is still valid "
+"and the component still belongs to its scope. The queued definition and "
+"event context are snapshots: editing the workflow after scheduling does not "
+"change that run. Operation settings are validated again against the target "
+"component at execution."
+msgstr ""
+
+#, fuzzy
+#| msgid "Text direction"
+msgid "Testing and execution"
+msgstr "Насока на текст"
+
+msgid ""
+"Use :guilabel:`Preview without changes` to validate a workflow and inspect "
+"its conditions and planned actions. Inherited automations require a preview "
+"component ID. An optional change ID supplies event context and must belong "
+"to that component. Preview neither calls translation services nor changes "
+"strings. Conditions that depend on unexecuted action results or changed "
+"strings are marked unknown, and their branches are shown as conditional. "
+"Use :guilabel:`Run now` for real execution. The :ref:`addons-api` provides "
+"equivalent preview and run operations."
+msgstr ""
+
+msgid ""
+"Runs use ordinary Celery tasks and existing operation locks. Separate runs "
+"may overlap; there are no execution modes or parallel action blocks. The "
+"activity log records the definition, context, conditions, actions, and "
+"failures. An error stops later actions without rolling back completed work. "
+"Runs are not automatically replayed; after a worker is forcibly terminated, "
+"a pending log can remain and must be inspected before manually starting "
+"another run. Changes originating from an automation, including follow-up "
+"tasks, do not start other automation runs."
+msgstr ""
+
+msgid "Validation and limits"
+msgstr ""
+
+msgid ""
+"Workflows must contain JSON-compatible values with string mapping keys. YAML "
+"aliases, explicit tags, duplicate mapping keys, non-finite numbers, and "
+"native YAML date/timestamp values are rejected. Quote a date if a string is "
+"intended. Unknown fields are rejected, and action IDs must be unique across "
+"the entire workflow, including mutually exclusive branches. Missing required "
+"fields and wrong value types are errors; for example, ``state`` must be an "
+"integer, not ``\"10\"``. Nested mappings and lists also have a structural "
+"depth limit of 32."
+msgstr ""
+
+msgid ""
+"Generated parameter tables show list limits, uniqueness requirements, "
+"numeric bounds, and string patterns from the schema. Item constraints in "
+"parentheses apply to each list element. The workflow-wide node and nesting "
+"limits below still apply even when each individual list is within its limit."
+msgstr ""
+
+msgid ""
+"Definitions are limited to 64 KiB both as submitted and as ASCII-escaped "
+"JSON after operation defaults are applied, 100 action/condition nodes, and "
+"eight nesting levels. CEL expressions are limited to 4,096 characters and "
+"evaluated in a helper process with two seconds of CPU time and five seconds "
+"of wall time per invocation. The helper also limits virtual address space to "
+"512 MiB except on macOS, where no memory cap is enforced. The helper fails "
+"closed if a required operating-system resource limit cannot be applied. The "
+"pinned CEL runtime provides native wheels; Linux installations require a "
+"supported glibc platform. No runtime settings or separate service are "
+"required. Use :ref:`own-addon` for unrestricted custom Python logic on self-"
+"hosted installations."
+msgstr ""
+
+msgid "Triggers"
+msgstr ""
+
+msgid ""
+"Each trigger is an object in the workflow's ``triggers`` list. An instance "
+"can subscribe to multiple triggers. Manual execution is always available, "
+"even when ``manual`` is absent from the list."
+msgstr ""
+
+msgid "daily"
+msgstr ""
+
+msgid ""
+"Runs on :ref:`addon-event-daily`, respecting :setting:`BACKGROUND_TASKS`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "component_update"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Runs on :ref:`addon-event-component-update`, after Weblate updates the "
+"component."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "post_update"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Runs on :ref:`addon-event-repository-post-update`."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "post_commit"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Runs on :ref:`addon-event-repository-post-commit`."
+msgstr "Преведувачки известувања"
+
+msgid "post_push"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Runs on :ref:`addon-event-repository-post-push`."
+msgstr "Преведувачки известувања"
+
+msgid "manual"
+msgstr ""
+
+msgid ""
+"Runs when an administrator selects :guilabel:`Run now`, or requests manual "
+"execution through the :ref:`addons-api`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "change"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"List of (Event name from :ref:`change-actions`); minimum items 1; unique "
+"items"
+msgstr ""
+
+msgid ""
+"Subscribes to the selected :ref:`change-actions`. Use lowercase "
+"``ActionEvents`` names with underscores, for example ``source_change`` or "
+"``new_source_repo``. These distinguish edits in Weblate from uploads and "
+"repository imports; ``source_change`` alone does not cover all three. Only "
+"changes associated with a component can start a run."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Conditions"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Every condition in a list must pass. A false workflow-level condition skips "
+"the run. Conditions can also select a :ref:`automation-action-choose` "
+"branch. Conditions concerning unavailable language, unit, or change context "
+"return false. An empty condition list passes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Permissions"
+msgid "expression"
+msgstr "Дозволи"
+
+msgid "string; maximum length 4096"
+msgstr ""
+
+msgid ""
+"Evaluates ``value`` as CEL and requires a boolean result. CEL supports "
+"arithmetic, comparisons, standard functions, and comprehensions, but cannot "
+"call Python or access the database, network, or filesystem. Expressions can "
+"use the captured execution context and outputs of earlier actions, for "
+"example ``results.machine.updated > 0``. Missing fields or expression errors "
+"fail the run."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "component_category"
+msgstr "Преведувачки известувања"
+
+msgid "Compares the triggering component's category slug with ``value``."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "language"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Compares the event's language code with ``value``. This tests the trigger "
+"context; it does not restrict subsequent actions to that language. Use an "
+"action's search query to restrict the strings it processes."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "matching_strings"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Passes when the component currently contains at least one string matching "
+"the :ref:`search query <search-strings>` in ``value``. The query runs when "
+"the condition is evaluated, so it can observe changes made by earlier "
+"actions."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "change_action"
+msgstr "Преведувачки известувања"
+
+msgid "Event name from :ref:`change-actions`"
+msgstr ""
+
+msgid ""
+"Compares the triggering change's action with ``value``. Use the lowercase "
+"event name, as for :ref:`automation-trigger-change`."
+msgstr ""
+
+msgid "unit_state"
+msgstr ""
+
+msgid "``0``, ``10``, ``11``, ``12``, ``20``, ``30``, ``100``"
+msgstr ""
+
+msgid ""
+"Compares the triggering unit's captured state with the integer ``value``. It "
+"uses the event snapshot, not a new query of the unit after earlier actions."
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid ""
+"Passes when every nested condition passes. Evaluation stops at the first "
+"false condition. An empty list passes."
+msgstr ""
+
+msgid "or"
+msgstr ""
+
+msgid ""
+"Passes when any nested condition passes. Evaluation stops at the first true "
+"condition. An empty list does not pass."
+msgstr ""
+
+msgid "not"
+msgstr ""
+
+msgid ""
+"Negates exactly one nested condition. Empty lists and lists containing "
+"multiple conditions are invalid."
+msgstr ""
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Actions"
+msgstr "Автентикација"
+
+msgid ""
+"Actions run in list order. Each operation and its batched checks finish "
+"before the next action starts. Actions target the component; "
+"use :ref:`search-strings` queries to narrow them. Queries are evaluated when "
+"each action executes."
+msgstr ""
+
+msgid ""
+"Optional unique action IDs expose outputs as ``results.<id>``. An ID starts "
+"with a lowercase letter and contains up to 64 lowercase letters, digits, or "
+"underscores. After a successful operation, its output is stored in the "
+"activity log and, when it has an ID, in ``results.<id>`` for later CEL "
+"conditions. For example, ``results.memory.updated > 0`` tests whether the "
+"``memory`` action reported updates. Outputs belong to the current run and "
+"are not shared with other runs."
+msgstr ""
+
+msgid ""
+"Skipped, failed, and previewed operations do not create result entries. If "
+"an action might be skipped, guard access with a presence check such as "
+"``has(results.memory) && results.memory.updated > 0``. A failed operation "
+"records an error in the trace and stops later actions; its partial changes "
+"are not rolled back. Actions without IDs still record their outputs in the "
+"activity log."
+msgstr ""
+
+msgid ""
+"The YAML examples below are items to place in the workflow's ``actions`` "
+"list. The cookbook provides complete workflow definitions."
+msgstr ""
+
+msgid ""
+"Settings and queries are validated against the target component before "
+"execution. For inherited workflows, labels must exist in each target project "
+"and selected engines must be enabled there."
+msgstr ""
+
+msgid "Automatic translation"
+msgstr ""
+
+msgid "string; pattern ``^[a-z][a-z0-9_]{0,63}$``"
+msgstr ""
+
+msgid ""
+"``\"component\"``, ``\"trigger\"``, string; pattern ``^result:[a-z][a-z0-9_]"
+"{0,63}$``"
+msgstr ""
+
+msgid "``\"suggest\"``, ``\"translate\"``, ``\"fuzzy\"``, ``\"approved\"``"
+msgstr ""
+
+msgid "``\"others\"``, ``\"mt\"``"
+msgstr ""
+
+msgid "integer or null; minimum 1"
+msgstr ""
+
+msgid "List of (string; maximum length 4096); maximum items 100"
+msgstr ""
+
+msgid "integer; minimum 1; maximum 100"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Result fields"
+msgstr "Преведувачки известувања"
+
+msgid "List of (string; maximum length 1024); maximum items 20"
+msgstr ""
+
+msgid "integer; minimum 0"
+msgstr ""
+
+msgid ""
+"Runs :ref:`auto-translation` synchronously. ``auto_source: others`` reuses "
+"translations from other components, optionally restricted by the source "
+"``component`` ID. ``auto_source: mt`` uses the service IDs in ``engines``; "
+"translation memory and AI services use the same mechanism as other providers."
+msgstr ""
+
+msgid ""
+"Defaults are ``auto_source: others``, ``mode: suggest``, ``q: state:"
+"<translated``, ``threshold: 80``, no source component restriction, and an "
+"empty engine list. For a scoped action, omitted ``q`` selects its whole "
+"scope instead. Provide configured engine IDs when selecting ``mt``."
+msgstr ""
+
+msgid ""
+"``mode`` selects suggestions (``suggest``), translations (``translate``), "
+"strings needing editing (``fuzzy``), or approved translations "
+"(``approved``). Approval follows each language's effective review settings. "
+"``threshold`` is a minimum score from 1 to 100 for services; each service "
+"has its own maximum score."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Example"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Apply local translation memory matches scoring at least 95 to strings still "
+"needing translation. Enable :ref:`mt-weblate-translation-memory` in the "
+"target project before running this action."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid ""
+"See :ref:`automation-translation-ordering` to follow this pass with a remote "
+"translation service."
+msgstr "Преведувачки известувања"
+
+msgid "Outputs"
+msgstr ""
+
+msgid "``component`` (integer)"
+msgstr ""
+
+msgid "ID of the component processed, not the optional source component."
+msgstr ""
+
+msgid "``updated`` (integer)"
+msgstr ""
+
+msgid ""
+"Number of translation updates or new suggestions reported across the "
+"component's languages. In suggestion mode, this counts newly created "
+"suggestions, not strings whose translation state changed. A translation that "
+"exceeds the string's maximum length can also become a suggestion, even in "
+"translation mode. Zero means the operation reported no updates; it is not an "
+"error by itself."
+msgstr ""
+
+msgid "``message`` (string)"
+msgstr ""
+
+msgid ""
+"Human-readable completion summary in English. Use ``updated`` for conditions "
+"instead of parsing this message."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations"
+msgid "``warnings`` (list of strings)"
+msgstr "Превод"
+
+msgid ""
+"Warnings reported by automatic translation, or an empty list when none were "
+"reported. At most 20 messages are retained, each truncated to 1,024 "
+"characters. A successful action can still have warnings; inspect them when "
+"fewer strings were translated than expected."
+msgstr ""
+
+msgid "``warnings_omitted`` (integer)"
+msgstr ""
+
+msgid ""
+"Number of warning messages omitted beyond the first 20. This does not count "
+"characters removed from retained messages."
+msgstr ""
+
+msgid "For example, a successful run might record:"
+msgstr ""
+
+msgid ""
+"A later condition can access these fields through ``results.memory``, for "
+"example ``results.memory.updated > 0 && size(results.memory.warnings) == 0``."
+msgstr ""
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing target translations synchronously using the "
+"effective :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>`. "
+"The required ``service`` must match that add-on's evaluation service and be "
+"configured for the target project. The optional ``q`` filters the action's "
+"scope further; the add-on's own query and eligibility rules still apply. "
+"Empty scoped selections make no provider requests."
+msgstr ""
+
+msgid ""
+"Each evaluated string is available to a later ``result:ID`` action when this "
+"action has an ``id``. ``evaluated`` counts those strings; unit IDs are kept "
+"only during the run. The action stops later steps if a request fails, is "
+"rate limited, or its response is discarded because the string changed during "
+"evaluation. Earlier successful batches can retain their findings, so a later "
+"run may reevaluate them. See :ref:`automation-ai-quality-gateway` for a "
+"complete translation and review workflow."
+msgstr ""
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Bulk editing"
+msgstr "Целосно име"
+
+msgid ""
+"Uses the same operation as :ref:`addon-weblate.flags.bulk`. For component "
+"scope, ``q`` is required and selects strings using :ref:`search-strings`. "
+"For trigger and result scopes, ``q`` is optional and filters the selected "
+"strings. ``state`` sets an integer string state, or leaves it unchanged with "
+"-1 (the default)."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "String states"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "State values"
+msgstr "Преведувачки известувања"
+
+msgid "Value"
+msgstr ""
+
+msgid "Accepted as a bulk-edit target"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Leave unchanged"
+msgstr "Преведувачки известувања"
+
+msgid "Yes; default, not an actual unit state"
+msgstr ""
+
+msgid "Empty"
+msgstr ""
+
+msgid "Needs editing"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Needs editing (needs rewriting)"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Needs editing (needs checking)"
+msgstr "Преведувачки известувања"
+
+msgid "Translated"
+msgstr ""
+
+msgid "Approved"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Read-only"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"The ``unit_state`` condition accepts actual unit states, including 0 and "
+"100, but not -1. Bulk editing only changes eligible editable strings; "
+"selecting a read-only string does not make it editable."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Flags and labels"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Flag settings are strings containing flags to add or remove. Label settings "
+"are lists of label names. Flag defaults are empty strings and label defaults "
+"are empty lists. Source flags and labels affect all languages, just as with "
+"the bulk-edit add-on; translation flags affect the matching translations, "
+"excluding source strings. Removing a translation flag removes its local "
+"setting; inherited flags remain in effect."
+msgstr ""
+
+msgid ""
+"Use comma-separated flags, with colon-separated parameters, for example "
+"``add_translation_flags: \"max-length:100, check-glossary\"``. To remove a "
+"parameterized flag, specify its name, for example "
+"``remove_translation_flags: \"max-length\"``. See :ref:`custom-checks` for "
+"quoting rules and :ref:`checks` for available checks. Labels use YAML/JSON "
+"lists of existing project label names, for example ``add_labels: [needs-"
+"attention]``; this does not create a label."
+msgstr ""
+
+msgid ""
+"Mark currently translated German strings as needing editing, leaving other "
+"languages and approved strings outside the query unchanged:"
+msgstr ""
+
+msgid ""
+"See :ref:`automation-conditional-actions` for a conditional bulk-edit "
+"example."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "ID of the component processed."
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Count reported by the bulk-edit operation. State changes, changes to source "
+"flags or labels, and changes to translation flags contribute separately. "
+"When an action combines these operations, the same string can contribute "
+"more than once; this is not a count of distinct affected strings. Source "
+"flag and label changes are counted per source string, rather than once per "
+"language. Zero means the operation made no changes."
+msgstr ""
+
+msgid ""
+"For example, an action that only changes the states of three strings returns:"
+msgstr ""
+
+msgid ""
+"A later condition can test ``results.marked_for_edit.updated > 0``. This "
+"output does not contain unit IDs or a list of the changed strings. A later "
+"action must select its strings with its own query."
+msgstr ""
+
+msgid "Sequence"
+msgstr ""
+
+msgid ""
+"Groups an ordered list of actions. A sequence finishes before the next "
+"sibling action starts. It can contain operations, further sequences, "
+"and :ref:`automation-action-choose` blocks. It does not introduce parallel "
+"execution."
+msgstr ""
+
+msgid ""
+"Group two translation passes: reuse other components first, then apply local "
+"translation memory to strings still needing translation."
+msgstr ""
+
+msgid ""
+"A sequence has no output object and does not accept an ``id``. Its "
+"successful child actions expose their individual outputs in the shared "
+"``results`` object, including to subsequent children and actions outside the "
+"sequence. In this example, those entries are ``results.reused`` and "
+"``results.memory``; there is no combined update count. A failing child stops "
+"the remaining actions."
+msgstr ""
+
+msgid "Choose"
+msgstr ""
+
+msgid "List of (object); maximum items 100"
+msgstr ""
+
+msgid ""
+"Evaluates branches in order and executes the first branch whose "
+"``conditions`` all pass. Each branch requires both ``conditions`` and "
+"``sequence``. Later branches are skipped after a match, even if the matching "
+"sequence is empty."
+msgstr ""
+
+msgid ""
+"If no branch matches, ``default`` runs. Omitting ``default`` is equivalent "
+"to an empty action list."
+msgstr ""
+
+msgid ""
+"For components in the ``frontend`` category, mark translated German strings "
+"as needing editing. Other components take the empty default branch."
+msgstr ""
+
+msgid ""
+"See :ref:`automation-conditional-actions` for a branch that uses an earlier "
+"action's output instead of the component category."
+msgstr ""
+
+msgid ""
+"A choose block has no output object and does not accept an ``id``. Only "
+"successful operations in the selected branch or default branch create result "
+"entries. Branch conditions and skipped actions are recorded in the activity "
+"trace. In this example, ``results.frontend_edit`` exists only if the "
+"category matches and the bulk edit succeeds. A later condition can safely "
+"check ``has(results.frontend_edit) && results.frontend_edit.updated > 0``. "
+"Preview records planned or conditional actions, without creating their "
+"outputs."
+msgstr ""
+
+msgid "Cookbook"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Apply translation memory before machine translation"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Use separate automatic translation actions to give one source priority over "
+"another. This example first applies local translation memory matches scoring "
+"at least 95, then asks DeepL to translate only strings still needing "
+"translation."
+msgstr ""
+
+msgid ""
+"Enable :ref:`mt-weblate-translation-memory` and configure :ref:`mt-deepl` in "
+"the target project's :ref:`machine-translation-setup`. Install the "
+"Automation add-on and enter this workflow:"
+msgstr ""
+
+msgid ""
+"The first action finishes before the second action selects its strings. Both "
+"use ``mode: translate``, so a successful first-pass translation no longer "
+"matches ``state:<translated`` and is not sent to DeepL by the second action. "
+"Existing translated or approved strings are excluded from both passes. "
+"Untranslated strings and strings needing editing are eligible; use "
+"``state:empty`` in both actions if only untranslated strings should be "
+"processed."
+msgstr ""
+
+msgid ""
+"Each threshold applies only to its action. Set the memory threshold to 100 "
+"to accept only exact matches, or lower it to accept less similar matches "
+"before trying the remote service. Machine translation scores are service-"
+"specific: choose a threshold no higher than the service's documented maximum "
+"score. Replace ``deepl`` with another configured service ID to use a "
+"different provider, including an AI service."
+msgstr ""
+
+msgid ""
+"Keep one engine per action when the order matters. Putting both IDs in one "
+"``engines`` list uses the existing :ref:`mt-translation-services-priority`, "
+"not the list order. To try additional providers, append another action with "
+"its own engine, threshold, and the same query. To reuse translations from "
+"other Weblate components first, prepend an action using ``auto_source: "
+"others`` instead of ``auto_source: mt`` and omit ``engines``."
+msgstr ""
+
+msgid ""
+"Changing a pass to ``mode: suggest`` leaves the string state unchanged; "
+"``mode: fuzzy`` leaves it needing editing. Neither excludes its results from "
+"a later ``state:<translated`` pass. Keep ``mode: translate`` when the "
+"intention is to retain each successful pass's translations."
+msgstr ""
+
+msgid ""
+"Use :guilabel:`Preview without changes` to validate the workflow before "
+"using :guilabel:`Run now`. Preview does not call translation services or "
+"predict their results. After a real run, inspect the activity log for each "
+"action's ``updated`` count and warnings. A service failure that stops the "
+"workflow is recorded as an error; later actions do not run."
+msgstr ""
+
+msgid ""
+"Remove or disable overlapping Automatic translation add-ons when replacing "
+"them with this workflow. Ordering applies within a single automation run; "
+"separate add-ons and concurrent runs can still overlap. The ``daily`` "
+"trigger respects :setting:`BACKGROUND_TASKS`. Use ``triggers: []`` for "
+"manual execution only."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Evaluate AI translations before approval"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"This workflow runs after repository component updates or source edits in "
+"Weblate. It applies translation memory first, translates remaining strings "
+"with OpenAI, and evaluates only strings changed by the OpenAI action. Clean "
+"strings are approved; strings with AI quality findings are marked as needing "
+"checking. Configure the translation memory and OpenAI services in the target "
+"project. Install the :ref:`addon-weblate.ai.quality` add-on with OpenAI as "
+"its evaluation service and its query including translated strings. Its "
+"service must match ``settings.service`` below."
+msgstr ""
+
+msgid ""
+"The quality action uses the intersection of its scope, the add-on query, and "
+"its optional ``settings.q``. It stops the workflow if evaluation fails or "
+"skips any batch, so incomplete results never reach the approval action. Its "
+"result scope contains only units successfully evaluated in this run. State "
+"``12`` is :guilabel:`Needs editing (Needs checking)`; reviewers can inspect "
+"the findings and revise those translations. The five ``check:ai_*`` filters "
+"select non-dismissed findings. Disable the add-on's evaluation frequency and "
+"its change and update triggers if only this workflow should initiate "
+"evaluation."
+msgstr ""
+
+msgid "Run an action only when a translation pass updates strings"
+msgstr ""
+
+msgid ""
+"Action IDs make outputs available to later conditions. For example, append "
+"the following item to the previous workflow's ``actions`` list to mark "
+"translations from the component as needing editing when the machine "
+"translation pass updated at least one string:"
+msgstr ""
+
+msgid ""
+"The bulk-edit query selects all currently translated strings in the "
+"component, including translations that existed before the run and memory "
+"matches. It does not select only the strings updated by ``machine``. Narrow "
+"the query to the intended strings before using this example. String state "
+"``10`` means needing editing; it does not approve or request review of "
+"translations."
+msgstr ""
+
+msgid ""
+"``choose`` executes only the first branch whose conditions pass. Here, the "
+"empty ``default`` performs no action when the translation pass updated no "
+"strings. During preview, the condition is unknown because ``machine`` has "
+"not executed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations"
+msgid "Translate after source changes"
+msgstr "Превод"
+
+msgid ""
+"This complete workflow listens for source edits in Weblate and new source "
+"strings from the repository. It runs only for categorized components "
+"matching either ``frontend`` or ``backend``, and only when the change "
+"includes a nonempty unit. The action reuses other components' translations "
+"for German strings needing translation."
+msgstr ""
+
+msgid ""
+"The null guard makes changes without a unit safely skip the workflow. It "
+"also means :guilabel:`Run now` skips this workflow, because real manual "
+"execution has no unit context. To inspect the event-driven path without "
+"changing strings, use :guilabel:`Preview without changes` with a change ID "
+"belonging to the target component."
+msgstr ""
+
+msgid ""
+"The action's query targets all matching German strings in the component, not "
+"only the unit from the triggering change. ``trigger.unit_ids`` provides "
+"context for conditions; it is not automatically applied to operations and "
+"cannot be interpolated into ``q``. The listed events do not cover every kind "
+"of source update; select additional :ref:`change-actions` if the workflow "
+"should also respond to uploads or other changes."
 msgstr ""
 
 msgid "Backing up and moving Weblate"
@@ -2177,16 +3315,23 @@ msgstr ""
 
 msgid ""
 "The easiest way of backing up your Weblate instance is purchasing the "
-"`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
-"is how you get it running:"
+"`backup service at weblate.org <https://weblate.org/support/#backup>`_. It "
+"is available for Weblate running in your own environment and does not "
+"require a hosting or separate support subscription."
 msgstr ""
 
-msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
+msgid "This is how you get it running:"
 msgstr ""
 
 msgid ""
-"Enter the obtained key in the management interface, see :ref:`activate-"
-"support`."
+"In the management interface, open :guilabel:`Backups` and "
+"select :guilabel:`Buy backup service`, or `purchase the backup service "
+"directly <https://weblate.org/subscription/new/?plan=backup>`_."
+msgstr ""
+
+msgid ""
+"Enter the obtained activation token in :guilabel:`Activate support package` "
+"on the :guilabel:`Backups` page, see :ref:`activate-support`."
 msgstr ""
 
 msgid ""
@@ -2198,7 +3343,7 @@ msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr ""
 
 msgid ""
-"Backup your Borg credentials to be able to restore the backups, "
+"Back up your Borg credentials to be able to restore the backups, "
 "see :ref:`borg-keys`."
 msgstr ""
 
@@ -2715,7 +3860,8 @@ msgid ""
 "The flags defined on a higher level can be discarded using the "
 "``discard:NAME`` syntax. For example, if a component is configured to ``safe-"
 "html``, you can add ``discard:safe-html`` to the string flags to skip it for "
-"this particular string."
+"this particular string. Translation flags cannot discard an explicit ``read-"
+"only`` flag set on the source string."
 msgstr ""
 
 msgid "Here is a list of flags currently accepted:"
@@ -4904,8 +6050,8 @@ msgstr ""
 
 msgid ""
 "These settings configure the CDN add-ons, including :ref:`addon-"
-"weblate.cdn.cdnjs` and :ref:`addon-"
-"weblate.cdn.files`. :setting:`LOCALIZE_CDN_URL` defines root URL where the "
+"weblate.cdn.cdnjs`, :ref:`addon-weblate.cdn.files`, and :ref:`addon-"
+"weblate.cdn.kotlin`. :setting:`LOCALIZE_CDN_URL` defines root URL where the "
 "localization CDN is available and :setting:`LOCALIZE_CDN_PATH` defines path "
 "where Weblate should store generated files which will be served at "
 "the :setting:`LOCALIZE_CDN_URL`. The files are served by your web server or "
@@ -5561,8 +6707,16 @@ msgid "The URL where your Weblate instance reports its status."
 msgstr ""
 
 msgid ""
-"Disables semiannual support status check and redirecting superusers upon "
-"login to the donation page in case there is no active support subscription."
+"Defaults to ``True``. When enabled, superusers without integrated support "
+"are redirected after login to a page offering professional support, at most "
+"once every 180 days per account. The reminder starts once the installation "
+"has a change older than 14 days and waits for an HTML page navigation. "
+"A :guilabel:`Continue to Weblate` action returns to the intended page."
+msgstr ""
+
+msgid ""
+"Set this to ``False`` to disable the redirect. This does not hide support or "
+"donation links elsewhere in the interface."
 msgstr ""
 
 msgid ""
@@ -6049,6 +7203,16 @@ msgid ""
 msgstr ""
 
 msgid ""
+"For shared repositories, permissions are checked on the component that owns "
+"the repository, even when the operation is started from a linked component. "
+"Users with repository permissions only on a linked component can open this "
+"view to see which permissions they need on the owner. Restrictions identify "
+"the owning component when it is accessible; otherwise, ask your project "
+"administrator to coordinate access with the repository owner. See :doc:`/"
+"admin/access` for permission scope."
+msgstr ""
+
+msgid ""
 "The same actions can also be triggered using :ref:`api` or, for the "
 "supported subset, :ref:`wlc`."
 msgstr ""
@@ -6299,6 +7463,31 @@ msgstr "Преведувачки известувања"
 
 msgid ""
 "Run a one-time PO cleanup without enabling automatic obsolete string removal."
+msgstr ""
+
+msgid ""
+"For Git repositories, both reset actions affect only the "
+"configured :ref:`component-branch`. They do not reset or remove other local "
+"branches. :guilabel:`Cleanup` deletes all other local branches, including "
+"any commits that have not been pushed, and removes untracked files. It does "
+"not delete branches from the upstream repository."
+msgstr ""
+
+msgid ""
+"If you replace an upstream branch with unrelated history, switching to it in "
+"Weblate can fail because Weblate reuses its existing local branch and tries "
+"to merge or rebase it. Resetting while another branch is configured does not "
+"fix that inactive local branch. For example, resetting ``master`` leaves an "
+"old local ``dev`` branch unchanged."
+msgstr ""
+
+msgid ""
+"If no local changes on the affected branch need to be kept, configure a "
+"working branch, run :guilabel:`Cleanup` from :guilabel:`Repository "
+"maintenance`, and wait for it to finish. Then switch to the affected branch "
+"again. Weblate creates it afresh from upstream. If the affected branch is "
+"already configured, use :guilabel:`Reset and discard` to replace its local "
+"history with upstream instead."
 msgstr ""
 
 msgid "Reset and reapply recovery behavior"
@@ -6606,9 +7795,6 @@ msgid ""
 "The :ref:`check-inconsistent` check fires whenever the strings are "
 "different. You can utilize this to review such differences manually and "
 "choose the right translation."
-msgstr ""
-
-msgid "Automatic translation"
 msgstr ""
 
 msgid ""
@@ -8890,10 +10076,14 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Your password has been changed."
-msgid "Configures the site domain. This parameter is required."
+msgid ""
+"Configures the site domain. This parameter is required and accepts a "
+"hostname or IPv4 address."
 msgstr "Вашата лозинка беше променета."
 
-msgid "Include port if using a non-standard one."
+msgid ""
+"Include a port between 1 and 65535 if using a non-standard one. IPv6 "
+"addresses are not currently supported."
 msgstr ""
 
 msgid ""
@@ -9256,7 +10446,11 @@ msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
 
 msgid ""
-"Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
+"Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`. "
+"Leave it empty to serve Weblate at the root, or use slash-separated path "
+"segments starting with a slash, for example ``/translations`` or ``/tools/"
+"translations``. Each segment can contain ASCII letters, digits, ``_``, and "
+"``-``."
 msgstr ""
 
 msgid ""
@@ -9429,7 +10623,10 @@ msgstr ""
 msgid "Configures :setting:`WEBSITE_ALERTS_ENABLED`."
 msgstr ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 
-msgid "Configures maximal body size accepted by the built-in web server."
+msgid ""
+"Configures maximal body size accepted by the built-in web server. Use a non-"
+"negative integer with an optional ``k``, ``m``, or ``g`` suffix. The suffix "
+"is case-insensitive, and ``0`` disables the request body size limit."
 msgstr ""
 
 msgid ""
@@ -10239,6 +11436,13 @@ msgid ""
 "make it work."
 msgstr ""
 
+msgid ""
+"Use an ``http://`` or ``https://`` URL with a valid hostname or IPv4 "
+"address. The URL can include a port and a simple slash-separated path using "
+"ASCII letters, digits, ``_``, and ``-``. Credentials, queries, fragments, "
+"and IPv6 addresses are not supported."
+msgstr ""
+
 msgid "`Anubis`_"
 msgstr ""
 
@@ -10763,9 +11967,6 @@ msgid ""
 "The template is now available for selection using the web console or the CLI."
 msgstr ""
 
-msgid "Parameters"
-msgstr ""
-
 msgid ""
 "The parameters that you can override are listed in the parameters section of "
 "the template. You can list them with the CLI by using the following command "
@@ -10934,6 +12135,30 @@ msgid "CPU usage"
 msgstr ""
 
 msgid "Many concurrent users increase the amount of needed CPU cores."
+msgstr ""
+
+msgid ""
+"Weblate 2026.8 introduced NumPy as a required dependency. On x86-64 systems, "
+"the optimized NumPy build bundled in the Docker image requires an x86-64-v2 "
+"compatible CPU. Without the required CPU features, NumPy fails to load and "
+"Weblate cannot start."
+msgstr ""
+
+msgid ""
+"Before upgrading, check for the required SSE4.2 CPU feature on the Linux "
+"system running Docker:"
+msgstr ""
+
+msgid ""
+"Empty output indicates that a required CPU feature is unavailable. This is a "
+"preliminary check; finding SSE4.2 does not verify all x86-64-v2 CPU features."
+msgstr ""
+
+msgid ""
+"If Docker runs in a virtual machine, run the check inside the guest. Virtual "
+"machines can hide CPU features supported by the host. Configure the virtual "
+"machine to expose the required host CPU features, then reboot the guest. If "
+"the physical CPU lacks the required features, upgrade the hardware."
 msgstr ""
 
 msgid "Storage usage"
@@ -11478,6 +12703,12 @@ msgid ""
 "Translations with a score exceeding the current one are accepted."
 msgstr ""
 
+msgid ""
+"For explicit ordering and a separate score threshold for each service, "
+"use :ref:`automation-translation-ordering`. This workflow completes one "
+"translation pass before selecting the strings for the next service."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Source strings for the machine translation"
@@ -11901,6 +13132,13 @@ msgstr ""
 
 msgid ""
 "Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`."
+msgstr ""
+
+msgid ""
+"Generates the :doc:`automation reference </admin/automation>` from the "
+"workflow JSON Schema, including action names, parameters, and introduction "
+"versions. With ``--output``, replaces generated blocks while preserving "
+"manual descriptions and cookbook examples outside those blocks."
 msgstr ""
 
 msgid ""
@@ -12780,6 +14018,13 @@ msgstr ""
 msgid "Disable directory listing."
 msgstr ""
 
+msgid ""
+"Deny access to :file:`.kotlin-sdk-staging` and all its contents. The Kotlin "
+"SDK add-on uses this directory for temporary preparation, not publication. "
+"Apply this restriction before enabling the add-on, including when a CDN "
+"copies files from the origin directory."
+msgstr ""
+
 msgid "Use HTTPS and make the CDN host read-only from the web server."
 msgstr ""
 
@@ -12872,9 +14117,6 @@ msgstr ""
 msgid "The following operations are subject to rate limiting:"
 msgstr ""
 
-msgid "Name"
-msgstr ""
-
 msgid "Scope"
 msgstr ""
 
@@ -12923,6 +14165,9 @@ msgid "Creating new project"
 msgstr "Преведувачки известувања"
 
 msgid "Connecting a GitHub account"
+msgstr ""
+
+msgid "Rendering a Markdown preview"
 msgstr ""
 
 msgid ""
@@ -13969,8 +15214,9 @@ msgstr "Преведувачки известувања"
 
 msgid ""
 "Configures whether users in Weblate will be allowed to add new strings and "
-"remove existing ones. Adjust this to match your localization workflow - how "
-"the new strings are supposed to be introduced."
+"remove existing ones. It also enables :ref:`editing source strings and keys "
+"<edit-source>` in supported formats. Adjust this to match your localization "
+"workflow — how strings are introduced and maintained."
 msgstr ""
 
 msgid ""
@@ -14529,6 +15775,14 @@ msgid ""
 msgstr ""
 
 msgid ""
+"The :ref:`Statistics generator <addon-weblate.generate.generate>` "
+"additionally supports a collection of languages and their statistics in "
+"component mode. Use the ``json`` or ``python`` filter to serialize template "
+"values into JSON or Python literals, including the necessary quoting and "
+"escaping."
+msgstr ""
+
+msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
 msgstr ""
@@ -14661,6 +15915,13 @@ msgid ""
 "about current support offerings at https://weblate.org/support."
 msgstr ""
 
+msgid ""
+"The :ref:`cloudbackup` service is also available separately for self-hosted "
+"installations. It does not require a hosting or separate support "
+"subscription. You can purchase it from the :guilabel:`Backups` page in the "
+"management interface."
+msgstr ""
+
 msgid "Integrating support"
 msgstr ""
 
@@ -14734,6 +15995,22 @@ msgstr ""
 msgid ""
 "Purchased support packages are already activated upon purchase and can be "
 "used without integrating them."
+msgstr ""
+
+msgid ""
+"For installations without integrated support, the management page offers "
+"professional support for setup, maintenance, and troubleshooting. If you "
+"have already purchased support, link your package there so the installation "
+"can recognize it."
+msgstr ""
+
+msgid ""
+"Superusers also receive a support reminder after login, at most once every "
+"180 days per account. Use :guilabel:`Continue to Weblate` to return to the "
+"page you were opening. The reminder does not apply to ordinary translators. "
+"Set :setting:`SUPPORT_STATUS_CHECK` to ``False`` to disable this redirect, "
+"including on community installations that do not need professional support. "
+"Docker installations can use :envvar:`WEBLATE_SUPPORT_STATUS_CHECK`."
 msgstr ""
 
 msgid "Contacting customer care"
@@ -14951,6 +16228,24 @@ msgid ""
 "formats`)."
 msgstr ""
 
+msgid ""
+"Use :guilabel:`Source flags — all languages` to configure every translation "
+"of a string, and :guilabel:`Translation flags` to configure the current "
+"language. Translation flags override source values such as ``max-length`` "
+"and ``max-size``. Removing a local value restores the inherited value. An "
+"explicit ``read-only`` flag on the source applies to every language and "
+"cannot be discarded by a translation."
+msgstr ""
+
+msgid ""
+"The :guilabel:`Tools` menu can mark one translation or all languages read-"
+"only. When a translation is already read-only, choose :guilabel:`Make read-"
+"only apply to all languages` to move its flag to the source. Removing source-"
+"wide read-only preserves independently set translation flags. Editing flags "
+"requires source editing permission, or glossary editing permission for "
+"glossary entries, in each affected language."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translations"
 msgid "Explanation"
@@ -15006,13 +16301,19 @@ msgid ""
 "translate page, screenshots attached to the source language are shown for "
 "every translation of the string, while screenshots attached to any other "
 "language are shown only for that language. You can add a screenshot directly "
-"from the translate page using :guilabel:`Add screenshot` in "
-"the :guilabel:`Screenshot context` panel, or open the separate management "
-"interface under the :guilabel:`Operations` menu. There you can upload "
-"screenshots, assign them to source strings manually, or let Weblate find "
-"strings in the image using text recognition (OCR) with the :guilabel:`Find "
-"strings in image` button. Matching source strings can be assigned "
-"individually, in a selected batch, or all at once."
+"from the translate page using :guilabel:`Upload screenshot` in "
+"the :guilabel:`Screenshots` panel, or open the separate management interface "
+"under the :guilabel:`Operations` menu. There you can upload screenshots, "
+"assign them to source strings manually, or let Weblate find strings in the "
+"image using text recognition (OCR) with the :guilabel:`Find strings in "
+"image` button. Matching source strings can be assigned individually, in a "
+"selected batch, or all at once."
+msgstr ""
+
+msgid ""
+"To associate an uploaded screenshot with the current string, "
+"use :guilabel:`Add existing screenshot` in the translation editor. "
+"See :ref:`add-existing-screenshot` for the workflow and required permission."
 msgstr ""
 
 msgid ""
@@ -15639,12 +16940,6 @@ msgid ""
 "you can browse at ``/api/docs/``."
 msgstr ""
 
-msgid ""
-"OpenAPI is available as a feature preview. The documentation is most likely "
-"incomplete at this point and subject to change. Please consult the "
-"documentation below for more detailed information on the API."
-msgstr ""
-
 msgid "Authentication and generic parameters"
 msgstr ""
 
@@ -15867,6 +17162,22 @@ msgstr ""
 msgid "Screenshots"
 msgstr ""
 
+msgid "Kotlin SDK builds"
+msgstr ""
+
+msgid ""
+"The Kotlin SDK API is in beta. No compatibility is guaranteed until the "
+"final Kotlin SDK is released. Endpoints, build metadata, CDN manifests, and "
+"generated resource formats may change without backward compatibility."
+msgstr ""
+
+msgid ""
+"The API contract is also documented in the OpenAPI schema at ``/api/schema/"
+"``. The registration metadata has a :download:`JSON Schema </specs/schemas/"
+"weblate-kotlin-sdk-build.schema.json>`. See :ref:`addon-weblate.cdn.kotlin` "
+"for add-on installation, lifecycle settings, and the CDN manifest contract."
+msgstr ""
+
 msgid "Component lists"
 msgstr ""
 
@@ -15991,9 +17302,40 @@ msgid "New features"
 msgstr "Преведувачки известувања"
 
 msgid ""
+"DeepL automatic suggestions can include a rephrased version of an existing "
+"translation via the DeepL Write API (Pro plans and supported languages "
+"only). See :ref:`mt-deepl-rephrase`."
+msgstr ""
+
+msgid ""
+"Added the :ref:`Automation add-on <addon-weblate.automation.automation>` for "
+"conditional translation and editing workflows. See :doc:`admin/automation`."
+msgstr ""
+
+msgid ""
+"Source strings and translation keys can now be :ref:`edited <edit-source>` "
+"in the editor and REST API while preserving translations and history."
+msgstr ""
+
+msgid ""
+"Added an :ref:`AI quality evaluation add-on <addon-weblate.ai.quality>` that "
+"records quality checks for existing translations."
+msgstr ""
+
+msgid ""
+"Added language-specific :ref:`string flags <additional-flags>` to the "
+"editor, Tools menu, bulk editing, and REST API."
+msgstr ""
+
+msgid ""
 "Added an inherited :ref:`language creation policy <workflow-language-"
-"restrictions>` allowing existing project target languages while requesting "
-"maintainer approval for new languages."
+"restrictions>` that allows existing project target languages and requires "
+"approval for new ones."
+msgstr ""
+
+msgid ""
+"Added a guided :ref:`first translation <translator-start>` and advice "
+"for :doc:`building a translators community <devel/community>`."
 msgstr ""
 
 msgid ""
@@ -16001,57 +17343,159 @@ msgid ""
 "exemptions <api-rate>`, including Docker configuration."
 msgstr ""
 
+msgid "Added :ref:`component-mounted add-on APIs <component-addon-api>`."
+msgstr ""
+
+msgid ""
+"The :ref:`Statistics generator <addon-weblate.generate.generate>` can now "
+"produce component-wide locale lists with native language names, text "
+"direction, and translation statistics."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Added a testing version of :ref:`addon-weblate.cdn.kotlin`."
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a "
+"PO file format parameter, replacing the contributor comments add-on."
+msgstr ""
+
+msgid ""
+"Added the ``xml_whitespace_handling`` :ref:`file_format_params` "
+"for :ref:`xliff` to follow ``xml:space``, always preserve, or always "
+"normalize whitespace."
+msgstr ""
+
+msgid ""
+"Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` "
+"and :doc:`/formats/xliff2` to choose between plain text and placeables "
+"handling."
+msgstr ""
+
 msgid "Improvements"
 msgstr ""
 
 msgid ""
-":ref:`Automatic translation <auto-translation>` using other components now "
-"prefers translations with matching source text and context."
+":ref:`LLM automatic suggestions <machine-translation>` now show the model "
+"and, for custom API endpoints, the host that produced them."
 msgstr ""
 
 msgid ""
-"Added monthly instance activity to the :ref:`data sent with support "
-"integration <support-data>` for activity monitoring and discovery ranking."
+"Automation actions can select strings from the triggering change or a "
+"previous action's affected units. See :doc:`admin/automation`."
 msgstr ""
 
 msgid ""
-"Improved :ref:`repository maintenance <repository-maintenance>` with "
-"disabled push controls when push configuration is missing and direct links "
-"to component VCS settings."
+"Unified browsing and :ref:`searching strings <search-strings>`, aligned "
+"search filters with the status overview, and added direct editor access to "
+"language-specific lists and an :guilabel:`All strings` filter."
 msgstr ""
 
 msgid ""
-"The :ref:`automatic translation add-on <addon-"
-"weblate.autotranslate.autotranslate>` can create approved strings, falling "
-"back to translated strings when reviews are disabled for the target language."
+"Improved :ref:`translation history <translation-history>` with faster "
+"browsing, date navigation, and clearer actions."
 msgstr ""
 
 msgid ""
-"Whitespace characters are now rendered consistently in the source string "
-"display and the translation editor, and different kinds of whitespace are "
-"now distinguishable from each other."
+"Improved :ref:`screenshot assignment <add-existing-screenshot>` in the "
+"editor with a thumbnail picker, predictable ordering, and removal without "
+"reloading."
 msgstr ""
 
 msgid ""
-"History :guilabel:`View details` and :guilabel:`Revert` actions are larger, "
-"more widely spaced, and show a hover and focus background."
+"The editor now distinguishes whitespace in source and translation strings, "
+"supports the :ref:`font-monospace <custom-checks>` flag, and accepts "
+"decimal :ref:`font-spacing <custom-checks>` values."
+msgstr ""
+
+msgid ""
+"Added a Markdown preview to :ref:`comments <user-comments>`, explanations, "
+"announcements, and project instructions."
 msgstr ""
 
 msgid ""
 "Added a :ref:`keyboard shortcut <keyboard>` to approve a translation and "
-"save and continue."
+"continue."
 msgstr ""
 
 msgid ""
-"Clarified :ref:`translation quality filter <project-commit_policy>` "
-"explanations and effective per-language review settings, with links to "
-"workflow configuration."
+"Clarified :ref:`translation quality filters <project-commit_policy>` and "
+"effective per-language review settings."
 msgstr ""
 
 msgid ""
-"Reworked the :ref:`Automatic suggestions <machine-translation>` tab to use "
-"the same layout as suggestions, and it now shows the :ref:`translation "
-"memory <translation-memory>` context of each match."
+"Improved :ref:`translation memory <translation-memory>` lookup performance "
+"and added match context to :ref:`automatic suggestions <machine-"
+"translation>`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid ""
+"Reduced aggregation overhead for the :ref:`inconsistent translations check "
+"<check-inconsistent>` on large projects."
+msgstr "Преведувачки известувања"
+
+msgid ""
+":ref:`Automatic translation <auto-translation>` across components now "
+"prefers matching source text and context. The :ref:`automatic translation "
+"add-on <addon-weblate.autotranslate.autotranslate>` can create approved "
+"strings, or translated strings when reviews are disabled."
+msgstr ""
+
+msgid ""
+"Improved checks, fixes, glossary matching, and machine translation "
+"for :ref:`multivalue alternatives <format-multivalue>`."
+msgstr ""
+
+msgid ""
+":ref:`TBX glossaries <tbx>` now support independent term alternatives and "
+"scoped metadata, preserved on export."
+msgstr ""
+
+msgid ""
+"The :ref:`xgettext <addon-weblate.gettext.xgettext>` and :ref:`Meson <addon-"
+"weblate.gettext.meson>` add-ons now support bundled XML rules and project-"
+"local ITS directories."
+msgstr ""
+
+msgid ""
+"Added :ref:`uploaded file language checking <upload-ignore_language>` with "
+"an override in the upload form and API."
+msgstr ""
+
+msgid ""
+":ref:`Repository maintenance <repository-maintenance>` now checks "
+"permissions on the repository-owning component, links to VCS settings, and "
+"disables unavailable push controls."
+msgstr ""
+
+msgid ""
+":ref:`SSH repository connections <ssh-repos>` now try IPv4 and IPv6 "
+"addresses in a staggered sequence and report failed addresses and ports."
+msgstr ""
+
+msgid ""
+"Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on "
+"configuration."
+msgstr ""
+
+msgid ""
+"Added monthly instance activity to :ref:`support integration data <support-"
+"data>`."
+msgstr ""
+
+msgid ""
+"Docker startup now reports invalid nginx-related environment values before "
+"attempting to start nginx."
+msgstr ""
+
+msgid ""
+"The automatic translation API can run as a background task. See :http:post:`/"
+"api/translations/(string:project)/(string:component)/(string:language)/"
+"autotranslate/`."
 msgstr ""
 
 #, fuzzy
@@ -16060,8 +17504,38 @@ msgid "Security fixes"
 msgstr ":ref:`security`"
 
 msgid ""
-"Prevented component ZIP imports from overwriting version control metadata on "
-"case-insensitive filesystems."
+"Invalidated outstanding password reset links after password changes "
+"regardless of e-mail address casing."
+msgstr ""
+
+msgid ""
+"Prevented repository URLs from injecting executable Mercurial configuration."
+msgstr ""
+
+msgid ""
+"Limited XLIFF language declarations in uploads and the number and size of "
+"translation alternatives to prevent resource exhaustion."
+msgstr ""
+
+msgid ""
+"Enforced language-scoped screenshot permissions and restricted component "
+"access in translation consistency and automatic translation workflows."
+msgstr ""
+
+msgid ""
+"Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions "
+"through automatic team assignments."
+msgstr ""
+
+msgid ""
+"Unified case-insensitive exclusion of Git, Mercurial, Subversion, Bazaar, "
+"CVS, Darcs, RCS, and SCCS metadata during component ZIP imports, repository "
+"ZIP downloads, path processing, discovery, and filtered component copies."
+msgstr ""
+
+msgid ""
+"Prevented notification subscriptions from exposing inaccessible project and "
+"component settings through the REST API and profile settings."
 msgstr ""
 
 #, fuzzy
@@ -16070,18 +17544,68 @@ msgid "Bug fixes"
 msgstr "Преведувачки известувања"
 
 msgid ""
-"Fixed false positives from the :ref:`consecutive duplicated words check "
-"<check-duplicate>` in South Asian languages with grammatical word repetition."
+"Improved plain-text :ref:`notification e-mails <notifications>` with "
+"readable links and tables instead of Markdown."
 msgstr ""
 
 msgid ""
-"Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` failing "
-"when the warning directory is missing or inaccessible."
+"Fixed authentication initialization with :ref:`running-granian-asgi` when "
+"Sentry instrumentation is enabled."
+msgstr ""
+
+msgid ""
+"Fixed :ref:`status widgets <promotion>` for categories, category-language "
+"pages, and workspaces, and corrected statistics for nested :ref:`categories "
+"<category>` and deleted :ref:`labels`."
+msgstr ""
+
+msgid ""
+"Fixed MIME nesting and reduced the size of inline branding images "
+"in :ref:`notification e-mails <notifications>`."
+msgstr ""
+
+msgid ":ref:`mt-anthropic` now preserves path prefixes in custom base URLs."
+msgstr ""
+
+msgid ""
+"Fixed false positives in the :ref:`consecutive duplicated words check <check-"
+"duplicate>` for South Asian languages and prevented the :ref:`punctuation "
+"spacing check <check-punctuation-spacing>` from inserting spaces in URLs."
+msgstr ""
+
+msgid ""
+"Fixed the :ref:`maximum size check <check-max-size>` preview shifting text "
+"when ``font-spacing`` is set."
+msgstr ""
+
+msgid ""
+"Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` when "
+"the warning directory is missing or inaccessible."
 msgstr ""
 
 msgid ""
 "Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when "
 "migrating dismissed component alerts from releases before 2026.8."
+msgstr ""
+
+msgid ""
+"Fixed the :ref:`search results refresh <search-results-cache>` icon color in "
+"themes and on hover."
+msgstr ""
+
+msgid ""
+"Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as "
+"untranslatable when translating in their source language."
+msgstr ""
+
+msgid ""
+"Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with "
+"inherited licenses and other inherited settings."
+msgstr ""
+
+msgid ""
+"Backups containing legacy component formats (e.g ``plainxliff``, ``csv-"
+"utf-8``) are now correctly restored."
 msgstr ""
 
 #, fuzzy
@@ -16090,10 +17614,20 @@ msgid "Compatibility"
 msgstr "Преведувачки известувања"
 
 msgid ""
-"API throttles now read :setting:`API_RATELIMIT_ANON` "
-"and :setting:`API_RATELIMIT_USER` directly; "
-"``REST_FRAMEWORK[\"DEFAULT_THROTTLE_RATES\"]`` is no longer used by "
-"Weblate's throttle classes."
+"An explicit source-wide ``read-only`` flag now takes precedence over "
+"translation flags. Remove it from the source to allow editing."
+msgstr ""
+
+msgid ""
+"Existing :ref:`project API tokens <api-tokens>` lose permissions inherited "
+"from non-project teams. Assign required permissions through project-specific "
+"teams."
+msgstr ""
+
+msgid ""
+"API throttles now use :setting:`API_RATELIMIT_ANON` "
+"and :setting:`API_RATELIMIT_USER` instead of "
+"``REST_FRAMEWORK[\"DEFAULT_THROTTLE_RATES\"]``."
 msgstr ""
 
 msgid ""
@@ -16102,16 +17636,47 @@ msgid ""
 "browser session is present."
 msgstr ""
 
+msgid ""
+"Notification subscription API responses now expose ``project`` and "
+"``component`` as nullable URL strings instead of nested objects."
+msgstr ""
+
+msgid ""
+"The former ``plainxliff`` and ``xliff2-placeables`` file formats are "
+"migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the "
+"``xliff_placeables`` :ref:`file_format_params`."
+msgstr ""
+
 msgid "Upgrading"
 msgstr ""
 
 msgid ""
-"In non-Docker settings, remove the ``anon_throttle`` and ``user_throttle`` "
-"arguments from ``get_drf_settings`` and assign those rates "
-"to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Migrate "
-"any custom ``REST_FRAMEWORK[\"DEFAULT_THROTTLE_RATES\"][\"anon\"]`` or "
-"``[\"user\"]`` values to these settings as well. Existing Docker rate-limit "
-"environment variables continue to work."
+"Add ``weblate.automation`` to custom :setting:`django:INSTALLED_APPS` before "
+"migrating. If :setting:`WEBLATE_ADDONS` explicitly lists the automation add-"
+"on, change its import path to ``weblate.automation.addon.AutomationAddon``. "
+"The official Docker image includes the new app."
+msgstr ""
+
+msgid ""
+"Existing :ref:`contributor comments add-ons <addon-weblate.gettext.authors>` "
+"migrate to component file format parameters. Remove the obsolete add-on from "
+"custom :setting:`WEBLATE_ADDONS` and :setting:`DEFAULT_ADDONS` settings; new "
+"components no longer inherit it."
+msgstr ""
+
+msgid ""
+"Add ``weblate.api`` and ``weblate.kotlin_sdk`` "
+"to :setting:`django:INSTALLED_APPS` before migrating. The official Docker "
+"image includes both. Installing the Kotlin app does not enable :ref:`CDN "
+"publication <addon-weblate.cdn.kotlin>` on any component."
+msgstr ""
+
+msgid ""
+"In non-Docker settings, move the ``anon_throttle`` and ``user_throttle`` "
+"arguments from ``get_drf_settings`` and any custom "
+"``REST_FRAMEWORK[\"DEFAULT_THROTTLE_RATES\"]`` values "
+"to :setting:`API_RATELIMIT_ANON` and :setting:`API_RATELIMIT_USER`. Existing "
+"Docker rate-limit variables still work."
 msgstr ""
 
 msgid ""
@@ -16983,6 +18548,11 @@ msgid ""
 "Running :program:`weblate compress` is no longer "
 "necessary; :program:`weblate collectstatic --noinput` now prepares versioned "
 "static assets without clearing the static storage."
+msgstr ""
+
+msgid ""
+"NumPy is now a required dependency; review the updated :ref:`hardware "
+"requirements <hardware>` before upgrading."
 msgstr ""
 
 #, fuzzy
@@ -29934,6 +31504,40 @@ msgid "Here is an example add-on:"
 msgstr ""
 
 #, fuzzy
+#| msgid "Translation notifications"
+msgid "Documenting automation operations"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"The :ref:`automation-reference` uses the schema in :file:`weblate/automation/"
+"schema.py` as its reference source. Built-in actions are registered "
+"in :file:`weblate/automation/operations.py`, which supplies their settings "
+"and result schemas, validation, and execution. Keep this registry internal; "
+"it does not load third-party operations. When adding an action, set its "
+"title and version added to the Weblate release in which it first appears. "
+"Preserve that version when extending the action later. Control blocks keep "
+"their ``title`` and ``x-version-added`` metadata in the workflow schema."
+msgstr ""
+
+msgid ""
+"Declare the action's supported string scopes in its registry entry. The "
+"default is ``component``; opt in to ``trigger`` and ``result`` when "
+"execution accepts the runtime unit selection. Pass the scope to "
+"normalization so query defaults and requirements match the selection. Report "
+"affected unit IDs through the runtime collector, not the public result "
+"schema or activity log."
+msgstr ""
+
+msgid ""
+"Run ``make -C docs update-automation-schema update-automation-docs`` to "
+"update the downloadable schema and reference. Add explanations and examples "
+"after the corresponding ``AUTOGENERATED END`` marker in :file:`docs/admin/"
+"automation.rst`. The :wladmin:`list_automation` generator preserves this "
+"manual content. Keep section identifiers stable so descriptions remain "
+"attached to their operations."
+msgstr ""
+
+#, fuzzy
 #| msgid "New password confirmation"
 msgid "Typing add-on configuration"
 msgstr "Потврда за нова лозинка"
@@ -29980,6 +31584,77 @@ msgid ""
 "exposed outside trusted add-on management code. Internal operations which "
 "intentionally clone a working add-on can continue to use the stored "
 "configuration."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Component-mounted add-on APIs"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Declare an ``api_name`` and return named Django URL patterns from "
+"``get_api_urls()``. Use ordinary Django converters and DRF views. Patterns "
+"are registered for every provider enabled in :setting:`WEBLATE_ADDONS`, "
+"regardless of whether the add-on is installed on a component."
+msgstr ""
+
+msgid ""
+"Routes are mounted under ``/api/components/<project>/<component>/addons/"
+"<api_name>/``. For categorized components, encode the full category and "
+"component path in the component segment, as for the component REST API. Use "
+"the installation's ``api_url`` instead of constructing this URL manually. "
+"API names must contain 1 to 64 ASCII letters, digits, underscores, or "
+"hyphens, and must be globally unique among enabled provider classes. Weblate "
+"validates these declarations at startup, without querying the database, and "
+"rejects invalid or conflicting names. Providers must declare "
+"``needs_component = True``, ``repo_scope = False``, and ``multiple = "
+"False``. The same provider can be installed on many components, but only "
+"once on each component."
+msgstr ""
+
+msgid ""
+"Subclass ``weblate.addons.api.InstalledAddonAPIView`` and set its "
+"``addon_name`` to the provider's internal add-on name. The base view "
+"authenticates the request, checks component access, and resolves the "
+"installation as ``self.addon``. An absent or incompatible installation "
+"returns HTTP 404. Its ``permission`` defaults to ``component.edit`` and is "
+"checked before request data is parsed. The default JSON parser bounds "
+"requests to 5 MiB, including requests without a Content-Length header."
+msgstr ""
+
+msgid ""
+"Use normal DRF serializer validation in the view methods. Document the full "
+"contract using ``drf_spectacular.utils.extend_schema`` and serializer field "
+"help text: OpenAPI discovers the same views used for runtime routing. "
+"Reverse endpoints using ``api:<api_name>:<pattern_name>``, providing "
+"``project__slug``, ``slug``, and any endpoint parameters. API names are "
+"public contracts and should remain stable across implementation changes. "
+"Restart Weblate after changing provider registration; tests overriding "
+"registrations must rebuild their URL configuration and clear Django's URL "
+"caches."
+msgstr ""
+
+msgid ""
+"The existing ``/api/addons/<id>/`` management API remains available. Its "
+"read-only ``api_name`` and ``api_url`` fields reflect the enabled provider's "
+"current declaration. Both are null when the provider is disabled or "
+"incompatible."
+msgstr ""
+
+msgid "Testing Kotlin SDK resources"
+msgstr ""
+
+msgid ""
+"Run ``uv run pytest weblate/kotlin_sdk/tests.py`` with the :doc:`test "
+"environment <tests>` configured to test resource extraction, preparation, "
+"and publication, including the Kotlin SDK API."
+msgstr ""
+
+msgid ""
+"Binary writer tests, AAPT2 validation, and Android instrumentation tests are "
+"maintained in `arsc-writer <https://github.com/WeblateOrg/arsc-writer>`_. "
+"See its `development guide <https://arsc-writer.readthedocs.io/en/latest/"
+"development.html>`_ for instructions."
 msgstr ""
 
 msgid "Weblate source code"
@@ -32342,6 +34017,11 @@ msgstr "Измени"
 msgid "Errors when running add-on (see :doc:`/admin/addons`)"
 msgstr ""
 
+msgid ""
+"Unavailable AI evaluation services and recommendations to "
+"configure :ref:`addon-weblate.ai.quality` when an LLM service is available"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Misconfigured monolingual or bilingual translation."
@@ -32401,6 +34081,14 @@ msgstr ""
 msgid ""
 "Alerts are listed on each respective component page "
 "as :guilabel:`Diagnostics`."
+msgstr ""
+
+msgid ""
+"Add-on error diagnostics link to the responsible "
+"installation's :guilabel:`Configuration` page for users who can manage it, "
+"including add-ons inherited from a category, project, or site configuration. "
+"For AI quality evaluation, an unavailable service produces an error "
+"diagnostic; provider request failures remain in the add-on activity log."
 msgstr ""
 
 msgid "Project and workspace diagnostics overviews"
@@ -32500,22 +34188,37 @@ msgid "Building a translators community"
 msgstr "Преведувачки известувања"
 
 msgid ""
-"Following these recommendations supports the creation of a full, "
-"multilingual post-editing tool. Good translations are defined through the "
-"systemic-functional model of House which aims at a contextual correct "
-"translation. Write your own `post-editing guide <https://en.wikipedia.org/"
-"wiki/Postediting>`_ and alter these recommendations to fit your own "
-"definitions. In most cases the `browser-plugin of languageTool <https://"
-"languagetool.org/#firefox_chrome>`_ is useful as a proof-reading tool."
+"Make it easy for people to start translating, ask questions, and see their "
+"work reach users. Link contributors to :ref:`translator-start` and provide "
+"project-specific instructions alongside it."
+msgstr ""
+
+#, fuzzy
+#| msgid "list_translators"
+msgid "Welcoming translators"
+msgstr "list_translators"
+
+msgid ""
+"Set :ref:`project-instructions` to explain where to begin, which components "
+"have priority, and how to contact the language team. Include a short style "
+"guide with examples of the tone and terminology you expect. Explain any "
+"contribution agreement and how to request access or a missing language."
 msgstr ""
 
 msgid ""
-"Many times translators will find problems with the source strings. Make sure "
-"it is easy for them to report such problems. To gather this feedback, you "
-"can set up the :ref:`component-repoweb` field on your Weblate component, for "
-"translators to propose their changes to the upstream repository. You can "
-"also receive translator comments if you set up :ref:`component-"
-"report_source_bugs`."
+"Describe your :ref:`workflows`: whether contributors save translations or "
+"submit suggestions, who reviews their work, and when translations reach "
+"users. Keep the requirements realistic for small language teams. Welcome "
+"useful partial contributions rather than requiring a complete language "
+"translation."
+msgstr ""
+
+msgid ""
+"Tell translators about release dates and translation deadlines early. "
+"Use :doc:`/admin/announcements` for timely notices, and keep the translation "
+"instructions up to date. Let contributors know when their work has shipped "
+"and acknowledge their contributions. See :ref:`continuous-translation` for "
+"repository integration and automation."
 msgstr ""
 
 #, fuzzy
@@ -32529,29 +34232,43 @@ msgid ""
 "needed to make your localization process easier for community translators."
 msgstr ""
 
+msgid ""
+"Diagnostics cannot tell whether your instructions are clear or questions get "
+"answered. Regularly try the contribution process with a translator account "
+"and ask newcomers where they got stuck."
+msgstr ""
+
 msgid "Terminology management"
 msgstr ""
 
 msgid ""
-"Post-editing of MT with terminology assignment influences each level of the "
-"translation process. The machine translation system can be adapted to the "
-"specific vocabulary and style with a continued training or `neural fuzzy "
-"repair <https://aclanthology.org/P19-1175.pdf>`_. `Import <https://"
-"docs.weblate.org/en/latest/admin/memory.html#imported-translation-memory>`_ "
-"your existing translation memory into weblate or create an initial scope "
-"with your basic terminology. In the end the lector should be instructed with "
-"additional terminology documents to guarantee a good knowledge and output in "
-"the field."
+"Provide a :doc:`/user/glossary` for recurring terms, with explanations where "
+"a word has a project-specific meaning. Agree on terminology with each "
+"language team and keep it consistent across components. Record decisions so "
+"new contributors do not need to repeat earlier discussions."
+msgstr ""
+
+msgid ""
+"Existing :doc:`/admin/memory` can help reuse past translations. Review "
+"matches in their new context: identical source wording does not always have "
+"the same meaning."
 msgstr ""
 
 msgid "Machine translation"
 msgstr ""
 
 msgid ""
-"The quality of the automatic translation (often measured with the BLEU-"
-"score) correlates with editing time [1]. Choose a machine backend which "
-"supports the needed languages and domains. Make clear how the translation "
-"backend functions and which quality the post-editor has to expect."
+"Explain whether machine translation is allowed and how contributors should "
+"review its output. Choose services suited to the languages and subject "
+"matter of your project, and evaluate their output with the language teams. "
+"Do not assume that fluent wording preserves the source meaning or your "
+"terminology."
+msgstr ""
+
+msgid ""
+"Weblate supports both service suggestions and automatic translation with "
+"human review. Choose a :ref:`machine-translation-workflows` configuration "
+"that matches your quality expectations and available reviewers."
 msgstr ""
 
 #, fuzzy
@@ -32560,71 +34277,44 @@ msgid "Review translations"
 msgstr "Преведувачки известувања"
 
 msgid ""
-"The translations should be reviewed by a second person after the post-"
-"editing. With an impartial and competent reviewer, the two people rule "
-"reduces the errors and improves the quality and consistency of the content. "
-"Providing reviewers with previews or alpha translations will make for the "
-"best review. Screenshots, explanations also help to review the strings in "
-"context."
+"When possible, have another speaker review translations for meaning, tone, "
+"and consistency. Explain how to become a reviewer and who handles pending "
+"suggestions. Respond constructively and explain corrections so contributors "
+"can learn from them."
+msgstr ""
+
+msgid ""
+"Provide :ref:`screenshots`, :ref:`additional-explanation`, and access to a "
+"preview or test release so people can check translations in context. A "
+"translation that reads well in isolation can still be wrong for a button or "
+"too long for its layout. See :doc:`/devel/starting` for writing source "
+"strings that work across languages."
 msgstr ""
 
 msgid "Structured feedback"
 msgstr ""
 
 msgid ""
-"There are many :doc:`/user/checks` in Weblate that provide structured "
-"feedback on the quality of the translations. They also give visual feedback "
-"during translation. This prevents recurring mistakes, and helps translators "
-"to understand how the code works."
-msgstr ""
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Translation definition"
-msgstr "Преведувачки известувања"
-
-msgid ""
-"In addition to the mentalistic and impact-based definitions which make a "
-"strong reduction, the text-based linguistic approach fits best with the "
-"implemented translation methods. A well-formulated theory for translation "
-"evaluation is House's systemic-functional model, which focuses on the "
-"relation between original and translation. The model assumes that "
-"translation is an attempt to keep the semantic, pragmatic, and textual "
-"meaning of a text equivalent when crossing from one linguistic code to "
-"another."
+"Weblate's :doc:`/user/checks` help identify technical mistakes while "
+"translating. Explain how to resolve recurring failures, and investigate "
+"false positives instead of encouraging translators to ignore checks "
+"indiscriminately."
 msgstr ""
 
 msgid ""
-"The degree of quality of a translation is based on the degree of "
-"equivalence, the correspondence between the text profile and the text "
-"function. Because it cannot be calculated automatically, sufficient "
-"information should be collected to enable a uniform human evaluation. The "
-"two main parameters of agreement in a corresponding model are the macro-"
-"context – i.e. embedding in a larger social and literary context – and the "
-"micro-context consisting of field, tenor and mode."
-msgstr ""
-
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Sources"
-msgstr "Преведувачки известувања"
-
-msgid ""
-"Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and "
-"Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
-"machine-translation-quality.pdf"
+"Translators also find problems in source strings. Monitor :ref:`user-"
+"comments` and your advertised contact channel, answer questions, and report "
+"back when a problem is fixed. Configure :ref:`component-repoweb` so "
+"contributors can find the source code, and :ref:`component-"
+"report_source_bugs` for reporting source problems. See :ref:`source-reviews` "
+"for reviewing source strings in Weblate."
 msgstr ""
 
 msgid ""
-"Joanna Best und Sylvia Kalina. Übersetzen und Dolmetschen: eine "
-"Orientierungshilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten "
-"der Übersetzungskritik starting on page number 101"
-msgstr ""
-
-msgid ""
-"neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: "
-"Integrating Fuzzy Matches into Neural Machine Translation, 2019 https://"
-"aclanthology.org/P19-1175.pdf"
+"Avoid unnecessary source-string changes that create repeated translation "
+"work. Communicate changes to the workflow and let teams know when a "
+"component is no longer maintained. For broader developer practices, "
+"see :doc:`/devel/starting`."
 msgstr ""
 
 #, fuzzy
@@ -32778,12 +34468,6 @@ msgid ""
 "To import such translation into Weblate, all you need to define are the "
 "following fields when creating component (see :ref:`component` for detailed "
 "description of the fields):"
-msgstr ""
-
-msgid "Field"
-msgstr ""
-
-msgid "Value"
 msgstr ""
 
 msgid "URL of the VCS repository with your project"
@@ -34244,6 +35928,22 @@ msgid ""
 "users how to translate using Weblate:"
 msgstr ""
 
+msgid ""
+"Status widgets also support categories, including nested categories. Use ``/"
+"widget/<project>/<category>/svg-badge.svg`` for a category's overall "
+"progress, or ``/widget/<project>/<category>/-/<language>/svg-badge.svg`` for "
+"its progress in one language. For nested categories, include each parent "
+"category in the path. Widgets follow the project's :ref:`public sharing "
+"setting <project-public_sharing>`."
+msgstr ""
+
+msgid ""
+"Workspace widgets use ``/widget/-/workspace/<workspace-id>/svg-badge.svg`` "
+"and follow the workspace's access checks. They show the same aggregate "
+"statistics as the workspace page. A project's public sharing setting does "
+"not grant access to its workspace widgets."
+msgstr ""
+
 msgid "Translating documentation using Sphinx"
 msgstr ""
 
@@ -35476,11 +37176,6 @@ msgid ""
 "as is in the final strings."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "String states"
-msgstr "Преведувачки известувања"
-
 msgid ""
 "Many file formats only differentiate \"Untranslated\" and \"Translated\" "
 "strings. With some formats it is possible to store more fine-grained state "
@@ -35587,6 +37282,43 @@ msgid ""
 "Pluralizing strings need proper support from the application framework as "
 "well. Choose native format of your platform such "
 "as :ref:`gettext`, :ref:`aresource` or :ref:`stringsdict`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Full name"
+msgid "Multivalue formats"
+msgstr "Целосно име"
+
+msgid ""
+"Multivalue formats, such as :ref:`multivalue-csv` and :ref:`tbx`, store "
+"independent source and target alternatives within one string. These "
+"alternatives have no one-to-one pairing, and their counts do not follow "
+"grammatical plural rules."
+msgstr ""
+
+msgid ""
+"Source checks inspect every source alternative. Target checks compare each "
+"target alternative with the source alternatives. A target passes when it "
+"matches any source alternative, independently of their order or the "
+"languages' grammatical plural forms. The :guilabel:`Unchanged translation` "
+"check instead reports targets identical to any source alternative, subject "
+"to its usual exemptions. Automatic fixes are applied only when all source "
+"alternatives produce the same correction."
+msgstr ""
+
+msgid ""
+":ref:`Machine translation suggestions <machine-translation>` translate each "
+"source alternative independently. Automatic machine translation supports "
+"strings with one source alternative and at most one target alternative; it "
+"skips strings with multiple alternatives to preserve them. Machinery "
+"glossaries can use all alternatives. Automatic :ref:`translation-memory` "
+"contributions skip strings with multiple alternatives."
+msgstr ""
+
+msgid ""
+"LLM translation services use only strings with one source alternative and "
+"one target alternative as examples of previous translations. They omit "
+"existing translation context for strings with multiple alternatives."
 msgstr ""
 
 #, fuzzy
@@ -35939,6 +37671,11 @@ msgid ""
 "string."
 msgstr ""
 
+msgid ""
+"See :ref:`format-multivalue` for how alternatives are handled by quality "
+"checks, automatic fixes, and machine translation."
+msgstr ""
+
 msgid "Example files"
 msgstr ""
 
@@ -36085,9 +37822,34 @@ msgid ""
 "the :ref:`file_format_params`."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Contributor comments"
+msgstr "Преведувачки известувања"
+
 msgid ""
-"The header comments also can be updated to contain author names "
-"using :ref:`addon-weblate.gettext.authors`."
+"Use the ``po_contributor_comments`` :ref:`file_format_params` parameter to "
+"add contributor names and years to PO header comments. Choose ``gettext`` "
+"for traditional comments or ``spdx`` for SPDX copyright entries. The "
+"default, ``none``, disables contributor updates without removing existing "
+"comments. This setting works independently of the ``Last-Translator`` header "
+"setting."
+msgstr ""
+
+msgid "With ``gettext``, contributor comments look like this:"
+msgstr ""
+
+msgid "With ``spdx``, the same entry becomes:"
+msgstr ""
+
+msgid ""
+"On the next commit by an eligible contributor, SPDX mode converts all "
+"recognized contributor comments, preserves historical contribution years, "
+"and adds the current year for that contributor. Anonymous Weblate authors "
+"are skipped. Unrelated comments and copyright notices are preserved. Weblate "
+"does not infer copyright claims from translated credit strings or add "
+"project-specific notices or license identifiers; handle these in custom "
+"tooling."
 msgstr ""
 
 msgid "Line wrapping"
@@ -36820,6 +38582,33 @@ msgstr ""
 msgid "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
 msgstr ""
 
+msgid "Term alternatives"
+msgstr ""
+
+msgid ""
+"Each TBX concept is one string with independent lists of source and target "
+"alternatives. Weblate reads every direct ``<tig>`` in the selected "
+"languages; IDs are optional and do not pair alternatives across languages. "
+"All source alternatives can match in the glossary, and each permitted target "
+"can be copied separately. Term statuses and notes are displayed with their "
+"alternatives."
+msgstr ""
+
+msgid ""
+"When editing alternatives, unchanged text is matched first, including "
+"duplicate occurrences. Remaining alternatives reuse unmatched terms in their "
+"original order, retaining IDs and metadata. Renaming and deleting "
+"alternatives together can therefore associate a renamed term with the first "
+"unmatched term's metadata. New alternatives are created without IDs. Term "
+"metadata is read-only in Weblate."
+msgstr ""
+
+msgid ""
+"A missing target language does not remove a concept whose source exists. DNT "
+"terms can use the matching source alternative without creating a "
+"translation. Language codes still need to match the component configuration."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translations"
 msgid "Explanations"
@@ -36841,6 +38630,26 @@ msgstr ""
 msgid ""
 "Source string description is stored as ``<descrip type=\"Usage note\"></"
 "descrip>`` tag."
+msgstr ""
+
+msgid ""
+"Concept notes are shared. Language notes are read only for the selected "
+"language, and term notes belong to their own alternative. Editing a target "
+"explanation does not overwrite notes in other languages."
+msgstr ""
+
+msgid ""
+"TBX components offer native and generated TBX downloads. Conversion to "
+"formats that use grammatical plurals is unavailable because those formats "
+"cannot preserve independent source and target alternatives."
+msgstr ""
+
+msgid ""
+"Generated TBX downloads preserve represented flags, explanations, "
+"alternative IDs, statuses, and note scopes. Weblate flags use the same "
+"``weblate-flags`` attribute as native TBX storage. Native file editing also "
+"preserves unrecognized XML and unselected languages; generated exports "
+"contain the selected language pair."
 msgstr ""
 
 msgid "Glossary flags and read-only metadata"
@@ -36874,6 +38683,11 @@ msgid ""
 "Avoid naming a TBX translation file with the same language code as the "
 "component source language, because the source language already exists in "
 "Weblate and the file can be detected as a duplicate language."
+msgstr ""
+
+msgid ""
+"The Add upload method preserves alternative IDs, statuses, and scoped notes "
+"when importing TBX into a TBX glossary."
 msgstr ""
 
 #, fuzzy
@@ -37034,14 +38848,8 @@ msgid "`XLIFF 1.2 translation file`"
 msgstr "Преведувачки известувања"
 
 msgid ""
-"Simple XLIFF file where content of the elements is stored as plain text (all "
-"XML elements being escaped)."
-msgstr ""
-
-msgid "`XLIFF 1.2 with placeables support`"
-msgstr ""
-
-msgid "Standard XLIFF supporting placeables and other XML elements."
+"Standard XLIFF file. Placeables handling is controlled by the "
+"``xliff_placeables`` :ref:`file_format_params`."
 msgstr ""
 
 #, fuzzy
@@ -37122,9 +38930,44 @@ msgid "Whitespace and newlines in XLIFF"
 msgstr ""
 
 msgid ""
-"Generally types or amounts of whitespace is not differentiated between in "
-"XML formats. If you want to keep it, you have to add the "
-"``xml:space=\"preserve\"`` flag to the string."
+"Weblate controls how whitespaces are handled with the "
+"``xml_whitespace_handling`` :ref:`file_format_params` for XLIFF components:"
+msgstr ""
+
+msgid ""
+":guilabel:`Follow xml:space` — honor ``xml:space`` attributes in the file "
+"(and the XLIFF default when the attribute is missing)."
+msgstr ""
+
+msgid ""
+":guilabel:`Always preserve` — keep all whitespace and set "
+"``xml:space=\"preserve\"`` on units (Weblate's default for new units)."
+msgstr ""
+
+msgid ""
+":guilabel:`Always normalize` — collapse whitespace even when the file sets "
+"``xml:space=\"preserve\"``."
+msgstr ""
+
+msgid ""
+"To keep newlines or surrounding spaces when following ``xml:space``, mark "
+"the string with ``xml:space=\"preserve\"``:"
+msgstr ""
+
+msgid "Placeables in XLIFF"
+msgstr ""
+
+msgid ""
+"Weblate controls how XML elements inside XLIFF content are handled with the "
+"``xliff_placeables`` :ref:`file_format_params`:"
+msgstr ""
+
+msgid ":guilabel:`Plain text` — escape XML elements in the content."
+msgstr ""
+
+msgid ""
+":guilabel:`Placeables` — preserve placeables and other XML elements (the "
+"default). Tags then appear as placeholders in the editor."
 msgstr ""
 
 msgid "Specifying translation flags"
@@ -37198,15 +39041,20 @@ msgid ""
 "supported as bilingual."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "`XLIFF 2.0 translation file`"
-msgstr "Преведувачки известувања"
+msgid ""
+"Weblate supports XLIFF 2.0 as a single file format. Placeables handling is "
+"controlled by the ``xliff_placeables`` :ref:`file_format_params`:"
+msgstr ""
 
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "`XLIFF 2.0 with placeables support`"
-msgstr "Преведувачки известувања"
+msgid ""
+":guilabel:`Plain text` — escape XML elements in the content (the historical "
+"default for existing XLIFF 2.0 components)."
+msgstr ""
+
+msgid ""
+":guilabel:`Placeables` — preserve placeables and other XML elements (the "
+"default for new components). Tags then appear as placeholders in the editor."
+msgstr ""
 
 msgid "`XML Localization Interchange File Format (XLIFF) 2.0`_ specification"
 msgstr ""
@@ -37336,8 +39184,8 @@ msgid "Joining a translation project"
 msgstr "Преведувачки известувања"
 
 msgid ""
-"If you would like to contribute to a project as a translator, read "
-"about :doc:`user/translating`."
+"If you would like to contribute to a project as a translator, start "
+"with :ref:`translator-start`, then explore :doc:`user/translating`."
 msgstr ""
 
 #, fuzzy
@@ -40347,11 +42195,13 @@ msgstr "Преведувачки известувања"
 msgid "Project: Weblate"
 msgstr "Преведувачки известувања"
 
-msgid "Last reviewed for Weblate |release| at commit ``8283fcad69f``."
+msgid "Last reviewed for Weblate |release| at commit ``af7a54c07c``."
 msgstr ""
 
-msgid "Date: 2026-09-01."
-msgstr ""
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Date: 2026-09-24."
+msgstr "Преведувачки известувања"
 
 msgid "Status: Accepted, 2026-09-01."
 msgstr ""
@@ -40714,6 +42564,21 @@ msgid ""
 "actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Weblate to public CDN storage and clients"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Enabling CDN publication deliberately moves selected translations and public "
+"build identifiers and resource mappings outside project access controls, "
+"including translations from private components. Removing published origin "
+"files cannot revoke cached or downloaded copies. Preparation files in the "
+"CDN filesystem remain non-public only when the origin excludes the reserved "
+"staging directory as required by :ref:`cdn-server-security`. *(documented)* "
+"(source: :ref:`addon-weblate.cdn.kotlin`)"
+msgstr ""
+
 msgid "Weblate request process to repository Celery worker"
 msgstr ""
 
@@ -40721,9 +42586,9 @@ msgid ""
 "Permission-checked browser and API repository actions become queued work "
 "carrying the initiating user and affected repository scope. The worker "
 "reacquires the datastore reservation and rechecks the user's current VCS "
-"permission across the current linked-component scope before mutation. The "
-"broker, datastore, and workers are trusted parts of the same Weblate "
-"instance. *(maintainer)*"
+"permission on the current repository owner before mutation. The broker, "
+"datastore, and workers are trusted parts of the same Weblate instance. "
+"*(maintainer)*"
 msgstr ""
 
 #, fuzzy
@@ -41135,6 +43000,29 @@ msgstr ""
 msgid "Third-party code is modeled separately. *(maintainer)*"
 msgstr ""
 
+msgid "Declarative automation expressions"
+msgstr ""
+
+msgid ""
+"Add-on managers configure ordered Weblate operations and CEL conditions. "
+"*(documented)* (source: :ref:`automation-workflows`)"
+msgstr ""
+
+msgid ""
+"Expressions receive JSON context rather than application objects. A resource-"
+"limited helper process parses and evaluates CEL without custom function "
+"bindings; workflows cannot supply Python code. This is a distinct expression-"
+"evaluation boundary, not a sandbox for arbitrary Python. On macOS, the "
+"helper enforces CPU and wall-time limits but no memory cap, so expressions "
+"can exhaust memory within those time limits. *(maintainer)*"
+msgstr ""
+
+msgid ""
+"Existing add-on management authority governs mutations. Operation scopes, "
+"validation, and automation-origin suppression constrain declarative runs; "
+"custom Python add-ons retain their separate trust model. *(maintainer)*"
+msgstr ""
+
 msgid "Input assumptions"
 msgstr ""
 
@@ -41367,6 +43255,27 @@ msgstr ""
 msgid "Restrict shell access to trusted operators. *(maintainer)*"
 msgstr ""
 
+#, fuzzy
+#| msgid "New password confirmation"
+msgid "Deployment configuration"
+msgstr "Потврда за нова лозинка"
+
+msgid ""
+"Environment variables, container arguments, mounted configuration, image "
+"selection, and workload or orchestration manifests"
+msgstr ""
+
+msgid ""
+"Trusted local-operator input. Systems that delegate selected deployment "
+"values to less-trusted users introduce an external trust boundary; Weblate "
+"does not treat those values as untrusted application input. *(maintainer)*"
+msgstr ""
+
+msgid ""
+"Restrict deployment access to trusted operators and validate delegated "
+"values before they reach Weblate. *(maintainer)*"
+msgstr ""
+
 msgid "Size and rate assumptions:"
 msgstr ""
 
@@ -41541,11 +43450,6 @@ msgstr "Преведувачки известувања"
 msgid "Property"
 msgstr "Преведувачки известувања"
 
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Conditions"
-msgstr "Преведувачки известувања"
-
 msgid "Violation symptom"
 msgstr ""
 
@@ -41576,29 +43480,31 @@ msgid ""
 "uninstall the App from GitHub. GitHub App component migration separately "
 "requires edit permission for every selected component. Linking a repository "
 "extends this trust to administrators of every linked component for the "
-"complete shared checkout. Permissions for explicit VCS actions cover every "
-"component sharing an affected repository, including linked components in "
-"other projects. Project-wide VCS actions omit repositories where this "
-"permission check fails; they do not partially operate on an individual "
-"shared checkout. Explicit VCS actions queued from the browser or API retain "
-"the initiating user, serialize access to the affected repositories, and "
-"recheck that user's permission against the current linked-component scope in "
-"the worker before mutation. Weblate's normal background commit and push of "
-"authorized translation changes does not require the editor to have these VCS "
-"permissions. The ``reports.view`` permission authorizes all report data in "
-"the selected scope, including private projects and restricted components "
-"below it. Complete workspace-level report access requires two-factor "
-"authentication for regular users if any project in the workspace enforces "
-"it. Superusers and bot accounts are exempt. Translation memory attributed to "
-"an existing restricted component follows that component's access rules. "
-"Unattributed automatic memory, including unmatched legacy entries and memory "
-"retained after component removal, follows its remaining translation-memory "
-"scope. Private and Custom project engage pages and rendered status widgets "
-"follow project access control unless a trusted access manager "
-"enables :ref:`project-public_sharing`. That explicit opt-in publishes "
-"project and component names, including restricted components, together with "
-"translation statistics, languages, and progress, but does not grant access "
-"to project content or APIs."
+"complete shared checkout. Permissions for explicit VCS actions are checked "
+"on the repository-owning component. Linking accepts this owner's authority "
+"over the complete shared checkout; permissions on downstream linked "
+"components neither grant nor veto explicit VCS authority. Project-wide VCS "
+"actions omit repositories where this permission check fails; they do not "
+"partially operate on an individual shared checkout. Explicit VCS actions "
+"queued from the browser or API retain the initiating user, serialize access "
+"to the affected repositories, and recheck that user's permission on the "
+"current repository owner in the worker before mutation. Weblate's normal "
+"background commit and push of authorized translation changes does not "
+"require the editor to have these VCS permissions. The ``reports.view`` "
+"permission authorizes all report data in the selected scope, including "
+"private projects and restricted components below it. Complete workspace-"
+"level report access requires two-factor authentication for regular users if "
+"any project in the workspace enforces it. Superusers and bot accounts are "
+"exempt. Translation memory attributed to an existing restricted component "
+"follows that component's access rules. Unattributed automatic memory, "
+"including unmatched legacy entries and memory retained after component "
+"removal, follows its remaining translation-memory scope. Private and Custom "
+"project engage pages and rendered status widgets follow project access "
+"control unless a trusted access manager enables :ref:`project-"
+"public_sharing`. That explicit opt-in publishes project and component names, "
+"including restricted components, together with translation statistics, "
+"languages, and progress, but does not grant access to project content or "
+"APIs."
 msgstr ""
 
 msgid "User or token can read or mutate data outside assigned scope."
@@ -41671,10 +43577,12 @@ msgstr ""
 
 msgid ""
 "Private project data other than documented generic webhook matching "
-"diagnostics and metadata published through :ref:`project-public_sharing`, "
-"user data, credentials, tokens, SSH keys, and 2FA secrets are not disclosed "
-"to actors lacking permission. *(documented)* (source: :doc:`/admin/"
-"access`, :doc:`/security/privacy-compliance`, :doc:`/vcs`)"
+"diagnostics, metadata published through :ref:`project-public_sharing`, and "
+"translations, build identifiers, and resource mappings explicitly published "
+"through CDN add-ons, user data, credentials, tokens, SSH keys, and 2FA "
+"secrets are not disclosed to actors lacking permission. *(documented)* "
+"(source: :doc:`/admin/access`, :doc:`/security/privacy-compliance`, :doc:`/"
+"vcs`)"
 msgstr ""
 
 msgid ""
@@ -41686,16 +43594,22 @@ msgid ""
 "statistics, languages, and progress. It does not grant access to project "
 "content or APIs. Repository content deliberately shared through linked "
 "components follows the linked repository trust boundary. Project repository "
-"permission diagnostics expose the paths of linked components that prevent an "
-"operation, but do not expose their content or repository status. Custom add-"
-"ons list only non-sensitive fields as public configuration; unlisted values "
-"are redacted from public change history."
+"permission diagnostics identify accessible repository owners where an "
+"operation requires permission, but do not expose inaccessible component "
+"identities or blocked repository content or status. Custom add-ons list only "
+"non-sensitive fields as public configuration; unlisted values are redacted "
+"from public change history. Installing the :ref:`addon-weblate.cdn.kotlin` "
+"add-on explicitly publishes translations, application package names and "
+"version codes, and the names and submitted IDs of published resources from "
+"that component to unauthenticated CDN clients, including for private "
+"projects. CDN storage and cached client copies are outside project access "
+"controls; removing origin files cannot revoke previously downloaded copies."
 msgstr ""
 
 msgid ""
 "Cross-project data leak not covered by the documented generic webhook "
-"diagnostics, public-sharing metadata, or linked-repository trust boundary, "
-"credential exposure, or unauthorized export."
+"diagnostics, public-sharing metadata, explicit CDN publication, or linked-"
+"repository trust boundary, credential exposure, or unauthorized export."
 msgstr ""
 
 msgid ""
@@ -42135,6 +44049,15 @@ msgid ""
 msgstr ""
 
 msgid ""
+"A report that an operator-supplied environment variable, container argument, "
+"or mounted configuration can alter generated service configuration is not a "
+"vulnerability. These are trusted deployment inputs. A CI/CD, GitOps, PaaS, "
+"Helm, or other orchestration layer that lets less-trusted users set selected "
+"values owns that delegation boundary and must validate the values before "
+"constructing the Weblate workload. *(maintainer)*"
+msgstr ""
+
+msgid ""
 "A report that a downstream application renders a dangerous translation is "
 "not a Weblate vulnerability unless Weblate itself violates a claimed "
 "property while storing, checking, reviewing, or displaying that translation. "
@@ -42177,9 +44100,6 @@ msgstr ""
 #| msgid "Translation notifications"
 msgid "Disposition"
 msgstr "Преведувачки известувања"
-
-msgid "Meaning"
-msgstr ""
 
 msgid "Licensed by"
 msgstr ""
@@ -42731,11 +44651,6 @@ msgstr ""
 msgid "OpenDocument file"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "XLIFF 1.2 translation file"
-msgstr "Преведувачки известувања"
-
 msgid "gettext PO file"
 msgstr ""
 
@@ -42807,17 +44722,14 @@ msgstr "Преведувачки известувања"
 msgid "WebExtension JSON file"
 msgstr ""
 
-msgid "XLIFF 1.2 with placeables support"
-msgstr ""
-
 #, fuzzy
 #| msgid "Translation notifications"
-msgid "XLIFF 2.0 translation file"
+msgid "XLIFF 1.2 translation file"
 msgstr "Преведувачки известувања"
 
 #, fuzzy
 #| msgid "Translation notifications"
-msgid "XLIFF 2.0 translation file with placeables support"
+msgid "XLIFF 2.0 translation file"
 msgstr "Преведувачки известувања"
 
 msgid "XWiki Full Page"
@@ -43746,6 +45658,166 @@ msgid "Add-on ID"
 msgstr ""
 
 #, fuzzy
+#| msgid "Authentication"
+msgid "Evaluation service"
+msgstr "Автентикација"
+
+msgid "Query"
+msgstr ""
+
+msgid "Evaluation frequency"
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
+
+msgid "Weekly"
+msgstr ""
+
+msgid "Monthly"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Evaluate translation changes"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Evaluate repository updates"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
+"update`, :ref:`addon-event-daily`, :ref:`addon-event-event-"
+"change`, :ref:`addon-event-manual-trigger`"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
+msgid ""
+"This add-on evaluates existing translations using an LLM service configured "
+"under :ref:`machine-translation`. It does not generate suggestions or change "
+"translations. Choose an :guilabel:`Evaluation service` from the configured "
+"LLM services; credentials and project overrides are reused."
+msgstr ""
+
+msgid ""
+"The :guilabel:`Query` selects strings using the normal search syntax. By "
+"default, translated strings are selected. Source strings, read-only strings, "
+"and glossary entries are excluded. Each request includes all translation "
+"plural forms, source text, language information, string context, glossary "
+"terms, placeholders, and configured translation instructions. This data is "
+"sent to the selected provider."
+msgstr ""
+
+msgid ""
+"Requests group strings from the same translation in file order, using the "
+"service's automatic translation batch size (currently 20 strings for built-"
+"in LLM services). All plural forms of a string stay together. Related "
+"strings share context, allowing the evaluator to check meaning and "
+"terminology across the batch. Batching reduces the number of provider "
+"requests for scheduled, manual, and change-triggered runs; it does not skip "
+"unchanged strings."
+msgstr ""
+
+msgid ""
+":guilabel:`Evaluation frequency` defaults to weekly. Daily and monthly "
+"schedules are also available; disabled turns off scheduled evaluation. "
+"Background processing must be enabled. A successful full run starts the next "
+"interval. Manual runs bypass the interval. Enable :guilabel:`Evaluate "
+"translation changes` or :guilabel:`Evaluate repository updates` to "
+"additionally evaluate after those events. Installation does not immediately "
+"contact the provider. Each run can incur provider costs, including "
+"reevaluation of unchanged translations."
+msgstr ""
+
+msgid ""
+"Evaluation runs in background tasks, with results and failure counts "
+"recorded in the existing add-on activity log. Failed requests retain "
+"existing valid findings and are tried again only by a subsequent run. "
+"Evaluation shares the service's automatic translation cooldown: rate-limit "
+"responses activate it, and batches are skipped while it is active. More "
+"specific installations take precedence: component, nearest category, "
+"project, then site-wide."
+msgstr ""
+
+msgid ""
+"Findings appear as standard checks for accuracy, fluency, terminology, "
+"style, and formatting. Each finding includes a minor, major, or critical "
+"severity and an explanation. Multiple findings in one category share a "
+"check, so ignoring that check ignores the whole category for the string. "
+"Existing search filters and API search work, for example "
+"``check:ai_accuracy``. Translation flags such as ``ignore-ai-accuracy`` "
+"disable a category; ``ignore-all-checks`` disables all checks."
+msgstr ""
+
+msgid ""
+"Changing the source or translation removes outdated findings. Results "
+"received after any source or translation in their batch changes are "
+"discarded for the whole batch. A failed or malformed response also leaves "
+"existing findings for the whole batch unchanged; other batches can still "
+"complete. Incomplete runs do not advance the scheduled evaluation date. "
+"Reevaluation of unchanged content preserves ignored categories, and a "
+"successful evaluation removes categories that no longer have findings. "
+"Removing or reconfiguring the add-on clears its findings. Evaluator metadata "
+"is internal and cannot be edited through the API; the add-on configuration "
+"uses the existing :ref:`addons-api` permissions and validation."
+msgstr ""
+
+#, fuzzy
+#| msgid "Authentication"
+msgid "Automation"
+msgstr "Автентикација"
+
+msgid "Workflow"
+msgstr ""
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid ""
+":ref:`addon-event-component-update`, :ref:`addon-event-daily`, :ref:`addon-"
+"event-event-change`, :ref:`addon-event-manual-trigger`, :ref:`addon-event-"
+"repository-post-commit`, :ref:`addon-event-repository-post-"
+"push`, :ref:`addon-event-repository-post-update`"
+msgstr "Преведувачки известувања"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+msgid ""
+"Install this add-on on a component, category, project, or site. Inherited "
+"instances run separately for each component. Multiple instances can be "
+"installed. Configuring, previewing, and running an automation requires the "
+"usual add-on management permission. Saving its configuration does not "
+"execute it."
+msgstr ""
+
+msgid ""
+"Enter YAML or JSON in :guilabel:`Workflow`. Use :guilabel:`Preview without "
+"changes` to validate it and inspect planned actions, then :guilabel:`Run "
+"now` for real execution. Results appear in the add-on activity log."
+msgstr ""
+
+msgid ":ref:`automation-workflows` for the script definition and reference."
+msgstr ""
+
+msgid ":ref:`automation-cookbook` for complete examples."
+msgstr ""
+
+msgid ""
+":ref:`automation-translation-ordering` for translation memory before machine "
+"translation."
+msgstr ""
+
+#, fuzzy
 #| msgid "Translation notifications"
 msgid "Automatic translation mode"
 msgstr "Преведувачки известувања"
@@ -43767,9 +45839,6 @@ msgstr "Преведувачки известувања"
 #| msgid "Translation notifications"
 msgid "Add as approved translation"
 msgstr "Преведувачки известувања"
-
-msgid "Query"
-msgstr ""
 
 msgid ""
 "Please note that translating all strings will discard all existing "
@@ -43797,9 +45866,6 @@ msgstr ""
 msgid "Score threshold"
 msgstr ""
 
-msgid "Triggers"
-msgstr ""
-
 #, fuzzy
 #| msgid "Translation notifications"
 msgid ""
@@ -43810,6 +45876,16 @@ msgstr "Преведувачки известувања"
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
+msgstr ""
+
+msgid ""
+"To control translation order, use the :ref:`addon-"
+"weblate.automation.automation` add-on with a separate action for each pass. "
+"Follow the :ref:`automation-translation-ordering` cookbook example to apply "
+"local translation memory first and send only the remaining strings to a "
+"machine translation service. Selecting multiple engines here uses :ref:`mt-"
+"translation-services-priority`; installation order of separate add-ons does "
+"not define an execution sequence."
 msgstr ""
 
 msgid "JavaScript localization CDN"
@@ -43897,6 +45973,207 @@ msgid ""
 "paths relative to the translation directory. Monolingual components include "
 "the source language file, while bilingual components publish only target-"
 "language files. See :ref:`cdn-server-security` for secure serving guidance."
+msgstr ""
+
+msgid "Kotlin SDK CDN"
+msgstr ""
+
+msgid "Maximum build age (days)"
+msgstr ""
+
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Maximum retained versions"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
+"update`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-"
+"commit`, :ref:`addon-event-repository-post-remove`, :ref:`addon-event-"
+"repository-post-update`"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Publishes Android string and plural resources for registered Kotlin SDK "
+"builds."
+msgstr ""
+
+msgid ""
+"Install :guilabel:`Kotlin SDK CDN` on an Android string-resource component "
+"to publish translations for builds registered by the Kotlin SDK. "
+"Configure :setting:`LOCALIZE_CDN_URL` and :setting:`LOCALIZE_CDN_PATH` "
+"first. CDN output is public, including translations from private components. "
+"Manifests expose the application package name and version code. ARSC files "
+"expose published resource names and their submitted IDs alongside translated "
+"text. Do not treat the uploaded resource mapping as confidential; enable "
+"publication only when this disclosure is intended. Registration and status "
+"API access remains permission-controlled."
+msgstr ""
+
+msgid ""
+"Copy the Gradle plugin configuration from the add-on configuration page. It "
+"includes the Weblate server URL, public CDN URL, project slug, and component "
+"path (with any category path URL-encoded). Replace the placeholder with a "
+"project-scoped API token whose permissions allow editing the component. "
+"Project administrators can create one in the project's :guilabel:`API "
+"access` tab; see :ref:`project-api`. Keep that token in the build "
+"environment, not in the application. The add-on's API tab shows the API base "
+"URL; submit build metadata to its ``builds/`` endpoint. See :ref:`kotlin-sdk-"
+"build-api` for the request and response format."
+msgstr ""
+
+msgid ""
+"For Gradle plugin and library setup, see the `Kotlin SDK repository <https://"
+"github.com/WeblateOrg/kotlin-sdk/>`__."
+msgstr ""
+
+msgid ""
+"The add-on matches resource names and types from registered builds to "
+"current component translations. Strings, plurals, and Android styled text "
+"are supported. String arrays and resource references are not generated. "
+"Untranslated entries, read-only entries, and incomplete plural resources are "
+"omitted; applications retain their bundled values. Unsupported styling fails "
+"publication; the previous successful publication remains available."
+msgstr ""
+
+msgid ""
+"Resource IDs must describe the final installed build. Uploading an identical "
+"mapping again is harmless; a different mapping for the same package and "
+"version is rejected. Old builds receive current translations by name, "
+"including after source text or formatting arguments change. Maintainers are "
+"responsible for compatibility with older application code."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Lifecycle settings"
+msgstr "Преведувачки известувања"
+
+msgid ""
+":guilabel:`Maximum build age (days)` defaults to 365 and accepts 1 through "
+"730, measured from the first registration. Repeated uploads do not extend it."
+msgstr ""
+
+msgid ""
+":guilabel:`Maximum retained versions` defaults to 20 and accepts 1 through "
+"100, counted across all package names. One additional unpublished "
+"replacement is allowed. New registrations can retire older unpublished "
+"replacements. Published builds are retired for this limit only after a "
+"replacement is published. Failed replacements preserve existing "
+"publications; maximum-age expiry still applies independently."
+msgstr ""
+
+msgid ""
+"Either limit retires a build and immediately clears its metadata. "
+"Lightweight retired records are deleted on cleanup after 24 hours and "
+"successful manifest removal; their package/version identifiers can then be "
+"registered again. Failed or interrupted manifest removals are retried "
+"hourly. Until removal succeeds, the registration and its referenced "
+"artifacts are retained, and the files may remain publicly accessible. "
+"Resource mappings are immutable only while their registration records remain."
+msgstr ""
+
+msgid ""
+"Each add-on permits at most 1000 registration records, including retired "
+"records. New registrations exceeding this limit return HTTP 409 until "
+"cleanup frees capacity; identical retries remain accepted. Metadata is "
+"bounded by the 5 MiB upload limit and maximum retained version count plus "
+"one replacement, without a separate byte quota. Limits are enforced during "
+"registration and scheduled cleanup."
+msgstr ""
+
+msgid ""
+"Superseded artifacts are deleted on cleanup after a fixed 24-hour window. "
+"All artifact files, including superseded files and incomplete publication "
+"output, count towards hard limits of 5 GiB and 10000 files per add-on. The "
+"larger artifact allowance accommodates translated text and multiple locales; "
+"it does not guarantee capacity for every locale or build combination. Shared "
+"artifacts count only once. Publications exceeding either limit fail before "
+"writing new artifacts and preserve the previous manifest. Neither the window "
+"nor these limits are configurable. Limit manifest caching as described below."
+msgstr ""
+
+msgid ""
+"Compilation stages one locale at a time on disk. A per-locale conservative "
+"encoded text and styling estimate exceeding 64 MiB fails publication."
+msgstr ""
+
+msgid ""
+"Preparation additionally requires up to 5 GiB of temporary disk space per "
+"publication job, separate from the published artifact allowance. Temporary "
+"files contain staged ARSC output, shared by versions with identical resource "
+"mappings. They are stored below :setting:`LOCALIZE_CDN_PATH`. Configure the "
+"server to deny access to :file:`.kotlin-sdk-staging` as described "
+"in :ref:`cdn-server-security` before enabling this add-on."
+msgstr ""
+
+msgid ""
+"Manifest replacement follows the database commit. Failed or interrupted "
+"writes are retried by subsequent publication jobs, with artifacts for both "
+"the old and pending manifest protected until replacement succeeds."
+msgstr ""
+
+msgid ""
+"Uninstalling the add-on attempts to remove its published files from the CDN "
+"origin immediately. Failed or interrupted removals are retried hourly; files "
+"may remain publicly accessible until cleanup succeeds. Removal does not "
+"revoke copies already cached or downloaded by clients."
+msgstr ""
+
+msgid ""
+"Publication and cleanup run asynchronously after build registration, "
+"component updates, translation commits and removals, and during daily add-on "
+"processing. Failures appear in the add-on activity log and registration "
+"status. Previous successful publications remain available when replacement "
+"generation fails. If the component stops using the Android resource format, "
+"hourly maintenance retires its publications. The normal artifact retention "
+"window still applies."
+msgstr ""
+
+msgid "CDN client contract"
+msgstr ""
+
+msgid ""
+"Each build has a stable manifest at ``<CDN base>/<packageName>/<versionCode>/"
+"manifest.json``. The version 1 manifest contains ``schemaVersion``, "
+"``packageName``, ``versionCode``, and ``locales``. Locale keys are Weblate "
+"language codes. Each locale contains a relative ``url``, ``sha256``, and "
+"byte ``size`` for its ARSC artifact. Resolve relative URLs against the "
+"manifest URL. Artifact contents do not change after publication. The "
+"manifest has a :download:`JSON Schema </specs/schemas/weblate-kotlin-sdk-"
+"manifest.schema.json>`."
+msgstr ""
+
+msgid ""
+"Configure the CDN origin to cache manifests for at most one hour (for "
+"example, ``Cache-Control: public, max-age=3600``), and artifact files with "
+"``Cache-Control: public, max-age=31536000, immutable``. Artifact files may "
+"use ``application/octet-stream``. Configure these headers on the CDN server. "
+"Translation updates and retirements can take up to one hour to reach "
+"clients. Use ``Cache-Control: no-cache`` when immediate revalidation is "
+"preferred. The fixed 24-hour artifact retention window exceeds the manifest "
+"cache lifetime."
+msgstr ""
+
+msgid ""
+"The Kotlin SDK should validate artifact length and hash, cache successful "
+"downloads locally, and load them with Android's resources-loader API on API "
+"30 or newer. A missing manifest, missing locale, or download failure must "
+"preserve bundled resources. Retired manifests return 404 at the origin; "
+"cached copies can remain usable until they expire. Hashes detect corrupted "
+"or mismatched content; authentication relies on HTTPS and the configured CDN."
 msgstr ""
 
 #, fuzzy
@@ -44484,9 +46761,6 @@ msgstr ""
 msgid "Do not change"
 msgstr ""
 
-msgid "Needs editing"
-msgstr ""
-
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Needs editing (Needs rewriting)"
@@ -44497,26 +46771,34 @@ msgstr "Преведувачки известувања"
 msgid "Needs editing (Needs checking)"
 msgstr "Преведувачки известувања"
 
-msgid "Translated"
+msgid "Source flags to add — all languages"
 msgstr ""
 
-msgid "Approved"
+msgid "Source flags to remove — all languages"
 msgstr ""
 
 #, fuzzy
 #| msgid "Translation notifications"
-msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Преведувачки известувања"
 
 #, fuzzy
 #| msgid "Translation notifications"
-msgid "Translation flags to remove"
+msgid "Applies only to matching translations, excluding source strings."
 msgstr "Преведувачки известувања"
 
-msgid "Labels to add"
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation flags to remove — matching translations"
+msgstr "Преведувачки известувања"
+
+msgid "Removes locally set flags. Inherited flags remain in effect."
 msgstr ""
 
-msgid "Labels to remove"
+msgid "Labels to add — all languages"
+msgstr ""
+
+msgid "Labels to remove — all languages"
 msgstr ""
 
 #, fuzzy
@@ -44534,6 +46816,9 @@ msgstr ""
 msgid "Search query"
 msgstr ""
 
+msgid "Labels to add"
+msgstr ""
+
 #, fuzzy
 #| msgid "Username"
 msgid "*recent*"
@@ -44541,6 +46826,11 @@ msgstr "Корисничко име"
 
 msgid "Marking all :ref:`appstore` changelog strings read-only"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Translation flags to add"
+msgstr "Преведувачки известувања"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -44619,6 +46909,19 @@ msgstr "Преведувачки известувања"
 msgid "Statistics generator"
 msgstr ""
 
+msgid "Output scope"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "One file per translation"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "One file per component"
+msgstr "Преведувачки известувања"
+
 msgid "Name of generated file"
 msgstr ""
 
@@ -44628,8 +46931,9 @@ msgstr ""
 #, fuzzy
 #| msgid "Translation notifications"
 msgid ""
-":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-pre-"
-"commit`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
+"update`, :ref:`addon-event-repository-post-add`, :ref:`addon-event-"
+"repository-post-remove`, :ref:`addon-event-repository-pre-commit`"
 msgstr "Преведувачки известувања"
 
 #, fuzzy
@@ -44648,6 +46952,78 @@ msgid "For example generating a summary file for each translation:"
 msgstr "Преведувачки известувања"
 
 msgid "Content"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Component-wide output"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Set :guilabel:`Output scope` to :guilabel:`One file per component` to "
+"maintain one locale list or statistics file for the entire component. The "
+"default, :guilabel:`One file per translation`, preserves existing "
+"configurations."
+msgstr ""
+
+msgid ""
+"Component output is generated on installation and configuration changes. It "
+"is updated when translations are committed, languages are added or removed, "
+"and component files are reloaded. Language metadata changes are included on "
+"the next such update or when the add-on is reconfigured. Unchanged output "
+"does not create a new commit."
+msgstr ""
+
+msgid ""
+"Both modes support component and project variables in filenames and content. "
+"In component mode, the content additionally receives ``translations``, "
+"ordered by repository language code. Each item provides:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "``language_code``: the language code used in the repository."
+msgstr "Преведувачки известувања"
+
+msgid "``language_name``: the English language name."
+msgstr ""
+
+msgid ""
+"``language_native_name``: the name translated into its own language using "
+"Weblate's catalogs, with an English fallback when unavailable."
+msgstr ""
+
+msgid "``language_direction``: ``ltr`` or ``rtl``."
+msgstr ""
+
+msgid "``filename`` and ``url``: the translation filename and Weblate URL."
+msgstr ""
+
+msgid "``is_source``: whether this is the component's source translation."
+msgstr ""
+
+msgid "``stats``: the same statistics available in translation mode."
+msgstr ""
+
+msgid ""
+"The source translation is included. Templates can exclude it using ``{% if "
+"not item.is_source %}``. Statistics use Weblate's completion semantics. "
+"Custom language names are retained; there is no external locale-data lookup."
+msgstr ""
+
+msgid "For example, generate :file:`locales.json` for a website:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Or generate :file:`languages.py` for an application:"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"The ``json`` and ``python`` filters serialize complete values, including "
+"string quotes and escaping. Do not add quotes around their output. They also "
+"support lists and dictionaries; ``{{ translations|json }}`` exports all "
+"available data. Dates and times are serialized as ISO-formatted strings."
 msgstr ""
 
 #, fuzzy
@@ -44763,17 +47139,6 @@ msgid ""
 "Weblate from changing the translations made after the copying."
 msgstr ""
 
-msgid "Contributors in comment"
-msgstr ""
-
-msgid ""
-"Updates the comment part of the PO file header to include contributor names "
-"and years of contributions."
-msgstr ""
-
-msgid "The PO file header will look like this:"
-msgstr ""
-
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr ""
 
@@ -44807,12 +47172,6 @@ msgstr ""
 msgid ""
 "How often the add-on should update the POT file when the component is "
 "refreshed."
-msgstr ""
-
-msgid "Weekly"
-msgstr ""
-
-msgid "Monthly"
 msgstr ""
 
 msgid "Normalize POT header"
@@ -44880,6 +47239,15 @@ msgid "Updates the LINGUAS file when a translation is added or removed."
 msgstr ""
 
 msgid "Update POT file (Meson)"
+msgstr ""
+
+msgid "ITS data directories"
+msgstr ""
+
+msgid ""
+"Newline-separated repository-relative directories containing an its "
+"subdirectory, for example po for po/its. Earlier directories override later "
+"directories and bundled rules."
 msgstr ""
 
 #, fuzzy
@@ -45213,6 +47581,66 @@ msgid ""
 "If a build-system manifest contains transformations or prefixes that are not "
 "file paths, convert it to plain repository-relative paths before using it "
 "as :file:`POTFILES`."
+msgstr ""
+
+msgid "Mixed source formats and ITS rules"
+msgstr ""
+
+msgid ""
+"Leave :guilabel:`xgettext language` blank to extract messages from different "
+"formats into the same POT. Include all inputs in the source patterns "
+"or :file:`POTFILES`, for example:"
+msgstr ""
+
+msgid ""
+"Desktop entries use the native :program:`xgettext` parser. Weblate bundles "
+"ITS rules for Polkit policies, AppStream/MetaInfo, GSettings, GTK Builder, "
+"and Shared MIME Info. These rules are included in the Weblate package, "
+"including Docker installations; no additional system packages are required "
+"for these formats. The :ref:`addon-weblate.gettext.meson` add-on uses the "
+"same rules."
+msgstr ""
+
+msgid ""
+"Extraction follows upstream gettext and ITS behavior. In particular, desktop "
+"extraction includes keys such as ``Name``, ``GenericName``, and ``Comment``; "
+"Polkit rules select ``description`` and ``message`` elements without "
+"filtering by ``gettext-domain``. Use untranslated policy sources: upstream "
+"Polkit rules also select elements carrying ``xml:lang``."
+msgstr ""
+
+msgid ""
+"For custom XML formats or overrides, configure :guilabel:`ITS data "
+"directories`. Enter one repository-relative directory per line, in priority "
+"order. Each must contain an :file:`its/` subdirectory with ``.loc`` locating "
+"rules and ``.its`` extraction rules. For example, enter ``po`` for :file:`po/"
+"its/example.loc` and :file:`po/its/example.its`, or ``.`` for :file:`its/` "
+"at the repository root. In API add-on configuration, use a list: "
+"``\"data_dirs\": [\"po\", \"data\"]``."
+msgstr ""
+
+msgid ""
+"Earlier directories take precedence over later ones, followed by Weblate's "
+"bundled rules and gettext's system rules. The directories are passed through "
+"``GETTEXTDATADIRS``. Configure them explicitly even when using Meson; "
+"Weblate does not read ``data_dirs`` from :file:`meson.build` or inherit an "
+"administrator's ``GETTEXTDATADIRS`` environment variable."
+msgstr ""
+
+msgid ""
+"Rule directories and files must stay inside the repository and must not be "
+"symbolic links. A locating rule's ``target`` must name an existing ``.its`` "
+"file in the same directory. DTDs, entity declarations, and external rule "
+"references are not supported. Weblate validates project-local rules before "
+"extraction and reports invalid rules as add-on errors. Changes, additions, "
+"or deletions in the configured :file:`its/` directories trigger extraction "
+"even when source files have not changed."
+msgstr ""
+
+msgid ""
+"`GNU gettext ITS rules <https://www.gnu.org/software/gettext/manual/"
+"html_node/ITS-Rules.html>`_ and `locating rules <https://www.gnu.org/"
+"software/gettext/manual/html_node/Locating-Rules.html>`_."
 msgstr ""
 
 msgid "Squash Git commits"
@@ -45599,6 +48027,13 @@ msgstr ""
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
 
+msgid ""
+"Display the string in the translation editor using a monospace font. Unlike "
+"the ``font-family``/``font-size``/``font-weight``/``font-spacing`` flags, "
+"this does not affect rendering checks and never loads an uploaded font; it "
+"only switches the editor to the browser's built-in monospace font stack."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation notifications"
 msgid ""
@@ -45906,6 +48341,31 @@ msgstr ""
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Skip the :ref:`check-accelerator` quality check."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Skip the :ref:`check-ai-accuracy` quality check."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Skip the :ref:`check-ai-fluency` quality check."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Skip the :ref:`check-ai-formatting` quality check."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Skip the :ref:`check-ai-style` quality check."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Skip the :ref:`check-ai-terminology` quality check."
 msgstr "Преведувачки известувања"
 
 #, fuzzy
@@ -46392,6 +48852,49 @@ msgid ""
 "the check for such strings."
 msgstr ""
 
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "This check is always enabled but can be ignored using a flag."
+msgstr ""
+
+msgid ""
+"This check is populated only when the :ref:`AI quality evaluation add-on "
+"<addon-weblate.ai.quality>` runs. Regular quality check processing does not "
+"trigger AI evaluation."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+msgid "The evaluation detected a language quality issue."
+msgstr ""
+
+msgid "AI: Formatting"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Преведувачки известувања"
+
+msgid "AI: Style"
+msgstr ""
+
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Glossary"
+msgid "AI: Terminology"
+msgstr "Речник"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "AsciiDoc markup"
@@ -46459,9 +48962,6 @@ msgstr ""
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
 msgstr "Преведувачки известувања"
-
-msgid "This check is always enabled but can be ignored using a flag."
-msgstr ""
 
 msgid ""
 "Checks that the characters surrounding an XML tag are consistent between "
@@ -48623,6 +51123,22 @@ msgid ""
 "removing position-dependent context."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "po_contributor_comments"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Add contributor names and years to header comments. SPDX also converts "
+"existing recognized contributor comments to SPDX-FileCopyrightText entries."
+msgstr ""
+
+msgid "Gettext"
+msgstr ""
+
+msgid "SPDX"
+msgstr ""
+
 msgid "po_fuzzy_matching"
 msgstr ""
 
@@ -48744,10 +51260,56 @@ msgstr "Целосно име"
 msgid "Encoding used for iOS strings files"
 msgstr ""
 
+msgid "xliff_placeables"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Placeables support"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Plain text only"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Support placeables"
+msgstr "Преведувачки известувања"
+
 msgid "xml_closing_tags"
 msgstr ""
 
 msgid "Include closing tag for blank XML tags"
+msgstr ""
+
+msgid "xml_whitespace_handling"
+msgstr ""
+
+msgid "Whitespace handling"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
 msgstr ""
 
 msgid "yaml_indent"
@@ -48948,13 +51510,10 @@ msgstr ""
 msgid "``Approved``, ``Needs editing``"
 msgstr ""
 
-msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
+msgid "``apple-xliff``, ``poxliff``, ``xliff``"
 msgstr ""
 
 msgid "``.xlf``, ``.xliff``"
-msgstr ""
-
-msgid "``xliff2``, ``xliff2-placeables``"
 msgstr ""
 
 msgid "``.pyml``, ``.yaml``, ``.yml``"
@@ -49352,6 +51911,31 @@ msgstr ""
 msgid ""
 "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`. "
 "Glossary integration is not available with API v1."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Rephrasing existing translations"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"When a string is already translated, Weblate can send the stored target text "
+"to the DeepL Write API ``/v2/write/rephrase`` endpoint and show the improved "
+"text as an additional machine translation suggestion."
+msgstr ""
+
+msgid ""
+"This requires a DeepL API Pro subscription using ``https://api.deepl.com/``. "
+"Rephrasing is skipped when using the free API endpoint."
+msgstr ""
+
+msgid ""
+"Only languages supported by the DeepL Write API are eligible. The stored "
+"translation is sent as plain text, without the XML placeholder handling used "
+"for DeepL translation. Rephrase suggestions use a slightly lower score than "
+"DeepL translations so automatic translation keeps preferring the translate "
+"result. Successful rephrases are cached; this still performs an extra API "
+"request on cache miss and may increase API usage and billing."
 msgstr ""
 
 msgid "`DeepL translator <https://www.deepl.com/translator>`_"
@@ -50757,6 +53341,173 @@ msgstr ""
 msgid "``rebase`` -- Rebase and merge"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Make your first translation"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"You can contribute to a project using your web browser. You do not need to "
+"install Weblate or work with its source code repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Find your project and language"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Follow the translation link from the project you want to help. Projects can "
+"use Hosted Weblate or their own Weblate installation; use an account on that "
+"installation. If you arrive at its dashboard, choose :guilabel:`Projects` "
+"> :guilabel:`Browse all projects` to find the project."
+msgstr ""
+
+msgid ""
+"Sign in, or follow the site's registration instructions. Access depends on "
+"the project: you might need to request permission from its maintainers. Some "
+"projects also accept suggestions without signing in."
+msgstr ""
+
+msgid ""
+"If you are signed in, open your user menu and choose :guilabel:`Settings`. "
+"Under :guilabel:`Languages`, select your :guilabel:`Translated languages` "
+"and, optionally, :guilabel:`Secondary languages` you understand. Secondary "
+"languages appear above the source as additional help. Save your settings. If "
+"you are contributing anonymously, skip this step and choose your language "
+"directly in the project as described below."
+msgstr ""
+
+msgid ""
+"Language settings with French selected for translation and German as a "
+"secondary language."
+msgstr ""
+
+msgid ""
+"Read the project's translation instructions before starting. These can "
+"explain terminology, style, priorities, and how to contact the language "
+"team. If you cannot find them, ask the maintainers which component to start "
+"with."
+msgstr ""
+
+msgid ""
+"Choose your language and a component. A component groups related strings, "
+"such as an application's interface or its documentation. "
+"Open :guilabel:`Untranslated strings` to start with empty translations, "
+"or :guilabel:`Unfinished strings` to include translations that still need "
+"work. Use :guilabel:`All strings` or :doc:`/user/search` to find existing "
+"translations. If your language is missing, use the option to start or "
+"request a translation when available, or contact the maintainers."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translations"
+msgid "Translate a string"
+msgstr "Превод"
+
+msgid ""
+"The editor shows the source text and a field for your translation. Read any "
+"explanation, screenshot, nearby strings, and glossary entries before "
+"writing. Short strings can have several meanings: ask in :ref:`user-"
+"comments` if the context is unclear. Other languages can help, but their "
+"translations can also contain mistakes."
+msgstr ""
+
+msgid ""
+"Write a natural expression of the intended meaning in your language. Follow "
+"your language's typography and the project's terminology and style. Preserve "
+"technical markers such as placeholders and markup; see :ref:`translating-"
+"special-text`. When Weblate displays several plural fields, complete each "
+"one according to its label; see :ref:`plurals`."
+msgstr ""
+
+msgid ""
+"French translation editor with plural forms, a missing-placeholder warning, "
+"the preferred glossary term for workspace, and a billing banner screenshot."
+msgstr ""
+
+msgid ""
+"Use explanations, screenshots, and glossary terms to choose the right "
+"wording. Quality checks highlight problems such as the missing ``%(days)s`` "
+"placeholder in this draft. The translator can edit, save, or suggest a "
+"translation."
+msgstr ""
+
+msgid "Choose the action that fits your contribution:"
+msgstr ""
+
+msgid ""
+":guilabel:`Save and continue` saves your translation and opens the next "
+"string. Use :guilabel:`Save and stay` to remain on the current string."
+msgstr ""
+
+msgid ""
+"Mark :guilabel:`Needs editing` when saving a translation that still needs "
+"work. Clear it after you have resolved the outstanding issues."
+msgstr ""
+
+msgid ""
+":guilabel:`Suggest` proposes a translation for someone to accept. Use this "
+"when you want another translator to consider your wording, or when the "
+"project only allows you to suggest changes. A suggestion does not replace "
+"the current translation until it is accepted."
+msgstr ""
+
+msgid ""
+":guilabel:`Skip` moves on without saving your edits. You can return later."
+msgstr ""
+
+msgid ""
+"The available actions depend on your permissions and the project's workflow. "
+"For example, an approved translation might only allow you to suggest a "
+"change. Saving in Weblate does not mean the translation is immediately "
+"published in the application: review, repository synchronization, and "
+"releases depend on the project. See :ref:`states` and :ref:`workflows`."
+msgstr ""
+
+msgid "Check your work and ask for help"
+msgstr ""
+
+msgid ""
+"Read your translation again after saving. If Weblate reports "
+"failing :doc:`quality checks </user/checks>`, open their explanations and "
+"correct the problem. Ignore a check only when you have confirmed it is a "
+"false positive and your permissions allow it. Passing all checks does not "
+"guarantee that the meaning or tone is correct. Review suggestions from "
+"translation memory or machine translation just as carefully as text you "
+"write yourself."
+msgstr ""
+
+msgid ""
+"Use a translation comment for questions about your language, or a source "
+"string comment for an unclear or incorrect original. Explain the problem and "
+"include the context you have found. If source editing or source review is "
+"available, follow the project's instructions for proposing a correction; "
+"otherwise use its advertised contact or repository link. See :ref:`user-"
+"comments` and :ref:`report-source`."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Keep contributing"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Watch projects you want to return to and choose your :ref:`notifications`. "
+"Your :ref:`dashboard` helps you find watched translations in your selected "
+"languages. You can also help by reviewing existing translations and "
+"suggestions when your permissions allow it."
+msgstr ""
+
+msgid ""
+"As you become familiar with the editor, "
+"explore :ref:`keyboard`, :ref:`source-context`, :doc:`/user/glossary`, "
+"and :doc:`/user/search`. The editor's :guilabel:`History` tab shows earlier "
+"changes to a string. See :ref:`profile-preferences` for editor preferences "
+"and :doc:`/user/files` for downloading and uploading translations to work "
+"offline."
+msgstr ""
+
 msgid ""
 "The quality checks help catch common translator errors, ensuring the "
 "translation is in good shape. The checks can be ignored in case of false "
@@ -50847,6 +53598,17 @@ msgid ""
 "Weblate employs a wide range of quality checks on strings. The following "
 "section describes them all in further detail. There are also language "
 "specific checks. Please file a bug if anything is reported in error."
+msgstr ""
+
+msgid ""
+"AI quality checks are populated asynchronously by the :ref:`AI quality "
+"evaluation add-on <addon-weblate.ai.quality>`. Each category groups the "
+"evaluator's findings, including their severity and explanation, and uses the "
+"same filtering and ignore controls as other checks. AI evaluation runs only "
+"during add-on runs, according to its configured triggers. Regular quality "
+"check processing does not contact the evaluator or create new AI findings; "
+"it only retains existing findings or removes them when the source or "
+"translation changes."
 msgstr ""
 
 msgid "Downloading and uploading translations"
@@ -50992,6 +53754,28 @@ msgid ""
 "Any file in a supported file format can be uploaded, but it is still "
 "recommended to use the same file format as the one used for translation, "
 "otherwise some features might not be translated properly."
+msgstr ""
+
+#, fuzzy
+#| msgid "Language code"
+msgid "Language checking"
+msgstr "Јазичен код"
+
+msgid ""
+"Weblate checks language metadata declared in uploaded files when the format "
+"provides it, including PO, XLIFF, Qt Linguist, and ARB files. Uploads "
+"declaring a different language are rejected. Known language aliases and "
+"variants sharing a base language are accepted, for example Portuguese and "
+"Brazilian Portuguese. Files without recognized language metadata can still "
+"be uploaded. Weblate does not infer the language from the filename or "
+"translated text."
+msgstr ""
+
+msgid ""
+"Select :guilabel:`Ignore language mismatch` to upload a file despite a "
+"language mismatch. This does not bypass other upload checks or permissions. "
+"When updating source strings, Weblate checks the declared source language "
+"instead of the target language."
 msgstr ""
 
 msgid "Import methods"
@@ -51274,9 +54058,6 @@ msgstr ""
 msgid "Glossary entry types"
 msgstr "Речник"
 
-msgid "Type"
-msgstr ""
-
 msgid "Purpose"
 msgstr ""
 
@@ -51332,11 +54113,19 @@ msgstr "Преведувачки известувања"
 
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
-"typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
-"untranslatable` means they can not be translated. Use this for brand names, "
-"product names, domains, technology names, or other terms that should not be "
-"changed in other languages. Such terms are visually highlighted in the "
-"glossary sidebar."
+"typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark this "
+"translation as untranslatable` means they cannot be translated. Use this for "
+"brand names, product names, domains, technology names, or other terms that "
+"should not be changed in other languages. Such terms are visually "
+"highlighted in the glossary sidebar."
+msgstr ""
+
+msgid ""
+"To keep a term unchanged in every language, use :guilabel:`Mark as "
+"untranslatable for all languages`. If the current translation is already "
+"untranslatable, :guilabel:`Make untranslatable apply to all languages` moves "
+"that flag to the source. Forbidden translations are language-specific; "
+"terminology remains source-wide."
 msgstr ""
 
 msgid ""
@@ -51370,9 +54159,9 @@ msgstr ""
 msgid ""
 "Flagging certain source-language glossary terms as ``terminology`` by bulk-"
 "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark "
-"as terminology` adds entries for them to all languages in the glossary. Use "
-"this for important terms that should be well thought out, and retain a "
-"consistent meaning across all languages."
+"as terminology for all languages` adds entries for them to all languages in "
+"the glossary. Use this for important terms that should be well thought out, "
+"and retain a consistent meaning across all languages."
 msgstr ""
 
 msgid ""
@@ -52088,8 +54877,29 @@ msgid "String search supports the shared query syntax above."
 msgstr ""
 
 msgid ""
+"Browsing and searching strings use the same list. Opening a scoped list "
+"without query parameters shows all strings in that scope. The global search "
+"page shows the search form until you submit it. Existing browse links "
+"redirect to search."
+msgstr ""
+
+msgid ""
+"When searching a translation, a project language, or a category language, "
+"select :guilabel:`Translate` to open the translation editor with the current "
+"query and sorting. Project-language and category-language searches let you "
+"review matching strings across components."
+msgstr ""
+
+msgid ""
 "When no field is defined, the lookup happens on source, target, and context "
 "strings."
+msgstr ""
+
+msgid ""
+"Select :guilabel:`All strings` at the top of the :guilabel:`Filters` menu to "
+"clear the query within the current search scope. If the form does not submit "
+"automatically, submit it to show all strings. Shared filters follow the "
+"order and status colors used in the strings status overview."
 msgstr ""
 
 msgid "Simple search"
@@ -52550,7 +55360,9 @@ msgstr ""
 msgid "Translating using Weblate"
 msgstr ""
 
-msgid "Thank you for your interest in translating with Weblate!"
+msgid ""
+"Thank you for your interest in translating with Weblate! If you are new "
+"here, follow :ref:`translator-start` for a guided first contribution."
 msgstr ""
 
 msgid "Generally, there are two most used modes of translation:"
@@ -52654,9 +55466,11 @@ msgstr ""
 
 msgid ""
 "Markdown syntax can be used in all comments, as well as mentioning other "
-"users by using ``@username``. Mention a maintainer or another translator "
-"when you need them to see a follow-up question; they can reply in the "
-"same :guilabel:`Comments` tab."
+"users by using ``@username``. Use the :guilabel:`Preview` tab above the "
+"comment field to see how the Markdown and mentions will render before "
+"posting. Mention a maintainer or another translator when you need them to "
+"see a follow-up question; they can reply in the same :guilabel:`Comments` "
+"tab."
 msgstr ""
 
 msgid ""
@@ -52811,6 +55625,58 @@ msgid ""
 "translator judgment, so use :ref:`source-context`, :doc:`/user/glossary`, "
 "and :ref:`user-comments` when the source text needs clarification."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Editing source strings and keys"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"When :ref:`component-manage_units` is enabled and you have permission to "
+"edit source strings, choose :guilabel:`Tools` → :guilabel:`Edit source` in "
+"the translation editor. You can open this dialog from any language. Changes "
+"apply to the source string and its existing translations within the "
+"component."
+msgstr ""
+
+msgid ""
+"The dialog lets you change the source text, supported key or context, and "
+"source explanation. Existing translations, history, comments, labels, and "
+"suggestions are retained. Changing source text marks existing translations "
+"as needing editing. Changing only the key, context, or explanation preserves "
+"their states. Renaming a key may require corresponding changes in your "
+"application code."
+msgstr ""
+
+msgid ""
+"Changes are written to translation files through the normal pending-change "
+"queue and follow the project's commit policy. Keys used by pending edits "
+"remain reserved until those edits are written. Weblate rejects collisions "
+"rather than merging strings. Reload the editor if another user has changed "
+"the source since you opened the dialog."
+msgstr ""
+
+msgid ""
+"Source editing supports PO, TBX, plain XLIFF 1.2, XLIFF 2.0, and Apple "
+"XLIFF. Key editing supports JSON (plain, nested, ARB, WebExtension, and "
+"i18next), YAML, Ruby YAML, TOML, Go-i18n TOML, Java properties, GWT, PHP, "
+"DTD, Android, RESX, and simple Fluent messages. These monolingual formats "
+"also support source-text editing. PO contexts and TBX keys are editable; "
+"composite XLIFF keys are not."
+msgstr ""
+
+msgid ""
+"YAML and TOML keys can be renamed within their existing mapping, but cannot "
+"be moved between mappings or renamed inside arrays. Editing source text with "
+"unsupported inline markup, changing the number of plural forms or "
+"terminology alternatives, and editing components with an intermediate "
+"language file are not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid ":doc:`psa:backends/bitbucket`"
+msgid ":http:post:`/api/units/(int:id)/source/`"
+msgstr ":doc:`psa:backends/bitbucket`"
 
 msgid "Plurals"
 msgstr ""
@@ -53109,8 +55975,8 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Screenshots can be uploaded directly from this panel using :guilabel:`Add "
-"screenshot`, or managed elsewhere in Weblate to better inform translators of "
+"Screenshots can be uploaded directly from this panel using :guilabel:`Upload "
+"screenshot`, or linked using :guilabel:`Add existing screenshot` to show "
 "where and how the string is used. Source-language screenshots are shown for "
 "every translation of the string, while translation-specific screenshots are "
 "shown only for that translation; see :ref:`screenshots`."
@@ -53157,6 +56023,59 @@ msgstr ""
 msgid "If you want direct links, the translation format has to support it."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Adding an existing screenshot"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"To link a screenshot that has already been uploaded, open the string in the "
+"translation editor:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid ""
+"In the :guilabel:`Screenshots` panel, choose :guilabel:`Add existing "
+"screenshot`."
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Browse the thumbnails, or enter a query in :guilabel:`Search screenshots` "
+"and choose :guilabel:`Search`. Use :guilabel:`Previous` and :guilabel:`Next` "
+"to browse additional results."
+msgstr ""
+
+msgid ""
+"Select a screenshot by clicking its card. The card is highlighted and "
+"marked :guilabel:`Selected`. To select with a keyboard, press :kbd:`Tab` to "
+"reach the cards, use the arrow keys to move between them, and "
+"press :kbd:`Space` to select a card."
+msgstr ""
+
+msgid ""
+"Choose :guilabel:`Add screenshot`. The editor reloads on the same string and "
+"displays the associated screenshot in the :guilabel:`Screenshots` panel."
+msgstr ""
+
+msgid "Screenshot picker with a highlighted card marked Selected."
+msgstr ""
+
+msgid ""
+"The picker shows screenshots from the current component in the source "
+"language or the current translation language. A source-language screenshot "
+"is linked to the source string and shown for every translation. A "
+"translation-language screenshot is shown only for that language. Screenshots "
+"already linked to the string are excluded from the picker."
+msgstr ""
+
+msgid ""
+"This action requires the :guilabel:`Edit screenshot` permission. To upload a "
+"new image, use :guilabel:`Upload screenshot` instead. Use :guilabel:`Manage "
+"screenshots` for the full :ref:`screenshot management interface "
+"<screenshots>`."
+msgstr ""
+
 msgid "Translation history"
 msgstr ""
 
@@ -53164,6 +56083,22 @@ msgid ""
 "Every change is by default (unless turned-off in component settings) saved "
 "in the database, and can be reverted. Optionally, translations can also be "
 "reverted in the underlying version control system."
+msgstr ""
+
+msgid ""
+"In the changes browser, use :guilabel:`Older` and :guilabel:`Newer` to "
+"browse history, or :guilabel:`Latest` to return to the newest matching "
+"changes. :guilabel:`Jump to date` starts with the latest changes on or "
+"before the selected date. You can then browse in either direction, keeping "
+"your search filters. Use :guilabel:`Date range` to restrict results to a "
+"particular period."
+msgstr ""
+
+msgid ""
+"CSV downloads and RSS feeds use the search filters, not your browsing "
+"position or jump date. CSV downloads contain up to 2,000 matching changes, "
+"and RSS feeds contain the latest 10. Old numbered page links open the latest "
+"matching changes."
 msgstr ""
 
 msgid "Translated string length"
@@ -53305,10 +56240,20 @@ msgstr ""
 msgid "Change string state (for example to approve all unreviewed strings)."
 msgstr "Преведувачки известувања"
 
-msgid "Adjust translation flags (see :ref:`custom-checks`)"
+msgid ""
+"Adjust source-wide or language-specific translation flags (see :ref:`custom-"
+"checks`)"
 msgstr ""
 
 msgid "Adjust string labels (see :ref:`labels`)"
+msgstr ""
+
+msgid ""
+"Source flag and label operations affect all languages of matching strings. "
+"Translation flag operations affect only matching translations and skip "
+"source strings. Removing translation flags removes local values; inherited "
+"flags remain in effect. To mark matching translations read-only, add ``read-"
+"only`` under :guilabel:`Translation flags to add — matching translations`."
 msgstr ""
 
 msgid ""
@@ -54940,11 +57885,6 @@ msgstr ""
 msgid "This state is only available when reviews are enabled."
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation notifications"
-msgid "Read-only"
-msgstr "Преведувачки известувања"
-
 msgid ""
 "String is read-only as a result of having ``read-only`` :ref:`flag <custom-"
 "checks>`, being a non-editable source string, or marked such in the "
@@ -55261,6 +58201,40 @@ msgid ""
 "any :ref:`workflow customization <workflow-customization>` overrides."
 msgstr ""
 
+msgid "AI-assisted quality evaluation"
+msgstr ""
+
+msgid ""
+"Use the :ref:`addon-weblate.ai.quality` add-on to check existing human or "
+"machine translations for accuracy, fluency, terminology, style, and "
+"formatting. It records quality checks without editing translations or "
+"approving them."
+msgstr ""
+
+msgid ""
+"Configure an LLM service under :guilabel:`Automatic suggestions`, then "
+"install :guilabel:`AI quality evaluation` and select "
+"the :guilabel:`Evaluation service`. Choose a query to limit the translations "
+"evaluated. Run the add-on manually, choose an :guilabel:`Evaluation "
+"frequency`, or enable evaluation after translation changes or repository "
+"updates. Installation does not run evaluation. See the add-on documentation "
+"for provider costs and the data sent to the service."
+msgstr ""
+
+msgid ""
+"Translators and reviewers can inspect the findings in the editor or search "
+"for checks such as ``check:ai_accuracy``. Correct the translation or ignore "
+"a finding when appropriate. Combine this with :ref:`reviews` when human "
+"approval is required; AI evaluation does not replace approval or change the "
+"translation quality filter used for repository commits."
+msgstr ""
+
+msgid ""
+"The component's :guilabel:`Diagnostics` recommends the add-on when an LLM "
+"service is configured. If the selected service becomes unavailable, an error "
+"diagnostic links maintainers to the installed add-on's configuration."
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Reusing existing translations"
@@ -55357,6 +58331,45 @@ msgstr ""
 
 #, fuzzy
 #~| msgid "Translation notifications"
+#~ msgid ""
+#~ "Ensured translation consistency and automatic translation workflows "
+#~ "respect restricted component access."
+#~ msgstr "Преведувачки известувања"
+
+#, fuzzy
+#~| msgid "Translation notifications"
+#~ msgid "`XLIFF 2.0 translation file`"
+#~ msgstr "Преведувачки известувања"
+
+#, fuzzy
+#~| msgid "Translation notifications"
+#~ msgid "`XLIFF 2.0 with placeables support`"
+#~ msgstr "Преведувачки известувања"
+
+#, fuzzy
+#~| msgid "Translation notifications"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "Преведувачки известувања"
+
+#, fuzzy
+#~| msgid "Translation notifications"
+#~ msgid "Translation definition"
+#~ msgstr "Преведувачки известувања"
+
+#, fuzzy
+#~| msgid "Translation notifications"
+#~ msgid "Sources"
+#~ msgstr "Преведувачки известувања"
+
+#, fuzzy
+#~| msgid "Translation notifications"
+#~ msgid ""
+#~ ":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-pre-"
+#~ "commit`"
+#~ msgstr "Преведувачки известувања"
+
+#, fuzzy
+#~| msgid "Translation notifications"
 #~ msgid "Project translation metrics"
 #~ msgstr "Преведувачки известувања"
 
@@ -55400,11 +58413,6 @@ msgstr ""
 #, fuzzy
 #~| msgid "Translation notifications"
 #~ msgid "Threat identification"
-#~ msgstr "Преведувачки известувања"
-
-#, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid "Component/Interaction"
 #~ msgstr "Преведувачки известувања"
 
 #, fuzzy
@@ -55490,11 +58498,6 @@ msgstr ""
 #~ msgstr "Преведувачки известувања"
 
 #, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid "Weblate support"
-#~ msgstr "Преведувачки известувања"
-
-#, fuzzy
 #~| msgid ":ref:`workflow-customization`"
 #~ msgid ""
 #~ "Documented current :ref:`translation-memory` management options in the UI."
@@ -55572,11 +58575,6 @@ msgstr ""
 #, fuzzy
 #~| msgid "Translation notifications"
 #~ msgid "ORM object for a category."
-#~ msgstr "Преведувачки известувања"
-
-#, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid "ORM object for a project."
 #~ msgstr "Преведувачки известувања"
 
 #, fuzzy
@@ -55865,11 +58863,6 @@ msgstr ""
 #, fuzzy
 #~| msgid "Translation notifications"
 #~ msgid "Returns information about the translation change."
-#~ msgstr "Преведувачки известувања"
-
-#, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid "event changed text"
 #~ msgstr "Преведувачки известувања"
 
 #, fuzzy
@@ -56262,11 +59255,6 @@ msgstr ""
 #, fuzzy
 #~| msgid "Translation notifications"
 #~ msgid ":guilabel:`Administration`, :guilabel:`Manage glossary`"
-#~ msgstr "Преведувачки известувања"
-
-#, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid ":guilabel:`Administration`, :guilabel:`Manage screenshots`"
 #~ msgstr "Преведувачки известувања"
 
 #, fuzzy
@@ -56767,11 +59755,6 @@ msgstr ""
 #~ msgid "*The Translation Memory Item*"
 #~ msgstr "Преведувачки меморија"
 
-#, fuzzy
-#~| msgid "Subject"
-#~ msgid "*object*"
-#~ msgstr "Предмет"
-
 #~ msgid "**category**"
 #~ msgstr "**category**"
 
@@ -56783,11 +59766,6 @@ msgstr ""
 #, fuzzy
 #~| msgid "Translation notifications"
 #~ msgid "Filename or component name"
-#~ msgstr "Преведувачки известувања"
-
-#, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid "*string*"
 #~ msgstr "Преведувачки известувања"
 
 #, fuzzy
@@ -56849,11 +59827,6 @@ msgstr ""
 #~| msgid "E-mail"
 #~ msgid "email"
 #~ msgstr "Е-пошта"
-
-#, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid "**language**"
-#~ msgstr "Преведувачки известувања"
 
 #, fuzzy
 #~| msgid "Translation notifications"
@@ -56931,11 +59904,6 @@ msgstr ""
 #~ msgstr "Измени"
 
 #, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid "*Change Action*"
-#~ msgstr "Преведувачки известувања"
-
-#, fuzzy
 #~| msgid "``target``"
 #~ msgid "target"
 #~ msgstr "``target``"
@@ -56970,11 +59938,6 @@ msgstr ""
 #~| msgid "``component``"
 #~ msgid "component"
 #~ msgstr "``component``"
-
-#, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid "*Component slug*"
-#~ msgstr "Преведувачки известувања"
 
 #, fuzzy
 #~| msgid "Translations"
@@ -57416,8 +60379,3 @@ msgstr ""
 #~| msgid "Glossary"
 #~ msgid "Manage announcements (global)"
 #~ msgstr "Речник"
-
-#, fuzzy
-#~| msgid "Translation notifications"
-#~ msgid "Manage translation memory (global)"
-#~ msgstr "Преведувачки известувања"

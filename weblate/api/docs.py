@@ -49,6 +49,12 @@ OPENMETRICS_MEDIA_TYPE = "application/openmetrics-text"
 METRICS_PATH = "/api/metrics/"
 PROJECT_METRICS_PATH = "/api/projects/{slug}/metrics/"
 METRICS_PATHS = {METRICS_PATH, PROJECT_METRICS_PATH}
+FILE_FORMAT_PATHS = {
+    "/api/projects/{slug}/file/",
+    "/api/projects/{slug}/languages/{language_code}/file/",
+    "/api/components/{project__slug}/{slug}/file/",
+    "/api/translations/{component__project__slug}/{component__slug}/{language__code}/file/",
+}
 USER_GROUPS_PATH = "/api/users/{username}/groups/"
 COMPONENT_PATH = "/api/components/{project__slug}/{slug}/"
 CATEGORY_PATH = "/api/categories/{id}/"
@@ -295,7 +301,7 @@ def _simplify_response_media_types(path: str, method: str, operation: dict) -> N
 
 
 def _simplify_format_parameter(path: str, method: str, operation: dict) -> None:
-    if path in METRICS_PATHS and method == "get":
+    if method == "get" and path in METRICS_PATHS | FILE_FORMAT_PATHS:
         return
 
     parameters = operation.get("parameters")

@@ -25,10 +25,15 @@ class ProjectTokenTest(FixtureTestCase):
         self.project.save()
         self.access_url = f"{reverse('manage-access', kwargs=self.kw_project)}#api"
 
-    def create_token(self, date_expires: str = "2999-12-31"):
+    def create_token(
+        self, date_expires: str = "2999-12-31", project: Project | None = None
+    ):
+        project = project or self.project
         self.make_manager()
+        if project != self.project:
+            project.add_user(self.user, "Administration")
         response = self.client.post(
-            reverse("create-project-token", kwargs=self.kw_project),
+            reverse("create-project-token", kwargs={"project": project.slug}),
             {"full_name": "Test Token", "date_expires": date_expires},
             follow=True,
         )
@@ -80,9 +85,43 @@ class ProjectTokenTest(FixtureTestCase):
     def test_create_token(self) -> None:
         """Managers should be able to create new tokens."""
         token = self.create_token()
+        token_user = self.get_token_user(token)
 
         self.assertIsNotNone(token)
         self.assertGreaterEqual(len(token), 10)
+        self.assertEqual(
+            list(token_user.groups.values_list("name", "defining_project__slug")),
+            [("Administration", self.project.slug)],
+        )
+
+    def test_token_cannot_write_other_public_project(self) -> None:
+        """Project tokens should not inherit public-project permissions."""
+        token_project = self.create_additional_project(
+            name="Token project", slug="token-project"
+        )
+        token_project.access_control = Project.ACCESS_PRIVATE
+        token_project.save()
+        token = self.create_token(project=token_project)
+        token_user = self.get_token_user(token)
+
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save()
+        unit = self.get_unit()
+        original_target = unit.target
+
+        self.assertFalse(token_user.has_perm("unit.edit", unit))
+
+        self.client.logout()
+        response = self.client.patch(
+            reverse("api:unit-detail", kwargs={"pk": unit.pk}),
+            {"state": "20", "target": ["Cross-project write"]},
+            content_type="application/json",
+            headers={"authorization": f"Token {token}"},
+        )
+
+        self.assertEqual(response.status_code, 403)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original_target)
 
     def test_create_token_expiring_today(self) -> None:
         """Tokens expiring today should be valid until the end of the day."""

@@ -14,12 +14,6 @@ You can use it directly or by :ref:`wlc`.
 The API is also documented using OpenAPI 3.1 on the ``/api/schema/`` URL, you
 can browse at ``/api/docs/``.
 
-.. note::
-
-   OpenAPI is available as a feature preview. The documentation is most likely
-   incomplete at this point and subject to change. Please consult the
-   documentation below for more detailed information on the API.
-
 .. _api-generic:
 
 Authentication and generic parameters
@@ -1071,6 +1065,9 @@ Projects
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string license: :ref:`project-license`
+    :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+    :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the workspace.
+    :>json array effective_enforced_checks: Enforced checks currently applied to the project (read-only).
     :>json integer access_control: :ref:`project-access_control`
     :>json boolean public_sharing: :ref:`project-public_sharing`
     :>json boolean use_shared_tm: :ref:`project-use_shared_tm`
@@ -1204,7 +1201,7 @@ Projects
 
     .. versionadded:: 5.5
 
-    Downloads all available translations associated with the project as an archive file using the requested format and language.
+    Downloads all available translations associated with the project as an archive file using the requested format and language. An unfiltered archive requires project-wide download permission. When ``language_code`` is specified, download permission is evaluated for that language.
 
     :param project: Project URL slug
     :type project: string
@@ -1645,7 +1642,7 @@ Projects
 
        Added ability to download ZIP file of all components translations in a project for 1 specific language.
 
-    Download a ZIP file of all translation files for a specified ``language_code`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`).
+    Download a ZIP file of all translation files for a specified ``language_code`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`). Download permission is evaluated for the requested language.
 
     :param project: Project URL slug
     :type project: string
@@ -1659,8 +1656,8 @@ Projects
         Possible responses:
 
         - ``200 OK`` with the ZIP file of translations for the specified language across all components in the project. If no components have translations for the specified language, an empty ZIP file will be returned.
-        - ``403 Forbidden`` if the user does not have permission to the project.
-        - ``404 Not Found`` if the project slug does not exist.
+        - ``403 Forbidden`` if the user does not have download permission for the requested language.
+        - ``404 Not Found`` if the project slug or language code does not exist.
 
 .. http:get:: /api/projects/(string:project)/languages/(string:language_code)/announcements/
 
@@ -1748,7 +1745,9 @@ Projects
 
    .. versionadded:: 2026.7
 
-    Returns a list of :ref:`projectbackup` archives.
+    Returns a list of :ref:`projectbackup` archives. Project backups contain all
+    project components, including restricted components, and require
+    :guilabel:`Edit project settings`.
 
     :param project: Project URL slug
     :type project: string
@@ -1772,7 +1771,9 @@ Projects
 
    .. versionadded:: 2026.7
 
-    Downloads a :ref:`projectbackup` archive.
+    Downloads a :ref:`projectbackup` archive containing all project components,
+    including restricted components. This requires :guilabel:`Edit project
+    settings`.
 
     :param project: Project URL slug
     :type project: string
@@ -1827,9 +1828,12 @@ Components
     :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string check_flags: :ref:`component-check_flags`
     :>json string priority: :ref:`component-priority`
-    :>json string enforced_checks: :ref:`component-enforced_checks`
+    :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+    :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the category, project, or workspace.
+    :>json array effective_enforced_checks: Enforced checks currently applied to the component (read-only).
     :>json string restricted: :ref:`component-restricted`
     :>json string repoweb: :ref:`component-repoweb`
+    :>json string repoweb_translations: :ref:`component-repoweb-translations`
     :>json string report_source_bugs: :ref:`component-report_source_bugs`
     :>json string merge_style: :ref:`component-merge_style`
     :>json string commit_message: :ref:`component-commit_message`
@@ -2635,6 +2639,10 @@ Translations
 
        The ``filter_type`` parameter is no longer supported and filtering is done by the ``q`` parameter.
 
+    .. versionchanged:: 2026.10
+
+       Added the ``background`` parameter.
+
     Trigger automatic translation.
 
     :param project: Project URL slug
@@ -2649,7 +2657,13 @@ Translations
     :<json string component: Component ID (always accepted); when the project has 30 or more eligible source components, a component slug or ``project/component`` path is also accepted; leave blank to use all components in the project
     :<json array engines: Machine translation engines to use when ``auto_source`` is ``mt``
     :<json int threshold: Score threshold for machine translation (1–100)
-    :>json string details: Human-readable summary of the translation result
+    :<json boolean background: Schedule automatic translation as a background task instead of waiting for it to finish. Defaults to ``false``.
+    :>json string details: Human-readable summary of the translation result, or status of a background task
+    :>json string task_url: URL for tracking a background task; see :http:get:`/api/tasks/(str:uuid)/`
+
+    With ``background`` set to ``true``, the endpoint returns ``202 Accepted``
+    once the task is scheduled. Validation and permission errors are still
+    reported immediately.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -2686,6 +2700,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
+    :form boolean ignore_language: Ignore a mismatch between the declared file language and the translation language (defaults to ``false``), see :ref:`upload-ignore_language`
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
     :form file file: Uploaded file
     :form string author_email: Author e-mail
@@ -2909,7 +2924,7 @@ and XLIFF.
     :>json int id: unit identifier
     :>json object tbx_terms: Read-only TBX metadata with source and target alternative lists. Each record contains text, optional ID, administrative status, and notes with text, origin, category, and scope (concept, language, or term). Empty for other formats.
     :>json string explanation: String explanation, available on source units, see :ref:`additional`
-    :>json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :>json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :>json string web_url: URL where the unit can be edited
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
     :>json string screenshots_url: URL to list and manage associated screenshots; see :http:get:`/api/units/(int:id)/screenshots/`
@@ -2928,7 +2943,7 @@ and XLIFF.
     :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
-    :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :<json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :<json array labels: labels, available on source units
 
 .. http:put:: /api/units/(int:id)/
@@ -2942,8 +2957,31 @@ and XLIFF.
     :<json int state: unit state, 0 - untranslated, 10 - needs editing, 20 - translated, 30 - approved (need review workflow enabled, see :ref:`reviews`)
     :<json array target: target string
     :<json string explanation: String explanation, available on source units, see :ref:`additional`
-    :<json string extra_flags: Additional string flags, available on source units, see :ref:`custom-checks`
+    :<json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :<json array labels: labels, available on source units
+
+.. http:post:: /api/units/(int:id)/source/
+
+    Edit the source string associated with a unit, updating its existing
+    translations within the component. Requires source-editing permission and
+    :ref:`component-manage_units`. See :ref:`edit-source` for format support
+    and restrictions.
+
+    :param int id: unit ID in any language
+    :<json integer content_hash: current content hash of the source unit, required to detect stale edits
+    :<json array source: replacement source forms, preserving the existing number of forms; optional
+    :<json string context: replacement key or context; optional
+    :<json string explanation: source explanation; optional
+    :>json object: updated source unit, in the same format as :http:get:`/api/units/(int:id)/`
+    :statuscode 200: source updated, or the request made no changes
+    :statuscode 400: invalid edit, conflicting key, unsupported operation, or stale content hash
+    :statuscode 403: editing is not permitted
+    :statuscode 423: component is busy; retry later
+
+    Omitted fields remain unchanged. Translation text and associated history
+    are retained. Source-text changes mark translations as needing editing;
+    key-only changes preserve translation states. Files are updated by the
+    normal pending-change queue, respecting the project's commit policy.
 
 .. http:delete:: /api/units/(int:id)/
 
@@ -3312,6 +3350,8 @@ Kotlin SDK builds
    generated resource formats may change without backward compatibility.
 
 The API contract is also documented in the OpenAPI schema at ``/api/schema/``.
+The registration metadata has a :download:`JSON Schema
+</specs/schemas/weblate-kotlin-sdk-build.schema.json>`.
 See :ref:`addon-weblate.cdn.kotlin` for add-on installation, lifecycle settings, and the
 CDN manifest contract.
 
@@ -3425,6 +3465,22 @@ Add-ons
 
     :param id: Add-on ID
     :type id: int
+
+.. http:post:: /api/addons/(int:id)/preview/
+
+    Preview an :ref:`automation-workflows` definition without executing actions.
+    Requires the same management permission as configuring the add-on. Other
+    add-on types reject this operation.
+
+    :param id: Add-on ID.
+    :json object workflow: Workflow definition, using the same structure as configuration.
+    :json int component: Component ID within the installed add-on's scope.
+    :json int change: Optional change ID belonging to that component.
+
+    Returns ``workflow``, execution ``context``, a ``trace`` of evaluated conditions
+    and planned or conditional actions, and ``preview: true``. Configuration and
+    scope errors return HTTP 400. Preview does not save configuration or create an
+    activity log.
 
 
 
@@ -3731,6 +3787,9 @@ Categories
    :>json str slug: Slug of category.
    :>json str project: Link to a project.
    :>json str category: Link to a parent category.
+   :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+   :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the parent category, project, or workspace.
+   :>json array effective_enforced_checks: Enforced checks currently applied to the category (read-only).
    :>json string announcements_url: URL to announcements; see :http:get:`/api/categories/(int:id)/announcements/`
    :>json string reports_url: URL to list or generate scoped reports; see :http:get:`/api/categories/(int:id)/reports/`
 

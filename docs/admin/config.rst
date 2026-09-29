@@ -311,6 +311,29 @@ Libravatar, as per https://www.libravatar.org/
    * :setting:`ENABLE_AVATARS`
    * :ref:`avatars`
 
+.. setting:: AVATAR_URL_TEMPLATE
+
+AVATAR_URL_TEMPLATE
+-------------------
+
+.. versionadded:: 2026.10
+
+Template to generate avatar URLs. Defaults to ``"{AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"``.
+
+It can contain ``{AVATAR_URL_PREFIX}``, ``{mail_hash}``, ``{querystring}``, ``{username}``, and ``{size}``.
+
+For example, to fetch avatars by username instead of e-mail hash (as needed by
+Codeberg's Forgejo-backed avatar service)::
+
+    AVATAR_URL_TEMPLATE = "{AVATAR_URL_PREFIX}avatar/{username}/{size}"
+
+.. seealso::
+
+   * :setting:`AVATAR_URL_PREFIX`
+   * :ref:`production-cache-avatar`
+   * :setting:`ENABLE_AVATARS`
+   * :ref:`avatars`
+
 .. setting:: AUTH_TOKEN_VALID
 
 AUTH_TOKEN_VALID
@@ -1589,7 +1612,8 @@ LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH
 --------------------------------------
 
 These settings configure the CDN add-ons, including
-:ref:`addon-weblate.cdn.cdnjs` and :ref:`addon-weblate.cdn.files`.
+:ref:`addon-weblate.cdn.cdnjs`, :ref:`addon-weblate.cdn.files`, and
+:ref:`addon-weblate.cdn.kotlin`.
 :setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is
 available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should
 store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
@@ -1604,6 +1628,7 @@ The files are served by your web server or CDN, not by Weblate; see
 
    * :ref:`addon-weblate.cdn.cdnjs`
    * :ref:`addon-weblate.cdn.files`
+   * :ref:`addon-weblate.cdn.kotlin`
 
 .. setting:: PIWIK_SITE_ID
 .. setting:: MATOMO_SITE_ID
@@ -2736,8 +2761,14 @@ SUPPORT_STATUS_CHECK
 
 .. versionadded:: 5.5
 
-Disables semiannual support status check and redirecting superusers upon login
-to the donation page in case there is no active support subscription.
+Defaults to ``True``. When enabled, superusers without integrated support are
+redirected after login to a page offering professional support, at most once
+every 180 days per account. The reminder starts once the installation has a
+change older than 14 days and waits for an HTML page navigation. A
+:guilabel:`Continue to Weblate` action returns to the intended page.
+
+Set this to ``False`` to disable the redirect. This does not hide support or
+donation links elsewhere in the interface.
 
 .. hint::
 

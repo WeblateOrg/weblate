@@ -2,6 +2,7 @@ Translating using Weblate
 =========================
 
 Thank you for your interest in translating with Weblate!
+If you are new here, follow :ref:`translator-start` for a guided first contribution.
 
 Generally, there are two most used modes of translation:
 
@@ -91,9 +92,10 @@ the original string, for example that it should be rephrased, or to ask
 questions about it.
 
 Markdown syntax can be used in all comments, as well as mentioning other
-users by using ``@username``. Mention a maintainer or another translator when
-you need them to see a follow-up question; they can reply in the same
-:guilabel:`Comments` tab.
+users by using ``@username``. Use the :guilabel:`Preview` tab above the comment
+field to see how the Markdown and mentions will render before posting. Mention a
+maintainer or another translator when you need them to see a follow-up
+question; they can reply in the same :guilabel:`Comments` tab.
 
 To find comments again, open your :ref:`user-profile`; the comment count links
 to your comment activity. To find strings with comments by a specific user, use
@@ -214,6 +216,45 @@ judgment, so use :ref:`source-context`, :doc:`/user/glossary`, and
    * :ref:`plurals`
    * :ref:`source-context`
    * :ref:`user-comments`
+
+.. _edit-source:
+
+Editing source strings and keys
++++++++++++++++++++++++++++++++
+
+When :ref:`component-manage_units` is enabled and you have permission to edit
+source strings, choose :guilabel:`Tools` → :guilabel:`Edit source` in the
+translation editor. You can open this dialog from any language. Changes apply
+to the source string and its existing translations within the component.
+
+The dialog lets you change the source text, supported key or context, and source
+explanation. Existing translations, history, comments, labels, and suggestions
+are retained. Changing source text marks existing translations as needing
+editing. Changing only the key, context, or explanation preserves their states.
+Renaming a key may require corresponding changes in your application code.
+
+Changes are written to translation files through the normal pending-change
+queue and follow the project's commit policy. Keys used by pending edits remain
+reserved until those edits are written. Weblate rejects collisions rather than
+merging strings. Reload the editor if another user has changed the source since
+you opened the dialog.
+
+Source editing supports PO, TBX, plain XLIFF 1.2, XLIFF 2.0, and Apple XLIFF.
+Key editing supports JSON (plain, nested, ARB, WebExtension, and i18next), YAML,
+Ruby YAML, TOML, Go-i18n TOML, Java properties, GWT, PHP, DTD, Android, RESX, and
+simple Fluent messages. These monolingual formats also support source-text
+editing. PO contexts and TBX keys are editable; composite XLIFF keys are not.
+
+YAML and TOML keys can be renamed within their existing mapping, but cannot be
+moved between mappings or renamed inside arrays. Editing source text with
+unsupported inline markup, changing the number of plural forms or terminology
+alternatives, and editing components with an intermediate language file are
+not supported.
+
+.. seealso::
+
+   * :ref:`component-manage_units`
+   * :http:post:`/api/units/(int:id)/source/`
 
 .. _plurals:
 
@@ -443,6 +484,8 @@ This action requires the :guilabel:`Edit screenshot` permission. To upload a new
 image, use :guilabel:`Upload screenshot` instead. Use :guilabel:`Manage screenshots`
 for the full :ref:`screenshot management interface <screenshots>`.
 
+.. _translation-history:
+
 Translation history
 +++++++++++++++++++
 
@@ -450,6 +493,16 @@ Every change is by default (unless turned-off in component settings) saved in
 the database, and can be reverted.
 Optionally, translations can also be reverted
 in the underlying version control system.
+
+In the changes browser, use :guilabel:`Older` and :guilabel:`Newer` to browse
+history, or :guilabel:`Latest` to return to the newest matching changes.
+:guilabel:`Jump to date` starts with the latest changes on or before the selected
+date. You can then browse in either direction, keeping your search filters.
+Use :guilabel:`Date range` to restrict results to a particular period.
+
+CSV downloads and RSS feeds use the search filters, not your browsing position
+or jump date. CSV downloads contain up to 2,000 matching changes, and RSS feeds
+contain the latest 10. Old numbered page links open the latest matching changes.
 
 Translated string length
 ++++++++++++++++++++++++
@@ -570,8 +623,14 @@ Define strings by searching for them and actions to perform on matching ones.
 Supported operations:
 
 * Change string state (for example to approve all unreviewed strings).
-* Adjust translation flags (see :ref:`custom-checks`)
+* Adjust source-wide or language-specific translation flags (see :ref:`custom-checks`)
 * Adjust string labels (see :ref:`labels`)
+
+Source flag and label operations affect all languages of matching strings.
+Translation flag operations affect only matching translations and skip source
+strings. Removing translation flags removes local values; inherited flags
+remain in effect. To mark matching translations read-only, add ``read-only``
+under :guilabel:`Translation flags to add — matching translations`.
 
 .. hint::
 

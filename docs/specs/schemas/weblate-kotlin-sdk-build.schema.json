@@ -1,0 +1,72 @@
+{
+  "$id": "https://weblate.org/schemas/weblate-kotlin-sdk-build.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Kotlin SDK build registration",
+  "description": "Resource IDs from a final Android build, submitted to the Kotlin SDK CDN add-on.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "packageName",
+    "versionCode"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1,
+      "default": 1,
+      "description": "Build metadata format version."
+    },
+    "packageName": {
+      "type": "string",
+      "maxLength": 127,
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z][A-Za-z0-9_]*)+$(?![\\s\\S])",
+      "description": "Android application package name."
+    },
+    "versionCode": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2100000000
+    },
+    "strings": {
+      "$ref": "#/definitions/resources",
+      "default": {}
+    },
+    "plurals": {
+      "$ref": "#/definitions/resources",
+      "default": {}
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "strings"
+      ],
+      "properties": {
+        "strings": {
+          "minProperties": 1
+        }
+      }
+    },
+    {
+      "required": [
+        "plurals"
+      ],
+      "properties": {
+        "plurals": {
+          "minProperties": 1
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "resources": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-zA-Z_][a-zA-Z0-9_.]*$(?![\\s\\S])"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^0x7[fF](?!00)[0-9a-fA-F]{6}$(?![\\s\\S])"
+      }
+    }
+  }
+}

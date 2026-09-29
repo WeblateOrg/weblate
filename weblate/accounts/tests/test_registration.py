@@ -149,6 +149,7 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         super().setUp()
         reset_rate_limit("registration", address="127.0.0.1")
         reset_rate_limit("login", address="127.0.0.1")
+        reset_rate_limit("password_reset", address="127.0.0.1")
 
     def assert_registration(self, match=None, reset=False):
         if match is None and reset:
@@ -850,9 +851,14 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, reverse("login"))
         self.assertContains(response, "the confirmation link probably expired")
 
-    @override_settings(REGISTRATION_CAPTCHA=False, AUTH_LOCK_ATTEMPTS=5)
+    @override_settings(
+        REGISTRATION_CAPTCHA=False,
+        AUTH_LOCK_ATTEMPTS=5,
+        RATELIMIT_ATTEMPTS=20,
+    )
     def test_reset_ratelimit(self) -> None:
         """Test for password reset ratelimiting."""
+        reset_rate_limit("password_reset", address="127.0.0.1")
         User.objects.create_user("testuser", "test@example.com", "x")
         self.assertEqual(len(mail.outbox), 0)
 
@@ -878,6 +884,29 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertEqual(len(mail.outbox), 1)
         sent_mail = mail.outbox.pop()
         self.assertNotIn("verification_code=", sent_mail.body)
+
+    @override_settings(REGISTRATION_CAPTCHA=False, RATELIMIT_ATTEMPTS=2)
+    def test_reset_nonexisting_ratelimit(self) -> None:
+        """Test rate limiting password resets for a nonexisting e-mail."""
+        reset_rate_limit("password_reset", address="127.0.0.1")
+        for _unused in range(2):
+            response = self.client.post(
+                reverse("password_reset"),
+                {"email": "test@example.com"},
+                follow=True,
+            )
+            self.assertContains(response, "Password reset almost complete")
+
+        with patch("weblate.accounts.forms.User.objects.filter") as user_filter:
+            response = self.client.post(
+                reverse("password_reset"),
+                {"email": "test@example.com"},
+                follow=True,
+            )
+            self.assertContains(response, "Password reset almost complete")
+            user_filter.assert_not_called()
+
+        self.assertEqual(len(mail.outbox), 2)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_invalid(self) -> None:
@@ -1008,9 +1037,12 @@ class RegistrationTest(BaseRegistrationTest):
         """Test for password reset of invalid captcha."""
         response = self.client.get(reverse("password_reset"))
         self.assertContains(response, "Reset my password")
-        response = self.client.post(
-            reverse("password_reset"), {"email": "test@example.com", "captcha": 9999}
-        )
+        with patch("weblate.accounts.views.check_rate_limit") as rate_limit:
+            response = self.client.post(
+                reverse("password_reset"),
+                {"email": "test@example.com", "captcha": 9999},
+            )
+            rate_limit.assert_not_called()
         self.assertContains(response, "That was not correct, please try again.")
         self.assertEqual(len(mail.outbox), 0)
 
@@ -1677,6 +1709,42 @@ class CookieRegistrationTest(BaseRegistrationTest):
         self.assertRedirects(response, reverse("password"))
         self.assertIsNone(DjangoStorage.partial.load(partial_token))
         self.assertIsNone(DjangoStorage.code.get_code(verification_code))
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_reset_invalidated_on_password_change_case_insensitive(self) -> None:
+        user = User.objects.create_user("testuser", "test@example.com", "old-password")
+        social = user.social_auth.create(provider="email", uid=user.email)
+        VerifiedEmail.objects.create(social=social, email=user.email)
+
+        response = self.client.post(
+            reverse("password_reset"), {"email": "TEST@example.com"}
+        )
+        self.assertRedirects(response, reverse("email-sent"))
+        reset_url = self.assert_registration_mailbox(
+            "[Weblate] Password reset on Weblate"
+        )
+
+        authenticated_client = Client()
+        self.assertTrue(
+            authenticated_client.login(username=user.username, password="old-password")
+        )
+        response = authenticated_client.post(
+            reverse("password"),
+            {
+                "password": "old-password",
+                "new_password1": "new-secure-password",
+                "new_password2": "new-secure-password",
+            },
+        )
+        self.assertRedirects(response, f"{reverse('profile')}#account")
+
+        response = self.confirm_registration_url(reset_url, follow=True)
+
+        self.assertRedirects(response, reverse("login"))
+        self.assertContains(response, "confirmation link probably expired")
+        self.assertNotIn("perform_reset", self.client.session)
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("new-secure-password"))
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_double_link(self) -> None:

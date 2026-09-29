@@ -1,26 +1,53 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n translations %}
+{% load crispy_forms_tags i18n icons permissions static translations %}
+
+{% block extra_script %}
+  <script defer src="{% static 'editor/browse.js' %}"></script>
+  <script defer src="{% static 'js/bulk-edit-selection.js' %}"></script>
+{% endblock extra_script %}
 
 {% block breadcrumbs %}
   {% if path_object %}
     {% path_object_breadcrumbs path_object %}
     <li class="breadcrumb-item">
-      <a href="{{ back_url }}#search">{% translate "Search" %}</a>
+      <a href="{% url 'search' path=path_object.get_url_path %}">{% translate "Search" %}</a>
     </li>
   {% else %}
     <li class="breadcrumb-item">
       <a href="{% url 'search' %}">{% translate "Search" %}</a>
     </li>
   {% endif %}
+  {% if has_editor %}
+    <li class="ms-auto">
+      <a href="{{ path_object.get_widgets_url }}">
+        <img src="{% url 'widget-image' path=path_object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1"
+             alt="{% translate "Translation status widgets" %}" />
+      </a>
+    </li>
+  {% endif %}
 {% endblock breadcrumbs %}
 
 {% block content %}
+
+  {% if component %}
+    {% include "snippets/component/state.html" with object=component %}
+  {% endif %}
+  {% if translation %}
+    {% perm 'unit.add' translation as user_can_add_unit %}
+    {% if user_can_add_unit %}
+      <a class="btn btn-link green float-end"
+         href="{{ translation.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ component.get_add_label }}</a>
+    {% endif %}
+  {% endif %}
 
   {% if show_results %}
     <form method="get" class="result-page-form">
       {% crispy search_form %}
     </form>
+    {% if translate_url %}
+      <a class="btn btn-primary" href="{{ translate_url }}">{% translate "Translate" %}</a>
+    {% endif %}
     {% if page_obj.object_list %}
       <div class="search-summary">
         <p>
@@ -30,8 +57,41 @@
           {% endif %}
         </p>
       </div>
-      {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True force_source=True show_translation=True %}
-      {% include "paginator.html" %}
+      {% if translation %}
+        {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True %}
+      {% else %}
+        {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True force_source=True show_translation=True %}
+      {% endif %}
+      <div class="search-pagination">{% include "paginator.html" %}</div>
+      {% if bulk_state_form %}
+        <form id="bulk-edit-form"
+              action="{% url 'bulk-edit' path=path_object.get_url_path %}"
+              method="post"
+              enctype="multipart/form-data">
+          <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+          <input type="hidden" name="units" id="bulk-edit-selected-units" value="" />
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+                {% translate "Bulk edit selected strings" %}
+              </h4>
+            </div>
+            <div class="card-body">
+              <p id="bulk-edit-selection-count"
+                 role="status"
+                 aria-live="polite">{% translate "No strings selected" %}</p>
+              {% crispy bulk_state_form %}
+            </div>
+            <div class="card-footer">
+              <button type="submit"
+                      id="bulk-edit-submit"
+                      class="btn btn-primary"
+                      disabled>{% translate "Apply" %}</button>
+            </div>
+          </div>
+        </form>
+      {% endif %}
     {% else %}
       {% translate "No matching strings found." as msg %}
       {% show_message "info" msg %}

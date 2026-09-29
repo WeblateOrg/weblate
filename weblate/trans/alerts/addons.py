@@ -21,6 +21,40 @@ class AddonErrorAlert(MultiAlert):
     addon_names: tuple[str, ...] = ()
     actionability_uses_addons = True
 
+    def get_context(self, user: User) -> dict[str, Any]:
+        from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
+
+        context = super().get_context(user)
+        candidates = [
+            addon
+            for addon in self.instance.component.addons_cache.addons
+            if addon.is_valid
+            and self.is_relevant_addon(addon)
+            and any(
+                (
+                    occurrence.get("addon_id") is None
+                    or str(addon.pk) == str(occurrence["addon_id"])
+                )
+                and (
+                    occurrence.get("addon") is None or addon.name == occurrence["addon"]
+                )
+                for occurrence in self.occurrences
+            )
+        ]
+        allowed = (
+            set(
+                Addon.objects.filter_access(user)
+                .filter(pk__in=[addon.pk for addon in candidates])
+                .values_list("pk", flat=True)
+            )
+            if candidates
+            else set()
+        )
+        context["configure_addons"] = [
+            addon for addon in candidates if addon.pk in allowed
+        ]
+        return context
+
     @classmethod
     def get_dismissal_context(cls, component: Component, details: dict) -> dict:
         context = super().get_dismissal_context(component, details)
@@ -200,3 +234,29 @@ class ExtractPotMissingMsgmerge(BaseAlert):
                 has_msgmerge = True
 
         return has_extractor and not has_msgmerge
+
+
+@register
+class AIEvaluationUnavailable(AddonErrorAlert):
+    verbose = gettext_lazy("AI quality evaluation service is unavailable.")
+    category = AlertCategory.ADDONS
+    doc_page = "admin/addons"
+    doc_anchor = "addon-weblate-ai-quality"
+    addon_names = ("weblate.ai.quality",)
+
+    @classmethod
+    def check_component(cls, component: Component) -> bool | dict:
+        from weblate.addons.ai import (  # ruff: ignore[import-outside-top-level]
+            available_evaluation_services,
+            effective_evaluator,
+        )
+
+        addon = effective_evaluator(component)
+        if component.is_glossary or addon is None or not addon.is_valid:
+            return False
+        service = addon.addon.get_configuration()["service"]
+        if service in available_evaluation_services(
+            component.project.get_machinery_settings()
+        ):
+            return False
+        return {"occurrences": [{"addon": addon.name, "addon_id": str(addon.pk)}]}

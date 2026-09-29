@@ -1616,6 +1616,27 @@ class SourceUnitTest(ModelTestCase):
 
 
 class UnitTest(ModelTestCase):
+    def test_all_comments_prefetch(self) -> None:
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
+        source = unit.source_unit
+        project = self.component.project
+        comments = [
+            Comment.objects.create(unit=comment_unit, comment=f"Comment {index}")
+            for comment_unit in (unit, source)
+            for index in range(3)
+        ]
+
+        for current_unit in (unit, source):
+            with self.subTest(is_source=current_unit.is_source):
+                fetched = list(current_unit.all_comments)
+                self.assertCountEqual(fetched, comments)
+                with self.assertNumQueries(0):
+                    for comment in fetched:
+                        translation = comment.unit.translation
+                        self.assertEqual(translation.component, self.component)
+                        self.assertEqual(translation.component.project, project)
+                        self.assertIn(translation.language.code, ("cs", "en"))
+
     def test_prefetch_api(self) -> None:
         unit = Unit.objects.filter(translation__language_code="cs").first()
         if unit is None:

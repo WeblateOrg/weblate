@@ -6,6 +6,7 @@ from __future__ import annotations
 import html
 import re
 from functools import reduce
+from typing import TYPE_CHECKING
 
 import mistletoe
 from django.db.models import Q
@@ -18,19 +19,32 @@ from weblate.utils.errors import report_error
 
 from .concurrency import MARKDOWN_LOCK
 
+if TYPE_CHECKING:
+    from django.db.models import QuerySet
+
 MENTION_RE = re.compile(r"(?<!\w)(@[\w.@+-]+)\b")
+MAX_MENTION_USERS = 100
 PLAIN_AUTOLINK_CHAR = r"A-Za-z0-9.!#$%&'*+/=?^_`{|}~:-"
 PLAIN_AUTOLINK_END = r"A-Za-z0-9/_~=#&+-"
 PLAIN_AUTOLINK_PAREN = rf"\([{PLAIN_AUTOLINK_CHAR}]+\)"
 
 
-def get_mention_users(text):
+def get_mention_users(text: str) -> QuerySet[User]:
     """Return IDs of users mentioned in the text."""
-    matches = MENTION_RE.findall(text)
-    if not matches:
+    usernames: dict[str, str] = {}
+    for match in MENTION_RE.finditer(text):
+        username = match[1][1:]
+        usernames.setdefault(username.lower(), username)
+        if len(usernames) == MAX_MENTION_USERS:
+            break
+    if not usernames:
         return User.objects.none()
     return User.objects.filter(
-        reduce(lambda acc, x: acc | Q(username=x[1:]), matches, Q())
+        reduce(
+            lambda query, username: query | Q(username=username),
+            usernames.values(),
+            Q(),
+        )
     )
 
 

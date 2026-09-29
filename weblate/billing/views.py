@@ -16,6 +16,7 @@ from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext
+from django.views.decorators.http import require_http_methods
 
 from weblate.accounts.views import mail_admins_contact
 from weblate.auth.models import TeamMembership
@@ -272,13 +273,14 @@ def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 
 @login_required
+@require_http_methods(["GET", "HEAD", "POST"])
 def merge(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
     if not request.user.has_perm("billing.manage"):
         raise PermissionDenied
 
     billing = get_object_or_404(Billing, pk=pk)
 
-    if request.method == "GET":
+    if request.method != "POST":
         merge_form = BillingMergeForm(request.GET)
         if (
             not merge_form.is_valid()

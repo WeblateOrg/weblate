@@ -85,6 +85,8 @@ class Check(models.Model):
     )
     name = models.CharField(max_length=50, choices=CHECKS.get_choices())
     dismissed = models.BooleanField(db_index=True, default=False)
+    # Provider diagnostics and freshness data, not user-editable configuration.
+    metadata = models.JSONField(default=dict, blank=True)
 
     objects = CheckQuerySet.as_manager()
 
@@ -116,7 +118,10 @@ class Check(models.Model):
             return None
 
     def is_enforced(self) -> bool:
-        return self.name in self.unit.translation.component.enforced_checks
+        """Return whether this check is enforced (inherited or local)."""
+        component = self.unit.translation.component
+        effective = component.get_effective_setting("enforced_checks")
+        return self.name in effective
 
     def get_description(self) -> StrOrPromise:
         if self.check_obj:

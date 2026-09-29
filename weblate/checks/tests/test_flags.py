@@ -220,7 +220,7 @@ class FlagTest(SimpleTestCase):
     def test_whitespace(self) -> None:
         self.assertEqual(Flags("  foo    , bar  ").items(), {"foo", "bar"})
         flags = Flags(
-            "max-size:120:2,font-family:DIN next pro,font-spacing:2, priority:140"
+            "max-size:120:2,font-family:DIN next pro,font-spacing:1.2, priority:140"
         )
         self.assertEqual(
             flags.items(),
@@ -228,7 +228,7 @@ class FlagTest(SimpleTestCase):
                 ("font-family", "DIN next pro"),
                 ("priority", "140"),
                 ("max-size", "120", "2"),
-                ("font-spacing", "2"),
+                ("font-spacing", "1.2"),
             },
         )
         self.assertEqual(

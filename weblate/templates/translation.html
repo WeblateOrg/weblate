@@ -10,7 +10,7 @@
   {% get_translate_url object as translate_url %}
   {% url 'translate' path=object.get_url_path as edit_url %}
   {% url 'zen' path=object.get_url_path as zen_url %}
-  {% url 'browse' path=object.get_url_path as browse_url %}
+  {% url 'search' path=object.get_url_path as browse_url %}
 
 
   <ul class="nav nav-pills">
@@ -182,7 +182,7 @@
   {% get_translate_url object as translate_url %}
   {% url 'translate' path=object.get_url_path as edit_url %}
   {% url 'zen' path=object.get_url_path as zen_url %}
-  {% url 'browse' path=object.get_url_path as browse_url %}
+  {% url 'search' path=object.get_url_path as browse_url %}
 
   <div class="tab-content">
     <div class="tab-pane active" id="translation">

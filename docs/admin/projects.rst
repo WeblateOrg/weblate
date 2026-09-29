@@ -639,6 +639,24 @@ might want to strip leading directory by ``parentdir`` filter (see
 
    * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
 
+.. _component-repoweb-translations:
+
+Repository browser for translations
+++++++++++++++++++++++++++++++++++++++
+
+URL of repository browser used to display translation files. When empty, the
+:ref:`component-repoweb` URL will be used as a fallback. This is useful when
+source-code files and translation files are hosted in different repositories.
+It applies to all translation files, including source-language, intermediate,
+template, and target files. You can use :ref:`markup`.
+
+For example on GitHub, use something like:
+``https://github.com/WeblateOrg/translations/blob/{{branch}}/{{filename}}#L{{line}}``
+
+.. seealso::
+
+   * :setting:`PROJECT_WEB_RESTRICT_PRIVATE`
+
 .. _component-git_export:
 
 Exported repository URL
@@ -951,6 +969,11 @@ Enforced checks
 
 List of checks which can not be dismissed.
 
+This setting can be inherited from the workspace, project, or category (see
+:ref:`workspace-inherited-settings`). When a new enforced check is inherited,
+existing failing translations are reverted to the :guilabel:`Needs editing`
+state in the background.
+
 .. seealso::
 
    :ref:`enforcing-checks`
@@ -1027,8 +1050,9 @@ Manage strings
 .. versionadded:: 4.5
 
 Configures whether users in Weblate will be allowed to add new strings and
-remove existing ones. Adjust this to match your localization workflow - how the
-new strings are supposed to be introduced.
+remove existing ones. It also enables :ref:`editing source strings and keys
+<edit-source>` in supported formats. Adjust this to match your localization
+workflow — how strings are introduced and maintained.
 
 For bilingual formats, the strings are typically extracted from the source code
 (for example by using :program:`xgettext`) and adding new strings in Weblate
@@ -1365,6 +1389,15 @@ granting access to a new user group and putting users in it,
 or using the default `custom` or `private` access control groups.
 
 The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
+
+Restricted access controls direct access to component pages, translations,
+files, APIs, and translation memory. It is not an isolation boundary for
+administrative capabilities whose documented scope includes the component. For
+example, project backups contain all project components, and project- or
+category-level add-ons process restricted components in their configured scope.
+Component add-ons can also use cross-component inputs documented by the add-on.
+Grant the corresponding management permissions only to users trusted with
+these effects. See :ref:`perm-check` and :ref:`addons`.
 
 .. hint::
 
