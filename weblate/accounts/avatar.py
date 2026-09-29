@@ -7,7 +7,7 @@ import hashlib
 from pathlib import Path
 from ssl import CertificateError
 from typing import TYPE_CHECKING, Literal, cast
-from urllib.parse import urlencode
+from urllib.parse import quote, urlencode
 
 import httpx2
 from django.conf import settings
@@ -38,7 +38,7 @@ def avatar_for_email(email: str, username: str, size: int = 80) -> str:
         AVATAR_URL_PREFIX=settings.AVATAR_URL_PREFIX,
         mail_hash=mail_hash,
         querystring=querystring,
-        username=username,
+        username=quote(username),
         size=size,
     )
 
