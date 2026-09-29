@@ -413,6 +413,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
                         translation.language.code,
                         self._get_language_name(translation.language),
                         translation.plural.plural_form,
+                        [unit.all_flags.format() for unit in units],
                     ],
                     sort_keys=True,
                     default=str,

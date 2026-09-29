@@ -16,7 +16,7 @@ from weblate.checks.flags import Flags, FlagsValidator
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.trans.models import Category, Change, Component, Project, Translation, Unit
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -25,6 +25,7 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -103,6 +104,25 @@ def exclude_stale_units(
         projects_by_id = {project.pk: project for project in projects}
         for item in components:
             item.project = projects_by_id[item.project_id]
+        list(
+            Workspace.objects.filter(
+                pk__in={
+                    project.workspace_id
+                    for project in projects
+                    if project.workspace_id is not None
+                }
+            )
+            .order_by("pk")
+            .select_for_update()
+        )
+        category_ids = {item.category_id for item in components if item.category_id}
+        while category_ids:
+            categories = list(
+                Category.objects.filter(pk__in=category_ids)
+                .order_by("pk")
+                .select_for_update()
+            )
+            category_ids = {item.category_id for item in categories if item.category_id}
         secondary_language_ids = {
             language.pk
             for item in components

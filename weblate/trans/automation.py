@@ -86,6 +86,12 @@ def automatic_translation(
     if affected is not None:
         affected.unit_ids = auto.affected_unit_ids
         affected.source_unit_ids = auto.affected_source_unit_ids
+        if settings["mode"] == "suggest" and selection is not None:
+            affected.unit_snapshots = {
+                unit_id: snapshot
+                for unit_id, snapshot in selection.unit_snapshots.items()
+                if unit_id in auto.affected_unit_ids
+            }
     return {
         "component": component.pk,
         "updated": auto.updated,
