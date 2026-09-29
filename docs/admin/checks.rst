@@ -198,6 +198,13 @@ Some examples:
 To install custom checks, provide a fully-qualified path to the Python class
 in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`.
 
+Checks declaring ``propagates = "source"`` or ``propagates = "target"`` update
+related strings in the background after a save. They can override
+``evaluate_propagated(units)`` to evaluate a matching group in bulk. Yield a
+``(unit, failed)`` pair for every string, including passing strings so stale
+warnings can be removed. Without this override, Weblate evaluates the check
+on each matching string in chunks.
+
 Checking translation text does not contain "foo"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

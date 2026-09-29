@@ -217,19 +217,21 @@ class MultiRepoTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(len(unit.propagated_units), 1)
-        unit.translate(self.user, [new_text], STATE_TRANSLATED)
+        with self.captureOnCommitCallbacks(execute=True):
+            unit.translate(self.user, [new_text], STATE_TRANSLATED)
 
-        # Verify new content
-        unit = self.get_unit()
-        self.assertEqual(unit.target, new_text)
-        self.assertEqual(len(unit.propagated_units), 1)
-        other_unit = unit.propagated_units[0]
-        self.assertEqual(other_unit.target, new_text)
+            # Content propagates immediately, but related checks wait for commit.
+            unit = self.get_unit()
+            self.assertEqual(unit.target, new_text)
+            self.assertEqual(len(unit.propagated_units), 1)
+            other_unit = unit.propagated_units[0]
+            self.assertEqual(other_unit.target, new_text)
+            self.assertEqual(
+                list(unit.check_set.values_list("name", flat=True)), ["duplicate"]
+            )
+            self.assertFalse(other_unit.check_set.exists())
 
-        # There should be no checks on both
-        self.assertEqual(
-            list(unit.check_set.values_list("name", flat=True)), ["duplicate"]
-        )
+        # The background refresh updates checks on the propagated translation.
         self.assertEqual(
             list(other_unit.check_set.values_list("name", flat=True)), ["duplicate"]
         )
