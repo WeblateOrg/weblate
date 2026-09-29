@@ -368,6 +368,10 @@ class EvaluatedUnitSnapshot:
     source_unit_id: int
     source_unit: EvaluationSnapshot
     batch: tuple[tuple[int, EvaluationSnapshot], ...]
+    batch_unit_ids: tuple[int, ...]
+    dependency_ids: frozenset[int]
+    service_key: str
+    context_fingerprint: str
 
 
 def evaluation_snapshot(unit: Unit) -> EvaluationSnapshot:
@@ -525,12 +529,13 @@ def evaluate_component(
                 for unit in batch
                 for item in (unit, unit.source_unit)
             }
+            dependencies = service.get_evaluation_dependencies(batch)
             snapshots.update(
-                {
-                    unit.pk: evaluation_snapshot(unit)
-                    for unit in service.get_evaluation_dependencies(batch)
-                }
+                {unit.pk: evaluation_snapshot(unit) for unit in dependencies}
             )
+            dependency_ids = frozenset(unit.pk for unit in dependencies)
+            batch_unit_ids = tuple(unit.pk for unit in batch)
+            context_fingerprint = service.get_evaluation_context_fingerprint(component)
             try:
                 issues = service.evaluate_batch(batch)
             except (MachineTranslationError, httpx2.HTTPError) as error:
@@ -550,6 +555,10 @@ def evaluate_component(
                                 source_unit_id=unit.source_unit.pk,
                                 source_unit=snapshots[unit.source_unit.pk],
                                 batch=batch_snapshots,
+                                batch_unit_ids=batch_unit_ids,
+                                dependency_ids=dependency_ids,
+                                service_key=service_key,
+                                context_fingerprint=context_fingerprint,
                             )
                             for unit in batch
                         }

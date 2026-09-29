@@ -5,13 +5,14 @@ from __future__ import annotations
 
 from dataclasses import replace
 from itertools import batched
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from django.db import transaction
 from django.db.models import F
 
 from weblate.checks.ai import evaluation_fingerprint
 from weblate.checks.flags import Flags, FlagsValidator
+from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Unit
 from weblate.trans.models.pending import PendingUnitChange
@@ -28,6 +29,7 @@ if TYPE_CHECKING:
 
     from weblate.addons.ai import EvaluatedUnitSnapshot, EvaluationSnapshot
     from weblate.auth.models import User
+    from weblate.machinery.llm import BaseLLMTranslation
     from weblate.trans.models import Label, Project
     from weblate.trans.models.unit import UnitQuerySet
 
@@ -77,6 +79,43 @@ def exclude_stale_units(
             for batch_unit_id, batch_snapshot in snapshot.batch
         )
     }
+    services: dict[str, BaseLLMTranslation] = {}
+    for unit_id, snapshot in expected_snapshots.items():
+        if unit_id in stale_ids:
+            continue
+        batch = [
+            current.get(batch_unit_id) for batch_unit_id in snapshot.batch_unit_ids
+        ]
+        if any(unit is None for unit in batch):
+            stale_ids.add(unit_id)
+            continue
+        unit = current[unit_id]
+        service = services.get(snapshot.service_key)
+        if service is None:
+            settings = unit.translation.component.project.get_machinery_settings()
+            if (
+                snapshot.service_key not in MACHINERY
+                or snapshot.service_key not in settings
+            ):
+                stale_ids.add(unit_id)
+                continue
+            service_class = cast(
+                "type[BaseLLMTranslation]", MACHINERY[snapshot.service_key]
+            )
+            service = services[snapshot.service_key] = service_class(
+                settings[snapshot.service_key]
+            )
+        typed_batch = cast("list[Unit]", batch)
+        if (
+            service.get_evaluation_context_fingerprint(unit.translation.component)
+            != snapshot.context_fingerprint
+            or {
+                dependency.pk
+                for dependency in service.get_evaluation_dependencies(typed_batch)
+            }
+            != snapshot.dependency_ids
+        ):
+            stale_ids.add(unit_id)
     return units.filter(pk__in=expected_snapshots).exclude(pk__in=stale_ids)
 
 

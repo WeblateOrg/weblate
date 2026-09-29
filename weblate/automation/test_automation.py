@@ -1367,9 +1367,6 @@ class AIQualityAutomationTest(ComponentTestCase):
         secondary_unit = stale.source_unit.unit_set.get(
             translation=secondary_translation
         )
-        Unit.objects.filter(pk=secondary_unit.pk).update(
-            target="Secondary context", state=STATE_TRANSLATED
-        )
         self.component.secondary_language = secondary_translation.language
         self.component.inherit_secondary_language = False
         self.component.save(
@@ -1380,7 +1377,8 @@ class AIQualityAutomationTest(ComponentTestCase):
         def batches(_units: object, _batch_size: int) -> Iterator[list[Unit]]:
             yield [stale]
             secondary_unit.refresh_from_db()
-            secondary_unit.target = "Changed secondary context"
+            secondary_unit.target = "New secondary context"
+            secondary_unit.state = STATE_TRANSLATED
             secondary_unit.save()
             yield [current]
 

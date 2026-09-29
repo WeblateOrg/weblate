@@ -366,6 +366,21 @@ class BaseLLMTranslation(BatchMachineTranslation):
             dependencies[term.source_unit.pk] = term.source_unit
         return list(dependencies.values())
 
+    def get_evaluation_context_fingerprint(self, component: Component) -> str:
+        """Identify non-unit configuration used to build evaluation requests."""
+        return hash_to_checksum(
+            calculate_hash(
+                json.dumps(
+                    [
+                        self.settings,
+                        getattr(component.effective_secondary_language, "pk", None),
+                    ],
+                    sort_keys=True,
+                    default=str,
+                )
+            )
+        )
+
     def evaluate_batch(self, units: list[Unit]) -> dict[int, list[EvaluationIssue]]:
         """Evaluate related units independently of suggestion generation."""
         if not units:
