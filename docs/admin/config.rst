@@ -311,6 +311,29 @@ Libravatar, as per https://www.libravatar.org/
    * :setting:`ENABLE_AVATARS`
    * :ref:`avatars`
 
+.. setting:: AVATAR_URL_TEMPLATE
+
+AVATAR_URL_TEMPLATE
+-------------------
+
+.. versionadded:: 2026.10
+
+Template to generate avatar URLs. Defaults to ``"{AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"``.
+
+It can contain ``{AVATAR_URL_PREFIX}``, ``{mail_hash}``, ``{querystring}``, ``{username}``, and ``{size}``.
+
+For example, to fetch avatars by username instead of e-mail hash (as needed by
+Codeberg's Forgejo-backed avatar service)::
+
+    AVATAR_URL_TEMPLATE = "{AVATAR_URL_PREFIX}avatar/{username}/{size}"
+
+.. seealso::
+
+   * :setting:`AVATAR_URL_PREFIX`
+   * :ref:`production-cache-avatar`
+   * :setting:`ENABLE_AVATARS`
+   * :ref:`avatars`
+
 .. setting:: AUTH_TOKEN_VALID
 
 AUTH_TOKEN_VALID
