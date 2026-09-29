@@ -3,20 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from dataclasses import replace
-from itertools import batched
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from django.db import transaction
-from django.db.models import BooleanField, F
-from django.db.models.expressions import RawSQL
+from django.db.models import F
 
-from weblate.checks.ai import evaluation_fingerprint
 from weblate.checks.flags import Flags, FlagsValidator
-from weblate.lang.models import Language
-from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Category, Change, Component, Project, Translation, Unit
+from weblate.trans.models import Change, Component, Unit
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -25,15 +19,12 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
-from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
 
-    from weblate.addons.ai import EvaluatedUnitSnapshot, EvaluationSnapshot
     from weblate.auth.models import User
-    from weblate.machinery.llm import BaseLLMTranslation
-    from weblate.trans.models import Label
+    from weblate.trans.models import Label, Project
     from weblate.trans.models.unit import UnitQuerySet
 
 EDITABLE_STATES = {
@@ -45,225 +36,7 @@ EDITABLE_STATES = {
 }
 
 
-def filter_unit_ids(units: UnitQuerySet, unit_ids: set[int]) -> UnitQuerySet:
-    """Filter units using one PostgreSQL array parameter."""
-    if not unit_ids:
-        return units.none()
-    return units.alias(
-        selected_unit=RawSQL(
-            '"trans_unit"."id" = ANY(%s)',
-            (list(unit_ids),),
-            output_field=BooleanField(),
-        )
-    ).filter(selected_unit=True)
-
-
-def exclude_stale_units(
-    units: UnitQuerySet, expected_snapshots: dict[int, EvaluatedUnitSnapshot]
-) -> UnitQuerySet:
-    """Lock evaluation inputs and exclude units changed since evaluation."""
-    selected_ids = set(
-        filter_unit_ids(units, set(expected_snapshots)).values_list("pk", flat=True)
-    )
-    relevant_snapshots = {
-        unit_id: expected_snapshots[unit_id] for unit_id in selected_ids
-    }
-    locked_ids = set(relevant_snapshots)
-    for snapshot in relevant_snapshots.values():
-        locked_ids.update(unit_id for unit_id, _unit in snapshot.batch)
-    current: dict[int, Unit] = {}
-
-    def lock_units(unit_ids: set[int]) -> None:
-        for unit_id_batch in batched(sorted(unit_ids.difference(current)), 1000):
-            current.update(
-                {
-                    unit.pk: unit
-                    for unit in Unit.objects.filter(pk__in=unit_id_batch)
-                    .order_by("pk")
-                    .select_related("translation")
-                    .select_for_update()
-                }
-            )
-
-    lock_units(locked_ids)
-
-    def lock_context(batch_unit_ids: tuple[int, ...]) -> list[Unit]:
-        """Lock and reload mutable non-unit evaluation context."""
-        batch = [current[unit_id] for unit_id in batch_unit_ids]
-        component_ids = {unit.translation.component_id for unit in batch}
-        components = list(
-            Component.objects.filter(pk__in=component_ids)
-            .order_by("pk")
-            .select_for_update()
-        )
-        projects = list(
-            Project.objects.filter(pk__in=(item.project_id for item in components))
-            .order_by("pk")
-            .select_for_update()
-        )
-        projects_by_id = {project.pk: project for project in projects}
-        for item in components:
-            item.project = projects_by_id[item.project_id]
-        list(
-            Workspace.objects.filter(
-                pk__in={
-                    project.workspace_id
-                    for project in projects
-                    if project.workspace_id is not None
-                }
-            )
-            .order_by("pk")
-            .select_for_update()
-        )
-        category_ids = {item.category_id for item in components if item.category_id}
-        while category_ids:
-            categories = list(
-                Category.objects.filter(pk__in=category_ids)
-                .order_by("pk")
-                .select_for_update()
-            )
-            category_ids = {item.category_id for item in categories if item.category_id}
-        secondary_language_ids = {
-            language.pk
-            for item in components
-            if (language := item.effective_secondary_language) is not None
-        }
-        list(
-            Language.objects.filter(
-                pk__in={
-                    *(item.source_language_id for item in components),
-                    *(unit.translation.language_id for unit in batch),
-                    *secondary_language_ids,
-                }
-            )
-            .order_by("pk")
-            .select_for_update()
-        )
-        list(
-            Translation.objects.filter(
-                pk__in={
-                    *(item.source_translation.pk for item in components),
-                    *(unit.translation_id for unit in batch),
-                }
-            )
-            .order_by("pk")
-            .select_for_update()
-        )
-        refreshed = list(
-            Unit.objects.filter(pk__in=batch_unit_ids).select_related(
-                "translation__component__project",
-                "translation__component__source_language",
-                "translation__language",
-                "translation__plural",
-            )
-        )
-        current.update({unit.pk: unit for unit in refreshed})
-        return refreshed
-
-    def changed(unit: Unit | None, snapshot: EvaluationSnapshot) -> bool:
-        return (
-            unit is None
-            or unit.last_updated != snapshot.last_updated
-            or evaluation_fingerprint(unit) != snapshot.fingerprint
-        )
-
-    stale_ids = {
-        unit_id
-        for unit_id, snapshot in relevant_snapshots.items()
-        if changed(current.get(unit_id), snapshot.unit)
-        or current[unit_id].source_unit_id != snapshot.source_unit_id
-        or changed(current.get(snapshot.source_unit_id), snapshot.source_unit)
-        or any(
-            changed(current.get(batch_unit_id), batch_snapshot)
-            for batch_unit_id, batch_snapshot in snapshot.batch
-        )
-    }
-    services: dict[str, BaseLLMTranslation] = {}
-    batches: dict[tuple[object, ...], tuple[EvaluatedUnitSnapshot, set[int]]] = {}
-    for unit_id, snapshot in relevant_snapshots.items():
-        key = (
-            snapshot.service_key,
-            snapshot.batch_unit_ids,
-            snapshot.dependency_ids,
-            snapshot.context_fingerprint,
-        )
-        batches.setdefault(key, (snapshot, set()))[1].add(unit_id)
-    for snapshot, result_ids in batches.values():
-        if result_ids <= stale_ids:
-            continue
-        if any(
-            batch_unit_id not in current for batch_unit_id in snapshot.batch_unit_ids
-        ):
-            stale_ids.update(result_ids)
-            continue
-        typed_batch = lock_context(snapshot.batch_unit_ids)
-        unit = current[next(iter(result_ids))]
-        service = services.get(snapshot.service_key)
-        if service is None:
-            settings = unit.translation.component.project.get_machinery_settings()
-            if (
-                snapshot.service_key not in MACHINERY
-                or snapshot.service_key not in settings
-            ):
-                stale_ids.update(result_ids)
-                continue
-            service_class = cast(
-                "type[BaseLLMTranslation]", MACHINERY[snapshot.service_key]
-            )
-            service = services[snapshot.service_key] = service_class(
-                settings[snapshot.service_key]
-            )
-        candidates = service.get_evaluation_dependency_candidates(typed_batch)
-        lock_units({candidate.pk for candidate in candidates})
-        if (
-            service.get_evaluation_context_fingerprint(typed_batch)
-            != snapshot.context_fingerprint
-            or {
-                dependency.pk
-                for dependency in service.get_evaluation_dependencies(typed_batch)
-            }
-            != snapshot.dependency_ids
-        ):
-            stale_ids.update(result_ids)
-    return filter_unit_ids(units, set(relevant_snapshots).difference(stale_ids))
-
-
-def refresh_evaluation_snapshots(
-    snapshots: dict[int, EvaluatedUnitSnapshot], unit_ids: set[int]
-) -> None:
-    """Refresh snapshots for changes performed by this locked bulk operation."""
-    if not unit_ids:
-        return
-    current = {
-        unit.pk: unit
-        for unit in Unit.objects.filter(pk__in=unit_ids).select_related("translation")
-    }
-    refreshed = {
-        unit_id: replace(
-            snapshot,
-            fingerprint=evaluation_fingerprint(current[unit_id]),
-            last_updated=current[unit_id].last_updated,
-        )
-        for unit_id, snapshot in (
-            (unit_id, batch_snapshot)
-            for result_snapshot in snapshots.values()
-            for unit_id, batch_snapshot in result_snapshot.batch
-            if unit_id in current
-        )
-    }
-    for result_id, snapshot in snapshots.items():
-        snapshots[result_id] = replace(
-            snapshot,
-            unit=refreshed.get(result_id, snapshot.unit),
-            source_unit=refreshed.get(snapshot.source_unit_id, snapshot.source_unit),
-            batch=tuple(
-                (unit_id, refreshed.get(unit_id, batch_snapshot))
-                for unit_id, batch_snapshot in snapshot.batch
-            ),
-        )
-
-
-# ruff: ignore[complex-structure, too-many-arguments, too-many-branches, too-many-locals, too-many-statements]
+# ruff: ignore[complex-structure, too-many-arguments]
 def bulk_perform(
     user: User | None,
     unit_set: UnitQuerySet,
@@ -278,7 +51,6 @@ def bulk_perform(
     components: QuerySet[Component] | list[Component] | None = None,
     add_translation_flags: str | Flags = "",
     remove_translation_flags: str | Flags = "",
-    expected_unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None,
     affected_unit_ids: set[int] | None = None,
     affected_source_unit_ids: set[int] | None = None,
 ) -> int:
@@ -304,12 +76,7 @@ def bulk_perform(
         prev_updated = updated
         component.start_batched_checks()
         with transaction.atomic():
-            snapshot_refresh_ids: set[int] = set()
             component_units = matching.filter(translation__component=component)
-            if expected_unit_snapshots:
-                component_units = exclude_stale_units(
-                    component_units, expected_unit_snapshots
-                )
 
             # Snapshot matching translations before state/source changes alter the query.
             translation_unit_ids = (
@@ -371,7 +138,6 @@ def bulk_perform(
                         if affected_source_unit_ids is not None:
                             affected_source_unit_ids.add(unit.source_unit_id or unit.pk)
                         to_update.append(unit)
-                        snapshot_refresh_ids.add(unit.pk)
                         if unit.is_source:
                             source_units.append(unit)
 
@@ -487,11 +253,6 @@ def bulk_perform(
                             affected_unit_ids.add(unit.pk)
                         if affected_source_unit_ids is not None:
                             affected_source_unit_ids.add(unit.source_unit_id or unit.pk)
-
-            if expected_unit_snapshots:
-                refresh_evaluation_snapshots(
-                    expected_unit_snapshots, snapshot_refresh_ids
-                )
 
         if prev_updated != updated:
             component.invalidate_cache()

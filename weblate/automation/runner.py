@@ -317,7 +317,11 @@ class Runner:
                 self.failed = True
                 self.record("conditions", "error", error=str(error)[:4096])
                 applicable = False
-            self.sequence(self.workflow["actions"], "actions", skip=applicable is False)
+            # Keep AI evaluation row locks until all result-scoped actions finish.
+            with transaction.atomic():
+                self.sequence(
+                    self.workflow["actions"], "actions", skip=applicable is False
+                )
         if self.failed:
             return AddonActivityLogStatus.ERROR
         return (

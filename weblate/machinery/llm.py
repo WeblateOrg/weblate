@@ -328,46 +328,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
         """Evaluate one unit using the same contract as batch evaluation."""
         return self.evaluate_batch([unit])[unit.pk]
 
-    def get_evaluation_dependencies(self, units: list[Unit]) -> list[Unit]:
-        """Return related units included in evaluation requests."""
-        dependencies: dict[int, Unit] = {}
-        for unit in units:
-            component = unit.translation.component
-            secondary_language = self._get_effective_secondary_language(component)
-            secondary_language_id = self._get_language_id(secondary_language)
-            if secondary_language is None or secondary_language_id in {
-                unit.translation.language_id,
-                component.source_language_id,
-            }:
-                continue
-            secondary_unit = self._get_secondary_unit(
-                unit.source_unit.unit_set,
-                unit,
-                secondary_language,
-                secondary_language_id,
-            )
-            if secondary_unit is not None:
-                dependencies[secondary_unit.pk] = secondary_unit
-        fetch_glossary_terms(units, include_variants=False)
-        included: set[str] = set()
-        for term in iter_glossary_alternatives(
-            chain.from_iterable(
-                get_glossary_terms(unit, include_variants=False) for unit in units
-            )
-        ):
-            entry = self._get_glossary_entry(term)
-            if entry is None:
-                continue
-            cache_key = json.dumps(entry, sort_keys=True)
-            if cache_key in included:
-                continue
-            included.add(cache_key)
-            dependencies[term.pk] = term
-            dependencies[term.source_unit.pk] = term.source_unit
-        return list(dependencies.values())
-
     def get_evaluation_dependency_candidates(self, units: list[Unit]) -> list[Unit]:
-        """Return units that could become evaluation dependencies."""
+        """Return units that can contribute context to an evaluation request."""
         candidates: dict[int, Unit] = {}
         for unit in units:
             component = unit.translation.component
@@ -391,35 +353,6 @@ class BaseLLMTranslation(BatchMachineTranslation):
             candidates[term.pk] = term
             candidates[term.source_unit.pk] = term.source_unit
         return list(candidates.values())
-
-    def get_evaluation_context_fingerprint(self, units: list[Unit]) -> str:
-        """Identify non-unit configuration used to build evaluation requests."""
-        translation = units[0].translation
-        component = translation.component
-        secondary_language = component.effective_secondary_language
-        return hash_to_checksum(
-            calculate_hash(
-                json.dumps(
-                    [
-                        self.settings,
-                        getattr(secondary_language, "pk", None),
-                        getattr(secondary_language, "code", None),
-                        self._get_language_name(secondary_language)
-                        if secondary_language is not None
-                        else None,
-                        component.source_language.code,
-                        self._get_language_name(component.source_language),
-                        component.source_translation.plural.plural_form,
-                        translation.language.code,
-                        self._get_language_name(translation.language),
-                        translation.plural.plural_form,
-                        [unit.all_flags.format() for unit in units],
-                    ],
-                    sort_keys=True,
-                    default=str,
-                )
-            )
-        )
 
     def evaluate_batch(self, units: list[Unit]) -> dict[int, list[EvaluationIssue]]:
         """Evaluate related units independently of suggestion generation."""

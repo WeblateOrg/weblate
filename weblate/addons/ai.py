@@ -362,18 +362,6 @@ class EvaluationSnapshot:
     last_updated: datetime
 
 
-@dataclass(frozen=True)
-class EvaluatedUnitSnapshot:
-    unit: EvaluationSnapshot
-    source_unit_id: int
-    source_unit: EvaluationSnapshot
-    batch: tuple[tuple[int, EvaluationSnapshot], ...]
-    batch_unit_ids: tuple[int, ...]
-    dependency_ids: frozenset[int]
-    service_key: str
-    context_fingerprint: str
-
-
 def evaluation_snapshot(unit: Unit) -> EvaluationSnapshot:
     return EvaluationSnapshot(evaluation_fingerprint(unit), unit.last_updated)
 
@@ -481,7 +469,7 @@ def evaluate_component(
     unit_ids: Iterable[int] | None,
     *,
     scheduled: bool,
-    evaluated_unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None,
+    evaluated_unit_ids: set[int] | None = None,
 ) -> dict[str, int]:
     from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
@@ -529,13 +517,12 @@ def evaluate_component(
                 for unit in batch
                 for item in (unit, unit.source_unit)
             }
-            dependencies = service.get_evaluation_dependencies(batch)
             snapshots.update(
-                {unit.pk: evaluation_snapshot(unit) for unit in dependencies}
+                {
+                    unit.pk: evaluation_snapshot(unit)
+                    for unit in service.get_evaluation_dependency_candidates(batch)
+                }
             )
-            dependency_ids = frozenset(unit.pk for unit in dependencies)
-            batch_unit_ids = tuple(unit.pk for unit in batch)
-            context_fingerprint = service.get_evaluation_context_fingerprint(batch)
             try:
                 issues = service.evaluate_batch(batch)
             except (MachineTranslationError, httpx2.HTTPError) as error:
@@ -546,23 +533,8 @@ def evaluate_component(
                 continue
             if store_evaluation_batch(addon, batch, issues, configuration, snapshots):
                 result["evaluated"] += len(batch)
-                if evaluated_unit_snapshots is not None:
-                    batch_snapshots = tuple(snapshots.items())
-                    evaluated_unit_snapshots.update(
-                        {
-                            unit.pk: EvaluatedUnitSnapshot(
-                                unit=snapshots[unit.pk],
-                                source_unit_id=unit.source_unit.pk,
-                                source_unit=snapshots[unit.source_unit.pk],
-                                batch=batch_snapshots,
-                                batch_unit_ids=batch_unit_ids,
-                                dependency_ids=dependency_ids,
-                                service_key=service_key,
-                                context_fingerprint=context_fingerprint,
-                            )
-                            for unit in batch
-                        }
-                    )
+                if evaluated_unit_ids is not None:
+                    evaluated_unit_ids.update(unit.pk for unit in batch)
             else:
                 result["skipped"] += len(batch)
         if unit_ids is None and not result["failed"] and not result["skipped"]:

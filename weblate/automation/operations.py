@@ -10,26 +10,54 @@ from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.db.models import F
 from jsonschema import Draft202012Validator
 
 from weblate.addons.ai import (
     AIEvaluationAddon,
-    EvaluatedUnitSnapshot,
     available_evaluation_services,
     effective_evaluator,
     evaluate_component,
 )
+from weblate.lang.models import Language
 from weblate.machinery.llm import BaseLLMTranslation
 from weblate.machinery.models import MACHINERY
 from weblate.trans.automation import UnitSelection, automatic_translation, bulk_edit
 from weblate.trans.forms import AutoForm, BulkEditForm
-from weblate.trans.models import Component
+from weblate.trans.models import Category, Component, Project, Translation
 from weblate.utils.forms import QueryField
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
-    from weblate.trans.models import Project
+
+
+def lock_evaluation_context(component: Component) -> Component:
+    """Lock mutable configuration used by AI evaluation requests."""
+    with transaction.atomic():
+        component = Component.objects.select_for_update().get(pk=component.pk)
+        project = Project.objects.select_for_update().get(pk=component.project_id)
+        if project.workspace_id is not None:
+            Workspace.objects.select_for_update().get(pk=project.workspace_id)
+        list(
+            Category.objects.filter(project=project).order_by("pk").select_for_update()
+        )
+        translations = list(
+            Translation.objects.filter(component=component)
+            .order_by("pk")
+            .select_for_update()
+        )
+        language_ids = {component.source_language_id}
+        language_ids.update(item.language_id for item in translations)
+        if component.effective_secondary_language is not None:
+            language_ids.add(component.effective_secondary_language.pk)
+        list(
+            Language.objects.filter(pk__in=language_ids)
+            .order_by("pk")
+            .select_for_update()
+        )
+    return component
 
 
 def object_schema(properties: dict[str, Any], required: list[str]) -> dict[str, Any]:
@@ -275,6 +303,7 @@ class AIQualityOperation(AutomationOperation):
         selection: UnitSelection | None = None,
         affected: UnitSelection | None = None,
     ) -> dict[str, Any]:
+        component = lock_evaluation_context(component)
         evaluator = effective_evaluator(component)
         if (
             evaluator is None
@@ -290,14 +319,14 @@ class AIQualityOperation(AutomationOperation):
         )
         if settings["q"]:
             units = units.search(settings["q"], project=component.project)
-        evaluated: dict[int, EvaluatedUnitSnapshot] = {}
+        evaluated: set[int] = set()
         result = evaluate_component(
             AIEvaluationAddon(evaluator),
             component,
             configuration,
             units.values_list("pk", flat=True),
             scheduled=False,
-            evaluated_unit_snapshots=evaluated,
+            evaluated_unit_ids=evaluated,
         )
         component.drop_addons_cache()
         current = effective_evaluator(component)
@@ -312,8 +341,7 @@ class AIQualityOperation(AutomationOperation):
             msg = "AI quality evaluation was incomplete."
             raise ValueError(msg)
         if affected is not None:
-            affected.unit_ids = set(evaluated)
-            affected.unit_snapshots = evaluated
+            affected.unit_ids = evaluated
         return {"component": component.pk, "evaluated": result["evaluated"]}
 
 
