@@ -956,6 +956,16 @@ real_patterns = [
         weblate.trans.views.edit.save_zen,
         name="save_zen",
     ),
+    path(
+        "js/zen-suggestion/<object_path:path>/",
+        weblate.trans.views.edit.zen_suggestion,
+        name="zen_suggestion",
+    ),
+    path(
+        "js/zen-unit/<object_path:path>/",
+        weblate.trans.views.edit.zen_unit,
+        name="zen_unit",
+    ),
     # Glossary add
     path(
         "js/glossary/<int:unit_id>/",

@@ -306,7 +306,10 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
     def count_screenshots(self):
         return self.annotate(Count("screenshots"))
 
-    def prefetch_full(self):
+    def prefetch_full(self, *, suggestion_details: bool = False):
+        suggestions = Suggestion.objects.order()
+        if suggestion_details:
+            suggestions = suggestions.select_related("user").load_votes()
         return (
             self.prefetch_all_checks()
             .prefetch_source()
@@ -315,7 +318,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 "source_unit__labels",
                 models.Prefetch(
                     "suggestion_set",
-                    queryset=Suggestion.objects.order(),
+                    queryset=suggestions,
                     to_attr="suggestions",
                 ),
                 models.Prefetch(

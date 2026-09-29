@@ -62,6 +62,7 @@
 
             this.init();
             initHighlight(document);
+            syncSuggestionIndicators();
           })
           .catch((err) => {
             loadingNext.style.display = "none";
@@ -182,13 +183,16 @@
 
   /* Handlers */
 
+  const getStatusCell = (root, checksum) =>
+    root?.querySelector(`[id="status-${checksum}"]`) ?? null;
+
   delegate(document, "focusin", ".translation-editor", function () {
     const row = this.closest("tr");
     if (!row) {
       return;
     }
     const checksum = row.querySelector("[name=checksum]")?.value;
-    const statusdiv = document.getElementById(`status-${checksum}`);
+    const statusdiv = getStatusCell(row, checksum);
     const focusTimeout = row._focusTimer;
     // Focus returned quickly; cancel pending save
     if (focusTimeout) {
@@ -204,7 +208,7 @@
       return;
     }
     const checksum = row.querySelector("[name=checksum]")?.value;
-    const statusdiv = document.getElementById(`status-${checksum}`);
+    const statusdiv = getStatusCell(row, checksum);
     // Editor lost focus and has changes
     if (this.classList.contains("has-changes")) {
       statusdiv?.classList.add("unit-state-save-timeout");
@@ -230,8 +234,8 @@
       return;
     }
     const checksum = row.querySelector("[name=checksum]")?.value;
-    const statusdiv = document.getElementById(`status-${checksum}`);
-    const form = row.querySelector("form");
+    const statusdiv = getStatusCell(row, checksum);
+    const form = row.querySelector(".translator form");
     if (!form || !statusdiv) {
       return;
     }
@@ -259,6 +263,7 @@
     row.classList.add("translation-modified");
     statusdiv.classList.add("unit-state-saving");
     statusdiv._lastPayload = payload;
+    bumpUnitVersion(row.closest(".zen-unit"));
 
     fetch(form.getAttribute("action"), {
       method: "POST",
@@ -300,18 +305,466 @@
             sum.value = data.translationsum;
           }
         }
+
+        // Suggestion diffs are against the saved target
+        if ("has_suggestions" in data) {
+          updateZenSuggestions(row.closest(".zen-unit"), data);
+        }
       })
       .catch((err) => {
         addAlert(err.message);
       })
       .finally(() => {
+        bumpUnitVersion(row.closest(".zen-unit"));
         statusdiv.classList.remove("unit-state-saving");
         statusdiv.classList.remove("unit-state-save-timeout");
         row._saveTimer = undefined;
       });
   }
 
+  /* Suggestions */
+
+  const ACCEPT_MODES = new Set(["accept", "accept_edit", "accept_approve"]);
+
+  const getUnitEditors = (unit) =>
+    unit.querySelectorAll(".translator .translation-editor");
+
+  const unitHasChanges = (unit) =>
+    unit.querySelector(".translator .translation-editor.has-changes") !== null;
+
+  /* Bumped whenever a unit is being changed, to discard outdated refreshes */
+  const bumpUnitVersion = (unit) => {
+    if (unit) {
+      unit._zenVersion = (unit._zenVersion ?? 0) + 1;
+    }
+  };
+  const getUnitVersion = (unit) => unit?._zenVersion ?? 0;
+
+  const suggestionKey = (el) =>
+    el.closest(".history-row")?.querySelector("button[value]")?.value;
+
+  /* Clone suggestion into the editor of the same unit */
+  delegate(
+    document,
+    "click",
+    ".zen-suggestions .js-copy-suggestion",
+    function (e) {
+      e.preventDefault();
+      const unit = this.closest(".zen-unit");
+      const editors = unit ? getUnitEditors(unit) : [];
+      if (editors.length) {
+        WLT.Utils.copySuggestion(this, editors);
+      }
+    },
+  );
+
+  delegate(document, "submit", ".zen-suggestions-form", function (e) {
+    e.preventDefault();
+    handleSuggestionAction(this, e.submitter);
+  });
+
+  function handleSuggestionAction(form, button) {
+    if (!button?.name) {
+      return;
+    }
+    const mode = button.name;
+    const unit = form.closest(".zen-unit");
+    const checksum = form.querySelector("[name=checksum]")?.value;
+    const statusdiv = getStatusCell(unit, checksum);
+    if (!unit || !statusdiv) {
+      return;
+    }
+
+    // Guard: wait for a running save to finish
+    if (statusdiv.classList.contains("unit-state-saving")) {
+      setTimeout(() => {
+        handleSuggestionAction(form, button); // Reinvoke
+      }, 100);
+      return;
+    }
+
+    // Guard: accepting overwrites the editor, do not lose pending edits
+    if (ACCEPT_MODES.has(mode) && unitHasChanges(unit)) {
+      addAlert(
+        gettext("Save or discard your changes before accepting a suggestion."),
+        "warning",
+      );
+      return;
+    }
+
+    const payload = new URLSearchParams();
+    payload.append(
+      "csrfmiddlewaretoken",
+      form.querySelector("[name=csrfmiddlewaretoken]")?.value ?? "",
+    );
+    payload.append(
+      "unit_id",
+      form.querySelector("[name=unit_id]")?.value ?? "",
+    );
+    payload.append("checksum", checksum);
+    payload.append(mode, button.value);
+    if (mode === "delete" || mode === "spam") {
+      const rejection = button
+        .closest(".history-row")
+        ?.querySelector("input[name=rejection]");
+      payload.append("rejection", rejection?.value ?? "");
+    }
+
+    statusdiv.classList.add("unit-state-saving");
+    bumpUnitVersion(unit);
+
+    fetch(form.getAttribute("action"), {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-Requested-With": "XMLHttpRequest",
+        Accept: "application/json",
+      },
+      body: payload.toString(),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        applyZenUnitData(unit, data);
+      })
+      .catch((err) => {
+        addAlert(err.message);
+      })
+      .finally(() => {
+        bumpUnitVersion(unit);
+        statusdiv.classList.remove("unit-state-saving");
+      });
+  }
+
+  /* Remember the focused suggestion action before the block is re-rendered */
+  function getSuggestionFocus(container) {
+    const active = container?.contains(document.activeElement)
+      ? document.activeElement
+      : null;
+    const row = active?.closest(".history-row");
+    if (!row) {
+      return null;
+    }
+    const rows = [...container.querySelectorAll(".history-row")];
+    return {
+      key: suggestionKey(active),
+      name: active.getAttribute("name"),
+      index: rows.indexOf(row),
+    };
+  }
+
+  /* Keep the keyboard in the suggestions, even when the focused one is gone */
+  function restoreSuggestionFocus(unit, container, focus) {
+    if (!focus) {
+      return;
+    }
+    const rows = container
+      ? [...container.querySelectorAll(".history-row")]
+      : [];
+    let row =
+      focus.key === undefined
+        ? null
+        : (container
+            ?.querySelector(`button[value="${CSS.escape(focus.key)}"]`)
+            ?.closest(".history-row") ?? null);
+    // The suggestion is gone, move to the one which took its place
+    if (!row && rows.length) {
+      row = rows[Math.min(Math.max(focus.index, 0), rows.length - 1)];
+    }
+    const target =
+      (focus.name
+        ? row?.querySelector(`[name="${CSS.escape(focus.name)}"]`)
+        : null) ??
+      row?.querySelector("button[name]") ??
+      getUnitEditors(unit)[0];
+    target?.focus();
+  }
+
+  /* Replace the suggestions block of a Zen row with the rendered one */
+  function updateZenSuggestions(unit, data) {
+    if (!unit) {
+      return;
+    }
+    const container = unit.querySelector(".zen-suggestions-container");
+    const focus = getSuggestionFocus(container);
+    if (data.has_suggestions) {
+      if (container) {
+        const rejections = new Map();
+        for (const input of container.querySelectorAll(
+          "input[name=rejection]",
+        )) {
+          if (input.value) {
+            rejections.set(suggestionKey(input), input.value);
+          }
+        }
+
+        container.innerHTML = data.suggestions_html;
+        initHighlight(container);
+
+        for (const input of container.querySelectorAll(
+          "input[name=rejection]",
+        )) {
+          const value = rejections.get(suggestionKey(input));
+          if (value !== undefined) {
+            input.value = value;
+          }
+        }
+        restoreSuggestionFocus(unit, container, focus);
+      }
+    } else {
+      unit.querySelector(".zen-suggestions-row")?.remove();
+      restoreSuggestionFocus(unit, null, focus);
+    }
+    updateSuggestionsIndicator(unit, data.has_suggestions ? container : null);
+  }
+
+  /* Keep the per-string suggestion count in sync */
+  function updateSuggestionsIndicator(unit, container) {
+    const indicator = unit.querySelector(".zen-suggestions-indicator");
+    if (!indicator) {
+      return;
+    }
+    const count = container
+      ? container.querySelectorAll(".history-row").length
+      : 0;
+    if (count === 0) {
+      indicator.remove();
+      return;
+    }
+    const text = interpolate(
+      ngettext("%s suggestion", "%s suggestions", count),
+      [count],
+    );
+    indicator.title = text;
+    indicator.querySelector(".zen-suggestions-count").textContent = count;
+    indicator.querySelector(".zen-suggestions-label").textContent = text;
+  }
+
+  /* Resync a Zen row from the JSON payload of the zen unit endpoints */
+  function applyZenUnitData(unit, data) {
+    for (const val of data.messages) {
+      addAlert(val.text, val.kind);
+    }
+
+    const checksum = data.checksum;
+
+    updateZenSuggestions(unit, data);
+
+    // State cell
+    const statusdiv = getStatusCell(unit, checksum);
+    if (statusdiv) {
+      statusdiv.setAttribute(
+        "class",
+        `unit-state-cell ${data.unit_state_class}`,
+      );
+      statusdiv.setAttribute("title", data.unit_state_title);
+    }
+
+    // Editor content, only when the target has changed
+    if (data.target === null) {
+      return;
+    }
+    const form = unit.querySelector(".translator form");
+    const editors = getUnitEditors(unit);
+    if (unitHasChanges(unit)) {
+      const sum = form?.querySelector("input[name=translationsum]");
+      if (sum && sum.value !== data.translationsum) {
+        addAlert(
+          gettext(
+            "The translation was changed while you were editing it, your unsaved changes were kept.",
+          ),
+          "warning",
+        );
+      }
+      return;
+    }
+    editors.forEach((el, i) => {
+      if (i < data.target.length) {
+        replaceValue(el, data.target[i]);
+      }
+    });
+    if (form) {
+      // Set checked directly
+      const review = form.querySelector(
+        `input[name=review][value="${data.review}"]`,
+      );
+      if (review) {
+        review.checked = true;
+      }
+      const fuzzy = form.querySelector("input[name=fuzzy]");
+      if (fuzzy) {
+        fuzzy.checked = data.fuzzy;
+      }
+      const sum = form.querySelector("input[name=translationsum]");
+      if (sum) {
+        sum.value = data.translationsum;
+      }
+    }
+    for (const el of editors) {
+      el.classList.remove("has-changes");
+    }
+    for (const label of unit.querySelectorAll("#unsaved-label")) {
+      label.remove();
+    }
+    form?.closest("tr")?.classList.remove("translation-modified");
+    if (form && statusdiv) {
+      statusdiv._lastPayload = new URLSearchParams(
+        new FormData(form),
+      ).toString();
+    }
+    if (data.mode === "accept_edit") {
+      editors[0]?.focus();
+    }
+  }
+
+  function fetchZenUnit(form) {
+    const unit = form.closest(".zen-unit");
+    const url = form.dataset.unitUrl;
+    if (!unit || !url) {
+      return Promise.resolve();
+    }
+    const checksum = form.querySelector("[name=checksum]")?.value ?? "";
+    const statusdiv = getStatusCell(unit, checksum);
+    // Guard: a running save would make the response outdated on arrival
+    if (statusdiv?.classList.contains("unit-state-saving")) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(fetchZenUnit(form)); // Reinvoke
+        }, 100);
+      });
+    }
+    const params = new URLSearchParams({
+      checksum,
+      unit_id: form.querySelector("[name=unit_id]")?.value ?? "",
+    });
+    const version = getUnitVersion(unit);
+    return fetch(`${url}?${params}`, {
+      credentials: "same-origin",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        Accept: "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Discard: the unit was changed while the refresh was in flight
+        if (getUnitVersion(unit) !== version) {
+          return;
+        }
+        applyZenUnitData(unit, data);
+      })
+      .catch((err) => {
+        addAlert(err.message);
+      });
+  }
+
+  function refreshZenSuggestions() {
+    const [first, ...rest] = document.querySelectorAll(".zen-suggestions-form");
+    if (!first) {
+      return;
+    }
+    fetchZenUnit(first).then(() => {
+      for (const form of rest) {
+        fetchZenUnit(form);
+      }
+    });
+  }
+
+  document.addEventListener("weblate:suggestions-changed", () => {
+    refreshZenSuggestions();
+  });
+
+  /* Suggestions visibility toggle, remembered in local storage */
+
+  const SUGGESTIONS_STORAGE_KEY = "zen-suggestions";
+
+  /* Expose the suggestions visibility on the per-string counts */
+  function syncSuggestionIndicators() {
+    const expanded = !document
+      .querySelector("table.zen")
+      ?.classList.contains("zen-hide-suggestions");
+    for (const indicator of document.querySelectorAll(
+      ".zen-suggestions-indicator",
+    )) {
+      indicator.setAttribute("aria-expanded", String(expanded));
+    }
+  }
+
+  function initSuggestionsToggle() {
+    const button = document.getElementById("zen-toggle-suggestions");
+    const label = document.getElementById("zen-toggle-suggestions-label");
+    const table = document.querySelector("table.zen");
+    if (!button || !label || !table) {
+      return;
+    }
+
+    const apply = (visible) => {
+      table.classList.toggle("zen-hide-suggestions", !visible);
+      syncSuggestionIndicators();
+      const text = visible
+        ? gettext("Hide suggestions")
+        : gettext("Show suggestions");
+      label.textContent = text;
+      button.title = text;
+      button.setAttribute("aria-label", text);
+    };
+
+    let visible = false;
+    try {
+      visible = localStorage.getItem(SUGGESTIONS_STORAGE_KEY) === "shown";
+    } catch (_error) {
+      /* Local storage can be unavailable, keep suggestions hidden */
+    }
+    apply(visible);
+
+    const setVisible = (value) => {
+      visible = value;
+      apply(visible);
+      try {
+        localStorage.setItem(
+          SUGGESTIONS_STORAGE_KEY,
+          visible ? "shown" : "hidden",
+        );
+      } catch (_error) {
+        /* Ignore, the toggle still works for this page */
+      }
+    };
+
+    button.addEventListener("click", () => {
+      setVisible(!visible);
+    });
+
+    // The per-string count toggles suggestions, moving to those of the string
+    // when showing them
+    delegate(document, "click", ".zen-suggestions-indicator", function () {
+      if (visible) {
+        setVisible(false);
+        return;
+      }
+      setVisible(true);
+      const container = this.closest(".zen-unit")?.querySelector(
+        ".zen-suggestions-container",
+      );
+      if (container) {
+        container.tabIndex = -1;
+        container.focus({ preventScroll: true });
+        container.scrollIntoView({ block: "nearest" });
+      }
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     new ZenEditor();
+    initSuggestionsToggle();
   });
 })();
