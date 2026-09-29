@@ -8,13 +8,15 @@ from itertools import batched
 from typing import TYPE_CHECKING, cast
 
 from django.db import transaction
-from django.db.models import F
+from django.db.models import BooleanField, F
+from django.db.models.expressions import RawSQL
 
 from weblate.checks.ai import evaluation_fingerprint
 from weblate.checks.flags import Flags, FlagsValidator
+from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, Unit
+from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -30,7 +32,7 @@ if TYPE_CHECKING:
     from weblate.addons.ai import EvaluatedUnitSnapshot, EvaluationSnapshot
     from weblate.auth.models import User
     from weblate.machinery.llm import BaseLLMTranslation
-    from weblate.trans.models import Label, Project
+    from weblate.trans.models import Label
     from weblate.trans.models.unit import UnitQuerySet
 
 EDITABLE_STATES = {
@@ -42,12 +44,25 @@ EDITABLE_STATES = {
 }
 
 
+def filter_unit_ids(units: UnitQuerySet, unit_ids: set[int]) -> UnitQuerySet:
+    """Filter units using one PostgreSQL array parameter."""
+    if not unit_ids:
+        return units.none()
+    return units.alias(
+        selected_unit=RawSQL(
+            '"trans_unit"."id" = ANY(%s)',
+            (list(unit_ids),),
+            output_field=BooleanField(),
+        )
+    ).filter(selected_unit=True)
+
+
 def exclude_stale_units(
     units: UnitQuerySet, expected_snapshots: dict[int, EvaluatedUnitSnapshot]
 ) -> UnitQuerySet:
     """Lock evaluation inputs and exclude units changed since evaluation."""
     selected_ids = set(
-        units.filter(pk__in=expected_snapshots).values_list("pk", flat=True)
+        filter_unit_ids(units, set(expected_snapshots)).values_list("pk", flat=True)
     )
     relevant_snapshots = {
         unit_id: expected_snapshots[unit_id] for unit_id in selected_ids
@@ -70,6 +85,60 @@ def exclude_stale_units(
             )
 
     lock_units(locked_ids)
+
+    def lock_context(batch_unit_ids: tuple[int, ...]) -> list[Unit]:
+        """Lock and reload mutable non-unit evaluation context."""
+        batch = [current[unit_id] for unit_id in batch_unit_ids]
+        component_ids = {unit.translation.component_id for unit in batch}
+        components = list(
+            Component.objects.filter(pk__in=component_ids)
+            .order_by("pk")
+            .select_for_update()
+        )
+        projects = list(
+            Project.objects.filter(pk__in=(item.project_id for item in components))
+            .order_by("pk")
+            .select_for_update()
+        )
+        projects_by_id = {project.pk: project for project in projects}
+        for item in components:
+            item.project = projects_by_id[item.project_id]
+        secondary_language_ids = {
+            language.pk
+            for item in components
+            if (language := item.effective_secondary_language) is not None
+        }
+        list(
+            Language.objects.filter(
+                pk__in={
+                    *(item.source_language_id for item in components),
+                    *(unit.translation.language_id for unit in batch),
+                    *secondary_language_ids,
+                }
+            )
+            .order_by("pk")
+            .select_for_update()
+        )
+        list(
+            Translation.objects.filter(
+                pk__in={
+                    *(item.source_translation.pk for item in components),
+                    *(unit.translation_id for unit in batch),
+                }
+            )
+            .order_by("pk")
+            .select_for_update()
+        )
+        refreshed = list(
+            Unit.objects.filter(pk__in=batch_unit_ids).select_related(
+                "translation__component__project",
+                "translation__component__source_language",
+                "translation__language",
+                "translation__plural",
+            )
+        )
+        current.update({unit.pk: unit for unit in refreshed})
+        return refreshed
 
     def changed(unit: Unit | None, snapshot: EvaluationSnapshot) -> bool:
         return (
@@ -102,12 +171,12 @@ def exclude_stale_units(
     for snapshot, result_ids in batches.values():
         if result_ids <= stale_ids:
             continue
-        batch = [
-            current.get(batch_unit_id) for batch_unit_id in snapshot.batch_unit_ids
-        ]
-        if any(unit is None for unit in batch):
+        if any(
+            batch_unit_id not in current for batch_unit_id in snapshot.batch_unit_ids
+        ):
             stale_ids.update(result_ids)
             continue
+        typed_batch = lock_context(snapshot.batch_unit_ids)
         unit = current[next(iter(result_ids))]
         service = services.get(snapshot.service_key)
         if service is None:
@@ -124,7 +193,6 @@ def exclude_stale_units(
             service = services[snapshot.service_key] = service_class(
                 settings[snapshot.service_key]
             )
-        typed_batch = cast("list[Unit]", batch)
         candidates = service.get_evaluation_dependency_candidates(typed_batch)
         lock_units({candidate.pk for candidate in candidates})
         if (
@@ -137,7 +205,7 @@ def exclude_stale_units(
             != snapshot.dependency_ids
         ):
             stale_ids.update(result_ids)
-    return units.filter(pk__in=relevant_snapshots).exclude(pk__in=stale_ids)
+    return filter_unit_ids(units, set(relevant_snapshots).difference(stale_ids))
 
 
 def refresh_evaluation_snapshots(

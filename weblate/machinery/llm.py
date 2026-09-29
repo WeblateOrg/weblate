@@ -396,12 +396,17 @@ class BaseLLMTranslation(BatchMachineTranslation):
         """Identify non-unit configuration used to build evaluation requests."""
         translation = units[0].translation
         component = translation.component
+        secondary_language = component.effective_secondary_language
         return hash_to_checksum(
             calculate_hash(
                 json.dumps(
                     [
                         self.settings,
-                        getattr(component.effective_secondary_language, "pk", None),
+                        getattr(secondary_language, "pk", None),
+                        getattr(secondary_language, "code", None),
+                        self._get_language_name(secondary_language)
+                        if secondary_language is not None
+                        else None,
                         component.source_language.code,
                         self._get_language_name(component.source_language),
                         component.source_translation.plural.plural_form,
