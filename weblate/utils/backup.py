@@ -34,13 +34,6 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
     from types import TracebackType
 
-BORG_SSH_OPTIONS = (
-    "-o",
-    "IgnoreUnknown=WarnWeakCrypto",
-    "-o",
-    "WarnWeakCrypto=no-pq-kex",
-)
-
 CACHEDIR = """Signature: 8a477f597d28d172789f06886806bc55
 # This file is a cache directory tag created by Weblate
 # For information about cache directory tags, see:
@@ -187,11 +180,7 @@ def tag_cache_dirs() -> None:
 
 def get_borg_rsh() -> str:
     """Return SSH command used by Borg."""
-    # OpenSSH 10.1 warns when the server does not support post-quantum KEX.
-    # IgnoreUnknown keeps this usable with older OpenSSH clients.
-    return " ".join(
-        quote(arg) for arg in (SSH_WRAPPER.filename.as_posix(), *BORG_SSH_OPTIONS)
-    )
+    return quote(SSH_WRAPPER.filename.as_posix())
 
 
 def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> BorgResult:

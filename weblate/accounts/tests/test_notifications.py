@@ -1674,7 +1674,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             ordered=False,
         )
 
-    def test_summary_collection_is_bounded(self) -> None:
+    def test_summary_collection_is_not_bounded(self) -> None:
         translations = [
             SimpleNamespace(pk=translation_id, component=self.component)
             for translation_id in range(DIGEST_MAX_ITEMS + 1)
@@ -1693,9 +1693,63 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         self.assertEqual(send_digest.call_count, 1)
         self.assertEqual(
-            len(send_digest.call_args.kwargs["summaries"]), DIGEST_MAX_ITEMS
+            len(send_digest.call_args.kwargs["summaries"]), DIGEST_MAX_ITEMS + 1
         )
-        self.assertTrue(send_digest.call_args.kwargs["overlimit"])
+        self.assertFalse(send_digest.call_args.kwargs["overlimit"])
+        self.assertEqual(
+            send_digest.call_args.kwargs["extracontext"]["total_count"],
+            DIGEST_MAX_ITEMS + 1,
+        )
+
+    def test_activity_summary_collection_is_not_bounded(self) -> None:
+        translations = [
+            SimpleNamespace(
+                pk=translation_id,
+                stats=SimpleNamespace(todo=0),
+                get_translate_url=lambda: "https://example.com/translate/",
+            )
+            for translation_id in range(DIGEST_MAX_ITEMS + 1)
+        ]
+        rows = [
+            {
+                "project_id": self.project.pk,
+                "translation_id": translation.pk,
+                "action": ActionEvents.CHANGE,
+                "user_id": None,
+                "count": 1,
+            }
+            for translation in translations
+        ]
+        notification = TranslationActivitySummaryNotification([])
+        with (
+            patch.object(
+                TranslationActivitySummaryNotification,
+                "get_activity_change_rows",
+                return_value=SimpleNamespace(
+                    # ruff: ignore[unused-lambda-argument]
+                    iterator=lambda chunk_size: iter(rows)
+                ),
+            ),
+            patch(
+                "weblate.accounts.notifications.prefetch_stats",
+                return_value=translations,
+            ),
+            patch.object(
+                notification, "get_activity_summary_users", return_value=[self.user]
+            ),
+            patch.object(notification, "send_digest") as send_digest,
+        ):
+            notification.notify_activity_summary(
+                NotificationFrequency.FREQ_WEEKLY,
+                since=timezone.now() - timedelta(weeks=1),
+                until=timezone.now(),
+            )
+
+        self.assertEqual(send_digest.call_count, 1)
+        self.assertEqual(
+            len(send_digest.call_args.kwargs["summaries"]), DIGEST_MAX_ITEMS + 1
+        )
+        self.assertFalse(send_digest.call_args.kwargs["overlimit"])
         self.assertEqual(
             send_digest.call_args.kwargs["extracontext"]["total_count"],
             DIGEST_MAX_ITEMS + 1,

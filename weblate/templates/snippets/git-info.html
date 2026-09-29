@@ -30,6 +30,22 @@
     <td colspan="2" class="full-cell">{{ object.get_repo_branch }}</td>
   </tr>
 
+  {% with pull_request_url=object.effective_repo_component.pull_request_url %}
+    {% if pull_request_url|slice:":8" == "https://" or pull_request_url|slice:":7" == "http://" %}
+      <tr>
+        <th>{% translate "Pull request" %}</th>
+        <td colspan="2" class="full-cell">
+          <a href="{{ pull_request_url }}"><code class="wrap-text">{{ pull_request_url }}</code></a>
+          <button type="button"
+                  class="btn btn-link btn-xs"
+                  data-clipboard-value="{{ pull_request_url }}"
+                  data-clipboard-message="{% translate "Pull request URL copied to clipboard." %}"
+                  title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+        </td>
+      </tr>
+    {% endif %}
+  {% endwith %}
+
   {% with commit=object.get_last_remote_commit %}
     {% if commit %}
       <tr>

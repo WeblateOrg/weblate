@@ -663,6 +663,8 @@ exec {command} \
     -o UpdateHostKeys=yes \
     -o ConnectTimeout=20 \
     -o BatchMode=yes \
+    -o IgnoreUnknown=WarnWeakCrypto \
+    -o WarnWeakCrypto=no-pq-kex \
     -F {config_file} \
     {extra_args} \
     "$@"
@@ -675,6 +677,8 @@ class SSHWrapper:
     # - do not hash it
     # - strict hosk key checking
     # - force not using system configuration (to avoid evil things as SendEnv)
+    # - suppress the OpenSSH 10.1 post-quantum warning without changing KEX
+    # - ignore WarnWeakCrypto on older clients
 
     @cached_property
     def digest(self) -> str:

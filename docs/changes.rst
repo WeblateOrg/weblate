@@ -20,9 +20,12 @@ Weblate 2026.10
 * Added :ref:`SPDX contributor comments <gettext-contributor-comments>` as a PO file format parameter, replacing the contributor comments add-on.
 * Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
 * Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
+* Added a configurable :setting:`AVATAR_URL_TEMPLATE` to support alternative avatar providers, such as fetching by username instead of e-mail hash.
+* Added selecting individual strings from the :ref:`string list <search-strings>` for :ref:`bulk-edit`.
 
 .. rubric:: Improvements
 
+* :ref:`Repository maintenance <repository-maintenance>` now links to the latest pull or merge request opened by Weblate.
 * The project :guilabel:`Files` menu now lists translation download formats from :setting:`WEBLATE_EXPORTERS` instead of a fixed subset.
 * :ref:`LLM automatic suggestions <machine-translation>` now show the model and, for custom API endpoints, the host that produced them.
 * Automation actions can select strings from the triggering change or a previous action's affected units. See :doc:`admin/automation`.
@@ -65,7 +68,7 @@ Weblate 2026.10
 .. rubric:: Bug fixes
 
 * Made eligible automatic-translation sources consistent across web, API, and Automation add-on configuration.
-
+* Suppressed OpenSSH post-quantum key exchange warnings that obscured errors from :ref:`SSH repositories <ssh-repos>`.
 * Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, nested, and multiline tags.
 * Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
 * Project language archive downloads in the REST API now honor language-scoped download permissions consistently with the web interface.
@@ -78,6 +81,7 @@ Weblate 2026.10
 * Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` when the warning directory is missing or inaccessible.
 * Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when migrating dismissed component alerts from releases before 2026.8.
 * Fixed the :ref:`search results refresh <search-results-cache>` icon color in themes and on hover.
+* Fixed truncated grouped summaries in :ref:`notification e-mails <notifications>`; the 100 entries limit now applies only to listings of individual changes.
 * Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as untranslatable when translating in their source language.
 * Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with inherited licenses and other inherited settings.
 * Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
