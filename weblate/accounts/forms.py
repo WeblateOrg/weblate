@@ -84,10 +84,9 @@ if TYPE_CHECKING:
 class UniqueEmailMixin(forms.Form):
     validate_unique_mail = False
 
-    def clean_email(self):
-        """Validate whether email address is not already in use."""
-        self.cleaned_data["email_user"] = None
-        mail = self.cleaned_data["email"]
+    @staticmethod
+    def get_email_user(mail: str) -> User | None:
+        """Return an active user matching the e-mail address."""
         users = User.objects.filter(
             email=mail,
             is_active=True,
@@ -100,14 +99,20 @@ class UniqueEmailMixin(forms.Form):
                 is_bot=False,
             )
         if users:
-            self.cleaned_data["email_user"] = users[0]
-            if self.validate_unique_mail:
-                raise forms.ValidationError(
-                    gettext(
-                        "This e-mail address is already in use. "
-                        "Please supply a different e-mail address."
-                    )
+            return users[0]
+        return None
+
+    def clean_email(self):
+        """Validate whether email address is not already in use."""
+        mail = self.cleaned_data["email"]
+        self.cleaned_data["email_user"] = self.get_email_user(mail)
+        if self.cleaned_data["email_user"] and self.validate_unique_mail:
+            raise forms.ValidationError(
+                gettext(
+                    "This e-mail address is already in use. "
+                    "Please supply a different e-mail address."
                 )
+            )
         return self.cleaned_data["email"]
 
 
@@ -859,7 +864,7 @@ class ResetForm(EmailForm):
         if self.cleaned_data["email"] == "noreply@weblate.org":
             msg = "No password reset for deleted or anonymous user."
             raise forms.ValidationError(msg)
-        return super().clean_email()
+        return self.cleaned_data["email"]
 
 
 class LoginForm(forms.Form):

@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-11 04:05+0000\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"PO-Revision-Date: 2026-09-25 04:15+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
 "Language-Team: Bashkir <https://hosted.weblate.org/projects/weblate/"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -1602,6 +1602,50 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "Икенсе фактор аша инеү"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Evaluation service"
+msgstr "Аутентификация сервисының URL-ы"
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "Evaluation frequency"
+msgstr "Йышлыҡ"
+
+#, fuzzy
+#| msgid "Disable"
+msgid "Disabled"
+msgstr "Һүндерергә"
+
+msgid "Daily"
+msgstr ""
+
+#, fuzzy
+#| msgid "Weekly digest"
+msgid "Weekly"
+msgstr "Аҙналыҡ йыйынтыҡ"
+
+msgid "Monthly"
+msgstr "Ай һайын"
+
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Evaluate translation changes"
+msgstr "Бөтә тәржемә үҙгәрештәрен ҡарарға"
+
+#, fuzzy
+#| msgid "Repository outdated."
+msgid "Evaluate repository updates"
+msgstr "Репозиторий иҫкергән."
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr "Автоматик тәржемә"
 
@@ -1984,17 +2028,6 @@ msgstr ""
 #| msgid "Frequency"
 msgid "Update frequency"
 msgstr "Йышлыҡ"
-
-msgid "Daily"
-msgstr ""
-
-#, fuzzy
-#| msgid "Weekly digest"
-msgid "Weekly"
-msgstr "Аҙналыҡ йыйынтыҡ"
-
-msgid "Monthly"
-msgstr "Ай һайын"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3380,6 +3413,9 @@ msgstr "Тәҡдимдәрҙе ҡабул итергә хоҡуғығыҙ юҡ!"
 msgid "This string seems to already exist."
 msgstr "Был юл бар инде, шикелле."
 
+msgid "Automatic translation in progress"
+msgstr "Автоматик тәржемә бара"
+
 msgid "Category"
 msgstr "Категория"
 
@@ -4194,12 +4230,22 @@ msgstr "Уның урынына юлды сығанаҡ телгә өҫтәге�
 msgid "Adding strings is disabled in the component configuration."
 msgstr "Юлдар өҫтәү компонент көйләүҙәрендә һүндерелгән."
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
-msgstr "Терминология тәржемәһен юйып булмай. Уның урынына сығанаҡ юлды юйығыҙ."
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "Юлдар өҫтәү компонент көйләүҙәрендә һүндерелгән."
 
 msgid "The file format does not support this."
 msgstr "Файл форматы быны хупламай."
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit this glossary."
+msgstr "Тәҡдимдәрҙе ҡабул итергә хоҡуғығыҙ юҡ!"
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
+msgstr "Терминология тәржемәһен юйып булмай. Уның урынына сығанаҡ юлды юйығыҙ."
 
 msgid "Adding new translations is turned off in the component configuration."
 msgstr "Яңы тәржемәләр өҫтәү компонент көйләүҙәрендә һүндерелгән."
@@ -4252,6 +4298,104 @@ msgstr "Ҡулланыусыны саҡырыу юйылды."
 #, python-format
 msgid "Accepted invitation to the %s team."
 msgstr "%s командаһына саҡырыу ҡабул ителде."
+
+#, fuzzy
+#| msgctxt "OpenAI model selection"
+#| msgid "Automatic selection"
+msgid "Automation"
+msgstr "Автоматик һайлау"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component is outside this add-on's scope."
+msgstr "Был компонент дөрөҫ көйләнмәгән."
+
+#, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change does not belong to this component."
+msgstr "Категория был проектҡа ҡарамай."
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automation nesting is too deep."
+msgstr "Автоматик тәржемә режимы"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "Һайланған сортлау хупланмай."
+
+#, fuzzy
+#| msgid "Automatically translated"
+msgid "Automation keys must be strings."
+msgstr "Автоматик тәржемә ителде"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "%(path)s: %(error)s"
+msgstr "%(component)s-ты ебәреп (push) булманы: %(error_text)s"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Automation context is too large."
+msgstr "Автоматик компонент исемлеген билдәләү"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Repository branch"
+msgid "Invalid CEL condition: %s"
+msgstr "Репозиторий ботағы"
+
+msgid "Workflow"
+msgstr "Эш ағымы"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Preview component ID"
+msgstr "Компонент булдырырға"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview change ID"
+msgstr "Һуңғы үҙгәрештәр"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "Өҫтәмә хәбәр"
@@ -4460,6 +4604,57 @@ msgstr "Түләүҙәрҙе туҡтатыу өсөн тәүҙә бөтә пр�
 #| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
 msgstr "Быны эске командала үҙгәртеп булмай."
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "AI: Fluency"
+msgstr "Йышлыҡ"
+
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "The evaluation detected a language quality issue."
+msgstr "Тәржемәнең нигеҙ телен үҙгәртеп була."
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "Терминология"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+#, fuzzy
+#| msgid "The documentation has detailed instructions"
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr "Документацияла ентекле инструкциялар бар"
+
+#, fuzzy
+#| msgid "Vue I18n formatting"
+msgid "AI: Formatting"
+msgstr "Vue I18n форматлауы"
+
+#, fuzzy
+#| msgid "Translation is missing some placeholders."
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Тәржемәлә ҡайһы бер алмаштырғыстар етмәй."
 
 msgid "AngularJS interpolation string"
 msgstr "AngularJS интерполяция юлы"
@@ -5830,6 +6025,34 @@ msgstr "Excel Open XML"
 msgid "Multivalue CSV file"
 msgstr "Күп ҡиммәтле CSV-файл (UTF-8)"
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "This file format does not support editing keys or context."
+msgstr "Файл форматы быны хупламай."
+
+#, fuzzy
+#| msgid "A user with this e-mail already exists."
+msgid "A string with this identity already exists."
+msgstr "Был e-mail менән ҡулланыусы бар инде."
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "This file format does not support editing source strings."
+msgstr "Файл форматы быны хупламай."
+
+#, fuzzy
+#| msgid "Editing template is not supported with this file format."
+msgid "Editing source strings with inline markup is not supported."
+msgstr "Ҡалыпты үҙгәртеү был файл форматы менән хупланмай."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The key cannot be represented in this file format."
+msgstr "Файл исеме абсолют юл була алмай."
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -5873,10 +6096,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "XLIFF 1.2 тәржемә файлы"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr "XLIFF 1.2 алмаштырғыстар менән"
-
-#. Translators: File format name
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF 1.2 gettext киңәйеүҙәре менән"
 
@@ -5891,12 +6110,6 @@ msgstr "XLIFF 1.2 gettext киңәйеүҙәре менән"
 #| msgid "XLIFF 1.2 translation file"
 msgid "XLIFF 2.0 translation file"
 msgstr "XLIFF 1.2 тәржемә файлы"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "XLIFF 1.2 with placeables support"
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "XLIFF 1.2 алмаштырғыстар менән"
 
 #. Translators: File format name
 #, fuzzy
@@ -6146,10 +6359,20 @@ msgstr "Репозиторийҙы бикләп булманы, икенсе о�
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 #, fuzzy
 #| msgid "Maximum size of translation"
 msgid "Maximum retained versions"
 msgstr "Тәржемәнең максималь үлсәме"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr ""
@@ -8448,6 +8671,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr "Cloud"
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "Ваҡыты сыҡҡан"
+
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
 msgstr "Айырым"
@@ -8720,9 +8947,25 @@ msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Ҡыҙғанысҡа ҡаршы, һеҙҙең браузерығыҙ WebAuthn-ды хупламай."
 
 #, fuzzy
+#| msgid "Add-ons"
+msgid "Add-on API"
+msgstr "Өҫтәмәләр"
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "API root URL:"
+msgid "API root"
+msgstr "API-ның төп URL-ы:"
+
+#, fuzzy
 #| msgid "Bad configuration"
 msgid "Configuration"
 msgstr "Насар көйләү"
+
+msgid "API"
+msgstr ""
 
 #, fuzzy
 #| msgid "View Logs"
@@ -8759,22 +9002,26 @@ msgstr "Юҡ"
 msgid "No components found."
 msgstr "Юлдар табылманы!"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
-msgid "Add-on API base URL:"
-msgstr "OpenAI API-ның төп URL-ы"
-
-#, fuzzy
-#| msgid "API root URL:"
-msgid "API root"
-msgstr "API-ның төп URL-ы:"
-
 msgid "Configure add-on"
 msgstr "Өҫтәмәне көйләргә"
 
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Preview without changes"
+msgstr "Һуңғы үҙгәрештәр"
+
 msgid "This add-on has no settings."
 msgstr "Был өҫтәмәнең көйләүҙәре юҡ."
+
+#, fuzzy
+#| msgid "Automatically recognize"
+msgid "Automation preview"
+msgstr "Автоматик танырға"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
+msgstr ""
 
 #, fuzzy
 #| msgid "Enable add-on:"
@@ -8974,6 +9221,23 @@ msgstr "Проект исеме"
 
 msgid "Project URL slug"
 msgstr "Проекттың URL-слагы"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+msgid "Create a project token"
+msgstr "Проект токены булдырырға"
 
 #, fuzzy
 #| msgid "Review strings"
@@ -9492,17 +9756,6 @@ msgstr "Проектҡа инеү менән идара итеүҙе үҙгәр�
 msgid "Check your billing status"
 msgstr "Түләү статусығыҙҙы тикшерегеҙ"
 
-msgid "Browse"
-msgstr "Ҡарап сығыу"
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "Тәржемә торошо"
-
-msgid "No strings found!"
-msgstr "Юлдар табылманы!"
-
 msgid "Insights"
 msgstr "Аналитика"
 
@@ -9585,6 +9838,11 @@ msgstr "Автоматик тәржемә"
 
 msgid "Add new category"
 msgstr "Яңы категория өҫтәргә"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Тәржемә торошо"
 
 #, fuzzy
 #| msgid "Browse all string changes"
@@ -10215,16 +10473,10 @@ msgstr ""
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr "Тәржемәнең аныҡлығын яҡшыртыу өсөн тәржемә контексын тасуирлағыҙ."
 
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
 msgstr ""
-"Weblate-тағы үҙгәрештәрҙе ташларға һәм уны өҫкө ағым репозиторийы менән "
-"синхронлаштырырға теләгәндә ҡулланығыҙ."
 
 msgid "Reset and reapply"
 msgstr ""
@@ -10253,6 +10505,9 @@ msgstr ""
 msgid "Cleanup"
 msgstr "Таҙартыу"
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
@@ -10260,11 +10515,16 @@ msgstr ""
 "Таҙартыу версиялар менән идара итеү тарафынан күҙәтелмәгән бөтә файлдарҙы "
 "репозиторийҙан юя."
 
-msgid "It also removes stale branches which are not used by Weblate."
-msgstr "Ул шулай уҡ Weblate ҡулланмаған иҫкергән ботаҡтарҙы юя."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
+msgstr ""
 
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Weblate репозиторийында ниндәйҙер сүп-сар ҡалғанда ҡулланығыҙ."
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr "Синхронлаштырырға"
@@ -10404,6 +10664,12 @@ msgstr "Репозиторий үҙгәрештәре"
 msgid "Browse all repository changes"
 msgstr "Бөтә юл үҙгәрештәрен ҡарарға"
 
+#, fuzzy
+#| msgctxt "Number of strings"
+#| msgid "Waiting for review"
+msgid "Nothing to preview."
+msgstr "Тикшереү көтә"
+
 msgid "Shortcut"
 msgstr "Ҡыҫҡартыу"
 
@@ -10511,9 +10777,6 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
-
-msgid "Workflow"
-msgstr "Эш ағымы"
 
 msgid "Changing plural rules might not have a desired effect."
 msgstr "Күплек ҡағиҙәләрен үҙгәртеү көтөлгән һөҙөмтәне бирмәүе мөмкин."
@@ -11240,8 +11503,29 @@ msgstr ""
 "Резерв күсермәләрҙе тергеҙә алыу өсөн, зинһар, түбәндәге инеү мәғлүмәттәрен "
 "яҙып алығыҙ."
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
+msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Buy backup service"
 msgstr "Резерв күсермә сервисын өҫтәргә"
+
+#, fuzzy
+#| msgid "Cleaned up backup storage"
+msgid "Add custom backup storage"
+msgstr "Резерв күсермә һаҡлағысы таҙартылды"
 
 msgid "Commercial"
 msgstr "Коммерция"
@@ -12162,6 +12446,9 @@ msgstr "Билдәләнгән сығанаҡ юлдар"
 msgid "Paste from clipboard"
 msgstr "Алмашыу буферынан ҡуйырға"
 
+msgid "Translate"
+msgstr "Тәржемә итергә"
+
 msgid "strings"
 msgstr "юл"
 
@@ -12797,14 +13084,14 @@ msgstr "Тикшереүселәр"
 msgid "Untranslated"
 msgstr "Тәржемә ителмәгән"
 
+msgid "Browse"
+msgstr "Ҡарап сығыу"
+
 msgid "Create translation"
 msgstr "Тәржемә булдырырға"
 
 msgid "Cannot add translation right now"
 msgstr "Хәҙер тәржемә өҫтәп булмай"
-
-msgid "Translate"
-msgstr "Тәржемә итергә"
 
 msgid "Customized workflow"
 msgstr "Көйләнгән эш ағымы"
@@ -13395,6 +13682,11 @@ msgstr "Саҡырыуҙы ҡабул итергә"
 msgid "Create account"
 msgstr "Ошолар аша аккаунт булдырығыҙ:"
 
+#, fuzzy, python-format
+#| msgid "Configure add-on"
+msgid "Configure %(addon)s"
+msgstr "Өҫтәмәне көйләргә"
+
 msgid "Weblate could not execute script add-on."
 msgstr "Weblate скрипт-өҫтәмәне үтәй алманы."
 
@@ -13403,6 +13695,12 @@ msgstr "Түбәндәге осраҡтар табылды:"
 
 msgid "Command"
 msgstr "Команда"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr "Тәржемә ителгән телдәр өсөн файлдар ике мәғәнәле тел кодтарын ҡуллана."
@@ -13994,6 +14292,14 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] "Резерв күсермәләр %(keep_days)s көндән һуң юйыла."
 msgstr[1] "Резерв күсермәләр %(keep_days)s көндән һуң юйыла."
 
+#, fuzzy
+#| msgid "Jump to"
+msgid "Jump to date"
+msgstr "Күсергә"
+
+msgid "Go"
+msgstr ""
+
 msgid "Changes"
 msgstr "Үҙгәрештәр"
 
@@ -14002,6 +14308,24 @@ msgstr "Һуңғы үҙгәрештәрҙе CSV итеп күсереп алыр
 
 msgid "Follow using RSS"
 msgstr "RSS аша күҙәтергә"
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "Ҡараусылар"
+
+msgid "Older"
+msgstr ""
 
 msgid "From version control"
 msgstr "Версиялар менән идара итеүҙән"
@@ -14341,9 +14665,6 @@ msgstr[1] ""
 "Был командала %(count)s ағза бар. Команданы юйыу уларҙың проектҡа инеүенә "
 "йоғонто яһауы мөмкин."
 
-msgid "Create a project token"
-msgstr "Проект токены булдырырға"
-
 msgid "Create"
 msgstr "Булдырырға"
 
@@ -14400,6 +14721,15 @@ msgstr ""
 "берләштереләсәк. Әгәр репозиторий икенсе урынға күсерелгән булһа, был яҡшы "
 "эшләйәсәк. Әгәр репозиторийҙың йөкмәткеһе башҡа булһа, яңы тәржемә "
 "компонентын булдырыу яҡшыраҡ булыр."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "Сығанаҡты үҙгәртеү"
+
+msgid "Cancel"
+msgstr ""
 
 #, fuzzy
 #| msgid "URL of repository where users can fetch changes from Weblate"
@@ -14660,6 +14990,11 @@ msgstr "Әлеге ваҡытта аңлатма бирелмәгән."
 msgid "No labels currently set."
 msgstr "Әлеге ваҡытта билдәләр ҡуйылмаған."
 
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit flags"
+msgstr "Билдәне үҙгәртергә"
+
 msgid "Flags"
 msgstr "Флагтар"
 
@@ -14728,6 +15063,17 @@ msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
 msgstr "<code>%(flags)s</code> %(object)s-тан мираҫ итеп алынған."
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Effective flags"
+msgstr "Мираҫ итеп алынған флагтар"
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
+msgstr ""
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -14857,11 +15203,6 @@ msgstr "Провайдер"
 msgid "Repositories"
 msgstr "Репозиторийҙар"
 
-#, fuzzy
-#| msgid "Disable"
-msgid "Disabled"
-msgstr "Һүндерергә"
-
 msgid "Refresh"
 msgstr ""
 
@@ -14971,9 +15312,6 @@ msgstr ""
 #| msgid "Continue"
 msgid "Continue to GitHub"
 msgstr "Дауам итергә"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Live Preview"
@@ -15274,6 +15612,15 @@ msgstr "Интеграциялау коды алмашыу буферына кү
 
 msgid "Embed Code"
 msgstr "Интеграциялау коды"
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Review"
+msgid "Preview"
+msgstr "Тикшереү"
 
 #, fuzzy
 #| msgid "Browse all component changes"
@@ -16193,6 +16540,11 @@ msgid "POT updates do not update PO files."
 msgstr ""
 
 #, fuzzy
+#| msgid "The entered token is not valid."
+msgid "AI quality evaluation service is unavailable."
+msgstr "Индерелгән токен дөрөҫ түгел."
+
+#, fuzzy
 #| msgid "Project Information"
 msgid "Information"
 msgstr "Проект мәғлүмәте"
@@ -16968,6 +17320,48 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Буш XML-тегтар өсөн ябыусы тегты индерергә"
 
 #, fuzzy
+#| msgid "Conflict handling"
+msgid "Whitespace handling"
+msgstr "Конфликттарҙы хәл итеү"
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Placeables support"
+msgstr "Weblate ярҙамы"
+
+#, fuzzy
+#| msgid "Plain text file"
+msgid "Plain text only"
+msgstr "Ябай текст файлы"
+
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support placeables"
+msgstr "Weblate-ҡа ярҙам итергә"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
+#, fuzzy
 #| msgid "Flat XML file"
 msgid "FlatXML Root name"
 msgstr "Яҫы XML-файл"
@@ -17234,6 +17628,14 @@ msgid ""
 msgstr ""
 "Был арала юлдың тәржемәһе үҙгәргән. Зинһар, үҙгәрештәрегеҙҙе тикшерегеҙ."
 
+#, fuzzy
+#| msgid "Languages limit"
+msgid "Ignore language mismatch"
+msgstr "Телдәр лимиты"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr "Файл тейәү режимы"
 
@@ -17382,6 +17784,34 @@ msgstr "Тәржемә комментарийы, башҡа тәржемәсел
 
 msgid "Please choose"
 msgstr "Зинһар, һайлағыҙ"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags — all languages"
+msgstr "Бөтә телдәр өсөн"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags — this language"
+msgstr "Өҫтәләсәк тәржемә флагтары"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation flags to add"
+msgid "Translation flags — %(language)s"
+msgstr "Өҫтәләсәк тәржемә флагтары"
+
+#, fuzzy
+#| msgid "You do not have privilege to accept suggestions!"
+msgid "You do not have permission to edit these flags."
+msgstr "Тәҡдимдәрҙе ҡабул итергә хоҡуғығыҙ юҡ!"
 
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
@@ -17649,6 +18079,11 @@ msgstr "Эҙләү һәм алмаштырыу өсөн регистрға һи�
 msgid "Replacement string"
 msgstr "Алмаштырыусы юл"
 
+#, fuzzy
+#| msgid "Screenshot context"
+msgid "Key or context"
+msgstr "Скриншот контексы"
+
 msgid "Translation key"
 msgstr "Тәржемә асҡысы"
 
@@ -17702,16 +18137,38 @@ msgstr "Ҡуйыласаҡ торош"
 msgid "Do not change"
 msgstr "Үҙгәртмәҫкә"
 
-msgid "Translation flags to add"
+msgid "Source flags to add — all languages"
+msgstr ""
+
+msgid "Source flags to remove — all languages"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Өҫтәләсәк тәржемә флагтары"
 
-msgid "Translation flags to remove"
+#, fuzzy
+#| msgid "Fills in translation strings with source string."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Тәржемә юлдарын сығанаҡ юл менән тултыра."
+
+#, fuzzy
+#| msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
 msgstr "Юйыласаҡ тәржемә флагтары"
 
-msgid "Labels to add"
-msgstr "Өҫтәләсәк билдәләр"
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
 
-msgid "Labels to remove"
+#, fuzzy
+#| msgid "For all languages"
+msgid "Labels to add — all languages"
+msgstr "Бөтә телдәр өсөн"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Юйыласаҡ билдәләр"
 
 msgid "I accept the contributor license agreement"
@@ -17753,6 +18210,11 @@ msgstr "Раҫлау өсөн, зинһар, проекттың һәм телд�
 
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Раҫлау өсөн, зинһар, категорияның һәм телдең слагын яҙығыҙ."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The date cannot be in the future."
+msgstr "Файл исеме абсолют юл була алмай."
 
 msgid "Author username"
 msgstr "Авторҙың ҡулланыусы исеме"
@@ -18419,10 +18881,15 @@ msgstr ""
 msgid "Manage strings"
 msgstr "Юлдар менән идара итеү"
 
+#, fuzzy
+#| msgid ""
+#| "Enables adding and removing strings straight from Weblate. If your "
+#| "strings are extracted from the source code or managed externally you "
+#| "probably want to keep it disabled."
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 "Weblate-тан туранан-тура юлдарҙы өҫтәү һәм юйыу мөмкинлеген бирә. Әгәр "
 "һеҙҙең юлдарығыҙ сығанаҡ кодтан сығарылһа йәки тыштан идара ителһә, һеҙ, "
@@ -19201,6 +19668,23 @@ msgstr "Тейәлгән файлдағы күплек формалары ағы
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Тейәлгән файлдағы күплек формалары ағымдағы тәржемә менән тап килмәй."
 
+#, fuzzy
+#| msgid "ZIP file containing translations"
+msgid "The uploaded file contains too many language declarations."
+msgstr "Тәржемәләре булған ZIP-файл"
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not parse uploaded ZIP file."
+msgid "Could not parse uploaded file: %s"
+msgstr "Тейәлгән ZIP-файлды анализлап булманы."
+
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Көтөлгән үҙгәрештәрҙе коммит итеп булманы: %s"
@@ -19209,11 +19693,6 @@ msgstr "Көтөлгән үҙгәрештәрҙе коммит итеп булм
 #| msgid "Could not parse {file}: {error}"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "{file} файлын анализлап булманы: {error}"
-
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
-msgid "Could not parse uploaded file: %s"
-msgstr "Тейәлгән ZIP-файлды анализлап булманы."
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -19252,29 +19731,71 @@ msgid_plural "String could not be propagated to %d components."
 msgstr[0] "Юлды %d компонентҡа таратып булманы."
 msgstr[1] "Юлды %d компонентҡа таратып булманы."
 
-msgid "Unmark as read-only"
-msgstr "Тик уҡыу билдәһен алырға"
-
-msgid "Mark as read-only"
-msgstr "Тик уҡыу өсөн тип билдәләргә"
-
-msgid "Unmark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Тәржемә ителмәй билдәһен алырға"
 
-msgid "Mark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as read-only"
+msgid "Unmark as read-only for all languages"
+msgstr "Тик уҡыу билдәһен алырға"
+
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark this translation as untranslatable"
+msgstr "Тәржемә ителмәй билдәһен алырға"
+
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Unmark this translation as read-only"
+msgstr "Тәржемә тик уҡыу өсөн генә."
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "Тәржемә ителгән телдәр менән идара итеү"
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "Тәржемә ителгән телдәр менән идара итеү"
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark this translation as untranslatable"
 msgstr "Тәржемә ителмәй тип билдәләргә"
 
-msgid "Unmark as forbidden translation"
-msgstr "Тыйлған тәржемә билдәһен алырға"
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Mark this translation as read-only"
+msgstr "Тәржемә тик уҡыу өсөн генә."
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark as untranslatable for all languages"
+msgstr "Тәржемә ителмәй тип билдәләргә"
+
+#, fuzzy
+#| msgid "Mark as read-only"
+msgid "Mark as read-only for all languages"
+msgstr "Тик уҡыу өсөн тип билдәләргә"
 
 msgid "Mark as forbidden translation"
 msgstr "Тыйлған тәржемә тип билдәләргә"
 
-msgid "Unmark as terminology"
-msgstr "Терминология билдәһен алырға"
+msgid "Unmark as forbidden translation"
+msgstr "Тыйлған тәржемә билдәһен алырға"
 
-msgid "Mark as terminology"
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as terminology for all languages"
 msgstr "Терминология тип билдәләргә"
+
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as terminology for all languages"
+msgstr "Терминология билдәһен алырға"
 
 msgid "Restrict direct editing"
 msgstr ""
@@ -19283,6 +19804,35 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The source string has changed. Reload it before editing."
+msgstr "Сығанаҡ юлды үҙгәртеп булмай."
+
+#, fuzzy
+#| msgid "A user with that username already exists."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "Был ҡулланыусы исеме менән ҡулланыусы бар инде."
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "The file format does not support this edit."
+msgstr "Файл форматы быны хупламай."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translation project was removed"
+msgid "A translation key is required."
+msgstr "Һеҙҙең тәржемә проектығыҙ юйылды"
+
+#, fuzzy
+#| msgid "Could not add new translation file."
+msgid "Could not find the string in the translation file."
+msgstr "Яңы тәржемә файлын өҫтәп булманы."
 
 msgid "Insert tab character"
 msgstr "Табуляция символын ҡуйырға"
@@ -19808,6 +20358,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "%s тәржемәһендәге үҙгәрештәр"
 
+#, fuzzy
+#| msgid "Restricted component"
+msgid "Invalid history position."
+msgstr "Сикләнгән компонент"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr "Бирелгән көйләү дөрөҫ түгел. Зинһар, түбәндәге хаталарҙы тикшерегеҙ."
 
@@ -19870,6 +20425,9 @@ msgid ""
 "refreshed."
 msgstr ""
 
+msgid "No strings found!"
+msgstr "Юлдар табылманы!"
+
 msgid "Your suggestion is empty!"
 msgstr "Һеҙҙең тәҡдим буш!"
 
@@ -19917,9 +20475,6 @@ msgstr "Дөрөҫ булмаған эҙләү юлы!"
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr "Автоматик тәржемә бара"
 
-msgid "Automatic translation in progress"
-msgstr "Автоматик тәржемә бара"
-
 msgid "Posted new comment"
 msgstr "Яңы комментарий яҙылды"
 
@@ -19941,6 +20496,16 @@ msgstr "Репозиторийҙы бикләп булманы, икенсе о�
 
 msgid "New string has been added."
 msgstr "Яңы юл өҫтәлде."
+
+#, fuzzy
+#| msgid "This component is currently locked."
+msgid "The component is busy. Please try again."
+msgstr "Был компонент әлеге ваҡытта бикләнгән."
+
+#, fuzzy
+#| msgid "Source string added"
+msgid "Source string updated."
+msgstr "Сығанаҡ юл өҫтәлде"
 
 #, python-format
 msgid "Could not remove the string: %s"
@@ -19999,6 +20564,16 @@ msgstr "Зинһар, быны тәржемә файлдарының береһ�
 #| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Зинһар, быны тәржемә файлдарының береһен юйып төҙәтегеҙ."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long to preview."
+msgstr "Сығанаҡ юл тикшереүгә мохтаж."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr "Бик күп эҙләү һорауҙары, зинһар, һуңыраҡ ҡабатлап ҡарағыҙ."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Компонент хәҙер тәржемә яңыртыуҙары өсөн бикләнгән!"
@@ -20169,6 +20744,11 @@ msgstr "Был компонент әлеге ваҡытта бикләнгән."
 
 msgid "Backup scheduled. It will be available soon."
 msgstr "Резерв күсермә планлаштырылды. Ул тиҙҙән әҙер буласаҡ."
+
+#, fuzzy
+#| msgid "Could not change additional string info!"
+msgid "Could not change string flags!"
+msgstr "Өҫтәмә юл мәғлүмәтен үҙгәртеп булманы!"
 
 msgid "Could not change additional string info!"
 msgstr "Өҫтәмә юл мәғлүмәтен үҙгәртеп булманы!"
@@ -20708,6 +21288,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Name consists only of disallowed characters."
+msgid "Repository URL contains unsafe characters."
+msgstr "Исем тыйылған символдарҙан ғына тора."
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -21960,6 +22545,40 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Сығанаҡ юйылды."
 
+#~ msgid "XLIFF 1.2 with placeables support"
+#~ msgstr "XLIFF 1.2 алмаштырғыстар менән"
+
+#, fuzzy
+#~| msgid "XLIFF 1.2 with placeables support"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "XLIFF 1.2 алмаштырғыстар менән"
+
+#, fuzzy
+#~| msgctxt "Automatic suggestion service configuration"
+#~| msgid "OpenAI API base URL"
+#~ msgid "Add-on API base URL:"
+#~ msgstr "OpenAI API-ның төп URL-ы"
+
+#, fuzzy
+#~| msgid ""
+#~| "Use when you want to discard changes in Weblate and bring it in sync "
+#~| "with upstream repository."
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr ""
+#~ "Weblate-тағы үҙгәрештәрҙе ташларға һәм уны өҫкө ағым репозиторийы менән "
+#~ "синхронлаштырырға теләгәндә ҡулланығыҙ."
+
+#~ msgid "It also removes stale branches which are not used by Weblate."
+#~ msgstr "Ул шулай уҡ Weblate ҡулланмаған иҫкергән ботаҡтарҙы юя."
+
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Weblate репозиторийында ниндәйҙер сүп-сар ҡалғанда ҡулланығыҙ."
+
+#~ msgid "Labels to add"
+#~ msgstr "Өҫтәләсәк билдәләр"
+
 #~ msgid ""
 #~ "Updates the comment part of the PO file header to include contributor "
 #~ "names and years of contributions."
@@ -22442,9 +23061,6 @@ msgstr "Сығанаҡ юйылды."
 #~ msgid "View all alerts"
 #~ msgstr "Бөтә иҫкәртеүҙәрҙе ҡарарға"
 
-#~ msgid "Automatically recognize"
-#~ msgstr "Автоматик танырға"
-
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr ""
 #~ "Берләшмә локалләштереүе тикшереү исемлегенән күрһәтмәләрҙе ҡарап сығығыҙ."
@@ -22816,9 +23432,6 @@ msgstr "Сығанаҡ юйылды."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "Өлөш индерелгән тәржемәләр"
-
-#~ msgid "Weblate support"
-#~ msgstr "Weblate ярҙамы"
 
 #~ msgid "Weblate community"
 #~ msgstr "Weblate берләшмәһе"

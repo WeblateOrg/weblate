@@ -126,6 +126,7 @@ COMPONENT_BACKUP_FIELDS = (
     "screenshot_filemask",
     "key_filter",
     "secondary_language",
+    "repoweb_translations",
     *INHERITABLE_COMPONENT_FLAGS,
 )
 CATEGORY_BACKUP_FIELDS = (

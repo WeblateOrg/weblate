@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
-"PO-Revision-Date: 2026-09-19 06:53+0000\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"PO-Revision-Date: 2026-09-25 10:40+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -1539,6 +1539,46 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "Sínigh isteach an dara fachtóir"
 
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Authentication service URL"
+msgid "Evaluation service"
+msgstr "URL na seirbhíse fíordheimhnithe"
+
+#, fuzzy
+#| msgid "Update frequency"
+msgid "Evaluation frequency"
+msgstr "Minicíocht nuashonraithe"
+
+msgid "Disabled"
+msgstr "Díchumasaithe"
+
+msgid "Daily"
+msgstr "Laethúil"
+
+msgid "Weekly"
+msgstr "Seachtainiúil"
+
+msgid "Monthly"
+msgstr "Míosúil"
+
+#, fuzzy
+#| msgid "Browse all translation changes"
+msgid "Evaluate translation changes"
+msgstr "Brabhsáil gach athrú aistriúcháin"
+
+#, fuzzy
+#| msgid "Remote repository updated"
+msgid "Evaluate repository updates"
+msgstr "Nuashonraithe ar an stór iargúlta"
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr "Aistriúchán uathoibríoch"
 
@@ -1876,15 +1916,6 @@ msgstr ""
 
 msgid "Update frequency"
 msgstr "Minicíocht nuashonraithe"
-
-msgid "Daily"
-msgstr "Laethúil"
-
-msgid "Weekly"
-msgstr "Seachtainiúil"
-
-msgid "Monthly"
-msgstr "Míosúil"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3163,6 +3194,9 @@ msgstr "Níl cead agat teaghráin a cheadú."
 msgid "This string seems to already exist."
 msgstr "Is cosúil go bhfuil an teaghrán seo ann cheana féin."
 
+msgid "Automatic translation in progress"
+msgstr "Aistriúchán uathoibríoch ar siúl"
+
 msgid "Category"
 msgstr "Catagóir"
 
@@ -3948,14 +3982,24 @@ msgstr "Cuir an teaghrán leis an teanga foinse ina ionad sin."
 msgid "Adding strings is disabled in the component configuration."
 msgstr "Tá teaghráin curtha leis díchumasaithe i gcumraíocht an chomhpháirte."
 
+#, fuzzy
+#| msgid "Adding strings is disabled in the component configuration."
+msgid "Editing source strings is disabled in the component configuration."
+msgstr "Tá teaghráin curtha leis díchumasaithe i gcumraíocht an chomhpháirte."
+
+msgid "The file format does not support this."
+msgstr "Ní thacaíonn formáid an chomhaid leis seo."
+
+#, fuzzy
+#| msgid "You do not have permission to edit glossary entries."
+msgid "You do not have permission to edit this glossary."
+msgstr "Níl cead agat iontrálacha glosaire a chur in eagar."
+
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
 "Ní féidir aistriúchán téarmaíochta a bhaint. Bain an teaghrán foinse ina "
 "ionad sin."
-
-msgid "The file format does not support this."
-msgstr "Ní thacaíonn formáid an chomhaid leis seo."
 
 msgid "Adding new translations is turned off in the component configuration."
 msgstr "Múchadh aistriúcháin nua a chur leis i gcumraíocht an chomhpháirte."
@@ -4007,6 +4051,103 @@ msgstr "Baineadh cuireadh úsáideora."
 #, python-format
 msgid "Accepted invitation to the %s team."
 msgstr "Glacadh le cuireadh don fhoireann %s."
+
+#, fuzzy
+#| msgid "Automatic detection"
+msgid "Automation"
+msgstr "Brath uathoibríoch"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+#, fuzzy
+#| msgid "This component is set up incorrectly."
+msgid "The component is outside this add-on's scope."
+msgstr "Tá an chomhpháirt seo socraithe go mícheart."
+
+#, fuzzy
+#| msgid "Category does not belong to this project."
+msgid "The change does not belong to this component."
+msgstr "Ní bhaineann an chatagóir leis an tionscadal seo."
+
+#, fuzzy
+#| msgid "Automatic translation mode"
+msgid "Automation nesting is too deep."
+msgstr "Modh aistriúcháin uathoibríoch"
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+#, fuzzy
+#| msgid "The chosen sorting is not supported."
+msgid "YAML aliases and tags are not supported."
+msgstr "Ní thacaítear leis an sórtáil roghnaithe."
+
+#, fuzzy
+#| msgid "Automatically translated strings"
+msgid "Automation keys must be strings."
+msgstr "Teaghráin aistrithe go huathoibríoch"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(email)s: %(error)s"
+msgid "%(path)s: %(error)s"
+msgstr "%(email)s: %(error)s"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+#, fuzzy
+#| msgid "Automatic component list assignment"
+msgid "Automation context is too large."
+msgstr "Tasc liosta comhpháirteanna uathoibríoch"
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Invalid repository branch: %s"
+msgid "Invalid CEL condition: %s"
+msgstr "Brainse stórais neamhbhailí: %s"
+
+msgid "Workflow"
+msgstr "Sreabhadh oibre"
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Create component"
+msgid "Preview component ID"
+msgstr "Cruthaigh comhpháirt"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview change ID"
+msgstr "Athbhreithnigh athruithe"
+
+msgid "Optional event context. Used only for preview."
+msgstr ""
 
 msgid "Additional message"
 msgstr "Teachtaireacht bhreise"
@@ -4198,6 +4339,57 @@ msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr "Ní féidir billeáil den sórt sin a chumasc."
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr "Criticiúil"
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+#, fuzzy
+#| msgid "Frequency"
+msgid "AI: Fluency"
+msgstr "Minicíocht"
+
+#, fuzzy
+#| msgid "The translation base language is editable."
+msgid "The evaluation detected a language quality issue."
+msgstr "Is féidir bunteanga an aistriúcháin a chur in eagar."
+
+#, fuzzy
+#| msgid "Terminology"
+msgid "AI: Terminology"
+msgstr "Téarmaíocht"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+#, fuzzy
+#| msgid "The documentation has detailed instructions"
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr "Tá treoracha mionsonraithe sa doiciméadú"
+
+#, fuzzy
+#| msgid "Vue I18n formatting"
+msgid "AI: Formatting"
+msgstr "Formáidiú Vue I18n"
+
+#, fuzzy
+#| msgid "Translation is missing some placeholders."
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Tá roinnt áitchoinneoirí in easnamh san aistriúchán."
 
 msgid "AngularJS interpolation string"
 msgstr "Teaghrán idirshuíomh AngularJS"
@@ -5453,6 +5645,36 @@ msgstr "Excel Oscailte XML"
 msgid "Multivalue CSV file"
 msgstr "Comhad CSV illuach"
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "The file format does not support updating source strings."
+msgid "This file format does not support editing keys or context."
+msgstr "Ní thacaíonn an fhormáid comhaid le teaghráin foinse a nuashonrú."
+
+#, fuzzy
+#| msgid "A user with this e-mail already exists."
+msgid "A string with this identity already exists."
+msgstr "Tá úsáideoir leis an ríomhphost seo ann cheana."
+
+#, fuzzy
+#| msgid "The file format does not support updating source strings."
+msgid "This file format does not support editing source strings."
+msgstr "Ní thacaíonn an fhormáid comhaid le teaghráin foinse a nuashonrú."
+
+#, fuzzy
+#| msgid "Update source strings upload is not supported with this format."
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+"Ní thacaítear le huaslódáil teaghráin foinse nuashonraithe leis an bhformáid "
+"seo."
+
+#, fuzzy
+#| msgid "This role cannot be assigned to this team."
+msgid "The key cannot be represented in this file format."
+msgstr "Ní féidir an ról seo a shannadh don fhoireann seo."
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr "Meiteashonraí iolra neamhbhailí sa chomhad CSV: %s"
@@ -5493,10 +5715,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "Comhad aistriúcháin XLIFF 1.2"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr "XLIFF 1.2 le tacaíocht placeables"
-
-#. Translators: File format name
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF 1.2 le síntí gettext"
 
@@ -5507,10 +5725,6 @@ msgstr "XLIFF 1.2 le síntí Apple"
 #. Translators: File format name
 msgid "XLIFF 2.0 translation file"
 msgstr "Comhad aistriúcháin XLIFF 2.0"
-
-#. Translators: File format name
-msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "Comhad aistriúcháin XLIFF 2.0 le tacaíocht do shuímh inláimhsithe"
 
 #. Translators: File format name
 msgid "Java Properties"
@@ -5756,8 +5970,18 @@ msgstr ""
 msgid "Maximum build age (days)"
 msgstr "Uasaois an tiomsaithe (laethanta)"
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 msgid "Maximum retained versions"
 msgstr "Uaslíon na leaganacha a choinnítear"
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
+msgstr ""
 
 msgid "Kotlin SDK CDN"
 msgstr "CDN SDK Kotlin"
@@ -7987,6 +8211,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr "Scamall"
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr "In éag"
+
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
 msgstr "Tiomnaithe"
@@ -8279,8 +8507,22 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Ar an drochuair, níl aon tacaíocht WebAuthn ag do bhrabhsálaí."
 
+#, fuzzy
+#| msgid "Add-ons"
+msgid "Add-on API"
+msgstr "Breiseáin"
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+msgid "API root"
+msgstr "Fréamh API"
+
 msgid "Configuration"
 msgstr "Cumraíocht"
+
+msgid "API"
+msgstr ""
 
 msgid "Logs"
 msgstr "Logaí"
@@ -8306,17 +8548,26 @@ msgstr "Ní comhoiriúnach"
 msgid "No components found."
 msgstr "Níor aimsíodh aon chomhpháirteanna."
 
-msgid "Add-on API base URL:"
-msgstr "Bun-URL API an bhreiseáin:"
-
-msgid "API root"
-msgstr "Fréamh API"
-
 msgid "Configure add-on"
 msgstr "Cumraigh an breiseán"
 
+#, fuzzy
+#| msgid "Review changes"
+msgid "Preview without changes"
+msgstr "Athbhreithnigh athruithe"
+
 msgid "This add-on has no settings."
 msgstr "Níl aon socruithe ag an mbreiseán seo."
+
+#, fuzzy
+#| msgid "Automatically recognize"
+msgid "Automation preview"
+msgstr "Aithin go huathoibríoch"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
+msgstr ""
 
 msgid "Run add-on"
 msgstr "Rith breiseán"
@@ -8520,6 +8771,23 @@ msgstr "Ainm tionscadal"
 
 msgid "Project URL slug"
 msgstr "Sluga URL an tionscadail"
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+msgid "Create a project token"
+msgstr "Cruthaigh comhartha tionscadail"
 
 msgid "Review before installing"
 msgstr "Athbhreithniú roimh shuiteáil"
@@ -9101,15 +9369,6 @@ msgstr "Níl cead agat rialú rochtana tionscadail a athrú."
 msgid "Check your billing status"
 msgstr "Seiceáil stádas do bhilleála"
 
-msgid "Browse"
-msgstr "Brabhsáil"
-
-msgid "Translation status widgets"
-msgstr "Giuirléidí stádais aistriúcháin"
-
-msgid "No strings found!"
-msgstr "Níor aimsíodh aon teaghráin!"
-
 msgid "Insights"
 msgstr "Léargais"
 
@@ -9181,6 +9440,9 @@ msgstr "Aistriúchán uathoibríoch baisce"
 
 msgid "Add new category"
 msgstr "Cuir catagóir nua leis"
+
+msgid "Translation status widgets"
+msgstr "Giuirléidí stádais aistriúcháin"
 
 msgid "Browse all category changes"
 msgstr "Brabhsáil gach athrú catagóire"
@@ -9865,11 +10127,9 @@ msgstr ""
 "aistriúcháin."
 
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
 msgstr ""
-"Caillfidh sé athruithe i stór Weblate agus cuirfidh sé i sioncrón é leis an "
-"stór thuasluaite."
 
 msgid "Reset and reapply"
 msgstr "Athshocraigh agus cuir i bhfeidhm arís"
@@ -9897,6 +10157,9 @@ msgstr ""
 msgid "Cleanup"
 msgstr "Glan Suas"
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
@@ -9904,11 +10167,16 @@ msgstr ""
 "Baineann glanta gach comhad nach bhfuil rianaithe ag an rialú leagan as an "
 "stór."
 
-msgid "It also removes stale branches which are not used by Weblate."
-msgstr "Baineann sé freisin brainsí seanda nach n-úsáideann Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
+msgstr ""
 
-msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Bain úsáid as nuair a bhíonn roinnt truflais fágtha i stór Weblate."
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
+msgstr ""
 
 msgid "Synchronize"
 msgstr "Sioncrónaigh"
@@ -10019,6 +10287,9 @@ msgstr "Athruithe ar stór"
 
 msgid "Browse all repository changes"
 msgstr "Brabhsáil gach athrú ar an stórlann"
+
+msgid "Nothing to preview."
+msgstr "Níl aon rud le réamhamharc air."
 
 msgid "Shortcut"
 msgstr "Aicearra"
@@ -10141,9 +10412,6 @@ msgstr ""
 "dhéantar aistriú chuig bunachar sonraí. Is dócha go ndéanfar "
 "eagarthóireachtaí míchuí a aisiompú.<a href=\"%(url)s\">Féach ar an "
 "doiciméadacht maidir le láimhseáil cheart a dhéanamh air seo.</a>"
-
-msgid "Workflow"
-msgstr "Sreabhadh oibre"
 
 msgid "Changing plural rules might not have a desired effect."
 msgstr "Seans nach mbeadh éifeacht inmhianaithe ag athrú rialacha iolra."
@@ -10870,8 +11138,29 @@ msgstr ""
 "I gcás gur mhaith leat a bheith in ann na cúltacaí a chur ar ais, taifead "
 "dintiúir thíos le do thoil."
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
+msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+#, fuzzy
+#| msgid "Add backup service"
+msgid "Buy backup service"
 msgstr "Cuir seirbhís chúltaca leis"
+
+#, fuzzy
+#| msgid "Cleaned up backup storage"
+msgid "Add custom backup storage"
+msgstr "Stóráil chúltaca glanta"
 
 msgid "Commercial"
 msgstr "Tráchtála"
@@ -11756,6 +12045,9 @@ msgstr "Roghnaigh na teaghráin foinse go léir"
 msgid "Paste from clipboard"
 msgstr "Greamaigh ón ngearrthaisce"
 
+msgid "Translate"
+msgstr "Aistrigh"
+
 msgid "strings"
 msgstr "teaghráin"
 
@@ -12381,14 +12673,14 @@ msgstr "Gan athbhreithniú"
 msgid "Untranslated"
 msgstr "Neamhaistrithe"
 
+msgid "Browse"
+msgstr "Brabhsáil"
+
 msgid "Create translation"
 msgstr "Cruthaigh aistriúchán"
 
 msgid "Cannot add translation right now"
 msgstr "Ní féidir an t-aistriúchán a chur leis faoi láthair"
-
-msgid "Translate"
-msgstr "Aistrigh"
 
 msgid "Customized workflow"
 msgstr "Sreabhadh oibre saincheaptha"
@@ -12930,6 +13222,11 @@ msgstr "Glac le cuireadh"
 msgid "Create account"
 msgstr "Cruthaigh cuntas"
 
+#, fuzzy, python-format
+#| msgid "Configure add-on"
+msgid "Configure %(addon)s"
+msgstr "Cumraigh an breiseán"
+
 msgid "Weblate could not execute script add-on."
 msgstr "Níorbh fhéidir le Weblate an breiseán script a rith."
 
@@ -12938,6 +13235,12 @@ msgstr "Fuarthas na teagmhais seo a leanas:"
 
 msgid "Command"
 msgstr "Ordú"
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
+msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
 msgstr "Tá cóid teanga débhríoch in úsáid ag comhaid do theangacha aistrithe."
@@ -13599,6 +13902,14 @@ msgstr[2] "Baintear cúltacaí tar éis %(keep_days)s laethanta."
 msgstr[3] "Baintear cúltacaí tar éis %(keep_days)s laethanta."
 msgstr[4] "Baintear cúltacaí tar éis %(keep_days)s laethanta."
 
+#, fuzzy
+#| msgid "Jump to"
+msgid "Jump to date"
+msgstr "Léim go"
+
+msgid "Go"
+msgstr ""
+
 msgid "Changes"
 msgstr "Athruithe"
 
@@ -13607,6 +13918,24 @@ msgstr "Íoslódáil na hathruithe is déanaí mar CSV"
 
 msgid "Follow using RSS"
 msgstr "Lean ag baint úsáide as RSS"
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Viewers"
+msgid "Newer"
+msgstr "Lucht féachana"
+
+msgid "Older"
+msgstr ""
 
 msgid "From version control"
 msgstr "Ó rialú leagan"
@@ -13973,9 +14302,6 @@ msgstr[4] ""
 "Tá %(count)s baill iomlán sa fhoireann seo. D'fhéadfadh scriosadh an fhoirne "
 "tionchar a imirt ar a rochtain ar an tionscadal."
 
-msgid "Create a project token"
-msgstr "Cruthaigh comhartha tionscadail"
-
 msgid "Create"
 msgstr "Cruthaigh"
 
@@ -14029,6 +14355,15 @@ msgstr ""
 "chumasc le stór nua. Oibreoidh sé seo go breá má bhogtar an stór go dtí áit "
 "eile. Má tá ábhar an stórais difriúil, b’fhéidir go mbeadh sé níos fearr "
 "comhpháirt aistriúcháin nua a chruthú."
+
+#, fuzzy
+#| msgctxt "Access-control role"
+#| msgid "Edit source"
+msgid "Edit source"
+msgstr "Cuir foinse in eagar"
+
+msgid "Cancel"
+msgstr "Cealaigh"
 
 msgid "Learn more about pushing changes from Weblate."
 msgstr "Foghlaim tuilleadh faoi athruithe a bhrú ó Weblate."
@@ -14296,6 +14631,11 @@ msgstr "Níl aon mhíniú tugtha faoi láthair."
 msgid "No labels currently set."
 msgstr "Níl aon lipéid socraithe faoi láthair."
 
+#, fuzzy
+#| msgid "Edit label"
+msgid "Edit flags"
+msgstr "Cuir lipéad in eagar"
+
 msgid "Flags"
 msgstr "Bratacha"
 
@@ -14368,6 +14708,17 @@ msgid ""
 msgstr ""
 "Faightear <code>%(flags)s</code> mar oidhreacht ó %(object)s mar go bhfuil "
 "eagarthóireacht teaghrán foinse díchumasaithe."
+
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Effective flags"
+msgstr "Bratacha oidhreachta"
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
+msgstr ""
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -14499,9 +14850,6 @@ msgstr "Aitheantas an tSoláthraí"
 msgid "Repositories"
 msgstr "Taisclanna"
 
-msgid "Disabled"
-msgstr "Díchumasaithe"
-
 msgid "Refresh"
 msgstr "Athnuaigh"
 
@@ -14608,9 +14956,6 @@ msgstr "Imeachtaí suibscríofa"
 
 msgid "Continue to GitHub"
 msgstr "Lean ar aghaidh go GitHub"
-
-msgid "Cancel"
-msgstr "Cealaigh"
 
 msgid "Manifest preview"
 msgstr "Réamhamharc ar an manuscript"
@@ -14918,6 +15263,15 @@ msgstr "Cóipeadh an cód leabaithe chuig an ghearrthaisce."
 
 msgid "Embed Code"
 msgstr "Cód Leabaithe"
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Per-project access-control team name"
+#| msgid "Review"
+msgid "Preview"
+msgstr "Léirmheas"
 
 msgid "Browse all workspace changes"
 msgstr "Brabhsáil gach athrú ar an spás oibre"
@@ -15619,6 +15973,11 @@ msgstr "Níorbh fhéidir an comhad POT a nuashonrú."
 msgid "POT updates do not update PO files."
 msgstr "Ní dhéanann nuashonruithe POT comhaid PO a nuashonrú."
 
+#, fuzzy
+#| msgid "A required file is not available."
+msgid "AI quality evaluation service is unavailable."
+msgstr "Níl comhad riachtanach ar fáil."
+
 msgid "Information"
 msgstr "Eolas"
 
@@ -16275,6 +16634,48 @@ msgstr "MAC (\\r)"
 msgid "Include closing tag for blank XML tags"
 msgstr "Cuir clib deiridh san áireamh le haghaidh clibeanna bána XML"
 
+#, fuzzy
+#| msgid "Conflict handling"
+msgid "Whitespace handling"
+msgstr "Láimhseáil coinbhleachta"
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate support"
+msgid "Placeables support"
+msgstr "Tacaíocht láithreán gréasáin"
+
+#, fuzzy
+#| msgid "Plain text file"
+msgid "Plain text only"
+msgstr "Comhad téacs simplí"
+
+#, fuzzy
+#| msgid "Support Weblate"
+msgid "Support placeables"
+msgstr "Tacaíocht Weblate"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 msgid "FlatXML Root name"
 msgstr "Ainm fréimhe FlatXML"
 
@@ -16550,6 +16951,14 @@ msgstr ""
 "Tá aistriúchán na teaghrán athraithe idir an dá linn. Seiceáil do chuid "
 "athruithe."
 
+#, fuzzy
+#| msgid "No language limit"
+msgid "Ignore language mismatch"
+msgstr "Gan teorainn teanga"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr "Modh uaslódáil comhad"
 
@@ -16700,6 +17109,34 @@ msgstr "Trácht aistriúcháin, plé le haistritheoirí eile"
 
 msgid "Please choose"
 msgstr "Roghnaigh le do thoil"
+
+#, fuzzy
+#| msgid "For all languages"
+msgid "Source flags — all languages"
+msgstr "Do gach teanga"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags — this language"
+msgstr "Bratacha aistriúcháin le cur leis"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation flags to add"
+msgid "Translation flags — %(language)s"
+msgstr "Bratacha aistriúcháin le cur leis"
+
+#, fuzzy
+#| msgid "You do not have permission to edit source strings."
+msgid "You do not have permission to edit these flags."
+msgstr "Níl cead agat teaghráin foinse a chur in eagar."
 
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -16949,6 +17386,11 @@ msgstr "Teaghrán cás-íogair le cuardach agus le hathsholáthar."
 msgid "Replacement string"
 msgstr "Teaghrán athsholáthair"
 
+#, fuzzy
+#| msgid "Screenshot context"
+msgid "Key or context"
+msgstr "Comhthéacs scáileáin"
+
 msgid "Translation key"
 msgstr "Eochair aistriúcháin"
 
@@ -17009,16 +17451,38 @@ msgstr "Luaigh a shocrú"
 msgid "Do not change"
 msgstr "Ná athraigh"
 
-msgid "Translation flags to add"
+msgid "Source flags to add — all languages"
+msgstr ""
+
+msgid "Source flags to remove — all languages"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Bratacha aistriúcháin le cur leis"
 
-msgid "Translation flags to remove"
+#, fuzzy
+#| msgid "Fills in translation strings with source string."
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "Líonann sé teaghráin aistriúcháin le teaghrán foinse."
+
+#, fuzzy
+#| msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
 msgstr "Bratacha aistriúcháin le baint"
 
-msgid "Labels to add"
-msgstr "Lipéid le cur leis"
+msgid "Removes locally set flags. Inherited flags remain in effect."
+msgstr ""
 
-msgid "Labels to remove"
+#, fuzzy
+#| msgid "For all languages"
+msgid "Labels to add — all languages"
+msgstr "Do gach teanga"
+
+#, fuzzy
+#| msgid "Labels to remove"
+msgid "Labels to remove — all languages"
 msgstr "Lipéid le baint"
 
 msgid "I accept the contributor license agreement"
@@ -17064,6 +17528,11 @@ msgstr ""
 msgid "Please type in the slug of the category and language to confirm."
 msgstr ""
 "Clóscríobh isteach sluga na catagóire agus na teanga le deimhniú le do thoil."
+
+#, fuzzy
+#| msgid "The filename can not be an absolute path."
+msgid "The date cannot be in the future."
+msgstr "Ní féidir leis an ainm comhaid a bheith ina chonair iomlán."
 
 msgid "Author username"
 msgstr "Ainm úsáideora an údair"
@@ -17713,10 +18182,15 @@ msgstr ""
 msgid "Manage strings"
 msgstr "Bainistigh teaghráin"
 
+#, fuzzy
+#| msgid ""
+#| "Enables adding and removing strings straight from Weblate. If your "
+#| "strings are extracted from the source code or managed externally you "
+#| "probably want to keep it disabled."
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 "Cumasaíonn sé teaghráin a shuimiú agus a bhaint díreach ó Weblate. Má "
 "bhaintear do theaghráin ón gcód foinse nó má bhainistítear iad go seachtrach "
@@ -18597,6 +19071,22 @@ msgstr "Tá an fhoirm iolra %d sa chomhad uaslódáilte lasmuigh den raon."
 msgid "Plural form %d in the uploaded file is missing."
 msgstr "Tá an fhoirm iolra %d ar iarraidh sa chomhad uaslódáilte."
 
+#, fuzzy
+#| msgid "ITS rule file contains too many elements."
+msgid "The uploaded file contains too many language declarations."
+msgstr "Tá an iomarca eilimintí i gcomhad rialacha ITS."
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, python-format
+msgid "Could not parse uploaded file: %s"
+msgstr "Níorbh fhéidir an comhad uaslódáilte a pharsáil: %s"
+
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Níorbh fhéidir athruithe ar feitheamh a dhéanamh: %s"
@@ -18605,10 +19095,6 @@ msgstr "Níorbh fhéidir athruithe ar feitheamh a dhéanamh: %s"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr ""
 "Níorbh fhéidir an comhad uaslódáilte a pharsáil mar {file_format}: {error}"
-
-#, python-format
-msgid "Could not parse uploaded file: %s"
-msgstr "Níorbh fhéidir an comhad uaslódáilte a pharsáil: %s"
 
 #, python-format
 msgid "Could not parse translation file: %s"
@@ -18650,29 +19136,71 @@ msgstr[2] "Níorbh fhéidir an teaghrán a iomadú chuig %d comhpháirteanna."
 msgstr[3] "Níorbh fhéidir an teaghrán a iomadú chuig %d comhpháirteanna."
 msgstr[4] "Níorbh fhéidir an teaghrán a iomadú chuig %d comhpháirteanna."
 
-msgid "Unmark as read-only"
-msgstr "Dímharcáil mar inléite amháin"
-
-msgid "Mark as read-only"
-msgstr "Marcáil mar inléite amháin"
-
-msgid "Unmark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark as untranslatable for all languages"
 msgstr "Dímharcáil mar neamh-aistrithe"
 
-msgid "Mark as untranslatable"
+#, fuzzy
+#| msgid "Unmark as read-only"
+msgid "Unmark as read-only for all languages"
+msgstr "Dímharcáil mar inléite amháin"
+
+#, fuzzy
+#| msgid "Unmark as untranslatable"
+msgid "Unmark this translation as untranslatable"
+msgstr "Dímharcáil mar neamh-aistrithe"
+
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Unmark this translation as read-only"
+msgstr "Tá an t-aistriúchán inléite amháin."
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make untranslatable apply to all languages"
+msgstr "Bainistigh teangacha aistrithe"
+
+#, fuzzy
+#| msgid "Manage translated languages"
+msgid "Make read-only apply to all languages"
+msgstr "Bainistigh teangacha aistrithe"
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark this translation as untranslatable"
 msgstr "Marcáil mar neamh-aistrithe"
 
-msgid "Unmark as forbidden translation"
-msgstr "Dímharcáil mar aistriúchán toirmiscthe"
+#, fuzzy
+#| msgid "The translation is read-only."
+msgid "Mark this translation as read-only"
+msgstr "Tá an t-aistriúchán inléite amháin."
+
+#, fuzzy
+#| msgid "Mark as untranslatable"
+msgid "Mark as untranslatable for all languages"
+msgstr "Marcáil mar neamh-aistrithe"
+
+#, fuzzy
+#| msgid "Mark as read-only"
+msgid "Mark as read-only for all languages"
+msgstr "Marcáil mar inléite amháin"
 
 msgid "Mark as forbidden translation"
 msgstr "Marcáil mar aistriúchán toirmiscthe"
 
-msgid "Unmark as terminology"
-msgstr "Dímharcáil mar théarmaíocht"
+msgid "Unmark as forbidden translation"
+msgstr "Dímharcáil mar aistriúchán toirmiscthe"
 
-msgid "Mark as terminology"
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as terminology for all languages"
 msgstr "Marcáil mar théarmaíocht"
+
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as terminology for all languages"
+msgstr "Dímharcáil mar théarmaíocht"
 
 msgid "Restrict direct editing"
 msgstr "Srian a chur ar eagarthóireacht dhíreach"
@@ -18683,6 +19211,35 @@ msgid ""
 msgstr ""
 "Ní féidir ach le húsáideoirí a bhfuil an cead “Cuir teaghrán in eagar nuair "
 "a chuirtear moltaí i bhfeidhm” acu athruithe díreacha a dhéanamh."
+
+#, fuzzy
+#| msgid "The source string cannot be edited."
+msgid "The source string has changed. Reload it before editing."
+msgstr "Ní féidir an teaghrán foinse a chur in eagar."
+
+#, fuzzy
+#| msgid "A team with this name already exists in this workspace."
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr "Tá foireann leis an ainm seo ann cheana féin sa spás oibre seo."
+
+#, fuzzy
+#| msgid "The file format does not support this."
+msgid "The file format does not support this edit."
+msgstr "Ní thacaíonn formáid an chomhaid leis seo."
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "A translation project was removed."
+msgid "A translation key is required."
+msgstr "Baineadh tionscadal aistriúcháin."
+
+#, fuzzy
+#| msgid "Could not add new translation file."
+msgid "Could not find the string in the translation file."
+msgstr "Níorbh fhéidir comhad aistriúcháin nua a chur leis."
 
 msgid "Insert tab character"
 msgstr "Cuir isteach carachtar cluaisín"
@@ -19218,6 +19775,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Athruithe i %s"
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid history position."
+msgstr "Rogha neamhbhailí colún liostála."
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 "Tá an chumraíocht a soláthraíodh mícheart. Seiceáil na hearráidí thíos le do "
@@ -19294,6 +19856,9 @@ msgstr ""
 "Níl do chuid torthaí cuardaigh roimhe seo ar fáil a thuilleadh. Tá na "
 "torthaí athnuachana."
 
+msgid "No strings found!"
+msgstr "Níor aimsíodh aon teaghráin!"
+
 msgid "Your suggestion is empty!"
 msgstr "Tá do mholadh folamh!"
 
@@ -19335,9 +19900,6 @@ msgstr ""
 "Ní féidir aistriúchán uathoibríoch a thosú mar go bhfuil an sprioc faoi "
 "ghlas."
 
-msgid "Automatic translation in progress"
-msgstr "Aistriúchán uathoibríoch ar siúl"
-
 msgid "Posted new comment"
 msgstr "Trácht nua postáilte"
 
@@ -19359,6 +19921,16 @@ msgstr ""
 
 msgid "New string has been added."
 msgstr "Tá sreang nua curtha leis."
+
+#, fuzzy
+#| msgid "This component is already shared in %s."
+msgid "The component is busy. Please try again."
+msgstr "Tá an chomhpháirt seo roinnte cheana féin i %s."
+
+#, fuzzy
+#| msgid "Source string added"
+msgid "Source string updated."
+msgstr "Cuireadh teaghrán foinse leis"
 
 #, python-format
 msgid "Could not remove the string: %s"
@@ -19406,6 +19978,16 @@ msgstr "Baineadh teaghráin neamhúsáidte as an gcomhad aistriúcháin."
 
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Baineadh teaghráin atá as dáta as an gcomhad aistriúcháin."
+
+#, fuzzy
+#| msgid "The source string needs review."
+msgid "The text is too long to preview."
+msgstr "Ní mór athbhreithniú a dhéanamh ar an teaghrán foinse."
+
+#, fuzzy
+#| msgid "Too many search queries, please try again later."
+msgid "Too many preview requests, try again later."
+msgstr "An iomarca ceisteanna cuardaigh, bain triail eile as ar ball."
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -19562,6 +20144,11 @@ msgstr "Tá an chomhpháirt seo roinnte cheana féin i %s."
 
 msgid "Backup scheduled. It will be available soon."
 msgstr "Cúltaca sceidealta. Beidh sé ar fáil go luath."
+
+#, fuzzy
+#| msgid "Could not change additional string info!"
+msgid "Could not change string flags!"
+msgstr "Níorbh fhéidir faisnéis teaghrán breise a athrú!"
 
 msgid "Could not change additional string info!"
 msgstr "Níorbh fhéidir faisnéis teaghrán breise a athrú!"
@@ -20082,6 +20669,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr "Ní cheadaítear fearann URL."
+
+#, fuzzy
+#| msgid "Name contains disallowed characters."
+msgid "Repository URL contains unsafe characters."
+msgstr "Tá carachtair neamhcheadaithe san ainm."
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -21259,6 +21851,31 @@ msgstr "Ní féidir an spás oibre a bhaint mar go bhfuil sé fós in úsáid."
 msgid "The workspace has been removed."
 msgstr "Baineadh an spás oibre."
 
+#~ msgid "XLIFF 1.2 with placeables support"
+#~ msgstr "XLIFF 1.2 le tacaíocht placeables"
+
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "Comhad aistriúcháin XLIFF 2.0 le tacaíocht do shuímh inláimhsithe"
+
+#~ msgid "Add-on API base URL:"
+#~ msgstr "Bun-URL API an bhreiseáin:"
+
+#~ msgid ""
+#~ "It will discard changes in Weblate repo and bring it in sync with the "
+#~ "upstream repository."
+#~ msgstr ""
+#~ "Caillfidh sé athruithe i stór Weblate agus cuirfidh sé i sioncrón é leis "
+#~ "an stór thuasluaite."
+
+#~ msgid "It also removes stale branches which are not used by Weblate."
+#~ msgstr "Baineann sé freisin brainsí seanda nach n-úsáideann Weblate."
+
+#~ msgid "Use when there is some garbage left in the Weblate repository."
+#~ msgstr "Bain úsáid as nuair a bhíonn roinnt truflais fágtha i stór Weblate."
+
+#~ msgid "Labels to add"
+#~ msgstr "Lipéid le cur leis"
+
 #~ msgid ""
 #~ "Updates the comment part of the PO file header to include contributor "
 #~ "names and years of contributions."
@@ -21830,9 +22447,6 @@ msgstr "Baineadh an spás oibre."
 #~ msgid "View all alerts"
 #~ msgstr "Féach ar gach foláireamh"
 
-#~ msgid "Automatically recognize"
-#~ msgstr "Aithin go huathoibríoch"
-
 #~ msgid "Review guidelines from the community localization checklist."
 #~ msgstr ""
 #~ "Athbhreithniú a dhéanamh ar threoirlínte ón seicliosta logánaithe pobail."
@@ -22265,9 +22879,6 @@ msgstr "Baineadh an spás oibre."
 
 #~ msgid "Translations with contribution"
 #~ msgstr "Aistriúcháin le ranníocaíocht"
-
-#~ msgid "Weblate support"
-#~ msgstr "Tacaíocht láithreán gréasáin"
 
 #~ msgid "Weblate community"
 #~ msgstr "Pobal Weblate"

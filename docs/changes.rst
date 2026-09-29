@@ -5,6 +5,7 @@ Weblate 2026.10
 
 .. rubric:: New features
 
+* Added :ref:`enforced-check inheritance <component-enforced_checks>` at workspace, project, category, and component level.
 * DeepL automatic suggestions can include a rephrased version of an existing translation via the DeepL Write API (Pro plans and supported languages only). See :ref:`mt-deepl-rephrase`.
 * Added the :ref:`Automation add-on <addon-weblate.automation.automation>` for conditional translation and editing workflows. See :doc:`admin/automation`.
 * Source strings and translation keys can now be :ref:`edited <edit-source>` in the editor and REST API while preserving translations and history.
@@ -20,9 +21,12 @@ Weblate 2026.10
 * Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
 * Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
 * Added :setting:`DEFAULT_NOTIFICATIONS` to configure :ref:`notifications` settings for new users.
+* Added a configurable :setting:`AVATAR_URL_TEMPLATE` to support alternative avatar providers, such as fetching by username instead of e-mail hash.
+* Added selecting individual strings from the :ref:`string list <search-strings>` for :ref:`bulk-edit`.
 
 .. rubric:: Improvements
 
+* The project :guilabel:`Files` menu now lists translation download formats from :setting:`WEBLATE_EXPORTERS` instead of a fixed subset.
 * :ref:`LLM automatic suggestions <machine-translation>` now show the model and, for custom API endpoints, the host that produced them.
 * Automation actions can select strings from the triggering change or a previous action's affected units. See :doc:`admin/automation`.
 * Unified browsing and :ref:`searching strings <search-strings>`, aligned search filters with the status overview, and added direct editor access to language-specific lists and an :guilabel:`All strings` filter.
@@ -44,11 +48,13 @@ Weblate 2026.10
 * :ref:`SSH repository connections <ssh-repos>` now try IPv4 and IPv6 addresses in a staggered sequence and report failed addresses and ports.
 * Add-on error :ref:`diagnostics <alerts>` now link to the responsible add-on configuration.
 * Added monthly instance activity to :ref:`support integration data <support-data>`.
+* Added a separate :ref:`repository browser URL <component-repoweb-translations>` for translation files.
 * Docker startup now reports invalid nginx-related environment values before attempting to start nginx.
 * The automatic translation API can run as a background task. See :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/`.
 
 .. rubric:: Security fixes
 
+* Prevented project access managers from assigning users to site-wide teams associated with the project.
 * Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
 * Prevented concurrent requests from exceeding configured web action rate limits.
 * Prevented repository URLs from injecting executable Mercurial configuration.
@@ -57,9 +63,11 @@ Weblate 2026.10
 * Prevented :ref:`project API tokens <api-tokens>` from inheriting permissions through automatic team assignments.
 * Protected Git and Mercurial metadata consistently in repository paths and downloads, and excluded known foreign VCS metadata when importing component ZIP files.
 * Prevented notification subscriptions from exposing inaccessible project and component settings through the REST API and profile settings.
+* Rate-limited password-reset requests for unknown e-mail addresses.
 
 .. rubric:: Bug fixes
 
+* Fixed the :ref:`BBCode markup check <check-bbcode>` for parameterized, nested, and multiline tags.
 * Improved plain-text :ref:`notification e-mails <notifications>` with readable links and tables instead of Markdown.
 * Project language archive downloads in the REST API now honor language-scoped download permissions consistently with the web interface.
 * Fixed authentication initialization with :ref:`running-granian-asgi` when Sentry instrumentation is enabled.
@@ -71,6 +79,7 @@ Weblate 2026.10
 * Fixed :ref:`Docker startup warning checks <docker-startup-warnings>` when the warning directory is missing or inaccessible.
 * Fixed an :ref:`upgrade <generic-upgrade-instructions>` failure when migrating dismissed component alerts from releases before 2026.8.
 * Fixed the :ref:`search results refresh <search-results-cache>` icon color in themes and on hover.
+* Fixed truncated grouped summaries in :ref:`notification e-mails <notifications>`; the 100 entries limit now applies only to listings of individual changes.
 * Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as untranslatable when translating in their source language.
 * Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with inherited licenses and other inherited settings.
 * Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.

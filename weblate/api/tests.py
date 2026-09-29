@@ -6433,6 +6433,37 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(self.project.commit_message, "API project commit")
         self.assertFalse(self.project.inherit_commit_message)
 
+    def test_patch_empty_enforced_checks_overrides_inheritance(self) -> None:
+        workspace = Workspace.objects.create(
+            name="API workspace", enforced_checks=["same"]
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace,
+            enforced_checks=["duplicate"],
+            inherit_enforced_checks=False,
+        )
+
+        for request, inherited in (
+            ({"enforced_checks": [], "inherit_enforced_checks": True}, True),
+            ({"enforced_checks": []}, False),
+        ):
+            response = self.do_request(
+                "api:project-detail",
+                self.project_kwargs,
+                method="patch",
+                superuser=True,
+                format="json",
+                request=request,
+            )
+            self.assertEqual(response.data["enforced_checks"], [])
+            self.assertEqual(response.data["inherit_enforced_checks"], inherited)
+            self.assertEqual(
+                response.data["effective_enforced_checks"],
+                ["same"] if inherited else [],
+            )
+            self.project.refresh_from_db()
+            self.assertEqual(self.project.inherit_enforced_checks, inherited)
+
     def test_patch_workspace_move(self) -> None:
         current_workspace = Workspace.objects.create(name="Current workspace")
         target_workspace = Workspace.objects.create(name="Target workspace")
@@ -7060,6 +7091,25 @@ class ProjectAPITest(APIBaseTest):
                 "enforced_checks": ["xxx"],
             },
         )
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.strings",
+                "template": "en.strings",
+                "file_format": "strings",
+                "new_lang": "none",
+                "enforced_checks": [[]],
+            },
+        )
         response = self.do_request(
             "api:project-components",
             self.project_kwargs,
@@ -7084,6 +7134,8 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(Component.objects.count(), 3)
         component = Component.objects.get(slug="local-project")
         self.assertEqual(component.enforced_checks, ["same"])
+        self.assertFalse(component.inherit_enforced_checks)
+        self.assertEqual(component.effective_enforced_checks, ["same"])
 
     def test_create_component_with_file_format_params(self) -> None:
         payload: dict[str, object] = {
@@ -8087,20 +8139,49 @@ class ComponentAPITest(APIBaseTest):
             request={
                 "hide_glossary_matches": True,
                 "contribute_project_tm": False,
+                "repoweb_translations": (
+                    "https://example.com/translations/{{filename}}#L{{line}}"
+                ),
             },
         )
 
         self.component.refresh_from_db()
         self.assertTrue(response.data["hide_glossary_matches"])
         self.assertFalse(response.data["contribute_project_tm"])
+        self.assertEqual(
+            response.data["repoweb_translations"],
+            "https://example.com/translations/{{filename}}#L{{line}}",
+        )
         self.assertTrue(self.component.hide_glossary_matches)
         self.assertFalse(self.component.contribute_project_tm)
+        self.assertEqual(
+            self.component.repoweb_translations,
+            "https://example.com/translations/{{filename}}#L{{line}}",
+        )
+
+    def test_patch_component_repoweb_translations_validation(self) -> None:
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"repoweb_translations": "javascript:alert(1)"},
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "repoweb_translations")
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.repoweb_translations, "")
 
     def test_get_component_exposes_vcs_view_fields(self) -> None:
         Component.objects.filter(pk=self.component.pk).update(
             git_export="https://example.com/export.git",
             push_branch="translations",
             repoweb="https://example.com/src/{{filename}}#L{{line}}",
+            repoweb_translations=(
+                "https://example.com/translations/{{filename}}#L{{line}}"
+            ),
         )
         response = self.client.get(
             reverse("api:component-detail", kwargs=self.component_kwargs)
@@ -8109,6 +8190,10 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data["push_branch"], "translations")
         self.assertEqual(
             response.data["repoweb"], "https://example.com/src/{{filename}}#L{{line}}"
+        )
+        self.assertEqual(
+            response.data["repoweb_translations"],
+            "https://example.com/translations/{{filename}}#L{{line}}",
         )
 
     def test_anonymous_component_hides_empty_password_credentials(self) -> None:
@@ -8137,6 +8222,9 @@ class ComponentAPITest(APIBaseTest):
             git_export="https://example.com/export.git",
             push_branch="translations",
             repoweb="https://example.com/src/{{filename}}#L{{line}}",
+            repoweb_translations=(
+                "https://example.com/translations/{{filename}}#L{{line}}"
+            ),
             vcs_params={"git_force_push": True},
             repo=private_component.get_repo_link_url(),
             linked_component=private_component,
@@ -8151,6 +8239,7 @@ class ComponentAPITest(APIBaseTest):
         self.assertIsNone(response.data["git_export"])
         self.assertIsNone(response.data["push_branch"])
         self.assertIsNone(response.data["repoweb"])
+        self.assertIsNone(response.data["repoweb_translations"])
         self.assertIsNone(response.data["vcs_params"])
         self.assertIsNone(response.data["linked_component"])
 
@@ -8943,6 +9032,35 @@ class ComponentAPITest(APIBaseTest):
         self.component.refresh_from_db()
         self.assertEqual(self.component.commit_message, "API component commit")
         self.assertFalse(self.component.inherit_commit_message)
+
+    def test_patch_empty_enforced_checks_overrides_inheritance(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            enforced_checks=["same"], inherit_enforced_checks=False
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            enforced_checks=["duplicate"], inherit_enforced_checks=False
+        )
+
+        for request, inherited in (
+            ({"enforced_checks": [], "inherit_enforced_checks": True}, True),
+            ({"enforced_checks": []}, False),
+        ):
+            response = self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="patch",
+                superuser=True,
+                format="json",
+                request=request,
+            )
+            self.assertEqual(response.data["enforced_checks"], [])
+            self.assertEqual(response.data["inherit_enforced_checks"], inherited)
+            self.assertEqual(
+                response.data["effective_enforced_checks"],
+                ["same"] if inherited else [],
+            )
+            self.component.refresh_from_db()
+            self.assertEqual(self.component.inherit_enforced_checks, inherited)
 
     def test_patch_locks_component_before_serializer_validation(self) -> None:
         events: list[tuple[str, int]] = []
@@ -17615,6 +17733,35 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(
             response.data["effective_commit_message"], "Patched category commit"
         )
+
+    def test_patch_empty_enforced_checks_overrides_inheritance(self) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            enforced_checks=["same"], inherit_enforced_checks=False
+        )
+        created = self.api_create_category()
+        Category.objects.filter(pk=created.data["id"]).update(
+            enforced_checks=["duplicate"], inherit_enforced_checks=False
+        )
+
+        for request, inherited in (
+            ({"enforced_checks": [], "inherit_enforced_checks": True}, True),
+            ({"enforced_checks": []}, False),
+        ):
+            response = self.do_request(
+                created.data["url"],
+                method="patch",
+                superuser=True,
+                format="json",
+                request=request,
+            )
+            self.assertEqual(response.data["enforced_checks"], [])
+            self.assertEqual(response.data["inherit_enforced_checks"], inherited)
+            self.assertEqual(
+                response.data["effective_enforced_checks"],
+                ["same"] if inherited else [],
+            )
+            category = Category.objects.get(pk=created.data["id"])
+            self.assertEqual(category.inherit_enforced_checks, inherited)
 
     def test_patch_keeps_parent_category_when_omitted(self) -> None:
         parent_response = self.api_create_category()
