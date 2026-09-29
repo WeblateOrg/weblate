@@ -1745,7 +1745,9 @@ Projects
 
    .. versionadded:: 2026.7
 
-    Returns a list of :ref:`projectbackup` archives.
+    Returns a list of :ref:`projectbackup` archives. Project backups contain all
+    project components, including restricted components, and require
+    :guilabel:`Edit project settings`.
 
     :param project: Project URL slug
     :type project: string
@@ -1769,7 +1771,9 @@ Projects
 
    .. versionadded:: 2026.7
 
-    Downloads a :ref:`projectbackup` archive.
+    Downloads a :ref:`projectbackup` archive containing all project components,
+    including restricted components. This requires :guilabel:`Edit project
+    settings`.
 
     :param project: Project URL slug
     :type project: string

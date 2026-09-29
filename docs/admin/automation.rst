@@ -202,6 +202,15 @@ original author attribution. Bulk editing calls the shared operation without a
 user, rather than impersonating the recorded actor. The activity context retains
 the actor separately from translation change attribution.
 
+Project, category, and site-wide automations include compatible restricted
+components in their configured scope. Automatic-translation actions can use
+eligible restricted source components even when the configuring administrator
+cannot open those components directly. Preview uses the same administrative
+scope and can inspect the selected component and optional change context. Grant
+add-on management permission only to users trusted with this complete scope.
+Changing or disabling the configuring user's account does not revoke a saved
+workflow.
+
 Before a queued run executes, Weblate checks that the add-on is still valid and
 the component still belongs to its scope. The queued definition and event context
 are snapshots: editing the workflow after scheduling does not change that run.

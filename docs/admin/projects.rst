@@ -1390,6 +1390,15 @@ or using the default `custom` or `private` access control groups.
 
 The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
+Restricted access controls direct access to component pages, translations,
+files, APIs, and translation memory. It is not an isolation boundary for
+administrative capabilities whose documented scope includes the component. For
+example, project backups contain all project components, and project- or
+category-level add-ons process restricted components in their configured scope.
+Component add-ons can also use cross-component inputs documented by the add-on.
+Grant the corresponding management permissions only to users trusted with
+these effects. See :ref:`perm-check` and :ref:`addons`.
+
 .. hint::
 
    This applies to project admins as well — please ensure you will not

@@ -7993,6 +7993,10 @@ class ProjectAPITest(APIBaseTest):
         )
 
         self.component.project.add_user(self.user, "Administration")
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_component(self.component))
 
         response = self.do_request(
             "api:project-backups",
@@ -16959,6 +16963,34 @@ class ComponentListAPITest(APIBaseTest):
 
 
 class AddonAPITest(APIBaseTest):
+    def test_autotranslate_configuration_accepts_restricted_source(self) -> None:
+        source = self.create_link_existing(
+            name="Restricted automatic translation source",
+            slug="restricted-automatic-translation-source",
+            allow_translation_propagation=False,
+        )
+        source.restricted = True
+        source.save(update_fields=["restricted"])
+        self.grant_perm_to_user("component.edit", component=self.component)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_component(source))
+
+        response = self.create_addon(
+            superuser=False,
+            name="weblate.autotranslate.autotranslate",
+            configuration={
+                "component": source.pk,
+                "q": "state:<translated",
+                "auto_source": "others",
+                "engines": [],
+                "threshold": 80,
+                "mode": "translate",
+            },
+        )
+
+        addon = self.component.addon_set.get(pk=response.data["id"])
+        self.assertEqual(addon.configuration["component"], source.pk)
+
     def test_ai_quality_configuration(self) -> None:
         project = self.component.project
         project.machinery_settings = {"openai": {"key": "test", "model": "auto"}}

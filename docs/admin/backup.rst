@@ -14,6 +14,11 @@ The project backups all translation content from Weblate (project, components,
 translations, string comments, suggestions or checks). It is suitable for
 transferring a project to another Weblate instance.
 
+The backup includes every component in the project, including restricted
+components which the administrator can not open directly. Creating, listing,
+and downloading these backups requires :guilabel:`Edit project settings`.
+Grant that permission only to users trusted with the complete project contents.
+
 You can perform a project backup in :guilabel:`Operations` ↓ :guilabel:`Backups`.
 The backup can be restored when creating a project (see
 :ref:`adding-projects`).

@@ -539,6 +539,21 @@ the following rules:
   update operations. They are not required for Weblate's normal background
   commit and push of translation changes made through an authorized component.
 
+- The :guilabel:`Edit project settings` permission authorizes persistent
+  administration across the project. Project backups contain all components,
+  including restricted ones. Project and category add-ons also operate on all
+  compatible components in their configured scope. Grant this permission only
+  to users trusted with the complete project data and these administrative
+  effects, even when restricted components remain hidden from their ordinary
+  component listings.
+
+- Add-on configuration is stored system configuration rather than a delegation
+  from the account which saved it. Component add-ons can consume inputs outside
+  the destination component when the add-on documents such a source scope. The
+  add-on continues to run if the configuring user's permissions or account
+  later change; review or remove the configuration separately during access
+  revocation.
+
 .. hint::
 
    Use :guilabel:`All languages` or :guilabel:`Project selection`

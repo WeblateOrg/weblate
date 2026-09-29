@@ -4474,6 +4474,8 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
                 self.check_addon(name, Addon.objects.filter_project(project))
 
         if addon.has_settings() and (not instance or "configuration" in attrs):
+            # Add-on settings are durable administrative configuration, not a
+            # delegation of the request user's direct component visibility.
             if instance:
                 form = addon.get_settings_form(
                     None, data=attrs.get("configuration", {})
