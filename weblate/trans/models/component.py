@@ -27,7 +27,7 @@ from django.core.exceptions import (
     ObjectDoesNotExist,
     ValidationError,
 )
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, URLValidator
 from django.db import IntegrityError, models, transaction
 from django.db.models import F, OuterRef, Q, Subquery, Value
 from django.db.models.functions import MD5
@@ -1125,6 +1125,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     remote_revision = models.CharField(max_length=200, default="", blank=True)
     local_revision = models.CharField(max_length=200, default="", blank=True)
     processed_revision = models.CharField(max_length=200, default="", blank=True)
+    pull_request_url = models.URLField(
+        max_length=2048, default="", blank=True, editable=False
+    )
 
     key_filter = RegexField(
         verbose_name=gettext_lazy("Key filter"),
@@ -1294,6 +1297,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 or (old.filemask != self.filemask)
                 or (old.language_regex != self.language_regex)
             )
+            update_fields = self.clear_changed_pull_request_url(old, update_fields)
+            kwargs["update_fields"] = update_fields
             changed_template = (old.intermediate != self.intermediate) or (
                 old.template != self.template
             )
@@ -1597,6 +1602,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
             Q(scope=MemoryScope.SCOPE_SHARED, source_component=self),
             delete_legacy=False,
         )
+
+    def clear_changed_pull_request_url(
+        self, old: Component, update_fields: Collection[str] | None
+    ) -> Collection[str] | None:
+        """Discard the cached request when its repository or branches change."""
+        if any(
+            getattr(old, field) != getattr(self, field)
+            and (update_fields is None or field in update_fields)
+            for field in ("vcs", "repo", "push", "branch", "push_branch")
+        ):
+            self.pull_request_url = ""
+            if update_fields is not None:
+                return {*update_fields, "pull_request_url"}
+        return update_fields
 
     def disable_inheritance_for_changed_settings(
         self, old: Component, update_fields: Collection[str] | None
@@ -3139,7 +3158,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         with self.repository.lock:
             self.log_info("pushing to remote repo")
             try:
-                self.repository.push(self.push_branch)
+                pull_request_url = self.repository.push(self.push_branch)
             except RepositoryError as error:
                 redirect_field = (
                     "push"
@@ -3200,6 +3219,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 return False
             self.delete_alert("RepositoryChanges")
             self.delete_alert("PushFailure")
+            if pull_request_url:
+                try:
+                    URLValidator(schemes=["http", "https"])(pull_request_url)
+                except ValidationError:
+                    pull_request_url = None
+            if pull_request_url and pull_request_url != self.pull_request_url:
+                self.pull_request_url = pull_request_url
+                Component.objects.filter(pk=self.pk).update(
+                    pull_request_url=pull_request_url
+                )
             return True
 
     @property
