@@ -1147,11 +1147,27 @@ def get_delete_memory_option(request: Request) -> bool:
 @extend_schema_view(
     list=extend_schema(
         description=(
-            "List users. Users with user.view or user.edit permission can see all "
-            "users and filter by email; other users see only themselves and "
-            "cannot filter by email."
+            "List users. Unauthenticated users receive no results. Authenticated "
+            "users without user.view or user.edit permission see only themselves "
+            "unless they search by a username prefix of at least two characters "
+            "after trimming surrounding whitespace; "
+            "such searches return basic information about matching non-bot users. "
+            "Users with either permission can list all users and receive detailed "
+            "information."
         ),
         parameters=[
+            OpenApiParameter(
+                "username",
+                str,
+                OpenApiParameter.QUERY,
+                description=(
+                    "Filter by username prefix. Authenticated users without "
+                    "user.view or user.edit permission must supply at least two "
+                    "characters after trimming surrounding whitespace; their "
+                    "searches exclude bot accounts other than "
+                    "their own account."
+                ),
+            ),
             OpenApiParameter(
                 "email",
                 str,
@@ -1168,6 +1184,7 @@ def get_delete_memory_option(request: Request) -> bool:
                 description="Rank contributors to the given unit first.",
             ),
         ],
+        responses=USER_RESPONSE_SERIALIZER,
     ),
     retrieve=extend_schema(
         description="Return information about users.",
@@ -1222,9 +1239,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         """
-        List of users if you have permissions to see manage users.
+        List users according to the caller's permissions.
 
-        Without a permission you get to see only your own details.
+        Unprivileged authenticated users see themselves without a username filter
+        and can search non-bot users with a username prefix of at least two
+        characters after trimming surrounding whitespace. Privileged users can
+        list all users with detailed information.
         """
         # Copy of rest_framework.mixins.ListModelMixin.list with additional
         # filtering based on user permissions. We limit listing of user to
@@ -1241,7 +1261,7 @@ class UserViewSet(viewsets.ModelViewSet):
             queryset = User.objects.filter(pk=user.pk).order_by("id")
         elif (
             not (user.has_perm("user.edit") or user.has_perm("user.view"))
-            and len(request.GET.get(self.lookup_field, "")) < 2
+            and len(request.GET.get(self.lookup_field, "").strip()) < 2
         ):
             # Avoid too short matching, the length matches autocomplete setting in the UI
             queryset = User.objects.none()

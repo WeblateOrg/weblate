@@ -77,6 +77,7 @@ Weblate 2026.10
 .. rubric:: Security fixes
 
 * Prevented client-supplied forwarded IP headers from bypassing anonymous API rate limits.
+* Prevented whitespace-only username searches from listing users through :http:get:`/api/users/`.
 * Prevented project access managers from assigning users to site-wide teams associated with the project.
 * Invalidated outstanding password reset links after password changes regardless of e-mail address casing.
 * Prevented concurrent requests from exceeding configured web action rate limits.
