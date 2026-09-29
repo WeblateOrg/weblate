@@ -263,6 +263,7 @@
     row.classList.add("translation-modified");
     statusdiv.classList.add("unit-state-saving");
     statusdiv._lastPayload = payload;
+    bumpUnitVersion(row.closest(".zen-unit"));
 
     fetch(form.getAttribute("action"), {
       method: "POST",
@@ -314,6 +315,7 @@
         addAlert(err.message);
       })
       .finally(() => {
+        bumpUnitVersion(row.closest(".zen-unit"));
         statusdiv.classList.remove("unit-state-saving");
         statusdiv.classList.remove("unit-state-save-timeout");
         row._saveTimer = undefined;
@@ -329,6 +331,17 @@
 
   const unitHasChanges = (unit) =>
     unit.querySelector(".translator .translation-editor.has-changes") !== null;
+
+  /* Bumped whenever a unit is being changed, to discard outdated refreshes */
+  const bumpUnitVersion = (unit) => {
+    if (unit) {
+      unit._zenVersion = (unit._zenVersion ?? 0) + 1;
+    }
+  };
+  const getUnitVersion = (unit) => unit?._zenVersion ?? 0;
+
+  const suggestionKey = (el) =>
+    el.closest(".history-row")?.querySelector("button[value]")?.value;
 
   /* Clone suggestion into the editor of the same unit */
   delegate(
@@ -398,6 +411,7 @@
     }
 
     statusdiv.classList.add("unit-state-saving");
+    bumpUnitVersion(unit);
 
     fetch(form.getAttribute("action"), {
       method: "POST",
@@ -422,8 +436,53 @@
         addAlert(err.message);
       })
       .finally(() => {
+        bumpUnitVersion(unit);
         statusdiv.classList.remove("unit-state-saving");
       });
+  }
+
+  /* Remember the focused suggestion action before the block is re-rendered */
+  function getSuggestionFocus(container) {
+    const active = container?.contains(document.activeElement)
+      ? document.activeElement
+      : null;
+    const row = active?.closest(".history-row");
+    if (!row) {
+      return null;
+    }
+    const rows = [...container.querySelectorAll(".history-row")];
+    return {
+      key: suggestionKey(active),
+      name: active.getAttribute("name"),
+      index: rows.indexOf(row),
+    };
+  }
+
+  /* Keep the keyboard in the suggestions, even when the focused one is gone */
+  function restoreSuggestionFocus(unit, container, focus) {
+    if (!focus) {
+      return;
+    }
+    const rows = container
+      ? [...container.querySelectorAll(".history-row")]
+      : [];
+    let row =
+      focus.key === undefined
+        ? null
+        : (container
+            ?.querySelector(`button[value="${CSS.escape(focus.key)}"]`)
+            ?.closest(".history-row") ?? null);
+    // The suggestion is gone, move to the one which took its place
+    if (!row && rows.length) {
+      row = rows[Math.min(Math.max(focus.index, 0), rows.length - 1)];
+    }
+    const target =
+      (focus.name
+        ? row?.querySelector(`[name="${CSS.escape(focus.name)}"]`)
+        : null) ??
+      row?.querySelector("button[name]") ??
+      getUnitEditors(unit)[0];
+    target?.focus();
   }
 
   /* Replace the suggestions block of a Zen row with the rendered one */
@@ -432,10 +491,9 @@
       return;
     }
     const container = unit.querySelector(".zen-suggestions-container");
+    const focus = getSuggestionFocus(container);
     if (data.has_suggestions) {
       if (container) {
-        const suggestionKey = (el) =>
-          el.closest(".history-row")?.querySelector("button[value]")?.value;
         const rejections = new Map();
         for (const input of container.querySelectorAll(
           "input[name=rejection]",
@@ -444,11 +502,6 @@
             rejections.set(suggestionKey(input), input.value);
           }
         }
-        const active = container.contains(document.activeElement)
-          ? document.activeElement
-          : null;
-        const activeKey = active ? suggestionKey(active) : undefined;
-        const activeName = active?.getAttribute("name");
 
         container.innerHTML = data.suggestions_html;
         initHighlight(container);
@@ -461,15 +514,11 @@
             input.value = value;
           }
         }
-        if (activeKey !== undefined && activeName) {
-          const row = container
-            .querySelector(`button[value="${CSS.escape(activeKey)}"]`)
-            ?.closest(".history-row");
-          row?.querySelector(`[name="${CSS.escape(activeName)}"]`)?.focus();
-        }
+        restoreSuggestionFocus(unit, container, focus);
       }
     } else {
       unit.querySelector(".zen-suggestions-row")?.remove();
+      restoreSuggestionFocus(unit, null, focus);
     }
     updateSuggestionsIndicator(unit, data.has_suggestions ? container : null);
   }
@@ -579,10 +628,21 @@
     if (!unit || !url) {
       return Promise.resolve();
     }
+    const checksum = form.querySelector("[name=checksum]")?.value ?? "";
+    const statusdiv = getStatusCell(unit, checksum);
+    // Guard: a running save would make the response outdated on arrival
+    if (statusdiv?.classList.contains("unit-state-saving")) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(fetchZenUnit(form)); // Reinvoke
+        }, 100);
+      });
+    }
     const params = new URLSearchParams({
-      checksum: form.querySelector("[name=checksum]")?.value ?? "",
+      checksum,
       unit_id: form.querySelector("[name=unit_id]")?.value ?? "",
     });
+    const version = getUnitVersion(unit);
     return fetch(`${url}?${params}`, {
       credentials: "same-origin",
       headers: {
@@ -597,6 +657,10 @@
         return response.json();
       })
       .then((data) => {
+        // Discard: the unit was changed while the refresh was in flight
+        if (getUnitVersion(unit) !== version) {
+          return;
+        }
         applyZenUnitData(unit, data);
       })
       .catch((err) => {
