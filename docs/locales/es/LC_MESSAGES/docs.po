@@ -39,7 +39,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-09-25 02:35+0000\n"
-"PO-Revision-Date: 2026-09-27 06:43+0000\n"
+"PO-Revision-Date: 2026-09-30 07:51+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fito@libreoffice.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -2815,10 +2815,8 @@ msgid ""
 "current database state. Timestamps are strings, not CEL timestamp objects."
 msgstr ""
 
-#, fuzzy
-#| msgid "Context"
 msgid "Context fields"
-msgstr "Contexto"
+msgstr "Campos de contexto"
 
 msgid "Field"
 msgstr "Campo"
@@ -2830,17 +2828,15 @@ msgid "Meaning"
 msgstr "Significado"
 
 msgid "integer"
-msgstr "integer"
+msgstr "entero"
 
 #, fuzzy
 #| msgid "A component alert was triggered."
 msgid "Target component ID; always present."
 msgstr "Se desencadenó una alerta de componente."
 
-#, fuzzy
-#| msgid "Strings"
 msgid "string"
-msgstr "Cadenas"
+msgstr "cadena"
 
 #, fuzzy
 #| msgid "Component slug"
@@ -2853,7 +2849,7 @@ msgid "Project slug, not a project object."
 msgstr "Indicador de proyecto, consulte :ref:`project-slug`."
 
 msgid "string or null"
-msgstr ""
+msgstr "cadena o nulo"
 
 #, fuzzy
 #| msgid "Fixed some API URLs for categorized components."
@@ -3360,10 +3356,8 @@ msgid ""
 "has its own maximum score."
 msgstr ""
 
-#, fuzzy
-#| msgid "Example:"
 msgid "Example"
-msgstr "Ejemplo:"
+msgstr "Ejemplo"
 
 msgid ""
 "Apply local translation memory matches scoring at least 95 to strings still "
@@ -3477,10 +3471,8 @@ msgstr ""
 msgid "String states"
 msgstr "Estados de cadena"
 
-#, fuzzy
-#| msgid "Supported values are:"
 msgid "State values"
-msgstr "Los valores admitidos son:"
+msgstr "Valores de estado"
 
 msgid "Value"
 msgstr "Valor"
@@ -18716,7 +18708,7 @@ msgstr ""
 "Nombre detallado del proyecto, utilizado para mostrar el nombre del proyecto."
 
 msgid "URL slug"
-msgstr "Indicador de URL"
+msgstr "URL amigable"
 
 msgid "Project name suitable for URLs."
 msgstr "Nombre del proyecto adecuado para las URL."
@@ -19085,7 +19077,7 @@ msgstr ""
 "traducción."
 
 msgid "Translation flags"
-msgstr "Indicadores de traducción"
+msgstr "Modificadores de traducción"
 
 msgid ""
 "Customization of quality checks and other Weblate behavior, see :ref:`custom-"
@@ -56137,10 +56129,10 @@ msgid "A file was uploaded to a translation."
 msgstr "Se cargó un archivo a una traducción."
 
 msgid "Extra flags updated"
-msgstr "Indicadores adicionales actualizados"
+msgstr "Modificadores adicionales actualizados"
 
 msgid "Additional source-string flags were updated."
-msgstr "Se actualizaron indicadores adicionales de la cadena de origen."
+msgstr "Se actualizaron modificadores adicionales de la cadena de origen."
 
 msgid "Font uploaded"
 msgstr "Tipografía subida"
@@ -57006,6 +56998,11 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
+"Déjelo en blanco para que se busquen directamente los archivos de "
+"traducción. Cuando se activa, la detección coincide con el archivo base "
+"monolingüe o con el archivo base nuevo y usa esta plantilla como máscara de "
+"archivos. Incluya un comodín de idioma y {{ component }}; por ejemplo, "
+"locale/*/{{ component }}.po o docs/{{ component }}_*.md."
 
 msgid ""
 "Regular expression to filter translation files against when scanning for "
@@ -57521,20 +57518,16 @@ msgstr "Devuelve un listado de todos los idiomas."
 msgid "Source flags to remove — all languages"
 msgstr "Devuelve un listado de todos los idiomas."
 
-#, fuzzy
-#| msgid "Translation flags to add"
 msgid "Translation flags to add — matching translations"
-msgstr "Indicadores de traducción que añadir"
+msgstr "Modificadores de traducción que añadir: traducciones coincidentes"
 
 #, fuzzy
 #| msgid "Fills in translation strings with source string."
 msgid "Applies only to matching translations, excluding source strings."
 msgstr "Completa las cadenas de traducción con las de origen."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation flags to remove — matching translations"
-msgstr "Indicadores de traducción que quitar"
+msgstr "Modificadores de traducción que quitar: traducciones coincidentes"
 
 msgid "Removes locally set flags. Inherited flags remain in effect."
 msgstr ""
@@ -57556,8 +57549,8 @@ msgstr ""
 
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr ""
-"Edite los indicadores, las etiquetas o los estados de las cadenas de manera "
-"masiva."
+"Edite los modificadores, las etiquetas o los estados de las cadenas de "
+"manera masiva."
 
 msgid "Label new strings automatically"
 msgstr "Etiquetar cadenas nuevas automáticamente"
@@ -58120,7 +58113,7 @@ msgid ""
 msgstr ""
 "Preconfiguración incorporada para el argumento xgettext, compatible con la "
 "integración de gettext de Meson. La preconfiguración de GLib añade las "
-"opciones de palabra clave y de indicador de formato que utiliza la "
+"opciones de palabra clave y de modificador de formato que utiliza la "
 "herramienta auxiliar de gettext de Meson."
 
 msgid "GLib"
@@ -59626,6 +59619,7 @@ msgstr "IA: fluidez"
 
 msgid "The evaluation detected a language quality issue."
 msgstr ""
+"La evaluación detectó un problema relacionado con la calidad del lenguaje."
 
 msgid "AI: Formatting"
 msgstr "IA: formato"
@@ -60298,11 +60292,11 @@ msgid ""
 "start with a specific string. For example, the following flag will only "
 "allow XML tags to be matched if they start with ``<x:``:"
 msgstr ""
-"Además, cuando ``strict-xml`` no está habilitado, pero ``xml`` sí, se puede "
-"usar el indicador ``icu-tag-prefix:PREFIX`` para exigir que todas las "
-"etiquetas XML comiencen con una cadena específica. Por ejemplo, el siguiente "
-"indicador solo permitirá la coincidencia de etiquetas XML que comiencen con "
-"``<x:``:"
+"Además, cuando ``strict-xml`` no está activado pero ``xml`` sí lo está, se "
+"puede usar el modificador ``icu-tag-prefix:PREFIX`` para requerir que todas "
+"las etiquetas XML comiencen con una cadena específica. Por ejemplo, el "
+"siguiente modificador solo permitirá que las etiquetas XML coincidan si "
+"comienzan con ``<x:``:"
 
 msgid ""
 "This would match ``<x:link>click here</x:link>`` but not ``<strong>this</"
