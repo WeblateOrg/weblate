@@ -50,6 +50,6 @@ jobs:
     # The condition mirrors pre-commit-ci/lite-action's main.mjs user-PR check.
     - name: Commit changes (external PR, pre-commit-ci-lite)
       if: github.event_name == 'pull_request' && github.event.sender.type == 'User'
-      uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
+      uses: pre-commit-ci/lite-action@062bca0919bc9d6e66755cc05074b70c77e111fc # v1.2.0
       with:
         msg: 'chore: update unicode characters data'
