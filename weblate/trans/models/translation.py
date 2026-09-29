@@ -150,6 +150,12 @@ class ActiveChangeGroup(TypedDict):
     units: set[int]
 
 
+def read_stored_content(pounit: TranslationUnit) -> tuple[object, ...]:
+    """Read stored content of a unit which might have been modified."""
+    pounit.invalidate_all_caches()
+    return pounit.get_stored_content()
+
+
 def normalize_translation_check_flags(check_flags: str, *, needs_readonly: bool) -> str:
     """Normalize auto-managed translation flags while preserving user flags."""
     flags = Flags(check_flags)
@@ -1280,6 +1286,7 @@ class Translation(
         )
 
         all_changes_status = {}
+        was_committed = False
         units_to_clear_disk_state = set()  # Track units for disk_state clearing
 
         failed_identity_units: set[int] = set()
@@ -1296,7 +1303,7 @@ class Translation(
             timestamp = max(change.timestamp for change in changes)
 
             # Flush the grouped pending changes for this author
-            changes_status = self.update_units(
+            changes_status, written = self.update_units(
                 changes, store, author_name, recovery_changes=pending_changes
             )
             all_changes_status.update(changes_status)
@@ -1312,10 +1319,17 @@ class Translation(
                 if changes_status.get(change.pk):
                     units_to_clear_disk_state.add(change.unit_id)
 
-            # Commit changes if there was anything written out
+            # Commit even when nothing was written now: the file might hold
+            # changes from a failed earlier attempt, and add-ons can update
+            # their files based on the database state.
             if any(changes_status.values()):
-                self.git_commit(
-                    user, author_name, timestamp, skip_push=True, signals=False
+                was_committed |= self.git_commit(
+                    user,
+                    author_name,
+                    timestamp,
+                    skip_push=True,
+                    signals=False,
+                    update_contributor=written,
                 )
 
         # Short-circuit when no changes were processed
@@ -1348,7 +1362,7 @@ class Translation(
         # Make sure template cache is purged upon commit
         self.drop_store_cache()
 
-        return True
+        return was_committed
 
     @staticmethod
     def delete_successful_pending_changes(success_times: dict[int, datetime]) -> None:
@@ -1583,14 +1597,19 @@ class Translation(
         store_hash: bool = True,
         *,
         files: list[str] | None = None,
+        update_contributor: bool = True,
     ) -> bool:
-        """Commit translation to git."""
+        """Commit translation to git and return whether a commit was created."""
         repository = self.component.repository
         if template is None:
             template = self.component.effective_commit_message
         with repository.lock:
             # Pre commit hook
-            if self.filename and self.store.update_contributor(author):
+            if (
+                update_contributor
+                and self.filename
+                and self.store.update_contributor(author)
+            ):
                 self.store.save()
             vcs_pre_commit.send(
                 sender=self.__class__,
@@ -1602,7 +1621,7 @@ class Translation(
             if files is None:
                 files = self.filenames
             # Do actual commit with git lock
-            if self.component.commit_files(
+            committed = self.component.commit_files(
                 template=template,
                 author=author,
                 timestamp=timestamp,
@@ -1611,7 +1630,8 @@ class Translation(
                 files=files + self.addon_commit_files,
                 extra_context={"translation": self},
                 store_hash=store_hash,
-            ):
+            )
+            if committed:
                 self.log_info("committed %s as %s", files, author)
                 self.change_set.create(
                     action=ActionEvents.COMMIT, user=user, author=user
@@ -1622,7 +1642,7 @@ class Translation(
                 self.store_hash()
             self.addon_commit_files = []
 
-        return True
+        return bool(committed)
 
     def update_pending_identity(
         self,
@@ -1672,10 +1692,13 @@ class Translation(
         author_name: str,
         *,
         recovery_changes: list[PendingUnitChange] | None = None,
-    ) -> dict[int, bool]:
-        """Update backend file and unit."""
+    ) -> tuple[dict[int, bool], bool]:
+        """Return change processing status and whether the backend file was written."""
         changes_status = {}
         updated = False
+        # Content of edited units before this batch, compared once the batch
+        # is applied so that changes reverted within the batch are not written.
+        original_content: dict[int, tuple[TranslationUnit, tuple[object, ...]]] = {}
         disk_identities: dict[int, dict[str, str]] = {}
         failed_identities = set()
         identity_changes: dict[int, list[PendingUnitChange]] = {}
@@ -1776,6 +1799,8 @@ class Translation(
                 # generate content based on target language.
                 if add:
                     store.add_unit(pounit)
+                elif not updated and unit.pk not in original_content:
+                    original_content[unit.pk] = (pounit, read_stored_content(pounit))
 
                 # Store translations
                 try:
@@ -1788,7 +1813,7 @@ class Translation(
                     continue
 
                 changes_status[pending_change.pk] = True
-                updated = True
+                updated = updated or add
 
             # Update fuzzy/approved flag
             pounit.set_state(pending_change.state)
@@ -1805,9 +1830,13 @@ class Translation(
             }
             unit.save(update_fields=["details"], only_save=True)
 
-        # Did we do any updates?
         if not updated:
-            return changes_status
+            updated = self.has_stored_content_changed(original_content)
+
+        # Unsupported state changes still succeed and must be cleared from the
+        # pending queue, but must not update headers or trigger a file write.
+        if not updated:
+            return changes_status, False
 
         # Update po file header
         now = timezone.now()
@@ -1850,7 +1879,17 @@ class Translation(
             saved = Unit.objects.get(pk=unit_id)
             saved.details["disk_identity"] = disk_identity
             saved.save(update_fields=["details"], only_save=True, same_content=True)
-        return changes_status
+        return changes_status, True
+
+    @staticmethod
+    def has_stored_content_changed(
+        original_content: dict[int, tuple[TranslationUnit, tuple[object, ...]]],
+    ) -> bool:
+        """Check whether any of the units differs from its original content."""
+        return any(
+            content != read_stored_content(pounit)
+            for pounit, content in original_content.values()
+        )
 
     @cached_property
     def workflow_settings(self):

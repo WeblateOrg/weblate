@@ -44,7 +44,7 @@ class GitNoChangeProjectTest(ViewTestCase):
     """Testing of git manipulations with no change in repo."""
 
     TEST_TYPE = "project"
-    EXPECTED_COMMITS = 3
+    EXPECTED_COMMITS = 0
     EXPECTED_CHANGE_KEEP = False
 
     def setUp(self) -> None:
@@ -170,7 +170,7 @@ class GitNoChangeProjectTest(ViewTestCase):
             # the current component, or not.
             fetch_redirect_response=False,
         )
-        # One change for each translation and translator
+        # Only changed translations create commits; unchanged files keep their headers.
         self.assertEqual(self.component.count_repo_outgoing, self.EXPECTED_COMMITS)
         self.assertEqual(PendingUnitChange.objects.count(), 0)
         self.assertEqual(
@@ -1076,7 +1076,7 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
 class GitChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with not committed change."""
 
-    EXPECTED_COMMITS = 4
+    EXPECTED_COMMITS = 1
     EXPECTED_CHANGE_KEEP = True
 
     def setUp(self) -> None:
