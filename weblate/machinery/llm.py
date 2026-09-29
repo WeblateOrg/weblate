@@ -366,14 +366,48 @@ class BaseLLMTranslation(BatchMachineTranslation):
             dependencies[term.source_unit.pk] = term.source_unit
         return list(dependencies.values())
 
-    def get_evaluation_context_fingerprint(self, component: Component) -> str:
+    def get_evaluation_dependency_candidates(self, units: list[Unit]) -> list[Unit]:
+        """Return units that could become evaluation dependencies."""
+        candidates: dict[int, Unit] = {}
+        for unit in units:
+            component = unit.translation.component
+            secondary_language = self._get_effective_secondary_language(component)
+            secondary_language_id = self._get_language_id(secondary_language)
+            if secondary_language_id not in {
+                None,
+                unit.translation.language_id,
+                component.source_language_id,
+            }:
+                for candidate in unit.source_unit.unit_set.filter(
+                    translation__language_id=secondary_language_id
+                ).exclude(pk=unit.pk):
+                    candidates[candidate.pk] = candidate
+        fetch_glossary_terms(units, include_variants=False)
+        for term in iter_glossary_alternatives(
+            chain.from_iterable(
+                get_glossary_terms(unit, include_variants=False) for unit in units
+            )
+        ):
+            candidates[term.pk] = term
+            candidates[term.source_unit.pk] = term.source_unit
+        return list(candidates.values())
+
+    def get_evaluation_context_fingerprint(self, units: list[Unit]) -> str:
         """Identify non-unit configuration used to build evaluation requests."""
+        translation = units[0].translation
+        component = translation.component
         return hash_to_checksum(
             calculate_hash(
                 json.dumps(
                     [
                         self.settings,
                         getattr(component.effective_secondary_language, "pk", None),
+                        component.source_language.code,
+                        self._get_language_name(component.source_language),
+                        component.source_translation.plural.plural_form,
+                        translation.language.code,
+                        self._get_language_name(translation.language),
+                        translation.plural.plural_form,
                     ],
                     sort_keys=True,
                     default=str,

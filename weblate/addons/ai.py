@@ -535,7 +535,7 @@ def evaluate_component(
             )
             dependency_ids = frozenset(unit.pk for unit in dependencies)
             batch_unit_ids = tuple(unit.pk for unit in batch)
-            context_fingerprint = service.get_evaluation_context_fingerprint(component)
+            context_fingerprint = service.get_evaluation_context_fingerprint(batch)
             try:
                 issues = service.evaluate_batch(batch)
             except (MachineTranslationError, httpx2.HTTPError) as error:

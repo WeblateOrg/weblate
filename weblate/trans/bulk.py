@@ -46,20 +46,30 @@ def exclude_stale_units(
     units: UnitQuerySet, expected_snapshots: dict[int, EvaluatedUnitSnapshot]
 ) -> UnitQuerySet:
     """Lock evaluation inputs and exclude units changed since evaluation."""
-    locked_ids = set(expected_snapshots)
-    for snapshot in expected_snapshots.values():
+    selected_ids = set(
+        units.filter(pk__in=expected_snapshots).values_list("pk", flat=True)
+    )
+    relevant_snapshots = {
+        unit_id: expected_snapshots[unit_id] for unit_id in selected_ids
+    }
+    locked_ids = set(relevant_snapshots)
+    for snapshot in relevant_snapshots.values():
         locked_ids.update(unit_id for unit_id, _unit in snapshot.batch)
-    current = {}
-    for unit_ids in batched(sorted(locked_ids), 1000):
-        current.update(
-            {
-                unit.pk: unit
-                for unit in Unit.objects.filter(pk__in=unit_ids)
-                .order_by("pk")
-                .select_related("translation")
-                .select_for_update()
-            }
-        )
+    current: dict[int, Unit] = {}
+
+    def lock_units(unit_ids: set[int]) -> None:
+        for unit_id_batch in batched(sorted(unit_ids.difference(current)), 1000):
+            current.update(
+                {
+                    unit.pk: unit
+                    for unit in Unit.objects.filter(pk__in=unit_id_batch)
+                    .order_by("pk")
+                    .select_related("translation")
+                    .select_for_update()
+                }
+            )
+
+    lock_units(locked_ids)
 
     def changed(unit: Unit | None, snapshot: EvaluationSnapshot) -> bool:
         return (
@@ -70,7 +80,7 @@ def exclude_stale_units(
 
     stale_ids = {
         unit_id
-        for unit_id, snapshot in expected_snapshots.items()
+        for unit_id, snapshot in relevant_snapshots.items()
         if changed(current.get(unit_id), snapshot.unit)
         or current[unit_id].source_unit_id != snapshot.source_unit_id
         or changed(current.get(snapshot.source_unit_id), snapshot.source_unit)
@@ -80,16 +90,25 @@ def exclude_stale_units(
         )
     }
     services: dict[str, BaseLLMTranslation] = {}
-    for unit_id, snapshot in expected_snapshots.items():
-        if unit_id in stale_ids:
+    batches: dict[tuple[object, ...], tuple[EvaluatedUnitSnapshot, set[int]]] = {}
+    for unit_id, snapshot in relevant_snapshots.items():
+        key = (
+            snapshot.service_key,
+            snapshot.batch_unit_ids,
+            snapshot.dependency_ids,
+            snapshot.context_fingerprint,
+        )
+        batches.setdefault(key, (snapshot, set()))[1].add(unit_id)
+    for snapshot, result_ids in batches.values():
+        if result_ids <= stale_ids:
             continue
         batch = [
             current.get(batch_unit_id) for batch_unit_id in snapshot.batch_unit_ids
         ]
         if any(unit is None for unit in batch):
-            stale_ids.add(unit_id)
+            stale_ids.update(result_ids)
             continue
-        unit = current[unit_id]
+        unit = current[next(iter(result_ids))]
         service = services.get(snapshot.service_key)
         if service is None:
             settings = unit.translation.component.project.get_machinery_settings()
@@ -97,7 +116,7 @@ def exclude_stale_units(
                 snapshot.service_key not in MACHINERY
                 or snapshot.service_key not in settings
             ):
-                stale_ids.add(unit_id)
+                stale_ids.update(result_ids)
                 continue
             service_class = cast(
                 "type[BaseLLMTranslation]", MACHINERY[snapshot.service_key]
@@ -106,8 +125,10 @@ def exclude_stale_units(
                 settings[snapshot.service_key]
             )
         typed_batch = cast("list[Unit]", batch)
+        candidates = service.get_evaluation_dependency_candidates(typed_batch)
+        lock_units({candidate.pk for candidate in candidates})
         if (
-            service.get_evaluation_context_fingerprint(unit.translation.component)
+            service.get_evaluation_context_fingerprint(typed_batch)
             != snapshot.context_fingerprint
             or {
                 dependency.pk
@@ -115,8 +136,8 @@ def exclude_stale_units(
             }
             != snapshot.dependency_ids
         ):
-            stale_ids.add(unit_id)
-    return units.filter(pk__in=expected_snapshots).exclude(pk__in=stale_ids)
+            stale_ids.update(result_ids)
+    return units.filter(pk__in=relevant_snapshots).exclude(pk__in=stale_ids)
 
 
 def refresh_evaluation_snapshots(
