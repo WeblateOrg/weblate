@@ -2015,6 +2015,15 @@ class ZenViewTest(ViewTestCase):
             response, reverse("zen_suggestion", kwargs=self.kw_translation)
         )
 
+    def test_zen_suggestions_indicator(self) -> None:
+        response = self.client.get(reverse("zen", kwargs=self.kw_translation))
+        self.assertNotContains(response, "zen-suggestions-indicator")
+        self.add_zen_suggestion()
+        self.add_zen_suggestion("Ahoj svete!\n")
+        response = self.client.get(reverse("zen", kwargs=self.kw_translation))
+        self.assertContains(response, "zen-suggestions-indicator", count=1)
+        self.assertContains(response, 'title="2 suggestions"')
+
     def test_zen_suggestions_toggle(self) -> None:
         # The visibility is remembered client side, the toggle is always there
         # and suggestions are hidden until shown

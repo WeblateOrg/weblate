@@ -62,6 +62,7 @@
 
             this.init();
             initHighlight(document);
+            syncSuggestionIndicators();
           })
           .catch((err) => {
             loadingNext.style.display = "none";
@@ -470,6 +471,29 @@
     } else {
       unit.querySelector(".zen-suggestions-row")?.remove();
     }
+    updateSuggestionsIndicator(unit, data.has_suggestions ? container : null);
+  }
+
+  /* Keep the per-string suggestion count in sync */
+  function updateSuggestionsIndicator(unit, container) {
+    const indicator = unit.querySelector(".zen-suggestions-indicator");
+    if (!indicator) {
+      return;
+    }
+    const count = container
+      ? container.querySelectorAll(".history-row").length
+      : 0;
+    if (count === 0) {
+      indicator.remove();
+      return;
+    }
+    const text = interpolate(
+      ngettext("%s suggestion", "%s suggestions", count),
+      [count],
+    );
+    indicator.title = text;
+    indicator.querySelector(".zen-suggestions-count").textContent = count;
+    indicator.querySelector(".zen-suggestions-label").textContent = text;
   }
 
   /* Resync a Zen row from the JSON payload of the zen unit endpoints */
@@ -600,6 +624,18 @@
 
   const SUGGESTIONS_STORAGE_KEY = "zen-suggestions";
 
+  /* Expose the suggestions visibility on the per-string counts */
+  function syncSuggestionIndicators() {
+    const expanded = !document
+      .querySelector("table.zen")
+      ?.classList.contains("zen-hide-suggestions");
+    for (const indicator of document.querySelectorAll(
+      ".zen-suggestions-indicator",
+    )) {
+      indicator.setAttribute("aria-expanded", String(expanded));
+    }
+  }
+
   function initSuggestionsToggle() {
     const button = document.getElementById("zen-toggle-suggestions");
     const label = document.getElementById("zen-toggle-suggestions-label");
@@ -610,6 +646,7 @@
 
     const apply = (visible) => {
       table.classList.toggle("zen-hide-suggestions", !visible);
+      syncSuggestionIndicators();
       const text = visible
         ? gettext("Hide suggestions")
         : gettext("Show suggestions");
@@ -626,8 +663,8 @@
     }
     apply(visible);
 
-    button.addEventListener("click", () => {
-      visible = !visible;
+    const setVisible = (value) => {
+      visible = value;
       apply(visible);
       try {
         localStorage.setItem(
@@ -636,6 +673,28 @@
         );
       } catch (_error) {
         /* Ignore, the toggle still works for this page */
+      }
+    };
+
+    button.addEventListener("click", () => {
+      setVisible(!visible);
+    });
+
+    // The per-string count toggles suggestions, moving to those of the string
+    // when showing them
+    delegate(document, "click", ".zen-suggestions-indicator", function () {
+      if (visible) {
+        setVisible(false);
+        return;
+      }
+      setVisible(true);
+      const container = this.closest(".zen-unit")?.querySelector(
+        ".zen-suggestions-container",
+      );
+      if (container) {
+        container.tabIndex = -1;
+        container.focus({ preventScroll: true });
+        container.scrollIntoView({ block: "nearest" });
       }
     });
   }

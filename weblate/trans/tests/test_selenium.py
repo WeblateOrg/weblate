@@ -1979,6 +1979,101 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         unit.refresh_from_db()
         self.assertEqual(unit.target, "Upraveno\n")
 
+    def test_zen_suggestions_indicator(self) -> None:
+        """Suggestions are counted per string, the count toggles them."""
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(
+            name="Zen suggestions indicator", slug="zen-suggestions-indicator"
+        )
+        component = fixture.create_po(project=project)
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        user = self.do_login(superuser=True)
+        first, _ = Suggestion.objects.add(unit, ["Nazdar svete!\n"], None, user=user)
+        assert first is not None
+        Suggestion.objects.add(unit, ["Ahoj svete!\n"], None, user=user)
+
+        zen_url = reverse("zen", kwargs={"path": translation.get_url_path()})
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{zen_url}?{urlencode({'q': 'has:suggestion'})}"
+            )
+        # Start from the default visibility regardless of earlier tests
+        self.driver.execute_script("localStorage.removeItem('zen-suggestions');")
+        with self.wait_for_page_load():
+            self.driver.refresh()
+
+        row_selector = f"#row-suggestions-{unit.checksum}"
+        indicator_selector = f"#row-status-{unit.checksum} .zen-suggestions-indicator"
+
+        def indicator() -> WebElement:
+            return self.driver.find_element(By.CSS_SELECTOR, indicator_selector)
+
+        def indicator_count() -> str | None:
+            return (
+                indicator()
+                .find_element(By.CSS_SELECTOR, ".zen-suggestions-count")
+                .get_attribute("textContent")
+            )
+
+        self.assertTrue(indicator().is_displayed())
+        self.assertEqual(indicator_count(), "2")
+        self.assertEqual(indicator().get_attribute("title"), "2 suggestions")
+        self.assertEqual(indicator().get_attribute("aria-expanded"), "false")
+
+        # Clicking it shows the suggestions and moves to those of the string
+        indicator().click()
+        self.assertTrue(
+            self.driver.find_element(By.CSS_SELECTOR, row_selector).is_displayed()
+        )
+        self.assertTrue(indicator().is_displayed())
+        self.assertEqual(indicator().get_attribute("aria-expanded"), "true")
+        self.assertEqual(
+            self.driver.switch_to.active_element,
+            self.driver.find_element(By.ID, f"suggestions-{unit.checksum}"),
+        )
+        self.assertEqual(
+            self.driver.find_element(By.ID, "zen-toggle-suggestions").get_attribute(
+                "aria-label"
+            ),
+            "Hide suggestions",
+        )
+        self.assertEqual(
+            self.driver.execute_script(
+                "return localStorage.getItem('zen-suggestions');"
+            ),
+            "shown",
+        )
+
+        # Clicking it again hides them
+        indicator().click()
+        self.assertFalse(
+            self.driver.find_element(By.CSS_SELECTOR, row_selector).is_displayed()
+        )
+        self.assertTrue(indicator().is_displayed())
+        self.assertEqual(indicator().get_attribute("aria-expanded"), "false")
+        self.assertEqual(
+            self.driver.execute_script(
+                "return localStorage.getItem('zen-suggestions');"
+            ),
+            "hidden",
+        )
+        indicator().click()
+
+        self.driver.find_element(
+            By.CSS_SELECTOR, f'{row_selector} button[name="delete"][value="{first.pk}"]'
+        ).click()
+        WebDriverWait(self.driver, 15).until(lambda _driver: indicator_count() == "1")
+        self.assertEqual(indicator().get_attribute("title"), "1 suggestion")
+
+        self.driver.find_element(
+            By.CSS_SELECTOR, f'{row_selector} button[name="accept"]'
+        ).click()
+        WebDriverWait(self.driver, 15).until_not(
+            presence_of_element_located((By.CSS_SELECTOR, indicator_selector))
+        )
+
     def test_search_preview_scopes_boolean_query(self) -> None:
         project = self.create_component()
         component = Component.objects.get(project=project, slug="language-names")

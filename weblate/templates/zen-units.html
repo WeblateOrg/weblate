@@ -12,6 +12,24 @@
           {{ item.unit.position }}
         {% endif %}
         <div class="float-end btn-padded">
+          {% if item.unit.suggestions %}
+            {% with suggestion_count=item.unit.suggestions|length %}
+              {% blocktranslate count count=suggestion_count asvar suggestion_label trimmed %}
+                {{ count }} suggestion
+              {% plural %}
+                {{ count }} suggestions
+              {% endblocktranslate %}
+              <button type="button"
+                      class="badge text-bg-secondary border-0 zen-suggestions-indicator"
+                      title="{{ suggestion_label }}"
+                      aria-controls="suggestions-{{ item.unit.checksum }}"
+                      aria-expanded="false"
+                      tabindex="-1">
+                <span aria-hidden="true">{% icon "suggest.svg" %} <span class="zen-suggestions-count">{{ suggestion_count }}</span></span>
+                <span class="visually-hidden zen-suggestions-label">{{ suggestion_label }}</span>
+              </button>
+            {% endwith %}
+          {% endif %}
           <a class="btn btn-link btn-xs"
              href="{{ site_url }}{{ item.unit.get_absolute_url }}"
              data-clipboard-value="{{ site_url }}{{ item.unit.get_absolute_url }}"
