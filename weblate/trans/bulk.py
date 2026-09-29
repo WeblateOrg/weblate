@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from dataclasses import replace
+from itertools import batched
 from typing import TYPE_CHECKING
 
 from django.db import transaction
@@ -45,16 +47,24 @@ def exclude_stale_units(
     locked_ids = set(expected_snapshots)
     for snapshot in expected_snapshots.values():
         locked_ids.update(unit_id for unit_id, _unit in snapshot.batch)
-    current = {
-        unit.pk: unit
-        for unit in Unit.objects.filter(pk__in=locked_ids)
-        .order_by("pk")
-        .select_related("translation")
-        .select_for_update()
-    }
+    current = {}
+    for unit_ids in batched(sorted(locked_ids), 1000):
+        current.update(
+            {
+                unit.pk: unit
+                for unit in Unit.objects.filter(pk__in=unit_ids)
+                .order_by("pk")
+                .select_related("translation")
+                .select_for_update()
+            }
+        )
 
     def changed(unit: Unit | None, snapshot: EvaluationSnapshot) -> bool:
-        return unit is None or evaluation_fingerprint(unit) != snapshot.fingerprint
+        return (
+            unit is None
+            or unit.last_updated != snapshot.last_updated
+            or evaluation_fingerprint(unit) != snapshot.fingerprint
+        )
 
     stale_ids = {
         unit_id
@@ -70,7 +80,42 @@ def exclude_stale_units(
     return units.exclude(pk__in=stale_ids)
 
 
-# ruff: ignore[complex-structure, too-many-arguments]
+def refresh_evaluation_snapshots(
+    snapshots: dict[int, EvaluatedUnitSnapshot], unit_ids: set[int]
+) -> None:
+    """Refresh snapshots for changes performed by this locked bulk operation."""
+    if not unit_ids:
+        return
+    current = {
+        unit.pk: unit
+        for unit in Unit.objects.filter(pk__in=unit_ids).select_related("translation")
+    }
+    refreshed = {
+        unit_id: replace(
+            snapshot,
+            fingerprint=evaluation_fingerprint(current[unit_id]),
+            last_updated=current[unit_id].last_updated,
+        )
+        for unit_id, snapshot in (
+            (unit_id, batch_snapshot)
+            for result_snapshot in snapshots.values()
+            for unit_id, batch_snapshot in result_snapshot.batch
+            if unit_id in current
+        )
+    }
+    for result_id, snapshot in snapshots.items():
+        snapshots[result_id] = replace(
+            snapshot,
+            unit=refreshed.get(result_id, snapshot.unit),
+            source_unit=refreshed.get(snapshot.source_unit_id, snapshot.source_unit),
+            batch=tuple(
+                (unit_id, refreshed.get(unit_id, batch_snapshot))
+                for unit_id, batch_snapshot in snapshot.batch
+            ),
+        )
+
+
+# ruff: ignore[complex-structure, too-many-arguments, too-many-branches, too-many-locals, too-many-statements]
 def bulk_perform(
     user: User | None,
     unit_set: UnitQuerySet,
@@ -111,6 +156,7 @@ def bulk_perform(
         prev_updated = updated
         component.start_batched_checks()
         with transaction.atomic():
+            snapshot_refresh_ids: set[int] = set()
             component_units = matching.filter(translation__component=component)
             if expected_unit_snapshots:
                 component_units = exclude_stale_units(
@@ -177,6 +223,7 @@ def bulk_perform(
                         if affected_source_unit_ids is not None:
                             affected_source_unit_ids.add(unit.source_unit_id or unit.pk)
                         to_update.append(unit)
+                        snapshot_refresh_ids.add(unit.pk)
                         if unit.is_source:
                             source_units.append(unit)
 
@@ -263,6 +310,7 @@ def bulk_perform(
 
                     if changed:
                         updated += 1
+                        snapshot_refresh_ids.add(source_unit.pk)
                         if affected_unit_ids is not None:
                             affected_unit_ids.add(source_unit.pk)
                         if affected_source_unit_ids is not None:
@@ -288,10 +336,16 @@ def bulk_perform(
                         unit.translation.component = component
                         unit.update_extra_flags(flags.format(), user)
                         updated += 1
+                        snapshot_refresh_ids.add(unit.pk)
                         if affected_unit_ids is not None:
                             affected_unit_ids.add(unit.pk)
                         if affected_source_unit_ids is not None:
                             affected_source_unit_ids.add(unit.source_unit_id or unit.pk)
+
+            if expected_unit_snapshots:
+                refresh_evaluation_snapshots(
+                    expected_unit_snapshots, snapshot_refresh_ids
+                )
 
         if prev_updated != updated:
             component.invalidate_cache()

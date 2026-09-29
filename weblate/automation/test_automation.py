@@ -1229,12 +1229,13 @@ class AIQualityAutomationTest(ComponentTestCase):
         stale, current = self.units
         stale.refresh_from_db()
         current.refresh_from_db()
-        current.source_unit_id = stale.source_unit_id
+        source_unit = stale.source_unit
+        current.source_unit = source_unit
         current.save(update_fields=["source_unit"])
 
         def batches(_units: object, _batch_size: int) -> Iterator[list[Unit]]:
             yield [stale]
-            Unit.objects.filter(pk=stale.source_unit_id).update(
+            Unit.objects.filter(pk=source_unit.pk).update(
                 context="Changed source context"
             )
             current.source_unit.refresh_from_db()
