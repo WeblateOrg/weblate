@@ -1225,6 +1225,87 @@ class AIQualityAutomationTest(ComponentTestCase):
         self.assertEqual(unit.state, STATE_APPROVED)
         self.assertEqual(runner.selections["quality"].unit_ids, {unit.pk})
 
+    def test_quality_snapshots_survive_chained_result_scope(self) -> None:
+        unit = self.units[0]
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        self.quality_action(query=f"id:{unit.pk}"),
+                        {
+                            "action": "weblate.bulk_edit",
+                            "id": "routed",
+                            "scope": "result:quality",
+                            "settings": {"state": STATE_FUZZY},
+                        },
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:routed",
+                            "settings": {"state": STATE_APPROVED},
+                        },
+                    ]
+                }
+            ),
+            self.component,
+        )
+        with patch.object(
+            OpenAITranslation, "evaluate_batch", return_value={unit.pk: []}
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_APPROVED)
+        self.assertEqual(set(runner.selections["routed"].unit_snapshots), {unit.pk})
+
+    def test_quality_flags_invalidate_chained_result_scope(self) -> None:
+        unit = self.units[0]
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        self.quality_action(query=f"id:{unit.pk}"),
+                        {
+                            "action": "weblate.bulk_edit",
+                            "id": "flagged",
+                            "scope": "result:quality",
+                            "settings": {
+                                "state": -1,
+                                "add_translation_flags": "python-format",
+                            },
+                        },
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:flagged",
+                            "settings": {"state": STATE_APPROVED},
+                        },
+                    ]
+                }
+            ),
+            self.component,
+        )
+        with patch.object(
+            OpenAITranslation, "evaluate_batch", return_value={unit.pk: []}
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertEqual(set(runner.selections["flagged"].unit_snapshots), {unit.pk})
+
     def test_quality_preserves_snapshot_for_each_shared_source(self) -> None:
         stale, current = self.units
         stale.refresh_from_db()
@@ -1239,6 +1320,68 @@ class AIQualityAutomationTest(ComponentTestCase):
                 context="Changed source context"
             )
             current.source_unit.refresh_from_db()
+            yield [current]
+
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW
+                | {
+                    "actions": [
+                        self.quality_action(),
+                        {
+                            "action": "weblate.bulk_edit",
+                            "scope": "result:quality",
+                            "settings": {"state": STATE_APPROVED},
+                        },
+                    ]
+                }
+            ),
+            self.component,
+        )
+        with (
+            patch("weblate.addons.ai.evaluation_batches", batches),
+            patch.object(
+                OpenAITranslation,
+                "evaluate_batch",
+                side_effect=lambda batch: {batch[0].pk: []},
+            ),
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+
+        stale.refresh_from_db()
+        current.refresh_from_db()
+        self.assertEqual(stale.state, STATE_TRANSLATED)
+        self.assertEqual(current.state, STATE_APPROVED)
+
+    def test_quality_revalidates_secondary_language_context(self) -> None:
+        stale, current = self.units
+        stale.refresh_from_db()
+        current.refresh_from_db()
+        secondary_translation = self.component.translation_set.get(language_code="de")
+        secondary_unit = stale.source_unit.unit_set.get(
+            translation=secondary_translation
+        )
+        Unit.objects.filter(pk=secondary_unit.pk).update(
+            target="Secondary context", state=STATE_TRANSLATED
+        )
+        self.component.secondary_language = secondary_translation.language
+        self.component.inherit_secondary_language = False
+        self.component.save(
+            update_fields=["secondary_language", "inherit_secondary_language"]
+        )
+        self.component.drop_addons_cache()
+
+        def batches(_units: object, _batch_size: int) -> Iterator[list[Unit]]:
+            yield [stale]
+            secondary_unit.refresh_from_db()
+            secondary_unit.target = "Changed secondary context"
+            secondary_unit.save()
             yield [current]
 
         workflow = validate_operations(

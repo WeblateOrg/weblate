@@ -328,6 +328,28 @@ class BaseLLMTranslation(BatchMachineTranslation):
         """Evaluate one unit using the same contract as batch evaluation."""
         return self.evaluate_batch([unit])[unit.pk]
 
+    def get_evaluation_dependencies(self, units: list[Unit]) -> list[Unit]:
+        """Return secondary-language units included in evaluation requests."""
+        dependencies: dict[int, Unit] = {}
+        for unit in units:
+            component = unit.translation.component
+            secondary_language = self._get_effective_secondary_language(component)
+            secondary_language_id = self._get_language_id(secondary_language)
+            if secondary_language is None or secondary_language_id in {
+                unit.translation.language_id,
+                component.source_language_id,
+            }:
+                continue
+            secondary_unit = self._get_secondary_unit(
+                unit.source_unit.unit_set,
+                unit,
+                secondary_language,
+                secondary_language_id,
+            )
+            if secondary_unit is not None:
+                dependencies[secondary_unit.pk] = secondary_unit
+        return list(dependencies.values())
+
     def evaluate_batch(self, units: list[Unit]) -> dict[int, list[EvaluationIssue]]:
         """Evaluate related units independently of suggestion generation."""
         if not units:

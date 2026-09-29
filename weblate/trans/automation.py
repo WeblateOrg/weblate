@@ -126,4 +126,10 @@ def bulk_edit(
         affected.unit_ids = affected_ids
         affected.source_unit_ids = affected_sources
         affected.expand_source_ids = affected_ids & affected_sources
+        affected.unit_snapshots = {
+            unit_id: snapshot
+            for unit_id, snapshot in selection.unit_snapshots.items()
+            if unit_id in affected_ids
+            or snapshot.source_unit_id in affected.expand_source_ids
+        }
     return {"component": component.pk, "updated": updated}

@@ -525,6 +525,12 @@ def evaluate_component(
                 for unit in batch
                 for item in (unit, unit.source_unit)
             }
+            snapshots.update(
+                {
+                    unit.pk: evaluation_snapshot(unit)
+                    for unit in service.get_evaluation_dependencies(batch)
+                }
+            )
             try:
                 issues = service.evaluate_batch(batch)
             except (MachineTranslationError, httpx2.HTTPError) as error:

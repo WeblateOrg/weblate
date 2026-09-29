@@ -310,7 +310,6 @@ def bulk_perform(
 
                     if changed:
                         updated += 1
-                        snapshot_refresh_ids.add(source_unit.pk)
                         if affected_unit_ids is not None:
                             affected_unit_ids.add(source_unit.pk)
                         if affected_source_unit_ids is not None:
@@ -336,7 +335,6 @@ def bulk_perform(
                         unit.translation.component = component
                         unit.update_extra_flags(flags.format(), user)
                         updated += 1
-                        snapshot_refresh_ids.add(unit.pk)
                         if affected_unit_ids is not None:
                             affected_unit_ids.add(unit.pk)
                         if affected_source_unit_ids is not None:
