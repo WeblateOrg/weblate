@@ -14,36 +14,32 @@
     <div class="card">
       <div class="card-header">
         <h4 class="card-title">
-          {% if privacy_url %}
-            {% translate "You have to agree to the General Terms and Conditions and the Privacy Policy" %}
-          {% else %}
-            {% translate "You have to agree to the General Terms and Conditions" %}
-          {% endif %}
+          {% translate "You have to agree to the General Terms and Conditions and the Privacy Policy" %}
         </h4>
       </div>
       <div class="card-body">
-        {% if terms_document_hidden and terms_url %}
-          <p>{% translate "Please read the following legal documents:" %}</p>
-          <ul>
-            <li>
-              <a href="{{ terms_url }}">{% translate "General Terms and Conditions" %}</a>
-            </li>
-            {% if privacy_url %}
-              <li>
-                <a href="{{ privacy_url }}">{% translate "Privacy Policy" %}</a>
-              </li>
-            {% endif %}
-          </ul>
-        {% else %}
-          <p>{% translate "Please read the following General Terms and Conditions document:" %}</p>
+        <p>
+          {% if terms_url and privacy_url %}
+            {% blocktranslate %}Please read the <a href="{{ terms_url }}">General Terms and Conditions</a> and the <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktranslate %}
+          {% elif terms_url %}
+            {% blocktranslate %}Please read the <a href="{{ terms_url }}">General Terms and Conditions</a> as well as the Privacy Policy below.{% endblocktranslate %}
+          {% elif privacy_url %}
+            {% blocktranslate %}Please read the General Terms and Conditions below as well as the <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktranslate %}
+          {% else %}
+            {% translate "Please read the General Terms and Conditions and the Privacy Policy below." %}
+          {% endif %}
+        </p>
+        {% if not terms_url %}
+          <h5>{% translate "General Terms and Conditions" %}</h5>
           <div class="list-group-item pre-scrollable{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
             {% include "legal/documents/tos.html" %}
           </div>
-          {% if privacy_url %}
-            <p>
-              {% blocktranslate %}Please also read the <a href="{{ privacy_url }}">Privacy Policy</a>.{% endblocktranslate %}
-            </p>
-          {% endif %}
+        {% endif %}
+        {% if not privacy_url %}
+          <h5>{% translate "Privacy Policy" %}</h5>
+          <div class="list-group-item pre-scrollable{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
+            {% include "legal/documents/privacy.html" %}
+          </div>
         {% endif %}
         {{ form|crispy }}
         {% csrf_token %}
