@@ -347,10 +347,11 @@ class SourceEditTest(ViewTestCase):
             self.assertRaisesMessage(RuntimeError, "Failure after file write"),
             transaction.atomic(),
         ):
-            statuses = translation.update_units(
+            statuses, written = translation.update_units(
                 changes, translation.store, self.user.get_author_name()
             )
             self.assertTrue(all(statuses.values()))
+            self.assertTrue(written)
             msg = "Failure after file write"
             raise RuntimeError(msg)
         translation.drop_store_cache()

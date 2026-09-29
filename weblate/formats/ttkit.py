@@ -32,6 +32,7 @@ from translate.misc.xml_helpers import (
     normalize_xml_space,
     setXMLspace,
 )
+from translate.storage import pocommon
 from translate.storage.applestrings_xliff import AppleStringsXliffFile
 from translate.storage.base import TranslationStore
 from translate.storage.catkeys import CatkeysFile, CatkeysUnit
@@ -398,6 +399,20 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
         self.unit.markfuzzy(state in FUZZY_STATES)
         if hasattr(self.unit, "markapproved"):
             self.unit.markapproved(state == STATE_APPROVED)
+
+    def get_stored_content(self) -> tuple[object, ...]:
+        content = super().get_stored_content()
+        if not self.has_unit():
+            return content
+        # Include serialized unit where available to catch markup changes
+        # which are not exposed through the wrapper, such as XLIFF states or
+        # gettext previous strings.
+        unit = self.unit
+        if hasattr(unit, "xmlelement"):
+            return *content, etree.tostring(unit.xmlelement)
+        if isinstance(unit, pocommon.pounit):
+            return *content, str(unit)
+        return content
 
     def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
         """

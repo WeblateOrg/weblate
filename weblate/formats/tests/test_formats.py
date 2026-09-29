@@ -2336,6 +2336,20 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100"
     FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"xliff_placeables": "plain"}
 
+    def test_stored_content_includes_state_markup(self) -> None:
+        storage = self.parse_file(self.FILE)
+        unit = storage.content_units[0]
+        unit.set_target("Překlad")
+        unit.set_state(STATE_TRANSLATED)
+        unit.unit.xmlelement.find(unit.unit.namespaced("target")).set(
+            "state", "needs-review-translation"
+        )
+        unit.invalidate_all_caches()
+        content = unit.get_stored_content()
+        unit.set_state(STATE_TRANSLATED)
+        unit.invalidate_all_caches()
+        self.assertNotEqual(unit.get_stored_content(), content)
+
     def test_unit_class_variants(self) -> None:
         self.assertIs(
             XliffFormat.get_unit_class({"xliff_placeables": "plain"}),

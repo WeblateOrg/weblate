@@ -336,6 +336,23 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
         """Check whether unit has translation."""
         return any(split_plural(self.target))
 
+    def get_stored_content(self) -> tuple[object, ...]:
+        """
+        Read content and states supported by the file format.
+
+        Callers have to invalidate cached attributes after modifying the unit.
+        """
+        # Use the default state fallbacks so unsupported flags compare equally.
+        return (
+            self.target,
+            self.explanation,
+            self.source_explanation,
+            self.is_fuzzy(),
+            self.is_approved(),
+            self.is_readonly(),
+            self.is_automatically_translated(),
+        )
+
     def is_translated(self) -> bool:
         """Check whether unit is translated."""
         return self.has_translation()

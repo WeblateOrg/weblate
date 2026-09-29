@@ -1666,11 +1666,23 @@ class Unit(models.Model, LoggerMixin):
         if not preserve_pending_target:
             self.clear_disk_state()
         # Remove pending changes for existing units
+        pending_author = author
         if not created and not preserve_pending_target:
-            PendingUnitChange.objects.filter(unit=self).delete()
+            pending_changes = PendingUnitChange.objects.filter(unit=self)
+            if pending and pending_author is None:
+                # Keep attribution of the replaced change, for example the
+                # source edit that flagged this unit.
+                replaced = (
+                    pending_changes.select_related("author")
+                    .order_by("-timestamp")
+                    .first()
+                )
+                if replaced is not None:
+                    pending_author = replaced.author
+            pending_changes.delete()
 
         if pending:
-            PendingUnitChange.store_unit_change(unit=self)
+            PendingUnitChange.store_unit_change(unit=self, author=pending_author)
         # Track updated sources for source checks
         if translation.is_template:
             component.updated_sources.add(self.id)
