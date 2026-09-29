@@ -1662,6 +1662,7 @@ class GitRepository(Repository):
             return [*self._cmd_push, "--force"]
         return list(self._cmd_push)
 
+    # pylint: disable-next=useless-return
     def push(self, branch: str, *, force: bool | None = None) -> str | None:
         """Push given branch to remote repository."""
         current_branch = self.validate_branch_name(self.branch)
