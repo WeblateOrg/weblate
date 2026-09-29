@@ -508,6 +508,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     obj.project_languages.preload_workflow_settings(language_objects)
 
     components = prefetch_tasks(all_components)
+    available_exporters = [(item.name, item.verbose) for item in EXPORTERS.values()]
 
     return render(
         request,
@@ -562,6 +563,7 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
             "components": components,
             "categories": prefetch_stats(obj.category_set.filter(category=None)),
             "user_can_add_translation": user_can_add_translation,
+            "available_exporters": available_exporters,
         },
     )
 
