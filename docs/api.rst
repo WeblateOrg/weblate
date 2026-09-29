@@ -318,10 +318,15 @@ Users
 
 .. http:get:: /api/users/
 
-    Returns a list of users if you have permissions to see manage users. If not, then you get to see
-    only your own details.
+    Returns no results to unauthenticated users. Authenticated users without the
+    global ``user.view`` or ``user.edit`` permission see only their own basic
+    details when listing without a username filter. They can search for other
+    users by supplying a username prefix of at least two characters after
+    trimming surrounding whitespace; these searches return the user ID,
+    username, and full name of matching non-bot users. Users with either
+    permission can list all users and receive detailed information.
 
-    :query string username: Username to search for
+    :query string username: Username prefix to search for. At least two characters after trimming surrounding whitespace are required for users without the global ``user.view`` or ``user.edit`` permission.
     :query int id: User ID to search for
     :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
