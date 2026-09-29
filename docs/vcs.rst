@@ -194,6 +194,13 @@ The added keys with fingerprints are shown in the confirmation message:
 Connecting to legacy SSH servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Weblate suppresses the OpenSSH warning about connections without post-quantum
+key exchange so that it does not obscure repository errors. This does not change
+algorithm negotiation: post-quantum key exchange is still used when supported
+by both the client and server. Other SSH warnings remain enabled. Upgrade or
+configure the SSH server to support post-quantum key exchange to protect against
+"store now, decrypt later" attacks.
+
 Recent OpenSSH releases (for example the one used in Weblate Docker container)
 disable RSA signatures using the SHA-1 hash algorithm by default. This change
 has been made as the SHA-1 hash algorithm is cryptographically broken, and it
