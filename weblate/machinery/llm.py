@@ -345,10 +345,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 ).exclude(pk=unit.pk):
                     candidates[candidate.pk] = candidate
         fetch_glossary_terms(units, include_variants=False)
-        for term in iter_glossary_alternatives(
-            chain.from_iterable(
-                get_glossary_terms(unit, include_variants=False) for unit in units
-            )
+        for term in chain.from_iterable(
+            get_glossary_terms(unit, include_variants=False) for unit in units
         ):
             candidates[term.pk] = term
             candidates[term.source_unit.pk] = term.source_unit

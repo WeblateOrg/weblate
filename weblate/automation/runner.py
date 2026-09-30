@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from contextlib import nullcontext
 from copy import deepcopy
 from typing import TYPE_CHECKING, Any
 
@@ -24,6 +25,40 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import User
     from weblate.trans.models import Change, Component
+
+
+def contains_ai_quality(nodes: list[dict[str, Any]]) -> bool:
+    """Return whether an action tree contains AI quality evaluation."""
+    for node in nodes:
+        if node.get("action") == "weblate.ai_quality":
+            return True
+        if contains_ai_quality(node.get("sequence", [])):
+            return True
+        for branch in node.get("choose", []):
+            if contains_ai_quality(branch.get("sequence", [])):
+                return True
+        if contains_ai_quality(node.get("default", [])):
+            return True
+    return False
+
+
+def changes_evaluation_input(node: dict[str, Any]) -> bool:
+    """Return whether an action can invalidate an AI quality result."""
+    if node["action"] == "weblate.automatic_translation":
+        return node["settings"].get("mode") != "suggest"
+    if node["action"] == "weblate.bulk_edit":
+        return any(
+            node["settings"].get(key)
+            for key in (
+                "add_flags",
+                "remove_flags",
+                "add_translation_flags",
+                "remove_translation_flags",
+                "add_labels",
+                "remove_labels",
+            )
+        )
+    return False
 
 
 def execution_context(
@@ -92,6 +127,7 @@ class Runner:
         self.failed = False
         self.planned = False
         self.selections: dict[str, UnitSelection] = {}
+        self.ai_selections: set[str] = set()
 
     def selection(self, scope: str) -> UnitSelection:
         if scope == "component":
@@ -244,9 +280,24 @@ class Runner:
                         output = execute_operation(
                             node, self.component, self.user, selection, affected
                         )
+                        action_id = scope.removeprefix("result:")
+                        protected = (
+                            scope.startswith("result:")
+                            and action_id in self.ai_selections
+                        )
+                        invalidates_evaluation = changes_evaluation_input(node)
+                        if self.ai_selections and invalidates_evaluation:
+                            for selection_id in self.ai_selections:
+                                self.selections[selection_id].unit_ids = set()
+                        if protected and invalidates_evaluation:
+                            affected.unit_ids = set()
                         if "id" in node:
                             self.context["results"][node["id"]] = output
                             self.selections[node["id"]] = affected
+                            if node["action"] == "weblate.ai_quality" or (
+                                protected and not invalidates_evaluation
+                            ):
+                                self.ai_selections.add(node["id"])
                         self.record(
                             node_path,
                             "success",
@@ -318,7 +369,8 @@ class Runner:
                 self.record("conditions", "error", error=str(error)[:4096])
                 applicable = False
             # Keep AI evaluation row locks until all result-scoped actions finish.
-            with transaction.atomic():
+            has_ai_quality = contains_ai_quality(self.workflow["actions"])
+            with transaction.atomic() if has_ai_quality else nullcontext():
                 self.sequence(
                     self.workflow["actions"], "actions", skip=applicable is False
                 )
