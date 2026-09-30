@@ -20,9 +20,18 @@
           {% if not in_email %}
             <div class="btn-float">
               {% if item.permissions.can_revert %}
-                <a class="btn btn-link"
-                   href="{{ translate_url|default:item.change.translation.get_translate_url }}{% querystring query_params offset=offset checksum=item.change.unit.checksum revert=item.change.id %}"
-                   title="{% translate "Revert" %}">{% icon "undo.svg" %}</a>
+                <form method="post"
+                      class="d-inline"
+                      action="{{ translate_url|default:item.change.translation.get_translate_url }}{% querystring query_params offset=offset checksum=item.change.unit.checksum %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="checksum" value="{{ item.change.unit.checksum }}" />
+                  <button class="btn btn-link"
+                          type="submit"
+                          name="revert"
+                          value="{{ item.change.id }}"
+                          aria-label="{% translate "Revert" %}"
+                          title="{% translate "Revert" %}">{% icon "undo.svg" %}</button>
+                </form>
               {% endif %}
               {% if item.permissions.can_block_user %}
                 <a class="btn btn-link red"

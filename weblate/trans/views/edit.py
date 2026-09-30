@@ -1063,7 +1063,7 @@ def handle_merge(unit, request: AuthenticatedHttpRequest, next_unit_url):
 
 
 def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
-    revertform = RevertForm(unit, request.GET)
+    revertform = RevertForm(unit, request.POST)
     if not revertform.is_valid():
         show_form_errors(request, revertform)
         return None
@@ -1293,11 +1293,7 @@ def get_translate_unit(
         post_result, post_count = search_data
         return TranslateUnitResult(post_result, post_count, post_result["offset"], unit)
 
-    use_fast_search = (
-        request.method == "GET"
-        and not request.GET.get("checksum")
-        and "revert" not in request.GET
-    )
+    use_fast_search = request.method == "GET" and not request.GET.get("checksum")
     if use_fast_search:
         search_result = navigation.page(include_count=True, page_size=1)
     else:
@@ -1380,7 +1376,10 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
 
     response = None
 
-    if request.method == "POST" and "merge" not in request.POST:
+    if request.method == "POST" and "revert" in request.POST:
+        response = handle_revert(unit, request, this_unit_url)
+
+    elif request.method == "POST" and "merge" not in request.POST:
         if not set(SUGGESTION_ACTIONS).isdisjoint(request.POST):
             # Handle accepting/deleting suggestions
             response = handle_suggestions(request, unit, this_unit_url, next_unit_url)
@@ -1391,10 +1390,6 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
     # Handle translation merging
     elif "merge" in request.POST:
         response = handle_merge(unit, request, next_unit_url)
-
-    # Handle reverting
-    elif "revert" in request.GET:
-        response = handle_revert(unit, request, this_unit_url)
 
     # Keep submitted text when validation fails, including after cache recovery.
     form = None

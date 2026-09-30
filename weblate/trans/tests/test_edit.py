@@ -14,6 +14,7 @@ from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
 from django.db import connection
+from django.test import Client
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from lxml import html
@@ -1103,15 +1104,13 @@ class EditValidationTest(ViewTestCase):
 
     def test_revert(self) -> None:
         unit = self.get_unit()
-        # Try the merge
-        response = self.client.get(
+        response = self.client.post(
             unit.translation.get_translate_url(),
             {"checksum": unit.checksum, "revert": "invalid"},
             follow=True,
         )
         self.assertContains(response, "Enter a whole number.")
-        # Try the merge
-        response = self.client.get(
+        response = self.client.post(
             unit.translation.get_translate_url(),
             {"checksum": unit.checksum, "revert": -1},
             follow=True,
@@ -2422,7 +2421,7 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(changes[0].target, target_2)
         self.assert_backend(1)
         # revert it
-        self.client.get(
+        self.client.post(
             self.translate_url, {"checksum": unit.checksum, "revert": changes[1].id}
         )
         unit = self.get_unit()
@@ -2432,11 +2431,59 @@ class EditComplexTest(ViewTestCase):
         self.edit_unit("Thank you for using Weblate.", "Kiitoksia Weblaten kaytosta.")
         unit2 = self.get_unit(source="Thank you for using Weblate.")
         change = unit2.change_set.order()[0]
-        response = self.client.get(
+        response = self.client.post(
             self.translate_url, {"checksum": unit.checksum, "revert": change.id}
         )
         self.assertContains(response, "Could not find the reverted change.")
         self.assert_backend(1)
+
+    def test_revert_get_does_not_modify_unit(self) -> None:
+        target = "Nazdar svete!\n"
+        self.edit_unit("Hello, world!\n", target)
+        unit = self.get_unit()
+        change = Change.objects.content().filter(unit=unit).order()[0]
+        revert_count = unit.change_set.filter(action=ActionEvents.REVERT).count()
+
+        response = self.client.get(
+            self.translate_url,
+            {"checksum": unit.checksum, "revert": change.id},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, target)
+        self.assertEqual(
+            unit.change_set.filter(action=ActionEvents.REVERT).count(), revert_count
+        )
+
+    def test_revert_csrf_protection(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        unit = self.get_unit()
+        change = Change.objects.content().filter(unit=unit).order()[0]
+        csrf_client = Client(enforce_csrf_checks=True)
+        csrf_client.force_login(self.user)
+        payload = {"checksum": unit.checksum, "revert": change.id}
+
+        response = csrf_client.post(self.translate_url, payload)
+
+        self.assertEqual(response.status_code, 403)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Nazdar svete!\n")
+
+        response = csrf_client.get(self.translate_url, {"checksum": unit.checksum})
+        document = html.fromstring(response.content)
+        form = document.xpath(
+            f'//form[.//button[@name="revert"][@value="{change.id}"]]'
+        )[0]
+        payload["csrfmiddlewaretoken"] = form.xpath(
+            './input[@name="csrfmiddlewaretoken"]/@value'
+        )[0]
+
+        response = csrf_client.post(form.get("action"), payload)
+
+        self.assertEqual(response.status_code, 302)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "")
 
     def test_revert_history_after_component_move_uses_current_translate_url(
         self,
@@ -2464,10 +2511,19 @@ class EditComplexTest(ViewTestCase):
 
         response = self.client.get(translate_url, {"checksum": unit.checksum})
 
-        self.assertContains(
-            response,
-            f'href="{translate_url}?checksum={unit.checksum}&amp;revert={change.id}"',
+        document = html.fromstring(response.content)
+        forms = document.xpath(
+            f'//form[.//button[@name="revert"][@value="{change.id}"]]'
         )
+        self.assertEqual(len(forms), 1)
+        self.assertEqual(
+            forms[0].get("action"), f"{translate_url}?checksum={unit.checksum}"
+        )
+        self.assertEqual(forms[0].get("method"), "post")
+        self.assertEqual(
+            forms[0].xpath('./input[@name="checksum"]/@value'), [unit.checksum]
+        )
+        self.assertEqual(len(forms[0].xpath('./input[@name="csrfmiddlewaretoken"]')), 1)
 
     def test_translate_get_search_stores_full_ids(self) -> None:
         Check.objects.all().delete()
@@ -3070,7 +3126,7 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(changes[0].target, join_plural(target_2))
         self.assert_backend(1)
         # revert it
-        self.client.get(
+        self.client.post(
             self.translate_url, {"checksum": unit.checksum, "revert": changes[0].id}
         )
         unit = self.get_unit(source)
@@ -3083,7 +3139,7 @@ class EditComplexTest(ViewTestCase):
         unit = self.get_unit(source)
         change = Change.objects.content().filter(unit=unit).order()[0]
 
-        self.client.get(
+        self.client.post(
             self.translate_url, {"checksum": unit.checksum, "revert": change.id}
         )
 
@@ -3104,7 +3160,7 @@ class EditComplexTest(ViewTestCase):
         self.assertIsNone(change.get_revert_state())
         self.assertFalse(change.revert(self.user))
 
-        response = self.client.get(
+        response = self.client.post(
             self.translate_url,
             {"checksum": unit.checksum, "revert": change.id},
             follow=True,
@@ -3124,7 +3180,7 @@ class EditComplexTest(ViewTestCase):
         unit = self.get_unit(source)
         change = Change.objects.content().filter(unit=unit).order()[0]
 
-        self.client.get(
+        self.client.post(
             self.translate_url, {"checksum": unit.checksum, "revert": change.id}
         )
 
