@@ -5438,8 +5438,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             {"new_base": gettext("Unrecognized base file for new translations.")}
         )
 
-    def clean_template(self) -> None:
-        """Validate template value."""
+    def clean_template_settings(self) -> None:
+        """Validate template settings without accessing repository files."""
         # Test for unexpected template usage
         if (
             self.template
@@ -5494,9 +5494,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
             msg = gettext("Using a .pot file as base file is unsupported.")
             raise ValidationError({"template": msg})
 
-        if not self.file_format:
-            return
+        if not self.has_template() and self.file_format_cls.monolingual:
+            msg = gettext(
+                "You can not use a monolingual translation without a base file."
+            )
+            raise ValidationError({"template": msg})
 
+    def clean_template(self) -> None:
+        """Validate template files in the repository."""
         # Validate template loading
         if self.has_template():
             self.create_template_if_missing()
@@ -5521,12 +5526,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         "Template language ({0}) does not match source language ({1})!"
                     ).format(lang_code, self.source_language.code)
                     raise ValidationError({"template": msg, "source_language": msg})
-
-        elif self.file_format_cls.monolingual:
-            msg = gettext(
-                "You can not use a monolingual translation without a base file."
-            )
-            raise ValidationError({"template": msg})
 
     def validate_repository_compatibility(self, *, retry: bool = True) -> None:
         """Validate repository URLs without merging remote changes."""
@@ -5625,10 +5624,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.repository_class.validate_component(self)
 
+        self.clean_branches()
+        self.clean_push_branch_settings()
+
         # Validate VCS repo
         try:
             self.set_default_branch()
             self.clean_branches()
+            self.clean_push_branch_settings()
             self.validate_repository_access(validate_worktree=validate_worktree)
         except RepositoryRedirectError as error:
             if redirect_retry and self.stage_repository_redirect("repo", error):
@@ -5661,7 +5664,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             msg = gettext("Could not update repository: %s") % text
             raise ValidationError({"repo": msg}) from error
 
-        self.clean_push_branch_settings()
         return None
 
     def has_only_push_url_changed(self, old: Component | None) -> bool:
@@ -5901,6 +5903,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     )
                 }
             )
+
+        self.clean_template_settings()
 
     def _clean_repository_settings(self) -> None:
         """Validate component settings that require repository access."""
