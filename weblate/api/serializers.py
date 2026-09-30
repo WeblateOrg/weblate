@@ -3756,6 +3756,7 @@ class LabelSerializer(serializers.ModelSerializer[Label]):
         model = Label
         fields = ("id", "name", "description", "color")
         read_only_fields = ("project",)
+        extra_kwargs: ClassVar[dict[str, Any]] = {"color": {"required": True}}
 
 
 class AnnouncementSerializer(serializers.ModelSerializer[Announcement]):

@@ -18528,6 +18528,19 @@ class LabelAPITest(APIBaseTest):
             code=403,
         )
 
+    def test_create_label_requires_color(self) -> None:
+        response = self.do_request(
+            "api:project-labels",
+            kwargs={"slug": self.component.project.slug},
+            method="post",
+            superuser=True,
+            request={"name": "L1"},
+            code=400,
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "color")
+        self.assertEqual(response.data["errors"][0]["code"], "required")
+        self.assertFalse(self.component.project.label_set.filter(name="L1").exists())
+
     def test_delete_label(self) -> None:
         """Test deleting a label from a project."""
         # First create a label
