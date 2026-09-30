@@ -76,6 +76,7 @@ Weblate 2026.10
 
 .. rubric:: Security fixes
 
+* Project administrators can no longer see blocked users' account e-mail addresses without site-wide user management permission.
 * Prevented App Store metadata files from following symbolic links outside the component repository.
 * Prevented client-supplied forwarded IP headers from bypassing anonymous API rate limits.
 * Prevented whitespace-only username searches from listing users through :http:get:`/api/users/`.
