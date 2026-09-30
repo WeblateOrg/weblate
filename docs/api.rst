@@ -1591,7 +1591,7 @@ Projects
 
    .. versionadded:: 5.3
 
-    Creates a label for a project.
+    Creates a label for a project. The label color is required.
 
     :param project: Project URL slug
     :type project: string
