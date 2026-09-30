@@ -2707,7 +2707,7 @@ Translations
     :type language: string
     :form boolean ignore_language: Ignore a mismatch between the declared file language and the translation language (defaults to ``false``), see :ref:`upload-ignore_language`
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
-    :form file file: Uploaded file
+    :form file file: Uploaded file or file content sent as a form field without a filename
     :form string author_email: Author e-mail
     :form string author_name: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``, ``add``), see :ref:`upload-method`
@@ -2721,6 +2721,18 @@ Translations
             -F file=@strings.xml \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/translations/hello/android/cs/file/
+
+    The ``file`` field can also be sent as form content without a filename, for
+    example when piping data from another command:
+
+    .. code-block:: sh
+
+        curl -X POST \
+            -F 'file=<strings.xml' \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/translations/hello/android/cs/file/
+
+    The content is used as submitted, byte for byte, so any file encoding works.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
