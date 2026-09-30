@@ -3734,18 +3734,17 @@ class LocalRepository(GitRepository):
             # Create empty repo
             if os.path.exists(target):
                 remove_tree(target)
-            repo.clone_from("local:")
-            # Populate files
-            success = False
             try:
+                repo.clone_from("local:")
+                # Populate files
                 yield repo
-                success = True
-            finally:
-                if success:
-                    # Add to repository
-                    repo.execute(["add", target], remote_op="none")
-                    if repo.needs_commit():
-                        repo.commit(commit_message)
+                # Add to repository
+                repo.execute(["add", target], remote_op="none")
+                if repo.needs_commit():
+                    repo.commit(commit_message)
+            except BaseException:
+                remove_tree(target, ignore_errors=True)
+                raise
 
     @classmethod
     def from_zip(cls, target: str, zipfile: BinaryIO) -> Self:
