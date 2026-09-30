@@ -1084,6 +1084,37 @@ class AIQualityAutomationTest(ComponentTestCase):
         self.assertEqual(clean.state, STATE_APPROVED)
         self.assertEqual(problematic.state, STATE_NEEDS_CHECKING)
 
+    def test_quality_does_not_route_action_changing_evaluation_input(self) -> None:
+        unit = self.units[0]
+        actions = [
+            self.quality_action(query=f"id:{unit.pk}"),
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:quality",
+                "settings": {
+                    "state": STATE_APPROVED,
+                    "add_flags": "python-format",
+                },
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        with patch.object(
+            OpenAITranslation, "evaluate_batch", return_value={unit.pk: []}
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertNotIn("python-format", unit.all_flags)
+        self.assertEqual(runner.trace[-1]["scope_units"], 0)
+
     def test_scope_query_and_empty_selection(self) -> None:
         selected, excluded = self.units
         action = self.quality_action()

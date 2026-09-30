@@ -270,6 +270,15 @@ class Runner:
                     self.record(node_path, "running", action=node["action"])
                     try:  # ruff: ignore[too-many-statements-in-try-clause]
                         scope = node.get("scope", "component")
+                        action_id = scope.removeprefix("result:")
+                        protected = (
+                            scope.startswith("result:")
+                            and action_id in self.ai_selections
+                        )
+                        invalidates_evaluation = changes_evaluation_input(node)
+                        if protected and invalidates_evaluation:
+                            for selection_id in self.ai_selections:
+                                self.selections[selection_id].unit_ids = set()
                         selection = self.selection(scope)
                         scope_units = (
                             selection.count(self.component)
@@ -280,17 +289,13 @@ class Runner:
                         output = execute_operation(
                             node, self.component, self.user, selection, affected
                         )
-                        action_id = scope.removeprefix("result:")
-                        protected = (
-                            scope.startswith("result:")
-                            and action_id in self.ai_selections
-                        )
-                        invalidates_evaluation = changes_evaluation_input(node)
-                        if self.ai_selections and invalidates_evaluation:
+                        if (
+                            not protected
+                            and self.ai_selections
+                            and invalidates_evaluation
+                        ):
                             for selection_id in self.ai_selections:
                                 self.selections[selection_id].unit_ids = set()
-                        if protected and invalidates_evaluation:
-                            affected.unit_ids = set()
                         if "id" in node:
                             self.context["results"][node["id"]] = output
                             self.selections[node["id"]] = affected

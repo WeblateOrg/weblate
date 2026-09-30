@@ -36,7 +36,6 @@ if TYPE_CHECKING:
 def lock_evaluation_context(component: Component) -> Component:
     """Lock mutable configuration used by AI evaluation requests."""
     with transaction.atomic():
-        component = Component.objects.select_for_update().get(pk=component.pk)
         project = Project.objects.select_for_update().get(pk=component.project_id)
         if project.workspace_id is not None:
             Workspace.objects.select_for_update().get(pk=project.workspace_id)
@@ -46,6 +45,7 @@ def lock_evaluation_context(component: Component) -> Component:
         components = list(
             Component.objects.filter(project=project).order_by("pk").select_for_update()
         )
+        component = next(item for item in components if item.pk == component.pk)
         translations = list(
             Translation.objects.filter(component__project=project)
             .order_by("pk")
