@@ -1245,24 +1245,26 @@ class ComponentTest(RepoTestCase):
         component.branch = "--orphan"
 
         with (
-            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            patch.object(Component, "sync_git_repo") as sync_git_repo,
             self.assertRaises(ValidationError) as cm,
         ):
             component.clean()
 
         self.assertIn("Invalid repository branch", str(cm.exception))
+        sync_git_repo.assert_not_called()
 
     def test_invalid_git_push_branch_validation(self) -> None:
         component = self.create_po_push()
         component.push_branch = "--orphan"
 
         with (
-            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            patch.object(Component, "sync_git_repo") as sync_git_repo,
             self.assertRaises(ValidationError) as cm,
         ):
             component.clean()
 
         self.assertIn("Invalid push branch", str(cm.exception))
+        sync_git_repo.assert_not_called()
 
     def test_invalid_gerrit_branch_full_ref_validation(self) -> None:
         if "gerrit" not in VCS_REGISTRY:
@@ -1950,6 +1952,37 @@ class ComponentValidationTest(RepoTestCase):
         ):
             self.component.full_clean()
 
+    def test_incompatible_template_settings_skip_repository_fetch(self) -> None:
+        self.component.repo = "https://example.com/repo.git"
+        self.component.template = "po/base.po"
+
+        with (
+            patch.object(Component, "sync_git_repo") as sync_git_repo,
+            self.assertRaisesMessage(
+                ValidationError,
+                "You can not use a base file for bilingual translation.",
+            ),
+        ):
+            self.component.clean()
+
+        sync_git_repo.assert_not_called()
+
+    def test_missing_monolingual_template_skips_repository_fetch(self) -> None:
+        self.component.repo = "https://example.com/repo.git"
+        self.component.file_format = "po-mono"
+        self.component.template = ""
+
+        with (
+            patch.object(Component, "sync_git_repo") as sync_git_repo,
+            self.assertRaisesMessage(
+                ValidationError,
+                "You can not use a monolingual translation without a base file.",
+            ),
+        ):
+            self.component.clean()
+
+        sync_git_repo.assert_not_called()
+
     def test_repoweb(self) -> None:
         """Invalid repoweb format."""
         self.component.repoweb = "http://{{foo}}/{{bar}}/%72"
@@ -2126,6 +2159,7 @@ class ComponentValidationTest(RepoTestCase):
             patch.object(
                 Component, "validate_repository_compatibility"
             ) as validate_repository_compatibility,
+            patch.object(Component, "clean_template_settings"),
             patch.object(Component, "clean_template"),
             patch.object(Component, "clean_new_lang"),
             patch.object(Component, "get_mask_matches", return_value=[]),

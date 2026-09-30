@@ -25,6 +25,7 @@ Weblate 2026.10
 
 .. rubric:: Improvements
 
+* Component configuration errors are reported before fetching the repository when repository files are not needed for validation.
 * Improved checks, automatic fixes, glossary matching, and machine translation for :ref:`independent alternatives in multivalue formats <format-multivalue>`.
 
 * Added a thumbnail picker to associate existing :ref:`screenshots <add-existing-screenshot>` with a string from the translation editor.
