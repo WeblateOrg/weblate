@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import IO, TYPE_CHECKING, Any, override
 
 from django.conf import settings
 from django.core.files.base import ContentFile
@@ -12,7 +12,7 @@ from django.http import QueryDict
 from rest_framework.parsers import DataAndFiles, MultiPartParser
 
 if TYPE_CHECKING:
-    from typing import BinaryIO
+    from collections.abc import Mapping
 
 # Latin-1 maps every byte to a single code point, so decoding is lossless.
 LOSSLESS_ENCODING = "latin-1"
@@ -26,11 +26,12 @@ class TranslationFileMultiPartParser(MultiPartParser):
     corrupts translation files that are not UTF-8.
     """
 
+    @override
     def parse(
         self,
-        stream: BinaryIO,
+        stream: IO[Any],
         media_type: str | None = None,
-        parser_context: dict[str, Any] | None = None,
+        parser_context: Mapping[str, Any] | None = None,
     ) -> DataAndFiles:
         parser_context = parser_context or {}
         encoding = parser_context.get("encoding", settings.DEFAULT_CHARSET)
@@ -55,7 +56,8 @@ class TranslationFileMultiPartParser(MultiPartParser):
                 )
             else:
                 data.setlist(recode(key), [recode(value) for value in values])
-        for upload in files.values():
-            if upload.name:
-                upload.name = recode(upload.name)
+        for _key, uploads in files.lists():
+            for upload in uploads:
+                if upload.name:
+                    upload.name = recode(upload.name)
         return DataAndFiles(data, files)
