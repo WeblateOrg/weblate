@@ -234,13 +234,14 @@ class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
         fast: bool = False,
         # ruff: ignore[unused-class-method-argument]
         file_format_params: FileFormatParams | None = None,
+        file_validator: Callable[[str], str] | None = None,
     ) -> bool:
         """Check whether base is valid."""
         if not base:
             return False
         try:
             if not fast:
-                cls(base, None)
+                cls(base, None, file_validator=file_validator)
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)

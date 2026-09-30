@@ -723,6 +723,7 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
         errors: list[Exception] | None = None,
         fast: bool = False,
         file_format_params: FileFormatParams | None = None,
+        file_validator: Callable[[str], str] | None = None,
     ) -> bool:
         """Check whether base is valid."""
         if not base:
@@ -731,7 +732,11 @@ class BaseTTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit
             return monolingual and cls.empty_file_template is not None
         try:
             if not fast:
-                cls(base, file_format_params=file_format_params)
+                cls(
+                    base,
+                    file_format_params=file_format_params,
+                    file_validator=file_validator,
+                )
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
@@ -2203,12 +2208,17 @@ class TS1Format(TranslationFormat[TS1Store, TS1Item, TS1Unit]):
         errors: list[Exception] | None = None,
         fast: bool = False,
         file_format_params: FileFormatParams | None = None,
+        file_validator: Callable[[str], str] | None = None,
     ) -> bool:
         if not base:
             return False
         try:
             if not fast:
-                cls(base, file_format_params=file_format_params)
+                cls(
+                    base,
+                    file_format_params=file_format_params,
+                    file_validator=file_validator,
+                )
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
@@ -2860,6 +2870,8 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
         existing_units: Iterable[Unit] | None = None,
         file_format_params: FileFormatParams | None = None,
         repo_temp_dir: str | Path | None = None,
+        *,
+        file_validator: Callable[[str], str] | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -2870,6 +2882,7 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
             existing_units=existing_units,
             file_format_params=file_format_params,
             repo_temp_dir=repo_temp_dir,
+            file_validator=file_validator,
         )
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
@@ -3759,6 +3772,8 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
         existing_units: Iterable[Unit] | None = None,
         file_format_params: FileFormatParams | None = None,
         repo_temp_dir: str | Path | None = None,
+        *,
+        file_validator: Callable[[str], str] | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -3769,6 +3784,7 @@ class TBXFormat[S: tbxfile, U: tbxunit, T: TBXUnit](TTKitFormat[S, U, T]):
             existing_units=existing_units,
             file_format_params=file_format_params,
             repo_temp_dir=repo_temp_dir,
+            file_validator=file_validator,
         )
         # Add language header if not present
         self.store.addheader()

@@ -557,6 +557,7 @@ class Translation(
                 existing_units=self.unit_set.all(),
                 file_format_params=self.component.file_format_params,
                 repo_temp_dir=self.component.repository.get_repo_temp_dir(),
+                file_validator=self.component.check_file_is_valid,
             )
 
     @cached_property
