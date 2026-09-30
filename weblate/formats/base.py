@@ -48,6 +48,7 @@ if TYPE_CHECKING:
 
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
+EXPAND_LANGS["nb"] = "nb_NO"
 
 MAX_DECLARED_LANGUAGES = 100
 
@@ -115,6 +116,7 @@ GOOGLEPLAY_CODES = {
     "mr": "mr-IN",
     "mn": "mn-MN",
     "ne": "ne-NP",
+    "nb": "no-NO",
     "nb_NO": "no-NO",
     "fa": "fa-IR",
     "pl": "pl-PL",

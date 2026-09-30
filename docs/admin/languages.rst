@@ -17,6 +17,12 @@ whenever :wladmin:`migrate` is executed, see
 :ref:`generic-upgrade-instructions`) the database of languages is updated to
 include all language definitions shipped in Weblate.
 
+Norwegian Bokmål now uses ``nb`` as its built-in language code. Weblate also
+accepts ``nb_NO`` for existing files and locally added languages. Language
+setup moves existing ``nb_NO`` languages to ``nb`` unless their translations
+or settings conflict with an existing ``nb`` language. Translation file names
+remain unchanged.
+
 This feature can be disabled using :setting:`UPDATE_LANGUAGES`. You can also
 enforce updating the database to match Weblate built-in data using
 :wladmin:`setuplang`.

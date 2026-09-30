@@ -522,6 +522,17 @@ class FormatFeatureDocumentationTest(SimpleTestCase):
 
 
 class FormatFeatureBehaviorTest(SimpleTestCase):
+    def test_norwegian_language_codes(self) -> None:
+        for code in ("nb", "nb_NO"):
+            with self.subTest(code=code):
+                self.assertEqual(
+                    TranslationFormat.get_language_posix_long(code), "nb_NO"
+                )
+                self.assertEqual(TranslationFormat.get_language_bcp_long(code), "nb-NO")
+                self.assertEqual(
+                    TranslationFormat.get_language_googleplay(code), "no-NO"
+                )
+
     CSV_PLURAL_CONTENT: ClassVar[bytes] = (
         b'"source","target","context","source_plural_form",'
         b'"target_plural_form","id_hash"\n'

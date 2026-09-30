@@ -69,6 +69,16 @@ class ScreenshotImageValidationTest(SimpleTestCase):
 
 
 class TesseractDataTest(SimpleTestCase):
+    def test_norwegian_ocr_language(self) -> None:
+        with (
+            patch("tesserocr.PyTessBaseAPI") as api,
+            patch("weblate.screenshots.views.ensure_tesseract_language") as ensure,
+        ):
+            for code in ("nb", "nb_NO"):
+                with self.subTest(code=code), get_tesseract(Language(code=code)):
+                    ensure.assert_called_with("nor")
+                    self.assertEqual(api.call_args.kwargs["lang"], "nor")
+
     @staticmethod
     def get_http_error(status_code: int) -> httpx2.HTTPStatusError:
         request = httpx2.Request("GET", "https://example.com/tesseract")

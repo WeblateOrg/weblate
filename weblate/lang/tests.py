@@ -39,6 +39,8 @@ from weblate.trans.tests.test_views import (
 from weblate.trans.util import join_plural
 from weblate.utils.state import STATE_TRANSLATED
 
+NORWEGIAN_CODE = "nb" if any(row[0] == "nb" for row in LANGUAGES) else "nb_NO"
+
 TEST_LANGUAGES = (
     ("cs_CZ", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
     ("cze_CZ", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
@@ -164,10 +166,10 @@ TEST_LANGUAGES = (
         True,
     ),
     ("xx", "xx", "ltr", "n != 1", "xx (generated) (xx)", True),
-    ("nb_NO", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
-    ("nb-NO", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
-    ("nb", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
-    ("nono", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
+    ("nb_NO", NORWEGIAN_CODE, "ltr", "n != 1", "Norwegian Bokmål", False),
+    ("nb-NO", NORWEGIAN_CODE, "ltr", "n != 1", "Norwegian Bokmål", False),
+    ("nb", NORWEGIAN_CODE, "ltr", "n != 1", "Norwegian Bokmål", False),
+    ("nono", NORWEGIAN_CODE, "ltr", "n != 1", "Norwegian Bokmål", False),
     (
         "b+zh+Hant+HK",
         "zh_Hant_HK",
@@ -209,8 +211,13 @@ TEST_LANGUAGE_GROUPS = (
     ("be", None, "be_Latn", BASE_PLUS_VARIANT),
     # Both the base language and a variant in UNDERSCORE_EXCEPTIONS as basic languages
     ("pt", None, "pt_BR", BASE_PLUS_VARIANT),
-    # 'nb' being alias for the 'nb_NO' language instead
-    ("nb", "nb_NO", DEFAULT_VARIANT_ONLY),
+    # Norwegian Bokmål is currently being migrated from nb_NO to nb.
+    (
+        "nb",
+        None if NORWEGIAN_CODE == "nb" else "nb_NO",
+        "nb_NO" if NORWEGIAN_CODE == "nb" else None,
+        BASE_LANGUAGE_ONLY if NORWEGIAN_CODE == "nb" else DEFAULT_VARIANT_ONLY,
+    ),
     # We no longer have standalone 'yue' and 'nan' languages, so keep their aliases 'yue_Hant' and 'nan_Hant' in basic languages instead
     ("yue", "yue_Hant", "yue_Hans", DEFAULT_VARIANT_ONLY),
     ("nan", "nan_Hant", "nan_Latn", DEFAULT_VARIANT_ONLY),

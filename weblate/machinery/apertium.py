@@ -38,6 +38,7 @@ LANGUAGE_MAP = {
     "fr": "fra",
     "sl": "slv",
     "sr": "hbs",
+    "nb": "nob",
     "nb_NO": "nob",
     "nn": "nno",
     "se": "sme",  # codespell:ignore sme
