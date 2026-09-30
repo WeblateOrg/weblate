@@ -219,7 +219,7 @@ class NavigationQueryTest(ViewTestCase):
                         )
                         self.assertEqual(parse_qs(urlsplit(link).query), expected)
 
-    def test_revert_links_without_request_context(self) -> None:
+    def test_revert_forms_without_request_context(self) -> None:
         unit = self.change_unit("Changed target", user=self.user)
         change = unit.change_set.latest("timestamp")
         for search_url, expected in (
@@ -235,16 +235,24 @@ class NavigationQueryTest(ViewTestCase):
                         ),
                     )
                 )
-                links = document.xpath('//a[contains(@href, "revert=")]/@href')
-                self.assertEqual(len(links), 1)
+                forms = document.xpath('//form[.//button[@name="revert"]]')
+                self.assertEqual(len(forms), 1)
+                form = forms[0]
+                self.assertEqual(form.get("method"), "post")
                 self.assertEqual(
-                    parse_qs(urlsplit(links[0]).query),
+                    parse_qs(urlsplit(form.get("action")).query),
                     {
                         **expected,
                         "checksum": [unit.checksum],
-                        "revert": [str(change.pk)],
                     },
                 )
+                self.assertEqual(
+                    form.xpath('./input[@name="checksum"]/@value'), [unit.checksum]
+                )
+                self.assertEqual(
+                    form.xpath('./button[@name="revert"]/@value'), [str(change.pk)]
+                )
+                self.assertFalse(document.xpath('//a[contains(@href, "revert=")]'))
 
     def test_project_sort_links(self) -> None:
         for index in range(10):
