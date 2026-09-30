@@ -127,6 +127,7 @@ Weblate 2026.10
 * :ref:`API authentication <api-generic>` now rejects unsupported authentication schemes, such as Basic, with HTTP 401, including when a valid browser session is present.
 * Notification subscription API responses now expose ``project`` and ``component`` as nullable URL strings instead of nested objects.
 * The former ``plainxliff`` and ``xliff2-placeables`` file formats are migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the ``xliff_placeables`` :ref:`file_format_params`.
+* Norwegian Bokmål now uses ``nb`` as its built-in language code while preserving ``nb_NO`` support, see :ref:`languages`.
 
 .. rubric:: Upgrading
 

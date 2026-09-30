@@ -12,6 +12,7 @@ from unittest.mock import patch
 from django.apps import apps
 from django.core.management import call_command
 from django.db.models.signals import post_migrate
+from django.test import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
 from weblate_language_data import languages, population
@@ -379,7 +380,9 @@ def norwegian_alias_data() -> Iterator[None]:
     }
     aliases["nb_no"] = "nb"
     populations = population.POPULATION.copy()
-    populations["nb"] = populations.pop("nb_NO")
+    if "nb" not in populations:
+        populations["nb"] = populations["nb_NO"]
+    populations.pop("nb_NO", None)
     with ExitStack() as stack:
         for obj, name, value in (
             (languages, "LANGUAGES", rename(languages.LANGUAGES)),
@@ -399,10 +402,33 @@ def norwegian_alias_data() -> Iterator[None]:
 class NorwegianAliasMigrationTest(LanguageMoveFixtures):
     def setUp(self) -> None:
         super().setUp()
-        self.source = Language.objects.get(code="nb_NO")
+        self.source, _created = Language.objects.get_or_create(
+            code="nb_NO", defaults={"name": "Norwegian Bokmål"}
+        )
+        self.source.plural_set.get_or_create(
+            source=Plural.SOURCE_DEFAULT,
+            defaults={"number": 2, "formula": "n != 1"},
+        )
         self.component.new_lang = "add"
         self.component.save()
         self.component.add_new_language(self.source, None)
+
+    def test_local_language_lookup(self) -> None:
+        self.assertEqual(Language.objects.fuzzy_get("nb_NO"), self.source)
+        self.assertEqual(Language.objects.fuzzy_get("nb-NO"), self.source)
+
+    def test_request_language_after_upgrade(self) -> None:
+        request = RequestFactory().get("/", HTTP_ACCEPT_LANGUAGE="nb-NO")
+        with norwegian_alias_data():
+            Language.objects.setup(update=True)
+            target = Language.objects.get(code="nb")
+            self.assertEqual(Language.objects.get_request_language(request), target)
+            self.assertEqual(
+                Language.objects.filter(translation__component=self.component)
+                .distinct()
+                .get_request_language(request),
+                target,
+            )
 
     @override_settings(UPDATE_LANGUAGES=True)
     def test_populated_upgrade(self) -> None:
@@ -457,16 +483,18 @@ class NorwegianAliasMigrationTest(LanguageMoveFixtures):
         with norwegian_alias_data():
             self.send_post_migrate()
             self.assertTrue(Language.objects.filter(code="nb_NO").exists())
-            self.assertFalse(Language.objects.filter(code="nb").exists())
             call_command("setuplang", stdout=StringIO())
             self.assertFalse(Language.objects.filter(code="nb_NO").exists())
             translation.refresh_from_db()
             self.assertEqual(translation.language.code, "nb")
 
     def test_conflict_does_not_block_other_aliases(self) -> None:
-        target = Language.objects.create(code="nb", name="Norwegian Bokmål")
-        target.plural_set.create(
-            source=Plural.SOURCE_DEFAULT, number=2, formula="n != 1"
+        target, _created = Language.objects.get_or_create(
+            code="nb", defaults={"name": "Norwegian Bokmål"}
+        )
+        target.plural_set.get_or_create(
+            source=Plural.SOURCE_DEFAULT,
+            defaults={"number": 2, "formula": "n != 1"},
         )
         self.component.add_new_language(target, None)
         other = Language.objects.auto_create("CZE")

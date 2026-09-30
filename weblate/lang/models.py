@@ -624,13 +624,13 @@ class LanguageQuerySet(models.QuerySet["Language", "Language"]):
         for accept_lang, _unused in parse_accept_lang_header(accept):
             if accept_lang == "en":
                 continue
-            try:
-                return self.get(code__iexact=accept_lang)
-            except Language.DoesNotExist:
-                try:
-                    return self.filter(code__iexact=accept_lang.replace("-", "_"))[0]
-                except IndexError:
-                    continue
+            language = self.try_get(code__iexact=accept_lang)
+            if language is None:
+                language = self.try_get(code__iexact=accept_lang.replace("-", "_"))
+            if language is None:
+                language = self.aliases_get(accept_lang)
+            if language is not None:
+                return language
         return None
 
     def search(self, query: str):

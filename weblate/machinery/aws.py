@@ -32,6 +32,7 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
     language_map: ClassVar[dict[str, str]] = {
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh",
+        "nb": "no",
         "nb_NO": "no",
     }
     settings_form = AWSMachineryForm

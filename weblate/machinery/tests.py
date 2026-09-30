@@ -424,6 +424,20 @@ AWS_LANGUAGES_RESPONSE = {
 }
 
 
+class NorwegianLanguageMappingTest(SimpleTestCase):
+    def test_both_codes_use_service_language(self) -> None:
+        with patch.object(ApertiumAPYTranslation, "all_langs", {"nob"}):
+            machines = (
+                (AWSTranslation({}), "no"),
+                (ApertiumAPYTranslation({}), "nob"),
+                (GoogleTranslation({}), "no"),
+            )
+            for machine, expected in machines:
+                for code in ("nb", "nb_NO"):
+                    with self.subTest(machine=machine.name, code=code):
+                        self.assertEqual(machine.map_language_code(code), expected)
+
+
 class BaseMachineTranslationTest(TestCase):
     """Testing of machine translation core."""
 
