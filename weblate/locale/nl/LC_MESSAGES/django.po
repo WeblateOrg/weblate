@@ -18,9 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-09-25 04:09+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-10-01 06:17+0000\n"
+"Last-Translator: Watchman89 <rplatte@hotmail.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -1500,16 +1499,11 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr "Twee-factor inloggen"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Authentication service URL"
 msgid "Evaluation service"
-msgstr "URL service voor authenticatie"
+msgstr "Evaluatiedienst"
 
-#, fuzzy
-#| msgid "Update frequency"
 msgid "Evaluation frequency"
-msgstr "Frequentie voor bijwerken"
+msgstr "Frequentie voor evaluatie"
 
 msgid "Disabled"
 msgstr "Uitgeschakeld"
@@ -1523,24 +1517,20 @@ msgstr "Wekelijks"
 msgid "Monthly"
 msgstr "Maandelijks"
 
-#, fuzzy
-#| msgid "Browse all translation changes"
 msgid "Evaluate translation changes"
-msgstr "Alle vertaalwijzigingen tonen"
+msgstr "Alle vertaalwijzigingen evalueren"
 
-#, fuzzy
-#| msgid "Remote repository updated"
 msgid "Evaluate repository updates"
-msgstr "Opslagruimte op afstand bijgewerkt"
+msgstr "Updates voor opslagruimte evalueren"
 
-#, fuzzy
-#| msgid "Plural equation"
 msgid "AI quality evaluation"
-msgstr "Meervoudsvergelijking"
+msgstr "AI kwaliteitsevaluatie"
 
 msgid ""
 "Evaluates existing translations using an LLM and records quality checks."
 msgstr ""
+"Evalueert bestaande vertalingen door middel van een LLM en slaat de "
+"kwaliteitscontroles op."
 
 msgid "Automatic translation"
 msgstr "Automatische vertaling"
@@ -2767,7 +2757,7 @@ msgid "This add-on is already installed on this component."
 msgstr "Deze uitbreiding is al op dit onderdeel geïnstalleerd."
 
 msgid "This add-on cannot be triggered manually."
-msgstr "Deze add-on kan niet handmatig worden gestart."
+msgstr "Deze add-on kan niet handmatig worden geactiveerd."
 
 msgid "Format the Java properties file"
 msgstr "Java propertiesbestand opmaken"
@@ -3938,19 +3928,16 @@ msgid "Adding strings is disabled in the component configuration."
 msgstr ""
 "Het toevoegen van tekenreeksen is uitgeschakeld in de onderdeelinstellingen."
 
-#, fuzzy
-#| msgid "Adding strings is disabled in the component configuration."
 msgid "Editing source strings is disabled in the component configuration."
 msgstr ""
-"Het toevoegen van tekenreeksen is uitgeschakeld in de onderdeelinstellingen."
+"Het aanpassen van brontekenreeksen is uitgeschakeld in de "
+"onderdeelinstellingen."
 
 msgid "The file format does not support this."
 msgstr "De bestandsindeling ondersteunt dit niet."
 
-#, fuzzy
-#| msgid "You do not have permission to edit glossary entries."
 msgid "You do not have permission to edit this glossary."
-msgstr "U hebt geen rechten om items voor de woordenlijst te bewerken."
+msgstr "U hebt geen rechten om deze woordenlijst te bewerken."
 
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
@@ -4013,102 +4000,89 @@ msgstr "De uitnodiging is ingetrokken."
 msgid "Accepted invitation to the %s team."
 msgstr "De uitnodiging van het %s-team is aanvaard."
 
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automation"
-msgstr "Automatische detectie"
+msgstr "Automatisering"
 
 msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
+"Voert vertalingsbewerkingen uit in volgorde, met voorwaarden en vertakkingen."
 
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "The component is outside this add-on's scope."
-msgstr "Dit onderdeel is onjuist opgezet."
+msgstr "Het onderdeel ligt buiten het bereik van deze add-on."
 
-#, fuzzy
-#| msgid "Category does not belong to this project."
 msgid "The change does not belong to this component."
-msgstr "De categorie behoort niet toe aan dit project."
+msgstr "De verandering behoort niet toe aan dit onderdeel."
 
-#, fuzzy
-#| msgid "Automatic translation mode"
 msgid "Automation nesting is too deep."
-msgstr "Automatische vertaalmodus"
+msgstr "Automatisch nesten is te diep."
 
 msgid "Automation definitions cannot exceed 64 KiB."
-msgstr ""
+msgstr "Automatiseringsdefinities kunnen niet groter zijn dan 64 KiB."
 
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "YAML aliases and tags are not supported."
-msgstr "De gekozen sortering wordt niet ondersteund."
+msgstr "YAML-aliasen en -labels wordt niet ondersteund."
 
-#, fuzzy
-#| msgid "Automatically translated strings"
 msgid "Automation keys must be strings."
-msgstr "Automatisch vertaalde tekenreeksen"
+msgstr "Automatiseringssleutels moeten tekenreeksen zijn."
 
 msgid "Invalid automation YAML or JSON."
-msgstr ""
+msgstr "Ongeldige automatiserings-YAML of -JSON."
 
-#, fuzzy, python-format
-#| msgid "%(email)s: %(error)s"
+#, python-format
 msgid "%(path)s: %(error)s"
-msgstr "%(email)s: %(error)s"
+msgstr "%(path)s: %(error)s"
 
 msgid "Automation exceeds 100 nodes or eight nesting levels."
-msgstr ""
+msgstr "Automatisering is groter dan 100 nodes of acht genestte lagen."
 
 msgid "Automation action IDs must be unique."
-msgstr ""
+msgstr "Automatiseringsactie-IDs moeten uniek zijn."
 
 #, python-format
 msgid "%(path)s: trigger scope requires only change triggers."
 msgstr ""
+"%(path)s: bereik van een activering vereist alleen veranderingstriggers."
 
 #, python-format
 msgid "%(path)s: result scope requires an earlier action ID."
-msgstr ""
+msgstr "%(path)s: resultatenbereik vereist een eerdere actie-ID."
 
 #, python-format
 msgid "%(path)s: not requires exactly one condition."
-msgstr ""
+msgstr "%(path)s: \"not\" vereist precies één voorwaarde."
 
-#, fuzzy
-#| msgid "Automatic component list assignment"
 msgid "Automation context is too large."
-msgstr "Automatische onderdelenlijsttoewijzing"
+msgstr "Automatiseringscontext is te groot."
 
 msgid "CEL validation or evaluation failed or exceeded its resource limit."
 msgstr ""
+"CEL-validatie of -evaluatie mislukt of overschrijdde zijn bronnenlimiet."
 
-#, fuzzy, python-format
-#| msgid "Invalid repository branch: %s"
+#, python-format
 msgid "Invalid CEL condition: %s"
-msgstr "Ongeldige branch opslagruimte: %s"
+msgstr "Ongeldige CEL-voorwaarde: %s"
 
 msgid "Workflow"
 msgstr "Werkmethode"
 
 msgid "Enter an automation definition as YAML or JSON."
-msgstr ""
+msgstr "Voer een automatiseringsdefinitie in als YAML of JSON."
 
-#, fuzzy
-#| msgid "Create component"
 msgid "Preview component ID"
-msgstr "Onderdeel aanmaken"
+msgstr "Geef voorbeeld onderdeel-ID weer"
 
 msgid "Required for inherited automations. Used only for preview."
 msgstr ""
+"Vereist voor geërfde automatiseringen. Wordt alleen gebruikt door "
+"voorbeeldweergave."
 
-#, fuzzy
-#| msgid "Review changes"
 msgid "Preview change ID"
-msgstr "Wijzigingen beoordelen"
+msgstr "Voorbeeldweergave veranderings-ID"
 
 msgid "Optional event context. Used only for preview."
 msgstr ""
+"Optionele context voor gebeurtenissen. Wordt alleen gebruikt voor de "
+"voorbeeldweergave."
 
 msgid "Additional message"
 msgstr "Aanvullend bericht"
@@ -4293,55 +4267,44 @@ msgid "Cannot merge such a billing."
 msgstr "Een dergelijke factuur kan niet worden samengevoegd."
 
 msgid "Minor"
-msgstr ""
+msgstr "Klein"
 
 msgid "Major"
-msgstr ""
+msgstr "Groot"
 
 msgid "Critical"
 msgstr "Kritisch"
 
 msgid "AI: Accuracy"
-msgstr ""
+msgstr "AI: Accuraatheid"
 
 msgid "The evaluation detected a change in meaning."
-msgstr ""
+msgstr "De evaluatie detecteerde een verandering van betekenis."
 
-#, fuzzy
-#| msgid "Frequency"
 msgid "AI: Fluency"
-msgstr "Frequentie"
+msgstr "AI: Vloeiendheid"
 
-#, fuzzy
-#| msgid "The translation base language is editable."
 msgid "The evaluation detected a language quality issue."
-msgstr "De basistaal van de vertaling kan worden aangepast."
+msgstr "De evaluatie detecteerde een probleem met de taalkwaliteit."
 
-#, fuzzy
-#| msgid "Terminology"
 msgid "AI: Terminology"
-msgstr "Terminologie"
+msgstr "AI: Terminologie"
 
 msgid "The evaluation detected incorrect terminology."
-msgstr ""
+msgstr "De evaluatie detecteerde incorrecte terminologie."
 
 msgid "AI: Style"
-msgstr ""
+msgstr "AI: Stijl"
 
-#, fuzzy
-#| msgid "The documentation has detailed instructions"
 msgid "The evaluation detected a style or instruction mismatch."
-msgstr "De documentatie bevat uitgebreide instructies"
+msgstr "De evaluatie detecteerde een verschil in stijl of instructie."
 
-#, fuzzy
-#| msgid "Vue I18n formatting"
 msgid "AI: Formatting"
-msgstr "Vue i18n-opmaak"
+msgstr "AI: Opmaak"
 
-#, fuzzy
-#| msgid "Translation is missing some placeholders."
 msgid "The evaluation detected a formatting or placeholder issue."
-msgstr "Er ontbreekt een aantal plaatsvervangers in de vertaling."
+msgstr ""
+"De evaluatie detecteerde een probleem met opmaak of tijdelijke aanduidingen."
 
 msgid "AngularJS interpolation string"
 msgstr "AngularJS-interpolatietekenreeks"
@@ -5616,35 +5579,24 @@ msgstr "CSV-bestand met meerdere waarden"
 
 msgid "Editing Fluent messages with attributes or selectors is not supported."
 msgstr ""
+"Aanpassen van Fluent berichten met attributen of selectors is niet "
+"ondersteund."
 
-#, fuzzy
-#| msgid "The file format does not support updating source strings."
 msgid "This file format does not support editing keys or context."
-msgstr ""
-"De bestandsindeling ondersteunt het bijwerken van brontekenreeksen niet."
+msgstr "Dit bestandsformaat ondersteunt geen aanpassingssleutels of context."
 
-#, fuzzy
-#| msgid "A user with this e-mail already exists."
 msgid "A string with this identity already exists."
-msgstr "Er is al een gebruiker met dit e-mailadres."
+msgstr "Een tekenreeks met deze identiteit bestaat al."
 
-#, fuzzy
-#| msgid "The file format does not support updating source strings."
 msgid "This file format does not support editing source strings."
 msgstr ""
-"De bestandsindeling ondersteunt het bijwerken van brontekenreeksen niet."
+"Dit bestandsformaat ondersteunt het aanpassen van brontekenreeksen niet."
 
-#, fuzzy
-#| msgid "Update source strings upload is not supported with this format."
 msgid "Editing source strings with inline markup is not supported."
-msgstr ""
-"Bijwerken van geüploade brontekenreeksen wordt niet ondersteund met deze "
-"indeling."
+msgstr "Aanpassen van brontekenreeksen met inline opmaak is niet ondersteund."
 
-#, fuzzy
-#| msgid "This role cannot be assigned to this team."
 msgid "The key cannot be represented in this file format."
-msgstr "Deze rol kan niet worden toegewezen aan dit team."
+msgstr "De sleutel kan niet weergegeven worden in dit bestandsformaat."
 
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
@@ -5944,6 +5896,8 @@ msgid ""
 "Retires builds this many days after their first registration. Re-registering "
 "a build does not extend its age."
 msgstr ""
+"Trekt builds zo veel dagen na hun eerste registratie terug. Her-registreren "
+"van een build verlengt de levensduur niet."
 
 msgid "Maximum retained versions"
 msgstr "Maximale aantal behouden versies"
@@ -5952,6 +5906,9 @@ msgid ""
 "Limits retained builds across all package names. A build is retired when "
 "either this limit or the maximum age is reached."
 msgstr ""
+"Beperkt bewaarde builds tussen alle pakketnamen. Een build wordt "
+"teruggetrokken als deze limiet is bereikt of als de maximale levensduur is "
+"bereikt."
 
 msgid "Kotlin SDK CDN"
 msgstr "Kotlin SDK CDN"
@@ -8401,13 +8358,11 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "Helaas, uw browser ondersteunt geen WebAuthn."
 
-#, fuzzy
-#| msgid "Add-ons"
 msgid "Add-on API"
-msgstr "Add-ons"
+msgstr "Add-on API"
 
 msgid "Use this base URL to access the add-on API:"
-msgstr ""
+msgstr "Gebruik deze basis-URL om toegang te krijgen tot de add-on-API:"
 
 msgid "API root"
 msgstr "API-basis"
@@ -8416,7 +8371,7 @@ msgid "Configuration"
 msgstr "Configuratie"
 
 msgid "API"
-msgstr ""
+msgstr "API"
 
 msgid "Logs"
 msgstr "Logs"
@@ -8445,10 +8400,8 @@ msgstr "Geen onderdelen gevonden."
 msgid "Configure add-on"
 msgstr "Uitbreiding instellen"
 
-#, fuzzy
-#| msgid "Review changes"
 msgid "Preview without changes"
-msgstr "Wijzigingen beoordelen"
+msgstr "Toon voorbeeld zonder veranderingen"
 
 msgid "This add-on has no settings."
 msgstr "Deze uitbreiding heeft geen instellingen."
@@ -8462,6 +8415,8 @@ msgid ""
 "No operations were executed. Conditions depending on planned changes are "
 "shown as unknown."
 msgstr ""
+"Er zijn geen bewerkingen uitgevoerd. Voorwaarden die afhangen van geplande "
+"verandering zijn getoond als onbekend."
 
 msgid "Run add-on"
 msgstr "Add-on uitvoeren"
@@ -8671,9 +8626,11 @@ msgid ""
 "See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
 "library setup."
 msgstr ""
+"Zie ook de <a href=\"%(url)s\">Kotlin SDK opslagruimte</a> voor Gradle plug-"
+"in en bibliotheekinstallatie."
 
 msgid "Configure the Kotlin SDK Gradle plugin with these values:"
-msgstr ""
+msgstr "Configureer de Kotlin SDK Gradle plug-in met deze waarden:"
 
 msgid ""
 "Replace the placeholder with a project-scoped API token that can edit this "
@@ -10049,11 +10006,8 @@ msgstr "Wijzigingen aan opslagruimte"
 msgid "Browse all repository changes"
 msgstr "Alle wijzigingen in de opslagplaats bekijken"
 
-#, fuzzy
-#| msgctxt "Number of strings"
-#| msgid "Waiting for review"
 msgid "Nothing to preview."
-msgstr "Wachten op beoordeling"
+msgstr "Niets om te previewen."
 
 msgid "Shortcut"
 msgstr "Sneltoets"
@@ -10889,7 +10843,7 @@ msgstr ""
 "Als u de back-ups wilt herstellen, noteer dan onderstaande inloggegevens."
 
 msgid "Cloud backups for self-hosted Weblate"
-msgstr ""
+msgstr "Cloud back-ups voor zelf-gehostte Weblate"
 
 msgid ""
 "Back up Weblate running in your own environment. No hosting or separate "
