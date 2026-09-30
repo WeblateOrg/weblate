@@ -2329,17 +2329,25 @@ class ProjectViewSet(
         if request.method == "POST":
             if not request.user.has_perm("project.edit", obj):
                 self.permission_denied(request, "Can not create components")
-            with transaction.atomic():
-                serializer = ComponentSerializer(
-                    data=request.data, context={"request": request, "project": obj}
-                )
-                serializer.is_valid(raise_exception=True)
-                serializer.save()
-                component = serializer.instance
-                if component is None:
-                    msg = "Component serializer did not produce an instance"
-                    raise RuntimeError(msg)
-                component.post_create(self.request.user, origin="api")
+            serializer = ComponentSerializer(
+                data=request.data, context={"request": request, "project": obj}
+            )
+            created = False
+            try:
+                with transaction.atomic():
+                    serializer.is_valid(raise_exception=True)
+                    serializer.save()
+                    component = serializer.instance
+                    if component is None:
+                        msg = "Component serializer did not produce an instance"
+                        raise RuntimeError(msg)
+                    component.post_create(self.request.user, origin="api")
+                created = True
+            finally:
+                if created:
+                    serializer.preserve_uploaded_repository()
+                else:
+                    serializer.cleanup_uploaded_repository()
 
             data = serializer.data
             return Response(

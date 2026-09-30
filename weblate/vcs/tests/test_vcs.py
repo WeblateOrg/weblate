@@ -5739,6 +5739,21 @@ remove the file manually to continue.
             LocalRepository.from_zip(target, archive)
         self.assertFalse(os.path.exists(target))
 
+    def test_from_zip_removes_repository_after_extraction_failure(self) -> None:
+        archive = BytesIO()
+        with ZipFile(archive, "w") as zipfile:
+            zipfile.writestr("translation.po", "msgid ''\nmsgstr ''\n")
+        archive.seek(0)
+        target = os.path.join(self.tempdir, "from-zip-extraction-failure")
+
+        with (
+            patch("weblate.vcs.git.extract_zip_member", side_effect=OSError("failed")),
+            self.assertRaisesRegex(OSError, "failed"),
+        ):
+            LocalRepository.from_zip(target, archive)
+
+        self.assertFalse(os.path.exists(target))
+
     def test_from_zip_excludes_casefolded_vcs_metadata(self) -> None:
         metadata_paths = (
             ".svn/entries",

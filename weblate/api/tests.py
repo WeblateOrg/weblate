@@ -6781,6 +6781,11 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(Component.objects.count(), 3)
 
     def test_create_component_docfile_mask_outside(self) -> None:
+        repo_path = Component(
+            project=self.project,
+            name="Local project",
+            slug="local-project",
+        ).full_path
         with open(TEST_DOC, "rb") as handle:
             self.do_request(
                 "api:project-components",
@@ -6798,6 +6803,7 @@ class ProjectAPITest(APIBaseTest):
                 },
             )
         self.assertEqual(Component.objects.count(), 2)
+        self.assertFalse(os.path.exists(repo_path))
 
     def test_create_component_docfile_missing(self) -> None:
         with open(TEST_DOC, "rb") as handle:
@@ -6888,6 +6894,143 @@ class ProjectAPITest(APIBaseTest):
             )
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
+        self.assertTrue(
+            os.path.isdir(Component.objects.get(slug="local-project").full_path)
+        )
+
+    def test_create_component_zipfile_validation_cleanup(self) -> None:
+        repo_path = Component(
+            project=self.project,
+            name="Invalid local project",
+            slug="invalid-local-project",
+        ).full_path
+        with open(TEST_ZIP, "rb") as handle:
+            response = self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "zipfile": handle,
+                    "name": "Invalid local project",
+                    "slug": "invalid-local-project",
+                    "filemask": "*.po",
+                    "template": "project.pot",
+                    "file_format": "po",
+                    "new_lang": "none",
+                },
+            )
+        self.assertIn(
+            "You can not use a base file for bilingual translation.",
+            str(response.data),
+        )
+        self.assertFalse(
+            Component.objects.filter(slug="invalid-local-project").exists()
+        )
+        self.assertFalse(os.path.exists(repo_path))
+
+    def test_create_component_zipfile_post_create_cleanup(self) -> None:
+        repo_path = Component(
+            project=self.project,
+            name="Failed local project",
+            slug="failed-local-project",
+        ).full_path
+        self.authenticate(superuser=True)
+        with (
+            open(TEST_ZIP, "rb") as handle,
+            patch.object(Component, "post_create", side_effect=RuntimeError("failed")),
+            self.assertRaisesRegex(RuntimeError, "failed"),
+        ):
+            self.client.post(
+                reverse("api:project-components", kwargs=self.project_kwargs),
+                {
+                    "zipfile": handle,
+                    "name": "Failed local project",
+                    "slug": "failed-local-project",
+                    "filemask": "*.po",
+                    "new_base": "project.pot",
+                    "file_format": "po",
+                    "new_lang": "none",
+                },
+                format="multipart",
+            )
+        self.assertFalse(Component.objects.filter(slug="failed-local-project").exists())
+        self.assertFalse(os.path.exists(repo_path))
+
+    def prepare_uploaded_repository_cleanup(
+        self, slug: str
+    ) -> tuple[ComponentSerializer, Component, Path]:
+        component = Component(
+            project=self.project,
+            name=slug,
+            slug=slug,
+            vcs="local",
+            repo="local:",
+            branch="main",
+        )
+        path = Path(component.full_path)
+        path.mkdir(parents=True, exist_ok=True)
+        (path / "sentinel").touch()
+        serializer = ComponentSerializer()
+        serializer.track_uploaded_repository(component)
+        return serializer, component, path
+
+    def test_uploaded_repository_cleanup_preserves_category_path(self) -> None:
+        Category.objects.create(
+            project=self.project,
+            name="concurrent-category",
+            slug="concurrent-category",
+        )
+        serializer, _component, path = self.prepare_uploaded_repository_cleanup(
+            "concurrent-category"
+        )
+        child_path = path / "child" / ".git"
+        child_path.mkdir(parents=True)
+
+        serializer.cleanup_uploaded_repository()
+
+        self.assertTrue((path / "sentinel").exists())
+        self.assertTrue(child_path.exists())
+
+    def test_uploaded_repository_cleanup_uses_exact_slug(self) -> None:
+        serializer, component, path = self.prepare_uploaded_repository_cleanup(
+            self.component.slug.upper()
+        )
+        self.assertFalse(serializer.uploaded_repository_is_owned(component))
+        lock = component.repository.lock.lock_object
+
+        def assert_locked(_component: Component) -> bool:
+            self.assertTrue(lock.is_locked)
+            return False
+
+        with patch.object(
+            serializer,
+            "uploaded_repository_is_owned",
+            side_effect=assert_locked,
+        ):
+            serializer.cleanup_uploaded_repository()
+
+        self.assertFalse(path.exists())
+
+    def test_uploaded_repository_cleanup_retries_database_error(self) -> None:
+        serializer, _component, path = self.prepare_uploaded_repository_cleanup(
+            "cleanup-retry"
+        )
+        with (
+            patch.object(
+                serializer,
+                "uploaded_repository_is_owned",
+                side_effect=DatabaseError("failed"),
+            ),
+            self.assertLogs("weblate.api", level="ERROR"),
+        ):
+            serializer.cleanup_uploaded_repository()
+        self.assertTrue(path.exists())
+
+        serializer.cleanup_uploaded_repository()
+
+        self.assertFalse(path.exists())
 
     @override_settings(COMPONENT_ZIP_UPLOAD_MAX_SIZE=1)
     def test_create_component_zipfile_too_big(self) -> None:
