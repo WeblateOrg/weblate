@@ -17,6 +17,7 @@ from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
 
 if TYPE_CHECKING:
+    from weblate.addons.ai import EvaluatedUnitSnapshot
     from weblate.auth.models import User
     from weblate.trans.models import Component
     from weblate.trans.models.unit import UnitQuerySet
@@ -29,6 +30,9 @@ class UnitSelection:
     unit_ids: set[int] | None = None
     source_unit_ids: set[int] = field(default_factory=set)
     expand_source_ids: set[int] = field(default_factory=set)
+    # Non-None marks an AI-derived scope. Each entry binds an evaluated target
+    # to the exact target and source content that may later be approved.
+    unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None
 
     def queryset(self, component: Component) -> UnitQuerySet:
         units = Unit.objects.filter(translation__component=component)
@@ -84,6 +88,16 @@ def automatic_translation(
     if affected is not None:
         affected.unit_ids = auto.affected_unit_ids
         affected.source_unit_ids = auto.affected_source_unit_ids
+        if selection is not None and selection.unit_snapshots is not None:
+            affected.unit_snapshots = (
+                {
+                    unit_id: selection.unit_snapshots[unit_id]
+                    for unit_id in auto.affected_unit_ids
+                    if unit_id in selection.unit_snapshots
+                }
+                if settings["mode"] == "suggest"
+                else {}
+            )
     return {
         "component": component.pk,
         "updated": auto.updated,
@@ -118,9 +132,16 @@ def bulk_edit(
         project=component.project,
         affected_unit_ids=affected_ids,
         affected_source_unit_ids=affected_sources,
+        expected_unit_snapshots=selection.unit_snapshots,
     )
     if affected is not None:
         affected.unit_ids = affected_ids
         affected.source_unit_ids = affected_sources
         affected.expand_source_ids = affected_ids & affected_sources
+        if selection.unit_snapshots is not None:
+            affected.unit_snapshots = {
+                unit_id: selection.unit_snapshots[unit_id]
+                for unit_id in affected_ids
+                if unit_id in selection.unit_snapshots
+            }
     return {"component": component.pk, "updated": updated}
