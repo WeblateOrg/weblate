@@ -113,6 +113,7 @@ Weblate 2026.10
 * Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as untranslatable when translating in their source language.
 * Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with inherited licenses and other inherited settings.
 * Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
+* Suggesting an unchanged :ref:`glossary <glossary>` translation with an updated explanation no longer rejects the suggestion.
 
 .. rubric:: Compatibility
 
