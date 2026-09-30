@@ -7,12 +7,15 @@
 
 from __future__ import annotations
 
+from typing import cast
+
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.lang.models import get_default_lang
+from weblate.trans.forms import ComponentCreateForm, VCSParamsField
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.views import get_form_data
@@ -127,6 +130,21 @@ class ComponentVCSParamsTest(ViewTestCase):
 
     def test_default_is_empty(self) -> None:
         self.assertEqual(self.component.vcs_params, {})
+
+    def test_create_form_changed_data_with_json_initial(self) -> None:
+        form = ComponentCreateForm(
+            self.get_request(),
+            data={
+                "initial-vcs_params": "{}",
+                "vcs_params_create_merge_request": "on",
+            },
+            initial={"vcs_params": {}},
+        )
+
+        self.assertIn("vcs_params", form.changed_data)
+        field = cast("VCSParamsField", form.fields["vcs_params"])
+        values = field.widget.decompress('{"create_merge_request": false}')
+        self.assertIs(values[field.fields_order.index("create_merge_request")], False)
 
     def test_unknown_param_rejected(self) -> None:
         self.component.vcs_params = {"does_not_exist": True}
