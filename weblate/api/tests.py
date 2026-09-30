@@ -36,7 +36,8 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
-from rest_framework.test import APITestCase
+from rest_framework.request import Request
+from rest_framework.test import APIRequestFactory, APITestCase
 from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import (
@@ -60,6 +61,7 @@ from weblate.api.docs import (
     VCS_ENUM_SCHEMA_NAME,
     document_all_static_vcs_choices,
 )
+from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
     CategorySerializer,
     CommentSerializer,
@@ -157,6 +159,85 @@ TEST_DOC = get_test_file("cs.html")
 TEST_ZIP = get_test_file("translations.zip")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_SCREENSHOT = get_test_file("screenshot.png")
+
+
+def encode_multipart_form_field(boundary: str, content: str | bytes) -> bytes:
+    if isinstance(content, str):
+        content = content.encode()
+    return b"\r\n".join(
+        [
+            f"--{boundary}".encode(),
+            b'Content-Disposition: form-data; name="file"',
+            b"",
+            content,
+            f"--{boundary}--".encode(),
+            b"",
+        ]
+    )
+
+
+def encode_multipart_form(
+    boundary: str,
+    *,
+    file_content: bytes,
+    fields: dict[str, bytes] | None = None,
+) -> bytes:
+    parts: list[bytes] = [
+        f"--{boundary}".encode(),
+        b'Content-Disposition: form-data; name="file"',
+        b"",
+        file_content,
+    ]
+    for key, value in (fields or {}).items():
+        parts.extend(
+            [
+                f"--{boundary}".encode(),
+                f'Content-Disposition: form-data; name="{key}"'.encode(),
+                b"",
+                value,
+            ]
+        )
+    parts.extend([f"--{boundary}--".encode(), b""])
+    return b"\r\n".join(parts)
+
+
+class TranslationFileMultiPartParserTest(SimpleTestCase):
+    def parse_multipart(self, body: bytes) -> Request:
+        factory = APIRequestFactory()
+        return Request(
+            factory.post("/", body, content_type=MULTIPART_CONTENT),
+            parsers=[TranslationFileMultiPartParser()],
+        )
+
+    def test_preserves_non_utf8_file_field(self) -> None:
+        raw_bytes = "Ahoj světe".encode("iso-8859-2")
+        request = self.parse_multipart(
+            encode_multipart_form(BOUNDARY, file_content=raw_bytes)
+        )
+        upload = request.FILES["file"]
+        self.assertEqual(upload.name, "upload")
+        self.assertEqual(upload.read(), raw_bytes)
+
+    def test_redecodes_other_fields(self) -> None:
+        request = self.parse_multipart(
+            encode_multipart_form(
+                BOUNDARY,
+                file_content=b"content",
+                fields={"author_name": "Jiří".encode()},
+            )
+        )
+        self.assertEqual(request.data["author_name"], "Jiří")
+
+    def test_preserves_non_ascii_filename(self) -> None:
+        raw_bytes = b'msgid ""\nmsgstr ""\n'
+        filename = "tést.po"
+        body = encode_multipart(
+            BOUNDARY, {"file": SimpleUploadedFile(filename, raw_bytes)}
+        )
+        request = self.parse_multipart(body)
+        upload = request.FILES["file"]
+        self.assertEqual(upload.name, filename)
+        self.assertEqual(upload.read(), raw_bytes)
 
 
 class SettingsAPIFieldsTest(APITestCase):
@@ -13010,16 +13091,31 @@ class TranslationAPITest(APIBaseTest):
     @override_settings(TRANSLATION_UPLOAD_MAX_SIZE=1)
     def test_upload_too_big(self) -> None:
         self.authenticate()
-        with open(TEST_PO, "rb") as handle:
-            response = self.client.put(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": handle},
+        content = Path(TEST_PO).read_bytes()
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        with open(TEST_PO, "rb") as file_handle:
+            uploads: tuple[tuple[str, object], ...] = (
+                ("file", file_handle),
+                ("bytes", content),
             )
+            for upload_name, upload in uploads:
+                with self.subTest(upload=upload_name):
+                    if upload_name == "bytes":
+                        response = self.client.generic(
+                            "PUT",
+                            url,
+                            encode_multipart_form_field(BOUNDARY, upload),  # type: ignore[arg-type]
+                            content_type=MULTIPART_CONTENT,
+                        )
+                    else:
+                        response = self.client.put(url, {"file": upload})
 
-        self.assertEqual(response.status_code, 400)
-        self.assertContains(
-            response, "Uploaded translation file is too big.", status_code=400
-        )
+                    self.assertEqual(response.status_code, 400)
+                    self.assertContains(
+                        response,
+                        "Uploaded translation file is too big.",
+                        status_code=400,
+                    )
 
     def test_upload_parse_error(self) -> None:
         self.authenticate()
@@ -13236,11 +13332,51 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_content(self) -> None:
         self.authenticate()
-        response = self.client.put(
-            reverse("api:translation-file", kwargs=self.translation_kwargs),
-            {"file": Path(TEST_PO).read_bytes()},
+        content = Path(TEST_PO).read_bytes()
+        expected = {
+            "accepted": 1,
+            "count": 4,
+            "not_found": 0,
+            "result": True,
+            "skipped": 0,
+            "total": 4,
+        }
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        translation = self.component.translation_set.get(language_code="cs")
+        for upload_name, upload in (("str", content.decode()), ("bytes", content)):
+            with self.subTest(upload=upload_name):
+                unit = translation.unit_set.get(source="Hello, world!\n")
+                unit.target = ""
+                unit.state = STATE_EMPTY
+                unit.save()
+                changes_start = self.component.change_set.count()
+                if isinstance(upload, str):
+                    response = self.client.put(url, {"file": upload})
+                else:
+                    response = self.client.generic(
+                        "PUT",
+                        url,
+                        encode_multipart_form_field(BOUNDARY, upload),
+                        content_type=MULTIPART_CONTENT,
+                    )
+                self.assertEqual(response.data, expected)
+                unit = translation.unit_set.get(source="Hello, world!\n")
+                self.assertEqual(unit.target, "Ahoj světe!\n")
+                self.assertEqual(unit.state, STATE_TRANSLATED)
+                self.assertEqual(self.component.project.stats.suggestions, 0)
+                self.check_upload_changes(changes_start, 2)
+
+    def test_upload_content_empty(self) -> None:
+        self.authenticate()
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        response = self.client.generic(
+            "PUT",
+            url,
+            encode_multipart_form_field(BOUNDARY, b""),
+            content_type=MULTIPART_CONTENT,
         )
         self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data["errors"][0]["attr"], "file")
 
     def test_upload_conflicts(self) -> None:
         self.authenticate()
@@ -13366,10 +13502,32 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_invalid(self) -> None:
         self.authenticate()
-        response = self.client.put(
-            reverse("api:translation-file", kwargs=self.translation_kwargs)
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        cases: tuple[tuple[str, dict[str, object] | None, bytes | None], ...] = (
+            ("missing", None, None),
+            ("empty_str", {"file": ""}, None),
+            ("empty_bytes", None, encode_multipart_form_field(BOUNDARY, b"")),
         )
-        self.assertEqual(response.status_code, 400)
+        for case_name, data, body in cases:
+            with self.subTest(case=case_name):
+                if body is None:
+                    response = self.client.put(url, data)
+                else:
+                    response = self.client.generic(
+                        "PUT",
+                        url,
+                        body,
+                        content_type=MULTIPART_CONTENT,
+                    )
+                self.assertEqual(response.status_code, 400)
+                if case_name == "missing":
+                    continue
+                self.assertEqual(response.data["errors"][0]["attr"], "file")
+                self.assertEqual(response.data["errors"][0]["code"], "empty")
+                self.assertEqual(
+                    response.data["errors"][0]["detail"],
+                    "The submitted file is empty.",
+                )
 
     def test_upload_error(self) -> None:
         self.authenticate()
