@@ -328,30 +328,6 @@ class BaseLLMTranslation(BatchMachineTranslation):
         """Evaluate one unit using the same contract as batch evaluation."""
         return self.evaluate_batch([unit])[unit.pk]
 
-    def get_evaluation_dependency_candidates(self, units: list[Unit]) -> list[Unit]:
-        """Return units that can contribute context to an evaluation request."""
-        candidates: dict[int, Unit] = {}
-        for unit in units:
-            component = unit.translation.component
-            secondary_language = self._get_effective_secondary_language(component)
-            secondary_language_id = self._get_language_id(secondary_language)
-            if secondary_language_id not in {
-                None,
-                unit.translation.language_id,
-                component.source_language_id,
-            }:
-                for candidate in unit.source_unit.unit_set.filter(
-                    translation__language_id=secondary_language_id
-                ).exclude(pk=unit.pk):
-                    candidates[candidate.pk] = candidate
-        fetch_glossary_terms(units, include_variants=False)
-        for term in chain.from_iterable(
-            get_glossary_terms(unit, include_variants=False) for unit in units
-        ):
-            candidates[term.pk] = term
-            candidates[term.source_unit.pk] = term.source_unit
-        return list(candidates.values())
-
     def evaluate_batch(self, units: list[Unit]) -> dict[int, list[EvaluationIssue]]:
         """Evaluate related units independently of suggestion generation."""
         if not units:

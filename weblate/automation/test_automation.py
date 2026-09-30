@@ -1084,17 +1084,59 @@ class AIQualityAutomationTest(ComponentTestCase):
         self.assertEqual(clean.state, STATE_APPROVED)
         self.assertEqual(problematic.state, STATE_NEEDS_CHECKING)
 
-    def test_quality_does_not_route_action_changing_evaluation_input(self) -> None:
+    def test_quality_skips_unit_changed_during_later_batch(self) -> None:
+        changed, unchanged = self.units
+        actions = [
+            self.quality_action(query=f"id:{changed.pk} OR id:{unchanged.pk}"),
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:quality",
+                "settings": {"state": STATE_APPROVED},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        calls = 0
+
+        def evaluate(batch: list[Unit]) -> dict[int, list[object]]:
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                changed.target = "Changed after evaluation"
+                changed.save(update_fields=["target"])
+            return {batch[0].pk: []}
+
+        with (
+            patch.object(OpenAITranslation, "batch_size", 1),
+            patch.object(OpenAITranslation, "evaluate_batch", side_effect=evaluate),
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        changed.refresh_from_db()
+        unchanged.refresh_from_db()
+        self.assertEqual(changed.state, STATE_TRANSLATED)
+        self.assertEqual(unchanged.state, STATE_APPROVED)
+
+    def test_quality_snapshots_survive_chained_result_scope(self) -> None:
         unit = self.units[0]
         actions = [
             self.quality_action(query=f"id:{unit.pk}"),
             {
                 "action": "weblate.bulk_edit",
+                "id": "routed",
                 "scope": "result:quality",
-                "settings": {
-                    "state": STATE_APPROVED,
-                    "add_flags": "python-format",
-                },
+                "settings": {"state": STATE_NEEDS_CHECKING},
+            },
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:routed",
+                "settings": {"state": STATE_APPROVED},
             },
         ]
         workflow = validate_operations(
@@ -1111,9 +1153,36 @@ class AIQualityAutomationTest(ComponentTestCase):
             )
             self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
         unit.refresh_from_db()
-        self.assertEqual(unit.state, STATE_TRANSLATED)
-        self.assertNotIn("python-format", unit.all_flags)
-        self.assertEqual(runner.trace[-1]["scope_units"], 0)
+        self.assertEqual(unit.state, STATE_APPROVED)
+        self.assertEqual(
+            set(runner.selections["routed"].unit_snapshots or {}), {unit.pk}
+        )
+
+    def test_quality_unchanged_result_approves(self) -> None:
+        unit = self.units[0]
+        actions = [
+            self.quality_action(query=f"id:{unit.pk}"),
+            {
+                "action": "weblate.bulk_edit",
+                "scope": "result:quality",
+                "settings": {"state": STATE_APPROVED},
+            },
+        ]
+        workflow = validate_operations(
+            parse_workflow(WORKFLOW | {"actions": actions}), self.component
+        )
+        with patch.object(
+            OpenAITranslation, "evaluate_batch", return_value={unit.pk: []}
+        ):
+            runner = Runner(
+                workflow,
+                execution_context(self.component, "manual"),
+                self.component,
+                self.user,
+            )
+            self.assertEqual(runner.run(), AddonActivityLogStatus.SUCCESS, runner.trace)
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_APPROVED)
 
     def test_scope_query_and_empty_selection(self) -> None:
         selected, excluded = self.units

@@ -362,6 +362,15 @@ class EvaluationSnapshot:
     last_updated: datetime
 
 
+@dataclass(frozen=True)
+class EvaluatedUnitSnapshot:
+    """Content versions required to safely route one evaluated target."""
+
+    unit: EvaluationSnapshot
+    source_unit_id: int
+    source_unit: EvaluationSnapshot
+
+
 def evaluation_snapshot(unit: Unit) -> EvaluationSnapshot:
     return EvaluationSnapshot(evaluation_fingerprint(unit), unit.last_updated)
 
@@ -470,6 +479,7 @@ def evaluate_component(
     *,
     scheduled: bool,
     evaluated_unit_ids: set[int] | None = None,
+    evaluated_unit_snapshots: dict[int, EvaluatedUnitSnapshot] | None = None,
 ) -> dict[str, int]:
     from weblate.addons.models import Addon  # ruff: ignore[import-outside-top-level]
 
@@ -517,12 +527,6 @@ def evaluate_component(
                 for unit in batch
                 for item in (unit, unit.source_unit)
             }
-            snapshots.update(
-                {
-                    unit.pk: evaluation_snapshot(unit)
-                    for unit in service.get_evaluation_dependency_candidates(batch)
-                }
-            )
             try:
                 issues = service.evaluate_batch(batch)
             except (MachineTranslationError, httpx2.HTTPError) as error:
@@ -535,6 +539,17 @@ def evaluate_component(
                 result["evaluated"] += len(batch)
                 if evaluated_unit_ids is not None:
                     evaluated_unit_ids.update(unit.pk for unit in batch)
+                if evaluated_unit_snapshots is not None:
+                    evaluated_unit_snapshots.update(
+                        {
+                            unit.pk: EvaluatedUnitSnapshot(
+                                unit=snapshots[unit.pk],
+                                source_unit_id=unit.source_unit.pk,
+                                source_unit=snapshots[unit.source_unit.pk],
+                            )
+                            for unit in batch
+                        }
+                    )
             else:
                 result["skipped"] += len(batch)
         if unit_ids is None and not result["failed"] and not result["skipped"]:
