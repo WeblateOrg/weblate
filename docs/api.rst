@@ -2713,9 +2713,11 @@ Translations
     .. code-block:: sh
 
         curl -X POST \
-            -F file=<strings.xml \
+            -F 'file=<strings.xml' \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/translations/hello/android/cs/file/
+
+    The content is used as submitted, byte for byte, so any file encoding works.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 

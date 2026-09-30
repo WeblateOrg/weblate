@@ -36,7 +36,8 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from drf_spectacular.validation import validate_schema
-from rest_framework.test import APITestCase
+from rest_framework.request import Request
+from rest_framework.test import APIRequestFactory, APITestCase
 from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import (
@@ -60,6 +61,7 @@ from weblate.api.docs import (
     VCS_ENUM_SCHEMA_NAME,
     document_all_static_vcs_choices,
 )
+from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
     CategorySerializer,
     CommentSerializer,
@@ -172,6 +174,70 @@ def encode_multipart_form_field(boundary: str, content: str | bytes) -> bytes:
             b"",
         ]
     )
+
+
+def encode_multipart_form(
+    boundary: str,
+    *,
+    file_content: bytes,
+    fields: dict[str, bytes] | None = None,
+) -> bytes:
+    parts: list[bytes] = [
+        f"--{boundary}".encode(),
+        b'Content-Disposition: form-data; name="file"',
+        b"",
+        file_content,
+    ]
+    for key, value in (fields or {}).items():
+        parts.extend(
+            [
+                f"--{boundary}".encode(),
+                f'Content-Disposition: form-data; name="{key}"'.encode(),
+                b"",
+                value,
+            ]
+        )
+    parts.extend([f"--{boundary}--".encode(), b""])
+    return b"\r\n".join(parts)
+
+
+class TranslationFileMultiPartParserTest(SimpleTestCase):
+    def parse_multipart(self, body: bytes) -> Request:
+        factory = APIRequestFactory()
+        return Request(
+            factory.post("/", body, content_type=MULTIPART_CONTENT),
+            parsers=[TranslationFileMultiPartParser()],
+        )
+
+    def test_preserves_non_utf8_file_field(self) -> None:
+        raw_bytes = "Ahoj světe".encode("iso-8859-2")
+        request = self.parse_multipart(
+            encode_multipart_form(BOUNDARY, file_content=raw_bytes)
+        )
+        upload = request.FILES["file"]
+        self.assertEqual(upload.name, "upload")
+        self.assertEqual(upload.read(), raw_bytes)
+
+    def test_redecodes_other_fields(self) -> None:
+        request = self.parse_multipart(
+            encode_multipart_form(
+                BOUNDARY,
+                file_content=b"content",
+                fields={"author_name": "Jiří".encode()},
+            )
+        )
+        self.assertEqual(request.data["author_name"], "Jiří")
+
+    def test_preserves_non_ascii_filename(self) -> None:
+        raw_bytes = b'msgid ""\nmsgstr ""\n'
+        filename = "tést.po"
+        body = encode_multipart(
+            BOUNDARY, {"file": SimpleUploadedFile(filename, raw_bytes)}
+        )
+        request = self.parse_multipart(body)
+        upload = request.FILES["file"]
+        self.assertEqual(upload.name, filename)
+        self.assertEqual(upload.read(), raw_bytes)
 
 
 class SettingsAPIFieldsTest(APITestCase):
@@ -13066,6 +13132,18 @@ class TranslationAPITest(APIBaseTest):
                 self.assertEqual(unit.state, STATE_TRANSLATED)
                 self.assertEqual(self.component.project.stats.suggestions, 0)
                 self.check_upload_changes(changes_start, 2)
+
+    def test_upload_content_empty(self) -> None:
+        self.authenticate()
+        url = reverse("api:translation-file", kwargs=self.translation_kwargs)
+        response = self.client.generic(
+            "PUT",
+            url,
+            encode_multipart_form_field(BOUNDARY, b""),
+            content_type=MULTIPART_CONTENT,
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data["errors"][0]["attr"], "file")
 
     def test_upload_conflicts(self) -> None:
         self.authenticate()

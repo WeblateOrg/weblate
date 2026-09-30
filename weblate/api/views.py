@@ -71,6 +71,7 @@ from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
 from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_data
 from weblate.api.pagination import LargePagination
+from weblate.api.parsers import TranslationFileMultiPartParser
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
@@ -3840,7 +3841,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
         detail=True,
         methods=["get", "put", "post"],
         parser_classes=(
-            parsers.MultiPartParser,
+            TranslationFileMultiPartParser,
             parsers.FormParser,
             parsers.FileUploadParser,
         ),
