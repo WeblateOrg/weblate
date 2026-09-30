@@ -1538,10 +1538,16 @@ class AutoAddonForm(
         if addon.documentation_build:
             # Documentation needs declared fields, not database-backed choices.
             return
+        obj = addon.instance.component or addon.instance.project
+        if obj is None and addon.instance.category is not None:
+            obj = addon.instance.category.project
         AutoForm.__init__(
             self,
-            obj=addon.instance.component or addon.instance.project,
-            user=user,
+            obj=obj,
+            # Add-on configuration is a durable administrative capability. Its
+            # source scope is not delegated from the configuring user's direct
+            # component visibility and continues to work after permission changes.
+            user=None,
             **kwargs,
         )
         # Add-ons use management permissions, not the configuring user's review

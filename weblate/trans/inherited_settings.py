@@ -78,6 +78,7 @@ INHERITABLE_COMPONENT_SETTINGS = (
     "merge_message",
     "addon_message",
     "pull_message",
+    "enforced_checks",
 )
 
 type InheritableStringSetting = Literal[
@@ -93,6 +94,7 @@ type InheritableStringSetting = Literal[
     "pull_message",
 ]
 type InheritableLanguageSetting = Literal["secondary_language"]
+type InheritableListSetting = Literal["enforced_checks"]
 
 COMPONENT_MESSAGE_SETTINGS = (
     "commit_message",
@@ -114,6 +116,16 @@ def get_inheritable_setting_value(obj: object, field: str) -> object:
     if field == "secondary_language":
         return getattr(obj, "secondary_language_id", None)
     return getattr(obj, field)
+
+
+def should_disable_inheritance(obj: object, old: object, field: str) -> bool:
+    """Check whether changing a setting should disable its inheritance."""
+    return get_inheritable_setting_value(old, field) != get_inheritable_setting_value(
+        obj, field
+    ) and not (
+        field == "enforced_checks"
+        and getattr(obj, "preserve_enforced_checks_inheritance", False)
+    )
 
 
 INHERITABLE_COMPONENT_FLAGS = tuple(

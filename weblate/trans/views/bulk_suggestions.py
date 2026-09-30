@@ -167,7 +167,8 @@ def bulk_accept_user_suggestions(
             "count": total,
             "user": target_user.username,
         }
-    messages.success(request, message, f"task:{task.id}")
+    if "zen" not in request.POST:
+        messages.success(request, message, f"task:{task.id}")
     return JsonResponse(
         {
             "success": True,

@@ -24,6 +24,7 @@ if TYPE_CHECKING:
 
     from weblate.checks.models import Check
     from weblate.trans.models import Change, Component, Unit
+    from weblate.trans.models.unit import UnitQuerySet
 
     from .base import FixupType
 
@@ -94,6 +95,23 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
     propagates = "source"
     batch_project_wide = True
     skip_suggestions = True
+
+    def evaluate_propagated(self, units: UnitQuerySet) -> Iterable[tuple[Unit, bool]]:
+        targets = set(units.values_list("target", flat=True))
+        translated_targets = set(
+            units.filter(state__gte=STATE_TRANSLATED).values_list("target", flat=True)
+        )
+        for unit in units.iterator(chunk_size=500):
+            others = targets if unit.translated else translated_targets
+            yield (
+                unit,
+                (
+                    self.applies_to_propagated_unit(unit)
+                    and not self.ignore_state(unit)
+                    and not self.should_skip(unit)
+                    and (len(others) > 1 or bool(others and unit.target not in others))
+                ),
+            )
 
     def check_target_unit(
         self, sources: list[str], targets: list[str], unit: Unit
@@ -198,6 +216,40 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
     batch_project_wide = True
     skip_suggestions = True
     version_added = "4.18"
+
+    def evaluate_propagated(self, units: UnitQuerySet) -> Iterable[tuple[Unit, bool]]:
+        units = units.annotate(propagated_source=Lower("source"))
+        sources = set(
+            units.filter(state__gte=STATE_TRANSLATED).values_list("source", flat=True)
+        )
+        folded_sources = set(
+            units.filter(state__gte=STATE_TRANSLATED).values_list(
+                "propagated_source", flat=True
+            )
+        )
+        for unit in units.iterator(chunk_size=500):
+            distinct_sources = (
+                sources
+                if unit.translation.language.is_case_sensitive()
+                else folded_sources
+            )
+            source = (
+                unit.source
+                if unit.translation.language.is_case_sensitive()
+                else unit.propagated_source
+            )
+            yield (
+                unit,
+                (
+                    self.applies_to_propagated_unit(unit)
+                    and not self.ignore_state(unit)
+                    and not self.should_skip(unit)
+                    and (
+                        len(distinct_sources) > 1
+                        or bool(distinct_sources and source not in distinct_sources)
+                    )
+                ),
+            )
 
     def should_skip(self, unit: Unit):
         if unit.translation.plural.number <= 1 or not any(unit.get_target_plurals()):

@@ -221,12 +221,12 @@ def run() -> None:
         )
 
         def delivered() -> bool:
-            response = mailbox.get("http://maildev:1080/email", timeout=10)
+            response = mailbox.get("http://maildev:1080/api/email", timeout=10)
             response.raise_for_status()
             for message in response.json():
                 if any(address["address"] == recipient for address in message["to"]):
                     detail = mailbox.get(
-                        f"http://maildev:1080/email/{message['id']}", timeout=10
+                        f"http://maildev:1080/api/email/{message['id']}", timeout=10
                     )
                     detail.raise_for_status()
                     if target in detail.json().get("text", ""):

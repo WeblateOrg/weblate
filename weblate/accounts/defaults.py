@@ -6,6 +6,7 @@ from __future__ import annotations
 
 DEFAULT_ENABLE_AVATARS = True
 DEFAULT_AVATAR_URL_PREFIX = "https://www.gravatar.com/"
+DEFAULT_AVATAR_URL_TEMPLATE = "{AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"
 DEFAULT_AVATAR_DEFAULT_IMAGE = "identicon"
 
 DEFAULT_REGISTRATION_OPEN = True

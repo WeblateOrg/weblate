@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-17 20:12-0500\n"
+"POT-Creation-Date: 2026-09-24 21:33-0500\n"
 "PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1519,6 +1519,45 @@ msgstr ""
 msgid "Second factor sign in"
 msgstr ""
 
+msgid "Evaluation service"
+msgstr ""
+
+msgid "Evaluation frequency"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Disabled"
+msgstr "Stât de traduzion"
+
+msgid "Daily"
+msgstr ""
+
+msgid "Weekly"
+msgstr ""
+
+msgid "Monthly"
+msgstr "Mensîl"
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Evaluate translation changes"
+msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Evaluate repository updates"
+msgstr "%(count)s traduzion"
+
+msgid "AI quality evaluation"
+msgstr ""
+
+msgid ""
+"Evaluates existing translations using an LLM and records quality checks."
+msgstr ""
+
 msgid "Automatic translation"
 msgstr ""
 
@@ -1823,15 +1862,6 @@ msgstr ""
 
 msgid "Update frequency"
 msgstr ""
-
-msgid "Daily"
-msgstr ""
-
-msgid "Weekly"
-msgstr ""
-
-msgid "Monthly"
-msgstr "Mensîl"
 
 msgid ""
 "How often the add-on should update the POT file when the component is "
@@ -3091,6 +3121,9 @@ msgstr "No si à rivât a acetâ il sugjeriment!"
 msgid "This string seems to already exist."
 msgstr ""
 
+msgid "Automatic translation in progress"
+msgstr ""
+
 msgid "Category"
 msgstr ""
 
@@ -3932,11 +3965,19 @@ msgstr ""
 msgid "Adding strings is disabled in the component configuration."
 msgstr ""
 
-msgid ""
-"Cannot remove terminology translation. Remove the source string instead."
+msgid "Editing source strings is disabled in the component configuration."
 msgstr ""
 
 msgid "The file format does not support this."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not accept suggestion!"
+msgid "You do not have permission to edit this glossary."
+msgstr "No si à rivât a acetâ il sugjeriment!"
+
+msgid ""
+"Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
 
 msgid "Adding new translations is turned off in the component configuration."
@@ -3987,6 +4028,99 @@ msgstr "Memorie di traduzion"
 
 #, python-format
 msgid "Accepted invitation to the %s team."
+msgstr ""
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Automation"
+msgstr "%(count)s traduzion"
+
+msgid "Runs ordered translation operations with conditions and branches."
+msgstr ""
+
+msgid "The component is outside this add-on's scope."
+msgstr ""
+
+#, fuzzy
+#| msgid "Projects"
+msgid "The change does not belong to this component."
+msgstr "Progjets"
+
+msgid "Automation nesting is too deep."
+msgstr ""
+
+msgid "Automation definitions cannot exceed 64 KiB."
+msgstr ""
+
+msgid "YAML aliases and tags are not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Automation keys must be strings."
+msgstr "%(count)s traduzion"
+
+msgid "Invalid automation YAML or JSON."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "%(path)s: %(error)s"
+msgstr "%(count)s traduzion"
+
+msgid "Automation exceeds 100 nodes or eight nesting levels."
+msgstr ""
+
+msgid "Automation action IDs must be unique."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: trigger scope requires only change triggers."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: result scope requires an earlier action ID."
+msgstr ""
+
+#, python-format
+msgid "%(path)s: not requires exactly one condition."
+msgstr ""
+
+msgid "Automation context is too large."
+msgstr ""
+
+msgid "CEL validation or evaluation failed or exceeded its resource limit."
+msgstr ""
+
+#, python-format
+msgid "Invalid CEL condition: %s"
+msgstr ""
+
+msgid "Workflow"
+msgstr ""
+
+msgid "Enter an automation definition as YAML or JSON."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation memory"
+msgid "Preview component ID"
+msgstr "Memorie di traduzion"
+
+msgid "Required for inherited automations. Used only for preview."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Preview change ID"
+msgstr "Cambiament resint"
+
+msgid "Optional event context. Used only for preview."
 msgstr ""
 
 msgid "Additional message"
@@ -4174,6 +4308,51 @@ msgstr ""
 
 msgid "Cannot merge such a billing."
 msgstr ""
+
+msgid "Minor"
+msgstr ""
+
+msgid "Major"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "AI: Accuracy"
+msgstr ""
+
+msgid "The evaluation detected a change in meaning."
+msgstr ""
+
+msgid "AI: Fluency"
+msgstr ""
+
+msgid "The evaluation detected a language quality issue."
+msgstr ""
+
+#, fuzzy
+#| msgid "Glossary"
+msgid "AI: Terminology"
+msgstr "Glossari"
+
+msgid "The evaluation detected incorrect terminology."
+msgstr ""
+
+msgid "AI: Style"
+msgstr ""
+
+msgid "The evaluation detected a style or instruction mismatch."
+msgstr ""
+
+#, fuzzy
+#| msgid "Documentation"
+msgid "AI: Formatting"
+msgstr "Documentazion"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The evaluation detected a formatting or placeholder issue."
+msgstr "Stât de traduzion"
 
 msgid "AngularJS interpolation string"
 msgstr ""
@@ -5484,6 +5663,28 @@ msgstr ""
 msgid "Multivalue CSV file"
 msgstr ""
 
+msgid "Editing Fluent messages with attributes or selectors is not supported."
+msgstr ""
+
+msgid "This file format does not support editing keys or context."
+msgstr ""
+
+msgid "A string with this identity already exists."
+msgstr ""
+
+#, fuzzy
+#| msgid "Could not accept suggestion!"
+msgid "This file format does not support editing source strings."
+msgstr "No si à rivât a acetâ il sugjeriment!"
+
+msgid "Editing source strings with inline markup is not supported."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "The key cannot be represented in this file format."
+msgstr "Stringhis sorzint"
+
 #, python-format
 msgid "Invalid plural form metadata in CSV file: %s"
 msgstr ""
@@ -5529,10 +5730,6 @@ msgid "XLIFF 1.2 translation file"
 msgstr "%(count)s traduzion"
 
 #. Translators: File format name
-msgid "XLIFF 1.2 with placeables support"
-msgstr ""
-
-#. Translators: File format name
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr ""
 
@@ -5545,13 +5742,6 @@ msgstr ""
 #| msgid "%(count)s translation"
 #| msgid_plural "%(count)s translations"
 msgid "XLIFF 2.0 translation file"
-msgstr "%(count)s traduzion"
-
-#. Translators: File format name
-#, fuzzy
-#| msgid "%(count)s translation"
-#| msgid_plural "%(count)s translations"
-msgid "XLIFF 2.0 translation file with placeables support"
 msgstr "%(count)s traduzion"
 
 #. Translators: File format name
@@ -5793,7 +5983,17 @@ msgstr ""
 msgid "Maximum build age (days)"
 msgstr ""
 
+msgid ""
+"Retires builds this many days after their first registration. Re-registering "
+"a build does not extend its age."
+msgstr ""
+
 msgid "Maximum retained versions"
+msgstr ""
+
+msgid ""
+"Limits retained builds across all package names. A build is retired when "
+"either this limit or the maximum age is reached."
 msgstr ""
 
 msgid "Kotlin SDK CDN"
@@ -7947,6 +8147,10 @@ msgctxt "Badge for site title for Hosted Weblate"
 msgid "Cloud"
 msgstr ""
 
+msgctxt "Badge for site title for expired subscriptions"
+msgid "Expired"
+msgstr ""
+
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
 msgstr ""
@@ -8221,10 +8425,24 @@ msgstr ""
 msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr ""
 
+msgid "Add-on API"
+msgstr ""
+
+msgid "Use this base URL to access the add-on API:"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation memory"
+msgid "API root"
+msgstr "Memorie di traduzion"
+
 #, fuzzy
 #| msgid "Documentation"
 msgid "Configuration"
 msgstr "Documentazion"
+
+msgid "API"
+msgstr ""
 
 msgid "Logs"
 msgstr ""
@@ -8254,18 +8472,27 @@ msgstr ""
 msgid "No components found."
 msgstr "tradûs"
 
-msgid "Add-on API base URL:"
-msgstr ""
-
-#, fuzzy
-#| msgid "Translation memory"
-msgid "API root"
-msgstr "Memorie di traduzion"
-
 msgid "Configure add-on"
 msgstr ""
 
+#, fuzzy
+#| msgctxt "Label on donate page"
+#| msgid "Recent change"
+#| msgid_plural "Recent changes"
+msgid "Preview without changes"
+msgstr "Cambiament resint"
+
 msgid "This add-on has no settings."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Automation preview"
+msgstr "Stringhis sorzint"
+
+msgid ""
+"No operations were executed. Conditions depending on planned changes are "
+"shown as unknown."
 msgstr ""
 
 #, fuzzy
@@ -8466,6 +8693,23 @@ msgid "Project name"
 msgstr ""
 
 msgid "Project URL slug"
+msgstr ""
+
+#, python-format
+msgid ""
+"See the <a href=\"%(url)s\">Kotlin SDK repository</a> for Gradle plugin and "
+"library setup."
+msgstr ""
+
+msgid "Configure the Kotlin SDK Gradle plugin with these values:"
+msgstr ""
+
+msgid ""
+"Replace the placeholder with a project-scoped API token that can edit this "
+"component. Keep the token in the build environment."
+msgstr ""
+
+msgid "Create a project token"
 msgstr ""
 
 msgid "Review before installing"
@@ -8983,17 +9227,6 @@ msgstr ""
 msgid "Check your billing status"
 msgstr ""
 
-msgid "Browse"
-msgstr ""
-
-#, fuzzy
-#| msgid "Translation status"
-msgid "Translation status widgets"
-msgstr "Stât de traduzion"
-
-msgid "No strings found!"
-msgstr ""
-
 msgid "Insights"
 msgstr ""
 
@@ -9084,6 +9317,11 @@ msgstr "%(count)s traduzion"
 #| msgid "Translate"
 msgid "Add new category"
 msgstr "tradûs"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation status widgets"
+msgstr "Stât de traduzion"
 
 #, fuzzy
 #| msgid "Translate"
@@ -9696,8 +9934,8 @@ msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
 
 msgid ""
-"It will discard changes in Weblate repo and bring it in sync with the "
-"upstream repository."
+"Only the configured branch is reset. Other local branches are kept; use "
+"Cleanup to remove them."
 msgstr ""
 
 msgid "Reset and reapply"
@@ -9719,15 +9957,23 @@ msgstr ""
 msgid "Cleanup"
 msgstr ""
 
+msgid "Remove untracked files and unused local branches"
+msgstr ""
+
 msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
 
-msgid "It also removes stale branches which are not used by Weblate."
+msgid ""
+"For Git repositories, it also deletes all local branches other than the "
+"configured branch, including any commits that have not been pushed."
 msgstr ""
 
-msgid "Use when there is some garbage left in the Weblate repository."
+msgid ""
+"If switching to a branch with rewritten upstream history fails, switch to a "
+"working branch, run Cleanup, then switch back to recreate the affected "
+"branch from upstream."
 msgstr ""
 
 msgid "Synchronize"
@@ -9840,6 +10086,9 @@ msgstr ""
 #| msgid "Translate"
 msgid "Browse all repository changes"
 msgstr "tradûs"
+
+msgid "Nothing to preview."
+msgstr ""
 
 msgid "Shortcut"
 msgstr ""
@@ -9954,9 +10203,6 @@ msgid ""
 "The language definitions are automatically updated by Weblate upon a "
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
-msgstr ""
-
-msgid "Workflow"
 msgstr ""
 
 msgid "Changing plural rules might not have a desired effect."
@@ -10637,8 +10883,27 @@ msgid ""
 "credentials below."
 msgstr ""
 
-msgid "Add backup service"
+msgid "Cloud backups for self-hosted Weblate"
 msgstr ""
+
+msgid ""
+"Back up Weblate running in your own environment. No hosting or separate "
+"support subscription is required."
+msgstr ""
+
+msgid ""
+"Purchase the backup service, enter its activation token below, then turn on "
+"the new backup configuration. Save the backup credentials in a secure place "
+"so you can restore your data."
+msgstr ""
+
+msgid "Buy backup service"
+msgstr ""
+
+#, fuzzy
+#| msgid "Glossary"
+msgid "Add custom backup storage"
+msgstr "Glossari"
 
 msgid "Commercial"
 msgstr ""
@@ -11526,6 +11791,9 @@ msgstr "Stringhis sorzint"
 msgid "Paste from clipboard"
 msgstr ""
 
+msgid "Translate"
+msgstr "tradûs"
+
 #, fuzzy
 #| msgid "Source strings"
 msgid "strings"
@@ -12143,6 +12411,9 @@ msgstr ""
 msgid "Untranslated"
 msgstr "tradûs"
 
+msgid "Browse"
+msgstr ""
+
 #, fuzzy
 #| msgid "%(count)s translation"
 #| msgid_plural "%(count)s translations"
@@ -12154,9 +12425,6 @@ msgstr "%(count)s traduzion"
 #| msgid_plural "%(count)s translations"
 msgid "Cannot add translation right now"
 msgstr "%(count)s traduzion"
-
-msgid "Translate"
-msgstr "tradûs"
 
 msgid "Customized workflow"
 msgstr ""
@@ -12712,6 +12980,11 @@ msgstr "Documentazion"
 msgid "Create account"
 msgstr "%(count)s traduzion"
 
+#, fuzzy, python-format
+#| msgid "Documentation"
+msgid "Configure %(addon)s"
+msgstr "Documentazion"
+
 msgid "Weblate could not execute script add-on."
 msgstr ""
 
@@ -12719,6 +12992,12 @@ msgid "The following occurrences were found:"
 msgstr ""
 
 msgid "Command"
+msgstr ""
+
+msgid ""
+"The configured evaluation service is unavailable. Select a configured LLM "
+"service in the add-on configuration, or restore the service in Automatic "
+"suggestions settings."
 msgstr ""
 
 msgid "Files for translated languages are using ambiguous language codes."
@@ -13223,6 +13502,12 @@ msgid_plural "Backups are removed after %(keep_days)s days."
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Jump to date"
+msgstr ""
+
+msgid "Go"
+msgstr ""
+
 msgid "Changes"
 msgstr ""
 
@@ -13230,6 +13515,21 @@ msgid "Download latest changes as CSV"
 msgstr ""
 
 msgid "Follow using RSS"
+msgstr ""
+
+msgid "History navigation above results"
+msgstr ""
+
+msgid "History navigation below results"
+msgstr ""
+
+msgid "Latest"
+msgstr ""
+
+msgid "Newer"
+msgstr ""
+
+msgid "Older"
 msgstr ""
 
 msgid "From version control"
@@ -13537,9 +13837,6 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Create a project token"
-msgstr ""
-
 msgid "Create"
 msgstr ""
 
@@ -13591,6 +13888,14 @@ msgid ""
 "new repository. This will work just fine if the repository has been moved to "
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Edit source"
+msgstr "Stringhis sorzint"
+
+msgid "Cancel"
 msgstr ""
 
 msgid "Learn more about pushing changes from Weblate."
@@ -13869,6 +14174,11 @@ msgstr ""
 msgid "No labels currently set."
 msgstr ""
 
+#, fuzzy
+#| msgid "Edit"
+msgid "Edit flags"
+msgstr "Modifiche"
+
 msgid "Flags"
 msgstr ""
 
@@ -13934,6 +14244,15 @@ msgstr ""
 msgid ""
 "<code>%(flags)s</code> is inherited from %(object)s because editing source "
 "strings is disabled."
+msgstr ""
+
+msgid "Effective flags"
+msgstr ""
+
+msgid ""
+"Changes apply to all languages in this component. Changing source text marks "
+"existing translations as needing editing. Renamed keys may require changes "
+"in your application code."
 msgstr ""
 
 #, python-format
@@ -14058,11 +14377,6 @@ msgstr "Furnidôr"
 msgid "Repositories"
 msgstr ""
 
-#, fuzzy
-#| msgid "Translation status"
-msgid "Disabled"
-msgstr "Stât de traduzion"
-
 msgid "Refresh"
 msgstr ""
 
@@ -14175,9 +14489,6 @@ msgstr ""
 #| msgid "Continue"
 msgid "Continue to GitHub"
 msgstr "Va indevant"
-
-msgid "Cancel"
-msgstr ""
 
 #, fuzzy
 #| msgid "Source strings"
@@ -14453,6 +14764,14 @@ msgstr ""
 
 msgid "Embed Code"
 msgstr ""
+
+msgid "Write"
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Preview"
+msgstr "Stringhis sorzint"
 
 #, fuzzy
 #| msgid "Translate"
@@ -15402,6 +15721,9 @@ msgstr "%(count)s traduzion"
 msgid "POT updates do not update PO files."
 msgstr ""
 
+msgid "AI quality evaluation service is unavailable."
+msgstr ""
+
 #, fuzzy
 #| msgid "Documentation"
 msgid "Information"
@@ -16097,6 +16419,44 @@ msgstr ""
 msgid "Include closing tag for blank XML tags"
 msgstr ""
 
+msgid "Whitespace handling"
+msgstr ""
+
+msgid "Follow xml:space"
+msgstr ""
+
+msgid "Always preserve"
+msgstr ""
+
+msgid "Always normalize"
+msgstr ""
+
+msgid ""
+"Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
+"in the file. Always preserve keeps all whitespace. Always normalize "
+"collapses whitespace even when xml:space=\"preserve\" is set."
+msgstr ""
+
+#, fuzzy
+#| msgid "Premium self-hosted support"
+msgid "Placeables support"
+msgstr "Supuart premium pe instalazion personâl"
+
+msgid "Plain text only"
+msgstr ""
+
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Support placeables"
+msgstr "Fâs une donazion a Weblate"
+
+msgid ""
+"Controls whether inline XML elements inside XLIFF strings are preserved as "
+"editable placeables. Plain text only escapes XML markup and treats the "
+"content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
+"or <g> stay in the string and appear as placeholders in the editor"
+msgstr ""
+
 msgid "FlatXML Root name"
 msgstr ""
 
@@ -16373,6 +16733,14 @@ msgid ""
 "changes."
 msgstr ""
 
+#, fuzzy
+#| msgid "Languages"
+msgid "Ignore language mismatch"
+msgstr "Lenghis"
+
+msgid "Allow uploading a file that declares a different translation language."
+msgstr ""
+
 msgid "File upload mode"
 msgstr ""
 
@@ -16527,6 +16895,34 @@ msgstr ""
 
 msgid "Please choose"
 msgstr ""
+
+#, fuzzy
+#| msgid "Languages"
+msgid "Source flags — all languages"
+msgstr "Lenghis"
+
+msgid "These flags are inherited by every translation of this string."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Translation flags — this language"
+msgstr "Stât de traduzion"
+
+msgid ""
+"These flags apply only to this translation. Source read-only cannot be "
+"overridden."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Translation flags — %(language)s"
+msgstr "Stât de traduzion"
+
+#, fuzzy
+#| msgid "Could not accept suggestion!"
+msgid "You do not have permission to edit these flags."
+msgstr "No si à rivât a acetâ il sugjeriment!"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -16784,6 +17180,9 @@ msgstr ""
 msgid "Replacement string"
 msgstr ""
 
+msgid "Key or context"
+msgstr ""
+
 msgid "Translation key"
 msgstr ""
 
@@ -16838,21 +17237,40 @@ msgstr ""
 msgid "Do not change"
 msgstr ""
 
+msgid "Source flags to add — all languages"
+msgstr ""
+
+msgid "Source flags to remove — all languages"
+msgstr ""
+
 #, fuzzy
 #| msgid "Translation status"
-msgid "Translation flags to add"
+msgid "Translation flags to add — matching translations"
 msgstr "Stât de traduzion"
 
 #, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Applies only to matching translations, excluding source strings."
+msgstr "%(count)s traduzion"
+
+#, fuzzy
 #| msgid "Translation memory"
-msgid "Translation flags to remove"
+msgid "Translation flags to remove — matching translations"
 msgstr "Memorie di traduzion"
 
-msgid "Labels to add"
+msgid "Removes locally set flags. Inherited flags remain in effect."
 msgstr ""
 
-msgid "Labels to remove"
-msgstr ""
+#, fuzzy
+#| msgid "Languages"
+msgid "Labels to add — all languages"
+msgstr "Lenghis"
+
+#, fuzzy
+#| msgid "Languages"
+msgid "Labels to remove — all languages"
+msgstr "Lenghis"
 
 msgid "I accept the contributor license agreement"
 msgstr ""
@@ -16893,6 +17311,11 @@ msgstr ""
 
 msgid "Please type in the slug of the category and language to confirm."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "The date cannot be in the future."
+msgstr "Stringhis sorzint"
 
 msgid "Author username"
 msgstr ""
@@ -17487,9 +17910,9 @@ msgid "Manage strings"
 msgstr "tradûs"
 
 msgid ""
-"Enables adding and removing strings straight from Weblate. If your strings "
-"are extracted from the source code or managed externally you probably want "
-"to keep it disabled."
+"Enables adding, removing, and editing source strings and keys in Weblate. If "
+"your strings are extracted from the source code or managed externally you "
+"probably want to keep it disabled."
 msgstr ""
 
 msgid "Merge style"
@@ -18165,6 +18588,22 @@ msgstr ""
 msgid "Plural form %d in the uploaded file is missing."
 msgstr ""
 
+msgid "The uploaded file contains too many language declarations."
+msgstr ""
+
+#, python-format
+msgid ""
+"The uploaded file language (%(language)s) does not match the current "
+"translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
+"anyway."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Could not parse uploaded file: %s"
+msgstr "%(count)s traduzion"
+
 #, fuzzy, python-format
 #| msgid "%(count)s translation"
 #| msgid_plural "%(count)s translations"
@@ -18175,12 +18614,6 @@ msgstr "%(count)s traduzion"
 #| msgid "Could not parse {file}: {error}"
 msgid "Could not parse uploaded file as {file_format}: {error}"
 msgstr "Impossibil di analizâ {file}: {error}"
-
-#, fuzzy, python-format
-#| msgid "%(count)s translation"
-#| msgid_plural "%(count)s translations"
-msgid "Could not parse uploaded file: %s"
-msgstr "%(count)s traduzion"
 
 #, fuzzy, python-format
 #| msgid "%(count)s translation"
@@ -18225,22 +18658,58 @@ msgstr[1] ""
 #, fuzzy
 #| msgid "%(count)s translation"
 #| msgid_plural "%(count)s translations"
-msgid "Unmark as read-only"
+msgid "Unmark as untranslatable for all languages"
 msgstr "%(count)s traduzion"
 
-msgid "Mark as read-only"
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Unmark as read-only for all languages"
+msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Unmark this translation as untranslatable"
+msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Unmark this translation as read-only"
+msgstr "Stât de traduzion"
+
+msgid "Make untranslatable apply to all languages"
+msgstr ""
+
+msgid "Make read-only apply to all languages"
 msgstr ""
 
 #, fuzzy
 #| msgid "%(count)s translation"
 #| msgid_plural "%(count)s translations"
-msgid "Unmark as untranslatable"
+msgid "Mark this translation as untranslatable"
 msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Mark this translation as read-only"
+msgstr "Stât de traduzion"
 
 #, fuzzy
 #| msgid "%(count)s translation"
 #| msgid_plural "%(count)s translations"
-msgid "Mark as untranslatable"
+msgid "Mark as untranslatable for all languages"
+msgstr "%(count)s traduzion"
+
+#, fuzzy
+#| msgid "Languages"
+msgid "Mark as read-only for all languages"
+msgstr "Lenghis"
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Mark as forbidden translation"
 msgstr "%(count)s traduzion"
 
 #, fuzzy
@@ -18249,16 +18718,10 @@ msgstr "%(count)s traduzion"
 msgid "Unmark as forbidden translation"
 msgstr "%(count)s traduzion"
 
-#, fuzzy
-#| msgid "%(count)s translation"
-#| msgid_plural "%(count)s translations"
-msgid "Mark as forbidden translation"
-msgstr "%(count)s traduzion"
-
-msgid "Unmark as terminology"
+msgid "Mark as terminology for all languages"
 msgstr ""
 
-msgid "Mark as terminology"
+msgid "Unmark as terminology for all languages"
 msgstr ""
 
 msgid "Restrict direct editing"
@@ -18268,6 +18731,32 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "The source string has changed. Reload it before editing."
+msgstr "Stringhis sorzint"
+
+msgid ""
+"A string with this identity already exists or is awaiting a file update."
+msgstr ""
+
+msgid "The file format does not support this edit."
+msgstr ""
+
+msgid "Keep the existing number of nonempty source forms."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "A translation key is required."
+msgstr "Stât de traduzion"
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Could not find the string in the translation file."
+msgstr "%(count)s traduzion"
 
 msgid "Insert tab character"
 msgstr ""
@@ -18748,6 +19237,11 @@ msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "tradûs"
 
+#, fuzzy
+#| msgid "Components"
+msgid "Invalid history position."
+msgstr "Components"
+
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 
@@ -18802,6 +19296,9 @@ msgid ""
 "refreshed."
 msgstr ""
 
+msgid "No strings found!"
+msgstr ""
+
 msgid "Your suggestion is empty!"
 msgstr ""
 
@@ -18844,9 +19341,6 @@ msgstr ""
 msgid "Automatic translation cannot be started because the target is locked."
 msgstr ""
 
-msgid "Automatic translation in progress"
-msgstr ""
-
 msgid "Posted new comment"
 msgstr ""
 
@@ -18870,6 +19364,14 @@ msgstr ""
 
 msgid "New string has been added."
 msgstr ""
+
+msgid "The component is busy. Please try again."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "Source string updated."
+msgstr "Stringhis sorzint"
 
 #, fuzzy, python-format
 #| msgid "%(count)s translation"
@@ -18931,6 +19433,14 @@ msgstr "Progjets"
 #| msgid "Projects"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Progjets"
+
+#, fuzzy
+#| msgid "Source strings"
+msgid "The text is too long to preview."
+msgstr "Stringhis sorzint"
+
+msgid "Too many preview requests, try again later."
+msgstr ""
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -19089,6 +19599,12 @@ msgstr ""
 
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
+
+#, fuzzy
+#| msgid "%(count)s translation"
+#| msgid_plural "%(count)s translations"
+msgid "Could not change string flags!"
+msgstr "%(count)s traduzion"
 
 msgid "Could not change additional string info!"
 msgstr ""
@@ -19631,6 +20147,11 @@ msgstr ""
 
 msgid "URL domain is not allowed."
 msgstr ""
+
+#, fuzzy
+#| msgid "translate"
+msgid "Repository URL contains unsafe characters."
+msgstr "tradûs"
 
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
@@ -20777,6 +21298,12 @@ msgstr ""
 #| msgid "Translation memory"
 msgid "The workspace has been removed."
 msgstr "Memorie di traduzion"
+
+#, fuzzy
+#~| msgid "%(count)s translation"
+#~| msgid_plural "%(count)s translations"
+#~ msgid "XLIFF 2.0 translation file with placeables support"
+#~ msgstr "%(count)s traduzion"
 
 #, fuzzy
 #~| msgid "Translation memory"

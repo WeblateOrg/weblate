@@ -1227,7 +1227,6 @@ Generic settings
       * :setting:`RATELIMIT_WINDOW`
       * :setting:`RATELIMIT_LOCKOUT`
 
-
 .. envvar:: WEBLATE_API_RATELIMIT_ANON
 .. envvar:: WEBLATE_API_RATELIMIT_USER
 
@@ -1280,6 +1279,12 @@ Generic settings
    .. versionadded:: 4.15
 
    Configures :setting:`AVATAR_URL_PREFIX`.
+
+.. envvar:: WEBLATE_AVATAR_URL_TEMPLATE
+
+   .. versionadded:: 2026.10
+
+   Configures :setting:`AVATAR_URL_TEMPLATE`.
 
 .. envvar:: WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 

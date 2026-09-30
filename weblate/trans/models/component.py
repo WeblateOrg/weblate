@@ -27,7 +27,7 @@ from django.core.exceptions import (
     ObjectDoesNotExist,
     ValidationError,
 )
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, URLValidator
 from django.db import IntegrityError, models, transaction
 from django.db.models import F, OuterRef, Q, Subquery, Value
 from django.db.models.functions import MD5
@@ -84,10 +84,11 @@ from weblate.trans.inherited_settings import (
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
     InheritableLanguageSetting,
+    InheritableListSetting,
     InheritableStringSetting,
     apply_create_inheritance_defaults,
     get_inherit_field_name,
-    get_inheritable_setting_value,
+    should_disable_inheritance,
 )
 from weblate.trans.mixins import (
     CacheKeyMixin,
@@ -123,6 +124,7 @@ from weblate.trans.util import (
 from weblate.trans.validators import (
     validate_autoaccept,
     validate_check_flags,
+    validate_enforced_checks,
     validate_file_format_parameters,
     validate_filemask,
     validate_language_code,
@@ -646,6 +648,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
         validators=[validate_repoweb],
         blank=True,
     )
+    repoweb_translations = models.CharField(
+        verbose_name=gettext_lazy("Repository browser for translations"),
+        max_length=200,
+        help_text=gettext_lazy(
+            "Link to repository browser for translation files, use {{branch}} for "
+            "branch, {{filename}} and {{line}} as filename and line placeholders. "
+            "If left empty, the Repository browser above will be used. "
+            "You might want to strip leading directory by using {{filename|parentdir}}."
+        ),
+        validators=[validate_repoweb],
+        blank=True,
+    )
     git_export = models.CharField(
         verbose_name=gettext_lazy("Exported repository URL"),
         max_length=60 + PROJECT_NAME_LENGTH + COMPONENT_NAME_LENGTH,
@@ -819,6 +833,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
         help_text=gettext_lazy("List of checks which can not be dismissed."),
         default=list,
         blank=True,
+    )
+    inherit_enforced_checks = models.BooleanField(
+        default=True,
+        verbose_name=gettext_lazy("Inherit enforced checks"),
+        help_text=gettext_lazy(
+            "Use enforced checks from the project, category or workspace."
+        ),
     )
 
     # Licensing
@@ -1104,6 +1125,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     remote_revision = models.CharField(max_length=200, default="", blank=True)
     local_revision = models.CharField(max_length=200, default="", blank=True)
     processed_revision = models.CharField(max_length=200, default="", blank=True)
+    pull_request_url = models.URLField(
+        max_length=2048, default="", blank=True, editable=False
+    )
 
     key_filter = RegexField(
         verbose_name=gettext_lazy("Key filter"),
@@ -1251,7 +1275,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         old_workspace_id = None
 
         if self.id:
-            old = Component.objects.get(pk=self.id)
+            old = Component.objects.get(pk=self.pk)
             if (
                 locked_repository is not None
                 and locked_repository.lock.lock_object.is_locked
@@ -1273,6 +1297,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 or (old.filemask != self.filemask)
                 or (old.language_regex != self.language_regex)
             )
+            update_fields = self.clear_changed_pull_request_url(old, update_fields)
+            kwargs["update_fields"] = update_fields
             changed_template = (old.intermediate != self.intermediate) or (
                 old.template != self.template
             )
@@ -1328,7 +1354,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.drop_repository_cache()
 
             changed_enforced_checks = (
-                old.enforced_checks != self.enforced_checks and self.enforced_checks
+                old.enforced_checks != self.enforced_checks
+                or old.inherit_enforced_checks != self.inherit_enforced_checks
+                or old.effective_enforced_checks != self.effective_enforced_checks
             )
 
             create = False
@@ -1575,14 +1603,26 @@ class Component(  # ruff: ignore[too-many-public-methods]
             delete_legacy=False,
         )
 
+    def clear_changed_pull_request_url(
+        self, old: Component, update_fields: Collection[str] | None
+    ) -> Collection[str] | None:
+        """Discard the cached request when its repository or branches change."""
+        if any(
+            getattr(old, field) != getattr(self, field)
+            and (update_fields is None or field in update_fields)
+            for field in ("vcs", "repo", "push", "branch", "push_branch")
+        ):
+            self.pull_request_url = ""
+            if update_fields is not None:
+                return {*update_fields, "pull_request_url"}
+        return update_fields
+
     def disable_inheritance_for_changed_settings(
         self, old: Component, update_fields: Collection[str] | None
     ) -> set[str] | None:
         update_fields_set = None if update_fields is None else set(update_fields)
         for field in INHERITABLE_COMPONENT_SETTINGS:
-            if get_inheritable_setting_value(
-                old, field
-            ) != get_inheritable_setting_value(self, field):
+            if should_disable_inheritance(self, old, field):
                 inherit = get_inherit_field_name(field)
                 setattr(self, inherit, False)
                 if update_fields_set is not None:
@@ -2508,6 +2548,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         line: str,
         template: str | None = None,
         user: User | None = None,
+        is_translation: bool = False,
     ):
         """
         Generate link to source code browser for given file and line.
@@ -2516,7 +2557,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         here.
         """
         if not template:
-            if self.repoweb:
+            if is_translation and self.repoweb_translations:
+                template = self.repoweb_translations
+            elif self.repoweb:
                 template = self.repoweb
             elif user and user.has_perm("vcs.view", self):
                 template = getattr(
@@ -2526,7 +2569,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 )()
         if self.linked_component is not None:
             return self.linked_component.get_repoweb_link(
-                filename, line, template, user=user or self.acting_user
+                filename,
+                line,
+                template,
+                user=user or self.acting_user,
+                is_translation=is_translation,
             )
         if not template:
             if filename.startswith("https://"):
@@ -3111,7 +3158,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         with self.repository.lock:
             self.log_info("pushing to remote repo")
             try:
-                self.repository.push(self.push_branch)
+                pull_request_url = self.repository.push(self.push_branch)
             except RepositoryError as error:
                 redirect_field = (
                     "push"
@@ -3172,6 +3219,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 return False
             self.delete_alert("RepositoryChanges")
             self.delete_alert("PushFailure")
+            if pull_request_url:
+                try:
+                    URLValidator(schemes=["http", "https"])(pull_request_url)
+                except ValidationError:
+                    pull_request_url = None
+            if pull_request_url and pull_request_url != self.pull_request_url:
+                self.pull_request_url = pull_request_url
+                Component.objects.filter(pk=self.pk).update(
+                    pull_request_url=pull_request_url
+                )
             return True
 
     @property
@@ -5020,7 +5077,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 processed_revision=current_revision
             )
 
-        if self.enforced_checks:
+        effective = self.get_effective_setting("enforced_checks")
+        if effective:
             update_enforced_checks.delay_on_commit(component=self.pk)
 
         self.log_info("updating completed")
@@ -5773,6 +5831,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def clean_model_settings(self) -> None:
         """Validate component settings that do not require repository access."""
+        validate_enforced_checks(self.enforced_checks)
         self.drop_file_format_cache()
         if self.project_id is None:
             return
@@ -6394,9 +6453,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> Language | None: ...
 
     @overload
-    def get_effective_setting(self, field: str) -> str | Language | None: ...
+    def get_effective_setting(self, field: InheritableListSetting) -> list[str]: ...
 
-    def get_effective_setting(self, field: str) -> str | Language | None:
+    @overload
+    def get_effective_setting(
+        self, field: str
+    ) -> str | Language | list[str] | None: ...
+
+    def get_effective_setting(self, field: str) -> str | Language | list[str] | None:
         """Return setting value after applying parent inheritance."""
         if self.uses_project_setting(field):
             category = self.category
@@ -6433,6 +6497,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @property
     def effective_secondary_language(self) -> Language | None:
         return self.get_effective_setting("secondary_language")
+
+    @property
+    def effective_enforced_checks(self) -> list[str]:
+        return cast("list[str]", self.get_effective_setting("enforced_checks"))
 
     @property
     def effective_commit_message(self) -> str:
@@ -6861,7 +6929,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self._glossary_sync_scheduled = False
 
     def get_unused_enforcements(self) -> Iterable[dict | BaseCheck]:
-        for current in self.enforced_checks:
+        for current in self.effective_enforced_checks:
             try:
                 check = CHECKS[current]
             except KeyError:
@@ -7057,8 +7125,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return f"{gettext('Could not get repository status!')}\n\n{error}"
 
     def update_enforced_checks(self) -> None:
+        effective = self.get_effective_setting("enforced_checks")
         units = Unit.objects.filter(
-            check__name__in=self.enforced_checks,
+            check__name__in=effective,
             translation__component=self,
             state__in=(STATE_TRANSLATED, STATE_APPROVED),
         )

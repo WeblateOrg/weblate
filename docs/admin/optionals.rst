@@ -428,6 +428,8 @@ The following operations are subject to rate limiting:
 +------------------------------------+----------------------+------------------+------------------+----------------+
 | Password authentication on sign-in | ``LOGIN``            | 5                | 300              | 600            |
 +------------------------------------+----------------------+------------------+------------------+----------------+
+| Password reset                     | ``PASSWORD_RESET``   | 5                | 300              | 600            |
++------------------------------------+----------------------+------------------+------------------+----------------+
 | Second-factor authentication       | ``SECOND_FACTOR``    | 5                | 300              | 600            |
 +------------------------------------+----------------------+------------------+------------------+----------------+
 | Sitewide search                    | ``SEARCH``           | 6                | 60               | 60             |
@@ -448,6 +450,10 @@ The following operations are subject to rate limiting:
 
 Within each scope, the rate limiting is based on sessions when user is signed in
 and on IP address if not.
+
+Strict enforcement across concurrent workers requires a cache backend with
+atomic increment and decrement operations. The standard :ref:`production-cache`
+configuration using Valkey or Redis provides these operations.
 
 For signed-in users, Weblate records the first rejected request during each
 active scope lockout in the :ref:`audit-log`, including the scope and request

@@ -791,7 +791,10 @@ class ParseErrorNotification(Notification):
         )
         if change and change.component:
             context["details"]["filelink"] = change.component.get_repoweb_link(
-                change.details.get("filename"), "1", user=context["user"]
+                change.details.get("filename"),
+                "1",
+                user=context["user"],
+                is_translation=True,
             )
         return context
 
@@ -1040,7 +1043,6 @@ class TranslationActivitySummaryNotification(Notification):
         users = {}
         notifications: dict[int, dict[int, dict[str, Any]]] = defaultdict(dict)
         totals: dict[int, int] = defaultdict(int)
-        overlimit: set[int] = set()
         activity_rows = self.get_activity_change_rows(
             frequency, project, projects
         ).iterator(chunk_size=NOTIFICATION_QUERY_CHUNK_SIZE)
@@ -1071,9 +1073,6 @@ class TranslationActivitySummaryNotification(Notification):
                     try:
                         summary = user_notifications[translation.pk]
                     except KeyError:
-                        if len(user_notifications) >= DIGEST_MAX_ITEMS:
-                            overlimit.add(user.pk)
-                            continue
                         summary = user_notifications[translation.pk] = {
                             "translation": translation,
                             **dict.fromkeys(self.activity_fields, 0),
@@ -1090,7 +1089,7 @@ class TranslationActivitySummaryNotification(Notification):
                 user.email,
                 summaries=summaries,
                 subscription=user.current_subscription,
-                overlimit=userid in overlimit,
+                overlimit=False,
                 extracontext={"total_count": totals[userid]},
             )
 
@@ -1611,7 +1610,6 @@ class SummaryNotification(Notification):
         users = {}
         notifications: dict[int, list[dict[str, Any]]] = defaultdict(list)
         totals: dict[int, int] = defaultdict(int)
-        overlimit: set[int] = set()
         translations = Translation.objects.prefetch().order_by(
             "component__project_id", "pk"
         )
@@ -1637,11 +1635,7 @@ class SummaryNotification(Notification):
             for user in current_users:
                 users[user.pk] = user
                 totals[user.pk] += count
-                user_notifications = notifications[user.pk]
-                if len(user_notifications) < DIGEST_MAX_ITEMS:
-                    user_notifications.append(context)
-                else:
-                    overlimit.add(user.pk)
+                notifications[user.pk].append(context)
         for userid, summaries in notifications.items():
             user = users[userid]
             self.send_digest(
@@ -1649,7 +1643,7 @@ class SummaryNotification(Notification):
                 user.email,
                 summaries=summaries,
                 subscription=user.current_subscription,
-                overlimit=userid in overlimit,
+                overlimit=False,
                 extracontext={"total_count": totals[userid]},
             )
 

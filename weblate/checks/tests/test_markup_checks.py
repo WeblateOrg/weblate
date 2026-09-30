@@ -26,6 +26,7 @@ from weblate.checks.markup import (
     XMLTagsCheck,
     XMLValidityCheck,
     extract_asciidoc_markup,
+    extract_bbcode_pairs,
     extract_rst_references,
     has_changed_placeholder_attributes,
 )
@@ -47,6 +48,156 @@ class BBCodeCheckTest(CheckTestCase):
             "[a]string[/a]",
             [(0, 3, "[a]"), (9, 13, "[/a]")],
         )
+
+    def test_parameterized_url(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[url=https://weblate.org]Weblate[/url]",
+                "[url=https://weblate.org]Weblate[/url]",
+                "bbcode-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "[url=https://weblate.org]Weblate[/url]",
+                "Weblate",
+                "bbcode-text",
+            ),
+        )
+
+    def test_parameterized_codeblock(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[codeblock lang=csharp]print()[/codeblock]",
+                "[codeblock lang=csharp]print()[/codeblock]",
+                "bbcode-text",
+            ),
+        )
+
+    def test_multiline_block(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[custom]My\nString[/custom]",
+                "[custom]My\nString[/custom]",
+                "bbcode-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "[custom]My\nString[/custom]",
+                "My\nString",
+                "bbcode-text",
+            ),
+        )
+
+    def test_parameterized_highlight(self) -> None:
+        source = "[url=https://weblate.org]Weblate[/url]"
+        unit = make_unit(
+            None,
+            "bbcode-text",
+            self.default_lang,
+            source=source,
+        )
+        highlights = list(self.check.check_highlight(source, unit))
+        self.assertEqual(
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
+            [
+                (0, 25, "[url=https://weblate.org]"),
+                (32, 38, "[/url]"),
+            ],
+        )
+
+    def test_nested_parameterized(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[url=x][b]bold[/b][/url]",
+                "[url=x][b]bold[/b][/url]",
+                "bbcode-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "[url=x][b]bold[/b][/url]",
+                "[url=x]bold[/url]",
+                "bbcode-text",
+            ),
+        )
+
+    def test_reordered_nested_tags(self) -> None:
+        self.do_test(
+            True,
+            ("[b][i]text[/i][/b]", "[i][b]text[/b][/i]", "bbcode-text"),
+        )
+        self.do_test(
+            True,
+            ("[b][i]text[/i][/b]", "[b][/b][i]text[/i]", "bbcode-text"),
+        )
+
+    def test_reordered_sibling_tags(self) -> None:
+        self.do_test(
+            False,
+            ("[b]bold[/b] [i]italic[/i]", "[i]italic[/i] [b]bold[/b]", "bbcode-text"),
+        )
+
+    def test_nested_highlight(self) -> None:
+        source = "[url=x][b]bold[/b][/url]"
+        unit = make_unit(
+            None,
+            "bbcode-text",
+            self.default_lang,
+            source=source,
+        )
+        highlights = list(self.check.check_highlight(source, unit))
+        self.assertEqual(
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
+            [
+                (0, 7, "[url=x]"),
+                (18, 24, "[/url]"),
+                (7, 10, "[b]"),
+                (14, 18, "[/b]"),
+            ],
+        )
+
+    def test_parameterized_closer_ignored(self) -> None:
+        self.do_test(
+            True,
+            (
+                "[url]Weblate[/url]",
+                "[url]Weblate[/url=https://weblate.org]",
+                "bbcode-text",
+            ),
+        )
+
+    def test_literal_bracket_before_tag(self) -> None:
+        self.do_test(
+            True,
+            ("[[b]bold[/b]]", "[bold]", "bbcode-text"),
+        )
+
+    def test_mismatched_nesting(self) -> None:
+        pairs = extract_bbcode_pairs("[a][b][a]text[/b][/a]")
+        self.assertEqual(
+            [(opener.group(), closer.group()) for opener, closer in pairs],
+            [("[a]", "[/a]"), ("[b]", "[/b]")],
+        )
+
+    def test_many_unmatched_closers(self) -> None:
+        source = "".join(f"[tag{i}]" for i in range(5000))
+        source += "".join(f"[/missing{i}]" for i in range(5000))
+        self.assertEqual(extract_bbcode_pairs(source), [])
 
 
 class XMLValidityCheckTest(CheckTestCase):
@@ -268,6 +419,94 @@ class MarkdownLinkCheckTest(CheckTestCase):
                 "md-text",
             ),
         )
+
+    def test_title(self) -> None:
+        self.do_test(
+            True,
+            (
+                '[Weblate](https://weblate.org/ "Translation platform")',
+                '[Weblate](https://weblate.org/ "Translation platform")',
+                "md-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                '[Weblate](https://weblate.org/ "Translation platform")',
+                '[Weblate](https://weblate.org/ "Localized platform")',
+                "md-text",
+            ),
+        )
+
+    def test_title_delimiters(self) -> None:
+        for opening, closing in (("'", "'"), ('"', '"'), ("(", ")")):
+            for target_title, expected in (
+                ("Translation platform", True),
+                ("Localized platform", False),
+            ):
+                with self.subTest(opening=opening, target_title=target_title):
+                    self.do_test(
+                        expected,
+                        (
+                            f"[Weblate](https://weblate.org/ {opening}Translation platform{closing})",
+                            f"[Weblate](https://weblate.org/ {opening}{target_title}{closing})",
+                            "md-text",
+                        ),
+                    )
+
+    def test_title_exemptions(self) -> None:
+        for title, flags, lang in (
+            ("Linux", "md-text", "de"),
+            ("{name}", "md-text", "de"),
+            ("Translation platform", "md-text", "en_GB"),
+            ("Translation platform", "md-text", "en"),
+            ("Translation platform", "md-text", "ia"),
+            ("Translation platform", "md-text, ignore-same", "de"),
+        ):
+            with self.subTest(title=title, flags=flags, lang=lang):
+                self.do_test(
+                    False,
+                    (
+                        f'[Link](https://example.com "{title}")',
+                        f'[Odkaz](https://example.com "{title}")',
+                        flags,
+                    ),
+                    lang=lang,
+                )
+
+    def test_title_presence(self) -> None:
+        for source, target in (
+            (
+                '[Help](https://example.com "Translation platform")',
+                "[Hilfe](https://example.com)",
+            ),
+            (
+                "[Help](https://example.com)",
+                '[Hilfe](https://example.com "Hilfe öffnen")',
+            ),
+        ):
+            with self.subTest(source=source):
+                self.do_test(True, (source, target, "md-text"))
+
+    def test_title_correspondence(self) -> None:
+        source = '[Kind](https://example.com/kind "Kind") [Art](https://example.com/art "Art")'
+        for target in (
+            '[Art](https://example.com/kind "Art") [Kunst](https://example.com/art "Kunst")',
+            '[Kunst](https://example.com/art "Kunst") [Art](https://example.com/kind "Art")',
+            '[Art](https://example.de/kind "Art") [Kunst](https://example.de/art "Kunst")',
+        ):
+            with self.subTest(target=target):
+                self.do_test(False, (source, target, "md-text"), lang="de")
+
+    def test_title_reordered_links(self) -> None:
+        source = '[Help](#help "Translation platform") [Example](#example)'
+        for target, expected in (
+            ('[Beispiel](#example) [Hilfe](#help "Hilfe öffnen")', False),
+            ('[Beispiel](#example) [Hilfe](#help "Translation platform")', True),
+            ('[Beispiel](#example "Hilfe öffnen") [Hilfe](#help)', True),
+        ):
+            with self.subTest(target=target):
+                self.do_test(expected, (source, target, "md-text"), lang="de")
 
     def test_spacing(self) -> None:
         self.do_test(

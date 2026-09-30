@@ -166,23 +166,36 @@ class AutoTranslationTest(ViewTestCase):
             self.prepare_restricted_source()
         )
         for user, enforce_permissions in ((None, True), (self.user, False)):
-            with self.subTest(user=user, enforce_permissions=enforce_permissions):
-                Unit.objects.filter(pk=target_unit.pk).update(
-                    target="", state=STATE_EMPTY
+            for source_component_ids in (None, [self.component.pk]):
+                source_is_eligible = (
+                    source_component_ids is not None
+                    or self.component.project_id
+                    == target_translation.component.project_id
                 )
-                auto = AutoTranslate(
-                    translation=target_translation,
+                with self.subTest(
                     user=user,
-                    q="state:<translated",
-                    mode="translate",
                     enforce_permissions=enforce_permissions,
-                )
+                    source_component_ids=source_component_ids,
+                ):
+                    Unit.objects.filter(pk=target_unit.pk).update(
+                        target="", state=STATE_EMPTY
+                    )
+                    auto = AutoTranslate(
+                        translation=target_translation,
+                        user=user,
+                        q="state:<translated",
+                        mode="translate",
+                        enforce_permissions=enforce_permissions,
+                    )
 
-                auto.process_others([self.component.pk])
+                    auto.process_others(source_component_ids)
 
-                self.assertEqual(auto.updated, 1)
-                target_unit.refresh_from_db()
-                self.assertEqual(target_unit.target, source_unit.target)
+                    self.assertEqual(auto.updated, int(source_is_eligible))
+                    target_unit.refresh_from_db()
+                    self.assertEqual(
+                        target_unit.target,
+                        source_unit.target if source_is_eligible else "",
+                    )
 
     def test_auto_form_filters_restricted_sources(self) -> None:
         _target_translation, _source_unit, _target_unit, _group = (
@@ -193,22 +206,19 @@ class AutoTranslationTest(ViewTestCase):
         self.project.save(update_fields=["workspace"])
 
         addon = AutoTranslateAddon(Addon(component=self.component2))
-        for obj, addon_form in (
-            (self.component2, False),
-            (self.project, False),
-            (workspace, False),
-            (self.component2, True),
-        ):
-            with self.subTest(scope=type(obj).__name__, addon=addon_form):
-                form = (
-                    AutoAddonForm(self.user, addon)
-                    if addon_form
-                    else AutoForm(obj, self.user)
-                )
+        for obj in (self.component2, self.project, workspace):
+            with self.subTest(scope=type(obj).__name__):
+                form = AutoForm(obj, self.user)
                 self.assertNotIn(
                     self.component.pk,
                     {value for value, _label in form.fields["component"].choices},
                 )
+
+        addon_form = AutoAddonForm(self.user, addon)
+        self.assertIn(
+            self.component.pk,
+            {value for value, _label in addon_form.fields["component"].choices},
+        )
 
         data = {
             "mode": "translate",
@@ -229,6 +239,13 @@ class AutoTranslationTest(ViewTestCase):
                     form = AutoForm(obj, self.user, data | {"component": reference})
                     self.assertFalse(form.is_valid())
                     self.assertIn("component", form.errors)
+
+            addon_form = AutoAddonForm(
+                self.user,
+                addon,
+                data=data | {"component": str(self.component.pk)},
+            )
+            self.assertTrue(addon_form.is_valid(), addon_form.errors)
 
     def test_auto_translation_view_skips_restricted_sources(self) -> None:
         target_translation, _source_unit, target_unit, _group = (

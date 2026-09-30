@@ -318,10 +318,15 @@ Users
 
 .. http:get:: /api/users/
 
-    Returns a list of users if you have permissions to see manage users. If not, then you get to see
-    only your own details.
+    Returns no results to unauthenticated users. Authenticated users without the
+    global ``user.view`` or ``user.edit`` permission see only their own basic
+    details when listing without a username filter. They can search for other
+    users by supplying a username prefix of at least two characters after
+    trimming surrounding whitespace; these searches return the user ID,
+    username, and full name of matching non-bot users. Users with either
+    permission can list all users and receive detailed information.
 
-    :query string username: Username to search for
+    :query string username: Username prefix to search for. At least two characters after trimming surrounding whitespace are required for users without the global ``user.view`` or ``user.edit`` permission.
     :query int id: User ID to search for
     :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
@@ -1065,6 +1070,9 @@ Projects
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string license: :ref:`project-license`
+    :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+    :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the workspace.
+    :>json array effective_enforced_checks: Enforced checks currently applied to the project (read-only).
     :>json integer access_control: :ref:`project-access_control`
     :>json boolean public_sharing: :ref:`project-public_sharing`
     :>json boolean use_shared_tm: :ref:`project-use_shared_tm`
@@ -1198,7 +1206,7 @@ Projects
 
     .. versionadded:: 5.5
 
-    Downloads all available translations associated with the project as an archive file using the requested format and language.
+    Downloads all available translations associated with the project as an archive file using the requested format and language. An unfiltered archive requires project-wide download permission. When ``language_code`` is specified, download permission is evaluated for that language.
 
     :param project: Project URL slug
     :type project: string
@@ -1639,7 +1647,7 @@ Projects
 
        Added ability to download ZIP file of all components translations in a project for 1 specific language.
 
-    Download a ZIP file of all translation files for a specified ``language_code`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`).
+    Download a ZIP file of all translation files for a specified ``language_code`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`). Download permission is evaluated for the requested language.
 
     :param project: Project URL slug
     :type project: string
@@ -1653,8 +1661,8 @@ Projects
         Possible responses:
 
         - ``200 OK`` with the ZIP file of translations for the specified language across all components in the project. If no components have translations for the specified language, an empty ZIP file will be returned.
-        - ``403 Forbidden`` if the user does not have permission to the project.
-        - ``404 Not Found`` if the project slug does not exist.
+        - ``403 Forbidden`` if the user does not have download permission for the requested language.
+        - ``404 Not Found`` if the project slug or language code does not exist.
 
 .. http:get:: /api/projects/(string:project)/languages/(string:language_code)/announcements/
 
@@ -1742,7 +1750,9 @@ Projects
 
    .. versionadded:: 2026.7
 
-    Returns a list of :ref:`projectbackup` archives.
+    Returns a list of :ref:`projectbackup` archives. Project backups contain all
+    project components, including restricted components, and require
+    :guilabel:`Edit project settings`.
 
     :param project: Project URL slug
     :type project: string
@@ -1766,7 +1776,9 @@ Projects
 
    .. versionadded:: 2026.7
 
-    Downloads a :ref:`projectbackup` archive.
+    Downloads a :ref:`projectbackup` archive containing all project components,
+    including restricted components. This requires :guilabel:`Edit project
+    settings`.
 
     :param project: Project URL slug
     :type project: string
@@ -1821,9 +1833,12 @@ Components
     :>json object source_language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string check_flags: :ref:`component-check_flags`
     :>json string priority: :ref:`component-priority`
-    :>json string enforced_checks: :ref:`component-enforced_checks`
+    :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+    :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the category, project, or workspace.
+    :>json array effective_enforced_checks: Enforced checks currently applied to the component (read-only).
     :>json string restricted: :ref:`component-restricted`
     :>json string repoweb: :ref:`component-repoweb`
+    :>json string repoweb_translations: :ref:`component-repoweb-translations`
     :>json string report_source_bugs: :ref:`component-report_source_bugs`
     :>json string merge_style: :ref:`component-merge_style`
     :>json string commit_message: :ref:`component-commit_message`
@@ -2894,6 +2909,10 @@ and XLIFF.
 
        The ``last_updated`` attribute is now exposed.
 
+    .. versionchanged:: 2026.10
+
+       The ``screenshots_url`` attribute is now exposed.
+
     Returns information about the translation unit.
 
     :param id: Unit ID
@@ -2925,6 +2944,7 @@ and XLIFF.
     :>json string extra_flags: Additional flags for this unit; source flags apply to all languages and translation flags apply only to that language, see :ref:`additional-flags`
     :>json string web_url: URL where the unit can be edited
     :>json string source_unit: Source unit link; see :http:get:`/api/units/(int:id)/`
+    :>json string screenshots_url: URL to list and manage associated screenshots; see :http:get:`/api/units/(int:id)/screenshots/`
     :>json boolean pending: whether the unit is pending for write
     :>json timestamp timestamp: string age
     :>json timestamp last_updated: last string update
@@ -2994,6 +3014,45 @@ and XLIFF.
    .. versionadded:: 5.11
 
    Returns a list of all target translation units for the given source translation unit.
+
+.. http:get:: /api/units/(int:id)/screenshots/
+
+   .. versionadded:: 2026.10
+
+   Returns a paginated list of screenshots associated with the unit.
+
+   :param id: Unit ID
+   :type id: int
+
+   .. seealso::
+
+       Screenshot object attributes are documented at :http:get:`/api/screenshots/(int:id)/`.
+
+.. http:post:: /api/units/(int:id)/screenshots/
+
+   .. versionadded:: 2026.10
+
+   Associate screenshot with unit.
+
+   :param id: Unit ID
+   :type id: int
+   :form string screenshot_id: Screenshot ID; the screenshot must belong to the
+       same component and language as the unit
+
+   .. seealso::
+
+       Returns the associated screenshot; see :http:get:`/api/screenshots/(int:id)/`.
+
+.. http:delete:: /api/units/(int:id)/screenshots/(int:screenshot_id)
+
+   .. versionadded:: 2026.10
+
+   Remove screenshot association with unit.
+
+   :param id: Unit ID
+   :type id: int
+   :param screenshot_id: Screenshot ID
+   :type screenshot_id: int
 
 .. http:post:: /api/units/(int:id)/comments/
 
@@ -3745,6 +3804,9 @@ Categories
    :>json str slug: Slug of category.
    :>json str project: Link to a project.
    :>json str category: Link to a parent category.
+   :>json array enforced_checks: Locally configured :ref:`enforced checks <component-enforced_checks>`.
+   :>json boolean inherit_enforced_checks: Whether enforced checks are inherited from the parent category, project, or workspace.
+   :>json array effective_enforced_checks: Enforced checks currently applied to the category (read-only).
    :>json string announcements_url: URL to announcements; see :http:get:`/api/categories/(int:id)/announcements/`
    :>json string reports_url: URL to list or generate scoped reports; see :http:get:`/api/categories/(int:id)/reports/`
 

@@ -390,10 +390,7 @@ class _HTMLSourcePosition:
 
     def at_literal(self) -> bool:
         """Whether the current position is within a Fluent literal or not."""
-        return any(
-            self.pos >= start and self.pos < end
-            for start, end in self._start_end_literals
-        )
+        return any(end > self.pos >= start for start, end in self._start_end_literals)
 
     def match(self, regex: re.Pattern) -> re.Match | None:
         """

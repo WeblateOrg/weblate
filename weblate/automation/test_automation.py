@@ -840,6 +840,24 @@ class AutomationTest(ComponentTestCase):
         with self.assertRaises(ValidationError):
             validate_operations(WORKFLOW | {"actions": [invalid]}, self.component)
 
+    def test_automatic_translation_accepts_restricted_source(self) -> None:
+        source = self.create_link_existing(
+            name="Restricted automation source",
+            slug="restricted-automation-source",
+            allow_translation_propagation=False,
+        )
+        source.restricted = True
+        source.save(update_fields=["restricted"])
+
+        workflow = validate_operations(
+            parse_workflow(
+                WORKFLOW | {"actions": [AUTO | {"settings": {"component": source.pk}}]}
+            ),
+            self.component,
+        )
+
+        self.assertEqual(workflow["actions"][0]["settings"]["component"], source.pk)
+
     def test_default_expanded_size_limit_in_form(self) -> None:
         addon = self.install()
         workflow = WORKFLOW | {"actions": [BULK | {"settings": {"q": "a" * 3900}}] * 16}

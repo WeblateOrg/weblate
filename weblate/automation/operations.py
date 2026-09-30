@@ -177,6 +177,8 @@ class AutomaticTranslationOperation(AutomationOperation):
             "engines": [],
             "threshold": 80,
         } | settings
+        # Workflows are persistent administrative configuration and execute as
+        # the add-on service identity, independently of the editor's later access.
         form = AutoForm(obj=obj, user=None, data=data)
         if scope != "component":
             form.fields["q"].required = False
@@ -205,6 +207,8 @@ class AutomaticTranslationOperation(AutomationOperation):
             component,
             settings,
             user,
+            # The saved workflow, rather than the triggering actor, authorizes
+            # the operation and its documented cross-component sources.
             enforce_permissions=False,
             selection=selection,
             affected=affected,

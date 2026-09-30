@@ -7189,12 +7189,14 @@ class LanguageConsistencyTest(ComponentTestCase):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
-        self.create_ts(
+        restricted = self.create_ts(
             name="TS",
             new_lang="add",
             new_base="ts/cs.ts",
             project=self.project,
         )
+        restricted.restricted = True
+        restricted.save(update_fields=["restricted"])
 
         preview = self.get_preview_addon(
             project=self.project
@@ -8229,6 +8231,34 @@ class TestRemoval(ComponentTestCase):
 
 
 class AutoTranslateAddonTest(ComponentTestCase):
+    def test_category_source_scope(self) -> None:
+        category = self.create_category(self.project)
+        outside_project = self.create_project(name="Outside", slug="outside")
+        outside_project.contribute_shared_tm = False
+        outside_project.save(update_fields=["contribute_shared_tm"])
+        outside_component = self.create_po(
+            name="Restricted outside source",
+            slug="restricted-outside-source",
+            project=outside_project,
+            restricted=True,
+        )
+        addon = AutoTranslateAddon(Addon(category=category))
+        configuration = {
+            "component": outside_component.pk,
+            "q": "state:empty",
+            "auto_source": "others",
+            "engines": [],
+            "threshold": 80,
+            "mode": "translated",
+        }
+
+        form = AutoAddonForm(self.user, addon, data=configuration)
+
+        self.assertFalse(form.is_valid())
+        self.assertIn("component", form.errors)
+        self.assertIn(self.component, form.components)
+        self.assertNotIn(outside_component, form.components)
+
     def test_approved_mode_configuration(self) -> None:
         configuration = {
             "component": "",

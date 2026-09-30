@@ -1582,11 +1582,14 @@ def reset_password(request: AuthenticatedHttpRequest):
     if request.method == "POST":
         form = ResetForm(request=request, data=request.POST)
         if form.is_valid():
+            if not check_rate_limit("password_reset", request):
+                return fake_email_sent(request, True)
             email = form.cleaned_data["email"]
-            if form.cleaned_data["email_user"]:
+            email_user = form.get_email_user(email)
+            if email_user:
                 response = send_password_reset_email(
                     request,
-                    form.cleaned_data["email_user"],
+                    email_user,
                     email=email,
                     scope=get_password_reset_scope(request, email),
                 )
