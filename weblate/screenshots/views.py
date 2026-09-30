@@ -129,7 +129,8 @@ TESSERACT_LANGUAGES = {
     "my": "mya",  # Burmese
     "ne": "nep",  # Nepali
     "nl": "nld",  # Dutch; Flemish
-    "nb_NO": "nor",  # Norwegian
+    "nb": "nor",  # Norwegian
+    "nb_NO": "nor",
     #    "": "ori",  # Oriya
     "pa": "pan",  # Panjabi; Punjabi
     "pl": "pol",  # Polish
