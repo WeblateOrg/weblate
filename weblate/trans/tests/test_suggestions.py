@@ -78,6 +78,31 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions), 1)
 
+    def test_suggest_glossary_explanation(self) -> None:
+        self.component.is_glossary = True
+        self.component.save(update_fields=["is_glossary"])
+        translate_url = reverse("translate", kwargs=self.kw_translation)
+        self.change_unit("Nazdar svete!\n")
+        # Suggesting unchanged target with a changed explanation updates it
+        response = self.edit_unit(
+            "Hello, world!\n",
+            "Nazdar svete!\n",
+            suggest="yes",
+            explanation="New explanation",
+        )
+        self.assert_redirects_offset(response, translate_url, 2)
+        self.assertEqual(self.get_unit().explanation, "New explanation")
+        self.assertEqual(len(self.get_unit().suggestions), 0)
+        # Suggesting unchanged target without explanation change is rejected
+        response = self.edit_unit(
+            "Hello, world!\n",
+            "Nazdar svete!\n",
+            suggest="yes",
+            explanation="New explanation",
+        )
+        self.assert_redirects_offset(response, translate_url, 1)
+        self.assertEqual(self.get_unit().explanation, "New explanation")
+
     def test_delete(self, **kwargs) -> None:
         translate_url = reverse("translate", kwargs=self.kw_translation)
         # Create two suggestions
