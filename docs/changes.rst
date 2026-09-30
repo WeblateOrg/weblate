@@ -74,6 +74,7 @@ Weblate 2026.10
 * :ref:`Suggestions <suggestions>` can be shown in the :ref:`zen-mode` and accepted, rejected, or voted on in place.
 * Added a separate :ref:`repository browser URL <component-repoweb-translations>` for translation files.
 * Docker startup now reports invalid nginx-related environment values before attempting to start nginx.
+* :ref:`addon-weblate.git.squash` now supports squashing together per author and language.
 * The automatic translation API can run as a background task. See :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/`.
 
 .. rubric:: Security fixes
