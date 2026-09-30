@@ -1085,6 +1085,23 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(self.project.userblock_set.count(), 1)
         self.assertEqual(self.project.userblock_set.filter(note="Spamming").count(), 1)
 
+    def test_blocked_user_email_visibility(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+
+        response = self.client.get(self.access_url)
+        self.assertNotContains(response, self.second_user.email)
+
+        group = self.create_sitewide_project_group()
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        response = self.client.get(self.access_url)
+        self.assertContains(response, self.second_user.email)
+
     def test_block_user_revert_edits(self) -> None:
         self.project.add_user(self.user, "Administration")
         unit = self.get_unit()
