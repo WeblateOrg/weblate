@@ -6,12 +6,9 @@ name: Migrations
 
 on:
   push:
-    branches-ignore:
-    - renovate/**
-    - weblate
-    - dependabot/**
-    - copilot/**
-    - codex/**
+    branches:
+    - main
+    - stable
   pull_request:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}

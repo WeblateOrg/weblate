@@ -6,10 +6,9 @@ name: Distribution
 
 on:
   push:
-    branches-ignore:
-    - renovate/**
-    - weblate
-    - dependabot/**
+    branches:
+    - main
+    - stable
     tags:
     - weblate-*
   pull_request:
