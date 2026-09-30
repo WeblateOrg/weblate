@@ -2320,14 +2320,19 @@ class FormParamsWidget(forms.MultiWidget):
         self.subwidget_class = subwidget_class
         super().__init__(widgets, attrs)
 
-    def decompress(self, value: dict) -> list[Any]:
+    def decompress(self, value: dict | str | None) -> list[Any]:
         initial_params: dict[str, Any] = {}
         for param_class in self.params:
             param = param_class()
             initial_params[param.get_identifier()] = param.get_field_kwargs().get(
                 "initial"
             )
-        value = {**initial_params, **(value or {})}
+        if isinstance(value, str):
+            try:
+                value = json.loads(value)
+            except ValueError:
+                value = None
+        value = {**initial_params, **(value if isinstance(value, dict) else {})}
         return [value.get(param_name) for param_name in self.fields_order]
 
     def get_context(self, *args, **kwargs) -> dict[str, Any]:
