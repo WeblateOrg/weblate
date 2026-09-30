@@ -485,6 +485,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         existing_units: Iterable[Unit] | None = None,
         file_format_params: FileFormatParams | None = None,
         repo_temp_dir: str | Path | None = None,
+        *,
+        file_validator: Callable[[str], str] | None = None,
     ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
         if isinstance(storefile, Path):
@@ -501,6 +503,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         self.is_template = is_template
         self.existing_units = [] if existing_units is None else existing_units
         self.repo_temp_dir = repo_temp_dir
+        self.file_validator = file_validator
 
         # Load store
         self.file_format_params = file_format_params or {}
@@ -783,6 +786,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         errors: list[Exception] | None = None,
         fast: bool = False,
         file_format_params: FileFormatParams | None = None,
+        file_validator: Callable[[str], str] | None = None,
     ) -> bool:
         """Check whether base is valid."""
         raise NotImplementedError

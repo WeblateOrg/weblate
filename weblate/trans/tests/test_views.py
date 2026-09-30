@@ -446,6 +446,7 @@ class ComponentTestCase(RepoTestCase):
             translation.get_filename(),
             None,
             file_format_params=translation.component.file_format_params,
+            file_validator=translation.component.check_file_is_valid,
         )
         messages: set[int] = set()
         translated = 0

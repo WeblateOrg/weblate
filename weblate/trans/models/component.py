@@ -5361,6 +5361,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                     os.path.join(dir_path, match),
                     self.template_store,
                     file_format_params=self.file_format_params,
+                    file_validator=self.check_file_is_valid,
                 )
                 store.check_valid()
             except Exception as error:
@@ -5400,6 +5401,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             errors,
             fast=fast,
             file_format_params=self.file_format_params,
+            file_validator=self.check_file_is_valid,
         )
 
     def clean_new_lang(self) -> None:
@@ -6396,6 +6398,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             source_language=self.source_language.code,
             file_format_params=self.file_format_params,
             repo_temp_dir=self.repository.get_repo_temp_dir(),
+            file_validator=self.check_file_is_valid,
         )
 
     @cached_property
@@ -6421,6 +6424,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 is_template=True,
                 file_format_params=self.file_format_params,
                 repo_temp_dir=self.repository.get_repo_temp_dir(),
+                file_validator=self.check_file_is_valid,
             )
 
     @cached_property
