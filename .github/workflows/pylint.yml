@@ -6,12 +6,9 @@ name: pylint check
 
 on:
   push:
-    branches-ignore:
-    - renovate/**
-    - weblate
-    - dependabot/**
-    - copilot/**
-    - codex/**
+    branches:
+    - main
+    - stable
   pull_request:
 
 permissions:

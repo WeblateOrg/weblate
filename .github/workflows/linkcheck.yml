@@ -6,12 +6,9 @@ name: Linkcheck
 
 on:
   push:
-    branches-ignore:
-    - renovate/**
-    - weblate
-    - dependabot/**
-    - copilot/**
-    - codex/**
+    branches:
+    - main
+    - stable
     paths:
     - docs/**.rst
     - .github/workflows/linkcheck.yml
