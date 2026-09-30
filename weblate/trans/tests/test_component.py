@@ -27,6 +27,7 @@ from translate.storage.base import ParseError
 
 from weblate.auth.models import setup_project_groups
 from weblate.checks.models import Check
+from weblate.formats.txt import AppStoreFormat, MultiparserError
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
@@ -594,6 +595,64 @@ class ComponentTest(RepoTestCase):
         self.verify_component(
             component, 2, "cs", 3, "Weblate - continuous localization"
         )
+
+    def test_appstore_validates_nested_files(self) -> None:
+        component = self.create_appstore()
+        translation = component.source_translation
+        metadata_path = pathlib.Path(translation.get_filename())
+        linked_path = metadata_path / "linked.txt"
+        outside_path = pathlib.Path(component.full_path).with_name(
+            f"{component.slug}-outside"
+        )
+        outside_path.mkdir()
+        self.addCleanup(remove_tree, outside_path, True)
+        secret_path = outside_path / "secret"
+        secret_path.write_text("TOPSECRET\n", encoding="utf-8")
+        linked_path.symlink_to(secret_path)
+
+        with self.assertRaisesMessage(
+            MultiparserError, "Invalid symbolic link in a repository."
+        ):
+            translation.load_store()
+
+        linked_path.unlink()
+        outside_directory = outside_path / "antifeatures"
+        outside_directory.mkdir()
+        (outside_directory / "tracking.txt").write_text("TOPSECRET\n", encoding="utf-8")
+        linked_directory = metadata_path / "antifeatures"
+        linked_directory.symlink_to(outside_directory, target_is_directory=True)
+
+        with self.assertRaisesMessage(
+            MultiparserError, "Invalid symbolic link in a repository."
+        ):
+            translation.load_store()
+
+        linked_directory.unlink()
+        linked_path.symlink_to(pathlib.Path(component.full_path, ".git", "config"))
+        with self.assertRaisesMessage(
+            MultiparserError,
+            "File path is in a restricted location in the repository.",
+        ):
+            translation.load_store()
+
+        linked_path.unlink()
+        shared_path = pathlib.Path(component.full_path, "shared-metadata")
+        shared_path.write_text("Repository content\n", encoding="utf-8")
+        linked_path.symlink_to(shared_path)
+
+        store = translation.load_store()
+        self.assertIn("Repository content", [unit.text for unit in store.store.units])
+
+    def test_appstore_parse_version(self) -> None:
+        component = self.create_appstore()
+        translation = component.source_translation
+        with patch.object(AppStoreFormat, "parse_version", 0):
+            translation.store_hash()
+
+        translation.refresh_from_db()
+        self.assertTrue(translation.check_sync())
+        translation.refresh_from_db()
+        self.assertTrue(translation.revision.split(",", maxsplit=1)[0].endswith(":1"))
 
     def test_create_po_pot(self) -> None:
         component = self._create_component("po", "po/*.po", new_base="po/project.pot")
