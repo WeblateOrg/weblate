@@ -195,18 +195,27 @@ memory for the whole project or for individual components from the current
 translations.
 
 Removing a component preserves its automatically created translation memory by
-default. Because the component access rule no longer exists after removal, the
-retained entries use the access rules of their remaining translation-memory
-scope. To remove those entries together with a component, select
+default. This preserves the behavior of Weblate versions which did not track
+the source component of translation-memory entries, and avoids unexpected data
+loss when a component is removed or replaced.
+
+Because the component access rule no longer exists after removal, retained
+entries use the access rules of their remaining translation-memory scope. For
+a restricted component, this can make retained entries visible to other members
+of its project or workspace. Select
 :guilabel:`Delete translation memory created from this component` in the
-removal form. Category removal offers the equivalent option for every component
-in the category and its nested categories. This removes attributed entries and
-legacy entries matching the current component path. It does not infer paths
-used before a component or category rename or move. Such unmatched entries can
-be deleted by origin in the project or workspace translation memory management,
-or using the REST API. The REST API accepts the ``delete_memory`` boolean in the
-request body or query string for component and category removal. Personal and
-uploaded entries are preserved.
+removal form when the entries should be removed with the component, especially
+when its restricted content must remain unavailable after removal. Category
+removal offers the equivalent option for every component in the category and
+its nested categories.
+
+The deletion option removes attributed entries and legacy entries matching the
+current component path. It does not infer paths used before a component or
+category rename or move. Such unmatched entries can be deleted by origin in the
+project or workspace translation memory management, or using the REST API. The
+REST API accepts the ``delete_memory`` boolean in the request body or query
+string for component and category removal. Personal and uploaded entries are
+preserved regardless of this option.
 
 The project view also shows whether shared translation memory and autoclean
 translation memory are enabled for the project, with a link to the project

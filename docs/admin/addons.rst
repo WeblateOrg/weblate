@@ -23,13 +23,25 @@ Add-ons that expose a component API show its base URL on the add-on's
 
 Add-ons are persistent administrative configuration. They run with their
 service identity in the scope where they are installed, rather than repeatedly
-using the permissions of the administrator who configured them. Project and
-category add-ons therefore include compatible restricted components in that
-scope. A component add-on can use inputs outside its destination component when
-documented by that add-on; for example, automatic translation can use other
-eligible components, including restricted siblings and components from projects
-which contribute to shared translation memory. Removing or disabling the
-configuring administrator does not disable the add-on.
+using the permissions of the administrator who configured them. This ensures
+that equally authorized administrators see and save the same configuration,
+and that saving an unrelated change does not silently alter the add-on's input
+scope. Removing or disabling the configuring administrator does not disable the
+add-on.
+
+Project and category add-ons therefore include compatible restricted components
+in that scope. A component add-on can use inputs outside its destination
+component when documented by that add-on. Automatic translation determines its
+source components as follows:
+
+* Direct automatic-translation actions use the acting user's component access.
+* A saved automatic-translation add-on uses its persistent administrative
+  scope. Compatible components in the target project are eligible, including
+  restricted components.
+* Components in another project are eligible when that project contributes to
+  shared translation memory. This includes restricted components even though
+  they do not create shared translation-memory entries; the add-on reads the
+  explicitly selected component as an administrative input instead.
 
 Restricted components remain filtered from ordinary listings and direct access.
 Grant add-on management permissions only to users trusted with the add-on's

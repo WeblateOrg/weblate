@@ -1,11 +1,11 @@
 {% load i18n icons %}
 
 <p>
-  {% blocktranslate %}This action cannot be undone. This will permanently delete the {{ object }} category and all related content.{% endblocktranslate %}
+  {% blocktranslate %}This action cannot be undone. This will permanently delete the {{ object }} category and its directly related content. Translation memory is handled separately below.{% endblocktranslate %}
 </p>
 
 <p class="alert alert-warning">
-  {% translate "If this action removes restricted components, retained translation memory from them will become available according to the project and workspace translation memory access rules unless you also delete it." %}
+  {% translate "Translation memory is retained by default. If this category contains restricted components, retained entries from them might become visible to other project or workspace members. Select the translation memory deletion option below to remove these entries." %}
 </p>
 
 {% with components=object.component_set.order %}
