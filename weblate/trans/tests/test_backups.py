@@ -6,11 +6,13 @@
 
 from __future__ import annotations
 
+import errno
 import json
 import os
 import tempfile
 import warnings
 from contextlib import contextmanager, suppress
+from copy import copy
 from io import StringIO
 from pathlib import Path
 from shutil import copyfile
@@ -72,6 +74,7 @@ from weblate.trans.tasks import (
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
+from weblate.vcs.base import RepositoryCommandError
 from weblate.vcs.git import GitRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import Workspace
@@ -823,6 +826,355 @@ class BackupsTest(ViewTestCase):
             sorted(len(call.args[0]) for call in mocked_delay.call_args_list),
             [1, restored.component_set.count() + 1],
         )
+
+    def test_create_backup_missing_repository(self) -> None:
+        linked = self.create_link_existing()
+        repository_path = Path(self.component.full_path)
+        backup = ProjectBackup()
+        with tempfile.TemporaryDirectory(dir=repository_path.parent) as temporary:
+            moved_path = repository_path.rename(Path(temporary) / "repository")
+            try:
+                with (
+                    patch.object(
+                        GitRepository, "maintenance", autospec=True
+                    ) as maintenance,
+                    self.assertLogs("weblate", "WARNING") as logs,
+                ):
+                    backup.backup_project(self.project)
+                self.assertNotIn(
+                    repository_path.as_posix(),
+                    [call.args[0].path for call in maintenance.call_args_list],
+                )
+            finally:
+                moved_path.rename(repository_path)
+
+        self.assertIn("skipping missing repository directory", "\n".join(logs.output))
+        with ZipFile(backup.filename) as backupzip:
+            data = json.loads(backupzip.read("components/test.json"))
+            self.assertEqual(
+                len(data["translations"]), self.component.translation_set.count()
+            )
+            self.assertTrue(data["units"])
+            self.assertFalse(
+                any(name.startswith("vcs/test/") for name in backupzip.namelist())
+            )
+            self.assertIn("vcs/glossary/.git/index", backupzip.namelist())
+            self.assertIn("weblate-backup.json", backupzip.namelist())
+        self.assertFalse(Path(f"{backup.filename}.part").exists())
+        self.assertTrue(
+            self.project.change_set.filter(action=ActionEvents.PROJECT_BACKUP).exists()
+        )
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        with patch.object(
+            GitRepository, "clone_from", side_effect=AssertionError("Unexpected clone")
+        ):
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+        component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(
+            component.translation_set.count(), self.component.translation_set.count()
+        )
+        self.assertCountEqual(
+            Unit.objects.filter(translation__component=component).values_list(
+                "source", "target", "state"
+            ),
+            Unit.objects.filter(translation__component=self.component).values_list(
+                "source", "target", "state"
+            ),
+        )
+        self.assertFalse(Path(component.full_path).exists())
+        self.assertTrue(
+            (
+                Path(restored.component_set.get(slug="glossary").full_path)
+                / ".git/index"
+            ).exists()
+        )
+        self.assertEqual(
+            restored.component_set.get(slug=linked.slug).linked_component, component
+        )
+
+    def test_create_backup_maintenance_failure(self) -> None:
+        backup = ProjectBackup()
+        with (
+            patch.object(
+                GitRepository,
+                "maintenance",
+                side_effect=RepositoryCommandError(1, "maintenance failed"),
+            ),
+            self.assertLogs("weblate", "WARNING") as logs,
+        ):
+            backup.backup_project(self.project)
+
+        self.assertIn("repository maintenance failed", "\n".join(logs.output))
+        with ZipFile(backup.filename) as backupzip:
+            self.assertIn("components/test.json", backupzip.namelist())
+            self.assertIn("vcs/test/.git/index", backupzip.namelist())
+            self.assertIn("vcs/glossary/.git/index", backupzip.namelist())
+        ProjectBackup(backup.filename).validate()
+
+    def test_create_backup_invalid_git_head(self) -> None:
+        head_path = Path(self.component.full_path) / ".git/HEAD"
+        original_head = head_path.read_bytes()
+        filename = self.component.translation_set.get(language_code="cs").filename
+        expected_content = (Path(self.component.full_path) / filename).read_bytes()
+        backup = ProjectBackup()
+        head_path.write_bytes(b"invalid HEAD\n")
+        try:
+            with self.assertLogs("weblate", "WARNING") as logs:
+                backup.backup_project(self.project)
+        finally:
+            head_path.write_bytes(original_head)
+
+        self.assertIn("repository maintenance failed", "\n".join(logs.output))
+        with ZipFile(backup.filename) as backupzip:
+            self.assertEqual(backupzip.read("vcs/test/.git/HEAD"), b"invalid HEAD\n")
+            self.assertEqual(backupzip.read(f"vcs/test/{filename}"), expected_content)
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        with self.assertLogs("weblate", "WARNING") as logs:
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+        component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(
+            (Path(component.full_path) / filename).read_bytes(), expected_content
+        )
+        self.assertFalse((Path(component.full_path) / ".git/config").exists())
+        self.assertCountEqual(
+            Unit.objects.filter(translation__component=component).values_list(
+                "source", "target", "state"
+            ),
+            Unit.objects.filter(translation__component=self.component).values_list(
+                "source", "target", "state"
+            ),
+        )
+        self.assertIn(
+            "repository metadata is missing or invalid", "\n".join(logs.output)
+        )
+
+    def test_restore_without_usable_repository_metadata(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        filename = self.component.translation_set.get(language_code="cs").filename
+        member_name = f"vcs/test/{filename}"
+        with ZipFile(backup.filename) as source_zip:
+            expected_content = source_zip.read(member_name)
+
+            for metadata in ("missing", "invalid-head", "missing-objects"):
+                with (
+                    self.subTest(metadata=metadata),
+                    tempfile.TemporaryDirectory() as temporary,
+                ):
+                    archive = Path(temporary) / "backup.zip"
+                    with ZipFile(archive, "w") as target_zip:
+                        for info in source_zip.infolist():
+                            if metadata == "missing" and info.filename.startswith(
+                                "vcs/test/.git/"
+                            ):
+                                continue
+                            if (
+                                metadata == "missing-objects"
+                                and info.filename.startswith("vcs/test/.git/objects/")
+                            ):
+                                continue
+                            content = source_zip.read(info.filename)
+                            if (
+                                metadata == "invalid-head"
+                                and info.filename == "vcs/test/.git/HEAD"
+                            ):
+                                content = b"invalid HEAD\n"
+                            target_zip.writestr(copy(info), content)
+                        target_zip.writestr(
+                            "vcs/test/config", b"working-tree configuration\n"
+                        )
+
+                    restore = ProjectBackup(archive.as_posix())
+                    restore.validate()
+                    with (
+                        patch.object(
+                            GitRepository,
+                            "clone_from",
+                            side_effect=AssertionError("Unexpected clone"),
+                        ),
+                        self.assertLogs("weblate", "WARNING") as logs,
+                    ):
+                        restored = restore.restore(
+                            project_name=f"Restored {metadata}",
+                            project_slug=f"restored-{metadata}",
+                            user=self.user,
+                        )
+                    component = restored.component_set.get(slug=self.component.slug)
+                    self.assertEqual(
+                        (Path(component.full_path) / filename).read_bytes(),
+                        expected_content,
+                    )
+                    self.assertFalse(
+                        (Path(component.full_path) / ".git/config").exists()
+                    )
+                    self.assertCountEqual(
+                        Unit.objects.filter(
+                            translation__component=component
+                        ).values_list("source", "target", "state"),
+                        Unit.objects.filter(
+                            translation__component=self.component
+                        ).values_list("source", "target", "state"),
+                    )
+                    self.assertTrue(
+                        (
+                            Path(restored.component_set.get(slug="glossary").full_path)
+                            / ".git/index"
+                        ).exists()
+                    )
+                    self.assertIn(
+                        "repository metadata is missing or invalid",
+                        "\n".join(logs.output),
+                    )
+
+    def test_create_backup_repository_disappears_during_maintenance(self) -> None:
+        repository_path = Path(self.component.full_path)
+        backup = ProjectBackup()
+        with tempfile.TemporaryDirectory(dir=repository_path.parent) as temporary:
+            moved_path = Path(temporary) / "repository"
+
+            def maintenance(repository: GitRepository) -> None:
+                if repository.path == repository_path.as_posix():
+                    repository_path.rename(moved_path)
+                    raise RepositoryCommandError(2, "repository directory is missing")
+
+            try:
+                with (
+                    patch.object(
+                        GitRepository,
+                        "maintenance",
+                        autospec=True,
+                        side_effect=maintenance,
+                    ),
+                    self.assertLogs("weblate", "WARNING") as logs,
+                ):
+                    backup.backup_project(self.project)
+            finally:
+                if moved_path.exists():
+                    moved_path.rename(repository_path)
+
+        self.assertIn("repository maintenance failed", "\n".join(logs.output))
+        with ZipFile(backup.filename) as backupzip:
+            self.assertIn("components/test.json", backupzip.namelist())
+            self.assertFalse(
+                any(name.startswith("vcs/test/") for name in backupzip.namelist())
+            )
+            self.assertIn("vcs/glossary/.git/index", backupzip.namelist())
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored", project_slug="restored", user=self.user
+        )
+        self.assertFalse(
+            Path(restored.component_set.get(slug="test").full_path).exists()
+        )
+        self.assertEqual(
+            restored.component_set.count(), self.project.component_set.count()
+        )
+
+    def test_create_backup_unexpected_maintenance_failure(self) -> None:
+        for error in (
+            RuntimeError("unexpected failure"),
+            PermissionError("permission denied"),
+        ):
+            with self.subTest(error=type(error).__name__):
+                backup = ProjectBackup()
+                with (
+                    patch.object(GitRepository, "maintenance", side_effect=error),
+                    self.assertRaises(type(error)),
+                ):
+                    backup.backup_project(self.project)
+                self.assertFalse(Path(backup.filename).exists())
+                self.assertFalse(Path(f"{backup.filename}.part").exists())
+
+    @override_settings(PROJECT_BACKUP_KEEP_COUNT=1)
+    def test_create_backup_archive_write_failure(self) -> None:
+        previous = ProjectBackup()
+        previous.backup_project(self.project)
+        backup = ProjectBackup()
+        with (
+            patch.object(GitRepository, "maintenance"),
+            patch.object(ZipFile, "write", side_effect=OSError("disk full")),
+            self.assertRaisesMessage(OSError, "disk full"),
+        ):
+            backup.backup_project(self.project)
+        self.assertFalse(Path(backup.filename).exists())
+        self.assertFalse(Path(f"{backup.filename}.part").exists())
+        cleanup_project_backups()
+        self.assertTrue(Path(previous.filename).exists())
+
+    def test_create_backup_rename_failure(self) -> None:
+        backup = ProjectBackup()
+        with (
+            patch.object(GitRepository, "maintenance"),
+            patch(
+                "weblate.trans.backups.os.rename", side_effect=OSError("rename failed")
+            ),
+            self.assertRaisesMessage(OSError, "rename failed"),
+        ):
+            backup.backup_project(self.project)
+        self.assertFalse(Path(backup.filename).exists())
+        self.assertFalse(Path(f"{backup.filename}.part").exists())
+
+    def test_create_backup_preserves_existing_partial_archive(self) -> None:
+        backup = ProjectBackup()
+        backup.generate_filename(self.project)
+        part_path = Path(f"{backup.filename}.part")
+        part_path.write_bytes(b"another backup is in progress")
+        self.addCleanup(part_path.unlink, missing_ok=True)
+        with (
+            patch.object(backup, "generate_filename"),
+            self.assertRaises(FileExistsError),
+        ):
+            backup.backup_project(self.project)
+        self.assertEqual(part_path.read_bytes(), b"another backup is in progress")
+
+    def test_create_backup_repository_access_failure(self) -> None:
+        repository_path = self.component.full_path
+        for operation in ("stat", "scandir"):
+            original = getattr(os, operation)
+            for error in (
+                PermissionError(errno.EACCES, "permission denied", repository_path),
+                OSError(errno.EIO, "I/O error", repository_path),
+                NotADirectoryError(errno.ENOTDIR, "not a directory", repository_path),
+            ):
+                with self.subTest(operation=operation, error=type(error).__name__):
+                    backup = ProjectBackup()
+
+                    def access(
+                        path,
+                        *args,
+                        failure: OSError = error,
+                        access_function=original,
+                        **kwargs,
+                    ):
+                        if os.fspath(path) == repository_path:
+                            raise failure
+                        return access_function(path, *args, **kwargs)
+
+                    with (
+                        patch(
+                            f"weblate.trans.backups.os.{operation}", side_effect=access
+                        ),
+                        patch.object(GitRepository, "maintenance"),
+                        self.assertRaises(type(error)) as raised,
+                    ):
+                        backup.backup_project(self.project)
+                    self.assertIs(raised.exception, error)
+                    self.assertFalse(Path(backup.filename).exists())
+                    self.assertFalse(Path(f"{backup.filename}.part").exists())
+                    self.assertFalse(
+                        self.project.change_set.filter(
+                            action=ActionEvents.PROJECT_BACKUP
+                        ).exists()
+                    )
 
     def test_create_backup(self) -> None:
         # Create linked component
@@ -2397,6 +2749,50 @@ class BackupsTest(ViewTestCase):
             self.assertNotIn(malicious_config, (metadata_dir / "hgrc").read_bytes())
             self.assertFalse((metadata_dir / "sharedpath").exists())
             self.assertEqual(repository.get_config("paths", "default"), component.repo)
+
+    def test_restore_mercurial_missing_requires(self) -> None:
+        original = self.create_po(
+            vcs="mercurial", name="Mercurial", project=self.project
+        )
+        filename = original.translation_set.get(language_code="cs").filename
+        expected_content = (Path(original.full_path) / filename).read_bytes()
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            archive = Path(temporary) / "backup.zip"
+            with (
+                ZipFile(backup.filename) as source_zip,
+                ZipFile(archive, "w") as target_zip,
+            ):
+                self.assertIn("vcs/mercurial/.hg/requires", source_zip.namelist())
+                for info in source_zip.infolist():
+                    if info.filename != "vcs/mercurial/.hg/requires":
+                        target_zip.writestr(copy(info), source_zip.read(info.filename))
+
+            restore = ProjectBackup(archive.as_posix())
+            restore.validate()
+            with self.assertLogs("weblate", "WARNING") as logs:
+                restored = restore.restore(
+                    project_name="Restored", project_slug="restored", user=self.user
+                )
+        component = restored.component_set.get(slug=original.slug)
+        self.assertFalse(component.repository.is_valid())
+        self.assertFalse((Path(component.full_path) / ".hg/hgrc").exists())
+        self.assertEqual(
+            (Path(component.full_path) / filename).read_bytes(), expected_content
+        )
+        self.assertCountEqual(
+            Unit.objects.filter(translation__component=component).values_list(
+                "source", "target", "state"
+            ),
+            Unit.objects.filter(translation__component=original).values_list(
+                "source", "target", "state"
+            ),
+        )
+        self.assertIn(
+            "repository metadata is missing or invalid", "\n".join(logs.output)
+        )
 
     def test_restore_rejects_invalid_screenshot(self) -> None:
         screenshot = Screenshot.objects.create(

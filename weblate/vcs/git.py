@@ -512,7 +512,14 @@ class GitRepository(Repository):
 
     def finalize_backup_restore(self) -> None:
         """Rebuild the index excluded from restored backups."""
-        self.execute(["read-tree", "--reset", "HEAD"], remote_op="none")
+        self.execute(
+            ["read-tree", "--reset", "HEAD"],
+            remote_op="none",
+            environment={
+                "GIT_DIR": str(Path(self.path) / ".git"),
+                "GIT_WORK_TREE": self.path,
+            },
+        )
 
     @classmethod
     def create_blank_repository(cls, path: str) -> None:

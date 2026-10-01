@@ -846,7 +846,11 @@ class Repository:
         return False
 
     def finalize_backup_restore(self) -> None:
-        """Recreate derived repository state after backup extraction."""
+        """Verify repository metadata after backup extraction."""
+        if not self.is_valid():
+            raise RepositoryError(
+                1, "Restored repository metadata is missing or invalid."
+            )
 
     def get_repo_temp_dir(self, create: bool = True) -> Path | None:
         metadata_dir = self.get_metadata_dir()

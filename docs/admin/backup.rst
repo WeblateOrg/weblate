@@ -30,6 +30,14 @@ The backup can be restored when creating a project (see
 
 The backups currently do not include access control information and history.
 
+Missing repository directories are skipped while component and translation
+data are still backed up. Repository maintenance failures are logged, and the
+backup continues with the available repository files.
+Filesystem access and I/O errors cause the backup to fail, and incomplete
+archives are removed. Restoring a backup with missing or invalid repository
+metadata preserves the available files, components, and translation data,
+but the repository must be recovered separately.
+
 The comments and suggestions are backed up with the username of the user who did
 create them. Upon import it is assigned to a matching user. If there is no user
 with such username, it is assigned to anonymous user.
