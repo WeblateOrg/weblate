@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import stat
 import warnings
 from collections import defaultdict
 from datetime import datetime
@@ -90,6 +91,7 @@ from weblate.utils.zip import (
 from weblate.utils.zip import (
     validate_zip_members as validate_safe_zip_members,
 )
+from weblate.vcs.base import RepositoryCommandError, RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
@@ -308,6 +310,7 @@ class ProjectBackup:
         self.component_slugs_by_length: list[str] = []
         self.component_repo_links: set[str] = set()
         self.component_vcs: dict[str, type[Repository] | None] = {}
+        self.restored_repositories: set[str] = set()
         self.label_names: set[str] = set()
         self.name_siblings: set[tuple[str, str]] = set()
         self.path_siblings: set[tuple[str, str]] = set()
@@ -823,7 +826,12 @@ class ProjectBackup:
 
     def backup_dir(self, backupzip: ZipFile, directory: str, target: str) -> None:
         """Backup single directory to specified target in zip."""
-        for folder, _subfolders, filenames in os.walk(directory):
+
+        def onerror(error: OSError) -> None:
+            if not isinstance(error, FileNotFoundError):
+                raise error
+
+        for folder, _subfolders, filenames in os.walk(directory, onerror=onerror):
             for filename in filenames:
                 path = os.path.join(folder, filename)
                 # zipfile does not support storing symlinks, it dereferences them
@@ -1010,8 +1018,21 @@ class ProjectBackup:
             return
 
         # Compact the repository
-        with component.repository.lock:
-            component.repository.maintenance()
+        # Recovery can fail on damaged metadata before maintenance can handle it.
+        with component.repository.lock.without_recovery(), component.repository.lock:
+            try:
+                os.stat(component.full_path)
+            except FileNotFoundError:
+                component.log_warning(
+                    "skipping missing repository directory during project backup"
+                )
+                return
+            try:
+                component.repository.maintenance()
+            except RepositoryCommandError as error:
+                component.log_warning(
+                    "repository maintenance failed during project backup: %s", error
+                )
 
         # Actually perform the backup
         self.backup_dir(
@@ -1031,26 +1052,31 @@ class ProjectBackup:
         part_name = f"{self.filename}.part"
 
         # Create the zip with the content
-        with ZipFile(part_name, "x") as backupzip:
-            # Project data
-            self.backup_json(
-                backupzip,
-                self.data,
-                "weblate-backup.json",
-            )
+        # Exclusive creation must succeed before registering cleanup.
+        backupzip = ZipFile(part_name, "x")
+        try:
+            with backupzip:
+                # Project data
+                self.backup_json(
+                    backupzip,
+                    self.data,
+                    "weblate-backup.json",
+                )
 
-            # Translation memory, avoid using memory_db
-            self.backup_json(
-                backupzip,
-                self.backup_memory(project),
-                "weblate-memory.json",
-            )
+                # Translation memory, avoid using memory_db
+                self.backup_json(
+                    backupzip,
+                    self.backup_memory(project),
+                    "weblate-memory.json",
+                )
 
-            # Components
-            for component in project.component_set.iterator():
-                self.backup_component(backupzip, component)
+                # Components
+                for component in project.component_set.iterator():
+                    self.backup_component(backupzip, component)
 
-        os.rename(part_name, self.filename)
+            os.rename(part_name, self.filename)
+        finally:
+            Path(part_name).unlink(missing_ok=True)
         self.log_backup(project, user)
 
     def log_backup(self, project: Project, user: User | None = None) -> None:
@@ -1143,14 +1169,39 @@ class ProjectBackup:
             None,
         )
 
-    def finalize_restored_repositories(self, project_path: Path) -> None:
-        """Recreate derived repository state excluded from the backup."""
+    def finalize_restored_repositories(
+        self, project_path: Path, extracted_repositories: set[str]
+    ) -> None:
+        """Verify and rebuild repository state restored from the backup."""
+        if self.project is None:
+            raise TypeError
         for component, repository_class in self.component_vcs.items():
-            if component in self.component_repo_links or repository_class is None:
+            if (
+                component in self.component_repo_links
+                or repository_class is None
+                or component not in extracted_repositories
+            ):
                 continue
             repository = repository_class(str(project_path / component), local=True)
-            with repository.lock:
-                repository.finalize_backup_restore()
+            if repository.metadata_dir_name is not None:
+                metadata_path = project_path / component / repository.metadata_dir_name
+                try:
+                    metadata_stat = metadata_path.stat()
+                except FileNotFoundError:
+                    continue
+                if not stat.S_ISDIR(metadata_stat.st_mode):
+                    continue
+            try:
+                with repository.lock.without_recovery(), repository.lock:
+                    repository.finalize_backup_restore()
+            except RepositoryError as error:
+                self.project.log_warning(
+                    "could not restore repository %s from project backup: %s",
+                    component,
+                    error,
+                )
+            else:
+                self.restored_repositories.add(component)
 
     @classmethod
     def get_limit(cls, setting_name: str, default: int) -> int:
@@ -2250,6 +2301,17 @@ class ProjectBackup:
             return None
         return linked_component
 
+    def configure_restored_repository(self, component: Component) -> None:
+        if component.is_repo_link:
+            return
+        if self.full_slug_without_project(component) in self.restored_repositories:
+            component.configure_repo(pull=False)
+        else:
+            component.log_warning(
+                "repository metadata is missing or invalid in project backup; "
+                "restored available files and translation data"
+            )
+
     def restore_component(
         self, zipfile: ZipFile, data: dict, actor: User, changes: list[Change]
     ) -> bool:
@@ -2413,8 +2475,7 @@ class ProjectBackup:
         # Trigger checks update, the implementation might have changed
         transaction.on_commit(component.schedule_update_checks, robust=True)
 
-        if not component.is_repo_link:
-            component.configure_repo(pull=False)
+        self.configure_restored_repository(component)
 
         from weblate.trans.models.source import reconcile_component_parents  # ruff: ignore[import-outside-top-level]
 
@@ -2491,6 +2552,7 @@ class ProjectBackup:
         self.labels_map.clear()
         self.components_cache.clear()
         self.categories_cache.clear()
+        self.restored_repositories.clear()
         project_path = Path(Project(name=project_name, slug=project_slug).full_path)
         if project_path.exists():
             raise ValidationError(
@@ -2579,6 +2641,7 @@ class ProjectBackup:
         self.restore_memory(zipfile, project)
 
         project_path = Path(project.full_path)
+        extracted_repositories: set[str] = set()
 
         def skip_vcs_member(info: ZipInfo) -> bool:
             if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
@@ -2602,11 +2665,14 @@ class ProjectBackup:
             member_name=vcs_member_name,
         ):
             extract_zip_member(zipfile, info, targetpath)
+            component = self.get_vcs_component(vcs_member_name(info))
+            if component is not None:
+                extracted_repositories.add(component)
             if vcs_member_name(info).endswith(".git/packed-refs"):
                 git_refs_dir = targetpath.parent / "refs"
                 git_refs_dir.mkdir(parents=True, exist_ok=True)
 
-        self.finalize_restored_repositories(project_path)
+        self.finalize_restored_repositories(project_path, extracted_repositories)
 
         self.load_components(
             zipfile,
