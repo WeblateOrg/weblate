@@ -7,6 +7,8 @@ Weblate 2026.10.1
 
 .. rubric:: Improvements
 
+* Made unused components and glossary languages warning :ref:`diagnostics <alerts>` and enabled dismissal for them and suspected monolingual or bilingual file-format misconfiguration.
+
 .. rubric:: Security fixes
 
 .. rubric:: Bug fixes

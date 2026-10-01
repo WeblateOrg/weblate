@@ -75,18 +75,31 @@ The summary can be filtered by active or dismissed state, severity, category,
 or whether the signed-in user can act on the diagnostic. Components shared into
 a project are listed only in the diagnostics of their owning project.
 
-If it is missing, the component clears all current checks. Problem alerts cannot
-be ignored, but will disappear once the underlying problem has been fixed.
+If it is missing, the component clears all current checks. Alerts disappear once
+the underlying condition has been resolved.
 
 Information and warning alerts are used for guidance on improving community
-localization. These can be dismissed and make the
+localization. They make the
 :guilabel:`Diagnostics` tab visible, but they do not indicate a
 component problem in listings.
+
+Dismissal is available for selected diagnostics, regardless of severity.
+Maintainers can dismiss warnings about unused components and glossary languages
+when these are intentionally retained. Suspected monolingual or bilingual
+file-format misconfiguration can also be dismissed when the configuration is
+correct. Operational failures and required configuration must still be resolved.
 
 Dismissed diagnostics record who dismissed them, when they were dismissed, and
 an optional reason. A dismissal is automatically reopened when the diagnostic
 details or the configuration relevant to that diagnostic changes. Dismissal
 and reopening are both recorded in the component change history.
+
+Unused-component dismissals persist through daily checks and reopen if
+:setting:`UNUSED_ALERT_DAYS` changes. Set this setting to 0 to disable the check
+site-wide. If activity resolves the diagnostic, a later period of inactivity
+can generate a new diagnostic. Unused glossary language dismissals reopen when
+the affected languages change. File-format diagnostic dismissals reopen when
+the relevant format, format parameters, base file, or source language changes.
 
 Warning and error notifications are sent only to subscribed project
 maintainers who have permission to act on the diagnostic. Informational

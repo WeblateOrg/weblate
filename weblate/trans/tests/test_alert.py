@@ -2115,6 +2115,204 @@ class ExtractPotAlertTest(ViewTestCase):
         )
 
 
+class AdvisoryAlertDismissalTest(ViewTestCase):
+    def create_component(self):
+        return self._create_component("po", "po/*.po")
+
+    @staticmethod
+    def advisory_alerts() -> dict[str, dict]:
+        return {
+            "UnusedComponent": {},
+            "UnusedGlossaryLanguage": {
+                "occurrences": [
+                    {"language_code": "cs", "translation_pk": 1},
+                    {"language_code": "de", "translation_pk": 2},
+                ]
+            },
+            "MonolingualTranslation": {},
+            "BilingualPOConfiguredAsMonolingual": {},
+        }
+
+    def test_dismiss_advisory_alerts(self) -> None:
+        self.make_manager()
+        for name, details in self.advisory_alerts().items():
+            with self.subTest(alert=name):
+                self.component.add_alert(name, **details)
+                response = self.client.post(
+                    reverse("dismiss-alert", kwargs=self.kw_component),
+                    {"dismiss": name, "reason": "Intentional setup"},
+                )
+                self.assertRedirects(
+                    response, f"{self.component.get_absolute_url()}#alerts"
+                )
+                alert = self.component.alert_set.get(name=name)
+                self.assertEqual(alert.dismissed_by, self.user)
+                self.assertEqual(alert.dismissal_reason, "Intentional setup")
+                self.assertTrue(
+                    self.component.change_set.filter(
+                        action=ActionEvents.ALERT_DISMISSED,
+                        alert=alert,
+                        user=self.user,
+                    ).exists()
+                )
+                component = Component.objects.get(pk=self.component.pk)
+                self.assertNotIn(
+                    name, {item.name for item in component.all_problem_alerts}
+                )
+                self.assertNotIn(
+                    name, {item.name for item in component.all_active_alerts}
+                )
+                self.component.add_alert(name, **details)
+                alert.refresh_from_db()
+                self.assertTrue(alert.is_dismissed)
+
+    def test_advisory_dismissal_requires_action_permission(self) -> None:
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        for name, details in self.advisory_alerts().items():
+            with self.subTest(alert=name):
+                self.component.add_alert(name, **details)
+                response = self.client.post(
+                    reverse("dismiss-alert", kwargs=self.kw_component),
+                    {"dismiss": name},
+                )
+                self.assertEqual(response.status_code, 404)
+                self.assertFalse(self.component.alert_set.get(name=name).is_dismissed)
+
+    def test_translation_deleter_can_dismiss_unused_glossary_language(self) -> None:
+        role = Role.objects.create(name="Glossary language maintainer")
+        role.permissions.add(Permission.objects.get(codename="translation.delete"))
+        group = Group.objects.create(name="Glossary language maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.component.add_alert("UnusedGlossaryLanguage", occurrences=[])
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "UnusedGlossaryLanguage"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        self.assertEqual(
+            self.component.alert_set.get(name="UnusedGlossaryLanguage").dismissed_by,
+            self.user,
+        )
+
+    def test_unused_alert_severity_updates_on_refresh(self) -> None:
+        for name in ("UnusedComponent", "UnusedGlossaryLanguage"):
+            with self.subTest(alert=name):
+                details = self.advisory_alerts()[name]
+                self.component.add_alert(name, **details)
+                self.component.alert_set.filter(name=name).update(
+                    severity=AlertSeverity.ERROR
+                )
+                self.component.add_alert(name, **details)
+                self.assertEqual(
+                    self.component.alert_set.get(name=name).severity,
+                    AlertSeverity.WARNING,
+                )
+                self.assertNotIn(
+                    name, {item.name for item in self.component.all_problem_alerts}
+                )
+
+    @override_settings(UNUSED_ALERT_DAYS=365)
+    def test_unused_component_threshold_reopens_dismissal(self) -> None:
+        self.component.add_alert("UnusedComponent")
+        alert = self.component.alert_set.get(name="UnusedComponent")
+        self.assertTrue(alert.dismiss(self.user))
+        with override_settings(UNUSED_ALERT_DAYS=180):
+            self.component.add_alert("UnusedComponent")
+        alert.refresh_from_db()
+        self.assertFalse(alert.is_dismissed)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    @override_settings(UNUSED_ALERT_DAYS=365)
+    def test_unused_component_resolution_and_recurrence(self) -> None:
+        old_activity = timezone.now() - timedelta(days=366)
+        with patch.object(
+            self.component,
+            "stats",
+            SimpleNamespace(all=10, translated=5, last_changed=old_activity),
+        ) as stats:
+            update_alerts(self.component, {"UnusedComponent"})
+            alert = self.component.alert_set.get(name="UnusedComponent")
+            self.assertTrue(alert.dismiss(self.user))
+            update_alerts(self.component, {"UnusedComponent"})
+            alert.refresh_from_db()
+            self.assertTrue(alert.is_dismissed)
+            stats.last_changed = timezone.now()
+            update_alerts(self.component, {"UnusedComponent"})
+            self.assertFalse(
+                self.component.alert_set.filter(name="UnusedComponent").exists()
+            )
+            stats.last_changed = old_activity
+            update_alerts(self.component, {"UnusedComponent"})
+            current = self.component.alert_set.get(name="UnusedComponent")
+            self.assertNotEqual(current.pk, alert.pk)
+            self.assertFalse(current.is_dismissed)
+            with override_settings(UNUSED_ALERT_DAYS=0):
+                update_alerts(self.component, {"UnusedComponent"})
+            self.assertFalse(
+                self.component.alert_set.filter(name="UnusedComponent").exists()
+            )
+
+    def test_glossary_occurrences_reopen_only_when_affected_set_changes(self) -> None:
+        details = self.advisory_alerts()["UnusedGlossaryLanguage"]
+        self.component.add_alert("UnusedGlossaryLanguage", **details)
+        alert = self.component.alert_set.get(name="UnusedGlossaryLanguage")
+        self.assertTrue(alert.dismiss(self.user))
+        self.component.add_alert(
+            "UnusedGlossaryLanguage", occurrences=list(reversed(details["occurrences"]))
+        )
+        alert.refresh_from_db()
+        self.assertTrue(alert.is_dismissed)
+        self.component.add_alert(
+            "UnusedGlossaryLanguage", occurrences=details["occurrences"][:1]
+        )
+        alert.refresh_from_db()
+        self.assertFalse(alert.is_dismissed)
+
+    def test_format_configuration_changes_reopen_dismissal(self) -> None:
+        for name in ("MonolingualTranslation", "BilingualPOConfiguredAsMonolingual"):
+            for field, value in (
+                ("file_format", "po-mono"),
+                ("file_format_params", {"test": True}),
+                ("template", "po/hello.pot"),
+                ("source_language_id", Language.objects.get(code="cs").pk),
+            ):
+                with self.subTest(alert=name, field=field):
+                    self.component.add_alert(name)
+                    alert = self.component.alert_set.get(name=name)
+                    self.assertEqual(alert.severity, AlertSeverity.ERROR)
+                    self.assertTrue(alert.dismiss(self.user))
+                    original = getattr(self.component, field)
+                    setattr(self.component, field, value)
+                    self.component.add_alert(name)
+                    setattr(self.component, field, original)
+                    alert.refresh_from_db()
+                    self.assertFalse(alert.is_dismissed)
+
+    def test_operational_alerts_remain_non_dismissible(self) -> None:
+        self.make_manager()
+        for name, details in (
+            ("ParseError", {"occurrences": []}),
+            ("UnusedEnforcedCheck", {}),
+            ("AutomergeFailure", {"error": "Merge failed"}),
+            ("BillingLimit", {}),
+        ):
+            with self.subTest(alert=name):
+                self.component.add_alert(name, **details)
+                alert = self.component.alert_set.get(name=name)
+                self.assertFalse(alert.can_user_dismiss(self.user))
+                self.assertFalse(alert.dismiss(self.user))
+
+
 class MonolingualAlertTest(ViewTestCase):
     def create_component(self):
         return self.create_po_mono()
