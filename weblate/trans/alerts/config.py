@@ -119,8 +119,22 @@ class MissingLicense(BaseAlert):
         return component.project.needs_license() and not component.effective_license
 
 
+class FileFormatConfigurationAlert(BaseAlert):
+    dismissible = True
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {
+            "details": details,
+            "file_format": component.file_format,
+            "file_format_params": component.file_format_params,
+            "template": component.template,
+            "source_language": component.source_language_id,
+        }
+
+
 @register
-class MonolingualTranslation(BaseAlert):
+class MonolingualTranslation(FileFormatConfigurationAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Misconfigured monolingual translation.")
     doc_page = "formats"
@@ -162,7 +176,7 @@ class MonolingualTranslation(BaseAlert):
 
 
 @register
-class BilingualPOConfiguredAsMonolingual(BaseAlert):
+class BilingualPOConfiguredAsMonolingual(FileFormatConfigurationAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Bilingual gettext PO file configured as monolingual.")
     doc_page = "formats"
@@ -474,7 +488,13 @@ class UnusedEnforcedCheck(BaseAlert):
 @register
 class UnusedComponent(BaseAlert):
     verbose = gettext_lazy("Component seems unused.")
+    severity = AlertSeverity.WARNING
+    dismissible = True
     doc_page = "devel/community"
+
+    @classmethod
+    def get_dismissal_context(cls, _component: Component, details: dict) -> dict:
+        return {"details": details, "days": settings.UNUSED_ALERT_DAYS}
 
     def get_analysis(self) -> dict[str, Any]:
         return {"days": settings.UNUSED_ALERT_DAYS}
@@ -558,7 +578,26 @@ class GlossaryStringManagementDisabled(BaseAlert):
 @register
 class UnusedGlossaryLanguage(MultiAlert):
     verbose = gettext_lazy("Unused glossary language.")
+    severity = AlertSeverity.WARNING
+    dismissible = True
     doc_page = "user/glossary"
+
+    @classmethod
+    def get_dismissal_context(cls, _component: Component, details: dict) -> dict:
+        return {
+            "details": {
+                **details,
+                "occurrences": sorted(
+                    {
+                        (
+                            occurrence["language_code"],
+                            occurrence.get("translation_pk", 0),
+                        )
+                        for occurrence in details.get("occurrences", [])
+                    }
+                ),
+            }
+        }
 
     @classmethod
     def can_user_act_for(
@@ -571,7 +610,11 @@ class UnusedGlossaryLanguage(MultiAlert):
     def process_occurrences(
         self, occurrences: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
-        result = super().process_occurrences(occurrences)
+        # Keep model instances used for rendering out of the persisted details
+        # and dismissal history snapshot.
+        result = super().process_occurrences(
+            [occurrence.copy() for occurrence in occurrences]
+        )
         updates: dict[int, list[dict[str, Any]]] = {}
         for occurrence in result:
             if "translation_pk" not in occurrence:
