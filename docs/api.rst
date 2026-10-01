@@ -619,6 +619,13 @@ Groups
 
 .. versionadded:: 4.0
 
+Changing a site-wide group's access scope requires the global ``group.edit``
+permission. This trusted administrative permission is not limited by the
+caller's project access: project and component association endpoints can grant
+team members access to private projects the caller cannot access directly. See
+:ref:`site-wide-team-management` for the permission model and narrower
+delegation options.
+
 .. http:get:: /api/groups/
 
     Returns a list of groups if you have permissions to see manage groups. If not, then you get to see
