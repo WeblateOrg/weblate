@@ -1696,6 +1696,22 @@ class DownloadMultiTest(ViewTestCase):
         )
         self.assert_zip(response, "test-test-cs.csv")
 
+    def test_project_mo_skips_incompatible_translations(self) -> None:
+        self.create_appstore(project=self.project, name="Metadata")
+
+        response = self.client.get(
+            reverse("download", kwargs={"path": self.project.get_url_path()}),
+            {"format": "zip:mo"},
+        )
+
+        with ZipFile(BytesIO(response.content)) as archive:
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("test-test-cs.mo", archive.namelist())
+            self.assertEqual(
+                archive.read("test-metadata-cs.mo.skipped"),
+                b"File format is not compatible with this translation",
+            )
+
     def test_component_with_exporter_disabled(self) -> None:
         # omit CSV exporter
         exporters = tuple(
