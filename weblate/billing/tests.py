@@ -417,6 +417,151 @@ class BillingTest(BaseTestCase):
         self.assertEqual(len(log_queries), 1)
         self.assertIn('JOIN "weblate_auth_user"', log_queries[0])
 
+    def test_billing_logs_pagination(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+        self.billing.billinglog_set.all().delete()
+        timestamp = timezone.now()
+        logs = [
+            self.billing.billinglog_set.create(
+                event=BillingEvent.EMAIL,
+                summary=f"Audit entry {index}",
+                timestamp=timestamp,
+                user=self.user,
+            )
+            for index in range(25)
+        ]
+        other = Billing.objects.create(plan=self.plan)
+        other.billinglog_set.create(
+            event=BillingEvent.EMAIL, summary="Other billing entry"
+        )
+        logs_url = reverse("billing-logs", kwargs={"pk": self.billing.pk})
+
+        response = self.client.get(self.billing.get_absolute_url())
+        self.assertContains(response, f'href="{logs_url}"')
+        footer_links = html.fromstring(response.content).xpath(
+            '//div[contains(@class, "card-footer")]/a[@href=$url]', url=logs_url
+        )
+        self.assertEqual(len(footer_links), 1)
+        self.assertEqual(list(response.context["billing_logs"]), logs[:4:-1])
+
+        response = self.client.get(logs_url)
+        self.assertEqual(list(response.context["billing_logs"]), logs[:4:-1])
+        self.assertContains(response, 'rel="next"')
+        self.assertNotContains(response, "Other billing entry")
+        self.assertContains(response, f'href="{self.billing.get_absolute_url()}"')
+        self.assertContains(
+            response, f'href="{self.billing.workspace.get_absolute_url()}"'
+        )
+
+        response = self.client.get(logs_url, {"page": 2})
+        self.assertEqual(list(response.context["billing_logs"]), logs[4::-1])
+        self.assertContains(response, "Audit entry 0")
+        self.assertNotContains(response, "Other billing entry")
+
+        # Timestamp ordering takes precedence over the primary-key tie breaker.
+        oldest = logs[-1]
+        oldest.timestamp = timestamp - timedelta(days=1)
+        oldest.save(update_fields=["timestamp"])
+        response = self.client.get(logs_url, {"page": 2})
+        self.assertEqual(list(response.context["billing_logs"])[-1], oldest)
+
+    def test_billing_logs_page_parameters(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+        self.billing.billinglog_set.all().delete()
+        for index in range(25):
+            self.billing.billinglog_set.create(
+                event=BillingEvent.EMAIL, summary=f"Audit entry {index}"
+            )
+        logs_url = reverse("billing-logs", kwargs={"pk": self.billing.pk})
+        for params, page, limit in (
+            ({"page": "invalid", "limit": "invalid"}, 1, 20),
+            ({"page": -1, "limit": -1}, 1, 10),
+            ({"page": 999}, 2, 20),
+            ({"limit": 9999}, 1, 2000),
+            ({"page": 2, "limit": 10}, 2, 10),
+        ):
+            with self.subTest(params=params):
+                response = self.client.get(logs_url, params)
+                self.assertEqual(response.status_code, 200)
+                billing_logs = response.context["billing_logs"]
+                self.assertEqual(billing_logs.number, page)
+                self.assertEqual(billing_logs.paginator.per_page, limit)
+
+    def test_billing_logs_permissions(self) -> None:
+        logs_url = reverse("billing-logs", kwargs={"pk": self.billing.pk})
+        response = self.client.get(logs_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("next=", response["Location"])
+
+        self.client.force_login(self.user)
+        self.assertEqual(self.client.get(logs_url).status_code, 403)
+        self.assertNotContains(
+            self.client.get(self.billing.get_absolute_url()), logs_url
+        )
+
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.assertEqual(self.client.get(logs_url).status_code, 200)
+        with patch.object(User, "has_perm", return_value=False):
+            self.assertEqual(self.client.get(logs_url).status_code, 403)
+        self.assertEqual(
+            self.client.get(reverse("billing-logs", kwargs={"pk": 0})).status_code,
+            404,
+        )
+        self.assertEqual(self.client.post(logs_url).status_code, 405)
+
+    def test_billing_logs_empty(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+        self.billing.billinglog_set.all().delete()
+        logs_url = reverse("billing-logs", kwargs={"pk": self.billing.pk})
+        for url in (logs_url, self.billing.get_absolute_url()):
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertContains(response, "No audit log entries found.")
+                if url != logs_url:
+                    self.assertContains(response, f'href="{logs_url}"')
+
+    def test_billing_logs_details_and_users(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.client.force_login(self.user)
+        users = [create_another_user(str(index)) for index in range(3)]
+        for user in users:
+            self.billing.billinglog_set.create(
+                event=BillingEvent.EMAIL,
+                summary="Test audit event <script>",
+                user=user,
+                details={"backup_filename": "billing backups/test.zip"},
+            )
+        logs_url = reverse("billing-logs", kwargs={"pk": self.billing.pk})
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(logs_url)
+
+        self.assertContains(response, "Test audit event &lt;script&gt;")
+        self.assertContains(
+            response,
+            f"{reverse('restore_backup')}?path=billing%20backups/test.zip",
+        )
+        logs = list(response.context["billing_logs"])
+        self.assertTrue(
+            {user.pk for user in users}.issubset({log.user_id for log in logs})
+        )
+        # ruff: ignore[private-member-access]
+        self.assertTrue(all("user" in log._state.fields_cache for log in logs))
+        log_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if '"billing_billinglog"' in query["sql"]
+        ]
+        self.assertEqual(len(log_queries), 2)
+        self.assertTrue(any('JOIN "weblate_auth_user"' in sql for sql in log_queries))
+
     def test_can_terminate(self) -> None:
         self.assertTrue(self.billing.can_terminate)
 

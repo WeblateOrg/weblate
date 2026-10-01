@@ -131,34 +131,10 @@
         <div class="card-header">
           <h4 class="card-title">{% translate "Audit log" %}</h4>
         </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>{% translate "When" %}</th>
-              <th>{% translate "Billing event" %}</th>
-              <th>{% translate "Event details" %}</th>
-              <th>{% translate "User" %}</th>
-              <th>
-                <span class="visually-hidden">{% translate "Actions" %}</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for log in billing_logs %}
-              <tr>
-                <td>{{ log.timestamp|naturaltime }}</td>
-                <td>{{ log.get_event_display }}</td>
-                <td>{{ log.get_details_display }}</td>
-                <td>{{ log.user }}</td>
-                <td>
-                  {% if user.is_superuser and log.details.backup_filename %}
-                    <a href="{% url "restore_backup" %}?path={{ log.details.backup_filename|urlencode }}">{% translate "Download" %}</a>
-                  {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        {% include "billing/log-table.html" %}
+        <div class="card-footer">
+          <a class="btn btn-primary" href="{% url "billing-logs" pk=billing.pk %}">{% translate "View all" %}</a>
+        </div>
       </div>
 
     {% endif %}

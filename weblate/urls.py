@@ -1187,6 +1187,7 @@ if "weblate.billing" in settings.INSTALLED_APPS:
             name="restore_backup",
         ),
         path("billing/<int:pk>/", weblate.billing.views.detail, name="billing-detail"),
+        path("billing/<int:pk>/logs/", weblate.billing.views.logs, name="billing-logs"),
         path(
             "billing/<int:pk>/merge/", weblate.billing.views.merge, name="billing-merge"
         ),
