@@ -118,6 +118,7 @@ Weblate 2026.10
 * Fixed bilingual :ref:`glossary terms <glossary-untranslatable>` appearing as untranslatable when translating in their source language.
 * Fixed :ref:`component discovery <addon-weblate.discovery.discovery>` with inherited licenses and other inherited settings.
 * Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
+* Fixed switching between singular and plural forms when :ref:`adding new strings <adding-new-strings>`.
 
 .. rubric:: Compatibility
 
