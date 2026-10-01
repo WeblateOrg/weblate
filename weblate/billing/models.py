@@ -42,6 +42,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.removal import get_current_removal_batch
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.stats import prefetch_stats
@@ -784,6 +785,10 @@ class Billing(models.Model):
         return modified
 
     def update_alerts(self) -> None:
+        batch = get_current_removal_batch()
+        if batch is not None:
+            batch.collect_billing_alert_update(self.pk)
+            return
         if self.in_limits:
             Alert.objects.filter(
                 component__project__in=self.get_projects_queryset(), name="BillingLimit"

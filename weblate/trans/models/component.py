@@ -103,6 +103,7 @@ from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
+from weblate.trans.removal import defer_alert_update, is_removed_component
 from weblate.trans.signals import (
     component_post_update,
     translation_post_add,
@@ -4552,6 +4553,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.alerts_trigger[name] = [kwargs]
 
     def delete_alert(self, alert: str) -> None:
+        if is_removed_component(self.pk):
+            return
         alert_class = get_alert_class(alert)
         linked_children = list(self.linked_children) if alert_class.link_wide else []
         alert_exists = alert in self.all_alerts
@@ -4604,6 +4607,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.do_lock(user=None, lock=False, auto=True)
 
     def add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
+        if is_removed_component(self.pk):
+            return
         alert_class = get_alert_class(alert)
         if alert in LOCKING_ALERTS and alert_class.link_wide:
             with transaction.atomic():
@@ -6241,6 +6246,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def _update_alerts(self) -> None:
         self._alerts_scheduled = False
+        if defer_alert_update(self.pk):
+            return
         # Flush alerts case, mostly needed for tests
         self.__dict__.pop("all_alerts", None)
 
@@ -6256,6 +6263,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 update_alerts(component, {"NoLibreConditions"})
 
     def update_alerts(self) -> None:
+        if defer_alert_update(self.pk):
+            return
         if self._alerts_scheduled:
             return
 
