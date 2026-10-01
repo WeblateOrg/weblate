@@ -16,7 +16,9 @@ from urllib.parse import parse_qs, urlparse
 import responses
 from django.conf import settings
 from django.contrib.auth import SESSION_KEY
+from django.contrib.sessions.middleware import SessionMiddleware
 from django.core import mail
+from django.http import HttpResponse
 from django.test import Client, RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
@@ -139,6 +141,34 @@ class WeblateStrategyTest(SimpleTestCase):
         strategy = WeblateStrategy(DjangoStorage, request)
 
         self.assertEqual(strategy.request_data()["email"], "test@example.com")
+
+    def test_replayed_link_data_takes_precedence_over_session_email(self) -> None:
+        request = RequestFactory().post(
+            "/complete/email/", {"partial_pipeline_confirm": "1"}
+        )
+        SessionMiddleware(lambda _request: HttpResponse()).process_request(request)
+        request.session.update(
+            {
+                "password_reset": True,
+                PASSWORD_RESET_EMAIL_SESSION: "other@example.com",
+            }
+        )
+        strategy = WeblateStrategy(DjangoStorage, request)
+        data = {"partial_token": "saved-token", "verification_code": "saved-code"}
+        with strategy.pipeline_request_data(data):
+            self.assertEqual(strategy.request_data(), data)
+            self.assertNotIn("email", strategy.request_data())
+        self.assertEqual(strategy.request_data()["email"], "other@example.com")
+
+    def test_request_data_sanitizes_return_url(self) -> None:
+        request = RequestFactory().post(
+            "/complete/email/", {"next": "https://attacker.example/"}
+        )
+        SessionMiddleware(lambda _request: HttpResponse()).process_request(request)
+        strategy = WeblateStrategy(DjangoStorage, request)
+        self.assertEqual(
+            strategy.request_data()["next"], f"{reverse('profile')}#account"
+        )
 
 
 class BaseRegistrationTest(TestCase, RegistrationTestMixin):
