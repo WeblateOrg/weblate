@@ -107,6 +107,10 @@ After installation you can control billing in the admin interface. Users with
 billing enabled will get new :guilabel:`Billing` tab in their
 :ref:`user-profile`.
 
+Superusers can view the 20 most recent billing audit entries on the billing
+detail page. Select :guilabel:`View all` in the :guilabel:`Audit log` section
+to browse older entries using the pagination controls.
+
 The billing module additionally allows users to create new projects and
 components without being superusers (see :ref:`adding-projects`). This is
 possible when following conditions are met:

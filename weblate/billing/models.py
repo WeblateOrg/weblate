@@ -1265,7 +1265,7 @@ class BillingEvent(models.IntegerChoices):
 
 class BillingLogQuerySet(models.QuerySet["BillingLog", "BillingLog"]):
     def order(self) -> BillingLogQuerySet:
-        return self.order_by("-timestamp")
+        return self.order_by("-timestamp", "-pk")
 
     def recent(self) -> BillingLogQuerySet:
         return self.order()[:20]

@@ -7,7 +7,7 @@
 
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
@@ -15,7 +15,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.lang.models import get_default_lang
-from weblate.trans.forms import ComponentCreateForm, VCSParamsField
+from weblate.trans.forms import ComponentCreateForm
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.views import get_form_data
@@ -30,6 +30,9 @@ from weblate.vcs.params import (
     get_vcs_param_for_name,
     strip_unused_vcs_params,
 )
+
+if TYPE_CHECKING:
+    from weblate.trans.forms import VCSParamsField
 
 
 class VCSParamsRegistryTest(SimpleTestCase):

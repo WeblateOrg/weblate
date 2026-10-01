@@ -1,0 +1,22 @@
+{% extends "billing/detail.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  {{ block.super }}
+  <li class="breadcrumb-item active" aria-current="page">{% translate "Audit log" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Audit log" %}</h4>
+    </div>
+    {% include "billing/log-table.html" %}
+    <div class="card-footer">
+      <nav aria-label="{% translate 'Audit log pagination' %}">
+        {% include "paginator.html" with page_obj=billing_logs %}
+      </nav>
+    </div>
+  </div>
+{% endblock content %}
