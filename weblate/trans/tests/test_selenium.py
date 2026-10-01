@@ -1397,6 +1397,38 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ["", "suggestion", "alternative"],
         )
 
+    def test_new_unit_plural_switch(self) -> None:
+        fixture = RepoTestMixin()
+        fixture.clone_test_repos()
+        project = Project.objects.create(name="New plural", slug="new-plural")
+        component = fixture.create_po(project=project, manage_units=True)
+        translation = component.translation_set.get(language_code="cs")
+        self.do_login(superuser=True)
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{translation.get_absolute_url()}#new"
+            )
+        singular = self.driver.find_element(By.ID, "new-singular")
+        plural = self.driver.find_element(By.ID, "new-plural")
+        self.assertTrue(singular.is_displayed())
+        self.assertFalse(plural.is_displayed())
+
+        self.click(
+            singular.find_element(
+                By.CSS_SELECTOR, "input[name='new-unit-form-type'][value='plural']"
+            )
+        )
+        self.assertFalse(singular.is_displayed())
+        self.assertTrue(plural.is_displayed())
+
+        self.click(
+            plural.find_element(
+                By.CSS_SELECTOR, "input[name='new-unit-form-type'][value='singular']"
+            )
+        )
+        self.assertTrue(singular.is_displayed())
+        self.assertFalse(plural.is_displayed())
+
     def test_retained_translation_is_unsaved(self) -> None:
         """Retained plural drafts warn on navigation without further input."""
         fixture = RepoTestMixin()
