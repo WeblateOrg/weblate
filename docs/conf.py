@@ -42,6 +42,10 @@ font_locations = (
 weblate_dir = file_dir.parent
 # Our extension
 sys.path.append(str(file_dir / "_ext"))
+
+# The documentation extension directory must be on sys.path before importing.
+from intersphinx_cache import cached_mapping, normalize_language  # ruff: ignore[module-import-not-at-top-of-file]
+
 # Weblate code
 sys.path.append(str(weblate_dir))
 
@@ -293,53 +297,7 @@ graphviz_output_format = "svg"
 
 # Use localized Python docs on Read the Docs build
 language = os.environ.get("READTHEDOCS_LANGUAGE", "en")
-# RTD uses no but the correct code is nb
-if language == "no":
-    language = "nb"
-if "-" in language:
-    # RTD normalized their language codes to ll-cc (e.g. zh-cn),
-    # but Sphinx did not and still uses ll_CC (e.g. zh_CN).
-    # `language` is the Sphinx configuration so it needs to be converted back.
-    (lang_name, lang_country) = language.split("-")
-    language = lang_name + "_" + lang_country.upper()
-
-python_doc_url = "https://docs.python.org/3/"
-if language == "pt_BR":
-    python_doc_url = "https://docs.python.org/pt-br/3/"
-elif language in {"es", "fr", "ja", "ko", "tr"}:
-    python_doc_url = f"https://docs.python.org/{language}/3/"
-elif language == "zh_CN":
-    python_doc_url = "https://docs.python.org/zh-cn/3/"
-elif language == "zh_TW":
-    python_doc_url = "https://docs.python.org/zh-tw/3/"
-
-django_doc_url = "https://docs.djangoproject.com/en/stable/"
-if language in {"el", "es", "fr", "id", "ja", "ko", "pl"}:
-    django_doc_url = f"https://docs.djangoproject.com/{language}/stable/"
-elif language == "pt_BR":
-    django_doc_url = "https://docs.djangoproject.com/pt-br/stable/"
-elif language == "zh_CN":
-    django_doc_url = "https://docs.djangoproject.com/zh-hans/stable/"
-
-sphinx_doc_url = "https://www.sphinx-doc.org/en/master/"
-if language in {
-    "ar",
-    "ca",
-    "de",
-    "ru",
-    "es",
-    "fr",
-    "it",
-    "ja",
-    "ko",
-    "pl",
-    "pt_BR",
-    "sr",
-    "zh_CN",
-}:
-    sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/master/"
-elif language in {"zh_TW", "ta"}:
-    sphinx_doc_url = f"https://www.sphinx-doc.org/{language}/latest/"
+language = normalize_language(language)
 
 if language != "en":
     # ruff: ignore[undefined-name]
@@ -347,25 +305,7 @@ if language != "en":
 
 
 # Configuration for intersphinx
-intersphinx_mapping = {
-    "python": (python_doc_url, None),
-    "django": (django_doc_url, f"{django_doc_url}_objects/"),
-    "psa": ("https://python-social-auth.readthedocs.io/en/latest/", None),
-    "tt": (
-        "https://docs.translatehouse.org/projects/translate-toolkit/en/latest/",
-        None,
-    ),
-    "amagama": ("https://docs.translatehouse.org/projects/amagama/en/latest/", None),
-    "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
-    "celery": ("https://docs.celeryq.dev/en/stable/", None),
-    "sphinx": (sphinx_doc_url, None),
-    "rtd": ("https://docs.readthedocs.com/platform/latest/", None),
-    "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
-    "drf-standardized-error": (
-        "https://drf-standardized-errors.readthedocs.io/en/latest/",
-        None,
-    ),
-}
+intersphinx_mapping = cached_mapping(language)
 intersphinx_disabled_reftypes = ["*"]
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types

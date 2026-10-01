@@ -137,6 +137,12 @@ jobs:
         sudo apt install -y graphviz
     - name: Install Python dependencies
       run: uv sync --only-group docs --frozen
+    - name: Restore intersphinx inventories
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: docs/_build/intersphinx
+        key: intersphinx-v1-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: intersphinx-v1-
     - name: Sphinx build
       run: |
         . .venv/bin/activate
