@@ -100,6 +100,7 @@ Weblate 2026.10
 
 .. rubric:: Bug fixes
 
+* :ref:`Project backups <projectbackup>` now tolerate missing or damaged repositories and preserve available files and translation data during restore.
 * Project MO archive downloads now skip incompatible file formats without failing the download.
 * Made eligible automatic-translation sources consistent across web, API, and Automation add-on configuration.
 * Fixed :wladmin:`move_language` and automatic language alias updates to preserve language-specific settings and permission limits, and detect conflicting translations or settings before moving content.

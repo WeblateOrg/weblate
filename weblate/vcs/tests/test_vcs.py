@@ -231,7 +231,12 @@ class RepositoryTest(SimpleTestCase):
             ):
                 repository.finalize_backup_restore()
         execute.assert_called_once_with(
-            ["read-tree", "--reset", "HEAD"], remote_op="none"
+            ["read-tree", "--reset", "HEAD"],
+            remote_op="none",
+            environment={
+                "GIT_DIR": str(Path(repository.path) / ".git"),
+                "GIT_WORK_TREE": repository.path,
+            },
         )
 
     def make_stale_lock(self, lockfile: Path) -> None:
