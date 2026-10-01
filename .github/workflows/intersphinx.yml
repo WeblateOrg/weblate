@@ -1,0 +1,59 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Intersphinx inventories
+
+on:
+  schedule:
+  - cron: 15 4 * * *
+  workflow_dispatch:
+
+concurrency:
+  group: intersphinx-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-26.04
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Set up Python
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      with:
+        python-version: '3.14'
+    - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      with:
+        enable-cache: false
+        version: 0.12.19
+    - name: Install Python dependencies
+      run: uv sync --only-group docs --frozen
+    - name: List documentation languages
+      id: languages
+      run: uv run --no-project scripts/list-documentation-languages.py >> "$GITHUB_OUTPUT"
+    - name: Restore intersphinx inventories
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: docs/_build/intersphinx
+        key: intersphinx-v1-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: intersphinx-v1-
+    - name: Refresh inventories
+      id: refresh
+      continue-on-error: true
+      env:
+        DOCUMENTATION_LANGUAGES: ${{ steps.languages.outputs.languages }}
+      run: uv run --no-sync python docs/_ext/intersphinx_cache.py --languages "$DOCUMENTATION_LANGUAGES"
+    - name: Save intersphinx inventories
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: docs/_build/intersphinx
+        key: intersphinx-v1-${{ github.run_id }}-${{ github.run_attempt }}
+    - name: Report refresh failure
+      if: steps.refresh.outcome == 'failure'
+      run: exit 1
