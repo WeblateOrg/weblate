@@ -548,10 +548,10 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             user=second_user, provider="gitlab", uid="verified-two"
         )
         VerifiedEmail.objects.create(
-            social=first_social, email="shared-verified@example.com"
+            social_id=first_social.pk, email="shared-verified@example.com"
         )
         VerifiedEmail.objects.create(
-            social=second_social, email="shared-verified@example.com"
+            social_id=second_social.pk, email="shared-verified@example.com"
         )
 
         response = self.client.post(
@@ -603,7 +603,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         social = UserSocialAuth.objects.create(
             user=invited_user, provider="github", uid="verified-match"
         )
-        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
+        VerifiedEmail.objects.create(social_id=social.pk, email="secondary@example.com")
 
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
@@ -629,7 +629,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         social = UserSocialAuth.objects.create(
             user=invited_user, provider="github", uid="same-user"
         )
-        VerifiedEmail.objects.create(social=social, email="secondary@example.com")
+        VerifiedEmail.objects.create(social_id=social.pk, email="secondary@example.com")
 
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
