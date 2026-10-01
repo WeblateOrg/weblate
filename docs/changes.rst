@@ -26,6 +26,7 @@ Weblate 2026.10
 .. rubric:: Improvements
 
 * Component configuration errors are reported before fetching the repository when repository files are not needed for validation.
+* Clarified that site-wide team management can grant access to private projects independently of the team manager's own project access.
 * Improved checks, automatic fixes, glossary matching, and machine translation for :ref:`independent alternatives in multivalue formats <format-multivalue>`.
 
 * Added a thumbnail picker to associate existing :ref:`screenshots <add-existing-screenshot>` with a string from the translation editor.
