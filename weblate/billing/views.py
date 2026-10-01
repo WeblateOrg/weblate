@@ -25,7 +25,7 @@ from weblate.trans.models import Project
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
 from weblate.utils.data import data_path
-from weblate.utils.views import show_form_errors
+from weblate.utils.views import get_paginator, show_form_errors
 
 from .defines import REMOVAL_EXTENSION_DAYS, TRIAL_DAYS
 from .forms import (
@@ -345,6 +345,29 @@ def merge(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
         )
 
     return redirect(confirm_form.cleaned_data["other"])
+
+
+@login_required
+@require_http_methods(["GET"])
+def logs(request: AuthenticatedHttpRequest, pk: int) -> HttpResponse:
+    billing = get_object_or_404(
+        Billing.objects.select_related("plan", "workspace"), pk=pk
+    )
+    if not request.user.is_superuser or not request.user.has_perm(
+        "meta:billing.view", billing
+    ):
+        raise PermissionDenied
+
+    billing_logs = get_paginator(
+        request,
+        billing.billinglog_set.order().select_related("user"),
+        page_limit=20,
+    )
+    return render(
+        request,
+        "billing/logs.html",
+        {"billing": billing, "billing_logs": billing_logs},
+    )
 
 
 @login_required
