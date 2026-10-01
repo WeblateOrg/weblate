@@ -121,7 +121,11 @@ class RemovalTest(ViewTestCase):
 
         self.assertContains(
             response,
-            "If this action removes restricted components, retained translation memory",
+            "Translation memory is retained by default. If this component is restricted",
+        )
+        self.assertContains(
+            response,
+            "Leave it unselected to retain them. Personal and uploaded entries are always preserved.",
         )
 
     def test_category_with_memory(self) -> None:
@@ -138,11 +142,15 @@ class RemovalTest(ViewTestCase):
         response = self.client.get(category.get_absolute_url())
         self.assertContains(
             response,
-            "If this action removes restricted components, retained translation memory",
+            "Translation memory is retained by default. If this category contains restricted components",
         )
         self.assertContains(
             response,
             "Delete translation memory created from components in this category",
+        )
+        self.assertContains(
+            response,
+            "Leave it unselected to retain them. Personal and uploaded entries are always preserved.",
         )
 
         with patch(

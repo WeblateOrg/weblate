@@ -4681,7 +4681,7 @@ class ComponentDeleteForm(BaseDeleteForm):
     delete_memory = forms.BooleanField(
         label=gettext_lazy("Delete translation memory created from this component"),
         help_text=gettext_lazy(
-            "Project, workspace, and shared translation memory entries will be deleted. Personal and uploaded entries will be preserved."
+            "Select this to delete project, workspace, and shared translation memory entries created from this component. Leave it unselected to retain them. Personal and uploaded entries are always preserved."
         ),
         required=False,
     )
@@ -4721,7 +4721,7 @@ class CategoryDeleteForm(BaseDeleteForm):
             "Delete translation memory created from components in this category"
         ),
         help_text=gettext_lazy(
-            "Project, workspace, and shared translation memory entries will be deleted. Personal and uploaded entries will be preserved."
+            "Select this to delete project, workspace, and shared translation memory entries created from components in this category. Leave it unselected to retain them. Personal and uploaded entries are always preserved."
         ),
         required=False,
     )

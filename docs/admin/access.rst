@@ -571,6 +571,8 @@ the following rules:
 - Add-on configuration is stored system configuration rather than a delegation
   from the account which saved it. Component add-ons can consume inputs outside
   the destination component when the add-on documents such a source scope. The
+  available configuration and the meaning of options such as all compatible
+  components do not vary with the administrator who last saved the add-on. The
   add-on continues to run if the configuring user's permissions or account
   later change; review or remove the configuration separately during access
   revocation.
