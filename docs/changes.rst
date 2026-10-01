@@ -1,7 +1,7 @@
 Weblate 2026.10
 ---------------
 
-*Not yet released.*
+*Released on October 1st 2026.*
 
 .. rubric:: New features
 
