@@ -8,6 +8,7 @@ from functools import cache
 from importlib import import_module
 from typing import TYPE_CHECKING
 
+from weblate.trans.removal import defer_alert_update
 from weblate.utils.tracing import start_span
 
 if TYPE_CHECKING:
@@ -50,6 +51,8 @@ def get_import_alerts() -> set[str]:
 
 
 def update_alerts(component: Component, alerts: set[str] | None = None) -> None:
+    if defer_alert_update(component.pk):
+        return
     load_alerts()
     for name, alert in ALERTS.items():
         if alerts and name not in alerts:

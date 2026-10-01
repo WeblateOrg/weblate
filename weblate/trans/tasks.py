@@ -1131,7 +1131,11 @@ def component_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
     except Component.DoesNotExist:
         return
 
-    _component_removal(component, user, delete_memory=delete_memory)
+    batch = RemovalBatch()
+    _collect_linked_removal_targets([component.pk], batch)
+    with removal_batch_context(batch):
+        _component_removal(component, user, batch, delete_memory=delete_memory)
+    transaction.on_commit(batch.flush)
 
 
 def _component_removal(
@@ -1143,8 +1147,10 @@ def _component_removal(
 ) -> None:
     memory_cleanup = None
     if delete_memory:
-        cleanup_batch = RemovalBatch()
-        _collect_linked_removal_targets([component.pk], cleanup_batch)
+        cleanup_batch = batch
+        if cleanup_batch is None:
+            cleanup_batch = RemovalBatch()
+            _collect_linked_removal_targets([component.pk], cleanup_batch)
         memory_cleanup = collect_component_memory_cleanup(cleanup_batch)
         # Remove attributed scopes while their component foreign keys exist.
         delete_collected_component_memory(memory_cleanup)
@@ -1291,15 +1297,15 @@ def category_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
     batch = RemovalBatch()
     _collect_removal_targets(category, batch)
     memory_cleanup = collect_component_memory_cleanup(batch) if delete_memory else None
-    if memory_cleanup is not None:
-        # Remove attributed scopes while their component foreign keys exist.
-        delete_collected_component_memory(memory_cleanup)
     with removal_batch_context(batch):
+        if memory_cleanup is not None:
+            # Remove attributed scopes while their component foreign keys exist.
+            delete_collected_component_memory(memory_cleanup)
         _category_removal(category, user, batch)
-    if memory_cleanup is not None:
-        # Catch memory writes which raced with the initial cleanup. Current
-        # writers normalize origins to the component's current full slug.
-        delete_collected_component_memory(memory_cleanup)
+        if memory_cleanup is not None:
+            # Catch memory writes which raced with the initial cleanup. Current
+            # writers normalize origins to the component's current full slug.
+            delete_collected_component_memory(memory_cleanup)
     transaction.on_commit(batch.flush)
 
 
@@ -1341,15 +1347,21 @@ def _remove_project(pk: int, uid: int | None) -> None:
             project = Project.objects.get(pk=pk)
         except Project.DoesNotExist:
             return
-        Change.objects.create(
-            action=ActionEvents.REMOVE_PROJECT,
-            target=project.slug,
-            user=user,
-            author=user,
-        )
-        cleanup_project_tokens(project, user)
         batch = RemovalBatch()
+        _collect_linked_removal_targets(
+            project.component_set.values_list("id", flat=True).iterator(
+                chunk_size=1000
+            ),
+            batch,
+        )
         with removal_batch_context(batch):
+            Change.objects.create(
+                action=ActionEvents.REMOVE_PROJECT,
+                target=project.slug,
+                user=user,
+                author=user,
+            )
+            cleanup_project_tokens(project, user)
             project.delete()
         transaction.on_commit(batch.flush)
 
