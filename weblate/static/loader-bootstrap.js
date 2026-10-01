@@ -2737,8 +2737,14 @@ onReady(() => {
         }
         setContextValue(`#new-${selected}`, `#new-${previous}`);
         transferTextareaInputs(`#new-${previous}`, `#new-${selected}`);
-        document.getElementById(`new-${previous}`)?.classList.add("hidden");
-        document.getElementById(`new-${selected}`)?.classList.remove("hidden");
+        const previousForm = document.getElementById(`new-${previous}`);
+        if (previousForm !== null) {
+          previousForm.hidden = true;
+        }
+        const selectedForm = document.getElementById(`new-${selected}`);
+        if (selectedForm !== null) {
+          selectedForm.hidden = false;
+        }
       });
     });
 
