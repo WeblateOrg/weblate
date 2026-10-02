@@ -19,7 +19,6 @@ from zipfile import ZipFile
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import EmptyPage, Paginator
-from django.db.models import Q
 from django.http import (
     FileResponse,
     Http404,
@@ -421,11 +420,9 @@ def parse_path_for_public_sharing(
     if path and tuple(path[:2]) == ("-", "workspace"):
         return parse_path(request, path, types)
     if path and path[0] != "-":
-        is_publicly_shared = Project.objects.filter(
-            Q(access_control__in=(Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED))
-            | Q(public_sharing=True),
-            slug=path[0],
-        ).exists()
+        is_publicly_shared = (
+            Project.objects.publicly_shared().filter(slug=path[0]).exists()
+        )
         if not is_publicly_shared:
             return parse_path(request, path, types)
     return parse_path(None, path, types)

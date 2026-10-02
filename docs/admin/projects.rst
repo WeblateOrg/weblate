@@ -283,12 +283,19 @@ Public sharing exposes project and component names, including restricted
 components, together with translation statistics, languages, and progress. It
 does not grant access to project pages, translations, repositories, or the API.
 
+Changing this setting has no immediate effect while the project is
+:guilabel:`Public` or :guilabel:`Protected`, but the stored value is retained
+and applies if the project is later changed to :guilabel:`Private` or
+:guilabel:`Custom`. Sitemaps for project, component, and translation pages only
+include pages that are directly accessible anonymously. Engage sitemaps follow
+the public sharing setting.
+
 Changing this setting requires the :guilabel:`Manage project access`
 permission. The status widget configuration page continues to use normal
 project access control.
 
 When :setting:`REQUIRE_LOGIN` is enabled, :setting:`PUBLIC_ENGAGE` must also be
-enabled for anonymous access to engage pages.
+enabled for anonymous access to engage pages and sitemaps.
 
 .. _project-enforced_2fa:
 

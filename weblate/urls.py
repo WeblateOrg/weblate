@@ -54,7 +54,7 @@ import weblate.wladmin.views
 import weblate.workspaces.views
 from weblate.auth.decorators import management_permission_required
 from weblate.configuration.views import CustomCSSView
-from weblate.sitemaps import SITEMAPS
+from weblate.sitemaps import ENGAGE_SITEMAPS, SITEMAPS, sitemap_index
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
 from weblate.trans.views.bulk_suggestions import bulk_accept_user_suggestions
 from weblate.trans.views.changes import (
@@ -64,6 +64,7 @@ from weblate.trans.views.changes import (
     show_change,
 )
 from weblate.trans.views.hooks import IntegrationHookView, ServiceHookView
+from weblate.utils.decorators import engage_login_not_required
 from weblate.utils.version import VERSION
 
 handler400 = weblate.trans.views.error.bad_request
@@ -1104,9 +1105,22 @@ real_patterns = [
     # Sitemap
     path(
         "sitemap.xml",
-        cache_page(3600, key_prefix=VERSION)(django.contrib.sitemaps.views.index),
-        {"sitemaps": SITEMAPS, "sitemap_url_name": "sitemap"},
+        engage_login_not_required(cache_page(3600, key_prefix=VERSION)(sitemap_index)),
         name="sitemap-index",
+    ),
+    path(
+        "sitemap-engage.xml",
+        engage_login_not_required(
+            cache_page(3600, key_prefix=VERSION)(django.contrib.sitemaps.views.sitemap)
+        ),
+        {"sitemaps": ENGAGE_SITEMAPS, "section": "engage"},
+    ),
+    path(
+        "sitemap-engagelang.xml",
+        engage_login_not_required(
+            cache_page(3600, key_prefix=VERSION)(django.contrib.sitemaps.views.sitemap)
+        ),
+        {"sitemaps": ENGAGE_SITEMAPS, "section": "engagelang"},
     ),
     path(
         "sitemap-<slug:section>.xml",

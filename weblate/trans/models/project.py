@@ -147,6 +147,18 @@ class ProjectQuerySet(QuerySet["Project", "Project"]):
     def order(self) -> Self:
         return self.order_by("name")
 
+    def publicly_shared(self) -> Self:
+        """Return projects whose sharing pages are publicly accessible."""
+        return self.filter(
+            Q(
+                access_control__in=(
+                    Project.ACCESS_PUBLIC,
+                    Project.ACCESS_PROTECTED,
+                )
+            )
+            | Q(public_sharing=True)
+        )
+
     def only(self, *fields: str) -> Self:
         only_fields = set(fields)
         # These are used in Project.__init__
@@ -168,14 +180,18 @@ class ProjectQuerySet(QuerySet["Project", "Project"]):
     def prefetch_languages(self) -> Self:
         # Bitmap for languages
         language_map = set(
-            self.values_list("id", "component__translation__language_id").distinct()
+            self.values_list("id", "component__translation__language_id").union(
+                self.values_list("id", "shared_components__translation__language_id")
+            )
         )
         # All used languages
-        languages = (
-            Language.objects.filter(translation__component__project__in=self)
-            .order()
-            .distinct()
-        )
+        languages = Language.objects.filter(
+            id__in={
+                language_id
+                for _, language_id in language_map
+                if language_id is not None
+            }
+        ).order()
 
         # Prefetch languages attribute
         for project in self:
@@ -338,7 +354,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         default=False,
         help_text=gettext_lazy(
             "Allows anonymous access to the engage pages and status widgets "
-            "for Private and Custom projects."
+            "for Private and Custom projects. Public and Protected projects "
+            "are always publicly shared regardless of this setting."
         ),
     )
 
