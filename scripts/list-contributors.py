@@ -23,6 +23,14 @@ if TYPE_CHECKING:
 VERSION = weblate.utils.version.VERSION_BASE
 ROOT_DIR = Path(__file__).parent.parent
 WHITESPACE_RE = re.compile(r"\s\s+")
+# Require a version so human names such as Claude Monet remain eligible.
+LLM_AUTHOR_RE = re.compile(
+    r"(?:(?:Anthropic|Google|OpenAI|xAI|Meta|Alibaba|Mistral AI)[ -])?"
+    r"(?:Claude|GPT|ChatGPT|Codex|Gemini|Grok|DeepSeek|Llama|Qwen|Mistral)"
+    r"(?:[ -][a-z]+)*[ -]?[a-z]?[0-9]+(?:\.[0-9]+)*"
+    r"(?:[a-z][a-z0-9]*)?(?:[ -][a-z0-9]+(?:\.[0-9]+)*)*",
+    re.IGNORECASE,
+)
 
 CategoryType = Literal["code", "translations", "docs"]
 
@@ -34,6 +42,12 @@ IGNORE_AUTHORS: tuple[str, ...] = (
     "Weblate CI",
     "Copilot",
     "root",
+)
+
+# Match these identities exactly to preserve names that merely start with them.
+IGNORE_EXACT_AUTHORS = frozenset(
+    author.casefold()
+    for author in ("Deleted User", "Codex", "GPT", "ChatGPT", "DeepSeek", "Qwen")
 )
 
 # GitHub sometimes uses username instead of full name
@@ -82,6 +96,8 @@ def is_valid_author(author: str) -> bool:
         and "[bot]" not in author
         and "add-on" not in author
         and not author.startswith(IGNORE_AUTHORS)
+        and author.casefold() not in IGNORE_EXACT_AUTHORS
+        and LLM_AUTHOR_RE.fullmatch(author) is None
     )
 
 
