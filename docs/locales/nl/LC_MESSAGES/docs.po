@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-09-25 02:35+0000\n"
-"PO-Revision-Date: 2026-10-01 06:17+0000\n"
+"PO-Revision-Date: 2026-10-02 10:19+0000\n"
 "Last-Translator: Watchman89 <rplatte@hotmail.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10\n"
 "Generated-By: Babel 2.8.0\n"
 
 msgid "Access control"
@@ -55947,11 +55947,11 @@ msgid "Pushing repository changes upstream failed."
 msgstr "Pushen van wijzigingen in opslagruimte upstream mislukt."
 
 msgid "Suggestion removed during cleanup"
-msgstr "Suggestie verwijderd tijdens het opschonen"
+msgstr "Suggestie verwijderd tijdens het opruimen"
 
 msgid "An obsolete translation suggestion was removed during cleanup."
 msgstr ""
-"Een overbodige suggestie voor vertalen werd verwijderd tijdens het opschonen."
+"Een overbodige suggestie voor vertalen werd verwijderd tijdens het opruimen."
 
 msgid "Source string changed"
 msgstr "Brontekenreeks gewijzigd"
@@ -56565,7 +56565,8 @@ msgstr ""
 
 msgid "Runs ordered translation operations with conditions and branches."
 msgstr ""
-"Voert vertalingsbewerkingen uit in volgorde, met voorwaarden en vertakkingen."
+"Voert vertalingsbewerkingen uit in volgorde, met voorwaarden en "
+"afsplitsingen."
 
 msgid ""
 "Install this add-on on a component, category, project, or site. Inherited "
@@ -57654,43 +57655,32 @@ msgstr "Bewerken nodig (Opnieuw schrijven nodig)"
 msgid "Needs editing (Needs checking)"
 msgstr "Bewerken nodig (Controleren nodig)"
 
-#, fuzzy
-#| msgid "Returns a list of all languages."
 msgid "Source flags to add — all languages"
-msgstr "Geeft een lijst met alle talen terug."
+msgstr "Toe te voegen bronopties — alle talen"
 
-#, fuzzy
-#| msgid "Returns a list of all languages."
 msgid "Source flags to remove — all languages"
-msgstr "Geeft een lijst met alle talen terug."
+msgstr "Te verwijderen bronopties — alle talen"
 
-#, fuzzy
-#| msgid "Translation flags to add"
 msgid "Translation flags to add — matching translations"
-msgstr "Toe te voegen vertaalopties"
+msgstr "Toe te voegen vertaalopties — overeenkomende vertalingen"
 
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Applies only to matching translations, excluding source strings."
-msgstr "Vult de vertaalvakken met de brontekenreeksen."
+msgstr ""
+"Is alleen van toepassing op overeenkomende veratlingen, exclusief "
+"brontekenreeksen."
 
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation flags to remove — matching translations"
-msgstr "Te verwijderen vertaalopties"
+msgstr "Te verwijderen vertaalopties — overeenkomende vertalingen"
 
 msgid "Removes locally set flags. Inherited flags remain in effect."
 msgstr ""
+"Verwijdert lokaal ingestelde opties. Overgenomen opties blijven van kracht."
 
-#, fuzzy
-#| msgid "Returns a list of all languages."
 msgid "Labels to add — all languages"
-msgstr "Geeft een lijst met alle talen terug."
+msgstr "Toe te voegen labels — alle talen"
 
-#, fuzzy
-#| msgid "Labels to remove"
 msgid "Labels to remove — all languages"
-msgstr "Te verwijderen labels"
+msgstr "Te verwijderen labels — alle talen"
 
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`"
@@ -62606,10 +62596,8 @@ msgstr "Codering gebruikt voor iOS-tekenreeksbestanden"
 msgid "xliff_placeables"
 msgstr "``xliff2``, ``xliff2-placeables``"
 
-#, fuzzy
-#| msgid "Weblate support"
 msgid "Placeables support"
-msgstr "Weblate-ondersteuning"
+msgstr "Ondersteuning voor plaatsbare items"
 
 msgid ""
 "Controls whether inline XML elements inside XLIFF strings are preserved as "
@@ -62617,16 +62605,17 @@ msgid ""
 "content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
 "or <g> stay in the string and appear as placeholders in the editor"
 msgstr ""
+"Controleert of inline-XML-elementen binnen XLIFF-tekenreeksen worden "
+"behouden als aanpasbare plaatsbare items. Platte tekst sluit alleen XML-"
+"markup uit en behandeld de inhoud als tekst. Met ondersteuning voor "
+"plaatsbare items blijven labels zoals <x id=\"name\" \\=\"\"> of </x> in de "
+"tekenreeks en verschijnen als tijdelijke aanduidingen in de bewerker"
 
-#, fuzzy
-#| msgid "Plain text file"
 msgid "Plain text only"
-msgstr "Platte tekstbestand"
+msgstr "Alleen platte tekst"
 
-#, fuzzy
-#| msgid "Supported features"
 msgid "Support placeables"
-msgstr "Ondersteunde mogelijkheden"
+msgstr "Ondersteun plaatsbare items"
 
 msgid "xml_closing_tags"
 msgstr "xml_closing_tags"
@@ -62637,25 +62626,27 @@ msgstr "Sluittag toevoegen aan blanco xml-tags"
 msgid "xml_whitespace_handling"
 msgstr ""
 
-#, fuzzy
-#| msgid "Whitespace and newlines in XLIFF"
 msgid "Whitespace handling"
-msgstr "Witruimte en nieuwe regels (newlines) in XLIFF"
+msgstr "Omgaan met witruimte"
 
 msgid ""
 "Controls how XLIFF whitespace is handled. Follow xml:space honors attributes "
 "in the file. Always preserve keeps all whitespace. Always normalize "
 "collapses whitespace even when xml:space=\"preserve\" is set."
 msgstr ""
+"Controleert hoe wordt omgegaan met XLIFF-witruimte. Volg xml:space honoreert "
+"attributen in het bestand. Altijd behouden bewaart alle witruimte. Altijd "
+"normaliseren vouwt witruimte in, zelfs wanneer xml:space=\"preserve\" is "
+"ingesteld."
 
 msgid "Follow xml:space"
-msgstr ""
+msgstr "Volg xml:space"
 
 msgid "Always preserve"
-msgstr ""
+msgstr "Altijd behouden"
 
 msgid "Always normalize"
-msgstr ""
+msgstr "Altijd normaliseren"
 
 msgid "yaml_indent"
 msgstr "yaml_indent"
