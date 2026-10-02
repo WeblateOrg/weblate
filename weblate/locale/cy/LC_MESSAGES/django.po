@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -2354,6 +2354,11 @@ msgstr "Fesul ffeil"
 msgid "Per author"
 msgstr "Fesul awdur"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Fesul iaith"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Rhoi trelars ar negeseuon traddodi wedi'u cywasgu"
 
@@ -3365,6 +3370,14 @@ msgstr "Mae defnyddiwr gyda'r enw defnyddiwr hwnnw eisoes yn bodoli."
 msgid "Cannot change this on a scoped team."
 msgstr "Methu newid hyn ar dîm mewnol."
 
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Fflagiau etifeddol"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr "Nid oes gennych ganiatâd i gael mynediad i'r gydran hon."
 
@@ -3426,6 +3439,9 @@ msgstr "Testun cyfieithu yn rhy hir!"
 
 msgid "Your suggestion already exists!"
 msgstr "Mae eich awgrym yn bodoli eisoes!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr "API REST Weblate"
@@ -6619,6 +6635,9 @@ msgstr "Dylai fod yn gyfeiriadur gyda ffeiliau metadata!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Ffeiliau metadata App Store"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -9816,9 +9835,14 @@ msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "Traddodion Weblate o gydrannau o fewn y storfa hon yn cael ei wasgu."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Cedwir negeseuon traddodi gwreiddiol, ond collir awduraeth oni bai bod "
 "\"Fesul awdur\" yn cael ei ddewis neu fod y neges traddodi wedi'i haddasu "
@@ -10098,14 +10122,8 @@ msgstr "Heb ganfod anfonebau."
 
 #, fuzzy
 #| msgid "View details"
-msgid "Event details"
+msgid "View all"
 msgstr "Gweld manylion"
-
-msgid "Actions"
-msgstr "Gweithredoedd"
-
-msgid "Download"
-msgstr "Llwytho i lawr"
 
 msgid "Libre hosting"
 msgstr "Cynnal Libre"
@@ -10142,6 +10160,27 @@ msgstr "Dim prosiectau wedi'u neilltuo ar hyn o bryd!"
 
 msgid "View"
 msgstr "Gweld"
+
+#, fuzzy
+#| msgid "View details"
+msgid "Event details"
+msgstr "Gweld manylion"
+
+msgid "Actions"
+msgstr "Gweithredoedd"
+
+msgid "Download"
+msgstr "Llwytho i lawr"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Heb ganfod llinynnau cyfatebol."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "Cychwyn storfa"
 
 #, fuzzy
 #| msgid "Confirm"
@@ -12853,6 +12892,11 @@ msgid "Add label"
 msgstr "Ychwanegu label"
 
 #, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Llwythwch i lawr gyfieithiadau fel CSV mewn ffeil ZIP"
+
+#, fuzzy, python-format
 #| msgid "Manage teams"
 msgid "Manage %(team)s"
 msgstr "Rheoli timau"
@@ -13104,6 +13148,16 @@ msgstr "Llinynnau"
 msgid "words"
 msgstr "Geiriau"
 
+#, fuzzy
+#| msgid "Edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Golygu llinynnau"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Dim llinynnau i'w cyfieithu"
+
 msgid "No matching strings found."
 msgstr "Heb ganfod llinynnau cyfatebol."
 
@@ -13207,9 +13261,22 @@ msgstr ""
 "Gallai hyn gael ei achosi gan fod rhai o'ch biliau wedi mynd pasio'r dyddiad "
 "dyledus neu wedi mynd y tu hwnt i derfynau."
 
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Select all strings on this page"
+msgstr "Llinynnau ffynhonnell wedi'u labelu"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Llinynnau wedi'u marcio i'w golygu"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Gallwch newid cyflwr pob llinyn sy'n cyfateb i'r math penodol ar unwaith."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation file"
@@ -13402,6 +13469,16 @@ msgstr "URL y storfa wedi'i gopïo i'r clipfwrdd."
 
 msgid "Repository branch"
 msgstr "Cangen storfa"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Cais tynnu Gitea"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "URL y storfa wedi'i gopïo i'r clipfwrdd."
 
 msgid "Last remote commit"
 msgstr "Traddodi pell olaf"
@@ -13782,6 +13859,11 @@ msgstr "Creu cyfieithiad"
 
 msgid "Cannot add translation right now"
 msgstr "Methu ychwanegu cyfieithiad ar hyn o bryd"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Iaith ffynhonnell"
 
 msgid "Customized workflow"
 msgstr "Llif gwaith wedi'i gyfaddasu"
@@ -15203,18 +15285,23 @@ msgstr "Bydd y cyfieithiadau canlynol yn cael eu dileu:"
 msgid "Project language to remove"
 msgstr "Iaith brosiect i'w dileu"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Nid oes modd dadwneud y weithred hon. Bydd hyn yn dileu'r categori "
 "%(object)s a'r holl gynnwys cysylltiedig yn barhaol."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -15226,19 +15313,37 @@ msgstr "Bydd y categorïau cyfieithu canlynol yn cael eu dileu:"
 msgid "Project to remove"
 msgstr "Prosiect i’w ddileu"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Nid oes modd dadwneud y weithred hon. Bydd hyn yn dileu'r gydran %(object)s "
 "a'r holl gynnwys cysylltiedig yn barhaol."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Cydran i’w ddileu"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Rwy'n deall y canlyniadau, dilëwch y cyfieithiad hwn"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Nid oes modd dadwneud y weithred hon. Bydd hyn yn dileu'r categori "
+"%(object)s a'r holl gynnwys cysylltiedig yn barhaol."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -15512,6 +15617,11 @@ msgstr "Iaith ganol"
 
 msgid "Explanation"
 msgstr "Esboniad"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Rhoi gwybod am broblem gyda'r llinyn ffynhonnell"
@@ -16465,6 +16575,11 @@ msgstr "Golygu yn y modd llinyn unigol"
 
 msgid "Exit Zen"
 msgstr "Gadael Zen"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Cynigion"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -17842,6 +17957,11 @@ msgid "State: %(state)s"
 msgstr "Statws Weblate"
 
 #, fuzzy
+#| msgid "Previous"
+msgid "Previous source"
+msgstr "Cynt"
+
+#, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestions pending"
 msgstr "Pleidleisio dros gynigion"
@@ -18960,6 +19080,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Nid oes gennych ganiatâd i greu terminoleg."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Cynnig annilys!"
+
 msgid "State to set"
 msgstr "Statws i’w gosod"
 
@@ -19000,6 +19125,9 @@ msgstr "Am bob iaith"
 msgid "Labels to remove — all languages"
 msgstr "Labeli i'w tynnu"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 #, fuzzy
 #| msgid "I accept the contributor agreement"
 msgid "I accept the contributor license agreement"
@@ -19020,8 +19148,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Cydran cyfieithu newydd"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -19031,6 +19160,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Teipiwch slug y prosiect i gadarnhau."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -19239,6 +19374,24 @@ msgstr "Fflagiau cyfieithu"
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Baneri ychwanegol wedi'u gwahanu gan goma i ddylanwadu ar ymddygiad Weblate."
+
+msgid "Enforced checks"
+msgstr "Gwiriadau gorfodol"
+
+#, fuzzy
+#| msgid "List of checks which can not be ignored."
+msgid "List of checks which can not be dismissed."
+msgstr "Rhestr o wiriadau nad oes modd eu hanwybyddu."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Gwiriadau gorfodi heb eu defnyddio."
+
+#, fuzzy
+#| msgid "Navigate to the last translation in the current search."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Llywiwch i'r cyfieithiad olaf yn y chwilio cyfredol."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -19539,6 +19692,26 @@ msgstr ""
 "{{filename}} a {{line}} fel enw ffeil a dalfannau llinell. Efallai eich bod "
 "eisiau tynnu'r cyfeiriadur blaen gan ddefnyddio {{filename|parentdir}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Cangen yr storfa i'w gyfieithu"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Cysylltwch â porwr storfa, defnyddiwch {{branch}} ar gyfer y gangen, "
+"{{filename}} a {{line}} fel enw ffeil a dalfannau llinell. Efallai eich bod "
+"eisiau tynnu'r cyfeiriadur blaen gan ddefnyddio {{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL y storfa wedi'i allforio"
 
@@ -19685,13 +19858,8 @@ msgstr ""
 "Derbyn awgrymiadau gyda'r nifer hwn o bleidleisiau yn awtomatig, defnyddiwch "
 "0 i'w ddiffodd."
 
-msgid "Enforced checks"
-msgstr "Gwiriadau gorfodol"
-
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
-msgid "List of checks which can not be dismissed."
-msgstr "Rhestr o wiriadau nad oes modd eu hanwybyddu."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr ""
 
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
@@ -20381,6 +20549,11 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Gwiriadau gorfodi heb eu defnyddio."
+
+#, fuzzy
 #| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
 msgstr "Bydd y cyfieithiad yn cael ei ddiweddaru yn y cefndir."
@@ -20703,6 +20876,11 @@ msgstr "Marcio fel terminoleg"
 msgid "Unmark as terminology for all languages"
 msgstr "Dadfarcio fel terminoleg"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -20710,6 +20888,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Teipiwch slug y prosiect i gadarnhau."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Mae'r iaith hon eisoes yn bodoli."
+
+#, fuzzy
+#| msgid "New language added to %(component)s"
+msgid "Select a source language in a project workflow."
+msgstr "Iaith newydd wedi'i hychwanegu at %(component)s"
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "Mae defnyddiwr wedi'i rwystro ar y prosiect hwn."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Testun ffynhonnell"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -21113,6 +21316,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Wedi methu dosrannu fflagiau: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Gwiriadau gorfodol"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Gwiriadau gorfodi heb eu defnyddio."
 
 #, python-format
 msgid ""

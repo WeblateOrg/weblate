@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-28 10:51+0000\n"
 "Last-Translator: Nicat <nicat.m@pm.me>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -2368,6 +2368,11 @@ msgstr "Fayl başına"
 msgid "Per author"
 msgstr "Müəllif başına"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Dilə görə"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Sıxışdırılmış öhdəlik mesajına treylerlər əlavə edin"
 
@@ -3354,6 +3359,14 @@ msgstr ""
 "Email təsdiqlənməsi deaktiv edilmişdir, parolunuzu sıfırlaya bilməzsiniz!"
 
 #, fuzzy
+#| msgid "Checks"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Yoxlamalar"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
+#, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to access this component."
 msgstr "Təklifləri qəbul etmək üçün hüququnuz yoxdur!"
@@ -3434,6 +3447,9 @@ msgstr "Tərcümə statusu"
 #| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
 msgstr "Təklifləriniz boşdur!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr ""
@@ -6869,6 +6885,9 @@ msgstr ""
 msgid "App store metadata files"
 msgstr ""
 
+msgid "File validation is required for directory-based formats."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -10236,7 +10255,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -10561,16 +10581,8 @@ msgstr "Heç bir faktura tapılmadı!"
 
 #, fuzzy
 #| msgid "Check details"
-msgid "Event details"
+msgid "View all"
 msgstr "Detallar yoxla"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Actions"
-msgstr "Fəaliyyət"
-
-msgid "Download"
-msgstr "Endir"
 
 #, fuzzy
 #| msgid "hosting"
@@ -10615,6 +10627,29 @@ msgstr "Cari əlaqələnmişlər:"
 
 msgid "View"
 msgstr ""
+
+#, fuzzy
+#| msgid "Check details"
+msgid "Event details"
+msgstr "Detallar yoxla"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Actions"
+msgstr "Fəaliyyət"
+
+msgid "Download"
+msgstr "Endir"
+
+#, fuzzy
+#| msgid "No matching strings found!"
+msgid "No audit log entries found."
+msgstr "Uyğun gələn sətirlər yoxdur!"
+
+#, fuzzy
+#| msgid "Git maintenance"
+msgid "Audit log pagination"
+msgstr "Git sazlaması"
 
 #, fuzzy
 #| msgid "Configuration errors"
@@ -13522,6 +13557,11 @@ msgid "Add label"
 msgstr "istifadə olunan dil"
 
 #, fuzzy, python-format
+#| msgid "Download compiled translation"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Kompayl edilmiş tərcüməni endirin"
+
+#, fuzzy, python-format
 #| msgid "Manage glossary"
 msgid "Manage %(team)s"
 msgstr "Terminoloji lüğəti idarə et"
@@ -13791,6 +13831,16 @@ msgid "words"
 msgstr "Söz"
 
 #, fuzzy
+#| msgid "Source string:"
+msgid "Bulk edit selected strings"
+msgstr "Qaynaq sətir:"
+
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "No strings selected"
+msgstr "tərcümə üçün sətir"
+
+#, fuzzy
 #| msgid "No matching strings found!"
 msgid "No matching strings found."
 msgstr "Uyğun gələn sətirlər yoxdur!"
@@ -13881,7 +13931,20 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Search in source strings"
+msgid "Select all strings on this page"
+msgstr "Qaynaq sətirlərində axtar"
+
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Select string for bulk edit"
+msgstr "Qaynaq sətirləri gözdən keçirmək"
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -14060,6 +14123,16 @@ msgstr "Depo əməliyyatı"
 #| msgid "Git maintenance"
 msgid "Repository branch"
 msgstr "Git sazlaması"
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Pull request"
+msgstr "Uğursuz birləşdirmə sorğusu!"
+
+#, fuzzy
+#| msgid "Git maintenance"
+msgid "Pull request URL copied to clipboard."
+msgstr "Depo əməliyyatı"
 
 #, fuzzy
 #| msgid "Last remote commit:"
@@ -14528,6 +14601,11 @@ msgstr "Tərcümələriniz"
 #| msgid "Failed to save translation!"
 msgid "Cannot add translation right now"
 msgstr "Tərcüməni yaddaşa vermə uğursuz oldu!"
+
+#, fuzzy, python-format
+#| msgid "Source change"
+msgid "Source: %(language)s"
+msgstr "Qaynaq fərqi"
 
 msgid "Customized workflow"
 msgstr ""
@@ -15965,13 +16043,15 @@ msgstr "Layihə adı"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -15992,7 +16072,14 @@ msgstr "Layihə adı"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -16001,6 +16088,12 @@ msgid "Component to remove"
 msgstr "İstifadə üçün alt layihə"
 
 msgid "I understand the consequences, delete this translation"
+msgstr ""
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
 msgstr ""
 
 msgid ""
@@ -16286,6 +16379,11 @@ msgstr "İnterfeys Dili"
 #| msgid "Translation"
 msgid "Explanation"
 msgstr "Tərcümə"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 #, fuzzy
 #| msgid "User registration"
@@ -17307,6 +17405,11 @@ msgstr "Zen modunda redaktə et"
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Təkliflər"
 
 #, fuzzy
 #| msgid "There are some not committed changes!"
@@ -18842,6 +18945,11 @@ msgid "State: %(state)s"
 msgstr "Tərcümələriniz"
 
 #, fuzzy
+#| msgid "Previous translation:"
+msgid "Previous source"
+msgstr "Əvvəlki tərcümə:"
+
+#, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestions pending"
 msgstr "Təklif səsverməsi"
@@ -20101,6 +20209,11 @@ msgid "You do not have permission to create terminology."
 msgstr "Təklifləri qəbul etmək üçün hüququnuz yoxdur!"
 
 #, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Yanlış(invalid) təklif!"
+
+#, fuzzy
 #| msgid "Donate to Weblate"
 msgid "State to set"
 msgstr "Weblate ianə et"
@@ -20144,6 +20257,9 @@ msgstr "Dəyişikliklərə göz at"
 msgid "Labels to remove — all languages"
 msgstr "Təklif əlavə olundu"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 #, fuzzy
 #| msgid "Source string:"
 msgid "I accept the contributor license agreement"
@@ -20170,8 +20286,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Fayldan %d söz import edildi."
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -20185,6 +20302,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Yeni tərcümələr üçün baza faylı"
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -20411,6 +20534,24 @@ msgstr "Tərcümə faylı"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Enforced checks"
+msgstr "Göz ardı edilən yoxlama"
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Inherit enforced checks"
+msgstr "Göz ardı edilən yoxlama"
+
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Tərcümə hal-hazırda kilidlidir."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -20728,6 +20869,26 @@ msgstr ""
 "istifadə edə bilərsiniz."
 
 #, fuzzy
+#| msgid "Git maintenance"
+msgid "Repository browser for translations"
+msgstr "Git sazlaması"
+
+#, fuzzy
+#| msgid ""
+#| "Enter a custom URL to be used as link to the source code. You can use "
+#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
+#| "placeholders."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Mənbə koduna link olaraq istifadə ediləcək xüsusi bir URL daxil edin. Sahə "
+"üçün {{branch}}, {{filename}} və {{line}} fayladları və sətir yerləri kimi "
+"istifadə edə bilərsiniz."
+
+#, fuzzy
 #| msgid "Exported Git URL"
 msgid "Exported repository URL"
 msgstr "Eksport edilmiş Git URL-si"
@@ -20903,12 +21064,7 @@ msgstr ""
 "Bu səs sayı ilə təklifləri avtomatik qəbul edər, deaktiv etmək üçün 0 "
 "istifadə edin."
 
-#, fuzzy
-#| msgid "Ignored checks"
-msgid "Enforced checks"
-msgstr "Göz ardı edilən yoxlama"
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -21642,6 +21798,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Ignored checks"
+msgid "Use enforced checks from the workspace."
+msgstr "Göz ardı edilən yoxlama"
+
+#, fuzzy
 #| msgid "Translation has been saved!"
 msgid "Use the translation license configured in the workspace."
 msgstr "Tərcümə yaddaşa verildi!"
@@ -21934,6 +22095,11 @@ msgstr "Dəyişikliklərə göz at"
 msgid "Unmark as terminology for all languages"
 msgstr "Dəyişikliklərə göz at"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -21941,6 +22107,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Base file for new translations"
+msgid "Please turn on reviews on the project first."
+msgstr "Yeni tərcümələr üçün baza faylı"
+
+#, fuzzy
+#| msgid "Monolingual base language file"
+msgid "This language already has a project workflow."
+msgstr "Tək dil əsaslı dil faylı"
+
+#, fuzzy
+#| msgid "New language request in %(translation)s"
+msgid "Select a source language in a project workflow."
+msgstr "%(translation)s içində yeni dil istəyi"
+
+#, fuzzy
+#| msgid "All subprojects"
+msgid "The source language must exist in this project."
+msgstr "Bütün alt layihələr"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Source languages cannot form a cycle."
+msgstr "Qaynaq fərqi"
 
 #, fuzzy
 #| msgid "Source string age"
@@ -22333,6 +22524,16 @@ msgstr ""
 #| msgid "Failed to update git: %s"
 msgid "Could not parse flags: %s"
 msgstr "Git yenilənməsi uğursuz oldu: %s"
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Enforced checks has to be a list."
+msgstr "Göz ardı edilən yoxlama"
+
+#, fuzzy, python-format
+#| msgid "Ignored checks"
+msgid "Unsupported enforced check: %s"
+msgstr "Göz ardı edilən yoxlama"
 
 #, fuzzy, python-format
 #| msgid "Failed to save translation!"

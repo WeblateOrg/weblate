@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-11 08:25+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2006,6 +2006,11 @@ msgstr ""
 msgid "Per author"
 msgstr ""
 
+#, fuzzy
+#| msgid "Component list: %s"
+msgid "Per author and language"
+msgstr "Lista de componente: %s"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -2824,6 +2829,14 @@ msgstr ""
 msgid "Cannot change this on a scoped team."
 msgstr ""
 
+#, fuzzy
+#| msgid "Other projects"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Alte proiecte"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr ""
 
@@ -2876,6 +2889,9 @@ msgid "Translation text too long!"
 msgstr ""
 
 msgid "Your suggestion already exists!"
+msgstr ""
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
 msgid "Weblate's REST API"
@@ -5490,6 +5506,9 @@ msgstr ""
 
 #. Translators: File format name
 msgid "App store metadata files"
+msgstr ""
+
+msgid "File validation is required for directory-based formats."
 msgstr ""
 
 msgid ""
@@ -8217,7 +8236,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -8460,13 +8480,7 @@ msgstr ""
 msgid "No invoices found."
 msgstr ""
 
-msgid "Event details"
-msgstr ""
-
-msgid "Actions"
-msgstr ""
-
-msgid "Download"
+msgid "View all"
 msgstr ""
 
 msgid "Libre hosting"
@@ -8500,6 +8514,25 @@ msgstr ""
 
 msgid "View"
 msgstr ""
+
+msgid "Event details"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+#, fuzzy
+#| msgid "Project: {}"
+msgid "No audit log entries found."
+msgstr "Proiect:{}"
+
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Audit log pagination"
+msgstr "Proiecte văzute"
 
 msgid "Confirm merge"
 msgstr ""
@@ -10779,6 +10812,10 @@ msgid "Add label"
 msgstr ""
 
 #, python-format
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr ""
+
+#, python-format
 msgid "Manage %(team)s"
 msgstr ""
 
@@ -10988,6 +11025,14 @@ msgstr ""
 msgid "words"
 msgstr "Parola"
 
+msgid "Bulk edit selected strings"
+msgstr ""
+
+#, fuzzy
+#| msgid "Component: {}"
+msgid "No strings selected"
+msgstr "Componentă: {}"
+
 msgid "No matching strings found."
 msgstr ""
 
@@ -11058,7 +11103,18 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Watched projects"
+msgid "Select all strings on this page"
+msgstr "Proiecte văzute"
+
+msgid "Select string for bulk edit"
+msgstr ""
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -11205,6 +11261,12 @@ msgid "Repository URL copied to clipboard."
 msgstr ""
 
 msgid "Repository branch"
+msgstr ""
+
+msgid "Pull request"
+msgstr ""
+
+msgid "Pull request URL copied to clipboard."
 msgstr ""
 
 msgid "Last remote commit"
@@ -11544,6 +11606,11 @@ msgstr ""
 
 msgid "Cannot add translation right now"
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Component list: %s"
+msgid "Source: %(language)s"
+msgstr "Lista de componente: %s"
 
 msgid "Customized workflow"
 msgstr ""
@@ -12709,13 +12776,15 @@ msgstr ""
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -12730,13 +12799,26 @@ msgstr ""
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 msgid "Component to remove"
 msgstr ""
 
 msgid "I understand the consequences, delete this translation"
+msgstr ""
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
 msgstr ""
 
 msgid ""
@@ -12962,6 +13044,11 @@ msgid "Intermediate language"
 msgstr ""
 
 msgid "Explanation"
+msgstr ""
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
 msgstr ""
 
 msgid "Report issue with the source string"
@@ -13785,6 +13872,11 @@ msgstr ""
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+#| msgid "Component: {}"
+msgid "Show suggestions"
+msgstr "Componentă: {}"
 
 msgid "A translation file was synchronized with its repository."
 msgstr ""
@@ -14959,6 +15051,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Component: {}"
+msgid "Previous source"
+msgstr "Componentă: {}"
+
+#, fuzzy
+#| msgid "Component: {}"
 msgid "Suggestions pending"
 msgstr "Componentă: {}"
 
@@ -15925,6 +16022,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr ""
 
+#, fuzzy
+#| msgid "Component list: %s"
+msgid "Invalid string selection!"
+msgstr "Lista de componente: %s"
+
 msgid "State to set"
 msgstr ""
 
@@ -15957,6 +16059,9 @@ msgstr ""
 msgid "Labels to remove — all languages"
 msgstr ""
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr ""
 
@@ -15975,8 +16080,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Lista de componente: %s"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -15986,6 +16092,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr ""
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -16170,6 +16282,20 @@ msgid "Translation flags"
 msgstr ""
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
+msgstr ""
+
+msgid "Enforced checks"
+msgstr ""
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other projects"
+msgid "Inherit enforced checks"
+msgstr "Alte proiecte"
+
+msgid "Use enforced checks from the parent category, project or workspace."
 msgstr ""
 
 #, fuzzy
@@ -16414,6 +16540,18 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 
+#, fuzzy
+#| msgid "Component: {}"
+msgid "Repository browser for translations"
+msgstr "Componentă: {}"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+
 msgid "Exported repository URL"
 msgstr ""
 
@@ -16527,10 +16665,7 @@ msgid ""
 "off."
 msgstr ""
 
-msgid "Enforced checks"
-msgstr ""
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 msgid "Use the translation license configured in the category or project."
@@ -17097,6 +17232,9 @@ msgid ""
 "en_GB:en,en_US:en"
 msgstr ""
 
+msgid "Use enforced checks from the workspace."
+msgstr ""
+
 msgid "Use the translation license configured in the workspace."
 msgstr ""
 
@@ -17320,12 +17458,32 @@ msgstr ""
 msgid "Unmark as terminology for all languages"
 msgstr ""
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
+msgstr ""
+
+msgid "Please turn on reviews on the project first."
+msgstr ""
+
+msgid "This language already has a project workflow."
+msgstr ""
+
+msgid "Select a source language in a project workflow."
+msgstr ""
+
+msgid "The source language must exist in this project."
+msgstr ""
+
+msgid "Source languages cannot form a cycle."
 msgstr ""
 
 msgid "The source string has changed. Reload it before editing."
@@ -17639,6 +17797,13 @@ msgstr ""
 
 #, python-format
 msgid "Could not parse flags: %s"
+msgstr ""
+
+msgid "Enforced checks has to be a list."
+msgstr ""
+
+#, python-format
+msgid "Unsupported enforced check: %s"
 msgstr ""
 
 #, python-format

@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:09+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -2120,6 +2120,11 @@ msgstr "Per fil"
 msgid "Per author"
 msgstr "Efter författare"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Per språk"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Lägg till git-trailers till squashade commit meddelande"
 
@@ -2979,6 +2984,16 @@ msgstr "Det finns redan en grupp med det här namnet i det här arbetsområdet."
 msgid "Cannot change this on a scoped team."
 msgstr "Detta kan inte ändras för en grupp med begränsad räckvidd."
 
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Ärv från arbetsområdet"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "Välj antingen ett projekt eller et arbetsområde."
+
 msgid "You do not have permission to access this component."
 msgstr "Du har inte behörighet att komma åt komponenten."
 
@@ -3032,6 +3047,11 @@ msgstr "Översättningstexten är för lång!"
 
 msgid "Your suggestion already exists!"
 msgstr "Ditt förslag finns redan!"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "Välj antingen ett projekt eller et arbetsområde."
 
 msgid "Weblate's REST API"
 msgstr "Weblates REST API"
@@ -5768,6 +5788,9 @@ msgstr "Bör vara en katalog med metadatafiler!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Metadata-filer för App store"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8669,9 +8692,14 @@ msgid ""
 msgstr ""
 "Weblate-arkiveringar från komponenter inom detta arkiv kommer att squashas."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Ursprungliga arkiveringsmeddelanden behålls, men författarskapet förloras om "
 "inte \"per författare\" är markerad eller om arkiveringsmeddelandet anpassas "
@@ -8915,14 +8943,10 @@ msgstr "Inte tillgänglig"
 msgid "No invoices found."
 msgstr "Inga fakturor hittades."
 
-msgid "Event details"
-msgstr "Händelseinformation"
-
-msgid "Actions"
-msgstr "Åtgärder"
-
-msgid "Download"
-msgstr "Hämta"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Visa detaljer"
 
 msgid "Libre hosting"
 msgstr "Libre-hosting"
@@ -8957,6 +8981,25 @@ msgstr "Inga projekt är associerade för ögonblicket!"
 
 msgid "View"
 msgstr "Visa"
+
+msgid "Event details"
+msgstr "Händelseinformation"
+
+msgid "Actions"
+msgstr "Åtgärder"
+
+msgid "Download"
+msgstr "Hämta"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Inga matchande strängar hittades."
+
+#, fuzzy
+#| msgid "Report history pagination"
+msgid "Audit log pagination"
+msgstr "Paginering av rapporthistorik"
 
 msgid "Confirm merge"
 msgstr "Bekräfta sammanslagningen"
@@ -11386,6 +11429,11 @@ msgstr "Märkta källsträngar"
 msgid "Add label"
 msgstr "Lägg till etikett"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Ladda ner översättningar som CSV i en ZIP-fil"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "Hantera %(team)s"
@@ -11588,6 +11636,16 @@ msgstr "strängar"
 msgid "words"
 msgstr "ord"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Massredigera strängar"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Inga strängar att översätta"
+
 msgid "No matching strings found."
 msgstr "Inga matchande strängar hittades."
 
@@ -11678,10 +11736,23 @@ msgstr ""
 "Detta kan bero på att vissa av dina faktureringar är förfallna eller "
 "överskrider gränserna."
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "Välj alla källsträngar"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Strängar som behöver redigeras"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Du kan ändra tillståndet för alla strängar som matchar den givna typen på en "
 "och samma gång."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Filter för översättningskvalitet"
@@ -11829,6 +11900,16 @@ msgstr "Arkiv-URL:en kopierad till urklipp."
 
 msgid "Repository branch"
 msgstr "Arkivgren"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Gitea pull-begäran"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "Arkiv-URL:en kopierad till urklipp."
 
 msgid "Last remote commit"
 msgstr "Senaste arkivering i fjärrarkivet"
@@ -12177,6 +12258,11 @@ msgstr "Skapa översättning"
 
 msgid "Cannot add translation right now"
 msgstr "Kan inte lägga till översättning just nu"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Källspråk"
 
 msgid "Customized workflow"
 msgstr "Anpassat arbetsflöde"
@@ -13532,18 +13618,28 @@ msgstr "Följande översättningar kommer att tas bort:"
 msgid "Project language to remove"
 msgstr "Projektspråk att ta bort"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Denna åtgärd kan inte ångras. Detta kommer att permanent radera %(object)s "
 "kategorin och allt relaterat innehåll."
 
+#, fuzzy
+#| msgid ""
+#| "If this action removes restricted components, retained translation memory "
+#| "from them will become available according to the project and workspace "
+#| "translation memory access rules unless you also delete it."
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 "Om denna åtgärd tar bort begränsade komponenter kommer översättningsminnet "
 "som lagrats från dessa att bli tillgängligt i enlighet med reglerna för "
@@ -13559,19 +13655,37 @@ msgstr "Följande översättningskategorier kommer att tas bort:"
 msgid "Project to remove"
 msgstr "Projekt att ta bort"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Denna åtgärd kan inte ångras. Detta kommer att permanent ta bort komponenten "
 "%(object)s och allt relaterat innehåll."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Komponent att ta bort"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Jag förstår konsekvenserna av detta - ta bort översättningen"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Denna åtgärd kan inte ångras. Detta kommer att permanent radera %(object)s "
+"kategorin och allt relaterat innehåll."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -13836,6 +13950,11 @@ msgstr "Mellanliggande språk"
 
 msgid "Explanation"
 msgstr "Förklaring"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Rapportera ett problem med källsträngen"
@@ -14712,6 +14831,11 @@ msgstr "Redigera en sträng åt gången"
 
 msgid "Exit Zen"
 msgstr "Avsluta Zen"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Förslag"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "En översättningsfil synkroniserades med sitt förråd."
@@ -15756,6 +15880,11 @@ msgstr "Tidigare översättning"
 msgid "State: %(state)s"
 msgstr "Tillstånd: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Föregående avsnitt"
+
 msgid "Suggestions pending"
 msgstr "Väntande förslag"
 
@@ -16792,6 +16921,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Du har inte behörighet att skapa terminologi."
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid string selection!"
+msgstr "Ogiltigt val av kolumn i listan."
+
 msgid "State to set"
 msgstr "Tillstånd som ska sättas"
 
@@ -16832,6 +16966,9 @@ msgstr "För alla språk"
 msgid "Labels to remove — all languages"
 msgstr "Etiketter att ta bort"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Jag accepterar licensavtalet för bidragsgivare"
 
@@ -16847,9 +16984,14 @@ msgstr "Skriv in översättningens fulla SLUG för att bekräfta."
 msgid "Delete translation memory created from this component"
 msgstr "Ta bort översättningsminnet som skapats från denna komponent"
 
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 "Projekt, arbetsområde och poster i delat översättningsminne kommer att "
 "raderas. Personliga och uppladdade poster kommer att bevaras."
@@ -16863,6 +17005,18 @@ msgstr "Skriv in översättningens SLUG för att bekräfta."
 msgid "Delete translation memory created from components in this category"
 msgstr ""
 "Ta bort översättningsminnet som skapats från komponenter i denna kategori"
+
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"Projekt, arbetsområde och poster i delat översättningsminne kommer att "
+"raderas. Personliga och uppladdade poster kommer att bevaras."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Skriv in kategorins URL-slug för att bekräfta."
@@ -17058,6 +17212,25 @@ msgstr "Översättningsflaggor"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Ytterligare kommaseparerade flaggor för att påverka Weblates beteende."
+
+msgid "Enforced checks"
+msgstr "Tvingande kontroller"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Lista över kontroller som inte kan avfärdas."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Oanvända tvingande kontroller."
+
+#, fuzzy
+#| msgid ""
+#| "Use the translation license configured in the parent category or project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Använd den översättningslicens som är konfigurerad i den överordnade "
+"kategorin eller i projektet."
 
 msgid "Inherit translation license"
 msgstr "Ärv översättningslicens"
@@ -17326,6 +17499,26 @@ msgstr ""
 "{{line}} för filnamn och radnummer. Du kanske vill ta bort den inledande "
 "katalogen med {{filename|parentdir}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Arkivgren att översätta"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Länk till arkivutforskare, använd {{branch}} för gren, {{filename}} och "
+"{{line}} för filnamn och radnummer. Du kanske vill ta bort den inledande "
+"katalogen med {{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "Exporterat arkiv-URL"
 
@@ -17460,11 +17653,10 @@ msgstr ""
 "Acceptera automatiskt förslag med detta antal röster, använd 0 för att "
 "stänga av."
 
-msgid "Enforced checks"
-msgstr "Tvingande kontroller"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Lista över kontroller som inte kan avfärdas."
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "Välj antingen ett projekt eller et arbetsområde."
 
 msgid "Use the translation license configured in the category or project."
 msgstr ""
@@ -18154,6 +18346,11 @@ msgstr ""
 "Kommaseparerad lista över språkkodsmappningar, till exempel: en_GB:en, "
 "sv_SE:sv"
 
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Oanvända tvingande kontroller."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "Använd översättningslicensen som är konfigurerad i arbetsområdet."
 
@@ -18420,6 +18617,11 @@ msgstr "Markera som terminologi"
 msgid "Unmark as terminology for all languages"
 msgstr "Avmarkera som terminologi"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr "Begränsa direktredigering"
 
@@ -18429,6 +18631,32 @@ msgid ""
 msgstr ""
 "Endast användare med behörigheten “Redigera sträng när förslag är tvingande” "
 "kan göra direkta ändringar."
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Skriv in översättningens SLUG för att bekräfta."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Det angivna språket finns redan."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Sekundärt språk definierat i projekt eller komponent"
+
+#, fuzzy
+#| msgid "The user is not watching this project."
+msgid "The source language must exist in this project."
+msgstr "Användaren bevakar inte det här projektet."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Källspråkets text"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -18764,6 +18992,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Kunde inte tolka flaggor: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Tvingande kontroller"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Oanvända tvingande kontroller."
 
 #, python-format
 msgid ""

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-11 08:25+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2158,6 +2158,11 @@ msgstr ""
 msgid "Per author"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Per author and language"
+msgstr "Rewşa wergerê"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -3057,6 +3062,14 @@ msgstr "Rewşa wergerê"
 msgid "Cannot change this on a scoped team."
 msgstr "Rewşa wergerê"
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Rewşa wergerê"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr ""
 
@@ -3119,6 +3132,9 @@ msgid "Translation text too long!"
 msgstr ""
 
 msgid "Your suggestion already exists!"
+msgstr ""
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
 msgid "Weblate's REST API"
@@ -6131,6 +6147,9 @@ msgstr ""
 msgid "App store metadata files"
 msgstr ""
 
+msgid "File validation is required for directory-based formats."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -9011,7 +9030,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9293,14 +9313,10 @@ msgstr ""
 msgid "No invoices found."
 msgstr ""
 
-msgid "Event details"
-msgstr ""
-
-msgid "Actions"
-msgstr "Çalakî"
-
-msgid "Download"
-msgstr "Daxîne"
+#, fuzzy
+#| msgid "View"
+msgid "View all"
+msgstr "Nîşan bide"
 
 msgid "Libre hosting"
 msgstr ""
@@ -9341,6 +9357,25 @@ msgstr ""
 
 msgid "View"
 msgstr "Nîşan bide"
+
+msgid "Event details"
+msgstr ""
+
+msgid "Actions"
+msgstr "Çalakî"
+
+msgid "Download"
+msgstr "Daxîne"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "No audit log entries found."
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Audit log pagination"
+msgstr "Rewşa wergerê"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -11829,6 +11864,11 @@ msgstr "Rewşa wergerê"
 
 #, fuzzy, python-format
 #| msgid "Translation status"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Rewşa wergerê"
+
+#, fuzzy, python-format
+#| msgid "Translation status"
 msgid "Manage %(team)s"
 msgstr "Rewşa wergerê"
 
@@ -12063,6 +12103,16 @@ msgstr "rêz"
 msgid "words"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Bulk edit selected strings"
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "No strings selected"
+msgstr "Rewşa wergerê"
+
 msgid "No matching strings found."
 msgstr ""
 
@@ -12134,7 +12184,18 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Select all strings on this page"
+msgstr "Rewşa wergerê"
+
+msgid "Select string for bulk edit"
+msgstr ""
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -12296,6 +12357,14 @@ msgid "Repository URL copied to clipboard."
 msgstr ""
 
 msgid "Repository branch"
+msgstr ""
+
+#, fuzzy
+#| msgid "HTTP Request"
+msgid "Pull request"
+msgstr "Daxwaza HTTP"
+
+msgid "Pull request URL copied to clipboard."
 msgstr ""
 
 msgid "Last remote commit"
@@ -12696,6 +12765,11 @@ msgstr "Rewşa wergerê"
 #, fuzzy
 #| msgid "Translation status"
 msgid "Cannot add translation right now"
+msgstr "Rewşa wergerê"
+
+#, fuzzy, python-format
+#| msgid "Translation status"
+msgid "Source: %(language)s"
 msgstr "Rewşa wergerê"
 
 msgid "Customized workflow"
@@ -13965,13 +14039,15 @@ msgstr "Rewşa wergerê"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -13992,13 +14068,26 @@ msgstr "Rewşa wergerê"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 msgid "Component to remove"
 msgstr ""
 
 msgid "I understand the consequences, delete this translation"
+msgstr ""
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
 msgstr ""
 
 msgid ""
@@ -14239,6 +14328,11 @@ msgstr "Rewşa wergerê"
 #| msgid "Translation status"
 msgid "Explanation"
 msgstr "Rewşa wergerê"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation status"
@@ -15137,6 +15231,11 @@ msgstr ""
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Pêşniyar"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -16516,6 +16615,11 @@ msgstr "Rewşa wergerê"
 
 #, fuzzy
 #| msgid "Translation status"
+msgid "Previous source"
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
 msgid "Suggestions pending"
 msgstr "Rewşa wergerê"
 
@@ -17602,6 +17706,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Rewşa wergerê"
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Pêşniyar ne derbasdar e!"
+
 msgid "State to set"
 msgstr ""
 
@@ -17642,6 +17751,9 @@ msgstr "Rewşa wergerê"
 msgid "Labels to remove — all languages"
 msgstr "Rewşa wergerê"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr ""
 
@@ -17664,8 +17776,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Rewşa wergerê"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -17679,6 +17792,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Rewşa wergerê"
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -17883,6 +18002,22 @@ msgstr "Rewşa wergerê"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+
+msgid "Enforced checks"
+msgstr ""
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Inherit enforced checks"
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Rewşa wergerê"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -18145,6 +18280,18 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation status"
+msgid "Repository browser for translations"
+msgstr "Rewşa wergerê"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+
 msgid "Exported repository URL"
 msgstr ""
 
@@ -18264,10 +18411,7 @@ msgid ""
 "off."
 msgstr ""
 
-msgid "Enforced checks"
-msgstr ""
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -18888,6 +19032,9 @@ msgid ""
 "en_GB:en,en_US:en"
 msgstr ""
 
+msgid "Use enforced checks from the workspace."
+msgstr ""
+
 msgid "Use the translation license configured in the workspace."
 msgstr ""
 
@@ -19156,6 +19303,11 @@ msgstr ""
 msgid "Unmark as terminology for all languages"
 msgstr ""
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -19163,6 +19315,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Please turn on reviews on the project first."
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "This language already has a project workflow."
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Select a source language in a project workflow."
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "The source language must exist in this project."
+msgstr "Rewşa wergerê"
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Source languages cannot form a cycle."
+msgstr "Rewşa wergerê"
 
 #, fuzzy
 #| msgid "Translation status"
@@ -19528,6 +19705,14 @@ msgstr ""
 #| msgid "Translation status"
 msgid "Could not parse flags: %s"
 msgstr "Rewşa wergerê"
+
+msgid "Enforced checks has to be a list."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Donate to Weblate"
+msgid "Unsupported enforced check: %s"
+msgstr "Ji Weblateyê re bexşek bike"
 
 #, fuzzy, python-format
 #| msgid "Translation status"

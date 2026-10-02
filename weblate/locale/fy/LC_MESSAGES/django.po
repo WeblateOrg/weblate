@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-11 04:04+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2337,6 +2337,11 @@ msgstr "Profyl"
 msgid "Per author"
 msgstr ""
 
+#, fuzzy
+#| msgid "New language"
+msgid "Per author and language"
+msgstr "Nije taal"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -3279,6 +3284,14 @@ msgid "Cannot change this on a scoped team."
 msgstr "Boarnewiziging"
 
 #, fuzzy
+#| msgid "Nahuatl languages"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Nahuatl talen"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
+#, fuzzy
 #| msgid "New translation in %(translation)s"
 msgid "You do not have permission to access this component."
 msgstr "Nije oersetting yn %(translation)s"
@@ -3355,6 +3368,9 @@ msgstr "Oersetstatus"
 #| msgid "Translation file"
 msgid "Your suggestion already exists!"
 msgstr "Oersettingstriem"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr ""
@@ -6703,6 +6719,9 @@ msgstr ""
 msgid "App store metadata files"
 msgstr ""
 
+msgid "File validation is required for directory-based formats."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -9818,7 +9837,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -10130,16 +10150,8 @@ msgstr ""
 msgid "No invoices found."
 msgstr "Masjineoersetting"
 
-msgid "Event details"
+msgid "View all"
 msgstr ""
-
-#, fuzzy
-#| msgid "Action"
-msgid "Actions"
-msgstr "Aksje"
-
-msgid "Download"
-msgstr "Download"
 
 msgid "Libre hosting"
 msgstr ""
@@ -10180,6 +10192,27 @@ msgstr ""
 
 msgid "View"
 msgstr ""
+
+msgid "Event details"
+msgstr ""
+
+#, fuzzy
+#| msgid "Action"
+msgid "Actions"
+msgstr "Aksje"
+
+msgid "Download"
+msgstr "Download"
+
+#, fuzzy
+#| msgid "Machine translation"
+msgid "No audit log entries found."
+msgstr "Masjineoersetting"
+
+#, fuzzy
+#| msgid "Other translations"
+msgid "Audit log pagination"
+msgstr "Oare oersettings"
 
 #, fuzzy
 #| msgid "Change password"
@@ -12873,6 +12906,11 @@ msgid "Add label"
 msgstr "Nahuatl talen"
 
 #, fuzzy, python-format
+#| msgid "Translation file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Oersettingstriem"
+
+#, fuzzy, python-format
 #| msgid "Projects"
 msgid "Manage %(team)s"
 msgstr "Projekten"
@@ -13132,6 +13170,16 @@ msgid "words"
 msgstr "Wurden"
 
 #, fuzzy
+#| msgid "Source change"
+msgid "Bulk edit selected strings"
+msgstr "Boarnewiziging"
+
+#, fuzzy
+#| msgid "translated"
+msgid "No strings selected"
+msgstr "oerset"
+
+#, fuzzy
 #| msgid "Machine translation"
 msgid "No matching strings found."
 msgstr "Masjineoersetting"
@@ -13207,7 +13255,18 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Source change"
+msgid "Select all strings on this page"
+msgstr "Boarnewiziging"
+
+msgid "Select string for bulk edit"
+msgstr ""
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -13376,6 +13435,16 @@ msgstr "Oare oersettings"
 
 msgid "Repository branch"
 msgstr ""
+
+#, fuzzy
+#| msgid "Songhai languages"
+msgid "Pull request"
+msgstr "Songhai talen"
+
+#, fuzzy
+#| msgid "Other translations"
+msgid "Pull request URL copied to clipboard."
+msgstr "Oare oersettings"
 
 msgid "Last remote commit"
 msgstr ""
@@ -13816,6 +13885,11 @@ msgstr "Oare oersettings"
 #| msgid "New translation"
 msgid "Cannot add translation right now"
 msgstr "Nije oersetting"
+
+#, fuzzy, python-format
+#| msgid "Source change"
+msgid "Source: %(language)s"
+msgstr "Boarnewiziging"
 
 msgid "Customized workflow"
 msgstr ""
@@ -15173,13 +15247,15 @@ msgstr "Projektnamme"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -15200,7 +15276,14 @@ msgstr "Projektnamme"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -15209,6 +15292,12 @@ msgid "Component to remove"
 msgstr "Underdielen"
 
 msgid "I understand the consequences, delete this translation"
+msgstr ""
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
 msgstr ""
 
 msgid ""
@@ -15477,6 +15566,11 @@ msgstr "Nahuatl talen"
 #| msgid "Translation"
 msgid "Explanation"
 msgstr "Tersetting"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 #, fuzzy
 #| msgid "User registration"
@@ -16440,6 +16534,11 @@ msgstr "Boarnewiziging"
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+#| msgid "Other translations"
+msgid "Show suggestions"
+msgstr "Oare oersettings"
 
 #, fuzzy
 #| msgid "New translation in %(translation)s"
@@ -17914,6 +18013,11 @@ msgid "State: %(state)s"
 msgstr "Oare oersettings"
 
 #, fuzzy
+#| msgid "Previous"
+msgid "Previous source"
+msgstr "Foarige"
+
+#, fuzzy
 #| msgid "Other translations"
 msgid "Suggestions pending"
 msgstr "Oare oersettings"
@@ -19102,6 +19206,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Nije oersetting yn %(translation)s"
 
+#, fuzzy
+#| msgid "Other components"
+msgid "Invalid string selection!"
+msgstr "Oare ûnderdielen"
+
 msgid "State to set"
 msgstr ""
 
@@ -19144,6 +19253,9 @@ msgstr "Boarnewiziging"
 msgid "Labels to remove — all languages"
 msgstr "Taal"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr ""
 
@@ -19168,8 +19280,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Projektynformaasje"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -19183,6 +19296,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Nije oersetting yn %(translation)s"
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -19403,6 +19522,22 @@ msgstr "Oersettingstriem"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+
+msgid "Enforced checks"
+msgstr ""
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Inherit enforced checks"
+msgstr "Boarnewiziging"
+
+#, fuzzy
+#| msgid "Translation license"
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Oersettingslisinsje"
 
 #, fuzzy
 #| msgid "Translation license"
@@ -19691,6 +19826,18 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 
+#, fuzzy
+#| msgid "Other translations"
+msgid "Repository browser for translations"
+msgstr "Oare oersettings"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+
 msgid "Exported repository URL"
 msgstr ""
 
@@ -19822,10 +19969,7 @@ msgid ""
 "off."
 msgstr ""
 
-msgid "Enforced checks"
-msgstr ""
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -20496,6 +20640,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translation license"
+msgid "Use enforced checks from the workspace."
+msgstr "Oersettingslisinsje"
+
+#, fuzzy
+#| msgid "Translation license"
 msgid "Use the translation license configured in the workspace."
 msgstr "Oersettingslisinsje"
 
@@ -20778,6 +20927,11 @@ msgstr "Boarnewiziging"
 msgid "Unmark as terminology for all languages"
 msgstr "Boarnewiziging"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -20785,6 +20939,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid "Please turn on reviews on the project first."
+msgstr "Nije oersetting yn %(translation)s"
+
+#, fuzzy
+#| msgid "Translation file"
+msgid "This language already has a project workflow."
+msgstr "Oersettingstriem"
+
+#, fuzzy
+#| msgid "New translation in %(translation)s"
+msgid "Select a source language in a project workflow."
+msgstr "Nije oersetting yn %(translation)s"
+
+#, fuzzy
+#| msgid "Projects"
+msgid "The source language must exist in this project."
+msgstr "Projekten"
+
+#, fuzzy
+#| msgid "Source change"
+msgid "Source languages cannot form a cycle."
+msgstr "Boarnewiziging"
 
 #, fuzzy
 #| msgid "Source change"
@@ -21164,6 +21343,14 @@ msgstr ""
 #| msgid "New translation"
 msgid "Could not parse flags: %s"
 msgstr "Nije oersetting"
+
+msgid "Enforced checks has to be a list."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "About Weblate"
+msgid "Unsupported enforced check: %s"
+msgstr "Oer Weblate"
 
 #, fuzzy, python-format
 #| msgid "New translation"
@@ -24739,11 +24926,6 @@ msgstr "Oersettingslisinsje"
 #~| msgid "Source change"
 #~ msgid "Number of source strings"
 #~ msgstr "Boarnewiziging"
-
-#, fuzzy
-#~| msgid "Other translations"
-#~ msgid "Repository containing Weblate translations"
-#~ msgstr "Oare oersettings"
 
 #, fuzzy
 #~| msgid "translated"

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-07-25 07:17+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2297,6 +2297,11 @@ msgstr ""
 msgid "Per author"
 msgstr ""
 
+#, fuzzy
+#| msgid "Weblate languages"
+msgid "Per author and language"
+msgstr "Weblate-ի լեզուներ"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -3221,6 +3226,14 @@ msgid "Cannot change this on a scoped team."
 msgstr "Որոնում"
 
 #, fuzzy
+#| msgid "Interface Language"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Միջերեսի լեզու"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
+#, fuzzy
 #| msgid "Managed projects"
 msgid "You do not have permission to access this component."
 msgstr "Կառավարվող նախագծեր"
@@ -3292,6 +3305,9 @@ msgid "Translation text too long!"
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
 msgid "Your suggestion already exists!"
+msgstr ""
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
 msgid "Weblate's REST API"
@@ -6549,6 +6565,9 @@ msgstr ""
 msgid "App store metadata files"
 msgstr ""
 
+msgid "File validation is required for directory-based formats."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -9669,7 +9688,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9985,16 +10005,8 @@ msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
 #| msgid "Managed projects"
-msgid "Event details"
+msgid "View all"
 msgstr "Կառավարվող նախագծեր"
-
-#, fuzzy
-#| msgid "Action"
-msgid "Actions"
-msgstr "Գործողություն"
-
-msgid "Download"
-msgstr "Ներբեռնել"
 
 #, fuzzy
 #| msgid "Hosting"
@@ -10037,6 +10049,29 @@ msgstr ""
 
 msgid "View"
 msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Event details"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Action"
+msgid "Actions"
+msgstr "Գործողություն"
+
+msgid "Download"
+msgstr "Ներբեռնել"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "No audit log entries found."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Audit log pagination"
+msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
 #| msgid "Change password"
@@ -12695,6 +12730,11 @@ msgstr "Միջերեսի լեզու"
 
 #, fuzzy, python-format
 #| msgid "Managed projects"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy, python-format
+#| msgid "Managed projects"
 msgid "Manage %(team)s"
 msgstr "Կառավարվող նախագծեր"
 
@@ -12946,6 +12986,16 @@ msgid "words"
 msgstr "Գաղտնաբառ"
 
 #, fuzzy
+#| msgid "Search"
+msgid "Bulk edit selected strings"
+msgstr "Որոնում"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "No strings selected"
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
 #| msgid "Managed projects"
 msgid "No matching strings found."
 msgstr "Կառավարվող նախագծեր"
@@ -13018,7 +13068,18 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Search"
+msgid "Select all strings on this page"
+msgstr "Որոնում"
+
+msgid "Select string for bulk edit"
+msgstr ""
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -13189,6 +13250,16 @@ msgstr "Կառավարվող նախագծեր"
 
 msgid "Repository branch"
 msgstr ""
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Pull request"
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Pull request URL copied to clipboard."
+msgstr "Կառավարվող նախագծեր"
 
 msgid "Last remote commit"
 msgstr ""
@@ -13626,6 +13697,11 @@ msgstr "Կառավարվող նախագծեր"
 #| msgid "Managed projects"
 msgid "Cannot add translation right now"
 msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy, python-format
+#| msgid "Interface Language"
+msgid "Source: %(language)s"
+msgstr "Միջերեսի լեզու"
 
 msgid "Customized workflow"
 msgstr ""
@@ -14971,13 +15047,15 @@ msgstr "Նախագծի անվանում"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -14998,7 +15076,14 @@ msgstr "Նախագծի անվանում"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -15008,6 +15093,12 @@ msgstr "Տեղեկություններ"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Rwy’n deall y goblygiadau, dileu’r cyfieithiad hwn"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -15271,6 +15362,11 @@ msgstr "Միջերեսի լեզու"
 #| msgid "New password (again)"
 msgid "Explanation"
 msgstr "Նոր գաղտնաբառ (նորից)"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 #, fuzzy
 #| msgid "Search"
@@ -16224,6 +16320,11 @@ msgstr ""
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+#| msgid "Versions"
+msgid "Show suggestions"
+msgstr "Տարբերակներ"
 
 #, fuzzy
 #| msgid "Update VCS repository"
@@ -17680,6 +17781,11 @@ msgid "State: %(state)s"
 msgstr "Վիճակագրություն"
 
 #, fuzzy
+#| msgid "Project name"
+msgid "Previous source"
+msgstr "Նախագծի անվանում"
+
+#, fuzzy
 #| msgid "Search"
 msgid "Suggestions pending"
 msgstr "Որոնում"
@@ -18848,6 +18954,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Կառավարվող նախագծեր"
 
+#, fuzzy
+#| msgid "Project name"
+msgid "Invalid string selection!"
+msgstr "Նախագծի անվանում"
+
 msgid "State to set"
 msgstr ""
 
@@ -18890,6 +19001,9 @@ msgstr "Weblate-ի լեզուներ"
 msgid "Labels to remove — all languages"
 msgstr "Լեզու"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr ""
 
@@ -18914,8 +19028,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Տեղեկություններ"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -18929,6 +19044,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Կառավարվող նախագծեր"
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -19149,6 +19270,22 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+
+msgid "Enforced checks"
+msgstr ""
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Search"
+msgid "Inherit enforced checks"
+msgstr "Որոնում"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Ձեր հաշիվը ջնջվել է։"
 
 #, fuzzy
 #| msgid "Your account has been removed."
@@ -19435,6 +19572,18 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Repository browser for translations"
+msgstr "Նոր գաղտնաբառ (նորից)"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+
 msgid "Exported repository URL"
 msgstr ""
 
@@ -19564,10 +19713,7 @@ msgid ""
 "off."
 msgstr ""
 
-msgid "Enforced checks"
-msgstr ""
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -20229,6 +20375,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Your account has been removed."
+msgid "Use enforced checks from the workspace."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Your account has been removed."
 msgid "Use the translation license configured in the workspace."
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
@@ -20509,6 +20660,11 @@ msgstr "Weblate-ի լեզուներ"
 msgid "Unmark as terminology for all languages"
 msgstr "Weblate-ի լեզուներ"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -20516,6 +20672,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Please turn on reviews on the project first."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Your account has been removed."
+msgid "This language already has a project workflow."
+msgstr "Ձեր հաշիվը ջնջվել է։"
+
+#, fuzzy
+#| msgid "Interface Language"
+msgid "Select a source language in a project workflow."
+msgstr "Միջերեսի լեզու"
+
+#, fuzzy
+#| msgid "Managed projects"
+msgid "The source language must exist in this project."
+msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
+#| msgid "Interface Language"
+msgid "Source languages cannot form a cycle."
+msgstr "Միջերեսի լեզու"
 
 #, fuzzy
 #| msgid "Search"
@@ -20888,6 +21069,14 @@ msgstr ""
 #| msgid "Search"
 msgid "Could not parse flags: %s"
 msgstr "Որոնում"
+
+msgid "Enforced checks has to be a list."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Status"
+msgid "Unsupported enforced check: %s"
+msgstr "Կարգավիճակ"
 
 #, fuzzy, python-format
 #| msgid "Managed projects"
@@ -23395,11 +23584,6 @@ msgstr "Ձեր հաշիվը ջնջվել է։"
 #~| msgid "VCS repositories"
 #~ msgid "Repository hook matched inexactly."
 #~ msgstr "VCS պահեստարաններ"
-
-#, fuzzy
-#~| msgid "Your account has been removed."
-#~ msgid "creating a pull request"
-#~ msgstr "Ձեր հաշիվը ջնջվել է։"
 
 #, fuzzy
 #~| msgid "VCS repositories"

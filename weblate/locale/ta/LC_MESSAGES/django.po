@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -2189,6 +2189,11 @@ msgstr "ஒரு கோப்புக்கு"
 msgid "Per author"
 msgstr "ஒரு எழுத்தாளருக்கு"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "ஒரு மொழிக்கு"
+
 msgid "Append trailers to squashed commit message"
 msgstr "டிரெய்லர்களை ச்குவாச் செய்த செய்தியைச் சேர்"
 
@@ -3137,6 +3142,14 @@ msgstr "அதே பயனர்ப்பெயரில் ஒரு பயன
 msgid "Cannot change this on a scoped team."
 msgstr "ஏற்கனவே உள்ள அணியில் இதை மாற்ற முடியாது."
 
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Inherit enforced checks from the workspace."
+msgstr "பரம்பரை கொடிகள்"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr "இந்த கூறுகளை அணுக உங்களுக்கு இசைவு இல்லை."
 
@@ -3197,6 +3210,9 @@ msgstr "மொழிபெயர்ப்பு உரை மிக நீளம
 
 msgid "Your suggestion already exists!"
 msgstr "உங்கள் பரிந்துரை ஏற்கனவே உள்ளது!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr "வலைபெயர்ப்பு ரெச்ட் பநிஇ"
@@ -6053,6 +6069,9 @@ msgstr "மேனிலை தரவு கோப்புகளுடன் ஒ
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "ஆப் கடை மேனிலை தரவு கோப்புகள்"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -9045,9 +9064,14 @@ msgid ""
 msgstr ""
 "இந்த களஞ்சியத்திற்குள் உள்ள கூறுகளிலிருந்து வலைபெயர்ப்பு கம்யூட்ச் ச்குவாச் செய்யப்படும்."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "அசல் உறுதிமொழி செய்திகள் வைக்கப்படுகின்றன, ஆனால் \"ஒரு எழுத்தாளருக்கு\" "
 "தேர்ந்தெடுக்கப்படாவிட்டால் அல்லது அதைச் சேர்க்க உறுதிமொழி செய்தி தனிப்பயனாக்கப்படாவிட்டால் "
@@ -9301,14 +9325,10 @@ msgstr "கிடைக்கவில்லை"
 msgid "No invoices found."
 msgstr "விலைப்பட்டியல் எதுவும் கிடைக்கவில்லை."
 
-msgid "Event details"
-msgstr "நிகழ்வு விவரங்கள்"
-
-msgid "Actions"
-msgstr "செயல்கள்"
-
-msgid "Download"
-msgstr "பதிவிறக்கம்"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "விபரங்களை பார்"
 
 msgid "Libre hosting"
 msgstr "லிப்ரே ஓச்டிங்"
@@ -9345,6 +9365,25 @@ msgstr "தற்போது ஒதுக்கப்பட்ட திட்�
 
 msgid "View"
 msgstr "பார்வை"
+
+msgid "Event details"
+msgstr "நிகழ்வு விவரங்கள்"
+
+msgid "Actions"
+msgstr "செயல்கள்"
+
+msgid "Download"
+msgstr "பதிவிறக்கம்"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "பொருந்தக்கூடிய சரங்கள் எதுவும் காணப்படவில்லை."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "களஞ்சிய துவக்கம்"
 
 msgid "Confirm merge"
 msgstr "இணைப்பதை உறுதிப்படுத்தவும்"
@@ -11857,6 +11896,11 @@ msgstr "பெயரிடப்பட்ட மூல சரங்கள்"
 msgid "Add label"
 msgstr "லேபிளைச் சேர்க்கவும்"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "மொழிபெயர்ப்புகளை ஒரு சுருக்கு கோப்பில் காபிம ஆக பதிவிறக்கவும்"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "%(team)s நிர்வகி"
@@ -12095,6 +12139,16 @@ msgstr "சரங்கள்"
 msgid "words"
 msgstr "சொற்கள்"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "மொத்த திருத்த சரங்கள்"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "மொழிபெயர்க்க சரங்கள் இல்லை"
+
 msgid "No matching strings found."
 msgstr "பொருந்தக்கூடிய சரங்கள் எதுவும் காணப்படவில்லை."
 
@@ -12194,10 +12248,23 @@ msgid ""
 "limits."
 msgstr "உங்கள் சில பில்லிங்ச் கடந்த கால தேதி அல்லது வரம்புகளுக்கு மேல் ஏற்படக்கூடும்."
 
+#, fuzzy
+#| msgid "Labeled source strings"
+msgid "Select all strings on this page"
+msgstr "பெயரிடப்பட்ட மூல சரங்கள்"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "திருத்தத்திற்காக குறிக்கப்பட்ட சரங்கள்"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "கொடுக்கப்பட்ட வகைக்கு பொருந்தக்கூடிய அனைத்து சரங்களின் நிலையை நீங்கள் ஒரே நேரத்தில் "
 "மாற்றலாம்."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "மொழிபெயர்ப்பு தர வடிகட்டி"
@@ -12368,6 +12435,16 @@ msgstr "களஞ்சிய முகவரி கிளிப்போர்�
 
 msgid "Repository branch"
 msgstr "களஞ்சிய கிளை"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "அறிவிலிதேநீர் இழுத்தல் கோரிக்கை"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "களஞ்சிய முகவரி கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது."
 
 msgid "Last remote commit"
 msgstr "கடைசி தொலைநிலை உறுதிமொழி"
@@ -12723,6 +12800,11 @@ msgstr "மொழிபெயர்ப்பை உருவாக்கவு�
 
 msgid "Cannot add translation right now"
 msgstr "இப்போது மொழிபெயர்ப்பைச் சேர்க்க முடியாது"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "மூல மொழி"
 
 msgid "Customized workflow"
 msgstr "தனிப்பயனாக்கப்பட்ட பணிப்பாய்வு"
@@ -14097,18 +14179,23 @@ msgstr "பின்வரும் மொழிபெயர்ப்புக�
 msgid "Project language to remove"
 msgstr "அகற்ற திட்ட மொழி"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "இந்த செயலை செயல்தவிர்க்க முடியாது. இது %(object)s வகை மற்றும் தொடர்புடைய அனைத்து "
 "உள்ளடக்கங்களையும் நிரந்தரமாக நீக்கும்."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -14120,19 +14207,37 @@ msgstr "பின்வரும் மொழிபெயர்ப்பு வ�
 msgid "Project to remove"
 msgstr "அகற்ற திட்டம்"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "இந்த செயலை செயல்தவிர்க்க முடியாது. இது %(object)s கூறு மற்றும் அனைத்து தொடர்புடைய "
 "உள்ளடக்கங்களையும் நிரந்தரமாக நீக்கும்."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "அகற்றுவதற்கான கூறு"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "விளைவுகளை நான் புரிந்துகொள்கிறேன், இந்த மொழிபெயர்ப்பை நீக்குகிறேன்"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"இந்த செயலை செயல்தவிர்க்க முடியாது. இது %(object)s வகை மற்றும் தொடர்புடைய அனைத்து "
+"உள்ளடக்கங்களையும் நிரந்தரமாக நீக்கும்."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14386,6 +14491,11 @@ msgstr "இடைநிலை மொழி"
 
 msgid "Explanation"
 msgstr "விளக்கம்"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "மூல சரத்துடன் சிக்கலைப் புகாரளிக்கவும்"
@@ -15286,6 +15396,11 @@ msgstr "ஒற்றை சரம் பயன்முறையில் தி
 
 msgid "Exit Zen"
 msgstr "வெளியேறு சென்"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "பரிந்துரைகள்"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -16592,6 +16707,11 @@ msgid "State: %(state)s"
 msgstr "நிலை: %(state)s"
 
 #, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "முந்தைய பிரிவு"
+
+#, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestions pending"
 msgstr "பரிந்துரை வாக்களிப்பு"
@@ -17658,6 +17778,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "சொற்களை உருவாக்க உங்களுக்கு இசைவு இல்லை."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "தவறான பரிந்துரை!"
+
 msgid "State to set"
 msgstr "அமைக்க மாநிலம்"
 
@@ -17698,6 +17823,9 @@ msgstr "எல்லா மொழிகளுக்கும்"
 msgid "Labels to remove — all languages"
 msgstr "அகற்ற சிட்டைகள்"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "பங்களிப்பாளர் உரிம ஒப்பந்தத்தை நான் ஏற்றுக்கொள்கிறேன்"
 
@@ -17716,8 +17844,9 @@ msgid "Delete translation memory created from this component"
 msgstr "பதிவேற்றிய கோப்பிலிருந்து எந்த சரங்களும் இறக்குமதி செய்யப்படவில்லை."
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -17727,6 +17856,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "உறுதிப்படுத்த திட்டத்தின் குருட்டடி தட்டச்சு செய்க."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -17924,6 +18059,22 @@ msgstr "மொழிபெயர்ப்பு கொடிகள்"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "வலைபெயர்ப்பு நடத்தையை பாதிக்க கூடுதல் கமாவால் பிரிக்கப்பட்ட கொடிகள்."
+
+msgid "Enforced checks"
+msgstr "செயல்படுத்தப்பட்ட சோதனைகள்"
+
+msgid "List of checks which can not be dismissed."
+msgstr "நிராகரிக்க முடியாத காசோலைகளின் பட்டியல்."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "பயன்படுத்தப்படாத செயல்படுத்தப்பட்ட சரிபார்ப்புகள்."
+
+#, fuzzy
+#| msgid "Navigate to the last translation in the current search."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "தற்போதைய தேடலில் கடைசி மொழிபெயர்ப்புக்குச் செல்."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -18204,6 +18355,26 @@ msgstr ""
 "கோப்பு பெயர் மற்றும் வரி ஒதுக்கீட்டாளர்களைப் பயன்படுத்தவும். {{filename | parentdir} bed "
 "ஐப் பயன்படுத்தி முன்னணி கோப்பகத்தை அகற்ற விரும்பலாம்."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "மொழிபெயர்க்க களஞ்சிய கிளை"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"களஞ்சிய உலாவியுடன் இணைக்கவும், கிளைக்கு {{branch}}, {{filename}} மற்றும் {{line}} "
+"கோப்பு பெயர் மற்றும் வரி ஒதுக்கீட்டாளர்களைப் பயன்படுத்தவும். {{filename | parentdir} bed "
+"ஐப் பயன்படுத்தி முன்னணி கோப்பகத்தை அகற்ற விரும்பலாம்."
+
 msgid "Exported repository URL"
 msgstr "ஏற்றுமதி செய்யப்பட்ட களஞ்சிய முகவரி"
 
@@ -18339,11 +18510,8 @@ msgstr ""
 "இந்த எண்ணிக்கையிலான வாக்குகளுடன் பரிந்துரைகளை தானாக ஏற்றுக்கொள்ளுங்கள், அதை அணைக்க 0 ஐப் "
 "பயன்படுத்தவும்."
 
-msgid "Enforced checks"
-msgstr "செயல்படுத்தப்பட்ட சோதனைகள்"
-
-msgid "List of checks which can not be dismissed."
-msgstr "நிராகரிக்க முடியாத காசோலைகளின் பட்டியல்."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr ""
 
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
@@ -19021,6 +19189,11 @@ msgstr ""
 "en_us: en"
 
 #, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "பயன்படுத்தப்படாத செயல்படுத்தப்பட்ட சரிபார்ப்புகள்."
+
+#, fuzzy
 #| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
 msgstr "மொழிபெயர்ப்பு பின்னணியில் புதுப்பிக்கப்படும்."
@@ -19307,6 +19480,11 @@ msgstr "சொற்களஞ்சியமாகக் குறிக்க�
 msgid "Unmark as terminology for all languages"
 msgstr "சொற்களஞ்சியமாக குறிக்காதே"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -19314,6 +19492,32 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "உறுதிப்படுத்த திட்டத்தின் குருட்டடி தட்டச்சு செய்க."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "கொடுக்கப்பட்ட மொழி ஏற்கனவே உள்ளது."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "திட்டம் அல்லது கூறுகளில் வரையறுக்கப்பட்ட இரண்டாம் நிலை மொழி"
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "இந்த திட்டத்தில் பயனர் தடுக்கப்பட்டுள்ளது."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "மூல மொழி உரை"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -19697,6 +19901,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "கொடிகளை அலச முடியவில்லை: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "செயல்படுத்தப்பட்ட சோதனைகள்"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "பயன்படுத்தப்படாத செயல்படுத்தப்பட்ட சரிபார்ப்புகள்."
 
 #, python-format
 msgid ""

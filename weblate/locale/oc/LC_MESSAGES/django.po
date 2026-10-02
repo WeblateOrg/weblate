@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-07-18 06:11+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -2016,6 +2016,11 @@ msgstr ""
 msgid "Per author"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Per author and language"
+msgstr "Lengas tradusidas"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -2836,6 +2841,14 @@ msgstr ""
 msgid "Cannot change this on a scoped team."
 msgstr ""
 
+#, fuzzy
+#| msgid "All projects"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Tots los projèctes"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr ""
 
@@ -2888,6 +2901,9 @@ msgid "Translation text too long!"
 msgstr ""
 
 msgid "Your suggestion already exists!"
+msgstr ""
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
 msgid "Weblate's REST API"
@@ -5560,6 +5576,9 @@ msgstr ""
 
 #. Translators: File format name
 msgid "App store metadata files"
+msgstr ""
+
+msgid "File validation is required for directory-based formats."
 msgstr ""
 
 msgid ""
@@ -8310,7 +8329,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -8563,14 +8583,10 @@ msgstr ""
 msgid "No invoices found."
 msgstr ""
 
-msgid "Event details"
-msgstr ""
-
-msgid "Actions"
-msgstr ""
-
-msgid "Download"
-msgstr ""
+#, fuzzy
+#| msgid "View"
+msgid "View all"
+msgstr "Afichar"
 
 msgid "Libre hosting"
 msgstr ""
@@ -8603,6 +8619,24 @@ msgstr ""
 
 msgid "View"
 msgstr "Afichar"
+
+msgid "Event details"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+#, fuzzy
+msgid "No audit log entries found."
+msgstr "Lista de composants"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Audit log pagination"
+msgstr "Depauses"
 
 #, fuzzy
 #| msgid "Configure"
@@ -10893,6 +10927,10 @@ msgid "Add label"
 msgstr ""
 
 #, python-format
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr ""
+
+#, python-format
 msgid "Manage %(team)s"
 msgstr ""
 
@@ -11115,6 +11153,16 @@ msgstr "Lengas tradusidas"
 msgid "words"
 msgstr "Mot de Santa Clara"
 
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Bulk edit selected strings"
+msgstr "Lengas tradusidas"
+
+#, fuzzy
+#| msgid "Translated languages"
+msgid "No strings selected"
+msgstr "Lengas tradusidas"
+
 msgid "No matching strings found."
 msgstr ""
 
@@ -11185,7 +11233,18 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Select all strings on this page"
+msgstr "Lengas tradusidas"
+
+msgid "Select string for bulk edit"
+msgstr ""
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -11331,6 +11390,14 @@ msgid "Repository URL copied to clipboard."
 msgstr ""
 
 msgid "Repository branch"
+msgstr ""
+
+#, fuzzy
+#| msgid "Languages"
+msgid "Pull request"
+msgstr "Lengas"
+
+msgid "Pull request URL copied to clipboard."
 msgstr ""
 
 msgid "Last remote commit"
@@ -11694,6 +11761,10 @@ msgstr ""
 
 msgid "Cannot add translation right now"
 msgstr ""
+
+#, fuzzy, python-format
+msgid "Source: %(language)s"
+msgstr "Mot de Santa Clara actual"
 
 msgid "Customized workflow"
 msgstr ""
@@ -12873,13 +12944,15 @@ msgstr "Nom del projècte"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -12894,13 +12967,26 @@ msgstr ""
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 msgid "Component to remove"
 msgstr ""
 
 msgid "I understand the consequences, delete this translation"
+msgstr ""
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
 msgstr ""
 
 msgid ""
@@ -13128,6 +13214,11 @@ msgid "Intermediate language"
 msgstr ""
 
 msgid "Explanation"
+msgstr ""
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
 msgstr ""
 
 msgid "Report issue with the source string"
@@ -13944,6 +14035,10 @@ msgstr ""
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+msgid "Show suggestions"
+msgstr "Mot de Santa Clara actual"
 
 msgid "A translation file was synchronized with its repository."
 msgstr ""
@@ -15163,6 +15258,10 @@ msgid "State: %(state)s"
 msgstr ""
 
 #, fuzzy
+msgid "Previous source"
+msgstr "Mot de Santa Clara actual"
+
+#, fuzzy
 #| msgid "Translated languages"
 msgid "Suggestions pending"
 msgstr "Lengas tradusidas"
@@ -16159,6 +16258,10 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr ""
 
+#, fuzzy
+msgid "Invalid string selection!"
+msgstr "Lista de composants"
+
 msgid "State to set"
 msgstr ""
 
@@ -16195,6 +16298,9 @@ msgstr "Lengas tradusidas"
 msgid "Labels to remove — all languages"
 msgstr "Lengas tradusidas"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr ""
 
@@ -16212,8 +16318,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Mot de Santa Clara actual"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -16223,6 +16330,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr ""
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -16405,6 +16518,20 @@ msgid "Translation flags"
 msgstr ""
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
+msgstr ""
+
+msgid "Enforced checks"
+msgstr ""
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "All projects"
+msgid "Inherit enforced checks"
+msgstr "Tots los projèctes"
+
+msgid "Use enforced checks from the parent category, project or workspace."
 msgstr ""
 
 #, fuzzy
@@ -16646,6 +16773,17 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 
+#, fuzzy
+msgid "Repository browser for translations"
+msgstr "Mot de Santa Clara actual"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+
 msgid "Exported repository URL"
 msgstr ""
 
@@ -16761,10 +16899,7 @@ msgid ""
 "off."
 msgstr ""
 
-msgid "Enforced checks"
-msgstr ""
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 msgid "Use the translation license configured in the category or project."
@@ -17334,6 +17469,9 @@ msgid ""
 "en_GB:en,en_US:en"
 msgstr ""
 
+msgid "Use enforced checks from the workspace."
+msgstr ""
+
 msgid "Use the translation license configured in the workspace."
 msgstr ""
 
@@ -17564,6 +17702,11 @@ msgstr ""
 msgid "Unmark as terminology for all languages"
 msgstr ""
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -17571,6 +17714,24 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+msgid "Please turn on reviews on the project first."
+msgstr ""
+
+msgid "This language already has a project workflow."
+msgstr ""
+
+msgid "Select a source language in a project workflow."
+msgstr ""
+
+#, fuzzy
+#| msgid "All projects"
+msgid "The source language must exist in this project."
+msgstr "Tots los projèctes"
+
+#, fuzzy
+msgid "Source languages cannot form a cycle."
+msgstr "Mot de Santa Clara actual"
 
 #, fuzzy
 #| msgid "Translated languages"
@@ -17892,6 +18053,13 @@ msgstr ""
 #, fuzzy, python-format
 msgid "Could not parse flags: %s"
 msgstr "Mot de Santa Clara actual"
+
+msgid "Enforced checks has to be a list."
+msgstr ""
+
+#, python-format
+msgid "Unsupported enforced check: %s"
+msgstr ""
 
 #, python-format
 msgid ""

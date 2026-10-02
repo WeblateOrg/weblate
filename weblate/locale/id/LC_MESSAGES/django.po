@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 14:57+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -2130,6 +2130,11 @@ msgstr "Per berkas"
 msgid "Per author"
 msgstr "Per penulis"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Per bahasa"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Menambahkan trailer untuk melumat pesan komit"
 
@@ -2239,8 +2244,8 @@ msgstr ""
 "Biarkan kosong untuk mencocokkan berkas terjemahan secara langsung. Jika "
 "diisi, penemuan akan mencocokkan berkas dasar monolingual atau berkas dasar "
 "baru, lalu menggunakan templat ini sebagai pola file. Sertakan wildcard "
-"bahasa dan {{ component }}, misalnya locale/*/{{ component }}.po atau docs/{"
-"{ component }}_*.md."
+"bahasa dan {{ component }}, misalnya locale/*/{{ component }}.po atau docs/"
+"{{ component }}_*.md."
 
 msgid "Language filter"
 msgstr "Filter bahasa"
@@ -2991,6 +2996,16 @@ msgstr "Tim dengan nama ini sudah ada di workspace ini."
 msgid "Cannot change this on a scoped team."
 msgstr "Tidak dapat mengubah ini pada tim terbatas."
 
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Warisi dari ruang kerja"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "Pilih salah satu: proyek atau workspace."
+
 msgid "You do not have permission to access this component."
 msgstr "Anda tidak memiliki izin untuk mengakses komponen ini."
 
@@ -3044,6 +3059,11 @@ msgstr "Teks terjemahan terlalu panjang!"
 
 msgid "Your suggestion already exists!"
 msgstr "Saran Anda sudah ada!"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "Pilih salah satu: proyek atau workspace."
 
 msgid "Weblate's REST API"
 msgstr "API REST Weblate"
@@ -5738,6 +5758,9 @@ msgstr "Seharusnya direktori dengan berkas metadata!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Berkas metadata toko aplikasi"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8609,9 +8632,14 @@ msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "Komit Weblate dari komponen dalam repositori ini akan dilumatkan."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Pesan komit asli disimpan, tetapi kepengarangan hilang kecuali \"Per "
 "penulis\" dipilih atau pesan komit disesuaikan untuk menyertakannya."
@@ -8854,14 +8882,10 @@ msgstr "Tidak tersedia"
 msgid "No invoices found."
 msgstr "Tagihan tidak ditemukan."
 
-msgid "Event details"
-msgstr "Rincian peristiwa"
-
-msgid "Actions"
-msgstr "Tindakan"
-
-msgid "Download"
-msgstr "Unduh"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Lihat rincian"
 
 msgid "Libre hosting"
 msgstr "Pengehosan bebas"
@@ -8896,6 +8920,25 @@ msgstr "Tidak ada proyek yang ditugaskan saat ini!"
 
 msgid "View"
 msgstr "Lihat"
+
+msgid "Event details"
+msgstr "Rincian peristiwa"
+
+msgid "Actions"
+msgstr "Tindakan"
+
+msgid "Download"
+msgstr "Unduh"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Tidak ditemukan string yang cocok."
+
+#, fuzzy
+#| msgid "Report history pagination"
+msgid "Audit log pagination"
+msgstr "Paginasi riwayat laporan"
 
 msgid "Confirm merge"
 msgstr "Konfimasikan penggabungan"
@@ -11291,6 +11334,11 @@ msgstr "String sumber yang dilabeli"
 msgid "Add label"
 msgstr "Tambahkan label"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Unduh terjemahan sebagai CSV dalam berkas ZIP"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "Kelola %(team)s"
@@ -11492,6 +11540,16 @@ msgstr "string"
 msgid "words"
 msgstr "kata"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Sunting massal string"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Tidak ada string untuk diterjemahkan"
+
 msgid "No matching strings found."
 msgstr "Tidak ditemukan string yang cocok."
 
@@ -11583,10 +11641,23 @@ msgstr ""
 "Hal ini mungkin disebabkan oleh beberapa tagihan Anda yang melewati tanggal "
 "jatuh tempo atau melewati batas."
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "Pilih semua string sumber"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "String ditandai untuk disunting"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Anda dapat mengubah status semua string yang cocok dengan jenis tertentu "
 "sekaligus."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Filter kualitas terjemahan"
@@ -11732,6 +11803,16 @@ msgstr "URL repositori disalin ke papan klip."
 
 msgid "Repository branch"
 msgstr "Cabang repositori"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Permintaan penarikan Gitea"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "URL repositori disalin ke papan klip."
 
 msgid "Last remote commit"
 msgstr "Komit jarak jauh terakhir"
@@ -12077,6 +12158,11 @@ msgstr "Buat terjemahan"
 
 msgid "Cannot add translation right now"
 msgstr "Tidak dapat menambahkan terjemahan saat ini"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Bahasa sumber"
 
 msgid "Customized workflow"
 msgstr "Alur kerja yang disesuaikan"
@@ -13422,18 +13508,28 @@ msgstr "Terjemahan berikut akan dihapus:"
 msgid "Project language to remove"
 msgstr "Bahasa proyek untuk dihapus"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus kategori %(object)s "
 "secara permanen dan semua konten yang terkait."
 
+#, fuzzy
+#| msgid ""
+#| "If this action removes restricted components, retained translation memory "
+#| "from them will become available according to the project and workspace "
+#| "translation memory access rules unless you also delete it."
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 "Jika tindakan ini menghapus komponen yang dibatasi, memori terjemahan yang "
 "dipertahankan dari komponen tersebut akan menjadi tersedia sesuai dengan "
@@ -13449,19 +13545,37 @@ msgstr "Kategori terjemahan berikut akan dihapus:"
 msgid "Project to remove"
 msgstr "Proyek untuk dihapus"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Tindakan ini tidak dapat dibatalkan. Ini akan secara permanen menghapus "
 "komponen %(object)s dan semua konten yang terkait."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Komponen untuk dihapus"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Saya memahami konsekuensinya, hapus terjemahan ini"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Tindakan ini tidak dapat dibatalkan. Ini akan menghapus kategori %(object)s "
+"secara permanen dan semua konten yang terkait."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -13719,6 +13833,11 @@ msgstr "Bahasa Intermediasi"
 
 msgid "Explanation"
 msgstr "Penjelasan"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Laporkan masalah dengan string sumber"
@@ -14578,6 +14697,11 @@ msgstr "Sunting dalam mode string tunggal"
 
 msgid "Exit Zen"
 msgstr "Tutup Zen"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Saran"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "Berkas terjemahan telah disinkronkan dengan repositorinya."
@@ -15615,6 +15739,11 @@ msgstr "Terjemahan sebelumnya"
 msgid "State: %(state)s"
 msgstr "Status: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Bagian sebelumnya"
+
 msgid "Suggestions pending"
 msgstr "Saran tertunda"
 
@@ -15686,8 +15815,8 @@ msgid ""
 "Multiple base or new base files render to the same file mask %(mask)s "
 "(%(existing)s and %(new)s)."
 msgstr ""
-"Beberapa berkas dasar atau berkas dasar baru dirender ke pola berkas %(mask)"
-"s yang sama (%(existing)s dan %(new)s)."
+"Beberapa berkas dasar atau berkas dasar baru dirender ke pola berkas "
+"%(mask)s yang sama (%(existing)s dan %(new)s)."
 
 msgid "File mask matches the main component."
 msgstr "Mask berkas cocok dengan komponen utama."
@@ -16641,6 +16770,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Anda tidak memiliki izin untuk membuat terminologi."
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid string selection!"
+msgstr "Pemilihan kolom daftar tidak valid."
+
 msgid "State to set"
 msgstr "Status untuk diatur"
 
@@ -16674,6 +16808,9 @@ msgstr "Label yang akan ditambahkan — semua bahasa"
 msgid "Labels to remove — all languages"
 msgstr "Label yang akan dihapus — semua bahasa"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Saya menyetujui perjanjian lisensi kontributor"
 
@@ -16689,9 +16826,14 @@ msgstr "Silakan ketikkan terjemahan slug lengkap untuk mengkonfirmasikan."
 msgid "Delete translation memory created from this component"
 msgstr "Hapus memori terjemahan yang dibuat dari komponen ini"
 
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 "Entri memori terjemahan proyek, ruang kerja, dan bersama akan dihapus. Entri "
 "pribadi dan yang diunggah akan dipertahankan."
@@ -16704,6 +16846,18 @@ msgstr "Silakan ketikkan proyek slug lengkap untuk mengkonfirmasikan."
 
 msgid "Delete translation memory created from components in this category"
 msgstr "Hapus memori terjemahan yang dibuat dari komponen dalam kategori ini"
+
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"Entri memori terjemahan proyek, ruang kerja, dan bersama akan dihapus. Entri "
+"pribadi dan yang diunggah akan dipertahankan."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Silakan ketikkan kategori slug lengkap untuk mengkonfirmasikan."
@@ -16906,6 +17060,24 @@ msgstr "Penanda terjemahan"
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Tanda yang dipisahkan koma tambahan untuk memengaruhi perilaku Weblate."
+
+msgid "Enforced checks"
+msgstr "Pemeriksaan paksa"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Daftar pemeriksaan yang tidak dapat dihilangkan."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Pemeriksaan paksa yang tidak digunakan."
+
+#, fuzzy
+#| msgid ""
+#| "Use the translation license configured in the parent category or project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Gunakan lisensi terjemahan yang dikonfigurasi di kategori atau proyek induk."
 
 msgid "Inherit translation license"
 msgstr "Warisi lisensi terjemahan"
@@ -17170,6 +17342,27 @@ msgstr ""
 "mungkin ingin menghapus direktori utama dengan menggunakan {{filename|"
 "parentdir}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Cabang repositori untuk diterjemahkan"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Tautkan ke peramban repositori, gunakan {{branch}} untuk cabang, "
+"{{filename}} dan {{line}} sebagai nama berkas dan pengganti baris. Anda "
+"mungkin ingin menghapus direktori utama dengan menggunakan {{filename|"
+"parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL repositori yang diekspor"
 
@@ -17308,11 +17501,10 @@ msgstr ""
 "Terima saran secara otomatis dengan jumlah suara ini, gunakan 0 untuk "
 "mematikannya."
 
-msgid "Enforced checks"
-msgstr "Pemeriksaan paksa"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Daftar pemeriksaan yang tidak dapat dihilangkan."
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "Pilih salah satu: proyek atau workspace."
 
 msgid "Use the translation license configured in the category or project."
 msgstr "Gunakan lisensi terjemahan yang dikonfigurasi di kategori atau proyek."
@@ -17985,6 +18177,11 @@ msgid ""
 msgstr ""
 "Daftar pemetaan kode bahasa yang dipisahkan koma, misalnya: en_GB:en,en_US:en"
 
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Pemeriksaan paksa yang tidak digunakan."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "Gunakan lisensi terjemahan yang dikonfigurasi di workspace."
 
@@ -18224,6 +18421,11 @@ msgstr "Tandai sebagai terminologi untuk semua bahasa"
 msgid "Unmark as terminology for all languages"
 msgstr "Hapus tanda sebagai terminologi untuk semua bahasa"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr "Batasi penyuntingan langsung"
 
@@ -18233,6 +18435,32 @@ msgid ""
 msgstr ""
 "Hanya pengguna dengan izin “Sunting string ketika saran diberlakukan” yang "
 "dapat melakukan perubahan langsung."
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Silakan ketikkan proyek slug lengkap untuk mengkonfirmasikan."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Bahasa yang diberikan sudah ada."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Bahasa kedua yang didefinisikan di proyek atau komponen"
+
+#, fuzzy
+#| msgid "The user is not watching this project."
+msgid "The source language must exist in this project."
+msgstr "Pengguna tidak memantau proyek ini."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Teks sumber bahasa"
 
 msgid "The source string has changed. Reload it before editing."
 msgstr "String sumber telah berubah. Muat ulang sebelum mengedit."
@@ -18552,6 +18780,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Tidak dapat mengurai penanda: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Pemeriksaan paksa"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Pemeriksaan paksa yang tidak digunakan."
 
 #, python-format
 msgid ""

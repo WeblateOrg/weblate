@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:08+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2287,6 +2287,11 @@ msgstr "Per tiedosto"
 msgid "Per author"
 msgstr "Per kääntäjä"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Per kieli"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Liitä trailereita puristettuun vahvistusviestiin"
 
@@ -3268,6 +3273,14 @@ msgstr "Käyttäjänimi on jo toisen käyttäjän käytössä."
 msgid "Cannot change this on a scoped team."
 msgstr "Tätä ei voi muuttaa sisäänrakennetussa joukkueessa."
 
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Perityt liput"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr "Sinulla ei ole oikeuksia tähän komponenttiin."
 
@@ -3327,6 +3340,9 @@ msgstr "Käännösteksti on liian pitkä!"
 
 msgid "Your suggestion already exists!"
 msgstr "Ehdotuksesi on jo olemassa!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr "Weblaten REST API"
@@ -6224,6 +6240,9 @@ msgstr "Pitäisi olla hakemisto metatietotiedostoineen!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Sovelluskaupan metatietotiedostot"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -9260,9 +9279,14 @@ msgstr ""
 "Weblate-commitit komponenteista, jotka käyttävät tätä arkistoa, niputetaan "
 "yhteen ennen vientiä."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Alkuperäiset commit-viestit säilytetään, mutta tekijätiedot häviävät ellei "
 "\"Per kääntäjä\" ole valittu tai ellei commit-viestiä ole mukautettu niin, "
@@ -9519,14 +9543,10 @@ msgstr "Ei saatavilla"
 msgid "No invoices found."
 msgstr "Yhtään laskua ei löytynyt."
 
-msgid "Event details"
-msgstr "Tapahtuman yksityiskohdat"
-
-msgid "Actions"
-msgstr "Toiminnot"
-
-msgid "Download"
-msgstr "Lataa"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Näytä tiedot"
 
 msgid "Libre hosting"
 msgstr "Vapaa hostaus"
@@ -9563,6 +9583,25 @@ msgstr "Yhtään projektia ei ole juuri nyt osoitettu!"
 
 msgid "View"
 msgstr "Näytä"
+
+msgid "Event details"
+msgstr "Tapahtuman yksityiskohdat"
+
+msgid "Actions"
+msgstr "Toiminnot"
+
+msgid "Download"
+msgstr "Lataa"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Hakuehtoa vastaavia tekstejä ei löytynyt."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "Arkiston alustaminen"
 
 #, fuzzy
 #| msgid "Confirm"
@@ -12099,6 +12138,11 @@ msgstr "Merkityt lähdemerkkijonoiksi"
 msgid "Add label"
 msgstr "Lisää otsikko"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Lataa käännökset CSV-muodossa ZIP-tiedostona"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "Hallitse %(team)s:ta"
@@ -12340,6 +12384,16 @@ msgstr "merkkijonot"
 msgid "words"
 msgstr "sanat"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Merkkijonojen joukkomuokkaus"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Ei käännettäviä tekstejä"
+
 msgid "No matching strings found."
 msgstr "Hakuehtoa vastaavia tekstejä ei löytynyt."
 
@@ -12441,8 +12495,21 @@ msgstr ""
 "Syynä voi olla, että maksusuorituksesi ovat myöhässä, tai rajasi ovat "
 "ylittyneet."
 
+#, fuzzy
+#| msgid "Search in source strings"
+msgid "Select all strings on this page"
+msgstr "Etsi lähdeteksteistä"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Muokkaamista vaativiksi merkityt tekstit"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr "Voit muuttaa kaikkien ehtoihin täsmäävien tekstien tilan kerralla."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Käännöksien laatusuodatin"
@@ -12613,6 +12680,16 @@ msgstr "Arkiston URL-osoite kopioitu leikepöydälle."
 
 msgid "Repository branch"
 msgstr "Tietovaraston haara"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Gitean vetopyyntö"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "Arkiston URL-osoite kopioitu leikepöydälle."
 
 msgid "Last remote commit"
 msgstr "Viimeisin commit etäarkistoon"
@@ -12970,6 +13047,11 @@ msgstr "Luo käännös"
 
 msgid "Cannot add translation right now"
 msgstr "Käännöstä ei voi lisätä juuri nyt"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Lähdetekstin kieli"
 
 msgid "Customized workflow"
 msgstr "Mukautettu työnkulku"
@@ -14332,18 +14414,23 @@ msgstr "Seuraavat käännökset poistetaan:"
 msgid "Project language to remove"
 msgstr "Poistettava projektin kieli"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Tätä toimintoa ei voi kumota. Tämä poistaa peruuttamattomasti luokan "
 "%(object)s ja kaiken siihen liittyvän sisällön."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -14355,19 +14442,37 @@ msgstr "Seuraavat käännösluokat poistetaan:"
 msgid "Project to remove"
 msgstr "Poistettava projekti"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Tätä toimintoa ei voi kumota. Tämä poistaa peruuttamattomasti komponentin "
 "%(object)s ja kaiken siihen liittyvän sisällön."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Poistettava komponentti"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Ymmärrän seuraukset, poista tämä käännös"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Tätä toimintoa ei voi kumota. Tämä poistaa peruuttamattomasti luokan "
+"%(object)s ja kaiken siihen liittyvän sisällön."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14625,6 +14730,11 @@ msgstr "Välikieli"
 
 msgid "Explanation"
 msgstr "Selitys"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Ilmoita lähdetekstin ongelmasta"
@@ -15527,6 +15637,11 @@ msgstr "Muokkaa yksittäisen käännöstekstin tilassa"
 
 msgid "Exit Zen"
 msgstr "Poistu Zen-tilasta"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Ehdotukset"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -16879,6 +16994,11 @@ msgid "State: %(state)s"
 msgstr "Tila: %(state)s"
 
 #, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Edellinen osio"
+
+#, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestions pending"
 msgstr "Ehdotuksista äänestäminen"
@@ -17968,6 +18088,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Sinulla ei ole oikeuksia luoda terminologiaa."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Virheellinen ehdotus!"
+
 msgid "State to set"
 msgstr "Asetettava tila"
 
@@ -18008,6 +18133,9 @@ msgstr "Kaikille kielille"
 msgid "Labels to remove — all languages"
 msgstr "Poistettavat merkinnät"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Hyväksyn osallistujalisenssisopimuksen"
 
@@ -18027,8 +18155,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Yhtään tekstiä ei tuotu lähetetystä tiedostosta."
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -18040,6 +18169,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Vahvista kirjoittamalla projektin kokonaisuudessaan."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -18241,6 +18376,22 @@ msgstr "Käännösehdot"
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Muut pilkuilla erotetut liput, jotka vaikuttavat Weblate-käyttäytymiseen."
+
+msgid "Enforced checks"
+msgstr "Pakolliset tarkistukset"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Luettelo tarkistuksista, joita ei voida sivuuttaa."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Käyttämättömät pakkotarkastukset."
+
+#, fuzzy
+#| msgid "Navigate to the last translation in the current search."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Siirry nykyisen haun viimeiseen käännökseen."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -18531,6 +18682,26 @@ msgstr ""
 "{{line}} tiedostonimien ja rivien paikkamerkkinä. Haluat ehkä poistaa "
 "johtavan hakemiston {{tiedostonimi|parentdir}}:ta käyttäen."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Käännettävä arkistohaara"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Linkki tietovarastoselaimeen, käytä {{branch}} haaraan, {{filename}} ja "
+"{{line}} tiedostonimien ja rivien paikkamerkkinä. Haluat ehkä poistaa "
+"johtavan hakemiston {{tiedostonimi|parentdir}}:ta käyttäen."
+
 msgid "Exported repository URL"
 msgstr "Viedyn tietovaraston URL-osoite"
 
@@ -18662,11 +18833,8 @@ msgstr ""
 "Hyväksy automaattisesti ehdotukset, joilla on tämä määrä ääniä. 0 poistaa "
 "käytöstä."
 
-msgid "Enforced checks"
-msgstr "Pakolliset tarkistukset"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Luettelo tarkistuksista, joita ei voida sivuuttaa."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr ""
 
 #, fuzzy
 #| msgid "Navigate to the last translation in the current search."
@@ -19359,6 +19527,11 @@ msgstr ""
 "fi_FI:fi,sv_SV:sv"
 
 #, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Käyttämättömät pakkotarkastukset."
+
+#, fuzzy
 #| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
 msgstr "Käännös päivitetään taustalla."
@@ -19648,6 +19821,11 @@ msgstr "Merkitse terminologiaksi"
 msgid "Unmark as terminology for all languages"
 msgstr "Poista terminologiamerkintä"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -19655,6 +19833,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+msgid "Please turn on reviews on the project first."
+msgstr "Vahvista kirjoittamalla projektin kokonaisuudessaan."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Annettu kieli on jo olemassa."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Projektissa tai komponentissa määritetty toissijainen kieli"
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "Käyttäjä on estetty tässä projektissa."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Lähdekielinen teksti"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -20026,6 +20229,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Lippujen jäsentäminen epäonnistui: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Pakolliset tarkistukset"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Käyttämättömät pakkotarkastukset."
 
 #, python-format
 msgid ""
