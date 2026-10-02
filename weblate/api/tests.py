@@ -13593,12 +13593,12 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(
             response.data,
             {
-                "accepted": 4,
-                "count": 4,
+                "accepted": 3,
+                "count": 3,
                 "not_found": 0,
                 "result": True,
                 "skipped": 0,
-                "total": 4,
+                "total": 3,
             },
         )
         translation = self.component.translation_set.get(language_code="cs")
