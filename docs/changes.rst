@@ -11,6 +11,8 @@ Weblate 2026.10.1
 
 * Added a :doc:`Kotlin SDK quickstart <devel/kotlin-sdk>` and an overview of official and third-party :doc:`libraries and SDKs <devel/libraries>`.
 * Clarified the labels and consequences of reset actions in :ref:`repository-maintenance`.
+* Improved recovery guidance for authentication failures.
+
 * Authentication method names and icons now come from python-social-auth, including current service branding, while existing :doc:`authentication settings <admin/auth>` overrides remain supported.
 * Improved full name initialization from provider names during :doc:`social authentication <admin/auth>`.
 
