@@ -11,6 +11,8 @@ Weblate 2026.10.1
 
 .. rubric:: Security fixes
 
+* Enforce e-mail confirmation code expiry through Python Social Auth using :setting:`AUTH_TOKEN_VALID`, independently of scheduled cleanup.
+
 .. rubric:: Bug fixes
 
 * Prevented duplicate initiation of :doc:`provider authentication <admin/auth>` and improved guidance for authentication token errors.
