@@ -2283,22 +2283,24 @@ class Translation(
         component = self.component
         filenames = []
         filecopy = read_translation_upload(fileobj)
-        if not ignore_language:
-            try:
-                store = component.file_format_cls(
-                    NamedBytesIO(fileobj.name, filecopy),
-                    is_template=True,
-                    file_format_params=component.file_format_params,
+        try:
+            store = component.file_format_cls(
+                NamedBytesIO(fileobj.name, filecopy),
+                is_template=True,
+                file_format_params=component.file_format_params,
+            )
+            # Database source units can still include strings awaiting cleanup.
+            count = len(store.content_units)
+        except Exception as error:
+            raise FileParseError(
+                gettext("Could not parse uploaded file: %s")
+                % sanitize_backend_error_message(
+                    str(error),
+                    repo_urls=(component.repo, component.push),
+                    extra_paths=(component.full_path,),
                 )
-            except Exception as error:
-                raise FileParseError(
-                    gettext("Could not parse uploaded file: %s")
-                    % sanitize_backend_error_message(
-                        str(error),
-                        repo_urls=(component.repo, component.push),
-                        extra_paths=(component.full_path,),
-                    )
-                ) from error
+            ) from error
+        if not ignore_language:
             self.validate_upload_language(store, source=True)
         with component.repository.lock, source_operation(component):
             # Commit pending changes
@@ -2355,7 +2357,7 @@ class Translation(
             self.handle_upload_store_change(
                 request, author, change_action=ActionEvents.SOURCE_UPLOAD
             )
-        return (0, 0, self.unit_set.count(), self.unit_set.count())
+        return (0, 0, count, count)
 
     def handle_replace(
         self,
