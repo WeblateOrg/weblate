@@ -53,6 +53,18 @@ in :doc:`psa:configuration/django`.
 
        :doc:`psa:pipeline`
 
+Provider names are normalized by Python Social Auth's ``social_names`` pipeline
+step before Weblate initializes an empty full name. Existing full names are
+preserved. Weblate cleans and limits the resulting name and falls back to the
+username when the provider name is missing or invalid.
+
+``SOCIAL_AUTH_FIRSTLAST_FROM_FULL`` and ``SOCIAL_AUTH_FULL_FROM_FIRSTLAST``
+control name conversion and both default to ``True``. Backend-specific settings
+are supported, for example ``SOCIAL_AUTH_SAML_FULL_FROM_FIRSTLAST = False``.
+See :ref:`psa:name-normalization` for the conversion rules. Custom
+``SOCIAL_AUTH_PIPELINE`` configurations should include
+``social_core.pipeline.social_auth.social_names`` after ``social_details``.
+
 Enabling individual backends is quite easy, it's just a matter of adding an entry to
 the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly adding keys needed for a given
 authentication method. Please note that some backends do not provide user e-mail by

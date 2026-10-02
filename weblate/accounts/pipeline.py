@@ -571,17 +571,6 @@ def user_full_name(strategy, details, username, user=None, **kwargs) -> None:
         full_name = details.get("fullname") or ""
         full_name = full_name.strip()
 
-        if not full_name and ("first_name" in details or "last_name" in details):
-            first_name = details.get("first_name") or ""
-            last_name = details.get("last_name") or ""
-
-            if first_name and first_name not in last_name:
-                full_name = f"{first_name} {last_name}"
-            elif first_name:
-                full_name = first_name
-            else:
-                full_name = last_name
-
         if CRUD_RE.match(full_name):
             full_name = ""
 
