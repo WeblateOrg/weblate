@@ -289,6 +289,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ""
 # Social auth settings
 SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_names",
     "social_core.pipeline.social_auth.social_uid",
     "social_core.pipeline.social_auth.auth_allowed",
     "social_core.pipeline.social_auth.social_user",

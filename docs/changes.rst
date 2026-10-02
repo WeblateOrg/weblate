@@ -11,6 +11,8 @@ Weblate 2026.10.1
 
 * Added a :doc:`Kotlin SDK quickstart <devel/kotlin-sdk>` and an overview of official and third-party :doc:`libraries and SDKs <devel/libraries>`.
 * Clarified the labels and consequences of reset actions in :ref:`repository-maintenance`.
+* Improved full name initialization from provider names during :doc:`social authentication <admin/auth>`.
+
 * Made unused components and glossary languages warning :ref:`diagnostics <alerts>` and enabled dismissal for them and suspected monolingual or bilingual file-format misconfiguration.
 
 .. rubric:: Security fixes
@@ -35,6 +37,13 @@ Weblate 2026.10.1
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
+
+If you maintain a custom ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, add
+``social_core.pipeline.social_auth.social_names`` immediately after
+``social_core.pipeline.social_auth.social_details``. Name conversion now runs
+in this shared step, and Weblate no longer joins provider first and last names
+itself. Existing full names are preserved. The example configuration and Docker
+image already include the new step. See :doc:`admin/auth` for details.
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
