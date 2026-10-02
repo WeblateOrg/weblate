@@ -53,6 +53,18 @@ in :doc:`psa:configuration/django`.
 
        :doc:`psa:pipeline`
 
+Provider names are normalized by Python Social Auth's ``social_names`` pipeline
+step before Weblate initializes an empty full name. Existing full names are
+preserved. Weblate cleans and limits the resulting name and falls back to the
+username when the provider name is missing or invalid.
+
+``SOCIAL_AUTH_FIRSTLAST_FROM_FULL`` and ``SOCIAL_AUTH_FULL_FROM_FIRSTLAST``
+control name conversion and both default to ``True``. Backend-specific settings
+are supported, for example ``SOCIAL_AUTH_SAML_FULL_FROM_FIRSTLAST = False``.
+See :ref:`psa:name-normalization` for the conversion rules. Custom
+``SOCIAL_AUTH_PIPELINE`` configurations should include
+``social_core.pipeline.social_auth.social_names`` after ``social_details``.
+
 Enabling individual backends is quite easy, it's just a matter of adding an entry to
 the :setting:`django:AUTHENTICATION_BACKENDS` setting and possibly adding keys needed for a given
 authentication method. Please note that some backends do not provide user e-mail by
@@ -420,6 +432,14 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 Overriding authentication method names and icons
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Display names and bundled icons come from python-social-auth backend metadata.
+Weblate retains translated labels and local icons for its password and e-mail
+methods, and supplies its own fallback icon for providers without a logo.
+Add ``social_django.finders.SocialAuthIconFinder`` after the standard finders in
+``STATICFILES_FINDERS`` to collect the provider icons from social-auth-core.
+The example and Docker settings include this finder. Run
+:samp:`weblate collectstatic --noinput` after upgrading.
+
 You can override the authentication method display name and icon using settings as
 ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. For example
 overriding naming for Auth0 would look like:
@@ -428,6 +448,11 @@ overriding naming for Auth0 would look like:
 
    SOCIAL_AUTH_AUTH0_IMAGE = "custom.svg"
    SOCIAL_AUTH_AUTH0_TITLE = "Custom auth"
+
+Relative image names retain the ``auth/`` static directory convention. Existing
+bundled filenames, such as ``auth0.svg``, also resolve to the shared
+``social_auth/icons/`` directory when no local override exists. Full HTTP URLs
+and data URLs continue to work.
 
 .. _disable-email-auth:
 

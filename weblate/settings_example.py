@@ -172,6 +172,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "social_django.finders.SocialAuthIconFinder",
 )
 
 STORAGES = {
@@ -289,6 +290,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ""
 # Social auth settings
 SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_names",
     "social_core.pipeline.social_auth.social_uid",
     "social_core.pipeline.social_auth.auth_allowed",
     "social_core.pipeline.social_auth.social_user",

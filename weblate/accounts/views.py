@@ -75,24 +75,11 @@ from django_otp_webauthn.views import (
     BeginCredentialAuthenticationView,
     CompleteCredentialAuthenticationView,
 )
-from requests.exceptions import HTTPError
 from social_core.actions import do_auth
 from social_core.backends.base import BaseAuth
 from social_core.exceptions import (
-    AuthAlreadyAssociated,
-    AuthCanceled,
-    AuthConnectionError,
-    AuthException,
-    AuthFailed,
-    AuthForbidden,
-    AuthMissingParameter,
-    AuthReauthenticationRequired,
-    AuthStateForbidden,
-    AuthStateMissing,
-    AuthTokenError,
-    AuthUnreachableProvider,
-    InvalidEmail,
-    MissingBackend,
+    AuthConfigurationError,
+    SocialAuthBaseException,
 )
 from social_django.utils import load_backend, load_strategy
 from social_django.views import complete, disconnect
@@ -144,7 +131,6 @@ from weblate.accounts.notifications import (
     get_email_headers,
     send_notification_email,
 )
-from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import (
     SECOND_FACTOR_VERIFY_SECONDS,
     SESSION_SECOND_FACTOR_HASH,
@@ -233,23 +219,6 @@ CONTACT_SUBJECTS = {
 }
 
 ANCHOR_RE = re.compile(r"^#[a-z]+$")
-HANDLED_AUTH_PARAMETERS = frozenset(
-    {
-        "email",
-        "user",
-        "expires",
-        "state",
-        "code",
-        "RelayState",
-        "RelayState.idp",
-        "disabled",
-        "invitation",
-    }
-)
-HANDLED_AUTH_FAILED_MARKERS = (
-    "bad_verification_code",
-    "incorrect or expired",
-)
 
 
 @dataclass(frozen=True)
@@ -1835,16 +1804,16 @@ def social_auth(request: AuthenticatedHttpRequest, backend: str):
     request.social_strategy = load_strategy(request)
     try:
         request.backend = load_backend(request.social_strategy, backend, uri)
-    except MissingBackend:
+    except AuthConfigurationError as error:
+        if error.code != "backend_missing":
+            return handle_auth_error(request, backend, error)
         msg = "Backend not found"
-        raise Http404(msg) from None
+        raise Http404(msg) from error
 
     try:
         return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
-    except AuthException as error:
-        report_error("Could not authenticate")
-        messages.error(request, gettext("Could not authenticate: %s") % error)
-        return redirect("login")
+    except SocialAuthBaseException as error:
+        return handle_auth_error(request, backend, error)
 
 
 def auth_fail(request: AuthenticatedHttpRequest, message: str):
@@ -1862,31 +1831,27 @@ def registration_fail(request: AuthenticatedHttpRequest, message: str):
     return redirect(reverse("login"))
 
 
-def auth_token_error_message(error: AuthTokenError) -> str:
-    """Offer recovery guidance without assuming a token failure's cause."""
-    guidance = gettext(
-        "Please try signing in again. "
-        "If the problem persists, contact the administrator."
-    )
-    if isinstance(error, AuthReauthenticationRequired):
-        guidance = gettext("Please authenticate with the provider again.")
-    elif error.args and isinstance(reason := error.args[0], str):
-        match reason:
-            case (
-                "Incorrect id_token: nonce"
-                | "Missing csrf token from response"
-                | "csrf token from cookie and response does not match"
-            ):
-                guidance = gettext(
-                    "The authentication response could not be verified. "
-                    "Please try signing in again."
-                )
-            case "Signature has expired":
-                guidance = gettext(
-                    "The authentication response has expired. "
-                    "Please try signing in again."
-                )
-    return f"{gettext('Authentication failed: %s') % error} {guidance}"
+def auth_token_error_message(error: SocialAuthBaseException) -> str:
+    """Select recovery guidance from stable failure codes."""
+    match error.code:
+        case "reauthentication_required" | "token_revoked" | "credential_rejected":
+            return gettext("Please authenticate with the provider again.")
+        case "nonce_mismatch":
+            return gettext(
+                "The authentication response could not be verified. Please try signing in again."
+            )
+        case "response_expired":
+            return gettext(
+                "The authentication response has expired. Please try signing in again."
+            )
+        case "authorization_code_rejected":
+            return gettext(
+                "The authorization code was rejected. Please try signing in again."
+            )
+        case _:
+            return gettext(
+                "Authentication could not be completed. Please try signing in again. If the problem persists, contact the administrator."
+            )
 
 
 def auth_redirect_token(request: AuthenticatedHttpRequest):
@@ -1913,40 +1878,8 @@ def auth_redirect_state(request: AuthenticatedHttpRequest):
     )
 
 
-def handle_missing_parameter(
-    request: AuthenticatedHttpRequest, backend: str, error: AuthMissingParameter
-):
-    if (
-        error.parameter == "user"
-        and request.user.is_authenticated
-        and request.session.get("password_reset")
-    ):
-        return redirect("login")
-    if backend != "email" and error.parameter == "email":
-        error_messages = [
-            gettext("Got no e-mail address from third party authentication service.")
-        ]
-        if "email" in get_auth_keys():
-            # Show only if e-mail authentication is turned on
-            error_messages.append(gettext("Please register using e-mail instead."))
-        return auth_fail(request, " ".join(error_messages))
-    if error.parameter in {"email", "user", "expires", "invitation"}:
-        return auth_redirect_token(request)
-    if error.parameter == "RelayState.idp":
-        return auth_fail(
-            request, gettext("Could not parse RelayState from SAML Identity Provider.")
-        )
-    if error.parameter in {"state", "code", "RelayState"}:
-        return auth_redirect_state(request)
-    if error.parameter == "disabled":
-        return auth_fail(request, gettext("New registrations are turned off."))
-    return None
-
-
 def log_handled_auth_failure(
-    request: AuthenticatedHttpRequest,
-    backend: str,
-    error: Exception,
+    request: AuthenticatedHttpRequest, backend: str, error: Exception
 ) -> None:
     action = "activation"
     if request.session.get("password_reset"):
@@ -1955,172 +1888,174 @@ def log_handled_auth_failure(
         action = "remove"
     elif request.session.get("reauthenticate"):
         action = "connect"
-
-    details = [
-        f"backend={backend}",
-        f"action={action}",
-        f"path={request.path}",
-    ]
-
-    if isinstance(error, AuthMissingParameter):
-        details.append(f"parameter={error.parameter}")
-        if error.parameter == "user":
-            details.extend(
-                [
-                    f"current_user={request.user.pk}",
-                    f"init_user={request.session.get('social_auth_user')}",
-                ]
-            )
-    elif message := get_handled_auth_reason(error):
-        details.append(f"reason={message}")
-
+    details = [f"backend={backend}", f"action={action}", f"path={request.path}"]
+    if isinstance(error, SocialAuthBaseException):
+        details.extend(
+            [f"code={error.code}", f"source={error.source}", f"stage={error.stage}"]
+        )
     log_handled_exception("Handled auth failure", extra_log=", ".join(details))
 
 
-def get_handled_auth_reason(error: Exception) -> str:
-    for arg in error.args:
-        if isinstance(arg, str) and arg:
-            return arg
-    return str(error)
-
-
-def is_handled_auth_failed(error: AuthFailed) -> bool:
-    details = " ".join(str(arg) for arg in error.args if isinstance(arg, str)).lower()
-    return any(marker in details for marker in HANDLED_AUTH_FAILED_MARKERS)
+def get_registration_error_policy(
+    request: AuthenticatedHttpRequest, backend: str, error: SocialAuthBaseException
+) -> AuthErrorPolicy | None:
+    """Preserve local registration and email confirmation recovery flows."""
+    match error.code:
+        case (
+            "email_verification_rejected"
+            | "weblate.confirmation_expired"
+            | "weblate.invitation_invalid"
+        ):
+            response = auth_redirect_token(request)
+            reportable = False
+        case "missing_parameter" if (
+            backend == "email"
+            and error.stage == "callback"
+            and error.parameter == "email"
+        ):
+            response = auth_redirect_token(request)
+            reportable = False
+        case "weblate.confirmation_user_mismatch":
+            if request.user.is_authenticated and request.session.get("password_reset"):
+                response = redirect("login")
+            else:
+                response = auth_redirect_token(request)
+            reportable = False
+        case "weblate.registration_disabled":
+            response = auth_fail(request, gettext("New registrations are turned off."))
+            reportable = False
+        case "profile_email_missing":
+            text = gettext(
+                "Got no e-mail address from third party authentication service."
+            )
+            if "email" in get_auth_keys():
+                text += " " + gettext("Please register using e-mail instead.")
+            response = auth_fail(request, text)
+            reportable = False
+        case _:
+            return None
+    return AuthErrorPolicy(
+        response=response, reportable=reportable, cause="Could not authenticate"
+    )
 
 
 def get_auth_error_policy(
-    request: AuthenticatedHttpRequest,
-    backend: str,
-    error: Exception,
+    request: AuthenticatedHttpRequest, backend: str, error: Exception
 ) -> AuthErrorPolicy:
-    match error:
-        case InvalidEmail():
-            return AuthErrorPolicy(
-                response=auth_redirect_token(request),
-                reportable=False,
-                cause="Could not register",
-            )
-        case AuthMissingParameter(parameter=parameter) if (
-            parameter in HANDLED_AUTH_PARAMETERS
+    if isinstance(error, ValidationError):
+        return AuthErrorPolicy(
+            response=registration_fail(request, str(error)),
+            reportable=True,
+            cause="Could not register",
+        )
+    if not isinstance(error, SocialAuthBaseException):
+        return AuthErrorPolicy(
+            response=None,
+            reportable=True,
+            cause="Could not authenticate",
+            handled=False,
+        )
+    registration_policy = get_registration_error_policy(request, backend, error)
+    if registration_policy is not None:
+        return registration_policy
+    match error.code:
+        case "session_context_missing" | "state_mismatch" | "user_mismatch":
+            response = auth_redirect_state(request)
+            reportable = False
+        case "missing_parameter" | "invalid_parameter" if (
+            error.stage == "callback"
+            and error.parameter in {"state", "code", "RelayState"}
         ):
-            return AuthErrorPolicy(
-                response=handle_missing_parameter(request, backend, error),
-                reportable=False,
-                cause="Could not register",
+            response = auth_redirect_state(request)
+            reportable = False
+        case "missing_parameter" | "invalid_parameter" if (
+            error.parameter == "RelayState.idp"
+        ):
+            response = auth_fail(
+                request,
+                gettext("Could not parse RelayState from SAML Identity Provider."),
             )
-        case AuthMissingParameter():
-            return AuthErrorPolicy(
-                response=None,
-                reportable=True,
-                cause="Could not register",
-                handled=False,
+            reportable = False
+        case "authorization_declined":
+            response = auth_fail(request, gettext("Authentication cancelled."))
+            reportable = False
+        case "authentication_disallowed" | "membership_required":
+            response = auth_fail(
+                request, gettext("The server does not allow authentication.")
             )
-        case AuthStateMissing() | AuthStateForbidden():
-            return AuthErrorPolicy(
-                response=auth_redirect_state(request),
-                reportable=False,
-                cause="Could not register",
-            )
-        case AuthFailed() if is_handled_auth_failed(error):
-            return AuthErrorPolicy(
-                response=auth_fail(
-                    request,
-                    gettext(
-                        "Could not authenticate, probably due to an expired token "
-                        "or connection error."
-                    ),
+            reportable = False
+        case "identity_in_use" | "email_in_use" | "username_in_use":
+            text = {
+                "identity_in_use": gettext(
+                    "The supplied user identity is already in use for another account."
                 ),
-                reportable=False,
-                cause="Could not authenticate",
-            )
-        case AuthFailed():
-            return AuthErrorPolicy(
-                response=auth_fail(
-                    request,
-                    gettext(
-                        "Could not authenticate, probably due to an expired token "
-                        "or connection error."
-                    ),
+                "email_in_use": gettext(
+                    "The supplied e-mail address is already in use for another account."
                 ),
-                reportable=True,
-                cause="Could not authenticate",
-            )
-        case AuthCanceled():
-            return AuthErrorPolicy(
-                response=auth_fail(request, gettext("Authentication cancelled.")),
-                reportable=False,
-                cause="Could not register",
-            )
-        case AuthForbidden():
-            return AuthErrorPolicy(
-                response=auth_fail(
-                    request, gettext("The server does not allow authentication.")
+                "username_in_use": gettext(
+                    "The supplied username is already in use for another account."
                 ),
-                reportable=True,
-                cause="Could not authenticate",
-            )
-        case EmailAlreadyAssociated():
-            return AuthErrorPolicy(
-                response=registration_fail(
-                    request,
-                    gettext(
-                        "The supplied e-mail address is already in use for another account."
-                    ),
+            }[error.code]
+            response = registration_fail(request, text)
+            reportable = False
+        case "authorization_code_rejected":
+            response = auth_fail(request, auth_token_error_message(error))
+            reportable = False
+        case (
+            "response_expired"
+            | "nonce_mismatch"
+            | "token_revoked"
+            | "reauthentication_required"
+            | "credential_rejected"
+        ):
+            response = auth_fail(request, auth_token_error_message(error))
+            reportable = True
+        case "connection_failed" | "timeout" | "rate_limited" | "unavailable":
+            response = auth_fail(
+                request,
+                gettext(
+                    "The authentication provider is temporarily unavailable. Please try again later."
                 ),
-                reportable=False,
-                cause="Could not register",
             )
-        case UsernameAlreadyAssociated():
-            return AuthErrorPolicy(
-                response=registration_fail(
-                    request,
-                    gettext(
-                        "The supplied username is already in use for another account."
-                    ),
+            reportable = True
+        case (
+            "missing_setting"
+            | "invalid_setting"
+            | "unsupported_feature"
+            | "backend_missing"
+            | "tls_error"
+        ):
+            response = auth_fail(
+                request,
+                gettext(
+                    "Authentication needs an administrator to check its configuration."
                 ),
-                reportable=False,
-                cause="Could not register",
             )
-        case AuthTokenError():
-            return AuthErrorPolicy(
-                response=auth_fail(request, auth_token_error_message(error)),
-                reportable=True,
-                cause="Could not authenticate",
-            )
-        case AuthAlreadyAssociated():
-            return AuthErrorPolicy(
-                response=registration_fail(
-                    request,
-                    gettext(
-                        "The supplied user identity is already in use for another account."
-                    ),
-                ),
-                reportable=False,
-                cause="Could not register",
-            )
-        case AuthUnreachableProvider() | AuthConnectionError() | HTTPError():
-            return AuthErrorPolicy(
-                response=registration_fail(
-                    request,
-                    gettext("The authentication provider could not be reached."),
-                ),
-                reportable=True,
-                cause="Could not authenticate",
-            )
-        case ValidationError():
-            return AuthErrorPolicy(
-                response=registration_fail(request, str(error)),
-                reportable=True,
-                cause="Could not register",
-            )
+            reportable = True
         case _:
-            return AuthErrorPolicy(
-                response=None,
-                reportable=True,
-                cause="Could not register",
-                handled=False,
+            response = auth_fail(
+                request,
+                gettext(
+                    "Authentication could not be completed. Please contact the administrator."
+                ),
             )
+            reportable = True
+    return AuthErrorPolicy(
+        response=response, reportable=reportable, cause="Could not authenticate"
+    )
+
+
+def handle_auth_error(
+    request: AuthenticatedHttpRequest, backend: str, error: Exception
+):
+    policy = get_auth_error_policy(request, backend, error)
+    if policy.reportable:
+        report_error(policy.cause)
+    else:
+        log_handled_auth_failure(request, backend, error)
+    if policy.handled:
+        return policy.response
+    raise error
 
 
 @csrf_exempt
@@ -2136,31 +2071,8 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
     """
     try:
         response = complete(request, backend)
-    except (
-        InvalidEmail,
-        AuthMissingParameter,
-        AuthStateMissing,
-        AuthStateForbidden,
-        AuthFailed,
-        AuthCanceled,
-        AuthForbidden,
-        EmailAlreadyAssociated,
-        UsernameAlreadyAssociated,
-        AuthTokenError,
-        AuthAlreadyAssociated,
-        AuthUnreachableProvider,
-        AuthConnectionError,
-        HTTPError,
-        ValidationError,
-    ) as error:
-        policy = get_auth_error_policy(request, backend, error)
-        if policy.reportable:
-            report_error(policy.cause)
-        else:
-            log_handled_auth_failure(request, backend, error)
-        if policy.handled:
-            return policy.response
-        raise
+    except (SocialAuthBaseException, ValidationError) as error:
+        return handle_auth_error(request, backend, error)
 
     # Finish second factor authentication
     if persistent_id := request.session.pop(DEVICE_ID_SESSION_KEY, None):
