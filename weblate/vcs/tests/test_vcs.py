@@ -5783,6 +5783,8 @@ remove the file manually to continue.
             for path in metadata_paths:
                 zipfile.writestr(path, "metadata sentinel")
             zipfile.writestr(".GIT/config", "[casefold]\nsentinel = true\n")
+            zipfile.writestr(".git./config", "[ntfs-dot]\nsentinel = true\n")
+            zipfile.writestr(".git /config", "[ntfs-space]\nsentinel = true\n")
             zipfile.writestr(".HG/hgrc", "casefold sentinel")
             zipfile.writestr("locale/cs.po", "msgid ''\nmsgstr ''\n")
         archive.seek(0)
@@ -5796,6 +5798,8 @@ remove the file manually to continue.
             "casefold", (target / ".git" / "config").read_text(encoding="utf-8")
         )
         self.assertFalse((target / ".hg" / "hgrc").exists())
+        self.assertFalse((target / ".git." / "config").exists())
+        self.assertFalse((target / ".git " / "config").exists())
         for path in metadata_paths:
             with self.subTest(path=path):
                 self.assertFalse((target / path).exists())
@@ -5804,7 +5808,13 @@ remove the file manually to continue.
                 ["ls-tree", "-r", "--name-only", "HEAD"], remote_op="none"
             ).splitlines()
         self.assertIn("locale/cs.po", committed)
-        for path in (*metadata_paths, ".GIT/config", ".HG/hgrc"):
+        for path in (
+            *metadata_paths,
+            ".GIT/config",
+            ".git./config",
+            ".git /config",
+            ".HG/hgrc",
+        ):
             with self.subTest(path=path):
                 self.assertNotIn(path, committed)
 
