@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-10-02 10:19+0000\n"
 "Last-Translator: Watchman89 <rplatte@hotmail.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -2142,6 +2142,11 @@ msgstr "Per bestand"
 msgid "Per author"
 msgstr "Per auteur"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Per taal"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Achtervoegsel toevoegen aan ingekorte commitberichten"
 
@@ -3021,6 +3026,16 @@ msgstr "Er bestaat al een team met deze naam in deze werkruimte."
 msgid "Cannot change this on a scoped team."
 msgstr "Kan dit niet wijzigen voor een team in het bereik."
 
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Overnemen vanuit werkruimte"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "Kies een project of een werkruimte."
+
 msgid "You do not have permission to access this component."
 msgstr "U bent niet bevoegd om dit onderdeel te benaderen."
 
@@ -3074,6 +3089,11 @@ msgstr "De vertaaltekst is te lang!"
 
 msgid "Your suggestion already exists!"
 msgstr "Uw suggestie bestaat reeds!"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "Kies een project of een werkruimte."
 
 msgid "Weblate's REST API"
 msgstr "Weblate REST API"
@@ -5837,6 +5857,9 @@ msgstr "Zou een map met metadata-bestanden moeten zijn!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "App-store metadata-bestanden"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8770,9 +8793,14 @@ msgstr ""
 "Weblate-commits van onderdelen in deze opslagruimte zullen worden "
 "samengevoegd."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "De oorspronkelijke commitberichten worden bewaard, maar het auteurschap gaat "
 "verloren, tenzij ‘per auteur’ geselecteerd is of u het commitbericht aanpast "
@@ -9018,14 +9046,10 @@ msgstr "Niet beschikbaar"
 msgid "No invoices found."
 msgstr "Geen facturen gevonden."
 
-msgid "Event details"
-msgstr "Details gebeurtenis"
-
-msgid "Actions"
-msgstr "Handelingen"
-
-msgid "Download"
-msgstr "Downloaden"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Details tonen"
 
 msgid "Libre hosting"
 msgstr "Vrijesoftwarehosting"
@@ -9060,6 +9084,25 @@ msgstr "Geen projecten toegewezen op dit moment!"
 
 msgid "View"
 msgstr "Tonen"
+
+msgid "Event details"
+msgstr "Details gebeurtenis"
+
+msgid "Actions"
+msgstr "Handelingen"
+
+msgid "Download"
+msgstr "Downloaden"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Er zijn geen overeenkomstige tekenreeksen gevonden."
+
+#, fuzzy
+#| msgid "Report history pagination"
+msgid "Audit log pagination"
+msgstr "Rapport geschiedenis pagineren"
 
 msgid "Confirm merge"
 msgstr "Samenvoegen bevestigen"
@@ -11515,6 +11558,11 @@ msgstr "Gelabelde brontekenreeksen"
 msgid "Add label"
 msgstr "Label toevoegen"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Vertaalbestanden downloaden als csv in zip-archief"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "%(team)s beheren"
@@ -11718,6 +11766,16 @@ msgstr "tekenreeksen"
 msgid "words"
 msgstr "woorden"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Tekenreeksen in massa bewerken"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Er zijn geen tekenreeksen om te vertalen"
+
 msgid "No matching strings found."
 msgstr "Er zijn geen overeenkomstige tekenreeksen gevonden."
 
@@ -11808,10 +11866,23 @@ msgstr ""
 "Dit kan veroorzaakt worden door het feit dat sommige van uw facturen "
 "achterstallig of te lang voorbij de vervaldag zijn."
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "Alle brontekenreeksen selecteren"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Te bewerken tekenreeksen"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "U kunt de status van alle tekenreeksen overeenkomstig met een bepaald type "
 "tegelijk wijzigen."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Kwaliteitsfilter vertaling"
@@ -11965,6 +12036,16 @@ msgstr "De URL van de opslagruimte is gekopieerd naar het klembord."
 
 msgid "Repository branch"
 msgstr "Tak opslagruimte"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "‘Pull request’ op Gitea"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "De URL van de opslagruimte is gekopieerd naar het klembord."
 
 msgid "Last remote commit"
 msgstr "Recentste externe commit"
@@ -12312,6 +12393,11 @@ msgstr "Vertaling toevoegen"
 
 msgid "Cannot add translation right now"
 msgstr "De vertaling kan momenteel niet worden toegevoegd"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Brontaal"
 
 msgid "Customized workflow"
 msgstr "Werkmethode downloaden"
@@ -13686,18 +13772,28 @@ msgstr "De volgende vertalingen worden verwijderd:"
 msgid "Project language to remove"
 msgstr "Te verwijderen projecttaal"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Deze handeling kan niet ongedaan worden gemaakt. De categorie ‘%(object)s’ "
 "en alle bijbehorende inhoud wordt permanent verwijderd."
 
+#, fuzzy
+#| msgid ""
+#| "If this action removes restricted components, retained translation memory "
+#| "from them will become available according to the project and workspace "
+#| "translation memory access rules unless you also delete it."
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 "Als deze actie beperkte onderdelen verwijdert wordt het behouden "
 "vertaalgeheugen daarvan beschikbaar volgens de toegangsregels voor "
@@ -13713,19 +13809,37 @@ msgstr "De volgende vertaalcategorieën worden verwijderd:"
 msgid "Project to remove"
 msgstr "Te verwijderen project"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Deze handeling kan niet ongedaan worden gemaakt. Het onderdeel ‘%(object)s’ "
 "en alle bijbehorende inhoud wordt permanent verwijderd."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Te verwijderen onderdeel"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Ik begrijp de gevolgen - verwijder deze vertaling"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Deze handeling kan niet ongedaan worden gemaakt. De categorie ‘%(object)s’ "
+"en alle bijbehorende inhoud wordt permanent verwijderd."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -13992,6 +14106,11 @@ msgstr "Volgtaal"
 
 msgid "Explanation"
 msgstr "Uitleg"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Meld een probleem met de brontekenreeks"
@@ -14879,6 +14998,11 @@ msgstr "Bewerken in modus voor één tekenreeks"
 
 msgid "Exit Zen"
 msgstr "Zen-modus verlaten"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Suggesties"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "Een vertaalbestand werd gesynchroniseerd met zijn opslagruimte."
@@ -15950,6 +16074,11 @@ msgstr "Vorige vertaling"
 msgid "State: %(state)s"
 msgstr "Status: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Vorige gedeelte"
+
 msgid "Suggestions pending"
 msgstr "Openstaande suggesties"
 
@@ -16659,7 +16788,8 @@ msgid "Source flags — all languages"
 msgstr "Bronopties — voor alle talen"
 
 msgid "These flags are inherited by every translation of this string."
-msgstr "Deze opties worden overgenomen door elke vertaling van deze tekenreeks."
+msgstr ""
+"Deze opties worden overgenomen door elke vertaling van deze tekenreeks."
 
 msgid "Translation flags — this language"
 msgstr "Vertaalopties — deze taal"
@@ -16984,6 +17114,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "U heeft op dit moment geen rechten om terminologie te maken."
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid string selection!"
+msgstr "Ongeldige lijst van kolomselectie."
+
 msgid "State to set"
 msgstr "In te stellen status"
 
@@ -17017,6 +17152,9 @@ msgstr "Toe te voegen labels — alle talen"
 msgid "Labels to remove — all languages"
 msgstr "Te verwijderen labels — alle talen"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Ik accepteer de medewerker licentieovereenkomst"
 
@@ -17032,9 +17170,14 @@ msgstr "Typ de naam van de slug van de vertaling om te bevestigen."
 msgid "Delete translation memory created from this component"
 msgstr "Verwijder vertaalgeheugen gemaakt van dit onderdeel"
 
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 "Project, werkruimte en gedeelde vertaalgeschiedenis-inhoud zal worden "
 "verwijderd. Persoonlijke en geüploadde inhoud zal worden behouden."
@@ -17047,6 +17190,18 @@ msgstr "Typ de naam van de slug van het project om te bevestigen."
 
 msgid "Delete translation memory created from components in this category"
 msgstr "Verwijder vertaalgeheugen gemaakt uit onderdelen in deze categorie"
+
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"Project, werkruimte en gedeelde vertaalgeschiedenis-inhoud zal worden "
+"verwijderd. Persoonlijke en geüploadde inhoud zal worden behouden."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Typ de naam van de slug van de categorie om te bevestigen."
@@ -17245,6 +17400,25 @@ msgstr "Vlaggen voor vertaling"
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Bijkomende kommagescheiden aanmerkingen om het Weblate-gedrag te beïnvloeden."
+
+msgid "Enforced checks"
+msgstr "Afgedwongen controles"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Lijst met controles die niet kunnen worden uitgeschakeld."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Ongebruikte afgedwongen controles."
+
+#, fuzzy
+#| msgid ""
+#| "Use the translation license configured in the parent category or project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Gebruik de licentie van de vertaling die is geconfigureerd in de "
+"oudercategorie of het project."
 
 msgid "Inherit translation license"
 msgstr "Licentie van de vertaling overnemen"
@@ -17516,6 +17690,27 @@ msgstr ""
 "Wellicht wilt u de bovenliggende map uitsluiten met het patroon "
 "{{bestandsnaam|bovenliggende map}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Te vertalen opslagruimtetak"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Koppeling naar opslagruimteverkenner. Gebruik {{branch}}, {{filename}} en "
+"{{line}} als plaatsvervangers voor tak, bestandsnaam en regelnummer. "
+"Wellicht wilt u de bovenliggende map uitsluiten met het patroon "
+"{{bestandsnaam|bovenliggende map}}."
+
 msgid "Exported repository URL"
 msgstr "Geëxporteerde opslagruimte-url"
 
@@ -17654,11 +17849,10 @@ msgstr ""
 "Aanvaard automatisch suggesties met dit aantal stemmen. Stel in op 0 om uit "
 "te schakelen."
 
-msgid "Enforced checks"
-msgstr "Afgedwongen controles"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Lijst met controles die niet kunnen worden uitgeschakeld."
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "Kies een project of een werkruimte."
 
 msgid "Use the translation license configured in the category or project."
 msgstr ""
@@ -17698,9 +17892,9 @@ msgid ""
 "your strings are extracted from the source code or managed externally you "
 "probably want to keep it disabled."
 msgstr ""
-"Schakel het toevoegen, verwijderen en aanpassen van brontekenreeksen en -"
-"sleutels in Weblate in. Schakel uit als deze automatisch worden geëxtraheerd "
-"uit de broncode of extern worden beheerd."
+"Schakel het toevoegen, verwijderen en aanpassen van brontekenreeksen en "
+"-sleutels in Weblate in. Schakel uit als deze automatisch worden "
+"geëxtraheerd uit de broncode of extern worden beheerd."
 
 msgid "Merge style"
 msgstr "Manier voor samenvoegen"
@@ -17833,7 +18027,8 @@ msgstr ""
 "beschikbaar voor eentalige indelingen."
 
 msgid "This setting is inherited from the project if left empty."
-msgstr "Deze instelling wordt overgenomen van het project, indien leeg gelaten."
+msgstr ""
+"Deze instelling wordt overgenomen van het project, indien leeg gelaten."
 
 msgid "Use the secondary language configured in the category or project."
 msgstr ""
@@ -18368,6 +18563,11 @@ msgid ""
 "en_GB:en,en_US:en"
 msgstr "Een kommagescheiden lijst met taalcodes, zoals en_GB:en,en_US:en"
 
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Ongebruikte afgedwongen controles."
+
 msgid "Use the translation license configured in the workspace."
 msgstr ""
 "Gebruik de licentie voor vertalingen die is geconfigureerd in de werkruimte."
@@ -18620,6 +18820,11 @@ msgstr "Markeer als terminologie voor alle talen"
 msgid "Unmark as terminology for all languages"
 msgstr "Demarkeer als terminologie voor alle talen"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr "Direct bewerken beperken"
 
@@ -18629,6 +18834,32 @@ msgid ""
 msgstr ""
 "Alleen gebruikers met het recht “Tekenreeks bewerken als suggesties worden "
 "afgedwongen” mogen directe wijzigingen maken."
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Typ de naam van de slug van het project om te bevestigen."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "De opgegeven taal is al in gebruik."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Secundaire taal gedefinieerd in project of onderdeel"
+
+#, fuzzy
+#| msgid "The user is not watching this project."
+msgid "The source language must exist in this project."
+msgstr "De gebruiker volgt dit project niet."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Tekst in brontaal"
 
 msgid "The source string has changed. Reload it before editing."
 msgstr "De brontekenreeks is veranderd. Herlaad het voordat u het bewerkt."
@@ -18959,6 +19190,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Het verwerken van de aanmerkingen is mislukt: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Afgedwongen controles"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Ongebruikte afgedwongen controles."
 
 #, python-format
 msgid ""

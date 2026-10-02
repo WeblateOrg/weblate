@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-11 08:22+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2295,6 +2295,11 @@ msgstr ""
 msgid "Per author"
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Per author and language"
+msgstr "Преведувачки известувања"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -3198,6 +3203,14 @@ msgstr "Преведувачки известувања"
 msgid "Cannot change this on a scoped team."
 msgstr "Преведувачки известувања"
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Преведувачки известувања"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr ""
 
@@ -3262,6 +3275,9 @@ msgid "Translation text too long!"
 msgstr ""
 
 msgid "Your suggestion already exists!"
+msgstr ""
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
 msgid "Weblate's REST API"
@@ -6318,6 +6334,9 @@ msgstr ""
 msgid "App store metadata files"
 msgstr ""
 
+msgid "File validation is required for directory-based formats."
+msgstr ""
+
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
@@ -9300,7 +9319,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9590,13 +9610,7 @@ msgstr ""
 msgid "No invoices found."
 msgstr ""
 
-msgid "Event details"
-msgstr ""
-
-msgid "Actions"
-msgstr ""
-
-msgid "Download"
+msgid "View all"
 msgstr ""
 
 msgid "Libre hosting"
@@ -9636,6 +9650,25 @@ msgstr ""
 
 msgid "View"
 msgstr ""
+
+msgid "Event details"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No audit log entries found."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Audit log pagination"
+msgstr "Преведувачки известувања"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -12142,6 +12175,11 @@ msgstr "Преведувачки известувања"
 
 #, fuzzy, python-format
 #| msgid "Translation notifications"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Преведувачки известувања"
+
+#, fuzzy, python-format
+#| msgid "Translation notifications"
 msgid "Manage %(team)s"
 msgstr "Преведувачки известувања"
 
@@ -12376,6 +12414,16 @@ msgstr "Преведувачки известувања"
 msgid "words"
 msgstr "Лозинка"
 
+#, fuzzy
+#| msgid "Full name"
+msgid "Bulk edit selected strings"
+msgstr "Целосно име"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "No strings selected"
+msgstr "Преведувачки известувања"
+
 msgid "No matching strings found."
 msgstr ""
 
@@ -12447,7 +12495,18 @@ msgid ""
 "limits."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Select all strings on this page"
+msgstr "Преведувачки известувања"
+
+msgid "Select string for bulk edit"
+msgstr ""
+
 msgid "You can change the state of all strings matching given type at once."
+msgstr ""
+
+msgid "The operation is applied to the strings selected in the list above."
 msgstr ""
 
 #, fuzzy
@@ -12614,6 +12673,16 @@ msgstr "Преведувачки известувања"
 
 msgid "Repository branch"
 msgstr ""
+
+#, fuzzy
+#| msgid "Invalid integer list!"
+msgid "Pull request"
+msgstr "Неважечка листа на цели броеви!"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Pull request URL copied to clipboard."
+msgstr "Преведувачки известувања"
 
 msgid "Last remote commit"
 msgstr ""
@@ -13021,6 +13090,11 @@ msgstr "Преведувачки известувања"
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Cannot add translation right now"
+msgstr "Преведувачки известувања"
+
+#, fuzzy, python-format
+#| msgid "Translation notifications"
+msgid "Source: %(language)s"
 msgstr "Преведувачки известувања"
 
 msgid "Customized workflow"
@@ -14304,13 +14378,15 @@ msgstr "Преведувачки известувања"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -14331,13 +14407,26 @@ msgstr "Преведувачки известувања"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 msgid "Component to remove"
 msgstr ""
 
 msgid "I understand the consequences, delete this translation"
+msgstr ""
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
 msgstr ""
 
 msgid ""
@@ -14586,6 +14675,11 @@ msgstr "Преведувачки известувања"
 #| msgid "Translations"
 msgid "Explanation"
 msgstr "Превод"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -15498,6 +15592,11 @@ msgstr ""
 
 msgid "Exit Zen"
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Show suggestions"
+msgstr "Преведувачки известувања"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -16897,6 +16996,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Translation notifications"
+msgid "Previous source"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
 msgid "Suggestions pending"
 msgstr "Преведувачки известувања"
 
@@ -18001,6 +18105,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Преведувачки известувања"
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Invalid string selection!"
+msgstr "Преведувачки известувања"
+
 msgid "State to set"
 msgstr ""
 
@@ -18041,6 +18150,9 @@ msgstr "Преведувачки известувања"
 msgid "Labels to remove — all languages"
 msgstr "Преведувачки известувања"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr ""
 
@@ -18065,8 +18177,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Преведувачки известувања"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -18080,6 +18193,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Преведувачки известувања"
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -18294,6 +18413,22 @@ msgstr "Преведувачки известувања"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
+
+msgid "Enforced checks"
+msgstr ""
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Inherit enforced checks"
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Преведувачки известувања"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -18558,6 +18693,18 @@ msgid ""
 "directory by using {{filename|parentdir}}."
 msgstr ""
 
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Repository browser for translations"
+msgstr "Преведувачки известувања"
+
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+
 msgid "Exported repository URL"
 msgstr ""
 
@@ -18679,10 +18826,7 @@ msgid ""
 "off."
 msgstr ""
 
-msgid "Enforced checks"
-msgstr ""
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -19317,6 +19461,9 @@ msgid ""
 "en_GB:en,en_US:en"
 msgstr ""
 
+msgid "Use enforced checks from the workspace."
+msgstr ""
+
 msgid "Use the translation license configured in the workspace."
 msgstr ""
 
@@ -19587,6 +19734,11 @@ msgstr ""
 msgid "Unmark as terminology for all languages"
 msgstr ""
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -19594,6 +19746,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Please turn on reviews on the project first."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "This language already has a project workflow."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Select a source language in a project workflow."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "The source language must exist in this project."
+msgstr "Преведувачки известувања"
+
+#, fuzzy
+#| msgid "Translation notifications"
+msgid "Source languages cannot form a cycle."
+msgstr "Преведувачки известувања"
 
 #, fuzzy
 #| msgid "Translation notifications"
@@ -19954,6 +20131,14 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Translation notifications"
 msgid "Could not parse flags: %s"
+msgstr "Преведувачки известувања"
+
+msgid "Enforced checks has to be a list."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translation notifications"
+msgid "Unsupported enforced check: %s"
 msgstr "Преведувачки известувања"
 
 #, fuzzy, python-format

@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-26 12:01+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -2122,6 +2122,11 @@ msgstr "Theo tập tin"
 msgid "Per author"
 msgstr "Theo tác giả"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Theo ngôn ngữ"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Thêm phần cuối vào thông điệp của bản ghi nhận"
 
@@ -2992,6 +2997,16 @@ msgid "Cannot change this on a scoped team."
 msgstr ""
 "Không thể thay đổi điều này trên một nhóm có phạm vi hoạt động nhất định."
 
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Kế thừa từ không gian làm việc"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "Hãy chọn một dự án hoặc một không gian làm việc."
+
 msgid "You do not have permission to access this component."
 msgstr "Bạn không có quyền truy cập phần này."
 
@@ -3045,6 +3060,11 @@ msgstr "Văn bản dịch quá dài!"
 
 msgid "Your suggestion already exists!"
 msgstr "Đề xuất của bạn đã tồn tại rồi!"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "Hãy chọn một dự án hoặc một không gian làm việc."
 
 msgid "Weblate's REST API"
 msgstr "REST API của Weblate"
@@ -5761,6 +5781,9 @@ msgstr "Nên là một thư mục chứa các tệp dữ liệu mô tả!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Tệp dữ liệu mô tả cửa hàng ứng dụng"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8636,9 +8659,14 @@ msgstr ""
 "Các bản ghi nhận Weblate từ các thành phần trong kho lưu trữ này sẽ được gộp "
 "lại."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Thông điệp bản ghi nhận ban đầu được giữ lại nhưng quyền tác giả sẽ bị mất "
 "trừ khi \"Mỗi tác giả\" được chọn hoặc thông điệp bản ghi nhận được tùy "
@@ -8883,14 +8911,10 @@ msgstr "Không có sẵn"
 msgid "No invoices found."
 msgstr "Không tìm thấy hóa đơn nào."
 
-msgid "Event details"
-msgstr "Chi tiết sự kiện"
-
-msgid "Actions"
-msgstr "Hành động"
-
-msgid "Download"
-msgstr "Tải xuống"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Xem chi tiết"
 
 msgid "Libre hosting"
 msgstr "Lưu trữ tự do"
@@ -8925,6 +8949,25 @@ msgstr "Hiện chưa có dự án nào được giao!"
 
 msgid "View"
 msgstr "Xem"
+
+msgid "Event details"
+msgstr "Chi tiết sự kiện"
+
+msgid "Actions"
+msgstr "Hành động"
+
+msgid "Download"
+msgstr "Tải xuống"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Không tìm thấy chuỗi phù hợp."
+
+#, fuzzy
+#| msgid "Report history pagination"
+msgid "Audit log pagination"
+msgstr "Phân trang lịch sử báo cáo"
 
 msgid "Confirm merge"
 msgstr "Xác nhận hợp nhất"
@@ -11321,6 +11364,11 @@ msgstr "Chuỗi nguồn được gắn nhãn"
 msgid "Add label"
 msgstr "Thêm nhãn"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Tải xuống các bản dịch dưới dạng CSV trong tệp ZIP"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "Quản lý %(team)s"
@@ -11526,6 +11574,16 @@ msgstr "chuỗi"
 msgid "words"
 msgstr "từ"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Chỉnh sửa hàng loạt chuỗi"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Không có chuỗi cần dịch"
+
 msgid "No matching strings found."
 msgstr "Không tìm thấy chuỗi phù hợp."
 
@@ -11613,10 +11671,23 @@ msgstr ""
 "Điều này có thể là do một số hóa đơn của bạn đã quá hạn hoặc vượt quá giới "
 "hạn."
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "Chọn tất cả chuỗi nguồn"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Chuỗi được đánh dấu để chỉnh sửa"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Bạn có thể thay đổi trạng thái của tất cả các chuỗi khớp với kiểu dữ liệu đã "
 "cho cùng một lúc."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Bộ lọc chất lượng dịch thuật"
@@ -11764,6 +11835,16 @@ msgstr "URL kho lưu trữ đã được sao chép vào bảng nhớ tạm."
 
 msgid "Repository branch"
 msgstr "Nhánh kho lưu trữ"
+
+#, fuzzy
+#| msgid "Bad request"
+msgid "Pull request"
+msgstr "Yêu cầu không hợp lệ"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "URL kho lưu trữ đã được sao chép vào bảng nhớ tạm."
 
 msgid "Last remote commit"
 msgstr "Lần ghi nhận từ xa cuối cùng"
@@ -12114,6 +12195,11 @@ msgstr "Tạo bản dịch"
 
 msgid "Cannot add translation right now"
 msgstr "Hiện tại chưa thể thêm bản dịch"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Ngôn ngữ nguồn"
 
 msgid "Customized workflow"
 msgstr "Quy trình làm việc tùy chỉnh"
@@ -13451,18 +13537,28 @@ msgstr "Các bản dịch sau đây sẽ bị xóa:"
 msgid "Project language to remove"
 msgstr "Ngôn ngữ dự án cần loại bỏ"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn danh mục "
 "%(object)s và tất cả nội dung liên quan."
 
+#, fuzzy
+#| msgid ""
+#| "If this action removes restricted components, retained translation memory "
+#| "from them will become available according to the project and workspace "
+#| "translation memory access rules unless you also delete it."
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 "Nếu hành động này loại bỏ các thành phần bị hạn chế, bộ nhớ dịch được giữ "
 "lại từ chúng sẽ khả dụng theo quy tắc truy cập bộ nhớ dịch của dự án và "
@@ -13477,19 +13573,37 @@ msgstr "Các danh mục dịch thuật sau đây sẽ bị xóa:"
 msgid "Project to remove"
 msgstr "Dự án cần loại bỏ"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn thành phần "
 "%(object)s và tất cả nội dung liên quan."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Thành phần cần loại bỏ"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Tôi hiểu hậu quả, hãy xóa bản dịch này"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn danh mục "
+"%(object)s và tất cả nội dung liên quan."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -13754,6 +13868,11 @@ msgstr "Ngôn ngữ trung cấp"
 
 msgid "Explanation"
 msgstr "Giải thích"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Báo cáo sự cố với chuỗi nguồn"
@@ -14631,6 +14750,11 @@ msgstr "Chỉnh sửa ở chế độ chuỗi đơn"
 
 msgid "Exit Zen"
 msgstr "Thoát Zen"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Đề xuất"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "Tệp dịch đã được đồng bộ hóa với kho lưu trữ của nó."
@@ -15682,6 +15806,11 @@ msgstr "Bản dịch trước đó"
 msgid "State: %(state)s"
 msgstr "Trạng thái: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Phần trước đó"
+
 msgid "Suggestions pending"
 msgstr "Các đề xuất đang chờ xử lý"
 
@@ -16712,6 +16841,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Bạn không có quyền tạo ra thuật ngữ."
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid string selection!"
+msgstr "Lựa chọn cột danh sách không hợp lệ."
+
 msgid "State to set"
 msgstr "Trạng thái cần thiết lập"
 
@@ -16746,6 +16880,9 @@ msgstr "Nhãn cần thêm — tất cả các ngôn ngữ"
 msgid "Labels to remove — all languages"
 msgstr "Nhãn cần xóa — tất cả các ngôn ngữ"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Tôi chấp nhận thỏa thuận cấp phép đóng góp"
 
@@ -16761,9 +16898,14 @@ msgstr "Vui lòng nhập toàn bộ đường dẫn của bản dịch để xá
 msgid "Delete translation memory created from this component"
 msgstr "Xóa bộ nhớ dịch đã được tạo từ thành phần này"
 
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 "Các mục dự án, không gian làm việc và bộ nhớ dịch dùng chung sẽ bị xóa. Các "
 "mục cá nhân và mục đã tải lên sẽ được giữ lại."
@@ -16776,6 +16918,18 @@ msgstr "Vui lòng nhập slug của dự án để xác nhận."
 
 msgid "Delete translation memory created from components in this category"
 msgstr "Xóa bộ nhớ dịch đã được tạo từ các thành phần trong danh mục này"
+
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"Các mục dự án, không gian làm việc và bộ nhớ dịch dùng chung sẽ bị xóa. Các "
+"mục cá nhân và mục đã tải lên sẽ được giữ lại."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Vui lòng nhập đường dẫn danh mục để xác nhận."
@@ -16976,6 +17130,25 @@ msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Các cờ bổ sung được phân tách bằng dấu phẩy để ảnh hưởng đến hành vi của "
 "Weblate."
+
+msgid "Enforced checks"
+msgstr "Các kiểm tra bắt buộc"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Danh sách các kiểm tra không thể bỏ qua."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Các khoản kiểm tra bắt buộc chưa sử dụng."
+
+#, fuzzy
+#| msgid ""
+#| "Use the translation license configured in the parent category or project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Hãy sử dụng giấy phép dịch thuật đã được cấu hình trong danh mục hoặc dự án "
+"cha."
 
 msgid "Inherit translation license"
 msgstr "Kế thừa giấy phép dịch thuật"
@@ -17242,6 +17415,26 @@ msgstr ""
 "{{filename}} và {{line}} làm tên tệp và dòng giữ chỗ. Bạn có thể muốn loại "
 "bỏ thư mục đầu bằng cách sử dụng {{filename|parentdir}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Nhánh kho lưu trữ để dịch"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Liên kết đến trình duyệt kho lưu trữ, sử dụng {{branch}} cho nhánh, "
+"{{filename}} và {{line}} làm tên tệp và dòng giữ chỗ. Bạn có thể muốn loại "
+"bỏ thư mục đầu bằng cách sử dụng {{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL kho lưu trữ đã xuất ra"
 
@@ -17373,11 +17566,10 @@ msgid ""
 "off."
 msgstr "Tự động chấp nhận các đề xuất có số phiếu bầu này, dùng 0 để tắt."
 
-msgid "Enforced checks"
-msgstr "Các kiểm tra bắt buộc"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Danh sách các kiểm tra không thể bỏ qua."
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "Hãy chọn một dự án hoặc một không gian làm việc."
 
 msgid "Use the translation license configured in the category or project."
 msgstr ""
@@ -18050,6 +18242,11 @@ msgstr ""
 "Danh sách gắn kết mã ngôn ngữ được phân tách bằng dấu phẩy, ví dụ: "
 "en_GB:en,en_US:en"
 
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Các khoản kiểm tra bắt buộc chưa sử dụng."
+
 msgid "Use the translation license configured in the workspace."
 msgstr ""
 "Hãy sử dụng giấy phép dịch thuật đã được cấu hình trong không gian làm việc."
@@ -18309,6 +18506,11 @@ msgstr "Đánh dấu là thuật ngữ"
 msgid "Unmark as terminology for all languages"
 msgstr "Bỏ đánh dấu là thuật ngữ"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -18318,6 +18520,32 @@ msgid ""
 msgstr ""
 "Chỉ những người dùng có quyền “Chỉnh sửa chuỗi khi đề xuất được thực thi” "
 "mới có thể thực hiện thay đổi trực tiếp."
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Vui lòng nhập slug của dự án để xác nhận."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Ngôn ngữ được đề cập đã tồn tại."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Ngôn ngữ thứ hai được định nghĩa trong dự án hoặc thành phần"
+
+#, fuzzy
+#| msgid "The user is not watching this project."
+msgid "The source language must exist in this project."
+msgstr "Người dùng không xem dự án này."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Văn bản ngôn ngữ nguồn"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -18657,6 +18885,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Không thể phân tích cờ: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Các kiểm tra bắt buộc"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Các khoản kiểm tra bắt buộc chưa sử dụng."
 
 #, python-format
 msgid ""

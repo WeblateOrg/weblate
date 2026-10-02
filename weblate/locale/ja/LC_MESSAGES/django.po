@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:09+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -2108,6 +2108,11 @@ msgstr "ファイル別"
 msgid "Per author"
 msgstr "翻訳者別"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "言語別"
+
 msgid "Append trailers to squashed commit message"
 msgstr "スカッシュしたコミット メッセージに翻訳者情報を追加する"
 
@@ -2985,6 +2990,16 @@ msgstr "このワークスペースには、同名のチームがすでに存在
 msgid "Cannot change this on a scoped team."
 msgstr "既存のチームでは、この設定を変更できません。"
 
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Inherit enforced checks from the workspace."
+msgstr "継承したフラグ"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "プロジェクトまたはワークスペースを選択してください。"
+
 msgid "You do not have permission to access this component."
 msgstr "このコンポーネントにアクセスする権限がありません。"
 
@@ -3038,6 +3053,11 @@ msgstr "翻訳文が長すぎます！"
 
 msgid "Your suggestion already exists!"
 msgstr "すでに提案済みです！"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "プロジェクトまたはワークスペースを選択してください。"
 
 msgid "Weblate's REST API"
 msgstr "Weblate の REST API"
@@ -5759,6 +5779,9 @@ msgstr "メタデータファイルのあるディレクトリにしてくださ
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "アプリ ストアのメタデータ ファイル"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8664,9 +8687,14 @@ msgstr ""
 "このリポジトリ内のすべてのコンポーネントのすべての Weblate のコミットはスカッ"
 "シュされます。"
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "元々のコミット メッセージは保持されますが、「翻訳者別に」を選択するか、コミッ"
 "ト メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われます。"
@@ -8916,14 +8944,10 @@ msgstr "ご利用いただけません"
 msgid "No invoices found."
 msgstr "インボイスが見つかりません。"
 
-msgid "Event details"
-msgstr "イベントの詳細"
-
-msgid "Actions"
-msgstr "アクション"
-
-msgid "Download"
-msgstr "ダウンロード"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "詳細の表示"
 
 msgid "Libre hosting"
 msgstr "Libre （自由）ホスティング"
@@ -8958,6 +8982,25 @@ msgstr "現時点ではプロジェクトが割り当てられていません！
 
 msgid "View"
 msgstr "表示"
+
+msgid "Event details"
+msgstr "イベントの詳細"
+
+msgid "Actions"
+msgstr "アクション"
+
+msgid "Download"
+msgstr "ダウンロード"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "該当する文字列は見つかりませんでした。"
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "リポジトリの初期化"
 
 msgid "Confirm merge"
 msgstr "マージを確定する"
@@ -11405,6 +11448,11 @@ msgstr "ラベル付き原文"
 msgid "Add label"
 msgstr "ラベルの追加"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "翻訳を CSV ファイルとして ZIP 圧縮後ダウンロード"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "%(team)sの管理"
@@ -11631,6 +11679,16 @@ msgstr "文字列"
 msgid "words"
 msgstr "単語"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "文字列一括編集"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "翻訳対象の文字列がありません"
+
 msgid "No matching strings found."
 msgstr "該当する文字列は見つかりませんでした。"
 
@@ -11727,8 +11785,21 @@ msgstr ""
 "これは、請求書の一部が支払期日を過ぎているか、制限を超えていることなどで発生"
 "します。"
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "すべての原文を選択"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "要修正マーク付きの文字列"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr "指定した種類に該当するすべての文字列の状態を、一括で変更できます。"
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "翻訳品質フィルタ"
@@ -11879,6 +11950,16 @@ msgstr "リポジトリの URL をクリップボードにコピーしました�
 
 msgid "Repository branch"
 msgstr "リポジトリのブランチ"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Gitea プルリクエスト"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "リポジトリの URL をクリップボードにコピーしました。"
 
 msgid "Last remote commit"
 msgstr "最後のリモート コミット"
@@ -12228,6 +12309,11 @@ msgstr "翻訳の作成"
 
 msgid "Cannot add translation right now"
 msgstr "現在、翻訳の追加はできません"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "原文の言語"
 
 msgid "Customized workflow"
 msgstr "カスタマイズされたワークフロー"
@@ -13554,18 +13640,23 @@ msgstr "以下の翻訳を削除します:"
 msgid "Project language to remove"
 msgstr "削除するプロジェクトの言語"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "この操作は元に戻せません。%(object)s カテゴリーと関連するすべての内容は完全に"
 "削除されます。"
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -13577,19 +13668,37 @@ msgstr "削除される翻訳カテゴリー:"
 msgid "Project to remove"
 msgstr "削除するプロジェクト"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "操作は元に戻せません。%(object)s コンポーネントと関連するすべての内容を完全に"
 "削除します。"
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "削除するコンポーネント"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "結果を理解して、翻訳を削除します"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"この操作は元に戻せません。%(object)s カテゴリーと関連するすべての内容は完全に"
+"削除されます。"
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -13845,6 +13954,11 @@ msgstr "中間言語"
 
 msgid "Explanation"
 msgstr "解説"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "原文の問題の報告"
@@ -14687,6 +14801,11 @@ msgstr "単一文字列モードで編集"
 
 msgid "Exit Zen"
 msgstr "Zen を終了する"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "提案"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -15977,6 +16096,11 @@ msgid "State: %(state)s"
 msgstr "状態: %(state)s"
 
 #, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "前の区画"
+
+#, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestions pending"
 msgstr "提案への投票"
@@ -17065,6 +17189,11 @@ msgstr "原文のまま変更しないべき文章の場合はこのオプショ
 msgid "You do not have permission to create terminology."
 msgstr "用語集に固有の用語を作成する権限がありません。"
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "無効な提案です！"
+
 msgid "State to set"
 msgstr "翻訳状態の設定"
 
@@ -17105,6 +17234,9 @@ msgstr "すべての言語"
 msgid "Labels to remove — all languages"
 msgstr "削除するラベル"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "貢献者ライセンス同意書に同意する"
 
@@ -17123,8 +17255,9 @@ msgid "Delete translation memory created from this component"
 msgstr "このコンポーネントには翻訳はありません。"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -17134,6 +17267,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "確認のため、プロジェクトのスラッグを入力してください。"
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -17332,6 +17471,24 @@ msgstr "翻訳フラグ"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Weblate の動作に影響を与える追加のコンマ区切りフラグ。"
+
+msgid "Enforced checks"
+msgstr "検査の強制"
+
+msgid "List of checks which can not be dismissed."
+msgstr "無視できない検査項目の一覧。"
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "強制したが使われていない検査。"
+
+#, fuzzy
+#| msgid ""
+#| "Revert the latest translation edits from this user in the current project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"このユーザーが、現在のプロジェクトで行った最後の翻訳の編集を元に戻します。"
 
 #, fuzzy
 #| msgid "Translation license"
@@ -17620,6 +17777,26 @@ msgstr ""
 "{{filename}}、行番号には {{line}} をそれぞれプレースホルダーとして使用してく"
 "ださい。先頭のディレクトリ名を取り除くには {{filename|parentdir}} とします。"
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "翻訳するリポジトリブランチ"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"リポジトリ ブラウザーへのリンク。ブランチには {{branch}}、ファイル名には "
+"{{filename}}、行番号には {{line}} をそれぞれプレースホルダーとして使用してく"
+"ださい。先頭のディレクトリ名を取り除くには {{filename|parentdir}} とします。"
+
 msgid "Exported repository URL"
 msgstr "エクスポートするリポジトリ URL"
 
@@ -17755,11 +17932,10 @@ msgstr ""
 "ここで指定した数の得票があった場合に、提案を自動的に採用します。 0 を指定する"
 "と、自動採用を無効化します。"
 
-msgid "Enforced checks"
-msgstr "検査の強制"
-
-msgid "List of checks which can not be dismissed."
-msgstr "無視できない検査項目の一覧。"
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "プロジェクトまたはワークスペースを選択してください。"
 
 #, fuzzy
 #| msgid ""
@@ -18456,6 +18632,11 @@ msgid ""
 msgstr "カンマで区切られた言語コード対応一覧。例: en_GB:en,en_US:en"
 
 #, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "強制したが使われていない検査。"
+
+#, fuzzy
 #| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
 msgstr "翻訳はバックグラウンドで更新されます。"
@@ -18738,6 +18919,11 @@ msgstr "固有の用語に設定"
 msgid "Unmark as terminology for all languages"
 msgstr "固有の用語を解除"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -18745,6 +18931,32 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "確認のため、プロジェクトのスラッグを入力してください。"
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "指定された言語はすでに存在しています。"
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "プロジェクトまたはコンポーネントで設定された第二言語"
+
+#, fuzzy
+#| msgid "User is not blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "このユーザーは、このプロジェクトでブロックされていません。"
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "原文の言語のテキスト"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -19113,6 +19325,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "フラグの解析に失敗しました: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "検査の強制"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "強制したが使われていない検査。"
 
 #, python-format
 msgid ""

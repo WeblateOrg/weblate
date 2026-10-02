@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2332,6 +2332,11 @@ msgstr "Afaylu"
 msgid "Per author"
 msgstr "S umeskar"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Aswir n twezza n useqdac s tutlayt"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Timerna n wurtan n yiqerra ɣer yiznan n usfeɛj n tercivin"
 
@@ -3325,6 +3330,14 @@ msgid "Cannot change this on a scoped team."
 msgstr "Beddel talɣut-nniḍen n uzrir n yisekkilen"
 
 #, fuzzy
+#| msgid "Add new word"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Rnu awale amaynut"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
+#, fuzzy
 #| msgid "You do not have permission to access this component!"
 msgid "You do not have permission to access this component."
 msgstr "Ur ɣur-k ara tasiregt akken ad tkecmeḍ ɣer usuddis-a!"
@@ -3398,6 +3411,9 @@ msgid "Translation text too long!"
 msgstr ""
 
 msgid "Your suggestion already exists!"
+msgstr ""
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
 msgstr ""
 
 msgid "Weblate's REST API"
@@ -6553,6 +6569,9 @@ msgstr ""
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Meṛṛa ifuyla iɣefisefka yettwaskelsen"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -9755,9 +9774,14 @@ msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "Tiṛcivin n Weblate n yisuddisen meṛṛa n ukufi-a feɛjen."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Iznan n teṛcivt ineṣliyen ttwaḥerzen maca ad asen-iṛuḥ wayla n teṛcibt, ala "
 "ma yella tferneḍ \"S umeskar\" neɣ ma yella tmuddeḍ udem i yizen n teṛcivt "
@@ -10048,14 +10072,8 @@ msgstr "Ulac tifaturin."
 
 #, fuzzy
 #| msgid "View details"
-msgid "Event details"
+msgid "View all"
 msgstr "Beqqeḍ ifatusen"
-
-msgid "Actions"
-msgstr "Tigawin"
-
-msgid "Download"
-msgstr "Sader"
 
 #, fuzzy
 #| msgid "View hosting plans"
@@ -10098,6 +10116,27 @@ msgstr "Ulac asenfaṛ yettunefken!"
 
 msgid "View"
 msgstr "Timeẓri"
+
+#, fuzzy
+#| msgid "View details"
+msgid "Event details"
+msgstr "Beqqeḍ ifatusen"
+
+msgid "Actions"
+msgstr "Tigawin"
+
+msgid "Download"
+msgstr "Sader"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Ulac izriren n uɣbalu yenmeɣran."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "Awennez n ukufi"
 
 #, fuzzy
 #| msgid "Confirm"
@@ -12861,6 +12900,11 @@ msgstr "Leqqem izriren iɣbula"
 msgid "Add label"
 msgstr "Rnu tabzimt"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Zdem ifuyla n tsuqilt amzun d CSV deg ufaylu ZIP"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "Sefrek %(team)s"
@@ -13115,6 +13159,16 @@ msgstr "izriren"
 msgid "words"
 msgstr "awalen"
 
+#, fuzzy
+#| msgid "Edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Ẓreg izriren"
+
+#, fuzzy
+#| msgid "New string to translate"
+msgid "No strings selected"
+msgstr "Izriren imaynuten ara yettwasuqlen"
+
 msgid "No matching strings found."
 msgstr "Ulac izriren n uɣbalu yenmeɣran."
 
@@ -13228,9 +13282,22 @@ msgid ""
 msgstr ""
 "Sebba ahat: imi ulac amulteɣ, tifaturin ur yettwaxellṣen ara, azger n tlisa."
 
+#, fuzzy
+#| msgid "Update source strings"
+msgid "Select all strings on this page"
+msgstr "Leqqem izriren iɣbula"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Izriren ara tesneqdeḍ"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Tzemreḍ ad tbeddleḍ, deg tikkelt, addad n yizriren meṛṛa i wanaw yettunefken."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation file"
@@ -13403,6 +13470,16 @@ msgstr "Tamhelt n ukufi"
 
 msgid "Repository branch"
 msgstr "Taseṭṭa n ukufi"
+
+#, fuzzy
+#| msgid "Bad request"
+msgid "Pull request"
+msgstr "Yir tuttra"
+
+#, fuzzy
+#| msgid "Repository operation"
+msgid "Pull request URL copied to clipboard."
+msgstr "Tamhelt n ukufi"
 
 msgid "Last remote commit"
 msgstr "Taṛcivt taneggarut tanmeggagt"
@@ -13805,6 +13882,11 @@ msgstr "Rnu tasuqilt"
 #| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
 msgstr "Ur izmir ara ad yernu afaylu amaynut n tsuqilt."
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Tutlayt taɣbalut"
 
 msgid "Customized workflow"
 msgstr ""
@@ -15167,13 +15249,15 @@ msgstr "Isem n usenfaṛ"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -15194,7 +15278,14 @@ msgstr "Isem n usenfaṛ"
 #, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
+msgstr ""
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -15204,6 +15295,12 @@ msgstr "Isem n tebdart n isuddisen"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Gziɣ ayen ara yeḍrun, kkes tasuqilt-a"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -15465,6 +15562,11 @@ msgstr "Afaylu n tutlayt n laɛḍil"
 
 msgid "Explanation"
 msgstr "Asegzi"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Mmel-d ugur deg uzrir n yisekkilen"
@@ -16409,6 +16511,11 @@ msgstr ""
 
 msgid "Exit Zen"
 msgstr "Ffeɣ si Zen"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Isumar"
 
 #, fuzzy
 #| msgid "Cleanup all untracked files in the local repository"
@@ -17870,6 +17977,11 @@ msgid "State: %(state)s"
 msgstr "Addad: %(state)s"
 
 #, fuzzy
+#| msgid "Previous"
+msgid "Previous source"
+msgstr "Uzwir"
+
+#, fuzzy
 #| msgid "Suggestions made"
 msgid "Suggestions pending"
 msgstr "Isumar yettwagen"
@@ -19018,6 +19130,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Ur tesɛiṣ ara akka tura azref n tmerna n yisenfaṛen."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Yir asumer!"
+
 msgid "State to set"
 msgstr "Addad ara tesbaduḍ"
 
@@ -19058,6 +19175,9 @@ msgstr "Deg tutlayin akken ma llant"
 msgid "Labels to remove — all languages"
 msgstr "Tibzimin ara tekkseḍ"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 #, fuzzy
 #| msgid "I accept the contributor agreement"
 msgid "I accept the contributor license agreement"
@@ -19082,8 +19202,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Aɣewwaṛ n usuddis ur yettwasefrak ara"
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -19097,6 +19218,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Sekcem isem yemmden i tsuqilt aken ad tettwasentem."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -19315,6 +19442,22 @@ msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Ticrad-nniḍen s unabraz n ticcert akken ad iḥaz asenqed n t qara. Azalen "
 "izemren ad ilin ad ttwafen def tsemlit."
+
+msgid "Enforced checks"
+msgstr ""
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Inherit enforced checks"
+msgstr "Asenqed yettwazgel"
+
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Tasuqilt-a temdel yakan."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -19599,6 +19742,26 @@ msgstr ""
 "ad tesqedceḍ {{branch}} i tseṭṭa, {{filename}} i ufaylu, akked {{line}} i "
 "yizirig."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Taseṭṭa n ukufi i tsuqilt"
+
+#, fuzzy
+#| msgid ""
+#| "Enter a custom URL to be used as link to the source code. You can use "
+#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
+#| "placeholders."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Sekcem tansa URL tudmawant ara yeǧǧen ad tkecmeḍ ɣer tengalt aɣbalu. Tzemreḍ "
+"ad tesqedceḍ {{branch}} i tseṭṭa, {{filename}} i ufaylu, akked {{line}} i "
+"yizirig."
+
 msgid "Exported repository URL"
 msgstr ""
 
@@ -19744,10 +19907,7 @@ msgid ""
 msgstr ""
 "Qbel isumar s wudem awurman s wuṭṭun-a n tefranin, seqdec 0 akken ad yens."
 
-msgid "Enforced checks"
-msgstr ""
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -20406,6 +20566,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Ignored checks"
+msgid "Use enforced checks from the workspace."
+msgstr "Asenqed yettwazgel"
+
+#, fuzzy
 #| msgid "The translation has come to an end."
 msgid "Use the translation license configured in the workspace."
 msgstr "Tewwḍeḍ ɣer taggara n tsuqilt."
@@ -20704,6 +20869,11 @@ msgstr "Zgel i meṛṛa tutlayin"
 msgid "Unmark as terminology for all languages"
 msgstr "Zgel i meṛṛa tutlayin"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -20711,6 +20881,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the full name of the translation to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Sekcem isem yemmden i tsuqilt aken ad tettwasentem."
+
+#, fuzzy
+#| msgid "Entry by the same name already exists."
+msgid "This language already has a project workflow."
+msgstr "Anekcam s yisem-a yella yakan."
+
+#, fuzzy
+#| msgid "New language added to %(component)s"
+msgid "Select a source language in a project workflow."
+msgstr "Tutlayt tamaynut tettwarna ɣer %(component)s"
+
+#, fuzzy
+#| msgid "User has been invited to this project."
+msgid "The source language must exist in this project."
+msgstr "Aseqdac yettwaɛreḍ ɣer usenfaṛ-a."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Aḍris n tutlayt n uɣbalu"
 
 #, fuzzy
 #| msgid "Source string changed"
@@ -21093,6 +21288,14 @@ msgstr ""
 #| msgid "Failed to parse JSON file: {!s}"
 msgid "Could not parse flags: %s"
 msgstr "Ur izmir ara ad yesleḍ afaylu JSON: {!s}"
+
+msgid "Enforced checks has to be a list."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Ignored checks"
+msgid "Unsupported enforced check: %s"
+msgstr "Asenqed yettwazgel"
 
 #, fuzzy, python-format
 #| msgid "Could not find template file."
