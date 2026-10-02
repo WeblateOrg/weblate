@@ -24,6 +24,8 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework.authtoken.models import Token
+from social_core.backends.email import EmailAuth
+from social_core.pipeline.social_auth import social_names
 from social_django.models import DjangoStorage, UserSocialAuth
 
 from weblate.accounts.captcha import solve_altcha
@@ -34,7 +36,12 @@ from weblate.accounts.flows import (
     sign_password_reset_scope,
 )
 from weblate.accounts.models import VerifiedEmail
-from weblate.accounts.pipeline import ensure_valid, handle_invite, store_email
+from weblate.accounts.pipeline import (
+    ensure_valid,
+    handle_invite,
+    store_email,
+    user_full_name,
+)
 from weblate.accounts.strategy import WeblateStrategy
 from weblate.accounts.tasks import (
     cleanup_social_auth,
@@ -50,6 +57,7 @@ from weblate.auth.models import (
 )
 from weblate.auth.views import accept_invitation
 from weblate.lang.models import Language
+from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     enable_login_required_settings,
@@ -192,6 +200,76 @@ class WeblateStrategyTest(SimpleTestCase):
         self.assertEqual(
             strategy.request_data()["next"], f"{reverse('profile')}#account"
         )
+
+
+class UserFullNameTest(TestCase):
+    def setUp(self) -> None:
+        self.strategy = WeblateStrategy(DjangoStorage)
+        self.backend = EmailAuth(self.strategy)
+        self.user = User.objects.create_user("name-test", full_name="")
+        # User.save() fills an empty name from the username; reset it to test
+        # provider name initialization in the authentication pipeline.
+        User.objects.filter(pk=self.user.pk).update(full_name="")
+        self.user.refresh_from_db()
+
+    def update_name(self, details, username="name-test") -> None:
+        normalized = social_names(self.backend, details)["details"]
+        user_full_name(self.strategy, normalized, username, self.user)
+        self.user.refresh_from_db()
+
+    def test_normalized_names(self) -> None:
+        for details, expected in (
+            ({"first_name": "First", "last_name": "Last"}, "First Last"),
+            ({"first_name": "First", "last_name": "First Last"}, "First Last"),
+            ({"first_name": "First"}, "First"),
+            ({"last_name": "Last"}, "Last"),
+            ({"fullname": "  Provided Name  "}, "Provided Name"),
+            ({"fullname": "Provided Name", "first_name": "Other"}, "Provided Name"),
+        ):
+            with self.subTest(details=details):
+                User.objects.filter(pk=self.user.pk).update(full_name="")
+                self.user.refresh_from_db()
+                self.update_name(details)
+                self.assertEqual(self.user.full_name, expected)
+
+    def test_existing_name_is_preserved(self) -> None:
+        self.user.full_name = "Chosen Name"
+        self.user.save(update_fields=["full_name"])
+        self.update_name({"fullname": "Provider Name"})
+        self.assertEqual(self.user.full_name, "Chosen Name")
+
+    def test_invalid_or_missing_names_use_username(self) -> None:
+        for details in (
+            {},
+            {"fullname": None},
+            {"fullname": "   "},
+            {"fullname": "<>"},
+        ):
+            with self.subTest(details=details):
+                User.objects.filter(pk=self.user.pk).update(full_name="")
+                self.user.refresh_from_db()
+                self.update_name(details, "pipeline-username")
+                self.assertEqual(self.user.full_name, "pipeline-username")
+
+    def test_user_username_fallback(self) -> None:
+        self.update_name({}, "")
+        self.assertEqual(self.user.full_name, "name-test")
+
+    def test_cleanup_and_length_limit(self) -> None:
+        for name, expected in (
+            ("First\x00 Last", "First Last"),
+            ("a" * (FULLNAME_LENGTH + 20), "a" * FULLNAME_LENGTH),
+        ):
+            with self.subTest(name=name):
+                User.objects.filter(pk=self.user.pk).update(full_name="")
+                self.user.refresh_from_db()
+                self.update_name({"fullname": name})
+                self.assertEqual(self.user.full_name, expected)
+
+    def test_full_name_generation_can_be_disabled(self) -> None:
+        with override_settings(SOCIAL_AUTH_EMAIL_FULL_FROM_FIRSTLAST=False):
+            self.update_name({"first_name": "First", "last_name": "Last"})
+        self.assertEqual(self.user.full_name, "name-test")
 
 
 class BaseRegistrationTest(TestCase, RegistrationTestMixin):
