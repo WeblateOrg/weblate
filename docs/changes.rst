@@ -7,6 +7,8 @@ Weblate 2026.10.1
 
 .. rubric:: Improvements
 
+* Improved recovery guidance for authentication failures.
+
 * Authentication method names and icons now come from python-social-auth, including current service branding, while existing :doc:`authentication settings <admin/auth>` overrides remain supported.
 * Improved full name initialization from provider names during :doc:`social authentication <admin/auth>`.
 
