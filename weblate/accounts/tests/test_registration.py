@@ -130,6 +130,29 @@ class RegistrationAttemptPasswordResetURLTest(SimpleTestCase):
 
 
 class WeblateStrategyTest(SimpleTestCase):
+    def test_legacy_pipeline_deadline_is_ignored(self) -> None:
+        strategy = MagicMock()
+        strategy.request.user.is_authenticated = False
+        ensure_valid(
+            strategy,
+            MagicMock(),
+            user=None,
+            registering_user=None,
+            weblate_action="activation",
+            new_association=False,
+            details={},
+            weblate_expires=0,
+        )
+
+    @override_settings(AUTH_TOKEN_VALID=60)
+    def test_code_expiry_uses_auth_token_valid(self) -> None:
+        strategy = WeblateStrategy(DjangoStorage)
+        self.assertEqual(strategy.setting("EMAIL_VALIDATION_EXPIRED_THRESHOLD"), 60)
+        with override_settings(AUTH_TOKEN_VALID=120):
+            self.assertEqual(
+                strategy.setting("EMAIL_VALIDATION_EXPIRED_THRESHOLD"), 120
+            )
+
     def test_password_reset_request_data_uses_session_email(self) -> None:
         """Password reset social auth can continue without e-mail in request data."""
         request = RequestFactory().post("/complete/email/")
@@ -748,7 +771,6 @@ class RegistrationTest(BaseRegistrationTest):
             existing_user,
             existing_user.pk,
             "activation",
-            9_999_999_999,
             False,
             {"email": existing_user.email},
             invitation,
@@ -1700,6 +1722,53 @@ class RegistrationTest(BaseRegistrationTest):
 class CookieRegistrationTest(BaseRegistrationTest):
     def test_register(self) -> None:
         self.perform_registration()
+
+    @override_settings(
+        REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False, AUTH_TOKEN_VALID=60
+    )
+    def test_expired_registration_code(self) -> None:
+        self.do_register()
+        url = self.assert_registration_mailbox()
+        query = parse_qs(urlparse(url).query)
+        verification_code = query["verification_code"][0]
+        DjangoStorage.code.objects.filter(code=verification_code).update(
+            timestamp=timezone.now() - timedelta(seconds=61)
+        )
+        response = self.confirm_registration_url(url)
+        self.assertRedirects(response, reverse("login"))
+        self.assertIn(
+            "confirmation link probably expired",
+            " ".join(str(message) for message in response.context["messages"]),
+        )
+        code = DjangoStorage.code.get_code(verification_code)
+        self.assertIsNotNone(code)
+        self.assertFalse(code.verified)
+        self.assertFalse(
+            User.objects.filter(username=REGISTRATION_DATA["username"]).exists()
+        )
+
+    @override_settings(REGISTRATION_CAPTCHA=False, AUTH_TOKEN_VALID=60)
+    def test_expired_password_reset_code(self) -> None:
+        user = User.objects.create_user("testuser", "test@example.com", "old-password")
+        self.client.post(reverse("password_reset"), {"email": user.email}, follow=True)
+        url = self.assert_registration_mailbox("[Weblate] Password reset on Weblate")
+        query = parse_qs(urlparse(url).query)
+        verification_code = query["verification_code"][0]
+        DjangoStorage.code.objects.filter(code=verification_code).update(
+            timestamp=timezone.now() - timedelta(seconds=61)
+        )
+        response = self.confirm_registration_url(url)
+        self.assertRedirects(response, reverse("login"))
+        self.assertIn(
+            "confirmation link probably expired",
+            " ".join(str(message) for message in response.context["messages"]),
+        )
+        code = DjangoStorage.code.get_code(verification_code)
+        self.assertIsNotNone(code)
+        self.assertFalse(code.verified)
+        self.assertNotIn("perform_reset", self.client.session)
+        user.refresh_from_db()
+        self.assertTrue(user.check_password("old-password"))
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_confirmation_link_requires_post(self) -> None:

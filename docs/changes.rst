@@ -21,6 +21,7 @@ Weblate 2026.10.1
 * Prevented sitemaps from disclosing restricted component and translation URLs.
 * Restricted stale Git lock cleanup to the repository running the failed command and prevented empty file lists from committing unrelated changes.
 * Prevented project backup imports from granting site-wide permissions through restored project teams.
+* Enforce e-mail confirmation code expiry through Python Social Auth using :setting:`AUTH_TOKEN_VALID`, independently of scheduled cleanup.
 
 .. rubric:: Bug fixes
 

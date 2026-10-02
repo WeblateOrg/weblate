@@ -17,6 +17,11 @@ from weblate.utils.site import get_site_url
 
 
 class WeblateStrategy(DjangoStrategy):
+    def get_setting(self, name):
+        if name == "SOCIAL_AUTH_EMAIL_VALIDATION_EXPIRED_THRESHOLD":
+            return settings.AUTH_TOKEN_VALID
+        return super().get_setting(name)
+
     @cached_property
     def _site_url(self):
         return urlparse(get_site_url())

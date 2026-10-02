@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import re
-import time
 import unicodedata
 from collections.abc import Mapping
 from typing import TYPE_CHECKING, NoReturn
@@ -328,7 +327,6 @@ def store_params(strategy, user: User, **kwargs):
     return {
         "weblate_action": action,
         "registering_user": registering_user,
-        "weblate_expires": int(time.time() + settings.AUTH_TOKEN_VALID),
         "invitation_link": invitation,
         "invitation_pk": str(invitation_pk) if invitation_pk else None,
     }
@@ -372,18 +370,13 @@ def ensure_valid(
     user: User,
     registering_user,
     weblate_action,
-    weblate_expires,
     new_association,
     details,
     invitation_link: Invitation | None = None,
     invitation_pk: str | None = None,
     **kwargs,
 ) -> None:
-    """Ensure the activation link is still."""
-    # Didn't the link expire?
-    if weblate_expires < time.time():
-        raise AuthMissingParameter(backend, "expires")
-
+    """Validate account binding and invitations for the activation link."""
     # We allow password reset for unauthenticated users
     if weblate_action == "reset":
         if strategy.request.user.is_authenticated:
