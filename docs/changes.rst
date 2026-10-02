@@ -11,6 +11,7 @@ Weblate 2026.10.1
 
 * Added a :doc:`Kotlin SDK quickstart <devel/kotlin-sdk>` and an overview of official and third-party :doc:`libraries and SDKs <devel/libraries>`.
 * Clarified the labels and consequences of reset actions in :ref:`repository-maintenance`.
+* Authentication method names and icons now come from python-social-auth, including current service branding, while existing :doc:`authentication settings <admin/auth>` overrides remain supported.
 * Improved full name initialization from provider names during :doc:`social authentication <admin/auth>`.
 
 * Made unused components and glossary languages warning :ref:`diagnostics <alerts>` and enabled dismissal for them and suspected monolingual or bilingual file-format misconfiguration.
@@ -37,6 +38,13 @@ Weblate 2026.10.1
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
+
+Authentication names and provider logos now come from python-social-auth.
+Add ``social_django.finders.SocialAuthIconFinder`` after the standard finders in
+``STATICFILES_FINDERS`` in :file:`settings.py`, then run
+:samp:`weblate collectstatic --noinput`. The example configuration and Docker
+image already include the finder. Existing authentication name and image
+settings remain supported. See :doc:`admin/auth` for details.
 
 If you maintain a custom ``SOCIAL_AUTH_PIPELINE`` in :file:`settings.py`, add
 ``social_core.pipeline.social_auth.social_names`` immediately after
