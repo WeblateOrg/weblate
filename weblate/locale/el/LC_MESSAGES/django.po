@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:09+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2233,6 +2233,11 @@ msgstr "Κατά αρχείο"
 msgid "Per author"
 msgstr "Κατά συγγραφέας"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Κατά Γλώσσα"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -3214,6 +3219,14 @@ msgstr "Ένας χρήστης με αυτό το όνομα χρήστη υπ�
 msgid "Cannot change this on a scoped team."
 msgstr "Δεν μπορεί να αλλάξει αυτό σε μια ενσωματωμένη ομάδα."
 
+#, fuzzy
+#| msgid "Inherited flags"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Κληρονομημένοι δείκτες"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
 msgid "You do not have permission to access this component."
 msgstr "Δεν έχετε δικαίωμα πρόσβασης σε αυτό το στοιχείο."
 
@@ -3275,6 +3288,9 @@ msgstr "Το μεταφρασμένο κείμενο είναι πολύ μεγ�
 
 msgid "Your suggestion already exists!"
 msgstr "Η πρότασή σας υπάρχει ήδη!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr "REST API του Weblate"
@@ -6260,6 +6276,9 @@ msgstr ""
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Αρχεία μεταδεδομένων καταστήματος εφαρμογών"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -9314,7 +9333,8 @@ msgstr ""
 
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 
 msgid "HTTP Response"
@@ -9567,14 +9587,10 @@ msgstr "Μη διαθέσιμο"
 msgid "No invoices found."
 msgstr "Δεν βρέθηκαν τιμολόγια."
 
-msgid "Event details"
-msgstr "Λεπτομέρειες συμβάντος"
-
-msgid "Actions"
-msgstr "Ενέργειες"
-
-msgid "Download"
-msgstr "Λήψη"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Προβολή λεπτομερειών"
 
 msgid "Libre hosting"
 msgstr "Ελεύθερη φιλοξενία"
@@ -9609,6 +9625,25 @@ msgstr "Δεν έχουν ανατεθεί έργα επί του παρόντο
 
 msgid "View"
 msgstr "Προβολή"
+
+msgid "Event details"
+msgstr "Λεπτομέρειες συμβάντος"
+
+msgid "Actions"
+msgstr "Ενέργειες"
+
+msgid "Download"
+msgstr "Λήψη"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Δεν βρέθηκαν κείμενα που να ταιριάζουν."
+
+#, fuzzy
+#| msgid "Repository initialization"
+msgid "Audit log pagination"
+msgstr "Αρχικοποίηση αποθετηρίου"
 
 #, fuzzy
 #| msgid "Confirm"
@@ -12177,6 +12212,11 @@ msgstr "Κείμενα πηγής με ετικέτα"
 msgid "Add label"
 msgstr "Προσθήκη ετικέτας"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Λήψη μεταφράσεων ως CSV σε αρχείο ZIP"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "Διαχείριση %(team)s"
@@ -12417,6 +12457,16 @@ msgstr "συμβολοσειρές"
 msgid "words"
 msgstr "λέξεις"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Μαζική επεξεργασία συμβολοσειρών"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Δεν υπάρχουν κείμενα για μετάφραση"
+
 msgid "No matching strings found."
 msgstr "Δεν βρέθηκαν κείμενα που να ταιριάζουν."
 
@@ -12518,10 +12568,23 @@ msgstr ""
 "Αυτό μπορεί να οφείλεται στο γεγονός ότι ορισμένες από τις χρεώσεις σας "
 "είναι ληξιπρόθεσμες ή έχετε υπερβεί τα όρια."
 
+#, fuzzy
+#| msgid "Search in source strings"
+msgid "Select all strings on this page"
+msgstr "Αναζήτηση στα κείμενα προέλευσης"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Κείμενα που επισημάνθηκαν για επεξεργασία"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Μπορείτε να αλλάξετε την κατάσταση όλων των κειμένων που ταιριάζουν με τον "
 "συγκεκριμένο τύπο ταυτόχρονα."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Φίλτρο ποιότητας μετάφρασης"
@@ -12691,6 +12754,16 @@ msgstr "Το URL αποθετηρίου αντιγράφηκε στο πρόχε
 
 msgid "Repository branch"
 msgstr "Κλάδος αποθετηρίου"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Αίτημα έλξης Gitea"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "Το URL αποθετηρίου αντιγράφηκε στο πρόχειρο."
 
 msgid "Last remote commit"
 msgstr "Τελευταία απομακρυσμένη υποβολή"
@@ -13049,6 +13122,11 @@ msgstr "Δημιουργία μετάφρασης"
 
 msgid "Cannot add translation right now"
 msgstr "Δεν είναι δυνατή η προσθήκη μετάφρασης αυτήν τη στιγμή"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Γλώσσα προέλευσης"
 
 msgid "Customized workflow"
 msgstr "Προσαρμοσμένη ροή εργασίας"
@@ -14418,18 +14496,23 @@ msgstr "Οι ακόλουθες μεταφράσεις θα καταργηθού
 msgid "Project language to remove"
 msgstr "Γλώσσα έργου για απομάκρυνση"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Αυτό θα διαγράψει οριστικά την "
 "κατηγορία %(object)s και όλο το σχετικό περιεχόμενο."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 msgid "The following translation components will be removed:"
@@ -14441,19 +14524,37 @@ msgstr "Οι ακόλουθες κατηγορίες μεταφράσεων θα
 msgid "Project to remove"
 msgstr "Έργο για απομάκρυνση"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Αυτό θα διαγράψει οριστικά το "
 "στοιχείο %(object)s και όλο το σχετικό περιεχόμενο."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Στοιχείο για κατάργηση"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Καταλαβαίνω τις συνέπειες, διαγράψτε αυτή τη μετάφραση"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Αυτό θα διαγράψει οριστικά την "
+"κατηγορία %(object)s και όλο το σχετικό περιεχόμενο."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14712,6 +14813,11 @@ msgstr "Ενδιάμεση γλώσσα"
 
 msgid "Explanation"
 msgstr "Επεξήγηση"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Αναφορά προβλήματος με το κείμενο προέλευσης"
@@ -15618,6 +15724,11 @@ msgstr "Επεξεργασία σε λειτουργία μονού κειμέν
 
 msgid "Exit Zen"
 msgstr "Έξοδος Ζεν"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Προτάσεις"
 
 #, fuzzy
 #| msgid "Rescan all translation files in the Weblate repository"
@@ -16913,6 +17024,11 @@ msgstr "Προηγούμενη μετάφραση"
 msgid "State: %(state)s"
 msgstr "Κατάσταση: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Προηγούμενη ενότητα"
+
 msgid "Suggestions pending"
 msgstr "Εκκρεμούν προτάσεις"
 
@@ -18020,6 +18136,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Δεν έχετε δικαίωμα δημιουργίας ορολογίας."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Μη έγκυρη πρόταση!"
+
 msgid "State to set"
 msgstr "Κατάσταση που θα οριστεί"
 
@@ -18060,6 +18181,9 @@ msgstr "Για όλες τις γλώσσες"
 msgid "Labels to remove — all languages"
 msgstr "Ετικέτες για κατάργηση"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 #, fuzzy
 #| msgid "I accept the contributor agreement"
 msgid "I accept the contributor license agreement"
@@ -18081,8 +18205,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Κανένα κείμενο δεν εισήχθει από το αρχείου που εστάλει."
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the full slug of the component to confirm."
@@ -18092,6 +18217,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Πληκτρολογήστε το πλήρες σύντομο όνομα του έργου για επιβεβαίωση."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 msgid "Please type in the slug of the category to confirm."
@@ -18295,6 +18426,22 @@ msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Πρόσθετοι δείκτες χωρισμένοι με κόμμα για να επηρεάσετε τη συμπεριφορά του "
 "Weblate."
+
+msgid "Enforced checks"
+msgstr "Επιβεβλημένοι έλεγχοι"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Κατάλογος ελέγχων που δεν μπορούν να παραβλεφθούν."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Αχρησιμοποίητοι επιβεβλημένοι έλεγχοι."
+
+#, fuzzy
+#| msgid "Navigate to the first translation in the current search."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Πλοήγηση στην πρώτη μετάφραση της τρέχουσας αναζήτησης."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -18601,6 +18748,27 @@ msgstr ""
 "όνομα αρχείου και γραμμής. Μπορεί να θέλετε να αφαιρέσετε τον κύριο κατάλογο "
 "χρησιμοποιώντας {{filename|parentdir}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Κλάδος αποθετηρίου για μετάφραση"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Σύνδεσμος προς το πρόγραμμα περιήγησης αποθετηρίου, χρησιμοποιήστε τα "
+"{{branch}} για τον κλάδο, {{filename}} και {{line}} ως σύμβολα θέσης για το "
+"όνομα αρχείου και γραμμής. Μπορεί να θέλετε να αφαιρέσετε τον κύριο κατάλογο "
+"χρησιμοποιώντας {{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL εξαγόμενου αποθετηρίου"
 
@@ -18745,11 +18913,8 @@ msgstr ""
 "Αυτόματη αποδοχή προτάσεων με αυτόν τον αριθμό ψήφων, χρησιμοποιήστε 0 για "
 "να το απενεργοποιήσετε."
 
-msgid "Enforced checks"
-msgstr "Επιβεβλημένοι έλεγχοι"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Κατάλογος ελέγχων που δεν μπορούν να παραβλεφθούν."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr ""
 
 #, fuzzy
 #| msgid "Navigate to the first translation in the current search."
@@ -19433,6 +19598,11 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Αχρησιμοποίητοι επιβεβλημένοι έλεγχοι."
+
+#, fuzzy
 #| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
 msgstr "Η μετάφραση θα ενημερώνεται στο παρασκήνιο."
@@ -19733,6 +19903,11 @@ msgstr "Σημείωση ως ορολογία"
 msgid "Unmark as terminology for all languages"
 msgstr "Αναίρεση σημείωσης ως ορολογία"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -19740,6 +19915,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Πληκτρολογήστε το πλήρες σύντομο όνομα του έργου για επιβεβαίωση."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Η δεδομένη γλώσσα υπάρχει ήδη."
+
+#, fuzzy
+#| msgid "New language added to %(component)s"
+msgid "Select a source language in a project workflow."
+msgstr "Προστέθηκε νέα γλώσσα στο %(component)s"
+
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "The source language must exist in this project."
+msgstr "Ο χρήστης έχει αποκλειστεί σε αυτό το έργο."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Κείμενο γλώσσας προέλευσης"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -20116,6 +20316,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Δεν ήταν δυνατή η ανάλυση των δεικτών: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Επιβεβλημένοι έλεγχοι"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Αχρησιμοποίητοι επιβεβλημένοι έλεγχοι."
 
 #, python-format
 msgid ""

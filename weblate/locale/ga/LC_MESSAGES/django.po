@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 10:40+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
@@ -22,8 +22,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
-"6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
+"(n>6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 2026.10.dev0\n"
 
 msgctxt "No known user"
@@ -2193,6 +2193,11 @@ msgstr "In aghaidh an chomhaid"
 msgid "Per author"
 msgstr "De réir an údair"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "In aghaidh an teanga"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Leantóirí a chur i gceangal leis an teachtaireacht cimithe brúite"
 
@@ -3070,6 +3075,16 @@ msgstr "Tá foireann leis an ainm seo ann cheana féin sa spás oibre seo."
 msgid "Cannot change this on a scoped team."
 msgstr "Ní féidir é seo a athrú ar fhoireann raon feidhme."
 
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Oidhreacht ón spás oibre"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "Roghnaigh tionscadal nó spás oibre."
+
 msgid "You do not have permission to access this component."
 msgstr "Níl cead agat an chomhpháirt seo a rochtain."
 
@@ -3123,6 +3138,11 @@ msgstr "Téacs aistriúcháin rófhada!"
 
 msgid "Your suggestion already exists!"
 msgstr "Tá do mholadh ann cheana féin!"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "Roghnaigh tionscadal nó spás oibre."
 
 msgid "Weblate's REST API"
 msgstr "API REST Weblate"
@@ -5914,6 +5934,9 @@ msgstr "Ba chóir go mbeadh eolaire le comhaid meiteashonraí!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Comhaid meiteashonraí ó App Store"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8985,9 +9008,14 @@ msgid ""
 msgstr ""
 "Déanfar gealltanais Weblate ó chomhpháirteanna laistigh den stór seo a bhrú."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Coimeádtar na bunteachtaireachtaí gealltanais, ach cailltear an t-údaracht "
 "mura roghnaítear \"In aghaidh an údair\" nó má dhéantar an teachtaireacht "
@@ -9233,14 +9261,10 @@ msgstr "Níl sé ar fáil"
 msgid "No invoices found."
 msgstr "Níor aimsíodh aon sonraisc."
 
-msgid "Event details"
-msgstr "Sonraí an imeachta"
-
-msgid "Actions"
-msgstr "Gníomhartha"
-
-msgid "Download"
-msgstr "Íoslódáil"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Féach ar na sonraí"
 
 msgid "Libre hosting"
 msgstr "Óstáil saor in aisce"
@@ -9275,6 +9299,25 @@ msgstr "Níl aon tionscadal sannta faoi láthair!"
 
 msgid "View"
 msgstr "Amharc"
+
+msgid "Event details"
+msgstr "Sonraí an imeachta"
+
+msgid "Actions"
+msgstr "Gníomhartha"
+
+msgid "Download"
+msgstr "Íoslódáil"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Níor aimsíodh aon teaghráin mheaitseála."
+
+#, fuzzy
+#| msgid "Report history pagination"
+msgid "Audit log pagination"
+msgstr "Leathanachú staire tuairiscithe"
 
 msgid "Confirm merge"
 msgstr "Deimhnigh an cumasc"
@@ -11845,6 +11888,11 @@ msgstr "Teaghráin foinse lipéadaithe"
 msgid "Add label"
 msgstr "Cuir lipéad leis"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Íoslódáil aistriúcháin mar CSV i gcomhad ZIP"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "Bainistigh %(team)s"
@@ -12054,6 +12102,16 @@ msgstr "teaghráin"
 msgid "words"
 msgstr "focail"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Teaghráin eagarthóireachta mórchóir"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Níl aon teaghráin le haistriú"
+
 msgid "No matching strings found."
 msgstr "Níor aimsíodh aon teaghráin mheaitseála."
 
@@ -12148,10 +12206,23 @@ msgstr ""
 "D'fhéadfadh sé seo a bheith mar gheall go bhfuil cuid de do bhillí thar an "
 "dáta dlite nó os cionn teorainneacha."
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "Roghnaigh na teaghráin foinse go léir"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Teaghráin marcáilte le haghaidh eagarthóireachta"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Is féidir leat staid gach teaghráin a mheaitseálann an cineál tugtha a athrú "
 "láithreach."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Scagaire cáilíochta aistriúcháin"
@@ -12322,6 +12393,16 @@ msgstr "Cóipeáladh URL an taisc chuig an ngearrthaisce."
 
 msgid "Repository branch"
 msgstr "Brainse stór"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Iarratas tarraingt Gitea"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "Cóipeáladh URL an taisc chuig an ngearrthaisce."
 
 msgid "Last remote commit"
 msgstr "Tiomantas cianda deiridh"
@@ -12681,6 +12762,11 @@ msgstr "Cruthaigh aistriúchán"
 
 msgid "Cannot add translation right now"
 msgstr "Ní féidir an t-aistriúchán a chur leis faoi láthair"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Teanga foinse"
 
 msgid "Customized workflow"
 msgstr "Sreabhadh oibre saincheaptha"
@@ -14079,18 +14165,28 @@ msgstr "Bainfear na haistriúcháin seo a leanas:"
 msgid "Project language to remove"
 msgstr "Teanga tionscadail le baint"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Ní féidir an gníomh seo a chealú. Scriosfaidh sé seo an chatagóir %(object)s "
 "agus gach ábhar gaolmhar go buan."
 
+#, fuzzy
+#| msgid ""
+#| "If this action removes restricted components, retained translation memory "
+#| "from them will become available according to the project and workspace "
+#| "translation memory access rules unless you also delete it."
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 "Má bhaineann an gníomh seo comhpháirteanna srianta, beidh cuimhne "
 "aistriúcháin coinnithe uathu ar fáil de réir rialacha rochtana cuimhne "
@@ -14105,19 +14201,37 @@ msgstr "Bainfear na catagóirí aistriúcháin seo a leanas:"
 msgid "Project to remove"
 msgstr "Tionscadal le baint"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Ní féidir an gníomh seo a chealú. Scriosfaidh sé seo comhpháirt %(object)s "
 "agus gach ábhar gaolmhar go buan."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Comhpháirt le baint"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Tuigim na hiarmhairtí, scrios an t-aistriúchán seo"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Ní féidir an gníomh seo a chealú. Scriosfaidh sé seo an chatagóir %(object)s "
+"agus gach ábhar gaolmhar go buan."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -14402,6 +14516,11 @@ msgstr "Teanga idirmheánach"
 
 msgid "Explanation"
 msgstr "Míniú"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Tuairiscigh saincheist leis an teaghrán foinse"
@@ -15321,6 +15440,11 @@ msgstr "Cuir in eagar i mód teaghrán singil"
 
 msgid "Exit Zen"
 msgstr "Scoir Zen"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Moltaí"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "Sioncrónaíodh comhad aistriúcháin lena stór."
@@ -16385,6 +16509,11 @@ msgstr "Aistriúchán roimhe seo"
 msgid "State: %(state)s"
 msgstr "Stát: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Alt roimhe seo"
+
 msgid "Suggestions pending"
 msgstr "Moltaí ar feitheamh"
 
@@ -17445,6 +17574,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Níl cead agat téarmaíocht a chruthú."
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid string selection!"
+msgstr "Rogha neamhbhailí colún liostála."
+
 msgid "State to set"
 msgstr "Luaigh a shocrú"
 
@@ -17485,6 +17619,9 @@ msgstr "Do gach teanga"
 msgid "Labels to remove — all languages"
 msgstr "Lipéid le baint"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Glacaim leis an gcomhaontú ceadúnais ranníocóra"
 
@@ -17500,9 +17637,14 @@ msgstr "Clóscríobh isteach sluga iomlán an aistriúcháin le deimhniú."
 msgid "Delete translation memory created from this component"
 msgstr "Scrios cuimhne aistriúcháin a cruthaíodh ón gcomhpháirt seo"
 
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 "Scriosfar iontrálacha tionscadail, spás oibre agus cuimhne aistriúcháin "
 "chomhroinnte. Coinneofar iontrálacha pearsanta agus iontrálacha uaslódáilte."
@@ -17516,6 +17658,18 @@ msgstr "Clóscríobh isteach sluga an tionscadail le deimhniú le do thoil."
 msgid "Delete translation memory created from components in this category"
 msgstr ""
 "Scrios cuimhne aistriúcháin a cruthaíodh ó chomhpháirteanna sa chatagóir seo"
+
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"Scriosfar iontrálacha tionscadail, spás oibre agus cuimhne aistriúcháin "
+"chomhroinnte. Coinneofar iontrálacha pearsanta agus iontrálacha uaslódáilte."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Clóscríobh isteach sluga an chatagóir le deimhniú le do thoil."
@@ -17726,6 +17880,25 @@ msgstr "Bratacha aistriúcháin"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Bratacha breise camóg-scartha chun tionchar a imirt ar iompar Weblate."
+
+msgid "Enforced checks"
+msgstr "Seiceálacha forfheidhmithe"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Liosta seiceálacha nach féidir a dhíbhe."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Seiceálacha forfheidhmithe nár úsáideadh."
+
+#, fuzzy
+#| msgid ""
+#| "Use the translation license configured in the parent category or project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Bain úsáid as an gceadúnas aistriúcháin atá cumraithe sa chatagóir nó sa "
+"tionscadal tuismitheora."
 
 msgid "Inherit translation license"
 msgstr "Ceadúnas aistriúcháin a oidhreacht"
@@ -18004,6 +18177,27 @@ msgstr ""
 "líne. Seans gur mhaith leat an t-eolaire tosaigh a bhaint de trí úsáid a "
 "bhaint as {{filename|parentdir}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Brainse stórtha le haistriú"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Nasc le brabhsálaí an taisclainne, bain úsáid as {{branch}} le haghaidh "
+"brainse, {{filename}} agus {{line}} mar ainm comhaid agus sealbhóirí áite "
+"líne. Seans gur mhaith leat an t-eolaire tosaigh a bhaint de trí úsáid a "
+"bhaint as {{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "URL stórtha easpórtáilte"
 
@@ -18143,11 +18337,10 @@ msgstr ""
 "Glac le moltaí leis an líon vótaí seo go huathoibríoch, bain úsáid as 0 chun "
 "é a chasadh as."
 
-msgid "Enforced checks"
-msgstr "Seiceálacha forfheidhmithe"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Liosta seiceálacha nach féidir a dhíbhe."
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "Roghnaigh tionscadal nó spás oibre."
 
 msgid "Use the translation license configured in the category or project."
 msgstr ""
@@ -18929,6 +19122,11 @@ msgstr ""
 "Liosta de na mapálacha cóid teanga idirscartha, mar shampla: "
 "en_GB:ga,en_US:ga"
 
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Seiceálacha forfheidhmithe nár úsáideadh."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "Bain úsáid as an gceadúnas aistriúcháin atá cumraithe sa spás oibre."
 
@@ -19202,6 +19400,11 @@ msgstr "Marcáil mar théarmaíocht"
 msgid "Unmark as terminology for all languages"
 msgstr "Dímharcáil mar théarmaíocht"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr "Srian a chur ar eagarthóireacht dhíreach"
 
@@ -19211,6 +19414,32 @@ msgid ""
 msgstr ""
 "Ní féidir ach le húsáideoirí a bhfuil an cead “Cuir teaghrán in eagar nuair "
 "a chuirtear moltaí i bhfeidhm” acu athruithe díreacha a dhéanamh."
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Clóscríobh isteach sluga an tionscadail le deimhniú le do thoil."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Tá an teanga tugtha ann cheana féin."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Teanga thánaisteach atá sainmhínithe sa tionscadal nó sa chomhpháirt"
+
+#, fuzzy
+#| msgid "The user is not watching this project."
+msgid "The source language must exist in this project."
+msgstr "Níl an t-úsáideoir ag faire ar an tionscadal seo."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Téacs teanga foinse"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -19585,6 +19814,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Níorbh fhéidir bratacha a pharsáil: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Seiceálacha forfheidhmithe"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Seiceálacha forfheidhmithe nár úsáideadh."
 
 #, python-format
 msgid ""

@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-10-01 06:17+0000\n"
 "Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
@@ -2105,6 +2105,11 @@ msgstr "Podle souboru"
 msgid "Per author"
 msgstr "Podle autora"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Podle jazyka"
+
 msgid "Append trailers to squashed commit message"
 msgstr "Přidat přílepky ke zprávě sloučeného zápisu"
 
@@ -2958,6 +2963,16 @@ msgstr "V tomto pracovním prostoru již existuje tým s tímto názvem."
 msgid "Cannot change this on a scoped team."
 msgstr "V týmu s omezeným rozsahem toto nelze změnit."
 
+#, fuzzy
+#| msgid "Inherit from workspace"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Zdědit z pracovního prostoru"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr "Vyberte si buď projekt, nebo pracovní prostor."
+
 msgid "You do not have permission to access this component."
 msgstr "Nemáte oprávnění k přístupu k této součásti."
 
@@ -3011,6 +3026,11 @@ msgstr "Text překladu je příliš dlouhý!"
 
 msgid "Your suggestion already exists!"
 msgstr "Váš návrh už existuje!"
+
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr "Vyberte si buď projekt, nebo pracovní prostor."
 
 msgid "Weblate's REST API"
 msgstr "REST API Weblate"
@@ -5740,6 +5760,9 @@ msgstr "Mělo by být adresářem se soubory metadat!"
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Soubory metadat pro aplikační obchody"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -8671,9 +8694,14 @@ msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr "Zápisy Weblate ze součástí v tomto repozitáři budou sloučeny."
 
+#, fuzzy
+#| msgid ""
+#| "Original commit messages are kept, but authorship is lost unless \"Per "
+#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Původní zprávy commitů budou zachovány, ale autorství bude ztraceno, pokud "
 "není vybrána možnost „Podle autora“ nebo pokud není zpráva commitu upravena "
@@ -8918,14 +8946,10 @@ msgstr "Není dostupná"
 msgid "No invoices found."
 msgstr "Nebyly nalezeny žádné faktury."
 
-msgid "Event details"
-msgstr "Podrobnosti o události"
-
-msgid "Actions"
-msgstr "Akce"
-
-msgid "Download"
-msgstr "Stáhnout"
+#, fuzzy
+#| msgid "View details"
+msgid "View all"
+msgstr "Zobrazit podrobnosti"
 
 msgid "Libre hosting"
 msgstr "Svobodné hostování"
@@ -8960,6 +8984,25 @@ msgstr "V tuto chvíli nejsou přiřazené žádné projekty!"
 
 msgid "View"
 msgstr "Zobrazit"
+
+msgid "Event details"
+msgstr "Podrobnosti o události"
+
+msgid "Actions"
+msgstr "Akce"
+
+msgid "Download"
+msgstr "Stáhnout"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Nenalezeny žádné odpovídající řetězce."
+
+#, fuzzy
+#| msgid "Report history pagination"
+msgid "Audit log pagination"
+msgstr "Stránkování historie zpráv"
 
 msgid "Confirm merge"
 msgstr "Potvrdit sloučení"
@@ -11393,6 +11436,11 @@ msgstr "Zdrojové řetězce se štítky"
 msgid "Add label"
 msgstr "Přidat štítek"
 
+#, fuzzy, python-format
+#| msgid "Download translations as CSV in a ZIP file"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Stáhnout překlady jako CSV v souboru ZIP"
+
 #, python-format
 msgid "Manage %(team)s"
 msgstr "Spravovat %(team)s"
@@ -11595,6 +11643,16 @@ msgstr "řetězců"
 msgid "words"
 msgstr "slov"
 
+#, fuzzy
+#| msgid "Bulk edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Hromadně upravit řetězce"
+
+#, fuzzy
+#| msgid "No strings to translate"
+msgid "No strings selected"
+msgstr "Žádné řetězce k překladu"
+
 msgid "No matching strings found."
 msgstr "Nenalezeny žádné odpovídající řetězce."
 
@@ -11685,8 +11743,21 @@ msgid ""
 msgstr ""
 "Toto může být způsobeno předplatném po splatnosti nebo překročenými limity."
 
+#, fuzzy
+#| msgid "Select all source strings"
+msgid "Select all strings on this page"
+msgstr "Vybrat všechny zdrojové řetězce"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Řetězce označené pro úpravu"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr "Je možné změnit stav všech řetězců odpovídajícího typu naráz."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 msgid "Translation quality filter"
 msgstr "Filtr kvality překladů"
@@ -11838,6 +11909,16 @@ msgstr "Adresa URL repozitáře zkopírována do schránky."
 
 msgid "Repository branch"
 msgstr "Větev repozitáře"
+
+#, fuzzy
+#| msgid "Gitea pull request"
+msgid "Pull request"
+msgstr "Gitea požadavek na začlenění"
+
+#, fuzzy
+#| msgid "Repository URL copied to clipboard."
+msgid "Pull request URL copied to clipboard."
+msgstr "Adresa URL repozitáře zkopírována do schránky."
 
 msgid "Last remote commit"
 msgstr "Poslední zápis vzdáleného repozitáře"
@@ -12186,6 +12267,11 @@ msgstr "Vytvořit překlad"
 
 msgid "Cannot add translation right now"
 msgstr "V tuto chvíli se nepodařilo přidat překlad"
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Jazyk zdroje"
 
 msgid "Customized workflow"
 msgstr "Přizpůsobený workflow"
@@ -13536,18 +13622,28 @@ msgstr "Následující překlady budou smazány:"
 msgid "Project language to remove"
 msgstr "Jazyk projektu k odstranění"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "category and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Tato akce je nevratná. Chystáte se trvale vymazat kategorii %(object)s a "
 "všechen související obsah."
 
+#, fuzzy
+#| msgid ""
+#| "If this action removes restricted components, retained translation memory "
+#| "from them will become available according to the project and workspace "
+#| "translation memory access rules unless you also delete it."
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 "Pokud tato akce odebere omezené součástí, podržená překladová paměť z nich "
 "se stane dostupnou podle přístupových pravidel překladové paměti projektu a "
@@ -13562,19 +13658,37 @@ msgstr "Následující kategorie překladů budou smazány:"
 msgid "Project to remove"
 msgstr "Projekt k odstranění"
 
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the %(object)s "
+#| "component and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Tato akce nelze vzít zpět. Trvale vymaže součást %(object)s a související "
 "obsah."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 msgid "Component to remove"
 msgstr "Součást k odstranění"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Rozumím důsledkům, smazat tento překlad"
+
+#, python-format
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Tato akce je nevratná. Chystáte se trvale vymazat kategorii %(object)s a "
+"všechen související obsah."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -13842,6 +13956,11 @@ msgstr "Zprostředkující jazyk"
 
 msgid "Explanation"
 msgstr "Vysvětlení"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 msgid "Report issue with the source string"
 msgstr "Nahlásit problém se zdrojovým řetězcem"
@@ -14727,6 +14846,11 @@ msgstr "Upravit v režimu s jedním řetezcem"
 
 msgid "Exit Zen"
 msgstr "Ukončit Zen"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Návrhy"
 
 msgid "A translation file was synchronized with its repository."
 msgstr "Překladový soubor byl synchronizován s příslušným repozitářem."
@@ -15772,6 +15896,11 @@ msgstr "Předchozí překlad"
 msgid "State: %(state)s"
 msgstr "Stav: %(state)s"
 
+#, fuzzy
+#| msgid "Previous section"
+msgid "Previous source"
+msgstr "Předchozí sekce"
+
 msgid "Suggestions pending"
 msgstr "Návrhy v řešení"
 
@@ -16800,6 +16929,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Nemáte oprávnění k vytváření terminologie."
 
+#, fuzzy
+#| msgid "Invalid listing column selection."
+msgid "Invalid string selection!"
+msgstr "Neplatný výběr sloupců v seznamu."
+
 msgid "State to set"
 msgstr "Stav který nastavit"
 
@@ -16840,6 +16974,9 @@ msgstr "Pro všechny jazyky"
 msgid "Labels to remove — all languages"
 msgstr "Odebrat štítky"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 msgid "I accept the contributor license agreement"
 msgstr "Souhlasím s licenční smlouvou s přispěvateli"
 
@@ -16855,9 +16992,14 @@ msgstr "Pro potvrzení, prosím, zadejte celý název překladu."
 msgid "Delete translation memory created from this component"
 msgstr "Smazat překladovou paměť vytvořenou z této součásti"
 
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 "Projekt, pracovní prostor a položky sdílení překladové paměti budou smazány. "
 "Osobní a nahrané položky budou zachovány."
@@ -16870,6 +17012,18 @@ msgstr "Pro potvrzení, prosím, zadejte název projektu."
 
 msgid "Delete translation memory created from components in this category"
 msgstr "Smazat překladovou paměť vytvořenou ze součástí v této kategorii"
+
+#, fuzzy
+#| msgid ""
+#| "Project, workspace, and shared translation memory entries will be "
+#| "deleted. Personal and uploaded entries will be preserved."
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
+msgstr ""
+"Projekt, pracovní prostor a položky sdílení překladové paměti budou smazány. "
+"Osobní a nahrané položky budou zachovány."
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Pro potvrzení zadejte zkratku kategorie."
@@ -17067,6 +17221,24 @@ msgstr "Příznaky překladu"
 
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Další čárkou oddělené značky pro ovlivnění chování Weblate."
+
+msgid "Enforced checks"
+msgstr "Vynucené kontroly"
+
+msgid "List of checks which can not be dismissed."
+msgstr "Seznam kontrol, které nemohou být zahozeny."
+
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Inherit enforced checks"
+msgstr "Nepoužité vynucené kontroly."
+
+#, fuzzy
+#| msgid ""
+#| "Use the translation license configured in the parent category or project."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr ""
+"Použijte překladovou licenci nastavenou v nadřazené kategorii nebo projektu."
 
 msgid "Inherit translation license"
 msgstr "Převezmout licenci k překladu"
@@ -17328,6 +17500,26 @@ msgstr ""
 "{{line}} místo názvu souboru a řádku. Možná budete potřebovat odstranit "
 "úvodní adresář pomocí {{filename|parentdir}}."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Větev repozitáře k překladu"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders. You might want to strip "
+#| "leading directory by using {{filename|parentdir}}."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Odkaz na prohlížení Gitu, použijte {{branch}} místo větve, {{filename}} a "
+"{{line}} místo názvu souboru a řádku. Možná budete potřebovat odstranit "
+"úvodní adresář pomocí {{filename|parentdir}}."
+
 msgid "Exported repository URL"
 msgstr "Adresa exportovaného repozitáře"
 
@@ -17460,11 +17652,10 @@ msgstr ""
 "Automaticky přijímat návrhy pokud získají tento počet hlasů, nastavte 0 pro "
 "vypnutí."
 
-msgid "Enforced checks"
-msgstr "Vynucené kontroly"
-
-msgid "List of checks which can not be dismissed."
-msgstr "Seznam kontrol, které nemohou být zahozeny."
+#, fuzzy
+#| msgid "Choose either a project or a workspace."
+msgid "Use enforced checks from the project, category or workspace."
+msgstr "Vyberte si buď projekt, nebo pracovní prostor."
 
 msgid "Use the translation license configured in the category or project."
 msgstr ""
@@ -18160,6 +18351,11 @@ msgstr ""
 "Seznam mapování jazykových kódů oddělených čárkami, například: "
 "en_GB:en,en_US:en"
 
+#, fuzzy
+#| msgid "Unused enforced checks."
+msgid "Use enforced checks from the workspace."
+msgstr "Nepoužité vynucené kontroly."
+
 msgid "Use the translation license configured in the workspace."
 msgstr "Použijte překladovou licenci nakonfigurovanou v pracovním prostoru."
 
@@ -18426,6 +18622,11 @@ msgstr "Označit jako terminologii"
 msgid "Unmark as terminology for all languages"
 msgstr "Zrušit označení jako terminologie"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr "Omezit přímé úpravy"
 
@@ -18435,6 +18636,32 @@ msgid ""
 msgstr ""
 "Přímé změny mohou provádět pouze uživatelé s oprávněním „Upravit řetězec při "
 "vynucení návrhů“."
+
+#, fuzzy
+#| msgid "Please type in the slug of the project to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Pro potvrzení, prosím, zadejte název projektu."
+
+#, fuzzy
+#| msgid "The given language already exists."
+msgid "This language already has a project workflow."
+msgstr "Daný jazyk již existuje."
+
+#, fuzzy
+#| msgctxt "Source language selection"
+#| msgid "Secondary language defined in project or component"
+msgid "Select a source language in a project workflow."
+msgstr "Alternativní jazyk zvolený v projektu nebo v součásti"
+
+#, fuzzy
+#| msgid "The user is not watching this project."
+msgid "The source language must exist in this project."
+msgstr "Uživatel tento projekt nesleduje."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Text ve zdrojovém jazyce"
 
 #, fuzzy
 #| msgid "The source string cannot be edited."
@@ -18772,6 +18999,16 @@ msgstr ""
 #, python-format
 msgid "Could not parse flags: %s"
 msgstr "Nepodařilo se zpracovat příznaky: %s"
+
+#, fuzzy
+#| msgid "Enforced checks"
+msgid "Enforced checks has to be a list."
+msgstr "Vynucené kontroly"
+
+#, fuzzy, python-format
+#| msgid "Unused enforced checks."
+msgid "Unsupported enforced check: %s"
+msgstr "Nepoužité vynucené kontroly."
 
 #, python-format
 msgid ""

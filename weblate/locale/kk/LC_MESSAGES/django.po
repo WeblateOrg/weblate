@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-09-24 21:33-0500\n"
+"POT-Creation-Date: 2026-10-02 05:19-0500\n"
 "PO-Revision-Date: 2026-09-25 04:10+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -2495,6 +2495,11 @@ msgstr "Faıl boıynsha"
 msgid "Per author"
 msgstr "Avtor boıynsha"
 
+#, fuzzy
+#| msgid "Per language"
+msgid "Per author and language"
+msgstr "Til boıynsha"
+
 msgid "Append trailers to squashed commit message"
 msgstr ""
 
@@ -3508,6 +3513,14 @@ msgid "Cannot change this on a scoped team."
 msgstr "Demo úshin túpnusqalyq rastamasyn ózgertý múmkin emes!"
 
 #, fuzzy
+#| msgid "Add new word"
+msgid "Inherit enforced checks from the workspace."
+msgstr "Jańa sóz ústeý"
+
+msgid "Inherit enforced checks from the project, category or workspace."
+msgstr ""
+
+#, fuzzy
 #| msgid "You do not have permission to access this component!"
 msgid "You do not have permission to access this component."
 msgstr "Bul quramdasqa qatynaý ruqsatyńyz joq!"
@@ -3584,6 +3597,9 @@ msgstr "Tárjimelelik mátin tym uzyn!"
 
 msgid "Your suggestion already exists!"
 msgstr "Usynysyńyz áldeqashan bar!"
+
+msgid "Inherit enforced checks from the parent category, project or workspace."
+msgstr ""
 
 msgid "Weblate's REST API"
 msgstr ""
@@ -6921,6 +6937,9 @@ msgstr ""
 #. Translators: File format name
 msgid "App store metadata files"
 msgstr "Qoldanba dúkeniniń metaderek faıldary"
+
+msgid "File validation is required for directory-based formats."
+msgstr ""
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -10260,7 +10279,8 @@ msgstr ""
 #| "the commit message to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
-"author\" is selected or the commit message is customized to include it."
+"author\" or \"Per author and language\" is selected, or the commit message "
+"is customized to include it."
 msgstr ""
 "Nátıjesinde komıtter barlyq túpnusqalyq komıt habarlaryn qamtıdy, biraq, "
 "eger bolmasa «Avtor boıynsha» tańdamaı nemese komıt habaryn teńshemeı, "
@@ -10566,14 +10586,8 @@ msgstr "Invoıstar tabylmady."
 
 #, fuzzy
 #| msgid "Check details"
-msgid "Event details"
+msgid "View all"
 msgstr "Tekserý egjeıleri"
-
-msgid "Actions"
-msgstr "Áreketter"
-
-msgid "Download"
-msgstr "Júktep alý"
 
 #, fuzzy
 #| msgid "View hosting plans"
@@ -10616,6 +10630,27 @@ msgstr "Aǵymda eshqandaı taǵaıyndalǵan joba joq!"
 
 msgid "View"
 msgstr "Kórinis"
+
+#, fuzzy
+#| msgid "Check details"
+msgid "Event details"
+msgstr "Tekserý egjeıleri"
+
+msgid "Actions"
+msgstr "Áreketter"
+
+msgid "Download"
+msgstr "Júktep alý"
+
+#, fuzzy
+#| msgid "No matching strings found."
+msgid "No audit log entries found."
+msgstr "Sáıkes joldar tabylmady."
+
+#, fuzzy
+#| msgid "Repository maintenance"
+msgid "Audit log pagination"
+msgstr "Repozıtorıǵa qyzmet kórsetý"
 
 #, fuzzy
 #| msgid "Configure"
@@ -13508,6 +13543,11 @@ msgid "Add label"
 msgstr "Ústelgen til:"
 
 #, fuzzy, python-format
+#| msgid "Download original translation file (%(format)s)"
+msgid "Download translations as %(format_name)s in a ZIP file"
+msgstr "Tárjimelik faıl túpnusqasyn júktep alý (%(format)s)"
+
+#, fuzzy, python-format
 #| msgid "Manage users"
 msgid "Manage %(team)s"
 msgstr "Paıdalanushylardy basqarý"
@@ -13766,6 +13806,16 @@ msgstr "Joldar"
 msgid "words"
 msgstr "Sózder"
 
+#, fuzzy
+#| msgid "Edit strings"
+msgid "Bulk edit selected strings"
+msgstr "Joldardy óńdeý"
+
+#, fuzzy
+#| msgid "New string to translate"
+msgid "No strings selected"
+msgstr "Jańa tárjimelenetin jol"
+
 msgid "No matching strings found."
 msgstr "Sáıkes joldar tabylmady."
 
@@ -13888,9 +13938,22 @@ msgstr ""
 "Bul jetispeıtin jazylymdan, nemese keıbir shottaryńyz tólem merzimin ótkizip "
 "alynǵandan, nemese shekten asyp ketkenden týyndaýy múmkin."
 
+#, fuzzy
+#| msgid "Edit source strings"
+msgid "Select all strings on this page"
+msgstr "Qaınar joldaryn óńdeý"
+
+#, fuzzy
+#| msgid "Strings marked for edit"
+msgid "Select string for bulk edit"
+msgstr "Óńdeýge belgilengen joldar"
+
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Berilgen túrge sáıkes keletin barlyq joldardyń kúıin birden ózgertýge bolady."
+
+msgid "The operation is applied to the strings selected in the list above."
+msgstr ""
 
 #, fuzzy
 #| msgid "Translation file"
@@ -14061,6 +14124,16 @@ msgid "Repository URL copied to clipboard."
 msgstr "Repozıtorı tarmaǵy"
 
 msgid "Repository branch"
+msgstr "Repozıtorı tarmaǵy"
+
+#, fuzzy
+#| msgid "Invalid merge request!"
+msgid "Pull request"
+msgstr "Biriktirý saýaly jaramsyz!"
+
+#, fuzzy
+#| msgid "Repository branch"
+msgid "Pull request URL copied to clipboard."
 msgstr "Repozıtorı tarmaǵy"
 
 #, fuzzy
@@ -14493,6 +14566,11 @@ msgstr "Weblate tárjimeleri"
 #| msgid "Could not add new translation file."
 msgid "Cannot add translation right now"
 msgstr "Jańa tárjimelik faılyn ústeý múmkin emes."
+
+#, fuzzy, python-format
+#| msgid "Source language"
+msgid "Source: %(language)s"
+msgstr "Qaınar tili"
 
 #, fuzzy
 #| msgid "Customize download"
@@ -15927,15 +16005,17 @@ msgstr "Joba alastaldy."
 #| "translation and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"category and all related content."
+"category and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Bul áreketti qaıtarý múmkin emes. Bul {} tárjimesin jáne barlyq qatysty "
 "mazmunyn birjolata joıady."
 
 msgid ""
-"If this action removes restricted components, retained translation memory "
-"from them will become available according to the project and workspace "
-"translation memory access rules unless you also delete it."
+"Translation memory is retained by default. If this category contains "
+"restricted components, retained entries from them might become visible to "
+"other project or workspace members. Select the translation memory deletion "
+"option below to remove these entries."
 msgstr ""
 
 #, fuzzy
@@ -15959,10 +16039,17 @@ msgstr "Joba alastaldy."
 #| "translation and all related content."
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
-"component and all related content."
+"component and its directly related content. Translation memory is handled "
+"separately below."
 msgstr ""
 "Bul áreketti qaıtarý múmkin emes. Bul {} tárjimesin jáne barlyq qatysty "
 "mazmunyn birjolata joıady."
+
+msgid ""
+"Translation memory is retained by default. If this component is restricted, "
+"retained entries might become visible to other project or workspace members. "
+"Select the translation memory deletion option below to remove these entries."
+msgstr ""
 
 #, fuzzy
 #| msgid "Component list name"
@@ -15971,6 +16058,17 @@ msgstr "Quramdas tiziminiń aty"
 
 msgid "I understand the consequences, delete this translation"
 msgstr "Men saldaryn túsinemin, osy tárjime joıylsyn"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "This action cannot be undone. This will permanently delete the {} "
+#| "translation and all related content."
+msgid ""
+"This action cannot be undone. This will permanently delete the %(object)s "
+"category and all related content."
+msgstr ""
+"Bul áreketti qaıtarý múmkin emes. Bul {} tárjimesin jáne barlyq qatysty "
+"mazmunyn birjolata joıady."
 
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
@@ -16259,6 +16357,11 @@ msgstr "Interfeıs tili"
 #| msgid "Translation"
 msgid "Explanation"
 msgstr "Tárjime"
+
+msgid ""
+"The configured source string is missing. Translation is blocked until it "
+"becomes available."
+msgstr ""
 
 #, fuzzy
 #| msgid "Report an issue with registration"
@@ -17254,6 +17357,11 @@ msgstr "Bir joldyq rejimde óńdeý"
 
 msgid "Exit Zen"
 msgstr "Zen-den shyǵý"
+
+#, fuzzy
+#| msgid "Suggestions"
+msgid "Show suggestions"
+msgstr "Usynystar"
 
 #, fuzzy
 #| msgid "Cleanup all untracked files in the local repository"
@@ -18749,6 +18857,11 @@ msgid "State: %(state)s"
 msgstr "Weblate statıstıkasy"
 
 #, fuzzy
+#| msgid "Previous"
+msgid "Previous source"
+msgstr "Aldyńǵy"
+
+#, fuzzy
 #| msgid "Suggestion voting"
 msgid "Suggestions pending"
 msgstr "Usynysty saılaý"
@@ -20009,6 +20122,11 @@ msgstr ""
 msgid "You do not have permission to create terminology."
 msgstr "Aǵymda jobalar jasaýǵa ruqsatyńyz joq."
 
+#, fuzzy
+#| msgid "Invalid suggestion!"
+msgid "Invalid string selection!"
+msgstr "Usynys jaramsyz!"
+
 msgid "State to set"
 msgstr "Ornatylatyn kúı"
 
@@ -20051,6 +20169,9 @@ msgstr "Tildiń barlyq ózgeristerin sharlaý"
 msgid "Labels to remove — all languages"
 msgstr "Usynys alastaldy"
 
+msgid "Select strings to edit or enter a search query."
+msgstr ""
+
 #, fuzzy
 #| msgid "I agree with the contributor agreement"
 msgid "I accept the contributor license agreement"
@@ -20077,8 +20198,9 @@ msgid "Delete translation memory created from this component"
 msgstr "Júktep salynǵan faıldan eshbir jol ımporttalmady."
 
 msgid ""
-"Project, workspace, and shared translation memory entries will be deleted. "
-"Personal and uploaded entries will be preserved."
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from this component. Leave it unselected to retain them. "
+"Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -20092,6 +20214,12 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Rastaý úshin tárjimeniń atyn engizińiz."
 
 msgid "Delete translation memory created from components in this category"
+msgstr ""
+
+msgid ""
+"Select this to delete project, workspace, and shared translation memory "
+"entries created from components in this category. Leave it unselected to "
+"retain them. Personal and uploaded entries are always preserved."
 msgstr ""
 
 #, fuzzy
@@ -20338,6 +20466,24 @@ msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Sapa tekserýlerine áser etetin útirmen bólingen qosymsha jalaýlar, yqtımal "
 "mánderi úshin qujattamany tekserińiz."
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Enforced checks"
+msgstr "Elenbegen tekserýler"
+
+msgid "List of checks which can not be dismissed."
+msgstr ""
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Inherit enforced checks"
+msgstr "Elenbegen tekserýler"
+
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "Use enforced checks from the parent category, project or workspace."
+msgstr "Bul tárjime aǵymda qulyptalǵan."
 
 #, fuzzy
 #| msgid "Translation license"
@@ -20646,6 +20792,24 @@ msgstr ""
 "Repozıtorı sholǵyshyna silteme, {{branch}} tarmaq úshin, {{filename}} jáne "
 "{{line}} faıl aty jáne jol toltyrǵyshtary retinde paıdalanylady."
 
+#, fuzzy
+#| msgid "Repository branch to translate"
+msgid "Repository browser for translations"
+msgstr "Tárjimelenetin repozıtorı tarmaǵy"
+
+#, fuzzy
+#| msgid ""
+#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
+#| "{{line}} as filename and line placeholders."
+msgid ""
+"Link to repository browser for translation files, use {{branch}} for branch, "
+"{{filename}} and {{line}} as filename and line placeholders. If left empty, "
+"the Repository browser above will be used. You might want to strip leading "
+"directory by using {{filename|parentdir}}."
+msgstr ""
+"Repozıtorı sholǵyshyna silteme, {{branch}} tarmaq úshin, {{filename}} jáne "
+"{{line}} faıl aty jáne jol toltyrǵyshtary retinde paıdalanylady."
+
 msgid "Exported repository URL"
 msgstr "Eksporttalǵan repozıtorı URL-y"
 
@@ -20799,12 +20963,7 @@ msgstr ""
 "Osynday daýys sany bar usynystar avtomatty qabyldanady, óshirý úshin 0 "
 "paıdalanylady."
 
-#, fuzzy
-#| msgid "Ignored checks"
-msgid "Enforced checks"
-msgstr "Elenbegen tekserýler"
-
-msgid "List of checks which can not be dismissed."
+msgid "Use enforced checks from the project, category or workspace."
 msgstr ""
 
 #, fuzzy
@@ -21542,6 +21701,11 @@ msgid ""
 msgstr ""
 
 #, fuzzy
+#| msgid "Ignored checks"
+msgid "Use enforced checks from the workspace."
+msgstr "Elenbegen tekserýler"
+
+#, fuzzy
 #| msgid "The translation has come to an end."
 msgid "Use the translation license configured in the workspace."
 msgstr "Tárjime sońyna keldi."
@@ -21860,6 +22024,11 @@ msgstr "Tildiń barlyq ózgeristerin sharlaý"
 msgid "Unmark as terminology for all languages"
 msgstr "Tildiń barlyq ózgeristerin sharlaý"
 
+msgid ""
+"Translate from this language. Leave empty to use the component source "
+"language."
+msgstr ""
+
 msgid "Restrict direct editing"
 msgstr ""
 
@@ -21867,6 +22036,31 @@ msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+
+#, fuzzy
+#| msgid "Please type in the name of the translation to confirm."
+msgid "Please turn on reviews on the project first."
+msgstr "Rastaý úshin tárjimeniń atyn engizińiz."
+
+#, fuzzy
+#| msgid "The given language is filtered by the language filter."
+msgid "This language already has a project workflow."
+msgstr "Berilgen til osy til súzgisi arqyly súzilgen."
+
+#, fuzzy
+#| msgid "New language added to %(component)s"
+msgid "Select a source language in a project workflow."
+msgstr "%(component)s úshin jańa til ústeldi"
+
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "The source language must exist in this project."
+msgstr "Paıdalanýshy osy jobaǵa ústelgen."
+
+#, fuzzy
+#| msgid "Source language text"
+msgid "Source languages cannot form a cycle."
+msgstr "Qaınar tildegi mátin"
 
 #, fuzzy
 #| msgid "Source string changed"
@@ -22275,6 +22469,16 @@ msgstr ""
 #| msgid "Failed to parse JSON file!"
 msgid "Could not parse flags: %s"
 msgstr "JSON faılyn taldaý sátsiz aıaqtaldy!"
+
+#, fuzzy
+#| msgid "Ignored checks"
+msgid "Enforced checks has to be a list."
+msgstr "Elenbegen tekserýler"
+
+#, fuzzy, python-format
+#| msgid "Ignored checks"
+msgid "Unsupported enforced check: %s"
+msgstr "Elenbegen tekserýler"
 
 #, fuzzy, python-format
 #| msgid "The language code for %s was empty, please check the filemask."
