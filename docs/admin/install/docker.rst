@@ -739,9 +739,9 @@ Generic settings
    Configure which authentication methods can be used to create new account via
    :setting:`REGISTRATION_ALLOW_BACKENDS`.
 
-    **Example:**
+   **Example:**
 
-    .. code-block:: yaml
+   .. code-block:: yaml
 
         environment:
           WEBLATE_REGISTRATION_OPEN: 0
