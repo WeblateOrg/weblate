@@ -10,9 +10,12 @@ from typing import TYPE_CHECKING
 
 from django import template
 from django.conf import settings
+from django.contrib.staticfiles import finders
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
+from social_core.backends.utils import get_backend
+from social_core.exceptions import MissingBackend
 
 from weblate.accounts.utils import get_key_name
 
@@ -25,33 +28,10 @@ if TYPE_CHECKING:
 
 register = template.Library()
 
-SOCIALS: dict[str, dict[str, StrOrPromise]] = {
-    "auth0": {"name": "Auth0", "image": "auth0.svg"},
-    "saml": {"name": "SAML", "image": "saml.svg"},
-    "google": {"name": "Google", "image": "google.svg"},
-    "google-oauth2": {"name": "Google", "image": "google.svg"},
-    "google-plus": {"name": "Google+", "image": "google.svg"},
+# Local authentication methods.
+LOCAL_METHODS: dict[str, dict[str, StrOrPromise]] = {
     "password": {"name": gettext_lazy("Password"), "image": "password.svg"},
     "email": {"name": gettext_lazy("E-mail"), "image": "email.svg"},
-    "ubuntu": {"name": "Ubuntu", "image": "ubuntu.svg"},
-    "opensuse": {"name": "openSUSE", "image": "opensuse.svg"},
-    "fedora": {"name": "Fedora OpenID", "image": "fedora.svg"},
-    "fedora-oidc": {"name": "Fedora", "image": "fedora.svg"},
-    "facebook": {"name": "Facebook", "image": "facebook.svg"},
-    "github": {"name": "GitHub", "image": "github.svg"},
-    "github-enterprise": {"name": "GitHub Enterprise", "image": "github.svg"},
-    "github-org": {"name": "GitHub Organization", "image": "github.svg"},
-    "bitbucket": {"name": "Bitbucket", "image": "bitbucket.svg"},
-    "bitbucket-oauth2": {"name": "Bitbucket", "image": "bitbucket.svg"},
-    # Follow Microsoft's sign-in branding guidance for end-user Entra login.
-    "azuread-oauth2": {"name": "Microsoft", "image": "microsoft.svg"},
-    "azuread-tenant-oauth2": {"name": "Microsoft", "image": "microsoft.svg"},
-    "gitlab": {"name": "GitLab", "image": "gitlab.svg"},
-    "amazon": {"name": "Amazon", "image": "amazon.svg"},
-    "twitter": {"name": "Twitter", "image": "twitter.svg"},
-    "stackoverflow": {"name": "Stack Overflow", "image": "stackoverflow.svg"},
-    "musicbrainz": {"name": "MusicBrainz", "image": "musicbrainz.svg"},
-    "openinfra": {"name": "OpenInfraID"},
 }
 
 SECOND_FACTORS: dict[DeviceType, StrOrPromise] = {
@@ -70,11 +50,21 @@ SOCIAL_TEMPLATE = """{icon}<span class="auth-name">{name}</span>"""
 def get_auth_params(auth: str) -> dict[str, StrOrPromise]:
     """Generate authentication parameters."""
     # Fallback values
-    params: dict[str, StrOrPromise] = {"name": auth.title(), "image": "password.svg"}
-
-    # Hardcoded names
-    if auth in SOCIALS:
-        params.update(SOCIALS[auth])
+    params: dict[str, StrOrPromise] = {
+        "name": auth.title(),
+        "image": "password.svg",
+    }
+    if auth in LOCAL_METHODS:
+        params.update(LOCAL_METHODS[auth])
+    else:
+        try:
+            backend = get_backend(settings.AUTHENTICATION_BACKENDS, auth)
+        except MissingBackend:
+            pass
+        else:
+            params["name"] = backend.title or auth.title()
+            if backend.icon:
+                params["image"] = f"social_auth/icons/{backend.icon}"
 
     # Settings override
     settings_params = {
@@ -95,7 +85,15 @@ def auth_name(auth: str, only: str = "") -> StrOrPromise:
     params = get_auth_params(auth)
 
     if not params["image"].startswith(("http", "data:")):
-        params["image"] = staticfiles_storage.url(f"auth/{params['image']}")
+        image = str(params["image"])
+        if not image.startswith("social_auth/icons/"):
+            legacy_path = f"auth/{image}"
+            shared_path = f"social_auth/icons/{image}"
+            # Existing custom files take precedence over bundled provider artwork.
+            image = legacy_path
+            if not finders.find(legacy_path) and finders.find(shared_path):
+                image = shared_path
+        params["image"] = staticfiles_storage.url(image)
     params["icon"] = format_html(IMAGE_SOCIAL_TEMPLATE, **params)
 
     if only:
