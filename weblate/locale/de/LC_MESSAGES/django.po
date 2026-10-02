@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-24 21:33-0500\n"
-"PO-Revision-Date: 2026-10-01 15:01+0000\n"
+"PO-Revision-Date: 2026-10-02 10:19+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -799,7 +799,7 @@ msgstr "Zum persönlichen Übersetzungsspeicher beitragen"
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
-"Erlauben, dass Ihre Übersetzungen dem persönlichen Übersetzungsspeicher "
+"Erlaubt, dass Ihre Übersetzungen dem persönlichen Übersetzungsspeicher "
 "hinzugefügt werden."
 
 msgid "Watched translations"
@@ -14527,6 +14527,10 @@ msgid ""
 "existing translations as needing editing. Renamed keys may require changes "
 "in your application code."
 msgstr ""
+"Änderungen gelten für alle Sprachen in dieser Komponente. Durch das Ändern "
+"des Quelltextes werden vorhandene Übersetzungen als bearbeitungsbedürftig "
+"markiert. Bei umbenannten Schlüsseln sind möglicherweise Änderungen im "
+"Anwendungscode erforderlich."
 
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
@@ -16461,7 +16465,7 @@ msgid "Follow xml:space"
 msgstr "xml:space folgen"
 
 msgid "Always preserve"
-msgstr ""
+msgstr "Immer beibehalten"
 
 msgid "Always normalize"
 msgstr "Immer normalisieren"
@@ -16471,6 +16475,10 @@ msgid ""
 "in the file. Always preserve keeps all whitespace. Always normalize "
 "collapses whitespace even when xml:space=\"preserve\" is set."
 msgstr ""
+"Legt fest, wie XLIFF-Leerzeichen behandelt werden. „xml:space folgen“ "
+"berücksichtigt die Attribute in der Datei. „Immer beibehalten“ behält alle "
+"Leerzeichen bei. „Immer normalisieren“ fasst Leerzeichen zusammen, auch wenn "
+"xml:space=\"preserve\" gesetzt ist."
 
 msgid "Placeables support"
 msgstr "Platzhalter-Unterstützung"
@@ -16478,10 +16486,8 @@ msgstr "Platzhalter-Unterstützung"
 msgid "Plain text only"
 msgstr "Nur Klartext"
 
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "Support placeables"
-msgstr "Weblate unterstützen"
+msgstr "Platzhalter unterstützen"
 
 msgid ""
 "Controls whether inline XML elements inside XLIFF strings are preserved as "
@@ -16489,6 +16495,11 @@ msgid ""
 "content as text. With placeables supported, tags such as <x id=\"name\"\\/> "
 "or <g> stay in the string and appear as placeholders in the editor"
 msgstr ""
+"Legt fest, ob Inline-XML-Elemente innerhalb von XLIFF-Zeichenketten als "
+"bearbeitbare Platzhalter beibehalten werden. Bei „Nur Klartext“ werden XML-"
+"Auszeichnungen maskiert und der Inhalt als Text behandelt. Bei „Platzhalter "
+"unterstützen“ bleiben Tags wie <x id=\"name\" \\=\"\"> oder </x> in den "
+"Zeichenketten erhalten und werden im Editor als Platzhalter angezeigt"
 
 msgid "FlatXML Root name"
 msgstr "FlatXML-Wurzelname"
@@ -16762,10 +16773,12 @@ msgstr ""
 "überprüfen Sie Ihre Änderungen."
 
 msgid "Ignore language mismatch"
-msgstr "Sprachliche Abweichungen ignorieren"
+msgstr "Sprachabweichung ignorieren"
 
 msgid "Allow uploading a file that declares a different translation language."
 msgstr ""
+"Erlaubt das Hochladen einer Datei, in der eine andere Übersetzungssprache "
+"angegeben ist."
 
 msgid "File upload mode"
 msgstr "Dateiupload-Modus"
@@ -16922,6 +16935,7 @@ msgstr "Quellmarkierungen — alle Sprachen"
 
 msgid "These flags are inherited by every translation of this string."
 msgstr ""
+"Diese Markierungen werden an jede Übersetzung dieser Zeichenkette vererbt."
 
 msgid "Translation flags — this language"
 msgstr "Übersetzungsmarkierungen — diese Sprache"
@@ -16930,15 +16944,15 @@ msgid ""
 "These flags apply only to this translation. Source read-only cannot be "
 "overridden."
 msgstr ""
+"Diese Markierungen gelten nur für diese Übersetzung. Schreibgeschützte "
+"Quellen können nicht überschrieben werden."
 
 #, python-format
 msgid "Translation flags — %(language)s"
 msgstr "Übersetzungsmarkierungen — %(language)s"
 
-#, fuzzy
-#| msgid "You do not have permission to edit source strings."
 msgid "You do not have permission to edit these flags."
-msgstr "Sie haben keine Berechtigung, Ausgangszeichenketten zu bearbeiten."
+msgstr "Sie haben keine Berechtigung, diese Markierungen zu bearbeiten."
 
 msgid ""
 "Revert the latest translation edits from this user in the current project."
@@ -17270,10 +17284,10 @@ msgid "Translation flags to add — matching translations"
 msgstr ""
 "Hinzuzufügende Übersetzungsmarkierungen — übereinstimmende Übersetzungen"
 
-#, fuzzy
-#| msgid "Fills in translation strings with source string."
 msgid "Applies only to matching translations, excluding source strings."
-msgstr "Füllt Übersetzungszeichenketten mit der Ausgangszeichenkette aus."
+msgstr ""
+"Gilt nur für übereinstimmende Übersetzungen, ausgenommen "
+"Ausgangszeichenketten."
 
 msgid "Translation flags to remove — matching translations"
 msgstr ""
@@ -17281,6 +17295,8 @@ msgstr ""
 
 msgid "Removes locally set flags. Inherited flags remain in effect."
 msgstr ""
+"Entfernt lokal gesetzte Markierungen. Vererbte Markierungen bleiben "
+"weiterhin gültig."
 
 msgid "Labels to add — all languages"
 msgstr "Hinzuzufügende Labels — alle Sprachen"
@@ -17980,19 +17996,15 @@ msgstr ""
 msgid "Manage strings"
 msgstr "Zeichenketten verwalten"
 
-#, fuzzy
-#| msgid ""
-#| "Enables adding and removing strings straight from Weblate. If your "
-#| "strings are extracted from the source code or managed externally you "
-#| "probably want to keep it disabled."
 msgid ""
 "Enables adding, removing, and editing source strings and keys in Weblate. If "
 "your strings are extracted from the source code or managed externally you "
 "probably want to keep it disabled."
 msgstr ""
-"Ermöglicht das Hinzufügen und Entfernen von Zeichenketten direkt in Weblate. "
-"Wenn ihre Zeichenketten aus dem Quellcode extrahiert oder extern verwaltet "
-"werden, sollten Sie diese Funktion wahrscheinlich deaktiviert lassen."
+"Ermöglicht das Hinzufügen, Entfernen und Bearbeiten von "
+"Ausgangszeichenketten und Schlüsseln in Weblate. Wenn Ihre Zeichenketten aus "
+"dem Quellcode extrahiert oder extern verwaltet werden, sollten Sie diese "
+"Funktion wahrscheinlich deaktiviert lassen."
 
 msgid "Merge style"
 msgstr "Git-Strategie"
@@ -18842,6 +18854,9 @@ msgid ""
 "translation (%(expected)s). Enable \"Ignore language mismatch\" to upload it "
 "anyway."
 msgstr ""
+"Die hochgeladenene Dateisprache (%(language)s) stimmt nicht mit der "
+"aktuellen Übersetzung (%(expected)s) überein. Aktivieren Sie „"
+"Sprachabweichung ignorieren“, um die Datei trotzdem hochzuladen."
 
 #, python-format
 msgid "Could not parse uploaded file: %s"
@@ -18897,25 +18912,17 @@ msgid_plural "String could not be propagated to %d components."
 msgstr[0] "Zeichenkette konnte nicht an Komponente %d weitergegeben werden."
 msgstr[1] "Zeichenkette konnte nicht an Komponenten %d weitergegeben werden."
 
-#, fuzzy
-#| msgid "Unmark as untranslatable"
 msgid "Unmark as untranslatable for all languages"
-msgstr "Als nicht übersetzbar aufheben"
+msgstr "Als nicht übersetzbar für alle Sprachen aufheben"
 
-#, fuzzy
-#| msgid "Unmark as read-only"
 msgid "Unmark as read-only for all languages"
-msgstr "Als schreibgeschützt aufheben"
+msgstr "Als schreibgeschützt für alle Sprachen aufheben"
 
-#, fuzzy
-#| msgid "Unmark as untranslatable"
 msgid "Unmark this translation as untranslatable"
-msgstr "Als nicht übersetzbar aufheben"
+msgstr "Diese Übersetzung als nicht übersetzbar aufheben"
 
-#, fuzzy
-#| msgid "The translation is read-only."
 msgid "Unmark this translation as read-only"
-msgstr "Die Übersetzung ist schreibgeschützt."
+msgstr "Diese Übersetzung als schreibgeschützt aufheben"
 
 #, fuzzy
 #| msgid "Manage translated languages"
@@ -18927,25 +18934,17 @@ msgstr "Übersetzte Sprachen verwalten"
 msgid "Make read-only apply to all languages"
 msgstr "Übersetzte Sprachen verwalten"
 
-#, fuzzy
-#| msgid "Mark as untranslatable"
 msgid "Mark this translation as untranslatable"
-msgstr "Als nicht übersetzbar markieren"
+msgstr "Diese Übersetzung als nicht übersetzbar markieren"
 
-#, fuzzy
-#| msgid "The translation is read-only."
 msgid "Mark this translation as read-only"
-msgstr "Die Übersetzung ist schreibgeschützt."
+msgstr "Diese Übersetzung als schreibgeschützt markieren"
 
-#, fuzzy
-#| msgid "Mark as untranslatable"
 msgid "Mark as untranslatable for all languages"
-msgstr "Als nicht übersetzbar markieren"
+msgstr "Als nicht übersetzbar für alle Sprachen markieren"
 
-#, fuzzy
-#| msgid "Mark as read-only"
 msgid "Mark as read-only for all languages"
-msgstr "Als schreibgeschützt markieren"
+msgstr "Als schreibgeschützt für alle Sprachen markieren"
 
 msgid "Mark as forbidden translation"
 msgstr "Als unzulässige Übersetzung markieren"
@@ -18953,15 +18952,11 @@ msgstr "Als unzulässige Übersetzung markieren"
 msgid "Unmark as forbidden translation"
 msgstr "Als unzulässige Übersetzung aufheben"
 
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Mark as terminology for all languages"
-msgstr "Als Terminologie markieren"
+msgstr "Als Terminologie für alle Sprachen markieren"
 
-#, fuzzy
-#| msgid "Unmark as terminology"
 msgid "Unmark as terminology for all languages"
-msgstr "Als Terminologie aufheben"
+msgstr "Als Terminologie für alle Sprachen aufheben"
 
 msgid "Restrict direct editing"
 msgstr "Direktes Bearbeiten einschränken"
