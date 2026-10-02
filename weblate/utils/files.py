@@ -115,15 +115,24 @@ def should_skip(location: str | os.PathLike[str]) -> bool:
 
 def is_excluded(path: str) -> bool:
     """Whether path should be excluded from zip extraction."""
-    normalized = path.replace("\\", "/").casefold()
+    normalized = normalize_archive_path(path)
     return any(
         exclude in f"/{normalized}/" for exclude in PATH_EXCLUDES
     ) or is_unsafe_path(path)
 
 
+def _normalize_metadata_path_component(component: str) -> str:
+    if component in {".", ".."}:
+        return component
+    return component.casefold().rstrip(". ")
+
+
 def normalize_archive_path(path: str) -> str:
     """Normalize an archive path for metadata comparisons."""
-    return PurePosixPath(path.replace("\\", "/").casefold()).as_posix()
+    normalized = PurePosixPath(path.replace("\\", "/"))
+    return PurePosixPath(
+        *(_normalize_metadata_path_component(part) for part in normalized.parts)
+    ).as_posix()
 
 
 def get_archive_vcs_metadata_members(paths: Iterable[str]) -> frozenset[str]:
@@ -207,8 +216,10 @@ def is_managed_vcs_metadata_path(
     path: str, metadata_dirs: Iterable[str] = MANAGED_VCS_METADATA_DIRS
 ) -> bool:
     """Whether path points to metadata used by a Weblate VCS backend."""
-    normalized = path.replace("\\", "/").casefold()
-    normalized_metadata_dirs = {name.casefold() for name in metadata_dirs}
+    normalized = normalize_archive_path(path)
+    normalized_metadata_dirs = {
+        _normalize_metadata_path_component(name) for name in metadata_dirs
+    }
     return any(
         part in normalized_metadata_dirs for part in PurePosixPath(normalized).parts
     )
