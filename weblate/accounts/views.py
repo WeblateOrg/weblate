@@ -86,6 +86,7 @@ from social_core.exceptions import (
     AuthFailed,
     AuthForbidden,
     AuthMissingParameter,
+    AuthReauthenticationRequired,
     AuthStateForbidden,
     AuthStateMissing,
     AuthTokenError,
@@ -1861,6 +1862,33 @@ def registration_fail(request: AuthenticatedHttpRequest, message: str):
     return redirect(reverse("login"))
 
 
+def auth_token_error_message(error: AuthTokenError) -> str:
+    """Offer recovery guidance without assuming a token failure's cause."""
+    guidance = gettext(
+        "Please try signing in again. "
+        "If the problem persists, contact the administrator."
+    )
+    if isinstance(error, AuthReauthenticationRequired):
+        guidance = gettext("Please authenticate with the provider again.")
+    elif error.args and isinstance(reason := error.args[0], str):
+        match reason:
+            case (
+                "Incorrect id_token: nonce"
+                | "Missing csrf token from response"
+                | "csrf token from cookie and response does not match"
+            ):
+                guidance = gettext(
+                    "The authentication response could not be verified. "
+                    "Please try signing in again."
+                )
+            case "Signature has expired":
+                guidance = gettext(
+                    "The authentication response has expired. "
+                    "Please try signing in again."
+                )
+    return f"{gettext('Authentication failed: %s') % error} {guidance}"
+
+
 def auth_redirect_token(request: AuthenticatedHttpRequest):
     if request.session.get("password_reset"):
         return auth_fail(
@@ -2056,10 +2084,7 @@ def get_auth_error_policy(
             )
         case AuthTokenError():
             return AuthErrorPolicy(
-                response=registration_fail(
-                    request,
-                    gettext("Authentication failed: %s") % error,
-                ),
+                response=auth_fail(request, auth_token_error_message(error)),
                 reportable=True,
                 cause="Could not authenticate",
             )

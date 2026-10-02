@@ -181,7 +181,7 @@
             <p class="help-block">
               {% if has_email_auth %}
                 <a href=""
-                   class="link-post float-end btn btn-link"
+                   class="link-post link-auth float-end btn btn-link"
                    data-href="{% url 'social:begin' 'email' %}?next={% url 'profile' %}%23account">{% translate "Verify new e-mail address" %}</a>
               {% endif %}
               {% translate "The e-mail address can be chosen from verified addresses only." %}
@@ -248,7 +248,7 @@
                 <div class="card-body">
                   {% for name in new_backends %}
                     <a href=""
-                       class="btn btn-link link-post"
+                       class="btn btn-link link-post link-auth"
                        data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23account">{% auth_name name only="icon" %}
                       <br />
                     {% auth_name name only="name" %}</a>
