@@ -28,9 +28,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-10-02 12:20+0200\n"
-"PO-Revision-Date: 2026-10-02 12:04+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-10-02 17:13+0000\n"
+"Last-Translator: Basheer Radman <ba2014sheer@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "documentation/ar/>\n"
 "Language: ar\n"
@@ -47827,9 +47826,13 @@ msgid ""
 "mask is set, omit language and match the monolingual base or new base file "
 "instead."
 msgstr ""
+"يجب أن يُحدِّد التعبير النمطي (regular expression) مجموعة مُسمَّاة للمكوِّن، وكذلك "
+"مجموعة مُسمَّاة للغة عند مطابقة ملفات الترجمة. وعند تحديد قناع الملف (file mask)"
+"، ينبغي استبعاد اللغة ومطابقة الملف الأساسي أحادي اللغة أو الملف الأساسي "
+"الجديد بدلاً من ذلك."
 
 msgid "Use Django template syntax. This template must include {{ component }}."
-msgstr ""
+msgstr "استخدم صيغة قوالب Django. يجب أن يتضمن هذا القالب {{ component }}."
 
 msgid "Define the monolingual base filename"
 msgstr "تحديد الاسم القاعدي للملف الأحادي اللغة"
@@ -47856,6 +47859,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
+"اسم ملف الترجمة الوسيط. في معظم الحالات، يكون هذا الملف مُقدَّماً من قِبَل المطورين "
+"ويُستخدم عند إنشاء سلاسل النصوص المصدرية الفعلية. يجب أن يتضمن هذا القالب "
+"الوسم {{ component }}."
 
 msgid "Define the file mask"
 msgstr "حدّد قناع الملف"
@@ -47866,6 +47872,11 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
+"اتركه فارغاً لمطابقة ملفات الترجمة مباشرةً. عند تحديده، تقوم عملية الاكتشاف "
+"بمطابقة الملف الأساسي أحادي اللغة (أو الملف الأساسي الجديد) وتستخدم هذا القالب "
+"كقناع لاسم الملف. يجب تضمين رمز عام (wildcard) للغة والمتغير {{ component }}، "
+"على سبيل المثال: `locale/*/{{ component }}.po` أو `docs/{{ component }}"
+"_*.md`."
 
 msgid ""
 "Regular expression to filter translation files against when scanning for "
@@ -48030,7 +48041,7 @@ msgid "Matching files:"
 msgstr "الملفات المطابقة:"
 
 msgid "Gettext locales layout"
-msgstr ""
+msgstr "تخطيط إعدادات اللغة (Locales) في Gettext"
 
 msgid "Usual structure for storing gettext PO files."
 msgstr ""
@@ -48121,51 +48132,52 @@ msgid "AMQP broker URL"
 msgstr ""
 
 msgid "The AMQP broker URL to connect to."
-msgstr ""
+msgstr "عنوان URL الخاص بوسيط AMQP المراد الاتصال به."
 
-#, fuzzy
-#| msgid "String state"
 msgid "Topic prefix"
-msgstr "حالة السلسلة"
+msgstr "بادئة الموضوع"
 
 msgid "Optional prefix to prepend to generated message topics."
-msgstr ""
+msgstr "بادئة اختيارية تُضاف في بداية مواضيع الرسائل المُنشأة."
 
-#, fuzzy
-#| msgid "Cleanup translation files"
 msgid "Publish timeout"
-msgstr "تنظيف ملفات الترجمة"
+msgstr "مهلة النشر"
 
 msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgstr ""
+"كم عدد الثواني التي يجب الانتظار فيها للحصول على إقرار التسليم من الوسيط."
 
 msgid "Connection attempts"
-msgstr ""
+msgstr "محاولات الاتصال"
 
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "عدد مرات محاولة الاتصال بالوسيط."
 
 msgid "Retry delay"
 msgstr ""
 
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "عدد الثواني التي يجب الانتظار بين محاولات الاتصال."
 
 msgid "CA certificate bundle (PEM)"
-msgstr ""
+msgstr "مجموعة شهادات المرجع المصدق (PEM)"
 
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"ألصق فقط كتل شهادات PEM، بحيث تبدأ كل منها بـ \"-----BEGIN CERTIFICATE-----"
+"\" وتنتهي بـ \"-----END CERTIFICATE-----\"."
 
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "المفتاح الخاص للعميل (PEM)"
 
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"ألصق مكون واحد لمفتاح خاص بتنسيق PEM غير مشفّر. المفاتيح الخاصة المشفّرة غير "
+"مدعومة."
 
 #, fuzzy
 #| msgid "Client SSL certificates"
@@ -48176,6 +48188,8 @@ msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"ألصق فقط مكون شهادة PEM التي تبدأ بـ \"-----BEGIN CERTIFICATE-----\"؛ ولا "
+"تلصق المخرجات الناتجة عن الأمر \"openssl x509 -text\"."
 
 msgid ""
 "Choose which change events should trigger this add-on. :ref:`addon-choice-"
@@ -48485,7 +48499,7 @@ msgid "Statistics generator"
 msgstr "مُولّد الإحصائيات"
 
 msgid "Output scope"
-msgstr ""
+msgstr "نطاق المخرجات"
 
 #, fuzzy
 #| msgid "Other translations"
@@ -48632,13 +48646,13 @@ msgid "All strings in this translation will be overwritten"
 msgstr "سيتم الكتابة فوق جميع السلاسل في هذه الترجمة"
 
 msgid "Prepended static text"
-msgstr ""
+msgstr "نص ثابت مُضاف في البداية"
 
 msgid "Prepended variable text"
-msgstr ""
+msgstr "نص متغير مُضاف في البداية"
 
 msgid "Appended static text"
-msgstr ""
+msgstr "نص ثابت مُلحق"
 
 #, fuzzy
 #| msgid "Undefined variable: \"%s\""
@@ -48652,7 +48666,7 @@ msgstr "مضاعف متغيّر النص"
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
-msgstr ""
+msgstr "عدد مرات تكرار النص المتغير بناءً على طول السلسلة المصدرية."
 
 msgid "Include read-only strings"
 msgstr "تضمين السلاسل النصية المقروأة فقط"
@@ -48742,7 +48756,7 @@ msgid "Customize gettext output"
 msgstr "خصّص خرج gettext"
 
 msgid "Update gettext template (Django)"
-msgstr ""
+msgstr "تحديث قالب gettext (Django)"
 
 msgid "Update frequency"
 msgstr "معدل التحديث"
@@ -48788,7 +48802,7 @@ msgstr "اسم المكون"
 
 msgid ""
 "Updates the gettext template using Django's built-in makemessages command."
-msgstr ""
+msgstr "يُحدِّث قالب gettext باستخدام أمر makemessages المدمج في Django."
 
 #, fuzzy
 #| msgid "Recovery token"
@@ -48914,9 +48928,12 @@ msgid ""
 "GLib preset adds the keyword and format-flag options used by Meson's gettext "
 "helper."
 msgstr ""
+"تتضمن هذه الحزمة إعدادات مسبقة مدمجة لوسيطة xgettext تتوافق مع تكامل Meson "
+"gettext. وتضيف هذه الإعدادات المسبقة من GLib خيارات الكلمات المفتاحية وعلامات "
+"التنسيق المستخدمة من قِبل مساعد gettext الخاص بـ Meson."
 
 msgid "GLib"
-msgstr ""
+msgstr "جليب"
 
 #, fuzzy
 #| msgid "Bad configuration"
@@ -49005,6 +49022,9 @@ msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"يُحدِّث جميع ملفات PO (وفقاً للإعدادات المحددة في \"قناع الملف\" / File mask) "
+"لتتطابق مع ملف POT (وفقاً للإعدادات المحددة في \"قالب الترجمات الجديدة\" / "
+"Template for new translations) باستخدام الأداة msgmerge."
 
 msgid ""
 "This add-on is essential when working with gettext PO files where the POT "
@@ -49039,7 +49059,7 @@ msgstr ""
 "تغييرات جديدة من مستودع المنبع."
 
 msgid "Update POT file (Sphinx)"
-msgstr ""
+msgstr "تحديث ملف POT (Sphinx)"
 
 msgid "Filtering"
 msgstr "الفرز"
@@ -49048,6 +49068,8 @@ msgid ""
 "Optionally remove strings that are not useful to translate after Sphinx "
 "extraction."
 msgstr ""
+"يمكنك اختيارياً إزالة السلاسل النصية التي لا جدوى من ترجمتها بعد عملية الاستخراج "
+"بواسطة Sphinx."
 
 msgid "None"
 msgstr "لا شيء"
@@ -49061,6 +49083,8 @@ msgid ""
 "Updates the gettext template using Sphinx's gettext builder without loading "
 "project configuration."
 msgstr ""
+"يُحدِّث قالب gettext باستخدام أداة بناء gettext الخاصة بـ Sphinx، وذلك دون "
+"تحميل إعدادات المشروع."
 
 #, fuzzy
 #| msgid "Recovery token"
@@ -49123,16 +49147,19 @@ msgstr ""
 "المستودع - لتحديد الملفات التي سيتم استخراج النصوص منها باستخدام xgettext."
 
 msgid "POTFILES path"
-msgstr ""
+msgstr "مسار POTFILES"
 
 msgid ""
 "Repository-relative path to POTFILES or POTFILES.in. Entries are resolved "
 "relative to the repository root. If present next to the manifest, "
 "POTFILES.skip excludes listed files from extraction."
 msgstr ""
+"مسار ملف POTFILES أو POTFILES.in بالنسبة للمستودع؛ حيث يتم تحديد المسارات "
+"انطلاقاً من جذر المستودع. وفي حال وجود ملف POTFILES.skip بجوار ملف البيان "
+"(manifest)، فإنه يستثني الملفات المدرجة فيه من عملية الاستخراج."
 
 msgid "Updates the gettext template using xgettext on selected source files."
-msgstr ""
+msgstr "يُحدِّث قالب gettext باستخدام xgettext على ملفات المصدر المحددة."
 
 #, fuzzy
 #| msgid "Recovery token"
@@ -49470,7 +49497,7 @@ msgid "Webhook secret"
 msgstr "رابط الموقع"
 
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "يُعد مفتاح Standard Webhooks السري سلسلة نصية مشفرة بصيغة Base64."
 
 msgid ""
 "Sends notifications to external services based on selected events, following "
