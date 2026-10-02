@@ -341,6 +341,9 @@ AUTH_TOKEN_VALID
 
 How long the authentication token and temporary password from password reset e-mails is valid for.
 Set in number of seconds, defaulting to 172800 (2 days).
+E-mail validation codes are checked against this lifetime when used, even if
+scheduled cleanup has not yet removed them. This does not set a deadline for
+other authentication pipeline steps.
 
 
 AUTH_PASSWORD_DAYS
