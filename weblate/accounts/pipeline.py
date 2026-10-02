@@ -16,7 +16,12 @@ from django.urls import reverse
 from django.utils.http import urlencode
 from django.utils.translation import gettext
 from django_otp import DEVICE_ID_SESSION_KEY
-from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
+from social_core.exceptions import (
+    AuthAssociationError,
+    AuthPolicyError,
+    AuthResponseError,
+    AuthSessionError,
+)
 from social_core.pipeline.partial import partial
 from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
@@ -56,14 +61,6 @@ VerifiedEmailList = list[tuple[str, bool]]
 GitHubEmailData = Mapping[str, str | bool | None]
 
 
-class UsernameAlreadyAssociated(AuthAlreadyAssociated):
-    pass
-
-
-class EmailAlreadyAssociated(AuthAlreadyAssociated):
-    pass
-
-
 def invalid_invitation(
     strategy, backend, message: str, error: Exception | None = None
 ) -> NoReturn:
@@ -72,7 +69,12 @@ def invalid_invitation(
     messages.warning(
         strategy.request, gettext("The registration link has been invalidated.")
     )
-    raise AuthMissingParameter(backend, "invitation") from error
+    raise AuthPolicyError(
+        backend,
+        code="weblate.invitation_invalid",
+        stage="pipeline",
+        recovery="restart_login",
+    ) from error
 
 
 def get_valid_invitation(
@@ -170,7 +172,9 @@ def require_email(backend, details, weblate_action, user=None, is_new=False, **k
         return None
 
     if is_new and not details.get("email"):
-        raise AuthMissingParameter(backend, "email")
+        raise AuthResponseError(
+            backend, code="profile_email_missing", stage="pipeline", claim="email"
+        )
     return None
 
 
@@ -281,7 +285,9 @@ def verify_open(
     current_user = strategy.request.user.pk
     init_user = strategy.request.session.get("social_auth_user")
     if strategy.request.session.session_key and current_user != init_user:
-        raise AuthMissingParameter(backend, "user")
+        raise AuthSessionError(
+            backend, code="weblate.confirmation_user_mismatch", stage="pipeline"
+        )
 
     # Check whether registration is open
     if (
@@ -291,7 +297,12 @@ def verify_open(
         and (not settings.REGISTRATION_OPEN or settings.REGISTRATION_ALLOW_BACKENDS)
         and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
     ):
-        raise AuthMissingParameter(backend, "disabled")
+        raise AuthPolicyError(
+            backend,
+            code="weblate.registration_disabled",
+            stage="pipeline",
+            recovery="none",
+        )
 
 
 def store_params(strategy, user: User, **kwargs):
@@ -342,7 +353,7 @@ def verify_username(strategy, backend, details, username, user=None, **kwargs) -
     if user or not username:
         return
     if User.objects.filter(username=username).exists():
-        raise UsernameAlreadyAssociated(backend, "Username exists")
+        raise AuthAssociationError(backend, code="username_in_use", stage="pipeline")
     return
 
 
@@ -387,7 +398,9 @@ def ensure_valid(
             messages.warning(
                 strategy.request, gettext("The registration link has been invalidated.")
             )
-            raise AuthMissingParameter(backend, "user")
+            raise AuthSessionError(
+                backend, code="weblate.confirmation_user_mismatch", stage="pipeline"
+            )
         return
 
     # Add e-mail/register should stay on same user
@@ -408,7 +421,9 @@ def ensure_valid(
             strategy.request, gettext("The registration link has been invalidated.")
         )
 
-        raise AuthMissingParameter(backend, "user")
+        raise AuthSessionError(
+            backend, code="weblate.confirmation_user_mismatch", stage="pipeline"
+        )
 
     if user is None:
         invitation = (
@@ -435,14 +450,16 @@ def ensure_valid(
     # Verify if this mail is not used on other accounts
     if new_association:
         if "email" not in details:
-            raise AuthMissingParameter(backend, "email")
+            raise AuthResponseError(
+                backend, code="profile_email_missing", stage="pipeline", claim="email"
+            )
         same = VerifiedEmail.objects.filter(email__iexact=details["email"])
         if user:
             same = same.exclude(social__user=user)
 
         if not settings.REGISTRATION_REBIND and same.exists():
             AuditLog.objects.create(same[0].social.user, strategy.request, "connect")
-            raise EmailAlreadyAssociated(backend, "E-mail exists")
+            raise AuthAssociationError(backend, code="email_in_use", stage="pipeline")
 
         validator = EmailValidator()
         # This raises ValidationError

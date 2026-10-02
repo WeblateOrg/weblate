@@ -15,7 +15,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
 from social_core.backends.utils import get_backend
-from social_core.exceptions import MissingBackend
+from social_core.exceptions import AuthConfigurationError
 
 from weblate.accounts.utils import get_key_name
 
@@ -59,8 +59,9 @@ def get_auth_params(auth: str) -> dict[str, StrOrPromise]:
     else:
         try:
             backend = get_backend(settings.AUTHENTICATION_BACKENDS, auth)
-        except MissingBackend:
-            pass
+        except AuthConfigurationError as error:
+            if error.code != "backend_missing":
+                raise
         else:
             params["name"] = backend.title or auth.title()
             if backend.icon:
