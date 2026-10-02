@@ -12,6 +12,7 @@ Weblate 2026.10.1
 .. rubric:: Security fixes
 
 * Hardened version control metadata filtering against trailing-dot and trailing-space path aliases.
+* Prevented sitemaps from disclosing restricted component and translation URLs.
 
 .. rubric:: Bug fixes
 

@@ -5,13 +5,18 @@
 from __future__ import annotations
 
 from itertools import chain
-from typing import NoReturn
+from typing import TYPE_CHECKING, Any, NoReturn
 
+from django.conf import settings
 from django.contrib.sitemaps import Sitemap
+from django.contrib.sitemaps.views import index
 from django.urls import reverse
 
 from weblate.trans.models import Change, Component, Project, Translation
 from weblate.utils.stats import prefetch_stats
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest, HttpResponse
 
 
 class PagesSitemap(Sitemap):
@@ -73,7 +78,10 @@ class ComponentSitemap(WeblateSitemap):
     def items(self):
         return prefetch_stats(
             Component.objects.prefetch_related("project")
-            .filter(project__access_control__lt=Project.ACCESS_PRIVATE)
+            .filter(
+                project__access_control__lt=Project.ACCESS_PRIVATE,
+                restricted=False,
+            )
             .order_by("id")
         )
 
@@ -88,7 +96,10 @@ class TranslationSitemap(WeblateSitemap):
                 "component__project",
                 "language",
             )
-            .filter(component__project__access_control__lt=Project.ACCESS_PRIVATE)
+            .filter(
+                component__project__access_control__lt=Project.ACCESS_PRIVATE,
+                component__restricted=False,
+            )
             .order_by("id")
         )
 
@@ -97,6 +108,9 @@ class EngageSitemap(ProjectSitemap):
     """Wrapper around ProjectSitemap to point to engage page."""
 
     priority = 1.0
+
+    def items(self):
+        return prefetch_stats(Project.objects.publicly_shared().order_by("id"))
 
     def location(self, item):
         return reverse("engage", kwargs={"path": item.get_url_path()})
@@ -109,11 +123,7 @@ class EngageLangSitemap(EngageSitemap):
 
     def items(self):
         """Return list of existing project, language tuples."""
-        projects = (
-            Project.objects.filter(access_control__lt=Project.ACCESS_PRIVATE)
-            .order_by("id")
-            .prefetch_languages()
-        )
+        projects = Project.objects.publicly_shared().order_by("id").prefetch_languages()
         return prefetch_stats(
             chain.from_iterable(
                 project.project_languages.preload() for project in projects
@@ -121,7 +131,7 @@ class EngageLangSitemap(EngageSitemap):
         )
 
 
-SITEMAPS = {
+SITEMAPS: dict[str, type[Sitemap[Any]] | Sitemap[Any]] = {
     "project": ProjectSitemap(),
     "engage": EngageSitemap(),
     "engagelang": EngageLangSitemap(),
@@ -129,3 +139,16 @@ SITEMAPS = {
     "translation": TranslationSitemap(),
     "pages": PagesSitemap(),
 }
+
+ENGAGE_SITEMAPS: dict[str, type[Sitemap[Any]] | Sitemap[Any]] = {
+    "engage": SITEMAPS["engage"],
+    "engagelang": SITEMAPS["engagelang"],
+}
+
+
+def sitemap_index(request: HttpRequest) -> HttpResponse:
+    """Render sitemap index, limiting public Engage deployments to public URLs."""
+    sitemaps = SITEMAPS
+    if settings.REQUIRE_LOGIN and settings.PUBLIC_ENGAGE:
+        sitemaps = ENGAGE_SITEMAPS
+    return index(request, sitemaps=sitemaps, sitemap_url_name="sitemap")
