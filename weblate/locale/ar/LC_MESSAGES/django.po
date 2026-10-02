@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-02 05:19-0500\n"
-"PO-Revision-Date: 2026-10-02 17:13+0000\n"
+"PO-Revision-Date: 2026-10-02 17:46+0000\n"
 "Last-Translator: Basheer Radman <ba2014sheer@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
@@ -2688,10 +2688,10 @@ msgid "Invalid ITS directory path."
 msgstr "إنشاء عنصر"
 
 msgid "ITS rules must not contain a document type."
-msgstr ""
+msgstr "يجب ألا تتضمن قواعد ITS نوع مستند."
 
 msgid "Invalid ITS rule document root."
-msgstr ""
+msgstr "جذر مستند قاعدة ITS غير صالح."
 
 #, fuzzy
 #| msgid "New translation"
@@ -2709,13 +2709,13 @@ msgid "Unsupported ITS locating rule."
 msgstr "الملف غير مدعوم!"
 
 msgid "ITS locating rules require a pattern."
-msgstr ""
+msgstr "تتطلب قواعد تحديد الموقع في أنظمة النقل الذكية (ITS) وجود نمط محدد."
 
 msgid "ITS locating rules require a target or a document rule."
-msgstr ""
+msgstr "تتطلب قواعد تحديد الموقع الخاصة بـ ITS قاعدةً للهدف أو للمستند."
 
 msgid "ITS document rules require a target."
-msgstr ""
+msgstr "تتطلب قواعد مستندات ITS وجود هدف."
 
 #, fuzzy
 #| msgid "Unsupported file format."
@@ -2723,13 +2723,13 @@ msgid "Unsupported ITS rule namespace."
 msgstr "نسق الملف غير مدعوم."
 
 msgid "External ITS rule references are not allowed."
-msgstr ""
+msgstr "لا يُسمح بالمراجع الخارجية لقواعد ITS."
 
 msgid "ITS targets must name a rule in the same directory."
-msgstr ""
+msgstr "يجب أن تُشير أهداف ITS إلى قاعدة (rule) موجودة في الدليل نفسه."
 
 msgid "ITS target is missing or is a symbolic link."
-msgstr ""
+msgstr "هدف ITS مفقود أو عبارة عن رابط رمزي."
 
 #, fuzzy
 #| msgid "New translation"
@@ -2742,7 +2742,7 @@ msgid "ITS directory does not exist: %(path)s"
 msgstr "{filename} ({parameter}) غير موجود."
 
 msgid "ITS rules must be regular files, not symbolic links."
-msgstr ""
+msgstr "يجب أن تكون قواعد ITS ملفات عادية، وليست روابط رمزية."
 
 #, fuzzy, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
@@ -2758,7 +2758,7 @@ msgid "Squash Git commits"
 msgstr "جمع إيداعات Git"
 
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "ادمج (Squash) عمليات الالتزام (commits) في Git قبل دفع التغييرات."
 
 #, fuzzy
 #| msgid "There are some alerts on this component"
@@ -2839,7 +2839,7 @@ msgstr "المشروع"
 
 msgctxt "Add-on scope"
 msgid "Site"
-msgstr ""
+msgstr "موقع"
 
 #, python-format
 msgid "Invalid add-on name: ”%s”"
@@ -2858,36 +2858,43 @@ msgid "Add-on run has been scheduled."
 msgstr "تمت إزالة تعليق عن الترجمة."
 
 msgid "Webhook"
-msgstr ""
+msgstr "خطاف الويب (Webhook)"
 
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
 msgstr ""
+"يرسل إشعارات إلى خدمات خارجية بناءً على أحداث محددة، وذلك وفقاً لمواصفات "
+"Standard Webhooks."
 
 msgid "Slack Webhooks"
-msgstr ""
+msgstr "خطافات ويب Slack"
 
 msgid "Sends notification to a Slack channel based on selected events."
-msgstr ""
+msgstr "يرسل إشعاراً إلى قناة Slack بناءً على الأحداث المحددة."
 
 msgid "Session-based authentication used when user is signed in."
 msgstr "المصادقة القائمة على الجلسة تستخدم عندما يكون المستخدم قد سجّلَ دخوله."
 
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "المصادقة المستندة إلى الرموز المميزة مع البادئة المطلوبة `%s`."
 
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"يمتلك كل مستخدم رمز وصول شخصياً يمكنه الحصول عليه من ملفه الشخصي؛ وتبدأ هذه "
+"الرموز بالبادئة `wlu_`."
 
 msgid ""
 "It is possible to create project tokens whose access to the API is limited "
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"يمكن إنشاء رموز مميزة (tokens) خاصة بالمشاريع، بحيث تقتصر صلاحيات الوصول "
+"الخاصة بها عبر واجهة برمجة التطبيقات (API) على العمليات المتعلقة بالمشروع "
+"المرتبط بها. وتتميز هذه الرموز بالبادئة `wlp_`."
 
 #, fuzzy
 #| msgid "Success (green)"
@@ -2900,10 +2907,10 @@ msgid "The resource was created."
 msgstr "تمت إزالة مفتاح الأمان."
 
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "قُبِل الطلب للمعالجة غير المتزامنة."
 
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "استجابة ناجحة بدون نص استجابة."
 
 #, fuzzy
 #| msgid "The authentication provider could not be reached."
@@ -2911,7 +2918,7 @@ msgid "The request was invalid or could not be parsed."
 msgstr "تعذر الوصول لمزود المصادقة."
 
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "كانت بيانات اعتماد المصادقة مفقودة أو غير صالحة."
 
 #, fuzzy
 #| msgid "You do not have permission to access this component."
@@ -2919,10 +2926,10 @@ msgid "The authenticated user does not have permission for this operation."
 msgstr "ليس لديك إذن للوصول إلى هذا المكون."
 
 msgid "The requested resource was not found or is not accessible."
-msgstr ""
+msgstr "لم يتم العثور على المورد المطلوب أو أنه غير قابل للوصول."
 
 msgid "The HTTP method is not allowed for this resource."
-msgstr ""
+msgstr "طريقة HTTP غير مسموح بها لهذا المورد."
 
 #, fuzzy
 #| msgid "The entered token is not valid."
@@ -2940,7 +2947,7 @@ msgid "The resource is locked."
 msgstr "ملف موارد .Net"
 
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "تم تجاوز الحد الأقصى لمعدل طلبات واجهة برمجة التطبيقات (API)."
 
 #, fuzzy
 #| msgctxt "Notification name"
@@ -2950,7 +2957,7 @@ msgstr "حصل خطأ في التحليل"
 
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
-msgstr ""
+msgstr "التصفية حسب إجراء التغيير. كرر هذا المعامل للتصفية حسب إجراءات متعددة."
 
 msgid "Allowed number of requests to perform"
 msgstr "عدد الطلبات المسموح للمنصة"
@@ -2959,7 +2966,7 @@ msgid "Remaining number of requests to perform"
 msgstr "عدد الطلبات المتبقي للمنصة"
 
 msgid "Number of seconds until the rate-limit window resets"
-msgstr ""
+msgstr "عدد الثواني المتبقية حتى إعادة تعيين نافذة حد المعدل"
 
 #, fuzzy
 #| msgid "Create component"
@@ -2967,13 +2974,14 @@ msgid "Invalid component path."
 msgstr "إنشاء عنصر"
 
 msgid "URL slug"
-msgstr ""
+msgstr "اسم نطاق عنوان URL"
 
 msgid "Name used in URLs and filenames."
 msgstr "الاسم المستخدم في عناوين URL وأسماء الملفات."
 
 msgid "Required for credits, contributor stats, and translator work reports."
 msgstr ""
+"مطلوب لبيانات نسب العمل لأصحابها، وإحصائيات المساهمين، وتقارير عمل المترجمين."
 
 #, fuzzy
 #| msgid "Manage users"
@@ -3001,7 +3009,7 @@ msgid "Choose at most one report scope."
 msgstr "إختر صيغة ملف التقرير"
 
 msgid "Start and end timestamps are required."
-msgstr ""
+msgstr "يُشترط تحديد الطابع الزمني للبدء والانتهاء."
 
 #, fuzzy
 #| msgid "The starting date has to be before the ending date."
@@ -3009,7 +3017,7 @@ msgid "The report start must be before its end."
 msgstr "يجب أن يكون تاريخ البدء قبل تاريخ الانتهاء."
 
 msgid "Minimum changes can not exceed maximum changes."
-msgstr ""
+msgstr "لا يمكن أن تتجاوز التغييرات الدنيا التغييرات القصوى."
 
 #, fuzzy
 #| msgid "This e-mail address is disallowed."
@@ -3037,7 +3045,7 @@ msgstr "وقت الانشاء"
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
-msgstr ""
+msgstr "إذا كنت مسؤولاً، فيمكنك تحديد الطابع الزمني الصريح لإنشاء التعليق."
 
 msgid "Commenter’s email"
 msgstr "بريد صاحب التعليق"
@@ -3046,6 +3054,8 @@ msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
 msgstr ""
+"إذا كنت مسؤولاً، يمكنك نسب هذا التعليق إلى مستخدم آخر باستخدام عنوان بريده "
+"الإلكتروني."
 
 #, fuzzy
 #| msgid "Can not change authentication for demo!"
@@ -3056,7 +3066,7 @@ msgid "Cannot change this on an existing team."
 msgstr "لا يمكن تغيير هذا في فريق موجود."
 
 msgid "Choose either a project or a workspace."
-msgstr ""
+msgstr "اختر إما مشروعاً أو مساحة عمل."
 
 #, fuzzy
 #| msgid "A user with that username already exists."
@@ -3074,7 +3084,7 @@ msgid "Inherit enforced checks from the workspace."
 msgstr "علامات التحقق"
 
 msgid "Inherit enforced checks from the project, category or workspace."
-msgstr ""
+msgstr "توريث عمليات التحقق الإلزامية من المشروع أو الفئة أو مساحة العمل."
 
 msgid "You do not have permission to access this component."
 msgstr "ليس لديك إذن للوصول إلى هذا المكون."
@@ -3145,10 +3155,10 @@ msgid "Your suggestion already exists!"
 msgstr "إقتراجك موجود بالفعل!"
 
 msgid "Inherit enforced checks from the parent category, project or workspace."
-msgstr ""
+msgstr "ورث عمليات التحقق الإلزامية من الفئة الأصل أو المشروع أو مساحة العمل."
 
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "واجهة برمجة تطبيقات REST الخاصة بـ Weblate"
 
 msgid ""
 "Could not remove the string because another background operation is in "
@@ -3181,7 +3191,7 @@ msgid ""
 msgstr "تعذر الحصول على قفل (%(scope)s) لـ(%(origin)s) من أجل اجراء العملية."
 
 msgid "Expected an object."
-msgstr ""
+msgstr "كان من المتوقع وجود كائن."
 
 msgid "At least one team is required for a project token."
 msgstr "يتطلب فريق واحد على الأقل لرمز المشروع."
@@ -3217,7 +3227,7 @@ msgid "Report generation scheduled."
 msgstr "بُرمِجت عملية استيراد السلاسل."
 
 msgid "Specify a workspace when multiple workspaces can be used."
-msgstr ""
+msgstr "حدد مساحة عمل عند إمكانية استخدام مساحات عمل متعددة."
 
 #, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
@@ -3721,7 +3731,7 @@ msgstr "%(email)s: %(error)s"
 
 #, python-format
 msgid "%(email)s: pending invitation already exists"
-msgstr ""
+msgstr "%(email)s: توجد بالفعل دعوة معلقة"
 
 #, python-format
 msgid "%(count)d invitation e-mail was sent."
@@ -3763,6 +3773,8 @@ msgid ""
 "Grants access to all languages, including ones added in the future. Turn off "
 "to choose individual languages below."
 msgstr ""
+"يمنح إمكانية الوصول إلى جميع اللغات، بما في ذلك تلك التي ستُضاف مستقبلاً. قم "
+"بإيقاف هذا الخيار لاختيار لغات محددة أدناه."
 
 #, python-format
 msgid "%s (site-wide permission)"
@@ -3834,7 +3846,7 @@ msgid "The administrator can add or remove users from a team."
 msgstr "المشرف قادر على إضافة مستخدمين إلى فريق وإزالتهم منه."
 
 msgid "Enforced two-factor authentication"
-msgstr ""
+msgstr "المصادقة الثنائية الإلزامية"
 
 #, fuzzy
 #| msgid "Redirecting you to the authentication provider."
@@ -3842,7 +3854,7 @@ msgid "Requires users to have two-factor authentication configured."
 msgstr "يوجّهك إلى موفّر المصادقة."
 
 msgid "Team can be scoped either to a project or to a workspace."
-msgstr ""
+msgstr "يمكن تحديد نطاق الفريق ليكون مرتبطاً إما بمشروع أو بمساحة عمل."
 
 #, fuzzy
 #| msgid "Bihari languages"
@@ -3855,6 +3867,10 @@ msgid ""
 "limit is set. Empty selection uses the team language selection without "
 "additional limit."
 msgstr ""
+"قَيِّد صلاحيات هذا الفريق لتقتصر على هذه اللغات. عند تحديد قيد للغة، لا تُمنح "
+"الصلاحيات الخاصة بهذا الفريق على مستوى المشروع أو المكون أو المستوى العام. "
+"وفي حال عدم تحديد أي لغات، يتم اعتماد خيارات اللغة الخاصة بالفريق دون فرض "
+"قيود إضافية."
 
 #, fuzzy, python-format
 #| msgid "Enter a valid e-mail address."
@@ -3882,7 +3898,7 @@ msgid "Expires"
 msgstr "مُنتهي المدة"
 
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "سيتم تعطيل الحساب بعد انتهاء الصلاحية."
 
 msgid "Teams"
 msgstr "الفرق"
@@ -3900,6 +3916,7 @@ msgstr "التعبير العادي لعنوان البريد الإلكترون
 
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
+"سيتم إضافة المستخدمين الذين تتطابق عناوين بريدهم الإلكتروني إلى هذا الفريق."
 
 #, fuzzy
 #| msgid "Group to assign"
@@ -3923,19 +3940,19 @@ msgstr "فتح القفل"
 
 msgid ""
 "Internal notes regarding blocking the user that are not visible to the user."
-msgstr ""
+msgstr "ملاحظات داخلية بخصوص حظر المستخدم، وهي غير مرئية للمستخدم."
 
 msgid "User to add"
 msgstr "المستخدِم الذي تريد إضافته"
 
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr ""
+msgstr "يرجى إدخال اسم حساب Weblate أو عنوان البريد الإلكتروني الحالي."
 
 msgid "Suggest username for the user. It can be changed later."
-msgstr ""
+msgstr "اقترح اسم مستخدم للمستخدم. يمكن تغييره لاحقاً."
 
 msgid "Suggest full name for the user. It can be changed later."
-msgstr ""
+msgstr "اقترح اسماً كاملاً للمستخدم. يمكن تغييره لاحقاً."
 
 #, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
@@ -3961,11 +3978,15 @@ msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
+"يمكن للمستخدمين المتميزين فقط تعديل النصوص مباشرةً بهذه اللغة نظراً لآلية سير "
+"عمل الترجمة؛ لذا يُرجى إضافة اقتراح بدلاً من ذلك."
 
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"يمكن للمستخدمين المتميزين فقط تعديل النصوص مباشرةً بهذه اللغة نظراً لآلية سير "
+"عمل الترجمة المتبعة فيها؛ لذا يُرجى طلب صلاحية الوصول من مدير المشروع."
 
 msgid "Can not perform this operation without an e-mail address."
 msgstr "يتعذر إجراء هذه العملية من غير عنوان بريد إلكتروني."
@@ -3973,7 +3994,7 @@ msgstr "يتعذر إجراء هذه العملية من غير عنوان بر�
 msgid ""
 "This project requires two-factor authentication; configure it in your "
 "profile."
-msgstr ""
+msgstr "يتطلب هذا المشروع المصادقة الثنائية؛ قم بإعدادها في ملفك الشخصي."
 
 msgid "This translation is currently locked."
 msgstr "الترجمة حالياً مغلقة."
@@ -4027,6 +4048,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"تم إعداد هذه الترجمة لنظام التصويت على الاقتراحات؛ لذا يُرجى إضافة اقتراح بدلاً "
+"من حفظ ترجمة مباشرة."
 
 msgid "Pay the bills to unlock this project."
 msgstr "ادفع الفواتير لفتح هذا المشروع."
@@ -4112,7 +4135,7 @@ msgstr "الترجمة حالياً مغلقة."
 msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
-msgstr ""
+msgstr "الاقتراحات معطلة لهذه اللغة. اطلب من مسؤول المشروع تفعيلها."
 
 #, fuzzy
 #| msgid "The detected file format is not supported."
@@ -4122,7 +4145,7 @@ msgstr "تنسيق الملف المكتشف غير مدعوم."
 msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
-msgstr ""
+msgstr "أنشئ المكون وامنح نفسك صلاحية وصول صريحة قبل تفعيل الوصول المقيد."
 
 #, fuzzy
 #| msgid "This billing plan covers following projects:"
@@ -4133,6 +4156,8 @@ msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"تحتاج إلى صلاحية وصول صريحة لهذا المكون قبل تفعيل الوصول المقيد؛ وإلا، فستفقد "
+"القدرة على الوصول إليه بنفسك."
 
 #, fuzzy
 #| msgid "The filename can not be an absolute path."
@@ -4140,13 +4165,13 @@ msgid "The anonymous user can not be assigned to teams."
 msgstr "لا يمكن أن يكون اسم الملف مسارًا مطلقًا."
 
 msgid "Inactive users can not be assigned to teams."
-msgstr ""
+msgstr "لا يمكن تعيين المستخدمين غير النشطين إلى فرق."
 
 msgid "Project tokens can not be assigned to teams here."
-msgstr ""
+msgstr "لا يمكن تعيين رموز المشروع للفرق هنا."
 
 msgid "Cannot remove built-in team!"
-msgstr ""
+msgstr "لا يمكن إزالة الفريق المدمج!"
 
 #, fuzzy
 #| msgid "Activation e-mail will be sent here."
@@ -4164,7 +4189,7 @@ msgid "Automation"
 msgstr "الإكتشاف التلقائي"
 
 msgid "Runs ordered translation operations with conditions and branches."
-msgstr ""
+msgstr "ينفذ عمليات ترجمة مُرتَّبة تتضمن شروطاً وتفرعات."
 
 #, fuzzy
 #| msgid "This component is set up incorrectly."
@@ -4182,7 +4207,7 @@ msgid "Automation nesting is too deep."
 msgstr "الترجمة الآلية"
 
 msgid "Automation definitions cannot exceed 64 KiB."
-msgstr ""
+msgstr "لا يمكن أن تتجاوز تعريفات الأتمتة 64 كيلوبايت (KiB)."
 
 #, fuzzy
 #| msgid "The chosen sorting is not supported."
@@ -4195,7 +4220,7 @@ msgid "Automation keys must be strings."
 msgstr "ترجمة تلقائية"
 
 msgid "Invalid automation YAML or JSON."
-msgstr ""
+msgstr "ملف YAML أو JSON الخاص بالأتمتة غير صالح."
 
 #, fuzzy, python-format
 #| msgid "%(email)s: %(error)s"
@@ -4203,22 +4228,22 @@ msgid "%(path)s: %(error)s"
 msgstr "%(email)s: %(error)s"
 
 msgid "Automation exceeds 100 nodes or eight nesting levels."
-msgstr ""
+msgstr "تتجاوز الأتمتة 100 عقدة أو ثمانية مستويات من التداخل."
 
 msgid "Automation action IDs must be unique."
-msgstr ""
+msgstr "يجب أن تكون مُعرِّفات إجراءات الأتمتة فريدة."
 
 #, python-format
 msgid "%(path)s: trigger scope requires only change triggers."
-msgstr ""
+msgstr "%(path)s: يتطلب نطاق المشغّل مشغّلات التغيير فقط."
 
 #, python-format
 msgid "%(path)s: result scope requires an earlier action ID."
-msgstr ""
+msgstr "%(path)s: يتطلب نطاق النتيجة معرِّف إجراء سابق."
 
 #, python-format
 msgid "%(path)s: not requires exactly one condition."
-msgstr ""
+msgstr "%(path)s: لا يتطلب شرطاً واحداً بالضبط."
 
 #, fuzzy
 #| msgid "Automatic component list assignment"
@@ -4226,7 +4251,7 @@ msgid "Automation context is too large."
 msgstr "تعيين قائمة المكونات التلقائية"
 
 msgid "CEL validation or evaluation failed or exceeded its resource limit."
-msgstr ""
+msgstr "فشلت عملية التحقق من CEL أو تقييمها، أو تجاوزت حد الموارد المخصص لها."
 
 #, fuzzy, python-format
 #| msgid "Repository branch"
@@ -4234,10 +4259,10 @@ msgid "Invalid CEL condition: %s"
 msgstr "فرع المستودع"
 
 msgid "Workflow"
-msgstr ""
+msgstr "سير العمل"
 
 msgid "Enter an automation definition as YAML or JSON."
-msgstr ""
+msgstr "أدخل تعريف الأتمتة بصيغة YAML أو JSON."
 
 #, fuzzy
 #| msgid "Create component"
@@ -4245,7 +4270,7 @@ msgid "Preview component ID"
 msgstr "إنشاء عنصر"
 
 msgid "Required for inherited automations. Used only for preview."
-msgstr ""
+msgstr "مطلوب لعمليات الأتمتة الموروثة. يُستخدم للمعاينة فقط."
 
 #, fuzzy
 #| msgid "Recent changes"
@@ -4253,7 +4278,7 @@ msgid "Preview change ID"
 msgstr "التغييرات الأخيرة"
 
 msgid "Optional event context. Used only for preview."
-msgstr ""
+msgstr "سياق الحدث الاختياري. يُستخدم للمعاينة فقط."
 
 msgid "Additional message"
 msgstr "رسالة إضافية"
@@ -4273,9 +4298,11 @@ msgstr "بدأت الفترة التجريبية."
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"اضبط إعدادات الفوترة هذه على الفترة التجريبية المعتادة، وألغِ عملية الإزالة "
+"المجدولة."
 
 msgid "Workspace"
-msgstr ""
+msgstr "مساحة العمل"
 
 #, fuzzy
 #| msgid "Customize the component name"
