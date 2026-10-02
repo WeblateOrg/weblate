@@ -62,7 +62,7 @@
                     {% for name in registration_backends %}
                       <div class="col btn-auth">
                         <a href=""
-                           class="btn btn-outline-primary link-post"
+                           class="btn btn-outline-primary link-post link-auth"
                            data-href="{% url 'social:begin' name %}"
                            {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name %}</a>
                       </div>

@@ -1179,23 +1179,69 @@ onReady(() => {
     });
   });
 
+  let authenticationPending = false;
+  const authenticationInputs = [];
+  function resetAuthenticationSubmission() {
+    authenticationPending = false;
+    document.querySelectorAll(".link-auth").forEach((link) => {
+      link.removeAttribute("aria-disabled");
+      link.classList.remove("disabled");
+    });
+    authenticationInputs.splice(0).forEach((input) => {
+      input.remove();
+    });
+  }
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) {
+      resetAuthenticationSubmission();
+    }
+  });
+
   document.addEventListener("click", (e) => {
     const link = e.target.closest(".link-post");
     if (link === null) {
       return;
     }
     e.preventDefault();
+    const authentication = link.classList.contains("link-auth");
+    if (authentication && authenticationPending) {
+      return;
+    }
     const form = document.getElementById("link-post");
-    form.setAttribute("action", link.getAttribute("data-href"));
     const params = link.dataset.params ? JSON.parse(link.dataset.params) : {};
+    const action = new URL(
+      link.dataset.href ?? window.location.href,
+      document.baseURI,
+    );
+    if (action.origin !== window.location.origin) {
+      return;
+    }
+    if (authentication) {
+      authenticationPending = true;
+      document.querySelectorAll(".link-auth").forEach((control) => {
+        control.setAttribute("aria-disabled", "true");
+        control.classList.add("disabled");
+      });
+    }
+    form.action = `${action.pathname}${action.search}${action.hash}`;
     for (const [name, value] of Object.entries(params)) {
       const elm = document.createElement("input");
       elm.setAttribute("type", "hidden");
       elm.setAttribute("name", name);
       elm.setAttribute("value", value);
       form.appendChild(elm);
+      if (authentication) {
+        authenticationInputs.push(elm);
+      }
     }
-    form.submit();
+    try {
+      form.submit();
+    } catch (error) {
+      if (authentication) {
+        resetAuthenticationSubmission();
+      }
+      throw error;
+    }
   });
   document.querySelectorAll(".link-auto").forEach((link) => {
     link.click();
