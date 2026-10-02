@@ -101,8 +101,13 @@ class FilesTestCase(SimpleTestCase):
             for spelling in (name, name.upper(), name.lower(), name.title()):
                 for path in (
                     spelling,
+                    f"{spelling}.",
+                    f"{spelling} ",
+                    f"{spelling}. ",
                     f"nested/{spelling}/data",
+                    f"nested/{spelling}./data",
                     f"nested\\{spelling}\\data",
+                    f"nested\\{spelling} \\data",
                 ):
                     with self.subTest(path=path):
                         self.assertTrue(is_managed_vcs_metadata_path(path))
@@ -140,6 +145,18 @@ class FilesTestCase(SimpleTestCase):
         self.assertEqual(excluded, frozenset(path.casefold() for path in metadata))
         self.assertEqual(get_archive_vcs_metadata_members(ordinary), frozenset())
 
+    def test_archive_vcs_metadata_members_normalizes_ntfs_suffixes(self) -> None:
+        metadata = (
+            ".svn./entries",
+            "nested/.BZR /README",
+            "nested\\CVS.\\Root",
+        )
+
+        self.assertEqual(
+            get_archive_vcs_metadata_members(metadata),
+            frozenset((".svn/entries", "nested/.bzr/readme", "nested/cvs/root")),
+        )
+
     def test_archive_vcs_metadata_members_many_roots(self) -> None:
         paths = tuple(
             path
@@ -168,8 +185,10 @@ class FilesTestCase(SimpleTestCase):
     def test_is_excluded_allows_similar_names(self) -> None:
         for path in (
             ".gitignore",
+            ".gitignore. ",
             ".hgignore",
             "docs/.gitish/config",
+            "docs/.git\N{NO-BREAK SPACE}/config",
             "CVS-backup/Root",
             ".svnignore",
             "docs/my_darcs/file",
