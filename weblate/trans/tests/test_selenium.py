@@ -1065,6 +1065,208 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(submit_button.get_attribute("type"), "submit")
         self.assertEqual(submit_button.get_attribute("value"), "Sign in")
 
+    @contextmanager
+    def capture_authentication_submissions(self) -> Iterator[None]:
+        """Exercise the real login page without navigating to external providers."""
+        script = self.driver.execute_cdp_cmd(
+            "Page.addScriptToEvaluateOnNewDocument",
+            {
+                "source": """
+                window.authenticationSubmissions = [];
+                HTMLFormElement.prototype.submit = function () {
+                    window.authenticationSubmissions.push({
+                        action: this.getAttribute('action'),
+                        params: Array.from(new FormData(this).entries()),
+                    });
+                };
+                """
+            },
+        )
+        try:
+            with self.wait_for_page_load():
+                self.driver.get(
+                    f"{self.live_server_url}{reverse('login')}?"
+                    + urlencode({"next": "/projects/?sort=name"})
+                )
+            yield
+        finally:
+            self.driver.execute_cdp_cmd(
+                "Page.removeScriptToEvaluateOnNewDocument",
+                {"identifier": script["identifier"]},
+            )
+
+    def assert_authentication_submissions(self, count: int, action: str) -> None:
+        submissions = self.driver.execute_script(
+            "return window.authenticationSubmissions;"
+        )
+        self.assertEqual(len(submissions), count)
+        self.assertEqual(submissions[-1]["action"], action)
+        params = submissions[-1]["params"]
+        self.assertEqual(
+            [value for name, value in params if name == "next"],
+            ["/projects/?sort=name"],
+        )
+        self.assertTrue(
+            any(name == "csrfmiddlewaretoken" and value for name, value in params)
+        )
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.github.GithubOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
+    def test_authentication_auto_submission_guard(self) -> None:
+        with self.capture_authentication_submissions():
+            action = reverse("social:begin", args=("github",))
+            control = self.driver.find_element(By.CSS_SELECTOR, ".link-auth")
+            self.assertEqual(control.get_attribute("aria-disabled"), "true")
+            # Include a queued/programmatic activation despite disabled styling.
+            self.driver.execute_script("arguments[0].click();", control)
+            self.assert_authentication_submissions(1, action)
+
+            self.driver.execute_script(
+                "window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: false}));"
+            )
+            self.driver.execute_script("arguments[0].click();", control)
+            self.assert_authentication_submissions(1, action)
+
+            self.driver.execute_script(
+                "window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));"
+            )
+            self.assertIsNone(control.get_attribute("aria-disabled"))
+            self.assertNotIn("disabled", (control.get_attribute("class") or "").split())
+            self.assert_authentication_submissions(1, action)
+            control.send_keys(Keys.ENTER)
+            self.driver.execute_script("arguments[0].click();", control)
+            self.assert_authentication_submissions(2, action)
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.github.GithubOAuth2",
+            "social_core.backends.google.GoogleOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
+    def test_authentication_manual_submission_guard(self) -> None:
+        with self.capture_authentication_submissions():
+            controls = self.driver.find_elements(By.CSS_SELECTOR, ".link-auth")
+            self.assertEqual(len(controls), 2)
+            action = controls[0].get_attribute("data-href")
+            assert action is not None
+            controls[0].click()
+            self.driver.execute_script(
+                "arguments[0].click(); arguments[1].click();", *controls
+            )
+            self.assert_authentication_submissions(1, action)
+            for control in controls:
+                self.assertEqual(control.get_attribute("aria-disabled"), "true")
+
+            # The shared form remains usable by unrelated POST actions.
+            self.driver.execute_script("""
+                const link = document.createElement('a');
+                link.className = 'link-post';
+                link.dataset.href = '/unrelated-action/';
+                document.body.appendChild(link);
+                link.click();
+                link.click();
+                link.remove();
+            """)
+            self.assert_authentication_submissions(3, "/unrelated-action/")
+
+            self.driver.execute_script("""
+                const link = document.createElement('a');
+                link.className = 'link-post';
+                link.dataset.href = 'https://outside.example/action/';
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            """)
+            self.assert_authentication_submissions(3, "/unrelated-action/")
+
+            self.driver.execute_script(
+                "window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));"
+            )
+            self.driver.execute_script("""
+                const form = document.getElementById('link-post');
+                form.submit = () => { throw new Error('Submission failed'); };
+                window.addEventListener('error', (event) => event.preventDefault(), {once: true});
+                document.querySelector('.link-auth').click();
+                delete form.submit;
+            """)
+            for control in controls:
+                self.assertIsNone(control.get_attribute("aria-disabled"))
+            controls[1].send_keys(Keys.ENTER)
+            other_action = controls[1].get_attribute("data-href")
+            assert other_action is not None
+            self.assert_authentication_submissions(4, other_action)
+
+    @social_core_override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.email.EmailAuth",
+            "social_core.backends.github.GithubOAuth2",
+            "social_core.backends.google.GoogleOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
+    def test_authentication_submission_guard_covers_registration_and_profile(
+        self,
+    ) -> None:
+        with self.capture_authentication_submissions():
+            with self.wait_for_page_load():
+                self.driver.get(
+                    f"{self.live_server_url}{reverse('register')}?"
+                    + urlencode({"next": "/projects/?sort=name"})
+                )
+            controls = self.driver.find_elements(By.CSS_SELECTOR, ".link-auth")
+            self.assertEqual(len(controls), 2)
+            action = controls[0].get_attribute("data-href")
+            assert action is not None
+            self.driver.execute_script(
+                "arguments[0].click(); arguments[1].click();",
+                controls[0],
+                controls[1],
+            )
+            submissions = self.driver.execute_script(
+                "return window.authenticationSubmissions;"
+            )
+            self.assertEqual(len(submissions), 1)
+            self.assertEqual(submissions[0]["action"], action)
+            self.assertTrue(
+                any(
+                    name == "csrfmiddlewaretoken" and value
+                    for name, value in submissions[0]["params"]
+                )
+            )
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('login')}")
+        self.do_login()
+        with self.capture_authentication_submissions():
+            with self.wait_for_page_load():
+                self.driver.get(f"{self.live_server_url}{reverse('profile')}")
+            controls = self.driver.find_elements(
+                By.CSS_SELECTOR,
+                ".link-auth[data-href*='/accounts/login/']:not([data-href*='/email/'])",
+            )
+            self.assertGreaterEqual(len(controls), 1)
+            action = controls[0].get_attribute("data-href")
+            assert action is not None
+            self.driver.execute_script(
+                "arguments[0].click(); arguments[0].click();", controls[0]
+            )
+            submissions = self.driver.execute_script(
+                "return window.authenticationSubmissions;"
+            )
+            self.assertEqual(len(submissions), 1)
+            self.assertEqual(submissions[0]["action"], action)
+            self.assertTrue(
+                any(
+                    name == "csrfmiddlewaretoken" and value
+                    for name, value in submissions[0]["params"]
+                )
+            )
+
     def test_support_page_navigation(self) -> None:
         """Keep the purchase offer and its exit accessible on narrow screens."""
         cache.delete(SUPPORT_STATUS_CACHE_KEY)

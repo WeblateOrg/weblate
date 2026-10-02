@@ -13,6 +13,8 @@ Weblate 2026.10.1
 
 .. rubric:: Bug fixes
 
+* Prevented duplicate initiation of :doc:`provider authentication <admin/auth>` and improved guidance for authentication token errors.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
