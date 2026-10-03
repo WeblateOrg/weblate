@@ -1075,6 +1075,20 @@ You can either define which project or component to update (for example
     Weblate pushes changes automatically if :ref:`component-push_on_commit` in
     :ref:`component` is turned on, which is the default.
 
+refresh_github_repositories
+---------------------------
+
+.. weblate-admin:: refresh_github_repositories
+
+.. versionadded:: 2026.10.1
+
+Refreshes the repository list of all connected GitHub accounts and retargets
+components whose repository was renamed or transferred on GitHub.
+
+.. seealso::
+
+   :ref:`code-hosting-github-app-webhook`
+
 unlock_translation
 ------------------
 
