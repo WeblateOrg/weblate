@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import tempfile
+from pathlib import Path
 from typing import TYPE_CHECKING
 from unittest.mock import patch
 
@@ -296,6 +297,32 @@ class AppStoreNewLangTest(NewLangTest):
 
     def create_component(self) -> Component:
         return self.create_appstore(new_lang="add")
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_add_does_not_commit_unrelated_changes(self) -> None:
+        repository = self.component.repository
+        unrelated = Path(repository.path) / "Gemfile.lock"
+        unrelated.write_text("locked\n", encoding="utf-8")
+        with repository.lock:
+            repository.commit("Add unrelated lock", files=[unrelated.as_posix()])
+        old_revision = repository.last_revision
+        unrelated.unlink()
+
+        with (
+            patch.object(self.component, "queue_background_task"),
+            patch.object(self.component, "push_if_needed") as push_if_needed,
+        ):
+            translation = self.component.add_new_language(
+                Language.objects.get(code="af"),
+                self.get_request(),
+                show_messages=False,
+            )
+
+        self.assertIsNotNone(translation)
+        self.assertEqual(translation.filenames, [])
+        self.assertEqual(repository.last_revision, old_revision)
+        self.assertTrue(repository.needs_commit())
+        push_if_needed.assert_not_called()
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_add_queues_background_force_scan_for_added_language(self) -> None:
