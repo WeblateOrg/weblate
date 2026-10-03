@@ -54,6 +54,39 @@ from weblate.workspaces.models import Workspace
 
 
 class SettingsTest(ViewTestCase):
+    def test_saving_settings_reports_legacy_duplicate_repair(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.project.component_set.update(license="MIT")
+        duplicate = Group.objects.bulk_create(
+            [Group(name="Administration", defining_project=self.project, internal=True)]
+        )[0]
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Settings saved")
+        self.assertContains(
+            response, "Team Administration was renamed to Administration (2)"
+        )
+        duplicate.refresh_from_db()
+        self.assertEqual(duplicate.name, "Administration (2)")
+        self.assertFalse(duplicate.internal)
+
+    def test_enabling_reviews_warns_about_custom_team_rename(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.project.component_set.update(license="MIT")
+        custom = Group.objects.create(name="Review", defining_project=self.project)
+        url = reverse("settings", kwargs={"path": self.project.get_url_path()})
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["translation_review"] = True
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Settings saved")
+        self.assertContains(response, "Team Review was renamed to Review (2)")
+        custom.refresh_from_db()
+        self.assertEqual(custom.name, "Review (2)")
+        self.assertTrue(self.project.defined_groups.get(name="Review").internal)
+
     def test_public_sharing_permission(self) -> None:
         form = ProjectSettingsForm(self.get_request(), instance=self.project)
         self.assertTrue(form.fields["public_sharing"].disabled)

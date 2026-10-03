@@ -120,6 +120,16 @@ Granting users :guilabel:`Manage project access` (see :ref:`privileges`)
 allows them to assign other users in `Public`, `Protected` and
 `Private` (but not `Custom`) projects via adding them to teams.
 
+When enabling a project feature requires a built-in team name already used by a
+custom team, the custom team receives a numeric suffix. Its memberships and
+permissions are preserved, and the settings page reports the rename.
+
+Existing teams with duplicate names can still be edited without changing their
+names. Saving the project settings repairs duplicate names: a built-in team
+keeps its name, and additional teams receive numeric suffixes. Additional
+built-in teams become editable custom teams. Memberships and permissions are
+preserved, and the settings page reports the renames.
+
 These are the default teams provided with Weblate; teams can
 be added or modified by users with sufficient privileges:
 

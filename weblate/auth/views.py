@@ -6,7 +6,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_not_required
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import transaction
 from django.forms import inlineformset_factory
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
@@ -194,8 +195,12 @@ class TeamUpdateView(UpdateView):
 
         formset = self.auto_formset(instance=self.object, data=request.POST)
         if form.is_valid() and formset.is_valid():
-            formset.save()
-            return self.form_valid(form)
+            try:
+                with transaction.atomic():
+                    formset.save()
+                    return self.form_valid(form)
+            except ValidationError as error:
+                form.add_error(None, error)
         return self.form_invalid(form, formset)
 
     # pylint: disable=arguments-differ

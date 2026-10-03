@@ -22,6 +22,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
+from weblate.auth.utils import get_team_rename_warnings
 from weblate.trans.backups import (
     PROJECTBACKUP_PREFIX,
     get_project_backup_download_storage,
@@ -145,6 +146,8 @@ def change_project(request: AuthenticatedHttpRequest, obj):
         if settings_form.is_valid():
             settings_form.save()
             messages.success(request, gettext("Settings saved"))
+            for warning in get_team_rename_warnings(obj.renamed_teams):
+                messages.warning(request, warning)
             return redirect("settings", path=obj.get_url_path())
         messages.error(
             request, gettext("Invalid settings. Please check the form for errors.")

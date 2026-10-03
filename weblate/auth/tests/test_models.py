@@ -188,6 +188,220 @@ class InternalBotEmailTest(TestCase):
 
 
 class ModelTest(FixtureComponentTestCase):
+    def test_legacy_duplicate_names_allow_unrelated_updates(self) -> None:
+        teams = Group.objects.bulk_create(
+            [Group(name="Legacy", defining_project=self.project) for _ in range(2)]
+        )
+        for team in teams:
+            team.enforced_2fa = True
+            team.clean()
+            team.save(update_fields=["enforced_2fa"])
+            team.refresh_from_db()
+            self.assertTrue(team.enforced_2fa)
+            self.assertEqual(team.name, "Legacy")
+        with self.assertRaises(ValidationError):
+            Group.objects.create(name="Legacy", defining_project=self.project)
+        other = Group.objects.create(name="Other", defining_project=self.project)
+        other.name = "Legacy"
+        with self.assertRaises(ValidationError):
+            other.save()
+        teams[1].name = "Repaired"
+        teams[1].save()
+
+    def test_project_save_repairs_legacy_duplicate_names(self) -> None:
+        builtin = self.project.defined_groups.get(name="Translate", internal=True)
+        duplicates = Group.objects.bulk_create(
+            [
+                Group(name="Translate", defining_project=self.project),
+                Group(name="Translate", defining_project=self.project, internal=True),
+                Group(name="Translate (2)", defining_project=self.project),
+            ]
+        )
+        duplicate = duplicates[1]
+        duplicate.user_set.add(self.user)
+        duplicate.admins.add(self.user)
+        duplicate.roles.add(Role.objects.get(name="Review strings"))
+        duplicate.enforced_2fa = True
+        duplicate.save(update_fields=["enforced_2fa"])
+        self.project.save()
+        builtin.refresh_from_db()
+        duplicate.refresh_from_db()
+        self.assertEqual(builtin.name, "Translate")
+        self.assertTrue(builtin.internal)
+        self.assertEqual(duplicate.name, "Translate (3)")
+        self.assertFalse(duplicate.internal)
+        self.assertTrue(duplicate.enforced_2fa)
+        self.assertEqual(list(duplicate.user_set.all()), [self.user])
+        self.assertEqual(list(duplicate.admins.all()), [self.user])
+        self.assertEqual(
+            list(duplicate.roles.values_list("name", flat=True)), ["Review strings"]
+        )
+        duplicates[0].refresh_from_db()
+        self.assertEqual(duplicates[0].name, "Translate (4)")
+        self.assertEqual(
+            self.project.renamed_teams,
+            [("Translate", "Translate (3)"), ("Translate", "Translate (4)")],
+        )
+        self.project.save()
+        self.assertEqual(self.project.renamed_teams, [])
+
+    def test_project_save_prefers_later_builtin_over_custom_duplicate(self) -> None:
+        self.project.defined_groups.filter(name="Translate", internal=True).delete()
+        custom = Group.objects.create(name="Translate", defining_project=self.project)
+        builtin = Group.objects.bulk_create(
+            [Group(name="Translate", defining_project=self.project, internal=True)]
+        )[0]
+        self.project.save()
+        custom.refresh_from_db()
+        builtin.refresh_from_db()
+        self.assertEqual(custom.name, "Translate (2)")
+        self.assertFalse(custom.internal)
+        self.assertEqual(builtin.name, "Translate")
+        self.assertTrue(builtin.internal)
+
+    def test_enabling_reviews_renames_custom_team(self) -> None:
+        self.project.translation_review = False
+        self.project.source_review = False
+        self.project.save()
+        self.project.defined_groups.filter(name="Review", internal=True).delete()
+        custom = Group.objects.create(name="Review", defining_project=self.project)
+        custom.roles.add(Role.objects.get(name="Translate"))
+        custom.user_set.add(self.user)
+        custom.admins.add(self.user)
+        custom.languages.add(Language.objects.get(code="cs"))
+        Group.objects.create(name="Review (2)", defining_project=self.project)
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        custom.refresh_from_db()
+        self.assertEqual(custom.name, "Review (3)")
+        self.assertFalse(custom.internal)
+        self.assertEqual(list(custom.user_set.all()), [self.user])
+        self.assertEqual(list(custom.admins.all()), [self.user])
+        self.assertEqual(
+            list(custom.roles.values_list("name", flat=True)), ["Translate"]
+        )
+        self.assertEqual(list(custom.languages.values_list("code", flat=True)), ["cs"])
+        self.assertTrue(self.project.defined_groups.get(name="Review").internal)
+        self.assertEqual(self.project.renamed_teams, [("Review", "Review (3)")])
+
+    def test_builtin_setup_preserves_changed_selection_settings(self) -> None:
+        team = self.project.defined_groups.get(name="Translate")
+        team.language_selection = SELECTION_MANUAL
+        team.save(update_fields=["language_selection"])
+        self.project.translation_review = not self.project.translation_review
+        self.project.save(update_fields=["translation_review"])
+        team.refresh_from_db()
+        self.assertEqual(team.language_selection, SELECTION_MANUAL)
+        self.assertEqual(
+            self.project.defined_groups.filter(name="Translate").count(), 1
+        )
+
+    def test_builtin_setup_failure_rolls_back_settings_and_rename(self) -> None:
+        self.project.translation_review = False
+        self.project.source_review = False
+        self.project.save()
+        self.project.defined_groups.filter(name="Review", internal=True).delete()
+        custom = Group.objects.create(name="Review", defining_project=self.project)
+        Group.objects.bulk_create(
+            [Group(name="Legacy", defining_project=self.project) for _ in range(2)]
+        )
+        self.project.translation_review = True
+        with (
+            patch.object(Role.objects, "get", side_effect=RuntimeError("missing role")),
+            self.assertRaisesMessage(RuntimeError, "missing role"),
+        ):
+            self.project.save(update_fields=["translation_review"])
+        self.project.refresh_from_db()
+        custom.refresh_from_db()
+        self.assertFalse(self.project.translation_review)
+        self.assertEqual(custom.name, "Review")
+        self.assertFalse(
+            self.project.defined_groups.filter(name="Review", internal=True).exists()
+        )
+        self.assertEqual(self.project.defined_groups.filter(name="Legacy").count(), 2)
+        self.assertFalse(self.project.defined_groups.filter(name="Legacy (2)").exists())
+
+    def check_retry_after_builtin_setup_failure(
+        self, setting: str, value: int | bool, team_name: str
+    ) -> None:
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.translation_review = False
+        self.project.source_review = False
+        self.project.save()
+        self.project.defined_groups.exclude(name="Administration").delete()
+        custom = Group.objects.create(name=team_name, defining_project=self.project)
+        trackers = (
+            self.project.old_access_control,
+            self.project.old_translation_review,
+            self.project.old_source_review,
+        )
+        original = getattr(self.project, setting)
+        change_count = self.project.change_set.count()
+        setattr(self.project, setting, value)
+        with (
+            patch.object(Role.objects, "get", side_effect=RuntimeError("missing role")),
+            self.assertRaisesMessage(RuntimeError, "missing role"),
+        ):
+            self.project.save(update_fields=[setting])
+        self.assertEqual(
+            (
+                self.project.old_access_control,
+                self.project.old_translation_review,
+                self.project.old_source_review,
+            ),
+            trackers,
+        )
+        self.assertEqual(self.project.renamed_teams, [])
+        self.assertEqual(self.project.change_set.count(), change_count)
+        self.assertEqual(getattr(self.project, setting), value)
+        self.assertEqual(
+            getattr(Project.objects.get(pk=self.project.pk), setting), original
+        )
+        custom.refresh_from_db()
+        self.assertEqual(custom.name, team_name)
+
+        # Retry the same instance with the intended setting still in memory.
+        self.project.save(update_fields=[setting])
+        self.assertEqual(
+            getattr(Project.objects.get(pk=self.project.pk), setting), value
+        )
+        builtin = self.project.defined_groups.get(name=team_name, internal=True)
+        self.assertTrue(builtin.roles.exists())
+        custom.refresh_from_db()
+        self.assertEqual(custom.name, f"{team_name} (2)")
+        self.assertEqual(self.project.renamed_teams, [(team_name, f"{team_name} (2)")])
+        self.assertEqual(self.project.change_set.count(), change_count + 1)
+
+    def test_retry_access_control_after_builtin_setup_failure(self) -> None:
+        self.check_retry_after_builtin_setup_failure(
+            "access_control", Project.ACCESS_PRIVATE, "Translate"
+        )
+
+    def test_retry_translation_review_after_builtin_setup_failure(self) -> None:
+        self.check_retry_after_builtin_setup_failure(
+            "translation_review", True, "Review"
+        )
+
+    def test_retry_source_review_after_builtin_setup_failure(self) -> None:
+        self.check_retry_after_builtin_setup_failure("source_review", True, "Review")
+
+    def test_project_team_name_validation(self) -> None:
+        team = Group.objects.create(name="Unique team", defining_project=self.project)
+        with self.assertRaisesMessage(
+            ValidationError, "A team with this name already exists in this project."
+        ):
+            Group.objects.create(name=team.name, defining_project=self.project)
+        other = Group.objects.create(name="Other team", defining_project=self.project)
+        other.name = team.name
+        with self.assertRaises(ValidationError):
+            other.save()
+        team.save()
+        another_project = Project.objects.create(
+            name="Other project", slug="other-project", web="https://example.com/"
+        )
+        Group.objects.create(name=team.name, defining_project=another_project)
+        Group.objects.create(name=team.name)
+
     def setUp(self) -> None:
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE

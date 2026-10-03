@@ -24,6 +24,7 @@ from django.conf import settings
 from django.contrib import messages as django_messages
 from django.contrib.messages import get_messages
 from django.core.cache import cache
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError, transaction
@@ -2476,6 +2477,140 @@ class UserAPITest(APIBaseTest):
 
 
 class GroupAPITest(APIBaseTest):
+    def test_update_legacy_duplicate_team(self) -> None:
+        teams = Group.objects.bulk_create(
+            [
+                Group(name="Legacy", defining_project=self.component.project)
+                for _ in range(2)
+            ]
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": teams[0].pk},
+            method="patch",
+            superuser=True,
+            format="json",
+            request={"enforced_2fa": True},
+        )
+        teams[0].refresh_from_db()
+        self.assertTrue(teams[0].enforced_2fa)
+        self.assertEqual(teams[0].name, "Legacy")
+
+    def test_create_project_team_reports_late_name_conflict(self) -> None:
+        error = DjangoValidationError(
+            {"name": "A team with this name already exists in this project."}
+        )
+        with patch.object(Group, "save", side_effect=error):
+            response = self.do_request(
+                "api:group-list",
+                method="post",
+                superuser=True,
+                code=400,
+                format="json",
+                request={
+                    "name": "Concurrent team",
+                    "project_selection": SELECTION_MANUAL,
+                    "language_selection": SELECTION_MANUAL,
+                    "defining_project": reverse(
+                        "api:project-detail", kwargs=self.project_kwargs
+                    ),
+                },
+            )
+        self.assertEqual(response.data["errors"][0]["attr"], "name")
+
+    def test_update_project_team_reports_late_name_conflict(self) -> None:
+        group = Group.objects.create(
+            name="Before", defining_project=self.component.project
+        )
+        error = DjangoValidationError(
+            {"name": "A team with this name already exists in this project."}
+        )
+        with patch.object(Group, "save", side_effect=error):
+            response = self.do_request(
+                "api:group-detail",
+                kwargs={"id": group.pk},
+                method="patch",
+                superuser=True,
+                code=400,
+                format="json",
+                request={"name": "Concurrent team"},
+            )
+        self.assertEqual(response.data["errors"][0]["attr"], "name")
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Before")
+
+    def test_duplicate_project_team_names(self) -> None:
+        project = self.component.project
+        team = Group.objects.create(name="Unique team", defining_project=project)
+        response = self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "name": team.name,
+                "project_selection": SELECTION_MANUAL,
+                "language_selection": SELECTION_MANUAL,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "name")
+        self.assertIn(
+            "already exists in this project", response.data["errors"][0]["detail"]
+        )
+        other = Group.objects.create(name="Other team", defining_project=project)
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": other.pk},
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"name": team.name},
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "name")
+        other.refresh_from_db()
+        self.assertEqual(other.name, "Other team")
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": team.pk},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"name": team.name},
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": team.pk},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"enforced_2fa": True},
+        )
+        other_project = Project.objects.create(
+            name="Another project", slug="another-project", web="https://example.com/"
+        )
+        self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": team.name,
+                "project_selection": SELECTION_MANUAL,
+                "language_selection": SELECTION_MANUAL,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs={"slug": other_project.slug}
+                ),
+            },
+        )
+
     def test_list(self) -> None:
         response = self.client.get(reverse("api:group-list"))
         self.assertEqual(response.data["count"], 2)

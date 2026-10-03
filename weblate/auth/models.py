@@ -10,6 +10,7 @@ from copy import copy
 from dataclasses import dataclass
 from datetime import timedelta
 from functools import cache as functools_cache
+from functools import partial
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
 
 import regex
@@ -22,8 +23,8 @@ from django.contrib.auth.models import Group as DjangoGroup
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as DjangoEmailValidator
 from django.core.validators import MinValueValidator
-from django.db import models, router
-from django.db.models import Q, UniqueConstraint
+from django.db import models, router, transaction
+from django.db.models import Count, Q, UniqueConstraint
 from django.db.models.functions import Upper
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
@@ -51,6 +52,7 @@ from weblate.auth.permissions import (
     check_permission,
 )
 from weblate.auth.utils import (
+    TeamNameAllocator,
     create_anonymous,
     format_address,
     is_django_permission,
@@ -372,33 +374,40 @@ class Group(models.Model):
         return pgettext("Access-control team name", self.name)
 
     def save(self, *args, **kwargs) -> None:
-        self.clean()
-        if self.defining_workspace_id:
-            self.language_selection = SELECTION_ALL
-            if update_fields := kwargs.get("update_fields"):
-                kwargs["update_fields"] = {*update_fields, "language_selection"}
-        super().save(*args, **kwargs)
-        if self.defining_workspace_id:
-            self.projects.clear()
-            self.components.clear()
-            self.componentlists.clear()
-            self.languages.clear()
-            return
-        if self.project_selection != SELECTION_COMPONENT_LIST:
-            self.componentlists.clear()
-        if self.project_selection in {
-            SELECTION_ALL,
-            SELECTION_ALL_PUBLIC,
-            SELECTION_ALL_PROTECTED,
-        }:
-            self.projects.clear()
-        elif self.project_selection == SELECTION_COMPONENT_LIST:
-            self.projects.set(
-                Project.objects.filter(
-                    component__componentlist__in=self.componentlists.all()
-                ),
-                clear=True,
-            )
+        using = kwargs.get("using") or router.db_for_write(type(self), instance=self)
+        with transaction.atomic(using=using):
+            if self.defining_project_id:
+                # Serialize name checks and writes, including built-in setup.
+                Project.objects.using(using).select_for_update(no_key=True).only(
+                    "pk"
+                ).get(pk=self.defining_project_id)
+            self.clean()
+            if self.defining_workspace_id:
+                self.language_selection = SELECTION_ALL
+                if update_fields := kwargs.get("update_fields"):
+                    kwargs["update_fields"] = {*update_fields, "language_selection"}
+            super().save(*args, **kwargs)
+            if self.defining_workspace_id:
+                self.projects.clear()
+                self.components.clear()
+                self.componentlists.clear()
+                self.languages.clear()
+                return
+            if self.project_selection != SELECTION_COMPONENT_LIST:
+                self.componentlists.clear()
+            if self.project_selection in {
+                SELECTION_ALL,
+                SELECTION_ALL_PUBLIC,
+                SELECTION_ALL_PROTECTED,
+            }:
+                self.projects.clear()
+            elif self.project_selection == SELECTION_COMPONENT_LIST:
+                self.projects.set(
+                    Project.objects.filter(
+                        component__componentlist__in=self.componentlists.all()
+                    ),
+                    clear=True,
+                )
 
     def get_absolute_url(self) -> str:
         return reverse("team", kwargs={"pk": self.pk})
@@ -408,6 +417,28 @@ class Group(models.Model):
         if self.defining_project_id and self.defining_workspace_id:
             raise ValidationError(
                 gettext("Team can be scoped either to a project or to a workspace.")
+            )
+        if (
+            self.defining_project_id
+            # Existing duplicate names remain editable until repaired. Check
+            # uniqueness only when creating a team or changing its name/scope.
+            and not Group.objects.filter(
+                pk=self.pk,
+                defining_project_id=self.defining_project_id,
+                name=self.name,
+            ).exists()
+            and Group.objects.filter(
+                defining_project_id=self.defining_project_id, name=self.name
+            )
+            .exclude(pk=self.pk)
+            .exists()
+        ):
+            raise ValidationError(
+                {
+                    "name": gettext(
+                        "A team with this name already exists in this project."
+                    )
+                }
             )
         if (
             self.defining_workspace_id
@@ -1841,6 +1872,56 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs) -> None:
         auto_assign_group(instance)
 
 
+def rename_project_team(
+    project: Project, team: Group, allocator: TeamNameAllocator, using: str
+) -> None:
+    old_name = team.name
+    team.name = allocator.allocate(old_name)
+    # A suffixed built-in duplicate becomes editable while retaining its data.
+    team.internal = False
+    team.save(update_fields=["name", "internal"])
+    project.renamed_teams.append((old_name, team.name))
+    transaction.on_commit(
+        partial(
+            LOGGER.warning,
+            "Renamed project team %s to %s in project %s to resolve a team name collision.",
+            old_name,
+            team.name,
+            project.pk,
+        ),
+        using=using,
+    )
+
+
+def repair_duplicate_project_teams(project: Project, using: str) -> None:
+    """Repair legacy duplicates when saving a project's settings."""
+    with transaction.atomic(using=using):
+        Project.objects.using(using).select_for_update(no_key=True).only("pk").get(
+            pk=project.pk
+        )
+        duplicate_names = list(
+            project.defined_groups.values("name")
+            .annotate(team_count=Count("pk"))
+            .filter(team_count__gt=1)
+            .values_list("name", flat=True)
+        )
+        if not duplicate_names:
+            return
+        # ruff: ignore[private-member-access]
+        allocator = TeamNameAllocator(
+            project.defined_groups.values_list("name", flat=True),
+            cast("int", Group._meta.get_field("name").max_length),
+        )
+        retained_names: set[str] = set()
+        for team in project.defined_groups.filter(name__in=duplicate_names).order_by(
+            "name", "-internal", "pk"
+        ):
+            if team.name not in retained_names:
+                retained_names.add(team.name)
+                continue
+            rename_project_team(project, team, allocator, using)
+
+
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def setup_project_groups(
@@ -1851,6 +1932,8 @@ def setup_project_groups(
     **kwargs,
 ) -> None:
     """Set up group objects upon saving project."""
+    using = kwargs.get("using") or router.db_for_write(Project, instance=instance)
+    repair_duplicate_project_teams(instance, using)
     old_access_control = instance.old_access_control
     if old_access_control is models.DEFERRED:
         old_access_control = instance.access_control
@@ -1916,19 +1999,35 @@ def setup_project_groups(
         # - Change between protected/private means no change in groups
         return
 
-    # Create role specific groups
-    for group_name in groups:
-        group, created = instance.defined_groups.get_or_create(
-            internal=True,
-            name=group_name,
-            project_selection=SELECTION_MANUAL,
-            defining_project=instance,
-            language_selection=SELECTION_ALL,
+    with transaction.atomic(using=using):
+        Project.objects.using(using).select_for_update(no_key=True).only("pk").get(
+            pk=instance.pk
         )
-        if not created:
-            continue
-        group.projects.add(instance)
-        group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
+        # ruff: ignore[private-member-access]
+        max_length = cast("int", Group._meta.get_field("name").max_length)
+        allocator = TeamNameAllocator(
+            set(instance.defined_groups.values_list("name", flat=True)) | groups,
+            max_length,
+        )
+        for custom in instance.defined_groups.filter(
+            internal=False, name__in=groups
+        ).order_by("pk"):
+            rename_project_team(instance, custom, allocator, using)
+
+        # Selection settings are creation defaults, not part of team identity.
+        for group_name in sorted(groups):
+            group, created = instance.defined_groups.get_or_create(
+                internal=True,
+                name=group_name,
+                defaults={
+                    "project_selection": SELECTION_MANUAL,
+                    "language_selection": SELECTION_ALL,
+                },
+            )
+            if not created:
+                continue
+            group.projects.add(instance)
+            group.roles.add(Role.objects.get(name=ACL_GROUPS[group_name]))
 
 
 class InvitationError(Exception):
