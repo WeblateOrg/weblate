@@ -36,7 +36,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-10-02 05:19-0500\n"
-"PO-Revision-Date: 2026-10-03 04:38+0000\n"
+"PO-Revision-Date: 2026-10-03 05:21+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -2779,15 +2779,11 @@ msgstr "该工作区中已存在这个名称的团队。"
 msgid "Cannot change this on a scoped team."
 msgstr "无法对有范围的团队更改此项。"
 
-#, fuzzy
-#| msgid "Inherit from workspace"
 msgid "Inherit enforced checks from the workspace."
-msgstr "继承自工作区"
+msgstr "从工作区继承强制的检查。"
 
-#, fuzzy
-#| msgid "Choose either a project or a workspace."
 msgid "Inherit enforced checks from the project, category or workspace."
-msgstr "选择项目或工作区。"
+msgstr "从项目、类别或工作区继承强制的检查。"
 
 msgid "You do not have permission to access this component."
 msgstr "你没有权限访问这个部件。"
@@ -2843,10 +2839,8 @@ msgstr "译文文本太长！"
 msgid "Your suggestion already exists!"
 msgstr "您的建议已存在！"
 
-#, fuzzy
-#| msgid "Choose either a project or a workspace."
 msgid "Inherit enforced checks from the parent category, project or workspace."
-msgstr "选择项目或工作区。"
+msgstr "从主类别、项目或工作区继承强制的检查。"
 
 msgid "Weblate's REST API"
 msgstr "Weblate 的 REST API"
@@ -8410,15 +8404,11 @@ msgstr "操作"
 msgid "Download"
 msgstr "下载"
 
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No audit log entries found."
-msgstr "未找到匹配的字符串。"
+msgstr "未找到审计日志条目。"
 
-#, fuzzy
-#| msgid "Report history pagination"
 msgid "Audit log pagination"
-msgstr "报告历史分页"
+msgstr "审计日志分页"
 
 msgid "Confirm merge"
 msgstr "确认合并"
@@ -10924,10 +10914,8 @@ msgstr "这可能是由于你的一些账单过期未付或超过限额。"
 msgid "Select all strings on this page"
 msgstr "全选本页的字符串"
 
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "Select string for bulk edit"
-msgstr "标记为需要编辑的字符串"
+msgstr "选择字符串进行批量编辑"
 
 msgid "You can change the state of all strings matching given type at once."
 msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。"
@@ -11409,10 +11397,9 @@ msgstr "创建翻译"
 msgid "Cannot add translation right now"
 msgstr "无法立即添加译文"
 
-#, fuzzy, python-format
-#| msgid "Source language"
+#, python-format
 msgid "Source: %(language)s"
-msgstr "源语言"
+msgstr "源语言：%(language)s"
 
 msgid "Customized workflow"
 msgstr "定制的工作流程"
@@ -12615,29 +12602,23 @@ msgstr "以下翻译将被删除："
 msgid "Project language to remove"
 msgstr "要删除的项目语言"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "category and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and its directly related content. Translation memory is handled "
 "separately below."
-msgstr "此操作无法撤销。这将永久删除 %(object)s 类别及其所有相关内容。"
+msgstr ""
+"此操作无法撤销。这将永久删除 %(object)s 类别及其目录相关的内容。翻译记忆库在"
+"下方单独处理。"
 
-#, fuzzy
-#| msgid ""
-#| "If this action removes restricted components, retained translation memory "
-#| "from them will become available according to the project and workspace "
-#| "translation memory access rules unless you also delete it."
 msgid ""
 "Translation memory is retained by default. If this category contains "
 "restricted components, retained entries from them might become visible to "
 "other project or workspace members. Select the translation memory deletion "
 "option below to remove these entries."
 msgstr ""
-"即使此操作删除了受限制的部件，根据项目和工作区的翻译存储访问规则，这些部件已"
-"保留的翻译记忆库也不会不可用，除非你删除了它。"
+"翻译记忆库默认保留。如果这个类别包含受限制部件，那么所保留的这些部件的条目可"
+"能对其他项目或工作区成员可见。在下方选择翻译记忆库删除选项来删除这些条目。"
 
 msgid "The following translation components will be removed:"
 msgstr "以下翻译部件将被删除："
@@ -12648,15 +12629,14 @@ msgstr "以下翻译类别将被删除："
 msgid "Project to remove"
 msgstr "要删除的项目"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "component and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and its directly related content. Translation memory is handled "
 "separately below."
-msgstr "此操作无法撤销。这将永久删除 %(object)s 部件及其所有相关内容。"
+msgstr ""
+"此操作无法撤销。这将永久删除 %(object)s 部件以及目录相关的内容。翻译记忆库在"
+"下方单独处理。"
 
 msgid ""
 "Translation memory is retained by default. If this component is restricted, "
@@ -14721,10 +14701,8 @@ msgstr "先前的译文"
 msgid "State: %(state)s"
 msgstr "状态：%(state)s"
 
-#, fuzzy
-#| msgid "Previous section"
 msgid "Previous source"
-msgstr "先前部分"
+msgstr "先前原文"
 
 msgid "Suggestions pending"
 msgstr "待接受的建议"
@@ -15676,10 +15654,8 @@ msgstr "如果句子应与源语言保持相同，没有更改，则标记此选
 msgid "You do not have permission to create terminology."
 msgstr "您没有创建术语的权限。"
 
-#, fuzzy
-#| msgid "Invalid listing column selection."
 msgid "Invalid string selection!"
-msgstr "无效的列表列选择。"
+msgstr "无效的字符串选择！"
 
 msgid "State to set"
 msgstr "要设置的状态"
