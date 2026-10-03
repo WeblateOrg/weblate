@@ -1622,7 +1622,13 @@ class ProjectBackup:
                     )
 
     def validate_team_references(self, *, validate_roles: bool) -> None:
-        roles = {role.name for role in Role.objects.all()} if validate_roles else set()
+        if validate_roles:
+            roles = {role.name for role in Role.objects.all()}
+            assignable_roles = {
+                role.name for role in Role.objects.assignable_to_project_team()
+            }
+        else:
+            roles = assignable_roles = set()
         for index, team in enumerate(self.data.get("teams", [])):
             path = f"teams[{index}]"
             for component_index, component in enumerate(team["components"]):
@@ -1641,6 +1647,16 @@ class ProjectBackup:
                             {
                                 f"{path}.roles[{role_index}]": [
                                     gettext("Referenced role does not exist.")
+                                ]
+                            }
+                        )
+                    if role not in assignable_roles:
+                        raise ValidationError(
+                            {
+                                f"{path}.roles[{role_index}]": [
+                                    gettext(
+                                        "Referenced role cannot be assigned to a project team."
+                                    )
                                 ]
                             }
                         )
@@ -2008,7 +2024,9 @@ class ProjectBackup:
         AutoGroup.objects.bulk_create(autogroups)
 
     def restore_teams(self, data: list[dict]) -> None:
-        self.roles_cache = {r.name: r for r in Role.objects.all()}
+        self.roles_cache = {
+            role.name: role for role in Role.objects.assignable_to_project_team()
+        }
         self.create_language_cache()
         for team in data:
             self.restore_team(team)

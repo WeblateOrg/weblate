@@ -205,6 +205,38 @@ class PermissionsTest(FixtureComponentTestCase):
         self.assertTrue(self.user.has_perm("project.add"))
         self.assertTrue(self.user.has_perm("workspace.add"))
 
+    def test_scoped_teams_do_not_grant_global_permissions(self) -> None:
+        role = Role.objects.create(name="Scoped global permission")
+        role.permissions.add(Permission.objects.get(codename="user.edit"))
+
+        sitewide_team = Group.objects.create(name="Site-wide global permission")
+        project_team = Group.objects.create(
+            name="Project global permission", defining_project=self.project
+        )
+        workspace = Workspace.objects.create(name="Global permission workspace")
+        workspace_team = Group.objects.create(
+            name="Workspace global permission", defining_workspace=workspace
+        )
+        for team in (sitewide_team, project_team, workspace_team):
+            team.roles.add(role)
+
+        sitewide_user = User.objects.create_user(
+            "sitewide-global", "sitewide-global@example.com"
+        )
+        project_user = User.objects.create_user(
+            "project-global", "project-global@example.com"
+        )
+        workspace_user = User.objects.create_user(
+            "workspace-global", "workspace-global@example.com"
+        )
+        sitewide_user.groups.add(sitewide_team)
+        project_user.groups.add(project_team)
+        workspace_user.groups.add(workspace_team)
+
+        self.assertTrue(sitewide_user.has_perm("user.edit"))
+        self.assertFalse(project_user.has_perm("user.edit"))
+        self.assertFalse(workspace_user.has_perm("user.edit"))
+
     def test_restricted_component(self) -> None:
         self.assertTrue(self.superuser.has_perm("unit.edit", self.component))
         self.assertTrue(self.admin.has_perm("unit.edit", self.component))
