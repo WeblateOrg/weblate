@@ -1837,7 +1837,7 @@ def restore_project_backup(
         progress_callback=report_restore_component_progress,
     )
     report_task_progress(95)
-    return project, restore.skipped_components.copy()
+    return project, restore.get_restore_warnings()
 
 
 @app.task(trail=False)
@@ -1850,7 +1850,7 @@ def import_project_backup(
     workspace_id: str | None = None,
 ) -> dict[str, Any]:
     try:
-        project, skipped_components = restore_project_backup(
+        project, restore_warnings = restore_project_backup(
             project_name,
             project_slug,
             user_id,
@@ -1862,18 +1862,10 @@ def import_project_backup(
         with suppress(OSError):
             os.unlink(filename)
 
-    if skipped_components:
+    if restore_warnings:
         return {
-            "message": gettext(
-                "Project backup import completed with skipped components."
-            ),
-            "warnings": [
-                gettext(
-                    "Component %(component)s was skipped because its linked repository is unavailable."
-                )
-                % {"component": component}
-                for component in skipped_components
-            ],
+            "message": gettext("Project backup import completed with warnings."),
+            "warnings": restore_warnings,
         }
 
     return {

@@ -1477,6 +1477,105 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             set(group.roles.values_list("name", flat=True)), {"Power user"}
         )
 
+    def test_create_duplicate_group(self) -> None:
+        group = self.create_test_group()
+        response = self.client.post(
+            reverse("create-project-group", kwargs=self.kw_project),
+            {
+                "name": group.name,
+                "roles": list(group.roles.values_list("pk", flat=True)),
+            },
+            follow=True,
+        )
+        self.assertContains(
+            response, "A team with this name already exists in this project."
+        )
+        self.assertEqual(self.project.defined_groups.filter(name=group.name).count(), 1)
+
+    def test_create_group_reports_late_name_conflict(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        error = ValidationError(
+            {"name": "A team with this name already exists in this project."}
+        )
+        with patch.object(Group, "save", side_effect=error):
+            response = self.client.post(
+                reverse("create-project-group", kwargs=self.kw_project),
+                {
+                    "name": "Concurrent team",
+                    "roles": [Role.objects.get(name="Translate").pk],
+                },
+                follow=True,
+            )
+        self.assertContains(
+            response, "A team with this name already exists in this project."
+        )
+        self.assertFalse(
+            self.project.defined_groups.filter(name="Concurrent team").exists()
+        )
+
+    def test_edit_legacy_duplicate_builtin_team(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        group = self.project.defined_groups.get(name="Translate", internal=True)
+        Group.objects.bulk_create(
+            [Group(name=group.name, defining_project=self.project, internal=True)]
+        )
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": group.name,
+                "roles": list(group.roles.values_list("pk", flat=True)),
+                "enforced_2fa": True,
+                "all_languages": True,
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
+        )
+        self.assertRedirects(response, group.get_absolute_url())
+        group.refresh_from_db()
+        self.assertTrue(group.enforced_2fa)
+        self.assertEqual(group.name, "Translate")
+
+    def test_edit_group_reports_late_name_conflict(self) -> None:
+        group = self.create_test_group()
+        error = ValidationError(
+            {"name": "A team with this name already exists in this project."}
+        )
+        with patch.object(Group, "save", side_effect=error):
+            response = self.client.post(
+                group.get_absolute_url(),
+                {
+                    "name": "Concurrent team",
+                    "roles": list(group.roles.values_list("pk", flat=True)),
+                    "autogroup_set-TOTAL_FORMS": "1",
+                    "autogroup_set-INITIAL_FORMS": "0",
+                    "autogroup_set-0-match": "^concurrent$",
+                },
+            )
+        self.assertContains(
+            response, "A team with this name already exists in this project."
+        )
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Czech team")
+        self.assertFalse(group.autogroup_set.exists())
+
+    def test_rename_group_to_duplicate(self) -> None:
+        group = self.create_test_group()
+        Group.objects.create(name="Other team", defining_project=self.project)
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": "Other team",
+                "roles": list(group.roles.values_list("pk", flat=True)),
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
+        )
+        self.assertContains(
+            response, "A team with this name already exists in this project."
+        )
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Czech team")
+
     def test_create_group_all_lang(self) -> None:
         self.project.add_user(self.user, "Administration")
         response = self.client.post(

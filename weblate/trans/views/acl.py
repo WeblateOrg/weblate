@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.db.models import Count, Prefetch
 from django.http import Http404
@@ -596,8 +596,11 @@ def create_group(request: AuthenticatedHttpRequest, project):
     form = ProjectTeamForm(obj, request.POST)
 
     if form.is_valid():
-        form.save(project=obj)
-    else:
+        try:
+            form.save(project=obj)
+        except ValidationError as error:
+            form.add_error(None, error)
+    if form.errors:
         show_form_errors(request, form)
 
     return redirect_param("manage-access", "#teams", project=obj.slug)

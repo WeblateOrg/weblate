@@ -1540,6 +1540,10 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         validators = ()
 
     def validate(self, attrs):
+        defining_project = attrs.get(
+            "defining_project",
+            self.instance.defining_project if self.instance is not None else None,
+        )
         defining_workspace = attrs.get(
             "defining_workspace",
             self.instance.defining_workspace if self.instance is not None else None,
@@ -1599,6 +1603,16 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         name = attrs.get(
             "name", self.instance.name if self.instance is not None else None
         )
+        if defining_project is not None and name is not None:
+            group = Group(
+                pk=self.instance.pk if self.instance is not None else None,
+                defining_project=defining_project,
+                name=name,
+            )
+            try:
+                group.clean()
+            except DjangoValidationError as error:
+                raise serializers.ValidationError(error.message_dict) from error
         if (
             defining_workspace is not None
             and name is not None
@@ -1641,10 +1655,19 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         if defining_workspace is not None:
             validated_data["language_selection"] = SELECTION_ALL
 
-        group = super().create(validated_data)
+        try:
+            group = super().create(validated_data)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError(error.message_dict) from error
         if defining_project is not None:
             group.projects.add(defining_project)
         return group
+
+    def update(self, instance, validated_data):
+        try:
+            return super().update(instance, validated_data)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError(error.message_dict) from error
 
 
 class ProjectSerializer(serializers.ModelSerializer[Project]):

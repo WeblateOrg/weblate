@@ -19,6 +19,10 @@ Weblate 2026.10.1
 
 .. rubric:: Bug fixes
 
+* Fixed :ref:`projectbackup` restoration of translation file language aliases and duplicate team names, and improved validation error formatting.
+
+* Prevented concurrent creation of duplicate project team names and preserved custom teams when enabling features that require conflicting :ref:`built-in team names <project-access_control>`.
+
 * Prevented duplicate initiation of :doc:`provider authentication <admin/auth>` and improved guidance for authentication token errors.
 
 .. rubric:: Compatibility
