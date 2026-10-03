@@ -24,6 +24,7 @@ Weblate 2026.10.1
 * Prevented concurrent creation of duplicate project team names and preserved custom teams when enabling features that require conflicting :ref:`built-in team names <project-access_control>`.
 
 * Prevented duplicate initiation of :doc:`provider authentication <admin/auth>` and improved guidance for authentication token errors.
+* Components using the GitHub App now follow renamed or transferred repositories; existing Apps need to subscribe to the ``Repository`` event, see :ref:`code-hosting-github-app-webhook`.
 
 .. rubric:: Compatibility
 

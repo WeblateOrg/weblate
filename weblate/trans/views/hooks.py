@@ -51,6 +51,7 @@ from weblate.vcs.github import (
 )
 from weblate.vcs.models import InstallationProvider, PendingInstallation
 from weblate.vcs.pending import pending_github_installation_cutoff
+from weblate.vcs.tasks import refresh_github_installation
 
 if TYPE_CHECKING:
     import uuid
@@ -83,6 +84,8 @@ GITHUB_REPOS = (
     "git@github.com:%(owner)s/%(slug)s.git",
     "git@github.com:%(owner)s/%(slug)s",
 )
+
+GITHUB_REPOSITORY_MOVE_ACTIONS = {"renamed", "transferred"}
 
 PAGURE_REPOS = (
     "https://{server}/{project}",
@@ -672,6 +675,35 @@ def _handle_github_installation_target_event(
     )
 
 
+def _handle_github_repository_event(data: dict, hostname: str) -> None:
+    """
+    Refresh connected accounts after a repository was renamed or transferred.
+
+    The refresh resolves moved repositories through GitHub, which keeps
+    redirecting the old name. That is authoritative even for redelivered or
+    out-of-order events, unlike deriving the old URL from the payload.
+    """
+    if data.get("action") not in GITHUB_REPOSITORY_MOVE_ACTIONS:
+        return
+
+    installation_id = _normalize_github_payload_installation_id(
+        (data.get("installation") or {}).get("id")
+    )
+    if installation_id is None:
+        return
+
+    for pk in GitHubInstallation.objects.filter_for_installation(
+        hostname, installation_id
+    ).values_list("pk", flat=True):
+        refresh_github_installation.delay(pk)
+        LOGGER.info(
+            "Scheduled refresh of connected GitHub account %s/%s after repository %s",
+            hostname,
+            installation_id,
+            data["action"],
+        )
+
+
 def _handle_github_installation_event(  # ruff: ignore[complex-structure]
     data: dict, installation, hostname: str | None
 ) -> None:
@@ -921,6 +953,9 @@ def github_integration_hook_helper(
     if event == "installation_target":
         installation = _lookup_github_installation(data, hostname)
         _handle_github_installation_target_event(data, installation, hostname)
+        return None
+    if event == "repository":
+        _handle_github_repository_event(data, hostname)
         return None
     if event != "push":
         return None

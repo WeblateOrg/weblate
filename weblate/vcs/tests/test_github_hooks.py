@@ -8,8 +8,12 @@ from __future__ import annotations
 
 import json
 from datetime import timedelta
+from io import StringIO
+from pathlib import Path
 
 from django.core.cache import cache
+from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import override_settings
 from django.utils import timezone
 from rest_framework.test import APIClient
@@ -17,6 +21,7 @@ from rest_framework.test import APIClient
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.data import data_dir
 from weblate.utils.tests import http_mock
 from weblate.vcs.github import (
     GitHubAppCredentials,
@@ -713,3 +718,292 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertFalse(
             self.component.change_set.filter(action=ActionEvents.HOOK).exists()
         )
+
+
+def _api_repository(full_name: str) -> dict:
+    return {
+        "name": full_name.split("/")[1],
+        "full_name": full_name,
+        "clone_url": f"https://github.com/{full_name}.git",
+        "ssh_url": f"git@github.com:{full_name}.git",
+        "html_url": f"https://github.com/{full_name}",
+        "default_branch": "main",
+        "private": False,
+        "description": "",
+    }
+
+
+class RefreshGitHubRepositoriesTest(ViewTestCase):
+    """
+    Refreshing repositories retargets components of moved repositories.
+
+    Only the GitHub API is mocked. Git URLs of GitHub repositories are routed
+    to the local test repository, so components really fetch from them.
+    """
+
+    OLD_URL = "https://github.com/test-org/old-repo.git"
+    NEW_URL = "https://github.com/test-org/new-repo.git"
+
+    def setUp(self) -> None:
+        super().setUp()
+        cache.clear()
+        http_mock.start()
+        self.addCleanup(http_mock.stop)
+        # Weblate manages ~/.gitconfig, keep the rewrites in the XDG config
+        self.gitconfig = Path(data_dir("home")) / ".config" / "git" / "config"
+        self.gitconfig.parent.mkdir(parents=True, exist_ok=True)
+        if self.gitconfig.exists():
+            self.addCleanup(self.gitconfig.write_text, self.gitconfig.read_text())
+        else:
+            self.addCleanup(self.gitconfig.unlink, missing_ok=True)
+        self.local_repo = self.format_local_path(self.git_repo_path)
+
+        self.workspace = Workspace.objects.create(name="Refresh Workspace")
+        self.project.workspace = self.workspace
+        self.project.save(update_fields=["workspace"])
+        _make_credentials("github.com", GITHUB_COM_TOKEN, webhook_secret="s3cret")
+        http_mock.register(
+            "POST",
+            "https://api.github.com/app/installations/12345/access_tokens",
+            json={"token": "ghs_test"},
+        )
+        self.installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_api_repository("test-org/old-repo")],
+        )
+        self._convert_component(self.OLD_URL)
+
+    def _route_git(self, *urls: str) -> None:
+        """Make only the given GitHub URLs reachable for git."""
+        self.gitconfig.write_text(
+            "".join(f'[url "{self.local_repo}"]\n\tinsteadOf = {url}\n' for url in urls)
+        )
+
+    def _convert_component(self, url: str, vcs: str = "github-app") -> None:
+        self._route_git(url)
+        self.component.vcs = vcs
+        self.component.repo = url
+        self.component.save()
+
+    def _register_repositories(self, *full_names: str) -> None:
+        http_mock.register(
+            "GET",
+            "https://api.github.com/installation/repositories?per_page=100",
+            json={"repositories": [_api_repository(name) for name in full_names]},
+        )
+
+    def _register_lookup(self, full_name: str, current_full_name: str) -> None:
+        # GitHub redirects the old name, the client ends with the current data
+        http_mock.register(
+            "GET",
+            f"https://api.github.com/repos/{full_name}",
+            json=_api_repository(current_full_name),
+        )
+
+    def _api_urls(self) -> list[str]:
+        return [str(call.request.url) for call in http_mock.calls]
+
+    def _post_repository_event(self, action: str, **overrides) -> None:
+        data = {
+            "action": action,
+            "installation": {"id": 12345},
+            "repository": _api_repository("test-org/new-repo"),
+            **overrides,
+        }
+        body = json.dumps(data)
+        response = APIClient().post(
+            _integration_url(GITHUB_COM_TOKEN),
+            data=body,
+            content_type="application/json",
+            headers={
+                "X-GitHub-Event": "repository",
+                "X-Hub-Signature-256": sign_webhook_payload(body, "s3cret"),
+            },
+        )
+        self.assertEqual(response.status_code, 201)
+
+    def assert_component_repo(self, url: str) -> None:
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.repo, url)
+        self.assertEqual(self.component.repository.get_config("remote.origin.url"), url)
+
+    def test_retargets_renamed_repository(self) -> None:
+        self._route_git(self.NEW_URL)
+        self._register_repositories("test-org/new-repo")
+        self._register_lookup("test-org/old-repo", "test-org/new-repo")
+
+        call_command("refresh_github_repositories", stdout=StringIO())
+
+        self.installation.refresh_from_db()
+        self.assertEqual(
+            [repo["full_name"] for repo in self.installation.repositories],
+            ["test-org/new-repo"],
+        )
+        self.assert_component_repo(self.NEW_URL)
+        change = self.component.change_set.get(
+            action=ActionEvents.COMPONENT_SETTING_CHANGE
+        )
+        self.assertEqual(change.details["old"], self.OLD_URL)
+        self.assertEqual(change.details["target"], self.NEW_URL)
+
+    def test_update_clears_failure_alert(self) -> None:
+        # The repository is gone from the old URL
+        self._route_git(self.NEW_URL)
+        self.assertFalse(self.component.do_update())
+        self.assertTrue(self.component.alert_set.filter(name="UpdateFailure").exists())
+        self._register_repositories("test-org/new-repo")
+        self._register_lookup("test-org/old-repo", "test-org/new-repo")
+
+        call_command("refresh_github_repositories", stdout=StringIO())
+
+        self.assert_component_repo(self.NEW_URL)
+        self.assertFalse(self.component.alert_set.filter(name="UpdateFailure").exists())
+
+    def test_ignores_repository_not_accessible_to_account(self) -> None:
+        self._register_repositories("test-org/other")
+        self._register_lookup("test-org/old-repo", "elsewhere/new-repo")
+
+        call_command("refresh_github_repositories", stdout=StringIO())
+
+        self.assert_component_repo(self.OLD_URL)
+
+    def test_ignores_deleted_repository(self) -> None:
+        self._register_repositories("test-org/other")
+        http_mock.register(
+            "GET",
+            "https://api.github.com/repos/test-org/old-repo",
+            status_code=404,
+            json={"message": "Not Found"},
+        )
+
+        call_command("refresh_github_repositories", stdout=StringIO())
+
+        self.assert_component_repo(self.OLD_URL)
+
+    def test_skips_lookup_for_listed_repository(self) -> None:
+        self._register_repositories("test-org/old-repo")
+
+        call_command("refresh_github_repositories", stdout=StringIO())
+
+        self.assert_component_repo(self.OLD_URL)
+        self.assertNotIn(
+            "https://api.github.com/repos/test-org/old-repo", self._api_urls()
+        )
+
+    def test_reports_failed_account(self) -> None:
+        http_mock.register(
+            "GET",
+            "https://api.github.com/installation/repositories?per_page=100",
+            status_code=500,
+            json={},
+        )
+
+        with self.assertRaises(CommandError):
+            call_command(
+                "refresh_github_repositories", stdout=StringIO(), stderr=StringIO()
+            )
+
+        self.assert_component_repo(self.OLD_URL)
+
+    def test_matches_repository_case_insensitively(self) -> None:
+        old_url = "https://github.com/Test-Org/old-repo.git"
+        self.installation.repositories = [_api_repository("Test-Org/old-repo")]
+        self.installation.save(update_fields=["repositories"])
+        self._convert_component(old_url)
+        self._route_git(self.NEW_URL)
+        self._register_repositories("test-org/new-repo")
+        self._register_lookup("Test-Org/old-repo", "test-org/new-repo")
+
+        call_command("refresh_github_repositories", stdout=StringIO())
+
+        self.assert_component_repo(self.NEW_URL)
+
+    def test_ignores_component_in_other_workspace(self) -> None:
+        self.project.workspace = Workspace.objects.create(name="Other Workspace")
+        self.project.save(update_fields=["workspace"])
+        self._register_repositories("test-org/new-repo")
+
+        call_command("refresh_github_repositories", stdout=StringIO())
+
+        self.assert_component_repo(self.OLD_URL)
+        self.assertNotIn(
+            "https://api.github.com/repos/test-org/old-repo", self._api_urls()
+        )
+
+    def test_ignores_component_not_using_app(self) -> None:
+        self._convert_component(self.OLD_URL, vcs="git")
+        self._register_repositories("test-org/new-repo")
+
+        call_command("refresh_github_repositories", stdout=StringIO())
+
+        self.assert_component_repo(self.OLD_URL)
+        self.assertNotIn(
+            "https://api.github.com/repos/test-org/old-repo", self._api_urls()
+        )
+
+    def test_renamed_event_retargets_components(self) -> None:
+        self._route_git(self.NEW_URL)
+        self._register_repositories("test-org/new-repo")
+        self._register_lookup("test-org/old-repo", "test-org/new-repo")
+
+        self._post_repository_event(
+            "renamed", changes={"repository": {"name": {"from": "old-repo"}}}
+        )
+
+        self.installation.refresh_from_db()
+        self.assertEqual(
+            [repo["full_name"] for repo in self.installation.repositories],
+            ["test-org/new-repo"],
+        )
+        self.assert_component_repo(self.NEW_URL)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.COMPONENT_SETTING_CHANGE
+            ).exists()
+        )
+
+    def test_transferred_event_retargets_components(self) -> None:
+        new_url = "https://github.com/other-org/old-repo.git"
+        self._route_git(new_url)
+        self._register_repositories("other-org/old-repo")
+        self._register_lookup("test-org/old-repo", "other-org/old-repo")
+
+        self._post_repository_event(
+            "transferred", repository=_api_repository("other-org/old-repo")
+        )
+
+        self.assert_component_repo(new_url)
+
+    def test_redelivered_event_keeps_reused_name(self) -> None:
+        # A new repository took over the old name after the rename
+        self._register_repositories("test-org/old-repo", "test-org/new-repo")
+
+        self._post_repository_event(
+            "renamed", changes={"repository": {"name": {"from": "old-repo"}}}
+        )
+
+        self.assert_component_repo(self.OLD_URL)
+        self.assertNotIn(
+            "https://api.github.com/repos/test-org/old-repo", self._api_urls()
+        )
+
+    def test_other_repository_event_is_ignored(self) -> None:
+        self._post_repository_event("edited")
+
+        self.assertNotIn(
+            "https://api.github.com/installation/repositories?per_page=100",
+            self._api_urls(),
+        )
+        self.assert_component_repo(self.OLD_URL)
+
+    def test_event_for_unknown_installation_is_ignored(self) -> None:
+        self._post_repository_event("renamed", installation={"id": 999})
+
+        self.assertNotIn(
+            "https://api.github.com/installation/repositories?per_page=100",
+            self._api_urls(),
+        )
+        self.assert_component_repo(self.OLD_URL)

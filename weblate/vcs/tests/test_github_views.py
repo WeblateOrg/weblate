@@ -2172,6 +2172,7 @@ class GitHubAppManifestViewTest(TestCase):
             manifest["default_permissions"], dict(GITHUB_APP_MANIFEST_PERMISSIONS)
         )
         self.assertEqual(manifest["default_events"], list(GITHUB_APP_MANIFEST_EVENTS))
+        self.assertIn("repository", manifest["default_events"])
         self.assertNotIn("installation", manifest["default_events"])
         self.assertNotIn("installation_repositories", manifest["default_events"])
 

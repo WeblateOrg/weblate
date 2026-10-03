@@ -303,8 +303,8 @@ manifest with the correct permissions, events, and webhook URL pre-filled:
 The manifest requests the permissions and event subscriptions Weblate needs
 (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only,
 ``Organization administration`` read-only, ``Workflows`` read/write, and the
-``Installation``, ``Meta`` and ``Push`` events), and sets the callback, setup
-and per-app webhook URLs automatically, so no manual GitHub App
+``Installation``, ``Meta``, ``Push`` and ``Repository`` events), and sets the
+callback, setup and per-app webhook URLs automatically, so no manual GitHub App
 configuration is required. GitHub delivers the ``Installation`` and
 ``Installation repositories`` events to all GitHub Apps by default.
 
@@ -376,6 +376,18 @@ are matched only through this dedicated endpoint. All generic forge webhook
 endpoints exclude them from matching and response diagnostics, including
 ``/hooks/github/``. Legacy GitHub App deliveries sent to the generic endpoint
 can match only components using a non-App VCS backend.
+
+When a repository is renamed or transferred on GitHub, the ``Repository``
+event makes Weblate refresh the repositories of the connected GitHub account
+and point the affected components to the new repository URL. Apps registered
+before Weblate 2026.10.1 are not subscribed to this event; enable
+:guilabel:`Repository` under :guilabel:`Subscribe to events` in the App
+settings on GitHub.
+
+Refreshing repositories of a connected GitHub account retargets such
+components too, for example when the event was missed. Use
+:wladmin:`refresh_github_repositories` to do this for all connected GitHub
+accounts at once.
 
 If you are not using a GitHub App, add the Weblate webhook in the repository
 settings (:guilabel:`Webhooks`) to receive notifications on every push to a
