@@ -1456,6 +1456,8 @@ class User(AbstractBaseUser):
         return set(
             Permission.objects.filter(
                 role__group__in=self.unlimited_membership_group_ids,
+                role__group__defining_project__isnull=True,
+                role__group__defining_workspace__isnull=True,
                 codename__in=GLOBAL_PERM_NAMES,
             ).values_list("codename", flat=True)
         )
