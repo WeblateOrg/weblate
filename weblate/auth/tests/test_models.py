@@ -188,6 +188,23 @@ class InternalBotEmailTest(TestCase):
 
 
 class ModelTest(FixtureComponentTestCase):
+    def test_project_team_name_validation(self) -> None:
+        team = Group.objects.create(name="Unique team", defining_project=self.project)
+        with self.assertRaisesMessage(
+            ValidationError, "A team with this name already exists in this project."
+        ):
+            Group.objects.create(name=team.name, defining_project=self.project)
+        other = Group.objects.create(name="Other team", defining_project=self.project)
+        other.name = team.name
+        with self.assertRaises(ValidationError):
+            other.save()
+        team.save()
+        another_project = Project.objects.create(
+            name="Other project", slug="other-project", web="https://example.com/"
+        )
+        Group.objects.create(name=team.name, defining_project=another_project)
+        Group.objects.create(name=team.name)
+
     def setUp(self) -> None:
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE

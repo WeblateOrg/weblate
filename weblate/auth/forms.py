@@ -570,6 +570,7 @@ class BaseTeamForm(forms.ModelForm):
 class ProjectTeamForm(BaseTeamForm):
     def __init__(self, project, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.instance.defining_project = project
         self.fields["components"].queryset = project.component_set.order()
         self.fields["roles"].queryset = Role.objects.assignable_to_project_team()
 

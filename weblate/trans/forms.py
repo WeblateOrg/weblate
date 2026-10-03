@@ -60,7 +60,7 @@ from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.backups import ProjectBackup
+from weblate.trans.backups import ProjectBackup, format_backup_error
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -4133,7 +4133,7 @@ class ProjectImportForm(WorkspaceMixin, forms.Form):
             ) from error
         except Exception as error:
             raise ValidationError(
-                gettext("Could not load project backup: %s") % error
+                [gettext("Could not load project backup."), *format_backup_error(error)]
             ) from error
         self.cleaned_data["projectbackup"] = backup
         return zipfile

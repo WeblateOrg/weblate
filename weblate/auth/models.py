@@ -410,6 +410,21 @@ class Group(models.Model):
                 gettext("Team can be scoped either to a project or to a workspace.")
             )
         if (
+            self.defining_project_id
+            and Group.objects.filter(
+                defining_project_id=self.defining_project_id, name=self.name
+            )
+            .exclude(pk=self.pk)
+            .exists()
+        ):
+            raise ValidationError(
+                {
+                    "name": gettext(
+                        "A team with this name already exists in this project."
+                    )
+                }
+            )
+        if (
             self.defining_workspace_id
             and Group.objects.filter(
                 defining_workspace_id=self.defining_workspace_id, name=self.name
