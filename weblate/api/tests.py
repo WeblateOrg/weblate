@@ -2476,6 +2476,78 @@ class UserAPITest(APIBaseTest):
 
 
 class GroupAPITest(APIBaseTest):
+    def test_duplicate_project_team_names(self) -> None:
+        project = self.component.project
+        team = Group.objects.create(name="Unique team", defining_project=project)
+        response = self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "name": team.name,
+                "project_selection": SELECTION_MANUAL,
+                "language_selection": SELECTION_MANUAL,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "name")
+        self.assertIn(
+            "already exists in this project", response.data["errors"][0]["detail"]
+        )
+        other = Group.objects.create(name="Other team", defining_project=project)
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": other.pk},
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"name": team.name},
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "name")
+        other.refresh_from_db()
+        self.assertEqual(other.name, "Other team")
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": team.pk},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"name": team.name},
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": team.pk},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"enforced_2fa": True},
+        )
+        other_project = Project.objects.create(
+            name="Another project", slug="another-project", web="https://example.com/"
+        )
+        self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": team.name,
+                "project_selection": SELECTION_MANUAL,
+                "language_selection": SELECTION_MANUAL,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs={"slug": other_project.slug}
+                ),
+            },
+        )
+
     def test_list(self) -> None:
         response = self.client.get(reverse("api:group-list"))
         self.assertEqual(response.data["count"], 2)

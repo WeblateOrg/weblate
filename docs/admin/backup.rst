@@ -31,6 +31,10 @@ The backup can be restored when creating a project (see
 The backups include project-scoped teams and their memberships, but do not
 include history.
 
+When restoring older backups with duplicate team names, all teams are preserved.
+Later teams with the same name receive a numeric suffix, and the import reports
+the renamed teams in its warnings.
+
 Missing repository directories are skipped while component and translation
 data are still backed up. Repository maintenance failures are logged, and the
 backup continues with the available repository files.
